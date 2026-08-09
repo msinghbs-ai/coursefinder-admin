@@ -15,7 +15,7 @@ Cloudflare Pages-ready React/Vite admin UI for the Coursefinder Supabase PIM.
 2. Set `VITE_SUPABASE_PUBLISHABLE_KEY` to a **publishable/browser key**, never a secret/service-role key.
 3. Run:
    ```bash
-   npm ci
+   npm install
    npm run dev
    ```
 
@@ -34,13 +34,14 @@ Cloudflare Pages-ready React/Vite admin UI for the Coursefinder Supabase PIM.
 ## Cloudflare Pages
 Use Git integration:
 - Framework preset: Vite
-- Build command: `npm ci && npm run build`
+- Build command: `npm run build`
 - Build output directory: `dist`
+- Node runtime: pinned in `.node-version`
 - Environment variables:
   - `VITE_SUPABASE_URL`
   - `VITE_SUPABASE_PUBLISHABLE_KEY`
 
-Use a preview branch first. Add the production custom domain only after UAT.
+Cloudflare Pages installs npm dependencies before the build. Use a preview branch first. Add the production custom domain only after UAT.
 
 ## Zoho suggestion endpoint
 Edge Function: `catalogue-suggest-v2-1`
