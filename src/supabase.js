@@ -20,6 +20,15 @@ export async function invokeAdmin(operation, payload = {}) {
   return data
 }
 
+export async function runPipeline(layer, payload = {}) {
+  const { data, error } = await supabase.functions.invoke('pipeline-control-v2-5', {
+    body: { layer, ...payload }
+  })
+  if (error) throw error
+  if (data?.error) throw new Error(data.details?.error ?? data.error)
+  return data
+}
+
 export async function matchScholarships(profile, courseId = null) {
   const { data, error } = await supabase.functions.invoke('scholarship-match-v2-1', {
     body: { profile, course_id: courseId || null }
