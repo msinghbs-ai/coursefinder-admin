@@ -47,6 +47,9 @@ The Mumbai project must be created from the Git-tracked schema/migration set, no
 
 - `001_schemas_extensions`
 - `002_reference_core`
+- `003_security_rbac`
+
+Security advisor result after 003: only informational `RLS enabled/no policy` notices on the server-only `security` tables. This is intentional because client roles have no usage/table grants and only `service_role` is granted access.
 
 ## Validated design changes included in v2.9.1
 
