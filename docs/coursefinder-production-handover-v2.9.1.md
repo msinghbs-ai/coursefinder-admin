@@ -2,21 +2,26 @@
 
 **Status:** Active build handover record.
 
-## Current environment
+## Current authoritative environment
 
 - Supabase organisation: `techM` (`rszbvkqopqfvjldvfnbh`)
 - Organisation plan: Free
-- Current clean project: `Coursefinder_Prod`
-- Project ref: `qmhroocwdipgtduapslr`
-- Current region: Australia Southeast (`ap-southeast-2`)
-- Current purpose: pilot/UAT of the production-model database
+- Current project: `coursefinder_Pilot`
+- Project ref: `fxcwkweaxjtknorudmwp`
+- Region: Mumbai (`ap-south-1`)
+- Purpose: pilot/UAT of the production-model database and API stack
 - Cost reported at project creation: $0/month
+- Authority: this Mumbai project supersedes the earlier Australia Southeast production-model pilot for all new build/UAT work.
 
-## Future regional target
+## Superseded Australia Southeast project
 
-After successful pilot/UAT, rebuild/migrate to Mumbai (`ap-south-1`).
+- Project: `Coursefinder_Prod`
+- Project ref: `qmhroocwdipgtduapslr`
+- Region: Australia Southeast (`ap-southeast-2`)
+- State: paused on 2026-08-11 after the deployment-region plan changed.
+- Do not continue schema/data/API development in this project unless it is explicitly restored for comparison or rollback investigation.
 
-The Mumbai project must be created from the Git-tracked schema/migration set, not by cloning the demo or copying temporary pilot configuration.
+The working `coursefinder-demo` project remains separate and unchanged. It is a migration/source-validation environment only and is not the production-model target.
 
 ## Source of truth
 
@@ -43,13 +48,15 @@ The Mumbai project must be created from the Git-tracked schema/migration set, no
 14. 014 import/export
 15. 015 demo-to-production migration utilities
 
-## Already applied to `Coursefinder_Prod`
+## Already applied to Mumbai `coursefinder_Pilot`
 
 - `001_schemas_extensions`
 - `002_reference_core`
 - `003_security_rbac`
 
-Security advisor result after 003: only informational `RLS enabled/no policy` notices on the server-only `security` tables. This is intentional because client roles have no usage/table grants and only `service_role` is granted access.
+These were replayed from the Git-tracked production migration files after the Mumbai project was created.
+
+Security model after 003: the `security` schema is server-only. Client roles have no schema/table access; `service_role` has the required access. RLS remains enabled on security tables.
 
 ## Validated design changes included in v2.9.1
 
@@ -84,24 +91,23 @@ Security advisor result after 003: only informational `RLS enabled/no policy` no
 - rebuild search documents and embeddings from canonical data;
 - reconcile counts and identities before cutover.
 
-## Mumbai cutover checklist
+## Mumbai pilot/UAT completion checklist
 
-1. UAT sign-off recorded.
-2. Create Mumbai project in same/approved Supabase organisation and plan.
-3. Apply all production migrations from Git in order.
-4. Load controlled reference data.
-5. Migrate validated canonical data.
-6. Copy/import required private evidence objects using a controlled manifest.
-7. Rebuild search projection.
-8. Regenerate embeddings in Mumbai.
-9. Deploy production Edge Functions and secrets.
-10. Run security advisors and performance advisors.
-11. Run API/Website/Zoho UAT.
-12. Reconcile counts, stable keys, provider lineage, course identities, scholarships and review history.
-13. Switch Website/Zoho endpoints.
-14. Keep Australia Southeast UAT project available for agreed rollback period.
-15. Decommission only after final sign-off.
+1. Apply all production migrations from Git in order.
+2. Load controlled reference data.
+3. Migrate validated canonical data from the demo/source environment.
+4. Copy/import required private evidence objects using a controlled manifest.
+5. Build Layer 2 and Layer 4 production workflows.
+6. Build Search Projection and regenerate embeddings in Mumbai.
+7. Deploy production-candidate Edge Functions and secrets.
+8. Run security and performance advisors.
+9. Run Website and Zoho API UAT, including semantic/hybrid search and scholarships.
+10. Reconcile counts, stable keys, provider lineage, course identities, collections, academic options, scholarships and review history.
+11. Record pilot/UAT sign-off.
+12. Promote the Mumbai environment/configuration according to the final production release decision.
 
 ## Handover rule
 
-Every schema/config/API change that is required to reproduce production must exist in Git before Mumbai cutover. Dashboard-only/manual changes must be recorded here or converted into migrations/configuration artefacts before sign-off.
+Every schema/config/API change required to reproduce the environment must exist in Git. Dashboard-only/manual changes must be recorded here or converted into migrations/configuration artefacts before sign-off.
+
+The Mumbai environment must remain reproducible from Git-tracked migrations, seed files, deployment manifests and handover documentation; it must never depend on undocumented state copied from the demo or the paused Australia project.
