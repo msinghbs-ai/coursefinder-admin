@@ -53,10 +53,13 @@ The working `coursefinder-demo` project remains separate and unchanged. It is a 
 - `001_schemas_extensions`
 - `002_reference_core`
 - `003_security_rbac`
+- `004_pim_core`
 
-These were replayed from the Git-tracked production migration files after the Mumbai project was created.
+These were replayed or created from the Git-tracked production migration files and applied directly to the Mumbai pilot.
 
-Security model after 003: the `security` schema is server-only. Client roles have no schema/table access; `service_role` has the required access. RLS remains enabled on security tables.
+The PIM core now includes Attribute Families, Attribute Groups, Family/Group assignments, Attribute Definitions, Family-specific attributes, controlled Attribute Options, hierarchical Categories, Entity Registry, typed Attribute Values and configurable Completeness Profiles/Requirements. This preserves the approved PIM-style UX principles while keeping strong relational catalogue entities separate.
+
+Security model: the `security` and `pim` schemas are server-only at this stage. Client roles have no direct schema/table access; `service_role` has the required access. RLS remains enabled on protected tables.
 
 ## Validated design changes included in v2.9.1
 
