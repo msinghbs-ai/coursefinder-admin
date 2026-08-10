@@ -55,8 +55,9 @@ The working `coursefinder-demo` project remains separate and unchanged. It is a 
 20. `020_private_evidence_storage`
 21. `021_ui_api_bridge`
 22. `022_ui_compatibility_views`
+23. `023_ui_bridge_security_hardening`
 
-All production-relevant DDL is tracked under `supabase/production-migrations/` before the UI branch is merged.
+All production-relevant DDL is tracked under `supabase/production-migrations/`.
 
 ## Current data state
 
@@ -120,8 +121,9 @@ The compatibility views are a transition aid only. New UI work should progressiv
 - Canonical `catalogue`, `pim`, `scholarship`, `pipeline`, `workflow`, `search`, `security`, `integration` and `publishing` schemas are not directly granted to browser roles.
 - `service_role` remains server-side only.
 - Private `evidence` Storage bucket created; no anonymous/authenticated object policies added.
-- UI bridge and compatibility views require an authenticated Supabase session.
-- Security Advisor currently reports informational `RLS enabled/no policy` notices on intentionally server-only PIM/security tables. This is expected under the current model.
+- UI bridge requires an authenticated Supabase session.
+- Migration `023_ui_bridge_security_hardening` replaced the temporary compatibility views with `security_invoker=true` views over explicit authenticated RPCs. The prior Security Advisor `security_definer_view` ERROR findings are resolved.
+- Current Security Advisor findings are intentional INFO notices for server-only RLS tables with no client policies, plus WARN notices that the authenticated read RPCs are `SECURITY DEFINER`. Those RPCs are deliberately exposed read contracts, check `auth.uid()`, and provide no write path.
 - No anonymous write policies from the demo were copied.
 
 ## Performance state
@@ -129,6 +131,18 @@ The compatibility views are a transition aid only. New UI work should progressiv
 The first performance review found missing covering indexes on foreign keys. Migration `019_fk_index_hardening` added those indexes.
 
 After migration 019, Supabase reports no remaining unindexed-foreign-key notices. Remaining performance notices are unused-index INFO messages, which are expected before representative UI/pipeline traffic exists and should not be used as a reason to remove indexes yet.
+
+## Browser-contract validation
+
+An authenticated-session simulation against the hardened UI bridge returned:
+
+- Providers: `7`
+- Courses: `35`
+- PIM Attributes: `3`
+- Search documents: `35`
+- Search generation: `2`
+
+Supabase TypeScript types were also generated successfully from the Mumbai pilot schema for frontend use.
 
 ## Explicitly prohibited from demo migration
 
@@ -168,6 +182,12 @@ These are not unresolved physical DB-design tasks; they are catalogue/pipeline p
 The database is ready for UI development against the 7-provider / 35-course pilot slice.
 
 Before a person can use the authenticated UI, that user must exist in Mumbai Supabase Auth. Role assignment can then be made in `security.user_roles`. An authenticated but unassigned user can use the read-only UI bridge for pilot development; write operations remain unpromoted until explicit role-checked write RPC/Edge contracts are completed.
+
+## Git/UI integration state
+
+PR #3, `Mumbai pilot DB handoff and UI bridge v2.9.1`, was merged into `main` as squash commit `6bf41535510c6b12d69c0192e25f46374b53c5a4`.
+
+`src/supabase.js` now resolves admin context through `ui_context()` rather than the retired demo `pim-admin-v2-1` Edge Function. The existing React read screens can use the hardened compatibility layer while new components move to explicit v2.9.1 RPC contracts.
 
 ## Handover rule
 
