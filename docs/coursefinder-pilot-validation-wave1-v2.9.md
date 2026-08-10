@@ -61,6 +61,8 @@ Layer 2 validation explicitly includes two independent acquisition job families:
 
 The two job families may share scraper infrastructure but should use separate Extraction Profiles and canonical write contracts.
 
+The current demo `layer2-deterministic` worker already implements the course-detail acquisition direction, but scholarship acquisition is not yet implemented. Scholarship acquisition is therefore an `IMPLEMENTATION_GAP`, not a v2.9 database-design gap.
+
 ### Layer 4 — primary governance test area
 
 Layer 4 must prove that uncertain, conflicting, new or changed information can be reviewed, approved/rejected, audited and re-opened when source evidence changes.
