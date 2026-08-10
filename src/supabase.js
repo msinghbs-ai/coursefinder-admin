@@ -12,19 +12,26 @@ export const supabase = createClient(url ?? '', key ?? '', {
 })
 
 export async function invokeAdmin(operation, payload = {}) {
-  const { data, error } = await supabase.functions.invoke('pim-admin-v2-1', {
-    body: { operation, ...payload }
-  })
-  if (error) throw error
-  if (data?.error) throw new Error(data.error)
-  return data
+  if (operation === 'context') {
+    const { data, error } = await supabase.rpc('ui_context')
+    if (error) throw error
+    return {
+      role: data?.role ?? 'unassigned',
+      role_rank: data?.role_rank ?? 0,
+      user: {
+        id: data?.user_id ?? null,
+        email: data?.email ?? null,
+      },
+    }
+  }
+
+  throw new Error(`Admin write operation '${operation}' is not yet promoted to the v2.9.1 Mumbai API bridge.`)
 }
 
-export async function matchScholarships(profile, courseId = null) {
-  const { data, error } = await supabase.functions.invoke('scholarship-match-v2-1', {
-    body: { profile, course_id: courseId || null }
-  })
-  if (error) throw error
-  if (data?.error) throw new Error(data.error)
-  return data
+export async function matchScholarships() {
+  return {
+    status: 'pilot_not_seeded',
+    matches: [],
+    message: 'Scholarship matching will activate after the scholarship pilot dataset is loaded into coursefinder_Pilot.'
+  }
 }
