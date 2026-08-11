@@ -1,0 +1,24 @@
+-- Applied to coursefinder_Pilot (Mumbai) on 2026-08-11.
+-- Service-role-only Layer 1 contract. Browser roles remain denied direct internal-schema access.
+
+-- Functions created by migration:
+-- public.svc_layer1_resolve_sources(text)
+-- public.svc_layer1_start_job(text, uuid, jsonb)
+-- public.svc_layer1_finish_job(uuid, text, jsonb, text)
+-- public.svc_layer1_source_health(uuid, boolean, text, jsonb)
+-- public.svc_layer1_record_evidence(uuid, uuid, text, text, text, text, jsonb)
+-- public.svc_layer1_apply_cricos_records(uuid, uuid, jsonb)
+--
+-- All functions are SECURITY DEFINER with restricted search_path.
+-- EXECUTE revoked from public/anon/authenticated and granted only to service_role.
+-- CRICOS reconciliation behaviour:
+-- 1. Resolve provider by existing CRICOS registration.
+-- 2. If absent, exact-normalised AU provider-name match attaches registration when unique.
+-- 3. Otherwise create provider entity with stable key provider:cricos:<code>.
+-- 4. Resolve course by existing CRICOS registration.
+-- 5. If absent, exact-normalised title match inside resolved provider attaches registration when unique.
+-- 6. Otherwise create course entity with stable key course:cricos:<code>.
+-- 7. Preserve evidence/source links, last_verified timestamp and mapped study level/duration.
+-- 8. Ambiguous matches increment conflict count and are not auto-merged.
+--
+-- Exact SQL is retained in the Supabase migration history for project fxcwkweaxjtknorudmwp.
