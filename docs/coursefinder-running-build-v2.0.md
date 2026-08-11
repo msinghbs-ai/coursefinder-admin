@@ -1,74 +1,113 @@
 # Coursefinder Running Build v2.0
 
 ## Current Phase
-Phase 3 — Layer 1 Regulatory ETL / AU CRICOS clean-room UAT.
+Phase 3 — Layer 1 Regulatory ETL.
+
+**Australia / CRICOS full-ingestion gate: COMPLETE / PASS.**
 
 ## Execution Runtime
 - Cloudflare serves the Pilot SPA only.
-- Supabase Edge Function `layer1-register-etl` executes Layer 1.
-- Supabase Edge Function `pilot-reset` provides the controlled clean-room reset.
-- Both Edge Functions require JWT authentication; Platform Admin authorisation is enforced server-side.
+- Supabase Edge Functions provide authenticated Layer 1 execution and controlled Pilot reset.
+- PostgreSQL holds the canonical catalogue, regulatory registrations, Pipeline Jobs and Search Projection.
+- Supabase Storage retains private evidence.
+- Runtime region: Mumbai (`ap-south-1`).
+- Architecture baseline: v2.9.1.
 
-## Reset Baseline
-Reset now removes all business/runtime UAT data while preserving only platform configuration/reference seed required to authenticate and execute Layer 1.
+## Accepted AU Source Snapshot
+Live data.gov.au CKAN discovery resolved:
+- Resource: `CRICOS Providers, Courses, and Locations`.
+- Last modified: `2026-08-04T01:15:34.464772`.
+- Pipeline job: `97a1ef94-b6cf-4eaf-9b53-52bd370d47da`.
 
-Preserved:
-- Supabase Auth users.
-- `security.roles` / `security.user_roles`, including Platform Admin.
-- reference seed required by Layer 1, including AU country and study levels.
-- active PIM Provider and Course attribute families and PIM configuration.
-- Regulatory Settings / integration systems / global pipeline sources and country source configuration.
-- private `evidence` bucket definition.
-- database functions, RLS/security configuration and migration schema.
+Evidence retained with SHA-256 hashes:
+- consolidated CRICOS ZIP;
+- Institutions CSV;
+- Courses CSV;
+- Locations CSV;
+- Course Locations CSV.
 
-Removed:
-- Providers, Courses, Campuses, Collections and entity-bound PIM data.
-- Scholarships.
-- Search Documents, embeddings, embedding jobs and query cache.
-- Pipeline Jobs, claims and evidence metadata.
-- Review, suggestion, import/export and migration-runtime records.
-- publishing entity states.
-- provider-scoped runtime acquisition/extraction configuration.
-- source health timestamps/runtime hashes.
-- physical evidence files via `pilot-reset-v0.2.0` Storage `emptyBucket` call.
+## Accepted AU Catalogue
+| Measure | Count |
+|---|---:|
+| Providers | 1,546 |
+| CRICOS Provider Registrations | 1,546 |
+| Courses | 26,648 |
+| CRICOS Course Registrations | 26,648 |
+| Campuses | 3,922 |
+| Eligible Course Location records | 47,677 |
+| Canonical Course↔Campus links | 47,671 |
+| Search Documents | 26,648 |
+| Preserved Layer 1 seed snapshots | 5 |
 
-## Verified Database Reset
-Migration 037 was applied and the reset RPC was executed against Mumbai Pilot.
+## Identity Hardening
+Full-volume UAT found that the prior reconciliation contract could merge unseen regulatory entities by normalised provider name or course title. That violated v2.9.1 because names must never act as identity.
 
-Verified post-reset business/runtime state:
-- Providers: 0
-- Courses: 0
-- Scholarships: 0
-- Search Documents: 0
-- Pipeline Jobs: 0
-- Evidence metadata: 0
-- Review Queue: 0
-- CRICOS Course Registrations: 0
-- CRICOS Provider Registrations: 0
-- Search generation: 1
+The accepted rule is now identifier-first:
+- Provider identity = country + registration scheme + regulator provider code, backed by stable key.
+- Course identity = provider + registration scheme + regulator course code, backed by stable key.
+- Provider names and Course titles remain descriptive only.
 
-Reset removed 42 entity-registry rows, 9 pipeline jobs and 15 evidence metadata rows from the prior UAT state.
+Git migration: `041_layer1_identifier_identity_hardening.sql`.
 
-Verified execution seed remains:
-- Auth users: 1
-- User-role assignments: 1
-- Platform Admin role: present
-- active Provider/Course PIM families: 2
-- AU country seed: present
-- study-level seed: 9
-- active regulatory sources: 9
-- AU CRICOS integration system: present
-- private evidence bucket definition: present
+Runtime privilege validation confirms `svc_layer1_apply_register_records` is executable only by `postgres` and `service_role`.
 
-## Storage Note
-The manual SQL invocation used to validate migration 037 removed evidence metadata but did not invoke the Edge Function's Storage cleanup. Two historical physical evidence objects remain until `Reset AU UAT` is invoked once through the UI. `pilot-reset-v0.2.0` now empties the evidence bucket as part of the reset transaction workflow.
+## Full Idempotency — PASS
+Complete rerun outcome:
+- Providers created: 0.
+- Courses created: 0.
+- Campuses created: 0.
+- Course↔Campus links created: 0.
+- Conflicts: 0.
 
-## Next Gate
-1. Deploy latest Pilot UI.
-2. Invoke `Reset AU UAT` once from Settings to clear the remaining physical evidence objects.
-3. Confirm all reset statistics are zero and Regulatory Settings still shows the configured sources.
-4. Run AU CRICOS dry-run 100 from the clean baseline.
-5. Apply first 100 and verify every Provider/Course/registration shown is Layer 1-derived.
-6. Verify Search Documents equal canonical active Courses after Apply.
-7. Re-run same 100 and prove idempotency.
-8. Add CRICOS Locations and Course Locations before wider/full AU ingestion.
+Duplicate registration/relationship checks: 0.
+
+A ten-way concurrent Course Location rerun caused statement timeouts on the first three 5,000-record ranges. Those exact ranges passed in bounded 2,500-record slices with zero creates and all records resolving to existing relationships. This is an operational concurrency limit, not an idempotency failure.
+
+## Integrity — PASS
+All returned zero:
+- provider-registration orphans;
+- course-registration orphans;
+- campus-provider orphans;
+- course-campus orphans;
+- duplicate CRICOS Provider keys;
+- duplicate CRICOS Course keys;
+- duplicate Course↔Campus pairs;
+- Providers without CRICOS registration;
+- Courses without CRICOS registration.
+
+## Search — PASS
+- Search Documents: 26,648 / 26,648 Courses.
+- Distinct Providers represented: 1,546.
+- Empty `search_text`: 0.
+- Courses with mapped study level: 24,367.
+- Search generation: 2.
+- Search Projection rebuild: ~3.74 seconds.
+- `engineering` ranked top-20 FTS query: ~4.28 ms using `course_documents_tsv_idx`.
+- FTS matches: `bachelor business` 681; `nursing` 274; `engineering` 1,223.
+
+## Full-Volume Operating Pattern
+A full AU run MUST NOT be executed as one monolithic Edge request. Full-scale UAT demonstrated Edge execution-time and memory ceilings.
+
+Accepted pattern:
+1. Resolve/download source and capture evidence once.
+2. Reconcile Provider/Course records in deterministic batches up to 5,000 records, with 250-record database sub-chunks.
+3. Reconcile Locations.
+4. Reconcile Course Locations in deterministic bounded ranges; use 2,500 records where concurrent execution is used.
+5. Keep concurrency controlled. Do not launch ten heavy reconciliation requests simultaneously.
+6. Finalise Search Projection after canonical ingestion completes.
+7. Run idempotency + integrity gate before accepting the Pipeline Job.
+
+## Security and Advisor Status
+The Layer 1 identity RPC itself is service-role-only and passed privilege validation.
+
+Supabase security advisor continues to report broader pre-existing warnings for authenticated `public.ui_*` `SECURITY DEFINER` functions and leaked-password protection being disabled. These are tracked platform-hardening concerns, not regressions caused by AU Layer 1.
+
+Performance advisor returned informational unused-index notices only.
+
+## UAT Helper Closure
+The temporary `layer1-au-full-gate` function used for the autonomous phase gate is now JWT-protected and deliberately disabled with HTTP 410. It is not an operational ingestion endpoint.
+
+## Phase Gate
+**AU Layer 1 Full CRICOS Ingestion = PASS.**
+
+The accepted Mumbai AU catalogue can now be treated as the Layer 1 AU baseline. Next work can proceed to the next country adapter and/or automation of the bounded full-run orchestration pattern.
