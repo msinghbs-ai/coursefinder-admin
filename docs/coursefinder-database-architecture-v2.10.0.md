@@ -222,18 +222,21 @@ This matches the current deny-by-default internal-schema posture. Supabase Secur
 
 ## 9. Migration baseline
 
-New production migration:
+New production migrations:
 - `044_qilt_provider_outcomes_foundation.sql`
+- `045_qilt_provider_outcomes_fk_index_hardening.sql`
 
-It creates:
+Migration 044 creates:
 - four survey families;
 - outcome metric definitions table;
 - external study-area and mapping tables;
 - generic source-to-provider mapping table;
 - temporal provider outcomes observations;
-- indexes, RLS and service-role boundaries.
+- initial indexes, RLS and service-role boundaries.
 
-No QILT metric observations are seeded by the migration. Source-native metric definitions and data are created only by the accepted ingestion adapter so schema assumptions are not fabricated ahead of source validation.
+Migration 045 adds covering indexes for the new foreign keys identified during post-DDL Supabase Performance Advisor validation.
+
+No QILT metric observations are seeded by these migrations. Source-native metric definitions and data are created only by the accepted ingestion adapter so schema assumptions are not fabricated ahead of source validation.
 
 ---
 
