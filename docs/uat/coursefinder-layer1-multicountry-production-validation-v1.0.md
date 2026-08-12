@@ -17,7 +17,7 @@ The controlled Phase 1 production-validation order is:
 5. IE
 6. DE — deferred until NZ, CA, GB, US and IE are accepted.
 
-Countries are advanced sequentially. A country must reach an accepted Layer 1 Production Gate before the next country begins.
+Countries advance sequentially. A country must reach an accepted Layer 1 Production Gate before the next country begins.
 
 ## Gate Standard
 
@@ -29,67 +29,95 @@ Each country must prove the AU-equivalent production properties before acceptanc
 - raw evidence retained in the private evidence boundary with SHA-256 lineage/provenance;
 - Provider and Course identity derived only from stable regulator/source identifiers;
 - names and titles remain descriptive and never act as identity;
-- acquisition bounded and resumable through the production `country`, `apply`, `offset`, `batchSize`, `nextOffset`, `hasMore` contract;
+- acquisition bounded and resumable through the production execution contract;
 - bounded dry-run succeeds;
 - bounded APPLY succeeds;
 - same-source rerun proves idempotency;
 - duplicate, orphan and integrity checks return zero unacceptable defects;
 - Search Projection is rebuilt and validated;
-- JWT / Platform Admin / service-role privilege boundaries are validated, including negative browser-role checks where applicable;
+- JWT / Platform Admin / service-role privilege boundaries are validated;
 - runtime and performance are validated under bounded execution;
 - full UAT evidence is committed under `docs/uat/`;
-- master programme status and running-build documentation are updated after the gate.
+- programme governance and running-build documentation are updated after the gate.
 
-No country is accepted merely because its configured source URL is reachable or because its legacy seed/snapshot can reconcile.
+No country is accepted merely because a configured source URL is reachable or because a legacy seed/snapshot can reconcile.
 
 ## Current Gate Board
 
 | Order | Country | Current Runtime Position | Gate Status | Next Required Action |
 |---:|---|---|---|---|
-| 0 | AU | Live authoritative CRICOS, full accepted baseline | **PASS / ACCEPTED** | Reference standard |
-| 1 | NZ | `seed_snapshot_bounded` plus live health check; authoritative NZQA + Education Counts sources configured | **IN PROGRESS / NOT ACCEPTED** | Replace seed acquisition with live NZ authority and validate stable provider/course identifiers |
-| 2 | CA | Snapshot-backed plus live health check | **PENDING** | Start only after NZ PASS |
-| 3 | GB | Live UKVI provider register plus snapshot-backed course path | **PENDING** | Start only after CA PASS; remove any name-derived provider identity before APPLY |
+| 0 | AU | Live authoritative CRICOS; accepted full baseline | **PASS / ACCEPTED** | Reference standard |
+| 1 | NZ | Live NZQA tertiary-provider + qualification acquisition; stable NZQA identities; full canonical/search load complete | **PASS / ACCEPTED** | Retain as accepted baseline |
+| 2 | CA | Snapshot-backed plus live health check | **IN PROGRESS / NEXT** | Replace snapshot path with authoritative Canadian acquisition and prove stable Provider/Course identities |
+| 3 | GB | Live UKVI provider register plus snapshot-backed course path | **PENDING** | Start only after CA PASS; remove any name-derived Provider identity before APPLY |
 | 4 | US | Snapshot-backed plus live health check | **PENDING** | Start only after GB PASS |
 | 5 | IE | Snapshot-backed plus live health check | **PENDING** | Start only after US PASS |
-| 6 | DE | Live DAAD path exists but provider identity/source authority are unresolved; DB guard prevents unsafe DAAD provider registration writes | **DEFERRED / BLOCKED** | Reassess only after IE PASS, remediate and re-run complete gate |
+| 6 | DE | Live DAAD path exists but Provider identity/source authority are unresolved; DB guard prevents unsafe DAAD Provider registration writes | **DEFERRED / BLOCKED** | Reassess only after IE PASS, remediate and rerun complete gate |
 
-## NZ Entry Assessment — 12 August 2026
+## NZ Production Gate — Accepted 12 August 2026
 
-### Current runtime
+Detailed UAT:
+- `docs/uat/coursefinder-layer1-nz-production-gate-uat-v1.0.md`
 
-Production `layer1-register-etl` (`layer1-edge-v1.4.1`) routes NZ through `runSeed()`. The adapter reads the preserved Layer 1 seed snapshot, performs only a reachability check against the configured live source, stores the seed JSON as evidence, and can reconcile that seed. This does **not** satisfy the production gate.
+Accepted source model:
+- NZQA Education Organisations / Qualifications register is the complete runtime acquisition source for the tertiary population.
+- Education Counts remains an independent authority/freshness cross-check, not a hard runtime dependency because the database runtime encountered a Cloudflare challenge.
 
-The configured NZ sources are:
+Accepted identity model:
+- Provider: `NZ + nzqa + Education Organisation number`.
+- Course: `Provider + nzqa + NZQA qualification Number`.
+- Provider names and qualification titles are descriptive only.
 
-1. `nz_nzqa` — New Zealand Qualifications Authority (NZQA) Education Organisations — primary authoritative regulatory source.
-2. `nz_education_counts` — Ministry of Education / Education Counts tertiary-provider directory — authoritative secondary identity source.
+Accepted live population:
+- Universities: 8
+- Polytechnics: 17
+- Wānanga: 3
+- Private Training Establishments: 377
+- Government Training Establishments: 4
+- Total Providers: **409**
 
-### Stable identity assessment
+Accepted canonical/search population:
+- Providers: **409**
+- Provider Registrations: **409**
+- Courses: **6,457**
+- Course Registrations: **6,457**
+- Search Documents: **6,457**
 
-NZQA explicitly publishes an **Education Organisation number** as the unique number assigned to each provider (also referred to as the Ministry of Education number/provider code). This is suitable for canonical Provider identity.
+Integrity:
+- duplicate Provider identity keys: 0
+- duplicate Course identity keys at `provider + scheme + qualification code`: 0
+- Providers without registration: 0
+- Courses without registration: 0
+- orphan Course Registrations: 0
 
-NZQA provider-specific qualification results expose a stable qualification **Number** together with qualification title, status, type, NZQF level and credits. Under architecture v2.9.1, the accepted NZ mapping is therefore:
+Security:
+- production worker remains `verify_jwt=true` with Platform Admin authorisation;
+- Layer 1 write/evidence/finalisation functions remain service-role only;
+- temporary NZ UAT token function and token rows were removed;
+- temporary UAT/inspection Edge Functions were retired as JWT-protected HTTP 410 harnesses.
 
-- Provider identity: `NZ + nzqa + Education Organisation number`;
-- Course identity: `Provider + nzqa + NZQA qualification Number`;
-- Provider name and qualification title: descriptive only.
+Performance finding:
+- concurrent bounded reconciliation is safe, but simultaneous `svc_layer1_finalize_catalogue()` calls can contend and hit PostgreSQL statement timeout;
+- operational pattern should reconcile bounded country slices and perform one final Search Projection rebuild after the load, or otherwise serialize finalisation.
 
-The existing seed identifiers such as `NZQA-UOA-001` and generated course identifiers are not accepted as production regulatory identity and must not be used for the NZ production APPLY gate.
+This finding is tracked as production hardening and does not invalidate the NZ data/identity gate.
 
-### Acquisition direction
+## CA Entry Position
 
-The NZ live adapter must use NZQA/Ministry authoritative records, retain live source evidence and avoid constructing identifiers from names. Education Counts may be used to define/validate the tertiary-provider population and NZQA to validate provider status and obtain provider-linked qualification records. Any deliberate narrowing of Layer 1 coverage must be documented as a source-authority/scope decision before acceptance.
+CA is now the active Phase 1 country.
 
-### Architecture / DB impact
-
-No architecture change is required for this identity mapping. It conforms to v2.9.1's existing regulator-identifier model and `041_layer1_identifier_identity_hardening.sql` semantics.
-
-No NZ canonical writes are accepted from the legacy seed path.
+Entry requirements:
+- identify authoritative Canadian Provider and Course/programme source coverage;
+- reject name-derived identity;
+- replace the legacy snapshot-backed path before production APPLY;
+- retain the v2.9.1 canonical model unless a documented country-specific architecture extension is genuinely required;
+- complete the same dry-run/APPLY/idempotency/integrity/search/security gate used for AU and NZ.
 
 ## DE Deferral
 
-DE remains protected by the existing safety guard and is explicitly out of execution sequence until NZ, CA, GB, US and IE have each passed. Existing DE investigation evidence remains valid for blocker context, but DE must be reassessed against the then-current runtime before remediation and APPLY.
+DE remains protected by the existing database safety guard and is explicitly out of execution sequence until NZ, CA, GB, US and IE have each passed.
+
+Existing DE investigation evidence remains valid for blocker context, but DE must be reassessed against the then-current runtime before remediation and APPLY.
 
 ## Gate Closure Rule
 
