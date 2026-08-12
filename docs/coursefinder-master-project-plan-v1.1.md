@@ -5,7 +5,7 @@
 **Repository:** `msinghbs-ai/coursefinder-admin`  
 **Last consolidated:** 12 August 2026  
 **Architecture baseline:** `docs/coursefinder-database-architecture-v2.10.0.md`  
-**Running build baseline:** `docs/coursefinder-running-build-v2.1.md`  
+**Running build baseline:** `docs/coursefinder-running-build-v2.2.md`  
 **Accepted Layer 1 gates:** AU PASS; NZ PASS  
 **Current programme position:** CA Layer 1 active; GB, US and IE queued; DE deferred/blocked. Phase 2 Admin/PIM redesign and AU QILT structured-outcomes foundation can progress in parallel without changing Layer 1 country-gate sequencing.
 
@@ -60,6 +60,7 @@ Linked docs:
 - `docs/coursefinder-database-architecture-v2.10.0.md`
 - `docs/coursefinder-database-architecture-v2.9.1.md`
 - `supabase/production-migrations/044_qilt_provider_outcomes_foundation.sql`
+- `supabase/production-migrations/045_qilt_provider_outcomes_fk_index_hardening.sql`
 
 ---
 
@@ -197,7 +198,7 @@ Architecture/storage:
 - `pipeline.source_provider_mappings`
 - `catalogue.provider_outcomes`
 
-Migration 044 has been applied. It seeds only four survey-family definitions; no fabricated QILT metrics or observations are loaded before source/parser validation.
+Migration 044 has been applied. It seeds only four survey-family definitions; no fabricated QILT metrics or observations are loaded before source/parser validation. Migration 045 adds the covering FK indexes identified during post-DDL performance review.
 
 Planned AU QILT worker: `qilt-au-etl`.
 
@@ -293,7 +294,7 @@ Continue:
 - backup/recovery/cutover/runbooks;
 - worker configuration validation.
 
-Migration 044 keeps all new tables internal with RLS enabled, `anon`/`authenticated` direct access revoked and service-role ingestion explicit. Security Advisor `rls_enabled_no_policy` INFO is expected under the current deny-by-default internal-schema design; existing SECURITY DEFINER UI RPC warnings remain a separate Phase 7 hardening item.
+Migrations 044/045 keep all new tables internal with RLS enabled, `anon`/`authenticated` direct access revoked and service-role ingestion explicit. Security Advisor `rls_enabled_no_policy` INFO is expected under the current deny-by-default internal-schema design; existing SECURITY DEFINER UI RPC warnings remain a separate Phase 7 hardening item.
 
 ---
 
@@ -321,4 +322,4 @@ QILT may progress in parallel, but consumer comparison cannot be released until 
 
 ## 4. Current programme decision
 
-**CA remains the active Layer 1 country. QILT/ComparED is approved as Layer 2A AU structured enrichment. Architecture v2.10.0 and migration 044 establish the database foundation. Admin navigation is to separate Catalogue, Data Quality, Data Operations, Insights and Administration, with ingestion execution in Pipeline and configuration in Settings.**
+**CA remains the active Layer 1 country. QILT/ComparED is approved as Layer 2A AU structured enrichment. Architecture v2.10.0 and migrations 044/045 establish the database foundation. Admin navigation is to separate Catalogue, Data Quality, Data Operations, Insights and Administration, with ingestion execution in Pipeline and configuration in Settings.**
