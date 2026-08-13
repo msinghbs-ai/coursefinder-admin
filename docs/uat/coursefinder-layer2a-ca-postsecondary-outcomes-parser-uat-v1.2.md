@@ -1,96 +1,73 @@
-# Coursefinder Layer 2A Canada Postsecondary Outcomes Parser UAT v1.2
+# CourseFinder — Canada Layer 2A Postsecondary Outcomes Parser UAT v1.2
 
-**Date:** 12 August 2026  
-**Architecture:** `docs/coursefinder-database-architecture-v2.10.3.md`  
-**Running build:** `docs/coursefinder-running-build-v2.6.md`
+**Date:** 13 August 2026  
+**Database:** `coursefinder_Pilot` (`fxcwkweaxjtknorudmwp`)  
+**Architecture:** `docs/coursefinder-database-architecture-v2.10.5.md`  
+**Master plan:** `docs/coursefinder-master-project-plan-v1.7.md`  
+**Running build:** `docs/coursefinder-running-build-v2.8.md`  
+**Gate result:** **AUTHENTICATED RUNTIME PARSER DRY-RUN PASS**
 
 ## Scope
 
-Validate the authenticated Statistics Canada PSIS acquisition/parser path without canonical outcome writes.
+Validate the Statistics Canada PSIS Layer 2A acquisition/parser path using the official WDS source without enabling canonical outcomes APPLY or permitting Layer 2A to create Provider/Course identity.
 
-Worker:
-- `statcan-ca-psis-etl`
-- tested failed version: `v0.2.0`
-- corrective version: `v0.2.1`
-- `verify_jwt=true`
-- Platform Admin authorisation required
-- `apply=true` disabled.
+Source:
+- table `37-10-0278-01`;
+- PID `37100278`;
+- worker `statcan-ca-psis-etl-v0.3.1`;
+- Supabase function version `5`;
+- `verify_jwt=true`;
+- Platform Admin authorisation required.
 
-## Runtime evidence
+## Runtime result
 
-Authenticated invocation reached the worker and created pipeline job:
-- job ID `21cf6d0c-86b0-4cc2-a6bd-896968910d48`
-- domain `outcomes`
-- job type `layer2a_outcomes`
-- status `failed`
-- created `2026-08-12 12:42:08.628112+00`
-- completed `2026-08-12 12:42:09.992196+00`
+The authenticated v0.3.1 execution completed successfully.
 
-Observed error:
+Validated:
+- WDS cube metadata POST contract — PASS;
+- required PSIS dimensions — PASS;
+- 248 source-side institution candidates identified;
+- private metadata evidence captured with SHA-256;
+- bounded WDS series probe — PASS;
+- five bounded institution coordinates probed;
+- all five returned real vectors/data points with WDS `SUCCESS` and response status code `0`;
+- canonical Provider/Course identity writes — disabled;
+- canonical outcomes APPLY — disabled;
+- source Provider mapping to an existing verified IRCC-DLI Provider remains mandatory.
 
-`Error: HTTP 404: https://www150.statcan.gc.ca/t1/wds/rest/getCubeMetadata/37100278`
+## Identity boundary
 
-## Root cause
+Layer 2A may never create or merge canonical Provider identity from a Statistics Canada institution label.
 
-Implementation defect, not a StatsCan source-authority blocker.
+Accepted mapping path:
 
-Statistics Canada WDS documents:
-- `getCubeMetadata` as POST `/getCubeMetadata` with body `[{'productId': PID}]`;
-- `getFullTableDownloadCSV/{PID}/en` as GET returning a ZIP URL.
+`StatsCan source institution member -> pipeline.source_provider_mappings -> existing canonical CA Provider with verified ircc_dli identity`
 
-Worker v0.2.0 incorrectly used `GET /getCubeMetadata/{PID}`.
+Provider identity remains:
+`CA + ircc_dli + DLI_number`
 
-## Correction
+Course identity remains:
+`UUIDv5(verified DLI + namespaced stable local programme key)`
 
-Worker v0.2.1:
-- changes metadata request to POST `/getCubeMetadata`;
-- sends `[{"productId":37100278}]`;
-- retains GET full-table CSV download;
-- retains private ZIP evidence, SHA-256, bounded CSV parsing, source-health/job logging and no canonical writes;
-- emits the Canada dual-authority identity boundary in diagnostics.
-
-Deployment:
-- Supabase function version `3`
-- SHA-256 `3d069c7e3f3f87f8cafd54b8c5405d0a4c645f55711db2113e2f5152d0f51d5c`
-
-## Canada identity UAT
-
-Migration `050_ca_dual_authority_identity_contract.sql` is applied.
-
-Enforced rules:
-- CA Provider scheme must be `ircc_dli`;
-- CA base Course scheme cannot be APS/MTCU/CIP;
-- new CA Course ID is deterministic UUIDv5 from verified DLI + namespaced local programme key;
-- title does not participate in identity;
-- regional registration remains optional independent metadata.
-
-RPC privilege result:
-- anon execute = false;
-- authenticated execute = false;
-- service_role execute = true.
-
-Ontario source metadata result:
-- coverage role = `provincial_course_validation`;
-- APS role = `validation_metadata_only`;
-- base identity requirement = verified DLI + stable institutional/source-local programme key.
-
-## Gate result
+## UAT matrix
 
 | Test | Result |
 |---|---|
-| Signed-in route reaches StatsCan worker | PASS |
-| Platform Admin/job start | PASS |
-| v0.2.0 WDS metadata acquisition | FAIL |
-| Root cause established | PASS |
-| v0.2.1 corrective deployment | PASS |
-| No canonical outcome write on failure | PASS |
-| Canada dual-authority DB enforcement | PASS |
-| v0.2.1 authenticated parser rerun | PENDING |
-| Repeat-run evidence/idempotency comparison | PENDING |
-| Provider mapping -> IRCC DLI | PENDING |
-| CIP/study-level/audience transform | PENDING |
-| Canonical outcomes APPLY | BLOCKED |
+| JWT / Platform Admin route | **PASS** |
+| WDS metadata contract | **PASS** |
+| Required dimensions | **PASS** |
+| Source institution discovery | **PASS — 248 candidates** |
+| Private evidence | **PASS** |
+| Bounded real series probe | **PASS — 5/5** |
+| Provider identity isolation | **PASS** |
+| Course identity isolation | **PASS** |
+| Canonical outcomes APPLY | **LOCKED BY DESIGN** |
+| Source institution -> DLI mapping | **PENDING** |
+| CIP/study-level/audience transforms | **PENDING** |
+| Outcomes APPLY/idempotency/integrity | **PENDING** |
 
-## Current decision
+## Decision
 
-**Parser runtime gate remains PENDING, not BLOCKED. The first signed-in run proved authentication and job wiring; its failure was an incorrect WDS HTTP method and has been corrected in v0.2.1. Re-run v0.2.1 before proceeding to mapping or APPLY.**
+**Canada StatsCan authenticated runtime parser dry-run gate = PASS.**
+
+The next accepted Layer 2A gate is persistence and UAT of source institution mappings to canonical IRCC-DLI Providers, followed by taxonomy transforms. No Provider, Course, Provider Outcome or benchmark identity may be created from the PSIS parser gate itself.
