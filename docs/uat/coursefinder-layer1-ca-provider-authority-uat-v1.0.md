@@ -1,69 +1,81 @@
-# Coursefinder Layer 1 Canada Provider Authority UAT v1.0
+# CourseFinder Layer 1 Canada Provider Authority UAT v1.0
 
-**Date:** 12 August 2026  
-**Architecture:** `docs/coursefinder-database-architecture-v2.10.4.md`  
-**Running build:** `docs/coursefinder-running-build-v2.7.md`
+**Date:** 13 August 2026  
+**Architecture:** `docs/coursefinder-database-architecture-v2.10.6.md`  
+**Running build:** `docs/coursefinder-running-build-v2.9.md`  
+**Gate:** CA Gate A — Federal Provider Authority
 
-## Scope
+## Result
 
-Validate the separated Canadian federal Provider authority gate before any federated Course-source APPLY.
+**PASS**
 
-Provider source:
-- IRCC Designated Learning Institutions register.
+The authoritative IRCC Designated Learning Institutions source has been fully reconciled to the canonical Provider catalogue using stable identity:
 
-Provider business identity:
-- `CA + ircc_dli + DLI_number`.
+`CA + ircc_dli + DLI_number`.
+
+## Accepted runtime
 
 Worker:
-- `layer1-ca-live-v1.1.0`;
-- Supabase function version `2`;
+- `layer1-ca-live-v1.1.1`;
+- Supabase function version 3;
 - `verify_jwt=true`;
 - Platform Admin required.
 
-Write RPC:
-- `svc_layer1_apply_ca_ircc_providers(...)`.
+Fresh bounded execution:
+- offset 0 APPLY: 500 created / 0 existing;
+- offset 0 idempotency rerun: 0 created / 500 existing;
+- offset 1000 APPLY: 130 created / 0 existing;
+- offset 1000 idempotency rerun: 0 created / 130 existing;
+- previously accepted offset 500 slice: 500 canonical Providers with same-offset idempotency PASS.
 
-## Implementation UAT
+No fresh execution returned an error.
 
-| Test | Result |
-|---|---|
-| Live IRCC acquisition worker deployed | PASS |
-| Stable DLI parsing/deduplication implemented | PASS |
-| Private evidence + SHA-256 implemented | PASS |
-| Deterministic offset/batch contract | PASS |
-| Provider-only reconciliation RPC deployed | PASS |
-| RPC rejects malformed/non-DLI identifiers | PASS — contract |
-| Course writes from Provider RPC | PASS — structurally zero |
-| anon RPC execute | PASS — denied |
-| authenticated RPC execute | PASS — denied |
-| service_role RPC execute | PASS — allowed |
-| CA Provider canonical rows before APPLY | 0 |
-| CA Course canonical rows before APPLY | 0 |
-| Post-DDL security advisor | PASS for new CA boundary; existing Pilot-wide warnings retained |
-| Post-DDL performance advisor | PASS for new CA boundary; unused-index INFO only |
+## Full-source reconciliation
 
-## Gate semantics
+| Check | Result |
+|---|---:|
+| Authoritative IRCC parsed Providers | 1,130 |
+| Canonical CA Providers | 1,130 |
+| IRCC DLI identifiers | 1,130 |
+| Providers without DLI | 0 |
+| Providers with multiple DLI identifiers | 0 |
+| Duplicate DLI identifiers | 0 |
+| Duplicate Provider stable keys | 0 |
+| Orphan DLI identifiers | 0 |
+| CA Courses written by Provider gate | 0 |
 
-The Provider gate is independent from the Course gate.
+## Evidence and source health
 
-A successful Provider batch returns the still-open blocker:
+All five fresh validation/APPLY/idempotency executions captured private evidence with non-null content hashes and storage paths.
 
-`CA_FEDERATED_COURSE_SOURCE_COVERAGE_BLOCKER`
+At acceptance:
+- source status: active;
+- source health: success;
+- worker version: `layer1-ca-live-v1.1.1`;
+- parsed Providers: 1,130;
+- last error: null;
+- Provider APPLY allowed: true;
+- Course gate blocked: true;
+- source metadata Provider gate: `federal_provider_authority_pass`.
 
-This blocker prevents final Canada country PASS but does not prevent authoritative IRCC Provider reconciliation.
+Evidence is execution-scoped. Multiple evidence artifacts do not constitute a canonical idempotency defect.
 
-## Runtime tests still required
+## Security boundary
 
-1. signed-in Platform Admin dry-run on `layer1-ca-live-v1.1.0`;
-2. bounded Provider APPLY;
-3. same-offset APPLY rerun;
-4. verify zero duplicate Provider/DLI identities;
-5. verify Provider identifier/registration/evidence integrity;
-6. continue bounded batches to complete the IRCC source;
-7. verify final Provider source count and no Course writes.
+The Provider-only reconciliation path remains server/service-role mediated and writes zero Courses. JWT verification and Platform Admin authorisation remain enabled. Broader pre-existing Pilot security warnings are not represented as closed by this UAT.
 
-## Current result
+## Country gate boundary
 
-**IMPLEMENTATION PASS / RUNTIME APPLY PENDING.**
+This PASS promotes **CA Gate A — Federal Provider Authority only**.
 
-The previous blanket Canada APPLY blocker has been removed. The next CA Layer 1 action is a bounded IRCC Provider APPLY; Course ingestion remains separately prohibited until its own source/local-key UAT passes.
+Canada Layer 1 remains blocked on:
+`CA_FEDERATED_COURSE_SOURCE_COVERAGE_BLOCKER`.
+
+Course identity remains:
+`UUIDv5(verified DLI + namespaced stable local programme key)`.
+
+Course titles are not identity. Layer 2A sources cannot create Provider identities.
+
+## Next gate
+
+Proceed with **CA Gate B — Federated Course Authority**, beginning with Ontario public-college programme live acquisition/parser, verified source Provider → IRCC DLI mapping, bounded dry-run/APPLY/idempotency/integrity UAT, then remaining Canadian Course-source coverage.
