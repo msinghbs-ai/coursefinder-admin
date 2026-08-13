@@ -2,7 +2,7 @@
 
 **Date:** 14 August 2026  
 **Architecture:** `docs/coursefinder-database-architecture-v2.10.12.md`  
-**Master plan:** `docs/coursefinder-master-project-plan-v1.14.md`
+**Master plan:** `docs/coursefinder-master-project-plan-v1.13.md`
 
 ## Current programme position
 
@@ -30,6 +30,10 @@ Full APPLY: 142 created / 50 existing / 0 conflicts.
 Lifecycle correction: 0 created / 192 existing, all lifecycle `unknown` because the official academic catalogue has not yet advanced to 2026–2027.
 
 Autonomous worker `layer1-ca-seneca-catalogue-v0.1.0` replayed HTTP 200 with 0 created / 192 existing, zero conflicts and fresh private evidence.
+
+## Governance note
+
+Master Plan v1.14 creation was blocked by the GitHub connector safety layer in this session. v1.13 remains the latest committed Master Plan; Architecture v2.10.12 and this Running Build carry the accepted Seneca delta.
 
 ## Blocker
 
