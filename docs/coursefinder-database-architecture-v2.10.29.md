@@ -149,6 +149,12 @@ Visibility: `published` and `internal` only.
 
 Zoho may apply CRM/commercial ranking after the academic candidate set is returned. Commercial ranking must not overwrite canonical facts or Search academic relevance profiles.
 
+### Legacy API compatibility
+
+`api.search_courses` and `api.vector_candidates` are deprecated internal compatibility RPCs. They are `service_role` only and are not accepted Website/Zoho consumer contracts. This prevents the older Search DTO and unpublication-filtered vector candidate path from bypassing the versioned v1 boundary.
+
+General `api.courses_list` and `api.providers_list` remain authenticated role-gated Admin contracts and are separate from consumer Search publication.
+
 ## 9. Publication boundary
 
 Search readiness is not publication.
@@ -163,6 +169,7 @@ No project phase may change publication state merely to make Search/API UAT retu
 - Website search RPC is executable by `service_role` only and returns published data only.
 - Zoho candidate RPC is executable by `authenticated` and enforces role rank >= 2.
 - Search refresh/rebuild and hybrid candidate functions are service-only.
+- Legacy Search/vector consumer RPCs are deprecated and service-only.
 - Search/canonical schemas remain non-consumer implementation details.
 
 Existing Admin/PIM public `SECURITY DEFINER` warnings are outside this architecture delta and remain tracked separately.
@@ -189,6 +196,7 @@ Pilot migrations:
 - `20260819045543_m1_search_consumer_contracts_v1`
 - `20260819045719_m1_search_hybrid_fallback_optimisation_v1`
 - `20260819045818_m1_search_country_gate_fk_index_v1`
+- `20260819050549_m1_search_retire_legacy_consumer_rpcs_v1`
 
 ## 13. Gate decision
 
