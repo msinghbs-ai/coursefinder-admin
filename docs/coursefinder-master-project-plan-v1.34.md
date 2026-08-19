@@ -4,7 +4,7 @@
 **Supersedes:** `docs/coursefinder-master-project-plan-v1.33.md`  
 **Last consolidated:** 19 August 2026  
 **Architecture:** `docs/coursefinder-database-architecture-v2.10.34.md`  
-**Running build:** `docs/coursefinder-running-build-v2.37.md`  
+**Running build:** `docs/coursefinder-running-build-v2.38.md`  
 **Completeness design:** `docs/coursefinder-au-layer1-regulatory-completeness-design-v1.0.md`
 
 ## Current programme position
@@ -24,7 +24,7 @@
 | Search governed projection + FTS | PASS / ACCEPTED | 33,105 documents; consumer contracts remain FTS |
 | **Vector/semantic Search** | **REJECTED / NOT ADMITTED** | `gte-small` Edge generation candidate failed production throughput/resource prerequisite |
 | Search enrichment readiness | BLOCKED | Fee/link/intake/English require separate admission UAT |
-| Admin/PIM | IN PROGRESS / HARDENING REQUIRED | Provenance/readiness/security lane remains separate |
+| **Admin/PIM hardening** | **PASS / COMPLETE** | Role-aware reads, provenance, fee semantics and browser security gate accepted |
 
 ## M1-SEARCH-VECTOR decision
 
@@ -60,9 +60,23 @@ A future semantic gate must use a **newly qualified generation architecture/prof
 - curated FTS vs vector vs hybrid relevance;
 - explicit operational cost, rate-limit and privacy controls.
 
+## M1-PIM-HARDENING decision
+
+The parallel Admin/PIM operational/security gate is **PASS / complete** as recorded in running build v2.37 and `docs/uat/m1-pim-hardening-gate-2026-08-19.md`.
+
+Accepted posture includes:
+- browser reads through `public.admin_read(text,jsonb)` with private role enforcement;
+- legacy browser-executable SECURITY DEFINER bridges retired;
+- source/evidence/history and completeness/readiness governance visible in Admin;
+- Scholarship relational detail preserved;
+- CRICOS registered-total-course fees separated from Provider-current fees;
+- private evidence Storage retained.
+
+The remaining leaked-password-protection advisor item is classified as unsupported on the current Supabase Free plan, not silently waived.
+
 ## Immediate serial gate — M1-L1-AU-CRICOS-COMPLETENESS
 
-The serial data lane remains unchanged by the vector decision.
+The serial data lane remains unchanged by the vector/PIM decisions.
 
 Required outcome:
 - resolve/classify all 2,281 study-level gaps;
@@ -99,21 +113,17 @@ Current state:
 
 No publication or consumer visibility was broadened by `M1-SEARCH-VECTOR`.
 
-## Parallel lanes
-
-`M1-PIM-HARDENING` continues independently for role-aware Admin/PIM operations and security hardening.
-
-Semantic Search has no active implementation lane after this rejection. Reopen it only as a newly qualified candidate gate.
-
 ## Programme sequence
 
 Primary serial lane:
 
 `M1-L1-AU-CRICOS-COMPLETENESS -> M1-L2-AU-COURSE-FACTS -> SEARCH-ENRICHMENT-READINESS -> PUBLICATION-UAT`
 
-Parallel:
+Completed parallel gates:
 
-`M1-PIM-HARDENING`
+`M1-PIM-HARDENING` — PASS.
+
+`M1-SEARCH-VECTOR` candidate 1 — REJECTED; no semantic admission.
 
 Close-out:
 
