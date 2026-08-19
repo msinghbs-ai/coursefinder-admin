@@ -62,6 +62,8 @@ Accepted database DTO contracts:
 
 Website execution is service-gateway only and published-only. Zoho requires authenticated Counsellor-or-higher and returns published/internal rows only.
 
+Legacy `api.search_courses` and `api.vector_candidates` are now explicitly deprecated and `service_role` only. This removes the older authenticated Search paths as a consumer-contract bypass. General Admin `api.courses_list` and `api.providers_list` remain authenticated role-gated Admin contracts.
+
 Current catalogue publication remains unchanged: all 33,105 Search Documents are unpublished. Both consumer contract UATs therefore return a valid envelope with `items: []`.
 
 No internal Search/canonical/evidence schema has been opened to browser consumers.
@@ -72,12 +74,13 @@ No internal Search/canonical/evidence schema has been opened to browser consumer
 - `20260819045543_m1_search_consumer_contracts_v1`
 - `20260819045719_m1_search_hybrid_fallback_optimisation_v1`
 - `20260819045818_m1_search_country_gate_fk_index_v1`
+- `20260819050549_m1_search_retire_legacy_consumer_rpcs_v1`
 
 Pilot evidence: `msinghbs-ai/Coursefinder-Pilot/docs/m1-search-governed-projection-uat-2026-08-19.md`
 
 ## Security/performance review
 
-M1-SEARCH introduced no anonymous function execution. The one newly reported performance item—an unindexed country-gate FK—was remediated before handover.
+M1-SEARCH introduced no anonymous function execution. The one newly reported performance item—an unindexed country-gate FK—was remediated before handover. The final legacy-RPC audit also removed authenticated execution from obsolete Search/vector RPCs before acceptance.
 
 Existing Admin/PIM `SECURITY DEFINER` advisor warnings and Supabase Auth leaked-password-protection warning remain pre-existing work and are not masked by this gate.
 
