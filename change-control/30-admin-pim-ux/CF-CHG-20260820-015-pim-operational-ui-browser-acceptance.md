@@ -1,12 +1,12 @@
 # CF-CHG-20260820-015 — PIM operational UI and browser acceptance finalisation
 
-**Status:** **BLOCKED — RECOVERY APPLIED / DEPLOYED AUTHENTICATED BROWSER RETEST PENDING**  
+**Status:** **BLOCKED — V2.11 UX MATURITY APPLIED / DEPLOYED VISUAL ACCEPTANCE PENDING**  
 **Category:** `30-admin-pim-ux`  
 **Initiated:** 20 August 2026 15:04 AEST  
 **Origin:** `M1-PIM-FINALISATION — Admin/PIM Operational UI & Browser Acceptance Gate`  
 **Owner:** CourseFinder Admin/PIM governance  
-**UI candidate:** PIM Admin v2.10.0  
-**Last updated:** 20 August 2026 18:34 AEST
+**UI candidate:** PIM Admin v2.11.0  
+**Last updated:** 20 August 2026 22:25 AEST
 
 ## Governing boundary
 
@@ -40,6 +40,7 @@ Several filenames referenced by `PROJECT_INSTRUCTIONS.md` are stale or absent on
 - Search/Publication had a cold wide-table aggregation path.
 - legacy `public.ui_*` `SECURITY DEFINER` browser execution remained incompatible with the promoted `admin_read` boundary until retired.
 - real Chrome API telemetry proved the deployed bundle was still calling legacy `ui_*` RPCs immediately before the governed redeploy trigger.
+- after RPC recovery, the deployed v1.7-era shell still lacked the visual hierarchy, recent operational activity, populated governed Provider/Course filters and resilient sidebar navigation required for mature Admin acceptance.
 
 ## Applied finalisation contract
 
@@ -221,7 +222,7 @@ Recovery scope was deliberately limited to two browser-facing files:
 
 No Supabase ACL, migration, canonical data, Provider/Course identity, source authority, Search admission or Edge Function operational write contract changed.
 
-Legacy Provider/Course filter-option selectors that do not yet have a governed `admin_read` filter-options contract are intentionally presented with non-authoritative empty option sets rather than re-opening retired RPC permissions. Governed search/paging/exact identity reads continue through catalogue page operations.
+Legacy Provider/Course filter-option selectors that did not yet have a governed `admin_read` filter-options contract were intentionally presented with non-authoritative empty option sets rather than re-opening retired RPC permissions. Governed search/paging/exact identity reads continued through catalogue page operations.
 
 ### Recovery build / DB contract UAT
 
@@ -243,38 +244,133 @@ A bounded authenticated Platform Admin transaction also exercised the recovery o
 - `jobs` — PASS;
 - `sources` → 54 rows — PASS.
 
-The transaction was rolled back.
-
 After build PASS and a final recheck that `Coursefinder-Pilot/main` had not moved, `main` was fast-forwarded without force to:
 
 `a27c74543456f73be9159ea8b1772188da3330fc`
 
 at approximately **20 August 2026 18:33 AEST**. GitHub records PR #12 as merged at the same head.
 
-This publication is intended to trigger the existing Cloudflare Git integration for the actual `coursefinder-pilot` Worker.
+Subsequent real browser telemetry proved the recovery boundary itself: the deployed browser switched to `/rest/v1/rpc/admin_read` and returned HTTP 200 responses. The permission/deployment-source incident is therefore no longer the active blocker.
 
 Detailed recovery UAT:
 
 `docs/uat/coursefinder-pilot-governed-rpc-recovery-uat-2026-08-20.md`
 
+## PIM Admin v2.11 UX maturity remediation — APPLIED
+
+The post-recovery visual review identified a separate maturity gap: the recovered shell loaded real data but lacked semantic Dashboard hierarchy, recent operational activity, populated Provider/Course filter selectors and robust lower-navigation accessibility.
+
+Explicit operator approval was received to proceed with the Admin UX maturity pass, governed filters and Dashboard operations under this existing Change Control.
+
+### Governed filter / Dashboard contract
+
+Production migration:
+
+`20260820121633 — m1_pim_ux_maturity_filters_dashboard_v1`
+
+Repository mirror:
+
+`supabase/production-migrations/076_m1_pim_ux_maturity_filters_dashboard.sql`
+
+Additive `admin_read` routes:
+
+- `provider_filters`;
+- `course_filters`;
+- enhanced `dashboard` response with bounded operational counters/freshness and recent activity.
+
+Bounded authenticated UAT:
+
+- Provider countries → 3;
+- AU Provider State/Region options → 8;
+- Course countries → 3;
+- AU Course State/Region options → 8;
+- AU Course Provider options → 1,546;
+- Course Study Levels → 20;
+- Course Fields → 79;
+- Delivery modes → 1;
+- exact Provider `00025B` → 1;
+- exact Course `121174E` → 1;
+- enhanced Dashboard recent activity → 10 bounded records.
+
+Measured DB-side:
+
+- AU Course filter options → **~234.6 ms**;
+- enhanced Dashboard → **~51.2 ms**.
+
+Security after-state remains:
+
+- `admin_read` SECURITY INVOKER;
+- authenticated EXECUTE yes / anon no;
+- public SECURITY DEFINER executable by authenticated = 0;
+- public SECURITY DEFINER executable by anon = 0;
+- legacy `ui_*` SECURITY DEFINER executable by authenticated = 0.
+
+### PIM Admin v2.11 browser implementation
+
+Pilot branch:
+
+`m1-pim-ux-maturity-v2-11-20260820`
+
+Pilot PR:
+
+`msinghbs-ai/Coursefinder-Pilot#13`
+
+Published head:
+
+`b3867cc89bbfd3f76def01993a70868318016ef0`
+
+Applied UX:
+
+- semantic icons and restrained colour hierarchy;
+- operational-health state, pulse counters, recent activity and attention/next-action Dashboard sections;
+- governed populated Provider filters;
+- governed populated Course Country/State/Provider/Study Level/Field/Delivery and decision filters;
+- searchable filter comboboxes and active-filter chips;
+- fixed brand/account regions with an independently scrollable middle navigation, preventing Jobs/Sources/Attributes/Settings from disappearing below the viewport;
+- responsive off-canvas navigation for narrower screens;
+- sticky decision-grid headers and identity column;
+- stronger detail drawer and explicit Course fee-semantic separation;
+- existing privileged Platform Settings operational component and Edge Function write path retained.
+
+Visible runtime marker:
+
+`PIM Admin v2.11 · governed`
+
+`Pilot Frontend Build` run #86 — **PASS**:
+
+- Node 22.23.2;
+- npm 10.9.8;
+- 0 vulnerabilities;
+- Vite 6.4.3;
+- 1,625 modules transformed;
+- production build completed in ~2.34 s.
+
+PR source review found no direct `ui_*` browser RPC calls in the v2.11 change set.
+
+After build PASS and confirmation Pilot `main` had not moved, `Coursefinder-Pilot/main` was fast-forwarded without force to `b3867cc89bbfd3f76def01993a70868318016ef0` at approximately **20 August 2026 22:24 AEST**. GitHub records PR #13 as merged at the same head.
+
+Detailed maturity UAT:
+
+`docs/uat/coursefinder-pim-admin-v2.11-ux-maturity-uat-2026-08-20.md`
+
 ## Remaining deployed browser acceptance
 
-The record remains open until a fresh authenticated deployed browser proves all of the following:
+The record remains open until a fresh authenticated Cloudflare-served browser proves all of the following:
 
-1. the visible `Governed RPC recovery r1` marker is served;
-2. the deployed bundle uses `/rpc/admin_read` rather than direct legacy browser `ui_*` calls;
-3. Dashboard loads without the `ui_context` permission failure;
-4. Providers and Courses load and exact `00025B` / `121174E` work through browser controls;
-5. QILT, PRISMS, Attributes, Evidence, Review Queue and Jobs load governed data or the correct governed empty/permission state;
-6. no unexplained blank/slow screens;
-7. Course list remains practical at current 35k+ active / 43k+ total Course scale;
-8. filters/page/sort/scroll survive cross-click and browser Back/Forward where supported by the intended release;
-9. responsive laptop/desktop behaviour is acceptable;
+1. visible marker is `PIM Admin v2.11 · governed`;
+2. browser traffic remains `/rpc/admin_read` rather than direct legacy `ui_*` calls;
+3. Dashboard displays icons, semantic colour, operational pulse, recent activity and attention cards with useful cross-links;
+4. Provider Country/State/Region filters are populated and materially filter the catalogue;
+5. Course Country/State/Provider/Study Level/Field/Delivery and decision filters are populated and materially filter the catalogue;
+6. exact `00025B` and `121174E` remain searchable through browser controls;
+7. Brand and Account remain fixed while the middle navigation scrolls and Jobs / Sources / Attributes / Settings remain reachable;
+8. tablet/mobile off-canvas navigation is usable;
+9. no unexplained blank/slow/overlapping states are observed at current catalogue scale;
 10. role-visible navigation aligns with server-side permission behaviour;
 11. no legacy SECURITY DEFINER ACL is reopened.
 
 ## Closure
 
-**Current status:** **BLOCKED — GOVERNED PILOT RECOVERY APPLIED; FRESH DEPLOYED AUTHENTICATED BROWSER RETEST PENDING.**
+**Current status:** **BLOCKED — PIM ADMIN V2.11 UX MATURITY APPLIED; DEPLOYED VISUAL/BROWSER ACCEPTANCE PENDING.**
 
-Do not close `CF-CHG-20260820-001`, `005`–`014`, or this record solely from SQL, source, CI or synthetic role evidence. The remaining blocker is now narrowly the post-`a27c7454` Cloudflare-served browser/runtime verification.
+Do not close `CF-CHG-20260820-001`, `005`–`014`, or this record solely from SQL, source, CI or synthetic role evidence. The remaining blocker is now the Cloudflare-served v2.11 visual/interaction acceptance gate rather than the resolved RPC permission incident.
