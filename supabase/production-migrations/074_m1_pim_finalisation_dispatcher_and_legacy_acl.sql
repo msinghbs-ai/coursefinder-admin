@@ -1,0 +1,88 @@
+-- M1-PIM-FINALISATION shared Admin dispatcher + legacy browser RPC retirement
+-- IMPORTANT: Evidence UX and Pipeline Operations helpers are independently governed
+-- predecessor contracts. This dispatcher preserves them rather than overwriting them.
+
+create or replace function public.admin_read(p_operation text, p_args jsonb default '{}'::jsonb)
+returns jsonb
+language plpgsql
+stable
+set search_path = pg_catalog, public, security
+as $$
+declare
+  v_result jsonb;
+  v_id uuid;
+begin
+  if p_operation in ('evidence_page','evidence_filters','evidence_detail','evidence_observations','evidence_entities') then
+    return security.admin_evidence_read(p_operation,p_args);
+  end if;
+  if p_operation='courses_page' then
+    return security.admin_course_page_fast(p_args);
+  end if;
+  if p_operation in ('providers_page','campuses_page','scholarships_page') then
+    return security.admin_catalogue_page(p_operation,p_args);
+  end if;
+  if p_operation in ('qilt_outcomes','qilt_filters','prisms_student_flow','prisms_filters') then
+    return security.admin_insights_read(p_operation,p_args);
+  end if;
+  if p_operation='reviews_page' then
+    return security.admin_operational_page(p_operation,p_args);
+  end if;
+  if p_operation in ('reviews','jobs','sources') then
+    return security.admin_operations_read(p_operation,p_args);
+  end if;
+  if p_operation='attributes' then
+    return security.admin_pim_governance_read(p_args);
+  end if;
+  if p_operation in ('pipeline_overview','pipeline_jobs_page','pipeline_job_detail','pipeline_sources_page','pipeline_filters') then
+    return security.admin_pipeline_ops_read(p_operation,p_args);
+  end if;
+  if p_operation='publication_overview' then
+    return security.admin_publication_overview();
+  end if;
+  if p_operation='provider_detail' then
+    v_id:=nullif(p_args->>'id','')::uuid;
+    return security.admin_provider_detail(v_id);
+  end if;
+  if p_operation='campus_detail' then
+    v_id:=nullif(p_args->>'id','')::uuid;
+    return security.admin_campus_detail(v_id);
+  end if;
+
+  v_result:=security.admin_read_impl(p_operation,p_args);
+  if p_operation='course_detail' then
+    v_id:=nullif(p_args->>'id','')::uuid;
+    return v_result
+      || jsonb_build_object('fee_summary',security.admin_course_fee_summary(v_id))
+      || jsonb_build_object('entry_summary',security.admin_course_entry_summary(v_id))
+      || jsonb_build_object('taxonomy_summary',security.admin_course_taxonomy_summary(v_id))
+      || jsonb_build_object('state_summary',security.admin_course_state_summary(v_id));
+  end if;
+  if p_operation='scholarship_detail' then
+    v_id:=nullif(p_args->>'id','')::uuid;
+    return v_result || jsonb_build_object('semantic_summary',security.admin_scholarship_semantic_summary(v_id));
+  end if;
+  return v_result;
+end;
+$$;
+
+revoke execute on function public.admin_read(text,jsonb) from public, anon;
+grant execute on function public.admin_read(text,jsonb) to authenticated, service_role;
+
+-- v2.10 browser calls only public.admin_read. Retire any remaining public.ui_*
+-- SECURITY DEFINER helper as a direct signed-in browser surface while preserving
+-- service/internal compatibility and owner execution.
+do $$
+declare r record;
+begin
+  for r in
+    select p.oid::regprocedure::text as signature
+    from pg_proc p
+    join pg_namespace n on n.oid=p.pronamespace
+    where n.nspname='public'
+      and p.proname like 'ui\_%' escape '\'
+      and p.prosecdef
+  loop
+    execute format('revoke execute on function %s from public, anon, authenticated', r.signature);
+    execute format('grant execute on function %s to service_role', r.signature);
+  end loop;
+end $$;
