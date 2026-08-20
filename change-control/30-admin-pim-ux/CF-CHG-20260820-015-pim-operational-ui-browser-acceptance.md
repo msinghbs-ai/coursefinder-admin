@@ -1,6 +1,6 @@
 # CF-CHG-20260820-015 — PIM operational UI and browser acceptance finalisation
 
-**Status:** DB/RPC/SECURITY/PERFORMANCE + FRONTEND SOURCE PASS — DEPLOYED AUTHENTICATED BROWSER UAT PENDING  
+**Status:** DB/RPC/SECURITY/PERFORMANCE + FRONTEND SOURCE PASS — DEPLOYED AUTHENTICATED BROWSER UAT BLOCKED BY STALE DEPLOYED FRONTEND  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 20 August 2026 15:04 AEST  
 **Origin:** `M1-PIM-FINALISATION — Admin/PIM Operational UI & Browser Acceptance Gate`  
@@ -93,9 +93,31 @@ The production transform/source guard passed with zero JSX/transformation errors
 - explicit Campuses → Campus routing;
 - list URL/scroll preserved before detail history push;
 - latest governed Evidence filters/page contract;
-- known slow fee/readiness sorts disabled from the normal grid;
+- known slow fee/readiness sorts disabled from the normal Course grid;
 - no 1,000/2,000/5,000 row frontend bulk-read constants;
 - no direct Supabase `.from(...)` table reads in the v2.10 shell.
+
+## Deployed runtime drift — 20 August 2026 16:36 AEST
+
+A browser-reported permission regression was reconciled against current governance, repository source, Pilot migration state and Supabase API logs before any further ACL change.
+
+Evidence:
+
+- governed `main` remains PIM Admin v2.9.0 at `229201ff2819cbf3144cc6c0589bf7e4f0901018` and its browser client calls only `public.admin_read`;
+- this v2.10 candidate likewise promotes only `public.admin_read` and intentionally retires direct authenticated `public.ui_*` `SECURITY DEFINER` execution;
+- Pilot migration `m1_pim_finalisation_retire_legacy_ui_rpc_exec_v1` at 20 August 2026 05:43 UTC revoked direct authenticated legacy RPC execution after earlier temporary compatibility grants;
+- Supabase API logs at 20 August 2026 06:36 UTC show the real Chrome client directly POSTing `/rest/v1/rpc/ui_context` and `/rest/v1/rpc/ui_dashboard`, both returning HTTP 403;
+- earlier real-browser logs show direct calls to `ui_courses_decision_page`, `ui_qilt_outcomes_page`, `ui_prisms_student_flow_page` and other legacy RPCs;
+- therefore the deployed Cloudflare bundle is stale relative to both governed main and the v2.10 candidate;
+- browser permission errors are a frontend deployment/version mismatch, not evidence that the new database ACL should be weakened.
+
+Current Pilot `public.admin_read` was re-tested under the assigned Platform Admin identity for Context, Dashboard, Providers, Courses, Campuses, Scholarships, QILT, PRISMS and Attributes; every governed path returned successfully.
+
+### Recovery decision
+
+Do **not** restore direct authenticated legacy `public.ui_*` execution. The authorised lowest-risk recovery is to redeploy the unchanged governed `main` v2.9 source tree through the existing Cloudflare Git integration. This keeps draft PR #5 and its newer v2.10 work intact and avoids merging its still-unreconciled predecessor Evidence/Pipeline migration mirrors solely to recover browser access.
+
+A no-content `main` commit referencing `CF-CHG-20260820-015` may be used solely to trigger the Git-integrated rebuild. It must not be represented as deployed browser PASS until runtime evidence shows requests moving to `/rpc/admin_read` and the browser checklist passes.
 
 ## Deployed browser acceptance still required
 
@@ -109,9 +131,10 @@ This record MUST remain open until the deployed authenticated browser proves:
 6. column resize/sticky context behaviour;
 7. permission-hidden navigation matches server denial behaviour;
 8. every visible menu entry loads useful real data or an explicit governed empty state;
-9. no stale request wins after rapid filter/search/navigation changes.
+9. no stale request wins after rapid filter/search/navigation changes;
+10. Supabase API logs show normal browser reads using `public.admin_read`, with no direct authenticated legacy `public.ui_*` calls.
 
 ## Closure
 
-**Final status:** OPEN — DEPLOYED AUTHENTICATED BROWSER UAT PENDING.  
+**Final status:** BLOCKED — STALE DEPLOYED FRONTEND; GOVERNED REDEPLOY AUTHORISED, DEPLOYED AUTHENTICATED BROWSER UAT NOT YET PASSED.  
 Do not close CF-CHG-001/005–015 solely from source, SQL or synthetic role evidence.
