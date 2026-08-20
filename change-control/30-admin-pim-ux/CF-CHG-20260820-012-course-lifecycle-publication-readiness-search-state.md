@@ -9,38 +9,38 @@
 
 ## Trigger
 
-The planned lifecycle/publication/readiness/Search audit found a live defect in the governed Course catalogue read path:
+The lifecycle/publication/readiness/Search audit found a live failure in the governed Course catalogue read path:
 
 `security.admin_course_page_search_state(jsonb)` referenced `search.course_documents.status`, but the production Search projection stores `publication_status`.
 
-Authenticated `public.admin_read('courses_page',...)` therefore failed with:
+Authenticated `public.admin_read('courses_page',...)` failed with:
 
 `column d.status does not exist`
 
-The failure also exposed a broader semantic risk: Course lifecycle, canonical publication, Admin canonical-presence readiness, per-channel publication and Search projection/admission were not presented as clearly separate states.
+The audit also confirmed a broader semantic risk: Course lifecycle, canonical publication, Admin readiness, channel publication and Search projection/admission were not sufficiently separated in Admin presentation.
 
-## Semantic decision
+## Governed state model
 
-CourseFinder treats the following as independent concepts:
+CourseFinder treats these as independent state classes:
 
-1. **Canonical lifecycle** — whether the canonical Course is active/inactive/suspended/etc.
-2. **Canonical publication** — the canonical entity's publication state; it does not itself prove publication to a specific consumer channel.
-3. **Admin canonical-presence readiness** — display-only six-signal operational presence across registration, structure, fee, intake, English and description.
-4. **Consumer-channel publication state** — rows in `publishing.entity_states`, scoped by channel/locale.
-5. **Search projection presence/state** — whether a derived Search Course Document exists and its own `publication_status`.
-6. **Search enrichment admission** — Search-document flags such as `has_fee`, `has_intake`, `has_english` and `has_scholarship`.
+1. **Canonical lifecycle** — canonical entity operating/existence state.
+2. **Canonical publication** — publication state on the canonical entity record.
+3. **Admin canonical-presence readiness** — display-only six-signal presence across registration, structure, fee, intake, English and description.
+4. **Consumer-channel publication** — channel/locale state in `publishing.entity_states`.
+5. **Search projection presence/publication** — derived `search.course_documents` state.
+6. **Search enrichment admission** — Search flags for Fee/Intake/English/Scholarship.
 
 Rules:
 
-- `active` does not mean published;
-- canonical `unpublished` does not mean a Search document cannot exist;
-- `search_projected=true` does not mean published to Website/Zoho or even published within Search;
-- Admin readiness does not grant publication;
-- canonical enrichment presence does not mean Search enrichment was admitted;
-- no `publishing.entity_states` row means **no channel publication state recorded**, not published, rejected or incomplete;
+- active does not mean published;
+- canonical unpublished does not mean no Search document exists;
+- Search projected does not mean Website/Zoho published or even Search-published;
+- Admin readiness does not grant approval/publication;
+- canonical enrichment presence does not mean Search enrichment admission;
+- no `publishing.entity_states` row means no channel publication state recorded, not an invented status;
 - `last_verified_at` remains verification, not approval.
 
-## Defect correction — Course page Search state
+## Migration 066 — live Course-page repair
 
 Pilot migration:
 
@@ -50,23 +50,16 @@ Repository mirror:
 
 `supabase/production-migrations/066_m1_pim_gov_course_state_semantics.sql`
 
-The corrected wrapper uses `search.course_documents.publication_status` and emits explicitly Search-prefixed operational fields:
+The corrected wrapper uses `search.course_documents.publication_status` and returns explicitly Search-prefixed fields:
 
-- `search_projected`;
-- `search_projection_status`;
-- `search_projection_completeness`;
-- `search_projection_version`;
-- `search_catalogue_generation`;
-- `search_projection_updated_at`;
-- `search_projection_generated_at`;
-- `search_has_fee`;
-- `search_has_intake`;
-- `search_has_english`;
-- `search_has_scholarship`.
+- projected state;
+- Search publication/completeness;
+- projection version/generation/timestamps;
+- Search Fee/Intake/English/Scholarship admission flags.
 
-This prevents Search state from being mistaken for canonical state by naming it at the boundary.
+Exact authenticated Course search works again after this repair.
 
-## Governed Course-detail state summary
+## Migration 067 — Course-detail state summary
 
 Pilot migration:
 
@@ -80,170 +73,176 @@ Private helper:
 
 `security.admin_course_state_summary(uuid)`
 
-It returns:
+The helper exposes:
 
-### `canonical`
+- canonical lifecycle/publication/verification;
+- six-signal Admin readiness with explicit non-publication definition;
+- consumer-channel states with empty-list semantics;
+- Search projection/admission state;
+- global Search projection metadata.
 
-- lifecycle status;
-- canonical publication status;
-- last verified timestamp.
+`public.admin_read('course_detail',...)` appends `state_summary` without altering canonical/Search data.
 
-### `admin_readiness`
+## Migration 068 — explicit canonical Scholarship relationship presence
 
-- current six-signal score;
-- registration/structure/fee/intake/English/description signals;
-- explicit definition: `display-only six-signal canonical presence readiness; not truth, approval, freshness or publication`.
+Final source review caught a false-negative risk before publication: the staged state panel compared Search Scholarship admission to `data.has_scholarship`, but Course detail did not expose that top-level field.
 
-### `consumer_channels`
+Scholarship relationship presence is also deliberately **outside** the six-signal readiness score.
 
-Rows from `publishing.entity_states` with channel/locale/publication/completeness/check timestamps. An empty list is retained as an explicit absence of channel state.
+Pilot migration:
 
-### `search`
+`m1_pim_gov_course_state_scholarship_presence_v1`
 
-- projected/not projected;
-- Search publication status;
-- Search completeness;
-- projection version;
-- catalogue generation;
-- projection/generated/source-update timestamps;
-- Search admission flags for fee/intake/English/scholarship;
-- global Search projection metadata from `search.projection_state`.
+Repository mirror:
 
-`public.admin_read('course_detail',...)` appends this `state_summary` while retaining Fee, Campus, Entry and Taxonomy semantic summaries.
+`supabase/production-migrations/068_m1_pim_gov_course_state_scholarship_presence.sql`
 
-## Reference A — CRICOS 121174E
+The state summary now exposes:
 
-Authenticated governed page/detail UAT shows simultaneously:
+`canonical_presence.scholarship`
 
-- canonical lifecycle: `active`;
-- canonical publication: `unpublished`;
-- Admin readiness: **50.00%**;
-- canonical fee presence: true;
-- canonical Intake presence: false;
-- canonical English presence: false;
-- consumer channel states: **0**;
-- Search document exists: true;
-- Search publication: `unpublished`;
+and the frontend consumes that explicit value.
+
+## Reference — CRICOS 121174E
+
+Authenticated governed page/detail state:
+
+- exact Course result: 1;
+- lifecycle: active;
+- canonical publication: unpublished;
+- Admin readiness: 50.00%;
+- canonical fee present: true;
+- consumer-channel states: 0;
+- Search projected: true;
+- Search publication: unpublished;
 - Search fee admitted: false.
 
-The exact Course remains discoverable by CRICOS code after the live wrapper defect was repaired.
+This proves lifecycle, canonical publication, Search presence and Search publication are independent meanings even where textual values happen to match.
 
-## Reference B — CRICOS 102784C
+## Reference — CRICOS 102784C
 
-Authenticated governed detail UAT shows simultaneously:
+Authenticated governed detail state:
 
-- canonical lifecycle: `active`;
-- canonical publication: `unpublished`;
-- Admin readiness: **83.33%**;
-- canonical signals: registration true, structure true, fee true, intake true, English true, description false;
-- consumer channel states: **0**;
+- lifecycle: active;
+- canonical publication: unpublished;
+- Admin readiness: 83.33%;
+- canonical registration/structure/fee/intake/English: true/true/true/true/true;
+- description: false;
+- consumer-channel states: 0;
 - Search projected: true;
-- Search publication: `unpublished`;
-- Search fee/intake/English admitted: false/false/false;
-- Search projection version: `course-v2`;
-- Search generation: 12.
+- Search publication: unpublished;
+- Search Fee/Intake/English admitted: false/false/false;
+- projection version: `course-v2`;
+- generation: 12.
 
-This is the bounded proof that accepted canonical Provider-current enrichment can exist while Search enrichment remains deliberately unadmitted.
+This is the primary bounded proof that canonical Provider-current enrichment may be accepted while Search enrichment remains deliberately unadmitted.
+
+## Positive Scholarship admission-isolation reference
+
+RMIT Course:
+
+- Course Code `006591A`;
+- UUID `147a6114-ad07-46ab-af77-b46998856e69`.
+
+Authenticated governed state after migration 068:
+
+- canonical Scholarship relationship: **true**;
+- Search Scholarship admitted: **false**.
+
+A negative case (`102784C`) also returns false/false.
+
+This proves the UI comparison does not infer Scholarship presence from a missing frontend field.
 
 ## Global Search state at audit
 
 `search.projection_state` for `courses`:
 
-- generation: 12;
-- row count: 33,105;
-- projection version: `course-v2`;
-- enrichment gate: `explicit`;
-- coverage with fee: 0;
-- coverage with intake: 0;
-- coverage with English: 0;
-- coverage with scholarship: 0.
+- generation 12;
+- row count 33,105;
+- projection version `course-v2`;
+- enrichment gate `explicit`;
+- Fee/Intake/English/Scholarship admitted coverage 0.
 
-This state is operational Search metadata, not canonical Course truth.
+This is operational Search metadata, not canonical Course truth.
 
-## Publishing channel state at audit
+## Consumer-channel state at audit
 
-`publishing.entity_states` currently contains zero rows. Therefore the reference Courses have no channel-specific publication state recorded.
+`publishing.entity_states` contained zero rows.
 
-This is deliberately represented as an empty channel-state collection rather than coerced to `unpublished`, `published`, `rejected` or incomplete.
+Therefore the correct semantic state for the references is:
 
-## Security
+**No consumer-channel publication state recorded.**
+
+It is not coerced to published, unpublished, rejected, blocked or incomplete.
+
+## Security after-state
 
 `security.admin_course_state_summary(uuid)`:
 
-- is in the non-exposed `security` schema;
-- is `SECURITY DEFINER` with restricted search path;
+- remains in non-exposed `security`;
+- uses `SECURITY DEFINER` with restricted search path;
 - requires authentication and an assigned CourseFinder role;
 - denies `anon` EXECUTE;
-- permits `authenticated`/`service_role` execution so the invoker `public.admin_read` can dispatch to it.
+- permits authenticated/service execution so the invoker `public.admin_read` may dispatch.
 
-No canonical Course or Search document row was rewritten by either migration.
+Security Advisors were rerun after migrations 066–068. No new public-schema warning was introduced for the state helper. Pre-existing legacy `public.ui_*` SECURITY DEFINER findings, RLS/no-policy informational findings and leaked-password-protection configuration debt remain separate work.
 
 ## Frontend release — PIM Admin v2.9.0
 
-The v2.9 source adds `src/CourseStatePanel.jsx` and keeps the existing v2.8 semantic Course/Scholarship views.
-
 ### Course grid
 
-The Course decision grid now explicitly labels:
-
-- **Admin readiness** instead of generic `Complete`;
-- **Canonical publication**;
-- **Search** as `Projected · <Search publication state>` or `Not projected`;
-- Lifecycle remains separate.
+- generic `Complete` → **Admin readiness**;
+- Lifecycle remains separate;
+- **Canonical publication** is visible separately;
+- **Search** displays `Projected · <Search publication>` or `Not projected`.
 
 ### Course detail
 
-The **State & publication** panel displays:
+The new **State & publication** panel shows:
 
-- Canonical lifecycle;
-- Canonical publication;
-- Admin canonical-presence readiness;
-- Consumer channel state count/absence;
-- Search projection presence;
-- Search publication;
-- each six-signal readiness component;
-- canonical presence versus Search-admitted fee/intake/English/scholarship state;
-- Search projection version/generation/timestamps/global row count;
-- explicit empty-state language when no channel publication state exists.
+- canonical lifecycle/publication;
+- Admin readiness and six signals;
+- consumer-channel states or explicit absence;
+- Search projected/publication state;
+- canonical-vs-Search Fee/Intake/English/Scholarship admission comparison;
+- Search version/generation/freshness metadata.
 
-Initial branch comparison against v2.8 showed the intended narrow source delta:
+Initial branch comparison against v2.8 showed a narrow source delta: `src/CourseStatePanel.jsx` added, `src/main.jsx` 5 additions / 4 deletions, one package version line, plus migrations 066/067. The final correction changes only `CourseStatePanel.jsx` and adds migration 068.
 
-- `src/CourseStatePanel.jsx` added;
-- `src/main.jsx`: 5 additions / 4 deletions;
-- `package.json`: one version-line change;
-- migrations 066 and 067 mirrored separately.
+## UAT evidence
 
-## UAT
-
-Detailed evidence:
+Primary UAT:
 
 `docs/uat/coursefinder-m1-pim-gov-state-model-v2.9.0-uat-2026-08-20.md`
 
-Technical/authenticated UAT passed for the repaired Course page and state detail on `121174E` and `102784C`.
+Final regression addendum:
 
-A fresh Vite dependency/bootstrap build and deployed Cloudflare browser observation remain unavailable from the current execution environment and are not represented as PASS.
+`docs/uat/coursefinder-m1-pim-gov-state-model-v2.9.0-final-regression-2026-08-20.md`
+
+Technical/authenticated/source semantic gates pass. Independent fresh Vite bootstrap/build and deployed Cloudflare browser observation remain unavailable from the current execution environment and are not represented as PASS.
 
 ## Consumer consequence
 
-A downstream system must not collapse lifecycle, publication, readiness and Search state into one generic `Status` field.
+A downstream system must not collapse lifecycle, canonical publication, channel publication, Admin readiness and Search operational state into one generic `Status` field.
 
-Search operational fields are not the authority for Website/Zoho publication. Consumer admission remains separately governed.
+Search operational state is not the authority for Website/Zoho publication. Admin readiness is diagnostic unless separately admitted.
 
 ## Rollback
 
-Frontend rollback removes the v2.9 State & publication presentation and restores v2.8 grid labels. Backend rollback restores the prior Search-state wrapper/detail summary only if necessary; canonical Course, `publishing.entity_states` and Search-document data must not be modified as rollback for an Admin read/presentation change.
+Rollback the Admin state wrapper/panel independently. Do not alter canonical Course lifecycle/publication, `publishing.entity_states`, canonical enrichment or Search documents merely to roll back a read/presentation change.
 
-## Decision / status history
+## Status history
 
 | Timestamp | Status | Event |
 |---|---|---|
-| 20 Aug 2026 13:38 AEST | DEFECT FOUND / OPEN | Authenticated Course page failed because Search wrapper referenced nonexistent `course_documents.status`; state-model ambiguity confirmed |
-| 20 Aug 2026 | APPLIED / TECHNICAL PASS | Search-state wrapper repaired and explicit Search fields added |
-| 20 Aug 2026 | APPLIED / TECHNICAL PASS | Course-detail canonical/readiness/channel/Search summary applied and authenticated UAT passed |
-| 20 Aug 2026 | FRONTEND SOURCE PASS | PIM Admin v2.9.0 state panel/grid semantics staged with narrow frontend diff |
+| 20 Aug 2026 13:38 AEST | DEFECT FOUND / OPEN | Course page failed on nonexistent Search `status`; state-model ambiguity confirmed |
+| 20 Aug 2026 | APPLIED / TECHNICAL PASS | Migration 066 repaired the Course page and explicit Search state |
+| 20 Aug 2026 | APPLIED / TECHNICAL PASS | Migration 067 added governed detail state summary |
+| 20 Aug 2026 | SOURCE REGRESSION FOUND / REPAIRED | Missing explicit canonical Scholarship presence corrected by migration 068 before publication |
+| 20 Aug 2026 | FRONTEND SOURCE PASS | PIM Admin v2.9.0 state grid/panel passed bounded source/authenticated regression |
 
 ## Closure
 
 **Final status:** OPEN — DB/RPC/SECURITY + FRONTEND SOURCE PASS / DEPLOYED BROWSER UAT PENDING  
 **Closed at:** N/A  
-**Outcome:** The live Course-page blocker is repaired and lifecycle/publication/readiness/channel/Search states now have separate governed meanings through DB/RPC and v2.9 source presentation. Closure requires deployed authenticated browser UAT.
+**Outcome:** The live Course-page blocker is repaired and the complete Course state model is separately governed through DB/RPC and v2.9 source presentation. Closure requires deployed authenticated browser UAT.
