@@ -5,7 +5,7 @@
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
-> **M1-PIM-FINALISATION runtime gate:** Admin/PIM controls `001`, `005`–`015` are not generically “browser UAT pending”. Their technical/source gates have passed to the extent recorded below, but final closure is **BLOCKED until the deployed authenticated browser is proven against the governed RPC boundary after the 20 August 2026 redeploy trigger**. Do not close them from SQL/source/CI evidence alone.
+> **M1-PIM-FINALISATION runtime gate:** Admin/PIM controls `001`, `005`–`015` are not generically “browser UAT pending”. Their technical/source gates have passed to the extent recorded below. The actual `Coursefinder-Pilot` deployment-source mismatch has now been corrected and published to Pilot `main` at `a27c7454`; final closure remains **BLOCKED until a fresh deployed authenticated browser proves the governed `public.admin_read` boundary**. Do not close them from SQL/source/CI evidence alone.
 
 | Change ID | Category | Title | Origin | Initiated | Status | UI version | Record |
 |---|---|---|---|---|---|---|---|
@@ -23,14 +23,18 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260820-012 | 30-admin-pim-ux | Course lifecycle, publication, readiness and Search state | M1-PIM-GOV | 20 Aug 2026 13:38 AEST | DB/RPC/SECURITY + v2.10 SOURCE PASS — **BLOCKED by deployed authenticated browser/runtime gate** | v2.9.0 semantics retained through v2.10.0 | `30-admin-pim-ux/CF-CHG-20260820-012-course-lifecycle-publication-readiness-search-state.md` |
 | CF-CHG-20260820-013 | 30-admin-pim-ux | Admin operations role boundary and safe Sources projection | M1-PIM-GOV | 20 Aug 2026 | DB/RPC/SECURITY + v2.10 ROLE ALIGNMENT PASS — **BLOCKED by deployed role-browser/runtime gate** | v2.10.0 | `30-admin-pim-ux/CF-CHG-20260820-013-operations-role-boundary.md` |
 | CF-CHG-20260820-014 | 30-admin-pim-ux | PIM Attribute Options and Completeness Profile governance | M1-PIM-GOV | 20 Aug 2026 | DB/RPC/SECURITY + v2.10 PRESENTATION PASS — **BLOCKED by deployed authenticated browser/runtime gate** | v2.10.0 | `30-admin-pim-ux/CF-CHG-20260820-014-pim-attribute-option-completeness-governance.md` |
-| CF-CHG-20260820-015 | 30-admin-pim-ux | PIM operational UI and browser acceptance finalisation | M1-PIM-FINALISATION | 20 Aug 2026 15:04 AEST | **TECHNICAL UAT + PRODUCTION BUILD PASS — BLOCKED: post-trigger deployed authenticated browser acceptance not proven** | v2.10.0 candidate | `30-admin-pim-ux/CF-CHG-20260820-015-pim-operational-ui-browser-acceptance.md` |
+| CF-CHG-20260820-015 | 30-admin-pim-ux | PIM operational UI and browser acceptance finalisation | M1-PIM-FINALISATION | 20 Aug 2026 15:04 AEST | **RECOVERY APPLIED: Pilot source/build/DB contract PASS; `Coursefinder-Pilot/main` = `a27c7454`; BLOCKED pending fresh deployed authenticated browser retest** | v2.10.0 candidate / governed recovery r1 | `30-admin-pim-ux/CF-CHG-20260820-015-pim-operational-ui-browser-acceptance.md` |
 
 ## Runtime gate evidence
 
-- pre-trigger real Chrome traffic still used legacy direct `ui_*` RPCs and produced 403s after the legacy browser ACL was retired;
-- governed no-content `coursefinder-admin/main` redeploy trigger: `494a6ddcc18671abd492370410a94212c9c21deb` at 20 August 2026 07:04:28 UTC;
-- the latest available browser API event is 07:00:57 UTC, before the trigger;
-- therefore post-trigger deployment/browser state is currently **unproven**, not failed and not passed.
+- real Chrome traffic after the first Admin-repo redeploy triggers still used direct legacy `ui_*` RPCs and produced 403s;
+- the fresh 20 August 2026 ~18:22 AEST retest proved the live Worker was still serving Pilot UI v1.7.2;
+- root cause was confirmed as deployment-source mismatch: the live Worker is `coursefinder-pilot` from `msinghbs-ai/Coursefinder-Pilot`, not the separate `coursefinder-admin` Worker target;
+- governed recovery PR `Coursefinder-Pilot#12` passed `Pilot Frontend Build` run #84 and removed direct browser `ui_*` reads from `src/lib/supabase.js`;
+- bounded live `admin_read` UAT passed for context, Dashboard, exact Provider `00025B`, exact Course `121174E`, QILT, PRISMS, Evidence, Reviews, Attributes, Jobs and Sources;
+- `Coursefinder-Pilot/main` was fast-forwarded without force to `a27c74543456f73be9159ea8b1772188da3330fc` at approximately 20 August 2026 18:33 AEST;
+- no Supabase ACL rollback was performed;
+- final status remains **BLOCKED until a fresh deployed browser shows `Governed RPC recovery r1` and telemetry changes to `/rpc/admin_read`**.
 
 ## Maintenance rule
 
