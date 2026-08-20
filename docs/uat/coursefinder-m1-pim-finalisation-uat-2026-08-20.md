@@ -173,17 +173,43 @@ The newest observed legacy request was `ui_context` at **20 August 2026 07:00:57
 
 This proves the deployed bundle was stale before recovery.
 
-### Governed recovery trigger
+### Governed recovery triggers
 
-`coursefinder-admin/main` received a no-content fast-forward commit using the unchanged v2.9 tree:
+The initial no-content recovery trigger was:
 
 `494a6ddcc18671abd492370410a94212c9c21deb`
 
 Commit time: **20 August 2026 07:04:28 UTC**.
 
-Purpose: trigger the established external Cloudflare Git-integrated rebuild without weakening the DB boundary or merging the newer v2.10 candidate solely to recover access.
+After explicit operator approval to proceed with the governed Cloudflare redeploy and UAT, a second no-content trigger was issued from the current `main` tree:
 
-The available API telemetry currently contains **no browser request after 07:04:28 UTC**, so it cannot prove whether that external rebuild completed or what bundle is now served.
+`eae32edab4ef9395b0584370ac62b6a0f5988ca3`
+
+Commit time: **20 August 2026 08:07:02 UTC / 18:07 AEST**.
+
+Both triggers preserve the exact same accepted v2.9 application tree. No application code, Supabase ACL, canonical data or semantic contract changed solely to recover the deployed UI.
+
+### Post-trigger technical regression
+
+Immediately after the approved redeploy trigger, authenticated Platform Admin regression remained PASS:
+
+| Assertion | Result |
+|---|---|
+| `admin_read('context')` | `platform_admin`, rank 6 — PASS |
+| exact Provider `00025B` | 1 Provider — PASS |
+| Provider detail | 382 related Courses — PASS |
+| exact Course `121174E` | 1 Course — PASS |
+| CRICOS registered fee rows | 3 — PASS |
+| Provider-current fee rows | 0 — PASS |
+| semantic-review/other fee rows | 0 — PASS |
+| `admin_read` executable by `authenticated` | PASS |
+| `admin_read` executable by `anon` | DENIED — PASS |
+| public SECURITY DEFINER executable by `authenticated` | 0 — PASS |
+| public SECURITY DEFINER executable by `anon` | 0 — PASS |
+
+Two `ui_providers_page` overloads remain directly executable by `authenticated`; both are `SECURITY INVOKER`. No legacy `ui_*` `SECURITY DEFINER` browser surface was reopened.
+
+The available Supabase API telemetry still contains **no browser request newer than 08:07:02 UTC**, so the external Cloudflare rebuild and served bundle cannot yet be classified PASS or FAIL from this environment.
 
 The external browser tool cannot open the unindexed Workers URL and no Cloudflare control-plane connector is available. Therefore post-trigger deployed state remains unverified.
 
@@ -207,6 +233,7 @@ The following are still required in the real deployed authenticated UI:
 
 **TECHNICAL UAT: PASS.**  
 **PRODUCTION BUILD: PASS.**  
-**DEPLOYED AUTHENTICATED BROWSER UAT: BLOCKED / NOT PROVEN AFTER THE GOVERNED REDEPLOY TRIGGER.**
+**GOVERNED REDEPLOY TRIGGER: ISSUED.**  
+**DEPLOYED AUTHENTICATED BROWSER UAT: BLOCKED / NOT PROVEN AFTER THE APPROVED REDEPLOY TRIGGER.**
 
 `CF-CHG-20260820-015` and applicable predecessor Admin/PIM controls remain OPEN/BLOCKED. They must not be represented as closed until the deployed browser checklist passes.
