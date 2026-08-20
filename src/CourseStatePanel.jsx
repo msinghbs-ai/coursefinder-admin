@@ -3,6 +3,7 @@ import React from 'react'
 export default function CourseStatePanel({data}){
   const state=data?.state_summary??{}
   const canonical=state.canonical??{}
+  const canonicalPresence=state.canonical_presence??{}
   const readiness=state.admin_readiness??{}
   const signals=readiness.signals??{}
   const channels=state.consumer_channels??[]
@@ -37,7 +38,7 @@ export default function CourseStatePanel({data}){
           <StateCompare label="Fee" canonical={signals.fee} projected={search.has_fee}/>
           <StateCompare label="Intake" canonical={signals.intake} projected={search.has_intake}/>
           <StateCompare label="English" canonical={signals.english} projected={search.has_english}/>
-          <StateCompare label="Scholarship" canonical={data?.has_scholarship} projected={search.has_scholarship} canonicalLabel="Canonical relationship"/>
+          <StateCompare label="Scholarship" canonical={canonicalPresence.scholarship} projected={search.has_scholarship} canonicalLabel="Canonical relationship"/>
         </div>:<div className="empty-note">No Search document currently exists for this Course. This does not alter canonical lifecycle or readiness.</div>}
         <details className="fee-meta"><summary>Projection metadata</summary><div className="fee-meta-grid">
           <KV label="Projection version" value={search.projection_version}/>
