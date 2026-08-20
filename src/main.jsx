@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { adminRead, invokeAdmin, supabase } from './supabase'
 import './styles.css'
 
+const UI_VERSION='2.3.0'
+
 const NAV = [
   ['Overview', [['Dashboard',1]]],
   ['Catalogue', [['Providers',1],['Courses',1],['Campuses',1],['Completeness',1],['Scholarships',1]]],
@@ -15,6 +17,23 @@ const TITLES = {
   Dashboard:'Operational overview', Providers:'Providers', Courses:'Courses', Campuses:'Campuses',
   Completeness:'Completeness & readiness', Scholarships:'Scholarships', Evidence:'Evidence & history',
   'Review Queue':'Review Queue', Jobs:'Pipeline Jobs', Sources:'Regulatory Sources', Attributes:'PIM Governance'
+}
+
+const FEE_TYPE_LABELS={
+  tuition:'Tuition Fee',
+  non_tuition:'Non-Tuition Fee',
+  estimated_total_course_cost:'Estimated Total Course Cost',
+  provider_current_tuition:'Provider-Current Tuition Fee',
+}
+
+const FEE_BASIS_LABELS={
+  registered_total_course:'Registered total course',
+  indicative_annual:'Indicative annual',
+  annual:'Annual',
+  per_unit:'Per unit',
+  per_credit:'Per credit',
+  per_term:'Per term',
+  per_semester:'Per semester',
 }
 
 function App() {
@@ -37,7 +56,7 @@ function App() {
   const rank=context?.role_rank??0
   return <div className="shell">
     <aside>
-      <div className="brand"><span>CF</span><div><strong>Coursefinder</strong><small>PIM Admin v2.2</small></div></div>
+      <div className="brand"><span>CF</span><div><strong>Coursefinder</strong><small>PIM Admin v{UI_VERSION}</small></div></div>
       <nav>{NAV.map(([group,items])=>{
         const allowed=items.filter(([,min])=>rank>=min)
         if(!allowed.length)return null
@@ -56,7 +75,7 @@ function App() {
 function Login({error,onError}){
   const [email,setEmail]=useState(''),[password,setPassword]=useState(''),[busy,setBusy]=useState(false)
   async function submit(e){e.preventDefault();setBusy(true);onError('');const {error:x}=await supabase.auth.signInWithPassword({email,password});if(x)onError(x.message);setBusy(false)}
-  return <div className="login-wrap"><form className="login-card" onSubmit={submit}><div className="logo">CF</div><h1>Coursefinder PIM</h1><p>Authorised staff access only.</p>{error&&<div className="alert">{error}</div>}<label>Email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} required/></label><label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} required/></label><button className="primary" disabled={busy}>{busy?'Signing in…':'Sign in'}</button></form></div>
+  return <div className="login-wrap"><form className="login-card" onSubmit={submit}><div className="logo">CF</div><h1>Coursefinder PIM</h1><p>Authorised staff access only. <span className="ui-version">PIM Admin v{UI_VERSION}</span></p>{error&&<div className="alert">{error}</div>}<label>Email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} required/></label><label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} required/></label><button className="primary" disabled={busy}>{busy?'Signing in…':'Sign in'}</button></form></div>
 }
 
 function Page({page,rank,onError}){
@@ -99,14 +118,14 @@ function EntityList({operation,detailOperation,type,onError}){
 
 function columnsFor(type){
   if(type==='provider')return [{key:'canonical_name',label:'Provider'},{key:'country_code',label:'Country'},{key:'city',label:'City'},{key:'lifecycle_status',label:'Lifecycle'},{key:'publication_status',label:'Publication'},{key:'course_count',label:'Courses'}]
-  if(type==='course')return [{key:'canonical_title',label:'Course'},{key:'provider_name',label:'Provider'},{key:'level_code',label:'Level'},{key:'field_of_study',label:'Field'},{key:'fee_amount',label:'Registered fee'},{key:'completeness_score_v2',label:'Complete'}]
+  if(type==='course')return [{key:'canonical_title',label:'Course'},{key:'provider_name',label:'Provider'},{key:'level_code',label:'Level'},{key:'field_of_study',label:'Field'},{key:'fee_amount',label:'CRICOS tuition (total course)'},{key:'completeness_score_v2',label:'Complete'}]
   if(type==='campus')return [{key:'name',label:'Campus'},{key:'provider_name',label:'Provider'},{key:'country_code',label:'Country'},{key:'city',label:'City'},{key:'status',label:'Status'},{key:'course_count',label:'Courses'}]
   return [{key:'name',label:'Scholarship'},{key:'provider_name',label:'Provider'},{key:'scholarship_type',label:'Type'},{key:'audience',label:'Audience'},{key:'award_value_text',label:'Award'},{key:'publication_status',label:'Publication'}]
 }
 function renderCell(r,key,type){
   const v=r[key]
   if(key==='canonical_name'||key==='canonical_title'||key==='name')return <b>{v??'—'}</b>
-  if(key==='fee_amount')return v?`${r.fee_currency??''} ${Number(v).toLocaleString()}`:'—'
+  if(key==='fee_amount')return v===null||v===undefined||v===''?'—':`${r.fee_currency??''} ${Number(v).toLocaleString()}`.trim()
   if(key==='completeness_score_v2')return <Score value={v??r.completeness_score}/>
   return v===null||v===undefined||v===''?'—':String(v)
 }
@@ -117,14 +136,34 @@ function Detail({type,data,busy,onClose}){
 function detailTitle(type,d){return type==='provider'?d?.canonical_name:type==='course'?d?.canonical_title:type==='campus'?d?.name:d?.name}
 
 function CourseDetail({data}){
-  const fees=data?.fee_summary??{}, cricos=fees.cricos_registered??[], provider=fees.provider_current??[]
+  const fees=data?.fee_summary??{}, cricos=fees.cricos_registered??[], provider=fees.provider_current??[], other=fees.other??[]
   return <div className="detail-stack">
     <div className="detail-grid"><KV label="Stable key" value={data.stable_key}/><KV label="Provider" value={data.provider_name}/><KV label="CRICOS / course code" value={data.course_code}/><KV label="Lifecycle" value={data.lifecycle_status}/><KV label="Publication" value={data.publication_status}/><KV label="Last verified" value={fmtDate(data.last_verified_at)}/></div>
-    <div className="fee-grid"><section className="fee-card"><small>REGULATORY</small><h3>CRICOS registered course cost</h3><p>Registered total-course fee facts from CRICOS. These are not annualised and are not a substitute for the provider's current published fee.</p><FeeRows rows={cricos}/></section><section className="fee-card"><small>PROVIDER-CURRENT</small><h3>Current Provider fee</h3><p>Provider-published fee observations retain their fee year, basis, campus/intake scope and evidence separately from CRICOS.</p>{provider.length?<FeeRows rows={provider}/>:<div className="empty-note">No current Provider fee evidence loaded. CRICOS values are deliberately not substituted.</div>}</section></div>
+    <div className="fee-grid"><section className="fee-card"><small>REGULATORY</small><h3>CRICOS registered fees</h3><p>Registered total-course fee facts from CRICOS. These are not annualised and are not a substitute for the provider's current published fee.</p><FeeRows rows={cricos}/></section><section className="fee-card"><small>PROVIDER-CURRENT</small><h3>Current Provider fee</h3><p>Provider-published fee observations retain their fee year, basis, campus/intake scope and evidence separately from CRICOS.</p>{provider.length?<FeeRows rows={provider}/>:<div className="empty-note">No current Provider fee evidence loaded. CRICOS values are deliberately not substituted.</div>}</section></div>
+    {other.length>0&&<section className="fee-card fee-review"><small>NEEDS ATTENTION</small><h3>Needs semantic review</h3><p>These active fee observations do not match a governed CRICOS registered or Provider-current fee class. They are shown for review and are not reclassified automatically.</p><FeeRows rows={other}/></section>}
     <Section title="Regulatory facts" value={data.regulatory_facts}/><Section title="Campuses" value={data.campuses}/><Section title="Evidence & history" value={data.evidence}/><Section title="Canonical detail" value={strip(data,['fee_summary','regulatory_facts','campuses','evidence'])}/>
   </div>
 }
-function FeeRows({rows}){return <div className="mini-list">{rows.map((r,i)=><div key={r.id??i}><b>{r.fee_type?.replaceAll('_',' ')}</b><span>{r.currency} {Number(r.amount??0).toLocaleString()}</span><small>{[r.basis,r.fee_year,r.audience].filter(Boolean).join(' · ')}</small></div>)}</div>}
+
+function FeeRows({rows}){
+  if(!rows?.length)return <div className="empty-note">No fee observations.</div>
+  return <div className="mini-list">{rows.map((r,i)=>{
+    const amountMissing=r.amount===null||r.amount===undefined||r.amount===''
+    const currency=r.currency??r.currency_code??''
+    return <div className="fee-row" key={r.id??i}>
+      <div className="fee-row-main"><b>{feeTypeLabel(r.fee_type)}</b><span>{amountMissing?'Amount not supplied':`${currency} ${Number(r.amount).toLocaleString()}`.trim()}</span></div>
+      <small>{[feeBasisLabel(r.basis),feeYearLabel(r.fee_year),feeAudienceLabel(r.audience)].join(' · ')}</small>
+      <details className="fee-meta"><summary>Source & evidence</summary><div className="fee-meta-grid"><KV label="Source" value={r.source?.label??r.source_id}/><MetaLink label="Source URL" value={r.source?.url}/><KV label="Evidence ID" value={r.evidence?.id??r.evidence_id}/><MetaLink label="Evidence source" value={r.evidence?.source_url}/><KV label="Source snapshot" value={fmtDate(r.source_snapshot_at)}/><KV label="Last verified" value={fmtDate(r.last_verified_at)}/><KV label="Validity" value={feeValidityLabel(r)}/><KV label="Campus scope" value={r.campus_id??'Not campus-scoped in this observation'}/></div></details>
+    </div>
+  })}</div>
+}
+
+function feeTypeLabel(v){return FEE_TYPE_LABELS[v]??humanise(v??'Fee')}
+function feeBasisLabel(v){return FEE_BASIS_LABELS[v]??humanise(v??'Basis not supplied')}
+function feeYearLabel(v){return v===null||v===undefined||v===''?'Year: Not supplied by source':`Year: ${v}`}
+function feeAudienceLabel(v){return v?humanise(v):'Audience not supplied'}
+function feeValidityLabel(r){if(!r?.valid_from&&!r?.valid_to)return 'No explicit validity window supplied';return `${r.valid_from?fmtDate(r.valid_from):'Open start'} → ${r.valid_to?fmtDate(r.valid_to):'Open end'}`}
+function humanise(v){return String(v).replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase())}
 
 function ScholarshipDetail({data}){
   const known=['identifiers','offering_cycles','application_windows','scopes','criterion_groups','criteria','award_tiers','coverage','evidence']
@@ -159,6 +198,7 @@ function Attributes({onError}){
 function Section({title,value}){if(value===undefined||value===null)return null;return <section className="subpanel"><h3>{title}</h3>{Array.isArray(value)?<JsonTable rows={value}/>:typeof value==='object'?<JsonTable rows={[value]}/>:<p>{String(value)}</p>}</section>}
 function JsonTable({rows}){if(!rows?.length)return <div className="empty-note">No records.</div>;const keys=[...new Set(rows.flatMap(r=>Object.keys(r??{})))].slice(0,10);return <div className="table-wrap"><table><thead><tr>{keys.map(k=><th key={k}>{k.replaceAll('_',' ')}</th>)}</tr></thead><tbody>{rows.map((r,i)=><tr key={r?.id??i}>{keys.map(k=><td key={k} className="truncate">{fmt(r?.[k])}</td>)}</tr>)}</tbody></table></div>}
 function KV({label,value}){return <div className="kv"><small>{label}</small><strong>{value??'—'}</strong></div>}
+function MetaLink({label,value}){return <div className="kv"><small>{label}</small>{value?<a href={value} target="_blank" rel="noreferrer">{value}</a>:<strong>—</strong>}</div>}
 function Score({value}){const n=Math.round(Number(value??0));return <span className="score"><b>{n}%</b><i style={{width:`${Math.max(0,Math.min(100,n))}%`}}/></span>}
 function Loading(){return <section className="panel"><p>Loading…</p></section>}
 function fmt(v){if(v===null||v===undefined||v==='')return '—';if(typeof v==='object')return JSON.stringify(v);return String(v)}
