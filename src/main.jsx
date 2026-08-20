@@ -2,9 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { adminRead, invokeAdmin, supabase } from './supabase'
 import CourseSemanticDetail from './CourseSemanticDetail'
+import ScholarshipSemanticDetail from './ScholarshipSemanticDetail'
 import './styles.css'
 
-const UI_VERSION='2.7.0'
+const UI_VERSION='2.8.0'
 const PAGE_SIZE=50
 
 const NAV=[
@@ -215,7 +216,7 @@ function feeYearLabel(v){return v===null||v===undefined||v===''?'Year: Not suppl
 function feeAudienceLabel(v){return v?humanise(v):'Audience not supplied'}
 function feeValidityLabel(r){if(!r?.valid_from&&!r?.valid_to)return 'No explicit validity window supplied';return `${r.valid_from?fmtDate(r.valid_from):'Open start'} → ${r.valid_to?fmtDate(r.valid_to):'Open end'}`}
 function humanise(v){return String(v??'').replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase())}
-function ScholarshipDetail({data}){const known=['identifiers','offering_cycles','application_windows','scopes','criterion_groups','criteria','award_tiers','coverage','evidence'];return <div className="detail-stack"><div className="detail-grid"><KV label="Provider" value={data.provider_name}/><KV label="Type" value={data.type??data.scholarship_type}/><KV label="Audience" value={data.audience}/><KV label="Lifecycle" value={data.lifecycle_status}/><KV label="Publication" value={data.publication_status}/><KV label="Source" value={data.source_url}/></div>{known.map(k=>data[k]!==undefined&&<Section key={k} title={humanise(k)} value={data[k]}/>)}<Section title="Scholarship record" value={strip(data,known)}/></div>}
+function ScholarshipDetail({data}){return <ScholarshipSemanticDetail data={data}/>}
 function GenericDetail({data}){return <div className="detail-stack"><div className="detail-grid">{Object.entries(data??{}).filter(([,v])=>!Array.isArray(v)&&!(v&&typeof v==='object')).slice(0,18).map(([k,v])=><KV key={k} label={humanise(k)} value={fmt(v)}/>)}</div>{Object.entries(data??{}).filter(([,v])=>Array.isArray(v)||(v&&typeof v==='object')).map(([k,v])=><Section key={k} title={humanise(k)} value={v}/>)}</div>}
 
 function SimpleList({operation,onError}){const [rows,busy]=useRead(operation,{limit:1000},onError);if(busy)return <Loading/>;const list=Array.isArray(rows)?rows:[];if(!list.length)return <section className="panel"><p>No records.</p></section>;const keys=Object.keys(list[0]).filter(k=>!['metadata','source_metadata','system_config'].includes(k)).slice(0,9),cols=keys.map(k=>({key:k,label:humanise(k),width:k.includes('name')||k.includes('label')?240:160}));return <section className="panel"><ResizableTable workspace={`simple-${operation}`} columns={cols} rows={list} rowKey={(r,i)=>r.id??r.source_id??i} render={(r,c)=><span className="truncate">{fmt(r[c.key])}</span>}/></section>}
