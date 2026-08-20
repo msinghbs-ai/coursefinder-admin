@@ -2,10 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { adminRead, invokeAdmin, supabase } from './supabase'
 import CourseSemanticDetail from './CourseSemanticDetail'
+import CourseStatePanel from './CourseStatePanel'
 import ScholarshipSemanticDetail from './ScholarshipSemanticDetail'
 import './styles.css'
 
-const UI_VERSION='2.8.0'
+const UI_VERSION='2.9.0'
 const PAGE_SIZE=50
 
 const NAV=[
@@ -127,11 +128,11 @@ function PagedEntityList({type,onError}){
 
 function columnsFor(type){
   if(type==='provider')return [{key:'canonical_name',label:'Provider',width:280,sortKey:'provider'},{key:'country_code',label:'Country',width:105},{key:'city',label:'City',width:160},{key:'lifecycle_status',label:'Lifecycle',width:120},{key:'publication_status',label:'Publication',width:130},{key:'course_count',label:'Courses',width:90,sortKey:'courses'}]
-  if(type==='course')return [{key:'canonical_title',label:'Course',width:300,sortKey:'course'},{key:'provider_name',label:'Provider',width:240,sortKey:'provider'},{key:'course_code',label:'CRICOS / Course code',width:150},{key:'level_code',label:'Level',width:130},{key:'field_of_study',label:'Field',width:190,sortKey:'field'},{key:'fee_amount',label:'CRICOS tuition (total course)',width:190,sortKey:'fee'},{key:'completeness_score_v2',label:'Complete',width:110,sortKey:'completeness'},{key:'lifecycle_status',label:'Lifecycle',width:115}]
+  if(type==='course')return [{key:'canonical_title',label:'Course',width:300,sortKey:'course'},{key:'provider_name',label:'Provider',width:240,sortKey:'provider'},{key:'course_code',label:'CRICOS / Course code',width:150},{key:'level_code',label:'Level',width:130},{key:'field_of_study',label:'Field',width:190,sortKey:'field'},{key:'fee_amount',label:'CRICOS tuition (total course)',width:190,sortKey:'fee'},{key:'completeness_score_v2',label:'Admin readiness',width:130,sortKey:'completeness'},{key:'lifecycle_status',label:'Lifecycle',width:115},{key:'publication_status',label:'Canonical publication',width:155},{key:'search_state',label:'Search',width:155}]
   if(type==='campus')return [{key:'name',label:'Campus',width:250,sortKey:'campus'},{key:'provider_name',label:'Provider',width:260,sortKey:'provider'},{key:'country_code',label:'Country',width:105},{key:'city',label:'City',width:160,sortKey:'city'},{key:'status',label:'Status',width:120},{key:'course_count',label:'Courses',width:90,sortKey:'courses'}]
   return [{key:'name',label:'Scholarship',width:300,sortKey:'scholarship'},{key:'provider_name',label:'Provider',width:240},{key:'scholarship_type',label:'Type',width:170},{key:'audience',label:'Audience',width:130},{key:'award_value_text',label:'Award',width:190},{key:'publication_status',label:'Publication',width:130}]
 }
-function renderCell(r,key){const v=r[key];if(key==='canonical_name'||key==='canonical_title'||key==='name')return <b>{v??'—'}</b>;if(key==='country_code')return countryDisplay(v);if(key==='course_code')return v?<code>{v}</code>:'—';if(key==='fee_amount')return v===null||v===undefined||v===''?'—':`${r.fee_currency??''} ${Number(v).toLocaleString()}`.trim();if(key==='completeness_score_v2')return <Score value={v??r.completeness_score}/>;return v===null||v===undefined||v===''?'—':String(v)}
+function renderCell(r,key){const v=r[key];if(key==='canonical_name'||key==='canonical_title'||key==='name')return <b>{v??'—'}</b>;if(key==='country_code')return countryDisplay(v);if(key==='course_code')return v?<code>{v}</code>:'—';if(key==='fee_amount')return v===null||v===undefined||v===''?'—':`${r.fee_currency??''} ${Number(v).toLocaleString()}`.trim();if(key==='completeness_score_v2')return <Score value={v??r.completeness_score}/>;if(key==='search_state')return r.search_projected?`Projected · ${humanise(r.search_projection_status??'state not supplied')}`:'Not projected';return v===null||v===undefined||v===''?'—':String(v)}
 function countryDisplay(code){if(!code)return '—';const c=String(code).toUpperCase();const flag=c.length===2?String.fromCodePoint(...[...c].map(x=>127397+x.charCodeAt())):'';return `${flag} ${c}`.trim()}
 
 function Completeness({onError}){
@@ -208,7 +209,7 @@ function InsightDetail({title,row,onClose,note}){return <section className="pane
 
 function Detail({type,data,busy,onClose}){return <section className="panel detail-panel"><div className="toolbar"><div><small>{type.toUpperCase()} DETAIL</small><h2>{detailTitle(type,data)}</h2></div><button onClick={onClose}>Close</button></div>{busy?<Loading/>:!data?<p>No detail returned.</p>:type==='course'?<CourseDetail data={data}/>:type==='scholarship'?<ScholarshipDetail data={data}/>:<GenericDetail data={data}/>}</section>}
 function detailTitle(type,d){return type==='provider'?d?.canonical_name:type==='course'?d?.canonical_title:type==='campus'?d?.name:d?.name}
-function CourseDetail({data}){return <CourseSemanticDetail data={data}/>}
+function CourseDetail({data}){return <><CourseStatePanel data={data}/><CourseSemanticDetail data={data}/></>}
 function FeeRows({rows}){if(!rows?.length)return <div className="empty-note">No fee observations.</div>;return <div className="mini-list">{rows.map((r,i)=>{const missing=r.amount===null||r.amount===undefined||r.amount==='',currency=r.currency??r.currency_code??'';return <div className="fee-row" key={r.id??i}><div className="fee-row-main"><b>{feeTypeLabel(r.fee_type)}</b><span>{missing?'Amount not supplied':`${currency} ${Number(r.amount).toLocaleString()}`.trim()}</span></div><small>{[feeBasisLabel(r.basis),feeYearLabel(r.fee_year),feeAudienceLabel(r.audience)].join(' · ')}</small><details className="fee-meta"><summary>Source & evidence</summary><div className="fee-meta-grid"><KV label="Source" value={r.source?.label??r.source_id}/><MetaLink label="Source URL" value={r.source?.url}/><KV label="Evidence ID" value={r.evidence?.id??r.evidence_id}/><MetaLink label="Evidence source" value={r.evidence?.source_url}/><KV label="Source snapshot" value={fmtDate(r.source_snapshot_at)}/><KV label="Last verified" value={fmtDate(r.last_verified_at)}/><KV label="Validity" value={feeValidityLabel(r)}/><KV label="Campus scope" value={r.campus_id??'Not campus-scoped in this observation'}/></div></details></div>})}</div>}
 function feeTypeLabel(v){return FEE_TYPE_LABELS[v]??humanise(v??'Fee')}
 function feeBasisLabel(v){return FEE_BASIS_LABELS[v]??humanise(v??'Basis not supplied')}
