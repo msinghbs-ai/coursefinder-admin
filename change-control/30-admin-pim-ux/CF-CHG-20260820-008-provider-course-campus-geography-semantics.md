@@ -1,6 +1,6 @@
 # CF-CHG-20260820-008 — Provider / Course / Campus geography semantics
 
-**Status:** APPLIED / DB-RPC-SECURITY PASS — FRONTEND PRESENTATION PENDING  
+**Status:** APPLIED / DB-RPC-SECURITY + FRONTEND SOURCE PASS — DEPLOYED BROWSER UAT PENDING  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 20 August 2026 12:35 AEST (UTC+10)  
 **Origin chat/workstream:** `M1-PIM-GOV — Field Semantics, Change Control & Admin Guide`  
@@ -9,18 +9,18 @@
 
 ## Trigger
 
-The full Admin semantic audit identified a high-risk interpretation trap: Provider geography and Course delivery geography are different facts. For exact CRICOS Course `121174E`, the canonical Provider record has its own AU/Victoria/Hawthorn geography while the Course separately relates to a canonical Hawthorn Campus through `catalogue.course_campuses`.
+The Admin semantic audit identified a high-risk interpretation trap: Provider geography and Course delivery geography are different facts. For exact CRICOS Course `121174E`, the Provider has its own AU/Victoria/Hawthorn geography while the Course separately relates to a canonical Hawthorn Campus through `catalogue.course_campuses`.
 
-The existing Course detail exposed a generic `Campuses` JSON table. It did not preserve enough provenance to explain whether the evidence supported the Campus itself or the Course→Campus delivery relationship.
+The prior Course detail exposed a generic `Campuses` JSON table and did not distinguish evidence supporting the Campus from evidence supporting the Course→Campus relationship.
 
 ## Semantic decision
 
 1. Provider geography describes the Provider record and must not be presented as Course delivery geography.
-2. A Course Campus is a relationship observation: `Course -> course_campuses -> Campus`.
-3. Campus source/evidence and Course→Campus relationship source/evidence are distinct audit concepts even when they originate from the same authority.
-4. `is_primary=false` does not mean the Campus is invalid or secondary in business importance; it only means the relationship is not marked primary by the stored relationship.
-5. `valid_from=NULL` / `valid_to=NULL` means no explicit validity window is stored; it is not permission to invent dates.
-6. Campus `publication_status` is independent of Course publication status.
+2. Course delivery Campus is a relationship observation: `Course -> course_campuses -> Campus`.
+3. Campus source/evidence and Course→Campus relationship source/evidence are separate audit concepts.
+4. `is_primary=false` means only that the stored relationship is not marked primary.
+5. NULL Campus validity dates mean no explicit validity window is stored; do not invent dates.
+6. Campus publication status is independent of Course publication status.
 7. No synthetic Campus may be created merely to improve completeness.
 
 ## Exact reference case
@@ -31,89 +31,78 @@ Provider stable key: `provider:cricos:00111d`
 
 Provider geography:
 
-- country: AU
-- subdivision: AU-VIC
-- primary city: HAWTHORN
-- postcode: 3122
+- AU / AU-VIC / HAWTHORN / 3122.
 
 Accepted Course delivery Campus:
 
-- stable key: `campus:cricos:00111d:hawthorn-campus-john-street-hawthorn-swinburne-university`
-- name: Hawthorn Campus John Street Hawthorn Swinburne University
-- country: AU
-- subdivision: AU-VIC / Victoria
-- city: HAWTHORN
-- address: John St
-- postcode: 3122
-- delivery mode: `on_campus`
-- `is_primary=false`
-- Campus status: active
-- Campus publication: unpublished
+- stable key `campus:cricos:00111d:hawthorn-campus-john-street-hawthorn-swinburne-university`;
+- Hawthorn Campus John Street Hawthorn Swinburne University;
+- AU / AU-VIC / HAWTHORN / John St / 3122;
+- delivery mode `on_campus`;
+- `is_primary=false`;
+- Campus status active, publication unpublished;
+- Campus evidence `5d6ed80b-e7f4-483c-a268-fdc98af61534`;
+- Course→Campus relationship evidence `9f05c3b6-c575-4516-8c1c-fa2111bba379`.
 
-The matching Provider and Campus geography in this case does not collapse the concepts. The relationship remains separately represented and separately evidenced.
+Matching geography does not collapse the Provider and Course-delivery concepts.
 
 ## Applied read-contract correction
 
-Pilot migration:
+Pilot migration: `m1_pim_gov_course_campus_semantics_v1`  
+Repository mirror: `supabase/production-migrations/061_m1_pim_gov_course_campus_semantics.sql`
 
-`m1_pim_gov_course_campus_semantics_v1`
-
-Repository mirror:
-
-`supabase/production-migrations/061_m1_pim_gov_course_campus_semantics.sql`
-
-`public.ui_course_related_campuses(uuid)` now returns, for each Course Campus relationship:
-
-- Campus identity: ID, stable key, name, campus code;
-- Campus geography: country, subdivision code/name, city, address and postcode;
-- Campus state: status, publication status, validity, last verification;
-- relationship semantics: delivery mode and `is_primary`;
-- Campus authority/provenance: source + evidence;
-- Course→Campus relationship authority/provenance: source + evidence.
-
-No canonical Provider, Course, Campus or relationship row was rewritten.
+The governed Course Campus payload exposes Campus identity/geography/state, delivery-mode/primary relationship semantics, Campus provenance and Course→Campus relationship provenance. No canonical Provider, Course, Campus or relationship row was rewritten.
 
 ## Security correction
 
-Direct `authenticated` execution of `public.ui_course_related_campuses(uuid)` has been revoked. The browser must obtain Course Campus data through the governed `public.admin_read` boundary. `service_role` execution is retained for the internal dispatcher/operations path.
+Direct `authenticated` execution of `public.ui_course_related_campuses(uuid)` is revoked. Course Campus data is obtained through the governed `public.admin_read` boundary.
 
-## Required frontend presentation
+## Frontend release — PIM Admin v2.7.0
 
-The current generic `Campuses` JSON block is not considered the final semantic presentation.
+The source release replaces the generic Campus JSON block with **Course delivery campuses**.
 
-The UI/PIM implementation lane should render a dedicated section such as **Course delivery campuses** with:
+It explicitly states Provider address/state is not Course delivery geography and shows:
 
-- Campus name;
-- Campus city / State or Region / Country;
-- delivery mode;
-- primary relationship flag only where meaningful;
-- Campus status/publication state without implying Course publication;
-- a drill-down separating **Campus source/evidence** from **Course–Campus relationship source/evidence**;
-- explicit note that Provider location is not substituted for Course delivery location.
+- Campus name and stable identity;
+- State/Region, city, country and address;
+- delivery mode and relationship-primary state;
+- Campus status/validity/verification;
+- **Campus source/evidence**;
+- **Course–Campus relationship source/evidence**.
 
-Do not label Provider State as Course State or derive Course geography from the Provider record.
+Frontend files are `src/CourseSemanticDetail.jsx`, `src/main.jsx` and the package version alignment. No canonical or Search contract changed.
 
 ## UAT
 
-See `docs/uat/coursefinder-m1-pim-gov-campus-semantics-uat-2026-08-20.md`.
+Technical Campus UAT: `docs/uat/coursefinder-m1-pim-gov-campus-semantics-uat-2026-08-20.md`  
+Combined v2.7 source/authenticated UAT: `docs/uat/coursefinder-m1-pim-gov-course-detail-v2.7.0-uat-2026-08-20.md`
 
-Technical result:
+Passed:
 
-- exact `121174E` Course relationship resolved: PASS;
-- one accepted Hawthorn Campus returned: PASS;
-- Course and Campus stable identities preserved: PASS;
-- Campus AU-VIC geography preserved: PASS;
-- delivery mode + primary flag preserved: PASS;
-- Campus source/evidence exposed: PASS;
-- relationship source/evidence exposed: PASS;
-- direct authenticated EXECUTE removed: PASS.
+- exact `121174E` relationship resolution;
+- one Hawthorn Course delivery Campus;
+- Course/Campus stable identities preserved;
+- AU-VIC geography preserved;
+- delivery mode/relationship-primary semantics preserved;
+- Campus evidence exposed;
+- relationship evidence exposed;
+- authenticated `admin_read('course_detail')` returns the governed Campus payload;
+- v2.7 frontend presents the relationship explicitly.
 
 ## Rollback
 
-Restore the previous `public.ui_course_related_campuses(uuid)` projection only. Do not alter canonical Provider/Course/Campus identities or delete `catalogue.course_campuses` relationships as part of presentation rollback.
+Frontend rollback restores the preceding Course-detail component only. Backend rollback restores the previous Course Campus read projection. Do not alter canonical Provider/Course/Campus identities or delete `catalogue.course_campuses` relationships.
+
+## Decision / status history
+
+| Timestamp | Status | Event |
+|---|---|---|
+| 20 Aug 2026 12:35 AEST | OPEN / AUDITED | Provider geography and Course delivery geography separation formalised |
+| 20 Aug 2026 | APPLIED / TECHNICAL PASS | Course Campus provenance read contract and ACL applied |
+| 20 Aug 2026 13:01 AEST | FRONTEND SOURCE PASS | PIM Admin v2.7.0 dedicated Course delivery Campus presentation passed source/authenticated regression UAT |
 
 ## Closure
 
-**Final status:** OPEN — DB/RPC/SECURITY PASS / FRONTEND PRESENTATION PENDING  
+**Final status:** OPEN — DB/RPC/SECURITY + FRONTEND SOURCE PASS / DEPLOYED BROWSER UAT PENDING  
 **Closed at:** N/A  
-**Outcome:** Course Campus read semantics and provenance are now governed. Final closure requires dedicated semantic frontend presentation and deployed browser UAT.
+**Outcome:** Provider and Course-delivery geography are semantically separated through storage, governed read and v2.7 source presentation. Closure requires deployed authenticated browser UAT.
