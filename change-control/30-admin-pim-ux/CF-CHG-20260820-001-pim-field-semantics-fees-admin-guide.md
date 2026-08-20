@@ -1,6 +1,6 @@
 # CF-CHG-20260820-001 — PIM field semantics, fee presentation and Admin Guide
 
-**Status:** APPLIED / UAT PASS (DB/RPC/GOVERNANCE) — FRONTEND RELEASE PENDING  
+**Status:** APPLIED / DB-RPC-GOVERNANCE PASS / FRONTEND SOURCE PASS — DEPLOYED BROWSER UAT PENDING  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 20 August 2026 10:30 AEST (UTC+10)  
 **Origin chat/workstream:** `M1-PIM — Admin/PIM UX & Governance`  
@@ -9,39 +9,19 @@
 
 ## Trigger
 
-User validation against the authoritative CRICOS Course Details screen for Swinburne University of Technology — Bachelor of Artificial Intelligence, CRICOS Course Code `121174E` — showed that the deployed Admin Course Fee presentation preserved the numeric values but obscured the distinct regulatory fee meanings.
+Validation against the authoritative CRICOS Course Details screen for Swinburne University of Technology — Bachelor of Artificial Intelligence, CRICOS Course Code `121174E` — showed that the deployed Admin Fee presentation preserved the numeric values but obscured the distinct regulatory fee meanings.
 
-The same review established the need for durable cross-chat Change Control and a maintained PIM Admin Guide so field meaning, source authority and downstream Zoho semantics can be understood without relying on conversation history.
+The same review established the requirement for durable cross-chat Change Control and a maintained PIM Admin Guide so field meaning, source authority, UI behaviour and downstream Zoho semantics do not depend on conversation history.
 
 ## Decision
 
-The canonical fee model is correct for the reference case and is not being redesigned for display convenience.
+The canonical fee model is correct for the reference case. It is not redesigned for display convenience.
 
-The accepted correction is to:
+The governed correction preserves exact canonical observations and identity, corrects Admin projection/read semantics, exposes fee provenance/validity, implements semantic frontend presentation, and defines the curated Zoho contract. Final closure requires deployed authenticated browser verification.
 
-1. preserve exact canonical fee observations and stable Course identity;
-2. correct the Admin read/projection semantics where fee classes or completeness states could be mislabeled;
-3. enrich the governed Course-detail read contract with fee-level provenance/validity metadata;
-4. document the business semantics and curated Zoho contract;
-5. leave final closure pending until the frontend/browser presentation is released and verified.
+## Exact identity and authoritative reference
 
-## Affected surfaces
-
-- `catalogue.course_fees` — audited only; canonical rows unchanged
-- `public.ui_course_completeness_list(integer)` — corrected Admin projection semantics
-- `security.admin_course_fee_summary(uuid)` — new private role-checked fee summary helper
-- `public.admin_read(text,jsonb)` — Course-detail fee summary enrichment
-- Course decision grid / Course detail presentation — frontend acceptance pending
-- source/evidence and verification visibility
-- PIM Admin Guide
-- curated Zoho consumer contract
-- Change Control / UAT / programme governance
-
-No Provider/Course identity, Layer 1 source, Search admission or canonical Course Facts observation is changed by this workstream.
-
-## Exact identity and source case
-
-Reconciliation used exact CRICOS identity, never title-only matching.
+Reconciliation uses exact CRICOS identity, never title-only matching.
 
 - Provider: Swinburne University of Technology
 - Provider stable key: `provider:cricos:00111d`
@@ -49,8 +29,6 @@ Reconciliation used exact CRICOS identity, never title-only matching.
 - CRICOS Course Code: `121174E`
 - Course stable key: `course:cricos:00111d:121174e`
 - Course UUID: `1b8be4ac-01c0-4b11-888f-083401acd784`
-
-Authoritative source facts used for the reference audit:
 
 | CRICOS concept | Source value | Canonical meaning |
 |---|---:|---|
@@ -64,72 +42,73 @@ Authoritative source facts used for the reference audit:
 
 ## Canonical audit result
 
-`catalogue.course_fees` already stored three active observations for exact CRICOS `121174E`:
+`catalogue.course_fees` already stores three active observations for exact CRICOS `121174E`:
 
 - `tuition` — AUD `132900.00`
 - `non_tuition` — AUD `0.00`
 - `estimated_total_course_cost` — AUD `132900.00`
 
-All use:
+All preserve `audience=international`, `basis=registered_total_course`, `fee_year=NULL`, source/evidence relationships, source snapshot, verification and validity metadata.
 
-- `audience=international`
-- `basis=registered_total_course`
-- `fee_year=NULL`
-- preserved source/evidence relationships
-- source snapshot timestamp
-- verification timestamp
-- validity metadata.
+**Canonical model:** ACCEPTED. No fee-value rewrite or canonical schema redesign was authorised.
 
-Therefore the canonical database model was accepted; no schema redesign or fee-value rewrite was authorised.
+## Defects discovered
 
-## Additional defects discovered during semantic audit
+1. **Course-grid fee ambiguity:** the compatibility grid could present a non-CRICOS fee under `Registered fee`.
+2. **Admin completeness depended on Search state:** Admin presence was borrowing downstream Search flags instead of canonical relationships.
+3. **Course-detail provenance truncation:** fee-level campus, validity, source and verification dimensions were incomplete for Admin audit use.
+4. **Frontend zero risk:** truthiness rendering could display legitimate numeric zero as missing.
+5. **Frontend semantic flattening:** raw fee type/basis/year presentation did not explain the business meaning.
 
-### 1. Course-grid fee could be mislabeled
+## Applied DB/RPC correction
 
-The prior `public.ui_course_completeness_list` selected a recent fee observation without explicitly requiring regulatory tuition + registered-total-course basis. Once Provider-current fee observations existed, an annual/current Provider amount could therefore appear under the Admin grid label `Registered fee`.
+Pilot migrations:
 
-### 2. Admin completeness depended on downstream Search state
-
-The prior Admin projection borrowed `has_fee`, `has_intake` and `has_english` from `search.course_documents`. Search enrichment is intentionally not admitted, so Search flags can remain false while accepted canonical observations exist.
-
-Admin readiness/data presence must not be defined by downstream publication state.
-
-### 3. Course-detail provenance was incomplete for audit use
-
-The governed Course-detail response carried fee type/amount/currency/basis/year/audience/evidence ID, but did not expose all required fee-level campus, validity, source and verification dimensions.
-
-### 4. Frontend zero display remains a release item
-
-The current grid source uses truthiness-style amount rendering. Numeric zero must be handled with an explicit NULL/undefined test so a valid source `0` is never shown as missing.
-
-## Applied semantic correction
-
-### Pilot migration `m1_pim_gov_fee_semantics_read_contract_v1`
-
-- `public.ui_course_completeness_list(integer)` now selects the compatibility fee deterministically from active `fee_type=tuition` + `basis=registered_total_course` observations;
-- Admin `has_fee`, `has_intake`, `has_english` and Scholarship linkage are derived from canonical/relational data, not Search projection flags;
-- current compatibility completeness score is explicitly documented as derived/display-only presence, not truth or publication approval;
-- private role-checked `security.admin_course_fee_summary(uuid)` returns:
-  - `cricos_registered`;
-  - `provider_current`;
-  - `other` for active semantics that are neither governed CRICOS registered fees nor governed Provider-current fee types;
-- Course-detail fee observations preserve type, amount, currency, basis/load basis, year, audience, campus scope, validity, source, evidence, source snapshot and last verification metadata;
-- `public.admin_read` remains the governed browser read boundary and enriches only `course_detail` with the new fee summary.
-
-### Pilot migration `m1_pim_gov_fee_semantics_acl_fix_v1`
-
-Direct `authenticated` execution of the corrected completeness projection was revoked; browser access remains behind `public.admin_read`.
+- `m1_pim_gov_fee_semantics_read_contract_v1`
+- `m1_pim_gov_fee_semantics_acl_fix_v1`
 
 Repository mirrors:
 
 - `supabase/production-migrations/056_m1_pim_gov_fee_semantics_read_contract.sql`
 - `supabase/production-migrations/057_m1_pim_gov_fee_semantics_acl_fix.sql`
 
+Accepted effects:
+
+- compatibility fee is deterministic active `tuition + registered_total_course`;
+- Admin fee/intake/English presence derives from canonical/relational data, not Search publication flags;
+- `security.admin_course_fee_summary(uuid)` groups `cricos_registered`, `provider_current` and `other`;
+- fee observations preserve amount/currency/type, basis/load basis, year, audience, campus, validity, source/evidence, snapshot and verification metadata;
+- `public.admin_read` remains the governed browser boundary;
+- direct authenticated execution of the corrected completeness function was removed.
+
+## Applied frontend correction — PIM Admin v2.3.0
+
+Frontend release head on `main`: `4858a08a2c1ff05f6cb6db60cd504f8d7d9fd4af`.
+
+Files changed:
+
+- `src/main.jsx`
+- `src/styles.css`
+- `package.json`
+
+Accepted frontend semantics:
+
+- grid column is **CRICOS tuition (total course)**;
+- numeric zero uses explicit NULL checks and remains visible;
+- human labels are `Tuition Fee`, `Non-Tuition Fee`, `Estimated Total Course Cost`;
+- `registered_total_course` is displayed as **Registered total course**;
+- `fee_year=NULL` is displayed as **Year: Not supplied by source**;
+- Provider-current fees remain in a separate section with an explicit no-evidence empty state;
+- each fee observation exposes expandable source/evidence/snapshot/verification/validity/campus metadata;
+- `fee_summary.other` surfaces as **Needs semantic review**;
+- visible UI version is **PIM Admin v2.3.0** on login and authenticated navigation;
+- package version is aligned to `2.3.0`.
+
+No canonical table, migration, RPC, adapter or Search projection changed in this frontend release.
+
 ## Semantic after-state
 
 ### CRICOS registered fees
-
-Admin/read-contract meaning is explicitly regulatory whole-course cost:
 
 | Fee type | Amount | Audience | Basis | Year |
 |---|---:|---|---|---|
@@ -139,67 +118,71 @@ Admin/read-contract meaning is explicitly regulatory whole-course cost:
 
 ### Provider-current fees
 
-Provider-current tuition remains a separate class with its own Provider-published year/basis. It never overwrites or substitutes the CRICOS registered total-course observations.
+Provider-current tuition remains a separate semantic class retaining Provider-published year/basis. It never overwrites or substitutes CRICOS registered total-course fees.
 
-### Unclassified future fee semantics
+### Unclassified fee semantics
 
-Any active fee observation that is neither `registered_total_course` nor a governed `provider_current_*` fee is placed in `fee_summary.other` rather than being silently mislabeled. Frontend should present that state as `Needs semantic review`.
+Any active fee observation that is neither governed CRICOS registered nor governed Provider-current remains in `fee_summary.other` and is presented as **Needs semantic review** rather than silently reclassified.
 
-## UAT
+## UAT evidence
 
-Detailed evidence: `docs/uat/coursefinder-m1-pim-gov-fee-semantics-uat-2026-08-20.md`.
+DB/RPC/governance UAT:
 
-Passed:
+- `docs/uat/coursefinder-m1-pim-gov-fee-semantics-uat-2026-08-20.md`
+
+Frontend source/semantic UAT:
+
+- `docs/uat/coursefinder-m1-pim-gov-frontend-v2.3.0-uat-2026-08-20.md`
+
+Passed to date:
 
 1. exact CRICOS identity for `121174E`;
 2. three canonical CRICOS fee concepts preserved;
-3. numeric zero preserved;
-4. NULL fee year preserved;
-5. source/evidence/snapshot/verification/validity exposed through governed Course-detail read;
-6. Provider-current and CRICOS fee classes separated on bounded comparison Courses;
-7. Course-grid compatibility fee made deterministic CRICOS tuition/registered-total-course;
-8. Admin data-presence signals separated from Search publication flags;
-9. direct browser EXECUTE removed from the corrected internal completeness function;
-10. governed `public.admin_read` continued to function under assigned Admin role.
+3. numeric zero preserved in storage/RPC and frontend display logic;
+4. NULL fee year preserved and semantically labelled;
+5. source/evidence/snapshot/verification/validity/campus data exposed through governed read and frontend drill-down;
+6. Provider-current and CRICOS fee classes separated;
+7. compatibility grid fee made deterministic CRICOS tuition/registered-total-course;
+8. Admin data-presence separated from Search publication state;
+9. direct browser EXECUTE removed from corrected internal completeness function;
+10. frontend fee type/basis/year labels pass bounded semantic tests;
+11. v2.3.0 frontend source is published on `main` by fast-forward with no backend changes.
+
+## Deployment/browser verification status
+
+The project operating record identifies `coursefinder-pilot.techm.workers.dev` as the Worker and GitHub-triggered deployment as the release path.
+
+Current tool environment cannot independently observe the Worker runtime because no Cloudflare control-plane connector is connected, the execution container has no external DNS/network access, and the unindexed Worker URL cannot be opened through the available web-search safety path. The repository also has no GitHub Actions run for this commit, consistent with an external Cloudflare Git integration.
+
+Therefore merge success is **not** being treated as deployment proof.
+
+Final deployed UAT must confirm:
+
+1. login/navigation displays `PIM Admin v2.3.0`;
+2. exact Course `121174E` resolves by CRICOS code;
+3. grid label is `CRICOS tuition (total course)`;
+4. Course detail shows AUD 132,900 / AUD 0 / AUD 132,900 under the three correct CRICOS concepts;
+5. each CRICOS row shows Registered total course / source-not-supplied year / International;
+6. source/evidence drill-down is reachable;
+7. Provider-current section is empty for `121174E` and CRICOS is not substituted;
+8. `fee_summary.other=[]` means no Needs semantic review block for `121174E`;
+9. comparison Course `102784C` keeps CRICOS and Provider-current fee sections separate.
 
 ## Documentation / consumer contract
 
-Created:
+- PIM Admin Guide: `docs/coursefinder-pim-admin-guide-v1.0.md`
+- curated Zoho contract: `docs/coursefinder-zoho-consumer-contract-v1.0.md`
+- Change Control register: `change-control/REGISTER.md`
 
-- `docs/coursefinder-pim-admin-guide-v1.0.md`
-- `docs/coursefinder-zoho-consumer-contract-v1.0.md`
-- `docs/uat/coursefinder-m1-pim-gov-fee-semantics-uat-2026-08-20.md`
-
-The Zoho document defines a curated semantic contract only. It does not admit the fields to Website/Zoho publication automatically.
-
-## Frontend/browser acceptance still required
-
-The UI/PIM implementation workstream must release and browser-verify:
-
-1. Course grid label clearly states `CRICOS tuition (total course)` or equivalent;
-2. zero-safe amount rendering;
-3. human fee labels for Tuition / Non-Tuition / Estimated Total Course Cost;
-4. `fee_year=NULL` shown as `Not supplied by source` rather than an unexplained dash/error;
-5. Provider-current fee section remains separate with explicit empty state;
-6. source/evidence/snapshot/verification/validity/campus drill-down is reachable;
-7. `fee_summary.other` produces `Needs semantic review`;
-8. visible UI version is incremented;
-9. browser UAT reconciles exact CRICOS `121174E` end-to-end.
-
-Repository source inspected during this change already contained a newer `PIM Admin v2.2` Course-detail separation than the originally observed deployed `v1.7.2` screen. The deployment/browser state must therefore be explicitly verified rather than assuming source equals production.
+The Zoho contract remains definition-only. This work does not automatically admit fees to Website/Zoho/Search publication.
 
 ## Security note
 
-The corrected completeness function no longer appears as a directly executable authenticated browser-definer surface after the ACL migration.
-
-Other legacy `ui_*` SECURITY DEFINER / RLS / Auth advisor findings remain separate pre-existing PIM-hardening debt. They are not closed by this change.
+The corrected completeness function no longer exposes direct authenticated execution. Other legacy `ui_*` SECURITY DEFINER/RLS/Auth advisor findings are separate pre-existing PIM-hardening debt and are not silently closed here.
 
 ## Rollback
 
-- restore the previous governed `public.admin_read` wrapper and `public.ui_course_completeness_list` definitions;
-- remove the private fee-summary helper if no longer referenced;
-- restore prior ACL only with explicit security-governance approval;
-- do not delete or rewrite canonical `catalogue.course_fees` rows because this change did not modify them.
+Frontend rollback is independently reversible by restoring the preceding `src/main.jsx`, `src/styles.css` and package version. Backend rollback restores the prior governed Admin wrapper/projection definitions and removes the private fee helper if required. Canonical `catalogue.course_fees` rows must not be deleted or rewritten because this change never modified them.
 
 ## Decision / status history
 
@@ -208,11 +191,13 @@ Other legacy `ui_*` SECURITY DEFINER / RLS / Auth advisor findings remain separa
 | 20 Aug 2026 10:30 AEST | PROPOSED | Change initiated from CRICOS/Admin fee comparison and request for formal field-semantics governance | `M1-PIM — Admin/PIM UX & Governance` |
 | 20 Aug 2026 10:35 AEST | PROPOSED | Change Control moved into category hierarchy; project-wide operating instructions established | `M1-PIM — Admin/PIM UX & Governance` |
 | 20 Aug 2026 | AUDITED | Exact `121174E` canonical fee rows and provenance validated; canonical model accepted | `M1-PIM-GOV` |
-| 20 Aug 2026 | APPLIED | Governed Admin fee/completeness read contract corrected in Pilot; canonical facts unchanged | Pilot migrations `m1_pim_gov_fee_semantics_read_contract_v1`, `m1_pim_gov_fee_semantics_acl_fix_v1` |
-| 20 Aug 2026 | UAT PASS — PARTIAL GATE | DB/RPC/governance semantics and curated Zoho contract passed; frontend/browser release remains pending | `docs/uat/coursefinder-m1-pim-gov-fee-semantics-uat-2026-08-20.md` |
+| 20 Aug 2026 | APPLIED | Governed Admin fee/completeness read contract corrected in Pilot; canonical facts unchanged | Pilot fee semantic migrations |
+| 20 Aug 2026 | UAT PASS — PARTIAL GATE | DB/RPC/governance semantics and curated Zoho contract passed | DB/RPC UAT document |
+| 20 Aug 2026 11:05 AEST | FRONTEND SOURCE RELEASED | PIM Admin v2.3.0 semantic presentation merged to `main`; bounded zero/NULL/label tests passed | `4858a08a`; frontend UAT document |
+| 20 Aug 2026 11:05 AEST | OPEN — RUNTIME UAT | Cloudflare/deployed authenticated browser observation remains required before closure | `M1-PIM-GOV` |
 
 ## Closure
 
-**Final status:** OPEN — APPLIED / DB-RPC-GOVERNANCE UAT PASS / FRONTEND RELEASE PENDING  
+**Final status:** OPEN — DB/RPC/GOVERNANCE PASS + FRONTEND SOURCE PASS / DEPLOYED BROWSER UAT PENDING  
 **Closed at:** N/A  
-**Outcome:** Canonical fee semantics accepted; Admin read-contract defects corrected; PIM Admin Guide and curated Zoho contract established. Final closure requires the browser/frontend semantic release and exact-code walkthrough.
+**Outcome:** Canonical fee semantics accepted, Admin read-contract defects corrected, PIM Admin Guide and curated Zoho contract established, and PIM Admin v2.3.0 semantic frontend released to `main`. Final closure requires the deployed exact-code browser walkthrough.
