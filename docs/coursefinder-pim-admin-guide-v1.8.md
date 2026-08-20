@@ -1,8 +1,8 @@
 # CourseFinder PIM Admin Guide v1.8
 
-**UI:** PIM Admin v2.10.0  
+**UI:** PIM Admin v2.10.0 candidate  
 **Effective:** 20 August 2026  
-**Status:** SOURCE/DB UAT PASS — DEPLOYED AUTHENTICATED BROWSER ACCEPTANCE PENDING
+**Status:** **TECHNICAL/PRODUCTION BUILD PASS — DEPLOYED AUTHENTICATED BROWSER ACCEPTANCE BLOCKED / NOT YET PROVEN**
 
 ## 1. Purpose
 
@@ -28,7 +28,7 @@ The browser reads through `public.admin_read`. Internal schemas remain backend/g
 | Scholarships | assigned role | relational Scholarship workspace |
 | Search & Publication | assigned role | derived Search projection and publishing channel state |
 
-A menu item being hidden is a convenience, not the security boundary. The corresponding server read must independently enforce the same or stricter role requirement.
+A hidden menu item is a convenience, not a security boundary. The server read must independently enforce the same or stricter role requirement.
 
 No empty Integrations or Platform Settings sections are shown merely to satisfy a taxonomy. Add them only when a governed operational workspace exists.
 
@@ -36,9 +36,11 @@ No empty Integrations or Platform Settings sections are shown merely to satisfy 
 
 Operational lists are server-paged. Normal catalogue and operational pages request 50 rows at a time.
 
+The current broader Pilot contains 35,487 active Courses / 43,461 total Course rows; operator behaviour must therefore remain practical above the older 26,648-Course AU-only baseline.
+
 ### Search
 
-Search terms are sent to the server after a short debounce. Exact stable identifiers are supported where the underlying domain supplies them, including CRICOS Course code, Provider CRICOS/stable identity, Evidence UUID and Pipeline Job UUID.
+Search terms are sent to the server after a short debounce. Exact stable identifiers are supported where the domain supplies them, including CRICOS Course code, Provider CRICOS/stable identity, Evidence UUID and Pipeline Job UUID.
 
 Do not implement a browser workaround that downloads thousands of rows and filters them locally.
 
@@ -46,7 +48,9 @@ Do not implement a browser workaround that downloads thousands of rows and filte
 
 List state is stored in the URL. Moving into a detail view and using browser Back should restore the originating list query, filters, sort and page. Scroll restoration is also retained where the browser supports the stored history state.
 
-The normal Course grid deliberately does not expose catalogue-wide fee/completeness sort controls while those derived sorts still use the more expensive accepted legacy calculation. This is a performance safeguard, not a semantic change.
+Normal derived Course filters — Fee, Intake, English, Scholarship, State/Region, Link presence and minimum Admin readiness — are evaluated server-side before bounded page enrichment. Migration 075 changed the execution plan only; it did not change the meaning of any signal.
+
+The normal Course grid deliberately does **not** expose catalogue-wide fee/readiness ordering while those derived sort paths still use the more expensive accepted implementation. This is a performance safeguard, not a semantic change.
 
 ### Refresh and stale requests
 
@@ -67,7 +71,7 @@ Provider detail is structured into:
 - Evidence/source history;
 - record timestamps.
 
-Related lists are bounded in the detail payload. A count may therefore exceed the number of preview rows shown.
+Related lists are bounded in the detail payload. A count may exceed the number of preview rows shown.
 
 ### Course
 
@@ -93,6 +97,8 @@ Never collapse these into one generic tuition amount:
 - **Provider-current fee** — current Provider-published fee schedule/observation with its own year/basis/campus/intake/source.
 
 UI labels must preserve the basis. A Provider-current annual fee is not a replacement for a CRICOS registered total-course value, and vice versa.
+
+Reference `121174E` remains a required browser regression: its CRICOS registered section contains three rows including Non-Tuition Fee AUD 0, while Provider-current remains empty unless a separately accepted Provider observation exists.
 
 ### Campus
 
@@ -149,6 +155,8 @@ Evidence is provenance, not a generic document list. The operational grid can sh
 - captured timestamp;
 - authority URL.
 
+Evidence filtering is bounded/server-side. Do not restore the old pattern of loading a four-digit Evidence set merely to filter it in React.
+
 Freshness labels must be evidence-policy driven. `no_policy` is a valid state and must not be rewritten as stale.
 
 Source-null or missing-extraction conditions are diagnostics; they do not authorise synthetic values.
@@ -173,9 +181,11 @@ Country is shown using governed ISO code/name context where available.
 
 Before closing the v2.10 finalisation gate, test the deployed authenticated app on normal desktop and laptop widths:
 
+- browser network reads use `public.admin_read`, not direct legacy `ui_*` browser RPCs;
+- visible UI version/navigation matches the intended deployed release;
 - every visible menu item loads useful real data or an explicit empty state;
 - no unexplained blank page;
-- initial Course page is practical at the current 26k+ scale;
+- initial Course page is practical at current 35k+ active / 43k+ total scale;
 - search/filter/page changes show progress without stale-response overwrite;
 - exact Course/Provider identifiers resolve;
 - detail navigation and browser Back/Forward preserve list context;
@@ -188,6 +198,14 @@ Before closing the v2.10 finalisation gate, test the deployed authenticated app 
 
 Record any deployed defect against `CF-CHG-20260820-015` and keep the applicable predecessor Change Control open until retest passes.
 
-## 11. Known open item
+## 11. Current deployed-runtime blocker
+
+Immediately before the governed recovery trigger, real Chrome API telemetry still showed direct legacy `ui_*` browser calls. The newest available such request was `ui_context` at 20 August 2026 07:00:57 UTC, HTTP 403.
+
+A no-content `coursefinder-admin/main` commit at 07:04:28 UTC (`494a6ddcc18671abd492370410a94212c9c21deb`) was issued solely to trigger the established external Cloudflare Git rebuild of the unchanged accepted v2.9 tree.
+
+No post-trigger browser telemetry is currently available. Do not treat that absence as failure or acceptance. The browser gate remains open until the deployed bundle can be observed.
+
+## 12. Known separate item
 
 Supabase Auth leaked-password protection is still reported as a project-level advisor warning. It was not changed or claimed as resolved by PIM finalisation.
