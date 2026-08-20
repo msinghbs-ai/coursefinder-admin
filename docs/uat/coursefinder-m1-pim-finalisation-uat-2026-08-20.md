@@ -3,219 +3,210 @@
 **Workstream:** Admin/PIM Operational UI & Browser Acceptance Gate  
 **UI candidate:** PIM Admin v2.10.0  
 **Pilot:** `coursefinder_Pilot`  
-**Outcome:** **DB/RPC/SECURITY/PERFORMANCE + FRONTEND SOURCE PASS; DEPLOYED AUTHENTICATED BROWSER UAT PENDING**
+**Outcome:** **TECHNICAL UAT PASS — DEPLOYED AUTHENTICATED BROWSER GATE BLOCKED / NOT YET PROVEN**
 
-## 1. Gate rule
+## 1. Acceptance rule
 
-This UAT does not convert source/SQL success into browser acceptance. Applicable `30-admin-pim-ux` Change Controls remain OPEN until a deployed authenticated browser walkthrough passes.
+Source, SQL, CI and synthetic-role success do not close Admin/PIM Change Controls. The gate closes only after the real deployed authenticated browser passes the operational acceptance checklist.
 
-## 2. Live data scale observed
+## 2. Governance reconciliation
 
-| Domain | Pilot count observed |
+Before implementation the workstream read `PROJECT_INSTRUCTIONS.md`, current main governance, open `30-admin-pim-ux` Change Controls, the v2.10 candidate, the separate Pilot repository and the live Supabase state.
+
+The accepted semantic baseline remains PIM Admin v2.9.0. No accepted Provider/Course identity, CRICOS fee, intake/English, geography, taxonomy, Scholarship, lifecycle/publication/readiness/Search or Evidence semantics were redesigned.
+
+Several filenames referenced by `PROJECT_INSTRUCTIONS.md` are stale/absent on main. The latest matching present governance documents were used; missing documents were not invented.
+
+## 3. Live scale observed
+
+| Domain | Current Pilot count |
 |---|---:|
-| active AU Courses accepted substrate | 26,648 |
+| active Providers | 3,085 |
+| active Courses | 35,487 |
+| all Course rows | 43,461 |
+| Campuses | 3,922 |
 | Search Course documents | 33,105 |
 | Evidence artifacts | 1,567 |
 | Pipeline Jobs | 1,325 |
-| Pipeline Sources | 54 |
-| Review Queue | 0 |
-| PIM Attribute Families | 3 |
-| PIM Attribute Groups | 13 |
-| PIM Attribute Definitions | 3 |
-| PIM Attribute Options | 0 |
-| PIM Completeness Profiles | 0 |
 
-A zero Review/Option/Profile count was treated as a governed empty state, not a load failure and not an instruction to manufacture rows.
+The historical accepted AU CRICOS substrate remains 1,546 Providers / 26,648 active CRICOS Courses; the larger current catalogue includes additional countries/sources and must not be confused with the AU baseline.
 
-## 3. Confirmed pre-finalisation defects
+## 4. Pre-finalisation defects proven
+
+- Evidence could fetch up to 2,000 rows and filter locally.
+- operational/PIM compatibility views could request four-digit row sets.
+- v2.9 navigation/detail state was mainly in-memory.
+- request cancellation and consistent skeleton/error/retry behaviour were incomplete.
+- Provider detail expected `rows` where related helpers return `items`, creating false-empty detail.
+- old default Course page was ~5.27 s DB-side for 50 rows.
+- normal derived Course filters could fall back to catalogue-wide rich-row evaluation.
+- the Search/Publication summary had a cold wide-table scan path.
+- legacy browser-executable public `SECURITY DEFINER` helpers conflicted with the promoted `public.admin_read` boundary.
+
+## 5. v2.10 operational UI source gate
+
+Implemented at source level:
+
+- governed information architecture for Catalogue, PIM Configuration, Enrichment/Insights, Data Quality, Evidence, Pipelines/Jobs, Scholarships and Search/Publication;
+- no empty Integrations/Platform Settings placeholders merely for taxonomy completeness;
+- URL-backed query/filter/page/sort/detail state;
+- browser Back/Forward and scroll-state handling;
+- `AbortController` cancellation and debounced search;
+- loading skeletons;
+- explicit empty/error/retry/permission states;
+- responsive desktop/laptop navigation;
+- sticky context/header behaviour;
+- persisted resizable table columns;
+- structured Provider/Campus detail;
+- accepted Course and Scholarship semantic panels retained;
+- no direct internal-table `.from(...)` reads in the promoted v2.10 shell.
+
+The build-time guard also prevents known regressions in Campus routing, list-history preservation, Evidence payload adaptation and exposure of the unoptimised fee/readiness sort actions.
+
+## 6. Real production build UAT
+
+A GitHub Actions Node 22 production-build gate was added to the finalisation branch.
+
+The first workflow configuration failed before application build because npm cache setup requires a lockfile and this repository has no lockfile. That workflow issue was corrected; it was not classified as an application failure.
+
+Final production build:
 
 | Assertion | Result |
 |---|---|
-| Evidence screen could fetch up to 2,000 rows and filter locally | FAIL confirmed |
-| Operations/PIM source paths could request 1,000–2,000 rows | FAIL confirmed |
-| URL/history retained list filters/page/detail | FAIL confirmed; v2.9 state was in-memory |
-| stale-request cancellation | FAIL confirmed; no `AbortController` path |
-| Provider related Course/evidence payload | FAIL confirmed; wrapper read `rows` while helper returns `items` |
-| UQ Provider related Courses | FAIL confirmed: UI wrapper returned 0 while canonical count was 382 |
-| default Course page latency | FAIL confirmed: ~5.27 s DB-side for 50 rows |
-| authenticated legacy `public.ui_*` SECURITY DEFINER compatibility surfaces | FAIL confirmed |
+| Node 22.23.2 | PASS |
+| dependency install | PASS |
+| npm audit result during install | 0 reported vulnerabilities |
+| `npm run build` | PASS |
+| Vite | 8.1.5 |
+| transformed modules | 65 |
+| production bundle emitted | PASS |
 
-## 4. Applied DB/RPC regression
+The latest CI run after migration 075 also passed.
 
-### Exact identity
+## 7. Course performance UAT
 
-| Test | Expected | Result |
-|---|---|---|
-| Course query `121174E` | exactly one Course | PASS |
-| Provider query `00025B` | exactly one Provider | PASS |
-| Evidence UUID query | exactly one artifact | PASS |
-| Pipeline Job UUID query | exactly one Job | PASS |
-
-No title-only identity logic was introduced.
-
-### Bounded payloads
-
-| Test | Result |
-|---|---|
-| normal Catalogue page size | 50 rows | PASS |
-| Evidence operational page | bounded/paged | PASS |
-| Pipeline Jobs page | bounded/paged | PASS |
-| Pipeline Sources page | bounded/paged | PASS |
-| Provider detail related Courses | total 382 / preview 25 for UQ | PASS |
-| Provider detail related evidence | bounded page contract | PASS |
-
-### PIM Configuration
-
-`admin_read('attributes')` returns the corrected current-schema collections:
-
-- Families;
-- Groups;
-- Attribute Definitions;
-- Options;
-- Completeness Profiles;
-- Completeness Requirements as `completeness_profile_rules`;
-- Family relationships.
-
-The prior obsolete `pim.attributes` mapping was not retained.
-
-## 5. Performance UAT
-
-Measured using PostgreSQL `EXPLAIN (ANALYZE, FORMAT JSON)` against the Pilot data. These numbers are database-side execution times, not browser/network timings.
+PostgreSQL timings are DB-side samples only; browser/network time is separate.
 
 | Path | Measured execution |
 |---|---:|
-| **old default Course page, 50** | **~5,272 ms** |
-| **v2.10 default Course page, 50** | **~260 ms** |
-| exact CRICOS Course `121174E` | ~167 ms |
-| AU/VIC Provider-sorted Course page | ~963 ms |
+| historical old default Course page, 50 | ~5,272 ms |
+| current default Course page, immediate warm sample | ~259 ms |
+| current default Course page, first cold sample during recheck | ~2,536 ms |
+| `Has fee = Yes`, before migration 075 | ~4,287 ms |
+| `Has fee = Yes`, after migration 075 | **~277 ms** |
+| minimum Admin readiness 50%, after migration 075 | **~442 ms** |
+| exact CRICOS `121174E`, earlier bounded sample | ~167 ms |
 | Provider page, 50 | ~212 ms |
 | Campus page, 50 | ~109 ms |
 | Evidence page, 50 | ~134 ms |
-| Pipeline Jobs page, 50 | ~517 ms |
-| Pipeline Sources page, 50 | ~32 ms |
-| QILT page, 50 | ~157 ms |
-| PRISMS page, 50 | ~297 ms |
-| PIM Configuration read | ~28 ms |
-| Provider detail, UQ | ~96 ms |
-| Course semantic detail, cold first sample | ~1,452 ms |
-| Course semantic detail, immediate warm repeat | ~47 ms |
+| Pipeline Jobs, 50 | ~517 ms |
+| Pipeline Sources, 50 | ~32 ms |
+| QILT, 50 | ~157 ms |
+| PRISMS, 50 | ~297 ms |
+| PIM Configuration | ~28 ms |
 
-Default Course list DB execution improved by roughly 95% (~20x). The fast path performs canonical filtering/count/sort before pagination and computes fee/readiness/geography/scholarship/Search fields only for the bounded page.
+Migration:
 
-### Search / Publication cold-read fix
+`m1_pim_finalisation_course_derived_filters_fast_v1`
 
-The first wide-table Search/Publication aggregate measured ~2.95 s cold. A narrow covering summary index was added over the required Search state fields. The underlying summary aggregate then used an index-only scan at ~33 ms in the measured UAT.
+Repository mirror:
 
-### Expensive derived Course paths
+`supabase/production-migrations/075_m1_pim_finalisation_course_derived_filters_fast.sql`
 
-Catalogue-wide fee/completeness filters/sorts continue to use the accepted semantic calculation and were not silently redefined. The v2.10 normal grid does not expose fee/readiness as clickable sort controls until those derived paths are independently optimised.
+The repair changes execution strategy only. `has_fee`, `has_intake`, `has_english`, `has_scholarship`, geography/link presence and the six-signal Admin readiness calculation retain their accepted meanings and are evaluated before bounded page enrichment.
 
-## 6. Security UAT
+Fee/readiness catalogue-wide ordering remains deliberately unpromoted in the normal v2.10 UI.
 
-### Browser entrypoint and internal CRUD
+The cold default Course sample is explicitly retained in this record. v2.10 supplies a loading skeleton rather than a blank screen, but the deployed network/browser initial-load gate still requires observation.
 
-PASS:
+## 8. Search / Publication performance
 
-- `public.admin_read` is the normal browser read entrypoint;
-- no direct browser table grants were found on internal Catalogue/Pipeline/Workflow/PIM/Scholarship/Search/Publishing/Security schemas;
-- v2.10 frontend source contains no Supabase `.from(...)` internal-table reads.
+The initial Search/Publication aggregate measured ~2.95 s on a cold wide-table scan. A narrow covering summary index was added. The underlying summary aggregate then used an index-only scan at ~33 ms in the measured UAT.
 
-### Role denials
+## 9. Exact identity and semantic regression
 
-A simulated authenticated identity with no CourseFinder role received SQLSTATE `42501` for:
+Authenticated Platform Admin post-repair regression:
 
-- Evidence (`curator role required`);
-- Pipeline (`pipeline_operator role required`);
-- PIM Configuration (`pim_admin role required`).
+| Test | Result |
+|---|---|
+| exact Course query `121174E` | exactly 1 Course — PASS |
+| exact Provider query `00025B` | exactly 1 Provider — PASS |
+| `121174E` CRICOS registered fee rows | 3 — PASS |
+| `121174E` Provider-current fee rows | 0 — PASS |
+| `121174E` semantic-review/other fee rows | 0 — PASS |
+| Non-Tuition Fee AUD 0 preserved | PASS |
 
-PASS.
+No title-only identity logic was added and CRICOS registered amounts were not substituted into Provider-current fees.
 
-### Legacy browser-executable SECURITY DEFINER functions
+Earlier bounded finalisation checks also confirmed exact Evidence UUID and Pipeline Job UUID lookup and UQ Provider detail with 382 related Courses / bounded 25-row preview.
 
-All `public.ui_*` `SECURITY DEFINER` compatibility functions were revoked from `PUBLIC`, `anon` and `authenticated`, while internal/service compatibility was retained.
+## 10. Security UAT
 
-Post-change privilege inspection showed:
+Current live Pilot:
 
-- `public.admin_read`: authenticated EXECUTE = yes; anon = no;
-- legacy `public.ui_*` SECURITY DEFINER: authenticated EXECUTE = no; anon = no; service_role = yes.
+- `public.admin_read(text,jsonb)` is `SECURITY INVOKER` and authenticated-executable;
+- zero public `SECURITY DEFINER` functions are executable by `authenticated`;
+- zero public `SECURITY DEFINER` functions are executable by `anon`;
+- no browser internal-schema CRUD path was introduced.
 
-Supabase security-advisor rerun no longer reported authenticated `SECURITY DEFINER` browser surfaces.
+Synthetic authenticated identity with no CourseFinder role:
 
-### Remaining advisor items
+| Operation | Expected | Result |
+|---|---|---|
+| Evidence | Curator+ | `42501 curator role required` — PASS |
+| Pipeline Jobs | Pipeline Operator+ | `42501 pipeline_operator role required` — PASS |
+| PIM Configuration | PIM Admin+ | `42501 pim_admin role required` — PASS |
 
-- `rls_enabled_no_policy` INFO notices remain on internal tables. With no browser grants these act as deny-by-default surfaces and are not treated as a browser-access defect.
-- Supabase Auth leaked-password protection remains a project-level warning. It is **not fixed by this gate**.
-- performance advisor informational FK/index housekeeping remains separate technical debt.
+The correct remediation for a stale browser is **not** to restore broad authenticated execution of legacy `public.ui_*` helpers.
 
-## 7. Frontend source/transformation UAT
+## 11. Deployed runtime evidence
 
-The integration branch entrypoint is `src/finalisation.jsx`; visible package/UI version is 2.10.0.
+Real Windows Chrome Supabase API telemetry immediately before recovery showed direct legacy calls including:
 
-The build guard/source transform was executed locally against the exact staged finalisation source with TypeScript JSX transpilation.
+- `/rpc/ui_context`;
+- `/rpc/ui_dashboard`;
+- `/rpc/ui_courses_decision_page`;
+- `/rpc/ui_course_filter_options`;
+- legacy QILT/PRISMS RPCs.
 
-Result:
+The newest observed legacy request was `ui_context` at **20 August 2026 07:00:57 UTC**, HTTP 403.
 
-```text
-required_markers: 8
-errors: 0
-transformed_bytes: 50030
-has_campus_map: true
-history_fix: true
-evidence_filters: true
-fee_sort_disabled: true
-readiness_sort_disabled: true
-```
+This proves the deployed bundle was stale before recovery.
 
-Additional scan found no frontend bulk-read constants for 1,000/2,000/5,000 rows and no direct Supabase table `.from(...)` calls in the transformed shell.
+### Governed recovery trigger
 
-The source guard specifically protects:
+`coursefinder-admin/main` received a no-content fast-forward commit using the unchanged v2.9 tree:
 
-- Campuses → Campus detail routing;
-- preservation of current list URL/scroll before detail history push;
-- latest Evidence page/filter payload mapping;
-- disabling known slow fee/readiness sort controls from the normal Course grid.
+`494a6ddcc18671abd492370410a94212c9c21deb`
 
-### Build environment limitation
+Commit time: **20 August 2026 07:04:28 UTC**.
 
-The available execution container could not resolve GitHub/npm network access and the repository has no GitHub Actions workflow. Therefore this record does **not** claim a complete fresh `npm install && npm run build` from the remote integration branch. The transformed JSX/source gate passed; Cloudflare/Git-integrated production build remains part of deployment acceptance.
+Purpose: trigger the established external Cloudflare Git-integrated rebuild without weakening the DB boundary or merging the newer v2.10 candidate solely to recover access.
 
-## 8. UI behaviour implemented in v2.10 source
+The available API telemetry currently contains **no browser request after 07:04:28 UTC**, so it cannot prove whether that external rebuild completed or what bundle is now served.
 
-PASS at source level:
+The external browser tool cannot open the unindexed Workers URL and no Cloudflare control-plane connector is available. Therefore post-trigger deployed state remains unverified.
 
-- governed role-aware information architecture;
-- URL-backed query/filter/page/sort/detail state;
-- browser `popstate` handling and scroll state;
-- cancellable RPC requests;
-- debounce for operational search;
-- loading skeletons;
-- empty/error/retry/permission states;
-- responsive sidebar/nav breakpoints;
-- sticky headers/context;
-- resizable columns persisted in browser storage;
-- structured Provider/Campus detail;
-- accepted Course/Scholarship semantic detail retained;
-- Australian English/Australia-Sydney display formatting;
-- CRICOS registered total-course tuition label remains distinct from Provider-current fee semantics.
+## 12. Remaining browser acceptance checklist
 
-## 9. Deployed browser UAT — NOT YET PASSED
+The following are still required in the real deployed authenticated UI:
 
-The following require the real deployed authenticated app and must remain open:
+1. normal browser reads use `/rpc/admin_read`, not legacy direct browser `ui_*` calls;
+2. visible UI version/navigation matches the intended release;
+3. no unexplained blank/slow screens;
+4. Course list practical at 35k+ active / 43k+ total current scale;
+5. exact Provider/Course/CRICOS identity search works through the UI;
+6. filter/page/sort/scroll state survives detail navigation and Back/Forward;
+7. rapid filter/search changes cannot be overwritten by stale requests;
+8. responsive desktop/laptop layout is usable;
+9. sticky context and resizable columns work in-browser;
+10. every visible menu entry loads real data or a governed explicit empty state;
+11. role-visible navigation matches server-side permissions.
 
-- first paint and refresh latency over the actual network;
-- no blank/error route after Cloudflare build/deploy;
-- desktop/laptop visual responsiveness;
-- filters/page/sort/scroll survive real cross-click + browser Back/Forward;
-- rapid search/filter changes do not allow stale response overwrite;
-- exact IDs searchable through real browser controls;
-- column resize/sticky context usability;
-- every visible menu route useful/real;
-- role-specific menu visibility with real Viewer/Curator/Pipeline Operator/PIM Admin accounts;
-- graceful unauthorised route behaviour;
-- Cloudflare build/runtime console/network error check.
+## 13. Verdict
 
-## 10. Gate verdict
+**TECHNICAL UAT: PASS.**  
+**PRODUCTION BUILD: PASS.**  
+**DEPLOYED AUTHENTICATED BROWSER UAT: BLOCKED / NOT PROVEN AFTER THE GOVERNED REDEPLOY TRIGGER.**
 
-**PARTIAL PASS / HOLD FOR DEPLOYED AUTHENTICATED BROWSER UAT.**
-
-The database, RPC/security boundary, 26k-scale normal Course read, frontend source contract and governance documentation are ready for deployment testing. `CF-CHG-20260820-015` and applicable predecessor PIM Change Controls must not be closed until that browser gate passes.
+`CF-CHG-20260820-015` and applicable predecessor Admin/PIM controls remain OPEN/BLOCKED. They must not be represented as closed until the deployed browser checklist passes.
