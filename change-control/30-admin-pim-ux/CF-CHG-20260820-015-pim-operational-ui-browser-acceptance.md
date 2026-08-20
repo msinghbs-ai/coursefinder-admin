@@ -1,12 +1,12 @@
 # CF-CHG-20260820-015 — PIM operational UI and browser acceptance finalisation
 
-**Status:** **BLOCKED — V2.11 UX MATURITY APPLIED / DEPLOYED VISUAL ACCEPTANCE PENDING**  
+**Status:** **CLOSED / PASS — PIM ADMIN V2.11 DEPLOYED BROWSER + VISUAL ACCEPTANCE COMPLETE**  
 **Category:** `30-admin-pim-ux`  
 **Initiated:** 20 August 2026 15:04 AEST  
 **Origin:** `M1-PIM-FINALISATION — Admin/PIM Operational UI & Browser Acceptance Gate`  
 **Owner:** CourseFinder Admin/PIM governance  
 **UI candidate:** PIM Admin v2.11.0  
-**Last updated:** 20 August 2026 22:25 AEST
+**Last updated:** 20 August 2026 22:42 AEST
 
 ## Governing boundary
 
@@ -353,24 +353,34 @@ Detailed maturity UAT:
 
 `docs/uat/coursefinder-pim-admin-v2.11-ux-maturity-uat-2026-08-20.md`
 
-## Remaining deployed browser acceptance
+## Final deployed browser acceptance — PASS
 
-The record remains open until a fresh authenticated Cloudflare-served browser proves all of the following:
+The operator loaded the Cloudflare-served v2.11 release and confirmed the visible runtime marker `PIM Admin v2.11 · governed`.
 
-1. visible marker is `PIM Admin v2.11 · governed`;
-2. browser traffic remains `/rpc/admin_read` rather than direct legacy `ui_*` calls;
-3. Dashboard displays icons, semantic colour, operational pulse, recent activity and attention cards with useful cross-links;
-4. Provider Country/State/Region filters are populated and materially filter the catalogue;
-5. Course Country/State/Provider/Study Level/Field/Delivery and decision filters are populated and materially filter the catalogue;
-6. exact `00025B` and `121174E` remain searchable through browser controls;
-7. Brand and Account remain fixed while the middle navigation scrolls and Jobs / Sources / Attributes / Settings remain reachable;
-8. tablet/mobile off-canvas navigation is usable;
-9. no unexplained blank/slow/overlapping states are observed at current catalogue scale;
-10. role-visible navigation aligns with server-side permission behaviour;
-11. no legacy SECURITY DEFINER ACL is reopened.
+Fresh authenticated browser telemetry from approximately **20 August 2026 22:37–22:41 AEST** showed only governed requests to:
+
+`/rest/v1/rpc/admin_read`
+
+All observed requests in the fresh acceptance window returned **HTTP 200**. No new direct legacy `ui_*` RPC calls and no fresh 4xx/5xx responses were observed.
+
+The operator then explicitly declared:
+
+**`v2.11 visual UAT pass`**
+
+This closes the visual/interaction criteria covering the mature Dashboard hierarchy, populated governed Provider/Course filters, exact identity search, lower-navigation reachability, responsive navigation and detail/table interaction. No security or authority exception was required to obtain acceptance.
+
+Final deployed release head:
+
+`msinghbs-ai/Coursefinder-Pilot@b3867cc89bbfd3f76def01993a70868318016ef0`
+
+Final browser acceptance UAT:
+
+`docs/uat/coursefinder-pim-admin-v2.11-final-browser-acceptance-2026-08-20.md`
 
 ## Closure
 
-**Current status:** **BLOCKED — PIM ADMIN V2.11 UX MATURITY APPLIED; DEPLOYED VISUAL/BROWSER ACCEPTANCE PENDING.**
+**Final status:** **CLOSED / PASS — DB/RPC/SECURITY/BUILD/DEPLOYED BROWSER/VISUAL UAT COMPLETE.**
 
-Do not close `CF-CHG-20260820-001`, `005`–`014`, or this record solely from SQL, source, CI or synthetic role evidence. The remaining blocker is now the Cloudflare-served v2.11 visual/interaction acceptance gate rather than the resolved RPC permission incident.
+`CF-CHG-20260820-001` and `005`–`014` may now be closed because their shared deployed authenticated browser gate has passed. Their accepted semantic boundaries are not reopened or redefined by this closure.
+
+No Supabase ACL rollback was performed. `public.admin_read(text,jsonb)` remains the browser read boundary, legacy `ui_*` SECURITY DEFINER browser execution remains retired, and no internal-schema browser CRUD was introduced.
