@@ -1,12 +1,12 @@
 # CF-CHG-20260820-015 — PIM operational UI and browser acceptance finalisation
 
-**Status:** **BLOCKED — TECHNICAL GATE PASS / DEPLOYED AUTHENTICATED BROWSER ACCEPTANCE NOT PROVEN**  
+**Status:** **BLOCKED — RECOVERY APPLIED / DEPLOYED AUTHENTICATED BROWSER RETEST PENDING**  
 **Category:** `30-admin-pim-ux`  
 **Initiated:** 20 August 2026 15:04 AEST  
 **Origin:** `M1-PIM-FINALISATION — Admin/PIM Operational UI & Browser Acceptance Gate`  
 **Owner:** CourseFinder Admin/PIM governance  
 **UI candidate:** PIM Admin v2.10.0  
-**Last updated:** 20 August 2026
+**Last updated:** 20 August 2026 18:34 AEST
 
 ## Governing boundary
 
@@ -154,9 +154,9 @@ Immediately before recovery, Supabase API logs from the real Windows Chrome clie
 - `/rest/v1/rpc/ui_course_filter_options`;
 - legacy QILT/PRISMS helpers.
 
-The newest observed legacy request in the available log batch was **20 August 2026 07:00:57 UTC**, returning HTTP 403 for `ui_context`.
+The newest observed legacy request in the original log batch was **20 August 2026 07:00:57 UTC**, returning HTTP 403 for `ui_context`.
 
-This is valid proof that the deployed browser bundle was stale **before** the recovery trigger.
+This proved that the deployed browser bundle was stale **before** the first recovery trigger.
 
 ### Governed redeploy triggers
 
@@ -172,9 +172,7 @@ A second governed redeploy trigger was issued after explicit operator approval, 
 
 Commit time: **20 August 2026 08:07:02 UTC / 18:07 AEST**.
 
-Purpose: trigger the established external Cloudflare Git-integrated rebuild without changing application semantics or merging the v2.10 candidate prematurely.
-
-Post-trigger technical regression under the assigned Platform Admin identity remains PASS:
+Post-trigger technical regression under the assigned Platform Admin identity remained PASS:
 
 - `admin_read('context')` → `platform_admin`, role rank 6;
 - exact Provider `00025B` → 1 Provider;
@@ -186,28 +184,97 @@ Post-trigger technical regression under the assigned Platform Admin identity rem
 
 The only remaining directly executable legacy `ui_*` functions for `authenticated` are the two `ui_providers_page` overloads, both `SECURITY INVOKER`; no legacy `ui_*` `SECURITY DEFINER` surface was reopened.
 
-The current tool environment still has no Cloudflare control-plane connector and the available Supabase API log batch contains **no browser request newer than the 08:07:02 UTC redeploy trigger**. Therefore deployment success or failure after the approved trigger is **not yet proven**.
+## Confirmed deployment-source mismatch — 20 August 2026 18:22 AEST
 
-Absence of post-trigger telemetry is not treated as a deployment failure and is not treated as a PASS.
+A fresh authenticated browser retest after the second `coursefinder-admin/main` trigger still displayed **UI v1.7.2** and the visible error `permission denied for function ui_context`.
+
+Fresh Supabase telemetry from the retest showed direct browser requests after the 18:07 AEST trigger, including:
+
+- `ui_context` — 403;
+- `ui_dashboard` — 403;
+- `ui_provider_filter_options` — 403;
+- `ui_courses_decision_page` / `ui_course_filter_options` — 403;
+- QILT page/filter helpers — 403;
+- PRISMS page/filter helpers — 403;
+- `ui_attributes_list` — 403.
+
+The deployed Worker was then reconciled against the actual implementation repository. The live `coursefinder-pilot` Worker is governed by `msinghbs-ai/Coursefinder-Pilot/wrangler.jsonc`, while `coursefinder-admin/wrangler.jsonc` declares a different Worker name (`coursefinder-admin`). The deployed Pilot repository `main` was still at `464f9c3c3a6634daca9783f8b00048950eca4719`, whose browser adapter directly invoked legacy `ui_*` RPCs.
+
+**Root cause:** deployment-source mismatch, not Supabase canonical data failure and not a need to restore retired ACLs.
+
+## Governed `Coursefinder-Pilot` recovery — APPLIED
+
+Explicit operator approval was received to align the actual Pilot deployment repository with the governed browser read boundary.
+
+Recovery branch:
+
+`fix/governed-admin-read-recovery-20260820`
+
+Pilot PR:
+
+`msinghbs-ai/Coursefinder-Pilot#12`
+
+Recovery scope was deliberately limited to two browser-facing files:
+
+- `src/lib/supabase.js` — all browser database reads now enter through `public.admin_read(text,jsonb)`; direct legacy `ui_*` browser RPC calls were removed from the adapter;
+- `index.html` — visible `Governed RPC recovery r1` runtime marker added for deployed-build correlation.
+
+No Supabase ACL, migration, canonical data, Provider/Course identity, source authority, Search admission or Edge Function operational write contract changed.
+
+Legacy Provider/Course filter-option selectors that do not yet have a governed `admin_read` filter-options contract are intentionally presented with non-authoritative empty option sets rather than re-opening retired RPC permissions. Governed search/paging/exact identity reads continue through catalogue page operations.
+
+### Recovery build / DB contract UAT
+
+`Coursefinder-Pilot` GitHub Actions `Pilot Frontend Build` run #84 completed successfully at recovery head:
+
+`a27c74543456f73be9159ea8b1772188da3330fc`
+
+A bounded authenticated Platform Admin transaction also exercised the recovery operations without mutation:
+
+- `context` → `platform_admin` — PASS;
+- `dashboard` → Providers 3,085 — PASS;
+- exact `providers_page` query `00025B` → total 1 — PASS;
+- exact `courses_page` query `121174E` → total 1 — PASS;
+- `qilt_outcomes` + `qilt_filters` — PASS;
+- `prisms_student_flow` — PASS;
+- `evidence_page` — PASS;
+- `reviews_page` — valid governed result — PASS;
+- `attributes` — governed payload returned — PASS;
+- `jobs` — PASS;
+- `sources` → 54 rows — PASS.
+
+The transaction was rolled back.
+
+After build PASS and a final recheck that `Coursefinder-Pilot/main` had not moved, `main` was fast-forwarded without force to:
+
+`a27c74543456f73be9159ea8b1772188da3330fc`
+
+at approximately **20 August 2026 18:33 AEST**. GitHub records PR #12 as merged at the same head.
+
+This publication is intended to trigger the existing Cloudflare Git integration for the actual `coursefinder-pilot` Worker.
+
+Detailed recovery UAT:
+
+`docs/uat/coursefinder-pilot-governed-rpc-recovery-uat-2026-08-20.md`
 
 ## Remaining deployed browser acceptance
 
-This record remains open until an authenticated deployed browser proves all of the following:
+The record remains open until a fresh authenticated deployed browser proves all of the following:
 
-1. the deployed bundle uses `/rpc/admin_read` rather than direct legacy browser `ui_*` calls;
-2. visible version and navigation correspond to the intended release;
-3. no unexplained blank/slow screens;
-4. Course list is practical at current 35k+ active / 43k+ total Course scale;
-5. exact IDs are searchable through browser controls;
-6. filters/page/sort/scroll survive cross-click and browser Back/Forward;
-7. rapid filter/search changes do not allow stale responses to win;
-8. responsive laptop/desktop behaviour is acceptable;
-9. resizable columns and sticky identity/context work in the actual browser;
-10. every visible menu entry loads useful real data or an explicit governed empty state;
-11. role-visible navigation aligns with server-side permission behaviour.
+1. the visible `Governed RPC recovery r1` marker is served;
+2. the deployed bundle uses `/rpc/admin_read` rather than direct legacy browser `ui_*` calls;
+3. Dashboard loads without the `ui_context` permission failure;
+4. Providers and Courses load and exact `00025B` / `121174E` work through browser controls;
+5. QILT, PRISMS, Attributes, Evidence, Review Queue and Jobs load governed data or the correct governed empty/permission state;
+6. no unexplained blank/slow screens;
+7. Course list remains practical at current 35k+ active / 43k+ total Course scale;
+8. filters/page/sort/scroll survive cross-click and browser Back/Forward where supported by the intended release;
+9. responsive laptop/desktop behaviour is acceptable;
+10. role-visible navigation aligns with server-side permission behaviour;
+11. no legacy SECURITY DEFINER ACL is reopened.
 
 ## Closure
 
-**Final status:** **BLOCKED — TECHNICAL GATE PASS; DEPLOYED AUTHENTICATED BROWSER ACCEPTANCE NOT PROVEN AFTER GOVERNED REDEPLOY TRIGGER.**
+**Current status:** **BLOCKED — GOVERNED PILOT RECOVERY APPLIED; FRESH DEPLOYED AUTHENTICATED BROWSER RETEST PENDING.**
 
-Do not close `CF-CHG-20260820-001`, `005`–`014`, or this record solely from SQL, source, CI or synthetic role evidence. Their common remaining blocker is now explicitly this deployed-browser/runtime gate rather than a generic unqualified “browser UAT pending”.
+Do not close `CF-CHG-20260820-001`, `005`–`014`, or this record solely from SQL, source, CI or synthetic role evidence. The remaining blocker is now narrowly the post-`a27c7454` Cloudflare-served browser/runtime verification.
