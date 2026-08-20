@@ -1,10 +1,16 @@
-# CourseFinder PIM Admin v2.10.0
+# CourseFinder PIM Admin — v2.11 Accepted Governance State
 
-Responsive React/Vite operational PIM for the CourseFinder Supabase catalogue, deployed as Cloudflare static assets/Worker routing.
+Governed Admin/PIM architecture, migration mirrors, Change Control and release documentation for the CourseFinder Supabase catalogue.
+
+The **actual Cloudflare Pilot implementation** is deployed from `msinghbs-ai/Coursefinder-Pilot`. The accepted PIM Admin v2.11 release is:
+
+`Coursefinder-Pilot@b3867cc89bbfd3f76def01993a70868318016ef0`
+
+This `coursefinder-admin` repository remains the authoritative project-governance and Admin architecture integration source; do not confuse its separate Worker target with the live `coursefinder-pilot` Worker.
 
 ## Governed information architecture
 
-- Overview
+- Overview / operational Dashboard
 - Catalogue — Providers, Courses, Campuses
 - PIM Configuration — Attributes, Options and Completeness configuration
 - Enrichment & Insights — QILT and PRISMS
@@ -13,36 +19,52 @@ Responsive React/Vite operational PIM for the CourseFinder Supabase catalogue, d
 - Pipelines & Jobs — Pipeline Control, Jobs and Sources
 - Scholarships
 - Search & Publication
+- Platform Settings where role-authorised and operationally useful
 
-Only useful governed workspaces are shown. Integrations or Platform Settings are not added as empty menu placeholders.
+Only useful governed workspaces should be shown. Empty menu taxonomy is not an acceptance criterion.
 
 ## Browser data boundary
 
-The Admin browser uses Supabase Auth and the governed `public.admin_read` RPC. It does not perform direct internal-schema table CRUD.
+The accepted Admin browser uses Supabase Auth and the governed `public.admin_read(text,jsonb)` RPC. It does not perform direct internal-schema table CRUD.
 
-Role visibility is aligned with server-side rank checks:
+Final security after-state for the v2.11 acceptance gate:
 
-- assigned CourseFinder role: Catalogue, Insights, Scholarships, Search/Publication;
+- `admin_read` is SECURITY INVOKER;
+- authenticated EXECUTE = yes;
+- anon EXECUTE = no;
+- public SECURITY DEFINER executable by authenticated = 0;
+- public SECURITY DEFINER executable by anon = 0;
+- legacy `public.ui_*` SECURITY DEFINER browser execution remains retired.
+
+Role visibility stays aligned with server-side rank checks:
+
+- assigned CourseFinder role: Catalogue, Insights, Scholarships and permitted general reads;
 - Curator+ (rank 3): Review Queue and Evidence;
-- Pipeline Operator+ (rank 4): Pipeline Control, Jobs and Sources;
-- PIM Admin+ (rank 5): PIM Configuration.
+- Pipeline Operator+ (rank 4): Pipeline operations, Jobs and Sources;
+- PIM Admin+ (rank 5): PIM Configuration;
+- Platform Admin (rank 6): privileged Platform Settings and approved operational actions.
 
-Legacy `public.ui_*` `SECURITY DEFINER` compatibility RPCs are internal/service-only rather than normal authenticated-browser surfaces.
+## Accepted v2.11 operational behaviour
 
-## Operational behaviour
-
-- 50-row server-side catalogue/operations paging;
-- server-side search/filter/sort on operational list paths;
+- semantic Dashboard icons and restrained status colour;
+- Operational Pulse, Recent Activity and Attention / Next Actions;
+- governed populated Provider and Course filters;
+- searchable/typeable filter controls and active-filter chips;
+- bounded server-side catalogue/operations paging;
 - exact Course/Provider/CRICOS identity search;
-- URL-backed filters, paging, sort and detail state for browser Back/Forward;
-- stale-request cancellation via `AbortController`;
-- loading skeletons plus explicit empty/error/retry/permission states;
-- responsive desktop/laptop navigation;
-- sticky table headers/context;
-- resizable table columns persisted in browser storage;
+- responsive navigation with independently scrollable menu and fixed identity/account regions;
+- sticky decision-grid headers and identity column;
 - structured Provider/Course/Campus/Scholarship detail rather than raw database-row dumps.
 
 Course semantics continue to distinguish CRICOS registered total-course tuition from Provider-current fee observations.
+
+## M1-PIM-FINALISATION status
+
+**CLOSED / PASS — 20 August 2026 22:42 AEST.**
+
+Fresh deployed browser telemetry used `/rest/v1/rpc/admin_read` with HTTP 200 in the observed acceptance window, with no new legacy `ui_*` calls or fresh 4xx/5xx responses. The operator explicitly accepted the deployed release with `v2.11 visual UAT pass`.
+
+No ACL rollback or canonical semantic relaxation was used to obtain acceptance.
 
 ## Local setup
 
@@ -51,17 +73,15 @@ Course semantics continue to distinguish CRICOS registered total-course tuition 
 3. Run `npm install` then `npm run dev`.
 4. Production build: `npm run build`.
 
-## Cloudflare deployment
+## Deployment note
 
-`wrangler.jsonc` defines the Admin Worker/static asset deployment and serves `dist` with SPA fallback. Git-integrated deployment must build the Vite bundle first and provide:
-
-- `VITE_SUPABASE_URL`;
-- `VITE_SUPABASE_PUBLISHABLE_KEY`.
-
-Use the integration/preview branch for browser UAT before closing the `30-admin-pim-ux` Change Controls. PIM finalisation is not complete merely because source and DB UAT pass.
+`wrangler.jsonc` in this repository declares the separate `coursefinder-admin` target. It is **not** the live Pilot Worker source. Any future Pilot UI deployment must reconcile against `msinghbs-ai/Coursefinder-Pilot` before applying a production change.
 
 ## Governance references
 
+- `PROJECT_INSTRUCTIONS.md`
+- `docs/coursefinder-master-project-plan-v1.54.md`
+- `docs/coursefinder-running-build-v2.58.md`
 - `docs/coursefinder-pim-admin-guide-v1.8.md`
-- `docs/uat/coursefinder-m1-pim-finalisation-uat-2026-08-20.md`
+- `docs/uat/coursefinder-pim-admin-v2.11-final-browser-acceptance-2026-08-20.md`
 - `change-control/30-admin-pim-ux/CF-CHG-20260820-015-pim-operational-ui-browser-acceptance.md`
