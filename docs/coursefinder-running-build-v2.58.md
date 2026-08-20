@@ -4,7 +4,7 @@
 **Date:** 20 August 2026  
 **Supersedes:** `docs/coursefinder-running-build-v2.57.md`  
 **Architecture:** `docs/coursefinder-database-architecture-v2.10.38.md`  
-**Admin Guide:** `docs/coursefinder-pim-admin-guide-v1.8.md`  
+**Admin Guide:** `docs/coursefinder-pim-admin-guide-v1.9.md`  
 **Final browser UAT:** `docs/uat/coursefinder-pim-admin-v2.11-final-browser-acceptance-2026-08-20.md`
 
 ## Accepted release position
@@ -13,7 +13,7 @@ M1-PIM-FINALISATION is complete. The accepted deployed Admin release is **PIM Ad
 
 `msinghbs-ai/Coursefinder-Pilot@b3867cc89bbfd3f76def01993a70868318016ef0`
 
-The separate `coursefinder-admin` repository remains the governed architecture/change-control integration repository. Its finalisation branch mirrors the production database migrations and governance history without redefining the actual Pilot Worker source.
+The separate `coursefinder-admin` repository remains the governed architecture/change-control integration repository. Its finalisation history mirrors production database migrations and governance without redefining the actual Pilot Worker source.
 
 ## Browser/runtime acceptance
 
@@ -100,12 +100,14 @@ CRICOS registered total-course fees remain distinct from Provider-current fee ob
 
 ## Change Control closure
 
-The authoritative register now classifies:
+The authoritative PIM finalisation register classifies:
 
 - `CF-CHG-20260820-001`;
 - `CF-CHG-20260820-005` through `CF-CHG-20260820-015`
 
-as **CLOSED / PASS** because the shared deployed authenticated browser gate has passed. Earlier browser-pending notes in predecessor detail records are superseded only with respect to that shared gate; their accepted field/security/provenance semantics remain unchanged.
+as **CLOSED / PASS** for their accepted PIM scopes because the shared deployed authenticated browser gate passed.
+
+`CF-CHG-20260820-013` is specifically reconciled as CLOSED / PASS for the original role-boundary/safe-Sources scope. Residual Pipeline-specific rank-4 browser/action acceptance is carried by `CF-CHG-20260821-016` rather than reopening the accepted PIM release.
 
 ## Preserved programme baselines
 
@@ -118,8 +120,21 @@ as **CLOSED / PASS** because the shared deployed authenticated browser gate has 
 - vector Search remains outside this PIM gate;
 - no consumer publication scope was broadened by PIM finalisation.
 
+## M1-PIPELINE-OPS governance handoff
+
+On 21 August 2026 the Pipeline Operations governance ambiguity was reconciled without changing this deployed build.
+
+Current Pipeline Ops entry point:
+
+`docs/coursefinder-m1-pipeline-ops-governance-baseline-v1.0.md`
+
+Current Pipeline Ops Change Control:
+
+`CF-CHG-20260821-016`
+
+This is a governance handoff only. No Pipeline runtime, ACL, source configuration, canonical data or deployed frontend change is claimed by the v2.58 documentation update.
+
 ## Current gate
 
-**M1-PIM-FINALISATION: CLOSED / PASS.**
-
-The programme may proceed to the remaining non-UI Milestone 1 gates without reopening accepted PIM semantics or the governed `admin_read` browser boundary.
+**M1-PIM-FINALISATION: CLOSED / PASS.**  
+**M1-PIPELINE-OPS governance baseline: RESOLVED; implementation not started.**
