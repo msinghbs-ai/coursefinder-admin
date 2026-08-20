@@ -16,6 +16,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260820-007 | 30-admin-pim-ux | Catalogue paging and exact identity search | M1-PIM-GOV | 20 Aug 2026 11:37 AEST | DB-RPC-SECURITY PASS + FRONTEND SOURCE PASS — DEPLOYED BROWSER UAT PENDING | v2.6.0 | `30-admin-pim-ux/CF-CHG-20260820-007-catalogue-paging-exact-identity-search.md` |
 | CF-CHG-20260820-008 | 30-admin-pim-ux | Provider / Course / Campus geography semantics | M1-PIM-GOV | 20 Aug 2026 12:35 AEST | DB-RPC-SECURITY PASS — FRONTEND PRESENTATION PENDING | v2.7.0 semantic release planned | `30-admin-pim-ux/CF-CHG-20260820-008-provider-course-campus-geography-semantics.md` |
 | CF-CHG-20260820-009 | 30-admin-pim-ux | Intake and English requirement semantics | M1-PIM-GOV | 20 Aug 2026 12:35 AEST | DB-RPC-SECURITY PASS — FRONTEND PRESENTATION PENDING | v2.7.0 semantic release planned | `30-admin-pim-ux/CF-CHG-20260820-009-intake-english-requirement-semantics.md` |
+| CF-CHG-20260820-010 | 30-admin-pim-ux | Course taxonomy source lineage | M1-PIM-GOV | 20 Aug 2026 12:35 AEST | DB-RPC PASS — FRONTEND PRESENTATION PENDING | v2.7.0 semantic release planned | `30-admin-pim-ux/CF-CHG-20260820-010-course-taxonomy-source-lineage.md` |
 
 ## Maintenance rule
 
