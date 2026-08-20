@@ -158,17 +158,35 @@ The newest observed legacy request in the available log batch was **20 August 20
 
 This is valid proof that the deployed browser bundle was stale **before** the recovery trigger.
 
-### Governed redeploy trigger
+### Governed redeploy triggers
 
-A no-content fast-forward commit was applied to `coursefinder-admin/main` using the unchanged v2.9 tree:
+An initial no-content fast-forward commit was applied to `coursefinder-admin/main` using the unchanged v2.9 tree:
 
 `494a6ddcc18671abd492370410a94212c9c21deb`
 
 Commit time: **20 August 2026 07:04:28 UTC**.
 
+A second governed redeploy trigger was issued after explicit operator approval, again preserving the exact same v2.9 application tree and changing no ACL or application code:
+
+`eae32edab4ef9395b0584370ac62b6a0f5988ca3`
+
+Commit time: **20 August 2026 08:07:02 UTC / 18:07 AEST**.
+
 Purpose: trigger the established external Cloudflare Git-integrated rebuild without changing application semantics or merging the v2.10 candidate prematurely.
 
-The current tool environment cannot open the unindexed Workers URL, has no Cloudflare control-plane connector, and the available Supabase API log batch contains **no browser request newer than the 07:04:28 UTC trigger**. Therefore deployment success or failure after that trigger is **not yet proven**.
+Post-trigger technical regression under the assigned Platform Admin identity remains PASS:
+
+- `admin_read('context')` → `platform_admin`, role rank 6;
+- exact Provider `00025B` → 1 Provider;
+- Provider detail → 382 related Courses;
+- exact Course `121174E` → 1 Course;
+- Course detail → 3 CRICOS registered fee rows, 0 Provider-current rows, 0 semantic-review/other rows;
+- `admin_read` remains executable by `authenticated` and denied to `anon`;
+- zero public `SECURITY DEFINER` functions are executable by `authenticated` or `anon`.
+
+The only remaining directly executable legacy `ui_*` functions for `authenticated` are the two `ui_providers_page` overloads, both `SECURITY INVOKER`; no legacy `ui_*` `SECURITY DEFINER` surface was reopened.
+
+The current tool environment still has no Cloudflare control-plane connector and the available Supabase API log batch contains **no browser request newer than the 08:07:02 UTC redeploy trigger**. Therefore deployment success or failure after the approved trigger is **not yet proven**.
 
 Absence of post-trigger telemetry is not treated as a deployment failure and is not treated as a PASS.
 
