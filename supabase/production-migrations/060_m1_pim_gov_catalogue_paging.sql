@@ -1,0 +1,12 @@
+-- CF-CHG-20260820-007 — full-catalogue decision paging/search behind governed Admin read.
+-- Preserves canonical identity and CF-CHG-20260820-001 canonical-presence semantics.
+
+-- NOTE: This repository mirror corresponds to Pilot migration m1_pim_gov_catalogue_paging_v1.
+-- It replaces public.ui_courses_decision_page with the canonical six-signal readiness implementation,
+-- creates security.admin_catalogue_page(text,jsonb), extends public.admin_read with Providers/Courses/
+-- Campuses/Scholarships page operations, and revokes direct authenticated EXECUTE from the routed
+-- public SECURITY DEFINER page/list projections.
+--
+-- Full applied SQL is intentionally retained in Supabase migration history. The governed behavioural
+-- contract is documented in CF-CHG-20260820-007 and its UAT document; future schema promotion should
+-- use the Supabase migration history as the executable source for this migration.
