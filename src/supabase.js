@@ -9,17 +9,19 @@ export const supabase = createClient(url ?? '', key ?? '', {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
 })
 
-export async function adminRead(operation, payload = {}) {
-  const { data, error } = await supabase.rpc('admin_read', {
+export async function adminRead(operation, payload = {}, options = {}) {
+  let query = supabase.rpc('admin_read', {
     p_operation: operation,
     p_args: payload,
   })
+  if (options.signal) query = query.abortSignal(options.signal)
+  const { data, error } = await query
   if (error) throw error
   return data
 }
 
-export async function invokeAdmin(operation, payload = {}) {
-  const data = await adminRead(operation, payload)
+export async function invokeAdmin(operation, payload = {}, options = {}) {
+  const data = await adminRead(operation, payload, options)
   if (operation === 'context') {
     return {
       role: data?.role ?? 'unassigned',
