@@ -106,10 +106,12 @@ The Country-aware Source filter defect found during browser UAT was corrected un
 | 7. signed preview/download browser behaviour | PASS — operator confirmed |
 | 8. no private Storage path/service-role credential in browser runtime/network | PASS — operator confirmed; network evidence observed |
 | 9. Country-aware Source filter and remaining filter interaction | PENDING re-test of deployed `89c1c35a` fix |
-| 10. responsive desktop/narrow layout and no material overlap | PENDING |
+| 10. responsive desktop/narrow layout and no material overlap | PASS — operator confirmed; narrow Evidence drawer remained scrollable and controls accessible |
+
+Responsive acceptance evidence shows the v2.12 / Pipeline Ops v1.0 / Evidence v1.0 candidate at narrow browser width with the Evidence drawer usable, Close / Preview / Download controls reachable, horizontally bounded lineage, vertically scrollable detail, stacked metadata cards and no material overlap or trapped controls.
 
 ## 8. Verdict
 
 **BLOCKED WITH EVIDENCE.**
 
-Browser UAT items 3–8 are now PASS. The remaining acceptance work is the deployed Country→Source filter re-test, responsive/narrow-layout check, and final role-boundary browser confirmation where practical. Do not promote PR #14 until these remaining items are reconciled and `CF-CHG-20260821-017`, the Change Control Register and PIM Admin Guide v1.11 are updated to CLOSED / PASS.
+Browser UAT items 3–8 and 10 are now PASS. The remaining acceptance work is the deployed Country→Source filter re-test and final role-boundary browser confirmation where practical. Do not promote PR #14 until these remaining items are reconciled and `CF-CHG-20260821-017`, the Change Control Register and PIM Admin Guide v1.11 are updated to CLOSED / PASS.
