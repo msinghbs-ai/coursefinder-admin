@@ -1,162 +1,110 @@
 # CF-CHG-20260821-016 — M1 Pipeline Operations governance baseline and operational acceptance
 
-**Status:** **CLOSED / PASS — IMPLEMENTED, LIVE DB UAT COMPLETE, PILOT MAIN PROMOTED**  
+**Status:** **CLOSED / PASS — POST-CLOSURE SAFE-SOURCES HARDENING COMPLETE**  
 **Category:** `80-uat-release-operations`  
 **Initiated:** 21 August 2026 09:04 AEST  
-**Closed:** 21 August 2026 10:01 AEST  
+**Original closure:** 21 August 2026 10:01 AEST  
+**Post-closure re-review completed:** 21 August 2026 12:55 AEST  
 **Origin:** `M1-PIPELINE-OPS`  
 **Owner:** CourseFinder Pipeline Operations  
 **Affected surfaces:** `30-admin-pim-ux`, `70-security-platform`, Evidence provenance, Pipeline runtime/API contracts
 
-## Trigger
+## Trigger and accepted operational scope
 
-M1-PIPELINE-OPS required a coherent Admin operational view across regulatory ingestion, deterministic/structured enrichment, AI suggestions, human resolution, Search admission and Publication without collapsing their different authority semantics.
-
-The workstream also inherited an earlier governance ambiguity between historical PIM records. That ambiguity was resolved before implementation; `CF-CHG-20260820-013` and `CF-CHG-20260820-015` remain CLOSED / PASS for their accepted PIM scopes.
-
-## Reconciled baseline
-
-Implementation began only after re-reading/rechecking:
-
-1. `PROJECT_INSTRUCTIONS.md`;
-2. `change-control/README.md` and `change-control/REGISTER.md`;
-3. Master Project Plan v1.55;
-4. Running Build v2.58;
-5. Database Architecture v2.10.38;
-6. Admin/PIM Design Decisions v1.10;
-7. PIM Admin Guide v1.9;
-8. accepted PIM Admin v2.11 browser UAT;
-9. overlapping Change Controls `006`, `013`, `015`;
-10. current `Coursefinder-Pilot` `main` and deployed Supabase state.
-
-The accepted implementation starting head was:
-
-`msinghbs-ai/Coursefinder-Pilot@b3867cc89bbfd3f76def01993a70868318016ef0`
-
-Live reconciliation established that Supabase was already ahead of the governance handoff and contained `20260820051800 — m1_pipeline_ops_read_contract_v1` with the Pipeline Ops `public.admin_read` routes. The new browser implementation therefore consumes that governed contract instead of replacing the shared dispatcher.
-
-## Semantic before / after
-
-### Before
-
-- accepted v2.11 `Jobs` and `Sources` screens still used generic bounded operational lists;
-- the live database had richer Layer/Mode/completion/failure/evidence semantics than the browser exposed;
-- there was no coherent visible Layer 1 → Layer 4 → Search → Publication operational journey;
-- job/error/evidence/entity-impact context required separate technical inspection;
-- the Settings surface still contained a generic whole-Pilot Reset Database card;
-- Evidence entity-impact reconstruction was too slow on the largest real CRICOS artifact.
-
-### After
-
-The promoted Admin surface now exposes:
+M1-PIPELINE-OPS establishes a coherent Admin operational view across:
 
 `Layer 1 Regulatory → Layer 2 Deterministic/Structured Enrichment → Layer 3 AI Suggestions → Layer 4 Human Resolution → Search Admission → Publication`
 
-For governed layers/runs it surfaces source/configuration context, last success/current run, discovered/selected/processed/accepted/rejected, creates/updates/unchanged/conflicts, Evidence, duration, cursor/completion, blockers/health, next allowed action and Change Control/UAT references where persisted.
+The accepted console preserves authority boundaries, server paging/filtering, dry-run/APPLY semantics, partial-versus-complete scope, technical/governed failure distinctions, Evidence/entity-impact navigation and no generic retry/replay/reset mutation.
 
-Jobs now support server paging/filtering, expandable failure detail, explicit dry-run/APPLY, completion/failure classifications, evidence navigation and entity-impact drill-down. Sources now expose governed health/freshness/configuration signals without opening a browser mutation path.
+Provider/Course identity is not owned by this workspace. Layer 2 does not redefine Layer 1 identity. Layer 3 remains suggestion-only. Layer 4 remains auditable human resolution. Search and Publication remain independent downstream states.
 
-Search Admission and Publication remain independent downstream states. Layer 3 remains suggestion-only. Layer 4 remains auditable human resolution.
+## Original implementation acceptance
 
-Generic retry/replay/reset is not enabled. Backend `safe_actions` returns all generic mutations disabled, and the generic whole-Pilot reset card is removed from the promoted Admin surface. Existing bounded Layer 1 country APPLY controls remain separately scoped and typed-confirmed.
+Original Pipeline Ops implementation:
 
-## Implementation evidence
+- Pilot PR: `msinghbs-ai/Coursefinder-Pilot#15`;
+- accepted commit: `848e302b19186cb0a751f74f23f06a244c5b0b2d`;
+- visible release marker at that gate: `PIM Admin v2.11 · Pipeline Ops v1.0 · governed`;
+- Evidence impact optimisation: `20260820235820 — m1_pipeline_ops_evidence_entity_links_fast_v2`;
+- original UAT: `docs/uat/coursefinder-m1-pipeline-ops-technical-acceptance-2026-08-21.md`.
 
-Pilot PR:
+Original real-volume gate covered 1,325 Jobs, 54 Sources, 1,567 Evidence Artifacts, 135,456 Evidence Entity Links and 33,105 Search Course Documents. The largest CRICOS entity-impact read was reduced from ~3.42 s to ~27 ms for its first page.
 
-`msinghbs-ai/Coursefinder-Pilot#15`
+## Post-closure re-review — residual safe-Sources defect
 
-Accepted Pilot main commit:
+A later re-review against the current PIM v2.12 + Evidence v1.0 baseline found that the browser-facing Pipeline contract still returned the entire `pipeline.sources.metadata` object in two rank-4 operations:
 
-`848e302b19186cb0a751f74f23f06a244c5b0b2d — M1-PIPELINE-OPS: governed Layer 1-4 operations console`
+- `pipeline_sources_page`;
+- `pipeline_job_detail.source.metadata`.
 
-Visible release marker:
+The React UI rendered only selected safe fields, but UI omission is not an authority/security boundary. This contradicted the inherited `CF-CHG-20260820-013` requirement that rank-4 payloads must not expose hidden source implementation configuration.
 
-`PIM Admin v2.11 · Pipeline Ops v1.0 · governed`
+No current password, bearer token, API key, service-role key or equivalent credential was found in the source metadata corpus. The defect was nevertheless treated as a gate issue because raw metadata included internal acquisition/runtime/mapping/hash/discovery configuration that the browser did not require.
 
-Live Supabase optimisation migrations:
+The gate was therefore re-reviewed as **temporarily BLOCKED for the residual server-projection defect**, without reopening PIM v2.12 or Evidence v1.0 semantics.
 
-- `20260820235756 — m1_pipeline_ops_evidence_entity_links_fast_v1` — intermediate UAT optimisation;
-- `20260820235820 — m1_pipeline_ops_evidence_entity_links_fast_v2` — final accepted read path.
+## Corrective implementation
 
-Repository mirror of the final migration:
+Live Supabase migration:
 
-`Coursefinder-Pilot/supabase/migrations/20260820235820_m1_pipeline_ops_evidence_entity_links_fast_v2.sql`
+`20260821025059 — m1_pipeline_ops_safe_source_projection_v1`
 
-## UAT evidence
+Pilot implementation mirror and promotion:
 
-Authoritative UAT record:
+- PR: `msinghbs-ai/Coursefinder-Pilot#17`;
+- PR head: `55a1f81a9f22caf85a881fa5b9c88b9a70f61dbc`;
+- merged Pilot head: `fda4270f3c440b8253b87da1a8c35a4b2769413e`;
+- Frontend Build #101: PASS.
 
-`docs/uat/coursefinder-m1-pipeline-ops-technical-acceptance-2026-08-21.md`
+The correction:
 
-UAT reference:
+1. keeps full `pipeline.sources.metadata` unchanged inside the private/server runtime;
+2. introduces an explicit safe metadata allowlist at the governed `public.admin_read` boundary;
+3. sanitises both Sources list results and Job Detail source metadata;
+4. retains only operational fields currently required by the console: worker/configured-worker version, scope, coverage role, apply gate/enabled, identity scheme, course identity scheme, transport, acquisition method and country-completeness flag when present;
+5. preserves the current Evidence v1.0 dispatcher routes;
+6. introduces no mutation, canonical write or browser internal-schema permission.
 
-`M1-PIPELINE-OPS-2026-08-21`
+## Post-correction UAT
 
-Final real-volume corpus:
+Authoritative superseding Pipeline Ops UAT:
 
-- 1,325 Pipeline Jobs;
-- 54 Pipeline Sources;
-- 1,567 Evidence Artifacts;
-- 135,456 Evidence Entity Links;
-- 33,105 Search Course Documents.
+`docs/uat/coursefinder-m1-pipeline-ops-technical-acceptance-v1.1-2026-08-21.md`
 
-Performance gate:
+Key results:
 
-- Pipeline overview ~384 ms;
-- Jobs page at offset 1,250 ~293 ms;
-- Sources page ~347 ms;
-- 26,648-link CRICOS evidence impact first page improved from ~3.42 s to ~27 ms;
-- evidence impact at offset 26,000 ~872 ms.
-
-Frontend CI:
-
-- PR Frontend Build #89 — PASS;
-- PR Frontend Build #90 — PASS.
-
-Security regression:
-
-- authenticated `public.admin_read` EXECUTE = allowed;
-- anon `public.admin_read` EXECUTE = denied;
-- below-rank-4 Pipeline read = `42501 pipeline_operator role required`;
-- authenticated direct `pipeline` schema USAGE = denied;
+- all 54 current Sources returned through the governed Pipeline path;
+- browser-visible Source metadata contained zero unexpected keys outside the allowlist;
+- internal discovery/runtime/hash/mapping/config keys were absent from the rank-4 payload;
+- Job Detail source metadata was sanitised while safe worker-version context remained;
+- generic Retry / Replay / Reset remained disabled;
+- below-rank Pipeline access remained `42501 pipeline_operator role required`;
+- authenticated direct `pipeline` schema USAGE remained denied;
 - public SECURITY DEFINER executable by authenticated = 0;
 - public SECURITY DEFINER executable by anon = 0;
-- new Pipeline browser module is read-only and introduces no mutation API.
+- Evidence dispatcher regression passed with 1,567 current Evidence Artifacts;
+- Pipeline overview/filter routes remained available;
+- warmed 50-row Sources read after sanitisation measured ~33.6 ms DB-side;
+- Supabase Security Advisor introduced no new migration-specific security warning; existing RLS-no-policy INFO entries and leaked-password-protection WARN remain separate established platform posture/backlog.
 
-## Current operational state surfaced by the console
+## Destructive-operation decision retained
 
-The gate is PASS even though the live pipeline correctly shows operational work still requiring resolution:
+There is still no generic `Reset Everything`, `Retry Everything` or `Replay Everything` surface.
 
-- Layer 1 has one stale-running job; next allowed action is investigation before replay;
-- Layer 2 has blocked job state requiring explicit blocker resolution;
-- Layer 3 has no current Suggestions and is reported as not operational rather than fabricated;
-- Layer 4 currently has no Review Queue/Actions;
-- Search contains 33,105 documents with AU/NZ country gates approved while four enrichment gates remain blocked;
-- Publication remains an independent downstream state.
+Any future operational mutation requires a separately governed server action with exact source/adapter/batch/entity scope, server-side role enforcement, idempotency/replay semantics, Evidence/hash preservation where applicable, audit/change history, explicit confirmation, busy/double-click protection and rollback behaviour.
 
-These are data/runtime states, not hidden UI failures and not permission for generic replay/reset.
-
-## Authority and safety decisions retained
-
-- Provider/Course identity is not owned by the Pipeline workspace;
-- Layer 2 does not redefine Layer 1 identity;
-- Layer 3 cannot silently overwrite Layer 1/2 facts;
-- Layer 4 decisions must remain auditable;
-- source/evidence/versioning is retained;
-- private Evidence boundaries remain in force;
-- no broad authenticated legacy `ui_*` SECURITY DEFINER compatibility path was restored;
-- future retry/replay/cancel/schedule/source mutation requires a separate explicit server action with scope, idempotency, audit and confirmation semantics.
+Existing bounded Layer 1 country APPLY/continue/idempotency controls remain separate because their scope and confirmation semantics are explicit.
 
 ## Rollback / reversion
 
-1. Revert Pilot commit `848e302b19186cb0a751f74f23f06a244c5b0b2d` to return to the accepted PIM v2.11 browser baseline.
-2. If the Evidence entity-impact optimisation regresses, restore the prior `security.admin_evidence_entities(uuid,jsonb)` definition; no lineage/canonical data was deleted by this optimisation.
-3. No canonical Provider/Course identity or factual observation was changed by this gate.
-4. No generic destructive operational action was enabled.
+- Revert Pilot PR #17 / merge commit `fda4270f3c440b8253b87da1a8c35a4b2769413e` to remove the repository mirror.
+- Restore the immediately prior `public.admin_read(text,jsonb)` dispatcher and drop the two sanitiser helpers if the projection causes a proven regression.
+- The correction does not delete or rewrite `pipeline.sources.metadata`; it changes only the rank-4 browser projection.
+- No canonical Provider/Course data, Evidence Artifact, Search admission state or Publication state was changed.
 
 ## Final decision
 
 **CLOSED / PASS.**
 
-M1-PIPELINE-OPS now provides the requested genuine operations console while preserving the inherited PIM/Evidence/security boundaries and distinct authority semantics across Layers 1–4, Search and Publication.
+The re-review identified a legitimate server-projection gap that my earlier handover should not have left as a permanent BLOCKED state. That gap is now corrected, tested against the current PIM v2.12 + Evidence v1.0 baseline and promoted without overwriting newer parallel work.
