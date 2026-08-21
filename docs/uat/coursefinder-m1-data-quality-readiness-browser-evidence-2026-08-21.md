@@ -3,114 +3,189 @@
 **Date:** 21 August 2026  
 **Change Control:** `CF-CHG-20260821-018`  
 **Runtime:** `coursefinder-pilot.techm.workers.dev`  
-**Evidence time:** approximately 21:55 AEST  
-**Evidence source:** authenticated operator screenshots supplied in the originating `M1-DATA-QUALITY-READINESS` chat  
-**Browser evidence result:** **PARTIAL PASS — deployment/current bundle and Catalogue regression proven; Data Quality workspace/drill-down still requires direct browser proof**
+**Evidence windows:** approximately 21:55 AEST and 22:08 AEST  
+**Evidence source:** authenticated operator screenshots supplied in the originating `M1-DATA-QUALITY-READINESS` chat plus correlated Supabase API/Postgres telemetry  
+**Browser evidence result:** **PARTIAL PASS — deployment, Catalogue regression, legacy-label correction and Data Quality overview PASS; exception-page/Course/Evidence drill-down remains pending**
 
-## 1. Evidence received
+## 1. Deployed runtime and authentication
 
-Two authenticated mobile-browser screenshots were supplied after Pilot source promotion.
+Authenticated mobile-browser screenshots prove the actual Worker is serving the Data Quality v1.0 runtime.
 
-Observed deployed marker:
+Observed marker:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · governed`
 
-The visible role badge is `Platform Admin`.
+The visible mature Admin session is `Platform Admin`.
 
-This is sufficient to prove that the deployed Worker is serving the Data Quality v1.0 candidate bundle rather than the previously accepted pre-Data-Quality marker.
+**Result: PASS.**
 
-## 2. Catalogue regression evidence
+## 2. Catalogue regression and legacy-label correction
 
 ### Australia scope
 
-The first screenshot shows:
+Browser evidence shows:
 
 - page: Courses;
 - Country filter: Australia;
 - matching Courses: **26,648**;
-- CRICOS tuition values visible, including a legitimate `AUD 0` row;
-- verified dates populated;
-- Data Quality v1.0 governed marker visible.
+- CRICOS tuition values render, including a legitimate `AUD 0` value;
+- verified dates render;
+- Data Quality v1.0 governed marker is present.
 
-The 26,648 count matches the accepted AU Course baseline and prior authenticated dispatcher regression.
-
-**Result: PASS.**
+The count matches the accepted AU canonical Course baseline.
 
 ### All-country scope
 
-The second screenshot shows:
+Earlier deployed-browser evidence shows:
 
-- page: Courses;
 - Country filter: All;
 - matching Courses: **43,461**;
-- mixed populated/unpopulated enrichment rows;
-- no visible permission/RPC failure state.
+- no visible permission/RPC failure.
 
-The 43,461 count matches the canonical all-country Course inventory recorded at CF-CHG-018 initiation.
+The count matches the canonical all-country Course inventory recorded at CF-CHG-018 initiation.
+
+### Legacy six-signal score labelling
+
+The initial browser pass exposed the historical six-signal Course percentage under the generic labels `Readiness` and `Min readiness`. That was classified as a semantic-labelling defect because the historical percentage is not the governed cross-domain readiness model.
+
+Pilot PR #19 changed presentation only:
+
+- `Readiness` → `Legacy presence`;
+- `Min readiness` → `Min legacy presence`.
+
+The 22:08 AEST screenshot proves both corrected labels are now deployed. The underlying historical calculation/filter contract was not changed.
+
+**Catalogue regression: PASS.**  
+**Legacy-score semantic labelling: PASS.**
+
+## 3. Data Quality workspace deployed-browser evidence
+
+The 22:08 AEST screenshot directly proves navigation to the deployed Data Quality workspace.
+
+Visible page:
+
+`Data Quality & Readiness`
+
+Visible policy:
+
+`No composite completeness score`
+
+The page explicitly states that completeness is shown by governed domain rather than as one equal-weight product score.
+
+Scope shown: **AU + NZ**.
+
+All nine governed metric-state labels are visibly rendered:
+
+- Present;
+- Source-null;
+- Not applicable;
+- Zero;
+- Suppressed;
+- Not yet enriched;
+- Stale;
+- Ambiguous;
+- Rejected.
 
 **Result: PASS.**
 
-## 3. Deployment-source blocker reclassification
+## 4. Domain metric spot-checks from deployed browser
 
-Before this evidence, CourseFinder governance could prove only:
+The displayed AU+NZ values match the live governed backend contract.
 
-- source promotion to `Coursefinder-Pilot/main`;
-- production build PASS;
-- live Supabase read-contract PASS.
+### Identity completeness
 
-The screenshots now prove that the actual deployed Worker has advanced to a bundle carrying the Data Quality v1.0 governed marker.
+| Entity | Scope / applicable | Readiness | Present |
+|---|---:|---:|---:|
+| Campus | 3,922 / 3,922 | 100% | 3,922 |
+| Course | 33,105 / 33,105 | 100% | 33,105 |
+| Provider | 1,955 / 1,955 | 100% | 1,955 |
+| Scholarship | 4 / 4 | 100% | 4 |
 
-Therefore the previous blocker **“deployment/current bundle unproven” is cleared**.
+### Regulatory completeness
 
-## 4. Browser-UAT defect discovered
+- Course: 33,105 present / 100%;
+- Provider: 1,955 present / 100%.
 
-The screenshots also show the historical six-signal Course percentage under the column heading:
+### Geography / delivery
 
-`Readiness`
+- Campus: 3,922 present / 100%;
+- Provider: 1,955 present / 100%;
+- Course: **26,614 present / 34 source-null / 6,457 not-yet-enriched / 80.39%**.
 
-and the advanced filter label:
+This preserves the accepted distinction between 34 AU CRICOS source-absent Course Location relationships and NZ geography not yet enriched.
 
-`Min readiness`.
+### Taxonomy
 
-Under CF-CHG-018, this historical percentage may remain for backwards-compatible Catalogue presentation, but it must not be confused with the new governed domain-readiness model. The accepted semantic contract requires it to be explicitly identified as a legacy/admin-presence signal.
+Course: **26,648 present / 6,457 not-yet-enriched / 80.50%**.
 
-This is therefore a browser-UAT semantic-labelling defect, not a calculation defect.
+### Regulatory fee
 
-Remediation opened in `msinghbs-ai/Coursefinder-Pilot#19`:
+Course scope: **33,105**; applicable: **26,648**; readiness: **99.28%**.
 
-- `Readiness` → `Legacy presence`;
-- `Min readiness` → `Min legacy presence`;
-- underlying value/filter/RPC semantics unchanged.
+Visible state counts:
 
-## 5. Remaining browser acceptance
+- Present: **26,326**;
+- Source-null: **191**;
+- Not applicable: **6,457**;
+- Zero: **131**.
 
-The following still require direct deployed browser evidence before CF-CHG-018 can close:
+This is the required aggregate semantic result. The 131 numeric zero values are visibly separated from missing data and NZ CRICOS-specific tuition is excluded as not applicable.
 
-1. open **Data Quality → Completeness** and prove it routes to the Data Quality v1.0 domain-readiness workspace;
-2. prove the AU+NZ overview renders domain cards and all nine governed state labels;
-3. open Course → Regulatory fee → `source_null` and prove the exception total is **191**;
-4. prove paging works on that exception population;
-5. open a canonical Course from an exception row;
-6. open linked Evidence using `evidence_id` under Platform Admin/Curator+ access;
-7. after PR #19 is deployed, confirm the mature Course grid/filter show `Legacy presence` / `Min legacy presence` rather than generic `Readiness` wording.
+**Aggregate/domain metric browser UAT: PASS.**
 
-Browser-network telemetry for `public.admin_read` remains desirable evidence, but the live DB/ACL contract is already independently proven and no direct private Data Quality helper is browser-executable.
+## 5. Browser-time governed RPC telemetry
 
-## 6. Verdict
+The 22:07–22:08 AEST browser interaction correlates with **11 successful** API calls to:
+
+`POST /rest/v1/rpc/admin_read` → HTTP 200
+
+Observed current-window groups:
+
+- 22:07:34 AEST — five HTTP 200 calls;
+- 22:07:53 AEST — two HTTP 200 calls;
+- 22:08:17 AEST — four HTTP 200 calls.
+
+No new HTTP 500 appears in this fresh interaction window. Postgres telemetry shows no new statement-timeout error aligned with the 22:07–22:08 AEST interaction.
+
+The stale legacy `ui_context` / `ui_dashboard` requests previously observed around 21:53 AEST do not recur in the fresh current-window sequence.
+
+The API service log does not expose the `p_operation` argument, so individual calls are not falsely attributed to a specific operation. The screenshot timing and route render prove that the current Data Quality browser interaction is occurring while the governed `admin_read` boundary is completing successfully.
+
+**Governed browser RPC / no-repeat-timeout check: PASS for the current interaction window.**
+
+## 6. Remaining deployed-browser acceptance
+
+The aggregate `Source-null = 191` count is now visually proven. What remains is the operational drill-down itself:
+
+1. select **Regulatory fee → Course → Source-null** and prove the Exceptions view reports total **191**;
+2. prove paging/next-page behaviour on that exception population;
+3. open a canonical Course from an exception row and prove the intended Course detail route loads;
+4. where an `evidence_id` is supplied, open linked Evidence and prove the Evidence detail route loads.
+
+A Review navigation check is not required merely to manufacture evidence: `workflow.review_queue` had zero rows at implementation and no synthetic Review item is authorised. Review linkage remains conditional on a real governed review row being present.
+
+## 7. Verdict
 
 | Browser gate | Result |
 |---|---|
-| Correct Worker/current candidate bundle served | **PASS** |
+| Correct Worker/current Data Quality bundle served | **PASS** |
 | Data Quality v1.0 marker visible | **PASS** |
 | Authenticated Platform Admin session | **PASS** |
 | AU Course Catalogue regression — 26,648 | **PASS** |
 | All-country Course Catalogue regression — 43,461 | **PASS** |
-| No visible Catalogue permission failure | **PASS** |
-| Legacy score semantic labelling | **FAIL — remediation PR #19** |
-| Data Quality workspace navigation/render | **PENDING** |
-| 191 regulatory-fee exception browser drill-down | **PENDING** |
-| Course/Evidence browser drill-down | **PENDING** |
+| Legacy score labelled `Legacy presence` / `Min legacy presence` | **PASS** |
+| Data Quality workspace navigation/render | **PASS** |
+| AU+NZ overview/domain cards | **PASS** |
+| All nine governed state labels | **PASS** |
+| Regulatory-fee aggregate source-null = 191 | **PASS** |
+| Numeric zero = 131 kept distinct from missing | **PASS** |
+| NZ regulatory tuition not-applicable = 6,457 | **PASS** |
+| Fresh browser-time `admin_read` HTTP 200 / no repeat timeout | **PASS** |
+| Regulatory-fee exception page total = 191 | **PENDING** |
+| Exception paging | **PENDING** |
+| Course detail navigation from exception row | **PENDING** |
+| Evidence navigation from exception row | **PENDING** |
 
 ### Current CF-CHG-018 browser state
 
-**PARTIAL PASS.** Deployment is now proven and Catalogue regression is healthy. The overall gate remains open for the actual Data Quality workspace/drill-down browser checks and the legacy-score labelling correction discovered by this evidence.
+**PARTIAL PASS — OVERVIEW GATE COMPLETE.** The deployment, Catalogue regression, semantic relabel, Data Quality overview/state model and fresh governed RPC telemetry are accepted. The overall control remains open only for the exception-page and Course/Evidence drill-down browser path required by the aggregate → exception → provenance operating model.
