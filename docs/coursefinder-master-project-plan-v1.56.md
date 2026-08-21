@@ -5,6 +5,7 @@
 **Last consolidated:** 21 August 2026 10:01 AEST  
 **Architecture:** `docs/coursefinder-database-architecture-v2.10.38.md`  
 **Running build:** `docs/coursefinder-running-build-v2.59.md`  
+**Admin/PIM decisions:** `docs/coursefinder-admin-pim-design-decisions-v1.11.md`  
 **Admin Guide:** `docs/coursefinder-pim-admin-guide-v1.10.md`  
 **Pipeline Ops UAT:** `docs/uat/coursefinder-m1-pipeline-ops-technical-acceptance-2026-08-21.md`
 
@@ -124,4 +125,4 @@ Database Architecture v2.10.38 remains current. This work consumed/optimised acc
 
 ## Next programme work
 
-Subsequent workstreams should use Running Build v2.59 and Admin Guide v1.10 as the current operating baseline. Any future Pipeline operational mutation must open or update an applicable Change Control rather than extending `016` implicitly.
+Subsequent workstreams should use Running Build v2.59, Admin/PIM Design Decisions v1.11 and Admin Guide v1.10 as the current operating baseline. Any future Pipeline operational mutation must open or update an applicable Change Control rather than extending `016` implicitly.
