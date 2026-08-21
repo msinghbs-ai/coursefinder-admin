@@ -3,9 +3,9 @@
 **Date:** 21 August 2026  
 **Change Control:** `CF-CHG-20260821-018`  
 **Runtime:** `coursefinder-pilot.techm.workers.dev`  
-**Evidence windows:** approximately 21:55 AEST and 22:08 AEST  
+**Evidence windows:** approximately 21:55, 22:08 and 22:23–22:26 AEST  
 **Evidence source:** authenticated operator screenshots supplied in the originating `M1-DATA-QUALITY-READINESS` chat plus correlated Supabase API/Postgres telemetry  
-**Browser evidence result:** **PARTIAL PASS — deployment, Catalogue regression, legacy-label correction and Data Quality overview PASS; exception-page/Course/Evidence drill-down remains pending**
+**Browser evidence result:** **PARTIAL PASS — deployment, Catalogue regression, legacy-label correction, Data Quality overview, 191-record Exceptions paging and canonical Course drill-down PASS; linked Evidence detail navigation remains pending**
 
 ## 1. Deployed runtime and authentication
 
@@ -53,7 +53,7 @@ Pilot PR #19 changed presentation only:
 - `Readiness` → `Legacy presence`;
 - `Min readiness` → `Min legacy presence`.
 
-The 22:08 AEST screenshot proves both corrected labels are now deployed. The underlying historical calculation/filter contract was not changed.
+The 22:08 AEST screenshot proves both corrected labels are deployed. The underlying historical calculation/filter contract was not changed.
 
 **Catalogue regression: PASS.**  
 **Legacy-score semantic labelling: PASS.**
@@ -133,38 +133,100 @@ This is the required aggregate semantic result. The 131 numeric zero values are 
 
 **Aggregate/domain metric browser UAT: PASS.**
 
-## 5. Browser-time governed RPC telemetry
+## 5. Exceptions and decision context — deployed browser PASS
 
-The 22:07–22:08 AEST browser interaction correlates with **11 successful** API calls to:
+The 22:23–22:24 AEST screenshots directly prove the operational drill-down from the governed aggregate into the deployed Exceptions workspace.
+
+Visible context:
+
+- workspace: `Exceptions & decision context`;
+- scope: `AU + NZ`;
+- domain: `Regulatory fee`;
+- entity: `Course`;
+- state: `Source-null`;
+- total: **191 records**.
+
+Every visible row retains the state `Source-null` and the Source/Evidence column identifies the governed source as `CRICOS Providers, Courses and Locations`, with Evidence links displayed where the backend supplies an evidence ID.
+
+### Paging proof
+
+The supplied screenshots cover the complete 191-record population in four bounded pages:
+
+- **1–50 of 191**;
+- **51–100 of 191**;
+- **101–150 of 191**;
+- **151–191 of 191**.
+
+`Previous` / `Next` controls and page state are visibly functional. The final page contains the expected residual 41 rows rather than a fabricated full page.
+
+**Exception total = 191: PASS.**  
+**Server-paged browser navigation: PASS.**  
+**Source/Evidence linkage presentation: PASS.**
+
+## 6. Canonical Course drill-down — deployed browser PASS
+
+The 22:26 AEST screenshot proves that a canonical Course can be opened from the exception workflow.
+
+The loaded Course detail visibly contains governed canonical and enrichment sections including:
+
+- stable identity / Course code / Provider context;
+- Field and Study Level;
+- lifecycle and publication state;
+- `Fee semantics`, keeping CRICOS registered total-course fee separate from Provider-current fee;
+- Publication & Search state;
+- Intakes & English;
+- Taxonomy lineage;
+- Fees;
+- Campuses;
+- Evidence;
+- Regulatory Facts.
+
+The Course detail also displays real Evidence artifacts/IDs and Evidence links, proving that the exception → canonical Course flow retains provenance context rather than dropping it.
+
+**Canonical Course navigation from exception row: PASS.**  
+**Evidence link availability on the resulting Course: PASS.**
+
+This screenshot does **not** prove that an Evidence detail route was opened. That distinction is retained intentionally because the Data Quality frontend previously required a specific `evidence_id` route correction and the final route should be browser-proven rather than inferred.
+
+## 7. Browser-time governed RPC telemetry
+
+### 22:07–22:08 overview window
+
+The overview interaction correlated with **11 successful** requests to:
 
 `POST /rest/v1/rpc/admin_read` → HTTP 200
 
-Observed current-window groups:
+No new HTTP 500 or Postgres statement timeout was aligned with that interaction.
 
-- 22:07:34 AEST — five HTTP 200 calls;
-- 22:07:53 AEST — two HTTP 200 calls;
-- 22:08:17 AEST — four HTTP 200 calls.
+### 22:21–22:26 exception/Course window
 
-No new HTTP 500 appears in this fresh interaction window. Postgres telemetry shows no new statement-timeout error aligned with the 22:07–22:08 AEST interaction.
+Fresh API telemetry aligned with the latest screenshots shows repeated successful:
 
-The stale legacy `ui_context` / `ui_dashboard` requests previously observed around 21:53 AEST do not recur in the fresh current-window sequence.
+`POST /rest/v1/rpc/admin_read` → HTTP 200
 
-The API service log does not expose the `p_operation` argument, so individual calls are not falsely attributed to a specific operation. The screenshot timing and route render prove that the current Data Quality browser interaction is occurring while the governed `admin_read` boundary is completing successfully.
+including activity at approximately:
 
-**Governed browser RPC / no-repeat-timeout check: PASS for the current interaction window.**
+- 22:21:34 and 22:21:53 AEST;
+- 22:22:39, 22:22:42 and 22:22:51 AEST;
+- 22:23:40 AEST;
+- 22:24:01, 22:24:22 and 22:24:59 AEST;
+- 22:25:24, 22:25:33 and 22:25:42 AEST.
 
-## 6. Remaining deployed-browser acceptance
+There is no new API HTTP 500 in this fresh interaction window. Postgres telemetry contains no new statement-timeout or permission error aligned with the 22:21–22:26 browser activity; the most recent statement-timeout remains the earlier 21:53 event already recorded.
 
-The aggregate `Source-null = 191` count is now visually proven. What remains is the operational drill-down itself:
+The API service log does not expose `p_operation`, so individual 200 responses are not falsely attributed to specific operations. The screenshots provide the route-level browser proof; telemetry independently confirms the governed browser read boundary is completing successfully during the same window.
 
-1. select **Regulatory fee → Course → Source-null** and prove the Exceptions view reports total **191**;
-2. prove paging/next-page behaviour on that exception population;
-3. open a canonical Course from an exception row and prove the intended Course detail route loads;
-4. where an `evidence_id` is supplied, open linked Evidence and prove the Evidence detail route loads.
+**Governed browser RPC / no-repeat-timeout check: PASS for the exception/Course interaction window.**
 
-A Review navigation check is not required merely to manufacture evidence: `workflow.review_queue` had zero rows at implementation and no synthetic Review item is authorised. Review linkage remains conditional on a real governed review row being present.
+## 8. Remaining deployed-browser acceptance
 
-## 7. Verdict
+Only one direct browser check remains:
+
+1. use a real displayed **Evidence** link from the exception/Course flow and prove the deployed **Evidence detail** workspace loads for that `evidence_id`.
+
+No Review navigation check is required merely to manufacture evidence. `workflow.review_queue` had zero rows at implementation and no synthetic Review item is authorised; Review linkage remains conditional on a real governed Review row being present.
+
+## 9. Verdict
 
 | Browser gate | Result |
 |---|---|
@@ -180,12 +242,14 @@ A Review navigation check is not required merely to manufacture evidence: `workf
 | Regulatory-fee aggregate source-null = 191 | **PASS** |
 | Numeric zero = 131 kept distinct from missing | **PASS** |
 | NZ regulatory tuition not-applicable = 6,457 | **PASS** |
+| Regulatory-fee exception page total = 191 | **PASS** |
+| Exception paging — all four pages through 151–191 | **PASS** |
+| Source/Evidence linkage visible in exception rows | **PASS** |
+| Course detail navigation from exception row | **PASS** |
+| Evidence links visible on canonical Course | **PASS** |
 | Fresh browser-time `admin_read` HTTP 200 / no repeat timeout | **PASS** |
-| Regulatory-fee exception page total = 191 | **PENDING** |
-| Exception paging | **PENDING** |
-| Course detail navigation from exception row | **PENDING** |
-| Evidence navigation from exception row | **PENDING** |
+| Evidence detail navigation using a real `evidence_id` | **PENDING** |
 
 ### Current CF-CHG-018 browser state
 
-**PARTIAL PASS — OVERVIEW GATE COMPLETE.** The deployment, Catalogue regression, semantic relabel, Data Quality overview/state model and fresh governed RPC telemetry are accepted. The overall control remains open only for the exception-page and Course/Evidence drill-down browser path required by the aggregate → exception → provenance operating model.
+**PARTIAL PASS — ONLY EVIDENCE DETAIL ROUTE REMAINS.** The deployment, Catalogue regression, semantic relabel, Data Quality overview/state model, 191-record exception population, full paging, canonical Course drill-down, provenance-link presentation and current governed RPC telemetry are accepted. The overall control remains open only for direct browser proof that a real Evidence link from this flow opens the deployed Evidence detail workspace.

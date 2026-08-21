@@ -1,16 +1,16 @@
 # CF-CHG-20260821-018 — M1 Data Quality Readiness operational gate
 
-**Status:** **BLOCKED — DEPLOYED DATA QUALITY OVERVIEW PASS; EXCEPTION/COURSE/EVIDENCE DRILL-DOWN PENDING**  
+**Status:** **BLOCKED — DEPLOYED EXCEPTION/PAGING/COURSE DRILL-DOWN PASS; EVIDENCE DETAIL NAVIGATION PENDING**  
 **Category:** `30-admin-pim-ux`  
 **Initiated:** 21 August 2026 14:47 AEST (UTC+10)  
-**Last updated:** 21 August 2026 22:10 AEST  
+**Last updated:** 21 August 2026 22:28 AEST  
 **Origin chat/workstream:** `M1-DATA-QUALITY-READINESS — Completeness, Freshness, Exceptions & Decision-Queue Gate`  
 **Owner:** CourseFinder Admin/PIM governance  
 **Change class:** Admin operational UX / governed read contract / data-quality semantics / performance / UAT
 
 ## 1. Trigger and objective
 
-Completeness is an operational product feature, not a passive field-presence percentage. The pre-existing Course-only Completeness view used a historical six-signal percentage and could not distinguish regulatory source gaps, values not applicable to a country, unattempted Layer 2 enrichment, stale observations, suppressed values, ambiguity or rejection.
+Completeness is an operational product feature, not a passive field-presence percentage. The pre-existing Course-only Completeness view used a historical six-signal percentage and could not distinguish regulatory source gaps, country-specific non-applicability, unattempted Layer 2 enrichment, stale observations, suppressed values, ambiguity or rejection.
 
 This control introduces a governed Data Quality / Readiness workspace across Provider, Course, Campus, Scholarship and enrichment without manufacturing values or collapsing source authority, Search admission and publication state.
 
@@ -35,7 +35,7 @@ Required readiness domains:
 
 A single equal-weight cross-domain completeness percentage is **not exposed as the authoritative Data Quality measure**.
 
-The accepted model reports readiness by domain and always distinguishes these states:
+The accepted model reports readiness by domain and always distinguishes:
 
 `present / source_null / not_applicable / zero / suppressed / not_yet_enriched / stale / ambiguous / rejected`
 
@@ -50,7 +50,9 @@ Rules:
 7. no canonical Provider/Course/Campus/Scholarship identity or factual value is rewritten by this workspace;
 8. no synthetic Campus, fee, URL, Intake, English requirement, Scholarship or Review item is created to improve readiness.
 
-The durable semantic contract is `docs/coursefinder-data-quality-readiness-contract-v1.0.md`.
+Durable contract:
+
+`docs/coursefinder-data-quality-readiness-contract-v1.0.md`
 
 ## 3. Related accepted controls
 
@@ -64,7 +66,7 @@ Retained and not reopened:
 
 ## 4. Accepted country/source classifications
 
-Existing accepted CRICOS completeness evidence is reused rather than reclassified:
+Existing CRICOS completeness evidence is reused rather than reclassified:
 
 - 34 AU Course→Campus gaps are authoritative CRICOS Course Location source absences;
 - 191 AU registered Tuition Fee gaps are authoritative source absences;
@@ -115,7 +117,7 @@ Private implementation:
 - `security.data_quality_overview_impl(jsonb)`;
 - `security.data_quality_exceptions_impl(jsonb)`.
 
-The browser does not receive direct execution rights on the private base/implementation helpers. No page-level N+1 entity/detail RPC pattern is used.
+The browser does not receive direct execution rights on private base/implementation helpers. No page-level N+1 entity/detail RPC pattern is used.
 
 ## 7. Supabase implementation
 
@@ -175,7 +177,7 @@ The live Supabase migration ledger is the current authoritative migration record
 
 ### Evidence/Search/publication
 
-- Evidence: governed evidence lineage present for the accepted Provider/Course/Campus/Scholarship substrate;
+- Evidence: governed evidence lineage is present for the accepted Provider/Course/Campus/Scholarship substrate;
 - Search admission: 33,105 / 33,105 AU+NZ Courses present in the accepted projection;
 - publication readiness is not inferred from Search; absent channel/canonical progression remains not-yet-enriched.
 
@@ -202,7 +204,9 @@ Each result can expose, where governed data exists:
 - real Review ID if an exact-domain open Review exists;
 - verification/update timestamps.
 
-Controlled backend UAT proved AU Course → Regulatory fee → `source_null` returns total **191**, with source/evidence linkage and paging. Browser proof of that exception page remains the final open operational path.
+Controlled backend UAT proved AU Course → Regulatory fee → `source_null` returns total **191**, with source/evidence linkage and paging.
+
+The deployed browser now independently proves the same 191-record population and all four bounded pages.
 
 ## 10. ACL/security UAT
 
@@ -227,7 +231,7 @@ Accepted controlled samples:
 - AU regulatory-fee source-null exception page, 50 rows: ~155.8 ms, zero temp spill;
 - earlier final cold overview after spill removal: ~4.0 s.
 
-`work_mem=128MB` is scoped to the private Data Quality aggregate/exception functions rather than applied globally.
+`work_mem=128MB` is scoped to private Data Quality aggregate/exception functions rather than applied globally.
 
 ## 12. Pilot frontend and source promotion
 
@@ -269,11 +273,7 @@ Detailed evidence:
 
 ### 13.1 Deployment and Catalogue — PASS
 
-Authenticated screenshots prove the actual runtime:
-
-`coursefinder-pilot.techm.workers.dev`
-
-is serving:
+Authenticated screenshots prove the actual runtime `coursefinder-pilot.techm.workers.dev` is serving:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · governed`
 
@@ -286,7 +286,7 @@ Browser regression:
 
 ### 13.2 Legacy score relabel — PASS
 
-The 22:08 AEST screenshot proves the deployed Course catalogue now displays:
+The 22:08 AEST screenshot proves the deployed Course catalogue displays:
 
 - `LEGACY PRESENCE`;
 - `MIN LEGACY PRESENCE`.
@@ -306,34 +306,54 @@ It visibly presents:
 - Course taxonomy **26,648 present / 6,457 not-yet-enriched / 80.50%**;
 - Course regulatory fee **26,326 present / 191 source-null / 6,457 not-applicable / 131 zero / 99.28%**.
 
-The aggregate source-null total of **191** is therefore visually proven in the deployed overview.
+### 13.4 Regulatory-fee Exceptions — PASS
 
-### 13.4 Browser-time RPC telemetry — PASS for current window
+The 22:23–22:24 AEST screenshots directly prove:
 
-Fresh 22:07–22:08 AEST Supabase API telemetry contains **11** successful requests to:
+- `Exceptions & decision context` loads;
+- context remains `Regulatory fee · Course · Source-null` under AU+NZ scope;
+- total is **191 records**;
+- Source is shown as `CRICOS Providers, Courses and Locations`;
+- Evidence links are exposed for rows where an evidence ID is returned.
+
+All four bounded pages are browser-proven:
+
+- **1–50 of 191**;
+- **51–100 of 191**;
+- **101–150 of 191**;
+- **151–191 of 191**.
+
+This closes both exception-total and paging UAT without relying only on backend tests.
+
+### 13.5 Canonical Course drill-down — PASS
+
+The 22:26 AEST screenshot proves a canonical Course opened from the exception workflow.
+
+The Course detail renders canonical identity plus Fee semantics, Publication & Search state, Intake/English, taxonomy lineage, Fees, Campus, Evidence and Regulatory Facts. Real Evidence artifacts/IDs and Evidence links are visible on the Course.
+
+This proves exception → canonical Course navigation and preservation of provenance context.
+
+It does **not** prove that an Evidence detail page was opened. Because a prior UAT fix changed the expected route to use `evidence_id`, that final browser route remains explicitly unclaimed until directly shown.
+
+### 13.6 Browser-time RPC telemetry — PASS for current windows
+
+The 22:07–22:08 overview interaction correlates with 11 successful:
 
 `POST /rest/v1/rpc/admin_read` → HTTP 200
 
-Groups:
+The later 22:21–22:26 Exceptions/Course interaction also correlates with repeated successful `admin_read` HTTP 200 traffic, including requests around 22:22:39, 22:22:42, 22:22:51, 22:23:40, 22:24:01, 22:24:22, 22:24:59, 22:25:24, 22:25:33 and 22:25:42 AEST.
 
-- 22:07:34 — five 200s;
-- 22:07:53 — two 200s;
-- 22:08:17 — four 200s.
+There is no new HTTP 500 or Postgres statement-timeout aligned with the latest interaction. The most recent statement-timeout remains the earlier 21:53 event already recorded.
 
-There is no new 500 in this interaction window and no new Postgres statement-timeout aligned with it. The stale pre-refresh `ui_context` / `ui_dashboard` calls seen around 21:53 AEST do not recur in the fresh sequence.
-
-The earlier isolated 21:53 `admin_read` timeout remains unattributed because API logs do not expose `p_operation`; it is not falsely attributed to Data Quality. The later fresh Data Quality interaction completes cleanly.
+The API log does not expose `p_operation`; individual requests are therefore not falsely attributed. Screenshot evidence supplies route-level proof and telemetry independently proves the governed read boundary is completing successfully during the same period.
 
 ## 14. Remaining acceptance gate
 
-Only the operational drill-down path remains before closure:
+Only one deployed-browser check remains before closure:
 
-1. click **Regulatory fee → Course → Source-null** and prove the deployed Exceptions page reports total **191**;
-2. prove exception paging/next-page behaviour;
-3. open a canonical Course from an exception row;
-4. where an evidence ID is present, open the linked Evidence detail route.
+1. click a **real Evidence link** shown in the exception/Course flow and prove the deployed **Evidence detail** workspace loads for that `evidence_id`.
 
-Review navigation is conditional. `workflow.review_queue` had zero rows at implementation; no Review item is to be manufactured for UAT.
+Review navigation remains conditional. `workflow.review_queue` had zero rows at implementation; no Review item is to be manufactured for UAT.
 
 ## 15. Rollback
 
@@ -356,7 +376,7 @@ Completed:
 - deployed browser UAT record;
 - Change Control/REGISTER status maintenance.
 
-Held until final drill-down PASS:
+Held until final Evidence-detail PASS:
 
 - PIM Admin Guide accepted-baseline update;
 - Running Build accepted-baseline bump;
@@ -379,10 +399,13 @@ Zoho contract: unchanged.
 | 21 Aug 2026 22:00 AEST | BUILD PASS / SOURCE PROMOTED | PR #19 relabel passes build and merges to Pilot main `72721c57...`. | run `32479758645` |
 | 21 Aug 2026 22:08 AEST | DATA QUALITY OVERVIEW BROWSER PASS | Deployed `Legacy presence` labels, Data Quality AU+NZ workspace, nine-state vocabulary and governed domain counts including regulatory-fee source-null 191 proven. | browser evidence |
 | 21 Aug 2026 22:08 AEST | GOVERNED RPC PASS | Fresh interaction correlates with 11 `admin_read` HTTP 200 calls, no new 500/timeout and no recurring legacy `ui_*` route use. | Supabase telemetry |
-| 21 Aug 2026 22:10 AEST | BLOCKED — NARROWED GATE | Overview gate is complete. Only exception-page paging and Course/Evidence drill-down browser proof remain. | CF-CHG-018 |
+| 21 Aug 2026 22:10 AEST | BLOCKED — NARROWED GATE | Overview gate complete; exception-page paging and Course/Evidence drill-down remain. | CF-CHG-018 |
+| 21 Aug 2026 22:23–22:26 AEST | EXCEPTION / COURSE BROWSER PASS | Deployed regulatory-fee Source-null Exceptions reports 191; all four pages through 151–191 proven; canonical Course detail opens and retains real Evidence links. | browser evidence |
+| 21 Aug 2026 22:23–22:26 AEST | GOVERNED RPC PASS | Fresh Exceptions/Course activity completes through `admin_read` HTTP 200 with no new 500 or statement timeout. | Supabase telemetry |
+| 21 Aug 2026 22:28 AEST | BLOCKED — SINGLE REMAINING CHECK | Exception total, paging and canonical Course drill-down are closed. Only direct Evidence detail navigation from a real `evidence_id` remains. | CF-CHG-018 |
 
 ## 18. Closure
 
-**Final status:** **BLOCKED — DEPLOYED DATA QUALITY OVERVIEW PASS; EXCEPTION/COURSE/EVIDENCE DRILL-DOWN PENDING**  
+**Final status:** **BLOCKED — DEPLOYED EXCEPTION/PAGING/COURSE DRILL-DOWN PASS; EVIDENCE DETAIL NAVIGATION PENDING**  
 **Closed at:** N/A  
-**Outcome:** Data Quality semantics, live DB/RPC, ACL, performance, build, source promotion, deployed bundle, Catalogue regression, legacy-score relabel, AU+NZ domain overview and current browser telemetry all pass. Closure is withheld only for direct deployed proof of the aggregate → exception page → canonical Course / Evidence operational drill-down path.
+**Outcome:** Data Quality semantics, live DB/RPC, ACL, performance, build, source promotion, deployed bundle, Catalogue regression, legacy-score relabel, AU+NZ domain overview, 191-record exception population, complete paging, canonical Course navigation, provenance-link presentation and current browser telemetry all pass. Closure is withheld only for direct deployed proof that a real Evidence link opens the Evidence detail workspace using the governed `evidence_id` route.
