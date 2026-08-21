@@ -1,9 +1,9 @@
 # CF-CHG-20260821-018 — M1 Data Quality Readiness operational gate
 
-**Status:** **BLOCKED — TECHNICAL IMPLEMENTATION PASS; DEPLOYED AUTHENTICATED BROWSER EVIDENCE UNAVAILABLE**  
+**Status:** **BLOCKED — DEPLOYED BUNDLE/CATALOGUE BROWSER PASS; DATA QUALITY WORKSPACE/DRILL-DOWN + LEGACY-LABEL RETEST PENDING**  
 **Category:** `30-admin-pim-ux`  
 **Initiated:** 21 August 2026 14:47 AEST (UTC+10)  
-**Last updated:** 21 August 2026 15:32 AEST  
+**Last updated:** 21 August 2026 22:05 AEST  
 **Origin chat/workstream:** `M1-DATA-QUALITY-READINESS — Completeness, Freshness, Exceptions & Decision-Queue Gate`  
 **Owner:** CourseFinder Admin/PIM governance  
 **Change class:** Admin operational UX / governed read contract / data-quality semantics / performance / UAT
@@ -159,21 +159,34 @@ The live Supabase migration ledger is the current authoritative migration record
 
 ### Pilot frontend
 
+Initial Data Quality promotion:
+
 - feature branch: `m1-data-quality-readiness-20260821`;
 - `src/data-quality-entry.jsx`;
 - `src/data-quality.css`;
 - `index.html` Data Quality runtime root/marker;
 - PR: `msinghbs-ai/Coursefinder-Pilot#18`;
 - production build run: `32450608567` / run #103 — PASS;
-- promoted Pilot `main`: `d2e59771e52b6664c1da7427e4d8125d54963e0b`.
+- initial promoted Pilot `main`: `d2e59771e52b6664c1da7427e4d8125d54963e0b`.
 
-Visible candidate marker:
+Browser-UAT label correction:
+
+- defect: historical six-signal Course percentage remained generically labelled `Readiness` / `Min readiness` in the mature Course catalogue;
+- remediation PR: `msinghbs-ai/Coursefinder-Pilot#19`;
+- PR #19 build: `32479758645` / run #105 — PASS;
+- current Pilot `main`: `72721c57d2a11a5fb79288c9eadf4e14602a2e14`;
+- intended presentation: `Legacy presence` / `Min legacy presence` without changing the score calculation or filter contract.
+
+Visible Data Quality marker proven in the deployed browser:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · governed`
 
 ## UAT
 
-Detailed evidence: `docs/uat/coursefinder-m1-data-quality-readiness-technical-acceptance-2026-08-21.md`.
+Detailed evidence:
+
+- `docs/uat/coursefinder-m1-data-quality-readiness-technical-acceptance-2026-08-21.md`;
+- `docs/uat/coursefinder-m1-data-quality-readiness-browser-evidence-2026-08-21.md`.
 
 ### Semantic UAT
 
@@ -222,13 +235,15 @@ PASS for sampled existing routes:
 
 Initial ~9 s/spilling aggregate was rejected during implementation.
 
-Final observed samples:
+Final observed controlled samples:
 
 - full AU+NZ overview warm: ~836.6 ms, zero temp spill;
 - AU regulatory-fee source-null exception page, 50 rows: ~155.8 ms, zero temp spill;
 - earlier final cold overview after spill removal: ~4.0 s.
 
 No page-level N+1 detail pattern is used.
+
+A later browser-time API sample at approximately 21:53 AEST produced one `admin_read` HTTP 500, while Postgres recorded a statement timeout at 21:53:38 AEST. The exact `admin_read` operation is not available in the API log and is therefore not attributed to Data Quality without evidence. Multiple subsequent `admin_read` requests at approximately 21:55 AEST returned HTTP 200. Final Data Quality browser navigation must be checked against telemetry specifically for any repeated timeout before closure.
 
 ### Frontend / build
 
@@ -239,7 +254,8 @@ PASS:
 - exception drill-down uses one paged RPC;
 - Evidence route defect found during UAT was corrected from `?id=` to `?evidence_id=` before promotion;
 - Node 22 / dependency install / Vite production build passed in GitHub Actions run 32450608567;
-- PR #18 merged to the actual Worker source repository.
+- PR #18 merged to the actual Worker source repository;
+- PR #19 semantic-label correction passed production build run 32479758645 and was merged.
 
 ### Advisor regression
 
@@ -247,25 +263,39 @@ PASS for change-specific findings. Security/performance advisors show existing p
 
 ### Deployed authenticated browser
 
-**BLOCKED.**
+**PARTIAL PASS.**
 
-Correct runtime from accepted prior recovery UAT:
+Authenticated operator screenshots supplied at approximately 21:55 AEST prove the actual runtime `coursefinder-pilot.techm.workers.dev` is serving the Data Quality v1.0 candidate bundle.
 
-`coursefinder-pilot.techm.workers.dev`
+Proven in the deployed browser:
 
-The current execution environment has no Cloudflare control-plane connector, no usable Wrangler network/authentication path and no authenticated Pilot browser session. GitHub exposes no Cloudflare deployment status on the merged commit through the available status API. Public-web tooling cannot directly open this unindexed Worker URL from connector-only context.
+- Data Quality v1.0 governed footer marker visible — PASS;
+- `Platform Admin` role visible — PASS;
+- Courses with Country = Australia shows exactly **26,648** — PASS;
+- Courses with Country = All shows exactly **43,461** — PASS;
+- populated CRICOS tuition, including a legitimate `AUD 0`, renders in Catalogue — PASS;
+- no visible Catalogue permission/RPC failure — PASS.
 
-CourseFinder governance therefore does not treat merged Pilot source as deployed-browser proof.
+Supabase API telemetry aligned with this evidence shows repeated:
 
-Remaining browser evidence:
+`POST /rest/v1/rpc/admin_read` → HTTP 200
 
-1. Data Quality v1.0 marker/current bundle served after hard refresh;
-2. authenticated Completeness navigation opens domain readiness;
-3. AU+NZ overview loads;
-4. AU regulatory-tuition source-null drill-down exposes 191 records with paging;
-5. canonical Course and Evidence navigation work;
-6. browser telemetry uses `public.admin_read` and no private helper;
-7. Dashboard/Catalogue/Evidence/Pipeline remain functional.
+at approximately 21:55 AEST. This clears the previous “deployment/current bundle unproven” blocker and independently confirms the governed browser RPC is active.
+
+Immediately before the refreshed governed traffic, telemetry contains stale legacy `ui_context` / `ui_dashboard` requests returning 401/403 at approximately 21:53 AEST. Successful `admin_read` traffic begins seconds later and continues. These stale pre-refresh attempts are recorded rather than hidden; final hard-refresh UAT must show no continuing legacy route use.
+
+The screenshots also identified the generic historical `Readiness` label as ambiguous. PR #19 corrects that presentation while preserving the underlying legacy score. A deployed retest of the corrected label is still required.
+
+Remaining deployed-browser evidence before closure:
+
+1. hard refresh the current Pilot source and confirm `Legacy presence` / `Min legacy presence` in the mature Course catalogue;
+2. open **Data Quality → Completeness** and prove the domain-readiness workspace renders;
+3. prove the AU+NZ overview shows domain cards and the governed state vocabulary;
+4. open Course → Regulatory fee → `Source-null` and prove the exception total is **191**;
+5. prove exception paging works;
+6. open a canonical Course from an exception row;
+7. open linked Evidence through the `evidence_id` route;
+8. correlate the interaction with `admin_read` HTTP 200 telemetry and confirm no repeat statement-timeout blocker.
 
 ## Rollback / reversion
 
@@ -273,7 +303,7 @@ The change is additive/read-only.
 
 Rollback path:
 
-1. revert Pilot merge `d2e59771e52b6664c1da7427e4d8125d54963e0b` or remove the Data Quality runtime root/entry/style changes;
+1. revert current Pilot Data Quality UI promotion/follow-up commits if browser rollback is required;
 2. remove `data_quality_overview` / `data_quality_exceptions` branches from `public.admin_read` if database rollback is required;
 3. retire the new private Data Quality helpers.
 
@@ -282,9 +312,10 @@ Do not delete or rewrite canonical, Evidence, Search, publishing or Review data 
 ## Documentation impact
 
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md` — added;
-- UAT: `docs/uat/coursefinder-m1-data-quality-readiness-technical-acceptance-2026-08-21.md` — added;
-- Change Control Register — updated with blocked gate/promotion state;
-- PIM Admin Guide / architecture / running build / master plan — no accepted-baseline bump until the deployed authenticated browser gate is closed;
+- technical UAT: `docs/uat/coursefinder-m1-data-quality-readiness-technical-acceptance-2026-08-21.md` — added;
+- deployed browser evidence: `docs/uat/coursefinder-m1-data-quality-readiness-browser-evidence-2026-08-21.md` — added;
+- Change Control Register — update with partial browser-pass state;
+- PIM Admin Guide / architecture / running build / master plan — no accepted-baseline bump until the final deployed Data Quality workspace/drill-down gate is closed;
 - Zoho contract — unchanged.
 
 ## Decision / status history
@@ -295,11 +326,14 @@ Do not delete or rewrite canonical, Evidence, Search, publishing or Review data 
 | 21 Aug 2026 15:00–15:18 AEST | IMPLEMENTING / UAT | Live read contract applied and iteratively optimised; initial spilling ~9 s aggregate rejected. Final contract preserves the nine-state semantics and existing `admin_read` boundary. | Supabase migrations `20260821050044`–`20260821050846` |
 | 21 Aug 2026 15:23 AEST | TECHNICAL PASS | Authenticated role/ACL regression, existing dispatcher regression and final performance samples passed. | Technical UAT |
 | 21 Aug 2026 15:27 AEST | BUILD PASS | Pilot PR #18 production build run 32450608567 completed successfully. | `Coursefinder-Pilot#18` |
-| 21 Aug 2026 15:29 AEST | SOURCE PROMOTED | PR #18 merged into the actual `coursefinder-pilot` Worker source repository at `d2e59771e52b6664c1da7427e4d8125d54963e0b`. | Pilot `main` |
-| 21 Aug 2026 15:32 AEST | BLOCKED | Deployed authenticated browser/Cloudflare runtime proof cannot be produced from the available execution environment; source promotion is not treated as deployment proof. | Technical UAT §12 |
+| 21 Aug 2026 15:29 AEST | SOURCE PROMOTED | PR #18 merged into the actual `coursefinder-pilot` Worker source repository. | Pilot `main` `d2e59771...` |
+| 21 Aug 2026 ~21:55 AEST | DEPLOYMENT / CATALOGUE BROWSER PASS | Authenticated screenshots proved Data Quality v1.0 marker, Platform Admin context, AU 26,648 Courses and all-country 43,461 Courses on the live Worker. API telemetry showed governed `admin_read` HTTP 200 traffic at the same period. | Browser evidence UAT |
+| 21 Aug 2026 ~21:55 AEST | BROWSER UAT DEFECT | Historical six-signal Course percentage still labelled generically as `Readiness` / `Min readiness`; classified as semantic labelling defect, not calculation defect. | Browser evidence UAT |
+| 21 Aug 2026 22:00 AEST | BUILD PASS / SOURCE PROMOTED | PR #19 relabel correction passed production build run 32479758645 and merged; current Pilot main is `72721c57d2a11a5fb79288c9eadf4e14602a2e14`. | `Coursefinder-Pilot#19` |
+| 21 Aug 2026 22:05 AEST | BLOCKED — PARTIAL BROWSER PASS | Deployment/current bundle and Catalogue regression are proven. Final Data Quality workspace, 191-record exception drill-down, Course/Evidence navigation and deployed label retest remain open. | CF-CHG-018 browser evidence |
 
 ## Closure
 
-**Final status:** **BLOCKED — TECHNICAL IMPLEMENTATION PASS / PILOT SOURCE PROMOTED / DEPLOYED AUTHENTICATED BROWSER UNPROVEN**  
+**Final status:** **BLOCKED — DEPLOYED BUNDLE/CATALOGUE BROWSER PASS; DATA QUALITY WORKSPACE/DRILL-DOWN + LEGACY-LABEL RETEST PENDING**  
 **Closed at:** N/A  
-**Outcome:** All Data Quality semantic, DB/RPC, ACL, performance, build and source-promotion gates pass. The only remaining blocker is fresh deployed authenticated browser evidence against `coursefinder-pilot.techm.workers.dev`.
+**Outcome:** Data Quality semantics, DB/RPC, ACL, controlled performance, builds, source promotion and deployed Catalogue regression pass. The previous deployment-proof blocker is cleared. Closure now depends only on final deployed Data Quality workspace/drill-down UAT, the corrected legacy-label retest, and confirmation that those interactions complete through `admin_read` without a repeat timeout.
