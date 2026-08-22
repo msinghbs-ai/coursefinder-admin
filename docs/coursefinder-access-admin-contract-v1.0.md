@@ -1,8 +1,8 @@
 # CourseFinder Access Admin Contract v1.0
 
-**Status:** CANDIDATE — technical implementation PASS; deployed browser acceptance pending  
+**Status:** **ACCEPTED — TECHNICAL + DEPLOYED BROWSER UAT PASS**  
 **Change Control:** `CF-CHG-20260822-020`  
-**Effective candidate date:** 22 August 2026
+**Effective:** 23 August 2026
 
 ## Purpose
 
@@ -70,7 +70,7 @@ Default to **Send invitation**. The user completes the normal Supabase Auth invi
 
 Use **Create with password** only when an automated/non-interactive test identity is required. Minimum v1 password length is 12 characters. A strong unique password must be used, and it must not be copied into Change Controls, source code, test fixtures, browser logs or chat.
 
-The accepted first use case is the Curator identity required by `CF-CHG-20260822-019` to exercise Data Quality → Course → private Evidence through the deployed automated UAT harness.
+The accepted first use case is the Curator identity used by `CF-CHG-20260822-019` to exercise Data Quality → Course → private Evidence through the deployed automated UAT harness.
 
 ## Audit contract
 
@@ -88,11 +88,11 @@ Password/token keys are removed from audit metadata by the service helper. Audit
 
 ## UI contract
 
-Candidate workspace: **Users & Roles**.
+Accepted workspace: **Users & Roles**.
 
 Visible only for Platform Admin rank 6 in normal navigation. A direct route by a lower role must still fail/deny through the server boundary.
 
-The workspace must visibly distinguish:
+The workspace visibly distinguishes:
 
 - Auth state: invited / enabled / disabled;
 - assigned roles;
@@ -102,10 +102,25 @@ The workspace must visibly distinguish:
 - role expiry;
 - recent audited changes.
 
-## Versioning
+## Deployed acceptance
 
-This capability is **Access Admin v1.0** on the current PIM Admin v2.12 shell. It does not by itself redefine PIM field semantics.
+The accepted deployed browser sequence proved:
 
-The contract becomes accepted only after deployed authenticated browser UAT closes `CF-CHG-20260822-020`. Until then, Master Project Plan v1.59, Running Build v2.62, PIM Admin Guide v1.13 and Admin/PIM Design Decisions v1.12 remain the accepted baseline.
+`create Curator → Curator to Viewer → add Viewer expiry → remove expiry → restore Curator → disable → re-enable`.
 
-Because this work introduces `security.user_access_events` and privileged service helpers, the database architecture document should be advanced at closure.
+Immediate server audit reconciliation proved the actual Auth disable/re-enable transition and final restoration to enabled / Curator / no expiry.
+
+Safe technical UAT separately proves self-disable/self-role-removal rejection and last-active-Platform-Admin protection without destructively testing the sole Platform Admin.
+
+## Versioning and baseline
+
+This capability is **Access Admin v1.0** on PIM Admin v2.12. It does not redefine PIM field semantics and does not imply PIM v2.13.
+
+Accepted baseline references:
+
+- Master Project Plan v1.60;
+- Running Build v2.63;
+- Database Architecture v2.10.39;
+- Admin/PIM Design Decisions v1.13;
+- PIM Admin Guide v1.14;
+- `CF-CHG-20260822-020` — CLOSED / PASS.
