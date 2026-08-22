@@ -88,7 +88,7 @@ Pilot PR #23 promoted the Data Quality snapshot/read-path hardening at:
 
 `6c8e8458033c8559013f3f79d47a46a1a9cd984a`.
 
-Automatic deployed run **326000?** was preceded by run `32599359395`, which no longer reproduced the original Data Quality timeout but exposed two separate acceptance defects:
+Deployed run `32599359395` no longer reproduced the original Data Quality timeout but exposed two separate acceptance defects:
 
 1. **desktop harness assertion defect** — the real Evidence drawer rendered successfully with zero HTTP/console errors, but the test expected case-sensitive DOM text different from the actual `Evidence artifact` / `Private evidence boundary` strings;
 2. **real mobile responsive defect** — below 820px the fixed Data Quality shell changed to block layout without a bounded `.dq-main` scroll container, making lower domains unreachable by normal mobile viewport scrolling.
