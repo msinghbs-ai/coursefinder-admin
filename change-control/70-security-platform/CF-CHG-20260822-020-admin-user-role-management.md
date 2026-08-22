@@ -1,9 +1,9 @@
 # CF-CHG-20260822-020 — Admin user and role management
 
-**Status:** **BLOCKED — BACKEND / SECURITY / BUILD / SOURCE PROMOTION PASS; DEPLOYED PLATFORM-ADMIN BROWSER USER-CREATION UAT PENDING**  
+**Status:** **BLOCKED — DEPLOYED CREATE / ROLE ASSIGNMENT / AUDIT PASS; ROLE-EDIT / EXPIRY / DISABLE-REENABLE BROWSER UAT PENDING**  
 **Category:** `70-security-platform`  
 **Initiated:** 22 August 2026 21:12 AEST (UTC+10)  
-**Last updated:** 22 August 2026 21:26 AEST (UTC+10)  
+**Last updated:** 22 August 2026 22:07 AEST (UTC+10)  
 **Origin:** CourseFinder chat — review workflow and create users from Admin panel for all roles  
 **Owner:** CourseFinder security/platform governance  
 **Affected surfaces:** `30-admin-pim-ux`, `80-uat-release-operations`, Supabase Auth/RBAC, Pilot Admin UI  
@@ -103,11 +103,11 @@ Not in v1 scope:
 - password retrieval/reset administration;
 - service-role/browser credential exposure.
 
-Visible candidate marker after source promotion:
+Visible deployed marker:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · Access Admin v1.0 · governed`
 
-PIM Admin itself remains v2.12 until the deployed browser gate closes; Access Admin is versioned independently as v1.0.
+PIM Admin remains versioned independently at v2.12; Access Admin is v1.0.
 
 ## 5. Lockout controls
 
@@ -179,38 +179,65 @@ PR #21 merged to Pilot main:
 
 Security advisor retains the established internal/private-table INFO pattern `RLS enabled / no policies`; the new access-audit table follows that deliberate private/service-only pattern. Existing project warning **Leaked Password Protection Disabled** remains open and was not introduced by this change.
 
-Performance advisor shows existing unindexed-FK/unused-index INFO. The two new audit indexes are reported unused immediately after creation, which is expected before operational audit volume exists and is not an acceptance defect.
+Performance advisor shows existing unindexed-FK/unused-index INFO. The two new audit indexes were reported unused immediately after creation, which is expected before operational audit volume exists and is not an acceptance defect.
 
-## 7. Remaining deployed browser gate
+## 7. Deployed browser acceptance
 
-Closure requires fresh deployed authenticated Platform Admin proof against `coursefinder-pilot.techm.workers.dev` after the Worker picks up Pilot main `c4ca6f9bbf1a9b430d9b860a2962df22b8da49c0`:
+### 7.1 Create / assignment / audit subgate — PASS
 
-1. runtime marker contains `Access Admin v1.0`;
-2. Platform Admin sees **Users & Roles** under Operations and opens the workspace;
-3. six roles render with correct rank/name;
-4. create a controlled UAT identity using **Create with password + Curator** (or another deliberately selected role);
-5. new Auth user appears with the matching effective role;
-6. audit history records role assignment + user creation without password/token material;
-7. edit role assignment and optional expiry behaves correctly on a non-critical test identity;
-8. disable/re-enable behaves correctly on a non-critical test identity;
-9. the current Platform Admin cannot self-disable or remove own Platform Admin role in the UI/server path;
-10. existing Catalogue/Data Quality/Evidence/Pipeline routes remain functional.
+Fresh authenticated mobile-browser evidence was supplied against `coursefinder-pilot.techm.workers.dev` at approximately 22:05 AEST on 22 August 2026.
 
-The created Curator UAT identity can then be used to configure GitHub Actions secrets for `CF-CHG-20260822-019` and run the first automated deployed UAT suite. **Do not place the password in governance documents, GitHub source or chat.**
+The deployed browser proved:
+
+- `Users & Roles` opens as Platform Administration / rank 6;
+- sidebar and runtime marker expose `Access Admin v1.0`;
+- `Create user` completed successfully;
+- the user directory showed 3 Auth users, all enabled;
+- the workspace showed 1 active Platform Admin and 6 governed roles;
+- the newly created account showed assigned role `Curator` and effective role `Curator`;
+- Recent access changes rendered `Roles Replaced` and `User Created` events;
+- the browser success message explicitly states that the password is not stored or retrievable from CourseFinder.
+
+Immediate live Supabase reconciliation matched the screenshot exactly:
+
+- Auth users: `3`;
+- enabled users: `3`;
+- disabled users: `0`;
+- active Platform Admins: `1`;
+- active role assignments: Viewer `0`, Counsellor `0`, Curator `2`, Pipeline Operator `0`, PIM Admin `0`, Platform Admin `1`;
+- `roles_replaced`: `2026-08-22T12:05:28.497227Z`;
+- `user_created`: `2026-08-22T12:05:29.050027Z`.
+
+No password or token material was recorded in governance evidence.
+
+Detailed evidence:
+
+`docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`
+
+### 7.2 Remaining deployed browser checks
+
+The supplied browser evidence does **not** prove the following actions, so they remain open rather than being fabricated as PASS:
+
+1. replace roles on an existing non-critical test identity and confirm effective rank changes;
+2. set/remove optional role expiry on a non-Platform-Admin identity;
+3. disable then re-enable a non-critical test identity;
+4. confirm the deployed UI/server path refuses self-disable / self-removal of the current Platform Admin;
+5. return to mature Admin and confirm Catalogue / Data Quality / Evidence / Pipeline routes remain functional.
+
+These are now the only remaining `CF-CHG-020` acceptance items.
 
 ## 8. Versioning / architecture
 
-This is a material Admin/security workflow. The accepted product baseline remains:
+The accepted programme baseline remains unchanged until the remaining browser mutation regression closes:
 
 - Master Project Plan v1.59;
 - Running Build v2.62;
 - PIM Admin Guide v1.13;
 - Admin/PIM Design Decisions v1.12;
-- PIM Admin v2.12;
+- Database Architecture v2.10.38;
+- PIM Admin v2.12.
 
-until deployed browser acceptance closes this control.
-
-Unlike Data Quality, this work introduces a real security schema artifact (`security.user_access_events`) and privileged service contract. Database Architecture should therefore be advanced during closure, not while the browser gate remains open.
+Unlike Data Quality, this work introduces a real security schema artifact (`security.user_access_events`) and privileged service contract. Database Architecture should advance during final closure, not before the browser mutation gate is complete.
 
 ## 9. Rollback
 
@@ -221,6 +248,6 @@ Unlike Data Quality, this work introduces a real security schema artifact (`secu
 
 ## 10. Current gate
 
-**BLOCKED — BACKEND / SECURITY / BUILD / SOURCE PROMOTION PASS; DEPLOYED PLATFORM-ADMIN BROWSER USER-CREATION UAT PENDING.**
+**BLOCKED — DEPLOYED CREATE / ROLE ASSIGNMENT / AUDIT PASS; ROLE-EDIT / EXPIRY / DISABLE-REENABLE BROWSER UAT PENDING.**
 
-This blocker is not a canonical-data, Search, Evidence, build or service-contract failure. It is the required final acceptance of a newly privileged browser workflow.
+The deployed user-creation path is operational. The remaining blocker is limited to deployed regression of the other privileged mutation controls and does not represent a backend, security-contract, build, canonical-data, Search or Evidence defect.
