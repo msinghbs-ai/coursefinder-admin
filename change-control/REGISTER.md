@@ -1,17 +1,17 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 21 August 2026
+**Effective:** 22 August 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
 > **M1-PIM-FINALISATION final state:** the shared Admin/PIM browser gate for controls `001`, `005`–`015` is **CLOSED / PASS**. PIM Admin v2.11 semantics remain retained in the accepted v2.12 shell.
 >
-> **M1-PIPELINE-OPS final state:** `CF-CHG-20260821-016` is **CLOSED / PASS**. A post-closure re-review identified and corrected raw Source metadata exposure in the rank-4 Pipeline read projection. Pipeline Ops v1.0 remains accepted with Layer 1 → Layer 4 → Search → Publication operations, real server paging/filtering, Evidence/entity-impact drill-down, a server-enforced safe Source metadata allowlist and no generic retry/replay/reset mutation.
+> **M1-PIPELINE-OPS final state:** `CF-CHG-20260821-016` is **CLOSED / PASS**. Pipeline Ops v1.0 remains accepted with Layer 1 → Layer 4 → Search → Publication operations, safe Source metadata projection, bounded paging/filtering and no generic retry/replay/reset mutation.
 >
-> **M1-EVIDENCE-UX final state:** `CF-CHG-20260821-017` is **CLOSED / PASS**. Evidence v1.0 remains promoted on PIM Admin v2.12 + Pipeline Ops v1.0 and was preserved during the Pipeline safe-Sources correction.
+> **M1-EVIDENCE-UX final state:** `CF-CHG-20260821-017` is **CLOSED / PASS**. Evidence v1.0 remains the accepted private Evidence/provenance workspace.
 >
-> **M1-DATA-QUALITY-READINESS current state:** `CF-CHG-20260821-018` is **BLOCKED — deployed exception/paging/canonical Course drill-down PASS; Evidence detail navigation pending**. The live Worker proves the Data Quality v1.0 workspace, `Legacy presence` relabel, AU+NZ domain/state model, regulatory-fee aggregate `Source-null = 191`, the deployed 191-record Exceptions population, all four server-paged ranges through `151–191 of 191`, and canonical Course navigation with real Evidence links retained. Fresh 22:21–22:26 AEST governed `admin_read` traffic completes with HTTP 200 and no repeat statement timeout. Only direct browser proof that a real `evidence_id` link opens Evidence detail remains before closure.
+> **M1-DATA-QUALITY-READINESS final state:** `CF-CHG-20260821-018` is **CLOSED / PASS**. The deployed Worker proves Data Quality v1.0, `Legacy presence` relabelling, the AU+NZ domain/state model, regulatory-fee Source-null = 191, all four exception pages, canonical Course navigation and a real `evidence_id` drill-down to the CRICOS Regulatory Snapshot/private Evidence detail workspace. The accepted Pilot baseline is now `72721c57d2a11a5fb79288c9eadf4e14602a2e14`.
 
 | Change ID | Category | Title | Origin | Initiated | Status | UI version | Record |
 |---|---|---|---|---|---|---|---|
@@ -32,29 +32,27 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260820-015 | 30-admin-pim-ux | PIM operational UI and browser acceptance finalisation | M1-PIM-FINALISATION | 20 Aug 2026 15:04 AEST | **CLOSED / PASS — DB/RPC/security/build/deployed browser/visual UAT complete** | v2.11.0 baseline retained in v2.12.0 | `30-admin-pim-ux/CF-CHG-20260820-015-pim-operational-ui-browser-acceptance.md` |
 | CF-CHG-20260821-016 | 80-uat-release-operations | M1 Pipeline Operations governance baseline and operational acceptance | M1-PIPELINE-OPS | 21 Aug 2026 09:04 AEST | **CLOSED / PASS — post-closure safe-Sources server hardening complete** | PIM v2.12 + Pipeline Ops v1.0 | `80-uat-release-operations/CF-CHG-20260821-016-m1-pipeline-ops-governance-baseline.md` |
 | CF-CHG-20260821-017 | 30-admin-pim-ux | M1 Evidence UX operational Evidence workspace | M1-EVIDENCE-UX | 21 Aug 2026 09:40 AEST | **CLOSED / PASS — implementation, current-volume/security/browser UAT and promotion complete** | PIM v2.12 + Pipeline Ops v1.0 + Evidence v1.0 | `30-admin-pim-ux/CF-CHG-20260821-017-m1-evidence-ux-operational-workspace.md` |
-| CF-CHG-20260821-018 | 30-admin-pim-ux | M1 Data Quality Readiness operational gate | M1-DATA-QUALITY-READINESS | 21 Aug 2026 14:47 AEST | **BLOCKED — technical/build/security/performance + deployed overview/191 Exceptions/full paging/canonical Course PASS; Evidence detail route pending** | Data Quality v1.0 on PIM v2.12 + Pipeline Ops v1.0 + Evidence v1.0 | `30-admin-pim-ux/CF-CHG-20260821-018-m1-data-quality-readiness.md` |
+| CF-CHG-20260821-018 | 30-admin-pim-ux | M1 Data Quality Readiness operational gate | M1-DATA-QUALITY-READINESS | 21 Aug 2026 14:47 AEST | **CLOSED / PASS — technical/build/security/performance and deployed end-to-end browser UAT complete** | Data Quality v1.0 on PIM v2.12 + Pipeline Ops v1.0 + Evidence v1.0 | `30-admin-pim-ux/CF-CHG-20260821-018-m1-data-quality-readiness.md` |
 
 ## Current programme baseline
 
-- current Master Project Plan: `docs/coursefinder-master-project-plan-v1.58.md`;
-- current Running Build: `docs/coursefinder-running-build-v2.61.md`;
-- current architecture: `docs/coursefinder-database-architecture-v2.10.38.md`;
-- current Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.11.md`;
-- current Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.12.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.59.md`;
+- Running Build: `docs/coursefinder-running-build-v2.62.md`;
+- Architecture: `docs/coursefinder-database-architecture-v2.10.38.md`;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.12.md`;
+- Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.13.md`;
 - Pipeline Ops UAT: `docs/uat/coursefinder-m1-pipeline-ops-technical-acceptance-v1.1-2026-08-21.md`;
 - Evidence UAT: `docs/uat/coursefinder-m1-evidence-ux-technical-acceptance-2026-08-21.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - Data Quality technical UAT: `docs/uat/coursefinder-m1-data-quality-readiness-technical-acceptance-2026-08-21.md`;
-- Data Quality deployed-browser evidence: `docs/uat/coursefinder-m1-data-quality-readiness-browser-evidence-2026-08-21.md`;
-- last fully closed browser-accepted programme baseline before CF-CHG-018 remains `msinghbs-ai/Coursefinder-Pilot@fda4270f3c440b8253b87da1a8c35a4b2769413e` until the final Data Quality Evidence-detail gate closes;
-- current deployed Data Quality Pilot source is `msinghbs-ai/Coursefinder-Pilot@72721c57d2a11a5fb79288c9eadf4e14602a2e14`;
-- deployed browser proves `Legacy presence` / `Min legacy presence`, the Data Quality AU+NZ workspace, all nine governed readiness states, regulatory-fee aggregate source-null = 191, deployed Exceptions total = 191, all four pages through 151–191, and canonical Course detail navigation with real Evidence links retained;
-- authenticated deployed Catalogue regression remains 26,648 AU Courses and 43,461 all-country Courses;
-- current browser read boundary: `public.admin_read(text,jsonb)`; Data Quality rank-1 reads use `data_quality_overview` / `data_quality_exceptions`; Evidence requires Curator rank 3 and Pipeline Control / Jobs / Sources require Pipeline Operator rank 4;
-- fresh browser-time Supabase telemetry at 22:21–22:26 AEST shows repeated successful `POST /rest/v1/rpc/admin_read` HTTP 200 calls with no new 500/statement timeout; the prior 21:53 timeout remains historical/unattributed;
-- the only remaining CF-CHG-018 browser check is direct Evidence detail navigation from a real displayed `evidence_id`; no synthetic Review navigation is required;
+- Data Quality deployed-browser UAT: `docs/uat/coursefinder-m1-data-quality-readiness-browser-evidence-2026-08-21.md`;
+- current fully browser-accepted Pilot baseline: `msinghbs-ai/Coursefinder-Pilot@72721c57d2a11a5fb79288c9eadf4e14602a2e14`;
+- deployed runtime: PIM Admin v2.12 + Pipeline Ops v1.0 + Evidence v1.0 + Data Quality v1.0;
+- authenticated Catalogue regression: 26,648 AU Courses / 43,461 all-country Courses;
+- Data Quality end-to-end path proven: domain aggregate → 191-record Exception population → all four pages → canonical Course → real CRICOS Regulatory Snapshot Evidence detail;
+- browser read boundary: `public.admin_read(text,jsonb)`; Data Quality assigned-role reads use `data_quality_overview` / `data_quality_exceptions`; Evidence requires Curator rank 3; Pipeline Control / Jobs / Sources require Pipeline Operator rank 4;
+- final 13:29–13:30 AEST Evidence interaction completed with repeated `admin_read` HTTP 200 calls; earlier 13:24/13:26 statement timeouts are retained as unattributed operational evidence and an input to automated UAT work;
 - Data Quality live migrations: `20260821050044`, `20260821050313`, `20260821050457`, `20260821050825`, `20260821050846`;
-- final Pipeline Evidence entity-impact optimisation: `20260820235820 — m1_pipeline_ops_evidence_entity_links_fast_v2`;
 - Pipeline safe Source metadata projection: `20260821025059 — m1_pipeline_ops_safe_source_projection_v1`;
 - Evidence Country-aware Source metadata: `20260821021205 — m1_evidence_ux_country_source_filter_v1`;
 - no generic retry/replay/reset mutation is authorised by controls `016`, `017` or `018`.
