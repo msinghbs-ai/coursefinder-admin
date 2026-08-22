@@ -1,123 +1,105 @@
 # CourseFinder M1-UAT-HARNESS — Technical Acceptance
 
-**Date:** 22 August 2026  
+**Evidence window:** 22–23 August 2026  
 **Change Control:** `CF-CHG-20260822-019`  
-**Result:** **PARTIAL PASS — IMPLEMENTATION/PR GATE PASS; AUTHENTICATED DEPLOYED RUN PENDING**
+**Result:** **PASS — IMPLEMENTATION + AUTHENTICATED DEPLOYED DESKTOP/MOBILE GATE ACCEPTED**
 
 ## 1. Scope
 
-This UAT validates the implementation of CourseFinder UAT Harness v1.0. It does not re-test or redefine the already accepted CF-CHG-018 Data Quality semantics.
+This acceptance validates UAT Harness v1.0 as a repeatable release-control mechanism. It validates the existing CF-CHG-018 Data Quality fixture; it does not redefine Data Quality semantics.
 
-The target operating model is:
+Accepted operating model:
 
-`PR production build + local browser smoke → deployment → authenticated desktop/mobile browser acceptance → evidence artefact → human semantic/visual review only where required`.
+`PR production build + local browser smoke → promotion → authenticated desktop/mobile browser acceptance → retained evidence → commit status`.
 
-## 2. Source review
+## 2. Security — PASS
 
-Pilot PR #20 adds Playwright without changing the application’s authentication, role model, Supabase schema, `public.admin_read` contract or Evidence private boundary.
-
-Security review result:
-
-- no service-role browser credential;
 - no auth bypass;
+- no browser service-role credential;
 - no test-only production route;
-- no committed user/password/token/session state;
-- Playwright artefact/output directories ignored by git;
-- deployed credentials referenced only through Actions secrets;
-- deployed URL required to be HTTPS;
-- Evidence critical path still requires a normally authorised rank-3+ identity.
+- no committed password/token/session state;
+- deployed credentials sourced from GitHub Actions secrets;
+- deployed URL required to use HTTPS;
+- Evidence path exercised with a normally authorised Curator+ identity;
+- normal CourseFinder RBAC remained authoritative throughout.
 
-**Result: PASS.**
+## 3. PR/build gate — PASS
 
-## 3. Test-source discovery
+Initial implementation PR #20 / workflow run #109 (`32550196119`) proved:
 
-GitHub Actions run #109 / ID `32550196119` executed:
+- Node 22 production build;
+- 8 Playwright tests discoverable across desktop/mobile projects;
+- Chromium installation;
+- local login-shell browser smoke;
+- evidence artefact upload.
 
-`npx playwright test --list`
+Later remediation PRs retained the same gate. Final PR #24 also passed production build, suite discovery, Chromium installation, local browser smoke and evidence upload before promotion.
 
-and discovered **8 tests across 2 files**:
+## 4. Harness failure detection — PASS
 
-### Chromium desktop
+The first real authenticated concurrent desktop/mobile run successfully logged in and exposed `admin_read` HTTP 500s caused by PostgreSQL statement timeouts. The harness failed those tests even where the UI could otherwise recover.
 
-1. Data Quality regulatory-fee states + 191 exception rows/paging;
-2. exception → canonical Course detail;
-3. exception → private Evidence Regulatory Snapshot;
-4. unauthenticated local login-shell smoke.
+The timeout was remediated under `CF-CHG-20260823-021`; the authenticated browser timeout was not increased and 5xx detection was not weakened.
 
-### Chromium mobile
+A later deployed run exposed:
 
-The same four configured test definitions are discoverable under the Pixel 7 project.
+- a case-sensitive Evidence locator defect in the harness while the actual Evidence drawer was correctly rendered;
+- a real mobile Data Quality scroll-container defect.
 
-This confirms the deployed test source parses and is visible to the runner without requiring UAT credentials at PR time.
+Both were repaired and re-tested. No failing acceptance condition was waived.
 
-**Result: PASS.**
+## 5. Final deployed release — PASS
 
-## 4. Production build regression
+Accepted Pilot SHA:
 
-Final PR gate run:
+`e877e3e28cd281ff3751a70bc500eeb0d8f31963`
 
-- workflow: `Pilot Frontend Build`;
-- run: **#109**;
-- ID: `32550196119`;
-- feature SHA: `a2cada41aaeaeaadf292e94db684b80b3f6c1c12`;
-- Node: **22.23.2**;
-- dependency installation: **PASS**;
-- npm audit result: **0 vulnerabilities**;
-- Vite production build: **PASS**.
+Workflow run:
 
-**Result: PASS.**
+`32600027592`
 
-## 5. Local browser smoke
+Target:
 
-The final browser-smoke job installed Playwright Chromium and executed:
+`https://coursefinder-pilot.techm.workers.dev`
 
-`npm run test:uat:smoke`
+Commit statuses:
 
-Result:
+- `coursefinder/deployed-uat/chromium-desktop` — **success**;
+- `coursefinder/deployed-uat/chromium-mobile` — **success**.
 
-- 1 Chromium desktop smoke test;
-- login email/password/sign-in controls rendered;
-- no server-side HTTP 5xx response was observed by the test;
-- test runtime approximately 1.2 seconds;
-- suite runtime approximately 3.1 seconds.
+### Desktop result
 
-This smoke intentionally uses placeholder public Supabase configuration and performs no authentication. It proves browser/runtime integrity only; it is not a substitute for deployed acceptance.
+3/3 deployed tests PASS in 25.5 seconds:
 
-**Result: PASS.**
+1. governed regulatory-fee states and all 191 Source-null exceptions page correctly;
+2. exception opens canonical Course detail / Fee semantics;
+3. exception opens real private CRICOS Regulatory Snapshot Evidence detail.
 
-## 6. Evidence artefact pipeline
+Artefact ID `9482641524`, digest `sha256:8dddfadd2c970037030f2ecf6efb4f25d73c6c8dc2a2c134e68c63c78e666666`.
 
-The final PR run uploaded:
+### Mobile result
 
-- name: `pilot-browser-smoke-32550196119-1`;
-- artifact ID: `9469812028`;
-- size: 214,738 bytes;
-- digest: `sha256:3552483b89bcabe79333988d82007d4b60e13b8db94ff4565ccf58f7b8d2a65a`;
-- retention: 14 days.
+3/3 deployed tests PASS in 23.3 seconds under Pixel 7 emulation, including the previously blocked mobile scroll path.
 
-The workflow uploads `playwright-report/`, `test-results/` and `uat-artifacts/` even after a test failure.
+Artefact ID `9482641597`, digest `sha256:e601d52976be082e7db17c878fee5b207c0d9a80e16574eb2f4fe21d01fef2de`.
 
-**Result: PASS.**
+Both artefacts retain reports/test results/runtime evidence for 30 days.
 
-## 7. Runtime failure capture
+## 6. Final runtime evidence — PASS
 
-The deployed harness registers browser listeners for:
+All six per-test runtime JSON files were independently inspected after upload.
 
-- HTTP 5xx;
-- HTTP 4xx diagnostics;
-- `console.error`;
-- uncaught page errors.
+Desktop and mobile combined:
 
-Per-test runtime JSON is attached before the final 5xx assertion, so evidence is not lost when the test fails. Unexpected HTTP 5xx therefore becomes a deterministic UAT failure even where the application later recovers.
+- unexpected HTTP 5xx: **0**;
+- HTTP 4xx diagnostics: **0**;
+- browser `console.error` / uncaught page errors: **0**;
+- all status-at-capture values: `passed`;
+- all expected statuses: `passed`.
 
-This directly addresses the manual CF-CHG-018 limitation where transient statement timeouts required retrospective log correlation.
+The Evidence test proves the real private Evidence workspace rather than a synthetic fixture: `Regulatory Snapshot`, source `CRICOS Providers, Courses and Locations`, and the private Evidence boundary are all required assertions.
 
-**Design/code review: PASS.**  
-**Real deployed failure-path execution: not yet exercised.**
-
-## 8. Governed fixture review
-
-The initial fixture exactly reflects the already accepted CF-CHG-018 values:
+## 7. Governed fixture retained
 
 - AU Courses 26,648;
 - AU+NZ Courses 33,105;
@@ -126,57 +108,21 @@ The initial fixture exactly reflects the already accepted CF-CHG-018 values:
 - source-null 191;
 - not-applicable 6,457;
 - zero 131;
-- readiness 99.28%;
-- expected Evidence source `CRICOS Providers, Courses and Locations`.
+- readiness 99.28%.
 
-The fixture is intentionally explicit and is not automatically rewritten after failures.
+Fixture values remain explicit and cannot silently update themselves after a failure.
 
-**Result: PASS.**
-
-## 9. Source promotion
-
-Pilot PR #20 was merged after the implementation gate passed.
-
-Current Pilot `main`:
-
-`80c293ff3d757a14cdb4495508684df1e6036e64`
-
-**Result: PASS.**
-
-## 10. Remaining deployed acceptance
-
-The following has **not** yet been proven by the automated harness:
-
-- real login with the dedicated governed UAT identity;
-- Data Quality critical path on desktop Chromium against the Worker;
-- the same critical path using mobile emulation;
-- automated Evidence detail assertion against the deployed Worker;
-- real automatic failure on an unexpected Worker/Supabase 5xx;
-- 30-day deployed UAT evidence artefact creation.
-
-Required Actions secrets:
-
-- `COURSEFINDER_UAT_EMAIL`;
-- `COURSEFINDER_UAT_PASSWORD`.
-
-The secrets are deliberately not present in repository source, and their configuration cannot be verified through the current connected GitHub toolset.
-
-## 11. Final verdict
+## 8. Final verdict
 
 | Gate | Result |
 |---|---|
-| Playwright source implemented | **PASS** |
-| No auth bypass/service-role browser credential | **PASS** |
-| Governed fixture committed | **PASS** |
-| Production Vite build | **PASS** |
-| Full suite discovery | **PASS — 8 tests** |
+| Playwright source / security contract | **PASS** |
+| Production build / suite discovery | **PASS** |
 | Local Chromium smoke | **PASS** |
-| PR evidence upload | **PASS** |
-| Pilot source promotion | **PASS** |
-| Authenticated deployed desktop run | **PENDING** |
-| Authenticated deployed mobile run | **PENDING** |
-| Deployed UAT evidence artefact | **PENDING** |
+| Authenticated deployed desktop | **PASS — 3/3** |
+| Authenticated deployed mobile | **PASS — 3/3** |
+| Unexpected 5xx / 4xx / console errors | **PASS — 0** |
+| Evidence artefacts retained | **PASS** |
+| SHA-bound desktop/mobile commit statuses | **PASS** |
 
-**Overall:** **BLOCKED — HARNESS IMPLEMENTED / BUILD + LOCAL BROWSER SMOKE PASS; FIRST AUTHENTICATED DEPLOYED RUN PENDING.**
-
-No product baseline or CF-CHG-018 semantic status is rolled back by this release-process blocker.
+**Overall: CLOSED / PASS.**

@@ -1,76 +1,52 @@
 # CF-CHG-20260822-019 — M1 UAT Harness automated operational acceptance
 
-**Status:** **BLOCKED — HARNESS IMPLEMENTED / BUILD + LOCAL BROWSER SMOKE PASS; FIRST AUTHENTICATED DEPLOYED RUN PENDING**  
+**Status:** **CLOSED / PASS**  
 **Category:** `80-uat-release-operations`  
 **Initiated:** 22 August 2026 13:39 AEST (UTC+10)  
-**Last updated:** 22 August 2026 13:55 AEST  
+**Closed:** 23 August 2026 07:39 AEST (UTC+10)  
 **Origin chat/workstream:** `M1-UAT-HARNESS — Automated Operational Acceptance`  
 **Owner:** CourseFinder release/UAT governance  
 **Change class:** CI/CD / browser acceptance / test evidence / release operations
 
-## 1. Trigger
+## 1. Objective
 
-CF-CHG-018 required a long operator-driven screenshot sequence plus manual Supabase log correlation. The final manual session also exposed transient statement timeouts only through retrospective log inspection. Deterministic browser acceptance therefore needs to become repeatable, evidence-producing and mostly autonomous.
+CourseFinder UAT Harness v1.0 converts deterministic browser acceptance from a screenshot-heavy manual sequence into a governed repeatable gate:
 
-Human acceptance remains appropriate for semantic wording, information hierarchy and genuinely visual judgement. It is no longer the intended mechanism for proving deterministic counts, paging, canonical navigation, Evidence navigation or unexpected server failures.
+`PR build + local smoke → promotion → deployed authenticated desktop/mobile acceptance → retained evidence → commit status`.
 
-## 2. Objective
+Human judgement remains appropriate for semantic wording and genuinely visual decisions. Authentication/RBAC is never bypassed.
 
-CourseFinder UAT Harness v1.0 uses Playwright in two stages:
+## 2. Security contract — PASS
 
-1. **PR/build gate** — production Vite build, complete Playwright suite discovery and unauthenticated local Chromium smoke;
-2. **deployed acceptance gate** — normal authenticated browser automation against `https://coursefinder-pilot.techm.workers.dev`, using GitHub Actions secrets and the real CourseFinder role boundary.
-
-The harness creates HTML, JSON/JUnit, screenshot/trace/video and browser/network evidence rather than requiring screenshot collection through chat.
-
-## 3. Security decisions
-
-Accepted harness constraints:
-
-- no authentication bypass;
-- no service-role credential in browser tests;
+- normal Supabase Auth only;
+- no browser service-role credential;
 - no committed password/token/session state;
 - no test-only production endpoint;
-- normal Supabase Auth only;
-- normal CourseFinder role/rank enforcement only;
-- Evidence remains Curator+ rank 3;
-- future role-matrix UAT uses separate real test identities rather than role spoofing;
-- Playwright output directories are gitignored;
-- fixture failures do not auto-rewrite governed expected values.
+- deployed credentials supplied only through repository Actions secrets;
+- Evidence still requires a normally authorised Curator+ identity;
+- private Evidence/storage boundaries remain unchanged;
+- fixture changes are governed rather than automatically rewritten after failure.
 
-Required repository Actions secrets for the first deployed run:
+## 3. Implemented harness
 
-- `COURSEFINDER_UAT_EMAIL`;
-- `COURSEFINDER_UAT_PASSWORD`.
+The Pilot contains:
 
-The current tool connection cannot create or inspect repository Actions secrets, so their existence is not inferred.
+- Playwright desktop and Pixel-7/mobile projects;
+- governed Data Quality fixture;
+- local unauthenticated login-shell smoke;
+- deployed authenticated Data Quality critical path;
+- runtime collection for HTTP 4xx/5xx, `console.error` and page errors;
+- milestone screenshots, JSON/JUnit, traces/videos and HTML report artefacts;
+- automatic deployed execution on every `main` promotion;
+- machine-readable commit contexts:
+  - `coursefinder/deployed-uat/chromium-desktop`;
+  - `coursefinder/deployed-uat/chromium-mobile`.
 
-## 4. Implemented Pilot source
+Runtime evidence records the `admin_read` operation name for failures without recording request arguments or credentials. Per-test status is explicitly labelled as capture-time state; Playwright/JUnit/GitHub remain the final-status authorities.
 
-Pilot PR **#20 — `M1-UAT-HARNESS: Playwright operational acceptance v1.0`** was merged after the PR gate passed.
+## 4. Governed fixture
 
-Current Pilot `main`:
-
-`80c293ff3d757a14cdb4495508684df1e6036e64`
-
-Files added/changed:
-
-- `package.json` — Playwright dependency and UAT commands;
-- `playwright.config.mjs` — desktop/mobile projects, reports and evidence retention;
-- `tests/uat/expectations.json` — governed CF-CHG-018 fixture;
-- `tests/uat/support/runtime-evidence.mjs` — 4xx/5xx/console/page-error capture and milestone screenshots;
-- `tests/uat/smoke.spec.mjs` — local login-shell smoke;
-- `tests/uat/data-quality-deployed.spec.mjs` — authenticated critical path;
-- `.github/workflows/pim-build.yml` — retained production build plus suite discovery + Chromium smoke;
-- `.github/workflows/deployed-uat.yml` — manually dispatched deployed desktop/mobile acceptance;
-- `.gitignore` — ignores Playwright/runtime artefacts and local secrets;
-- `docs/uat-harness.md` — operating/security instructions.
-
-No application runtime route, canonical data, Supabase schema or product ACL was changed.
-
-## 5. Governed fixture
-
-The first automated fixture intentionally codifies the already accepted CF-CHG-018 baseline rather than creating a new semantic baseline:
+The harness validates, but does not redefine, the accepted CF-CHG-018 baseline:
 
 - AU Courses: 26,648;
 - AU+NZ Courses: 33,105;
@@ -80,123 +56,111 @@ The first automated fixture intentionally codifies the already accepted CF-CHG-0
 - regulatory fee not-applicable: 6,457;
 - regulatory fee zero: 131;
 - regulatory fee readiness: 99.28%;
-- expected Evidence source: `CRICOS Providers, Courses and Locations`.
+- Evidence source: `CRICOS Providers, Courses and Locations`.
 
-A legitimate count change requires investigation/governance before updating this file.
+## 5. Initial implementation gate — PASS
 
-## 6. Automated critical path
+Pilot PR #20 implemented UAT Harness v1.0.
 
-The deployed suite contains three tests per browser project:
+PR gate run #109 / ID `32550196119`:
 
-1. `Login → Data Quality → Regulatory fee states → Source-null 191 → pages 1–4`;
-2. `Exception → canonical Course → Fee semantics`;
-3. `Exception → Evidence → #evidence?evidence_id=... → Evidence Artifact → Regulatory Snapshot → PRIVATE EVIDENCE BOUNDARY`.
+- production Vite build PASS;
+- 8 Playwright tests discovered across desktop/mobile projects;
+- Chromium installation PASS;
+- local login-shell smoke PASS;
+- evidence artefact `9469812028` uploaded.
 
-Projects:
+The harness was promoted at `80c293ff3d757a14cdb4495508684df1e6036e64`.
 
-- `chromium-desktop` — Desktop Chrome, 1440×1100;
-- `chromium-mobile` — Pixel 7 emulation.
+## 6. First authenticated deployed run — useful FAIL
 
-PR suite discovery proves all eight configured tests are parseable/discoverable: three deployed tests plus the local smoke in both projects.
+After the governed UAT credentials were configured, the automatic deployed harness successfully authenticated both desktop and mobile and exposed real `public.admin_read` HTTP 500s under concurrent load.
 
-## 7. Runtime evidence contract
+Supabase reconciliation proved PostgreSQL statement-timeout cancellations rather than authentication failure. The cold AU+NZ Data Quality overview recomputation exceeded the authenticated 8-second browser timeout.
 
-For each deployed browser test the harness captures:
+This failure is accepted as evidence that the harness worked as designed. The 5xx condition was not ignored and the browser timeout was not increased to conceal it.
 
-- unexpected HTTP 5xx responses;
-- HTTP 4xx responses for diagnostic evidence;
-- browser `console.error` messages;
-- uncaught page errors;
-- test/project/result metadata.
+The remediation is governed by `CF-CHG-20260823-021`.
 
-Unexpected HTTP 5xx responses **fail the deployed test even if the page later recovers**. Runtime evidence is attached before the 5xx assertion executes, preserving the failure evidence.
+## 7. Post-remediation run and secondary findings
 
-Playwright output includes:
+Pilot PR #23 promoted the Data Quality snapshot/read-path hardening at:
 
-- `playwright-report/`;
-- `test-results/` with retained failure traces/videos/screenshots;
-- `uat-artifacts/results.json`;
-- `uat-artifacts/junit.xml`;
-- `uat-artifacts/environment.json`;
-- per-test runtime JSON;
-- explicit milestone screenshots for the deployed critical path.
+`6c8e8458033c8559013f3f79d47a46a1a9cd984a`.
 
-## 8. CI/UAT evidence — PR gate PASS
+Deployed run `32599359395` no longer reproduced the original Data Quality timeout but exposed two separate acceptance defects:
 
-Final implementation run:
+1. **desktop harness assertion defect** — the real Evidence drawer rendered successfully with zero HTTP/console errors, but the test expected case-sensitive DOM text different from the actual `Evidence artifact` / `Private evidence boundary` strings;
+2. **real mobile responsive defect** — below 820px the fixed Data Quality shell changed to block layout without a bounded `.dq-main` scroll container, making lower domains unreachable by normal mobile viewport scrolling.
 
-- workflow: `Pilot Frontend Build`;
-- run number: **109**;
-- run ID: **32550196119**;
-- tested feature head: `a2cada41aaeaeaadf292e94db684b80b3f6c1c12`;
-- Node: 22.23.2;
-- dependency audit: 0 vulnerabilities;
-- production Vite build: **PASS**;
-- `npx playwright test --list`: **PASS**, 8 tests discovered in 2 files;
-- Chromium installation: **PASS**;
-- local browser smoke: **PASS**, 1 test passed in ~3.1 seconds;
-- smoke evidence upload: **PASS**.
+Both were corrected rather than waived:
 
-Latest PR-gate artefact:
+- Evidence assertions now target the actual drawer semantics case-insensitively;
+- mobile Data Quality `.dq-main` is explicitly height-bounded and vertically scrollable with momentum scrolling;
+- runtime JSON now distinguishes capture-time status from final test result.
 
-- name: `pilot-browser-smoke-32550196119-1`;
-- artefact ID: `9469812028`;
-- size: 214,738 bytes;
-- digest: `sha256:3552483b89bcabe79333988d82007d4b60e13b8db94ff4565ccf58f7b8d2a65a`;
-- retention: 14 days.
+Pilot PR #24 passed production build, suite discovery, Chromium installation and local browser smoke before promotion.
 
-This proves the harness source/build/smoke/evidence pipeline. It does not substitute for authenticated deployed UAT.
+## 8. Final deployed acceptance — PASS
 
-## 9. Deployed workflow contract
+Final accepted Pilot head:
 
-`.github/workflows/deployed-uat.yml` is a `workflow_dispatch` job with an HTTPS `base_url` input defaulting to the Pilot Worker.
+`e877e3e28cd281ff3751a70bc500eeb0d8f31963`
 
-Matrix:
+Automatic deployed workflow:
 
-- Chromium desktop;
-- Chromium mobile.
+- run ID: **32600027592**;
+- target: `https://coursefinder-pilot.techm.workers.dev`;
+- normal governed UAT identity via Actions secrets;
+- desktop job: **SUCCESS**;
+- mobile job: **SUCCESS**.
 
-The workflow:
+### Desktop
 
-1. checks out the tested commit;
-2. uses Node 22;
-3. installs dependencies;
-4. fails clearly if UAT secrets are absent;
-5. rejects a non-HTTPS deployed base URL;
-6. installs Chromium;
-7. runs the governed deployed suite;
-8. uploads reports/traces/runtime evidence even on failure, retention 30 days.
+All three deployed tests passed:
 
-## 10. Current blocker
+1. regulatory-fee states + Source-null 191 + pages 1–4;
+2. Exception → canonical Course → Fee semantics;
+3. Exception → real private CRICOS Regulatory Snapshot Evidence artifact.
 
-No real authenticated `CourseFinder Deployed UAT` workflow run has yet been executed against the Worker after merging PR #20.
+Runtime: **3 passed in 25.5s**.
 
-The current connected GitHub tooling can inspect/rerun workflow jobs but does not provide repository-secret creation or initial `workflow_dispatch` execution. Credentials must therefore be configured through GitHub Actions settings and the first workflow run triggered there.
+Artefact:
 
-This is an external acceptance prerequisite, not a reason to weaken authentication.
+- ID `9482641524`;
+- digest `sha256:8dddfadd2c970037030f2ecf6efb4f25d73c6c8dc2a2c134e68c63c78e666666`;
+- retention 30 days.
 
-## 11. No data/architecture change
+### Mobile
 
-This control changes release automation only. It does not alter canonical identity, source authority, Evidence grain/private Storage, Search admission, publication semantics, Supabase schema or the `public.admin_read` browser boundary.
+The same three deployed tests passed under Pixel 7 emulation, including scrolling to and activating the regulatory-fee Source-null state.
 
-Database Architecture v2.10.38 remains current. Master Project Plan v1.59 / Running Build v2.62 remain the accepted product baseline until this release-process gate closes.
+Runtime: **3 passed in 23.3s**.
 
-## 12. Relationship to CF-CHG-018
+Artefact:
 
-`CF-CHG-20260821-018` remains **CLOSED / PASS**. Its accepted semantics/counts are the first governed fixture for this test harness. The harness validates that baseline; it does not redefine it.
+- ID `9482641597`;
+- digest `sha256:e601d52976be082e7db17c878fee5b207c0d9a80e16574eb2f4fe21d01fef2de`;
+- retention 30 days.
 
-## 13. Acceptance status history
+Both final commit contexts are `success`.
 
-| Time | Status | Evidence |
-|---|---|---|
-| 22 Aug 2026 13:39 AEST | IMPLEMENTING | CF-CHG-019 opened; Pilot/Admin feature branches created. |
-| 22 Aug 2026 13:51–13:54 AEST | PR UAT | Production build, Playwright suite discovery and local Chromium smoke executed in GitHub Actions. |
-| 22 Aug 2026 13:54 AEST | IMPLEMENTATION GATE PASS | Run #109 / ID 32550196119 PASS; evidence artefact 9469812028 uploaded. |
-| 22 Aug 2026 13:54 AEST | SOURCE PROMOTED | Pilot PR #20 merged to `main` at `80c293ff3d757a14cdb4495508684df1e6036e64`. |
-| 22 Aug 2026 13:55 AEST | BLOCKED — DEPLOYED RUN PENDING | First authenticated desktop/mobile workflow-dispatch run not yet executed. |
+## 9. Final artefact inspection — PASS
 
-## 14. Closure
+The six final per-test runtime JSON records were inspected after the workflow completed.
 
-**Final status:** **BLOCKED — HARNESS IMPLEMENTED / BUILD + LOCAL BROWSER SMOKE PASS; FIRST AUTHENTICATED DEPLOYED RUN PENDING**  
-**Closed at:** N/A  
-**Outcome:** Playwright UAT Harness v1.0 is implemented and source-promoted with a passing production build, full suite discovery, browser smoke and evidence-artifact pipeline. Closure is withheld only for a real authenticated deployed desktop/mobile run using normal Supabase Auth/CourseFinder RBAC.
+Across desktop and mobile:
+
+- server errors: **0**;
+- client HTTP errors: **0**;
+- console/page errors: **0**;
+- status-at-capture: `passed`;
+- expected status: `passed`.
+
+The retained evidence includes overview, page-1/page-4 exception, Course detail and Evidence Regulatory Snapshot screenshots for both projects.
+
+## 10. Closure
+
+**Final gate: CLOSED / PASS.**
+
+UAT Harness v1.0 is now a working authenticated release gate, not only test source. Every Pilot `main` promotion can produce independently visible desktop/mobile status tied to the exact SHA and retained evidence. No authentication or CourseFinder role boundary was weakened to obtain this result.

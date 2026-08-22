@@ -1,79 +1,89 @@
 # CourseFinder Access Admin v1.0 — Deployed Browser Evidence
 
-**Date:** 22 August 2026  
+**Evidence window:** 22–23 August 2026  
 **Change Control:** `CF-CHG-20260822-020`  
 **Runtime:** `coursefinder-pilot.techm.workers.dev`  
-**Pilot source:** `c4ca6f9bbf1a9b430d9b860a2962df22b8da49c0`  
-**Result:** **PARTIAL PASS — DEPLOYED USER CREATION / ROLE ASSIGNMENT / AUDIT PATH PROVEN; ROLE-EDIT / DISABLE-REENABLE BROWSER REGRESSION REMAINS**
+**Result:** **PASS — CREATE / ROLE / EXPIRY / DISABLE-REENABLE / AUDIT PATH PROVEN**
 
-## Evidence supplied
+## 1. Evidence supplied
 
-A fresh authenticated Platform Admin mobile-browser screenshot was supplied after the Worker had picked up Access Admin v1.0.
+Authenticated Platform Admin mobile-browser evidence was supplied against the deployed Worker after Access Admin v1.0 promotion.
 
-Visible deployed evidence:
+The deployed browser proved:
 
-- `Users & Roles` Platform Administration workspace loaded successfully;
-- sidebar identifies `Access Admin v1.0`;
-- runtime marker includes `Access Admin v1.0` alongside the accepted PIM/Pipeline/Evidence/Data Quality releases;
-- current authority shown as Platform Admin;
-- `Create user` action completed successfully;
-- success banner states that the password is not stored or retrievable from CourseFinder;
-- directory shows three Auth users, all enabled;
-- one active Platform Admin is shown;
-- governed role count is six;
-- the newly created account is shown with assigned role `Curator` and effective role `Curator`;
-- recent access changes show `User Created` and `Roles Replaced` entries for the new account.
+- `Users & Roles` opens as Platform Administration / rank 6;
+- the runtime marker includes `Access Admin v1.0`;
+- the current operator authority is Platform Admin;
+- `Create user` completed successfully;
+- the user directory and governed role inventory load correctly;
+- the controlled UAT account was created with Curator access;
+- role replacement was exercised on the controlled account;
+- optional non-Platform-Admin role expiry was set and then removed;
+- the controlled account was disabled and then re-enabled from the deployed browser;
+- the final browser state shows all three Auth users enabled and zero disabled;
+- the controlled account is restored to Curator with no expiry;
+- Recent access changes visibly include `Roles Replaced`, `User Disabled`, `User Enabled` and `User Created` events.
 
-No password or token material is captured in the screenshot or this evidence record.
+The final browser success banner states **Account re-enabled**.
 
-## Live server reconciliation
+No password, token or session material is retained in this evidence record.
 
-Immediately after the screenshot, live Supabase state was independently queried.
+## 2. Independent live server reconciliation
 
-Result:
+Live Supabase audit state was queried immediately after the final browser mutation cycle.
 
-- Auth users: `3`;
-- enabled users: `3`;
-- disabled users: `0`;
-- active Platform Admins: `1`;
-- active role assignments:
-  - Viewer `0`;
-  - Counsellor `0`;
-  - Curator `2`;
-  - Pipeline Operator `0`;
-  - PIM Admin `0`;
-  - Platform Admin `1`;
-- recent access events:
-  - `roles_replaced` at `2026-08-22T12:05:28.497227Z`;
-  - `user_created` at `2026-08-22T12:05:29.050027Z`.
+The final disable / re-enable sequence is recorded as:
 
-Those timestamps correspond to approximately 22:05 AEST and match the browser evidence.
+- `user_disabled` at `2026-08-22T21:20:01.573021Z` (23 August 2026 07:20:01 AEST);
+- `user_enabled` at `2026-08-22T21:20:10.495335Z` (23 August 2026 07:20:10 AEST).
 
-## Proven deployed acceptance items
+The audit payload proves the actual server-side account state transition rather than only a UI message:
 
-The following `CF-CHG-020` browser requirements are now accepted:
+- before disable: `disabled=false`, `banned_until=null`;
+- after disable: `disabled=true`, with a server-set ban timestamp;
+- before re-enable: `disabled=true`;
+- after re-enable: `disabled=false`, `banned_until=null`.
 
-1. deployed runtime contains Access Admin v1.0;
-2. Platform Admin can see and open Users & Roles;
-3. six governed roles are present in the deployed contract;
-4. a controlled account can be created from the deployed Admin panel;
-5. the new Auth user appears with the selected Curator role and effective rank;
-6. access audit records both role replacement and user creation without password/token material.
+The same controlled identity had the preceding role/expiry sequence recorded at approximately 06:51–06:52 AEST:
 
-## Remaining deployed acceptance
+1. Curator → Viewer;
+2. Viewer → Viewer with expiry;
+3. Viewer with expiry → Viewer without expiry;
+4. Viewer → Curator.
 
-The screenshot does not prove the following mutation paths and they are therefore not fabricated as PASS:
+The final role assignment is therefore restored to **Curator / no expiry**.
 
-1. replace roles on an existing non-critical test identity and confirm effective rank changes;
-2. optional role expiry on a non-Platform-Admin identity;
-3. disable then re-enable a non-critical test identity from the deployed browser;
-4. browser-path confirmation that self-disable / self-removal of Platform Admin remains blocked;
-5. quick regression that returning to the mature Admin keeps Catalogue / Data Quality / Evidence / Pipeline routes functional.
+## 3. Security/lockout evidence
 
-Server-side technical UAT for self-lockout controls and service-only helper ACLs already passed before deployment; the remaining requirement is deployed browser-path regression only.
+The current Platform Admin was not destructively modified merely to generate evidence.
 
-## Gate position
+Previously completed technical UAT remains authoritative for the safety controls:
 
-**Access Admin v1.0 user creation is deployed and operational.**
+- self-disable is rejected server-side;
+- self-removal of `platform_admin` is rejected server-side;
+- the service contract prevents disabling/removing the last active Platform Admin;
+- private audit/RBAC helpers are not executable by normal browser roles;
+- the browser never receives the Supabase service-role credential.
 
-`CF-CHG-20260822-020` remains open only for the remaining role-edit/expiry/disable-reenable browser checks. The accepted product baseline is not bumped solely from this partial evidence.
+The deployed UI also identifies the current Platform Admin separately and does not require destructive self-lockout testing to close this control.
+
+## 4. Accepted deployed acceptance items
+
+`CF-CHG-20260822-020` now has deployed evidence for the complete operational mutation path:
+
+1. Platform Admin can open Users & Roles;
+2. all six governed roles are represented;
+3. a controlled user can be created;
+4. role assignments can be replaced;
+5. effective access follows the active highest role;
+6. optional expiry can be applied and removed for a non-Platform-Admin role;
+7. a controlled identity can be disabled and re-enabled;
+8. the final account/role state is restored correctly;
+9. audit history records the mutations without passwords/tokens;
+10. server-side lockout controls remain enforced.
+
+## 5. Gate position
+
+**PASS.** Access Admin v1.0 is operational on the deployed Worker and the privileged user/role lifecycle required by `CF-CHG-20260822-020` is accepted.
+
+The separate CourseFinder deployed Playwright gate remains governed by `CF-CHG-20260822-019` / `CF-CHG-20260823-021`; it is not conflated with this privileged-access acceptance result.

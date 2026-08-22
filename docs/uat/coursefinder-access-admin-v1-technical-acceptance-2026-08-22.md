@@ -1,9 +1,9 @@
 # CourseFinder Access Admin v1.0 — Technical Acceptance
 
-**Date:** 22 August 2026  
+**Evidence window:** 22–23 August 2026  
 **Change Control:** `CF-CHG-20260822-020`  
-**Result:** **TECHNICAL PASS / DEPLOYED BROWSER PENDING**  
-**Scope:** Platform Admin user creation, role administration, account disable/enable and audit boundary
+**Result:** **PASS — TECHNICAL + DEPLOYED PRIVILEGED WORKFLOW ACCEPTED**  
+**Scope:** Platform Admin user creation, role administration, role expiry, account disable/enable and audit boundary
 
 ## 1. Authority
 
@@ -13,7 +13,7 @@ CourseFinder retains the existing RBAC contract:
 
 Six active governed roles are preserved: Viewer 1, Counsellor 2, Curator 3, Pipeline Operator 4, PIM Admin 5 and Platform Admin 6.
 
-The new identity-administration surface requires effective Platform Admin rank 6.
+Identity administration requires effective Platform Admin rank 6.
 
 ## 2. Server implementation
 
@@ -21,11 +21,11 @@ Live migration:
 
 `20260822111848 — m1_access_roles_admin_v1`
 
-Added private/service-only audit storage:
+Private/service-only audit storage:
 
 `security.user_access_events`
 
-Added service-only RPCs:
+Service-only RPCs:
 
 - `svc_admin_access_snapshot`;
 - `svc_admin_access_replace_roles`;
@@ -39,7 +39,7 @@ Live Edge Function:
 Function ID: `8deb038b-33e8-4ff9-89fa-90984ec6606e`  
 Content SHA: `e00223246414b75af2ba9bbda9b86b248bf50b52ed4cf8ed2259233fdcc6146f`
 
-The function validates the caller through normal Auth + `admin_read('context')`, requires rank 6, and only then uses server-side service-role authority. No service-role key is returned to or embedded in browser code.
+The function validates normal Supabase Auth plus `admin_read('context')`, requires rank 6, and only then uses server-side service-role authority. No service-role key is returned to browser code.
 
 ## 3. ACL result — PASS
 
@@ -56,22 +56,22 @@ The function validates the caller through normal Auth + `admin_read('context')`,
 | authenticated audit SELECT | denied | PASS |
 | service-role audit SELECT/INSERT | allowed | PASS |
 
-Service-context snapshot returned six active governed role definitions.
+Service-context snapshot returned six active governed roles.
 
 ## 4. Lockout result — PASS
 
-The current Platform Admin was not destructively modified. Safe negative tests proved:
+Safe negative tests proved:
 
 - self-disable is rejected server-side with SQLSTATE `42501`;
-- self-removal of the Platform Admin role is rejected server-side with SQLSTATE `42501`.
+- self-removal of the Platform Admin role is rejected server-side with SQLSTATE `42501`;
+- another active Platform Admin must exist before an active Platform Admin can be removed/disabled;
+- `platform_admin` assignments cannot carry an expiry in v1.
 
-The service contract additionally counts other active Platform Administrators before permitting removal/disablement of a Platform Admin, preventing last-admin lockout.
+The sole live Platform Admin was not destructively modified merely to generate test evidence.
 
 ## 5. Browser source/build result — PASS
 
-Pilot PR #21:
-
-`CF-CHG-020: Platform Admin Users & Roles`
+Pilot PR #21 — `CF-CHG-020: Platform Admin Users & Roles`.
 
 Source head:
 
@@ -82,51 +82,52 @@ GitHub Actions:
 - workflow `Pilot Frontend Build`;
 - run #111 / ID `32570183349`;
 - production build PASS;
-- UAT suite discovery PASS: 8 tests / 2 files across desktop and mobile projects;
-- local Chromium smoke PASS;
-- evidence upload PASS;
-- artifact `9475125044`;
-- artifact SHA256 `ba51550430b3b423ca1005ea2e660a0d0b7a4e6d756a8283058a5fe25df43ddc`.
+- UAT suite discovery PASS;
+- local Chromium login-shell smoke PASS;
+- evidence upload PASS.
 
-PR #21 promoted to Pilot main:
+PR #21 promoted Access Admin v1.0 to Pilot main at:
 
 `c4ca6f9bbf1a9b430d9b860a2962df22b8da49c0`
 
-## 6. Implemented browser workflow
+Subsequent Pilot promotions retain the same Access Admin v1.0 runtime marker.
 
-Candidate runtime capability is **Access Admin v1.0** on the retained PIM Admin v2.12 shell.
+## 6. Deployed privileged workflow — PASS
 
-Platform Admin-only `Users & Roles` provides:
+Authenticated Platform Admin browser evidence plus independent server audit reconciliation proves the required controlled-user lifecycle:
 
-- user list/search;
-- Auth confirmation/invitation/disabled state;
-- last sign-in;
-- all six CourseFinder role assignments;
-- highest active/effective role;
-- invite-first user provisioning;
-- explicit password provisioning for controlled UAT/test accounts;
-- role replacement and optional expiry;
-- account disable/re-enable;
-- access-management audit history.
+`create Curator → replace Curator with Viewer → add Viewer expiry → remove expiry → restore Curator → disable → re-enable`.
 
-Password mode requires a minimum 12-character password and is intended for controlled UAT identities. Passwords are sent only to the protected Edge Function and are excluded from audit/event data.
+Final disable/re-enable audit events:
 
-## 7. Advisor regression
+- `user_disabled` — 23 August 2026 07:20:01 AEST;
+- `user_enabled` — 23 August 2026 07:20:10 AEST.
 
-Security advisor retains the established private/internal `RLS enabled / no policy` INFO pattern. `security.user_access_events` intentionally follows this service-only pattern. The pre-existing **Leaked Password Protection Disabled** warning remains open and is not caused by this work.
+The final server state is restored to:
 
-Performance advisor shows project-wide INFO findings. New audit indexes appear unused immediately after creation; no performance gate failure is inferred from a zero-volume audit table.
+- account enabled;
+- `banned_until = null`;
+- governed role = Curator;
+- role expiry = null.
 
-## 8. Remaining acceptance
+The browser shows the success state **Account re-enabled** and Recent access changes contains both `User Disabled` and `User Enabled` alongside the preceding role mutations.
 
-Overall control remains **BLOCKED** until the deployed Worker proves the privileged workflow through a real Platform Admin browser session.
+Detailed evidence:
 
-Required deployed path:
+`docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`
 
-`Platform Admin → Users & Roles → create controlled UAT identity → assign Curator → verify list/effective role/audit → edit role/expiry → disable/re-enable`.
+## 7. Audit/privacy result — PASS
 
-A lower-role denial should also be proved when a suitable test identity exists. Do not create excessive privileged accounts solely for UAT.
+Audit payloads contain action, actor/target identifiers, before/after governed state and safe metadata. Passwords/tokens are excluded by contract. No password or token is retained in governance evidence.
 
-The first newly created Curator UAT account can then be placed into GitHub Actions secrets and used to close `CF-CHG-20260822-019` through the automated deployed Playwright suite.
+## 8. Advisor regression
 
-No password is to be recorded in this document or any Change Control.
+Security advisor retains the established private/internal `RLS enabled / no policy` INFO pattern. `security.user_access_events` intentionally follows this service-only pattern. The pre-existing **Leaked Password Protection Disabled** warning remains open and was not caused by this work.
+
+Performance advisor retains unrelated project-wide INFO findings. No acceptance failure is attributed to the new low-volume audit indexes.
+
+## 9. Final gate
+
+**PASS.** The technical boundary, build, deployed Platform Admin user lifecycle, expiry semantics, disable/re-enable path, audit trail and lockout controls are accepted.
+
+This control does not alter Provider/Course identity, Layer authority semantics, Search admission, Evidence privacy or publication semantics.
