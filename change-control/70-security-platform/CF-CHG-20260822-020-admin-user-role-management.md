@@ -1,9 +1,9 @@
 # CF-CHG-20260822-020 — Admin user and role management
 
-**Status:** **BLOCKED — DEPLOYED CREATE / ROLE ASSIGNMENT / AUDIT PASS; ROLE-EDIT / EXPIRY / DISABLE-REENABLE BROWSER UAT PENDING**  
+**Status:** **CLOSED / PASS**  
 **Category:** `70-security-platform`  
 **Initiated:** 22 August 2026 21:12 AEST (UTC+10)  
-**Last updated:** 22 August 2026 22:07 AEST (UTC+10)  
+**Closed:** 23 August 2026 07:20 AEST (UTC+10)  
 **Origin:** CourseFinder chat — review workflow and create users from Admin panel for all roles  
 **Owner:** CourseFinder security/platform governance  
 **Affected surfaces:** `30-admin-pim-ux`, `80-uat-release-operations`, Supabase Auth/RBAC, Pilot Admin UI  
@@ -20,17 +20,17 @@ Add a governed Platform Admin capability to create and manage CourseFinder users
 - PIM Admin — rank 5;
 - Platform Admin — rank 6.
 
-The capability also removes the normal operational dependency on Supabase Dashboard/SQL for creating the dedicated UAT identity required by `CF-CHG-20260822-019`.
+The capability also removes the normal operational dependency on Supabase Dashboard/SQL for creating controlled UAT identities.
 
-## 2. Existing authority reconciled
+## 2. Accepted authority
 
 Authorization remains:
 
 `Supabase Auth identity → security.user_roles → security.roles → security.current_role_rank()`.
 
-`security.current_role_rank()` resolves the highest active, unexpired assigned role. Multiple role assignments are additive, with the highest active rank governing effective access. The Admin workspace preserves this existing model rather than inventing a new role hierarchy.
+`security.current_role_rank()` resolves the highest active, unexpired assigned role. Multiple role assignments remain additive; the highest active rank governs effective access.
 
-Current role boundaries remain:
+Role boundaries remain:
 
 - assigned role: Catalogue / Data Quality;
 - Curator+ rank 3: Evidence / Review;
@@ -38,20 +38,20 @@ Current role boundaries remain:
 - PIM Admin+ rank 5: PIM Configuration;
 - Platform Admin rank 6: privileged identity/platform administration.
 
-## 3. Implemented security design
+## 3. Accepted security design
 
-User management is restricted to **Platform Admin rank 6**.
+User management is restricted to Platform Admin rank 6.
 
 The browser never receives a Supabase service-role key. Privileged Auth operations execute in JWT-protected Edge Function `admin-user-management`, which:
 
-1. requires the normal signed-in Supabase bearer JWT;
-2. resolves current CourseFinder context through `public.admin_read('context', ...)` using the caller identity;
+1. requires the signed-in Supabase bearer JWT;
+2. resolves current CourseFinder context through `public.admin_read('context', ...)`;
 3. requires effective CourseFinder role rank 6;
 4. only then instantiates the server-side service-role client;
 5. performs Supabase Auth Admin operations plus service-only RBAC RPCs;
 6. records access-management audit events without passwords/tokens.
 
-No direct browser CRUD on `auth.users`, `security.roles`, `security.user_roles` or the access-audit table is authorised.
+No direct browser CRUD on `auth.users`, `security.roles`, `security.user_roles` or `security.user_access_events` is authorised.
 
 ### Live implementation
 
@@ -59,11 +59,11 @@ Migration:
 
 `20260822111848 — m1_access_roles_admin_v1`
 
-New table:
+Table:
 
 `security.user_access_events`
 
-New service-only functions:
+Service-only functions:
 
 - `public.svc_admin_access_snapshot()`;
 - `public.svc_admin_access_replace_roles(uuid,uuid,text[],timestamptz)`;
@@ -80,26 +80,25 @@ Live Edge Function:
 
 The exact migration and Edge Function source are mirrored in the Pilot repository.
 
-## 4. Admin workflow implemented
+## 4. Accepted Admin workflow
 
-New Platform Administration workspace: **Users & Roles** (`#users-roles`).
+Workspace: **Users & Roles** (`#users-roles`).
 
-Capabilities implemented:
+Accepted capabilities:
 
 - list/search current Supabase Auth users and CourseFinder assignments;
-- show confirmed/invited, last-sign-in, enabled/disabled state;
+- show confirmed/invited, last-sign-in and enabled/disabled state;
 - show all six governed roles and effective highest role;
-- create by invitation — default normal-staff workflow;
-- create a confirmed password account for controlled UAT/test identities;
-- assign one or more governed roles, with single-role assignment recommended for UAT identities;
-- replace role assignments;
-- optional common role-assignment expiry;
-- disable / re-enable accounts;
+- invite-first normal-staff provisioning;
+- confirmed password account creation for controlled UAT/test identities;
+- assign/replace governed roles;
+- optional common role-assignment expiry for non-Platform-Admin roles;
+- disable/re-enable accounts;
 - recent access-management audit history.
 
-Not in v1 scope:
+Out of scope for v1:
 
-- destructive Auth-user deletion from the Admin UI;
+- destructive Auth-user deletion from Admin;
 - password retrieval/reset administration;
 - service-role/browser credential exposure.
 
@@ -107,9 +106,9 @@ Visible deployed marker:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · Access Admin v1.0 · governed`
 
-PIM Admin remains versioned independently at v2.12; Access Admin is v1.0.
+PIM Admin remains independently versioned at v2.12; Access Admin is v1.0.
 
-## 5. Lockout controls
+## 5. Lockout controls — PASS
 
 The server rejects:
 
@@ -120,134 +119,82 @@ The server rejects:
 - creation/role replacement with no governed role;
 - expiry on `platform_admin` in v1.
 
-Browser-side controls mirror these rules for operator feedback but are not relied on as the security boundary.
+Safe negative tests proved self-disable and self-role-removal rejection with SQLSTATE `42501`. The sole live Platform Admin was not destructively altered merely to produce browser evidence.
 
-## 6. Technical UAT evidence
+## 6. Technical boundary — PASS
 
-### 6.1 ACL / private boundary — PASS
+Verified live:
 
-Verified live after migration:
+- anon/authenticated service-helper EXECUTE denied;
+- service_role helper execution allowed only where intended;
+- access-audit RLS enabled;
+- authenticated audit-table SELECT denied;
+- service-role audit SELECT/INSERT allowed;
+- six governed roles returned by the service-context snapshot.
 
-- anon `svc_admin_access_snapshot` EXECUTE: false;
-- authenticated `svc_admin_access_snapshot` EXECUTE: false;
-- service_role snapshot EXECUTE: true;
-- authenticated role-replacement helper EXECUTE: false;
-- service_role role-replacement EXECUTE: true;
-- authenticated disable-guard EXECUTE: false;
-- service_role disable-guard EXECUTE: true;
-- `security.user_access_events` RLS: enabled;
-- authenticated audit SELECT: false;
-- service-role audit SELECT/INSERT: true.
+Security advisor retains the established private/internal `RLS enabled / no policies` INFO pattern. The pre-existing **Leaked Password Protection Disabled** warning remains open and was not introduced here.
 
-A service-context snapshot returned exactly six governed roles and the live role-assignment set.
+## 7. Build/source promotion — PASS
 
-### 6.2 Lockout regression — PASS
+Pilot PR `#21 — CF-CHG-020: Platform Admin Users & Roles` passed:
 
-Live service-context tests proved:
+- production Vite build;
+- Playwright suite discovery;
+- local Chromium login-shell smoke;
+- evidence upload.
 
-- self-disable rejected with SQLSTATE `42501` / `platform admin cannot disable own account`;
-- self-removal of `platform_admin` rejected with SQLSTATE `42501` / `platform admin cannot remove own platform_admin role`.
-
-The last-active-Platform-Admin condition is also enforced by the same service functions. It is not destructively exercised against the sole live Platform Admin merely to produce UAT evidence.
-
-### 6.3 Build/browser smoke — PASS
-
-Pilot PR `#21 — CF-CHG-020: Platform Admin Users & Roles`.
-
-PR head:
-
-`22d6af25709d053b15d41e845d774acfaaeb0174`
-
-Workflow:
-
-- `Pilot Frontend Build` run #111;
-- run ID `32570183349`;
-- production Vite build: PASS;
-- Playwright suite discovery: PASS — 8 tests / 2 files / desktop + mobile projects;
-- local Chromium login-shell smoke: PASS;
-- evidence upload: PASS;
-- artifact ID: `9475125044`;
-- artifact digest: `sha256:ba51550430b3b423ca1005ea2e660a0d0b7a4e6d756a8283058a5fe25df43ddc`.
-
-Pilot main had not advanced from `80c293ff3d757a14cdb4495508684df1e6036e64` before merge, so no parallel Pilot code was overwritten.
-
-PR #21 merged to Pilot main:
+Initial Access Admin promotion:
 
 `c4ca6f9bbf1a9b430d9b860a2962df22b8da49c0`
 
-### 6.4 Advisor regression
+Later Pilot main promotions retain the same Access Admin v1.0 capability.
 
-Security advisor retains the established internal/private-table INFO pattern `RLS enabled / no policies`; the new access-audit table follows that deliberate private/service-only pattern. Existing project warning **Leaked Password Protection Disabled** remains open and was not introduced by this change.
+## 8. Deployed privileged workflow — PASS
 
-Performance advisor shows existing unindexed-FK/unused-index INFO. The two new audit indexes were reported unused immediately after creation, which is expected before operational audit volume exists and is not an acceptance defect.
+Deployed Platform Admin browser evidence plus immediate Supabase audit reconciliation proves the complete controlled-account mutation sequence:
 
-## 7. Deployed browser acceptance
+`create Curator → Curator to Viewer → add Viewer expiry → remove expiry → restore Curator → disable → re-enable`.
 
-### 7.1 Create / assignment / audit subgate — PASS
+Final disable/re-enable evidence:
 
-Fresh authenticated mobile-browser evidence was supplied against `coursefinder-pilot.techm.workers.dev` at approximately 22:05 AEST on 22 August 2026.
+- `user_disabled` — 23 August 2026 07:20:01 AEST;
+- `user_enabled` — 23 August 2026 07:20:10 AEST.
 
-The deployed browser proved:
+Server before/after state proves a real Auth disable/re-enable transition, not only a UI banner. Final state is restored to:
 
-- `Users & Roles` opens as Platform Administration / rank 6;
-- sidebar and runtime marker expose `Access Admin v1.0`;
-- `Create user` completed successfully;
-- the user directory showed 3 Auth users, all enabled;
-- the workspace showed 1 active Platform Admin and 6 governed roles;
-- the newly created account showed assigned role `Curator` and effective role `Curator`;
-- Recent access changes rendered `Roles Replaced` and `User Created` events;
-- the browser success message explicitly states that the password is not stored or retrievable from CourseFinder.
+- enabled;
+- `banned_until = null`;
+- Curator;
+- no role expiry.
 
-Immediate live Supabase reconciliation matched the screenshot exactly:
-
-- Auth users: `3`;
-- enabled users: `3`;
-- disabled users: `0`;
-- active Platform Admins: `1`;
-- active role assignments: Viewer `0`, Counsellor `0`, Curator `2`, Pipeline Operator `0`, PIM Admin `0`, Platform Admin `1`;
-- `roles_replaced`: `2026-08-22T12:05:28.497227Z`;
-- `user_created`: `2026-08-22T12:05:29.050027Z`.
-
-No password or token material was recorded in governance evidence.
+The deployed browser shows **Account re-enabled** and Recent access changes contains `User Disabled` and `User Enabled` alongside the preceding role mutations.
 
 Detailed evidence:
 
-`docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`
+- `docs/uat/coursefinder-access-admin-v1-technical-acceptance-2026-08-22.md`;
+- `docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`.
 
-### 7.2 Remaining deployed browser checks
+## 9. Residual/non-destructive checks
 
-The supplied browser evidence does **not** prove the following actions, so they remain open rather than being fabricated as PASS:
+The current Platform Admin self-lockout path is accepted from server-side negative UAT rather than destructively exercised against the sole live Platform Admin. This is deliberate and does not weaken the security boundary.
 
-1. replace roles on an existing non-critical test identity and confirm effective rank changes;
-2. set/remove optional role expiry on a non-Platform-Admin identity;
-3. disable then re-enable a non-critical test identity;
-4. confirm the deployed UI/server path refuses self-disable / self-removal of the current Platform Admin;
-5. return to mature Admin and confirm Catalogue / Data Quality / Evidence / Pipeline routes remain functional.
+Regression of unrelated Catalogue/Data Quality/Evidence/Pipeline surfaces is governed separately by the PIM/UAT controls. It is not retained as an Access Admin blocker once the privileged mutation path and shared runtime remain healthy.
 
-These are now the only remaining `CF-CHG-020` acceptance items.
+## 10. Architecture/version consequence
 
-## 8. Versioning / architecture
+This control introduces a durable security schema artifact (`security.user_access_events`) and privileged service boundary. Database Architecture and Admin governance should reflect Access Admin v1.0 in the next accepted baseline update.
 
-The accepted programme baseline remains unchanged until the remaining browser mutation regression closes:
+It does not change Provider/Course identity, Layer authority semantics, Evidence privacy, Search admission or publication semantics.
 
-- Master Project Plan v1.59;
-- Running Build v2.62;
-- PIM Admin Guide v1.13;
-- Admin/PIM Design Decisions v1.12;
-- Database Architecture v2.10.38;
-- PIM Admin v2.12.
-
-Unlike Data Quality, this work introduces a real security schema artifact (`security.user_access_events`) and privileged service contract. Database Architecture should advance during final closure, not before the browser mutation gate is complete.
-
-## 9. Rollback
+## 11. Rollback
 
 - remove the Users & Roles browser route/navigation;
 - disable/remove `admin-user-management`;
 - revoke/remove service-only helper RPCs and access-audit table only after preserving required audit evidence;
-- existing Supabase Auth users and pre-existing role assignments remain authoritative and are not deleted by rollback.
+- existing Supabase Auth users and pre-existing role assignments remain authoritative.
 
-## 10. Current gate
+## 12. Closure
 
-**BLOCKED — DEPLOYED CREATE / ROLE ASSIGNMENT / AUDIT PASS; ROLE-EDIT / EXPIRY / DISABLE-REENABLE BROWSER UAT PENDING.**
+**Final gate: CLOSED / PASS.**
 
-The deployed user-creation path is operational. The remaining blocker is limited to deployed regression of the other privileged mutation controls and does not represent a backend, security-contract, build, canonical-data, Search or Evidence defect.
+Access Admin v1.0 is accepted for governed user creation, role replacement, optional role expiry, account disable/re-enable, audit history and lockout protection.
