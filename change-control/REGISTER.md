@@ -14,6 +14,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **M1-DATA-QUALITY-READINESS final state:** `CF-CHG-20260821-018` is **CLOSED / PASS**. The deployed Worker proves Data Quality v1.0, `Legacy presence` relabelling, the AU+NZ domain/state model, regulatory-fee Source-null = 191, all four exception pages, canonical Course navigation and a real `evidence_id` drill-down to the CRICOS Regulatory Snapshot/private Evidence detail workspace.
 >
 > **M1-UAT-HARNESS current state:** `CF-CHG-20260822-019` is **BLOCKED — harness implementation/build/local browser smoke PASS; first authenticated deployed desktop/mobile run pending**. Pilot PR #20 is promoted at `80c293ff3d757a14cdb4495508684df1e6036e64`. Final PR gate run #109 / ID `32550196119` passed production build, discovered all 8 Playwright tests, passed the local Chromium smoke and uploaded evidence artifact `9469812028`. Closure is withheld until a real governed UAT identity runs the deployed workflow against the Worker.
+>
+> **ACCESS ADMIN current state:** `CF-CHG-20260822-020` is **BLOCKED — backend/security/build/source promotion PASS; deployed Platform Admin browser user-creation UAT pending**. Live migration `20260822111848` and JWT-protected `admin-user-management` v1 implement the privileged server boundary. Pilot PR #21 is promoted at `c4ca6f9bbf1a9b430d9b860a2962df22b8da49c0` after build/browser-smoke PASS. Accepted PIM Admin remains v2.12; candidate marker adds Access Admin v1.0 only until deployed acceptance closes the control.
 
 | Change ID | Category | Title | Origin | Initiated | Status | UI version | Record |
 |---|---|---|---|---|---|---|---|
@@ -36,6 +38,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260821-017 | 30-admin-pim-ux | M1 Evidence UX operational Evidence workspace | M1-EVIDENCE-UX | 21 Aug 2026 09:40 AEST | **CLOSED / PASS — implementation, current-volume/security/browser UAT and promotion complete** | PIM v2.12 + Pipeline Ops v1.0 + Evidence v1.0 | `30-admin-pim-ux/CF-CHG-20260821-017-m1-evidence-ux-operational-workspace.md` |
 | CF-CHG-20260821-018 | 30-admin-pim-ux | M1 Data Quality Readiness operational gate | M1-DATA-QUALITY-READINESS | 21 Aug 2026 14:47 AEST | **CLOSED / PASS — technical/build/security/performance and deployed end-to-end browser UAT complete** | Data Quality v1.0 on PIM v2.12 + Pipeline Ops v1.0 + Evidence v1.0 | `30-admin-pim-ux/CF-CHG-20260821-018-m1-data-quality-readiness.md` |
 | CF-CHG-20260822-019 | 80-uat-release-operations | M1 UAT Harness automated operational acceptance | M1-UAT-HARNESS | 22 Aug 2026 13:39 AEST | **BLOCKED — implementation/build/suite discovery/local browser smoke PASS; authenticated deployed desktop/mobile run pending** | UAT Harness v1.0 | `80-uat-release-operations/CF-CHG-20260822-019-m1-uat-harness.md` |
+| CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | Platform Administration / UAT identity workflow | 22 Aug 2026 21:12 AEST | **BLOCKED — backend/security/build/source promotion PASS; deployed Platform Admin browser user-creation UAT pending** | Access Admin v1.0 candidate on PIM v2.12 | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
 
 ## Current programme baseline
 
@@ -50,19 +53,27 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Data Quality technical UAT: `docs/uat/coursefinder-m1-data-quality-readiness-technical-acceptance-2026-08-21.md`;
 - Data Quality deployed-browser UAT: `docs/uat/coursefinder-m1-data-quality-readiness-browser-evidence-2026-08-21.md`;
 - UAT Harness technical acceptance: `docs/uat/coursefinder-m1-uat-harness-technical-acceptance-2026-08-22.md`;
+- Access Admin candidate contract: `docs/coursefinder-access-admin-contract-v1.0.md`;
+- Access Admin technical UAT: `docs/uat/coursefinder-access-admin-v1-technical-acceptance-2026-08-22.md`;
 - current fully product/browser-accepted Data Quality Pilot baseline remains `msinghbs-ai/Coursefinder-Pilot@72721c57d2a11a5fb79288c9eadf4e14602a2e14`;
-- current Pilot source including the not-yet-closed UAT Harness is `msinghbs-ai/Coursefinder-Pilot@80c293ff3d757a14cdb4495508684df1e6036e64`;
-- deployed product runtime remains PIM Admin v2.12 + Pipeline Ops v1.0 + Evidence v1.0 + Data Quality v1.0;
+- Pilot source including UAT Harness + Access Admin candidate is `msinghbs-ai/Coursefinder-Pilot@c4ca6f9bbf1a9b430d9b860a2962df22b8da49c0`;
+- deployed product runtime accepted baseline remains PIM Admin v2.12 + Pipeline Ops v1.0 + Evidence v1.0 + Data Quality v1.0; Access Admin v1.0 deployed browser proof is pending;
 - authenticated Catalogue regression: 26,648 AU Courses / 43,461 all-country Courses;
 - Data Quality end-to-end path proven: domain aggregate → 191-record Exception population → all four pages → canonical Course → real CRICOS Regulatory Snapshot Evidence detail;
 - browser read boundary: `public.admin_read(text,jsonb)`; Data Quality assigned-role reads use `data_quality_overview` / `data_quality_exceptions`; Evidence requires Curator rank 3; Pipeline Control / Jobs / Sources require Pipeline Operator rank 4;
-- UAT Harness PR gate run #109 / ID `32550196119`: production build PASS, 8 tests discovered, local Chromium smoke PASS, artefact `9469812028` uploaded;
+- UAT Harness PR gate run #109 / ID `32550196119`: production build PASS, 8 tests discovered, local Chromium smoke PASS, artifact `9469812028` uploaded;
+- Access Admin live migration: `20260822111848 — m1_access_roles_admin_v1`;
+- Access Admin Edge Function: `admin-user-management` v1, JWT verification enabled;
+- Access Admin PR #21 gate run #111 / ID `32570183349`: production build PASS, 8 tests discovered, local Chromium smoke PASS, artifact `9475125044` uploaded;
+- Access Admin server helpers are service-only; browser uses normal signed-in JWT and the Edge Function enforces Platform Admin rank 6 before privileged Auth/RBAC action;
+- self-disable and self-removal of Platform Admin were rejected server-side in technical UAT;
 - UAT Harness deployed workflow uses normal Supabase Auth via Actions secrets `COURSEFINDER_UAT_EMAIL` / `COURSEFINDER_UAT_PASSWORD`; no auth bypass/service-role browser key is authorised;
 - no real automated authenticated deployed run has yet been accepted under CF-CHG-019;
+- the new Users & Roles workspace is intended to create that governed UAT identity once its deployed browser gate passes;
 - Data Quality live migrations: `20260821050044`, `20260821050313`, `20260821050457`, `20260821050825`, `20260821050846`;
 - Pipeline safe Source metadata projection: `20260821025059 — m1_pipeline_ops_safe_source_projection_v1`;
 - Evidence Country-aware Source metadata: `20260821021205 — m1_evidence_ux_country_source_filter_v1`;
-- no generic retry/replay/reset mutation is authorised by controls `016`, `017`, `018` or `019`.
+- no generic retry/replay/reset mutation is authorised by controls `016`, `017`, `018`, `019` or `020`.
 
 ## Maintenance rule
 
