@@ -2,115 +2,158 @@
 
 **Date:** 23 August 2026  
 **Change Control:** `CF-CHG-20260823-029`  
-**Gate:** M2.1 — Layer 2 Enrichment Platform & Source/Provider Configuration Foundation  
-**Status:** **BLOCKED — deployed desktop/mobile browser evidence unavailable**
+**Gate:** M2.1 — Layer 2 Acquisition, Deterministic Extraction, Completeness Trial & Evidence Foundation  
+**Status:** **BLOCKED — browser + live provider/completeness/Scholarship/context evidence outstanding**
 
 ## 1. Acceptance statement
 
-M2.1 is implemented at database/API/Edge-control-plane level and mirrored in `msinghbs-ai/Coursefinder-Pilot`. Database/API/security and baseline-regression checks are PASS. Final acceptance is not closed because the current Pilot SHA has not published the required SHA-bound deployed Playwright desktop/mobile status/artifacts.
+The M2.1 core source/provider acquisition platform is implemented at database/API/Edge-control-plane level and mirrored in `msinghbs-ai/Coursefinder-Pilot`. Database/API/security and M1 baseline-regression checks are PASS.
 
-The latest provider expansion adds the API mechanisms requested for Direct HTTP, Scrape.do, ScraperAPI, Firecrawl, ZenRows and a Custom gateway, plus a provider-compatible Layer 2 extraction-input worker. No external provider success is claimed until its actual API credential is configured through the Vault-backed Admin control and bounded live UAT succeeds.
+The acceptance scope is now intentionally broader than configuration foundation alone. M2.1 must prove the operating model through representative country-based Course completeness trials, live provider comparison where credentials are available, bounded Scholarship acquisition/extraction and Course-facing QILT/PRISMS contextual semantics, in addition to deployed desktop/mobile browser acceptance.
 
-## 2. Implemented Layer 2 model
+No external provider success is claimed until its actual API credential is configured through the Vault-backed Admin control and bounded live UAT succeeds.
+
+## 2. Final product / layer boundary
+
+CourseFinder is an international-student Course and related-data aggregation, discovery and comparison platform. It does not perform university application processing, university admissions decisions, offer-letter processing or visa processing.
+
+There are exactly four enrichment authority layers:
+
+`Layer 1 Authoritative/Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`
+
+Layer 4 is terminal. There is no Layer 5. Completeness/readiness, Search Projection/Visibility and Publication are downstream product states.
+
+Avoid **Search Admission** in new work; use Search Eligibility/Projection/Visibility or Publication Eligibility as appropriate.
+
+## 3. Implemented Layer 2 model — PASS at foundation level
 
 1. **Source Profile** — authority, discovery/URL scope, parser/mapping semantics, freshness/Evidence policy and immutable version.
 2. **Acquisition Provider** — reusable transport/API provider, endpoint, auth mechanism, Vault credential reference, capability and limits.
 3. **Source → Provider Route** — provider order, required capabilities, request overrides, Evidence policy and fallback reasons.
-4. **Provider Attempt / Raw Evidence** — every acquisition attempt is linked to exact Job/profile version/provider and its raw Evidence.
-5. **Provider-compatible Extraction Input** — `layer2-extract` converts provider-native responses to one normalised Evidence shape for downstream deterministic/AI extraction.
+4. **Provider Attempt / Native Evidence** — every acquisition attempt is linked to exact Job/profile version/provider and its native Evidence.
+5. **Provider-compatible Extraction Input** — `layer2-extract` normalises provider-native responses to one private extraction Evidence contract while preserving native Evidence.
 
-Authority remains:
+Authority sequence:
 
-`Source Profile → Provider Route → Job → Provider Attempt → Raw Evidence → Normalised Extraction Input → Observation/Extraction → Mapping → Review → Search Admission → Publication`.
+`Source Profile → Provider Route → Job → Provider Attempt → Native Evidence → Normalised Extraction Evidence → Deterministic Observation/Candidate → Layer 3 if required → Layer 4 if unresolved → governed canonical/readiness result → Search Projection/Visibility → Publication`.
 
-Acquisition/extraction input never directly authorises canonical writes.
-
-## 3. Current source configuration state
-
-- Source Profiles: **5**.
-- Source Profile versions: **10** after governed correction of initial malformed base domains; all five current versions are v2/valid.
-- Job and Evidence carry exact source-profile version.
-- Source-bound URL validation prevents arbitrary proxy use.
-
-Current source base domains:
-
-- RMIT: `https://www.rmit.edu.au`;
-- UQ: `https://study.uq.edu.au`;
-- QILT: `https://qilt.edu.au`;
-- PRISMS: `https://www.education.gov.au`;
-- Study Australia Scholarships: `https://search.studyaustralia.gov.au`.
-
-## 4. Provider catalogue — implemented
+## 4. Current provider catalogue
 
 | Priority | Provider | API mechanism | Authentication | Response adapter | Credential state |
 |---:|---|---|---|---|---|
 | 10 | Direct HTTP | direct governed source GET | none | `passthrough` | N/A |
-| 20 | Scrape.do | GET `https://api.scrape.do/`; target query `url`; render mode | query `token` | `passthrough`; `scrape_do_json` supported | not configured |
-| 30 | ScraperAPI | GET `https://api.scraperapi.com/`; target `url`; `render=true` | query `api_key` | `passthrough` | not configured |
-| 40 | Firecrawl | POST `https://api.firecrawl.dev/v2/scrape`; body `url` + formats markdown/html/screenshot | bearer | `firecrawl_v2` | not configured |
-| 50 | ZenRows | GET `https://api.zenrows.com/v1/`; `url`, `js_render=true`, `premium_proxy=true` | query `apikey` | `passthrough` | not configured |
-| 90 | Custom gateway (`{url}` template) | configurable API gateway | configurable header; seed `X-API-Key` | `generic` | disabled / not configured |
+| 20 | Scrape.do | rendered scraper API | query `token` | `passthrough` / `scrape_do_json` | not configured |
+| 30 | ScraperAPI | rendered scraper API | query `api_key` | `passthrough` | not configured |
+| 40 | Firecrawl | browser/API scrape POST | bearer | `firecrawl_v2` | not configured |
+| 50 | ZenRows | JS render + premium proxy API | query `apikey` | `passthrough` | not configured |
+| 90 | Custom gateway | configurable API gateway | configurable | `generic` | disabled / not configured |
 
-Provider registry count: **6**.
+Provider registry count: **6**. Current route count: **17**.
 
-Current route count: **17**.
-
-RMIT, UQ and Study Australia route order:
+RMIT, UQ and Study Australia web/search route order is:
 
 `Direct HTTP → Scrape.do → ScraperAPI → Firecrawl → ZenRows`.
 
-PRISMS and QILT remain Direct HTTP-only by default because their approved source is a deterministic downloadable file.
+QILT and PRISMS remain Direct HTTP by default for their accepted structured downloadable sources.
 
-## 5. Provider-compatible extraction worker — implemented
+## 5. Provider-compatible extraction worker — PASS at contract level
 
-Edge Function `layer2-extract` v1 is **ACTIVE** and `verify_jwt=true`.
+`layer2-extract` is JWT protected and:
 
-Input: `attempt_id`.
+- resolves the exact Provider Attempt/provider response adapter/native Evidence;
+- downloads private Evidence with trusted runtime credentials;
+- normalises text/HTML/structured JSON/visual references;
+- creates a private hashed/versioned extraction-input Evidence artifact;
+- retains `canonical_mutation_authorised=false`;
+- marks usable attempts `normalised`;
+- marks no-content cases `extraction_failed/blocked` and requests fallback when policy permits.
 
-The worker:
-
-- re-authenticates the caller and requires rank >=4;
-- resolves the Provider Attempt/provider response adapter/raw Evidence;
-- downloads source Evidence from the private `evidence` bucket;
-- normalises text, HTML, structured JSON and visual references;
-- creates a new hashed/versioned private Evidence artifact with `evidence_type='layer2_extraction_input'`;
-- records `canonical_mutation_authorised=false`;
-- updates attempt extraction status to `normalised` when content is usable;
-- returns `fallback_required=true` and marks `extraction_failed/blocked` if no extractable text/structured/visual payload exists.
-
-Adapter compatibility:
-
-- `passthrough`: Direct HTTP, Scrape.do, ScraperAPI, ZenRows;
-- `firecrawl_v2`: Firecrawl nested markdown/HTML/JSON/screenshot-reference response;
-- `scrape_do_json`: Scrape.do JSON/screenshot-return response if configured;
-- `generic`: custom gateway using configurable common text/screenshot paths.
-
-This worker is intentionally **not an LLM**. It provides a provider-independent Layer 2 Evidence contract to deterministic extractors and Layer 3 AI so vendor response parsing is not duplicated across domain workers.
+This worker is not an LLM. Provider-specific response handling terminates at this Layer 2 boundary.
 
 ## 6. Credentials/security — PASS
 
-Verified design/runtime boundary:
+Verified foundation boundary:
 
-- provider API credentials are write-only in Admin and stored in Supabase Vault;
-- browser projection exposes `credential_configured`, never decrypted secrets or Vault IDs;
+- provider credentials are write-only in Admin and stored in Supabase Vault;
+- browser projection exposes credential status only;
 - provider mutation/runtime-credential functions remain service-role only;
-- new provider tables are RLS-enabled with no direct browser table grants;
-- secret-like keys in provider request/capability JSON are rejected/sanitised;
-- all four M2.1 Edge controls/runtimes are JWT protected;
-- source host allowlist is enforced before acquisition;
-- provider API keys were not fabricated or entered by this workstream.
+- provider tables are RLS-enabled with no direct browser table grants;
+- secret-like provider JSON keys are rejected/sanitised;
+- M2.1 Edge controls/runtimes are JWT protected;
+- source-host allowlist prevents arbitrary proxy use;
+- provider API keys were not fabricated or embedded in source/profile configuration.
 
 ## 7. Evidence / fallback — PASS at contract level
 
-- Raw provider response is captured as private Evidence before successful acquisition is reported.
-- Provider Attempt records source-profile version/provider/HTTP/MIME/blocker/metrics/Evidence links.
-- Extraction-blocked path retains original Evidence and can request the next provider route using existing `extraction_failed` fallback semantics.
-- Screenshot capability is declarative only when provider-supported; no screenshot artifact is fabricated.
-- Firecrawl/provider JSON screenshot references can be retained in normalised Evidence. A later provider-trial hardening gate may materialise remote screenshot URLs/base64 payloads as distinct private image artifacts when required.
+- native provider response is retained as private Evidence;
+- Provider Attempt records source-profile version/provider/HTTP/MIME/blocker/metrics/Evidence links;
+- derived normalised Evidence retains lineage to native Evidence;
+- extraction failure preserves original Evidence and can invoke the next configured provider route;
+- screenshot policy does not manufacture screenshots; screenshot/image Evidence requires actual provider output/materialisation.
 
-## 8. M1 regression — PASS
+## 8. Country Course completeness acceptance — OUTSTANDING
 
-Latest live post-expansion state:
+M2.1 must execute representative country-based Course completeness trials.
+
+For each selected trial country/university/Provider:
+
+- define/confirm the Country Course Completeness Profile;
+- select an initial approximately 10-Course representative learning cohort unless another bounded cohort is justified;
+- measure pre-run Course factual completeness and decision-context completeness;
+- enrich only missing/stale domains;
+- retain native and normalised Evidence;
+- measure post-run evidence-backed completion and source correctness;
+- record provider attempt count, latency, retries and cost where available;
+- expand/re-test/change provider according to measured consistency rather than a fixed 10-Course limit.
+
+Provider evaluation must include **cost per evidence-backed completed Course/domain**, not raw API request cost or HTTP success alone.
+
+## 9. Scholarship acquisition/extraction acceptance — OUTSTANDING
+
+A bounded Scholarship discovery/acquisition/extraction path must be proven through the shared Layer 2 provider/evidence contract.
+
+UAT should verify evidence-backed extraction of appropriate fields such as Scholarship name/URL, Provider, value/basis/currency, eligibility scope, Course/study-level/nationality applicability, international-student eligibility, application/automatic-consideration semantics, dates/intakes and terms.
+
+`not found by scraper` must remain `not_discovered/not_yet_enriched`, not `no scholarship`.
+
+## 10. QILT / PRISMS Course-context acceptance — OUTSTANDING
+
+M2.1 must prove that decision-relevant QILT/PRISMS context can be presented/projected with Courses without changing source grain.
+
+UAT must confirm examples such as:
+
+- QILT Provider context remains labelled Provider-level;
+- QILT study-area context remains labelled field/study-area;
+- PRISMS Provider/state/sector/cohort context retains its reporting scope and period;
+- no Provider/state/cohort metric is persisted or displayed as a false Course-grain fact;
+- Course factual completeness and decision-context completeness remain separate concepts.
+
+## 11. Layer 3 / Layer 4 contract acceptance — DEFINED, runtime proof later where applicable
+
+Layer 3 consumes governed Layer 2 Evidence and may request additional Layer 2 Evidence capabilities when existing Evidence is inadequate. It does not independently scrape or receive Vault credentials.
+
+Only unresolved/conflicting/consequential cases reach Layer 4 with the complete Evidence/Provider Attempt/candidate package. Layer 4 is terminal for enrichment authority. There is no Layer 5.
+
+M2.1 must leave these contracts explicit and testable for subsequent Layer 3/4 implementation; it does not need to implement the full future Layer 3 inference engine to prove the Layer 2 foundation.
+
+## 12. Admin navigation acceptance — OUTSTANDING browser evidence
+
+Related `CF-CHG-20260823-030` requires desktop/mobile proof that the main navigation coherently exposes:
+
+- Data Acquisition → Pipeline Control;
+- Source Registry;
+- Layer 2 Source Config;
+- Acquisition Providers;
+- Jobs;
+- Evidence;
+- Enrichment & Insights → QILT/PRISMS;
+- Quality & Review → Completeness / Layer 4 Review Queue.
+
+Old floating Pipeline/Layer 2 launchers should not remain the primary navigation path.
+
+## 13. M1 regression — PASS
+
+Latest live post-foundation state remains:
 
 - acquisition providers: **6**;
 - provider routes: **17**;
@@ -119,64 +162,40 @@ Latest live post-expansion state:
 - canonical Courses: **43,461**;
 - canonical Courses unpublished: **43,461**.
 
-No provider/extraction migration or Edge Function authorises canonical or Search writes.
+No M2.1 provider/extraction object authorises canonical or Search writes.
 
-## 9. Pilot repository evidence
+## 14. Current documentation baseline
 
-Repository mirrors include:
+- `docs/coursefinder-m2-1-layer1-4-architecture-contract-v1.0.md`;
+- `docs/coursefinder-database-architecture-v2.10.42.md`;
+- `docs/coursefinder-admin-pim-design-decisions-v1.14.md`;
+- `docs/coursefinder-admin-navigation-information-architecture-v1.1.md`;
+- `docs/coursefinder-data-flow-feature-atlas-v1.1.md`;
+- `docs/coursefinder-user-guide-v2.2.md`;
+- `docs/coursefinder-pim-admin-guide-v1.17.md`;
+- `docs/coursefinder-operations-runbook-v1.2.md`;
+- `docs/coursefinder-m2-1-layer2-platform-replanned-prompt-v2.0.md`.
 
-- `supabase/migrations/20260823113300_m2_1_layer2_provider_catalog_expansion.sql`;
-- `supabase/functions/layer2-extract/index.ts`;
-- `tests/uat/layer2-provider-deployed.spec.mjs` updated for all six provider labels and the five-provider RMIT route.
+## 15. Current blocker evidence
 
-Relevant commits:
+The last observed connected GitHub status surface did not expose the required current SHA-bound deployed desktop/mobile statuses/artifacts. That remains a browser-evidence blocker.
 
-- `37d36fe65f182bb36093be7323c34c6c1919085a` — provider catalogue migration mirror;
-- `3c8af292014dd22fe05bed52049e0e1f3c35906c` — provider-compatible extraction worker mirror;
-- `567a9bb2ce3cbbb5fff6ba3406b08f867cc957cf` — deployed provider catalogue browser UAT assertions.
+In addition, external-provider live comparisons cannot be claimed until actual provider credentials are configured through the governed Vault-backed Admin control.
 
-Latest Pilot main observed for this acceptance check: `567a9bb2ce3cbbb5fff6ba3406b08f867cc957cf`.
+Therefore M2.1 remains **BLOCKED**, not PASS.
 
-## 10. Deployed browser UAT expected coverage
+## 16. Closure requirement
 
-The governed Playwright suite requires desktop/mobile verification of:
-
-1. `L2 Providers` launcher and registry;
-2. Direct HTTP, Scrape.do, ScraperAPI, Firecrawl, ZenRows and Custom gateway visibility;
-3. RMIT five-provider route ordering/visibility;
-4. credential non-disclosure and write-only credential control;
-5. bounded PRISMS Direct HTTP acquisition with private versioned Evidence;
-6. existing Layer 2 source configuration/version/diff behavior;
-7. no server/runtime errors and retained screenshots/artifacts.
-
-## 11. Current blocker evidence
-
-Latest combined-status check for Pilot SHA `567a9bb2ce3cbbb5fff6ba3406b08f867cc957cf` returned no SHA-bound statuses (`statuses: []`). The available connected GitHub surface does not expose a usable push-workflow dispatch/list path for reconstructing the governed desktop/mobile run independently.
-
-Therefore this gate remains **BLOCKED**, not PASS.
-
-## 12. Provider-trial dependency
-
-For Scrape.do, ScraperAPI, Firecrawl and ZenRows live UAT:
-
-1. open **L2 Providers**;
-2. select the provider;
-3. use **Set / rotate API credential**;
-4. the value is written to Vault and never displayed again;
-5. run bounded acquisitions against representative source profiles;
-6. invoke `layer2-extract` for each successful Provider Attempt;
-7. compare acquisition success, anti-bot/JS coverage, Evidence quality, extraction success, latency, reliability and operational cost;
-8. deliberately test extraction failure → next-provider fallback.
-
-Secrets must not be pasted into profile JSON, source code, documentation or chat logs.
-
-## 13. Closure requirement
-
-M2.1 may change to `CLOSED / PASS` only after:
+M2.1 may change to `CLOSED / PASS` only after all applicable requirements are evidenced:
 
 - current deployed desktop UAT PASS;
 - current deployed mobile UAT PASS;
 - SHA/run/artifact evidence retained;
-- bounded acquisition Evidence lineage confirmed;
+- bounded native/normalised Evidence lineage confirmed;
+- real country Course completeness cohort measured;
+- provider comparison metrics retained for configured providers;
+- bounded Scholarship acquisition/extraction proven;
+- QILT/PRISMS Course-context scope/grain UAT proven;
 - exact M1 regression re-confirmed;
-- Change Control/Register/Running Build/Master Plan reconciled without overwriting newer parallel M2 work.
+- Change Control/Register/architecture/design/database/menu/guides/runbook/atlas reconciled;
+- Running Build/Master Plan updated only when the gate genuinely advances.
