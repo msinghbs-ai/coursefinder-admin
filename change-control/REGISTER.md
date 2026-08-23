@@ -23,17 +23,19 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE**. Pilot may retain the documented Free-plan warning as a bounded non-production exception. Production must use an eligible Supabase plan, enable leaked-password protection and pass Auth/RBAC UAT before production security sign-off/cutover.
 >
-> **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is deterministic `course-v3`: CRICOS registered tuition remains separate from Provider-current tuition, only UAT-approved RMIT/UQ Course Facts are admitted, and the final native full-refresh APPLY/replay is 0 changed / 33,105 unchanged for both base and enrichment. M1-SEARCH-VECTOR remains rejected/not admitted.
+> **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is deterministic `course-v3`: CRICOS registered tuition remains separate from Provider-current tuition, only UAT-approved RMIT/UQ Course Facts are admitted, and final native replay is unchanged. M1-SEARCH-VECTOR remains rejected/not admitted.
 >
-> **M1-PUBLICATION-UAT:** `CF-CHG-20260823-024` is **CLOSED / PASS**. Governed publication was proven on an explicit two-Course AU/NZ Pilot allowlist across canonical → readiness → Search → Website/Zoho, including internal/blocked/unpublished states, enrichment invalidation, permission/leakage checks and exact rollback. Broad catalogue publication remains unauthorised and final Pilot state is all unpublished.
+> **M1-PUBLICATION-UAT:** `CF-CHG-20260823-024` is **CLOSED / PASS**. Governed publication was proven on an explicit two-Course Pilot allowlist; broad catalogue publication remains unauthorised and final Pilot state is all unpublished.
 >
-> **M1-GUIDES-OPS-HANDOVER:** `CF-CHG-20260823-025` is **CLOSED / PASS**. User Guide v2.0, PIM Admin Guide v1.15 and Operations Runbook v1.0 are reconciled to deployed PIM Admin v2.12, live role ranks, `course-v3`, current unpublished Pilot state and the Production leaked-password gate.
+> **M1-GUIDES-OPS-HANDOVER:** `CF-CHG-20260823-025` is **CLOSED / PASS** for the frozen M1 baseline.
 >
-> **M1-PERFORMANCE-RESPONSIVENESS:** `CF-CHG-20260823-026` is **CLOSED / PASS**. Full-scale deployed Admin/Search performance passed on desktop and mobile; duplicate hidden Pipeline reads were removed and the final accepted deployed performance run is `32622164346` against Pilot `1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
+> **M1-PERFORMANCE-RESPONSIVENESS:** `CF-CHG-20260823-026` is **CLOSED / PASS**. Final accepted deployed performance run is `32622164346` against Pilot `1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
 >
-> **M1-SECURITY-RELEASE:** `CF-CHG-20260823-027` is **CLOSED / PASS** for the Pilot release baseline. Browser RPC exposure is reduced to governed `public.admin_read`, diagnostic/UAT/probe Edge surfaces are JWT-protected 410 tombstones, `pilot-reset` is Platform-Admin/JWT hardened, retained custom-auth ingestion workers are service-control-plane scoped and time-bounded, and no unexplained Critical/Error security finding remains. `CF-CHG-20260823-022` remains a mandatory Production gate.
+> **M1-SECURITY-RELEASE:** `CF-CHG-20260823-027` is **CLOSED / PASS** for the Pilot release baseline. `CF-CHG-20260823-022` remains a mandatory Production gate.
 >
-> **M1-ACCEPTANCE:** `CF-CHG-20260823-028` is **CLOSED / PASS**. CourseFinder Milestone 1 is complete and frozen for the governed Pilot baseline. Production readiness is not implied; explicit post-M1 and Production gates are preserved.
+> **M1-ACCEPTANCE:** `CF-CHG-20260823-028` is **CLOSED / PASS**. CourseFinder Milestone 1 is complete and frozen for the governed Pilot baseline. Production readiness is not implied.
+>
+> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **IMPLEMENTED — UAT IN PROGRESS**. Layer 2 Platform v1.1 now separates versioned Source Profiles from reusable Acquisition Providers, stores provider credentials in Supabase Vault, routes sources through ordered provider/fallback policies, records provider-attempt Evidence, and exposes extraction-blocked fallback. Database/API/security UAT is PASS; final deployed desktop/mobile browser/runtime evidence is still required before closure.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -65,18 +67,20 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | 23 Aug 2026 | **CLOSED / PASS** | Full-scale Admin/Search performance gate | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
 | CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | 23 Aug 2026 | **CLOSED / PASS** | Security/ACL/Edge release closure | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
 | CF-CHG-20260823-028 | 80-uat-release-operations | M1 Final Acceptance & Baseline Freeze | 23 Aug 2026 | **CLOSED / PASS** | Milestone 1 complete / frozen Pilot baseline | `80-uat-release-operations/CF-CHG-20260823-028-m1-final-acceptance-baseline-freeze.md` |
+| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider platform foundation | 23 Aug 2026 | **IMPLEMENTED — UAT IN PROGRESS** | Layer 2 Platform v1.1 / Source Config + Acquisition Providers | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.65.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.65.md` (M2.1 acceptance update pending final UAT);
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.67.md`;
-- Architecture: `docs/coursefinder-database-architecture-v2.10.40.md`;
+- Running Build: `docs/coursefinder-running-build-v2.67.md` (M2.1 acceptance update pending final UAT);
+- Current M2.1 architecture: `docs/coursefinder-database-architecture-v2.10.41.md`;
 - Frozen M1 architecture baseline: `docs/coursefinder-m1-frozen-architecture-baseline-v1.0.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
-- User Guide: `docs/coursefinder-user-guide-v2.0.md`;
-- Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.15.md`;
-- Operations Runbook: `docs/coursefinder-operations-runbook-v1.0.md`;
+- Current User Guide: `docs/coursefinder-user-guide-v2.1.md`;
+- Current PIM/Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.16.md`;
+- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.1.md`;
+- Layer 2 Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.0.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - Publication governance contract: `docs/coursefinder-publication-governance-contract-v1.0.md`;
 - Final M1 acceptance: `docs/uat/coursefinder-m1-final-acceptance-technical-acceptance-2026-08-23.md`;
@@ -91,24 +95,23 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Accepted runtime/source authority
 
-Deployed browser performance acceptance remains bound to:
+The frozen M1 deployed browser/performance acceptance remains bound to:
 
 `msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2`
 
-Subsequent security-only Pilot source updates, which do not alter the accepted Admin UI semantics, are:
+Security-only M1 source updates retained at freeze include:
 
 - `208b42cf0b65beb59d909eac97a6212d46335d53` — retired diagnostic Edge sources;
 - `b100340a2dd2187993523215c815b5276d7d000f` — hardened `pilot-reset` source;
 - `133b81734e435f9dea5ffb3ddd943e71d2930696` — narrowed automation bridge migration mirror and Pilot main at M1 freeze.
 
-Live Supabase security migrations include:
+M2.1 is an additive post-M1 runtime/workstream under `CF-CHG-20260823-029`; its final accepted Pilot SHA and deployed browser run must be recorded only when M2.1 UAT closes.
 
-- `20260823062726_m1_security_release_remove_legacy_provider_rpc`;
-- `20260823095439_m1_security_release_edge_allowlist_cleanup`.
+Live M2.1 Supabase migrations currently extend through:
 
-Runtime marker remains:
+- `20260823111021_m2_1_layer2_provider_secret_config_hardening`.
 
-`PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · Access Admin v1.0 · Publication Governance v1.0 · governed`
+Current M2.1 visible marker/capability is **Layer 2 Platform v1.1** with **Layer 2 Config** and **L2 Providers**.
 
 ## Preserved technical/semantic baseline
 
@@ -121,24 +124,20 @@ Runtime marker remains:
 - accepted Search base hash: `cd2c8422da31f2fa298053a40563c947780ebdaf09d7b41ff983bc6ef9649d9b`;
 - accepted enrichment hash: `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`;
 - accepted combined Search hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
-- current Search generation: 22; generation is operational, while accepted content hashes remain stable;
-- final publication state: 43,461 canonical Courses unpublished / 33,105 Search documents unpublished / 0 consumer channel-state rows;
-- publication profile `pilot-course-positive-v1` remains a private bounded Pilot capability and does not authorise broad publication;
-- regulatory fee: 26,326 present / 191 source-null / 6,457 not-applicable / 131 zero;
-- Provider-current Search tuition: 10 Courses, 9 annual-comparable;
-- official URL / Intake / English admitted: 10 / 10 / 10 Courses;
-- browser read boundary: `public.admin_read(text,jsonb)`;
+- current Search generation remains operational while accepted content hashes define the frozen M1 baseline;
+- final publication state remains 43,461 canonical Courses unpublished / 33,105 Search documents unpublished;
+- browser read boundary remains `public.admin_read(text,jsonb)`;
 - Evidence minimum rank 3; Pipeline minimum rank 4; PIM Configuration rank 5; Access Admin/Settings rank 6;
-- Search readiness remains distinct from publication and channel visibility;
+- M2.1 acquisition-provider configuration does not change canonical identity, Search admission or publication authority;
 - M1-SEARCH-VECTOR remains rejected/not admitted;
-- no PIM v2.13 release is claimed;
-- Milestone 1 is complete/frozen for the governed Pilot baseline under `CF-CHG-20260823-028`.
+- Milestone 1 remains complete/frozen under `CF-CHG-20260823-028`.
 
 ## Security release residuals
 
-- Retired diagnostic/UAT/probe Edge slugs may still appear ACTIVE in Supabase because the connected management surface does not expose physical deletion; they are JWT-protected HTTP 410 tombstones with no privileged/data-access logic.
-- Retained `verify_jwt=false` ingestion workers are server control-plane functions protected by one-time function-bound nonces or the time-bounded Pilot automation key. The current automation key expires 30 September 2026 and this pattern must be reassessed for Production.
-- The Pilot Supabase leaked-password-protection warning remains explicitly governed under `CF-CHG-20260823-022`. It is **not resolved and not transferable to Production**. Production security sign-off/cutover requires the feature to be enabled and UAT-proven.
+- Retired diagnostic/UAT/probe Edge slugs may still appear ACTIVE where physical deletion is unavailable; accepted tombstones remain JWT-protected HTTP 410 with no privileged/data-access logic.
+- Retained `verify_jwt=false` ingestion workers are server control-plane functions protected by the accepted bounded Pilot controls and must be reassessed for Production.
+- The Pilot Supabase leaked-password-protection warning remains governed under `CF-CHG-20260823-022` and is not transferable to Production.
+- Supabase currently reports five pre-existing `pipeline` tables without RLS enabled. Direct privilege verification on 23 Aug 2026 showed `anon` and `authenticated` have no SELECT/INSERT privileges on those tables. Do not blindly enable RLS without reconciling their existing privileged dependencies; this remains a defence-in-depth hardening item.
 
 ## Explicit post-M1 boundary
 
@@ -146,4 +145,5 @@ Runtime marker remains:
 - Vector/hybrid Search remains rejected/not admitted unless a new later gate is opened.
 - Broad catalogue publication and Production channel cutover remain separately governed.
 - Additional country expansion and wider enrichment coverage are post-M1 work.
+- M2.1 provider credentials/vendor trials are post-M1 operational capability and do not modify the frozen M1 accepted facts/search baseline.
 - INFO-only performance-advisor cleanup is not an M1 blocker unless future measured workloads regress.
