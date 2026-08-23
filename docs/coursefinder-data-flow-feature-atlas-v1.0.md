@@ -3,7 +3,7 @@
 **Effective:** 23 August 2026  
 **Status:** CURRENT — M2.1 LAYER 2 PLATFORM  
 **Change Control:** `CF-CHG-20260823-029`  
-**Applies to:** frozen M1 AU+NZ substrate plus Layer 2 Platform v1.0.1
+**Applies to:** frozen M1 AU+NZ substrate plus Layer 2 Platform v1.1
 
 ## 1. Layer 1–4 overview
 
@@ -18,7 +18,31 @@ flowchart LR
 
 Authority does not increase merely because a later layer successfully acquired data. Layer 2 may enrich Layer 1 identity but must not redefine it.
 
-## 2. Layer 2 source-configuration lifecycle
+## 2. Layer 2 control planes
+
+Layer 2 deliberately separates **what source means** from **how it is acquired**.
+
+```mermaid
+flowchart LR
+  SP[Source Profile\nauthority + discovery + parser/mapping + freshness] --> PV[Immutable Source Profile Version]
+  AP[Acquisition Provider\nDirect HTTP / scraper API / browser API / structured proxy] --> RT[Provider Route\npriority + capabilities + fallback]
+  PV --> RT
+  RT --> JOB[Acquisition Job]
+  JOB --> ATT[Provider Attempt]
+  ATT --> EVD[Private Evidence\nJSON / HTML / document / screenshot]
+  EVD --> EXT[Extraction / Observation]
+  EXT -->|resolved| MAP[Canonical Mapping]
+  EXT -->|stuck| FAIL[Mark attempt extraction_failed]
+  FAIL --> NEXT[Next provider route]
+  NEXT --> ATT
+  MAP --> REV[Review when required]
+  REV --> SA[Search Admission]
+  SA --> PUB[Publication]
+```
+
+Provider technology is reusable configuration. Adding another acquisition vendor must not require a provider-specific canonical/source schema.
+
+## 3. Source-configuration lifecycle
 
 ```mermaid
 stateDiagram-v2
@@ -35,148 +59,172 @@ stateDiagram-v2
   Superseded --> [*]
 ```
 
-Every material configuration change creates a new immutable profile version. The browser editor never overwrites the current/historical JSON in place. Jobs use the current valid version at dispatch; historical Jobs and Evidence retain their original version reference.
+Every material source configuration change creates a new immutable profile version. Jobs use the current valid version at dispatch; historical Jobs/Evidence retain their original version reference.
 
-## 3. Source → Job → Evidence → Observation flow
+## 4. Acquisition-provider registry
+
+`pipeline.layer2_acquisition_providers` stores non-secret provider metadata:
+
+- provider key/name and adapter class;
+- base endpoint;
+- auth scheme/field name;
+- declared capabilities;
+- generic request template;
+- timeout/concurrency/rate limits;
+- enabled/priority/owner/change-control;
+- last runtime health/test metadata;
+- a Vault secret reference only, never the credential value in browser reads.
+
+Generic adapter classes are `direct_http`, `scraper_api`, `browser_api`, `structured_api_proxy` and `custom`.
+
+The provider request/capability configuration rejects secret-like object keys. API keys/tokens/passwords must use the dedicated write-only Vault credential control.
+
+## 5. Provider routing and fallback
+
+`pipeline.layer2_profile_provider_routes` links a source profile to one or more acquisition providers with:
+
+- priority;
+- enabled state;
+- required capabilities;
+- non-secret request overrides;
+- Evidence policy;
+- fallback reasons;
+- Change Control reference.
+
+The initial substrate routes Direct HTTP first for all five source profiles and Scrape.do second for web/search profiles where JavaScript/anti-bot capability may be useful. Scrape.do remains ineligible at runtime until its credential is configured.
+
+Fallback reasons include `blocked`, `timeout`, `403`, `429`, `5xx` and `extraction_failed`. The runtime honours the route policy rather than blindly cycling every provider.
+
+## 6. Provider attempt → Evidence lifecycle
 
 ```mermaid
-flowchart TD
-  CFG[Layer 2 Source Profile] --> VER[Immutable Profile Version]
-  VER --> VALID{Pre-execution validation}
-  VALID -->|invalid / disabled / paused| STOP[Block before acquisition]
-  VALID -->|valid| JOB[Acquisition Job\nversion ID persisted]
-  JOB --> ACQ[Deterministic acquisition]
-  ACQ --> EVD[Evidence Artifact\nversion inherited from Job]
-  EVD --> OBS[Observation / extracted fact]
-  OBS --> MAP[Canonical mapping attempt]
-  MAP -->|unambiguous + policy allows| CAN[Canonical fact candidate]
-  MAP -->|ambiguous / conflict| REV[Review Queue]
-  CAN --> SEARCH[Separate Search Admission gate]
-  REV --> SEARCH
-  SEARCH --> PUB[Separate Publication control]
+stateDiagram-v2
+  [*] --> Running
+  Running --> Succeeded: response captured
+  Running --> Failed: transport/provider failure
+  Running --> Blocked: policy/access failure
+  Succeeded --> ExtractionFailed: extraction cannot resolve required fact
+  ExtractionFailed --> [*]: retain evidence + next provider/review
+  Failed --> [*]
+  Blocked --> [*]
+  Succeeded --> [*]: extraction proceeds
 ```
 
-Successful discovery or acquisition is not canonical mutation authority. An acquisition worker must first produce Evidence/observations and use the governed mapping/review path.
+`pipeline.layer2_provider_attempts` records Job, source-profile version, acquisition provider, attempt number, request URL, HTTP/MIME, Evidence IDs, extraction state, blocker, metrics and timestamps.
 
-## 4. Configuration contract
+Raw JSON, HTML, documents and image/screenshot output are stored in the existing private `evidence` bucket and represented by `pipeline.evidence_artifacts`. A screenshot is only claimed if the configured provider actually returns screenshot/image output.
 
-The reusable Layer 2 contract supports, without Provider-specific schema changes:
+## 7. Runtime security boundary
 
-- Provider websites, catalogues and Course detail pages;
-- fee schedules, intake/calendars and English requirements;
-- Scholarship catalogues;
-- PDF/document sources;
-- structured APIs and JSON endpoints;
-- CSV/XLSX feeds;
-- sitemaps and search/discovery endpoints;
-- other explicitly approved deterministic methods.
+`layer2-acquire` is JWT protected and requires Pipeline Operator rank 4 or higher. It is not a generic proxy:
 
-Governed fields include Provider/source identity, country, authority/trust, domain, acquisition method, base/discovery URL, URL patterns, inclusion/exclusion rules, pagination, non-secret headers, authentication mechanism reference, rate/concurrency/timeout/retry, robots treatment, MIME/payload limits, parser profile, target entity, mapping/stable-ID strategy, CRICOS/NZQA extraction, Evidence requirement, freshness SLA, schedule, content-change policy, inventory, enabled/paused state, owner and Change Control/UAT reference.
+1. source profile must be current, valid, enabled and unpaused;
+2. acquisition target must be HTTP(S);
+3. target host must match a governed discovery/base/URL-pattern host on that source profile;
+4. provider must be enabled, capability-compatible and credential-ready when authentication is required;
+5. provider credential is obtained only through a service-role-only runtime RPC backed by Supabase Vault;
+6. every successful response is persisted as private Evidence before being returned as acquisition success;
+7. acquisition payload/result explicitly records `canonical_mutation_authorised=false`.
 
-Secrets are not configuration fields. Credentials, API tokens, cookies, Authorization values, client secrets and service-role values are rejected by validation. The browser projection also recursively strips secret-like keys before rendering current/history configuration.
+## 8. Admin screens
 
-## 5. Configuration screen mock-up
+### Layer 2 Config
 
-```text
-+ Layer 2 Config -----------------------------------------------------------------------+
-| Enrichment Source Configuration                                      [Refresh] [X]   |
-| Configuration -> Acquisition -> Evidence -> Observation -> ... -> Publication        |
-+---------------------------------------------------------------------------------------+
-| Profiles | Valid versions | Healthy | Associated jobs | Evidence artifacts            |
-+---------------------------------------------------------------------------------------+
-| Search... | Country | Acquisition method | Health                                    |
-+---------------------------------------------------------------------------------------+
-| Source/profile | Method | Affected scope | v# | Validation | Health | Last run | Blocker|
-| RMIT ...       | Detail | Provider/Course | v1 | Valid     | ...    | ...      | None   |
-| PRISMS ...     | XLSX   | Student Flow    | v1 | Valid     | ...    | ...      | ...    |
-| QILT ...       | Doc    | Outcome         | v1 | Valid     | ...    | ...      | ...    |
-+---------------------------------------------------------------------------------------+
-| Click row -> detail: safe config, affected Provider, blocker, history, version diff   |
-| PIM Admin+: Create new version -> Validate & create version                           |
-| Platform Admin: Validate current / Pause / Resume / Disable / Enable                  |
-+---------------------------------------------------------------------------------------+
-```
+Use for source authority/configuration/version governance:
 
-The console is mounted as an independently versioned governed overlay, consistent with Pipeline Ops/Data Quality/Access Admin, to avoid destabilising the frozen mature PIM shell.
+- source/profile identity;
+- acquisition method and target entity;
+- discovery/URL patterns;
+- deterministic parser/mapping/stable identifier strategy;
+- CRICOS/NZQA extraction rules;
+- evidence/freshness/schedule;
+- immutable history/diff;
+- source health/pause/disable.
 
-## 6. Role/access model
+### L2 Providers
+
+Use for acquisition technology and routing:
+
+- Direct HTTP / scraper / browser / API providers;
+- endpoint and generic request template;
+- credential configured/missing state;
+- write-only Vault credential rotation for Platform Admin;
+- declared capabilities;
+- per-source ordered routing/fallback;
+- bounded acquisition and resulting Job/Evidence IDs.
+
+Related operational screens remain Pipeline Ops → Jobs/Sources, Evidence, Review Queue and Completeness.
+
+## 9. Role/access model
 
 | Capability | Minimum role |
 |---|---|
-| View profile list/detail/history/diff/traceability | Pipeline Operator, rank 4 |
-| Create validated immutable configuration version | PIM Admin, rank 5 |
-| Govern downstream PIM interpretation/mapping | PIM Admin, rank 5 |
-| Validate current / pause / resume / enable / disable | Platform Admin, rank 6 |
-| Execute privileged database mutation RPC directly | Browser never; `service_role` only |
+| View source/provider configuration, routes and traceability | Pipeline Operator, rank 4 |
+| Run bounded acquisition | Pipeline Operator, rank 4 |
+| Create validated immutable source profile version | PIM Admin, rank 5 |
+| Configure source→provider routing | PIM Admin, rank 5 |
+| Add/edit acquisition provider or set/rotate provider credential | Platform Admin, rank 6 |
+| Validate/pause/resume/enable/disable source profile | Platform Admin, rank 6 |
+| Execute privileged mutation/runtime RPC directly | Browser never; service role only |
 
-Reads use `Supabase Auth → public.admin_read → server rank check → security.admin_layer2_config_read`. Version creation/state controls use `JWT-protected layer2-config-control Edge Function → user context/rank check → service-role-only database RPC`.
+Reads use `Supabase Auth → public.admin_read → server rank check`. Provider mutations use `layer2-provider-control → service-role-only layer2_provider_control`. Acquisition uses `layer2-acquire → source/profile/routing checks → private Evidence`.
 
-## 7. Field/state semantics
+## 10. Normal workflow
 
-- `valid`: configuration passes safety/completeness validation; it does not mean the source is reachable now.
-- `invalid`: pre-execution validation failed; acquisition must not start.
-- `superseded`: historical accepted version no longer current; its Job/Evidence provenance remains intact.
-- `healthy`: profile is enabled/unpaused/valid and no stronger operational failure/freshness condition applies.
-- `stale`: last successful acquisition is older than the profile freshness SLA.
-- `degraded`: latest failure is newer than latest success.
-- `paused`: temporary operational hold; no new acquisition should start.
-- `disabled`: source/profile intentionally disabled.
-- `source_null`: acquisition/evidence proves the authoritative source omitted a field.
-- `inaccessible`: acquisition could not obtain authoritative content; do not convert to source-null.
-- `not_yet_enriched`: Layer 2 has not yet established the fact.
+1. Identify an approved `pipeline.sources` source.
+2. Configure/version the source in **Layer 2 Config**.
+3. Configure one or more reusable acquisition providers in **L2 Providers**.
+4. Put provider API credentials only into the Vault credential control.
+5. Route provider(s) to the source with explicit priority/capability/fallback semantics.
+6. Dispatch acquisition only from a valid/enabled/unpaused source profile.
+7. Create a versioned Job and a provider-attempt record.
+8. Capture provider response into private Evidence.
+9. Extract observations/facts.
+10. If extraction is unresolved, retain Evidence, mark `extraction_failed` and request the next configured provider or Review.
+11. Map against existing canonical identity; ambiguity goes to Review.
+12. Search Admission and Publication remain separate gates.
 
-## 8. Normal workflow
+## 11. Exception workflows
 
-1. Identify an approved source and existing `pipeline.sources` identity.
-2. Create/inspect a Layer 2 profile independently of execution.
-3. For a material configuration change, PIM Admin+ opens **Create new version**, edits the non-secret configuration, supplies Change Control/UAT metadata and chooses **Validate & create version**.
-4. Server validation must pass before the new immutable version becomes current.
-5. Dispatch a Job only from an enabled, unpaused profile with a valid current version.
-6. Persist the exact version ID on the Job.
-7. Capture Evidence; Evidence inherits/matches the Job version.
-8. Extract observations and map against existing canonical identity.
-9. Send ambiguity/conflict to Review rather than inventing a match.
-10. Admit accepted facts to Search only through their source/domain gate.
-11. Publication remains a separate explicit decision.
+### Credential missing
 
-## 9. Exception workflows
+Provider is skipped. Platform Admin must configure/rotate the credential through the write-only Vault control. Do not add credentials to source/profile/provider JSON.
+
+### Transport blocked / timeout / 403 / 429 / 5xx
+
+Record the provider attempt and blocker/Evidence where available. Follow that route’s configured fallback policy.
+
+### Extraction failed
+
+Content acquisition succeeded but downstream extraction cannot establish the required fact. Preserve original Evidence, record `extraction_failed`, and request the next provider route where configured. Do not force/invent a value.
 
 ### Source-null
-Record an observation that the successful authoritative source did not provide the field. Retain Evidence. Do not substitute another value merely for completeness.
 
-### Inaccessible
-Record technical/policy failure on the Job/source health. Do not mark facts source-null because content was not obtained.
+Only record source-null when successfully acquired authoritative content proves the source omitted the field. An inaccessible/blocked source is not source-null.
 
-### Stale
-Keep prior provenance, mark freshness state, schedule/retry acquisition under policy. Do not silently treat stale as current.
+### Screenshot requirement
 
-### Disabled/paused
-Reject new generic Layer 2 Job preparation before acquisition. Existing historical Evidence remains traceable to its profile version.
+Use a provider that explicitly declares screenshot/image capability and whose request template returns image content. The Evidence policy cannot manufacture capability that the provider does not have.
 
-### Unsafe configuration
-Validation rejects unsupported methods/targets, missing discovery location, excessive timeout/concurrency/payload limits, Evidence-disabled profiles and secret-like keys. No current-version change occurs on failure.
+## 12. Do / Don't
 
-### Version change
-The profile detail shows **Changes from previous version**. Review the diff before dispatch. If the acquisition method or target entity meaning changes, create a new profile rather than mutating the stable profile meaning.
+**Do:** keep source semantics separate from acquisition vendor; version source profiles; configure providers generically; use Vault for secrets; make fallback explicit; retain every relevant attempt’s Evidence; bind runtime targets to source allowlists; route unresolved extraction to provider fallback/review.
 
-## 10. Do / Don't
+**Don't:** put credentials in JSON; expose Vault secret IDs/values to the browser; turn the acquisition endpoint into an arbitrary proxy; add provider-specific canonical schema; discard failed-attempt Evidence; let acquisition mutate canonical/Search/publication; overwrite Layer 1 identity.
 
-**Do:** use reusable profile fields; use the governed version editor; preserve immutable versions; review the diff; respect robots/policy; capture Evidence; retain exact Job/version links; distinguish source-null from inaccessible; use canonical stable identifiers; route ambiguity to review.
+## 13. Search/publication consequence
 
-**Don't:** put credentials in profile JSON; edit DB rows/environment/source code to bypass governance; hard-code Provider-specific schema; treat acquisition success as canonical approval; overwrite Layer 1 identity; infer CRICOS/NZQA codes; make Search/publication automatic; rewrite historical Job configuration references.
+A valid source profile, healthy provider, successful acquisition or Evidence artifact is only an upstream operational state. No provider response directly authorises canonical mutation, Search admission or publication.
 
-## 11. Search/publication consequence
+## 14. Troubleshooting
 
-Layer 2 configuration and acquisition are upstream operational states only. A valid/healthy profile, successful Job or Evidence artifact does not itself admit a fact to Search or publish it. Search admission remains domain/source/UAT governed; Publication remains separately authorised.
+- **Source invalid/paused/disabled:** correct source profile state before acquisition.
+- **Credential missing:** use L2 Providers → provider → Set/rotate API credential.
+- **Required capability missing:** correct route/provider capability declaration; do not bypass it.
+- **Target URL rejected:** create a governed source-profile version with the legitimate host; never bypass host binding.
+- **Provider failure:** inspect provider attempt, HTTP/MIME/blocker and captured Evidence; use configured fallback.
+- **Extraction failed:** retain Evidence and request next route/review.
+- **No Evidence:** do not proceed to canonical mapping.
+- **Ambiguous canonical match:** use Review Queue.
 
-## 12. Troubleshooting / related screens
-
-- **Layer 2 Config:** profile validity, version/diff, health, last run, inventory, blocker, owner and configuration governance.
-- **Pipeline Ops → Jobs:** run status, metrics, failures, cursor, Change Control/UAT.
-- **Pipeline Ops → Sources:** source health and operational inventory.
-- **Evidence:** artifact/source/job provenance and observations.
-- **Review Queue:** ambiguity/conflict requiring human resolution.
-- **Completeness:** distinguish not-yet-enriched/stale/source-null from other readiness states.
-- **Course/Provider/Scholarship detail:** verify downstream canonical fact and Evidence before Search/publication decisions.
-
-For a failed start, first confirm profile `enabled=true`, `paused=false`, current version exists and validation status is `valid`; then inspect source health and latest Job error. Never bypass the validation gate by manually inserting canonical values.
+Successful acquisition is never canonical mutation authority.
