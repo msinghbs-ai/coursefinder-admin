@@ -3,13 +3,13 @@
 **Date:** 23 August 2026  
 **Change Control:** `CF-CHG-20260823-023`  
 **Final gate:** **PASS**  
-**Pilot source authority:** `msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+**Pilot source authority:** `msinghbs-ai/Coursefinder-Pilot@23b2b98284a1c4e694ab37cb4d22c6d8a76b21fa`
 
-PR #25 contains the accepted Search implementation. PR #26 changes no runtime semantics; it aligns the source migration filename to the exact live Supabase migration ledger.
+PR #25 contains the accepted Search implementation, PR #26 aligns the first migration-ledger correction, and PR #27 mirrors the final native `course-v3` full-refresh/idempotency migrations plus the automated post-fix UAT evidence.
 
 ## Accepted boundary
 
-The AU+NZ Search projection remains 33,105 Course documents and advances to `course-v3`. Search admission remains separate from canonical presence, Layer 4 resolution, canonical publication and channel publication.
+The AU+NZ Search projection remains 33,105 Course documents and is governed as `course-v3`. Search admission remains separate from canonical presence, Layer 4 resolution, canonical publication and channel publication.
 
 Only UAT-approved first-party Course Facts from RMIT and UQ are admitted. Deferred/unqualified sources do not enter Search merely because relational rows exist.
 
@@ -42,21 +42,41 @@ RMIT CRICOS `103390B` retains a `total_indicative` Provider tuition option but i
 
 ## Determinism and invalidation
 
-Deterministic stage hash:
+Enrichment stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-- initial dry-run: 33,105 changed;
-- APPLY: same stage hash and coverage;
-- replay: 0 changed / 33,105 unchanged;
+Earlier bounded UAT proved:
+
+- enrichment replay: 0 changed / 33,105 unchanged;
 - controlled derived-hash invalidation: exactly 1 changed / 33,104 unchanged;
-- repair APPLY restored idempotency.
-
-Semantic hash stability:
-
+- repair APPLY restored idempotency;
 - 10 Courses gained searchable enrichment content;
 - exactly 10 semantic hashes changed;
 - 33,095 prior semantic hashes were retained exactly.
+
+### Final automated full-refresh acceptance
+
+Final reconciliation exposed that the first top-level v3 wrapper still used the v2 base comparison. This caused an unchanged full refresh to report all 33,105 base rows changed. The defect was corrected with native `search.refresh_course_base_v3(boolean)` plus the final v3 idempotency wrapper.
+
+Automated APPLY after the fix:
+
+- projection: `course-v3`;
+- rows: 33,105;
+- generation: **13**;
+- base content hash: `cd2c8422da31f2fa298053a40563c947780ebdaf09d7b41ff983bc6ef9649d9b`;
+- enrichment stage hash: `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`;
+- combined projection hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`.
+
+Immediate automated dry replay:
+
+- base: **0 changed / 33,105 unchanged / 0 new / 0 removed**;
+- enrichment: **0 changed / 33,105 unchanged**;
+- generation remains **13**.
+
+`search.projection_state` records `projection_version=course-v3`, row count 33,105, the combined hash, base/enrichment hashes, `refresh_function=search.refresh_course_documents_v3` and `enrichment_gate=domain_and_source_explicit`.
+
+The final full-projection deterministic APPLY/replay gate therefore passes.
 
 ## Search performance / vector boundary
 
@@ -84,8 +104,10 @@ The new source-gate FK is covered by `enrichment_source_gates_source_idx`.
 - `20260823015526 — m1_search_enrichment_admission`;
 - `20260823015929 — m1_search_enrichment_semantic_hash_stability`;
 - `20260823020120 — m1_search_enrichment_source_admission_metadata`;
-- `20260823020239 — m1_search_enrichment_source_gate_fk_index`.
+- `20260823020239 — m1_search_enrichment_source_gate_fk_index`;
+- `20260823021306 — m1_search_enrichment_full_refresh_v3`;
+- `20260823021630 — m1_search_enrichment_full_refresh_v3_idempotency`.
 
 ## Acceptance
 
-**PASS.** Course-Fact Search admission is accepted under `course-v3` for the governed FTS path. Search publication remains unchanged, and vector/hybrid remains not admitted.
+**PASS.** Course-Fact Search admission and the native deterministic full `course-v3` refresh are accepted for the governed FTS path. Search publication remains unchanged, and vector/hybrid remains not admitted.
