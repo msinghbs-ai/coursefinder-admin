@@ -30,17 +30,17 @@ Accepted operational journey remains:
 
 Pilot:
 
-`msinghbs-ai/Coursefinder-Pilot@69ac752193b9a79cc2ba3809ebd68aabbbb97582`
+`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+
+PR #25 is the semantic implementation; PR #26 is a no-semantics-change source-control correction aligning the migration filename to the live Supabase ledger.
 
 The Admin visible runtime remains PIM Admin v2.12; this Search-only gate does not claim a new UI release.
 
 ## Search projection position
 
-The accepted AU+NZ Search projection is now `course-v3` with **33,105 Course documents**.
+The accepted AU+NZ Search projection is `course-v3` with **33,105 Course documents**. Search admission is both domain-gated and source-gated; canonical relational presence alone does not imply Search readiness.
 
-Search admission is explicitly both domain-gated and source-gated. Canonical relational presence alone does not imply Search readiness.
-
-Accepted first-party Course Facts admission currently covers qualified RMIT and UQ sources only:
+Accepted first-party Course Facts admission covers qualified RMIT and UQ sources only:
 
 - Provider-current tuition: 10 Courses;
 - comparable annual/indicative-annual Provider tuition: 9 Courses;
@@ -48,65 +48,37 @@ Accepted first-party Course Facts admission currently covers qualified RMIT and 
 - Intake: 10 Courses / 18 observations;
 - English requirements: 10 Courses / 32 observations.
 
-Deferred QUT Course Facts remain outside Search admission.
+Deferred QUT remains outside Search admission.
 
 ## Fee semantics
 
-CRICOS registered tuition remains a Layer 1 registered-total-course fact and is projected separately from Provider-current tuition.
+CRICOS registered tuition remains a Layer 1 registered-total-course fact and is projected separately from Provider-current tuition. Regulatory fee states remain exactly 26,326 present / 191 source-null / 6,457 not-applicable / 131 zero.
 
-Current regulatory fee states remain exactly:
-
-- 26,326 present;
-- 191 source-null;
-- 6,457 not-applicable;
-- 131 zero.
-
-Provider-current tuition retains year/basis/scope. Only annual-compatible basis values are eligible for the comparable annual scalar. A `total_indicative` value is retained for display but is not silently annualised.
+Provider-current tuition retains year/basis/scope. Only annual-compatible basis values enter the comparable annual scalar. `total_indicative` remains structured display data and is not silently annualised.
 
 ## Scholarships / QILT / PRISMS
 
-Canonical Scholarships remain 4. None are currently admitted into Search because their publication status remains unpublished.
-
-QILT and PRISMS remain excluded from Course-grain Search in this gate. No provider/study-area/flow/cohort signal is fabricated at Course grain.
+Canonical Scholarships remain 4; none are currently Search-admitted because their publication status remains unpublished. QILT and PRISMS remain excluded from Course-grain Search; no provider/study-area/flow/cohort signal is fabricated at Course grain.
 
 ## Search-mode decision
 
-FTS remains the accepted Search mode.
+FTS remains the accepted Search mode. Representative post-enrichment execution: `nursing` ~11 ms; `IELTS` ~3.6 ms.
 
-Representative post-enrichment full-projection execution:
-
-- `nursing` ~11 ms;
-- `IELTS` ~3.6 ms.
-
-The previous semantic/vector candidate remains rejected. Current state remains:
-
-- embeddings 0;
-- active embedding jobs 0;
-- query embedding cache 0.
-
-Hybrid without an admitted vector corpus uses FTS fallback. Vector-only has no accepted corpus. M1-SEARCH-ENRICHMENT does not reopen or waive M1-SEARCH-VECTOR.
+The semantic/vector candidate remains rejected. Current state remains 0 embeddings / 0 active embedding jobs / 0 query embedding cache. Hybrid without an admitted corpus uses FTS fallback; vector-only has no accepted corpus.
 
 ## Consumer contracts
 
-Website Search v2 is versioned and keeps CRICOS regulatory tuition separate from Provider-current tuition. It adds only governed enrichment filters/sorts. Website Search v1 remains intact.
+Website Search v2 is versioned and keeps CRICOS regulatory tuition separate from Provider-current tuition. Website Search v1 remains intact. All 33,105 Search documents remain unpublished in Pilot, so Search admission has not broadened Website visibility.
 
-All 33,105 Search documents remain unpublished in Pilot. Search admission therefore has not broadened Website visibility.
-
-Zoho Consumer Contract remains v1.3 and receives no new DTO fields because no genuine consumer requirement currently justifies them. Search state remains non-authoritative for canonical presence/publication.
+Zoho Consumer Contract remains v1.3 with no new DTO fields; Search state remains non-authoritative for canonical presence/publication.
 
 ## Determinism / invalidation acceptance
 
-Accepted Search enrichment stage hash:
+Accepted stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-Replay result is 0 changed / 33,105 unchanged.
-
-Semantic-content invalidation is bounded to genuine searchable changes:
-
-- 10 Courses gained new searchable enrichment text;
-- 10 semantic hashes changed;
-- 33,095 prior hashes remained exact.
+Replay is 0 changed / 33,105 unchanged. Exactly 10 Courses gained searchable enrichment text, exactly 10 semantic hashes changed, and 33,095 prior hashes remained exact.
 
 ## Accepted technical baselines
 
@@ -121,28 +93,20 @@ Semantic-content invalidation is bounded to genuine searchable changes:
 
 ## Production security exception retained
 
-`CF-CHG-20260823-022` remains unchanged: leaked-password protection is a documented bounded Pilot exception and a mandatory Production go-live security gate. M1-SEARCH-ENRICHMENT does not alter that decision.
+`CF-CHG-20260823-022` remains unchanged: leaked-password protection is a bounded Pilot exception and mandatory Production go-live security gate.
 
 ## Governing references
 
-- `CF-CHG-20260823-023` — M1 Search Enrichment Admission — CLOSED / PASS;
+- `CF-CHG-20260823-023` — CLOSED / PASS;
 - `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`;
 - Database Architecture v2.10.40;
 - Running Build v2.64;
 - Zoho Consumer Contract v1.3;
-- existing M1-SEARCH-VECTOR UAT v1.0 rejection;
+- M1-SEARCH-VECTOR UAT v1.0 rejection;
 - Pilot-to-Production Project Plan v1.10.
 
 ## Baseline for subsequent work
 
-Use:
-
-- Master Project Plan v1.62;
-- Pilot-to-Production Project Plan v1.10;
-- Running Build v2.64;
-- Database Architecture v2.10.40;
-- Admin/PIM Design Decisions v1.13;
-- PIM Admin Guide v1.14;
-- Pilot `69ac752193b9a79cc2ba3809ebd68aabbbb97582`.
+Use Master Project Plan v1.62, Pilot-to-Production Plan v1.10, Running Build v2.64, Database Architecture v2.10.40, Admin/PIM Design Decisions v1.13, PIM Admin Guide v1.14, and Pilot `27b760252ead4591e87277524cf7b59928125517`.
 
 Search enrichment is accepted for the governed FTS projection. Publication remains separate, and vector/hybrid remains not admitted.

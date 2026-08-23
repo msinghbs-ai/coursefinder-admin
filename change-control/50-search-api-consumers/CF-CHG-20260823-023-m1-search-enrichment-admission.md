@@ -29,31 +29,31 @@ The former `course_fee` gate could not safely be switched to approved. `search.r
 | QILT | excluded from Course projection | blocked; provider/study-area outcome grain not coerced to Course grain |
 | PRISMS | excluded from Course projection | blocked; flow/cohort grain not coerced to Course grain |
 
-Legacy `has_fee` now means **Search-admitted Provider-current tuition presence**. It does not mean CRICOS regulatory fee presence.
+Legacy `has_fee` means **Search-admitted Provider-current tuition presence**. It does not mean CRICOS regulatory fee presence.
 
 ## Source admission
 
-Search admission is both domain-gated and source-gated. Only already-qualified/UAT-passed Course Facts sources are admitted:
+Only already-qualified/UAT-passed Course Facts sources are admitted:
 
 - `au_rmit_official_course_pages`;
 - `au_uq_official_program_pages`.
 
-The deferred QUT source remains outside Search admission.
+Deferred QUT remains outside Search admission.
 
 ## Implementation references
 
-Pilot merged implementation:
+- implementation PR: `msinghbs-ai/Coursefinder-Pilot#25`;
+- implementation merge SHA: `69ac752193b9a79cc2ba3809ebd68aabbbb97582`;
+- ledger-alignment PR: `msinghbs-ai/Coursefinder-Pilot#26`;
+- final accepted Pilot source authority: `27b760252ead4591e87277524cf7b59928125517`;
+- Pilot UAT: `docs/m1-search-enrichment-admission-uat-2026-08-23.md`.
 
-- PR `msinghbs-ai/Coursefinder-Pilot#25`;
-- merge SHA `69ac752193b9a79cc2ba3809ebd68aabbbb97582`;
-- UAT: `docs/m1-search-enrichment-admission-uat-2026-08-23.md`.
-
-Live migrations:
+Live migration ledger:
 
 - `20260823015526 — m1_search_enrichment_admission`;
 - `20260823015929 — m1_search_enrichment_semantic_hash_stability`;
 - `20260823020120 — m1_search_enrichment_source_admission_metadata`;
-- `20260823020800 — m1_search_enrichment_source_gate_fk_index`.
+- `20260823020239 — m1_search_enrichment_source_gate_fk_index`.
 
 Key durable surfaces:
 
@@ -82,92 +82,56 @@ After:
 - Intake: 10 Courses / 18 observations;
 - English: 10 Courses / 32 observations;
 - admitted Scholarships: 0 because current canonical Scholarships remain unpublished;
-- QILT/PRISMS Course Search signals: 0 / excluded;
+- QILT/PRISMS Course Search signals: excluded;
 - projection version: `course-v3`;
 - all 33,105 Search documents remain unpublished.
 
 ## UAT
 
-### Determinism
-
-Initial dry-run and APPLY both produced stage hash:
+Accepted deterministic stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-Immediate replay:
+- replay: 0 changed / 33,105 unchanged;
+- controlled invalidation: 1 changed / 33,104 unchanged, then repaired;
+- semantic hashes: exactly 10 changed / 33,095 retained;
+- `nursing`: ~11 ms FTS execution, 416 matches;
+- `IELTS`: ~3.6 ms FTS execution, 164 matches.
 
-- changed: 0;
-- unchanged: 33,105;
-- exact stage hash retained.
+M1-SEARCH-VECTOR remains rejected/not admitted:
 
-### Invalidation
+- embeddings 0;
+- active embedding jobs 0;
+- query embedding cache 0;
+- hybrid without corpus uses `fts_fallback`;
+- vector-only returns 0 candidates.
 
-A controlled derived-hash mutation on CRICOS `001942A` produced exactly:
+## Consumer isolation
 
-- changed: 1;
-- unchanged: 33,104.
+- `api.website_course_search_v2` is versioned; v1 remains intact;
+- all Search documents remain `unpublished`; Website v2 returns 0 published items in Pilot;
+- Zoho DTO is unchanged; Consumer Contract v1.3 remains authoritative.
 
-APPLY repaired the derived projection without changing canonical Layer 1/Layer 2 facts.
+## Security / performance
 
-### Semantic-hash stability
-
-An initial UAT attempt exposed an unacceptable all-row semantic-hash churn caused by a changed hash envelope. It was corrected before closure.
-
-Final result:
-
-- genuine searchable enrichment text: 10 Courses;
-- semantic hashes changed: 10;
-- prior semantic hashes preserved exactly: 33,095.
-
-### FTS / vector / hybrid
-
-Full projection FTS measurements:
-
-- `nursing`: approximately 11 ms execution, 416 matches;
-- `IELTS`: approximately 3.6 ms execution, 164 matches.
-
-Existing M1-SEARCH-VECTOR rejection remains authoritative:
-
-- embeddings: 0;
-- active embedding jobs: 0;
-- query embedding cache: 0;
-- hybrid without vector corpus: `fts_fallback`;
-- vector-only without corpus: 0 candidates.
-
-No vector/hybrid production acceptance is claimed.
-
-### Consumer isolation
-
-- `api.website_course_search_v2` is versioned; v1 remains intact.
-- all Search documents remain `unpublished`; Website v2 returns 0 published items in Pilot.
-- Zoho DTO was **not** changed. Zoho contract v1.3 already prohibits using Search admission as canonical presence/publication authority, and no genuine consumer requirement justified a contract expansion.
-
-### Security / performance
-
-- new Search relation/functions are private/service-role surfaces with explicit ACLs;
+- new Search relation/functions remain private/service-role surfaces with explicit ACLs;
 - no new browser CRUD surface was opened;
-- security advisor added no workstream-specific warning;
-- known leaked-password warning remains separately governed by `CF-CHG-20260823-022`;
-- performance advisor identified the new source-gate FK as uncovered; `enrichment_source_gates_source_idx` was added before closure.
+- no new security-advisor warning is attributable to this work;
+- known leaked-password warning remains governed by `CF-CHG-20260823-022`;
+- FK performance finding was resolved with `enrichment_source_gates_source_idx`.
 
 ## Rollback / reversion
 
-Rollback is Search-only:
-
-1. block/remove the new source/domain admissions;
-2. restore `course-v2` refresh/API use;
-3. clear `course-v3` enrichment projection fields if required;
-4. retain all canonical Layer 1/Layer 2 facts/evidence unchanged;
-5. do not alter publication/channel state.
+Rollback is Search-only: block/remove new admissions, restore `course-v2` refresh/API use, clear derived `course-v3` enrichment fields if required, retain all canonical Layer 1/Layer 2 facts/evidence, and do not alter publication state.
 
 ## Documentation impact
 
-- Database Architecture advances to v2.10.40;
-- Running Build advances to v2.64;
-- Master Project Plan advances to v1.62;
-- new technical acceptance/UAT record added;
+- Database Architecture v2.10.40;
+- Running Build v2.64;
+- Master Project Plan v1.62;
+- technical acceptance/UAT record added;
 - Zoho Consumer Contract remains v1.3;
-- PIM Admin Guide and Admin/PIM Design Decisions are unchanged because this gate does not alter PIM field authority or Admin UI behaviour.
+- PIM Admin Guide and Admin/PIM Design Decisions unchanged.
 
 ## Status history
 
@@ -176,10 +140,11 @@ Rollback is Search-only:
 | 23 Aug 2026 11:49 AEST | IN PROGRESS | Workstream opened after mandatory governance/live-state reconciliation. |
 | 23 Aug 2026 | APPLIED | `course-v3` Search enrichment migrations applied to Pilot with source/domain gates. |
 | 23 Aug 2026 | UAT PASS | Dry-run/APPLY/replay/invalidation, semantic-hash stability, FTS and consumer/security boundaries passed. |
-| 23 Aug 2026 | CLOSED / PASS | Pilot PR #25 merged at `69ac752193b9a79cc2ba3809ebd68aabbbb97582`; governed Course-Fact Search admission accepted. |
+| 23 Aug 2026 | CLOSED / PASS | Pilot PR #25 merged; governed Course-Fact Search admission accepted. |
+| 23 Aug 2026 | RECORD CORRECTION | PR #26 aligned the source migration filename to live ledger version `20260823020239`; no runtime semantics changed. Final Pilot source authority `27b760252ead4591e87277524cf7b59928125517`. |
 
 ## Closure
 
-**Final gate:** **PASS — M1-SEARCH-ENRICHMENT.**
+**Final gate: PASS — M1-SEARCH-ENRICHMENT.**
 
 Course-Fact enrichment is admitted to the accepted FTS projection under `course-v3`. Vector/hybrid remains a separate rejected/not-admitted capability and was not reopened by this change.
