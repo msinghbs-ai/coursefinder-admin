@@ -22,6 +22,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **DATA QUALITY CONCURRENT HARDENING:** `CF-CHG-20260823-021` is **CLOSED / PASS**. Aggregate readiness uses private timestamped snapshots refreshed every 15 minutes; exceptions remain live/paged; mobile Data Quality scrolling is accepted.
 >
 > **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE**. Pilot may retain the documented Free-plan warning as a bounded non-production exception. Production must use an eligible Supabase plan, enable leaked-password protection and pass Auth/RBAC UAT before production security sign-off/cutover.
+>
+> **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is `course-v3`, with CRICOS registered tuition separated from Provider-current tuition and only UAT-approved RMIT/UQ Course Facts admitted. Publication remains unchanged. M1-SEARCH-VECTOR remains rejected/not admitted.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -47,38 +49,33 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | 22 Aug 2026 | **CLOSED / PASS** | Access Admin v1.0 | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
 | CF-CHG-20260823-021 | 80-uat-release-operations | Data Quality overview snapshot and concurrent UAT hardening | 23 Aug 2026 | **CLOSED / PASS** | Data Quality v1.0 operational hardening | `80-uat-release-operations/CF-CHG-20260823-021-data-quality-overview-snapshot.md` |
 | CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | 23 Aug 2026 | **DEFERRED FOR PILOT — PRODUCTION GATE** | Supabase Auth hardening | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
+| CF-CHG-20260823-023 | 50-search-api-consumers | M1 governed Course-Fact Search admission | 23 Aug 2026 | **CLOSED / PASS** | Search `course-v3` / Website Search v2 | `50-search-api-consumers/CF-CHG-20260823-023-m1-search-enrichment-admission.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.61.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.62.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.63.md`;
-- Architecture: `docs/coursefinder-database-architecture-v2.10.39.md`;
+- Running Build: `docs/coursefinder-running-build-v2.64.md`;
+- Architecture: `docs/coursefinder-database-architecture-v2.10.40.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
 - Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.14.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
+- Search enrichment technical acceptance: `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`;
 - UAT Harness technical acceptance: `docs/uat/coursefinder-m1-uat-harness-technical-acceptance-2026-08-22.md`;
 - Access Admin technical UAT: `docs/uat/coursefinder-access-admin-v1-technical-acceptance-2026-08-22.md`;
-- Access Admin deployed evidence: `docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`;
 - Production leaked-password gate decision: `docs/uat/coursefinder-supabase-leaked-password-protection-production-gate-2026-08-23.md`.
 
 ## Accepted runtime authority
 
 Pilot:
 
-`msinghbs-ai/Coursefinder-Pilot@e877e3e28cd281ff3751a70bc500eeb0d8f31963`
+`msinghbs-ai/Coursefinder-Pilot@69ac752193b9a79cc2ba3809ebd68aabbbb97582`
 
-Runtime marker:
+Runtime marker remains:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · Access Admin v1.0 · governed`
 
-Final deployed automated UAT:
-
-- run `32600027592`;
-- desktop 3/3 PASS, artefact `9482641524`;
-- mobile 3/3 PASS, artefact `9482641597`;
-- exact-SHA desktop/mobile commit statuses: success;
-- final runtime evidence: 0 HTTP 5xx / 0 HTTP 4xx / 0 console/page errors.
+The Search-only `course-v3` admission does not claim a new visible Admin version.
 
 ## Preserved technical/semantic baseline
 
@@ -86,11 +83,14 @@ Final deployed automated UAT:
 - NZ: 409 Providers / 6,457 Courses;
 - AU+NZ: 1,955 Providers / 33,105 Courses;
 - all-country Courses: 43,461;
-- Search projection: 33,105 Course documents;
+- Search projection: 33,105 Course documents (`course-v3`);
 - regulatory fee: 26,326 present / 191 source-null / 6,457 not-applicable / 131 zero;
+- Provider-current Search tuition: 10 Courses, 9 annual-comparable;
+- official URL / Intake / English admitted: 10 / 10 / 10 Courses;
 - browser read boundary: `public.admin_read(text,jsonb)`;
 - Evidence minimum rank 3; Pipeline minimum rank 4; Access Admin rank 6;
 - Search admission remains distinct from publication;
+- M1-SEARCH-VECTOR remains rejected/not admitted;
 - no PIM v2.13 release is claimed.
 
 The Pilot Supabase leaked-password-protection warning is an explicitly documented temporary exception under `CF-CHG-20260823-022`. It is **not** considered resolved and is **not transferable to Production**. Production security sign-off/cutover requires this control to be enabled and UAT-proven.
