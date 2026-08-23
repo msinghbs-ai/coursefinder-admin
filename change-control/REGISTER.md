@@ -35,7 +35,9 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M1-ACCEPTANCE:** `CF-CHG-20260823-028` is **CLOSED / PASS**. CourseFinder Milestone 1 is complete and frozen for the governed Pilot baseline. Production readiness is not implied.
 >
-> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **BLOCKED — DEPLOYED BROWSER UAT EVIDENCE UNAVAILABLE**. Layer 2 Platform v1.1 separates versioned Source Profiles from reusable Acquisition Providers, stores provider credentials in Supabase Vault, routes sources through ordered provider/fallback policies, records provider-attempt Evidence, and exposes extraction-blocked fallback. Database/API/security UAT is PASS. Final acceptance remains open until the latest deployed desktop/mobile SHA-bound browser/runtime evidence is available and passing.
+> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **BLOCKED — DEPLOYED BROWSER + LIVE PROVIDER/COMPLETENESS TRIAL EVIDENCE OUTSTANDING**. Core Source Profile, Acquisition Provider, Vault credential, provider routing/fallback, Provider Attempt Evidence and provider-normalisation foundation is implemented with database/API/security UAT PASS. M2.1 acceptance is now explicitly rebaselined to include country-based Course completeness/provider benchmarking, bounded Scholarship acquisition/extraction, QILT/PRISMS Course decision-context semantics, Layer 3 Evidence-only hand-off and terminal Layer 4 resolution. There is no Layer 5.
+>
+> **M2.1-DATA-ACQUISITION-NAV:** `CF-CHG-20260823-030` is **IMPLEMENTED — BROWSER UAT PENDING**. Primary Admin navigation now groups Pipeline Control, Source Registry, Layer 2 Source Config, Acquisition Providers, Jobs and Evidence under Data Acquisition; QILT/PRISMS remain Enrichment & Insights; Completeness/Layer 4 Review remain Quality & Review.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -67,20 +69,25 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | 23 Aug 2026 | **CLOSED / PASS** | Full-scale Admin/Search performance gate | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
 | CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | 23 Aug 2026 | **CLOSED / PASS** | Security/ACL/Edge release closure | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
 | CF-CHG-20260823-028 | 80-uat-release-operations | M1 Final Acceptance & Baseline Freeze | 23 Aug 2026 | **CLOSED / PASS** | Milestone 1 complete / frozen Pilot baseline | `80-uat-release-operations/CF-CHG-20260823-028-m1-final-acceptance-baseline-freeze.md` |
-| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider platform foundation | 23 Aug 2026 | **BLOCKED — DEPLOYED BROWSER UAT EVIDENCE UNAVAILABLE** | Layer 2 Platform v1.1 / Source Config + Acquisition Providers | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
+| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider/completeness platform | 23 Aug 2026 | **BLOCKED — BROWSER + LIVE PROVIDER/COMPLETENESS TRIAL EVIDENCE OUTSTANDING** | Layer 2 Platform v1.1 / Source Config + Acquisition Providers + extraction foundation | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
+| CF-CHG-20260823-030 | 30-admin-pim-ux | Data Acquisition navigation replan | 23 Aug 2026 | **IMPLEMENTED — BROWSER UAT PENDING** | Data Acquisition lifecycle navigation | `30-admin-pim-ux/CF-CHG-20260823-030-data-acquisition-navigation-replan.md` |
 
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.65.md` (M2.1 acceptance update pending final UAT);
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
 - Running Build: `docs/coursefinder-running-build-v2.67.md` (M2.1 acceptance update pending final UAT);
-- Current M2.1 architecture: `docs/coursefinder-database-architecture-v2.10.41.md`;
+- Current M2.1 layer/authority contract: `docs/coursefinder-m2-1-layer1-4-architecture-contract-v1.0.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md`;
 - Frozen M1 architecture baseline: `docs/coursefinder-m1-frozen-architecture-baseline-v1.0.md`;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
-- Current User Guide: `docs/coursefinder-user-guide-v2.1.md`;
-- Current PIM/Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.16.md`;
-- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.1.md`;
-- Layer 2 Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.0.md`;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md`;
+- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.1.md`;
+- Current User Guide: `docs/coursefinder-user-guide-v2.2.md`;
+- Current PIM/Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.17.md`;
+- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.2.md`;
+- Layer 2 Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.1.md`;
+- Layer 2 provider adapter contract: `docs/coursefinder-layer2-provider-adapter-contract-v1.0.md`;
+- Replanned M2.1 prompt: `docs/coursefinder-m2-1-layer2-platform-replanned-prompt-v2.0.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - Publication governance contract: `docs/coursefinder-publication-governance-contract-v1.0.md`;
 - M2.1 technical acceptance (current BLOCKED evidence state): `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`;
@@ -106,13 +113,11 @@ Security-only M1 source updates retained at freeze include:
 - `b100340a2dd2187993523215c815b5276d7d000f` — hardened `pilot-reset` source;
 - `133b81734e435f9dea5ffb3ddd943e71d2930696` — narrowed automation bridge migration mirror and Pilot main at M1 freeze.
 
-M2.1 is an additive post-M1 runtime/workstream under `CF-CHG-20260823-029`; its final accepted Pilot SHA and deployed browser run must be recorded only when M2.1 UAT closes.
+M2.1 is an additive post-M1 runtime/workstream under `CF-CHG-20260823-029`; its final accepted Pilot SHA and deployed browser/provider-trial runs must be recorded only when M2.1 UAT closes.
 
-Live M2.1 Supabase migrations currently extend through:
+Live M2.1 Supabase migrations extend beyond the original `20260823111021_m2_1_layer2_provider_secret_config_hardening` baseline to include the provider catalogue/extraction-runtime additions recorded in `CF-CHG-20260823-029`.
 
-- `20260823111021_m2_1_layer2_provider_secret_config_hardening`.
-
-Current M2.1 visible marker/capability is **Layer 2 Platform v1.1** with **Layer 2 Config** and **L2 Providers**.
+Current M2.1 visible capability is **Layer 2 Platform v1.1** with Source Config, Acquisition Providers and Data Acquisition main-navigation integration pending final browser acceptance.
 
 ## Preserved technical/semantic baseline
 
@@ -129,7 +134,10 @@ Current M2.1 visible marker/capability is **Layer 2 Platform v1.1** with **Layer
 - final publication state remains 43,461 canonical Courses unpublished / 33,105 Search documents unpublished;
 - browser read boundary remains `public.admin_read(text,jsonb)`;
 - Evidence minimum rank 3; Pipeline minimum rank 4; PIM Configuration rank 5; Access Admin/Settings rank 6;
-- M2.1 acquisition-provider configuration does not change canonical identity, Search admission or publication authority;
+- M2.1 acquisition-provider configuration does not change canonical identity, Search Projection/Visibility or Publication authority;
+- QILT/PRISMS contextual Course projections must preserve source grain/reporting period;
+- Layer 4 is terminal for enrichment authority; there is no Layer 5;
+- CourseFinder is not a university-admissions/application/offer-letter/visa workflow;
 - M1-SEARCH-VECTOR remains rejected/not admitted;
 - Milestone 1 remains complete/frozen under `CF-CHG-20260823-028`.
 
@@ -146,5 +154,5 @@ Current M2.1 visible marker/capability is **Layer 2 Platform v1.1** with **Layer
 - Vector/hybrid Search remains rejected/not admitted unless a new later gate is opened.
 - Broad catalogue publication and Production channel cutover remain separately governed.
 - Additional country expansion and wider enrichment coverage are post-M1 work.
-- M2.1 provider credentials/vendor trials are post-M1 operational capability and do not modify the frozen M1 accepted facts/search baseline.
+- M2.1 provider credentials/vendor trials are post-M1 operational capability and do not modify the frozen M1 accepted facts/Search baseline.
 - INFO-only performance-advisor cleanup is not an M1 blocker unless future measured workloads regress.
