@@ -3,7 +3,7 @@
 **Effective:** 23 August 2026  
 **Status:** CURRENT — M2.1 LAYER 2 PLATFORM  
 **Change Control:** `CF-CHG-20260823-029`  
-**Applies to:** frozen M1 AU+NZ substrate plus Layer 2 Platform v1.0
+**Applies to:** frozen M1 AU+NZ substrate plus Layer 2 Platform v1.0.1
 
 ## 1. Layer 1–4 overview
 
@@ -24,18 +24,18 @@ Authority does not increase merely because a later layer successfully acquired d
 stateDiagram-v2
   [*] --> Draft
   Draft --> Invalid: validation fails
-  Invalid --> Draft: configuration corrected / new version
+  Invalid --> Draft: configuration corrected
   Draft --> Valid: pre-execution validation passes
   Valid --> Paused: Platform Admin pauses
   Paused --> Valid: Platform Admin resumes
   Valid --> Disabled: Platform Admin disables
   Paused --> Disabled: Platform Admin disables
-  Disabled --> Valid: Platform Admin enables a still-valid version
-  Valid --> Superseded: new accepted version becomes current
+  Disabled --> Valid: Platform Admin enables
+  Valid --> Superseded: validated new version becomes current
   Superseded --> [*]
 ```
 
-Every material configuration change creates a new immutable profile version. Jobs use the current valid version at dispatch. Existing Jobs and Evidence retain their original version reference.
+Every material configuration change creates a new immutable profile version. The browser editor never overwrites the current/historical JSON in place. Jobs use the current valid version at dispatch; historical Jobs and Evidence retain their original version reference.
 
 ## 3. Source → Job → Evidence → Observation flow
 
@@ -73,27 +73,28 @@ The reusable Layer 2 contract supports, without Provider-specific schema changes
 
 Governed fields include Provider/source identity, country, authority/trust, domain, acquisition method, base/discovery URL, URL patterns, inclusion/exclusion rules, pagination, non-secret headers, authentication mechanism reference, rate/concurrency/timeout/retry, robots treatment, MIME/payload limits, parser profile, target entity, mapping/stable-ID strategy, CRICOS/NZQA extraction, Evidence requirement, freshness SLA, schedule, content-change policy, inventory, enabled/paused state, owner and Change Control/UAT reference.
 
-Secrets are not configuration fields. Credentials, API tokens, cookies, Authorization values, client secrets and service-role values are rejected by profile validation and remain server-side.
+Secrets are not configuration fields. Credentials, API tokens, cookies, Authorization values, client secrets and service-role values are rejected by validation. The browser projection also recursively strips secret-like keys before rendering current/history configuration.
 
-## 5. Deployed configuration screen mock-up
+## 5. Configuration screen mock-up
 
 ```text
-+ Layer 2 Config -------------------------------------------------------------+
-| Enrichment Source Configuration                             [Refresh] [X]  |
-| Configuration -> Acquisition -> Evidence -> Observation -> ... -> Publish  |
-+----------------------------------------------------------------------------+
-| Profiles | Valid versions | Healthy | Associated jobs | Evidence artifacts |
-+----------------------------------------------------------------------------+
-| Search... | Country | Acquisition method | Health                         |
-+----------------------------------------------------------------------------+
-| Source / profile | Method | Target | v# | Validation | Health | Jobs | Evd |
-| RMIT ...         | Detail | Course | v1 | Valid      | ...    | ...  | ... |
-| PRISMS ...       | XLSX   | Flow   | v1 | Valid      | ...    | ...  | ... |
-| QILT ...         | Doc    | Outcome| v1 | Valid      | ...    | ...  | ... |
-+----------------------------------------------------------------------------+
-| Click row -> profile detail drawer: safe configuration, history, traceability|
-| Platform Admin only: Validate / Pause / Resume / Disable / Enable           |
-+----------------------------------------------------------------------------+
++ Layer 2 Config -----------------------------------------------------------------------+
+| Enrichment Source Configuration                                      [Refresh] [X]   |
+| Configuration -> Acquisition -> Evidence -> Observation -> ... -> Publication        |
++---------------------------------------------------------------------------------------+
+| Profiles | Valid versions | Healthy | Associated jobs | Evidence artifacts            |
++---------------------------------------------------------------------------------------+
+| Search... | Country | Acquisition method | Health                                    |
++---------------------------------------------------------------------------------------+
+| Source/profile | Method | Affected scope | v# | Validation | Health | Last run | Blocker|
+| RMIT ...       | Detail | Provider/Course | v1 | Valid     | ...    | ...      | None   |
+| PRISMS ...     | XLSX   | Student Flow    | v1 | Valid     | ...    | ...      | ...    |
+| QILT ...       | Doc    | Outcome         | v1 | Valid     | ...    | ...      | ...    |
++---------------------------------------------------------------------------------------+
+| Click row -> detail: safe config, affected Provider, blocker, history, version diff   |
+| PIM Admin+: Create new version -> Validate & create version                           |
+| Platform Admin: Validate current / Pause / Resume / Disable / Enable                  |
++---------------------------------------------------------------------------------------+
 ```
 
 The console is mounted as an independently versioned governed overlay, consistent with Pipeline Ops/Data Quality/Access Admin, to avoid destabilising the frozen mature PIM shell.
@@ -102,17 +103,19 @@ The console is mounted as an independently versioned governed overlay, consisten
 
 | Capability | Minimum role |
 |---|---|
-| View Layer 2 profile list/detail/history/traceability | Pipeline Operator, rank 4 |
-| Govern PIM interpretation/mapping downstream | PIM Admin, rank 5, through applicable PIM workflows |
-| Validate/pause/resume/enable/disable profile | Platform Admin, rank 6 |
-| Execute privileged database control RPC directly | Browser never; `service_role` only |
+| View profile list/detail/history/diff/traceability | Pipeline Operator, rank 4 |
+| Create validated immutable configuration version | PIM Admin, rank 5 |
+| Govern downstream PIM interpretation/mapping | PIM Admin, rank 5 |
+| Validate current / pause / resume / enable / disable | Platform Admin, rank 6 |
+| Execute privileged database mutation RPC directly | Browser never; `service_role` only |
 
-Reads use `Supabase Auth → public.admin_read → server rank check → security.admin_layer2_config_read`. State controls use `JWT-protected layer2-config-control Edge Function → user context/rank check → service-role-only database control RPC`.
+Reads use `Supabase Auth → public.admin_read → server rank check → security.admin_layer2_config_read`. Version creation/state controls use `JWT-protected layer2-config-control Edge Function → user context/rank check → service-role-only database RPC`.
 
 ## 7. Field/state semantics
 
 - `valid`: configuration passes safety/completeness validation; it does not mean the source is reachable now.
 - `invalid`: pre-execution validation failed; acquisition must not start.
+- `superseded`: historical accepted version no longer current; its Job/Evidence provenance remains intact.
 - `healthy`: profile is enabled/unpaused/valid and no stronger operational failure/freshness condition applies.
 - `stale`: last successful acquisition is older than the profile freshness SLA.
 - `degraded`: latest failure is newer than latest success.
@@ -126,8 +129,8 @@ Reads use `Supabase Auth → public.admin_read → server rank check → securit
 
 1. Identify an approved source and existing `pipeline.sources` identity.
 2. Create/inspect a Layer 2 profile independently of execution.
-3. Create a new immutable profile version for configuration change.
-4. Validate before execution.
+3. For a material configuration change, PIM Admin+ opens **Create new version**, edits the non-secret configuration, supplies Change Control/UAT metadata and chooses **Validate & create version**.
+4. Server validation must pass before the new immutable version becomes current.
 5. Dispatch a Job only from an enabled, unpaused profile with a valid current version.
 6. Persist the exact version ID on the Job.
 7. Capture Evidence; Evidence inherits/matches the Job version.
@@ -151,13 +154,16 @@ Keep prior provenance, mark freshness state, schedule/retry acquisition under po
 Reject new generic Layer 2 Job preparation before acquisition. Existing historical Evidence remains traceable to its profile version.
 
 ### Unsafe configuration
-Validation rejects unsupported methods/targets, missing discovery location, excessive timeout/concurrency/payload limits, Evidence-disabled profiles and secret-like keys.
+Validation rejects unsupported methods/targets, missing discovery location, excessive timeout/concurrency/payload limits, Evidence-disabled profiles and secret-like keys. No current-version change occurs on failure.
+
+### Version change
+The profile detail shows **Changes from previous version**. Review the diff before dispatch. If the acquisition method or target entity meaning changes, create a new profile rather than mutating the stable profile meaning.
 
 ## 10. Do / Don't
 
-**Do:** use reusable profile fields; preserve immutable versions; respect robots/policy; capture Evidence; retain exact Job/version links; distinguish source-null from inaccessible; use canonical stable identifiers; route ambiguity to review.
+**Do:** use reusable profile fields; use the governed version editor; preserve immutable versions; review the diff; respect robots/policy; capture Evidence; retain exact Job/version links; distinguish source-null from inaccessible; use canonical stable identifiers; route ambiguity to review.
 
-**Don't:** put credentials in profile JSON; hard-code Provider-specific columns; treat acquisition success as canonical approval; overwrite Layer 1 identity; infer CRICOS/NZQA codes; make Search/publication automatic; rewrite historical Job configuration references.
+**Don't:** put credentials in profile JSON; edit DB rows/environment/source code to bypass governance; hard-code Provider-specific schema; treat acquisition success as canonical approval; overwrite Layer 1 identity; infer CRICOS/NZQA codes; make Search/publication automatic; rewrite historical Job configuration references.
 
 ## 11. Search/publication consequence
 
@@ -165,7 +171,7 @@ Layer 2 configuration and acquisition are upstream operational states only. A va
 
 ## 12. Troubleshooting / related screens
 
-- **Layer 2 Config:** profile validity, status, version, inventory, owner, history.
+- **Layer 2 Config:** profile validity, version/diff, health, last run, inventory, blocker, owner and configuration governance.
 - **Pipeline Ops → Jobs:** run status, metrics, failures, cursor, Change Control/UAT.
 - **Pipeline Ops → Sources:** source health and operational inventory.
 - **Evidence:** artifact/source/job provenance and observations.
