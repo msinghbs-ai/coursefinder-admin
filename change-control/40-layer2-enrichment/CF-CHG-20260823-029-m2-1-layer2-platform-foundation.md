@@ -1,6 +1,6 @@
 # CF-CHG-20260823-029 — M2.1 Layer 2 Enrichment Platform Foundation
 
-**Status:** IMPLEMENTED — UAT IN PROGRESS  
+**Status:** BLOCKED — DEPLOYED BROWSER UAT EVIDENCE UNAVAILABLE  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 23 August 2026 20:21 AEST (+10:00)  
 **Origin chat/workstream:** M2.1 — L2-PLATFORM  
@@ -115,6 +115,7 @@ Layer 2 had source-specific acquisition implementations and, after the first M2.
 ### PASS — database/API/security
 
 - five source profiles remain valid/versioned and executable only when current configuration is valid;
+- initial malformed `base_domain` values were corrected through immutable governed v2 profile versions under this Change Control;
 - eight initial provider routes exist: five Direct HTTP + three Scrape.do;
 - new provider tables have RLS enabled and no direct `anon`/`authenticated` table privileges;
 - provider mutation/runtime functions are not executable by `anon` or `authenticated`; service role only;
@@ -123,18 +124,22 @@ Layer 2 had source-specific acquisition implementations and, after the first M2.
 - recursive read sanitisation removes nested secret-like keys;
 - transaction UAT proved a versioned provider attempt can be marked `extraction_failed` / `blocked` with blocker evidence and rolled back;
 - the existing Evidence bucket is private and supports JSON, HTML, PNG/JPEG, XLSX, ZIP and PDF required by the acquisition runtime;
-- pre-existing five `pipeline` tables flagged by the Supabase RLS advisor currently have no direct `anon` or `authenticated` SELECT/INSERT privileges. Their RLS state is not changed by this M2.1 work because enabling RLS without reconciling existing privileged dependencies could regress M1.
+- pre-existing five `pipeline` tables flagged by the Supabase RLS advisor currently have no direct `anon` or `authenticated` SELECT/INSERT privileges. Their RLS state is not changed by this M2.1 work because enabling RLS without reconciling existing privileged dependencies could regress M1;
+- exact M1 regression remains 33,105 Search documents (26,648 AU + 6,457 NZ), 0 Search published, 43,461 canonical Courses all unpublished.
 
-### PENDING — deployed browser/runtime evidence
+### BLOCKED — deployed browser/runtime evidence
 
-The deployed Playwright suite now includes:
+The governed Playwright suite now contains provider registry/routing, credential non-disclosure, desktop/mobile responsiveness and a bounded PRISMS Direct HTTP acquisition that must create private versioned Evidence without canonical mutation.
 
-- provider registry/routing visibility;
-- credential non-disclosure / write-only credential UI;
-- desktop/mobile responsive operation;
-- a bounded PRISMS Direct HTTP acquisition that must create private versioned Evidence without canonical mutation.
+Latest Pilot main observed for this gate:
 
-M2.1 must not be closed until current deployed-browser status/evidence is available and passing. A real Scrape.do or screenshot-capable vendor call is not claimed until its credential is configured through the Admin UI.
+`msinghbs-ai/Coursefinder-Pilot@ab9dfbef618ff259057321cbe88f7473e678c818`
+
+Repeated combined-status checks returned no SHA-bound deployed-UAT statuses. The available GitHub connector does not expose dispatch/listing for push-triggered runs and the execution container cannot currently resolve GitHub or the deployed Worker hostname, so independent deployed browser evidence cannot be reconstructed outside the governed Actions harness.
+
+Formal technical acceptance evidence: `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`.
+
+A real Scrape.do or screenshot-capable vendor call is not claimed until its credential/provider is configured through the Admin UI. This is an operational provider-trial dependency, not permission to weaken the platform credential/evidence model.
 
 ## Rollback / reversion
 
@@ -146,14 +151,14 @@ M2.1 must not be closed until current deployed-browser status/evidence is availa
 
 ## Documentation impact
 
-- PIM Admin Guide: required/update in this CC.
-- Architecture: required/update in this CC.
-- Running build: update when M2.1 acceptance gate closes.
-- Master plan: update when M2.1 acceptance gate closes.
-- UAT evidence: required before closure.
-- User Guide: required/update in this CC.
-- Data Flow & Feature Atlas: required/update in this CC.
-- Operations Runbook: required/update in this CC.
+- PIM Admin Guide: updated.
+- Architecture: updated.
+- Running build: intentionally pending until final M2.1 acceptance.
+- Master plan: intentionally pending until final M2.1 acceptance.
+- UAT evidence: created with BLOCKED gate state.
+- User Guide: updated.
+- Data Flow & Feature Atlas: updated.
+- Operations Runbook: updated.
 
 ## Decision / status history
 
@@ -161,10 +166,11 @@ M2.1 must not be closed until current deployed-browser status/evidence is availa
 |---|---|---|---|
 | 23 Aug 2026 20:21 AEST | PROPOSED | M2.1 Layer 2 platform workstream initiated against frozen M1 baseline | M2.1 — L2-PLATFORM |
 | 23 Aug 2026 ~21:00 AEST | SCOPE CORRECTION | Source profiles alone were insufficient; acquisition-provider registry, Vault credentials, per-source routing/fallback and provider-attempt Evidence were confirmed as core M2.1 requirements | M2.1 clarification |
-| 23 Aug 2026 ~21:10 AEST | IMPLEMENTED | Provider registry/routing/runtime/security hardening and Admin v1.1 deployed; database/API/security UAT PASS; deployed browser UAT queued by repository workflow | Supabase + Coursefinder-Pilot main |
+| 23 Aug 2026 ~21:10 AEST | IMPLEMENTED | Provider registry/routing/runtime/security hardening and Admin v1.1 deployed; database/API/security UAT PASS | Supabase + Coursefinder-Pilot main |
+| 23 Aug 2026 ~21:20 AEST | BLOCKED | Current deployed desktop/mobile SHA-bound UAT evidence is not available from the governed harness; no final acceptance inferred | M2.1 technical acceptance doc |
 
 ## Closure
 
-**Final status:** N/A — UAT IN PROGRESS  
+**Final status:** **BLOCKED — deployed desktop/mobile browser/runtime evidence unavailable**  
 **Closed at:** N/A  
-**Outcome:** Core M2.1 source-profile and acquisition-provider platform is implemented. Final acceptance remains open pending deployed desktop/mobile browser/runtime evidence and documentation/register reconciliation.
+**Outcome:** Core M2.1 source-profile and acquisition-provider platform is implemented and database/API/security-tested. Final acceptance remains open solely until current deployed browser/runtime evidence is available and passing; third-party provider trials then proceed as configuration-driven post-foundation work.
