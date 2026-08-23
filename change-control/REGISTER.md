@@ -26,6 +26,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is deterministic `course-v3`: CRICOS registered tuition remains separate from Provider-current tuition, only UAT-approved RMIT/UQ Course Facts are admitted, and the final native full-refresh APPLY/replay is 0 changed / 33,105 unchanged for both base and enrichment. M1-SEARCH-VECTOR remains rejected/not admitted.
 >
 > **M1-PUBLICATION-UAT:** `CF-CHG-20260823-024` is **CLOSED / PASS**. Governed publication was proven on an explicit two-Course AU/NZ Pilot allowlist across canonical → readiness → Search → Website/Zoho, including internal/blocked/unpublished states, enrichment invalidation, permission/leakage checks and exact rollback. Broad catalogue publication remains unauthorised and final Pilot state is all unpublished.
+>
+> **M1-GUIDES-OPS-HANDOVER:** `CF-CHG-20260823-025` is **CLOSED / PASS**. User Guide v2.0, PIM Admin Guide v1.15 and Operations Runbook v1.0 are reconciled to deployed PIM Admin v2.12, live role ranks, `course-v3`, current unpublished Pilot state and the Production leaked-password gate.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -53,6 +55,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | 23 Aug 2026 | **DEFERRED FOR PILOT — PRODUCTION GATE** | Supabase Auth hardening | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
 | CF-CHG-20260823-023 | 50-search-api-consumers | M1 governed Course-Fact Search admission | 23 Aug 2026 | **CLOSED / PASS** | Search `course-v3` / Website Search v2 | `50-search-api-consumers/CF-CHG-20260823-023-m1-search-enrichment-admission.md` |
 | CF-CHG-20260823-024 | 50-search-api-consumers | M1 governed publication and consumer positive-path UAT | 23 Aug 2026 | **CLOSED / PASS** | Publication Governance v1.0 / Website + Zoho positive path | `50-search-api-consumers/CF-CHG-20260823-024-m1-publication-uat.md` |
+| CF-CHG-20260823-025 | 80-uat-release-operations | M1 Guides, Operations & Handover Finalisation | 23 Aug 2026 | **CLOSED / PASS** | User Guide v2.0 / PIM Admin Guide v1.15 / Operations Runbook v1.0 | `80-uat-release-operations/CF-CHG-20260823-025-m1-guides-ops-handover.md` |
 
 ## Current programme baseline
 
@@ -61,9 +64,12 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Running Build: `docs/coursefinder-running-build-v2.65.md`;
 - Architecture: `docs/coursefinder-database-architecture-v2.10.40.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
-- Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.14.md`;
+- User Guide: `docs/coursefinder-user-guide-v2.0.md`;
+- Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.15.md`;
+- Operations Runbook: `docs/coursefinder-operations-runbook-v1.0.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - Publication governance contract: `docs/coursefinder-publication-governance-contract-v1.0.md`;
+- Guides/Ops handover acceptance: `docs/uat/coursefinder-m1-guides-ops-handover-technical-acceptance-2026-08-23.md`;
 - Publication technical acceptance: `docs/uat/coursefinder-m1-publication-uat-technical-acceptance-2026-08-23.md`;
 - Search enrichment technical acceptance: `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`;
 - UAT Harness technical acceptance: `docs/uat/coursefinder-m1-uat-harness-technical-acceptance-2026-08-22.md`;
@@ -76,13 +82,11 @@ Pilot:
 
 `msinghbs-ai/Coursefinder-Pilot@16ce78e25e78c2324e056a7b8cb6024d4a0428a8`
 
-Pilot PR #28 is the accepted Publication-UAT source authority. It retains deterministic `course-v3`, adds the bounded private publication profile/controls, corrects Zoho projection metadata and mirrors live publication migration versions. Its Frontend Build run `32614972686` passed before merge.
+Pilot PR #28 remains the accepted Publication-UAT source authority. No runtime change was made by M1-GUIDES-OPS-HANDOVER.
 
 Runtime marker remains:
 
 `PIM Admin v2.12 · Pipeline Ops v1.0 · Evidence v1.0 · Data Quality v1.0 · Access Admin v1.0 · Publication Governance v1.0 · governed`
-
-No new visible PIM/Admin version is claimed by this governance/API gate.
 
 ## Preserved technical/semantic baseline
 
@@ -90,19 +94,21 @@ No new visible PIM/Admin version is claimed by this governance/API gate.
 - NZ: 409 Providers / 6,457 Courses;
 - AU+NZ: 1,955 Providers / 33,105 Courses;
 - all-country Courses: 43,461;
+- all-country Providers currently live: 3,085;
 - Search projection: 33,105 Course documents (`course-v3`);
 - accepted Search base hash: `cd2c8422da31f2fa298053a40563c947780ebdaf09d7b41ff983bc6ef9649d9b`;
 - accepted enrichment hash: `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`;
 - accepted combined Search hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
+- current Search generation: 22; generation is operational, while accepted content hashes remain stable;
 - final publication state: 43,461 canonical Courses unpublished / 33,105 Search documents unpublished / 0 consumer channel-state rows;
 - publication profile `pilot-course-positive-v1` remains a private bounded Pilot capability and does not authorise broad publication;
 - regulatory fee: 26,326 present / 191 source-null / 6,457 not-applicable / 131 zero;
 - Provider-current Search tuition: 10 Courses, 9 annual-comparable;
 - official URL / Intake / English admitted: 10 / 10 / 10 Courses;
 - browser read boundary: `public.admin_read(text,jsonb)`;
-- Evidence minimum rank 3; Pipeline minimum rank 4; Access Admin rank 6;
+- Evidence minimum rank 3; Pipeline minimum rank 4; PIM Configuration rank 5; Access Admin/Settings rank 6;
 - Search readiness remains distinct from publication and channel visibility;
 - M1-SEARCH-VECTOR remains rejected/not admitted;
 - no PIM v2.13 release is claimed.
 
-The Pilot Supabase leaked-password-protection warning is an explicitly documented temporary exception under `CF-CHG-20260823-022`. It is **not** considered resolved and is **not transferable to Production**. Production security sign-off/cutover requires this control to be enabled and UAT-proven.
+The Pilot Supabase leaked-password-protection warning remains an explicitly documented temporary exception under `CF-CHG-20260823-022`. It is **not** considered resolved and is **not transferable to Production**. Production security sign-off/cutover requires this control to be enabled and UAT-proven.
