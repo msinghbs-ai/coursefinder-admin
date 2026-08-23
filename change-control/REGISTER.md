@@ -65,11 +65,13 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Access Admin technical UAT: `docs/uat/coursefinder-access-admin-v1-technical-acceptance-2026-08-22.md`;
 - Production leaked-password gate decision: `docs/uat/coursefinder-supabase-leaked-password-protection-production-gate-2026-08-23.md`.
 
-## Accepted runtime authority
+## Accepted runtime/source authority
 
 Pilot:
 
-`msinghbs-ai/Coursefinder-Pilot@69ac752193b9a79cc2ba3809ebd68aabbbb97582`
+`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+
+PR #25 contains the accepted Search semantics; PR #26 only aligns the migration filename to the exact live Supabase ledger.
 
 Runtime marker remains:
 
