@@ -3,21 +3,23 @@
 **Date:** 23 August 2026  
 **Change Control:** `CF-CHG-20260823-023`  
 **Final gate:** **PASS**  
-**Pilot implementation:** `msinghbs-ai/Coursefinder-Pilot@69ac752193b9a79cc2ba3809ebd68aabbbb97582`
+**Pilot source authority:** `msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+
+PR #25 contains the accepted Search implementation. PR #26 changes no runtime semantics; it aligns the source migration filename to the exact live Supabase migration ledger.
 
 ## Accepted boundary
 
-The AU+NZ Search projection remains 33,105 Course documents and advances to `course-v3`. Search admission is still separate from canonical presence, Layer 4 resolution, canonical publication and channel publication.
+The AU+NZ Search projection remains 33,105 Course documents and advances to `course-v3`. Search admission remains separate from canonical presence, Layer 4 resolution, canonical publication and channel publication.
 
-Only UAT-approved first-party Course Facts from RMIT and UQ are admitted. Deferred/unqualified sources do not enter Search merely because canonical relational rows might exist.
+Only UAT-approved first-party Course Facts from RMIT and UQ are admitted. Deferred/unqualified sources do not enter Search merely because relational rows exist.
 
 ## Field semantics
 
 | Field/domain | Authority | Projection behaviour | Consumer behaviour |
 | --- | --- | --- | --- |
-| CRICOS registered tuition | Layer 1 CRICOS | separate state/value/currency/basis; preserves registered-total-course meaning | filter/sort/display as regulatory tuition only |
+| CRICOS registered tuition | Layer 1 CRICOS | separate state/value/currency/basis; registered-total-course meaning | filter/sort/display as regulatory tuition only |
 | Provider-current tuition | Layer 2 first-party Provider | structured options retain year/basis/scope; annual scalar only for annual-compatible basis | presence/annual max filter; annual scalar sort; options display |
-| Official Course URL | Layer 2 first-party Provider | source-gated scalar preferred official URL | display/click; presence filter only |
+| Official Course URL | Layer 2 first-party Provider | source-gated preferred official URL | display/click; presence filter only |
 | Intake | Layer 2 first-party Provider | repeating options + earliest future date | presence filter; earliest-date sort; repeating display |
 | English | Layer 2 first-party Provider | repeating test/component observations | presence filter; repeating display; no cross-test numeric sort |
 | Scholarship | governed Scholarship model | only published/internal eligible relations | presence filter/display; current admitted count 0 |
@@ -50,7 +52,7 @@ Deterministic stage hash:
 - controlled derived-hash invalidation: exactly 1 changed / 33,104 unchanged;
 - repair APPLY restored idempotency.
 
-Semantic hash stability was explicitly corrected during UAT:
+Semantic hash stability:
 
 - 10 Courses gained searchable enrichment content;
 - exactly 10 semantic hashes changed;
@@ -63,27 +65,26 @@ Representative full-projection FTS execution:
 - `nursing`: ~11 ms, 416 matches;
 - `IELTS`: ~3.6 ms, 164 matches.
 
-The previously rejected M1-SEARCH-VECTOR gate remains unchanged:
-
-- embeddings 0;
-- active embedding jobs 0;
-- query embedding cache 0;
-- hybrid request without an admitted vector corpus resolves to `fts_fallback`;
-- vector-only returns 0 candidates.
-
-Therefore no vector/hybrid production relevance or latency claim is made.
+The previously rejected M1-SEARCH-VECTOR gate remains unchanged: embeddings 0, active embedding jobs 0, query embedding cache 0; hybrid without a vector corpus resolves to `fts_fallback`; vector-only returns 0 candidates. No vector/hybrid production relevance or latency claim is made.
 
 ## Consumer contract decision
 
-Website receives a **versioned** `website-course-search-v2` DTO with materially different tuition concepts represented separately. Website v1 remains available. All Search documents remain unpublished in Pilot, so Website v2 currently returns zero public items.
+Website receives versioned `website-course-search-v2` with materially different tuition concepts represented separately. Website v1 remains available. All Search documents remain unpublished in Pilot, so Website v2 currently returns zero public items.
 
-Zoho remains on Consumer Contract v1.3 with **no DTO change**. There is no current business need to expose Search enrichment there, and Search state must not be used as canonical presence or publication authority.
+Zoho remains on Consumer Contract v1.3 with no DTO change. Search state must not be used as canonical presence or publication authority.
 
 ## Security / performance regression
 
 New Search relations and refresh/API functions are service-role/private surfaces with explicit ACLs. No new browser direct table CRUD was opened. The known leaked-password-protection warning remains under separate `CF-CHG-20260823-022` governance.
 
-The performance advisor identified the new source-gate FK as initially uncovered; a covering `source_id` index was added before closure.
+The new source-gate FK is covered by `enrichment_source_gates_source_idx`.
+
+## Live migration ledger
+
+- `20260823015526 — m1_search_enrichment_admission`;
+- `20260823015929 — m1_search_enrichment_semantic_hash_stability`;
+- `20260823020120 — m1_search_enrichment_source_admission_metadata`;
+- `20260823020239 — m1_search_enrichment_source_gate_fk_index`.
 
 ## Acceptance
 
