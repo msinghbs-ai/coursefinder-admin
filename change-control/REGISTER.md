@@ -28,6 +28,10 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **M1-PUBLICATION-UAT:** `CF-CHG-20260823-024` is **CLOSED / PASS**. Governed publication was proven on an explicit two-Course AU/NZ Pilot allowlist across canonical → readiness → Search → Website/Zoho, including internal/blocked/unpublished states, enrichment invalidation, permission/leakage checks and exact rollback. Broad catalogue publication remains unauthorised and final Pilot state is all unpublished.
 >
 > **M1-GUIDES-OPS-HANDOVER:** `CF-CHG-20260823-025` is **CLOSED / PASS**. User Guide v2.0, PIM Admin Guide v1.15 and Operations Runbook v1.0 are reconciled to deployed PIM Admin v2.12, live role ranks, `course-v3`, current unpublished Pilot state and the Production leaked-password gate.
+>
+> **M1-PERFORMANCE-RESPONSIVENESS:** `CF-CHG-20260823-026` is **CLOSED / PASS**. Full-scale deployed Admin/Search performance passed on desktop and mobile; duplicate hidden Pipeline reads were removed and the final accepted deployed performance run is `32622164346` against Pilot `1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
+>
+> **M1-SECURITY-RELEASE:** `CF-CHG-20260823-027` is **CLOSED / PASS** for the Pilot release baseline. Browser RPC exposure is reduced to governed `public.admin_read`, diagnostic/UAT/probe Edge surfaces are JWT-protected 410 tombstones, `pilot-reset` is Platform-Admin/JWT hardened, retained custom-auth ingestion workers are service-control-plane scoped and time-bounded, and no unexplained Critical/Error security finding remains. `CF-CHG-20260823-022` remains a mandatory Production gate.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -56,6 +60,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-023 | 50-search-api-consumers | M1 governed Course-Fact Search admission | 23 Aug 2026 | **CLOSED / PASS** | Search `course-v3` / Website Search v2 | `50-search-api-consumers/CF-CHG-20260823-023-m1-search-enrichment-admission.md` |
 | CF-CHG-20260823-024 | 50-search-api-consumers | M1 governed publication and consumer positive-path UAT | 23 Aug 2026 | **CLOSED / PASS** | Publication Governance v1.0 / Website + Zoho positive path | `50-search-api-consumers/CF-CHG-20260823-024-m1-publication-uat.md` |
 | CF-CHG-20260823-025 | 80-uat-release-operations | M1 Guides, Operations & Handover Finalisation | 23 Aug 2026 | **CLOSED / PASS** | User Guide v2.0 / PIM Admin Guide v1.15 / Operations Runbook v1.0 | `80-uat-release-operations/CF-CHG-20260823-025-m1-guides-ops-handover.md` |
+| CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | 23 Aug 2026 | **CLOSED / PASS** | Full-scale Admin/Search performance gate | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
+| CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | 23 Aug 2026 | **CLOSED / PASS** | Security/ACL/Edge release closure | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
 
 ## Current programme baseline
 
@@ -74,15 +80,26 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Search enrichment technical acceptance: `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`;
 - UAT Harness technical acceptance: `docs/uat/coursefinder-m1-uat-harness-technical-acceptance-2026-08-22.md`;
 - Access Admin technical UAT: `docs/uat/coursefinder-access-admin-v1-technical-acceptance-2026-08-22.md`;
+- Performance technical acceptance: `docs/uat/coursefinder-m1-performance-responsiveness-technical-acceptance-2026-08-23.md`;
+- Security release technical acceptance: `docs/uat/coursefinder-m1-security-release-technical-acceptance-2026-08-23.md`;
 - Production leaked-password gate decision: `docs/uat/coursefinder-supabase-leaked-password-protection-production-gate-2026-08-23.md`.
 
 ## Accepted runtime/source authority
 
-Pilot:
+Deployed browser performance acceptance remains bound to:
 
-`msinghbs-ai/Coursefinder-Pilot@16ce78e25e78c2324e056a7b8cb6024d4a0428a8`
+`msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2`
 
-Pilot PR #28 remains the accepted Publication-UAT source authority. No runtime change was made by M1-GUIDES-OPS-HANDOVER.
+Subsequent security-only Pilot source updates, which do not alter the accepted Admin UI semantics, are:
+
+- `208b42cf0b65beb59d909eac97a6212d46335d53` — retired diagnostic Edge sources;
+- `b100340a2dd2187993523215c815b5276d7d000f` — hardened `pilot-reset` source;
+- `133b81734e435f9dea5ffb3ddd943e71d2930696` — narrowed automation bridge migration mirror.
+
+Live Supabase security migrations include:
+
+- `20260823062726_m1_security_release_remove_legacy_provider_rpc`;
+- `20260823095439_m1_security_release_edge_allowlist_cleanup`.
 
 Runtime marker remains:
 
@@ -111,4 +128,8 @@ Runtime marker remains:
 - M1-SEARCH-VECTOR remains rejected/not admitted;
 - no PIM v2.13 release is claimed.
 
-The Pilot Supabase leaked-password-protection warning remains an explicitly documented temporary exception under `CF-CHG-20260823-022`. It is **not** considered resolved and is **not transferable to Production**. Production security sign-off/cutover requires this control to be enabled and UAT-proven.
+## Security release residuals
+
+- Retired diagnostic/UAT/probe Edge slugs may still appear ACTIVE in Supabase because the connected management surface does not expose physical deletion; they are JWT-protected HTTP 410 tombstones with no privileged/data-access logic.
+- Retained `verify_jwt=false` ingestion workers are server control-plane functions protected by one-time function-bound nonces or the time-bounded Pilot automation key. The current automation key expires 30 September 2026 and this pattern must be reassessed for Production.
+- The Pilot Supabase leaked-password-protection warning remains explicitly governed under `CF-CHG-20260823-022`. It is **not resolved and not transferable to Production**. Production security sign-off/cutover requires the feature to be enabled and UAT-proven.
