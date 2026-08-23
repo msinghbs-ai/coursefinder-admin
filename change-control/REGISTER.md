@@ -21,7 +21,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **DATA QUALITY CONCURRENT HARDENING:** `CF-CHG-20260823-021` is **CLOSED / PASS**. Aggregate readiness uses private timestamped snapshots refreshed every 15 minutes; exceptions remain live/paged; mobile Data Quality scrolling is accepted.
 >
-> **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **BLOCKED — SUPABASE PRO PLAN REQUIRED**. The live security advisor still reports `auth_leaked_password_protection`; the connected `techM` organisation is on Free and Supabase documents this control as Pro+ only.
+> **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE**. Pilot may retain the documented Free-plan warning as a bounded non-production exception. Production must use an eligible Supabase plan, enable leaked-password protection and pass Auth/RBAC UAT before production security sign-off/cutover.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -46,11 +46,12 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260822-019 | 80-uat-release-operations | M1 UAT Harness automated operational acceptance | 22 Aug 2026 | **CLOSED / PASS** | UAT Harness v1.0 | `80-uat-release-operations/CF-CHG-20260822-019-m1-uat-harness.md` |
 | CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | 22 Aug 2026 | **CLOSED / PASS** | Access Admin v1.0 | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
 | CF-CHG-20260823-021 | 80-uat-release-operations | Data Quality overview snapshot and concurrent UAT hardening | 23 Aug 2026 | **CLOSED / PASS** | Data Quality v1.0 operational hardening | `80-uat-release-operations/CF-CHG-20260823-021-data-quality-overview-snapshot.md` |
-| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | 23 Aug 2026 | **BLOCKED — PRO PLAN REQUIRED** | Supabase Auth hardening | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
+| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | 23 Aug 2026 | **DEFERRED FOR PILOT — PRODUCTION GATE** | Supabase Auth hardening | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.60.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.61.md`;
+- Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
 - Running Build: `docs/coursefinder-running-build-v2.63.md`;
 - Architecture: `docs/coursefinder-database-architecture-v2.10.39.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
@@ -58,7 +59,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - UAT Harness technical acceptance: `docs/uat/coursefinder-m1-uat-harness-technical-acceptance-2026-08-22.md`;
 - Access Admin technical UAT: `docs/uat/coursefinder-access-admin-v1-technical-acceptance-2026-08-22.md`;
-- Access Admin deployed evidence: `docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`.
+- Access Admin deployed evidence: `docs/uat/coursefinder-access-admin-v1-deployed-browser-evidence-2026-08-22.md`;
+- Production leaked-password gate decision: `docs/uat/coursefinder-supabase-leaked-password-protection-production-gate-2026-08-23.md`.
 
 ## Accepted runtime authority
 
@@ -91,4 +93,4 @@ Final deployed automated UAT:
 - Search admission remains distinct from publication;
 - no PIM v2.13 release is claimed.
 
-The Supabase leaked-password-protection warning is now explicitly governed by `CF-CHG-20260823-022` and remains blocked on Pro-plan eligibility; it was not introduced by controls 019–021.
+The Pilot Supabase leaked-password-protection warning is an explicitly documented temporary exception under `CF-CHG-20260823-022`. It is **not** considered resolved and is **not transferable to Production**. Production security sign-off/cutover requires this control to be enabled and UAT-proven.
