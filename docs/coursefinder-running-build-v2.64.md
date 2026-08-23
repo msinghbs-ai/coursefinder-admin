@@ -15,9 +15,11 @@ Current accepted Admin runtime remains:
 
 No visible PIM/Admin release is claimed by this Search-only change.
 
-Accepted Pilot implementation:
+Accepted Pilot source authority:
 
-`msinghbs-ai/Coursefinder-Pilot@69ac752193b9a79cc2ba3809ebd68aabbbb97582`
+`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+
+PR #25 contains the Search implementation; PR #26 only aligns the migration filename to the exact live Supabase ledger and changes no runtime semantics.
 
 ## M1-SEARCH-ENRICHMENT — accepted
 
@@ -38,11 +40,7 @@ Only qualified/UAT-passed RMIT and UQ first-party sources are admitted. Deferred
 
 ## Fee semantics
 
-CRICOS registered tuition and Provider-current tuition are separate Search concepts.
-
-`has_fee` is retained only as a legacy compatibility flag for **Search-admitted Provider-current tuition presence**. CRICOS registered tuition uses dedicated regulatory fields and is never presented as Provider-current/annual tuition.
-
-`total_indicative` Provider tuition is retained in structured options but is not converted into an annual comparison scalar.
+CRICOS registered tuition and Provider-current tuition are separate Search concepts. `has_fee` is retained only as a legacy compatibility flag for Search-admitted Provider-current tuition presence. `total_indicative` Provider tuition remains structured/display data and is not converted into an annual comparison scalar.
 
 ## Determinism
 
@@ -50,37 +48,19 @@ Accepted stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-Replay result:
-
-- changed 0;
-- unchanged 33,105.
-
-Controlled invalidation detected exactly 1 changed row and repaired it on APPLY.
-
-Semantic-content invalidation is scoped correctly:
-
-- 10 genuine semantic-content changes;
-- 10 semantic hashes changed;
-- 33,095 hashes retained exactly.
+Replay: 0 changed / 33,105 unchanged. Controlled invalidation detected exactly 1 changed row and repaired it. Exactly 10 semantic hashes changed for 10 genuine searchable-enrichment changes; 33,095 hashes remained exact.
 
 ## Search mode position
 
-FTS remains the accepted production Search path.
+FTS remains the accepted production Search path. Representative full-projection execution: `nursing` ~11 ms; `IELTS` ~3.6 ms.
 
-Representative full-projection execution:
-
-- `nursing` ~11 ms;
-- `IELTS` ~3.6 ms.
-
-M1-SEARCH-VECTOR remains rejected/not admitted. Current vector state remains 0 embeddings / 0 active jobs / 0 query-cache rows. Hybrid without a corpus uses FTS fallback; vector-only has no accepted candidates.
+M1-SEARCH-VECTOR remains rejected/not admitted. Vector state remains 0 embeddings / 0 active jobs / 0 query-cache rows. Hybrid without a corpus uses FTS fallback; vector-only has no accepted candidates.
 
 ## Consumer contracts
 
 Website receives versioned `api.website_course_search_v2`; Website v1 remains intact. The v2 DTO keeps regulatory and Provider-current tuition separate and adds governed filters/sorts for admitted enrichment.
 
-All 33,105 Search documents remain unpublished, so the change does not broaden Website visibility.
-
-Zoho Consumer Contract remains v1.3 with no DTO expansion.
+All 33,105 Search documents remain unpublished, so the change does not broaden Website visibility. Zoho Consumer Contract remains v1.3 with no DTO expansion.
 
 ## Preserved programme baselines
 
@@ -96,13 +76,9 @@ Zoho Consumer Contract remains v1.3 with no DTO expansion.
 
 ## Governance
 
-`CF-CHG-20260823-023` — **CLOSED / PASS**.
+`CF-CHG-20260823-023` — **CLOSED / PASS**. Technical acceptance: `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`.
 
-Technical acceptance:
-
-`docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`
-
-Known Supabase leaked-password protection remains separately governed under `CF-CHG-20260823-022` and is not altered by this release.
+Known Supabase leaked-password protection remains separately governed under `CF-CHG-20260823-022`.
 
 ## Current gates
 
