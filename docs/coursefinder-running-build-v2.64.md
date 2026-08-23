@@ -17,13 +17,13 @@ No visible PIM/Admin release is claimed by this Search-only change.
 
 Accepted Pilot source authority:
 
-`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+`msinghbs-ai/Coursefinder-Pilot@23b2b98284a1c4e694ab37cb4d22c6d8a76b21fa`
 
-PR #25 contains the Search implementation; PR #26 only aligns the migration filename to the exact live Supabase ledger and changes no runtime semantics.
+PR #27 closes the final automated native `course-v3` full-refresh UAT and mirrors the final live migration ledger. It changes no publication or vector-admission decision.
 
 ## M1-SEARCH-ENRICHMENT — accepted
 
-The AU+NZ Search projection remains **33,105 Course documents** and advances to `course-v3`.
+The AU+NZ Search projection remains **33,105 Course documents** under `course-v3`.
 
 Accepted Course-Fact Search coverage:
 
@@ -44,11 +44,20 @@ CRICOS registered tuition and Provider-current tuition are separate Search conce
 
 ## Determinism
 
-Accepted stage hash:
+Enrichment stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-Replay: 0 changed / 33,105 unchanged. Controlled invalidation detected exactly 1 changed row and repaired it. Exactly 10 semantic hashes changed for 10 genuine searchable-enrichment changes; 33,095 hashes remained exact.
+Final automated native full-refresh APPLY/replay:
+
+- generation **13**;
+- base hash `cd2c8422da31f2fa298053a40563c947780ebdaf09d7b41ff983bc6ef9649d9b`;
+- combined projection hash `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
+- immediate replay base: **0 changed / 33,105 unchanged / 0 new / 0 removed**;
+- immediate replay enrichment: **0 changed / 33,105 unchanged**;
+- `search.projection_state` records `course-v3` with explicit domain/source enrichment admission metadata.
+
+Controlled invalidation earlier detected exactly 1 changed row and repaired it. Exactly 10 semantic hashes changed for 10 genuine searchable-enrichment changes; 33,095 hashes remained exact.
 
 ## Search mode position
 
