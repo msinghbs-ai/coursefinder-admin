@@ -32,6 +32,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **M1-PERFORMANCE-RESPONSIVENESS:** `CF-CHG-20260823-026` is **CLOSED / PASS**. Full-scale deployed Admin/Search performance passed on desktop and mobile; duplicate hidden Pipeline reads were removed and the final accepted deployed performance run is `32622164346` against Pilot `1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
 >
 > **M1-SECURITY-RELEASE:** `CF-CHG-20260823-027` is **CLOSED / PASS** for the Pilot release baseline. Browser RPC exposure is reduced to governed `public.admin_read`, diagnostic/UAT/probe Edge surfaces are JWT-protected 410 tombstones, `pilot-reset` is Platform-Admin/JWT hardened, retained custom-auth ingestion workers are service-control-plane scoped and time-bounded, and no unexplained Critical/Error security finding remains. `CF-CHG-20260823-022` remains a mandatory Production gate.
+>
+> **M1-ACCEPTANCE:** `CF-CHG-20260823-028` is **CLOSED / PASS**. CourseFinder Milestone 1 is complete and frozen for the governed Pilot baseline. Production readiness is not implied; explicit post-M1 and Production gates are preserved.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -62,19 +64,22 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-025 | 80-uat-release-operations | M1 Guides, Operations & Handover Finalisation | 23 Aug 2026 | **CLOSED / PASS** | User Guide v2.0 / PIM Admin Guide v1.15 / Operations Runbook v1.0 | `80-uat-release-operations/CF-CHG-20260823-025-m1-guides-ops-handover.md` |
 | CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | 23 Aug 2026 | **CLOSED / PASS** | Full-scale Admin/Search performance gate | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
 | CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | 23 Aug 2026 | **CLOSED / PASS** | Security/ACL/Edge release closure | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
+| CF-CHG-20260823-028 | 80-uat-release-operations | M1 Final Acceptance & Baseline Freeze | 23 Aug 2026 | **CLOSED / PASS** | Milestone 1 complete / frozen Pilot baseline | `80-uat-release-operations/CF-CHG-20260823-028-m1-final-acceptance-baseline-freeze.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.64.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.65.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.66.md`;
+- Running Build: `docs/coursefinder-running-build-v2.67.md`;
 - Architecture: `docs/coursefinder-database-architecture-v2.10.40.md`;
+- Frozen M1 architecture baseline: `docs/coursefinder-m1-frozen-architecture-baseline-v1.0.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
 - User Guide: `docs/coursefinder-user-guide-v2.0.md`;
 - Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.15.md`;
 - Operations Runbook: `docs/coursefinder-operations-runbook-v1.0.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - Publication governance contract: `docs/coursefinder-publication-governance-contract-v1.0.md`;
+- Final M1 acceptance: `docs/uat/coursefinder-m1-final-acceptance-technical-acceptance-2026-08-23.md`;
 - Guides/Ops handover acceptance: `docs/uat/coursefinder-m1-guides-ops-handover-technical-acceptance-2026-08-23.md`;
 - Publication technical acceptance: `docs/uat/coursefinder-m1-publication-uat-technical-acceptance-2026-08-23.md`;
 - Search enrichment technical acceptance: `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`;
@@ -94,7 +99,7 @@ Subsequent security-only Pilot source updates, which do not alter the accepted A
 
 - `208b42cf0b65beb59d909eac97a6212d46335d53` — retired diagnostic Edge sources;
 - `b100340a2dd2187993523215c815b5276d7d000f` — hardened `pilot-reset` source;
-- `133b81734e435f9dea5ffb3ddd943e71d2930696` — narrowed automation bridge migration mirror.
+- `133b81734e435f9dea5ffb3ddd943e71d2930696` — narrowed automation bridge migration mirror and Pilot main at M1 freeze.
 
 Live Supabase security migrations include:
 
@@ -126,10 +131,19 @@ Runtime marker remains:
 - Evidence minimum rank 3; Pipeline minimum rank 4; PIM Configuration rank 5; Access Admin/Settings rank 6;
 - Search readiness remains distinct from publication and channel visibility;
 - M1-SEARCH-VECTOR remains rejected/not admitted;
-- no PIM v2.13 release is claimed.
+- no PIM v2.13 release is claimed;
+- Milestone 1 is complete/frozen for the governed Pilot baseline under `CF-CHG-20260823-028`.
 
 ## Security release residuals
 
 - Retired diagnostic/UAT/probe Edge slugs may still appear ACTIVE in Supabase because the connected management surface does not expose physical deletion; they are JWT-protected HTTP 410 tombstones with no privileged/data-access logic.
 - Retained `verify_jwt=false` ingestion workers are server control-plane functions protected by one-time function-bound nonces or the time-bounded Pilot automation key. The current automation key expires 30 September 2026 and this pattern must be reassessed for Production.
 - The Pilot Supabase leaked-password-protection warning remains explicitly governed under `CF-CHG-20260823-022`. It is **not resolved and not transferable to Production**. Production security sign-off/cutover requires the feature to be enabled and UAT-proven.
+
+## Explicit post-M1 boundary
+
+- QUT Course Facts acquisition remains deferred.
+- Vector/hybrid Search remains rejected/not admitted unless a new later gate is opened.
+- Broad catalogue publication and Production channel cutover remain separately governed.
+- Additional country expansion and wider enrichment coverage are post-M1 work.
+- INFO-only performance-advisor cleanup is not an M1 blocker unless future measured workloads regress.
