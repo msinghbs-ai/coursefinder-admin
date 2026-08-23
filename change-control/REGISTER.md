@@ -35,7 +35,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M1-ACCEPTANCE:** `CF-CHG-20260823-028` is **CLOSED / PASS**. CourseFinder Milestone 1 is complete and frozen for the governed Pilot baseline. Production readiness is not implied.
 >
-> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **IMPLEMENTED — UAT IN PROGRESS**. Layer 2 Platform v1.1 now separates versioned Source Profiles from reusable Acquisition Providers, stores provider credentials in Supabase Vault, routes sources through ordered provider/fallback policies, records provider-attempt Evidence, and exposes extraction-blocked fallback. Database/API/security UAT is PASS; final deployed desktop/mobile browser/runtime evidence is still required before closure.
+> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **BLOCKED — DEPLOYED BROWSER UAT EVIDENCE UNAVAILABLE**. Layer 2 Platform v1.1 separates versioned Source Profiles from reusable Acquisition Providers, stores provider credentials in Supabase Vault, routes sources through ordered provider/fallback policies, records provider-attempt Evidence, and exposes extraction-blocked fallback. Database/API/security UAT is PASS. Final acceptance remains open until the latest deployed desktop/mobile SHA-bound browser/runtime evidence is available and passing.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -67,7 +67,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | 23 Aug 2026 | **CLOSED / PASS** | Full-scale Admin/Search performance gate | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
 | CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | 23 Aug 2026 | **CLOSED / PASS** | Security/ACL/Edge release closure | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
 | CF-CHG-20260823-028 | 80-uat-release-operations | M1 Final Acceptance & Baseline Freeze | 23 Aug 2026 | **CLOSED / PASS** | Milestone 1 complete / frozen Pilot baseline | `80-uat-release-operations/CF-CHG-20260823-028-m1-final-acceptance-baseline-freeze.md` |
-| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider platform foundation | 23 Aug 2026 | **IMPLEMENTED — UAT IN PROGRESS** | Layer 2 Platform v1.1 / Source Config + Acquisition Providers | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
+| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider platform foundation | 23 Aug 2026 | **BLOCKED — DEPLOYED BROWSER UAT EVIDENCE UNAVAILABLE** | Layer 2 Platform v1.1 / Source Config + Acquisition Providers | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
 
 ## Current programme baseline
 
@@ -83,6 +83,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Layer 2 Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.0.md`;
 - Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
 - Publication governance contract: `docs/coursefinder-publication-governance-contract-v1.0.md`;
+- M2.1 technical acceptance (current BLOCKED evidence state): `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`;
 - Final M1 acceptance: `docs/uat/coursefinder-m1-final-acceptance-technical-acceptance-2026-08-23.md`;
 - Guides/Ops handover acceptance: `docs/uat/coursefinder-m1-guides-ops-handover-technical-acceptance-2026-08-23.md`;
 - Publication technical acceptance: `docs/uat/coursefinder-m1-publication-uat-technical-acceptance-2026-08-23.md`;
