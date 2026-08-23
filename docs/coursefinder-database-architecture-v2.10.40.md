@@ -7,156 +7,85 @@
 
 ## 1. Scope
 
-All accepted v2.10.39 architecture remains in force. This revision adds the governed Search enrichment admission architecture accepted under `CF-CHG-20260823-023`.
-
-The change does not alter Provider/Course/Campus/Scholarship identity. It does not imply publication. It does not reopen the rejected vector candidate.
+All accepted v2.10.39 architecture remains in force. This revision adds governed Search enrichment admission under `CF-CHG-20260823-023`. It does not alter Provider/Course/Campus/Scholarship identity, imply publication, or reopen the rejected vector candidate.
 
 ## 2. Search authority boundary
 
-Accepted operational authority remains:
+Accepted authority remains:
 
 `Layer 1 Regulatory → Layer 2 Deterministic/Structured Enrichment → Layer 3 AI Suggestions → Layer 4 Human Resolution → Search Admission → Publication`
 
-Search now has two independent admission dimensions:
-
-1. domain admission in `search.enrichment_gates`;
-2. first-party source admission in `search.enrichment_source_gates`.
-
-A canonical row is not searchable merely because it exists.
+Search admission now uses both `search.enrichment_gates` and source-specific `search.enrichment_source_gates`. Canonical relational presence alone is insufficient.
 
 ## 3. Fee architecture
 
-Materially different tuition concepts are permanently separate in Search.
+Materially different tuition concepts remain separate.
 
-### CRICOS registered tuition
+CRICOS registered tuition projects through `regulatory_tuition_state`, `has_regulatory_tuition`, `regulatory_tuition_amount`, `regulatory_tuition_currency` and `regulatory_tuition_basis`, retaining Layer 1 `registered_total_course` meaning and `present/zero/source_null/not_applicable` state semantics.
 
-Projected as:
+Provider-current tuition projects separately through `has_provider_current_tuition`, `provider_annual_tuition_amount`, `provider_annual_tuition_currency` and structured `provider_tuition_options`. Only `annual`/`indicative_annual` basis is eligible for the comparable annual scalar; `total_indicative` remains structured/display data.
 
-- `regulatory_tuition_state`;
-- `has_regulatory_tuition`;
-- `regulatory_tuition_amount`;
-- `regulatory_tuition_currency`;
-- `regulatory_tuition_basis`.
-
-The value retains Layer 1 `registered_total_course` meaning. State semantics preserve `present`, `zero`, `source_null` and `not_applicable`.
-
-### Provider-current tuition
-
-Projected separately as:
-
-- `has_provider_current_tuition`;
-- `provider_annual_tuition_amount`;
-- `provider_annual_tuition_currency`;
-- `provider_tuition_options`.
-
-The structured options retain year/basis/campus/validity. The annual scalar is populated only for comparable `annual` or `indicative_annual` basis. `total_indicative` remains structured/display data and is not coerced into an annual sort value.
-
-Legacy `has_fee` maps to Provider-current Search admission only. It no longer means CRICOS regulatory fee presence.
+Legacy `has_fee` maps to Provider-current Search admission only.
 
 ## 4. Other admitted Course Facts
 
-`search.course_documents` adds:
+`search.course_documents` adds `official_course_url`, repeating `intake_options`, `earliest_intake_date`, repeating `english_requirement_options`, `scholarship_options`, `enrichment_semantic_text` and `enrichment_content_hash`.
 
-- `official_course_url`;
-- `intake_options`;
-- `earliest_intake_date`;
-- `english_requirement_options`;
-- `scholarship_options`;
-- `enrichment_semantic_text`;
-- `enrichment_content_hash`.
-
-Repeating intake and English facts remain structured rather than flattened into lossy scalar semantics.
+Repeating intake and English facts are not flattened into lossy scalar semantics.
 
 ## 5. QILT / PRISMS boundary
 
-QILT and PRISMS remain blocked from Course-grain Search in this revision.
-
-The live Pilot has no accepted active QILT/PRISMS observations for this gate, and their provider/study-area/flow/cohort grains must not be invented at Course level.
+QILT and PRISMS remain blocked from Course-grain Search. Their provider/study-area/flow/cohort grains are not invented at Course level.
 
 ## 6. Deterministic refresh
 
-Accepted refresh path:
+Accepted refresh path is `search.refresh_course_documents_v3(p_apply)`, composing the accepted base v2 refresh with `search.refresh_course_enrichment_v1(p_apply)`.
 
-`search.refresh_course_documents_v3(p_apply)`
-
-Execution composes:
-
-1. the accepted base `course-v2` projection refresh;
-2. `search.refresh_course_enrichment_v1(p_apply)`.
-
-The enrichment refresh supports dry-run/APPLY/replay statistics and a deterministic full-stage hash. Canonical facts are not mutated by Search refresh.
-
-Accepted stage hash at closure:
+Accepted stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-Replay is 0 changed / 33,105 unchanged.
+Replay is 0 changed / 33,105 unchanged. Canonical facts are not mutated by Search refresh.
 
 ## 7. Semantic-content hash contract
 
-Searchable enrichment text currently derives from admitted intake/English/eligible Scholarship semantic content, not raw URLs or fee numbers.
+Searchable enrichment text derives from admitted semantic content, not raw URLs or fee-number strings. Exactly 10 Courses gained searchable enrichment text, exactly 10 semantic hashes changed, and 33,095 prior hashes remained exact. Projection-version churn alone must not invalidate embeddings.
 
-Semantic hash stability is content-sensitive:
+## 8. Website / Zoho
 
-- 10 Courses gained genuine searchable enrichment text;
-- exactly 10 semantic hashes changed;
-- 33,095 prior semantic hashes remained exact.
+`api.website_course_search_v2(...)` is a versioned service-only DTO/filter/sort contract that represents CRICOS regulatory tuition and Provider-current tuition separately. Website v1 remains intact. All 33,105 Pilot Search documents remain unpublished.
 
-Projection-version changes alone must not invalidate embeddings.
+Zoho Consumer Contract remains v1.3 with no new DTO fields; Search state is not canonical presence/publication authority.
 
-## 8. Website API
+## 9. Vector / hybrid position
 
-Versioned service-only contract:
+M1-SEARCH-VECTOR remains rejected/not admitted: 0 accepted embeddings, 0 active embedding jobs and 0 query-cache rows. Hybrid without an admitted vector corpus uses FTS fallback; vector-only has no accepted corpus.
 
-`api.website_course_search_v2(...)`
-
-Adds governed Provider-current tuition filtering, comparable annual tuition max, intake/English/Scholarship presence filters and supported sorts for regulatory tuition, annual Provider tuition and earliest intake.
-
-The DTO represents CRICOS regulatory tuition and Provider-current tuition as separate objects.
-
-Website v1 remains intact. Search publication state is still authoritative for Website visibility; all 33,105 Pilot Search documents remain unpublished.
-
-## 9. Zoho contract
-
-Zoho Consumer Contract remains v1.3. No new Zoho DTO fields were admitted by this architecture revision.
-
-Search projection state remains diagnostic and is not canonical presence/publication authority.
-
-## 10. Vector / hybrid position
-
-`M1-SEARCH-VECTOR` remains rejected/not admitted:
-
-- accepted embeddings: 0;
-- active embedding jobs: 0;
-- query cache: 0.
-
-Hybrid without an admitted vector corpus uses the governed FTS fallback. Vector-only has no accepted corpus. No vector/hybrid production relevance or latency claim is made.
-
-## 11. Live migrations
+## 10. Live migration ledger
 
 - `20260823015526 — m1_search_enrichment_admission`;
 - `20260823015929 — m1_search_enrichment_semantic_hash_stability`;
 - `20260823020120 — m1_search_enrichment_source_admission_metadata`;
-- `20260823020800 — m1_search_enrichment_source_gate_fk_index`.
+- `20260823020239 — m1_search_enrichment_source_gate_fk_index`.
 
-## 12. Security / performance
+The source-control filenames are aligned to the live Supabase migration ledger by Pilot PR #26.
 
-New Search control relations and functions remain private/service-role surfaces. Explicit ACLs preserve the existing browser boundary.
+## 11. Security / performance
 
-A covering index on `search.enrichment_source_gates(source_id)` resolves the new FK-index advisor finding.
+New Search control relations/functions remain private/service-role surfaces with explicit ACLs. A covering index on `search.enrichment_source_gates(source_id)` resolves the new FK-index advisor finding. The known Pilot leaked-password warning remains governed separately under `CF-CHG-20260823-022`.
 
-The known Pilot leaked-password-protection warning remains governed separately under `CF-CHG-20260823-022`.
+## 12. Accepted implementation
 
-## 13. Accepted implementation
+Final Pilot source authority:
 
-Pilot:
+`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
 
-`msinghbs-ai/Coursefinder-Pilot@69ac752193b9a79cc2ba3809ebd68aabbbb97582`
+Implementation semantics were merged in PR #25; PR #26 only aligned the migration filename to the live ledger.
 
 Technical acceptance:
 
 `docs/uat/coursefinder-m1-search-enrichment-admission-technical-acceptance-2026-08-23.md`
 
-## 14. Architecture outcome
+## 13. Architecture outcome
 
 **Accepted.** `course-v3` is the governed Course Search projection for approved Course-Fact enrichment. Identity and publication authority remain unchanged. Vector/hybrid remains outside the accepted production Search path.
