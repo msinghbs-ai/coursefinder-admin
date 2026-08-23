@@ -9,168 +9,199 @@
 
 ## Trigger
 
-Milestone 2.1 authorised implementation gate following the accepted and frozen Milestone 1 Pilot baseline.
+Milestone 2.1 authorised implementation gate following the accepted and frozen Milestone 1 Pilot baseline. Scope was subsequently clarified to require a reusable multi-provider acquisition plane and provider-compatible extraction-input worker rather than source-profile configuration alone.
 
-## Problem / requested outcome
+## Outcome required
 
-Layer 2 needs two independent but linked configuration planes:
+Layer 2 has two independent but linked configuration planes:
 
-1. **Source acquisition profiles** — what first-party/regulatory source is being acquired, its authority, URL/discovery rules, deterministic parser/mapping semantics, evidence/freshness policy and version; and
-2. **Acquisition-provider profiles** — how the source is fetched, including Direct HTTP, scraper APIs, browser/rendering providers and future deterministic acquisition services, with server-side credentials, capabilities, request templates, limits and health.
+1. **Source Profiles** define source authority, discovery/URL scope, deterministic parser/mapping semantics, stable identity strategy, freshness/Evidence policy and immutable version.
+2. **Acquisition Providers** define how a governed source is fetched: Direct HTTP, scraper API, browser/rendering API, structured proxy or custom gateway, with server-side credentials, capabilities, request templates, limits and operational state.
 
-The original M2.1 implementation delivered the source-profile plane but did not operationalise the intended multi-provider trial/fallback model. This Change Control therefore records the scope correction: the same university/source profile must be routable through multiple acquisition providers without provider-specific database schema, with evidence retained per attempt and an explicit fallback contract when downstream extraction/inference cannot resolve a required fact.
+The runtime sequence is:
 
-## Affected surfaces / related workstreams
+`Source Profile → Provider Route → Acquisition Job → Provider Attempt → Raw Evidence → Provider-compatible Extraction Input → Observation/Extraction → Canonical Mapping → Review → Search Admission → Publication`.
+
+Acquisition or extraction-input success never authorises canonical mutation, Search admission or Publication.
+
+## Affected surfaces
 
 - `pipeline.sources`, `pipeline.jobs`, `pipeline.evidence_artifacts`;
-- `pipeline.layer2_source_profiles` and immutable profile versions;
+- `pipeline.layer2_source_profiles`, `pipeline.layer2_source_profile_versions`;
 - `pipeline.layer2_acquisition_providers`, `pipeline.layer2_profile_provider_routes`, `pipeline.layer2_provider_attempts`;
-- Supabase Vault for provider credentials;
-- private Storage bucket `evidence` for JSON/HTML/binary/image evidence;
-- `public.admin_read(text,jsonb)` governed browser read contract;
-- JWT-protected `layer2-config-control`, `layer2-provider-control` and `layer2-acquire` Edge Functions;
-- Admin `Layer 2 Config` and `L2 Providers` surfaces;
+- Supabase Vault provider credentials;
+- private Storage bucket `evidence`;
+- `public.admin_read(text,jsonb)`;
+- Edge Functions `layer2-config-control`, `layer2-provider-control`, `layer2-acquire`, `layer2-extract`;
+- Pilot Admin `Layer 2 Config` and `L2 Providers`;
 - automated database/security/API/deployed-browser UAT;
-- Platform User Guide, PIM Admin Guide, Data Flow & Feature Atlas, Operations Runbook and database architecture.
+- Layer 2 operational/design documentation.
 
 ## Semantic impact
 
-No canonical identity or field-meaning change is authorised. Layer 1 authority and canonical identity remain unchanged. Acquisition never directly mutates canonical data.
+No canonical identity or accepted field semantics change. Layer 1 authority remains unchanged. Provider choice is a technical acquisition concern and must not alter the semantic meaning or authority of a Source Profile.
 
-Accepted sequence:
+If acquisition succeeds but downstream extraction cannot safely resolve the required fact, the provider attempt may be marked `extraction_failed`; original Evidence is retained and the next explicitly routed provider may be attempted. Exhausted provider/extraction paths route to Review or remain unresolved rather than manufacturing a value.
 
-`Source Profile → Provider Route → Acquisition Job → Provider Attempt → Evidence → Observation/Extraction → Canonical Mapping → Review where required → Search Admission → Publication`
+## Implemented Source Profile foundation
 
-If extraction is blocked after valid acquisition, the extraction layer records `extraction_failed` against the attempt and may request the next configured provider. The original evidence is retained; fallback does not overwrite it.
+- reusable `pipeline.layer2_source_profiles`;
+- immutable `pipeline.layer2_source_profile_versions` with validation/hash/CC/UAT references;
+- exact profile-version reference on Jobs and Evidence;
+- pre-execution validity/enabled/paused gate;
+- Evidence version guard;
+- authenticated governed Admin read surface;
+- rank-5 immutable version creation and rank-6 state controls;
+- malformed initial `base_domain` seeds corrected through governed v2 profile versions rather than direct semantic overwrite.
 
-## Before
+## Implemented acquisition-provider foundation
 
-Layer 2 had source-specific acquisition implementations and, after the first M2.1 increment, reusable source-profile configuration/versioning. It did not have an operational acquisition-provider registry, write-only credential management, ordered per-source provider routing, provider-attempt traceability or extraction-triggered provider fallback.
+Provider credentials are write-only through authorised Admin controls and stored in Supabase Vault. Browser reads expose only `credential_configured`. Provider capability/request JSON rejects secret-like fields.
 
-## After
+Current provider registry:
 
-- reusable source profiles remain versioned independently from execution;
-- reusable acquisition-provider profiles are data/configuration, not provider-specific tables;
-- provider API keys are entered through authorised Admin controls and stored in Supabase Vault; browsers see only masked configuration state;
-- per-source routing defines ordered providers, required capabilities and fallback conditions;
-- the acquisition runtime is source-bound to prevent arbitrary URL/SSRF use;
-- every provider attempt records the exact Job, source-profile version, provider, HTTP/MIME result, blocker and Evidence links;
-- raw JSON, HTML, documents and provider-returned screenshots/images are stored in the existing private Evidence bucket;
-- downstream extraction can mark an attempt `extraction_failed` and request the next routed provider;
-- provider capability/request-template JSON rejects secret-like object keys; credentials must use the dedicated Vault path;
-- canonical mutation remains explicitly unauthorised at acquisition time.
+| Priority | Provider | Mechanism | Authentication | Extraction response adapter | Default state |
+|---:|---|---|---|---|---|
+| 10 | Direct HTTP | direct source GET | none | passthrough | enabled |
+| 20 | Scrape.do | scraper API; rendered fetch | query `token` | passthrough; `scrape_do_json` available for provider JSON/screenshot mode | enabled, credential required |
+| 30 | ScraperAPI | scraper API; rendered fetch | query `api_key` | passthrough | enabled, credential required |
+| 40 | Firecrawl | browser/API scrape POST | bearer | `firecrawl_v2` | enabled, credential required |
+| 50 | ZenRows | scraper API; `js_render` + `premium_proxy` | query `apikey` | passthrough | enabled, credential required |
+| 90 | Custom gateway (`{url}` template) | configurable API gateway | configurable header (`X-API-Key` seed) | `generic` | disabled until configured |
 
-## Source authority / evidence
+Current web/search routing for RMIT, UQ and Study Australia is:
 
-- `PROJECT_INSTRUCTIONS.md` and current Change Control register;
-- M1 frozen architecture and accepted AU+NZ canonical/Search substrate;
-- deployed Supabase project `fxcwkweaxjtknorudmwp`;
-- current `msinghbs-ai/Coursefinder-Pilot` and `msinghbs-ai/coursefinder-admin` main branches;
-- M2.1 workstream clarification that multi-provider acquisition/fallback is a core Layer 2 platform requirement.
+`Direct HTTP → Scrape.do → ScraperAPI → Firecrawl → ZenRows`.
 
-## Implementation references
+QILT document and PRISMS XLSX remain Direct HTTP because they are deterministic downloadable-file sources and do not require browser/scraper routing by default.
 
-### Supabase migrations
+Current provider count: **6**. Current route count: **17**.
+
+## Provider-compatible extraction worker
+
+JWT-protected Edge Function `layer2-extract` v1 normalises provider-native Evidence into a common private `layer2_extraction_input` Evidence artifact.
+
+Input: `attempt_id` for an already acquired provider attempt.
+
+The worker:
+
+1. verifies authenticated role rank >=4;
+2. resolves the Provider Attempt, provider response adapter and source Evidence;
+3. downloads the source Evidence from the private `evidence` bucket using the trusted service client;
+4. normalises text/HTML/structured JSON/visual references according to the provider adapter;
+5. stores a new hashed/versioned `layer2_extraction_input` Evidence artifact;
+6. marks the attempt `normalised` when there is extractable content;
+7. marks extraction blocked and returns `fallback_required=true` when no extractable text, structured or visual payload exists;
+8. retains `canonical_mutation_authorised=false` throughout.
+
+`layer2-extract` deliberately does **not** call an LLM. It is the Layer 2 provider-normalisation boundary. Layer 3 AI or deterministic domain extractors consume its common Evidence contract without needing provider-specific response parsing.
+
+Supported response adapters:
+
+- `passthrough` — Direct HTTP, Scrape.do, ScraperAPI and ZenRows normal HTML/JSON responses;
+- `firecrawl_v2` — normalises Firecrawl `data.markdown`, HTML, structured JSON and screenshot reference fields;
+- `scrape_do_json` — supported for Scrape.do JSON/screenshot-return mode;
+- `generic` — configurable common text/screenshot paths for a custom gateway.
+
+Screenshot policy does not manufacture screenshots. A provider must actually return image/screenshot content or a provider screenshot reference. A future provider-trial gate may additionally materialise returned screenshot URLs into separate private image artifacts if required.
+
+## Supabase implementation references
+
+Source/configuration migrations:
 
 - `20260823102443_m2_1_layer2_platform_foundation`
 - `20260823102619_m2_1_layer2_execution_traceability_hardening`
 - `20260823103650_m2_1_layer2_config_version_governance_hardening`
 - `20260823104038_m2_1_layer2_profile_fk_index_hardening`
 - `20260823104311_m2_1_layer2_config_read_scale_hardening`
+
+Provider/runtime migrations:
+
 - `20260823105722_m2_1_layer2_acquisition_provider_registry`
 - `20260823105735_m2_1_layer2_provider_admin_read_dispatch`
 - `20260823105757_m2_1_layer2_provider_runtime_contract`
 - `20260823110522_m2_1_layer2_provider_default_routing`
 - `20260823111021_m2_1_layer2_provider_secret_config_hardening`
+- `m2_1_layer2_provider_catalog_expansion` — ScraperAPI / Firecrawl / ZenRows / Custom gateway and expanded routing.
 
-### Runtime/API
+Edge Functions:
 
-- `public.admin_read(text,jsonb)` — SECURITY INVOKER; authenticated browser read boundary.
-- `public.layer2_provider_control(uuid,text,jsonb)` — service-role only; rank re-authorised server-side.
-- `public.layer2_provider_runtime_config(uuid)` — service-role only; only trusted runtime may obtain decrypted Vault credential.
-- `public.layer2_provider_attempt_start`, `public.layer2_provider_attempt_finish`, `public.layer2_mark_extraction_blocked` — service-role only.
-- Edge `layer2-provider-control` v1 — `verify_jwt=true`.
-- Edge `layer2-acquire` v2 — `verify_jwt=true`, source-bound URL allowlist, provider capability/fallback enforcement and private Evidence capture.
+- `layer2-config-control` v2 — `verify_jwt=true`;
+- `layer2-provider-control` v1 — `verify_jwt=true`;
+- `layer2-acquire` v2 — `verify_jwt=true`, source-bound acquisition/fallback/private Evidence;
+- `layer2-extract` v1 — `verify_jwt=true`, provider-compatible extraction-input normalisation.
 
-### Pilot UI/repository
+Pilot mirrors include:
 
-- visible UI version: **Layer 2 Platform v1.1**;
-- `src/layer2-platform-entry.jsx` — source profile/version control;
-- `src/layer2-provider-entry.jsx` — provider registry, provider settings, Vault credential rotation, routing and bounded acquisition;
-- `tests/uat/layer2-platform-deployed.spec.mjs`;
-- `tests/uat/layer2-provider-deployed.spec.mjs`;
-- deployed UAT workflow includes desktop and mobile provider orchestration coverage;
-- live migrations and Edge Functions mirrored under `supabase/migrations` and `supabase/functions`.
+- `supabase/migrations/20260823113300_m2_1_layer2_provider_catalog_expansion.sql`;
+- `supabase/functions/layer2-extract/index.ts`;
+- updated `tests/uat/layer2-provider-deployed.spec.mjs` covering all six provider labels and the five-provider RMIT route.
 
-## Initial provider/routing substrate
+Latest Pilot main observed after this expansion: `567a9bb2ce3cbbb5fff6ba3406b08f867cc957cf`.
 
-- **Direct HTTP** — no credential; raw/HTML/JSON acquisition.
-- **Scrape.do** — scraper API profile with JavaScript/anti-bot/proxy capabilities; credential deliberately not populated by code and must be entered through Admin/Vault.
-- Direct HTTP is routed first across all five initial source profiles.
-- Scrape.do is routed as second acquisition path for the three web/search profiles where JavaScript/anti-bot fallback is applicable.
-- Additional browser/scraper/API providers are added as configuration. A screenshot-capable provider must declare/configure the provider-specific request template that returns image evidence; no screenshot vendor credential is assumed by this Change Control.
-
-## UAT
+## Security / UAT state
 
 ### PASS — database/API/security
 
-- five source profiles remain valid/versioned and executable only when current configuration is valid;
-- initial malformed `base_domain` values were corrected through immutable governed v2 profile versions under this Change Control;
-- eight initial provider routes exist: five Direct HTTP + three Scrape.do;
-- new provider tables have RLS enabled and no direct `anon`/`authenticated` table privileges;
-- provider mutation/runtime functions are not executable by `anon` or `authenticated`; service role only;
-- provider public reads expose `credential_configured` rather than `vault_secret_id`/decrypted secret;
-- recursive secret-key detection rejects `api_key`/token/password/etc object keys while allowing non-secret metadata such as `credential_parameter`;
-- recursive read sanitisation removes nested secret-like keys;
-- transaction UAT proved a versioned provider attempt can be marked `extraction_failed` / `blocked` with blocker evidence and rolled back;
-- the existing Evidence bucket is private and supports JSON, HTML, PNG/JPEG, XLSX, ZIP and PDF required by the acquisition runtime;
-- pre-existing five `pipeline` tables flagged by the Supabase RLS advisor currently have no direct `anon` or `authenticated` SELECT/INSERT privileges. Their RLS state is not changed by this M2.1 work because enabling RLS without reconciling existing privileged dependencies could regress M1;
-- exact M1 regression remains 33,105 Search documents (26,648 AU + 6,457 NZ), 0 Search published, 43,461 canonical Courses all unpublished.
+- provider tables are RLS-enabled and not directly granted to `anon`/`authenticated`;
+- privileged provider mutation/runtime functions are service-role only;
+- provider secrets are absent from browser projection and kept in Vault;
+- secret-like provider configuration keys are rejected/sanitised;
+- source-bound URL validation prevents arbitrary acquisition proxy use;
+- provider-attempt and profile-version provenance is retained;
+- extraction-blocked fallback semantics are implemented;
+- `layer2-extract` is JWT protected and writes only private Evidence/attempt operational state;
+- all external vendor credentials remain intentionally unconfigured; no vendor live-success claim is made without a real key and bounded UAT.
+
+### M1 regression — PASS
+
+Post-change live state remains:
+
+- Search documents: **33,105**;
+- Search published: **0**;
+- canonical Courses: **43,461**;
+- canonical Courses unpublished: **43,461**.
 
 ### BLOCKED — deployed browser/runtime evidence
 
-The governed Playwright suite now contains provider registry/routing, credential non-disclosure, desktop/mobile responsiveness and a bounded PRISMS Direct HTTP acquisition that must create private versioned Evidence without canonical mutation.
+The governed Playwright suite contains provider registry/routing visibility, credential non-disclosure, bounded PRISMS acquisition and provider catalogue assertions for desktop/mobile. Current SHA-bound deployed browser statuses/artifacts are still unavailable through the connected GitHub surface; final browser acceptance is therefore not inferred.
 
-Latest Pilot main observed for this gate:
+A real Scrape.do, ScraperAPI, Firecrawl or ZenRows success path remains a provider-trial dependency until its API credential is entered through **L2 Providers → Set / rotate API credential** and bounded UAT is run. Do not paste provider secrets into source/profile JSON or documentation.
 
-`msinghbs-ai/Coursefinder-Pilot@ab9dfbef618ff259057321cbe88f7473e678c818`
+## Documentation / handoff
 
-Repeated combined-status checks returned no SHA-bound deployed-UAT statuses. The available GitHub connector does not expose dispatch/listing for push-triggered runs and the execution container cannot currently resolve GitHub or the deployed Worker hostname, so independent deployed browser evidence cannot be reconstructed outside the governed Actions harness.
+Current applicable docs:
 
-Formal technical acceptance evidence: `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`.
+- `docs/coursefinder-data-flow-feature-atlas-v1.0.md`;
+- `docs/coursefinder-user-guide-v2.1.md`;
+- `docs/coursefinder-pim-admin-guide-v1.16.md`;
+- `docs/coursefinder-operations-runbook-v1.1.md`;
+- `docs/coursefinder-database-architecture-v2.10.41.md`;
+- `docs/coursefinder-layer2-provider-adapter-contract-v1.0.md`;
+- `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`.
 
-A real Scrape.do or screenshot-capable vendor call is not claimed until its credential/provider is configured through the Admin UI. This is an operational provider-trial dependency, not permission to weaken the platform credential/evidence model.
+Running Build and Master Project Plan remain intentionally unchanged until the M2.1 acceptance gate is actually closed.
 
-## Rollback / reversion
+## Rollback
 
-1. Disable/pause provider routes and the `layer2-acquire` Edge Function before removing provider objects.
-2. Revert `L2 Providers` UI/runtime commits if required.
-3. Remove provider-attempt rows/evidence only where explicitly identified as M2.1 UAT/provider evidence and no downstream observation depends on them.
-4. Drop provider routing/provider tables/functions only after dependency verification.
-5. Do not rewrite M1 canonical/Search data during rollback.
-
-## Documentation impact
-
-- PIM Admin Guide: updated.
-- Architecture: updated.
-- Running build: intentionally pending until final M2.1 acceptance.
-- Master plan: intentionally pending until final M2.1 acceptance.
-- UAT evidence: created with BLOCKED gate state.
-- User Guide: updated.
-- Data Flow & Feature Atlas: updated.
-- Operations Runbook: updated.
+1. Disable provider routes before provider removal.
+2. Disable/remove provider credentials from Vault using the authorised control path.
+3. Revert provider catalogue/runtime repository commits if required.
+4. Remove provider attempts/Evidence only when explicitly identified and not referenced downstream.
+5. Never rewrite the frozen M1 canonical/Search baseline during rollback.
 
 ## Decision / status history
 
-| Timestamp | Status | Decision / event | Reference |
-|---|---|---|---|
-| 23 Aug 2026 20:21 AEST | PROPOSED | M2.1 Layer 2 platform workstream initiated against frozen M1 baseline | M2.1 — L2-PLATFORM |
-| 23 Aug 2026 ~21:00 AEST | SCOPE CORRECTION | Source profiles alone were insufficient; acquisition-provider registry, Vault credentials, per-source routing/fallback and provider-attempt Evidence were confirmed as core M2.1 requirements | M2.1 clarification |
-| 23 Aug 2026 ~21:10 AEST | IMPLEMENTED | Provider registry/routing/runtime/security hardening and Admin v1.1 deployed; database/API/security UAT PASS | Supabase + Coursefinder-Pilot main |
-| 23 Aug 2026 ~21:20 AEST | BLOCKED | Current deployed desktop/mobile SHA-bound UAT evidence is not available from the governed harness; no final acceptance inferred | M2.1 technical acceptance doc |
+| Timestamp | Status | Decision / event |
+|---|---|---|
+| 23 Aug 2026 20:21 AEST | PROPOSED | M2.1 Layer 2 platform initiated against frozen M1 baseline. |
+| 23 Aug 2026 ~21:00 AEST | SCOPE CORRECTION | Multi-provider acquisition, Vault credentials, routing/fallback and provider-attempt Evidence confirmed as core M2.1. |
+| 23 Aug 2026 ~21:10 AEST | IMPLEMENTED | Source/provider registry/runtime/Admin deployed; database/API/security UAT PASS. |
+| 23 Aug 2026 ~21:20 AEST | BLOCKED | Deployed desktop/mobile SHA-bound browser evidence unavailable. |
+| 23 Aug 2026 ~21:37 AEST | IMPLEMENTED / BLOCKED | Provider catalogue expanded to screenshot-requested providers and `layer2-extract` provider-normalisation worker deployed; M1 regression PASS; final browser/provider-key UAT still outstanding. |
 
 ## Closure
 
 **Final status:** **BLOCKED — deployed desktop/mobile browser/runtime evidence unavailable**  
 **Closed at:** N/A  
-**Outcome:** Core M2.1 source-profile and acquisition-provider platform is implemented and database/API/security-tested. Final acceptance remains open solely until current deployed browser/runtime evidence is available and passing; third-party provider trials then proceed as configuration-driven post-foundation work.
+**Outcome:** M2.1 source-profile, multi-provider acquisition and provider-compatible extraction-input platform is implemented and database/API/security-tested. Final acceptance remains open until current deployed browser evidence passes. External provider live trials begin only after credentials are configured through the governed Vault-backed Admin control.
