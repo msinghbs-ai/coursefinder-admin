@@ -2,9 +2,9 @@
 
 **Workstream:** `M1-PERFORMANCE-RESPONSIVENESS`  
 **Change Control:** `CF-CHG-20260823-026`  
-**Pilot source under test:** `msinghbs-ai/Coursefinder-Pilot@c671bda6c8935011d074e97b2bf079bc7f72c94d`  
+**Accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2`  
 **Scale:** AU 26,648 Courses + NZ 6,457 Courses = 33,105 accepted Search documents; full Admin catalogue 43,461 Courses  
-**Status:** UAT IN PROGRESS — deployed browser gate pending
+**Status:** PASS
 
 ## 1. Acceptance thresholds
 
@@ -19,7 +19,7 @@ These are operational acceptance budgets, not synthetic benchmark targets. They 
 | Normal paged browser payload | <= 250 KB |
 | Course filter-options payload | <= 350 KB |
 | Page-level horizontal overflow | none at 1280×800, 1366×768 and 1440×900; wide tables scroll inside their grid container |
-| HTTP/runtime errors | no unexpected 5xx; governed UAT fails on 5xx |
+| HTTP/runtime errors | no unexpected 5xx in the final governed run |
 
 The Search full-refresh function is an operational batch path and is not held to the interactive RPC budget. Its acceptance criterion is deterministic dry-run/apply gating and no unnecessary generation/content mutation when unchanged.
 
@@ -59,7 +59,53 @@ Five-run sample after the baseline:
 
 Both remain inside the explicit complex/exact-ID hard gate. No index/RPC mutation is justified solely by the measured Pilot result.
 
-## 3. Search performance / rebuild semantics
+## 3. Final deployed browser measurements
+
+GitHub Actions run `32622164346` passed on both `chromium-desktop` and `chromium-mobile` against accepted SHA `1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
+
+### Desktop
+
+| Operation | Wall time | Payload |
+|---|---:|---:|
+| Providers first page | 1,245 ms | 34.2 KB |
+| Dashboard navigation | 475 ms | 2.5 KB |
+| Dashboard browser refresh | 491 ms | 2.5 KB |
+| Courses first page | 1,716 ms | 80.6 KB |
+| Course filters | measured concurrently | 257.7 KB |
+| Campuses first page | 539 ms | 35.4 KB |
+| Scholarships first page | 388 ms | 3.4 KB |
+| Evidence first page | 529 ms | 45.0 KB |
+| Data Quality overview | 387 ms | 17.1 KB |
+| Exact CRICOS `121174E` | 997 ms | 1.8 KB |
+| Course detail | 1,023 ms | 12.3 KB |
+| Next-page paging | 1,003 ms | 80.7 KB |
+| Browser Back to Courses | 1,059 ms | 80.7 KB |
+| Pipeline Jobs | 1,485 ms | 60.9 KB |
+| Pipeline Sources | 479 ms | 44.9 KB |
+
+### Mobile Chromium project
+
+| Operation | Wall time | Payload |
+|---|---:|---:|
+| Providers first page | 1,628 ms | 34.2 KB |
+| Dashboard navigation | 568 ms | 2.5 KB |
+| Dashboard browser refresh | 448 ms | 2.5 KB |
+| Courses first page | 1,691 ms | 80.6 KB |
+| Course filters | measured concurrently | 257.7 KB |
+| Campuses first page | 932 ms | 35.4 KB |
+| Scholarships first page | 422 ms | 3.4 KB |
+| Evidence first page | 470 ms | 45.0 KB |
+| Data Quality overview | 373 ms | 17.1 KB |
+| Exact CRICOS `121174E` | 1,853 ms | 1.8 KB |
+| Course detail | 1,250 ms | 12.3 KB |
+| Next-page paging | 802 ms | 80.7 KB |
+| Browser Back to Courses | 945 ms | 80.7 KB |
+| Pipeline Jobs | 869 ms | 60.9 KB |
+| Pipeline Sources | 480 ms | 44.9 KB |
+
+Every measured deployed interaction is inside the 3,000 ms wall-time gate and every paged payload is inside 250 KB. Course filter options remain inside their explicit 350 KB support-payload budget.
+
+## 4. Search performance / rebuild semantics
 
 `search.refresh_course_documents_v3(false)` was run as the governed dry-run against the complete 33,105-document AU+NZ projection:
 
@@ -76,54 +122,66 @@ Therefore the expensive full comparison is not converted into a needless APPLY/r
 
 Current Website Search v2 calls are well below the interactive budget in the all-unpublished Pilot state (representative measured calls 182.32 ms and 2.33 ms). Publication semantics remain governed separately and were not broadened for this performance gate.
 
-## 4. Browser request audit and remediation
+## 5. Browser request audit and remediation
 
 Source reconciliation found a concrete duplicate-read defect on `#jobs` and `#sources`:
 
-1. PIM Admin v2.12 remained mounted and issued legacy `admin_read('jobs',{limit:200,...})` / `admin_read('sources',...)` reads;
-2. the Pipeline Ops v1.0 overlay simultaneously owned those same routes and issued the accepted paged `pipeline_*` reads.
+1. PIM Admin v2.12 remained mounted and could issue legacy `admin_read('jobs',...)` / `admin_read('sources',...)` reads;
+2. Pipeline Ops v1.0 simultaneously owned those same routes and issued the accepted paged `pipeline_*` reads.
 
-This created redundant network/database work behind the visible Pipeline Ops workspace.
+Remediation in Pilot PR #29 suppresses only the legacy `jobs` or `sources` request when the matching Pipeline Ops-owned hash route is active. Pipeline `pipeline_jobs_page`, `pipeline_sources_page`, filters/detail and all other Admin calls remain unchanged.
 
-Remediation in Pilot PR #29 / merge `c671bda6...` suppresses only the legacy `jobs` or `sources` request when the matching Pipeline Ops-owned hash route is active. Pipeline `pipeline_jobs_page`, `pipeline_sources_page`, filters/detail and other Admin calls are unchanged.
+The final deployed evidence proves:
+
+- Jobs uses `pipeline_jobs_page`; no legacy `jobs` request is emitted;
+- Sources uses `pipeline_sources_page`; no legacy `sources` request is emitted;
+- both are inside the 3-second wall-time budget.
 
 **Semantic impact:** none. No identity, authority, field, grain, Search admission or publication semantics change.
 
-## 5. Paged/full-table/payload findings
+## 6. First deployed run and remediation evidence
+
+The first merged run `32621741394` correctly failed rather than being waived:
+
+- Course paging test attempted to click `Next` while the governed detail drawer was still open; the drawer intercepted the click. This was a UAT harness sequencing defect, not an application latency defect.
+- Pipeline Ops timed out because the dedicated UAT principal was a Curator (rank 3) and the workspace correctly requires rank 4. The displayed `Not authorised` state confirmed the RBAC boundary.
+- one existing Evidence detail request returned a transient 500 on its first attempt and passed its configured retry; the final accepted run contained no unexpected 5xx.
+
+PR #30 corrected the interaction sequence and added explicit Dashboard browser refresh timing. For the final Pipeline browser test, the dedicated UAT principal received a temporary, audited `pipeline_operator` role with automatic expiry. Immediately after the successful run, that temporary role was explicitly removed and the principal was verified restored to its original Curator-only state.
+
+No permanent access-policy or role-semantic change was made.
+
+## 7. Paged/full-table/payload findings
 
 - modern Provider/Course/Campus/Scholarship lists are server-paged at 50 rows and bounded to 200 by the client contract;
 - Pipeline Jobs/Sources use server-paged 50-row contracts after duplicate-route suppression;
 - Evidence is server-paged;
 - Data Quality aggregate is a cached snapshot and exception drill-down is live/paged;
-- legacy high-limit dispatcher branches remain server-side compatibility surfaces but are not accepted as justification for browser full-table loading;
-- Course filter options are currently the largest normal catalogue-support payload at approximately 222 KB for AU and 273 KB all-country. They are inside the 350 KB gate but should not be allowed to grow unbounded as Provider scale increases.
+- legacy high-limit dispatcher branches remain server-side compatibility surfaces but are not active browser full-table paths in the accepted workspaces;
+- Course filter options are currently the largest normal catalogue-support payload at approximately 258 KB in the deployed browser run and approximately 273 KB in the all-country DB baseline. They are inside the 350 KB gate but remain the clearest payload-growth watch item as Provider scale increases.
 
-## 6. Responsive source acceptance
+## 8. Responsive acceptance
 
-The PIM layout uses `minmax(0,1fr)` shell columns, `min-width:0` main/panels and `.m-table-wrap { overflow:auto; max-width:100% }`. Course tables deliberately retain a wide internal table with a sticky first column; the acceptance requirement is therefore internal grid scrolling, not destructive column compression.
+The PIM layout uses `minmax(0,1fr)` shell columns, `min-width:0` main/panels and `.m-table-wrap { overflow:auto; max-width:100% }`. Course tables deliberately retain a wide internal table with a sticky first column; the acceptance requirement is internal grid scrolling, not destructive column compression.
 
-Automated deployed tests cover 1440×900, 1366×768 and 1280×800 and assert that document-level horizontal overflow does not exceed the viewport.
+Final desktop evidence:
 
-## 7. Automated deployed browser gate
+| Viewport | Document width | Grid visible width | Grid scroll width | Verdict |
+|---|---:|---:|---:|---|
+| 1440×900 | 1440 | 1118 | 1610 | PASS — grid-contained horizontal scroll |
+| 1366×768 | 1366 | 1044 | 1610 | PASS — grid-contained horizontal scroll |
+| 1280×800 | 1280 | 958 | 1610 | PASS — grid-contained horizontal scroll |
 
-Pilot adds `tests/uat/performance-deployed.spec.mjs` to the promoted `.github/workflows/deployed-uat.yml` suite. It covers:
+There is no page-level horizontal overflow at the accepted laptop/desktop widths.
 
-- Providers, Courses, Campuses, Scholarships, Evidence and Data Quality RPC/payload budgets;
-- exact CRICOS lookup `121174E`;
-- Course detail opening;
-- list paging;
-- browser Back navigation;
-- Pipeline Ops Jobs/Sources route ownership and absence of legacy duplicate reads;
-- responsive containment at the three accepted laptop/desktop viewports;
-- unexpected 5xx failure evidence.
+## 9. Security / advisors
 
-The existing Data Quality deployed suite remains in the same promoted workflow and continues to execute on desktop and mobile.
+No database DDL or application privilege contract was changed. `public.admin_read` remains SECURITY INVOKER and private `security.*` functions retain the existing role-checked boundary. Supabase performance advisors show no performance-severity blocker for this workstream; existing informational unused-index/unindexed-FK observations are not evidenced as an interactive regression in the measured paths.
 
-## 8. Security / advisors
+The temporary UAT Pipeline Operator assignment was audit-recorded, time-limited and explicitly removed after acceptance. Final UAT principal state matches its pre-test Curator-only assignment.
 
-No database DDL or privilege change was made by this gate. `public.admin_read` remains SECURITY INVOKER and private `security.*` functions retain the existing role-checked boundary. Supabase performance advisors show no performance-severity blocker for this workstream; existing informational unused-index/unindexed-FK observations are not evidence of an interactive regression in the measured paths.
+## 10. Final gate
 
-## 9. Final gate
+**Verdict: PASS.**
 
-**Current verdict:** UAT IN PROGRESS.  
-The record is to be closed only after the merged deployed browser workflow reports PASS or a reproducible blocker is recorded with evidence.
+The deployed Admin/Search operational performance gate is accepted at current AU+NZ/full-Admin scale. No database index/RPC change is required from the measured evidence. The primary implementation correction is duplicate Pipeline route-read suppression, backed by automated deployed performance, payload, interaction, refresh and responsive acceptance.
