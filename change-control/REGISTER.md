@@ -59,9 +59,9 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.63.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.64.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.65.md`;
+- Running Build: `docs/coursefinder-running-build-v2.66.md`;
 - Architecture: `docs/coursefinder-database-architecture-v2.10.40.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.13.md`;
 - User Guide: `docs/coursefinder-user-guide-v2.0.md`;
