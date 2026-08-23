@@ -20,6 +20,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **ACCESS ADMIN:** `CF-CHG-20260822-020` is **CLOSED / PASS**. Access Admin v1.0 is accepted for create/invite, role replacement, non-Platform-Admin expiry, disable/re-enable, audit and lockout protection.
 >
 > **DATA QUALITY CONCURRENT HARDENING:** `CF-CHG-20260823-021` is **CLOSED / PASS**. Aggregate readiness uses private timestamped snapshots refreshed every 15 minutes; exceptions remain live/paged; mobile Data Quality scrolling is accepted.
+>
+> **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **BLOCKED — SUPABASE PRO PLAN REQUIRED**. The live security advisor still reports `auth_leaked_password_protection`; the connected `techM` organisation is on Free and Supabase documents this control as Pro+ only.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -44,6 +46,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260822-019 | 80-uat-release-operations | M1 UAT Harness automated operational acceptance | 22 Aug 2026 | **CLOSED / PASS** | UAT Harness v1.0 | `80-uat-release-operations/CF-CHG-20260822-019-m1-uat-harness.md` |
 | CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | 22 Aug 2026 | **CLOSED / PASS** | Access Admin v1.0 | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
 | CF-CHG-20260823-021 | 80-uat-release-operations | Data Quality overview snapshot and concurrent UAT hardening | 23 Aug 2026 | **CLOSED / PASS** | Data Quality v1.0 operational hardening | `80-uat-release-operations/CF-CHG-20260823-021-data-quality-overview-snapshot.md` |
+| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | 23 Aug 2026 | **BLOCKED — PRO PLAN REQUIRED** | Supabase Auth hardening | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
 
 ## Current programme baseline
 
@@ -88,4 +91,4 @@ Final deployed automated UAT:
 - Search admission remains distinct from publication;
 - no PIM v2.13 release is claimed.
 
-The pre-existing Supabase leaked-password-protection warning remains separate security backlog and is not treated as introduced by controls 019–021.
+The Supabase leaked-password-protection warning is now explicitly governed by `CF-CHG-20260823-022` and remains blocked on Pro-plan eligibility; it was not introduced by controls 019–021.
