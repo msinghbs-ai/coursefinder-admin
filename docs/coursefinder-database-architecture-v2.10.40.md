@@ -15,7 +15,7 @@ Accepted authority remains:
 
 `Layer 1 Regulatory → Layer 2 Deterministic/Structured Enrichment → Layer 3 AI Suggestions → Layer 4 Human Resolution → Search Admission → Publication`
 
-Search admission now uses both `search.enrichment_gates` and source-specific `search.enrichment_source_gates`. Canonical relational presence alone is insufficient.
+Search admission uses both `search.enrichment_gates` and source-specific `search.enrichment_source_gates`. Canonical relational presence alone is insufficient.
 
 ## 3. Fee architecture
 
@@ -29,7 +29,7 @@ Legacy `has_fee` maps to Provider-current Search admission only.
 
 ## 4. Other admitted Course Facts
 
-`search.course_documents` adds `official_course_url`, repeating `intake_options`, `earliest_intake_date`, repeating `english_requirement_options`, `scholarship_options`, `enrichment_semantic_text` and `enrichment_content_hash`.
+`search.course_documents` includes `official_course_url`, repeating `intake_options`, `earliest_intake_date`, repeating `english_requirement_options`, `scholarship_options`, `enrichment_semantic_text` and `enrichment_content_hash`.
 
 Repeating intake and English facts are not flattened into lossy scalar semantics.
 
@@ -39,13 +39,32 @@ QILT and PRISMS remain blocked from Course-grain Search. Their provider/study-ar
 
 ## 6. Deterministic refresh
 
-Accepted refresh path is `search.refresh_course_documents_v3(p_apply)`, composing the accepted base v2 refresh with `search.refresh_course_enrichment_v1(p_apply)`.
+The accepted full refresh is native `course-v3`:
 
-Accepted stage hash:
+`search.refresh_course_documents_v3(p_apply)`
 
-`fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
+It composes:
 
-Replay is 0 changed / 33,105 unchanged. Canonical facts are not mutated by Search refresh.
+1. `search.refresh_course_base_v3(p_apply)` for identity/taxonomy/geography/publication/base searchable content;
+2. `search.refresh_course_enrichment_v1(...)` for explicitly admitted Course Facts.
+
+The wrapper checks enrichment changes before enrichment APPLY so an unchanged full refresh does not manufacture derived churn.
+
+Accepted hashes after automated APPLY:
+
+- base content hash: `cd2c8422da31f2fa298053a40563c947780ebdaf09d7b41ff983bc6ef9649d9b`;
+- enrichment stage hash: `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`;
+- combined projection hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`.
+
+Final automated immediate replay:
+
+- base: 0 changed / 33,105 unchanged / 0 new / 0 removed;
+- enrichment: 0 changed / 33,105 unchanged;
+- generation remains 13.
+
+`search.projection_state` records `course-v3`, row count 33,105, combined/base/enrichment hashes, `refresh_function=search.refresh_course_documents_v3`, and `enrichment_gate=domain_and_source_explicit`.
+
+Canonical facts are not mutated by Search refresh.
 
 ## 7. Semantic-content hash contract
 
@@ -66,21 +85,21 @@ M1-SEARCH-VECTOR remains rejected/not admitted: 0 accepted embeddings, 0 active 
 - `20260823015526 — m1_search_enrichment_admission`;
 - `20260823015929 — m1_search_enrichment_semantic_hash_stability`;
 - `20260823020120 — m1_search_enrichment_source_admission_metadata`;
-- `20260823020239 — m1_search_enrichment_source_gate_fk_index`.
+- `20260823020239 — m1_search_enrichment_source_gate_fk_index`;
+- `20260823021306 — m1_search_enrichment_full_refresh_v3`;
+- `20260823021630 — m1_search_enrichment_full_refresh_v3_idempotency`.
 
-The source-control filenames are aligned to the live Supabase migration ledger by Pilot PR #26.
+Pilot PR #27 mirrors the final live migration ledger and automated UAT evidence.
 
 ## 11. Security / performance
 
-New Search control relations/functions remain private/service-role surfaces with explicit ACLs. A covering index on `search.enrichment_source_gates(source_id)` resolves the new FK-index advisor finding. The known Pilot leaked-password warning remains governed separately under `CF-CHG-20260823-022`.
+Search control relations/functions remain private/service-role surfaces with explicit ACLs. A covering index on `search.enrichment_source_gates(source_id)` resolves the new FK-index advisor finding. The known Pilot leaked-password warning remains governed separately under `CF-CHG-20260823-022`.
 
 ## 12. Accepted implementation
 
 Final Pilot source authority:
 
-`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
-
-Implementation semantics were merged in PR #25; PR #26 only aligned the migration filename to the live ledger.
+`msinghbs-ai/Coursefinder-Pilot@23b2b98284a1c4e694ab37cb4d22c6d8a76b21fa`
 
 Technical acceptance:
 
@@ -88,4 +107,4 @@ Technical acceptance:
 
 ## 13. Architecture outcome
 
-**Accepted.** `course-v3` is the governed Course Search projection for approved Course-Fact enrichment. Identity and publication authority remain unchanged. Vector/hybrid remains outside the accepted production Search path.
+**Accepted.** `course-v3` is the governed Course Search projection for approved Course-Fact enrichment, including the native deterministic full-refresh contract. Identity and publication authority remain unchanged. Vector/hybrid remains outside the accepted production Search path.

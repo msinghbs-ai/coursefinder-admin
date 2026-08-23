@@ -23,7 +23,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE**. Pilot may retain the documented Free-plan warning as a bounded non-production exception. Production must use an eligible Supabase plan, enable leaked-password protection and pass Auth/RBAC UAT before production security sign-off/cutover.
 >
-> **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is `course-v3`, with CRICOS registered tuition separated from Provider-current tuition and only UAT-approved RMIT/UQ Course Facts admitted. Publication remains unchanged. M1-SEARCH-VECTOR remains rejected/not admitted.
+> **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is deterministic `course-v3`: CRICOS registered tuition remains separate from Provider-current tuition, only UAT-approved RMIT/UQ Course Facts are admitted, and the final native full-refresh APPLY/replay is 0 changed / 33,105 unchanged for both base and enrichment. Publication remains unchanged. M1-SEARCH-VECTOR remains rejected/not admitted.
 
 | Change ID | Category | Title | Initiated | Status | UI / capability | Record |
 |---|---|---|---|---|---|---|
@@ -69,9 +69,9 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 Pilot:
 
-`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+`msinghbs-ai/Coursefinder-Pilot@23b2b98284a1c4e694ab37cb4d22c6d8a76b21fa`
 
-PR #25 contains the accepted Search semantics; PR #26 only aligns the migration filename to the exact live Supabase ledger.
+Final Search closure is Pilot PR #27: native `course-v3` full refresh, migration-ledger mirroring and automated APPLY/replay PASS.
 
 Runtime marker remains:
 
@@ -85,7 +85,8 @@ The Search-only `course-v3` admission does not claim a new visible Admin version
 - NZ: 409 Providers / 6,457 Courses;
 - AU+NZ: 1,955 Providers / 33,105 Courses;
 - all-country Courses: 43,461;
-- Search projection: 33,105 Course documents (`course-v3`);
+- Search projection: 33,105 Course documents (`course-v3`), generation 13;
+- full projection replay: base 0 changed / 33,105 unchanged; enrichment 0 changed / 33,105 unchanged;
 - regulatory fee: 26,326 present / 191 source-null / 6,457 not-applicable / 131 zero;
 - Provider-current Search tuition: 10 Courses, 9 annual-comparable;
 - official URL / Intake / English admitted: 10 / 10 / 10 Courses;
