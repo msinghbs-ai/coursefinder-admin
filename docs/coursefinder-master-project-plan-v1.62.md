@@ -30,11 +30,9 @@ Accepted operational journey remains:
 
 Pilot:
 
-`msinghbs-ai/Coursefinder-Pilot@27b760252ead4591e87277524cf7b59928125517`
+`msinghbs-ai/Coursefinder-Pilot@23b2b98284a1c4e694ab37cb4d22c6d8a76b21fa`
 
-PR #25 is the semantic implementation; PR #26 is a no-semantics-change source-control correction aligning the migration filename to the live Supabase ledger.
-
-The Admin visible runtime remains PIM Admin v2.12; this Search-only gate does not claim a new UI release.
+PR #27 is the final closure authority for the native deterministic `course-v3` full refresh and its automated APPLY/replay evidence. The Admin visible runtime remains PIM Admin v2.12; this Search-only gate does not claim a new UI release.
 
 ## Search projection position
 
@@ -74,11 +72,20 @@ Zoho Consumer Contract remains v1.3 with no new DTO fields; Search state remains
 
 ## Determinism / invalidation acceptance
 
-Accepted stage hash:
+Enrichment stage hash:
 
 `fb0585a82e9fe5bc43e9d34bb0f55968846fefba3cf5cc7a41cd0523814bfd3d`
 
-Replay is 0 changed / 33,105 unchanged. Exactly 10 Courses gained searchable enrichment text, exactly 10 semantic hashes changed, and 33,095 prior hashes remained exact.
+Final native full-refresh automated acceptance:
+
+- generation **13**;
+- base content hash `cd2c8422da31f2fa298053a40563c947780ebdaf09d7b41ff983bc6ef9649d9b`;
+- combined projection hash `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
+- immediate base replay **0 changed / 33,105 unchanged / 0 new / 0 removed**;
+- immediate enrichment replay **0 changed / 33,105 unchanged**;
+- `search.projection_state` records `course-v3` and explicit domain/source enrichment admission.
+
+Earlier semantic invalidation UAT remains accepted: exactly 10 Courses gained searchable enrichment text, exactly 10 semantic hashes changed, and 33,095 prior hashes remained exact.
 
 ## Accepted technical baselines
 
@@ -107,6 +114,6 @@ Replay is 0 changed / 33,105 unchanged. Exactly 10 Courses gained searchable enr
 
 ## Baseline for subsequent work
 
-Use Master Project Plan v1.62, Pilot-to-Production Plan v1.10, Running Build v2.64, Database Architecture v2.10.40, Admin/PIM Design Decisions v1.13, PIM Admin Guide v1.14, and Pilot `27b760252ead4591e87277524cf7b59928125517`.
+Use Master Project Plan v1.62, Pilot-to-Production Plan v1.10, Running Build v2.64, Database Architecture v2.10.40, Admin/PIM Design Decisions v1.13, PIM Admin Guide v1.14, and Pilot `23b2b98284a1c4e694ab37cb4d22c6d8a76b21fa`.
 
-Search enrichment is accepted for the governed FTS projection. Publication remains separate, and vector/hybrid remains not admitted.
+Search enrichment is accepted for the governed deterministic FTS projection. Publication remains separate, and vector/hybrid remains not admitted.
