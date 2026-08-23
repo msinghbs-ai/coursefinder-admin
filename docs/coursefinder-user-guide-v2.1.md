@@ -3,7 +3,7 @@
 **Effective:** 23 August 2026  
 **Status:** CURRENT — M2.1 LAYER 2 PLATFORM  
 **Supersedes:** `docs/coursefinder-user-guide-v2.0.md`  
-**Applies to:** frozen M1 AU+NZ baseline plus Layer 2 Platform v1.0
+**Applies to:** frozen M1 AU+NZ baseline plus Layer 2 Platform v1.0.1
 
 ## 1. Operating model
 
@@ -22,24 +22,34 @@ Existing M1 navigation remains unchanged. A governed **Layer 2 Config** launcher
 | Activity | Minimum role |
 |---|---|
 | View Layer 2 configurations | Pipeline Operator / Operations Support, rank 4 |
+| Create a validated immutable configuration version | PIM/Data Administrator, rank 5 |
 | Interpret/manage downstream PIM mapping | PIM/Data Administrator, rank 5, using applicable PIM workflows |
-| Validate, pause, resume, enable or disable Layer 2 profile | Platform Admin, rank 6 |
+| Validate current profile, pause, resume, enable or disable | Platform Admin, rank 6 |
 
-Configuration controls are re-authorised server-side. Browser users never receive service-role secrets, API tokens or credential values.
+Configuration changes and operational controls are re-authorised server-side. Browser users never receive service-role secrets, API tokens or credential values.
 
 ## 4. Layer 2 configuration screen
 
-The list shows source/profile, country, acquisition method, target entity type, current version, validation, health, freshness/inventory, associated Jobs, Evidence count and owner. Filters support text, country, acquisition method and health.
+The list shows source/profile, country, acquisition method, affected Provider/entity scope, current version, validation, health, last successful run, freshness/inventory, associated Jobs/Evidence and blocker. Filters support text, country, acquisition method and health.
 
 Open a profile to inspect:
 
 - source/profile identity and authority;
+- affected Provider/entity scope;
 - current immutable version and validation state;
 - non-secret acquisition configuration;
-- freshness SLA and schedule;
-- configuration history/hash/Change Control;
+- freshness SLA, last success/failure, blocker and schedule;
+- configuration history/hash/Change Control/UAT reference;
+- **Changes from previous version** diff;
 - recent Job and Evidence traceability;
-- Platform Admin controls where authorised.
+- governed version creation for PIM Admin or higher;
+- Platform Admin operational controls where authorised.
+
+### Create a new configuration version
+
+PIM Admin or Platform Admin can select **Create new version**. The editor starts from the current non-secret configuration. Change the governed fields, provide the owning Change Control and optionally the UAT reference, then choose **Validate & create version**.
+
+The server validates the entire configuration before creating it. Secret-like keys, unsupported methods/targets, missing discovery information, excessive timeout/concurrency/payload settings and `evidence_required=false` are rejected. Historical versions are not overwritten. Acquisition method and target entity type are stable profile identity in this foundation; changing either requires a new profile.
 
 ## 5. Configuration states
 
@@ -56,13 +66,14 @@ For data facts, continue to distinguish `present / source_null / not_applicable 
 ## 6. Normal workflow
 
 1. Locate the source/profile in Layer 2 Config.
-2. Check current version, validation, health, freshness and owner.
-3. Before an acquisition run, confirm the profile is enabled, not paused and valid.
-4. Inspect execution in Pipeline Ops → Jobs.
-5. Inspect captured artifacts in Evidence.
-6. Confirm observations map to existing canonical identity; do not use names/titles alone where a stable identifier exists.
-7. Send ambiguity/conflict to Review Queue.
-8. Treat Search admission and Publication as separate downstream gates.
+2. Check current version, validation, health, freshness, blocker and owner.
+3. If configuration changes are required, create a new governed version rather than editing database rows/environment/source code.
+4. Before an acquisition run, confirm the profile is enabled, not paused and valid.
+5. Inspect execution in Pipeline Ops → Jobs.
+6. Inspect captured artifacts in Evidence.
+7. Confirm observations map to existing canonical identity; do not use names/titles alone where a stable identifier exists.
+8. Send ambiguity/conflict to Review Queue.
+9. Treat Search admission and Publication as separate downstream gates.
 
 ## 7. Evidence/provenance
 
@@ -78,12 +89,13 @@ A profile being valid/healthy, a Job succeeding, or Evidence existing does **not
 
 ## 10. Do / Don't
 
-**Do:** use approved source profiles; retain version/Evidence links; respect source authority; distinguish source-null/inaccessible/stale; investigate blockers in Layer 2 Config + Jobs + Evidence.
+**Do:** use approved source profiles; create immutable versions for material changes; retain version/Evidence links; respect source authority; distinguish source-null/inaccessible/stale; investigate blockers in Layer 2 Config + Jobs + Evidence.
 
-**Don't:** place secrets in configuration; edit database rows to bypass validation; invent CRICOS/NZQA identifiers; patch canonical data merely to make completeness/health look better; assume successful acquisition equals publication.
+**Don't:** place secrets in configuration; edit database rows to bypass validation; overwrite historical versions; invent CRICOS/NZQA identifiers; patch canonical data merely to make completeness/health look better; assume successful acquisition equals publication.
 
 ## 11. Troubleshooting
 
+- **Version creation rejected:** read the server validation message; remove unsafe/incomplete settings and try again under the same Change Control. Do not bypass validation.
 - **Invalid:** inspect validation errors; correct through a new governed profile version rather than modifying historical versions.
 - **Paused/disabled:** Platform Admin must explicitly resume/enable if appropriate.
 - **Stale:** inspect latest successful Job and freshness SLA; retry only under source/rate/policy controls.
