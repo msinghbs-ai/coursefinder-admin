@@ -39,17 +39,18 @@ Guidance was distributed across multiple versioned documents and included obsole
 - `docs/coursefinder-user-guide-v2.0.md` is the current role-specific User Guide;
 - `docs/coursefinder-pim-admin-guide-v1.15.md` is the current PIM Admin Guide with final complex-field semantic matrix;
 - `docs/coursefinder-operations-runbook-v1.0.md` is the current operations runbook;
-- `docs/uat/coursefinder-m1-guides-ops-handover-technical-acceptance-2026-08-23.md` records autonomous technical acceptance.
+- `docs/uat/coursefinder-m1-guides-ops-handover-technical-acceptance-2026-08-23.md` records autonomous technical acceptance;
+- Running Build v2.66 and Master Project Plan v1.64 record this gate as the current programme baseline.
 
 ## Source authority / evidence
 
 - `PROJECT_INSTRUCTIONS.md`;
 - `change-control/REGISTER.md` and overlapping records;
-- Master Project Plan v1.63;
-- Running Build v2.65;
+- Master Project Plan v1.63 at initiation, advanced to v1.64 on closure;
+- Running Build v2.65 at initiation, advanced to v2.66 on closure;
 - Database Architecture v2.10.40;
 - Admin/PIM Design Decisions v1.13;
-- PIM Admin Guide v1.14;
+- PIM Admin Guide v1.14 at initiation;
 - Data Quality and Publication governance contracts;
 - accepted Pilot `msinghbs-ai/Coursefinder-Pilot@16ce78e25e78c2324e056a7b8cb6024d4a0428a8`;
 - live Pilot Supabase `fxcwkweaxjtknorudmwp`.
@@ -58,7 +59,13 @@ Guidance was distributed across multiple versioned documents and included obsole
 
 - Supabase migration(s): none;
 - Git repository: `msinghbs-ai/coursefinder-admin`;
-- documentation commits include `7cd9bb1716ce2deb9eede87c84f6d8c25ff45185`, `c98e3679287d94897580c32aecf357a56c8f43a3`, `759b84b8b96ffa5a4ddd0325f16712c795a22f98`, `1453ae05448d24b2ab61dbb7da8b8e48f24c6af0`;
+- User Guide v2.0 commit: `7cd9bb1716ce2deb9eede87c84f6d8c25ff45185`;
+- PIM Admin Guide v1.15 commit: `c98e3679287d94897580c32aecf357a56c8f43a3`;
+- Operations Runbook v1.0 commit: `759b84b8b96ffa5a4ddd0325f16712c795a22f98`;
+- technical acceptance commit: `1453ae05448d24b2ab61dbb7da8b8e48f24c6af0`;
+- Running Build v2.66 commit: `093d7b3e832c2a780d0aa981944c83b19c3e75dc`;
+- Master Project Plan v1.64 commit: `c7f5487642cf16ad7614c72d61f49e474159dff8`;
+- Change Control register updated through `CF-CHG-20260823-025`;
 - RPC/API objects verified: `public.admin_read(text,jsonb)`, `search.refresh_course_documents_v3(boolean)`;
 - UI version: no frontend change; documents PIM Admin v2.12 and independently versioned capabilities.
 
@@ -70,7 +77,7 @@ Verified current deployed navigation, live role ranks, current all-country Provi
 
 ## Rollback / reversion
 
-Documentation-only. Revert the documentation commits and restore v1.14 as the current PIM Admin Guide if reversion is ever required. No database or runtime rollback is required.
+Documentation-only. Revert the documentation/governance commits and restore v1.14 as the current PIM Admin Guide if reversion is ever required. No database or runtime rollback is required.
 
 ## Documentation impact
 
@@ -78,8 +85,8 @@ Documentation-only. Revert the documentation commits and restore v1.14 as the cu
 - User Guide: v2.0 current;
 - Operations Runbook: v1.0 current;
 - Architecture: unchanged;
-- Running build: should advance to record the closed handover gate;
-- Master plan: should record M1 documentation/handover gate closed;
+- Running build: v2.66 current;
+- Master plan: v1.64 current;
 - Zoho contract: unchanged.
 
 ## Decision / status history
@@ -90,6 +97,7 @@ Documentation-only. Revert the documentation commits and restore v1.14 as the cu
 | 23 Aug 2026 14:32 AEST | APPLIED / UAT IN PROGRESS | Consolidated guides/runbook authored from current governance, accepted Pilot source and live Supabase state | this change |
 | 23 Aug 2026 14:46 AEST | UAT PASS | Navigation, roles, Search/publication state, security exception and runbook coverage validated | technical acceptance |
 | 23 Aug 2026 14:47 AEST | CLOSED / PASS | M1 handover documentation accepted | this change |
+| 23 Aug 2026 14:53 AEST | CLOSED / PASS | Running Build v2.66, Master Project Plan v1.64 and register baseline advanced | governance closure |
 
 ## Closure
 
