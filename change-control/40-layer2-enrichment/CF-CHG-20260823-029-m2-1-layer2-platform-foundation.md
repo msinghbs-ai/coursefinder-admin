@@ -1,224 +1,267 @@
 # CF-CHG-20260823-029 — M2.1 Layer 2 Enrichment Platform Foundation
 
-**Status:** BLOCKED — DEPLOYED BROWSER UAT / LIVE PROVIDER TRIAL EVIDENCE OUTSTANDING  
+**Status:** BLOCKED — LIVE PROVIDER / COURSE-DISCOVERY / DEPLOYED BROWSER EVIDENCE OUTSTANDING  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 23 August 2026 20:21 AEST (+10:00)  
 **Origin chat/workstream:** M2.1 — L2-PLATFORM  
 **Owner:** M2.1 Layer 2 Platform workstream  
 **Change class:** schema / enrichment / UI / security / governance / documentation / operations
 
-## Trigger
+## Product and authority boundary
 
-Milestone 2.1 authorised a reusable Layer 2 foundation after the frozen M1 Pilot baseline. The workstream was subsequently clarified in three material ways:
-
-1. source-profile configuration alone is insufficient; Layer 2 requires reusable multi-provider acquisition, Vault-backed credentials, provider routing/fallback, per-attempt Evidence and provider-compatible extraction;
-2. the platform must prove this model through country-based Course completeness/provider trials and Scholarship acquisition rather than configuration CRUD alone; and
-3. CourseFinder has exactly four enrichment authority layers. Layer 4 is terminal; Search/Publication are downstream product states and CourseFinder is not a university-admissions workflow.
-
-## Product / authority boundary
-
-CourseFinder is an **international-student Course and related-data aggregation, discovery and comparison platform**. University application processing, admissions decisions, offer-letter processing and visa processing are outside this platform scope.
+CourseFinder is an **international-student Course and related-data aggregation, discovery and comparison platform**. It is not an application/admissions/offer-letter/visa workflow.
 
 The final enrichment authority model is:
 
 `Layer 1 Authoritative/Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`
 
-There is **no Layer 5**. Completeness/readiness, Search Projection/Visibility and Publication are downstream states.
+Layer 4 is terminal. There is **no Layer 5**. Completeness/readiness, Search Projection/Visibility and Publication are downstream product states, not authority layers.
 
-Avoid **Search Admission** in new work because it is ambiguous with university admissions. Preferred terms are Search Eligibility, Search Projection, Search Visibility, Publication Eligibility and Publication.
+Avoid **Search Admission** in new work because it is ambiguous with university admissions. Use Search Eligibility, Search Projection, Search Visibility, Publication Eligibility and Publication.
 
 ## Required operating sequence
 
-`Source Profile → Provider Route → Acquisition Job → Provider Attempt → Native Evidence → Normalised Extraction Evidence → Deterministic Observation/Candidate → Layer 3 if required → Layer 4 if still unresolved → governed canonical/readiness result → Search Projection/Visibility → Publication`
+`Source Profile → Provider Route → Acquisition Job → Provider Attempt → Native Evidence → Normalised Extraction Evidence → Deterministic Candidate → Layer 3 if required → Layer 4 if still unresolved → governed canonical/readiness result → Search Projection/Visibility → Publication`
 
-Acquisition/extraction success never directly authorises canonical mutation, Search visibility or Publication.
+No acquisition or extraction worker directly authorises canonical mutation, Search visibility or Publication.
 
-## Affected surfaces
+## Implemented Layer 2 platform
 
-- `pipeline.sources`, `pipeline.jobs`, `pipeline.evidence_artifacts`;
-- `pipeline.layer2_source_profiles`, `pipeline.layer2_source_profile_versions`;
-- `pipeline.layer2_acquisition_providers`, `pipeline.layer2_profile_provider_routes`, `pipeline.layer2_provider_attempts`;
-- Supabase Vault provider credentials;
-- private Storage bucket `evidence`;
-- `public.admin_read(text,jsonb)`;
-- Edge Functions `layer2-config-control`, `layer2-provider-control`, `layer2-acquire`, `layer2-extract`;
-- Pilot Data Acquisition navigation and Layer 2 provider/source Admin surfaces;
-- country completeness/provider benchmark UAT;
-- Scholarship discovery/acquisition/extraction;
-- QILT/PRISMS Course decision-context projections;
-- Layer 3 additional-Evidence request contract;
-- Layer 4 terminal human-resolution contract;
-- automated database/security/API/deployed-browser UAT;
-- architecture/database/design/menu/guides/runbook/atlas documentation.
+### Source Profiles
 
-## Implemented Source Profile foundation
+- `pipeline.layer2_source_profiles`;
+- immutable `pipeline.layer2_source_profile_versions` with validation/hash/Change Control/UAT references;
+- exact profile-version references on Jobs and Evidence;
+- enabled/paused/validity execution gate;
+- source-bound URL allowlist;
+- source authority remains independent from acquisition vendor.
 
-- reusable `pipeline.layer2_source_profiles`;
-- immutable `pipeline.layer2_source_profile_versions` with validation/hash/CC/UAT references;
-- exact profile-version reference on Jobs and Evidence;
-- pre-execution validity/enabled/paused gate;
-- Evidence version guard;
-- authenticated governed Admin read surface;
-- rank-5 immutable version creation and rank-6 state controls;
-- malformed initial `base_domain` seeds corrected through governed v2 profile versions rather than direct overwrite.
+### Acquisition Providers
 
-## Implemented acquisition-provider foundation
+Provider credentials are write-only from Admin and stored in Supabase Vault. Browser reads expose `credential_configured`, never the secret/Vault identifier.
 
-Provider credentials are write-only through authorised Admin controls and stored in Supabase Vault. Browser reads expose only `credential_configured`. Provider capability/request JSON rejects secret-like fields.
+| Priority | Provider | Mechanism | Auth | Response adapter |
+|---:|---|---|---|---|
+| 10 | Direct HTTP | governed source GET | none | passthrough |
+| 20 | Scrape.do | scraper/render API | query `token` | passthrough / `scrape_do_json` |
+| 30 | ScraperAPI | scraper/render API | query `api_key` | passthrough |
+| 40 | Firecrawl | browser/API scrape | bearer | `firecrawl_v2` |
+| 50 | ZenRows | JS render/premium proxy API | query `apikey` | passthrough |
+| 90 | Custom gateway | configurable API gateway | configurable | `generic` |
 
-| Priority | Provider | Mechanism | Authentication | Extraction response adapter | Default state |
-|---:|---|---|---|---|---|
-| 10 | Direct HTTP | direct source GET | none | passthrough | enabled |
-| 20 | Scrape.do | scraper API / rendered fetch | query `token` | passthrough / `scrape_do_json` | enabled, credential required |
-| 30 | ScraperAPI | scraper API / rendered fetch | query `api_key` | passthrough | enabled, credential required |
-| 40 | Firecrawl | browser/API scrape POST | bearer | `firecrawl_v2` | enabled, credential required |
-| 50 | ZenRows | scraper API / JS render / premium proxy | query `apikey` | passthrough | enabled, credential required |
-| 90 | Custom gateway | configurable API gateway | configurable header seed | `generic` | disabled until configured |
-
-Current web/search routing for RMIT, UQ and Study Australia is:
+RMIT, UQ and Study Australia web profiles currently route:
 
 `Direct HTTP → Scrape.do → ScraperAPI → Firecrawl → ZenRows`.
 
-QILT structured document and PRISMS XLSX remain Direct HTTP by default because they are deterministic downloadable sources.
+QILT and PRISMS structured-file profiles remain Direct HTTP by default.
 
-Current provider count: **6**. Current route count: **17**.
+### Runtime / Evidence
 
-## Provider-compatible extraction worker
+- `layer2-config-control` — JWT protected;
+- `layer2-provider-control` — JWT protected;
+- `layer2-acquire` — JWT protected, source-bound provider acquisition/fallback/private Evidence;
+- `layer2-extract` — JWT protected, provider-native → common `layer2_extraction_input` Evidence;
+- `layer2-trial-control` — JWT protected, rank >=4 country/provider completeness trial control;
+- `layer2-course-fact-extract` — JWT protected deterministic Course candidate extraction from normalised Evidence;
+- `layer2-scholarship-extract` — JWT protected deterministic Scholarship candidate extraction from normalised Evidence.
 
-JWT-protected `layer2-extract` normalises provider-native Evidence into a common private extraction-input Evidence artifact while preserving the original Evidence.
+Native provider Evidence is retained. Normalised Evidence is derived and linked to the Provider Attempt/source-profile version. Provider screenshot policy does not fabricate screenshots; the provider must actually return/materialise visual Evidence.
 
-Supported adapter patterns include passthrough HTML/JSON, Firecrawl v2 Markdown/HTML/structured JSON/screenshot references, Scrape.do JSON/screenshot mode and generic configurable extraction paths.
+## Country-based Course completeness trial foundation
 
-`layer2-extract` does not call an LLM. It is the Layer 2 provider-normalisation boundary. Domain extractors and future Layer 3 AI consume the common Evidence contract without embedding scraper-vendor transport logic.
+M2.1 now proves the platform through real country/provider Course cohorts rather than configuration CRUD alone.
 
-Screenshot policy does not manufacture screenshots; a provider must actually return/materialise screenshot/image Evidence.
+Live model:
 
-## Country-based Course completeness trial — now part of M2.1
+- `pipeline.layer2_country_completeness_profiles`;
+- `pipeline.layer2_completeness_trials`;
+- `pipeline.layer2_completeness_trial_courses`;
+- `pipeline.layer2_provider_trial_results`;
+- `pipeline.layer2_course_factual_snapshot(uuid)`;
+- `pipeline.layer2_course_decision_context_snapshot(uuid)`;
+- service-only trial create/result/finalise RPCs;
+- provider comparison summary based on outcome/cost/escalation.
 
-M2.1 must prove the platform through bounded real-Course completeness trials.
+### Country profiles
 
-For each selected country:
+AU and NZ international-student Course profiles are seeded independently. NZ explicitly must not inherit CRICOS semantics.
 
-1. define a Country Course Completeness Profile using that country's accepted authority semantics;
-2. select universities/Providers and begin with an approximately 10-Course representative learning batch per Provider unless another bounded cohort is justified;
-3. include static, dynamic/JavaScript-heavy and structurally difficult examples where available;
-4. measure pre-run Course factual completeness and decision-context completeness;
-5. acquire/extract only missing/stale domains;
-6. retain provider-native Evidence and normalised Evidence;
-7. measure post-run evidence-backed completion and correctness;
-8. compare provider latency/retries/cost/outcome;
-9. expand, re-test or change provider based on measured consistency.
+AU factual domains currently measured include identity/regulatory status, official Course URL, Provider-current international tuition, intakes, English requirements, Campus/delivery, description and verification/freshness.
 
-Approximate operating defaults are ≥90% consistent evidence-backed extraction to expand cautiously, 70–89% for another validation batch, and <70% to diagnose/test alternate provider before scale-out. These thresholds are trial guidance, not canonical rules.
+Decision context includes Scholarships, QILT Provider/study-area context and PRISMS Provider/state context where the actual source grain supports it.
 
-Provider selection is based on **cost per evidence-backed completed Course/domain**, accuracy, Evidence quality and reliability—not raw API request price or HTTP 200 alone.
+### Sampling
 
-## Course completeness semantics
+Ten Courses is a learning-batch default, not a production limit.
 
-Country completeness must preserve direct Course facts such as applicable regulatory identity, current tuition, official Course URL, intake, Campus/delivery, English/academic entry requirements, description/taxonomy, Scholarships, Evidence/freshness and relevant context.
+For a 10-Course cohort the sampler now selects:
 
-Preserve `present`, `source_null`, `not_applicable`, `zero`, `suppressed`, `not_yet_enriched`, `stale`, `ambiguous` and `rejected`.
+- 2 known-coverage controls; and
+- 8 gap-learning Courses.
 
-Distinguish:
+An initial gap-only sampler was superseded; its two trial rows are retained as cancelled/auditable rather than deleted.
 
-- **Course factual completeness** — direct facts about the Course; and
-- **decision-context completeness** — relevant Provider/study-area/state/international-student context useful for selection.
+### Active AU cohorts
 
-## Scholarship acquisition / extraction
+**RMIT University**  
+Trial `26086e95-a387-44a7-9a50-d566e29076bb` — 10 Courses = 2 controls + 8 gap-learning.
 
-M2.1 now requires a reusable Scholarship discovery/acquisition/extraction path using the same Source Profile → Provider Route → Provider Attempt → Evidence → normalised extraction contract.
+**The University of Queensland**  
+Trial `3148ca84-f4f9-440f-9bb3-af2e54d383fa` — 10 Courses = 2 controls + 8 gap-learning.
 
-Target candidate semantics include Scholarship name/URL, Provider, award value/type/currency/percentage, eligible Courses/study levels/nationalities, international-student eligibility, academic/English requirements, application/automatic-consideration semantics, dates/intakes, duration/renewability and terms URL.
+The control Courses have current Provider tuition, official Course link, intake and English evidence already present. The gap cohorts are largely missing those domains plus description while retaining stable identity, Campus/delivery and regulatory verification.
 
-`not found by scraper` must never be translated to `no scholarship`.
+This is intentionally useful for measuring the completion delta of Layer 2 rather than merely re-scraping already-complete Courses.
+
+## Provider evaluation contract
+
+`pipeline.layer2_provider_trial_results` records:
+
+- acquisition success;
+- gatekeeping bypass;
+- JavaScript rendering;
+- Evidence quality;
+- deterministic extraction success;
+- verified correctness/ambiguity;
+- latency;
+- request count;
+- vendor cost;
+- targeted/resolved fields;
+- Layer 3 escalation;
+- Layer 4 escalation;
+- blocker/extra metrics.
+
+The aggregate provider summary calculates acquisition/deterministic success rates, correctness rate, resolution rate, vendor cost, cost per resolved field, average latency/Evidence quality and Layer 3/4 escalation rates.
+
+Provider selection must be based on evidence-backed completion/correctness/reliability/cost. HTTP 200 or cheapest per-request price is not sufficient.
+
+## Course-fact extraction guard
+
+`layer2-course-fact-extract` consumes only `layer2_extraction_input` Evidence plus a selected canonical Course identity.
+
+It deterministically attempts:
+
+- official Course URL;
+- Provider-current international tuition candidate;
+- intake month candidates;
+- IELTS/PTE/TOEFL candidates;
+- description candidate;
+- page-title/regulatory-code identity validation.
+
+It writes a `pipeline.course_fact_source_records` candidate only. It never writes canonical Course/fee/intake/English rows.
+
+A critical rule is now explicit: **missing enrichment does not mean a similar current Provider page is the same Course.** If the source page title/regulatory code does not sufficiently match the selected Course, the record is marked `identity_mismatch` / Layer 3 required rather than silently attaching the new page.
+
+This protects historical/retired/superseded regulatory identities during current first-party enrichment.
+
+## Scholarship extraction
+
+`layer2-scholarship-extract` consumes only normalised Layer 2 Evidence and deterministically attempts Scholarship title, award amount/percentage, closing-date text, study-level text and eligibility narrative.
+
+It writes `pipeline.scholarship_source_records` candidates through the existing governed service contract and never applies canonical Scholarship mutation.
+
+Sparse Evidence is marked `layer3_required=true`; it does not jump directly to Layer 4. `Not found by scraper` must not become `no scholarship`.
+
+The previously existing `scholarships-au-etl` remains a historical/specialised worker and does not replace the new provider-neutral Evidence contract.
 
 ## QILT / PRISMS decision context
 
-QILT and PRISMS must be available alongside Courses where relevant to help counsellors/international students compare Course + university/Provider + Campus/state combinations, while preserving actual source grain and reporting period.
+`public.course_decision_context(course_id)` now exposes contextual rows alongside a Course while preserving their real grain.
 
-Permitted contextual projections include:
+For representative active AU trial Courses:
 
-- `qilt_provider_context`;
-- `qilt_study_area_context`;
-- `prisms_provider_context`;
-- `prisms_state_context`;
-- `scholarship_context`.
+- current QILT Provider/provider-study-area observations are available;
+- exact Provider-linked PRISMS observations may be absent for the current mapping;
+- state/subdivision PRISMS context is available where the Course Campus state matches the observation grain.
 
-A Provider-level QILT metric must remain explicitly Provider-level. A PRISMS Provider/state/cohort trend must not be represented as the Course's own enrolment count. Do not duplicate contextual metrics into Course-grain canonical columns solely for UI convenience.
+Each contextual row explicitly carries `grain` and `course_grain=false`. Provider-level QILT must never be relabelled as a Course outcome, and PRISMS state/provider/cohort observations must never be represented as the Course's own enrolments.
+
+This supports counsellor/student comparison of **Course + Provider/university + Campus/state** while preserving evidence semantics.
 
 ## Layer 3 / Layer 4 hand-off
 
-Layer 3 consumes governed Layer 2 Evidence and may request additional Layer 2 Evidence capabilities when evidence is insufficient. It does not independently scrape or receive Vault credentials.
+Layer 3 consumes Layer 2 Evidence and candidates. It does not independently scrape and receives no scraper/Vault credentials.
 
-Only genuinely unresolved/conflicting/consequential cases reach Layer 4. Reviewers receive the complete Evidence/Provider Attempt/candidate package and the explicit reason automation stopped.
+If Layer 3 needs better Evidence it requests another governed Layer 2 capability/provider attempt.
 
-Layer 4 is terminal for enrichment authority. There is no Layer 5.
+Only genuinely unresolved/conflicting/consequential records reach Layer 4 with the full Evidence/attempt/candidate package. Layer 4 is terminal.
 
 ## Admin information architecture
 
-Related `CF-CHG-20260823-030` groups operational acquisition coherently:
+Related `CF-CHG-20260823-030` makes Data Acquisition a coherent main-navigation group:
 
-- Data Acquisition → Pipeline Control;
+- Pipeline Control;
 - Source Registry;
 - Layer 2 Source Config;
 - Acquisition Providers;
 - Jobs;
 - Evidence.
 
-QILT/PRISMS remain under Enrichment & Insights; Course factual/context completeness and Layer 4 Review remain under Quality & Review.
+QILT/PRISMS remain Enrichment & Insights. Completeness and terminal Review Queue remain Quality & Review.
 
-## Supabase implementation references
+## Security / ACL UAT
 
-Source/configuration migrations:
+PASS:
 
-- `20260823102443_m2_1_layer2_platform_foundation`
-- `20260823102619_m2_1_layer2_execution_traceability_hardening`
-- `20260823103650_m2_1_layer2_config_version_governance_hardening`
-- `20260823104038_m2_1_layer2_profile_fk_index_hardening`
-- `20260823104311_m2_1_layer2_config_read_scale_hardening`
+- trial tables are RLS enabled;
+- `anon` and `authenticated` have no direct SELECT on trial tables;
+- service-only trial mutation/metric functions are not executable by browser roles;
+- `service_role` has explicit trusted CRUD access required by the orchestration Edge function;
+- all newly added M2.1 control/extraction Edge Functions are JWT protected;
+- acquisition targets remain source-bound;
+- provider credentials remain Vault-only/write-only;
+- domain extractors create candidates/Evidence only and do not authorise canonical/Search writes.
 
-Provider/runtime migrations:
+## M1 regression
 
-- `20260823105722_m2_1_layer2_acquisition_provider_registry`
-- `20260823105735_m2_1_layer2_provider_admin_read_dispatch`
-- `20260823105757_m2_1_layer2_provider_runtime_contract`
-- `20260823110522_m2_1_layer2_provider_default_routing`
-- `20260823111021_m2_1_layer2_provider_secret_config_hardening`
-- provider catalogue expansion for ScraperAPI / Firecrawl / ZenRows / Custom gateway.
+Current post-change live state remains:
 
-Edge Functions:
+- Search documents: **33,105**;
+- Search published: **0**;
+- canonical Courses: **43,461**;
+- canonical Courses unpublished: **43,461**.
 
-- `layer2-config-control` — JWT protected;
-- `layer2-provider-control` — JWT protected;
-- `layer2-acquire` — JWT protected, source-bound acquisition/fallback/private Evidence;
-- `layer2-extract` — JWT protected, provider-compatible extraction-input normalisation.
+Two current AU completeness trials contain 20 active trial Courses. Trial/candidate data is outside canonical/Search state.
 
-## Security / UAT state
+## Current blockers / next execution
 
-### PASS — current database/API/security foundation
+M2.1 remains **BLOCKED**, not PASS.
 
-- provider tables are RLS-enabled and not directly granted to `anon`/`authenticated`;
-- privileged provider mutation/runtime functions are service-role only;
-- provider secrets are absent from browser projection and kept in Vault;
-- secret-like provider configuration keys are rejected/sanitised;
-- source-bound URL validation prevents arbitrary acquisition proxy use;
-- provider-attempt/profile-version provenance is retained;
-- extraction-blocked fallback semantics are implemented;
-- provider-normalisation worker writes only governed private Evidence/attempt state;
-- M1 canonical/Search baseline remains unchanged.
+Outstanding evidence:
 
-### BLOCKED / outstanding acceptance
+1. Real Scrape.do/ScraperAPI/Firecrawl/ZenRows credentials are still unconfigured. No vendor success/cost claim may be made until entered through Vault-backed Admin and bounded UAT runs.
+2. Live database currently has no `layer2_extraction_input` Evidence. A bounded Provider Attempt must be acquired then run through `layer2-extract` before Course/Scholarship domain extractor runtime UAT.
+3. The eight gap Courses per RMIT/UQ cohort lack official Course URLs. The next execution step is governed first-party Course discovery; it must distinguish current match vs retired/superseded/no-current-match rather than forcing a similar page.
+4. Scholarship provider-neutral extraction must be exercised against real normalised Evidence.
+5. Provider result/cost rows must be populated and compared before a preferred provider strategy is accepted.
+6. SHA-bound deployed desktop/mobile browser acceptance evidence remains outstanding.
 
-- SHA-bound deployed desktop/mobile browser evidence remains outstanding;
-- live third-party provider trials require real credentials entered through the Vault-backed Admin control;
-- country completeness benchmark cohort must be executed and measured;
-- Scholarship acquisition/extraction bounded UAT must be completed;
-- QILT/PRISMS Course-context projection UAT must confirm scope labels/grain preservation;
-- final M2.1 acceptance must re-confirm M1 regression and documentation pointers.
+Technical baseline evidence: `docs/uat/coursefinder-m2-1-country-completeness-provider-trial-2026-08-23.md` and `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`.
 
-No vendor success may be claimed without its real configured credential and bounded UAT.
+## Implementation references added in this increment
 
-## Current documentation
+Live migrations:
+
+- `m2_1_country_completeness_provider_trial_foundation`;
+- `m2_1_completeness_trial_control_sampling`;
+- `m2_1_course_decision_context_projection`;
+- `m2_1_course_decision_context_current_status_fix`;
+- `m2_1_course_decision_context_state_limit`;
+- `m2_1_completeness_trial_service_acl`;
+- `m2_1_provider_trial_metrics_contract`.
+
+Pilot mirrors include:
+
+- `supabase/migrations/20260823123300_m2_1_country_completeness_provider_trial_foundation.sql`;
+- `supabase/migrations/20260823123600_m2_1_completeness_trial_control_sampling.sql`;
+- `supabase/migrations/20260823124400_m2_1_course_decision_context_projection.sql`;
+- `supabase/migrations/20260823124600_m2_1_completeness_trial_service_acl.sql`;
+- `supabase/migrations/20260823124800_m2_1_provider_trial_metrics_contract.sql`;
+- `supabase/functions/layer2-trial-control/index.ts`;
+- `supabase/functions/layer2-course-fact-extract/index.ts`;
+- `supabase/functions/layer2-scholarship-extract/index.ts`.
+
+## Maintained documents
 
 - `docs/coursefinder-m2-1-layer1-4-architecture-contract-v1.0.md`;
 - `docs/coursefinder-database-architecture-v2.10.42.md`;
@@ -229,32 +272,23 @@ No vendor success may be claimed without its real configured credential and boun
 - `docs/coursefinder-pim-admin-guide-v1.17.md`;
 - `docs/coursefinder-operations-runbook-v1.2.md`;
 - `docs/coursefinder-layer2-provider-adapter-contract-v1.0.md`;
-- `docs/coursefinder-m2-1-layer2-platform-replanned-prompt-v2.0.md`;
-- `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md`.
+- `docs/coursefinder-m2-1-layer2-platform-replanned-prompt-v2.0.md`.
 
-Running Build and Master Project Plan remain unchanged until the M2.1 gate genuinely advances; do not mark acceptance from documentation alone.
+Running Build/Master Plan remain intentionally unchanged until the M2.1 acceptance gate genuinely advances.
 
-## Rollback
+## Decision history
 
-1. Disable provider routes before provider removal.
-2. Disable/remove provider credentials from Vault through the authorised control path.
-3. Revert provider/runtime/UI changes only after dependency review.
-4. Remove provider attempts/Evidence only when explicitly identified and not referenced downstream.
-5. Never rewrite the frozen M1 canonical/Search baseline during rollback.
-
-## Decision / status history
-
-| Timestamp | Status | Decision / event |
+| Time | State | Decision |
 |---|---|---|
-| 23 Aug 2026 20:21 AEST | PROPOSED | M2.1 Layer 2 platform initiated against frozen M1 baseline. |
-| 23 Aug 2026 ~21:00 AEST | SCOPE CORRECTION | Multi-provider acquisition, Vault credentials, routing/fallback and Provider Attempt Evidence confirmed as core M2.1. |
-| 23 Aug 2026 ~21:10 AEST | IMPLEMENTED | Source/provider registry/runtime/Admin deployed; database/API/security UAT PASS. |
-| 23 Aug 2026 ~21:20 AEST | BLOCKED | Deployed desktop/mobile SHA-bound browser evidence unavailable. |
-| 23 Aug 2026 ~21:37 AEST | IMPLEMENTED / BLOCKED | Provider catalogue expanded and provider-normalisation worker deployed; live vendor credentials/browser evidence outstanding. |
-| 23 Aug 2026 22:15 AEST | SCOPE REBASELINE | M2.1 acceptance expanded to country Course completeness/provider benchmarking, Scholarship extraction, QILT/PRISMS Course decision context, Layer 3 Evidence-only hand-off and terminal Layer 4 model. |
+| 20:21 | PROPOSED | M2.1 initiated against frozen M1 baseline. |
+| ~21:00 | SCOPE CORRECTION | Multi-provider acquisition/Vault/routing/Evidence made core. |
+| ~21:10 | IMPLEMENTED | Source/provider foundation and security UAT PASS. |
+| ~21:20 | BLOCKED | Deployed browser evidence unavailable. |
+| ~21:37 | IMPLEMENTED/BLOCKED | Provider catalogue + normalisation worker deployed. |
+| 22:15 | SCOPE REBASELINE | Country completeness, Scholarships, contextual QILT/PRISMS and terminal Layer 4 added to acceptance. |
+| 22:35–22:55 | IMPLEMENTED/PARTIAL PASS | AU RMIT/UQ 10-Course cohorts, provider benchmark contract, Course context projection, trial control and Course/Scholarship Evidence-driven extractors deployed; M1 regression remains PASS. |
 
 ## Closure
 
-**Final status:** **BLOCKED — deployed browser + live provider/completeness trial evidence outstanding**  
-**Closed at:** N/A  
-**Outcome:** Core M2.1 source-profile, multi-provider acquisition and provider-compatible extraction platform is implemented and database/API/security-tested. M2.1 now remains open until the clarified country-completeness/provider-trial/Scholarship/context/browser acceptance evidence is completed.
+**Final status:** **BLOCKED — live provider/completeness/Scholarship/browser evidence outstanding**  
+**Closed at:** N/A
