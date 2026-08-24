@@ -1,118 +1,127 @@
 # CourseFinder PIM v2.15 Field-State & Layer 4 UAT — 24 August 2026
 
-**Status:** BACKEND PASS / DEPLOYED BROWSER PENDING  
-**Change Control:** `CF-CHG-20260824-032`  
-**Pilot head:** `effa55f60974e27ad3f27fcd74543f2785fb91ce`
+**Status:** BACKEND PASS / V2.15.1 DEPLOYED BROWSER RECOVERY PENDING  
+**Change Control:** `CF-CHG-20260824-032`
 
 ## Purpose
 
-Prove that Course Detail exposes the governed Course attribute set even when values are empty, that layer progress is field-specific, and that Layer 4 cannot bypass an unresolved Layer 2/3 workflow.
+Prove that Course Detail exposes the governed Course attribute set even when values are empty, layer progress is field-specific, Layer 4 cannot bypass unresolved L2/L3 work, and the drawer remains render-safe for all governed backend payload shapes.
 
 ## Reference Courses
 
 ### Federation University Australia — Bachelor of Arts
 
-Used as the populated positive path. Existing expectations include:
+Positive populated path:
 
 - first-party Course URL present;
 - English requirement present (`IELTS Academic`, overall 6);
 - registered CRICOS fee semantics remain separate from Provider-current tuition;
-- Evidence drill-down remains responsive.
+- Evidence drill-down available.
 
 ### Federation University Australia — Bachelor of Science (Honours), CRICOS 088661B
 
-Used as the unresolved-state reference.
-
-Layer 2 retained Evidence/extraction history proves:
+Unresolved-state reference. Layer 2 history proves:
 
 - official Course URL resolved;
-- Course description resolved;
+- description resolved;
 - March/July intakes resolved;
-- English extraction attempted but returned no requirement;
-- international tuition extraction attempted but available CSP/Band candidates were rejected as unsafe/low-confidence;
-- delivery mode and Academic Options were not attempted by the current Course-facts extractor.
+- English attempted but unresolved;
+- international tuition attempted but unsafe CSP/Band candidates rejected;
+- delivery mode and Academic Options not attempted by the current extractor.
 
 ## Backend field-state UAT — PASS
 
-Expected/observed reference states for Science (Honours):
+| Attribute | Expected state |
+|---|---|
+| Provider | Resolved L1 |
+| CRICOS / Course code | Resolved L1 |
+| Study level | Resolved L1 |
+| Field of study | Resolved L1 |
+| Duration | Resolved L1 |
+| Delivery mode | Awaiting L2 |
+| Official Course URL | Resolved L2 |
+| Course description | Resolved L2 |
+| Current Provider tuition | L2 struck → Awaiting L3 |
+| Intakes | Resolved L2 |
+| English requirement | L2 struck → Awaiting L3 |
+| Campuses | Resolved L1 |
+| Academic options | Awaiting L2 |
+| Categories | Direct L4 input |
+| Collections | Direct L4 input |
+| Regulatory facts | Resolved L1 |
 
-| Attribute | Expected state | Reason |
-|---|---|---|
-| Provider | Resolved L1 | authoritative Provider identity |
-| CRICOS / Course code | Resolved L1 | authoritative regulatory identity |
-| Study level | Resolved L1 | canonical Layer 1 fact |
-| Field of study | Resolved L1 | canonical Layer 1 fact |
-| Duration | Resolved L1 | canonical value present |
-| Delivery mode | Awaiting L2 | no field-specific Layer 2 attempt evidence |
-| Official Course URL | Resolved L2 | first-party URL acquired/applied |
-| Course description | Resolved L2 | first-party meta-description applied |
-| Current Provider tuition | L2 struck → Awaiting L3 | Layer 2 attempted; unsafe domestic/CSP-style candidates rejected |
-| Intakes | Resolved L2 | March/July present |
-| English requirement | L2 struck → Awaiting L3 | Layer 2 attempted; no safe requirement extracted |
-| Campuses | Resolved L1 | Layer 1 campus relationships present |
-| Academic options | Awaiting L2 | not attempted by current extractor |
-| Categories | Direct L4 input | PIM/human-managed field |
-| Collections | Direct L4 input | PIM/human-managed field |
-| Regulatory facts | Resolved L1 | current regulatory observation present |
+Direct SQL validation returned exactly two `awaiting_l2`, two `awaiting_l3`, and two direct `l4_input` values for the unresolved subset.
 
-Direct SQL validation returned exactly:
+No accepted Layer 3 persistence/execution table exists yet, so no enrichment field may display a struck L3 / terminal awaiting-L4 state.
 
-- 2 `awaiting_l2` among the reference unresolved subset: Delivery mode, Academic Options;
-- 2 `awaiting_l3`: Provider-current tuition, English requirement;
-- 2 `l4_input`: Categories, Collections.
+## Layer 4 authority UAT — PASS for scalar contract
 
-No Layer 3 persistence/execution table currently exists, so no enrichment field is allowed to display a struck L3 / terminal awaiting-L4 state yet.
+The governed scalar resolution contract:
 
-## Layer 4 authority UAT — PASS for scalar contract / browser interaction pending
+- requires Curator rank 3+ at the control plane;
+- supports Course description, official Course URL, delivery mode and duration only;
+- requires a human reason;
+- records prior/new value and actor;
+- preserves `resolved_layer=4`;
+- does not mutate Search or Publication;
+- does not flatten compound tuition/intake/English semantics into free text.
 
-Created a governed scalar resolution contract that:
+A transactionally rolled-back delivery-mode test on Science (Honours) returned `layer=4`, `search_changed=false`, `publication_changed=false`, showed the test value inside the transaction, and restored the original NULL value after rollback.
 
-- requires authenticated Curator rank 3+;
-- supports only Course description, official Course URL, delivery mode and duration;
-- requires a human resolution reason;
-- records prior/new value and actor in `pipeline.layer4_course_field_resolutions`;
-- preserves `resolved_layer=4` after application;
-- does not change Search or Publication;
-- cannot mutate compound tuition/intake/English facts through generic free text.
+Browser writes are now routed through JWT-protected Edge function `layer4-course-resolve`; the database mutation function is service-role-only.
 
-A transactional/subtransaction UAT exercised `delivery_mode` on Science (Honours):
+## v2.15.0 deployed manual UAT — FAIL
 
-- inside the UAT subtransaction the RPC returned `ok=true`, `layer=4`, `resolved_value="On campus"`, `search_changed=false`, `publication_changed=false`;
-- the canonical `delivery_mode` was visibly `On campus` inside that subtransaction;
-- the subtransaction was deliberately rolled back;
-- after rollback the canonical `delivery_mode` was again `NULL`.
+Manual clicking of a Course produced a blank Course Detail page.
 
-This proves the write/audit path without leaving test data behind.
+Root cause was isolated to the presentation layer: `state_summary` values may be JSON objects, while v2.15.0 rendered `search`, `canonical` and `admin_readiness` values directly as React children. React rejects an object child and the drawer subtree failed to render.
 
-UI actions are terminal-state gated. For Science (Honours), no scalar `L4 edit` control should appear because its scalar gaps are still Awaiting L2. Only Categories/Collections should expose `L4 review` as direct PIM/L4 fields.
+The Course-detail backend read and canonical data remained valid. This was not a Layer 2 ingestion failure.
+
+## v2.15.1 recovery — APPLIED / BROWSER PENDING
+
+Recovery implementation:
+
+- object-safe display conversion for all operational summary values;
+- JSON objects are converted to bounded scalar summaries rather than rendered directly;
+- all 16 governed Course attributes remain visible;
+- the field-state matrix remains field-specific;
+- fee/English/Evidence semantics remain intact;
+- no polling or MutationObserver recovery logic added.
+
+Implementation refs:
+
+- `f9c7f79cf950d47f36a4a9ac72b63c710ed6e987` — safe Course renderer;
+- `e85258a44afd09fa1bcf92b024c5bca1c67a01c7` — visible v2.15.1 version;
+- `1a92714a36ab0531a86ec1e1a88078d633d7fff9` — runtime title/marker;
+- `4faf4fbdc7b8e6e114944774d4fed306285601bd` — SHA-bound recovery UAT expectations.
 
 ## Deployed automated browser acceptance — PENDING
 
-`tests/uat/course-detail-polish-deployed.spec.mjs` requires desktop/mobile Chromium to prove:
+Desktop and mobile Chromium must prove:
 
-### Populated Course
+### Bachelor of Arts
 
-- application loads and Course drawer remains responsive;
-- exact `PIM Admin v2.15.0` marker;
+- exact `PIM Admin v2.15.1` marker;
+- Course drawer visible and title rendered;
+- `Operational state` visible without React object-child failure;
 - all 16 governed attribute labels visible;
-- first-party Course URL works;
-- English is explicitly labelled and populated;
-- Evidence navigation remains responsive.
+- first-party Course URL correct;
+- English explicitly labelled/populated;
+- Evidence drill-down responsive.
 
-### Unresolved Course
+### Science (Honours)
 
-Science (Honours) must display in the **Course attributes** matrix:
+- all 16 governed attribute labels visible;
+- exactly two `Awaiting L3` trails;
+- exactly two `Awaiting L2` trails;
+- exactly two direct `L4 input` trails;
+- blank values displayed as `—`;
+- zero scalar `L4 edit` controls while fields are not terminal;
+- exactly two `L4 review` actions for direct PIM/L4 fields.
 
-- all 16 governed attribute labels even when empty;
-- exactly 2 `Awaiting L3` trails;
-- exactly 2 `Awaiting L2` trails;
-- exactly 2 direct `L4 input` trails;
-- blank values as `—`;
-- zero `L4 edit` buttons;
-- exactly 2 `L4 review` buttons.
-
-The browser run must also report no server/browser runtime errors.
+The run must report no browser/server runtime errors.
 
 ## Acceptance rule
 
-Do not close `CF-CHG-20260824-032` or the parent M2.1 gate until the deployed SHA-bound desktop/mobile result is PASS. Any responsiveness regression reopens the recovery gate immediately.
+Do not close `CF-CHG-20260824-032` or the parent M2.1 gate until the deployed SHA-bound desktop/mobile result is PASS. Any further blank-page, lock-up or timeout regression keeps the gate BLOCKED and triggers rollback to the last responsive Course drawer presentation.
