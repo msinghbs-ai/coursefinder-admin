@@ -1,32 +1,33 @@
 # CF-CHG-20260824-031 — Course Detail Operator Polish
 
-**Status:** APPLIED — DEPLOYED BROWSER UAT PENDING  
+**Status:** BLOCKED — v2.14.x DEPLOYED RECOVERY/UAT IN PROGRESS  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 24 August 2026 14:00 AEST (+10:00)  
-**Updated:** 24 August 2026 15:42 AEST (+10:00)  
+**Updated:** 24 August 2026 16:02 AEST (+10:00)  
 **Origin chat/workstream:** M2.1 — Layer 2 Platform / Admin cross-check  
 **Owner:** M2.1 Layer 2 Platform + Admin/PIM UX workstreams
 
 ## Trigger
 
-Manual Admin cross-check of Federation University Australia `Bachelor of Arts` (`085611C`) after Layer 2 canonical enrichment showed that the underlying data was present but Course Detail remained too implementation-oriented for management/PIM use.
+Manual Admin cross-check of Federation University Australia `Bachelor of Arts` (`085611C`) identified Course Detail presentation defects. The v2.14 increment corrected URL, fee presentation, empty sections, Evidence navigation, regulatory wording and layer badges. Live UAT then exposed critical browser responsiveness regressions.
 
-Initial defects included blank official Course URL, duplicate fee presentation, empty optional panels, non-clickable Evidence, rough regulatory wording and generic object dumps. A second visual UAT pass required figure-first fee presentation, reversible Evidence navigation and layer provenance badges. A third live browser UAT at 15:36 AEST identified a critical v2.14 regression: clicking Course Evidence caused Chrome `Page Unresponsive`.
+## Incident timeline
 
-## Root cause of v2.14 Evidence freeze
+- **v2.14:** clicking Course Evidence caused Chrome `Page Unresponsive`.
+- Root cause: `src/evidence-return-entry.js` used a page-wide `MutationObserver` whose callback removed/recreated the same button, recursively retriggering itself.
+- **v2.14.1:** replaced that observer with bounded retries, but subsequent live UAT reported the application itself loading slowly/timing out.
+- **v2.14.2 recovery:** removed the Evidence-return helper from application bootstrap entirely, deleted the helper source, and replaced the global version synchroniser MutationObserver with a bounded 20-attempt updater. Recovery takes priority over Back-to-Course convenience.
 
-`src/evidence-return-entry.js` used a document-wide `MutationObserver`. Its callback removed and recreated the `Back to Course` button. Those DOM changes immediately retriggered the same observer, producing an unbounded mutation/render loop and locking the browser tab.
-
-This was a UI helper defect only. Evidence ACL, stored artifacts and canonical Course data were not corrupted.
+No canonical Course, Evidence, Search or publication data was corrupted by this browser/runtime defect.
 
 ## Semantic impact
 
-No canonical fee semantics change.
+No canonical semantics change.
 
-- CRICOS registered tuition/non-tuition/estimated-total-course-cost remain Layer 1 `registered_total_course` facts.
-- Provider-current tuition remains a separate Layer 2/current Provider fact.
-- Course URL may resolve from active governed `official_course` `catalogue.course_links` when the legacy scalar is empty.
-- layer badges are presentation/provenance hints only and do not change authority.
+- CRICOS registered tuition/non-tuition/estimated-total-course-cost remain Layer 1 facts.
+- Provider-current tuition remains separate Layer 2/current Provider fact.
+- Course URL may resolve from active governed `official_course` link when the legacy scalar is empty.
+- layer badges are display/provenance hints only.
 - completeness/readiness is not publication approval.
 - Search/publication authority is unchanged.
 
@@ -34,62 +35,50 @@ No canonical fee semantics change.
 
 Migration `m2_1_admin_course_detail_enrichment_presentation_contract` remains active.
 
-Federation Bachelor of Arts validation:
+Federation Bachelor of Arts validation remains:
 
 - official Course URL: `https://www.federation.edu.au/courses/dhm5-bachelor-of-arts/`;
 - registered CRICOS fee rows: `3`;
 - Provider-current fee rows: `0`;
 - distinct supporting Evidence rows in Course Detail union: `3`.
 
-## PIM Admin v2.14.1 presentation
+## PIM Admin v2.14.2 recovery
 
-Course Detail uses the dedicated `CourseDetailPolish` renderer.
+Retained UI improvements:
 
-### Fee cards
+- figure-first fee values;
+- explicit L1/L2 provenance badges;
+- one fee section only;
+- hidden empty optional sections;
+- concise Regulatory Facts;
+- clickable Evidence navigation;
+- official first-party Course URL.
 
-Fee rows present clear fee type, monetary figure as the primary value, Year/Audience/Basis as secondary metadata, explicit `L1` or `L2` provenance badge, and Evidence action. Registered CRICOS and Provider-current tuition remain separate columns.
+Temporarily removed from runtime:
 
-### Provenance badges
+- `Back to Course` DOM helper.
 
-Compact `L1`, `L2`, `L3`, `L4` badges may appear beside important facts. Current Course Detail derives them from already-returned authority context; no per-field RPC is issued merely to render a badge. Future Layer 3/4 resolved values must use stored resolution provenance rather than guessed badges.
-
-### Evidence return — v2.14.1 hotfix
-
-Course-originated Evidence links retain `return_course_id`.
-
-The v2.14 mutation observer was removed. The helper is now idempotent and event-driven:
-
-- one render attempt is started on initial document readiness/hash navigation;
-- bounded retries wait only for the Evidence hero to mount;
-- an existing Back button is reused rather than removed/recreated;
-- route generations cancel stale retries;
-- there is no page-wide MutationObserver and therefore no self-triggering DOM loop.
-
-The action returns to `#courses?id=<course-id>` and reopens the exact Course drawer.
-
-### Empty optional sections
-
-Academic Options, Categories and Collections remain hidden when empty.
+The Evidence URL may still carry `return_course_id`, but the application no longer injects a return control outside the React workspace. A native React return action may be reintroduced only after recovery UAT passes.
 
 ## Publication guidance
 
-PIM Admin Guide v1.18 is the current M2.1 operator guide for this workflow.
-
-100% completeness must **not** auto-publish a Course. Recommended operation:
+PIM Admin Guide v1.18 remains current. 100% completeness must not auto-publish. Recommended operation remains:
 
 `Completeness/readiness → Publication eligibility → bounded operator selection → preview → explicit Publish/Internal action → audit event → Search refresh → consumer visibility verification`.
 
-Broad Pilot catalogue publication remains unauthorised until a later explicit gate enables it.
+Broad Pilot publication remains unauthorised.
 
 ## Implementation references
 
-Pilot:
+### v2.14 / v2.14.1 rejected runtime helpers
 
-- `src/CourseDetailPolish.jsx` — figure-first fees, layer badges and Evidence return context;
-- `src/evidence-return-entry.js` — v2.14.1 bounded/idempotent Evidence return helper; commit `48d7a5406d05fad69a0bf829e78a5aa93ad64383`;
-- `src/pim-version-entry.js` — visible v2.14.1 patch marker; commit `839ff21dea50b79b82cf029f45ed621ca442e213`;
-- `index.html` — v2.14.1 runtime marker; commit `297b2d121768d2fe5f77385dd89e583e51e0130c`;
-- `tests/uat/course-detail-polish-deployed.spec.mjs` — v2.14.1 desktop/mobile acceptance; commit `1d9301919bb9036b11fefc51bc0d2b4b10ff3601`.
+- `src/evidence-return-entry.js` — rejected helper; deleted in recovery commit `d89921cd392076c47704a7e26ae5e71a3049f738`.
+
+### v2.14.2 recovery
+
+- `index.html` — removes Evidence helper bootstrap and marks v2.14.2; commit `39630115b05112e8684bd7ccb817340a6c8094ae`;
+- `src/pim-version-entry.js` — removes global MutationObserver and uses bounded synchronisation; commit `90bbd64f0661719d521c6f80fc8f616d2e8fc5a5`;
+- `tests/uat/course-detail-polish-deployed.spec.mjs` — recovery acceptance checks Course and Evidence remain responsive without requiring Back to Course; commit `3eaf9131b9a5ba319415a53222788d711952a2f9`.
 
 Governance:
 
@@ -99,7 +88,7 @@ Governance:
 
 ### Backend contract — PASS
 
-- official Course URL resolves from governed active Course link;
+- governed official Course URL resolves correctly;
 - registered CRICOS fee count remains 3;
 - no Provider-current fee is manufactured for Federation Bachelor of Arts;
 - Course-link/description Evidence is included;
@@ -107,30 +96,30 @@ Governance:
 
 ### Manual deployed browser v2.14 — FAIL
 
-24 August 2026 15:36 AEST: Chrome became unresponsive immediately after navigating from Federation Bachelor of Arts Course Detail to an Evidence artifact with `return_course_id`. Evidence round-trip acceptance therefore failed v2.14 and triggered the v2.14.1 hotfix.
+Chrome became unresponsive after Course → Evidence navigation.
 
-### Automated deployed browser v2.14.1 — pending
+### Manual deployed browser v2.14.1 — FAIL / RECOVERY TRIGGERED
 
-The updated test verifies:
+24 August 2026 approximately 15:59 AEST: user reported the application itself was not loading and timing out. v2.14.1 therefore cannot be accepted.
 
-- PIM v2.14.1 runtime marker;
-- Federation Bachelor of Arts drawer opens;
-- official first-party URL is visible/clickable;
-- figure-first fee display and CRICOS/current Provider separation;
-- L1/L2 badges;
-- empty optional sections suppressed;
-- Evidence navigation reaches the Evidence drawer responsively;
-- `Back to Course` is visible and returns to the exact Course drawer;
-- no browser/server runtime errors under desktop/mobile Chromium.
+### Automated deployed browser v2.14.2 — PENDING
 
-Required browsers: Chromium desktop and Chromium mobile.
+Recovery UAT must prove on desktop and mobile:
+
+- application/login shell loads responsively;
+- Federation Bachelor of Arts Course drawer opens;
+- figure-first fee and layer badges render;
+- Evidence navigation opens the Evidence workspace/drawer without locking the page;
+- no browser/server runtime errors.
+
+Back-to-Course is explicitly deferred from this recovery gate.
 
 ## Rollback
 
-Revert the v2.14/v2.14.1 Pilot UI helper commits. Canonical Layer 2 facts, Course links, Evidence and frozen M1 Search/publication state do not require rollback because this is a presentation/navigation increment.
+If v2.14.2 still fails deployed loading, rollback UI presentation to the last responsive v2.13 shell while retaining the safe Supabase read contract and canonical Layer 2 data.
 
 ## Current gate
 
-**APPLIED — DEPLOYED BROWSER UAT PENDING.**
+**BLOCKED — DEPLOYED v2.14.2 RECOVERY UAT REQUIRED.**
 
-v2.14 Evidence round-trip is explicitly rejected. `CF-CHG-20260823-029` remains the parent M2.1 acceptance gate until v2.14.1 deployed desktop/mobile acceptance is PASS.
+`CF-CHG-20260823-029` remains blocked until the Admin runtime is responsive and final deployed acceptance passes.
