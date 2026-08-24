@@ -1,242 +1,250 @@
 # CF-CHG-20260823-029 — M2.1 Layer 2 Enrichment Platform Foundation
 
-**Status:** BLOCKED — RETAINED-EVIDENCE EXTRACTION + DEPLOYED BROWSER ACCEPTANCE OUTSTANDING  
+**Status:** BLOCKED — ACQUIRE-V2 RETAINED-EVIDENCE / EXTRACTION + DEPLOYED BROWSER ACCEPTANCE OUTSTANDING  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 23 August 2026 20:21 AEST (+10:00)  
+**Updated:** 24 August 2026 10:38 AEST (+10:00)  
 **Origin chat/workstream:** M2.1 — L2-PLATFORM  
-**Owner:** M2.1 Layer 2 Platform workstream  
-**Change class:** schema / enrichment / UI / security / governance / documentation / operations
+**Owner:** M2.1 Layer 2 Platform workstream
 
-## Product and authority boundary
+## Product / authority boundary
 
-CourseFinder is an international-student Course and related-data aggregation, discovery and comparison platform. It is not an application/admissions/offer-letter/visa workflow.
-
-Final enrichment authority model:
+CourseFinder is an international-student Course and related-data aggregation, discovery and comparison platform.
 
 `Layer 1 Authoritative/Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`
 
-Layer 4 is terminal. There is no Layer 5. Completeness/readiness, Search Projection/Visibility and Publication are downstream states.
+Layer 4 is terminal. There is no Layer 5.
 
-## Layer 2 scope correction
+Layer 2 is limited to **Course enrichment** and **Scholarship enrichment**. QILT and PRISMS remain Layer 1 contextual datasets and must not be sent through paid Layer 2 acquisition providers.
 
-Layer 2 acquisition is now explicitly limited to **Course enrichment** and **Scholarship enrichment**.
+## Layer 2 operational process
 
-QILT and PRISMS remain Layer 1 authoritative/contextual datasets and are available downstream with Courses at their real Provider/study-area/state/cohort grain. They are not Layer 2 scraper targets.
+The governed operational process is now:
 
-Live correction applied on 24 August 2026:
+`Execution Policy → Run Batch → Run Item → Job → Provider Attempt → Native Evidence → Normalised Evidence → Deterministic extraction → L2 resolved OR L3 required`.
 
-- `au-qilt-ess-structured-file` disabled/paused for Layer 2 execution;
-- `au-prisms-xlsx` disabled/paused for Layer 2 execution;
-- all Layer 2 provider routes for those profiles disabled;
-- backend provider routing now rejects non-Course/non-Scholarship Layer 2 profile use;
-- Admin Layer 2 profile reads expose only Course and Scholarship enrichment targets.
+Layer 2 never sends directly to Layer 4. Only unresolved Layer 3 fall-out becomes Layer 4 Review.
 
-Scrape.do, Firecrawl, ZenRows and Direct HTTP are **Acquisition Providers**, not data sources.
+### Execution policy
 
-## Required operating sequence
+`pipeline.layer2_execution_policies` stores one management policy per Course/Scholarship enrichment source:
 
-`Enrichment Source → Provider Route → Acquisition Job → Provider Attempt → Native Evidence → Normalised Extraction Evidence → Deterministic Candidate → Layer 3 if required → Layer 4 if still unresolved`
+- Manual / Daily / Weekly / Disabled;
+- batch size;
+- cost-aware routing strategy;
+- maximum paid attempts/item;
+- optional vendor-unit/cost ceilings;
+- automatic Layer 3 hand-off;
+- identity-mismatch stop guard.
 
-No acquisition/extraction worker directly authorises canonical mutation, Search visibility or Publication.
+Initial safe default: **Manual / 10 items / Direct HTTP then best-value fallback / maximum 2 paid attempts**.
 
-## Implemented platform
+### Run tracking
 
-### Source Profiles
+- `pipeline.layer2_run_batches` — source-profile-version/policy snapshot + aggregate outcome/cost;
+- `pipeline.layer2_run_items` — Course/Scholarship item + Job/provider/Evidence/resolution/fall-out.
 
-- `pipeline.layer2_source_profiles`;
-- immutable `pipeline.layer2_source_profile_versions`;
-- exact profile-version lineage on Jobs/Evidence;
-- enabled/paused/validity execution gate;
-- source-bound URL allowlist;
-- Course discovery strategy separated from Course detail acquisition.
+These tables are RLS-enabled and service-only at table level.
 
-RMIT and UQ current Source Profile v3 configurations include first-party search/discovery strategies. UQ's search host is explicitly allowlisted for discovery; detail extraction remains bound to first-party study pages.
+## Acquisition Providers
 
-### Acquisition Providers
-
-Provider credentials are write-only from Admin and stored in Supabase Vault. Browser reads expose only credential readiness and non-secret provider configuration.
-
-Current tested acquisition providers:
+Current tested methods:
 
 | Provider | Credential | Current role |
 |---|---|---|
 | Direct HTTP | none | zero-external-fee first route where sufficient |
-| Scrape.do | configured | rendered HTML fallback/benchmark candidate |
-| Firecrawl | configured | rich HTML/Markdown/screenshot escalation candidate |
-| ZenRows | configured | rendered/proxy fallback/benchmark candidate |
-| ScraperAPI | not configured | retained catalogue option, not part of current live benchmark |
+| Scrape.do | configured | rendered HTML fallback / benchmark |
+| Firecrawl | configured | rich HTML/Markdown/screenshot escalation |
+| ZenRows | configured | rendered/proxy fallback / benchmark |
+| ScraperAPI | not configured | catalogue option only |
 | Custom gateway | disabled | future governed adapter |
 
-Provider billing configuration is non-secret metadata. Monetary cost remains unknown unless actual account-plan economics are configured. Vendor units/credits are recorded separately from money.
+Provider credentials remain Vault-only/write-only. Browser surfaces show readiness, not secrets.
 
-### Runtime / Evidence
+Provider choice is based on evidence-backed resolution/correctness/reliability/cost, not HTTP 200 or cheapest request.
 
-JWT-protected runtime includes:
+## Provider benchmark evidence
 
-- `layer2-config-control`;
-- `layer2-provider-control`;
-- `layer2-acquire`;
-- `layer2-extract`;
-- `layer2-trial-control`;
-- `layer2-course-discover`;
-- `layer2-course-fact-extract`;
-- `layer2-scholarship-extract`.
+Technical record: `docs/uat/coursefinder-m2-1-provider-benchmark-2026-08-24.md`.
 
-`layer2-acquire` supports governed forced-provider trial mode but only for providers already routed to the selected enrichment source. Acquisition URLs remain source-bound.
-
-## Country completeness trials
-
-Live AU learning cohorts:
-
-- RMIT University trial `26086e95-a387-44a7-9a50-d566e29076bb` — 10 Courses, 2 controls + 8 gap-learning;
-- The University of Queensland trial `3148ca84-f4f9-440f-9bb3-af2e54d383fa` — 10 Courses, 2 controls + 8 gap-learning.
-
-The country completeness model distinguishes Course factual completeness from contextual completeness. QILT/PRISMS context never becomes fake Course-grain fact data.
-
-## Provider benchmark telemetry
-
-`pipeline.layer2_provider_benchmark_observations` was added on 24 August 2026 to retain provider-selection telemetry separately from formal Evidence.
-
-The table stores benchmark reference, target/provider identity, request ID, HTTP result, response size, provider units where available, SHA-256 and high-level Course fact markers. It is RLS-enabled and browser roles have no direct access.
-
-Telemetry is explicitly marked `probe_hash_only` unless produced through the formal retained-Evidence path. Probe telemetry must never be presented as Native Evidence.
-
-Technical evidence: `docs/uat/coursefinder-m2-1-provider-benchmark-2026-08-24.md`.
-
-### First 5×2 Course benchmark
-
-Ten current first-party Course pages were tested: five RMIT and five UQ. Each was attempted through Direct HTTP, Scrape.do, Firecrawl and ZenRows: 40 bounded acquisition attempts.
-
-Initial result:
+First benchmark: five RMIT + five UQ current Course pages × Direct HTTP / Firecrawl / Scrape.do / ZenRows = **40 bounded attempts**.
 
 | University | Direct HTTP | Firecrawl | Scrape.do | ZenRows |
 |---|---:|---:|---:|---:|
 | RMIT | 5/5 | 5/5 | 3/5 | 4/5 |
 | UQ | 5/5 | 5/5 | 1/5 | 1/5 |
 
-Every successful response contained the exact CRICOS target plus fee, English and intake/start markers.
+All successful responses contained the exact CRICOS identity plus fee, English and intake/start markers.
 
-Scrape.do and ZenRows failures were predominantly HTTP 429 during a deliberately parallel diagnostic batch. The batch did not respect configured provider concurrency, so these are not accepted as content failures. Sequential rechecks of representative failed UQ targets returned HTTP 200 for both Scrape.do and ZenRows.
+Scrape.do/ZenRows failures were predominantly 429s caused by the deliberately parallel diagnostic. Representative sequential retries returned 200, therefore accepted interpretation is **rate/concurrency orchestration issue**, not content failure.
 
-Accepted interpretation at this stage:
+Current provisional routing conclusion:
 
-- Direct HTTP remains the preferred first route for ordinary RMIT/UQ Course pages;
-- Firecrawl is the strongest currently proved rich-Evidence escalation route because all tested targets returned HTML + Markdown + screenshot;
-- Scrape.do and ZenRows remain viable but require rate/concurrency-aware orchestration;
-- no final paid-provider winner is accepted before deterministic extraction quality and actual account-plan monetary economics are measured.
+- Direct HTTP first for ordinary RMIT/UQ pages;
+- Firecrawl is the strongest proved rich-Evidence escalation route;
+- Scrape.do/ZenRows remain viable rate-aware fallbacks;
+- no final paid-provider winner until deterministic extraction and actual account-plan economics are measured.
 
-Observed provider units in this benchmark:
+Scholarship acquisition against Study Australia returned usable content through all four methods. Retained-Evidence Scholarship extraction remains pending.
 
-- Firecrawl: one base credit on each successful test response;
-- Scrape.do: five credits on each successful rendered test response;
-- ZenRows: units are not currently exposed by the probe contract;
-- Direct HTTP: zero external vendor fee.
+## Direct HTTP runtime / IP provenance
 
-## Scholarship acquisition benchmark
+The CourseFinder Admin is served behind Cloudflare Worker `coursefinder-pilot.techm.workers.dev`, but the actual Direct HTTP source `fetch()` executes in the Supabase Edge Function runtime.
 
-The governed Study Australia Scholarship enrichment target was probed through Direct HTTP, Scrape.do, Firecrawl and ZenRows.
+Therefore source websites see **Supabase Edge outbound egress**, not the Cloudflare Worker IP.
 
-All four returned HTTP 200 and content containing Scholarship, eligibility, international-student and value/award markers. Firecrawl also returned Markdown + HTML + screenshot; Scrape.do consumed five credits.
+Supabase hosted Edge Functions do not provide a guaranteed static outbound IP. Historical pre-v2 attempts did not record the observed public egress IP, therefore CourseFinder cannot reconstruct the exact historical public egress address.
 
-This proves acquisition only. `layer2-scholarship-extract` still requires retained and normalised Layer 2 Evidence runtime UAT.
+## Acquisition runtime v2
 
-## Course extraction identity guard
+`layer2-acquire-v2` is deployed ACTIVE with `verify_jwt=true`; existing `layer2-acquire` remains rollback until v2 browser/live Evidence UAT passes.
 
-`layer2-course-fact-extract` consumes normalised Layer 2 Evidence and selected canonical identity. It can attempt official URL, Provider-current international tuition, intake, English-test and description candidates.
+v2 records on every Provider Attempt:
 
-Missing enrichment must not cause a similar current Course to be attached to an older/different regulatory identity. Identity mismatch/supersession remains unresolved and proceeds through Layer 3/Layer 4 rules rather than silent mutation.
+- `runtime_platform = supabase_edge`;
+- `runtime_region = SB_REGION`;
+- `runtime_execution_id = SB_EXECUTION_ID`;
+- `runtime_deployment_id = DENO_DEPLOYMENT_ID`;
+- `egress_identity = supabase_edge_dynamic_non_static`.
 
-## Layer 3 / Layer 4 contract
+This provides auditable runtime provenance without falsely claiming a fixed outbound IP.
 
-Layer 3 consumes Layer 2 Evidence/candidates and does not scrape independently or receive scraper credentials. If better Evidence is required, Layer 3 requests another governed Layer 2 acquisition capability.
+## Evidence per fetch / versioning
 
-Only genuinely unresolved/conflicting/consequential cases reach Layer 4 with the Evidence/attempt/candidate package. Layer 4 is terminal.
+Every successful v2 fetch creates a new Evidence Artifact row even when bytes are unchanged. Verification time is evidence.
 
-## Admin information architecture
+New fields:
 
-Data Acquisition includes:
+- `evidence_group_key`;
+- `capture_version` with unique group/version guard;
+- `supersedes_evidence_id`;
+- `valid_from` / previous `valid_to`;
+- SHA-256 content hash;
+- `content_changed` metadata;
+- Source Profile Version;
+- Provider Attempt / runtime version / deployment lineage;
+- retention/review metadata.
 
-- Pipeline Control;
-- Source Registry;
-- Layer 2 Source Config;
-- Acquisition Providers;
-- Acquisition Trials;
-- Jobs;
-- Evidence.
+A re-fetch of identical content therefore produces another capture version rather than erasing the observation event.
 
-Layer 2 Platform visible version is now **v1.3**. Manual selectors use **Enrichment source** rather than the internal term `Source profile`, with human context such as `Australia · Courses · RMIT University`.
+## Evidence Storage / retention
 
-QILT/PRISMS remain Enrichment & Insights because they are Layer 1 contextual datasets. Completeness and Layer 4 Review remain Quality & Review.
+Evidence remains in the existing **private Supabase Storage bucket `evidence`**.
+
+Acquisition-v2 storage hierarchy:
+
+`layer2/v2/{country}/{domain}/{profile}/{YYYY}/{MM}/{DD}/{job}/{attempt}/v{capture_version}-{kind}.{ext}`
+
+The physical hierarchy exists for operational lifecycle management. Admin review uses relational lineage rather than bucket browsing.
+
+v2 assigns:
+
+- `retention_class = standard_365`;
+- `retain_until = captured_at + 365 days`;
+- `review_state = unreviewed`.
+
+365 days is a minimum retention horizon, **not an automatic destructive-delete date**. Evidence referenced by accepted observations/candidates, review or a hold must not be silently purged. A destructive retention sweeper is not authorised in M2.1 without a separate reference/hold security UAT gate.
+
+Detailed contract: `docs/coursefinder-layer2-operations-evidence-lifecycle-v1.0.md`.
+
+## Provider logging / telemetry
+
+Provider Attempt telemetry is separate from source Evidence content.
+
+It may store bounded non-secret information such as status, latency, bytes, MIME, trace/request ID, rate-limit headers, credit/request-cost headers, retries, fallback reason, vendor units/cost and produced Evidence IDs.
+
+It must never store provider API keys, auth headers or browser-visible service-role credentials.
+
+## Simplified Admin UX
+
+Layer 2 Platform visible version is now **v1.4**.
+
+Primary menu is intentionally reduced to:
+
+`Data Enrichment → Layer 2 Operations / Evidence`.
+
+Former Pipeline Control, Source Registry, Source Config, Acquisition Providers, Acquisition Trials and Jobs remain drill-down capabilities from Layer 2 Operations instead of six separate menu destinations.
+
+Layer 2 Operations first screen contains only:
+
+- enrichment sources + schedule/batch/routing;
+- provider readiness;
+- Evidence count/review count;
+- recent run outcome + L3 fall-out + cost.
+
+Advanced configuration and diagnostics use progressive drill-down.
+
+QILT/PRISMS remain under Insights. Completeness and terminal Layer 4 Review remain under Quality & Review.
+
+Navigation contract: `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`.
 
 ## Security / ACL UAT
 
-PASS:
+PASS for the new backend foundation:
 
-- Layer 2 trial/benchmark tables use RLS;
-- anon/authenticated have no direct benchmark-table access;
-- provider credentials remain Vault-only/write-only;
-- acquisition targets remain source-bound;
-- non-Course/non-Scholarship profiles cannot be routed through Layer 2 provider acquisition;
-- extractors create candidates and do not authorise canonical/Search/Publication mutation;
-- all new Layer 2 control/extraction Edge functions remain JWT protected.
+- new policy/run tables use RLS;
+- `anon` and `authenticated` direct SELECT is false;
+- service role has trusted table access;
+- Admin reads remain rank >=4;
+- execution-policy mutation requires PIM Admin rank >=5;
+- acquisition-v2 is JWT protected;
+- source-bound URL/profile gates retained;
+- non-Course/non-Scholarship profiles cannot execute through acquisition-v2;
+- provider credentials remain Vault-only.
 
-## M1 regression boundary
+Supabase Advisor still reports the established `RLS enabled/no policy` informational pattern on private schemas. This is intentional where direct browser table access is revoked; existing M1 security architecture is not being weakened.
 
-M2.1 remains additive and must not change the frozen M1 publication baseline. Trial/probe/candidate state is outside canonical/Search authority.
+## Implementation references — 24 Aug operational lifecycle increment
 
-## Current blockers / next execution
+Live:
+
+- `m2_1_layer2_operations_evidence_lifecycle`;
+- `m2_1_layer2_evidence_capture_version_guard`;
+- Edge `layer2-acquire-v2` v1 ACTIVE.
+
+Pilot:
+
+- `supabase/migrations/20260824104000_m2_1_layer2_operations_evidence_lifecycle.sql`;
+- `supabase/migrations/20260824104100_m2_1_layer2_evidence_capture_version_guard.sql`;
+- `supabase/functions/layer2-acquire-v2/index.ts`;
+- `src/layer2-operations-entry.jsx`;
+- `src/layer2-operations.css`;
+- `src/data-acquisition-nav-entry.js` v1.4;
+- `index.html` Layer 2 Platform v1.4;
+- `tests/uat/admin-navigation-deployed.spec.mjs` simplified-navigation acceptance.
+
+Governance/UAT:
+
+- `docs/coursefinder-layer2-operations-evidence-lifecycle-v1.0.md`;
+- `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`;
+- `docs/uat/coursefinder-m2-1-layer2-operations-lifecycle-2026-08-24.md`.
+
+## Current gate
 
 M2.1 remains **BLOCKED**, not PASS.
 
-Outstanding acceptance evidence:
+Remaining acceptance evidence:
 
-1. rate/concurrency-aware automated provider benchmark orchestration rather than uncontrolled parallel paid-provider calls;
-2. representative Native Evidence-retained Course attempts through `layer2-acquire`;
-3. `layer2-extract` normalisation runtime UAT on those retained attempts;
-4. deterministic Course extraction correctness/completeness comparison across representative provider outputs;
-5. retained-Evidence `layer2-scholarship-extract` UAT;
-6. actual account-plan cost configuration if monetary provider ranking is required;
-7. SHA-bound deployed desktop/mobile browser UAT for Layer 2 Platform v1.3.
-
-Provider credentials are **not** a current blocker: Scrape.do, Firecrawl and ZenRows are configured and were exercised.
-
-## Key implementation references
-
-Live migrations/additions include:
-
-- Layer 2 Source Profile/provider/Vault/routing foundation migrations;
-- country completeness/provider trial foundation and service ACL;
-- Course decision-context projection;
-- provider trial metric and effective-cost contracts;
-- Course discovery candidate contract;
-- Layer 2 Course/Scholarship scope correction;
-- `m2_1_provider_benchmark_observations`.
-
-Pilot mirrors/runtime include:
-
-- `supabase/functions/layer2-acquire/index.ts`;
-- `supabase/functions/layer2-extract/index.ts`;
-- `supabase/functions/layer2-trial-control/index.ts`;
-- `supabase/functions/layer2-course-discover/index.ts`;
-- `supabase/functions/layer2-course-fact-extract/index.ts`;
-- `supabase/functions/layer2-scholarship-extract/index.ts`;
-- `supabase/migrations/20260824101000_m2_1_layer2_course_scholarship_scope_correction.sql`;
-- `supabase/migrations/20260824102300_m2_1_provider_benchmark_observations.sql`;
-- `src/layer2-enrichment-scope-entry.js`;
-- deployed-UAT updates enforcing the enrichment-only selector boundary.
+1. deployed desktop/mobile browser UAT for Layer 2 Platform v1.4;
+2. authenticated live `layer2-acquire-v2` Direct HTTP run proving v2 private Evidence + runtime provenance;
+3. one configured paid-provider v2 attempt proving retained provider-native Evidence/telemetry;
+4. normalisation + deterministic Course extraction from v2 Evidence;
+5. retained-Evidence Scholarship extraction;
+6. measured L2 resolved vs L3-required fall-out;
+7. activation of a production scheduler/runner only after batch-selection semantics are accepted. Execution schedule policies are now governed/stored, but automatic catalogue-wide processing is not yet authorised.
 
 ## Decision history
 
-| Time | State | Decision |
-|---|---|---|
-| 23 Aug 20:21 | PROPOSED | M2.1 initiated against frozen M1 baseline. |
-| 23 Aug ~21:00 | SCOPE CORRECTION | Multi-provider acquisition/Vault/routing/Evidence made core. |
-| 23 Aug ~22:15 | SCOPE REBASELINE | Country completeness, Scholarships, contextual QILT/PRISMS and terminal Layer 4 added. |
-| 23 Aug ~22:35–22:55 | PARTIAL PASS | AU RMIT/UQ cohorts and Evidence-driven extraction workers deployed. |
-| 24 Aug ~10:10 | SCOPE CORRECTION | QILT/PRISMS removed from Layer 2 acquisition; Course/Scholarship enrichment only. |
-| 24 Aug ~10:18–10:25 | PARTIAL PASS | Layer 2 UI v1.3 and first 40-attempt Course + Scholarship provider benchmark completed. |
+| Time | Decision |
+|---|---|
+| 23 Aug 20:21 | M2.1 initiated against frozen M1 baseline. |
+| 23 Aug ~21:00 | Multi-provider/Vault/routing/Evidence made core. |
+| 23 Aug ~22:15 | Country completeness, Scholarships, contextual QILT/PRISMS and terminal Layer 4 added. |
+| 24 Aug ~10:10 | QILT/PRISMS removed from Layer 2 acquisition; Course/Scholarship only. |
+| 24 Aug ~10:18–10:25 | First 40-attempt Course + Scholarship provider benchmark completed. |
+| 24 Aug ~10:38 | Layer 2 execution policy/run lifecycle, Evidence retention/versioning, acquisition-v2 provenance and simplified management UI implemented. |
 
 ## Closure
 
-**Final status:** **BLOCKED — retained-Evidence extraction and deployed browser acceptance outstanding**  
+**Final status:** BLOCKED — ACQUIRE-V2 retained-Evidence/extraction and deployed browser acceptance outstanding.  
 **Closed at:** N/A
