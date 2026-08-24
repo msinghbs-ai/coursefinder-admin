@@ -1,250 +1,215 @@
 # CF-CHG-20260823-029 — M2.1 Layer 2 Enrichment Platform Foundation
 
-**Status:** BLOCKED — ACQUIRE-V2 RETAINED-EVIDENCE / EXTRACTION + DEPLOYED BROWSER ACCEPTANCE OUTSTANDING  
+**Status:** BLOCKED — DEPLOYED AUTHENTICATED DESKTOP/MOBILE ADMIN UAT OUTSTANDING  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 23 August 2026 20:21 AEST (+10:00)  
-**Updated:** 24 August 2026 10:38 AEST (+10:00)  
+**Updated:** 24 August 2026 12:42 AEST (+10:00)  
 **Origin chat/workstream:** M2.1 — L2-PLATFORM  
 **Owner:** M2.1 Layer 2 Platform workstream
 
-## Product / authority boundary
+## Authority boundary
 
-CourseFinder is an international-student Course and related-data aggregation, discovery and comparison platform.
+CourseFinder remains an international-student Course and related-data aggregation, discovery and comparison platform.
 
-`Layer 1 Authoritative/Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`
+`Layer 1 Authoritative/Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`.
 
 Layer 4 is terminal. There is no Layer 5.
 
-Layer 2 is limited to **Course enrichment** and **Scholarship enrichment**. QILT and PRISMS remain Layer 1 contextual datasets and must not be sent through paid Layer 2 acquisition providers.
+Layer 2 acquisition is limited to **Course enrichment** and **Scholarship enrichment**. QILT and PRISMS remain Layer 1 contextual datasets and are not routed through paid Layer 2 providers.
 
-## Layer 2 operational process
+## Operational model
 
-The governed operational process is now:
+`Execution Policy → Run Batch → Run Item → Job → Provider Attempt → Native Evidence → Normalised Evidence → deterministic extraction → governed candidate apply → factual completeness → L3 required only for unresolved domains`.
 
-`Execution Policy → Run Batch → Run Item → Job → Provider Attempt → Native Evidence → Normalised Evidence → Deterministic extraction → L2 resolved OR L3 required`.
+Layer 2 never sends directly to Layer 4.
 
-Layer 2 never sends directly to Layer 4. Only unresolved Layer 3 fall-out becomes Layer 4 Review.
+## Acquisition providers
 
-### Execution policy
-
-`pipeline.layer2_execution_policies` stores one management policy per Course/Scholarship enrichment source:
-
-- Manual / Daily / Weekly / Disabled;
-- batch size;
-- cost-aware routing strategy;
-- maximum paid attempts/item;
-- optional vendor-unit/cost ceilings;
-- automatic Layer 3 hand-off;
-- identity-mismatch stop guard.
-
-Initial safe default: **Manual / 10 items / Direct HTTP then best-value fallback / maximum 2 paid attempts**.
-
-### Run tracking
-
-- `pipeline.layer2_run_batches` — source-profile-version/policy snapshot + aggregate outcome/cost;
-- `pipeline.layer2_run_items` — Course/Scholarship item + Job/provider/Evidence/resolution/fall-out.
-
-These tables are RLS-enabled and service-only at table level.
-
-## Acquisition Providers
-
-Current tested methods:
+Current configured/tested methods:
 
 | Provider | Credential | Current role |
 |---|---|---|
-| Direct HTTP | none | zero-external-fee first route where sufficient |
-| Scrape.do | configured | rendered HTML fallback / benchmark |
-| Firecrawl | configured | rich HTML/Markdown/screenshot escalation |
-| ZenRows | configured | rendered/proxy fallback / benchmark |
+| Direct HTTP | none | first route where sufficient |
+| Scrape.do | configured / free tier | rendered fallback / benchmark |
+| Firecrawl | configured / free tier | rich HTML/Markdown/visual Evidence escalation |
+| ZenRows | configured / free tier | rendered/proxy fallback / benchmark |
 | ScraperAPI | not configured | catalogue option only |
 | Custom gateway | disabled | future governed adapter |
 
-Provider credentials remain Vault-only/write-only. Browser surfaces show readiness, not secrets.
+Credentials remain Vault-only/write-only. Free-tier cash cost is recorded separately from finite vendor credits/units.
 
-Provider choice is based on evidence-backed resolution/correctness/reliability/cost, not HTTP 200 or cheapest request.
+## Provider benchmark
 
-## Provider benchmark evidence
+Initial 5 RMIT + 5 UQ × 4-method benchmark proved:
 
-Technical record: `docs/uat/coursefinder-m2-1-provider-benchmark-2026-08-24.md`.
+- Direct HTTP and Firecrawl 10/10 acquisition success;
+- Scrape.do/ZenRows initial parallel failures were predominantly 429 throttles and representative sequential retries passed;
+- all successful provider responses contained target Course identity plus fee/English/intake markers;
+- Firecrawl can materially improve deterministic resolution on some UQ cases because its richer Evidence resolved an ambiguous fee that Direct/Scrape.do/ZenRows did not;
+- provider choice therefore remains outcome-based, not HTTP-status based.
 
-First benchmark: five RMIT + five UQ current Course pages × Direct HTTP / Firecrawl / Scrape.do / ZenRows = **40 bounded attempts**.
+## Runtime v2 / Evidence
 
-| University | Direct HTTP | Firecrawl | Scrape.do | ZenRows |
-|---|---:|---:|---:|---:|
-| RMIT | 5/5 | 5/5 | 3/5 | 4/5 |
-| UQ | 5/5 | 5/5 | 1/5 | 1/5 |
+Live v2 chain is proven:
 
-All successful responses contained the exact CRICOS identity plus fee, English and intake/start markers.
+`layer2-acquire-v2 → private Native Evidence → layer2-extract-v2 → Normalised Evidence → layer2-course-fact-extract-v2.4`.
 
-Scrape.do/ZenRows failures were predominantly 429s caused by the deliberately parallel diagnostic. Representative sequential retries returned 200, therefore accepted interpretation is **rate/concurrency orchestration issue**, not content failure.
+Every successful v2 acquisition records:
 
-Current provisional routing conclusion:
-
-- Direct HTTP first for ordinary RMIT/UQ pages;
-- Firecrawl is the strongest proved rich-Evidence escalation route;
-- Scrape.do/ZenRows remain viable rate-aware fallbacks;
-- no final paid-provider winner until deterministic extraction and actual account-plan economics are measured.
-
-Scholarship acquisition against Study Australia returned usable content through all four methods. Retained-Evidence Scholarship extraction remains pending.
-
-## Direct HTTP runtime / IP provenance
-
-The CourseFinder Admin is served behind Cloudflare Worker `coursefinder-pilot.techm.workers.dev`, but the actual Direct HTTP source `fetch()` executes in the Supabase Edge Function runtime.
-
-Therefore source websites see **Supabase Edge outbound egress**, not the Cloudflare Worker IP.
-
-Supabase hosted Edge Functions do not provide a guaranteed static outbound IP. Historical pre-v2 attempts did not record the observed public egress IP, therefore CourseFinder cannot reconstruct the exact historical public egress address.
-
-## Acquisition runtime v2
-
-`layer2-acquire-v2` is deployed ACTIVE with `verify_jwt=true`; existing `layer2-acquire` remains rollback until v2 browser/live Evidence UAT passes.
-
-v2 records on every Provider Attempt:
-
-- `runtime_platform = supabase_edge`;
-- `runtime_region = SB_REGION`;
-- `runtime_execution_id = SB_EXECUTION_ID`;
-- `runtime_deployment_id = DENO_DEPLOYMENT_ID`;
-- `egress_identity = supabase_edge_dynamic_non_static`.
-
-This provides auditable runtime provenance without falsely claiming a fixed outbound IP.
-
-## Evidence per fetch / versioning
-
-Every successful v2 fetch creates a new Evidence Artifact row even when bytes are unchanged. Verification time is evidence.
-
-New fields:
-
-- `evidence_group_key`;
-- `capture_version` with unique group/version guard;
-- `supersedes_evidence_id`;
-- `valid_from` / previous `valid_to`;
-- SHA-256 content hash;
-- `content_changed` metadata;
+- Supabase Edge runtime platform;
+- region;
+- execution ID;
+- deployment ID;
+- dynamic/non-static Supabase egress classification;
+- Provider Attempt;
 - Source Profile Version;
-- Provider Attempt / runtime version / deployment lineage;
-- retention/review metadata.
+- SHA-256;
+- versioned Evidence lineage.
 
-A re-fetch of identical content therefore produces another capture version rather than erasing the observation event.
+Cloudflare serves the Admin application but does not perform Direct HTTP acquisition. Direct acquisition egress originates from Supabase Edge and is not guaranteed static.
 
-## Evidence Storage / retention
+Evidence remains in the private Supabase Storage bucket `evidence`, using the v2 hierarchy:
 
-Evidence remains in the existing **private Supabase Storage bucket `evidence`**.
+`layer2/v2/{country}/{domain}/{profile}/{YYYY}/{MM}/{DD}/{job}/{attempt}/{kind}.{ext}`.
 
-Acquisition-v2 storage hierarchy:
+Minimum normal retention horizon is 365 days. It is not an automatic destructive-delete deadline for referenced/held Evidence.
 
-`layer2/v2/{country}/{domain}/{profile}/{YYYY}/{MM}/{DD}/{job}/{attempt}/v{capture_version}-{kind}.{ext}`
+## Federation University validation
 
-The physical hierarchy exists for operational lifecycle management. Admin review uses relational lineage rather than bucket browsing.
+Federation University Australia (`CRICOS 00103D`) is now a governed Course enrichment source: `au-federation-course-detail`.
 
-v2 assigns:
+Two consecutive five-Course cohorts were completed through the real retained-Evidence/canonical apply path.
 
-- `retention_class = standard_365`;
-- `retain_until = captured_at + 365 days`;
-- `review_state = unreviewed`.
+**Result: average canonical factual completeness increased from 37.5% to 92.5% (+55 percentage points).**
 
-365 days is a minimum retention horizon, **not an automatic destructive-delete date**. Evidence referenced by accepted observations/candidates, review or a hold must not be silently purged. A destructive retention sweeper is not authorised in M2.1 without a separate reference/hold security UAT gate.
+Five of ten Courses reached 100%. Four reached 87.5%. Science Honours reached 75% because Provider-current international tuition and English remain unresolved.
 
-Detailed contract: `docs/coursefinder-layer2-operations-evidence-lifecycle-v1.0.md`.
+Exact UAT/cross-check record:
 
-## Provider logging / telemetry
+`docs/uat/coursefinder-m2-1-federation-completeness-uat-2026-08-24.md`.
 
-Provider Attempt telemetry is separate from source Evidence content.
+### Fee safety
 
-It may store bounded non-secret information such as status, latency, bytes, MIME, trace/request ID, rate-limit headers, credit/request-cost headers, retries, fallback reason, vendor units/cost and produced Evidence IDs.
+Federation pages include domestic CSP/student-contribution/Band values alongside international material. `layer2-course-fact-extract-v2.3+` rejects CSP/Commonwealth/domestic/Band and low-confidence fee candidates.
 
-It must never store provider API keys, auth headers or browser-visible service-role credentials.
+Accepted Provider-current tuition examples include:
 
-## Simplified Admin UX
+- Community & Human Services — AUD 37,800;
+- Physiotherapy — AUD 40,500;
+- Business (Accounting) — AUD 39,600;
+- IT (Cybersecurity) — AUD 41,400;
+- Environmental Science — AUD 38,900.
 
-Layer 2 Platform visible version is now **v1.4**.
+Arts, Science Honours, Biomedical Science, Criminology and Education Primary remain deliberately incomplete for Provider-current tuition. Firecrawl escalation did not make those fee candidates sufficiently trustworthy.
 
-Primary menu is intentionally reduced to:
+### Description provenance
+
+Extractor v2.4 now uses only the identity-matched first-party HTML meta-description for the Course description candidate.
+
+The first provenance attempt incorrectly targeted `catalogue.course_field_observations`; UAT proved that table is field-of-study taxonomy specific. Failed transactions rolled back with no partial writes.
+
+Corrected apply contract uses:
+
+- empty-only `catalogue.courses.description` update;
+- PIM attribute `course_description`;
+- `pim.attribute_values` with source/evidence lineage;
+- no overwrite of an existing description;
+- Search/publication mutation false.
+
+Final UAT: **10/10 descriptions present and 10/10 PIM provenance rows present.**
+
+## Candidate apply contract
+
+`public.layer2_apply_course_candidate(candidate_id, apply)` provides the deterministic service-only apply stage for validated Layer 2 Course candidates.
+
+It preserves exact Provider/Course CRICOS identity and Evidence, applies only supported safe Course-Facts domains, excludes unsafe tuition and does not mutate Search or Publication.
+
+## Scholarship UAT
+
+Study Australia Scholarship flow is now proven beyond listing acquisition:
+
+`listing Evidence → deterministic detail URL discovery → retained detail Evidence → normalisation → deterministic Scholarship detail candidate`.
+
+RGIT Scholarship for Continuing Students was correctly treated as a detail entity rather than collapsing the listing/search page into a fake Scholarship record. Canonical Scholarship mutation remains separately governed.
+
+## Layer 3 fall-out
+
+Federation trial current domain fall-out:
+
+- 5/10 Courses have at least one unresolved domain;
+- unresolved cases are predominantly Provider-current international tuition;
+- Science Honours also lacks a deterministic English requirement;
+- Layer 4 current fall-out: 0/10.
+
+Completed facts remain canonical and evidence-backed while unresolved domains remain `not_yet_enriched`.
+
+## Admin UX
+
+Visible Layer 2 Platform version remains **v1.4**.
+
+Primary operational navigation is intentionally simplified to:
 
 `Data Enrichment → Layer 2 Operations / Evidence`.
 
-Former Pipeline Control, Source Registry, Source Config, Acquisition Providers, Acquisition Trials and Jobs remain drill-down capabilities from Layer 2 Operations instead of six separate menu destinations.
+Source configuration, Acquisition Providers, Trials and Jobs are drill-down controls rather than separate routine management destinations. QILT/PRISMS remain under Insights; Completeness and terminal Review Queue remain under Quality & Review.
 
-Layer 2 Operations first screen contains only:
+## Security / ACL
 
-- enrichment sources + schedule/batch/routing;
-- provider readiness;
-- Evidence count/review count;
-- recent run outcome + L3 fall-out + cost.
+PASS for current backend foundation:
 
-Advanced configuration and diagnostics use progressive drill-down.
+- private Layer 2 schemas are not opened to browser PostgREST;
+- Edge orchestration uses narrow service-only RPC boundaries;
+- browser direct table access remains revoked;
+- provider credentials remain Vault-only;
+- source-bound acquisition and governed provider-route enforcement remain active;
+- identity mismatch contributes zero completeness uplift;
+- Search/publication are not implicitly authorised by Layer 2 apply.
 
-QILT/PRISMS remain under Insights. Completeness and terminal Layer 4 Review remain under Quality & Review.
+## M1 regression
 
-Navigation contract: `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`.
+Post-Federation UAT PASS:
 
-## Security / ACL UAT
+- Search documents: **33,105**;
+- Search published: **0**;
+- canonical Courses: **43,461**;
+- canonical unpublished Courses: **43,461**.
 
-PASS for the new backend foundation:
+Frozen M1 publication/Search baseline is unchanged.
 
-- new policy/run tables use RLS;
-- `anon` and `authenticated` direct SELECT is false;
-- service role has trusted table access;
-- Admin reads remain rank >=4;
-- execution-policy mutation requires PIM Admin rank >=5;
-- acquisition-v2 is JWT protected;
-- source-bound URL/profile gates retained;
-- non-Course/non-Scholarship profiles cannot execute through acquisition-v2;
-- provider credentials remain Vault-only.
+## Current acceptance state
 
-Supabase Advisor still reports the established `RLS enabled/no policy` informational pattern on private schemas. This is intentional where direct browser table access is revoked; existing M1 security architecture is not being weakened.
+The following M2.1 evidence is now PASS:
 
-## Implementation references — 24 Aug operational lifecycle increment
+- secure/versioned Source Profiles and provider routes;
+- Vault-backed configured Scrape.do, Firecrawl and ZenRows;
+- retained Native/Normalised Evidence lineage;
+- provider benchmarking and throttle learning;
+- Direct HTTP + paid-provider retained-Evidence execution;
+- deterministic Course extraction and safe candidate apply;
+- real Course completeness uplift across RMIT/UQ/Federation learning cases;
+- fee/identity safety guards;
+- Scholarship listing→detail extraction proof;
+- measured Layer 2→Layer 3 fall-out;
+- M1 regression.
 
-Live:
+## Remaining blocker
 
-- `m2_1_layer2_operations_evidence_lifecycle`;
-- `m2_1_layer2_evidence_capture_version_guard`;
-- Edge `layer2-acquire-v2` v1 ACTIVE.
+**M2.1 remains BLOCKED only for the final deployed authenticated browser acceptance:**
 
-Pilot:
+1. desktop Layer 2 Operations v1.4 UAT;
+2. mobile Layer 2 Operations v1.4 UAT;
+3. SHA/run/artifact evidence showing the deployed menu/workspace exposes the simplified management model, Federation enrichment source and safe drill-down behaviour.
 
-- `supabase/migrations/20260824104000_m2_1_layer2_operations_evidence_lifecycle.sql`;
-- `supabase/migrations/20260824104100_m2_1_layer2_evidence_capture_version_guard.sql`;
-- `supabase/functions/layer2-acquire-v2/index.ts`;
-- `src/layer2-operations-entry.jsx`;
-- `src/layer2-operations.css`;
-- `src/data-acquisition-nav-entry.js` v1.4;
-- `index.html` Layer 2 Platform v1.4;
-- `tests/uat/admin-navigation-deployed.spec.mjs` simplified-navigation acceptance.
+Automatic catalogue-wide scheduling remains disabled until that browser gate is accepted; stored execution policies and bounded manual/service trials remain authorised.
 
-Governance/UAT:
+## Rollback
 
-- `docs/coursefinder-layer2-operations-evidence-lifecycle-v1.0.md`;
-- `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`;
-- `docs/uat/coursefinder-m2-1-layer2-operations-lifecycle-2026-08-24.md`.
-
-## Current gate
-
-M2.1 remains **BLOCKED**, not PASS.
-
-Remaining acceptance evidence:
-
-1. deployed desktop/mobile browser UAT for Layer 2 Platform v1.4;
-2. authenticated live `layer2-acquire-v2` Direct HTTP run proving v2 private Evidence + runtime provenance;
-3. one configured paid-provider v2 attempt proving retained provider-native Evidence/telemetry;
-4. normalisation + deterministic Course extraction from v2 Evidence;
-5. retained-Evidence Scholarship extraction;
-6. measured L2 resolved vs L3-required fall-out;
-7. activation of a production scheduler/runner only after batch-selection semantics are accepted. Execution schedule policies are now governed/stored, but automatic catalogue-wide processing is not yet authorised.
-
-## Decision history
-
-| Time | Decision |
-|---|---|
-| 23 Aug 20:21 | M2.1 initiated against frozen M1 baseline. |
-| 23 Aug ~21:00 | Multi-provider/Vault/routing/Evidence made core. |
-| 23 Aug ~22:15 | Country completeness, Scholarships, contextual QILT/PRISMS and terminal Layer 4 added. |
-| 24 Aug ~10:10 | QILT/PRISMS removed from Layer 2 acquisition; Course/Scholarship only. |
-| 24 Aug ~10:18–10:25 | First 40-attempt Course + Scholarship provider benchmark completed. |
-| 24 Aug ~10:38 | Layer 2 execution policy/run lifecycle, Evidence retention/versioning, acquisition-v2 provenance and simplified management UI implemented. |
+- disable/pause affected Layer 2 Source Profile/Execution Policy;
+- keep v1 workers as rollback where retained;
+- reverse only candidate-applied Layer 2 facts by source/evidence lineage if a source qualification is withdrawn;
+- do not alter frozen M1 Search/publication state.
 
 ## Closure
 
-**Final status:** BLOCKED — ACQUIRE-V2 retained-Evidence/extraction and deployed browser acceptance outstanding.  
+**Final status:** BLOCKED — final deployed authenticated desktop/mobile Admin v1.4 browser UAT outstanding.  
 **Closed at:** N/A
