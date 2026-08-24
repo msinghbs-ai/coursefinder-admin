@@ -63,7 +63,7 @@ Direct SQL validation returned exactly:
 
 No Layer 3 persistence/execution table currently exists, so no enrichment field is allowed to display a struck L3 / terminal awaiting-L4 state yet.
 
-## Layer 4 authority UAT — design/security PASS, mutation browser UAT pending
+## Layer 4 authority UAT — PASS for scalar contract / browser interaction pending
 
 Created a governed scalar resolution contract that:
 
@@ -74,6 +74,15 @@ Created a governed scalar resolution contract that:
 - preserves `resolved_layer=4` after application;
 - does not change Search or Publication;
 - cannot mutate compound tuition/intake/English facts through generic free text.
+
+A transactional/subtransaction UAT exercised `delivery_mode` on Science (Honours):
+
+- inside the UAT subtransaction the RPC returned `ok=true`, `layer=4`, `resolved_value="On campus"`, `search_changed=false`, `publication_changed=false`;
+- the canonical `delivery_mode` was visibly `On campus` inside that subtransaction;
+- the subtransaction was deliberately rolled back;
+- after rollback the canonical `delivery_mode` was again `NULL`.
+
+This proves the write/audit path without leaving test data behind.
 
 UI actions are terminal-state gated. For Science (Honours), no scalar `L4 edit` control should appear because its scalar gaps are still Awaiting L2. Only Categories/Collections should expose `L4 review` as direct PIM/L4 fields.
 
