@@ -1,107 +1,108 @@
 # CourseFinder M2.2 Automated UAT — Security / Search / Showcase
 
 **Run date:** 25 August 2026  
-**Status:** IN PROGRESS / PARTIAL PASS / MATERIAL BLOCKERS RETAINED  
+**Status:** IMPLEMENTED SCOPE CLOSED / PASS; M2.2 OVERALL BLOCKED ON MANAGED AUTH CONTROL  
 **Change Controls:** CF-CHG-20260825-032, -033, -034, -035
 
 ## Evidence baseline
 
-- Admin governance baseline before M2.2: `34dd22215bb937c8f0ef131c36a6011893ade714`.
-- Accepted M2.1 Pilot baseline: `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`.
-- Current M2.2 Pilot source at this evidence point: `045d5960ab1932eaa86ad459041ab3d5cd0659d9`.
+- Accepted M2.1 Pilot baseline: `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`, deployed UAT run `32795496640`.
+- Final M2.2 Pilot source/deployed candidate: `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`.
+- Final Pilot Frontend Build: run `32840377937` — PASS.
+- Final deployed-browser UAT: run `32840377935` — PASS on Chromium desktop and mobile.
+- Desktop evidence artifact: `9560350909`, `sha256:b72ab53cfb77435d2508af645f5ed478b07655f1cc80460ace15c7552f80f677`.
+- Mobile evidence artifact: `9560520848`, `sha256:3504e06bd8c22f31203a87f17ef81914a293e0571aa2f99db29afb3fa0a7683c`.
 - Supabase Pilot: `fxcwkweaxjtknorudmwp`, Mumbai `ap-south-1`, PostgreSQL 17.6.1.
 - Supabase organisation plan: `pro`.
 
 ## Security UAT
 
-| Test | Evidence | Result |
+| Test | Final evidence | Result |
 |---|---|---|
 | Pro entitlement | live organisation plan = `pro` | PASS |
-| Leaked-password protection | Security Advisor still reports disabled | BLOCKED |
-| Direct Layer 2 privileged RPC | authenticated/anon EXECUTE = false; service_role = true | PASS |
-| Hardened Layer 2 mutation boundary | `layer2-config-control` v3, `verify_jwt=true`, rank validation, policy allowlist | PASS (DB/Edge boundary) |
-| Security Advisor regression | former Layer 2 SECURITY DEFINER warning absent; leaked-password WARN remains | PASS for RPC fix / BLOCKED overall Auth hardening |
-| Search preview RPC exposure | anon/authenticated EXECUTE false; service_role true for lookup/search preview | PASS |
-| Search raw schema browser access | anon/authenticated `search` schema USAGE false; no direct table grants found | PASS |
+| Leaked-password protection | live Security Advisor still reports disabled; current connected Supabase management tool exposes no hosted Auth-config write operation | **BLOCKED WITH EVIDENCE** |
+| Direct Layer 2 privileged RPC | anon/authenticated EXECUTE false; service_role true | PASS |
+| Hardened Layer 2 mutation boundary | `layer2-config-control` v3, `verify_jwt=true`, current actor/rank validation and policy allowlist | PASS |
+| Security Advisor regression | former Layer 2 SECURITY DEFINER warning removed; leaked-password protection is the sole material external WARN | PASS for implemented DB/Edge hardening |
+| Website Search preview exposure | anon/authenticated EXECUTE false; service_role true | PASS |
+| Search raw-schema browser access | no normal browser `search` schema/table CRUD boundary | PASS |
 | Vault browser access | anon/authenticated Vault schema USAGE false | PASS |
-| Evidence bucket | private bucket, 50 MiB limit, explicit MIME allowlist | PASS configuration / deeper signed-object negative tests pending final suite |
-| Search gate-table RLS | three gate tables have RLS disabled; normal browser roles lack schema/table access | WARN / explicit Production disposition required |
+| Publication escalation | final published entity count remains 0; preview metadata states `publication_authority=not_granted` | PASS |
+| Search gate-table RLS | three internal gate tables remain RLS-disabled but normal browser roles have no Search schema/direct table access | WARN / Production defence-in-depth disposition |
 
-## Data/regression invariants
+## Frozen/regression invariants
+
+Final live checks after the M2.2 hardening migrations:
 
 - catalogue Courses: 43,461;
 - Providers: 3,085;
 - Search documents: 33,105;
 - AU Search documents: 26,648;
 - NZ Search documents: 6,457;
-- published entities: 0;
-- Search Projection generation: 22;
-- Search Projection hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`.
-
-No broad publication was enabled during M2.2 implementation.
-
-## Search UAT
-
-### Real representative cohort
-
-Validated current Search rows include:
-
-- UQ `102784C` — Bachelor of Computer Science (Honours);
-- UQ `092454G` — Master of Data Science;
-- UQ `082960F` — Bachelor of Nursing (Honours);
-- RMIT `111279A` — Associate Degree in Business.
-
-The UQ Nursing example demonstrates regulatory tuition distinct from Provider-current annual tuition, official Course URL, Intake and English requirements while remaining unpublished.
-
-### Filter correctness
-
-Query `nursing` with:
-
-- country AU;
-- subdivision AU-QLD;
-- Provider-current annual tuition <= 50,000;
-- Intake required;
-- English required;
-
-returned the expected UQ Bachelor of Nursing (Honours), preserving hard-filter semantics and separate fee meanings.
-
-### Query-plan evidence
-
-- initial combined exact-code/FTS preview produced a sequential plan at ~506 ms and was rejected;
-- new exact lookup indexes changed the underlying exact predicate to BitmapOr/index scans at ~31 ms measured cold execution;
-- direct AU FTS query `data science` used `course_documents_tsv_idx` GIN and executed at ~18 ms;
-- the current rich JSON preview wrapper remains ~0.38–0.44 s in measured calls and therefore is **not yet a Production performance PASS**.
-
-This result is deliberately retained rather than hidden by UI loading state.
-
-## pgvector benchmark decision
-
-- extension: pgvector 0.8.2 installed;
+- Search Projection: `course-v3`, generation 22;
 - embeddings: 0;
-- embedding jobs: 0;
-- query cache: 0;
-- governed `integration.model_profiles`: 0;
-- repository references to an approved embedding API key/profile: none found;
-- prior `search-vector-gate` remains retired.
+- published entities: 0.
 
-**Decision:** vector/hybrid relevance comparison is **DEFERRED / NOT ACCEPTED** in M2.2 because there is no governed reproducible embedding model/profile/corpus. Synthetic or fabricated embeddings are prohibited. FTS/exact/filter remains the stable Friday contract.
+M2.1 Layer 2 authority, evidence and canonical identity boundaries were not reopened or redefined.
+
+## Search/read-contract UAT
+
+### Functional behaviour
+
+- exact CRICOS lookup `102784C` returns the expected Course through `website-course-lookup-preview-v1`;
+- exact stable Course ID `course:cricos:00025b:102784c` returns the same stable identity;
+- AU FTS query `data science` returns a bounded 10-result page;
+- structured AU / QLD / masters / tuition / Intake / English filters return a bounded matching cohort;
+- no-result exact lookup returns JSON null safely;
+- consumer preview remains service-side only and does not grant Publication authority.
+
+### Performance defects found and corrected
+
+The automated gate rejected two real query-plan regressions rather than weakening thresholds:
+
+1. Admin exact-CRICOS Course lookup initially exceeded the deployed 3-second RPC budget (desktop retry reached 6.655 s). `security.admin_course_page_fast` was hardened with an indexed exact-identity route before the broad page path. Database UAT then measured about 288 ms for the representative exact lookup under the UAT actor context.
+2. Website exact-read preview initially measured about 8.78 s cold. Splitting indexed Course-code and stable-ID branches reduced the measured wrapper to about **17 ms**.
+3. Website FTS preview initially measured about 4.74 s because the generic optional-query predicate defeated the intended GIN path. Separating query and filter-only branches reduced the measured `data science` + AU preview to about **281 ms**.
+
+Final deployed desktop evidence stayed within the existing 3-second RPC budgets without threshold relaxation. Representative final desktop artefact values include:
+
+- Layer 2 Operations overview: 445 ms;
+- Layer 2 profiles: 431 ms;
+- Providers page: 1,238 ms;
+- Courses page: 1,841 ms;
+- Evidence page: 788 ms;
+- Data Quality overview: 392 ms;
+- exact Course interaction page request: 963 ms;
+- Course detail: 986 ms.
+
+## pgvector decision
+
+- pgvector 0.8.2 installed;
+- `search.course_embeddings`: 0;
+- embedding jobs/cache: 0;
+- governed `integration.model_profiles`: 0;
+- no accepted reproducible embedding provider/model/profile was found.
+
+**Decision:** vector/hybrid is **EXPLICITLY DEFERRED / NOT ACCEPTED**. Synthetic/demo embeddings are prohibited. Exact lookup + deterministic FTS + structured filters are the accepted bounded Friday Search/read demonstration.
 
 ## Deployed browser UAT
 
-The Pilot workflow is configured for SHA-bound desktop and mobile Chromium testing against the deployed Cloudflare Worker. At this evidence point, the current SHA workflow run is still pending and is therefore not counted as PASS. Final M2.2 handover must reconcile the completed run/artifacts to the final deployed source SHA.
+Final SHA `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`:
 
-## Recovery UAT
+- build run `32840377937`: PASS;
+- deployed UAT run `32840377935`: PASS;
+- Chromium desktop job `97778367860`: PASS;
+- Chromium mobile job `97778367490`: PASS;
+- both jobs uploaded SHA-bound evidence and published successful deployed-UAT commit status.
 
-Production is intentionally a clean later environment. M2.2 defines the Pro backup/PITR/restore acceptance requirements but does not claim Production DR PASS before that Production project exists and an isolated restore is executed. Restore proof is deferred to the accepted Production establishment gate.
+## Recovery / Production boundary
 
-## Overall current verdict
+Production remains a clean later environment. M2.2 defines the Pro backup/PITR/restore acceptance requirements but does not fabricate a Production restore before that separate project exists. Executed restore proof is explicitly deferred to the accepted Production establishment/cutover gate.
 
-**M2.2 is not yet PASS.**
+## Final UAT verdict
 
-Material remaining items:
+**CF-CHG-20260825-035 implemented-scope UAT: CLOSED / PASS.**
 
-1. leaked-password protection remains disabled despite Pro entitlement;
-2. final deployed desktop/mobile UAT must complete on final source SHA;
-3. rich Search preview latency requires optimisation or explicit non-acceptance for Production;
-4. Production Search gate-table RLS policy disposition and Production release/recovery implementation remain governed future actions;
-5. vector/hybrid remains a candidate, not accepted Search.
+The technical implementation and deployed regression suite are reproducible on final Pilot SHA `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`.
+
+**M2.2 overall remains BLOCKED solely on the managed leaked-password protection control required by the M2.2 acceptance wording.** The Pro entitlement is verified, but the setting is still disabled and the currently connected Supabase management capability has no hosted Auth-configuration write operation. This is not converted into a PASS by documentation or subscription state.
