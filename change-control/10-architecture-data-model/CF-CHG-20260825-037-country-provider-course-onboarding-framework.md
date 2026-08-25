@@ -1,86 +1,37 @@
 # CF-CHG-20260825-037 — Country / Provider / Course Onboarding Framework
 
-**Status:** APPROVED / IN PROGRESS — M2.3 FOUNDATION  
+**Status:** APPROVED / IN PROGRESS — IMPLEMENTATION REQUIRED  
 **Category:** 10-architecture-data-model  
 **Initiated:** 25 August 2026 22:13 AEST (+10:00)  
-**Origin:** M2.3 — Production Data Operations  
+**Last reconciled:** 26 August 2026 06:37 AEST (+10:00)  
 **Owner:** CourseFinder architecture / Data Operations
-
-## Trigger
-
-M2.3 now requires a reusable onboarding capability for future countries, regulatory authorities, Providers and Courses instead of adding each country through ad-hoc one-off implementation work.
-
-The live canonical model is already country-neutral enough to support this direction: Providers are related to a governed country identifier, Courses are related to Providers, and stable identities are maintained independently of country-specific source adapters. New countries should therefore reuse the canonical Provider/Course model wherever semantics match and add source/country extension structures only where the source grain genuinely requires them.
 
 ## Decision
 
-Create a separate Admin workspace:
+M2.3 requires a reusable Onboarding capability for Countries, regulatory sources, Providers and Courses rather than country-specific one-off canonical implementations.
 
-**Onboarding**
+The canonical architecture remains shared and country-neutral:
 
-with governed flows for:
+- one shared Provider/Course/Campus/Scholarship model;
+- governed country/subdivision identity;
+- stable entity keys independent of adapter/provider implementation;
+- shared source/profile/provider/Evidence/job foundations;
+- source-native staging where source grain must be preserved;
+- extension/fact tables only for genuinely country-specific concepts;
+- adapters/Workers own source differences;
+- no separate canonical Provider/Course schema per country.
 
-1. Country onboarding;
-2. Regulatory/source qualification;
-3. Provider onboarding;
-4. Course/source onboarding;
-5. adapter/Worker requirement assessment;
-6. database-extension requirement assessment;
-7. Layer 1 qualification and UAT;
-8. Layer 2 profile/routing/extraction setup and UAT;
-9. Layer 3 readiness/interpretation-profile preparation;
-10. promotion readiness and operational certification.
+Default database-extension preference remains:
 
-Layer 3 execution authority remains owned by M2.4. M2.3 may build the onboarding stage, validation model and handoff, but must not silently activate general Layer 3 AI execution early.
+`existing canonical field → existing fact/relationship table → generic extension/fact table → country-specific extension table → canonical change only when globally valid`.
 
-## Canonical architecture rule
+## Lifecycle
 
-Do **not** create a separate canonical database/schema per country.
+Every Onboarding case must support the durable lifecycle:
 
-Preferred architecture:
+`Draft → Source Qualification → Adapter Assessment → Schema Assessment → L1 UAT → L2 UAT → L3 Ready → Operational Certification → Production Promotion Ready`.
 
-- one shared canonical `catalogue` model for Providers, Courses, Campuses, Scholarships and common governed dimensions;
-- one shared stable entity registry;
-- country and subdivision dimensions used as governed foreign keys;
-- one shared source/profile/provider/evidence/job framework;
-- source-specific staging/native tables where required to preserve authority/source grain;
-- extension tables only for genuinely country-specific regulated concepts that cannot be represented safely in shared canonical structures;
-- adapters/Workers own source differences, not the canonical tables;
-- mapping/promotion transforms source-native records into the shared canonical model only after identity/source qualification gates pass.
-
-Country-specific columns must not be added to shared canonical Provider/Course tables merely because one authority exposes a special field. Prefer extension/fact tables keyed to stable Provider/Course identity with source, period, audience, basis and Evidence where applicable.
-
-## Environment model
-
-Use the **same application codebase, migrations, adapter framework and onboarding workflow across UAT/Pilot and Production**, but retain separate environment trust boundaries.
-
-Do not use one database/project simultaneously as UAT and Production.
-
-Recommended promotion path:
-
-`Development / source qualification → Pilot/UAT → accepted configuration + migration + adapter SHA → clean Production promotion`
-
-Environment-specific items remain separate:
-
-- Supabase project;
-- Auth users/settings;
-- service-role credentials;
-- Vault secrets/vendor keys;
-- Storage;
-- job/run state;
-- Evidence objects;
-- Cloudflare environment/domain;
-- protected GitHub deployment environment.
-
-Promote **governed configuration/code/migrations**, not live UAT operational state or secrets.
-
-## Onboarding lifecycle
-
-Each onboarding case should have a durable status model such as:
-
-`Draft → Source Qualification → Adapter Assessment → Schema Assessment → Layer 1 UAT → Layer 2 UAT → Layer 3 Ready → Operational Certification → Production Promotion Ready`
-
-Possible terminal states:
+Governed outcome state must support:
 
 - READY;
 - CONDITIONAL;
@@ -88,134 +39,104 @@ Possible terminal states:
 - PAUSED;
 - REJECTED.
 
-## Country onboarding
+Lifecycle changes require immutable audit lineage, actor/time, reason, Change Control and UAT references. Browser writes must use rank-checked server contracts rather than direct table CRUD.
 
-For a new country capture and govern:
+## Layer authority reconciliation
 
-- ISO country identity;
-- subdivisions/regions;
-- regulatory authority/authorities;
-- Provider authority;
-- Course/program authority;
-- national/provider identifiers;
-- source URLs/API/feed type;
-- coverage claims;
-- update cadence;
-- licensing/usage restrictions;
-- source-native pagination/batch/rate limits;
-- source grain;
-- identity strategy;
-- canonical mapping strategy;
-- source qualification result;
-- adapter/Worker requirement;
-- schema-extension requirement;
-- Layer 1 certification result;
-- Layer 2 enrichment source strategy;
-- expected Layer 3 exception classes;
-- Change Control/UAT/evidence references.
+The original opening record predated CF-CHG-20260825-038 and stated that general Layer 3 execution would begin in M2.4. That statement is superseded by the current Master Project Plan v1.71 and CF-CHG-20260825-038: Layer 3 is now operationalised in M2.3 under its provider-profile, server-secret, eligibility, deterministic-validation and Layer 4 escalation controls.
 
-Future-country research should inherit the existing source-qualification discipline: no ETL/adapter implementation until a defensible Provider/Course authority strategy is accepted.
+Onboarding `L3 Ready` therefore means the case has the required source/Evidence/field profile and eligibility configuration to participate safely in the governed M2.3 Layer 3 platform. It does **not** bypass the model-profile provider benchmark; a PAUSED or unvalidated provider profile remains unavailable for real calls.
 
-## Provider/Course onboarding
+## Country onboarding contract
 
-Provider and Course onboarding must prefer authoritative regulatory identity first.
+Capture at minimum:
 
-A Provider/Course should not be manually invented in canonical tables merely to enable enrichment.
+- ISO country identity and relevant subdivisions;
+- regulatory/Provider/Course authority strategy;
+- national/source identifiers;
+- official source URLs/feed type, coverage claim and usage/licensing restrictions;
+- source cadence and source-native pagination/batch/rate limits;
+- source grain and canonical identity mapping;
+- adapter family and Worker requirement;
+- schema-extension assessment;
+- Layer 1 qualification/UAT;
+- Layer 2 enrichment strategy/UAT;
+- expected Layer 3 exception classes/readiness;
+- operational certification;
+- Production promotion manifest references;
+- Change Control/UAT/Evidence lineage.
 
-The workflow should determine:
+Future-country adapter/ETL coding remains prohibited until Source Qualification establishes a defensible authority strategy.
+
+## Provider/Course onboarding contract
+
+Provider/Course onboarding must prefer authoritative regulatory identity first. Canonical entities must not be manually invented merely to enable enrichment.
+
+The workflow must determine:
 
 1. authoritative identity source;
-2. source stable identifier;
-3. canonical stable key strategy;
+2. source-stable identifier;
+3. canonical stable-key strategy;
 4. Provider/Course relationship;
 5. Layer 1 ingestion path;
-6. Layer 2 first-party enrichment sources;
+6. Layer 2 first-party enrichment source(s);
 7. Evidence requirements;
 8. deterministic extraction/mapping rules;
-9. unresolved fields permitted for Layer 3;
-10. human Layer 4 escalation conditions.
+9. unresolved fields eligible for Layer 3;
+10. Layer 4 escalation conditions.
 
-## Adapter / Worker registry
+## Adapter assessment
 
-Onboarding should classify the required integration pattern rather than hard-code one Worker per country.
-
-Preferred adapter families include:
+Classify integrations into reusable families where possible:
 
 - structured API;
-- CSV/XLSX feed;
-- JSON feed;
-- XML feed;
+- CSV/XLSX;
+- JSON;
+- XML;
 - sitemap/catalogue crawl;
 - HTML detail-page acquisition;
 - document/PDF acquisition;
 - direct HTTP;
 - approved scraper/browser provider;
-- custom adapter only when the generic families are insufficient.
+- custom adapter only where generic families are insufficient.
 
-Where a new adapter is required, record:
+When a new adapter is required, record source contract, parser/version, batch/rate/retry/timeout policy, Evidence output, identity mapping, replay/idempotency contract, deployment SHA and automated UAT.
 
-- adapter family;
-- source contract;
-- parser/version;
-- batch/rate/retry policy;
-- timeout;
-- Evidence output;
-- identity mapping;
-- replay/idempotency contract;
-- deployment SHA;
-- automated UAT.
+## Environment / promotion boundary
 
-## Database-extension decision gate
+Use the same codebase, migrations, adapter framework and onboarding workflow across Pilot/UAT and Production while keeping separate trust boundaries. Do not promote UAT secrets, live job state or Evidence objects into Production. Promote accepted migrations/configuration/adapter SHAs and a governed promotion manifest.
 
-A new country/source may request a database extension only after answering:
+## Reconciled implementation state
 
-1. Is this concept already represented in the canonical/shared fact model?
-2. Is it source-native staging only?
-3. Is it a country-specific regulatory fact with its own grain/period/basis?
-4. Can it be represented as a generic typed fact/relationship without losing semantics?
-5. Would adding it to `catalogue.providers` or `catalogue.courses` incorrectly flatten source-specific meaning?
+A fresh source and deployed-database search at this checkpoint found **no reusable Onboarding workspace/table/function foundation**. Existing source registry, acquisition provider, Evidence, Layer 1–4 and refresh foundations are available and must be inherited rather than duplicated.
 
-Default order of preference:
+Therefore this Change Control is not complete and no representative future-country/source workflow has yet passed the required lifecycle UAT.
 
-`existing canonical field → existing fact/relationship table → generic extension/fact table → country-specific extension table → canonical schema change only when globally valid`.
+## Required implementation
 
-## Promotion / UAT rule
+M2.3 must add:
 
-Onboarding must support UAT on the same software platform while preserving environment separation.
+- reusable Onboarding case and immutable lifecycle audit structures;
+- rank-checked private implementations with public SECURITY INVOKER browser contracts;
+- validation of allowed stage transitions/outcome semantics;
+- links to existing source/source-profile/provider/entity/Evidence/Change Control/UAT references rather than duplicate registries;
+- shared schema/adapter decision records;
+- Onboarding Admin workspace with case list/filter, lifecycle progress, decision history and governed transition controls;
+- automated rollback-only database/security UAT;
+- permanent deployed desktop/mobile UAT;
+- at least one representative workflow exercised without creating a country-specific canonical fork.
 
-A country/source can be promoted toward Production only when:
+## Security
 
-- Source Qualification = PASS;
-- stable identity strategy = PASS;
-- adapter/Worker UAT = PASS;
-- schema mapping = PASS;
-- source-specific batch/rate/retry limits = certified;
-- replay/idempotency = PASS;
-- Evidence/provenance = PASS;
-- Layer 1 invariants = PASS;
-- Layer 2 bounded enrichment = PASS where applicable;
-- security/negative access = PASS;
-- operational runbook exists;
-- Production promotion manifest references accepted migration/configuration/adapter SHAs.
-
-## M2.3 integration
-
-M2.3 should implement the onboarding foundation and UI sufficiently to onboard/qualify at least one representative future-country/source path without introducing an unauthorised parallel canonical model.
-
-The onboarding workspace should integrate with **Data Operations** but remain a separate top-level menu item because it is a lifecycle/configuration workspace rather than daily ingestion operations.
-
-Suggested top-level navigation:
-
-- Dashboard
-- Catalogue / PIM
-- **Onboarding**
-- Data Operations
-- Data Quality
-- Scholarship Selection
-- Search / Publication
-- Administration / Settings
-- Help / Guides
+- direct browser CRUD on private Onboarding tables is prohibited;
+- anonymous access is prohibited;
+- read/write rank enforcement must follow the accepted Admin role model;
+- helper functions with elevated authority remain private and service-role executable only;
+- public browser contracts remain SECURITY INVOKER wrappers;
+- source qualification and lifecycle decisions must retain actor/reason/audit evidence.
 
 ## Acceptance
 
-This Change Control closes only when the framework is represented in the maintained architecture/docs, the Admin onboarding UX exists or an explicitly accepted implementation boundary is recorded, canonical-extension rules are automated/documented, and at least one onboarding workflow is exercised through automated UAT without creating a country-specific canonical fork.
+**Gate: IN PROGRESS — IMPLEMENTATION REQUIRED.**
+
+This Change Control closes only when architecture/docs and deployed Admin/runtime match the framework, automated UAT proves the lifecycle/security/canonical-extension rules, and a representative workflow reaches its governed M2.3 acceptance boundary. M2.4 must not start before M2.3 closure.
