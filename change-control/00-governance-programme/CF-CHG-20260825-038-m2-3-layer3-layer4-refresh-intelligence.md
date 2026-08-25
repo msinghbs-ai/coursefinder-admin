@@ -110,3 +110,84 @@ M2.3 closure now additionally requires:
 ## Boundary
 
 This change does not create the separate Production environment, broad Publication, Zoho cutover or final handover. Layer 4 remains terminal. Search/Publication remain downstream states.
+
+## Implementation checkpoint — 25 August 2026
+
+Governance was reconciled before implementation against Master Project Plan v1.71, M2→Production Delivery Plan / TSOW v1.4, the current deployed Supabase state and the current Pilot `main`. The frozen M2.2 acceptance was not redefined; M2.3 was implemented additively on top of the newer Layer 2 Evidence/batch runtime and the existing M2.1 Layer 4 scalar-resolution authority.
+
+### Deployed database/runtime
+
+Applied Supabase migrations:
+
+- `20260825124619_m2_3_layer3_layer4_refresh_intelligence_foundation`;
+- `20260825124942_m2_3_layer3_refresh_admin_read_write_contracts`;
+- `20260825125714_m2_3_authenticated_rpc_invoker_hardening`;
+- `20260825125742_m2_3_foreign_key_index_hardening`.
+
+The deployed model introduces private governed ledgers/configuration for model profiles, Layer 3 interpretations, Layer 4 review items/decisions, refresh policies/requests, Important Links and Important Dates. Direct browser table privileges remain revoked.
+
+The initial model profile is `openrouter-free-router-v1` using the configuration-driven OpenAI-compatible endpoint and `openrouter/free` model identifier. It stores only the server secret name `OPENROUTER_API_KEY`; it is **enabled but paused** with validation state `pending_credentials_and_benchmark`. This is intentionally not a permanent-model dependency and cannot issue provider traffic until server-side credentials and the required benchmark/validation gate are satisfied.
+
+Deployed Edge Function:
+
+- `layer3-interpret` — function ID `33dd7564-990a-4b15-a884-35ac609c2258`, version 1, `verify_jwt=true`.
+
+The function validates the authenticated actor, reserves eligibility before any external call, refuses unchanged-Evidence replay, reads provider credentials server-side only, enforces configured RPM/day/token/retry/timeout/cost ceilings, validates structured output deterministically and escalates validated non-null candidates to a pending Layer 4 review item. It does not write canonical values itself.
+
+Layer 4 terminal approval/edit continues through the existing governed `security.layer4_course_scalar_resolve_impl` path rather than introducing a competing canonical authority. Reject, Request More Evidence, Return to Layer 2 and Return to Layer 3 are retained as explicit audited decisions; Return to Layer 2 creates an entity-bounded refresh request.
+
+Important Date refresh requests require a source-profile or entity target. Country-reference dates without a bounded target cannot launch ingestion. `source_vague` dates retain the original source wording and cannot be promoted to an invented exact date.
+
+### Security/performance hardening
+
+The first post-DDL security review identified browser-executable public `SECURITY DEFINER` warnings on the newly introduced Admin RPCs. These were remediated in migration `20260825125714`: privileged implementations now reside in the private `security` schema while public browser contracts are `SECURITY INVOKER` wrappers with the existing role/rank checks retained. A repeat security advisor run reports no M2.3 authenticated-security-definer warnings. Existing INFO-only no-policy notices on deliberately private/RLS-protected schemas remain programme baseline rather than an M2.3 regression.
+
+Performance advisor review identified M2.3 foreign-key paths without dedicated covering indexes. Migration `20260825125742` added the relevant indexes for Layer 3 profiles/interpretations, Layer 4 Evidence/resolution lineage, Important Date Evidence and refresh-date references. Unrelated pre-existing INFO advisories are outside this change.
+
+### Automated UAT evidence
+
+Rollback-only database contract UAT: **PASS**.
+
+Verified in one controlled transaction and rolled back afterwards:
+
+- new governed Evidence is L3-eligible;
+- a validated L3 candidate creates a **pending** Layer 4 item only;
+- Layer 3 does not mutate the canonical Course before human approval;
+- replay of the same unchanged Evidence hash returns `call_required=false` / `unchanged_evidence`;
+- Layer 4 Approve applies through the existing scalar-resolution authority with actor/Evidence/L2/L3 lineage;
+- Edit and Approve, Reject, Request More Evidence, Return to Layer 2 and Return to Layer 3 execute as distinct audited actions;
+- Return to Layer 2 creates a targeted entity refresh request;
+- Important Link verification advances last/next verification state;
+- a vague country-reference Important Date is rejected as an ingestion trigger;
+- an exact entity-targeted Important Date creates only a bounded refresh request.
+
+No synthetic UAT mutation was retained after rollback.
+
+Permanent deployed Playwright UAT has been added for desktop/mobile coverage in `tests/uat/m2-3-intelligence-deployed.spec.mjs` and wired into `.github/workflows/deployed-uat.yml`. It verifies the paused initial L3 profile, no-call governance messaging, Layer 4 terminal workspace, refresh queue, Important Links, Important Dates and vague-date/targeted-refresh messaging.
+
+### Pilot source/runtime references
+
+Pilot source commits in this implementation slice:
+
+- `42661fb74fedf24e610a5adf9371623bc82f4c96` — governed M2.3 Admin workspace;
+- `4d84b34c7d50c23ac759941980e270b1cb19ee2a` — M2.3 responsive workspace styling;
+- `b5322cdf068ab7872c6d3b2f057dc5b17e7a303a` — workspace/ticker mount;
+- `d71f0ec236358eeae858007c682424c798c23eb6` — source-controlled `layer3-interpret` function;
+- `36f05d2ab035168a6d9c3cc3eca83d61c1f0ff85` — deployed M2.3 Playwright UAT;
+- `2159db7afb6adddf144f7e827992e3c91cc48f78` — M2.3 test added to the permanent deployed UAT matrix.
+
+At this checkpoint the final-sha Frontend Build and Deployed UAT workflows have been triggered and are still running/queued. Their conclusions must be reconciled before calling this implementation slice accepted.
+
+### Current gate / residual work
+
+**Gate: IN PROGRESS — database contract PASS; final deployed-browser gate pending.**
+
+Still required before the Layer 3 provider route can be enabled:
+
+1. configure an authorised `OPENROUTER_API_KEY` or alternative compatible aggregator credential as a server-side Supabase secret only;
+2. execute real-provider structured-output, malformed-output/unavailability, rate-limit and fallback benchmark UAT;
+3. record quality/cost benchmark results against the model profile and only unpause a profile that passes;
+4. reconcile final desktop/mobile deployed UAT and frontend-build conclusions for Pilot SHA `2159db7afb6adddf144f7e827992e3c91cc48f78`;
+5. continue M2.3 full-stack regression and operational population/tuning of Important Links, Important Dates and source/entity refresh policies.
+
+M2.3 is **not closed** by this checkpoint. M2.4 remains the already-approved optimisation/regression/pre-blackout workstream after M2.3 acceptance.
