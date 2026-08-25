@@ -7,145 +7,106 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Current gate summary
 
-> **M1-PIM-FINALISATION:** controls `001`, `005`–`015` are **CLOSED / PASS**. Accepted PIM Admin remains v2.12.
+> **M1:** CLOSED / PASS / FROZEN under `CF-CHG-20260823-028`.
 >
-> **M1-PIPELINE-OPS:** `CF-CHG-20260821-016` is **CLOSED / PASS**. Pipeline Ops v1.0 remains accepted.
+> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **CLOSED / PASS**. Final deployed authenticated desktop/mobile UAT passed on Pilot SHA `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`, run `32795496640`.
 >
-> **M1-EVIDENCE-UX:** `CF-CHG-20260821-017` is **CLOSED / PASS**. Evidence v1.0 remains the accepted private Evidence/provenance workspace.
+> **M2.2 SECURITY / PRODUCTION / SEARCH SHOWCASE:** `CF-CHG-20260825-032` is **CLOSED / PASS** for the implemented Pilot scope. Final Pilot SHA `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`, build run `32840377937`, deployed desktop/mobile UAT run `32840377935` PASS.
 >
-> **M1-DATA-QUALITY-READINESS:** `CF-CHG-20260821-018` is **CLOSED / PASS**. Data Quality v1.0 semantics remain accepted.
+> **SUPABASE PRO / LEAKED PASSWORD:** `CF-CHG-20260823-022` is **CLOSED / PASS** for Pilot. Organisation Pro entitlement is verified, leaked-password protection is enabled, and the live Security Advisor no longer reports the previous leaked-password WARN. Production must independently repeat the control under its own Auth authority.
 >
-> **M1-UAT-HARNESS:** `CF-CHG-20260822-019` is **CLOSED / PASS**. Final deployed run `32600027592` passed 3/3 tests on both desktop and mobile and publishes SHA-bound commit statuses.
+> **M2.2 SEARCH:** `CF-CHG-20260825-033` is **CLOSED / PASS** for exact lookup + deterministic FTS + structured filters + bounded server-side DTO. pgvector/vector/hybrid remains **DEFERRED / NOT ACCEPTED** until a governed embedding profile/corpus is approved and benchmarked.
 >
-> **ACCESS ADMIN:** `CF-CHG-20260822-020` is **CLOSED / PASS**. Access Admin v1.0 is accepted for create/invite, role replacement, non-Platform-Admin expiry, disable/re-enable, audit and lockout protection.
+> **M2.2 SECURITY FOUNDATION:** `CF-CHG-20260825-034` is **CLOSED / PASS — PILOT SECURITY FOUNDATION**. Direct privileged browser RPC exposure is removed, managed Auth hardening is verified, and current browser/server boundaries remain intact.
 >
-> **DATA QUALITY CONCURRENT HARDENING:** `CF-CHG-20260823-021` is **CLOSED / PASS**. Aggregate readiness uses private timestamped snapshots refreshed every 15 minutes; exceptions remain live/paged; mobile Data Quality scrolling is accepted.
+> **M2.2 CONSOLIDATED UAT:** `CF-CHG-20260825-035` is **CLOSED / PASS** for implemented scope with SHA-bound desktop/mobile artifacts.
 >
-> **LEAKED PASSWORD PROTECTION:** `CF-CHG-20260823-022` is **DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE**. Pilot may retain the documented Free-plan warning as a bounded non-production exception. Production must use an eligible Supabase plan, enable leaked-password protection and pass Auth/RBAC UAT before production security sign-off/cutover.
->
-> **M1-SEARCH-ENRICHMENT:** `CF-CHG-20260823-023` is **CLOSED / PASS**. The accepted 33,105-document Search projection is deterministic `course-v3`: CRICOS registered tuition remains separate from Provider-current tuition, only UAT-approved RMIT/UQ Course Facts are admitted, and final native replay is unchanged. M1-SEARCH-VECTOR remains rejected/not admitted.
->
-> **M1-PUBLICATION-UAT:** `CF-CHG-20260823-024` is **CLOSED / PASS**. Governed publication was proven on an explicit two-Course Pilot allowlist; broad catalogue publication remains unauthorised and final Pilot state is all unpublished.
->
-> **M1-GUIDES-OPS-HANDOVER:** `CF-CHG-20260823-025` is **CLOSED / PASS** for the frozen M1 baseline.
->
-> **M1-PERFORMANCE-RESPONSIVENESS:** `CF-CHG-20260823-026` is **CLOSED / PASS**. Final accepted deployed performance run is `32622164346` against Pilot `1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
->
-> **M1-SECURITY-RELEASE:** `CF-CHG-20260823-027` is **CLOSED / PASS** for the Pilot release baseline. `CF-CHG-20260823-022` remains a mandatory Production gate.
->
-> **M1-ACCEPTANCE:** `CF-CHG-20260823-028` is **CLOSED / PASS**. CourseFinder Milestone 1 is complete and frozen for the governed Pilot baseline. Production readiness is not implied.
->
-> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **CLOSED / PASS**. Final deployed authenticated desktop/mobile UAT passed on Pilot SHA `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`, run `32795496640`. Layer 2 deterministic acquisition/extraction, provider routing, Evidence, safe candidate apply, completeness uplift, Scholarship detail extraction and measured L3 fall-out are accepted. Layer 2 is not experimental; provider trials remain qualification/benchmark tools.
->
-> **M2.1-DATA-ACQUISITION-NAV:** `CF-CHG-20260823-030` is **CLOSED / PASS** for the deployed M2.1 Layer 2 Operations navigation. The broader M2 IA now matures Layer 1, Layer 2 and Layer 3 as first-class operational workspaces under `CF-CHG-20260825-031`.
->
-> **M2 REVIEW / PRODUCTION OPERATING MODEL:** `CF-CHG-20260825-031` is **APPLIED — DOCUMENTATION / GOVERNANCE BASELINE**. It establishes the consolidated M2 roadmap, Production build/operations guide, security-first milestone standard, Layer 1–3 Admin maturity target, paid-scraper recommendation and Evidence capacity baseline. M2.2 Security & Production Foundation is the next gate.
+> **PRODUCTION:** clean Production establishment, protected Production deployment, backup/PITR/restore execution, Production security regression, broad Publication, Zoho cutover and final Production handover remain separately governed and are **NOT AUTHORISED** by M2.2 closure.
 
-| Change ID | Category | Title | Initiated | Status | UI / capability | Record |
-|---|---|---|---|---|---|---|
-| CF-CHG-20260820-001 | 30-admin-pim-ux | PIM field semantics, fee presentation and Admin Guide | 20 Aug 2026 | CLOSED / PASS | PIM semantics retained through v2.12 | `30-admin-pim-ux/CF-CHG-20260820-001-pim-field-semantics-fees-admin-guide.md` |
-| CF-CHG-20260820-002 | 40-layer2-enrichment | UQ Course Facts coverage expansion | 20 Aug 2026 | CLOSED / PASS | N/A | `40-layer2-enrichment/CF-CHG-20260820-002-uq-course-facts-coverage-expansion.md` |
-| CF-CHG-20260820-003 | 40-layer2-enrichment | QUT Course Facts acquisition deferred | 20 Aug 2026 | DEFERRED | N/A | `40-layer2-enrichment/CF-CHG-20260820-003-qut-course-facts-acquisition-deferred.md` |
-| CF-CHG-20260820-004 | 40-layer2-enrichment | UQ Course Facts coverage expansion v3 | 20 Aug 2026 | CLOSED / PASS | N/A | `40-layer2-enrichment/CF-CHG-20260820-004-uq-course-facts-coverage-expansion-v3.md` |
-| CF-CHG-20260820-005 | 30-admin-pim-ux | Restore Insights / Enrichment and governed read boundary | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-005-restore-insights-enrichment-governed-read.md` |
-| CF-CHG-20260820-006 | 30-admin-pim-ux | Evidence provenance workspace completeness/semantics | 20 Aug 2026 | CLOSED / PASS | Evidence baseline | `30-admin-pim-ux/CF-CHG-20260820-006-evidence-provenance-workspace.md` |
-| CF-CHG-20260820-007 | 30-admin-pim-ux | Catalogue paging and exact identity search | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-007-catalogue-paging-exact-identity-search.md` |
-| CF-CHG-20260820-008 | 30-admin-pim-ux | Provider / Course / Campus geography semantics | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-008-provider-course-campus-geography-semantics.md` |
-| CF-CHG-20260820-009 | 30-admin-pim-ux | Intake and English requirement semantics | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-009-intake-english-requirement-semantics.md` |
-| CF-CHG-20260820-010 | 30-admin-pim-ux | Course taxonomy source lineage | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-010-course-taxonomy-source-lineage.md` |
-| CF-CHG-20260820-011 | 30-admin-pim-ux | Scholarship compound eligibility/cycle/scope semantics | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-011-scholarship-compound-semantics.md` |
-| CF-CHG-20260820-012 | 30-admin-pim-ux | Course lifecycle, publication, readiness and Search state | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-012-course-lifecycle-publication-readiness-search-state.md` |
-| CF-CHG-20260820-013 | 30-admin-pim-ux | Admin operations role boundary and safe Sources projection | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-013-operations-role-boundary.md` |
-| CF-CHG-20260820-014 | 30-admin-pim-ux | PIM Attribute Options and Completeness Profile governance | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-014-pim-attribute-option-completeness-governance.md` |
-| CF-CHG-20260820-015 | 30-admin-pim-ux | PIM operational UI/browser acceptance finalisation | 20 Aug 2026 | CLOSED / PASS | PIM v2.12 | `30-admin-pim-ux/CF-CHG-20260820-015-pim-operational-ui-browser-acceptance.md` |
-| CF-CHG-20260821-016 | 80-uat-release-operations | M1 Pipeline Operations governance/acceptance | 21 Aug 2026 | CLOSED / PASS | Pipeline Ops v1.0 | `80-uat-release-operations/CF-CHG-20260821-016-m1-pipeline-ops-governance-baseline.md` |
-| CF-CHG-20260821-017 | 30-admin-pim-ux | M1 Evidence UX operational workspace | 21 Aug 2026 | CLOSED / PASS | Evidence v1.0 | `30-admin-pim-ux/CF-CHG-20260821-017-m1-evidence-ux-operational-workspace.md` |
-| CF-CHG-20260821-018 | 30-admin-pim-ux | M1 Data Quality Readiness operational gate | 21 Aug 2026 | CLOSED / PASS | Data Quality v1.0 | `30-admin-pim-ux/CF-CHG-20260821-018-m1-data-quality-readiness.md` |
-| CF-CHG-20260822-019 | 80-uat-release-operations | M1 UAT Harness automated operational acceptance | 22 Aug 2026 | **CLOSED / PASS** | UAT Harness v1.0 | `80-uat-release-operations/CF-CHG-20260822-019-m1-uat-harness.md` |
-| CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | 22 Aug 2026 | **CLOSED / PASS** | Access Admin v1.0 | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
-| CF-CHG-20260823-021 | 80-uat-release-operations | Data Quality overview snapshot and concurrent UAT hardening | 23 Aug 2026 | **CLOSED / PASS** | Data Quality v1.0 operational hardening | `80-uat-release-operations/CF-CHG-20260823-021-data-quality-overview-snapshot.md` |
-| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | 23 Aug 2026 | **DEFERRED FOR PILOT — PRODUCTION GATE** | Supabase Auth hardening | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
-| CF-CHG-20260823-023 | 50-search-api-consumers | M1 governed Course-Fact Search admission | 23 Aug 2026 | **CLOSED / PASS** | Search `course-v3` / Website Search v2 | `50-search-api-consumers/CF-CHG-20260823-023-m1-search-enrichment-admission.md` |
-| CF-CHG-20260823-024 | 50-search-api-consumers | M1 governed publication and consumer positive-path UAT | 23 Aug 2026 | **CLOSED / PASS** | Publication Governance v1.0 / Website + Zoho positive path | `50-search-api-consumers/CF-CHG-20260823-024-m1-publication-uat.md` |
-| CF-CHG-20260823-025 | 80-uat-release-operations | M1 Guides, Operations & Handover Finalisation | 23 Aug 2026 | **CLOSED / PASS** | User Guide v2.0 / PIM Admin Guide v1.15 / Operations Runbook v1.0 | `80-uat-release-operations/CF-CHG-20260823-025-m1-guides-ops-handover.md` |
-| CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | 23 Aug 2026 | **CLOSED / PASS** | Full-scale Admin/Search performance gate | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
-| CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | 23 Aug 2026 | **CLOSED / PASS** | Security/ACL/Edge release closure | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
-| CF-CHG-20260823-028 | 80-uat-release-operations | M1 Final Acceptance & Baseline Freeze | 23 Aug 2026 | **CLOSED / PASS** | Milestone 1 complete / frozen Pilot baseline | `80-uat-release-operations/CF-CHG-20260823-028-m1-final-acceptance-baseline-freeze.md` |
-| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider/completeness platform | 23 Aug 2026 | **CLOSED / PASS** | Layer 2 Platform v1.4 / deterministic enrichment foundation | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
-| CF-CHG-20260823-030 | 30-admin-pim-ux | Data Enrichment navigation replan | 23 Aug 2026 | **CLOSED / PASS** | Layer 2 Operations v1.4 navigation | `30-admin-pim-ux/CF-CHG-20260823-030-data-acquisition-navigation-replan.md` |
-| CF-CHG-20260825-031 | 00-governance-programme | M2 consolidated review, Production operating model and security-first milestone governance | 25 Aug 2026 | **APPLIED — DOCUMENTATION / GOVERNANCE BASELINE** | M2 roadmap / Layer 1–3 target IA / Production operations | `00-governance-programme/CF-CHG-20260825-031-m2-review-production-operating-model.md` |
+| Change ID | Category | Title | Status | Record |
+|---|---|---|---|---|
+| CF-CHG-20260820-001 | 30-admin-pim-ux | PIM field semantics, fee presentation and Admin Guide | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-001-pim-field-semantics-fees-admin-guide.md` |
+| CF-CHG-20260820-002 | 40-layer2-enrichment | UQ Course Facts coverage expansion | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260820-002-uq-course-facts-coverage-expansion.md` |
+| CF-CHG-20260820-003 | 40-layer2-enrichment | QUT Course Facts acquisition deferred | DEFERRED | `40-layer2-enrichment/CF-CHG-20260820-003-qut-course-facts-acquisition-deferred.md` |
+| CF-CHG-20260820-004 | 40-layer2-enrichment | UQ Course Facts coverage expansion v3 | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260820-004-uq-course-facts-coverage-expansion-v3.md` |
+| CF-CHG-20260820-005 | 30-admin-pim-ux | Restore Insights / Enrichment and governed read boundary | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-005-restore-insights-enrichment-governed-read.md` |
+| CF-CHG-20260820-006 | 30-admin-pim-ux | Evidence provenance workspace completeness/semantics | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-006-evidence-provenance-workspace.md` |
+| CF-CHG-20260820-007 | 30-admin-pim-ux | Catalogue paging and exact identity search | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-007-catalogue-paging-exact-identity-search.md` |
+| CF-CHG-20260820-008 | 30-admin-pim-ux | Provider / Course / Campus geography semantics | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-008-provider-course-campus-geography-semantics.md` |
+| CF-CHG-20260820-009 | 30-admin-pim-ux | Intake and English requirement semantics | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-009-intake-english-requirement-semantics.md` |
+| CF-CHG-20260820-010 | 30-admin-pim-ux | Course taxonomy source lineage | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-010-course-taxonomy-source-lineage.md` |
+| CF-CHG-20260820-011 | 30-admin-pim-ux | Scholarship compound eligibility/cycle/scope semantics | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-011-scholarship-compound-semantics.md` |
+| CF-CHG-20260820-012 | 30-admin-pim-ux | Course lifecycle, publication, readiness and Search state | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-012-course-lifecycle-publication-readiness-search-state.md` |
+| CF-CHG-20260820-013 | 30-admin-pim-ux | Admin operations role boundary and safe Sources projection | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-013-operations-role-boundary.md` |
+| CF-CHG-20260820-014 | 30-admin-pim-ux | PIM Attribute Options and Completeness Profile governance | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-014-pim-attribute-option-completeness-governance.md` |
+| CF-CHG-20260820-015 | 30-admin-pim-ux | PIM operational UI/browser acceptance finalisation | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-015-pim-operational-ui-browser-acceptance.md` |
+| CF-CHG-20260821-016 | 80-uat-release-operations | M1 Pipeline Operations governance/acceptance | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260821-016-m1-pipeline-ops-governance-baseline.md` |
+| CF-CHG-20260821-017 | 30-admin-pim-ux | M1 Evidence UX operational workspace | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260821-017-m1-evidence-ux-operational-workspace.md` |
+| CF-CHG-20260821-018 | 30-admin-pim-ux | M1 Data Quality Readiness operational gate | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260821-018-m1-data-quality-readiness.md` |
+| CF-CHG-20260822-019 | 80-uat-release-operations | M1 UAT Harness automated operational acceptance | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260822-019-m1-uat-harness.md` |
+| CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | CLOSED / PASS | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
+| CF-CHG-20260823-021 | 80-uat-release-operations | Data Quality overview snapshot and concurrent UAT hardening | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260823-021-data-quality-overview-snapshot.md` |
+| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | **CLOSED / PASS** | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
+| CF-CHG-20260823-023 | 50-search-api-consumers | M1 governed Course-Fact Search admission | CLOSED / PASS | `50-search-api-consumers/CF-CHG-20260823-023-m1-search-enrichment-admission.md` |
+| CF-CHG-20260823-024 | 50-search-api-consumers | M1 governed publication and consumer positive-path UAT | CLOSED / PASS | `50-search-api-consumers/CF-CHG-20260823-024-m1-publication-uat.md` |
+| CF-CHG-20260823-025 | 80-uat-release-operations | M1 Guides, Operations & Handover Finalisation | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260823-025-m1-guides-ops-handover.md` |
+| CF-CHG-20260823-026 | 80-uat-release-operations | M1 Performance & Responsiveness Gate | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260823-026-m1-performance-responsiveness.md` |
+| CF-CHG-20260823-027 | 70-security-platform | M1 Security, ACL & Release Readiness Gate | CLOSED / PASS | `70-security-platform/CF-CHG-20260823-027-m1-security-release-readiness.md` |
+| CF-CHG-20260823-028 | 80-uat-release-operations | M1 Final Acceptance & Baseline Freeze | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260823-028-m1-final-acceptance-baseline-freeze.md` |
+| CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider/completeness platform | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
+| CF-CHG-20260823-030 | 30-admin-pim-ux | Data Enrichment navigation replan | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260823-030-data-acquisition-navigation-replan.md` |
+| CF-CHG-20260825-031 | 00-governance-programme | M2 consolidated review, Production operating model and security-first milestone governance | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260825-031-m2-review-production-operating-model.md` |
+| CF-CHG-20260825-032 | 00-governance-programme | M2.2 Search / Showcase Acceleration | **CLOSED / PASS** | `00-governance-programme/CF-CHG-20260825-032-m2-2-search-showcase-acceleration.md` |
+| CF-CHG-20260825-033 | 50-search-api-consumers | M2.2 Bounded Search / pgvector Showcase | **CLOSED / PASS — VECTOR DEFERRED** | `50-search-api-consumers/CF-CHG-20260825-033-m2-2-search-pgvector-showcase.md` |
+| CF-CHG-20260825-034 | 70-security-platform | M2.2 Security & Production Foundation | **CLOSED / PASS — PILOT FOUNDATION** | `70-security-platform/CF-CHG-20260825-034-m2-2-security-production-foundation.md` |
+| CF-CHG-20260825-035 | 80-uat-release-operations | M2.2 Consolidated Automated UAT & Release Gate | **CLOSED / PASS** | `80-uat-release-operations/CF-CHG-20260825-035-m2-2-consolidated-uat-release.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.66.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.68.md`;
+- M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.1.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.68.md`;
-- Consolidated M2 review: `docs/coursefinder-milestone-2-consolidated-review-v1.0.md`;
-- Production Build & Operations Guide: `docs/coursefinder-production-environment-build-operations-guide-v1.0.md`;
+- Running Build: `docs/coursefinder-running-build-v2.70.md`;
+- M2.2 architecture: `docs/coursefinder-m2-2-security-production-search-showcase-architecture-v1.0.md`;
+- Production Build & Operations Guide: `docs/coursefinder-production-environment-build-operations-guide-v1.1.md`;
+- Website Developer Search/read contract: `docs/coursefinder-website-developer-search-read-contract-v1.0.md`;
 - Milestone Governance Standard: `docs/coursefinder-milestone-governance-standard-v1.0.md`;
 - Current M2.1 layer/authority contract: `docs/coursefinder-m2-1-layer1-4-architecture-contract-v1.0.md`;
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md`;
 - Frozen M1 architecture baseline: `docs/coursefinder-m1-frozen-architecture-baseline-v1.0.md`;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`;
-- Current User Guide: `docs/coursefinder-user-guide-v2.2.md`;
-- Current PIM/Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.17.md` plus `docs/coursefinder-pim-admin-guide-m2-layer-operations-addendum-v1.0.md`;
-- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.2.md` plus `docs/coursefinder-operations-runbook-m2-production-addendum-v1.0.md`;
-- Layer 2 Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.1.md`;
-- Layer 2 provider adapter contract: `docs/coursefinder-layer2-provider-adapter-contract-v1.0.md`;
-- Replanned M2.1 prompt: `docs/coursefinder-m2-1-layer2-platform-replanned-prompt-v2.0.md`;
-- Data Quality semantic contract: `docs/coursefinder-data-quality-readiness-contract-v1.0.md`;
-- Publication governance contract: `docs/coursefinder-publication-governance-contract-v1.0.md`;
-- M2.1 technical acceptance: `docs/uat/coursefinder-m2-1-layer2-platform-technical-acceptance-2026-08-23.md` plus final deployed run `32795496640` recorded in `CF-CHG-20260823-029`;
-- M2.1 Federation completeness UAT: `docs/uat/coursefinder-m2-1-federation-completeness-uat-2026-08-24.md`;
-- M2.1 country/provider trial evidence: `docs/uat/coursefinder-m2-1-country-completeness-provider-trial-2026-08-23.md`;
-- Final M1 acceptance: `docs/uat/coursefinder-m1-final-acceptance-technical-acceptance-2026-08-23.md`;
-- Production leaked-password gate decision: `docs/uat/coursefinder-supabase-leaked-password-protection-production-gate-2026-08-23.md`.
+- Current User Guide: `docs/coursefinder-user-guide-v2.3.md`;
+- Current PIM/Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.17.md` plus applicable M2 addenda;
+- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.3.md` plus applicable M2 Production addenda;
+- Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.1.md`;
+- M2.2 technical UAT: `docs/uat/coursefinder-m2-2-security-search-showcase-2026-08-25.md`;
+- Friday M2.2 milestone record: `docs/coursefinder-milestone-meeting-2026-08-28-m2-2-showcase.md`.
 
 ## Accepted runtime/source authority
 
-The frozen M1 deployed browser/performance acceptance remains bound to `msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2` for that M1 gate.
-
-M2.1 final accepted Pilot source is:
-
-`msinghbs-ai/Coursefinder-Pilot@cba0e9ecd2f4878bfd51ad5278e60046b1fae581`
-
-Final M2.1 deployed UAT run: `32795496640` with desktop and mobile PASS and SHA-bound artifacts.
-
-Live M2.1 Supabase migrations include provider catalogue, provider normalisation, country completeness/trial metrics, Course decision context and discovery/extraction additions recorded in `CF-CHG-20260823-029`.
-
-Current accepted M2.1 visible capability is **Layer 2 Platform v1.4 / Layer 2 Operations v1.4**. The current M2 IA target extends this into mature Layer 1, Layer 2 and Layer 3 operational workspaces.
+- Frozen M1 browser/performance baseline: `msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
+- M2.1 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@cba0e9ecd2f4878bfd51ad5278e60046b1fae581`; run `32795496640`.
+- M2.2 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@38ad08bb75ee7cf26a0a701a3ae008d1563b915b`; build `32840377937`; deployed desktop/mobile UAT `32840377935`.
 
 ## Preserved technical/semantic baseline
 
-- AU: 1,546 Providers / 26,648 Courses;
-- NZ: 409 Providers / 6,457 Courses;
-- AU+NZ: 1,955 Providers / 33,105 Courses;
+- AU Search documents: 26,648;
+- NZ Search documents: 6,457;
+- AU+NZ Search documents: 33,105;
 - all-country Courses: 43,461;
-- all-country Providers currently live: 3,085;
-- Search projection: 33,105 Course documents (`course-v3`);
-- accepted combined Search hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
-- final publication state remains 43,461 canonical Courses unpublished / 33,105 Search documents unpublished;
+- all-country Providers: 3,085;
+- Search Projection: `course-v3`, generation 22;
+- Search hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
+- final broad publication state: 0 published entities;
+- M2.2 embeddings/jobs/query cache: 0 / 0 / 0;
 - Evidence minimum rank 3; pipeline/layer operations minimum rank 4; PIM Configuration rank 5; Access Admin/Settings rank 6;
-- M2.1 acquisition-provider configuration and enrichment do not change canonical identity, Search Projection/Visibility or Publication authority;
-- QILT/PRISMS contextual projections preserve source grain/reporting period;
-- Layer 4 is terminal for enrichment authority; there is no Layer 5;
-- CourseFinder is not a university-admissions/application/offer-letter/visa workflow;
-- M1-SEARCH-VECTOR remains rejected/not admitted;
-- Milestone 1 remains complete/frozen under `CF-CHG-20260823-028`.
+- Layer 2 does not redefine Layer 1 identity;
+- Search/Publication do not become authority layers;
+- QILT/PRISMS context preserves actual source grain/reporting period;
+- Layer 4 is terminal; there is no Layer 5;
+- CourseFinder remains discovery/comparison, not admissions/application/offer/visa processing.
 
-## Security release residuals / next gate
+## Next gate boundary
 
-- Supabase leaked-password protection remains mandatory for Production under `CF-CHG-20260823-022`.
-- `public.layer2_ops_policy_update(...)` is currently a browser-callable `SECURITY DEFINER` RPC; it performs actor and role-rank checks but requires explicit M2.2 Production threat-model/grant/RPC disposition.
-- Retained `verify_jwt=false` ingestion workers must be reassessed for Production.
-- Production requires clean environment isolation, separate credentials, backup/restore acceptance, CI/CD environment separation, Security Advisor review and automated negative RBAC/storage/browser UAT.
-
-## Explicit post-M1/M2.1 boundary
-
-- QUT Course Facts acquisition remains deferred.
-- Vector/hybrid Search remains rejected/not admitted unless a new later gate is opened.
-- Broad catalogue publication and Production channel cutover remain separately governed.
-- Additional country expansion and wider enrichment coverage are post-M1 work.
-- Layer 3 AI operations require their own acceptance gate.
-- Production readiness is not implied by M2.1 closure.
+M2.2 closure authorises progression to the next clean Production establishment/release-readiness gate only. It does not authorise in-place Pilot promotion, broad Publication, Production website exposure, Zoho cutover or final Production handover.
