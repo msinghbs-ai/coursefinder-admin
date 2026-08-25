@@ -1,151 +1,77 @@
 # CF-CHG-20260823-022 — Supabase leaked password protection
 
-**Status:** **DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE**  
+**Status:** **REOPENED / BLOCKED — PRO ENTITLEMENT CONFIRMED, CONTROL STILL DISABLED**  
 **Category:** `70-security-platform`  
 **Initiated:** 23 August 2026 10:43 AEST (UTC+10)  
-**Decision updated:** 23 August 2026 11:40 AEST (UTC+10)  
-**Origin:** CourseFinder chat — proceed with leaked password protection; subsequently park for Pilot and require for Production  
+**Decision updated:** 25 August 2026  
 **Owner:** CourseFinder security/platform governance  
-**Affected surfaces:** Supabase Auth, Platform security posture, Access Admin/UAT identities, Production readiness/cutover  
-**Change class:** managed Auth security hardening / Production release gate
+**Affected surfaces:** Supabase Auth, Platform security posture, Access Admin/UAT identities, Production readiness/cutover
 
-## 1. Requested outcome
+## Requested outcome
 
-Enable Supabase Auth leaked-password protection so passwords known to have appeared in public breaches are rejected using Supabase's HaveIBeenPwned.org Pwned Passwords integration.
+Enable Supabase Auth leaked-password protection so passwords known to have appeared in public breaches are rejected through the managed HaveIBeenPwned integration.
 
-This is an Auth platform setting. It is not a PostgreSQL schema/RLS change and must not be simulated with a database migration.
+This is a managed Auth setting. It is not a PostgreSQL/RLS migration and must not be simulated with database SQL.
 
-The programme decision of 23 August 2026 is to **park this control for the current Pilot** and make it a **mandatory Production go-live requirement**.
+## Original Pilot decision — 23 August 2026
 
-## 2. Current Pilot state
+At initiation the connected organisation was verified on the Free plan and Supabase documented leaked-password protection as Pro+. The Pilot therefore carried a documented temporary Free-plan exception while the control remained mandatory for Production go-live. The warning was never represented as resolved.
 
-Project:
+## M2.2 entitlement change — 25 August 2026
 
-`coursefinder_Pilot` / `fxcwkweaxjtknorudmwp`
+The previous Free-plan premise is no longer true.
 
-Connected organisation:
+Live reconciliation now verifies:
 
-`techM` / `rszbvkqopqfvjldvfnbh`
+- organisation `techM` / `rszbvkqopqfvjldvfnbh` plan: **`pro`**;
+- Pilot `coursefinder_Pilot` / `fxcwkweaxjtknorudmwp`: ACTIVE_HEALTHY;
+- region: `ap-south-1` (Mumbai);
+- current Security Advisor: **WARN — Leaked Password Protection Disabled**.
 
-Live Supabase Pilot state at initiation:
+Supabase documentation confirms leaked-password protection is available on Pro and above. Therefore the former Free-only Pilot exception is reopened under M2.2 and is no longer a valid reason to leave the control unresolved.
 
-- project status: `ACTIVE_HEALTHY`;
-- organisation plan: **Free**;
-- Supabase security advisor: **WARN — Leaked Password Protection Disabled**;
-- advisor detail: compromised-password checking is disabled.
+## Current implementation state
 
-The existing project-wide `RLS enabled / no policy` INFO findings remain the deliberate private/internal-table pattern and are not part of this control.
+**Entitlement:** PASS.  
+**Setting state:** BLOCKED / NOT ENABLED.  
+**Advisor state:** WARN remains.  
+**M2.2 security acceptance:** blocked while this required control remains disabled.
 
-## 3. Product constraint
+The currently connected Supabase project-management capability can verify project/organisation/advisor/database state and deploy database/Edge changes, but no authorised managed Auth-config mutation action is exposed in the current connection. Repository search found no existing governed `SUPABASE_ACCESS_TOKEN`/Auth-config automation path to perform the Management API change safely.
 
-Current Supabase documentation states:
+Accordingly, M2.2 does not fabricate enablement. The blocker is retained as evidence rather than delegating technical UAT or claiming a false PASS.
 
-- leaked-password protection is configured in Auth password/security settings;
-- Supabase uses the HaveIBeenPwned.org Pwned Passwords API to reject known leaked passwords;
-- **Leaked password protection is available on the Pro Plan and above.**
+## Required enablement/UAT path
 
-The connected Pilot organisation is currently on the Free plan. The setting therefore cannot be enabled on the present Pilot subscription without a paid-plan change.
+When an authorised managed Auth configuration path is available:
 
-No paid-plan upgrade is authorised for Pilot by this control.
+1. enable **Prevent use of leaked passwords** for the intended environment;
+2. re-read managed Auth configuration where possible;
+3. run Security Advisor and require `auth_leaked_password_protection` to disappear;
+4. run a bounded known-leaked-password rejection test without recording password material;
+5. verify a compliant governed identity can authenticate;
+6. verify Access Admin/RBAC/session behaviour is unchanged;
+7. retain UAT evidence and close only after those checks pass.
 
-## 4. Programme decision — Pilot versus Production
+## Production rule unchanged
 
-### Pilot
+Production remains blocked from final security sign-off/go-live until leaked-password protection is enabled and UAT-proven in the Production Auth authority. Pilot Pro entitlement is not a Production substitute.
 
-The warning is accepted as a **documented, temporary Pilot exception** because:
+## Security semantics
 
-- the Pilot remains a non-production validation environment;
-- the control is subscription-gated on Pro+;
-- the current accepted Pilot Auth/RBAC/UAT controls remain operational;
-- upgrading Pilot solely to remove this warning is not required for Pilot acceptance.
+This control affects password acceptance. It does not change CourseFinder role hierarchy, PIM/Pipeline ACLs, Layer authority, canonical Provider/Course data, Search Projection, Search Visibility or Publication.
 
-This exception does **not** mean the warning is resolved. It remains visible and traceable under this Change Control.
+## Rollback
 
-Pilot acceptance/runtime remains unchanged and must not be represented as having leaked-password protection enabled.
+If enablement causes an evidenced pre-go-live Auth compatibility defect, disable the setting temporarily, record the failure and move the control back to BLOCKED. Production cannot proceed while the mandatory gate remains unsatisfied.
 
-### Production
+## Decision history
 
-Leaked-password protection is a **mandatory Production readiness and cutover gate**.
+| Date | State | Decision |
+|---|---|---|
+| 23 Aug 2026 | DEFERRED FOR PILOT | Free plan made the managed control unavailable; mandatory Production gate retained. |
+| 25 Aug 2026 | REOPENED / BLOCKED | Organisation upgraded to Pro; entitlement now passes but live advisor proves the setting is still disabled. Free-plan exception retired. |
 
-A CourseFinder Production environment must not receive final production security sign-off or go-live approval until all closure criteria in Section 8 are satisfied.
+## Closure
 
-Production must use a Supabase plan that makes the control available (currently Pro or above), or a future Supabase entitlement that demonstrably provides the same managed setting.
-
-Any proposal to waive this Production requirement requires a new explicit security-risk decision/change control; Pilot deferral is not a Production waiver.
-
-## 5. Required Production implementation path
-
-When the Production Supabase environment/subscription is provisioned:
-
-1. confirm the Production project and organisation are on an eligible plan;
-2. enable **Prevent use of leaked passwords** in Supabase Auth password settings;
-3. retain existing CourseFinder password handling — passwords remain Supabase Auth credentials and are never stored in CourseFinder governance/audit;
-4. run the Supabase security advisor against the Production project;
-5. require `auth_leaked_password_protection` to be absent before Production security sign-off;
-6. run a bounded Auth regression using controlled Production/UAT identities without recording password values;
-7. prove a known leaked-password attempt is rejected through the managed Auth path;
-8. prove a compliant governed user can authenticate normally;
-9. confirm CourseFinder role/RBAC, Access Admin and privileged server boundaries remain unchanged;
-10. attach Production evidence to this control and close it only after the Production gate passes.
-
-## 6. Security semantics
-
-When enabled, this control strengthens password acceptance only. It does not change:
-
-- CourseFinder role hierarchy or RBAC;
-- `security.user_roles` / `security.roles` semantics;
-- Access Admin rank-6 boundary;
-- Evidence/Pipeline/Data Quality ACLs;
-- canonical Provider/Course data;
-- Search/publication behaviour.
-
-Existing users are not silently assigned replacement passwords. Exact post-enable behaviour will be validated during Production UAT rather than assumed.
-
-## 7. Pilot evidence / current exception
-
-**Pre-change advisor check:** PASS as evidence of the gap.
-
-Observed live Pilot warning:
-
-`auth_leaked_password_protection — Leaked Password Protection Disabled — WARN`
-
-Observed Pilot organisation plan:
-
-`free`
-
-Current Supabase documentation requires Pro Plan or above.
-
-No Pilot Auth setting, database schema, application source or subscription was changed.
-
-**Pilot disposition:** DEFERRED / ACCEPTED TEMPORARY EXCEPTION.
-
-This exception is bounded to the Pilot environment and must not be copied into Production acceptance.
-
-## 8. Production closure gate
-
-This Change Control may move to **CLOSED / PASS** only when all are true for the Production environment:
-
-- Production project/environment identity is recorded;
-- subscription eligibility is confirmed;
-- leaked-password protection is enabled;
-- Production security advisor no longer reports `auth_leaked_password_protection`;
-- a controlled leaked-password rejection is proven without storing password material;
-- a compliant governed UAT identity can still authenticate;
-- Access Admin / RBAC regression passes;
-- no unrelated Auth regression is introduced;
-- evidence is retained in `docs/uat/`;
-- Production readiness/cutover record references this PASS.
-
-Until then, the Production go-live security gate is **NOT SATISFIED**.
-
-## 9. Rollback
-
-If Production enablement later causes a demonstrated Auth compatibility issue during bounded pre-go-live UAT, disable the setting temporarily, record the evidence and move this control back to BLOCKED. Production must not proceed while the mandatory gate is unsatisfied. No database rollback is required.
-
-## 10. Current status
-
-**DEFERRED FOR PILOT — MANDATORY PRODUCTION GO-LIVE GATE.**
-
-Pilot remains accepted on its existing runtime with this documented exception. No Pilot runtime/UI/schema version changes are made.
-
-Production leaked-password protection remains outstanding and must be implemented and UAT-proven before Production cutover. This decision changes programme/release governance only; it does not justify a Running Build, Database Architecture, Admin/PIM Decisions, PIM Admin Guide or visible UI version bump.
+**Final status:** BLOCKED pending managed Auth enablement and automated UAT evidence.
