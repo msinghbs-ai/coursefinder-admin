@@ -1,193 +1,191 @@
 # CF-CHG-20260825-038 — M2.3 Layer 3/4 Launch, Refresh Intelligence & Important Dates
 
-**Status:** APPROVED / IN PROGRESS  
+**Status:** APPROVED / IN PROGRESS — RUNTIME RECONCILED, PROVIDER BENCHMARK BLOCKED  
 **Category:** 00-governance-programme  
 **Initiated:** 25 August 2026 22:26 AEST (+10:00)  
-**Origin:** M2.3 scope expansion  
+**Last reconciled:** 26 August 2026 06:35 AEST (+10:00)  
 **Owner:** CourseFinder programme / Data Operations
 
-## Trigger
+## Decision and authority boundary
 
-M2.3 is expanded to launch governed Layer 3 AI Interpretation and Layer 4 Human Resolution in the same milestone, alongside a freshness-aware refresh scheduler, Important Links registry and Important Dates ticker. The user supplied an L3/L4 design reference showing configurable OpenAI-compatible LLM routing and human curation. That concept is accepted only as a UX reference; browser-stored API keys or direct browser-to-aggregator privileged execution are not authorised.
+M2.3 operationalises governed Layer 3 AI Interpretation and Layer 4 Human Resolution together with bounded refresh intelligence, Important Links and Important Dates.
 
-## Layer 3 operating model
+The authority chain remains:
 
-Layer 3 becomes operational during M2.3.
+`Layer 1 authoritative/regulatory → Layer 2 deterministic acquisition/extraction → Layer 3 AI-assisted Evidence interpretation → Layer 4 human resolution`.
 
-- Use OpenAI-compatible aggregator/provider abstraction with server-side secrets only.
-- Prefer free/zero-cost models when they satisfy the governed task contract.
-- Model choice is profile-driven, replaceable and versioned; do not hard-code one free model as permanent architecture.
-- Apply account/model/provider rate limits, request/day budget, request/minute budget, retry ceiling, token/output ceiling and circuit-breaker behaviour.
-- Use structured-output validation and deterministic post-validation before any candidate can progress.
-- Preserve prompt/model/provider/profile/version lineage and Evidence references.
-- Layer 3 produces suggestions/candidates only; it does not silently mutate Layer 1 identity or bypass Layer 4 where human resolution is required.
+Layer 4 is terminal. Search Projection, Search Visibility and Publication are downstream product states. Layer 3 cannot mutate Layer 1 identity or canonical Course values directly, and browser code cannot hold aggregator credentials.
 
-OpenRouter is an acceptable initial aggregator. Current public OpenRouter information indicates free accounts are rate-limited and free-model availability can change; therefore CourseFinder must treat model availability and limits as runtime configuration, not a fixed assumption.
+## Layer 3 operating contract
 
-## Layer 4 operating model
+- OpenAI-compatible provider abstraction with server-side secrets only.
+- Model/provider choice is profile-driven, replaceable and versioned.
+- Eligibility is checked before any external provider call.
+- Unchanged Evidence is a zero-call result.
+- RPM/day/input/output/retry/timeout/cost ceilings remain enforced.
+- Model output is untrusted and must pass deterministic validation.
+- Validated non-null candidates can create Layer 4 work only.
+- No direct Search publication or canonical mutation.
 
-Layer 4 becomes operational during M2.3 as the terminal human-resolution layer.
+### Current deployed profile
 
-- Review queue with approve/edit/reject/return-for-evidence actions.
-- Full source/Evidence/provenance visibility.
-- Explicit before/after and reason capture.
-- Audit actor/timestamp/Change Control lineage.
-- No hidden auto-approval from Layer 3.
-- Human decisions can resolve ambiguous semantic conflicts but must not rewrite authoritative Layer 1 source history.
+`openrouter-free-router-v1` remains:
 
-## Freshness-aware update cycle
+- aggregator: OpenRouter;
+- endpoint: `https://openrouter.ai/api/v1`;
+- configured model: `openrouter/free`;
+- server secret reference: `OPENROUTER_API_KEY`;
+- enabled: `true`;
+- paused: `true`;
+- validation state: `pending_credentials_and_benchmark`;
+- requests/minute: 20;
+- requests/day: 50;
+- max input/output: 12,000 / 1,200 tokens;
+- retry ceiling: 1;
+- timeout: 30 seconds;
+- cost ceiling: USD 0 for the initial free-router profile.
 
-Do not process the whole catalogue through Layers 2/3 on a fixed frequent cadence. Use a source/entity freshness scheduler driven by authority, known source cadence, change detection and important dates.
+The authorised management surface still does not expose Edge Function secret enumeration. Credential presence therefore remains unverified and must not be inferred.
 
-Recommended classes:
+**Provider gate: BLOCKED — CREDENTIAL REQUIRED / AUTHORISED SERVER SECRET NOT VERIFIED.**
 
-1. **Regulatory/Layer 1** — poll according to authority publication cadence/freshness SLA; fast-track detected source/version changes.
-2. **Provider/Course Layer 2** — refresh when Layer 1 changes identity/status, provider source hash changes, course/intake/fee freshness expires, or a known important date approaches.
-3. **Layer 3** — run only on unresolved/new/changed Evidence or expired interpretation; unchanged hashes do not consume LLM requests.
-4. **Layer 4** — event-driven queue only when Layer 3 confidence/validation or deterministic conflicts require human resolution.
-5. **Search/consumer projections** — refresh only after upstream accepted canonical/read-state changes.
+The profile must remain PAUSED until a real-provider benchmark explicitly passes.
 
-The scheduler should support freshness classes such as critical/weekly/monthly/term-cycle/annual/event-driven rather than one universal interval.
+### Current Edge runtime
 
-## Important Links workspace
+Reconciled deployed function:
 
-Add a maintained **Important Links** menu/workspace that assimilates governed country-wide operational/reference links, grouped by country and authority type, including where applicable:
+- slug: `layer3-interpret`;
+- function ID: `33dd7564-990a-4b15-a884-35ac609c2258`;
+- version: 1;
+- `verify_jwt=true`;
+- status: ACTIVE;
+- deployed bundle SHA-256: `83dea5345d4cfd7d5970905285fff8680ed853f2dae5be8962d66e44672efad9`.
 
-- regulatory Provider/Course authorities;
-- immigration/international-student authorities;
-- quality/outcomes authorities;
-- official scholarship portals;
-- qualification frameworks;
-- national/statistical agencies;
-- accepted Provider/catalogue sources;
-- source status/health pages;
-- official policy/change notices.
+No runtime drift was observed from the prior accepted Layer 3 Edge checkpoint.
 
-Each link record should carry country, authority class, source owner, URL, purpose, last verified date, freshness/check cadence, related source profile and operational status. It must not become an ungoverned bookmark dump.
+## Layer 4 operating contract
 
-## Important Dates / ticker
+`security.layer4_course_scalar_resolve_impl` remains the only canonical Course scalar authority. The hardened Layer 4 decision contract supports all six governed actions:
 
-Add an **Important Dates** registry and compact dashboard ticker. Dates may include sourced Course/intake deadlines, scholarship closing dates, regulatory data-release dates, application windows and other governed events.
+1. Approve;
+2. Edit and Approve;
+3. Reject;
+4. Request More Evidence;
+5. Return to Layer 2;
+6. Return to Layer 3.
 
-Ticker rules:
+Request More Evidence / Return to Layer 2 create bounded Layer 2 work. Return to Layer 3 creates a bounded revalidation request. Search-refresh signals are created only after Approve/Edit and Approve and only after the canonical scalar authority succeeds.
 
-- sourced dates only;
-- country/provider/course/scholarship scope clearly labelled;
-- timezone/date semantics retained;
-- source/Evidence link available;
-- expiry/archival after the event;
-- configurable warning windows;
-- no fabricated deadline if a source provides only a season/month/term;
-- dates can trigger targeted refresh jobs, but not broad uncontrolled re-ingestion.
+The deployed browser has the six actions, mandatory reason capture and before/proposed display, but still requires the full `public.layer4_review_context` UX: queue filters/prioritisation, Evidence opening, L2 context, L3 profile/configured and returned model/result/validator/token/cost context, full history, explicit final value and downstream refresh result. This remains an M2.3 implementation gate; no second Layer 4 authority is authorised.
 
-## M2.4 consequence
+## Refresh intelligence
 
-Because Layer 3 and Layer 4 are now operationalised in M2.3, M2.4 should be repurposed to **AI/Data Quality optimisation, full-stack regression and pre-blackout checkpoint**, not duplicate initial Layer 3 implementation.
+Applied migration `20260825133136_m2_3_refresh_scheduler_layer4_terminal_operations`:
 
-## Security
+- adds `source_id` targeting to refresh policy/request contracts;
+- creates private `pipeline.search_refresh_signals`;
+- adds source relationships to Important Links/Dates;
+- strengthens Layer 4 terminal routing;
+- installs `security.refresh_scheduler_tick_impl`;
+- installs pg_cron job `coursefinder-m2-3-refresh-intelligence-tick` on `*/15 * * * *`.
 
-- Aggregator/API keys are Vault/server-only.
-- No LLM API key field is persisted in browser local storage or exposed to normal client JavaScript.
-- Admin UI stores only governed profile references and non-secret settings.
-- New L3/L4 RPCs/Edge Functions require negative authorisation UAT.
-- LLM/provider responses are untrusted input and require schema validation.
+Live reconciliation confirms the cron job is ACTIVE and executes only:
 
-## UAT
+`select security.refresh_scheduler_tick_impl(now(), 100);`
 
-M2.3 closure now additionally requires:
+The scheduler is a bounded work-selection mechanism only. It must not directly perform uncontrolled catalogue ingestion, provider/model calls, Layer 4 approval or Search publication.
 
-- L3 free-model/provider routing and rate-limit tests;
-- provider/model unavailability fallback without unsafe mutation;
-- unchanged-Evidence no-LLM-call replay;
-- malformed/hallucinated-output rejection;
-- Layer 3 to Layer 4 escalation tests;
-- Layer 4 approve/edit/reject audit tests;
-- Important Links verification/role tests;
-- Important Dates expiry, warning and targeted-refresh tests;
-- desktop/mobile L3/L4/links/ticker UAT;
-- regression of Layer 1/2 identity, Evidence, Search and Publication boundaries.
+Live policy state is ten enabled policies; all ten have `source_id` targets and **zero unbounded policies**. This remains subject to rollback-only due-policy UAT proving that a due policy cannot select an entire country.
 
-## Boundary
+## Important Links
 
-This change does not create the separate Production environment, broad Publication, Zoho cutover or final handover. Layer 4 remains terminal. Search/Publication remain downstream states.
+The governed AU/NZ directory remains seeded from accepted CourseFinder official sources: AU CRICOS/Data Catalogue, PRISMS, QILT GOS, Study Australia Scholarship Search, DFAT Australia Awards, NZQA Education Organisations and Education Counts Tertiary Providers Directory.
 
-## Implementation checkpoint — 25 August 2026
+Health remains an operational observation, not proof of semantic authority. Education Counts was deliberately marked degraded when its prior verification timed out; HTTP success alone must not change this status without semantic verification.
 
-Governance was reconciled before implementation against Master Project Plan v1.71, M2→Production Delivery Plan / TSOW v1.4, the current deployed Supabase state and the current Pilot `main`. The frozen M2.2 acceptance was not redefined; M2.3 was implemented additively on top of the newer Layer 2 Evidence/batch runtime and the existing M2.1 Layer 4 scalar-resolution authority.
+## Important Dates — exact source precision
 
-### Deployed database/runtime
+The post-boundary migration version is now authoritatively reconciled as:
 
-Applied Supabase migrations:
+`20260825133749_m2_3_important_dates_source_precision`.
+
+The migration statements were read back from `supabase_migrations.schema_migrations` and the **exact deployed SQL** was restored to source at:
+
+`supabase/migrations/20260825133749_m2_3_important_dates_source_precision.sql`.
+
+Source-control repair commit:
+
+`3858a8f9bf4ccfb7bb5aec89fbc239420718e47e`.
+
+No deployed semantics were recreated or changed during this repair.
+
+The deployed model preserves the distinction between source dates and source timestamps:
+
+- UQ Semester 1 2027 international application deadline — `2026-11-30`, date-only, Australia/Brisbane, provider/source-targeted Layer 2 refresh;
+- UQ Semester 1 2027 classes start — `2027-02-22`, date-only, Australia/Brisbane, provider/source-targeted Layer 2 refresh;
+- Australia Awards Fellowships Round 22 expected opening — `source_vague`, no fabricated date, country-reference only, `refresh_layer=null`.
+
+The browser workspace still uses the older timestamp-oriented date write contract and does not yet present date-only ticker values correctly. M2.3 must move the Admin UX to `important_date_upsert_v2` and retain exact date-only/date-range/month/term/year/source-vague semantics without manufacturing a clock time.
+
+## Migration history — reconciled live
+
+Current M2.3 migration tail:
 
 - `20260825124619_m2_3_layer3_layer4_refresh_intelligence_foundation`;
 - `20260825124942_m2_3_layer3_refresh_admin_read_write_contracts`;
 - `20260825125714_m2_3_authenticated_rpc_invoker_hardening`;
-- `20260825125742_m2_3_foreign_key_index_hardening`.
+- `20260825125742_m2_3_foreign_key_index_hardening`;
+- `20260825133136_m2_3_refresh_scheduler_layer4_terminal_operations`;
+- `20260825133749_m2_3_important_dates_source_precision`.
 
-The deployed model introduces private governed ledgers/configuration for model profiles, Layer 3 interpretations, Layer 4 review items/decisions, refresh policies/requests, Important Links and Important Dates. Direct browser table privileges remain revoked.
+## CI / deployed-browser reconciliation
 
-The initial model profile is `openrouter-free-router-v1` using the configuration-driven OpenAI-compatible endpoint and `openrouter/free` model identifier. It stores only the server secret name `OPENROUTER_API_KEY`; it is **enabled but paused** with validation state `pending_credentials_and_benchmark`. This is intentionally not a permanent-model dependency and cannot issue provider traffic until server-side credentials and the required benchmark/validation gate are satisfied.
+Previously accepted semantic runtime:
 
-Deployed Edge Function:
+- Pilot SHA `400e06d26cb7147a14971af578607816b0aca342`;
+- Frontend Build run `32854071358` — PASS;
+- Deployed UAT run `32854071828` — PASS;
+- desktop job `97821647704` — PASS;
+- mobile job `97821647394` — PASS.
 
-- `layer3-interpret` — function ID `33dd7564-990a-4b15-a884-35ac609c2258`, version 1, `verify_jwt=true`.
+The source-only migration synchronisation commit `3858a8f9bf4ccfb7bb5aec89fbc239420718e47e` has:
 
-The function validates the authenticated actor, reserves eligibility before any external call, refuses unchanged-Evidence replay, reads provider credentials server-side only, enforces configured RPM/day/token/retry/timeout/cost ceilings, validates structured output deterministically and escalates validated non-null candidates to a pending Layer 4 review item. It does not write canonical values itself.
+- Frontend Build run `32894556070` — PASS;
+- Deployed UAT run `32894556145` — **IN PROGRESS at this reconciliation checkpoint**; desktop governed acceptance executing, mobile queued.
 
-Layer 4 terminal approval/edit continues through the existing governed `security.layer4_course_scalar_resolve_impl` path rather than introducing a competing canonical authority. Reject, Request More Evidence, Return to Layer 2 and Return to Layer 3 are retained as explicit audited decisions; Return to Layer 2 creates an entity-bounded refresh request.
+Therefore `3858a8f9…` is not yet recorded as deployed-accepted. The exact Cloudflare Worker deployment/version identifier is not exposed by the currently authorised connector surface; SHA-bound deployed acceptance must continue to be established by the permanent deployed UAT gate until runtime build provenance is made directly observable.
 
-Important Date refresh requests require a source-profile or entity target. Country-reference dates without a bounded target cannot launch ingestion. `source_vague` dates retain the original source wording and cannot be promoted to an invented exact date.
+## Security / performance advisor reconciliation
 
-### Security/performance hardening
+Post-DDL Security Advisor: no M2.3 WARN/ERROR finding. Existing `rls_enabled_no_policy` notices are INFO-only on deliberately private/RLS-protected schemas and remain programme baseline.
 
-The first post-DDL security review identified browser-executable public `SECURITY DEFINER` warnings on the newly introduced Admin RPCs. These were remediated in migration `20260825125714`: privileged implementations now reside in the private `security` schema while public browser contracts are `SECURITY INVOKER` wrappers with the existing role/rank checks retained. A repeat security advisor run reports no M2.3 authenticated-security-definer warnings. Existing INFO-only no-policy notices on deliberately private/RLS-protected schemas remain programme baseline rather than an M2.3 regression.
+Post-DDL Performance Advisor: INFO-only findings. The earlier M2.3 foreign-key hardening is effective; no new Layer 3/Layer 4/refresh unindexed-FK regression is present. Unused-index notices are not evidence to remove fresh operational indexes before representative workload history exists.
 
-Performance advisor review identified M2.3 foreign-key paths without dedicated covering indexes. Migration `20260825125742` added the relevant indexes for Layer 3 profiles/interpretations, Layer 4 Evidence/resolution lineage, Important Date Evidence and refresh-date references. Unrelated pre-existing INFO advisories are outside this change.
+## Mandatory remaining automated UAT
 
-### Automated UAT evidence
+Before this Change Control can close, retain evidence for:
 
-Rollback-only database contract UAT: **PASS**.
+- rollback-only database contract suite;
+- due-policy bounded-scope scheduler case;
+- Important Date exact date-only, exact timestamp, range, month, term, year and source-vague cases;
+- timezone/warning/expiry/targeted refresh and country-reference no-target rejection;
+- all six Layer 4 actions and search-signal-only-after-accepted-change;
+- Layer 3 unchanged Evidence zero-call and revalidation eligibility;
+- private-table/private-helper/anon/insufficient-rank/profile-write/link/date write denial;
+- Edge authentication negative path;
+- server-secret/browser-bundle leakage regression;
+- Layer 1/2, Evidence, Search and Publication authority regression;
+- permanent desktop/mobile/deployed-runtime UAT.
 
-Verified in one controlled transaction and rolled back afterwards:
+Synthetic UAT mutations must be rolled back.
 
-- new governed Evidence is L3-eligible;
-- a validated L3 candidate creates a **pending** Layer 4 item only;
-- Layer 3 does not mutate the canonical Course before human approval;
-- replay of the same unchanged Evidence hash returns `call_required=false` / `unchanged_evidence`;
-- Layer 4 Approve applies through the existing scalar-resolution authority with actor/Evidence/L2/L3 lineage;
-- Edit and Approve, Reject, Request More Evidence, Return to Layer 2 and Return to Layer 3 execute as distinct audited actions;
-- Return to Layer 2 creates a targeted entity refresh request;
-- Important Link verification advances last/next verification state;
-- a vague country-reference Important Date is rejected as an ingestion trigger;
-- an exact entity-targeted Important Date creates only a bounded refresh request.
+## Real-provider benchmark gate
 
-No synthetic UAT mutation was retained after rollback.
+If an authorised server-only credential becomes verifiable, run the bounded benchmark covering valid extraction, no-candidate, malformed output, hallucinated/unsupported candidate rejection, unavailable provider/model, timeout, retry/RPM/day/cost ceilings, unchanged Evidence zero-call, changed/expired/revalidation eligibility and configured fallback. Persist configured and returned model, profile, prompt/validator versions, token/cost/latency/result/quality/Evidence/UAT/Change Control lineage.
 
-Permanent deployed Playwright UAT has been added for desktop/mobile coverage in `tests/uat/m2-3-intelligence-deployed.spec.mjs` and wired into `.github/workflows/deployed-uat.yml`. It verifies the paused initial L3 profile, no-call governance messaging, Layer 4 terminal workspace, refresh queue, Important Links, Important Dates and vague-date/targeted-refresh messaging.
+Until then, continue all noncredential M2.3 gates and keep the profile PAUSED.
 
-### Pilot source/runtime references
+## Acceptance
 
-Pilot source commits in this implementation slice:
-
-- `42661fb74fedf24e610a5adf9371623bc82f4c96` — governed M2.3 Admin workspace;
-- `4d84b34c7d50c23ac759941980e270b1cb19ee2a` — M2.3 responsive workspace styling;
-- `b5322cdf068ab7872c6d3b2f057dc5b17e7a303a` — workspace/ticker mount;
-- `d71f0ec236358eeae858007c682424c798c23eb6` — source-controlled `layer3-interpret` function;
-- `36f05d2ab035168a6d9c3cc3eca83d61c1f0ff85` — deployed M2.3 Playwright UAT;
-- `2159db7afb6adddf144f7e827992e3c91cc48f78` — M2.3 test added to the permanent deployed UAT matrix.
-
-At this checkpoint the final-sha Frontend Build and Deployed UAT workflows have been triggered and are still running/queued. Their conclusions must be reconciled before calling this implementation slice accepted.
-
-### Current gate / residual work
-
-**Gate: IN PROGRESS — database contract PASS; final deployed-browser gate pending.**
-
-Still required before the Layer 3 provider route can be enabled:
-
-1. configure an authorised `OPENROUTER_API_KEY` or alternative compatible aggregator credential as a server-side Supabase secret only;
-2. execute real-provider structured-output, malformed-output/unavailability, rate-limit and fallback benchmark UAT;
-3. record quality/cost benchmark results against the model profile and only unpause a profile that passes;
-4. reconcile final desktop/mobile deployed UAT and frontend-build conclusions for Pilot SHA `2159db7afb6adddf144f7e827992e3c91cc48f78`;
-5. continue M2.3 full-stack regression and operational population/tuning of Important Links, Important Dates and source/entity refresh policies.
-
-M2.3 is **not closed** by this checkpoint. M2.4 remains the already-approved optimisation/regression/pre-blackout workstream after M2.3 acceptance.
+This Change Control is **not closed**. Closure requires its applicable criteria to be PASS, deliberately DEFERRED outside M2.3, or explicitly accepted as residual risk, with governance updated to the actual deployed runtime. M2.4 does not begin before the M2.3 acceptance boundary is established.
