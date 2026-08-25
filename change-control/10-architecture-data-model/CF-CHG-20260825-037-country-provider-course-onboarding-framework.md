@@ -1,14 +1,14 @@
 # CF-CHG-20260825-037 — Country / Provider / Course Onboarding Framework
 
-**Status:** APPROVED / IN PROGRESS — IMPLEMENTATION REQUIRED  
+**Status:** APPROVED / IN PROGRESS — IMPLEMENTED IN PILOT; REPRESENTATIVE LIFECYCLE ACCEPTANCE REMAINS  
 **Category:** 10-architecture-data-model  
 **Initiated:** 25 August 2026 22:13 AEST (+10:00)  
-**Last reconciled:** 26 August 2026 06:37 AEST (+10:00)  
+**Last reconciled:** 26 August 2026 09:55 AEST (+10:00)  
 **Owner:** CourseFinder architecture / Data Operations
 
 ## Decision
 
-M2.3 requires a reusable Onboarding capability for Countries, regulatory sources, Providers and Courses rather than country-specific one-off canonical implementations.
+M2.3 requires a reusable Onboarding capability for Countries, regulatory sources, Providers and Courses rather than country-specific canonical forks.
 
 The canonical architecture remains shared and country-neutral:
 
@@ -27,116 +27,75 @@ Default database-extension preference remains:
 
 ## Lifecycle
 
-Every Onboarding case must support the durable lifecycle:
+Every Onboarding case supports:
 
 `Draft → Source Qualification → Adapter Assessment → Schema Assessment → L1 UAT → L2 UAT → L3 Ready → Operational Certification → Production Promotion Ready`.
 
-Governed outcome state must support:
+Outcome state supports READY / CONDITIONAL / BLOCKED / PAUSED / REJECTED. Lifecycle decisions retain actor/time/reason/Change Control/UAT lineage and browser writes use rank-checked contracts rather than direct table CRUD.
 
-- READY;
-- CONDITIONAL;
-- BLOCKED;
-- PAUSED;
-- REJECTED.
+## Reconciled deployed implementation
 
-Lifecycle changes require immutable audit lineage, actor/time, reason, Change Control and UAT references. Browser writes must use rank-checked server contracts rather than direct table CRUD.
+The earlier 06:37 AEST statement that no reusable Onboarding foundation existed is superseded by deployed migration:
+
+`20260825202903_m2_3_onboarding_lifecycle_foundation`.
+
+Live Pilot contains:
+
+- private `pipeline.onboarding_cases`;
+- private immutable lifecycle-event/audit structure;
+- rank-checked private implementations;
+- public SECURITY INVOKER browser contracts;
+- stage/outcome transition validation;
+- references to existing source/source-profile/provider/course/Evidence/governance identifiers rather than duplicate registries;
+- shared adapter/schema decision fields;
+- deployed M2.3 Intelligence **Onboarding** Admin workspace with case list/filter, lifecycle state, decision history and governed create/transition controls.
+
+Direct browser CRUD remains prohibited. The private tables have RLS enabled with no browser policy by design. Elevated helpers are not exposed to anon/authenticated.
+
+## Deployed browser evidence
+
+Go 3 accepted runtime `e94383bd4fd3b5718566bc4bb1c19f8cf687de36` passed permanent desktop and mobile deployed acceptance. The M2.3 Intelligence test verifies:
+
+- Onboarding workspace is reachable;
+- shared canonical lifecycle messaging is visible;
+- all nine lifecycle stages are exposed;
+- governed case creation is present.
+
+Evidence:
+
+- deployed UAT `32910110993` — PASS;
+- desktop `98002494209` — PASS;
+- mobile `98002494407` — PASS.
+
+Go 4 target `87da570d8e6701928e45d532caf11877b6eab369` retains the same Onboarding foundation while adding Layer 3 provider credential control; final Go 4 deployed regression is tracked in the M2.3 run sheet.
 
 ## Layer authority reconciliation
 
-The original opening record predated CF-CHG-20260825-038 and stated that general Layer 3 execution would begin in M2.4. That statement is superseded by the current Master Project Plan v1.71 and CF-CHG-20260825-038: Layer 3 is now operationalised in M2.3 under its provider-profile, server-secret, eligibility, deterministic-validation and Layer 4 escalation controls.
+Onboarding `L3 Ready` means the case has the required source/Evidence/field profile and eligibility configuration to participate safely in the governed Layer 3 platform. It does not imply an external model can run and never bypasses the provider-profile credential/quality benchmark.
 
-Onboarding `L3 Ready` therefore means the case has the required source/Evidence/field profile and eligibility configuration to participate safely in the governed M2.3 Layer 3 platform. It does **not** bypass the model-profile provider benchmark; a PAUSED or unvalidated provider profile remains unavailable for real calls.
-
-## Country onboarding contract
-
-Capture at minimum:
-
-- ISO country identity and relevant subdivisions;
-- regulatory/Provider/Course authority strategy;
-- national/source identifiers;
-- official source URLs/feed type, coverage claim and usage/licensing restrictions;
-- source cadence and source-native pagination/batch/rate limits;
-- source grain and canonical identity mapping;
-- adapter family and Worker requirement;
-- schema-extension assessment;
-- Layer 1 qualification/UAT;
-- Layer 2 enrichment strategy/UAT;
-- expected Layer 3 exception classes/readiness;
-- operational certification;
-- Production promotion manifest references;
-- Change Control/UAT/Evidence lineage.
-
-Future-country adapter/ETL coding remains prohibited until Source Qualification establishes a defensible authority strategy.
-
-## Provider/Course onboarding contract
-
-Provider/Course onboarding must prefer authoritative regulatory identity first. Canonical entities must not be manually invented merely to enable enrichment.
-
-The workflow must determine:
-
-1. authoritative identity source;
-2. source-stable identifier;
-3. canonical stable-key strategy;
-4. Provider/Course relationship;
-5. Layer 1 ingestion path;
-6. Layer 2 first-party enrichment source(s);
-7. Evidence requirements;
-8. deterministic extraction/mapping rules;
-9. unresolved fields eligible for Layer 3;
-10. Layer 4 escalation conditions.
-
-## Adapter assessment
-
-Classify integrations into reusable families where possible:
-
-- structured API;
-- CSV/XLSX;
-- JSON;
-- XML;
-- sitemap/catalogue crawl;
-- HTML detail-page acquisition;
-- document/PDF acquisition;
-- direct HTTP;
-- approved scraper/browser provider;
-- custom adapter only where generic families are insufficient.
-
-When a new adapter is required, record source contract, parser/version, batch/rate/retry/timeout policy, Evidence output, identity mapping, replay/idempotency contract, deployment SHA and automated UAT.
+Provider/Course onboarding continues to prefer authoritative regulatory identity first. Canonical entities must not be manually invented merely to enable enrichment.
 
 ## Environment / promotion boundary
 
-Use the same codebase, migrations, adapter framework and onboarding workflow across Pilot/UAT and Production while keeping separate trust boundaries. Do not promote UAT secrets, live job state or Evidence objects into Production. Promote accepted migrations/configuration/adapter SHAs and a governed promotion manifest.
+The same codebase, migrations, adapter framework and onboarding workflow are intended for Pilot/UAT and Production while preserving separate trust boundaries. UAT secrets, live jobs and Evidence objects are not promotion artifacts; accepted migration/config/adapter SHAs and governed promotion manifests are.
 
-## Reconciled implementation state
+## Remaining acceptance
 
-A fresh source and deployed-database search at this checkpoint found **no reusable Onboarding workspace/table/function foundation**. Existing source registry, acquisition provider, Evidence, Layer 1–4 and refresh foundations are available and must be inherited rather than duplicated.
+Implementation is no longer the blocker. Before CF-CHG-037 can close, automated rollback-only evidence must exercise at least one representative case through the governed lifecycle boundary and prove:
 
-Therefore this Change Control is not complete and no representative future-country/source workflow has yet passed the required lifecycle UAT.
+- transition validation and invalid-transition rejection;
+- outcome semantics;
+- immutable audit lineage;
+- anon/insufficient-rank/private-table/private-helper denial;
+- source qualification before adapter/ETL implementation;
+- no country-specific canonical fork;
+- links to the existing source/profile/provider/entity/Evidence registries;
+- representative L1/L2/L3-ready/operational-certification decisions without bypassing layer authority.
 
-## Required implementation
-
-M2.3 must add:
-
-- reusable Onboarding case and immutable lifecycle audit structures;
-- rank-checked private implementations with public SECURITY INVOKER browser contracts;
-- validation of allowed stage transitions/outcome semantics;
-- links to existing source/source-profile/provider/entity/Evidence/Change Control/UAT references rather than duplicate registries;
-- shared schema/adapter decision records;
-- Onboarding Admin workspace with case list/filter, lifecycle progress, decision history and governed transition controls;
-- automated rollback-only database/security UAT;
-- permanent deployed desktop/mobile UAT;
-- at least one representative workflow exercised without creating a country-specific canonical fork.
-
-## Security
-
-- direct browser CRUD on private Onboarding tables is prohibited;
-- anonymous access is prohibited;
-- read/write rank enforcement must follow the accepted Admin role model;
-- helper functions with elevated authority remain private and service-role executable only;
-- public browser contracts remain SECURITY INVOKER wrappers;
-- source qualification and lifecycle decisions must retain actor/reason/audit evidence.
+Synthetic UAT state must be rolled back.
 
 ## Acceptance
 
-**Gate: IN PROGRESS — IMPLEMENTATION REQUIRED.**
+**Gate: IN PROGRESS — IMPLEMENTED; REPRESENTATIVE LIFECYCLE ACCEPTANCE REMAINS.**
 
-This Change Control closes only when architecture/docs and deployed Admin/runtime match the framework, automated UAT proves the lifecycle/security/canonical-extension rules, and a representative workflow reaches its governed M2.3 acceptance boundary. M2.4 must not start before M2.3 closure.
+M2.4 must not start until the complete M2.3 boundary is classified PASS, BLOCKED with accepted evidence, or explicitly DEFERRED.
