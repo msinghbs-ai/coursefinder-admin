@@ -4,43 +4,35 @@ Copy/paste the block below into the next CourseFinder chat.
 
 ---
 
-**M2.3 — CONTINUE FROM REPOSITORY RUN SHEET**
+**M2.3 — CONTINUE FROM REPOSITORY RUN SHEET / OPENROUTER BENCHMARK HANDOFF**
 
-Before doing any work, read `PROJECT_INSTRUCTIONS.md` in `msinghbs-ai/coursefinder-admin`, then follow all referenced current governance documents and applicable Change Controls.
-
-Also read, in full:
+Before doing any work, read `PROJECT_INSTRUCTIONS.md` in `msinghbs-ai/coursefinder-admin`, then read in full:
 
 - `project-runsheets/README.md`
 - `project-runsheets/milestone-2/m2.3/RUNSHEET.md`
 - `project-runsheets/milestone-2/m2.3/CURRENT-STATE.md`
 - this `NEXT-CHAT.md`
+- CF-CHG-20260825-036, -037 and -038
+- current Running Build
 
-Do not rely on prior chat history as project state. Do not rely on SHAs, migration names, run numbers, counts or assumptions in this prompt where newer accepted repository, deployed Supabase/runtime, CI/UAT or Change Control state exists. Reconcile current GitHub and deployed state first and inherit newer parallel work rather than overwriting or regressing it.
+Treat current GitHub, deployed Supabase/runtime and CI/UAT as authoritative. Inherit newer parallel work; do not rely on stale chat history, SHAs or assumptions.
 
-The immediate continuation is outcome-oriented and must proceed autonomously in dependency order:
+Current Go 4 target is Pilot SHA `87da570d8e6701928e45d532caf11877b6eab369`, PIM Admin `v2.15.5`, M2.3 Intelligence `v1.2`. The UI includes terminal Layer 4 and a Platform-Admin-only **Layer 3 Provider** control that can store an OpenRouter API key in Supabase Vault and run bounded provider verification. Credential save/verification never unpauses the profile.
 
-1. Re-read/reconcile the actually deployed version of `m2_3_non_exposed_browser_bridge_hardening`; if Pilot migration source differs from deployed SQL, restore the exact deployed SQL to Pilot migrations before further semantic changes.
-2. Rerun Supabase Security Advisor and verify the new public `SECURITY DEFINER` WARN findings are gone; retain evidence.
-3. Rerun Performance Advisor; retain evidence and address only findings that are in-scope/material to this gate.
-4. Rerun Onboarding, Important Date, private-helper, anonymous and rank rollback-only contracts against the final bridge architecture.
-5. Reconcile Pilot `main`, builds and deployed UAT after `5a129b47…` and every subsequent frontend/test commit. Treat current repo/runtime as authoritative.
-6. Reproduce, diagnose and fix the inherited deployed Layer 2 `course_filters`, navigation and performance failures. Do not mask failures by weakening tests.
-7. Complete Layer 4 rollback UAT for all six terminal actions and prove Search signals change only after an accepted canonical change.
-8. Complete Layer 3 zero-call, revalidation, private-helper, Edge-auth and secret-leakage regression coverage.
-9. Complete Layer 1, Layer 2, Evidence, Search and Publication regressions.
-10. Rerun permanent deployed desktop and mobile UAT after all fixes.
-11. Update CF-CHG-20260825-036, CF-CHG-20260825-037 and CF-CHG-20260825-038, `change-control/REGISTER.md` and the Running Build so they reflect the actual final migrations, Admin implementation, deployed state and CI/UAT outcomes.
-12. Continue remaining CF-CHG-036 acceptance work: production-grade Layer 1/2 operations, QILT/PRISMS, Scholarships/Scholarship Selection and guide acceptance.
+Proceed autonomously in dependency order:
 
-Automated UAT is the default. Execute database/API/security/deployed-browser UAT autonomously wherever technically possible. Do not ask me to perform routine technical UAT that can be automated. Only hand over a gate as **PASS**, **BLOCKED with evidence**, or **explicitly DEFERRED**.
+1. Reconcile the final Frontend Build/browser-smoke/deployed desktop/mobile outcome for the current Pilot head. If a newer head exists, use the newer accepted head rather than this SHA.
+2. If the permanent Go 4 desktop/mobile matrix is not PASS, diagnose and correct the product/runtime without weakening acceptance tests, then rerun the matrix.
+3. Reconcile `openrouter-free-router-v1`. Until the authorised user has entered a credential through **Layer 3 Provider**, keep the profile PAUSED and classify real-provider work `BLOCKED — USER CREDENTIAL NOT YET CONFIGURED`.
+4. Once the user has entered the key and selected **Verify provider**, read only non-secret profile/audit state. Never request, echo, retrieve into chat or persist the credential itself.
+5. Require successful connectivity state `credential_verified_pending_benchmark`; the profile must still be PAUSED.
+6. Execute the bounded real-provider Layer 3 benchmark autonomously using governed retained Evidence. Cover valid extraction, no-candidate, malformed output, unsupported/hallucinated candidate rejection, unavailable provider/model, timeout, retry/RPM/day/cost ceilings, unchanged-Evidence zero-call, changed/expired/revalidation eligibility and fallback behaviour. Retain configured/returned model, profile, prompt/validator versions, token/cost/latency/result/quality/Evidence/UAT/Change Control lineage.
+7. Do not unpause/resume Layer 3 until benchmark PASS is explicit and governance permits it. If benchmark fails, leave PAUSED and record evidence.
+8. Complete CF-CHG-037 representative Onboarding lifecycle rollback/negative UAT, including invalid transitions, rank/anon/private-helper denial, audit lineage and no canonical country fork.
+9. Complete any remaining CF-CHG-036 production-grade Layer 1/2 source/scale/economics, guide/role-tour and authority-regression gates.
+10. Establish the complete M2.3 PASS/BLOCKED/DEFERRED classification. M2.4 remains blocked until this boundary is explicit.
+11. Update RUNSHEET, CURRENT-STATE, NEXT-CHAT, applicable Change Controls, Change Control REGISTER and Running Build to actual deployed truth before ending.
 
-Before ending the chat, always:
-
-- append a meaningful execution block to `project-runsheets/milestone-2/m2.3/RUNSHEET.md`;
-- replace stale state in `CURRENT-STATE.md` with reconciled current truth;
-- rewrite `NEXT-CHAT.md` to the exact next dependency-ordered continuation;
-- update applicable Change Controls/governance documents when programme state materially changed.
-
-The goal is that the following chat can continue from the repository alone without referring back to this conversation.
+Automated UAT is the default. Do not ask the user to perform routine technical UAT that can be automated. The only expected manual action at this boundary is entering their OpenRouter API key in the secure Admin UI; do not ask them to paste it into chat.
 
 ---
