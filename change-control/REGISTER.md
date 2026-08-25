@@ -1,7 +1,7 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 25 August 2026
+**Effective:** 26 August 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
@@ -11,17 +11,19 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **CLOSED / PASS**. Final deployed authenticated desktop/mobile UAT passed on Pilot SHA `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`, run `32795496640`.
 >
-> **M2.2 SECURITY / PRODUCTION / SEARCH SHOWCASE:** `CF-CHG-20260825-032` is **CLOSED / PASS** for the implemented Pilot scope. Final Pilot SHA `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`, build run `32840377937`, deployed desktop/mobile UAT run `32840377935` PASS.
+> **M2.2:** `CF-CHG-20260825-032` through `-035` are **CLOSED / PASS** for their accepted Pilot scope. Final accepted M2.2 Pilot SHA remains `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`.
 >
-> **SUPABASE PRO / LEAKED PASSWORD:** `CF-CHG-20260823-022` is **CLOSED / PASS** for Pilot. Organisation Pro entitlement is verified, leaked-password protection is enabled, and the live Security Advisor no longer reports the previous leaked-password WARN. Production must independently repeat the control under its own Auth authority.
+> **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are **APPROVED / IN PROGRESS**. M2.3 is not accepted merely because Layer 3/4/refresh foundations exist. Layer 1/2 production-grade operations, onboarding, complete terminal review UX, Important Date source-precision UX, Course/QILT/PRISMS/Scholarship intelligence, Scholarship Selection, guides and full automated regression remain acceptance dependencies.
 >
-> **M2.2 SEARCH:** `CF-CHG-20260825-033` is **CLOSED / PASS** for exact lookup + deterministic FTS + structured filters + bounded server-side DTO. pgvector/vector/hybrid remains **DEFERRED / NOT ACCEPTED** until a governed embedding profile/corpus is approved and benchmarked.
+> **M2.3 L3/L4/REFRESH:** last fully reconciled semantic Pilot runtime is SHA `400e06d26cb7147a14971af578607816b0aca342`; Frontend Build `32854071358` PASS; deployed UAT `32854071828` PASS; desktop `97821647704` PASS; mobile `97821647394` PASS. Exact deployed migration `20260825133749_m2_3_important_dates_source_precision` was restored to source without semantic change in SHA `3858a8f9bf4ccfb7bb5aec89fbc239420718e47e`; build `32894556070` PASS and deployed UAT `32894556145` was still executing at the 26 August reconciliation checkpoint.
 >
-> **M2.2 SECURITY FOUNDATION:** `CF-CHG-20260825-034` is **CLOSED / PASS — PILOT SECURITY FOUNDATION**. Direct privileged browser RPC exposure is removed, managed Auth hardening is verified, and current browser/server boundaries remain intact.
+> **M2.3 L3 PROVIDER:** `openrouter-free-router-v1` remains enabled but PAUSED. The authorised management surface cannot verify `OPENROUTER_API_KEY` presence. Gate remains **BLOCKED — CREDENTIAL REQUIRED / AUTHORISED SERVER SECRET NOT VERIFIED**; no provider/model profile may be unpaused by inference.
 >
-> **M2.2 CONSOLIDATED UAT:** `CF-CHG-20260825-035` is **CLOSED / PASS** for implemented scope with SHA-bound desktop/mobile artifacts.
+> **M2.3 ONBOARDING:** `CF-CHG-20260825-037` is **IN PROGRESS — IMPLEMENTATION REQUIRED**. No reusable Onboarding workspace/table/function foundation existed at reconciliation.
 >
-> **PRODUCTION:** clean Production establishment, protected Production deployment, backup/PITR/restore execution, Production security regression, broad Publication, Zoho cutover and final Production handover remain separately governed and are **NOT AUTHORISED** by M2.2 closure.
+> **M2.4:** planned optimisation/regression/residual-risk/freeze work only. **DO NOT START** until the M2.3 acceptance boundary is established.
+>
+> **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates and are not authorised by current M2.3 work.
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
@@ -46,7 +48,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260822-019 | 80-uat-release-operations | M1 UAT Harness automated operational acceptance | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260822-019-m1-uat-harness.md` |
 | CF-CHG-20260822-020 | 70-security-platform | Admin user and role management | CLOSED / PASS | `70-security-platform/CF-CHG-20260822-020-admin-user-role-management.md` |
 | CF-CHG-20260823-021 | 80-uat-release-operations | Data Quality overview snapshot and concurrent UAT hardening | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260823-021-data-quality-overview-snapshot.md` |
-| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | **CLOSED / PASS** | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
+| CF-CHG-20260823-022 | 70-security-platform | Supabase leaked password protection | CLOSED / PASS | `70-security-platform/CF-CHG-20260823-022-supabase-leaked-password-protection.md` |
 | CF-CHG-20260823-023 | 50-search-api-consumers | M1 governed Course-Fact Search admission | CLOSED / PASS | `50-search-api-consumers/CF-CHG-20260823-023-m1-search-enrichment-admission.md` |
 | CF-CHG-20260823-024 | 50-search-api-consumers | M1 governed publication and consumer positive-path UAT | CLOSED / PASS | `50-search-api-consumers/CF-CHG-20260823-024-m1-publication-uat.md` |
 | CF-CHG-20260823-025 | 80-uat-release-operations | M1 Guides, Operations & Handover Finalisation | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260823-025-m1-guides-ops-handover.md` |
@@ -56,57 +58,50 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260823-029 | 40-layer2-enrichment | M2.1 Layer 2 enrichment/source/provider/completeness platform | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260823-029-m2-1-layer2-platform-foundation.md` |
 | CF-CHG-20260823-030 | 30-admin-pim-ux | Data Enrichment navigation replan | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260823-030-data-acquisition-navigation-replan.md` |
 | CF-CHG-20260825-031 | 00-governance-programme | M2 consolidated review, Production operating model and security-first milestone governance | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260825-031-m2-review-production-operating-model.md` |
-| CF-CHG-20260825-032 | 00-governance-programme | M2.2 Search / Showcase Acceleration | **CLOSED / PASS** | `00-governance-programme/CF-CHG-20260825-032-m2-2-search-showcase-acceleration.md` |
-| CF-CHG-20260825-033 | 50-search-api-consumers | M2.2 Bounded Search / pgvector Showcase | **CLOSED / PASS — VECTOR DEFERRED** | `50-search-api-consumers/CF-CHG-20260825-033-m2-2-search-pgvector-showcase.md` |
-| CF-CHG-20260825-034 | 70-security-platform | M2.2 Security & Production Foundation | **CLOSED / PASS — PILOT FOUNDATION** | `70-security-platform/CF-CHG-20260825-034-m2-2-security-production-foundation.md` |
-| CF-CHG-20260825-035 | 80-uat-release-operations | M2.2 Consolidated Automated UAT & Release Gate | **CLOSED / PASS** | `80-uat-release-operations/CF-CHG-20260825-035-m2-2-consolidated-uat-release.md` |
+| CF-CHG-20260825-032 | 00-governance-programme | M2.2 Search / Showcase Acceleration | CLOSED / PASS | `00-governance-programme/CF-CHG-20260825-032-m2-2-search-showcase-acceleration.md` |
+| CF-CHG-20260825-033 | 50-search-api-consumers | M2.2 Bounded Search / pgvector Showcase | CLOSED / PASS — VECTOR DEFERRED | `50-search-api-consumers/CF-CHG-20260825-033-m2-2-search-pgvector-showcase.md` |
+| CF-CHG-20260825-034 | 70-security-platform | M2.2 Security & Production Foundation | CLOSED / PASS — PILOT FOUNDATION | `70-security-platform/CF-CHG-20260825-034-m2-2-security-production-foundation.md` |
+| CF-CHG-20260825-035 | 80-uat-release-operations | M2.2 Consolidated Automated UAT & Release Gate | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260825-035-m2-2-consolidated-uat-release.md` |
+| CF-CHG-20260825-036 | 00-governance-programme | M2.3 Production-Grade Data Operations, Scale Enrichment & Decision UX | **APPROVED / IN PROGRESS** | `00-governance-programme/CF-CHG-20260825-036-m2-3-l2-scale-enrichment-ux.md` |
+| CF-CHG-20260825-037 | 10-architecture-data-model | Country / Provider / Course Onboarding Framework | **APPROVED / IN PROGRESS — IMPLEMENTATION REQUIRED** | `10-architecture-data-model/CF-CHG-20260825-037-country-provider-course-onboarding-framework.md` |
+| CF-CHG-20260825-038 | 00-governance-programme | M2.3 Layer 3/4 Launch, Refresh Intelligence & Important Dates | **APPROVED / IN PROGRESS — PROVIDER BENCHMARK BLOCKED** | `00-governance-programme/CF-CHG-20260825-038-m2-3-layer3-layer4-refresh-intelligence.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.68.md`;
-- M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.1.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.71.md`;
+- M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.70.md`;
-- M2.2 architecture: `docs/coursefinder-m2-2-security-production-search-showcase-architecture-v1.0.md`;
-- Production Build & Operations Guide: `docs/coursefinder-production-environment-build-operations-guide-v1.1.md`;
-- Website Developer Search/read contract: `docs/coursefinder-website-developer-search-read-contract-v1.0.md`;
-- Milestone Governance Standard: `docs/coursefinder-milestone-governance-standard-v1.0.md`;
-- Current M2.1 layer/authority contract: `docs/coursefinder-m2-1-layer1-4-architecture-contract-v1.0.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md`;
-- Frozen M1 architecture baseline: `docs/coursefinder-m1-frozen-architecture-baseline-v1.0.md`;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md`;
-- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`;
-- Current User Guide: `docs/coursefinder-user-guide-v2.3.md`;
+- Running Build: `docs/coursefinder-running-build-v2.71.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md` plus active M2.3 Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md` plus active M2.3 Change Controls;
+- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.3.md` plus M2.3 target IA;
+- Current User Guide: `docs/coursefinder-user-guide-v2.3.md` pending M2.3 reconciliation;
 - Current PIM/Admin operating guide: `docs/coursefinder-pim-admin-guide-v1.17.md` plus applicable M2 addenda;
-- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.3.md` plus applicable M2 Production addenda;
+- Current Operations Runbook: `docs/coursefinder-operations-runbook-v1.3.md` plus applicable M2 addenda;
 - Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.1.md`;
-- M2.2 technical UAT: `docs/uat/coursefinder-m2-2-security-search-showcase-2026-08-25.md`;
-- Friday M2.2 milestone record: `docs/coursefinder-milestone-meeting-2026-08-28-m2-2-showcase.md`.
+- M2.3 governance: `CF-CHG-20260825-036`, `CF-CHG-20260825-037`, `CF-CHG-20260825-038`.
 
 ## Accepted runtime/source authority
 
 - Frozen M1 browser/performance baseline: `msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
 - M2.1 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@cba0e9ecd2f4878bfd51ad5278e60046b1fae581`; run `32795496640`.
-- M2.2 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@38ad08bb75ee7cf26a0a701a3ae008d1563b915b`; build `32840377937`; deployed desktop/mobile UAT `32840377935`.
+- M2.2 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@38ad08bb75ee7cf26a0a701a3ae008d1563b915b`; build `32840377937`; deployed UAT `32840377935`.
+- M2.3 last fully reconciled semantic Pilot runtime: `msinghbs-ai/Coursefinder-Pilot@400e06d26cb7147a14971af578607816b0aca342`; build `32854071358`; deployed UAT `32854071828`; desktop `97821647704`; mobile `97821647394`.
+- M2.3 exact deployed migration-source synchronisation: `msinghbs-ai/Coursefinder-Pilot@3858a8f9bf4ccfb7bb5aec89fbc239420718e47e`; build `32894556070` PASS; deployed UAT `32894556145` pending at reconciliation time.
 
 ## Preserved technical/semantic baseline
 
-- AU Search documents: 26,648;
-- NZ Search documents: 6,457;
-- AU+NZ Search documents: 33,105;
-- all-country Courses: 43,461;
-- all-country Providers: 3,085;
-- Search Projection: `course-v3`, generation 22;
-- Search hash: `b4660ebc15851620bd111c82a74a19899c43a4560e5d2eb571b40e3c64bf77ee`;
-- final broad publication state: 0 published entities;
-- M2.2 embeddings/jobs/query cache: 0 / 0 / 0;
-- Evidence minimum rank 3; pipeline/layer operations minimum rank 4; PIM Configuration rank 5; Access Admin/Settings rank 6;
-- Layer 2 does not redefine Layer 1 identity;
-- Search/Publication do not become authority layers;
-- QILT/PRISMS context preserves actual source grain/reporting period;
-- Layer 4 is terminal; there is no Layer 5;
-- CourseFinder remains discovery/comparison, not admissions/application/offer/visa processing.
+- Layer 1 authoritative identity remains source-governed and cannot be overwritten by Layer 2/3/4 shortcuts;
+- Layer 2 remains deterministic acquisition/extraction with native Evidence retained;
+- Layer 3 consumes governed Evidence and cannot write canonical Course values directly;
+- Layer 4 is terminal and uses the existing canonical scalar-resolution authority;
+- Search/Publication remain downstream and broad Publication is not authorised;
+- QILT/PRISMS context must preserve actual source grain/reporting period;
+- Important Dates retain source date precision and must not fabricate times;
+- refresh scheduling must remain source/profile/entity bounded;
+- M2.3 provider profile remains PAUSED until explicit benchmark PASS;
+- M2.4 remains blocked by the M2.3 acceptance boundary.
 
 ## Next gate boundary
 
-M2.2 closure authorises progression to the next clean Production establishment/release-readiness gate only. It does not authorise in-place Pilot promotion, broad Publication, Production website exposure, Zoho cutover or final Production handover.
+Continue M2.3 only. Implement and prove the remaining CF-CHG-036/037/038 acceptance criteria, update governance to deployed reality, and establish a complete M2.3 PASS/BLOCKED/DEFERRED classification before any M2.4 optimisation/freeze work begins.
