@@ -1,9 +1,9 @@
 # CF-CHG-20260823-029 — M2.1 Layer 2 Enrichment Platform Foundation
 
-**Status:** BLOCKED — DEPLOYED AUTHENTICATED DESKTOP/MOBILE ADMIN UAT OUTSTANDING  
+**Status:** CLOSED / PASS  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 23 August 2026 20:21 AEST (+10:00)  
-**Updated:** 24 August 2026 12:42 AEST (+10:00)  
+**Updated:** 25 August 2026 11:24 AEST (+10:00)  
 **Origin chat/workstream:** M2.1 — L2-PLATFORM  
 **Owner:** M2.1 Layer 2 Platform workstream
 
@@ -54,21 +54,11 @@ Live v2 chain is proven:
 
 `layer2-acquire-v2 → private Native Evidence → layer2-extract-v2 → Normalised Evidence → layer2-course-fact-extract-v2.4`.
 
-Every successful v2 acquisition records:
-
-- Supabase Edge runtime platform;
-- region;
-- execution ID;
-- deployment ID;
-- dynamic/non-static Supabase egress classification;
-- Provider Attempt;
-- Source Profile Version;
-- SHA-256;
-- versioned Evidence lineage.
+Every successful v2 acquisition records Supabase Edge runtime platform/region/execution/deployment, egress classification, Provider Attempt, Source Profile Version, SHA-256 and versioned Evidence lineage.
 
 Cloudflare serves the Admin application but does not perform Direct HTTP acquisition. Direct acquisition egress originates from Supabase Edge and is not guaranteed static.
 
-Evidence remains in the private Supabase Storage bucket `evidence`, using the v2 hierarchy:
+Evidence remains in the private Supabase Storage bucket `evidence`, using:
 
 `layer2/v2/{country}/{domain}/{profile}/{YYYY}/{MM}/{DD}/{job}/{attempt}/{kind}.{ext}`.
 
@@ -76,7 +66,7 @@ Minimum normal retention horizon is 365 days. It is not an automatic destructive
 
 ## Federation University validation
 
-Federation University Australia (`CRICOS 00103D`) is now a governed Course enrichment source: `au-federation-course-detail`.
+Federation University Australia (`CRICOS 00103D`) is a governed Course enrichment source: `au-federation-course-detail`.
 
 Two consecutive five-Course cohorts were completed through the real retained-Evidence/canonical apply path.
 
@@ -84,53 +74,35 @@ Two consecutive five-Course cohorts were completed through the real retained-Evi
 
 Five of ten Courses reached 100%. Four reached 87.5%. Science Honours reached 75% because Provider-current international tuition and English remain unresolved.
 
-Exact UAT/cross-check record:
-
-`docs/uat/coursefinder-m2-1-federation-completeness-uat-2026-08-24.md`.
+Exact UAT/cross-check record: `docs/uat/coursefinder-m2-1-federation-completeness-uat-2026-08-24.md`.
 
 ### Fee safety
 
 Federation pages include domestic CSP/student-contribution/Band values alongside international material. `layer2-course-fact-extract-v2.3+` rejects CSP/Commonwealth/domestic/Band and low-confidence fee candidates.
 
-Accepted Provider-current tuition examples include:
+Accepted Provider-current tuition examples include Community & Human Services AUD 37,800; Physiotherapy AUD 40,500; Business (Accounting) AUD 39,600; IT (Cybersecurity) AUD 41,400; Environmental Science AUD 38,900.
 
-- Community & Human Services — AUD 37,800;
-- Physiotherapy — AUD 40,500;
-- Business (Accounting) — AUD 39,600;
-- IT (Cybersecurity) — AUD 41,400;
-- Environmental Science — AUD 38,900.
-
-Arts, Science Honours, Biomedical Science, Criminology and Education Primary remain deliberately incomplete for Provider-current tuition. Firecrawl escalation did not make those fee candidates sufficiently trustworthy.
+Arts, Science Honours, Biomedical Science, Criminology and Education Primary remain deliberately incomplete for Provider-current tuition where Evidence was not sufficiently trustworthy.
 
 ### Description provenance
 
-Extractor v2.4 now uses only the identity-matched first-party HTML meta-description for the Course description candidate.
+Extractor v2.4 uses only the identity-matched first-party HTML meta-description for the Course description candidate. The first provenance attempt incorrectly targeted taxonomy-specific `catalogue.course_field_observations`; failed transactions rolled back with no partial writes.
 
-The first provenance attempt incorrectly targeted `catalogue.course_field_observations`; UAT proved that table is field-of-study taxonomy specific. Failed transactions rolled back with no partial writes.
-
-Corrected apply contract uses:
-
-- empty-only `catalogue.courses.description` update;
-- PIM attribute `course_description`;
-- `pim.attribute_values` with source/evidence lineage;
-- no overwrite of an existing description;
-- Search/publication mutation false.
+Corrected apply contract uses empty-only `catalogue.courses.description`, PIM attribute `course_description`, `pim.attribute_values` with source/evidence lineage, no overwrite of an existing description and no Search/publication mutation.
 
 Final UAT: **10/10 descriptions present and 10/10 PIM provenance rows present.**
 
 ## Candidate apply contract
 
-`public.layer2_apply_course_candidate(candidate_id, apply)` provides the deterministic service-only apply stage for validated Layer 2 Course candidates.
-
-It preserves exact Provider/Course CRICOS identity and Evidence, applies only supported safe Course-Facts domains, excludes unsafe tuition and does not mutate Search or Publication.
+`public.layer2_apply_course_candidate(candidate_id, apply)` provides the deterministic service-only apply stage for validated Layer 2 Course candidates. It preserves exact Provider/Course CRICOS identity and Evidence, applies only supported safe Course-Facts domains, excludes unsafe tuition and does not mutate Search or Publication.
 
 ## Scholarship UAT
 
-Study Australia Scholarship flow is now proven beyond listing acquisition:
+Study Australia Scholarship flow is proven beyond listing acquisition:
 
 `listing Evidence → deterministic detail URL discovery → retained detail Evidence → normalisation → deterministic Scholarship detail candidate`.
 
-RGIT Scholarship for Continuing Students was correctly treated as a detail entity rather than collapsing the listing/search page into a fake Scholarship record. Canonical Scholarship mutation remains separately governed.
+RGIT Scholarship for Continuing Students was correctly treated as a detail entity rather than collapsing a listing/search page into a fake Scholarship record. Canonical Scholarship mutation remains separately governed.
 
 ## Layer 3 fall-out
 
@@ -145,25 +117,23 @@ Completed facts remain canonical and evidence-backed while unresolved domains re
 
 ## Admin UX
 
-Visible Layer 2 Platform version remains **v1.4**.
+Visible Layer 2 Platform version is **v1.4**. The accepted M2.1 primary management navigation is `Data Enrichment → Layer 2 Operations / Evidence`, with Source configuration, Acquisition Providers, Trials and Jobs available through progressive drill-down. QILT/PRISMS remain under Insights; Completeness/Layer 4 Review remain under Quality & Review.
 
-Primary operational navigation is intentionally simplified to:
-
-`Data Enrichment → Layer 2 Operations / Evidence`.
-
-Source configuration, Acquisition Providers, Trials and Jobs are drill-down controls rather than separate routine management destinations. QILT/PRISMS remain under Insights; Completeness and terminal Review Queue remain under Quality & Review.
+The broader M2 consolidated target now matures Layer 1, Layer 2 and Layer 3 as first-class operational workspaces under `docs/coursefinder-admin-navigation-information-architecture-v1.3.md`; that later target does not invalidate the M2.1 browser acceptance.
 
 ## Security / ACL
 
-PASS for current backend foundation:
+PASS for the M2.1 backend/browser foundation:
 
 - private Layer 2 schemas are not opened to browser PostgREST;
-- Edge orchestration uses narrow service-only RPC boundaries;
+- Edge orchestration uses governed RPC/service boundaries;
 - browser direct table access remains revoked;
 - provider credentials remain Vault-only;
 - source-bound acquisition and governed provider-route enforcement remain active;
 - identity mismatch contributes zero completeness uplift;
 - Search/publication are not implicitly authorised by Layer 2 apply.
+
+A 25 August Security Advisor review separately flags `public.layer2_ops_policy_update(...)` because it is `SECURITY DEFINER` and executable by `authenticated`. The function verifies `p_actor = auth.uid()` and requires server-side role rank >= 5 before mutation, so no privilege bypass was demonstrated during this closure review. It is explicitly carried into M2.2 Production hardening for independent threat-model/grant/RPC review rather than ignored.
 
 ## M1 regression
 
@@ -176,9 +146,24 @@ Post-Federation UAT PASS:
 
 Frozen M1 publication/Search baseline is unchanged.
 
-## Current acceptance state
+## Final deployed browser acceptance
 
-The following M2.1 evidence is now PASS:
+The only remaining blocker from 24 August is now cleared.
+
+Accepted deployed evidence:
+
+- Pilot SHA: `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`;
+- GitHub Actions run: `32795496640` — SUCCESS;
+- desktop job `97645884152` — PASS;
+- mobile job `97645884483` — PASS;
+- desktop evidence artifact `9544813710`, digest `sha256:663e5f6c9a2c8f43f8ac5196399104e0c0bc9a2e08560738d657489f60bfba34`;
+- mobile evidence artifact `9544904988`, digest `sha256:5a4ff270f8abfd233b7fec67d9a516eefd5111b636899b30bbfe95376d85a433`.
+
+The run passed the governed deployed desktop/mobile acceptance after the Direct HTTP provider-key assertion was corrected to accept the stable deployed provider key. Evidence artifacts are retained by GitHub Actions according to repository retention.
+
+## Acceptance decision
+
+M2.1 is now accepted for:
 
 - secure/versioned Source Profiles and provider routes;
 - Vault-backed configured Scrape.do, Firecrawl and ZenRows;
@@ -186,30 +171,25 @@ The following M2.1 evidence is now PASS:
 - provider benchmarking and throttle learning;
 - Direct HTTP + paid-provider retained-Evidence execution;
 - deterministic Course extraction and safe candidate apply;
-- real Course completeness uplift across RMIT/UQ/Federation learning cases;
+- real Course completeness uplift;
 - fee/identity safety guards;
 - Scholarship listing→detail extraction proof;
 - measured Layer 2→Layer 3 fall-out;
-- M1 regression.
+- management-oriented Layer 2 Operations UI;
+- deployed authenticated desktop/mobile UAT;
+- M1 regression protection.
 
-## Remaining blocker
-
-**M2.1 remains BLOCKED only for the final deployed authenticated browser acceptance:**
-
-1. desktop Layer 2 Operations v1.4 UAT;
-2. mobile Layer 2 Operations v1.4 UAT;
-3. SHA/run/artifact evidence showing the deployed menu/workspace exposes the simplified management model, Federation enrichment source and safe drill-down behaviour.
-
-Automatic catalogue-wide scheduling remains disabled until that browser gate is accepted; stored execution policies and bounded manual/service trials remain authorised.
+Layer 2 is therefore an accepted deterministic platform capability, not an experimental feature. Provider trials remain bounded qualification/benchmark tools.
 
 ## Rollback
 
 - disable/pause affected Layer 2 Source Profile/Execution Policy;
-- keep v1 workers as rollback where retained;
+- retain rollback worker versions where available;
 - reverse only candidate-applied Layer 2 facts by source/evidence lineage if a source qualification is withdrawn;
 - do not alter frozen M1 Search/publication state.
 
 ## Closure
 
-**Final status:** BLOCKED — final deployed authenticated desktop/mobile Admin v1.4 browser UAT outstanding.  
-**Closed at:** N/A
+**Final status:** CLOSED / PASS.  
+**Closed at:** 25 August 2026 11:24 AEST (+10:00).  
+**Next gate:** M2.2 — SECURITY-PROD-FOUNDATION under `CF-CHG-20260825-031` / subsequent implementation Change Control.
