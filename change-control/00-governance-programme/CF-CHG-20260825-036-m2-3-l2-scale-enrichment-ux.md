@@ -3,215 +3,213 @@
 **Status:** APPROVED / IN PROGRESS — EXPANDED SCOPE  
 **Category:** 00-governance-programme  
 **Initiated:** 25 August 2026 21:26 AEST (+10:00)  
-**Scope expanded:** 25 August 2026 22:05 AEST (+10:00)  
+**Scope expanded:** 25 August 2026 22:13 AEST (+10:00)  
 **Origin:** M2.2 → M2.3 sequential progression  
 **Owner:** CourseFinder programme / Data Operations
 
 ## Trigger
 
-M2.2 is CLOSED / PASS. The user explicitly authorised immediate progression to M2.3 and has now expanded M2.3 to make Layer 1 a production-grade operational capability, mature batch governance across regulatory and enrichment sources, redesign the Data Operations navigation/journey, add a governed Scholarship Selection mini-app, enrich Course detail with QILT/PRISMS context where applicable, and complete role-based Admin/User guidance with screen mock-ups and quick tours.
+M2.2 is CLOSED / PASS. M2.3 is the production-grade Data Operations maturity gate for Layer 1 and Layer 2, plus governed decision-support and onboarding foundations.
+
+The user has confirmed Firecrawl is on a **paid subscription with 5,000 pages/month**. M2.3 must therefore stop treating Firecrawl as Free and reconcile live provider billing metadata, monthly-unit controls, remaining-budget visibility and no-surprise paid fallback before broad paid-provider batching.
+
+M2.3 also introduces a separate **Country / Provider / Course Onboarding** workspace governed by `CF-CHG-20260825-037`. The onboarding framework must support future-country source qualification, adapter/Worker assessment, database-extension decisions and controlled Layer 1 → Layer 3 readiness without forking the canonical Provider/Course model.
 
 The planned-hours baseline remains the existing 12-hour M2.3 planning allocation until engagement time is explicitly reconciled. Technical execution does not create billable-time entries.
 
 ## Core milestone outcome
 
-M2.3 is no longer only a Layer 2 scale-out milestone. It is the **production-grade Data Operations maturity gate** for Layer 1 and Layer 2, plus the first governed decision-support experience built on Scholarship/Course/Provider facts.
+Layer 1 is production-grade operational capability, not experimental. This does not create the separate Production environment or spend M2.5 Production deployment authority. Pilot/UAT remains the current validation environment; accepted Layer 1 semantics and operating controls must nevertheless meet Production-quality standards.
 
-Layer 1 is to be treated as **production-grade and operationally accepted**, not experimental. This does not create the separate Production environment or spend M2.5 Production deployment authority. Pilot remains the current deployed validation environment; Layer 1 semantics and operating controls must nevertheless meet Production-quality standards.
+## Required top-level Admin structure
 
-## Required operational journey
+- Dashboard
+- Catalogue / PIM
+- **Onboarding**
+- **Data Operations**
+- Data Quality
+- Scholarship Selection
+- Search / Publication (only currently authorised capability)
+- Administration / Settings
+- Help / Guides
 
-The Admin IA must present one coherent parent journey rather than scattered ingestion pages:
+`Onboarding` owns controlled introduction of new countries/sources/providers/courses. `Data Operations` owns day-to-day Layer 1–4 execution, monitoring, retry/resume, Evidence and Jobs.
+
+## Data Operations journey
 
 **Data Operations**
 
-1. **Overview** — end-to-end Layer 1 → Layer 4 state, current jobs, freshness, blockers and next actions.
-2. **Layer 1 — Regulatory** — production-grade authoritative ingestion, source health, schedules, batches, counts, freshness, validation and replay.
-3. **Layer 2 — Enrichment** — deterministic/structured enrichment, provider routing, evidence, batches, retry/resume, economics and unresolved fall-out.
-4. **Layer 3 — AI Interpretation** — visible handoff/readiness state only until M2.4 grants operational AI authority.
-5. **Layer 4 — Human Resolution** — terminal review/escalation context; do not invent a Layer 5.
-6. **Evidence & Provenance** — shared evidence browser and entity/source lineage.
-7. **Jobs / Runs** — cross-layer execution history, retry/resume, outcomes and diagnostics.
+1. Overview
+2. Layer 1 — Regulatory
+3. Layer 2 — Enrichment
+4. Layer 3 — AI Interpretation (handoff/readiness only until M2.4 grants execution authority)
+5. Layer 4 — Human Resolution
+6. Evidence & Provenance
+7. Jobs / Runs
 
-Remove or merge redundant/duplicated menu entries and low-value technical pages that fragment this journey. Preserve role/permission boundaries and deep links.
+Layer 4 remains terminal. Search Projection, Search Visibility and Publication remain downstream states.
 
 ## Scope
 
 ### 1. Layer 1 — production-grade regulatory operations
 
 - Remove experimental/trial framing for accepted Layer 1 country/source pipelines.
-- Reconcile every currently accepted regulatory Provider/Course source and adapter.
-- Define, sort and vet per-source batch processing limits, concurrency, rate limits, pagination/page-size, retry policy, resume cursor, timeout and maximum safe execution window.
+- Reconcile every accepted regulatory Provider/Course authority and adapter.
+- Define and vet source-specific pagination/page-size, safe batch size, concurrency, rate limit, timeout, retry/backoff, cursor/resume and maximum safe execution window.
 - Distinguish source-native limits from CourseFinder safety limits.
-- Validate repeatability, idempotency, freshness, identity invariants, source-null semantics, replay and failure recovery.
-- Expose source health, last success, record counts, deltas, current run, freshness SLA, blocker and next action.
-- No regulatory source is called production-grade until its actual source-specific limits and safe operating policy are evidenced.
+- Validate repeatability, idempotency, freshness, identity/count/hash invariants and failure recovery.
+- Maintain a Source Certification Matrix with READY / CONDITIONAL / BLOCKED status.
+- Centralise batch/rate/retry policy where practical instead of scattering limits through Workers.
 
 ### 2. Layer 2 — production-shaped scale and economics
 
+- Collect/reconcile all current Layer 2 ingestion profiles, routes, acquisition providers, attempts, Evidence, deterministic extractors, candidate mappings and unresolved handoff state.
 - Controlled provider budgets/concurrency and no surprise paid fallback.
-- Production-shaped batch scheduling, retry/resume and rate controls.
+- Production-shaped batch scheduling, retry/resume, partial completion, cancellation and replay.
 - Evidence dedupe, retention, storage thresholds and growth economics.
-- Representative and broad AU/NZ Course/Scholarship enrichment with identity and fee guards.
+- Representative/broad AU/NZ Course/Scholarship enrichment with identity and fee guards.
 - NZ first-party Layer 2 qualification/profile work where current profile coverage is absent.
 - Measure vendor units, cost/entity, cost/resolved entity, retry/fallback, Evidence/entity and resolution quality.
 
-### 3. Unified Data Operations UX
+### 3. Firecrawl paid-provider control
+
+Confirmed commercial entitlement: **Firecrawl paid subscription — 5,000 pages/month**.
+
+M2.3 must:
+
+- replace stale `plan_tier=free` runtime/governance metadata with the confirmed paid entitlement;
+- treat the 5,000-page allowance as a monthly vendor-unit budget;
+- record billing-cycle/reset semantics when available;
+- expose used / remaining / projected monthly pages where measurable;
+- define warning/stop thresholds before exhausting the allowance;
+- include Firecrawl pages in batch impact preview;
+- prevent a batch from silently falling through to Firecrawl when its approved budget would be exceeded;
+- retain direct HTTP/zero-cost preference where it satisfies the accepted Evidence contract;
+- measure paid-provider pages per attempted/resolved entity.
+
+Do not fabricate monetary subscription cost if the actual billed amount is not in the project billing record.
+
+### 4. Country / Provider / Course Onboarding
+
+Implement the framework governed by `CF-CHG-20260825-037`.
+
+The canonical architecture remains shared and country-neutral:
+
+- Providers use governed country identity;
+- Courses remain keyed to Providers;
+- stable entity keys remain global;
+- source-specific/native staging preserves source grain;
+- adapters/Workers handle source differences;
+- extension/fact tables are used for genuinely country-specific regulatory concepts;
+- do not create a separate canonical Provider/Course schema per country.
+
+Onboarding stages should cover:
+
+`Draft → Source Qualification → Adapter Assessment → Schema Assessment → Layer 1 UAT → Layer 2 UAT → Layer 3 Ready → Operational Certification → Production Promotion Ready`.
+
+Layer 3 general execution remains M2.4 authority. M2.3 may build the onboarding stage, profile/configuration and handoff readiness.
+
+Use the same codebase/migrations/adapter framework across UAT/Pilot and Production, but never one Supabase project/database as both environments. Promote accepted configuration, migrations and adapter SHAs—not UAT secrets, live job state or Evidence objects.
+
+### 5. Unified Data Operations UX
 
 For Layers 1–4 expose consistent operational concepts where applicable:
 
-- source/configuration;
-- authority class;
-- last successful run;
-- current job/run;
-- records discovered/selected/processed/accepted/rejected;
+- source/configuration and authority;
+- last successful run/current job;
+- discovered/selected/processed/accepted/rejected;
 - creates/updates/unchanged/conflicts;
 - Evidence count;
 - duration;
-- batch size/limit/concurrency;
+- batch/concurrency/rate limits;
 - retry/resume cursor;
-- next scheduled/allowed action;
+- next action;
 - health/freshness;
 - blocker;
 - affected entities;
 - Change Control/UAT reference.
 
-Use drill-down rather than duplicate pages. Optimize for an operator understanding the full ingestion/enrichment journey quickly.
+Use drill-down rather than duplicate pages.
 
-### 4. Scholarship Selection mini-app
+### 6. Scholarship Selection mini-app
 
-Create a governed decision-support mini-app that helps identify suitable University/Course options based on Scholarship availability and explicit user-selected criteria.
+Create transparent, coverage-aware decision support using governed Provider/Course/Scholarship facts. Rank only on explicit criteria; explain WHY an option matched; distinguish SOURCE FACT, DERIVED SCORE and MISSING/UNRESOLVED. Missing data is not zero. Link results to Course, Provider, Scholarship and Evidence. This is not admissions/visa/application authority.
 
-It must:
+### 7. Course detail blade
 
-- assimilate only governed Course, Provider, Scholarship and accepted contextual facts;
-- allow filtering/ranking by criteria such as country, Provider, Course/field, study level, tuition, Scholarship value/type, eligibility, audience/nationality constraints where source-supported, intake/cycle, closing date and available contextual quality signals;
-- explain why each option ranks/matches;
-- distinguish source fact, derived score and missing/unresolved data;
-- never manufacture eligibility or Scholarship values;
-- avoid opaque claims of a universally “best” University/Course;
-- use explicit, inspectable weighting/ranking criteria;
-- link recommendations back to Course, Provider, Scholarship and Evidence detail;
-- remain decision support, not an admissions/application/offer/visa workflow.
+Include, where applicable:
 
-Where Scholarship coverage is insufficient, the app must surface coverage limitations rather than return fabricated rankings.
-
-### 5. Course detail blade — contextual intelligence
-
-The Course detail blade must include, where applicable and available:
-
-- existing canonical/regulatory Course facts;
+- regulatory identity;
+- CRICOS fee concepts kept separate;
 - Provider-current Layer 2 facts;
-- CRICOS fee semantics kept separate from Provider-current tuition;
-- QILT Provider/course-relevant contextual outcomes with reporting period/source grain clearly labelled;
-- PRISMS contextual student-flow/provider/course signals where the accepted mapping genuinely applies;
-- Scholarship links/counts relevant to the Course/Provider;
-- Evidence/provenance and freshness;
-- completeness/readiness and unresolved facts;
-- Search/publication state without implying publication authority.
+- QILT contextual metrics with grain/period/source clearly labelled;
+- PRISMS contextual signals with grain/period/source clearly labelled;
+- relevant Scholarships;
+- Evidence/freshness/completeness/unresolved state;
+- Search/publication state without implying publication authority;
+- compact cross-layer timeline.
 
-QILT/PRISMS must remain contextual analytical signals. Do not flatten provider-level or reporting-period data into unsupported Course facts.
+### 8. Menu simplification and guides
 
-### 6. Menu simplification
+Remove redundant Sources/Pipelines/Enrichment/Jobs/Evidence top-level overhead where functionality belongs inside Data Operations. Preserve deep links and role permissions.
 
-Audit the full Admin navigation and remove unnecessary overhead. Prefer a small number of clear parent workspaces:
+Update User Guide, PIM/Admin Guide and Operations guidance with deployed screen mock-ups/screenshots and role-specific quick tours for Platform Admin, PIM/Data Admin, Reviewer, Counsellor and Integration/Operations support.
 
-- Dashboard
-- Catalogue / PIM
-- Data Operations
-- Data Quality
-- Scholarship Selection
-- Search / Publication (only where currently authorised)
-- Administration / Settings
-- Help / Guides
+## Automated UAT
 
-Exact labels may be refined through the accepted navigation design, but duplicated ingestion/pipeline/source/evidence/job pages must be consolidated under Data Operations where practical.
+M2.3 requires automated database/API/security/storage/performance/replay/deployed desktop/mobile UAT including:
 
-### 7. Admin/User Guide + role quick tours
-
-Update the maintained Admin and User Guides to match the deployed UI, including role-specific use paths for:
-
-- Platform Admin;
-- PIM/Data Administrator;
-- Reviewer;
-- Counsellor / decision-support user;
-- Integration/operations support.
-
-Documentation must include:
-
-- screen mock-ups or current representative screenshots where appropriate;
-- a short role-based quick tour;
-- what each page is for;
-- recommended operational sequence;
-- common mistakes/semantic traps;
-- links between Layer 1–4, Evidence, Course details and Scholarship Selection;
-- batch/retry/resume operating guidance;
-- field/source/authority explanations where ambiguity is likely.
-
-### 8. Automated UAT
-
-Automated UAT remains the default. M2.3 requires database/API/security/storage/deployed-browser/performance/replay evidence, including:
-
-- Layer 1 source-specific batch-limit and replay tests;
+- Layer 1 source certification and source-specific limit tests;
 - Layer 2 batch/retry/resume/provider-budget tests;
-- no surprise paid-provider fallback;
-- Evidence dedupe/retention/storage tests;
+- Firecrawl 5,000-page budget enforcement and no-surprise paid fallback;
+- Evidence replay/dedupe/storage-threshold tests;
+- Country/provider/course onboarding workflow UAT;
+- adapter/schema-assessment decision UAT;
 - Course detail QILT/PRISMS semantic tests;
 - Scholarship Selection deterministic scoring/explanation/coverage tests;
 - role/navigation/negative-authorisation tests;
-- desktop/mobile tests for the redesigned Data Operations journey;
-- regression of M1/M2.1/M2.2 identity, fee, Auth, Search and Publication invariants.
-
-## Additional design improvements incorporated
-
-1. **Source certification matrix:** each Layer 1/2 source gets an operational classification such as READY / CONDITIONAL / BLOCKED with evidenced limits, freshness and recovery behaviour.
-2. **Batch policy registry:** centralise source/provider batch limits and budgets instead of scattering constants through workers.
-3. **Dry-run / impact preview:** where feasible, show selected entities, expected source/provider, limit/budget and canonical-mutation consequences before a broad batch starts.
-4. **Cross-layer entity timeline:** on Provider/Course detail, show significant Layer 1 → Layer 2 → Layer 3 → Layer 4 events and Evidence lineage without making the UI a raw log viewer.
-5. **Coverage-aware Scholarship scoring:** ranking confidence should fall when relevant Scholarship or Course facts are unresolved; missing data is not treated as zero.
-6. **Operational dashboard KPIs:** freshness, failed sources, active batches, retry backlog, Evidence growth, paid-vendor consumption and L3/L4 fall-out should be visible without opening individual jobs.
-7. **No dead-end navigation:** every blocker/exception should deep-link to the source, entity, Evidence or corrective action where permissions allow.
+- M1/M2.1/M2.2 identity, fee, Auth, Search and Publication regression.
 
 ## Authority boundaries
 
 M2.3 does not authorise:
 
 - the separate Production environment/cutover owned by M2.5;
-- Layer 3 AI execution beyond accepted handoff/readiness visibility;
+- general Layer 3 AI execution beyond onboarding/readiness/handoff;
 - broad Publication;
 - Production consumer traffic;
 - Zoho cutover;
 - final Production handover;
 - fabricated Course/Provider/Scholarship/QILT/PRISMS facts.
 
-Layer 4 remains terminal. Search Projection, Search Visibility and Publication remain downstream product states.
-
 ## Current evidence inherited
 
-- M2.2 CLOSED / PASS on Pilot SHA `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`.
+- M2.2 CLOSED / PASS on accepted Pilot state.
 - First real M2.3 UQ batch completed 3/3 resolved at Layer 2 after one bounded retry, 3 vendor units, USD 0 vendor cost.
-- Modern Evidence idempotent replay/dedupe controls are implemented; current Evidence capacity remains within the accepted planning envelope.
-- Firecrawl credential is operational historically but paid entitlement/cost authority is not proven; paid Firecrawl scale remains blocked from implicit use.
-- Current NZ Layer 2 Course-detail first-party profile coverage remains a gap to qualify/implement.
+- Modern Evidence idempotent replay/dedupe controls are implemented.
+- Firecrawl credential has historical successful runtime evidence; commercial entitlement is now confirmed by the user as paid 5,000 pages/month and must be reconciled into runtime metadata/control policy.
+- Current NZ Layer 2 Course-detail first-party profile coverage remains a gap to qualify/implement if still absent.
+- Country/provider/course onboarding framework is governed separately by `CF-CHG-20260825-037` and is part of M2.3 acceptance.
 
 ## Acceptance
 
 M2.3 closes only when:
 
 - accepted Layer 1 sources are production-grade and source-specific batch policies are vetted;
-- Layer 2 representative/broad batching, retries, economics and Evidence controls are proven;
-- the unified Data Operations IA is deployed and role-safe;
-- Course detail contextual QILT/PRISMS presentation passes semantic UAT;
-- Scholarship Selection is deployed with transparent criteria and coverage-aware behaviour;
-- Admin/User Guides and role quick tours match the deployed UI;
-- implemented scope passes automated database/API/security/storage/browser/performance/replay UAT;
-- M1/M2.1/M2.2 invariants remain safe;
-- paid-provider blockers are resolved or explicitly isolated without hidden spend.
+- all current Layer 2 ingestion paths are reconciled and representative/broad batching, retries, economics and Evidence controls are proven;
+- Firecrawl paid 5,000-page monthly controls are represented and enforced;
+- Country/Provider/Course Onboarding is implemented to its accepted M2.3 boundary without creating country-specific canonical forks;
+- unified Onboarding/Data Operations IA is deployed and role-safe;
+- Course detail QILT/PRISMS context passes semantic UAT;
+- Scholarship Selection is deployed with transparent, coverage-aware ranking;
+- Admin/User Guides and role quick tours match deployed behaviour;
+- automated database/API/security/storage/browser/performance/replay UAT passes;
+- M1/M2.1/M2.2 invariants remain safe.
 
 ## Rollback
 
-Any batch or UX change that threatens canonical identity, source authority, fee semantics, Evidence integrity, security, storage capacity, provider budget or publication boundaries is stopped/reverted and retained as blocker evidence. Publication remains unaffected unless a later authorised gate changes it.
+Any batch, onboarding or UX change that threatens canonical identity, source authority, fee semantics, Evidence integrity, security, storage capacity, provider budget or publication boundaries is stopped/reverted and retained as blocker evidence.
 
 ## Documentation
 
-Maintain Master Project Plan/TSOW, Running Build, Change Control Register, navigation/IA decisions, Operations Runbook, Data Flow & Feature Atlas, Admin/PIM Guide, User Guide, role quick-tour material, milestone meeting record and M2.3 UAT evidence throughout execution.
+Maintain Master Project Plan/TSOW, Running Build, Change Control Register, `CF-CHG-20260825-037`, architecture/data-flow decisions, navigation/IA, Operations Runbook, Admin/PIM Guide, User Guide, role quick tours, milestone record and M2.3 UAT evidence.
