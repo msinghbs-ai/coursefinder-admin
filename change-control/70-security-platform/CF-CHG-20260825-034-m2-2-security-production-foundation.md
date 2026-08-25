@@ -1,88 +1,81 @@
 # CF-CHG-20260825-034 — M2.2 Security & Production Foundation
 
-**Status:** APPROVED / IN PROGRESS  
+**Status:** **BLOCKED WITH EVIDENCE — MANAGED AUTH CONTROL ONLY**  
 **Category:** 70-security-platform  
 **Initiated:** 25 August 2026 20:08 AEST (+10:00)  
+**Updated:** 25 August 2026 21:15 AEST (+10:00)  
 **Origin chat/workstream:** M2.2 — SECURITY-PRODUCTION-SEARCH-SHOWCASE  
-**Owner:** CourseFinder security/platform workstream  
-**Change class:** security / production foundation / Auth / RPC / Edge / CI-CD / recovery
+**Owner:** CourseFinder security/platform workstream
 
-## Trigger
+## Final implemented security state
 
-M2.2 is the accepted Security & Production Foundation milestone. Supabase has now been upgraded to Pro and the Friday showcase acceleration requires the current Pilot security posture and Production trust design to be reconciled rather than relying on M1 assumptions.
+Supabase organisation `techM` (`rszbvkqopqfvjldvfnbh`) is verified on **Pro**. Pilot `fxcwkweaxjtknorudmwp` remains ACTIVE_HEALTHY in Mumbai `ap-south-1`.
 
-## Required outcome
+Implemented and UAT-proven hardening:
 
-- prove the current Supabase entitlement/state;
-- re-evaluate controls previously deferred only because Pilot was on Free;
-- inventory current browser-executable RPCs, SECURITY DEFINER functions, RLS/grants, Storage, Vault and Edge Functions;
-- remove or explicitly disposition privileged browser mutation surfaces;
-- retain the accepted Pilot/Production trust boundary;
-- define CI/CD, backup/recovery, monitoring and rollback evidence required for later clean Production establishment;
-- execute automated security/regression UAT for implemented changes.
+- browser-direct authenticated execution of `public.layer2_ops_policy_update(uuid,uuid,jsonb)` revoked;
+- policy mutation routed through JWT-enforced `layer2-config-control` v3 with current actor/rank validation and policy-field allowlist;
+- the former Security Advisor warning for that authenticated SECURITY DEFINER surface is gone;
+- browser roles are denied the M2.2 website Search preview RPCs;
+- Search/Vault private boundaries remain non-browser CRUD surfaces;
+- no service-role secret is added to browser code;
+- Publication remains zero and cannot be escalated by the bounded Search preview;
+- final deployed desktop/mobile UAT passes on Pilot SHA `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`, run `32840377935`.
 
-## Live initiation state
+## Blocking control — leaked-password protection
 
-- organisation `techM` (`rszbvkqopqfvjldvfnbh`) plan: **Pro**;
-- Pilot `coursefinder_Pilot` (`fxcwkweaxjtknorudmwp`) region: Mumbai `ap-south-1`, ACTIVE_HEALTHY;
-- current external Security Advisor WARNs: leaked-password protection disabled; `public.layer2_ops_policy_update(uuid,uuid,jsonb)` is SECURITY DEFINER and executable by `authenticated`;
-- `public.layer2_ops_policy_update` performs actor equality and rank >=5 checks, but is still an avoidable direct privileged browser mutation because a JWT-enforced Layer 2 control Edge boundary already exists;
-- Search/private operational schemas are not granted USAGE to anon/authenticated; direct table privileges for anon/authenticated across Search/Catalogue/Pipeline/Publishing are absent;
-- Evidence bucket is private with a 50 MiB limit and explicit MIME allowlist;
-- Vault schema has no anon/authenticated USAGE;
-- current Admin repository CI is build-only; Pilot repository has SHA-bound deployed desktop/mobile UAT but no accepted Production protected-environment deployment workflow;
-- many historical/ingestion Edge Functions retain `verify_jwt=false`; each Production-relevant retained endpoint needs custom-auth or server-only disposition before Production promotion.
+`CF-CHG-20260823-022` is no longer eligible for its former Free-plan Pilot exception because Pro entitlement is now confirmed.
 
-## Approved immediate hardening
+Live Security Advisor still reports:
 
-For the Pilot Layer 2 policy mutation:
+`auth_leaked_password_protection — Leaked Password Protection Disabled — WARN`
 
-1. move the browser path through `layer2-config-control` Edge Function with `verify_jwt=true`;
-2. require current authenticated context and rank >=5 in the Edge boundary;
-3. call `layer2_ops_policy_update` using the service boundary only after validating the authenticated actor;
-4. revoke direct `authenticated` EXECUTE on `public.layer2_ops_policy_update`;
-5. update the Admin Layer 2 Operations UI to call the Edge function;
-6. run negative lower-rank/direct-RPC tests and positive authorised-path regression.
+The connected Supabase management capability available to this workstream exposes project/database/functions/advisor operations but **does not expose a hosted Auth-configuration write operation** capable of switching the managed leaked-password setting. The control therefore cannot be truthfully marked enabled or UAT-proven from the connected management plane.
 
-This does not alter Layer 2 source/canonical semantics.
+**Disposition: BLOCKED WITH EVIDENCE.** This is a real platform-management capability blocker, not delegated routine technical UAT and not a reason to simulate the setting in SQL.
 
-## Supabase Pro / leaked-password control
+The next authorised management path must enable the hosted Supabase Auth setting, after which automation must immediately re-run:
 
-`CF-CHG-20260823-022` is reopened for entitlement reconciliation: Pro is confirmed, but the security advisor still reports the setting disabled. The setting must not be represented as enabled until the managed Auth configuration is actually changed and verified. If the available managed connector cannot mutate this dashboard-level Auth setting, record the implementation blocker rather than fabricating PASS.
+1. Security Advisor — `auth_leaked_password_protection` absent;
+2. controlled leaked-password rejection through managed Auth without retaining password material;
+3. compliant-user login/session regression;
+4. Access Admin/RBAC regression;
+5. deployed desktop/mobile Auth regression if the setting changes runtime login behaviour.
+
+## Other security disposition
+
+Three internal Search gate tables retain RLS disabled:
+
+- `search.projection_country_gates`;
+- `search.enrichment_gates`;
+- `search.enrichment_source_gates`.
+
+Current effective browser roles lack Search schema/direct-table access. This is retained as an explicit Production defence-in-depth WARN. RLS must not be blindly enabled without accepted internal/service policies that preserve projection operations.
+
+Historical/ingestion Edge Functions with `verify_jwt=false` remain subject to Production relevance inventory and either custom-auth/server-only disposition or retirement before clean Production promotion. M2.2 does not grant Production release authority.
 
 ## Production trust boundary
 
-Production remains a clean separate environment, not a renamed/copied Pilot. M2.2 may design and harden the foundation; creation/cutover remains under the accepted Production establishment gate. Production target region remains Sydney `ap-southeast-2` unless a later explicit regional decision changes it.
+Production remains a new clean environment, not a renamed Pilot. Target region remains Sydney `ap-southeast-2` unless a later regional Change Control changes it. Production establishment/cutover must separately prove:
 
-## UAT minimum
+- environment/project identity and scoped secrets;
+- protected deployment workflow;
+- backup/PITR configuration;
+- isolated restore execution and accepted RPO/RTO;
+- Production logging/monitoring;
+- Auth controls including leaked-password protection;
+- final security advisor and browser/API regression.
 
-- current RPC/SECURITY DEFINER inventory and effective grants;
-- direct Layer 2 policy RPC denied to authenticated after hardening;
-- JWT-enforced Edge positive/negative paths;
-- Auth/RBAC rank negative paths;
-- private Search/Vault schema effective-access checks;
-- Evidence Storage non-public/access checks;
-- service-role non-disclosure review;
-- Security Advisor re-run;
-- deployed desktop/mobile regression after Pilot source deployment;
-- M2.1 Layer 2 operations regression.
+## Evidence
 
-## Rollback
-
-Re-grant the prior direct authenticated function only if the new Edge path produces an evidenced pre-Production regression and the Change Control is moved to BLOCKED. Production must not inherit the direct privileged browser mutation merely for convenience.
-
-## Documentation impact
-
-Update Running Build after deployed hardening, Production guide, Operations Runbook, current UAT evidence, Master Plan/TSOW via `CF-CHG-20260825-032`, and Change Control register.
-
-## Decision / status history
-
-| Timestamp | Status | Decision / event | Reference |
-|---|---|---|---|
-| 25 Aug 2026 20:08 AEST | APPROVED / IN PROGRESS | M2.2 security/Production foundation opened; Pro entitlement confirmed, controls not assumed enabled. | M2.2 workstream |
+- final Pilot source SHA: `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`;
+- build run: `32840377937` PASS;
+- deployed UAT: `32840377935` desktop/mobile PASS;
+- detailed evidence: `docs/uat/coursefinder-m2-2-security-search-showcase-2026-08-25.md`;
+- leaked-password parent control: `CF-CHG-20260823-022`.
 
 ## Closure
 
-**Final status:** IN PROGRESS  
-**Closed at:** N/A  
-**Outcome:** Security hardening/UAT underway.
+**Final status: BLOCKED WITH EVIDENCE.**
+
+All M2.2 security changes that are technically controllable through the connected project runtime are implemented and UAT-proven. Overall M2.2 security acceptance is blocked solely because the mandatory managed leaked-password protection setting remains disabled and cannot be changed through the currently available Supabase management operation.
