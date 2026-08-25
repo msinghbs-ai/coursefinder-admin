@@ -12,7 +12,28 @@
 - Browser code must never contain provider/model secrets or direct private-table write authority.
 - Routine UAT mutations must be rollback-only or disposable.
 
-## 2. Layer 2 provider operations and Firecrawl budget
+## 2. Role quick reference
+
+### Platform Admin
+- Own role/access administration, platform configuration and approved operational controls.
+- May inspect all M2.3 operational surfaces but must not bypass Layer authority, private-helper ACLs, model-profile validation or Publication governance.
+- A PAUSED Layer 3 model profile stays PAUSED until the provider benchmark is explicitly PASS.
+
+### Pipeline Operator
+- Operates acquisition/provider profiles, bounded refresh, onboarding and model-profile operational state where rank permits.
+- Check provider economics and Firecrawl page budget before paid acquisition.
+- May route unresolved work but cannot use Layer 2/3 output as direct canonical or Publication authority.
+
+### Curator / Reviewer
+- Uses Evidence, decision context, Important Links/Dates, Scholarship Selection and Layer 4 review packages.
+- Every Layer 4 decision requires a reason. Edit-and-Approve requires an explicit final value.
+- Treat QILT/PRISMS as contextual observations and Scholarship Selection scores as structural relevance only.
+
+### Read-only / Counsellor-facing authorised user
+- May inspect authorised catalogue/decision information according to role.
+- Cannot execute private helpers, operator-only writes or infer missing eligibility/authority from absence of data.
+
+## 3. Layer 2 provider operations and Firecrawl budget
 
 The Firecrawl commercial contract is **5,000 pages per month**. CourseFinder reserves 5% (250 pages), so a batch that would cross the reserve is rejected before an external provider attempt starts.
 
@@ -20,7 +41,7 @@ Operators should use the provider/budget status to check used pages, remaining p
 
 A failed provider attempt must retain deterministic attempt/status evidence; retry/resume must not duplicate canonical changes.
 
-## 3. Layer 3 governed interpretation
+## 4. Layer 3 governed interpretation
 
 Layer 3 is Evidence interpretation only. It cannot directly mutate canonical Course values or publish to Search.
 
@@ -30,7 +51,7 @@ Eligibility is evaluated before a provider call. Identical still-fresh Evidence 
 
 Credentials are server-only. The deployed Edge function requires JWT. Returned model output remains untrusted until deterministic validation passes.
 
-## 4. Layer 4 terminal review
+## 5. Layer 4 terminal review
 
 Six actions are supported:
 
@@ -47,7 +68,7 @@ Reject creates no Search signal. More Evidence/Return L2/Return L3 may create bo
 
 Review context includes Evidence, Layer 2 lineage, Layer 3 configured/returned model and validation context, decision history and downstream refresh information where applicable.
 
-## 5. Important Links and Important Dates
+## 6. Important Links and Important Dates
 
 Important Links are an operational directory. Link health is not semantic authority.
 
@@ -61,7 +82,7 @@ Important Dates preserve source precision:
 
 Country-reference dates with no legitimate ingestion target must not trigger ingestion.
 
-## 6. Country / Provider / Course Onboarding
+## 7. Country / Provider / Course Onboarding
 
 The shared lifecycle is:
 
@@ -73,13 +94,13 @@ Onboarding must reuse the shared canonical Provider/Course/Campus/Scholarship ar
 
 Lifecycle transitions are rank-checked server operations with immutable actor/time/reason lineage.
 
-## 7. QILT and PRISMS decision context
+## 8. QILT and PRISMS decision context
 
 QILT and PRISMS are contextual observations, not Course-grain canonical facts.
 
 The Course decision-context contract preserves provider/study-area/state grain, collection/period semantics, source/evidence, suppression and observation timing. Do not present a provider outcome or student-flow observation as if it were a fact about an individual Course.
 
-## 8. Scholarship Selection
+## 9. Scholarship Selection
 
 Scholarship Selection is **decision support only**. It intentionally separates:
 
@@ -93,13 +114,13 @@ Current structural weights are explicit in the API response: Course 100, Provide
 
 Where mandatory criteria are narrative/non-machine-evaluable, the UI must leave eligibility UNRESOLVED and direct the operator back to the published source/Evidence.
 
-## 9. Search and Publication boundary
+## 10. Search and Publication boundary
 
 Search refresh is downstream of accepted canonical change. Returned Layer 2/3 candidates, unresolved Scholarship Selection results, QILT/PRISMS context, review proposals and onboarding progress do not by themselves grant Search or Publication authority.
 
 Production cutover and broad Publication authority remain outside this Pilot/UAT M2.3 boundary unless a later accepted Change Control explicitly changes that.
 
-## 10. Acceptance and escalation
+## 11. Acceptance and escalation
 
 A surface is accepted only when database/API/security/deployed-browser UAT is PASS or the exact residual item is explicitly DEFERRED/BLOCKED with evidence.
 
