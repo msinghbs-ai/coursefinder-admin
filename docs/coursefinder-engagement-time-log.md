@@ -10,6 +10,7 @@
 - Where a session remains open while the user is away, elapsed wall-clock time is not treated as engagement time.
 - Keep Milestone 1 as a closed historical billing baseline and record Milestone 2 onward separately.
 - Project/platform subscriptions and other approved third-party charges are tracked as **expenses**, separately from labour hours.
+- Planned milestone-hour envelopes are planning/billing controls only; they do not become billable until confirmed.
 
 ## Milestone 1 — invoiced baseline
 
@@ -28,8 +29,6 @@ This is retained as a historical reference only. Do not add further Milestone 1 
 **Classification:** Project milestone management / programme planning / governance / UAT enablement  
 **Status:** CONFIRMED FOR BILLING  
 **Confirmed hours:** **8.00 hours**
-
-M2.0 covers the management and technical planning work required to reorganise the post-M1 programme before commencing the dedicated Layer 2 implementation milestone. This includes consolidation of the previously separated Milestones 2, 3 and 4 into a coherent Milestone 2 programme and establishment of the relevant sub-milestones, gates and UAT approach.
 
 | Date | Day | Hours | Billing task | Detail |
 |---|---|---:|---|---|
@@ -86,6 +85,27 @@ M2.0 covers the management and technical planning work required to reorganise th
 
 **Expenses:** Supabase Pro upgrade on 25 Aug 2026 — amount pending actual invoice/receipt.
 
+## Forward planned hour envelope
+
+The authoritative planned delivery/hour baseline is maintained in:
+
+`docs/coursefinder-m2-production-delivery-plan-tsow-v1.0.md`
+
+Current plan:
+
+| Future milestone | Planned hours |
+|---|---:|
+| M2.2 — Security & Production Foundation | 10 |
+| M2.3 — L2 Scale Enrichment & L1/L2 UX Maturity | 12 |
+| M2.4 — L3 AI Operations & Pre-Blackout Gate | 7 |
+| 16–30 Sep blackout | 0 |
+| M2.5 — Full Production Stack Deployment & Acceptance | 12 |
+| M3 — Consumer API / Zoho | 10 |
+| M4 — Search / Publication / Production Handover | 8 |
+| **Remaining planned envelope** | **59 h** |
+
+These hours are not automatically billable. Actual chargeable engagement time remains user-confirmed.
+
 ## Interaction/session log
 
 The detailed interaction log remains separate from the user-confirmed billing allocation. Session timestamps can be recorded even where no additional hours are ultimately billed.
@@ -99,6 +119,7 @@ The detailed interaction log remains separate from the user-confirmed billing al
 | 25 Aug 2026 | 11:16 onward | Milestone 2 — REVIEW / M2.1 | M2.1 closure review, consolidated roadmap, Evidence sizing, scraper/platform review, Production/security planning and documentation updates. | 1.0 | Confirmed |
 | 25 Aug 2026 | 15:23 | Milestone 2 — REVIEW | Confirmed M1 as already invoiced and established interaction-time logging rule. | Included in above | Reference |
 | 25 Aug 2026 | 15:28 | Milestone 2 — REVIEW | User confirmed M2.0/M2.1 billing allocations and Supabase Pro as M2.1 expense. | Included in above | Reference |
+| 25 Aug 2026 | 19:05 | Milestone 2 — REVIEW / Programme Planning | Created consolidated M2→Production project plan, task-level TSOW, weekly 8–12 h distribution, Production full-stack scope, 16–30 Sep blackout and standing milestone-meeting record. | — | Interaction recorded; hours not yet assigned |
 
 ## Future entry format
 
