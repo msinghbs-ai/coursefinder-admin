@@ -113,6 +113,33 @@ The targeted suite proves:
 
 An earlier targeted run `33004179270` failed only because the test attempted to use the lower-rank permanent UAT identity to access Platform Admin provider-edit controls. The implementation did not lower that boundary. The test was corrected to assert the privileged boundary, and the current candidate passed.
 
+
+## Addendum A9 — current direction: scope-first sync + ordered routing
+
+Latest runtime review at 27 August 2026 07:13 AEST found:
+- latest Layer 2 discovery job `c7dd414e-487a-4861-a9f3-defbfd9458f2` (Federation) processed 5, selected 0 and failed 5;
+- every attempt used `direct-http` and failed at `layer2_provider_attempt_finish: invalid attempt status`;
+- the discovery path therefore still does not exercise the stored provider fallback chain;
+- current stored AU Course route order is mostly Direct HTTP → Scrape.do → ScraperAPI → Firecrawl → ZenRows (Federation omits ScraperAPI), which is more complex than the intended operator model.
+
+A9 now defines the routine operator workflow as:
+
+`Country → Fetch scope (Country / State / University) → Scope value → Preview → Sync/Recheck → Progress → Results`
+
+Scope meaning:
+- Country = all authorised universities and all eligible Courses in that country;
+- State = all authorised universities and all eligible Courses in the selected governed subdivision;
+- University = all eligible Courses for the selected university.
+
+Acquisition is automatic and separate from scope selection. The default simplified route becomes Direct HTTP → Firecrawl → remaining enabled providers in stored order. Per-profile exceptions remain possible only through governed Advanced configuration.
+
+The next runtime correction must therefore:
+1. reconcile valid provider-attempt terminal states;
+2. make discovery call the shared ordered route resolver rather than hard-coded Direct HTTP;
+3. change accepted Course route ordering to Direct HTTP → Firecrawl → remaining enabled fallbacks unless an explicit profile exception exists;
+4. add a server-side scope resolver/fan-out for Country / State / University;
+5. simplify the Layer 2 screen to scope selectors, preview, one action, progress/results and last/next run, with profile/provider internals moved to Advanced configuration.
+
 ## Performance/advisor state
 
 Performance Advisor after the A8 database changes remains INFO-only. Existing Layer 2 foreign-key indexing and unused-index observations remain inputs to the full-run performance tuning gate; thresholds have not been widened and indexes will not be added solely to silence INFO findings without workload evidence.
