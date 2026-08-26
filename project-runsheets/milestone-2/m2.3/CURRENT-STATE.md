@@ -1,7 +1,7 @@
 # M2.3 Current State
 
-**Status:** ACTIVE / GO 4 UI-RUNTIME LAUNCHED / OPENROUTER CREDENTIAL HANDOFF READY  
-**Updated:** 26 August 2026 09:55 AEST  
+**Status:** ACTIVE / GO 5 TECHNICAL ACCEPTANCE PASS / FINAL GOVERNANCE CLASSIFICATION REMAINS  
+**Updated:** 26 August 2026 11:16 AEST  
 **Primary Change Controls:** CF-CHG-20260825-036, CF-CHG-20260825-037, CF-CHG-20260825-038
 
 ## Programme baseline
@@ -9,105 +9,89 @@
 - M1: CLOSED / PASS / FROZEN.
 - M2.1: CLOSED / PASS.
 - M2.2: CLOSED / PASS for accepted Pilot scope.
-- M2.3: APPROVED / IN PROGRESS.
-- M2.4: NOT STARTED / blocked by M2.3 acceptance.
+- M2.3: technical acceptance PASS at Go 5 repaired runtime; final Change Control/register/Running Build classification remains.
+- M2.4: NOT STARTED until that classification is written.
 - broad Publication and Production cutover remain unauthorised.
 
-## Last fully accepted deployed runtime
+## Accepted Go 5 deployed runtime
 
-Go 3 Pilot SHA `e94383bd4fd3b5718566bc4bb1c19f8cf687de36`:
+Pilot SHA `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
 
-- Frontend Build `32910110978` — PASS;
-- browser smoke — PASS;
-- Deployed UAT `32910110993` — PASS;
-- desktop `98002494209` — PASS;
-- mobile `98002494407` — PASS, 27/27.
-
-## Go 4 acceptance target
-
-Pilot SHA `87da570d8e6701928e45d532caf11877b6eab369`.
-
-Visible release:
+Visible release remains:
 
 - PIM Admin `v2.15.5`;
 - M2.3 Intelligence `v1.2`.
 
-Frontend build and browser smoke are PASS. Final deployed desktop/mobile UAT is executing at this state write. Do not call Go 4 deployed-accepted until both jobs pass.
+Acceptance evidence:
 
-## Deployed M2.3 UI
+- Pilot Frontend Build `32917685085` — PASS;
+- browser smoke — PASS;
+- Deployed UAT `32917685022` — PASS;
+- desktop `98024710961` — PASS;
+- mobile `98024711090` — 29/29 PASS.
 
-The current feature set includes:
+The prior SHA `3feae676ea311531fe5dc24f55fc7a4321d2ad4e` is superseded because its mobile run failed release-notes pointer interaction. The defect was real: the Scholarship Selection fixed launcher intercepted the top-right release pill on mobile. The repaired CSS moves the launcher to the lower-right safe zone; the same permanent UAT now passes without weakening tests.
 
-- Layer 3 governed model-profile and Evidence interpretation workspace;
-- **Layer 3 Provider** Platform-Admin credential workspace;
-- terminal Layer 4 queue, complete review package and all six governed actions;
-- bounded Refresh policies/requests/Search-refresh signals;
-- Important Links;
-- source-precise Important Dates;
-- reusable Country / Provider / Course Onboarding;
-- Scholarship Selection with explicit fact/derived/missing distinctions;
-- PIM release-note overlay maintained from the visible version control.
+## Layer 3 accepted provider state
 
-## Layer 3 Provider handoff
-
-The Platform Admin may select `openrouter-free-router-v1` and enter the OpenRouter API key in **Layer 3 Provider** after Go 4 deployed UAT passes.
-
-Credential architecture:
-
-- browser password input; not stored in browser/localStorage;
-- JWT-protected rank-6 Edge control;
-- Supabase Vault storage;
-- service-role-only SECURITY INVOKER public wrappers;
-- non-exposed private elevated helpers;
-- non-secret audit lineage only;
-- bounded **Verify provider** call;
-- saving/verifying always leaves the profile PAUSED.
-
-Current profile state:
+Profile `openrouter-free-router-v1`:
 
 - enabled: true;
-- paused: true;
-- model: `openrouter/free`;
-- validation: `pending_credentials_and_benchmark`;
-- Vault credential configured: false.
+- paused: false;
+- validation: `benchmark_passed`;
+- configured model: `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
+- Vault credential configured and verified without exposing the secret to chat/governance.
 
-**Current external gate:** BLOCKED — USER CREDENTIAL NOT YET CONFIGURED / QUALITY BENCHMARK NOT RUN.
+Benchmark `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407`:
 
-## Layer 3 Edge runtime
+- provider semantic cases 5/5 PASS;
+- controls 13/13 PASS;
+- observed cost USD 0;
+- maximum latency 2.811s;
+- unchanged Evidence zero-call PASS;
+- changed Evidence / expired interpretation / governed revalidation eligibility PASS;
+- malformed/unsupported/unavailable-model rejection and operating ceilings PASS.
 
-`layer3-provider-control`: ACTIVE, JWT verified, v1, ID `4f380c4e-d5da-49dd-ad00-73a6486930a9`.
+The earlier `openrouter/free` router-wide benchmark is retained as FAIL evidence because nondeterministic model routing caused a semantic failure. The pinned model is the accepted profile.
 
-`layer3-interpret`: ACTIVE, JWT verified, v2, ID `33dd7564-990a-4b15-a884-35ac609c2258`; environment secret is checked first and the governed Vault credential second. Existing zero-call, eligibility, limit, deterministic-validation and Layer 4 escalation contracts remain.
+Temporary Go 5 benchmark execution scaffolding is retired. Source-controlled migrations retain benchmark/result lineage; the retired Edge trigger is JWT-protected and returns HTTP 410.
 
-## Current migration tail added by Go 4
+## Onboarding acceptance
 
-- `20260825234756_m2_3_layer3_vault_credential_bridge`;
-- `20260825234817_m2_3_layer3_provider_validation_audit`.
+CF-CHG-037 representative rollback-only UAT is PASS:
 
-Exact deployed SQL is source-controlled in Pilot migrations.
+- existing AU source/profile/provider/course/Evidence linkage used;
+- all nine stages traversed through `production_promotion_ready`;
+- invalid transition rejection PASS;
+- READY outcome semantics PASS;
+- immutable actor/reason/UAT/Evidence lineage verified;
+- curator, anon, direct private-table and private-helper denial PASS;
+- shared schema preserved with `canonical_fork=false`;
+- synthetic UAT state rolled back.
+
+## Layer 1 / Layer 2 classification basis
+
+- AU CRICOS primary Layer 1 is operational with bounded offset/resume and recovery evidence.
+- NZ NZQA primary Layer 1 is operational with bounded offset/resume and successful recovery following failure bursts.
+- AU Layer 2 Course/Scholarship acquisition has representative operational/recovery evidence across Federation, RMIT, UQ and Study Australia.
+- Direct HTTP remains preferred when it satisfies Evidence requirements.
+- Firecrawl remains bounded to the user-confirmed 5,000 pages/month entitlement with a 250-page safety reserve and no silent paid fallback.
+- NZ first-party Layer 2 Course enrichment is not currently configured and should be classified explicitly DEFERRED to future NZ source qualification/onboarding rather than represented as PASS.
 
 ## Security / performance
 
-- Security Advisor: INFO-only, no WARN/ERROR after Go 4 DDL.
-- Browser roles have no direct Vault grants.
-- Credential service wrappers are not executable by anon/authenticated.
-- Performance Advisor: INFO-only inherited findings; no Go 4 acceptance-level regression.
-
-## Onboarding reconciliation
-
-The earlier statement that Onboarding was absent was stale. Migration `20260825202903_m2_3_onboarding_lifecycle_foundation`, private case/audit structures, governed browser contracts and the Admin workspace are deployed. CF-CHG-037 remains open for representative lifecycle/negative-path acceptance rather than implementation.
+- Security Advisor: INFO-only; no WARN/ERROR acceptance finding.
+- Performance Advisor: INFO-only inherited backlog.
+- The new Layer 3 benchmark-job profile foreign key has a covering index; no new unindexed-FK regression remains from Go 5.
+- Browser roles continue to have no direct Vault/private-table authority.
 
 ## Exact next dependency order
 
-1. Reconcile final Go 4 deployed desktop/mobile jobs for SHA `87da570d…` and record PASS or evidence-backed failure.
-2. If PASS, user enters OpenRouter key in **Layer 3 Provider** → **Save credential** → **Verify provider**. Do not paste the credential into chat or governance.
-3. Reconcile profile state. If connectivity verifies, it must be `credential_verified_pending_benchmark` and still PAUSED.
-4. Run the bounded real-provider Layer 3 quality benchmark; retain model/profile/prompt/validator/token/cost/latency/result/Evidence/UAT lineage.
-5. Only after explicit benchmark PASS decide whether Layer 3 profile resume is authorised.
-6. Complete representative Onboarding lifecycle rollback/negative-path UAT.
-7. Complete remaining CF-CHG-036 production-grade Layer 1/2, guides and final M2.3 PASS/BLOCKED/DEFERRED classification.
-8. Do not start M2.4 until that classification is established.
+1. Update CF-CHG-20260825-036, -037 and -038 to the Go 5 evidence and final PASS/DEFERRED classification.
+2. Update Change Control REGISTER and current Running Build to `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
+3. Close M2.3 as PASS for accepted Pilot/UAT scope with NZ first-party Layer 2 expansion explicitly DEFERRED, provided no newer parallel runtime introduces a regression.
+4. Only then authorise/start M2.4 according to the current master plan.
 
 ## Handoff rule
 
-Before ending each M2.3 execution chat, append the actual outcome to `RUNSHEET.md`, replace this current-state file with deployed truth, and rewrite `NEXT-CHAT.md` so continuation never depends on chat history.
+Current GitHub, deployed Supabase/runtime and CI remain authoritative. Do not regress to `3feae676…` or the stale `openrouter/free` profile. Before ending any further M2.3 execution chat, keep RUNSHEET/CURRENT-STATE/NEXT-CHAT and applicable governance aligned to deployed truth.
