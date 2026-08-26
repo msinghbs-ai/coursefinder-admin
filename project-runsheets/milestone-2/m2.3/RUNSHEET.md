@@ -73,3 +73,37 @@ This file is the append-only execution history for M2.3. It records meaningful e
 **Go 4 acceptance target:** `msinghbs-ai/Coursefinder-Pilot@87da570d8e6701928e45d532caf11877b6eab369`.
 
 **CI status at this append:** Frontend build PASS; browser smoke and final deployed desktop/mobile UAT still executing. Final acceptance must be reconciled into `CURRENT-STATE.md` / Change Control after those jobs resolve.
+
+## 2026-08-26 11:16 AEST — Go 5 benchmark acceptance and mobile UAT repair
+
+**Intent:** Complete the real-provider Layer 3 gate, remaining representative M2.3 UAT, and correct the final mobile regression without weakening acceptance.
+
+**Layer 3 benchmark:**
+- OpenRouter credential was verified through non-secret Vault state; the credential itself was never retrieved into chat/governance.
+- `openrouter/free` failed the first governed benchmark because router-level model switching produced a semantic failure.
+- Profile was pinned to `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` and rerun.
+- Benchmark run `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` — PASS: provider semantic cases 5/5, controls 13/13, observed cost USD 0, max latency 2.811s, unchanged-Evidence zero-call and changed/expired/revalidation eligibility all PASS.
+- Profile is now enabled=true, paused=false, validation=`benchmark_passed`.
+- Temporary benchmark trigger was retired; benchmark migrations/model pin are source-controlled.
+
+**Onboarding acceptance:**
+- Rollback-only representative AU source/profile/provider/course/Evidence case traversed all nine lifecycle stages through `production_promotion_ready`.
+- Invalid transition rejection PASS, curator/anon/private-table/private-helper denial PASS, 10 audit events retained inside the rolled-back test transaction, `canonical_fork=false` verified.
+
+**Initial final-runtime failure:**
+- Pilot SHA `3feae676ea311531fe5dc24f55fc7a4321d2ad4e` passed build, browser smoke and desktop deployed UAT.
+- Mobile job `98021308365` failed 1/29 tests: the Scholarship Selection fixed launcher intercepted pointer events for the top-right PIM Admin `v2.15.5` release pill at the mobile viewport.
+- This was classified as a real responsive-layout defect, not a flaky test; UAT was not weakened.
+
+**Fix:**
+- `src/scholarship-selection.css` mobile launcher placement moved out of the header to the lower-right safe zone while retaining desktop placement.
+- Repair commit: `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
+
+**Final acceptance evidence for repaired SHA:**
+- Pilot Frontend Build run `32917685085` — build PASS, browser smoke PASS.
+- Deployed UAT run `32917685022` — PASS.
+- Desktop job `98024710961` — PASS.
+- Mobile job `98024711090` — **29/29 PASS**.
+- Previously failing release-notes interaction passed in 2.8s; Scholarship Selection acceptance also passed.
+
+**Outcome:** PASS — mobile defect corrected in product code and the complete repaired Go 5 desktop/mobile deployed matrix is green. `260ed6a0d19b80ad666d74b90aa13e735e802a6a` is the accepted Go 5 Pilot runtime pending final M2.3 governance classification write.
