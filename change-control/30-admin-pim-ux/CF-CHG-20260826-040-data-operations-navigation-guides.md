@@ -1,8 +1,9 @@
 # CF-CHG-20260826-040 — Streamlined Data Operations Navigation & Visible Guides
 
-**Status:** APPROVED / IMPLEMENTED WORKING STATE — ACCEPTANCE REBASE REQUIRED  
+**Status:** CLOSED / PASS  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 26 August 2026 12:23 AEST (+10:00)  
+**Closed:** 26 August 2026 20:43 AEST (+10:00)  
 **Origin chat/workstream:** CourseFinder Go 7 / M2.4 Admin information-architecture optimisation  
 **Owner:** CourseFinder programme / Admin PIM UX  
 **Change class:** UI / navigation / documentation / operations
@@ -25,13 +26,13 @@ Present one logical, streamlined Admin information architecture for ingestion an
 - Guides & Runbooks;
 - release notes/version;
 - permanent desktop/mobile UAT;
-- Admin Navigation IA and current Running Build.
+- Admin Navigation IA and Running Build.
 
 ## Semantic impact
 
-No canonical semantic change. No Layer authority, source precedence, Evidence, Search/Publication, role/rank, RPC or database contract changes are authorised by this Change Control.
+No canonical semantic change. No Layer authority, source precedence, Evidence, Search/Publication, role/rank, RPC or database contract changes were introduced by this Change Control.
 
-## Implemented working model
+## Accepted operating model
 
 Primary order:
 
@@ -46,56 +47,83 @@ Primary order:
 
 `Data Operations` exposes Layer 1 — Regulatory, Layer 2 — Enrichment, Layer 3 — AI Interpretation, Layer 4 — Human Resolution, Evidence & Provenance, Jobs & Runs and Onboarding according to role. `Decision Tools` exposes Scholarship Selection. Governance retains configuration/access functions. The legacy Settings journey is removed from primary operations. Layer 1 normal presentation suppresses unrelated qualification and destructive reset controls. `Help & Guides` exposes in-product operator guidance.
 
-Visible release target remains PIM Admin `v2.15.6`.
+Visible browser release: PIM Admin `v2.15.6`.
 
-## Acceptance evidence and failure classification
+## M2.4.0 reconciliation
 
-Go 7-specific navigation tests passed, proving the new menu/guide contract itself was reachable.
+The original Go 7 full matrix exposed distributed test/navigation coupling rather than a reason to restore obsolete navigation. Under CF-CHG-20260826-042 and A1–A6, M2.4.0 completed the rebase:
 
-However, the full deployed permanent matrix on Pilot `eabb7d99f93acf6260c06b33c852ed4b0bb6fd8a` failed because inherited permanent suites still searched for removed `Layer 2 Operations` navigation and floating `M2.3 Intelligence` launchers. These deterministic missing selectors waited roughly 45–50 seconds and retried across many tests.
+- permanent UAT was migrated to shared primary-navigation adapters;
+- obsolete `Layer 2 Operations` and floating-launcher dependencies were removed from permanent acceptance;
+- deterministic navigation failures were bounded rather than allowed to accumulate 45–50 second selector waits;
+- UX/content audit capture was separated from permanent functional acceptance;
+- CI was staged as targeted → integration → one nominated acceptance matrix;
+- Layer 1 primary navigation was separated from privileged Platform Settings rather than weakening the rank boundary;
+- first Course-page rendering was prioritised ahead of filter metadata to remove first-load contention without changing data or security semantics.
 
-The failure therefore exposed **distributed test/navigation coupling and CI feedback-loop debt**. It does not justify restoring obsolete floating launchers or legacy menu labels.
+## Acceptance evidence
 
-The user stopped the long execution because it was disrupting momentum. Post-stop Pilot test/audit commits now exist through `c63442ea9ae44382b88f17fd0e01974cf5c6b469`; they remain unaccepted working state until M2.4.0 reconciliation.
+### Targeted
 
-## Replanned UAT under CF-CHG-20260826-042
+Working implementation SHA: `ecc81dfbf5e6e985eb84b4974c50b0657aac10a0`  
+Run `32954022764`:
 
-CF-CHG-20260826-042 and A1–A6 now govern completion:
+- desktop `98131600073` — PASS;
+- mobile `98131600295` — PASS.
 
-1. M2.4.0 inventories stale/floating dependencies;
-2. shared primary-navigation test adapters replace distributed launch logic;
-3. targeted desktop/mobile navigation/workspace tests must PASS;
-4. affected Layer 1–4 integration/security/performance tests must PASS;
-5. only then is one SHA nominated for one complete deployed desktop/mobile matrix;
-6. this Change Control closes only on that accepted SHA.
+### Bounded integration
 
-Permanent UAT must not depend on floating operational launchers.
+Integration marker SHA: `70244120258cf47d25575bc8af4dbb71fee0daf3`  
+Run `32958008107`:
+
+- desktop `98143894774` — PASS;
+- mobile `98143894861` — PASS.
+
+Retained desktop performance evidence proves first `courses_page` at **1,985 ms** against the unchanged **3,000 ms** contract, with 80,557-byte page payload and 257,659-byte filter metadata payload. No threshold was widened.
+
+### Full deployed acceptance
+
+**Accepted Pilot SHA:** `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`
+
+- Frontend Build `32958795576` — PASS;
+- deployed UAT `32958795547` — PASS;
+- desktop `98146317262` — PASS;
+- mobile `98146317373` — PASS.
+
+The permanent matrix traversed accepted user-facing navigation and included Data Quality, performance, Layer 2 platform/provider/trials, Course Detail polish, screen-state persistence, Layer 3/4 intelligence, Layer 3 credential governance, Scholarship Selection and release notes.
+
+## Security / authority disposition
+
+- No database DDL was introduced by M2.4.0.
+- No RLS, grant, role/rank, Edge authentication, Vault/provider-credential, private Evidence, Layer authority or Search/Publication boundary was weakened.
+- Platform Settings/destructive controls remain separately privileged; Layer 1 normal operator navigation does not grant Platform Admin authority.
 
 ## Rollback / reversion
 
-If M2.4.0 cannot produce an accepted integrated runtime, revert Go 7 navigation/guide/version changes to the last accepted M2.3 runtime. No database rollback is required.
+If the accepted M2.4.0 navigation/runtime regresses, revert the browser/navigation/test changes to the last accepted M2.3 Pilot runtime `260ed6a0d19b80ad666d74b90aa13e735e802a6a` or the specific pre-change source commit. No database rollback is required for this UI/read-order/test architecture change.
 
 ## Documentation
 
-Already retained in working governance:
+Maintained/retained:
 
 - Admin Navigation IA v1.4;
 - M2.4 Data Operations Admin Guide v1.1;
 - Go 7 navigation/performance/content audit and screenshots;
-- M2 meeting progress record.
-
-Running Build must not declare Go 7 accepted until M2.4.0 final acceptance passes.
+- M2.4.0 runsheet and staged-UAT evidence;
+- visible release notes PIM Admin v2.15.6;
+- Running Build / Master Plan / Change Register updated after acceptance.
 
 ## Decision / status history
 
 | Timestamp | Status | Decision / event |
 |---|---|---|
 | 26 Aug 2026 12:23 AEST | APPROVED / IN PROGRESS | User authorised streamlined menu, visible guides and Layer 1 relocation. |
-| 26 Aug 2026 | UAT FAILED / INTEGRATION DEBT | Full matrix exposed stale permanent navigation selectors and floating-launcher dependency. |
-| 26 Aug 2026 18:00 AEST | ACCEPTANCE REBASE REQUIRED | User stopped long run; programme adopted A1–A6 and mandatory M2.4.0 cleanup before feature expansion. |
+| 26 Aug 2026 | UAT FAILED / INTEGRATION DEBT | Initial full matrix exposed stale permanent navigation selectors and floating-launcher dependency. |
+| 26 Aug 2026 18:00 AEST | ACCEPTANCE REBASE REQUIRED | Programme adopted A1–A6 and mandatory M2.4.0 cleanup before feature expansion. |
+| 26 Aug 2026 20:43 AEST | CLOSED / PASS | Targeted, bounded integration and one nominated full desktop/mobile deployed acceptance matrix PASSed on `ba846abb…`. |
 
 ## Closure
 
-**Final status:** ACCEPTANCE REBASE REQUIRED  
-**Closed at:** N/A  
-**Outcome:** Working UI/navigation implemented; final acceptance deferred to M2.4.0 cleanup/integration checkpoint.
+**Final status:** CLOSED / PASS  
+**Closed at:** 26 August 2026 20:43 AEST (+10:00)  
+**Outcome:** Streamlined primary Admin information architecture, Layer 1 operator journey and visible Guides are accepted on Pilot SHA `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`; permanent UAT no longer depends on obsolete/floating launch architecture.
