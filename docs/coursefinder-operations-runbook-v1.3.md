@@ -1,64 +1,141 @@
 # CourseFinder Operations Runbook v1.3
 
-**Issued:** 25 August 2026  
-**Supersedes:** v1.2 for current operations  
-**Status:** CURRENT  
-**Change Controls:** CF-CHG-20260825-032, -033, -034, -035
+**Status:** CURRENT M2.4 OPERATIONS RUNBOOK  
+**Date:** 26 August 2026  
+**Supersedes:** `docs/coursefinder-operations-runbook-v1.2.md`  
+**Change Controls:** existing M2 controls plus `CF-CHG-20260826-043`
 
-All accepted Layer 1–4 procedures from v1.2 remain in force. This version adds the M2.2 operational controls below.
+## 1. Operating boundary
 
-## M2.2 security preflight
+CourseFinder operates four enrichment authority layers only:
 
-Before release/promotion:
+`L1 authority → L2 acquisition/extraction → L3 Evidence-aware AI → L4 human resolution`.
 
-1. verify expected source/deployment SHA;
-2. run Security Advisor and reconcile WARN/ERROR changes;
-3. verify anon/authenticated EXECUTE boundaries for privileged RPCs;
-4. confirm Vault/private schemas remain unavailable to browser roles;
-5. confirm Evidence bucket remains private;
-6. verify current auth method for each Production-retained Edge Function;
-7. confirm no service-role/secret value appears in client assets/logs;
-8. confirm broad Publication has not changed unintentionally.
+Search/Publication are downstream product states. No operational convenience path may bypass Layer 1 identity or Evidence governance.
 
-## Layer 2 configuration changes
+## 2. Layer 1 AU/NZ regulatory operating procedure
 
-Execution-policy changes now use authenticated `layer2-config-control`. Direct authenticated execution of `public.layer2_ops_policy_update` is intentionally revoked. If the Admin save path fails, inspect Edge JWT/context/rank/service-boundary behaviour first; do not restore direct browser RPC access as a routine workaround.
+### Routine source check
 
-## Search preview operations
+1. Open **Data Operations → Layer 1 — Regulatory**.
+2. Confirm Source Health, authority name, source URL, approved domains and expected format.
+3. Confirm latest expected count versus previous accepted count and the variance decision.
+4. Inspect Schedule / Recheck for last result/error and next verification.
+5. Run **Validate source** when manual validation is required.
+6. Do not queue execution while verification is failed, blocked, stale or the source is paused.
 
-Current service-only preview surfaces:
+### AU CRICOS validation
 
-- `api.website_course_lookup_preview_v1` — exact Course code/stable-ID lookup;
-- `api.website_course_search_preview_v1` — deterministic FTS/filter preview.
+Confirm the CKAN package resolves on the approved `data.gov.au` authority, the four required CRICOS resources exist, the consolidated archive is valid, the Courses CSV exposes CRICOS Course Code, and active/expired row semantics are derived from `Expired`. Do not reintroduce a hard-coded 26,648 assertion; it is only the accepted baseline used for variance comparison.
 
-These are not a public website API. Never place a service-role/secret key in browser code.
+### NZ NZQA validation
 
-Current Search invariant at issuance:
+Confirm all five governed NZQA organisation-listing classes are reachable on the approved NZQA authority and stable `providerId` values are deduplicated. During M2.4.1 the live count was 411 versus accepted 409; this was within the configured PASS guardrail.
 
-- projection `course-v3`;
-- 33,105 documents;
-- generation 22;
-- broad Publication disabled;
-- vector corpus zero until a governed model/profile is approved.
+## 3. Variance handling
 
-## Search relevance/performance incident procedure
+- `pass`: source is eligible subject to other controls.
+- `warn`: investigate the observed delta. APPLY requires an explicit Platform Admin confirmation in addition to the server-side acknowledgement flag.
+- `block`: do not ingest. Resolve the authority/count/format issue and revalidate.
 
-1. separate exact identity lookup from FTS relevance;
-2. inspect DB query plan/index usage before changing UI loading behaviour;
-3. verify deterministic filters remain hard constraints;
-4. verify projection generation/hash and row counts;
-5. compare direct DB latency with RPC/API/network latency;
-6. verify payload size and response aggregation cost;
-7. do not enable vector/hybrid as a workaround without accepted benchmark evidence.
+A simulated AU fall from 26,648 to 1,000 rows produces a blocking variance and is expected to reject APPLY.
 
-## Search gate-table RLS
+## 4. Queue, retry and resume
 
-`search.projection_country_gates`, `search.enrichment_gates` and `search.enrichment_source_gates` currently have RLS disabled, while anon/authenticated roles have no `search` schema usage or direct table privileges. Any future Search schema exposure change is a security change: define internal/service RLS policies before enabling RLS so accepted projection rebuilding is not accidentally blocked.
+Only one queued/running operation per source is permitted.
 
-## Supabase Pro operations
+For a failed or blocked run:
 
-The organisation is verified Pro. Record entitlement and actual configured state separately for each control. Leaked-password protection is currently an open M2.2 blocker until enabled and verified.
+1. inspect Job/Evidence/reconciliation and the recorded error;
+2. confirm the prior worker is terminal;
+3. use **Retry / resume**;
+4. verify the retry links to the previous run;
+5. verify the resume cursor advances from the last completed boundary;
+6. verify reconciliation counters accumulate rather than reset;
+7. never bypass idempotency-key protection.
 
-## Recovery operations
+## 5. Stuck run recovery
 
-Production recovery acceptance occurs only after the clean Production project exists. Capture actual backup/PITR state, RPO/RTO, isolated restore target, restore timestamps, canonical counts/hashes/invariants, Storage/Evidence recovery and post-restore secret/deployment steps. Design documentation alone is not a restore PASS.
+A regular Layer 1 run is stuck only when it remains `running` and its heartbeat is older than 30 minutes.
+
+Before recovery:
+
+1. inspect Jobs & Runs and worker logs/Evidence;
+2. establish that the prior worker is no longer executing;
+3. use **Recover stuck run** as Platform Admin.
+
+The server refuses recovery for a non-running or fresh-heartbeat run. Recovery marks the stale run failed with `stuck_recovered`; it does not erase Evidence, configuration versions or canonical history. Retry/resume may then be used as a separate governed action.
+
+## 6. Scheduled authoritative-source verification
+
+The Layer 1 scheduler runs at minutes 5, 20, 35 and 50 of each hour.
+
+Scheduled verification uses a two-minute, single-use nonce and is non-destructive by default. It validates the source and records changed/unchanged/failure state. It does not silently APPLY canonical data.
+
+If a source is paused, no scheduled verification should be dispatched. A dispatched request older than 30 minutes is automatically failed with an operator-visible schedule error.
+
+## 7. Housekeeping
+
+Daily at 03:17 UTC, Layer 1 housekeeping deletes only terminal queue records whose 30-day retention has expired.
+
+Operational verification after housekeeping must confirm:
+
+- expired transient queue entry removed as expected;
+- Evidence artifact count unchanged;
+- source-operation version count unchanged;
+- no canonical/source-history deletion.
+
+## 8. Evidence handling
+
+Preserve authoritative Evidence and its lineage. Failed-attempt Evidence remains valuable operational evidence and must not be deleted merely because a later retry succeeds.
+
+Every consequential Layer 1 investigation should be able to identify:
+
+- governed source/profile version;
+- source URL and authority domains;
+- current/accepted source hash;
+- Layer 1 queue run;
+- downstream worker Job where applicable;
+- Evidence captured by the worker;
+- reconciliation result.
+
+## 9. Layer 2 provider comparison procedure
+
+Compare Direct HTTP, Scrape.do, ScraperAPI, Firecrawl, ZenRows and future governed providers using successful bounded acquisition, access success, Evidence quality, deterministic extraction, correctness, duration/retries, cost/quota and downstream unresolved rate.
+
+Do not silently reorder production routes from trial data. Record the accepted change under Change Control.
+
+## 10. Extraction failure procedure
+
+If acquisition succeeds but deterministic extraction cannot establish the required fact, retain Evidence, record the failure class, use permitted provider fallback, then route unresolved Evidence through L3 and finally L4 when required. Never manufacture a value to improve completeness.
+
+## 11. Scholarship, QILT and PRISMS operations
+
+Scholarships use the governed Layer 2 provider/Evidence substrate. `Not discovered` is not equivalent to `none`.
+
+QILT/PRISMS remain contextual observations at their native grain and must not be projected as false Course-level regulatory truth.
+
+## 12. Layer 4 terminal handling
+
+Layer 4 receives unresolved/conflicting/consequential cases with the complete Evidence package. Human resolution is terminal for enrichment authority. There is no Layer 5 queue.
+
+## 13. Incident classification
+
+Treat separately:
+
+- authoritative source unavailable;
+- source authority/domain mismatch;
+- source shape/format changed;
+- abnormal count variance;
+- scheduled verification failure;
+- stuck Layer 1 run;
+- idempotency/duplicate-active-run block;
+- provider credential/access/rate-limit failure;
+- malformed/low-value Evidence;
+- deterministic extraction defect;
+- L3 ambiguity;
+- canonical mapping conflict;
+- stale data;
+- browser/UAT harness failure.
+
+Do not collapse these into a generic `pipeline failed` condition.
