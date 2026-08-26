@@ -17,6 +17,8 @@ Layer 2 has an accepted deterministic acquisition/extraction substrate, source p
 
 Operator feedback on 27 August 2026 additionally identified that the routine sync journey exposed too much Layer 2 implementation detail and that a Firecrawl concurrency edit did not remain visibly/persistently saved. Addendum A8 therefore makes country → university/catalogue-provider selection the normal sync journey and moves acquisition-vendor tuning to Advanced controls.
 
+A subsequent runtime review and operator direction created Addendum A9. A9 broadens routine scope selection to Country / State / University, separates catalogue scope from acquisition routing, standardises the default provider chain as Direct HTTP → Firecrawl → remaining enabled providers in configured order, and requires further cleanup of the routine Layer 2 screen.
+
 ## Affected surfaces / related workstreams
 
 - `pipeline.layer2_source_profiles` and immutable profile versions;
@@ -41,7 +43,7 @@ No canonical identity or Layer 1 authority change is authorised. Layer 2 remains
 
 Routine operator semantics are simplified to:
 
-`Country → University / catalogue provider → Scope preview → Discover & sync / Sync now → Progress → Results`
+`Country → Fetch scope (Country / State / University) → Scope value → Scope preview → Discover & sync / Sync now / Recheck → Progress → Results`
 
 Acquisition-vendor choice remains automatic under governed route policy for normal operation. Firecrawl/Scrape.do/etc. credentials, route priority, vendor concurrency/rate/timeout and qualification controls remain Advanced.
 
@@ -165,6 +167,7 @@ Prefer additive migrations and independently reversible frontend/Edge changes. R
 | 27 Aug 2026 | ACTIVE / A8 | Operator-first sync addendum accepted into current M2.4.2 scope; Country → University/catalogue provider becomes routine launch path. | RUNSHEET Addendum A8 |
 | 27 Aug 2026 | ACTIVE / SECURITY CORRECTED | Direct authenticated SECURITY DEFINER sync bridge rejected after Advisor WARN; replaced by authenticated Edge + service-only rank-checked helper. | `layer2-sync-control`, `m2_4_2_operator_sync_service_bridge` |
 | 27 Aug 2026 | ACTIVE / A8 TARGETED PASS | Corrected A8 candidate passes frontend build/browser smoke and targeted deployed desktop UAT. | Pilot `db8ff542...`; runs `33004496198`, `33004496331` |
+| 27 Aug 2026 07:13 AEST | ACTIVE / A9 | Latest Federation discovery run reviewed: 5/5 failed at invalid provider-attempt terminal status and only Direct HTTP was attempted. A9 adopts Country/State/University scope, ordered Direct → Firecrawl → remaining-provider routing, and routine-screen cleanup. | Job `c7dd414e-487a-4861-a9f3-defbfd9458f2`; RUNSHEET A9 |
 
 ## Closure
 
