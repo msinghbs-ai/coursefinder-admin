@@ -193,3 +193,46 @@ Prefer additive migrations and independently reversible frontend/Edge changes. R
 **Final status:** OPEN  
 **Closed at:** N/A  
 **Outcome:** A9 targeted scope-first/routing/UI slice PASS; pending controlled fallback UAT, full authorised discovery/enrichment evidence, scheduling/recovery/housekeeping/performance gates, Stage B, final Stage C and remaining M2.4.2 requirements.
+
+## Full-run evidence update — 27 August 2026
+
+### UQ full deterministic enrichment
+- Full current-profile discovery evaluated 382/382 UQ Courses.
+- Governed selected URLs: 156; ambiguous: 31; identity mismatch: 79; current page not found: 116; duplicate selected URL groups: 0.
+- Representative pre-fix managed run exposed deterministic fee-confidence fall-out and was deliberately cancelled. Cancellation/reconcile/runtime fixes were implemented before continuing.
+- Deterministic Course extractor v2.5 corrected international-fee confidence using explicit AUD/A$, international/CRICOS proximity and retained domestic/CSP/HECS negative guards.
+- Regression batch `7fb8c4a9-b6d0-499e-9503-8eb13c424c80`: 3/3 previously problematic UQ Courses resolved 5/5 fields.
+- Fresh full managed batch `eb52b6e2-c33b-4dfc-9e87-c107834218e0`: 156 processed, 153 resolved_l2, 3 Layer 3 required, 0 blocked, 156 vendor units, USD 0 vendor cost.
+- Three Layer 3 exceptions remain explicit: CRICOS `027288A`, `082599G`, `094716G`.
+- Bulk dry-run of the 153 resolved candidates proved 153/153 exact provider/Course CRICOS resolution through `layer2_apply_course_candidate(...,false)`.
+- First canonical apply attempt failed transactionally because extracted `TOEFL` did not match accepted reference code `TOEFL_IBT`; post-failure canonical counts confirmed no partial mutation.
+- Apply contract mapping corrected to `TOEFL_IBT`; second apply passed 153/153:
+  - 153 official links;
+  - 153 guarded international fee rows;
+  - 488 intake rows;
+  - 453 English requirement upserts;
+  - 153 Course descriptions;
+  - Search mutation false;
+  - Publication mutation false.
+- UQ Layer 2 off-domain link check: 0 bad links.
+
+### Recovery and cancellation hardening
+- `layer2_run_batch_reconcile` now preserves terminal `cancelled` state during late in-flight reconciliation.
+- `layer2-batch-runner` now rechecks live batch/item status before each item and stops at a cancellation boundary.
+- Governed Evidence/history from the cancelled representative run is retained.
+
+### Federation
+- 190-Course legacy discovery evaluation produced no governed selected URLs.
+- 10 previously applied identity-verified first-party Course URLs were seeded into the current immutable profile version with existing Evidence/provenance.
+- Current queueability is 10/190; remaining 180 are source-limited unless a separately qualified first-party mapping source is accepted.
+- Managed enrichment for the 10 governed Courses has been dispatched as batch `fef3ab42-de28-469d-84a2-22c908f0fad1`; broad current-version discovery remains under observation and must not weaken identity matching.
+
+### RMIT
+- RMIT profile now requires `/study-with-us/levels-of-study/` detail URLs.
+- Direct HTTP search responses without qualifying links fall through to Firecrawl.
+- Discovery worker v1.2.4 fixes provider-suffix/Honours ambiguity: CRICOS `110982H` correctly selects BP350 while the Honours page remains unselected.
+- Full bounded RMIT discovery request `2138` started for 499 remaining Courses.
+- Early broad-run telemetry: Direct HTTP extraction-failed as expected for rendered search; Firecrawl rendered results successfully; no duplicate selected URL groups observed in the early cohort.
+
+### Acceptance status
+M2.4.2 remains ACTIVE. UQ now provides broad end-to-end deterministic discovery → managed acquisition/extraction → governed canonical apply evidence. RMIT/Federation final disposition, schedule/recheck/alerts/housekeeping, full performance/security regression, Stage B and exactly one final Stage C remain open.
