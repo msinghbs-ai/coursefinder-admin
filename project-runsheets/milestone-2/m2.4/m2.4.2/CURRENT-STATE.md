@@ -175,3 +175,82 @@ Performance Advisor after the A8 database changes remains INFO-only. Existing La
 ## Acceptance state
 
 M2.4.2 remains ACTIVE and is not CLOSED/PASS. A8 targeted operator simplification is PASS, but full authorised-run evidence, scheduling/housekeeping/alerts, broader recovery/performance gates, Stage B and final Stage C remain open.
+
+## Full-run evidence — UQ canonical enrichment and RMIT expansion (27 August 2026)
+
+### UQ discovery and managed enrichment
+
+- UQ current-profile discovery completed across the full 382-Course catalogue scope.
+- Discovery result:
+  - evaluated: 382/382;
+  - governed selected URLs: 156;
+  - ambiguous: 31;
+  - identity mismatch: 79;
+  - current page not found: 116;
+  - duplicate selected URL groups across different Courses: 0.
+- Final discovery continuation auto-created managed batch `7fe8446f-f480-4e2e-a901-2b73952ad323` for exactly the 156 governed selected URLs.
+- The first representative run proved acquisition/Evidence but exposed systematic fee-confidence fall-out. The run was deliberately cancelled rather than consuming the remaining queue with a known parser weakness.
+- Cancellation maturity corrections:
+  - `layer2_run_batch_reconcile` now preserves terminal `cancelled` state even when a late in-flight runner reconciles;
+  - `layer2-batch-runner` now rechecks live batch/item status before every item and stops at the cancellation boundary rather than consuming a stale queue snapshot.
+- Deterministic Course extractor advanced to `layer2-course-fact-extract-v2.5`:
+  - explicit AUD/A$ fee context and international/CRICOS proximity improve deterministic fee confidence;
+  - domestic/CSP/HECS context remains a strong negative;
+  - no provider-specific price values or Course IDs are hard-coded.
+- Regression batch `7fb8c4a9-b6d0-499e-9503-8eb13c424c80` passed 3/3 previously problematic UQ Courses at 5/5 resolved fields, Direct HTTP only, zero vendor cost.
+- Fresh post-fix UQ full managed batch `eb52b6e2-c33b-4dfc-9e87-c107834218e0` completed:
+  - target: 156;
+  - resolved_l2: 153;
+  - Layer 3 required: 3;
+  - blocked: 0;
+  - vendor units: 156;
+  - vendor cost: USD 0;
+  - runtime: ~9m16s from started_at to completed_at.
+- The three controlled Layer 3 exceptions are:
+  - CRICOS `027288A` Study Abroad — no fee candidate;
+  - CRICOS `082599G` Master of Economics and Public Policy — no fee candidate;
+  - CRICOS `094716G` Doctor of Veterinary Clinical Science — low-confidence international fee candidate.
+- Bulk dry-run of the 153 resolved candidates proved 153/153 exact UQ provider/Course CRICOS resolution through the accepted apply contract before mutation.
+- The canonical apply contract was corrected to map extracted TOEFL to the existing `ref.english_tests.code='TOEFL_IBT'`; the preceding bulk statement failed transactionally and was verified not to partially mutate canonical state.
+- Canonical promotion then passed 153/153:
+  - official Course links applied: 153;
+  - guarded international fees applied: 153;
+  - intake rows applied/upserted: 488;
+  - English requirements applied/upserted: 453;
+  - Course descriptions applied: 153;
+  - Search mutation authorised: false;
+  - Publication mutation authorised: false.
+- Post-apply UQ source totals now include 161 active first-party links, 1,307 active fee rows, 503 active intakes, 471 active English requirement rows, 153 populated descriptions and 161 applied source records. Existing rows were preserved/upserted rather than blanket replaced.
+- Off-domain validation for UQ Layer 2 links: 0 bad links.
+
+### Federation
+
+- Full Federation discovery evaluation completed for all 190 Courses under the original accepted catalogue strategy with zero selected URLs.
+- 10 previously applied, identity-verified first-party Course URLs were safely seeded into the current immutable profile version with existing Evidence/provenance.
+- Current governed queueability: 10/190.
+- The remaining 180 are source-limited under deterministic first-party discovery; no threshold weakening or external-search shortcut has been accepted.
+
+### RMIT
+
+- RMIT immutable profile version now requires real `/study-with-us/levels-of-study/` Course-detail URLs.
+- Direct HTTP 202/no-detail-link responses correctly fall through to Firecrawl under route policy.
+- Candidate filtering now enforces the required detail-path prefix before ranking.
+- Discovery scoring v1.2.4 distinguishes provider-suffixed exact titles from nearby Honours variants:
+  - control CRICOS `110982H` Bachelor of Science now selects `.../bachelor-of-science-bp350`;
+  - `Bachelor of Science (Honours)` remains unselected.
+- Full bounded RMIT discovery started as request `2138` for the remaining 499/500 Courses. Unknown-cost vendor fallback remains blocked.
+
+### Source/runtime reconciliation commits
+
+Pilot runtime/source reconciliation includes:
+- discovery worker unknown-cost guard and detail-path candidate filter;
+- discovery worker provider-suffix/Honours disambiguation;
+- deterministic Course extractor v2.5 mirror;
+- batch-runner cancellation-boundary mirror;
+- cancelled-batch reconciliation migration;
+- TOEFL → TOEFL_IBT apply-contract migration.
+
+### Acceptance impact
+
+- UQ now satisfies the broad deterministic discovery → managed acquisition/extraction → governed canonical-apply evidence path for 153 Courses, with 3 explicit Layer 3 exceptions.
+- This is substantial full-run evidence, but M2.4.2 remains ACTIVE because RMIT/Federation accepted-scope disposition, scheduling/rechecks/alerts/housekeeping, final performance/security regression, Stage B and exactly one final Stage C are still open.
