@@ -2,30 +2,41 @@
 
 ## P0 — active gate
 
-1. Confirm Pilot `b58d49294f6b9ad1921443d52c8641bbc2df35e6` frontend build and minimal deployed Stage A result.
-2. If Layer 1 Stage A fails, fix only the deterministic Layer 1 failure and rerun targeted; do not expand waits or launch unrelated suites.
-3. Prove both AU CRICOS and NZ NZQA source validation/count discovery, including unapproved-domain and malformed/unavailable-source negatives.
-4. Prove warn/block variance decisions before APPLY and no unattended execution when verification/variance state is blocked.
-5. Complete the existing scheduler → Layer 1 governed recheck bridge using the accepted M2.3 refresh policy/request substrate; do not create a second scheduler model.
-6. Prove queue lifecycle, duplicate/concurrent protection, heartbeat/stuck detection, retry/resume and cumulative reconciliation with isolated/rollback-safe operational runs.
-7. Prove hash/no-change replay produces no duplicate canonical rows, no unnecessary duplicate Evidence and no unnecessary downstream work.
-8. Prove transient housekeeping removes only expired execution state and cannot remove governed Evidence, source versions or canonical/audit lineage.
+1. Complete bounded Stage B deployed integration run `32968310102` against marker `69c21bab97cee34505787403af4f6065ddcd79f7` / frozen working SHA `fcb77befb797e98f9369b33a79ab29a4950717ff`.
+2. Treat any Stage B failure as candidate evidence. Diagnose the exact deterministic/runtime defect; do not increase waits or bypass security/authority contracts.
+3. If any Pilot application/runtime change is required, invalidate the candidate and rerun targeted Stage A before another Stage B marker.
+4. If Stage B passes with no Pilot/runtime change, nominate exactly one Stage C acceptance candidate.
 
-## P1 — before Stage B
+## P1 — Stage C closure gate
 
-- Synchronise all live M2.4.1 Supabase migrations and Edge function source into `Coursefinder-Pilot` repository truth.
-- Re-run Security Advisor and Performance Advisor after final database/API shape.
-- Reconcile browser RPCs, SECURITY DEFINER/private helpers, grants/RLS, rank negatives, anonymous paths, Edge auth, Storage/Evidence and error leakage.
-- Update PIM Admin Guide, Operations Runbook and troubleshooting/bug-reporting guidance to actual deployed behaviour.
-- Update release notes for any further browser-facing change.
-- Record operational timings, payload sizes and AU/NZ throughput.
+- Execute exactly one full permanent deployed desktop/mobile Stage C matrix on the frozen acceptance candidate.
+- Reconfirm Security Advisor, Performance Advisor and Layer 1 ACL/rank negatives against the final runtime.
+- Reconcile the exact final Pilot SHA, deployed Edge versions, migration chain and cron jobs.
+- Record Stage A, Stage B and Stage C Actions evidence in the RUNSHEET and Change Control.
+- Update `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` to final closure truth.
+- Close `CF-CHG-20260826-043` and update `change-control/REGISTER.md` only after Stage C PASS.
+- Reconcile latest Running Build / Master Project Plan only after the final acceptance SHA is known.
 
-## Inherited observations from invalid broad targeted run
+## Completed functional proof
 
-The failed `32962485153` run also surfaced Layer 2 platform/provider/trial navigation/data failures. These are not Stage A blockers for M2.4.1 because they were unrelated suites incorrectly included in targeted validation. Preserve their evidence for Stage B/acceptance reconciliation; do not mask them with longer waits.
+- real AU CRICOS authority/package/count validation: 26,648 active / 90 expired / 26,738 total;
+- real NZ NZQA validation: 411 live versus 409 accepted, approximately 0.489% PASS variance;
+- warning/block variance guardrails and APPLY block proof;
+- rank-4 validation versus rank-6 execution/configuration authority split;
+- one-active-run, idempotency, retry/resume, resume cursor and cumulative reconciliation;
+- scheduled non-destructive source verification through the existing M2.3 substrate and one-time nonce path;
+- paused-source scheduler exclusion and >30-minute scheduled-dispatch failure recovery;
+- bounded Platform Admin recovery of a genuinely stuck regular run;
+- transient housekeeping preserving Evidence/configuration/canonical history;
+- final live migrations and Edge source mirrored to Pilot repository truth;
+- final Security Advisor with no M2.4.1 Critical/High/Warning finding;
+- final Performance Advisor with no unindexed Layer 1 foreign key;
+- Data Operations Admin Guide v1.2, Operations Runbook v1.3 and PIM Admin Guide v1.21 published.
 
 ## Stage progression
 
-- Stage A: minimal Layer 1 affected tests, desktop during active development; responsive/mobile checks only when the Layer 1 slice directly changes responsive behaviour.
-- Stage B: one bounded affected regression on a green candidate, desktop + mobile, covering Layer 1, Evidence, Jobs/Runs, Data Quality, security/authority/replay/recovery/scheduling and relevant performance.
-- Stage C: exactly one nominated frozen SHA complete deployed permanent desktop/mobile matrix. Any code/runtime change after nomination invalidates the candidate.
+- **Stage A:** PASS — `fcb77bef…`, deployed UAT `32968177074`.
+- **Stage B:** ACTIVE — marker `69c21bab…`, deployed UAT `32968310102`.
+- **Stage C:** NOT YET AUTHORISED — exactly one frozen candidate after Stage B PASS.
+
+M2.4.2 feature implementation remains blocked until M2.4.1 is CLOSED/PASS.
