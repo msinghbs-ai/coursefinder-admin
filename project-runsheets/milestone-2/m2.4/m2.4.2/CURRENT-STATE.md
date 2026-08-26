@@ -1,10 +1,10 @@
 # M2.4.2 — Current State
 
-**Status:** ACTIVE — A8 TARGETED PASS / FULL-RUN GATES OPEN; NOT YET ACCEPTED  
+**Status:** ACTIVE — A9 TARGETED PASS / FULL-RUN GATES OPEN; NOT YET ACCEPTED  
 **Started:** 27 August 2026 04:28 AEST (+10:00)  
 **Change Control:** `CF-CHG-20260827-044` — ACTIVE  
 **Accepted starting Pilot:** `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`  
-**Current A8 Pilot head:** `db8ff542d275962c4f97ff1c8d37cffe736039cf`  
+**Current A9 targeted Pilot head:** `638970c0b6fe323ba93260289301218a7f218aff`  
 **Visible browser baseline at M2.4.2 start:** PIM Admin `v2.15.7`
 
 ## Accepted inherited baseline
@@ -114,31 +114,50 @@ The targeted suite proves:
 An earlier targeted run `33004179270` failed only because the test attempted to use the lower-rank permanent UAT identity to access Platform Admin provider-edit controls. The implementation did not lower that boundary. The test was corrected to assert the privileged boundary, and the current candidate passed.
 
 
-## Addendum A9 — current direction: scope-first sync + ordered routing
+## Addendum A9 — scope-first sync + ordered routing — TARGETED PASS
 
-Latest runtime review at 27 August 2026 07:13 AEST found:
-- latest Layer 2 discovery job `c7dd414e-487a-4861-a9f3-defbfd9458f2` (Federation) processed 5, selected 0 and failed 5;
-- every attempt used `direct-http` and failed at `layer2_provider_attempt_finish: invalid attempt status`;
-- the discovery path therefore still does not exercise the stored provider fallback chain;
-- current stored AU Course route order is mostly Direct HTTP → Scrape.do → ScraperAPI → Firecrawl → ZenRows (Federation omits ScraperAPI), which is more complex than the intended operator model.
+A9 is implemented for the targeted routing/scope/UI slice.
 
-A9 now defines the routine operator workflow as:
+Routine workflow:
 
 `Country → Fetch scope (Country / State / University) → Scope value → Preview → Sync/Recheck → Progress → Results`
 
-Scope meaning:
-- Country = all authorised universities and all eligible Courses in that country;
-- State = all authorised universities and all eligible Courses in the selected governed subdivision;
-- University = all eligible Courses for the selected university.
+Implemented scope semantics:
+- AU Country preview resolves exactly 1,072 Courses across Federation, RMIT and UQ;
+- VIC State preview resolves 690 Courses across Federation and RMIT using Course→Campus→Subdivision membership;
+- QLD State preview resolves 404 Courses across Federation and UQ;
+- RMIT University preview resolves all 500 RMIT Courses;
+- Country/State starts fan out by authorised source profile/university; large managed batches execute in profile-governed bounded waves rather than one long Edge request;
+- scoped discovery carries exact Course IDs through 50-record continuation waves and queues only governed URLs when discovery completes.
 
-Acquisition is automatic and separate from scope selection. The default simplified route becomes Direct HTTP → Firecrawl → remaining enabled providers in stored order. Per-profile exceptions remain possible only through governed Advanced configuration.
+Implemented routing:
+- current AU Course route order is Direct HTTP → Firecrawl → Scrape.do → ScraperAPI where configured → ZenRows;
+- both scheduled discovery and managed batch acquisition now consume the profile's existing ordered `runtime.routes`; managed batches no longer preselect/force one acquisition provider;
+- provider budget/availability/cost/fallback conditions are checked before/after attempts;
+- automatic routing skips providers with unknown acquisition cost rather than silently spending;
+- provider-attempt status vocabulary is reconciled to accepted values; discovery no longer submits invalid `completed`.
 
-The next runtime correction must therefore:
-1. reconcile valid provider-attempt terminal states;
-2. make discovery call the shared ordered route resolver rather than hard-coded Direct HTTP;
-3. change accepted Course route ordering to Direct HTTP → Firecrawl → remaining enabled fallbacks unless an explicit profile exception exists;
-4. add a server-side scope resolver/fan-out for Country / State / University;
-5. simplify the Layer 2 screen to scope selectors, preview, one action, progress/results and last/next run, with profile/provider internals moved to Advanced configuration.
+Runtime evidence:
+- prior Federation failure: `c7dd414e-487a-4861-a9f3-defbfd9458f2` — 5/5 failed at invalid attempt status;
+- corrected Federation run: `e5055e66-8711-4a24-a2c3-d926d681cc15` — 5 processed, 0 runtime failures; four current-page-not-found, one ambiguous, zero unsafe selections; Direct HTTP success correctly stopped fallback;
+- governed Firecrawl provider trial `dd48db0c-db0d-4403-ba7f-de2a5482004c` — succeeded through `layer2-acquire-v2.7`, Evidence `ea932ca9-5fa2-4889-a0fb-9103ac4ed374`, canonical mutation false;
+- true controlled Direct-failure → Firecrawl fallback remains an explicit pre-broad-run UAT gate; route order and each hop are proven, but a synthetic failure-triggered transition is not yet claimed.
+
+Routine UI cleanup:
+- normal Layer 2 now exposes Country, Fetch scope, conditional State/University selector, exact scope metrics, one sync action, progress, simple results, Evidence, recent runs and blockers;
+- source-profile launchers, provider table, route/concurrency controls and low-level diagnostics are removed from the routine screen;
+- one Advanced configuration entry retains privileged engineering configuration;
+- Firecrawl/vendor edits remain Platform Admin privileged.
+
+A9 targeted validation:
+- Pilot `638970c0b6fe323ba93260289301218a7f218aff`;
+- deployed targeted desktop UAT `33016596722` — PASS;
+- frontend build + local browser smoke `33016596701` — PASS;
+- preceding A9 UAT `33016397183` failed only because the navigation helper still searched for the deliberately removed Advanced-provider button; helper was corrected without reintroducing the button;
+- Security Advisor: 129 INFO, no WARN/ERROR;
+- Performance Advisor: 167 INFO, no WARN/ERROR;
+- new A9 privileged scope helpers are executable only by service_role/postgres.
+
 
 ## Performance/advisor state
 
