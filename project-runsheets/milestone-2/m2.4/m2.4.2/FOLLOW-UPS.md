@@ -15,6 +15,8 @@
 | ID | Problem / decision | Evidence | Owner | Next action | Status |
 |---|---|---|---|---|---|
 | M242-FU-001 | Deployed Layer 2 operational run model is still trial-scale at milestone start: 1 batch / 3 items despite 103 provider attempts. | Start reconciliation 27 Aug 2026. | M2.4.2 | Mature orchestration/visibility before full-run claim. | ACTIVE |
+| M242-FU-002 | Discovery is hard-wired to Direct HTTP and latest Federation run failed 5/5 at invalid provider-attempt terminal status, so fallback routing never executed. | Job `c7dd414e-487a-4861-a9f3-defbfd9458f2`, 27 Aug 2026 07:07 AEST. | M2.4.2 | Reconcile terminal status vocabulary; route discovery through common ordered provider resolver; prove Direct → Firecrawl → next-provider fallback. | ACTIVE / BLOCKING BROAD RUN |
+| M242-FU-003 | Routine Layer 2 scope is university-centric and still exposes more internals than required. | Operator feedback / A9. | M2.4.2 | Implement Country / State / University scope resolution and remove/move low-level controls to Advanced configuration. | ACTIVE / PRIORITY |
 
 ## Rule
 
