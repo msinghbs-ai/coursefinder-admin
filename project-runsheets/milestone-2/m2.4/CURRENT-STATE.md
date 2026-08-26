@@ -1,9 +1,9 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 NEXT FEATURE GATE  
-**Updated:** 26 August 2026 20:43 AEST (+10:00)  
-**Standing governance:** CF-CHG-20260826-042 / A1–A6  
-**Recently closed:** CF-CHG-20260826-040
+**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 NEXT FEATURE GATE  
+**Updated:** 27 August 2026 04:18 AEST (+10:00)  
+**Standing governance:** CF-CHG-20260826-042 / A1–A7  
+**Recently closed:** CF-CHG-20260826-043
 
 ## Accepted baseline
 
@@ -11,63 +11,75 @@
 - M2.1 CLOSED/PASS.
 - M2.2 CLOSED/PASS.
 - M2.3 CLOSED/PASS with NZ first-party Layer 2 expansion deferred.
-- **M2.4.0 CLOSED/PASS.**
-- Current accepted Pilot runtime: `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
-- Visible browser release: PIM Admin `v2.15.6`.
+- M2.4.0 CLOSED/PASS.
+- **M2.4.1 CLOSED/PASS.**
+- Current accepted Pilot runtime: `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`.
+- Visible browser release: PIM Admin `v2.15.7`.
 
-Acceptance evidence:
+Final M2.4.1 evidence:
 
-- Frontend Build `32958795576` — PASS;
-- full deployed UAT `32958795547` — PASS;
-- desktop `98146317262` — PASS;
-- mobile `98146317373` — PASS.
+- frontend build `32972106272` — PASS;
+- Stage C deployed UAT `32972106291` — desktop/mobile PASS;
+- deployed acceptance job `98188037242` — PASS;
+- Stage A `32971449084` — PASS;
+- Stage B `32971584012` — desktop/mobile PASS.
 
-## M2.4.0 outcome
+## M2.4.1 accepted outcome
 
-The Go 7 integration liability is closed:
+Layer 1 Regulatory is now production-shaped for AU CRICOS and NZ NZQA:
 
-- accepted primary information architecture remains `Overview → Catalogue → Data Operations → Insights → Quality & Review → Decision Tools → Governance & Platform → Help & Guides`;
-- permanent UAT no longer depends on obsolete `Layer 2 Operations` or floating launcher paths;
-- shared navigation adapters are established;
-- CI now uses targeted → bounded integration → one nominated full acceptance matrix;
-- UX/content/performance audit capture is separated from permanent functional acceptance;
-- Layer 1 normal operator entry is `Data Operations → Layer 1 — Regulatory`, while Platform Settings/destructive authority remains separately privileged;
-- the inherited first-load Course performance blocker was resolved without widening the 3,000 ms budget. Retained integration evidence measured first desktop `courses_page` at 1,985 ms.
+- governed source authority/configuration and retained versions;
+- dynamic authority/source-shape validation;
+- expected-count and variance guardrails;
+- one-active-source queueing, idempotency, retry/resume and cumulative reconciliation;
+- progress/heartbeat/stuck visibility and bounded recovery;
+- source hash/no-change path;
+- non-destructive scheduled authoritative-source rechecks through one-time nonce;
+- paused-source exclusion and stale schedule recovery;
+- safe transient housekeeping preserving governed Evidence/source versions/canonical history;
+- simplified normal operator UI with Source Health, Current/Next Job, Progress, Reconciliation, Evidence/Provenance, Schedule/Recheck and Blockers/Actions;
+- accepted role/rank/RLS/service-helper/private-Evidence boundaries.
 
-No database DDL, canonical/source semantic change, role/rank weakening, Search/Publication change or private Evidence/Vault exposure was introduced by M2.4.0.
+Live proof retained:
 
-## M2.4 plan
+- AU CRICOS: 26,648 active / 90 expired / 26,738 total Course rows;
+- NZ NZQA: 411 current providers versus 409 accepted baseline, approximately 0.489% PASS variance.
+
+Final Security Advisor has no new material M2.4.1 Critical/High/Warning finding. Final Performance Advisor has no unindexed Layer 1 foreign key.
+
+## M2.4 sequence
 
 1. **M2.4.0 — CLOSED / PASS** — Integration Cleanup, Test-Liability Removal & Acceptance Rebase.
-2. **M2.4.1 — NEXT / READY** — Layer 1 Regulatory Operations Maturity & Automation.
-3. M2.4.2 — PLANNED — Layer 2 Full Enrichment, Operations Maturity & Performance.
+2. **M2.4.1 — CLOSED / PASS** — Layer 1 Regulatory Operations Maturity & Automation.
+3. **M2.4.2 — NEXT / READY** — Layer 2 Full Enrichment, Operations Maturity & Performance.
 4. M2.4.3 — PLANNED — Layer 3 AI Operations Maturity.
 5. M2.4.4 — PLANNED — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance.
 
-## M2.4.1 governing intent
+## M2.4.2 governing intent
 
-M2.4.1 should simplify and production-shape Layer 1 operations for at least AU and NZ without reopening M2.4.0 navigation architecture. Priorities include:
+M2.4.2 should mature Layer 2 across the accepted source/provider architecture without weakening Layer 1 authority or reopening M2.4.0/M2.4.1 foundations.
 
-- clear operator source/profile configuration and source validation;
-- admin ability to enter/validate regulatory URLs or source endpoints where the source model permits;
-- source record-count discovery/variance checks before ingestion;
-- governed queue/job creation and duplicate/concurrent-run protection;
-- deterministic progress bars and processed/accepted/rejected/unchanged/failed counts;
-- job progress, logs and Evidence lineage one or two clicks away;
-- retry/resume, stuck-job/heartbeat visibility and safe cleanup;
-- scheduled rechecks/freshness monitoring and change/hash detection;
-- housekeeping that never deletes governed Evidence;
-- simplified normal operator UI with experimental/qualification/destructive controls quarantined;
-- current guides/runbooks/release notes and retained automated UAT evidence.
+Priorities:
+
+- full enrichment across accepted AU scope;
+- clear source/profile/provider routing and operator controls;
+- queue/progress/reconciliation/retry/recovery maturity;
+- full-run throughput and latency measurements;
+- provider spend/economics and quota visibility;
+- Evidence growth/storage impact;
+- Layer 3 fall-out measurement before schedule/concurrency tuning;
+- UI/UX simplification based on actual full-run evidence;
+- operational alerts for provider/source/job failure states where Layer 2-specific;
+- current Guides/Runbooks/release notes and staged automated UAT.
 
 ## Carry-forward constraints
 
-- NZ first-party Layer 2 Course enrichment remains deferred; do not conflate it with accepted NZ Layer 1.
-- M2.4.1 must establish explicit AU/NZ source validation and record-count variance thresholds before unattended schedule enablement.
-- transient queue/job/nonce/temp cleanup must have a retained Evidence/log lifecycle.
-- provider/economics/full-enrichment work belongs primarily to M2.4.2.
+- NZ first-party Layer 2 Course enrichment remains deferred pending separate source qualification/onboarding.
+- AU/NZ Layer 1 authority, identity, validation and variance controls are frozen accepted dependencies.
+- Data Quality/Layer 1/Layer 2 `admin_read` dispatches must remain reconciled.
+- Guides/Runbooks/release notes remain a closure blocker if stale.
 - broad Publication, Production establishment and Zoho cutover remain separate later gates.
 
 ## Immediate next gate
 
-Open/read the M2.4.1 runsheet/prompt and reconcile current Pilot, deployed Supabase state, Layer 1 source/profile/job contracts, existing Guides and follow-ups before making new feature changes. Continue to use A1 staged validation; do not launch the complete permanent matrix as the first development feedback loop.
+Open/reconcile the M2.4.2 prompt/runsheet, current Pilot and deployed Supabase Layer 2 providers/profiles/jobs/Evidence/runtime before feature changes. Use targeted Stage A during implementation, bounded integration before promotion, and exactly one final deployed desktop/mobile acceptance matrix.
