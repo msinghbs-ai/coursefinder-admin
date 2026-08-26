@@ -1,6 +1,6 @@
 # CF-CHG-20260827-044 — M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance
 
-**Status:** PROPOSED / ACTIVE  
+**Status:** ACTIVE — A8 TARGETED PASS / FULL-RUN GATES OPEN  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 27 August 2026 04:28 AEST (+10:00)  
 **Origin chat/workstream:** M2.4.2 — Layer 2 Full Enrichment, Operations Maturity & Performance  
@@ -66,8 +66,9 @@ Acquisition-vendor choice remains automatic under governed route policy for norm
 - Provider editor distinguishes acquisition-vendor concurrency from source-profile/run concurrency.
 - Vendor concurrency is bounded 1–20; timeout 1–120 seconds; rate limit is null/default or 1–10000 requests/minute.
 - Save now re-reads provider state and rejects the operation visibly if concurrency/rate/timeout do not exactly match persisted server values.
-- Drawer state is refreshed from the persisted provider record and provides a `Saved and verified` confirmation.
-- Targeted UAT mutates Firecrawl concurrency only temporarily and restores its original value.
+- Drawer state is refreshed from the persisted provider record and provides a `Saved and verified` confirmation for authorised Platform Admin edits.
+- A direct persistence probe temporarily changed Firecrawl vendor concurrency from 2 to 3, confirmed the persisted database value, then explicitly restored Firecrawl to `2 / 30 per minute / 90 seconds`. No canonical or Evidence state was affected by the configuration probe.
+- Standard deployed UAT deliberately does not mutate these settings because its permanent identity is below the Platform Admin edit boundary.
 
 ### Security correction
 - An initial browser-callable SECURITY DEFINER sync RPC was rejected after Security Advisor raised `authenticated_security_definer_function_executable`.
@@ -103,13 +104,14 @@ Acquisition-vendor choice remains automatic under governed route policy for norm
 - `432de835a71f1d2fe263d99df61ac7da8b576af6` — simplified Layer 2 sync UI;
 - `0f1f3c7da5c27304c94e294b11ea90fe6c4e7c90` — provider persistence verification;
 - `1264784529e70b43bb462bdd6a6148410c5100f3` — selector/sync responsive styling;
-- `c10b330dc6b4db52d0c757ddab171b6903ae209e` — Firecrawl persistence targeted UAT;
+- `c10b330dc6b4db52d0c757ddab171b6903ae209e` — initial Firecrawl persistence targeted-UAT attempt;
 - `ca190b245252d1a6464db51f785d2d04588800d3` — provider rate guard mirror;
 - `c216a02292ab62c097363f6aa73f071b10aedc40` — service-only sync bridge mirror;
 - `a575b02f5ad7289770039a06fde8dbd1cf37086a` — authenticated Edge sync source mirror;
-- `f3740187597ea77cfffd93788db9eb9c1844e0d8` — browser sync routed through authenticated Edge bridge.
+- `f3740187597ea77cfffd93788db9eb9c1844e0d8` — browser sync routed through authenticated Edge bridge;
+- `db8ff542d275962c4f97ff1c8d37cffe736039cf` — corrected targeted UAT preserving Platform Admin provider-edit authority.
 
-Current browser-facing candidate for this slice is still under targeted build/UAT; it is not an M2.4.2 acceptance candidate.
+A8 current tested Pilot head: `db8ff542d275962c4f97ff1c8d37cffe736039cf`. It is a targeted development candidate, not the M2.4.2 final acceptance candidate.
 
 ## UAT
 
@@ -119,16 +121,27 @@ Mandatory staged model remains:
 2. Stage B bounded desktop/mobile integration covering Layer 2 operations, Admin navigation, Layer 1 regression, Evidence, Data Quality/completeness, Jobs/Runs, Layer 2 performance, immediate Layer 3 fall-out, persistence/state and release notes.
 3. Stage C exactly one frozen full permanent deployed desktop/mobile acceptance candidate plus frontend build/browser smoke, final Security/Performance Advisors, ACL/rank/anon negatives and exact runtime/repository reconciliation.
 
-A8 targeted suite now covers:
+### A8 targeted evidence
+
+- Earlier first operational-workspace Stage A: `33001852982` — PASS.
+- A8 security-corrected frontend build/browser smoke: `33004496198` — PASS.
+- A8 corrected targeted deployed desktop UAT: `33004496331` — PASS.
+- Preceding run `33004179270` — FAIL by test design only: Country/university selector and concurrency-separation tests passed, while the Firecrawl test incorrectly expected the lower-rank permanent UAT user to have Platform Admin provider-edit controls. No security role was weakened; the test was corrected to assert that those edit controls are absent for the lower-rank identity.
+
+The current targeted suite proves:
 - Country → university selector journey;
 - AU RMIT/UQ/Federation authorised choices;
 - scope preview counts and discovery-vs-sync action state;
 - no routine bounded-trial control;
 - explicit separation of run concurrency from acquisition-vendor concurrency;
-- Firecrawl concurrency temporary edit → save/server re-read → close/reopen persistence → restore;
-- no credential exposure through provider UI.
+- Firecrawl vendor limits are visible while edit controls remain Platform Admin privileged;
+- no credential exposure through provider UI;
+- no browser/server runtime errors in the targeted slice.
 
-Earlier M2.4.2 Stage A operational workspace run `33001852982` remains PASS. The new A8 targeted candidate is awaiting its final current-head build/UAT result and must not be recorded PASS until complete.
+## Performance / advisor evidence
+
+- Security Advisor: current A8 architecture has no new WARN/ERROR; the rejected direct authenticated SECURITY DEFINER bridge finding was eliminated before the PASS candidate.
+- Performance Advisor: INFO-only existing Layer 2 FK-indexing and unused-index observations remain inputs to the representative/full-run tuning gate. No performance threshold was widened and no index is added solely to silence an INFO finding without measured workload evidence.
 
 ## Rollback / reversion
 
@@ -148,12 +161,13 @@ Prefer additive migrations and independently reversible frontend/Edge changes. R
 
 | Timestamp | Status | Decision / event | Reference |
 |---|---|---|---|
-| 27 Aug 2026 04:28 AEST | PROPOSED / ACTIVE | M2.4.2 initiated from accepted M2.4.1 baseline; no Layer 1 authority change authorised. | M2.4.2 chat |
+| 27 Aug 2026 04:28 AEST | ACTIVE | M2.4.2 initiated from accepted M2.4.1 baseline; no Layer 1 authority change authorised. | M2.4.2 chat |
 | 27 Aug 2026 | ACTIVE / A8 | Operator-first sync addendum accepted into current M2.4.2 scope; Country → University/catalogue provider becomes routine launch path. | RUNSHEET Addendum A8 |
 | 27 Aug 2026 | ACTIVE / SECURITY CORRECTED | Direct authenticated SECURITY DEFINER sync bridge rejected after Advisor WARN; replaced by authenticated Edge + service-only rank-checked helper. | `layer2-sync-control`, `m2_4_2_operator_sync_service_bridge` |
+| 27 Aug 2026 | ACTIVE / A8 TARGETED PASS | Corrected A8 candidate passes frontend build/browser smoke and targeted deployed desktop UAT. | Pilot `db8ff542...`; runs `33004496198`, `33004496331` |
 
 ## Closure
 
 **Final status:** OPEN  
 **Closed at:** N/A  
-**Outcome:** Pending A8 targeted UAT, full authorised-run evidence, Stage B, final Stage C and remaining M2.4.2 gates.
+**Outcome:** A8 targeted operator simplification PASS; pending full authorised discovery/enrichment evidence, scheduling/recovery/housekeeping/performance gates, Stage B, final Stage C and remaining M2.4.2 requirements.
