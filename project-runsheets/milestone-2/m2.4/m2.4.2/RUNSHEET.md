@@ -120,6 +120,103 @@ Stage A for this slice must prove:
 
 Stage B must add desktop/mobile coverage for the simplified selector/sync journey, Jobs/Evidence/Data Quality regression and immediate Layer 3 fall-out contracts.
 
+
+## Addendum A9 — Scope-first Sync, Ordered Acquisition Routing & Layer 2 Screen Cleanup (27 August 2026)
+
+This addendum supersedes the A8 routine selector model where it conflicts, while preserving A8 security, persistence, Evidence and authority controls.
+
+### Operating principle
+The operator chooses **what catalogue scope to sync**. The platform chooses **how to acquire it**.
+
+Routine workflow:
+
+`Country → Fetch scope → Scope value → Preview → Sync / Recheck → Progress → Results`
+
+Fetch scope is exactly one of:
+- **Country** — every authorised university/provider and every eligible Course in the selected country;
+- **State / subdivision** — every authorised university/provider and every eligible Course whose governed campus/provider scope belongs to the selected state/subdivision;
+- **University** — every eligible Course for the selected governed university/provider.
+
+A scope selection expands server-side into the matching authorised Layer 2 source profiles, universities/providers and Courses. The operator must not select individual acquisition vendors, profile IDs, route IDs or batches in the routine path.
+
+### Ordered acquisition routing
+Every source profile retains one ordered, governed provider chain. Routine execution always uses the first eligible provider and falls through only on configured fallback outcomes, budget/quota rules or capability mismatch.
+
+Default Course acquisition order for the simplified model:
+1. `direct-http`;
+2. `firecrawl`;
+3. remaining enabled providers in explicitly stored route priority order.
+
+Examples of remaining providers include Scrape.do, ScraperAPI and ZenRows. Their exact order remains configurable per source profile under Advanced configuration. The operator never chooses the provider during a normal sync.
+
+Routing requirements:
+- discovery and acquisition must use the same ordered-route resolver rather than hard-coding `direct-http`;
+- successful Direct HTTP must stop fallback;
+- Firecrawl is the first paid/managed fallback unless an accepted source-profile exception explicitly says otherwise;
+- later providers are attempted only for configured fallback conditions;
+- provider concurrency, rate, timeout, spend/quota and availability gates are enforced before an attempt;
+- every attempt records provider, priority, reason for fallback, response/outcome, Evidence and cost/unit telemetry where available;
+- route-order edits are Platform Admin / Advanced only and must persist with server re-read verification;
+- no fallback may weaken identity, Evidence, Layer 1 authority or canonical-mutation rules.
+
+### Scope resolution rules
+Country, state and university scopes are catalogue selectors, not scraping shortcuts.
+
+Before launch the server must calculate and return:
+- universities/providers included;
+- total Courses in catalogue scope;
+- Courses with governed current URLs;
+- Courses needing deterministic discovery;
+- blocked/deferred Courses;
+- active-run conflicts;
+- estimated batches from the stored execution policy.
+
+Country/state runs fan out into governed per-profile/per-university batches so source-specific route, concurrency, schedule and Evidence policy remain authoritative. One oversized undifferentiated country job is not permitted.
+
+### Routine Layer 2 screen cleanup
+The routine Layer 2 screen should contain only:
+- Country;
+- Fetch scope: Country / State / University;
+- State or University selector only when required;
+- scope preview counts and included university count;
+- one `Sync now` / `Discover & sync` / `Recheck` primary action;
+- current run progress and simple result counts;
+- last run / next scheduled run;
+- concise blocked/deferred reason with links to Jobs, Evidence or Data Quality when action is required.
+
+Remove from the routine screen, or move behind a single **Advanced configuration** entry:
+- source-profile cards/list as a primary launcher;
+- profile/version IDs and raw JSON;
+- acquisition-provider picker;
+- route-priority editor;
+- provider credentials and qualification/probe/trial controls;
+- separate vendor concurrency/rate/timeout controls;
+- bounded-trial buttons;
+- internal queue/batch primitive controls;
+- duplicate health/telemetry panels already available in Jobs/Providers/Evidence;
+- destructive recovery/cleanup actions;
+- low-level provider-attempt diagnostics.
+
+Advanced configuration may retain source profiles, ordered routes, provider limits/credentials, schedules and diagnostics, but must not be required for routine operation.
+
+### Latest-run finding incorporated by A9
+The Federation discovery run started at 27 August 2026 07:07 AEST (`c7dd414e-487a-4861-a9f3-defbfd9458f2`) processed 5 Courses and failed 5/5 with `layer2_provider_attempt_finish: invalid attempt status`. All five attempts used `direct-http`; fallback routing was never exercised. A9 therefore requires discovery to use the common ordered-route resolver and requires the provider-attempt terminal-status contract to be reconciled before broader scope runs.
+
+### A9 UAT
+Targeted validation must prove:
+- Country scope expands to all authorised universities and eligible Courses in that country;
+- State scope expands only to universities/Courses in the selected governed subdivision;
+- University scope expands to all eligible Courses for that university;
+- the preview and generated batches reconcile exactly to catalogue counts;
+- Direct HTTP success stops the chain;
+- a controlled Direct HTTP fallback condition advances to Firecrawl;
+- Firecrawl fallback can advance to the next configured provider where policy permits;
+- route order is honoured exactly and is not user-selectable in routine UI;
+- paid-provider budget/concurrency/rate gates still apply;
+- provider-attempt terminal states are valid and persisted;
+- no duplicate active runs, no Layer 1 identity mutation and no secret exposure;
+- routine UI contains no removed experimental/internal controls on desktop or mobile.
+
 ## Automated UAT
 
 - route selection/fallback/budget guards;
