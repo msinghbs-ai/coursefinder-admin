@@ -1,6 +1,6 @@
 # CF-CHG-20260826-040 — Streamlined Data Operations Navigation & Visible Guides
 
-**Status:** APPROVED / IN PROGRESS  
+**Status:** APPROVED / IMPLEMENTED WORKING STATE — ACCEPTANCE REBASE REQUIRED  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 26 August 2026 12:23 AEST (+10:00)  
 **Origin chat/workstream:** CourseFinder Go 7 / M2.4 Admin information-architecture optimisation  
@@ -9,40 +9,31 @@
 
 ## Trigger
 
-User-directed M2.4 optimisation after M2.3 closure. The deployed menu remains structurally split across legacy groups and floating launchers: Layer 1 is still presented through Settings alongside qualification/destructive controls, Layer 2 has its own patched group, Layer 3/4/Onboarding/Scholarship Selection use floating launchers, and Guides are not visible in the primary Admin.
+User-directed M2.4 optimisation after M2.3 closure. The deployed menu was structurally split across legacy groups and floating launchers: Layer 1 was presented through Settings alongside qualification/destructive controls, Layer 2 had its own patched group, Layer 3/4/Onboarding/Scholarship Selection used floating launchers, and Guides were not visible in the primary Admin.
 
-## Problem / requested outcome
+## Requested outcome
 
 Present one logical, streamlined Admin information architecture for ingestion and operations. Layers 1–4 must read as first-class governed operating capabilities, not experiments or disconnected overlays. Guides/Runbooks must be visible from the primary menu. Layer 1 must no longer appear to operators as a Settings/experimental feature.
 
-## Affected surfaces / related workstreams
+## Affected surfaces
 
 - `msinghbs-ai/Coursefinder-Pilot` primary sidebar and operational launchers;
-- Layer 1 Regulatory workspace presentation;
-- Layer 2 Operations, Layer 3 AI Interpretation, Layer 4 Human Resolution, Evidence, Jobs/Runs and Onboarding navigation;
+- Layer 1 Regulatory presentation;
+- Layer 2/3/4, Evidence, Jobs/Runs and Onboarding navigation;
 - Scholarship Selection placement;
-- Governance/Platform navigation and Users & Roles;
-- in-product Guides & Runbooks;
-- PIM Admin visible release/version notes;
-- permanent desktop/mobile deployed UAT;
-- `docs/coursefinder-admin-navigation-information-architecture-*` and current Running Build.
+- Governance/Platform and Users & Roles;
+- Guides & Runbooks;
+- release notes/version;
+- permanent desktop/mobile UAT;
+- Admin Navigation IA and current Running Build.
 
 ## Semantic impact
 
-No canonical semantic change. No Layer authority, source precedence, Evidence, Search/Publication, role/rank, RPC or database contract changes are authorised by this Change Control. This is an information-architecture and operator-journey change only.
+No canonical semantic change. No Layer authority, source precedence, Evidence, Search/Publication, role/rank, RPC or database contract changes are authorised by this Change Control.
 
-## Before
+## Implemented working model
 
-- primary sidebar uses Catalogue, Enrichment & Insights, Data Quality and Operations groups;
-- a post-render patch creates `Data Enrichment` with only Layer 2 Operations and Evidence;
-- Layer 1 Regulatory execution is reached through privileged Settings, where separate qualification/UAT controls also appear;
-- Layer 3, Layer 4, Onboarding and Scholarship Selection are primarily floating launcher experiences;
-- Jobs is hidden from the patched menu rather than integrated into a coherent operating group;
-- Guides/Runbooks are repository documents only and not directly visible in the Admin shell.
-
-## After
-
-Primary order target:
+Primary order:
 
 1. Overview;
 2. Catalogue;
@@ -53,60 +44,58 @@ Primary order target:
 7. Governance & Platform;
 8. Help & Guides.
 
-`Data Operations` exposes Layer 1 — Regulatory, Layer 2 — Enrichment, Layer 3 — AI Interpretation, Layer 4 — Human Resolution, Evidence & Provenance, Jobs & Runs and Onboarding. `Decision Tools` exposes Scholarship Selection. Governance keeps Sources, Attributes and Users & Roles. The legacy Settings menu is removed from the primary journey. Layer 1 primary navigation suppresses unrelated StatsCan qualification and destructive Pilot-reset controls so the normal regulatory workflow does not look experimental.
+`Data Operations` exposes Layer 1 — Regulatory, Layer 2 — Enrichment, Layer 3 — AI Interpretation, Layer 4 — Human Resolution, Evidence & Provenance, Jobs & Runs and Onboarding according to role. `Decision Tools` exposes Scholarship Selection. Governance retains configuration/access functions. The legacy Settings journey is removed from primary operations. Layer 1 normal presentation suppresses unrelated qualification and destructive reset controls. `Help & Guides` exposes in-product operator guidance.
 
-`Help & Guides` exposes an in-product Guides & Runbooks workspace with role-oriented quick guidance and direct launch links into the governed operating surfaces.
+Visible release target remains PIM Admin `v2.15.6`.
 
-## Source authority / evidence
+## Acceptance evidence and failure classification
 
-- `docs/coursefinder-admin-navigation-information-architecture-v1.3.md` already defines Layer 1–3 as first-class Data Operations and states trials must not make the platform look experimental.
-- M2.3 accepted authority remains Layer 1 → Layer 2 → Layer 3 → terminal Layer 4.
-- Accepted pre-change runtime: `msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
+Go 7-specific navigation tests passed, proving the new menu/guide contract itself was reachable.
 
-## Implementation references
+However, the full deployed permanent matrix on Pilot `eabb7d99f93acf6260c06b33c852ed4b0bb6fd8a` failed because inherited permanent suites still searched for removed `Layer 2 Operations` navigation and floating `M2.3 Intelligence` launchers. These deterministic missing selectors waited roughly 45–50 seconds and retried across many tests.
 
-- Supabase migration(s): none expected.
-- Git repository/commit(s): pending.
-- RPC/API objects: unchanged.
-- UI version: target `PIM Admin v2.15.6`.
+The failure therefore exposed **distributed test/navigation coupling and CI feedback-loop debt**. It does not justify restoring obsolete floating launchers or legacy menu labels.
 
-## UAT
+The user stopped the long execution because it was disrupting momentum. Post-stop Pilot test/audit commits now exist through `c63442ea9ae44382b88f17fd0e01974cf5c6b469`; they remain unaccepted working state until M2.4.0 reconciliation.
 
-Required before closure:
+## Replanned UAT under CF-CHG-20260826-042
 
-- primary group order and labels are correct on desktop/mobile;
-- Layer 1 is visible as Data Operations, not Settings;
-- normal Layer 1 view does not display StatsCan dry-run or Reset Pilot database controls;
-- Layer 2, Layer 3, Layer 4, Evidence, Jobs/Runs and Onboarding open from Data Operations;
-- Scholarship Selection opens from Decision Tools;
-- Guides & Runbooks is visible and opens from primary navigation;
-- floating operational launchers are suppressed when equivalent primary navigation exists;
-- Insights retains QILT/PRISMS true contextual grain;
-- Sources/Attributes/Users & Roles retain their existing role boundaries;
-- existing M2.3 permanent browser, performance and release-notes suites remain green;
-- full deployed Chromium desktop/mobile matrix passes without weakened tests.
+CF-CHG-20260826-042 and A1–A6 now govern completion:
+
+1. M2.4.0 inventories stale/floating dependencies;
+2. shared primary-navigation test adapters replace distributed launch logic;
+3. targeted desktop/mobile navigation/workspace tests must PASS;
+4. affected Layer 1–4 integration/security/performance tests must PASS;
+5. only then is one SHA nominated for one complete deployed desktop/mobile matrix;
+6. this Change Control closes only on that accepted SHA.
+
+Permanent UAT must not depend on floating operational launchers.
 
 ## Rollback / reversion
 
-Revert the Go 7 navigation/guide/version/test commits. No database rollback is required. The accepted M2.3 runtime remains the semantic fallback.
+If M2.4.0 cannot produce an accepted integrated runtime, revert Go 7 navigation/guide/version changes to the last accepted M2.3 runtime. No database rollback is required.
 
-## Documentation impact
+## Documentation
 
-- PIM Admin Guide: update via visible in-product guide and maintained Data Operations guidance.
-- Architecture: no database architecture change.
-- Running build: update after deployed UAT PASS.
-- Master plan: M2.4 moves from planned/unblocked to active while this Change Control executes.
-- UAT/design docs: publish Admin Navigation IA v1.4 after accepted runtime.
-- Zoho contract: none.
+Already retained in working governance:
+
+- Admin Navigation IA v1.4;
+- M2.4 Data Operations Admin Guide v1.1;
+- Go 7 navigation/performance/content audit and screenshots;
+- M2 meeting progress record.
+
+Running Build must not declare Go 7 accepted until M2.4.0 final acceptance passes.
 
 ## Decision / status history
 
-| Timestamp | Status | Decision / event | Reference |
-|---|---|---|---|
-| 26 Aug 2026 12:23 AEST | APPROVED / IN PROGRESS | User authorised Go 7 streamlined menu, visible guides and Layer 1 relocation | Go 7 chat |
+| Timestamp | Status | Decision / event |
+|---|---|---|
+| 26 Aug 2026 12:23 AEST | APPROVED / IN PROGRESS | User authorised streamlined menu, visible guides and Layer 1 relocation. |
+| 26 Aug 2026 | UAT FAILED / INTEGRATION DEBT | Full matrix exposed stale permanent navigation selectors and floating-launcher dependency. |
+| 26 Aug 2026 18:00 AEST | ACCEPTANCE REBASE REQUIRED | User stopped long run; programme adopted A1–A6 and mandatory M2.4.0 cleanup before feature expansion. |
 
 ## Closure
 
-**Final status:** IN PROGRESS  
+**Final status:** ACCEPTANCE REBASE REQUIRED  
 **Closed at:** N/A  
-**Outcome:** Pending implementation and permanent deployed desktop/mobile UAT.
+**Outcome:** Working UI/navigation implemented; final acceptance deferred to M2.4.0 cleanup/integration checkpoint.
