@@ -1,92 +1,139 @@
 # CF-CHG-20260826-043 — M2.4.1 Layer 1 Regulatory Operations Maturity & Automation
 
-**Status:** APPLIED — ACTIVE UAT/IMPLEMENTATION  
+**Status:** CLOSED / PASS  
 **Category:** 20-layer1-regulatory-ingestion  
 **Initiated:** 26 August 2026 20:52 AEST (+10:00)  
-**Origin chat/workstream:** M2.4.1 — Layer 1 Regulatory Operations Maturity & Automation  
+**Closed:** 27 August 2026 04:18 AEST (+10:00)  
 **Owner:** M2.4.1 workstream  
 **Change class:** schema / ingestion / UI / security / operations / documentation
 
-## Trigger
+## Outcome
 
-Planned M2.4.1 gate after M2.4.0 CLOSED/PASS. The accepted Layer 1 workers are technically functional, but the normal operator workspace is not yet a production-shaped control plane for AU CRICOS and NZ NZQA.
+M2.4.1 is CLOSED/PASS. The accepted Layer 1 operating model for AU CRICOS and NZ NZQA is now production-shaped for Pilot operations while preserving Layer 1 regulatory authority, canonical identity, Evidence/provenance and existing security boundaries.
 
-## Problem / requested outcome
+The normal operator journey is:
 
-Provide a governed Layer 1 operating model for authoritative regulatory sources: source configuration/validation, expected-count and variance safety, governed queue/progress/reconciliation, Evidence/log drill-through, retry/resume/idempotency, schedules/rechecks, stale/stuck visibility and safe transient housekeeping.
+`Regulatory source → validate source → assess expected count/variance → queue/run → live progress/reconciliation → Evidence/Jobs drill-through → scheduled recheck → safe transient housekeeping`.
 
-## Affected surfaces / related workstreams
+## Accepted runtime
 
-- `pipeline.sources`, `pipeline.jobs`, `pipeline.evidence_artifacts` and additive Layer 1 operations objects.
-- AU CRICOS and NZ NZQA Layer 1 adapters/workers.
-- `public.admin_read` / private-security read/write helpers and browser-executable contracts.
-- `src/layer1-operations-entry.jsx`, `src/lib/supabase.js`, shared navigation/UAT adapters.
-- Evidence, Jobs/Runs, Data Quality immediate regression boundaries.
-- M2.4 runsheets, PIM Admin Guide, Operations Runbook, troubleshooting, release notes.
-- Related security/platform and UAT/release surfaces.
+Final accepted Pilot source / acceptance SHA:
 
-## Semantic impact
+`msinghbs-ai/Coursefinder-Pilot@ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`
 
-**No canonical identity or field-meaning change is authorised by this record.** AU CRICOS and NZ NZQA remain Layer 1 source/identity authorities according to their accepted contracts. Layer 2/3/4 and Search/Publication remain non-authoritative downstream consumers.
+Visible browser release: PIM Admin `v2.15.7`.
 
-The change adds operational control metadata, validation/queue/scheduling state and operator presentation. Source-null/zero/suppressed/not-applicable/not-yet-ingested semantics must remain unchanged.
+Final build and acceptance evidence:
 
-## Before
+- Pilot Frontend Build `32972106272` — PASS;
+- build job `98188036405` — PASS;
+- browser smoke `98188175754` — PASS;
+- deployed Stage C UAT `32972106291` — PASS;
+- deployed desktop/mobile job `98188037242` — PASS for both desktop and mobile stages.
 
-- `pipeline.sources` contains source URL/status/metadata and worker health fields.
-- Layer 1 workers create jobs and Evidence and retain source hashes/reconciliation.
-- Normal Layer 1 UI shows source registry health only.
-- No explicit authority-domain qualification, normalized expected-count variance policy, L1 schedule/pause profile, operator queue/idempotency contract or retained transient-housekeeping policy.
+## Implemented control plane
 
-## After
+- governed/versioned Layer 1 source-operations profiles;
+- approved authority domains, expected source format/count semantics, cadence and variance guardrails;
+- dynamic AU CRICOS source validation and active-course counting from source `Expired` semantics;
+- dynamic NZ NZQA authority/listing validation across UNI/POLLY/WANA/PTE/GTE;
+- rank >=4 read/validation authority and rank >=6 consequential configuration/execution/recovery authority;
+- one-active-run-per-source protection, idempotency, retry/resume linkage and resume cursor;
+- heartbeat/stuck detection, queue position, runtime and cumulative reconciliation counters;
+- explicit warning acknowledgement before APPLY and hard block on blocking variance;
+- hash-sensitive `no_change` path to avoid unnecessary ingestion;
+- scheduled non-destructive authoritative-source verification using short-lived one-time nonce execution;
+- paused-source exclusion and stale scheduled-dispatch recovery;
+- bounded Platform Admin recovery of genuinely stuck runs;
+- 30-day transient queue retention and daily housekeeping that cannot delete governed Evidence/source versions/canonical history;
+- normal Layer 1 UI sections: Source Health, Current / Next Job, Progress, Reconciliation, Evidence / Provenance, Schedule / Recheck and Blockers / Required Actions.
 
-- AU/NZ sources have governed, versioned operations profiles with authority/domain and expected-format contracts.
-- Source validation separates reachability from authority trust and records verification state/time.
-- Expected record count and prior accepted count support warning/block variance decisions before unattended APPLY.
-- Queue creation prevents unsafe duplicate/concurrent runs and supplies idempotency/resume state.
-- Normal Layer 1 UI exposes health, current/next job, progress, reconciliation, Evidence/provenance, schedule/recheck and required actions using progressive disclosure.
-- Housekeeping deletes only explicitly transient execution state and cannot delete governed Evidence/source versions/audit lineage.
+## Live authority/count proof
 
-## Source authority / evidence
+### Australia — CRICOS
 
-- Accepted Pilot baseline `msinghbs-ai/Coursefinder-Pilot@ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
-- AU source: CRICOS on data.gov.au with accepted discovery/resource contract.
-- NZ source: NZQA Education Organisations with accepted NZ Layer 1 identity contract.
-- M2.4.1 RUNSHEET gap matrix and retained Stage A/B/C evidence.
+- accepted comparison baseline: 26,648 active Courses;
+- live validation: 26,648 active, 90 expired, 26,738 total;
+- CKAN package/resource shape and CRICOS Course Code identity checks passed;
+- parser no longer relies on a hard-coded 26,648 assertion.
 
-## Implementation references
+### New Zealand — NZQA
 
-- Supabase migration(s): pending during active implementation.
-- Git repository/commit(s): Admin runsheet baseline `28eaef971846711588519fc6323085a67c51e619`; Pilot refs pending.
-- RPC/API objects: pending.
-- UI version: pending browser-facing release bump.
+- previous accepted comparison baseline: 409 providers;
+- live validation observed 411 unique provider IDs;
+- variance approximately 0.489%; decision PASS under the configured 5% warning / 20% block guardrails.
 
-## UAT
+## Operational proof
 
-A1–A7 model is mandatory: targeted validation → bounded integration → exactly one nominated full deployed desktop/mobile acceptance matrix. Security/advisor checks and role/rank/anonymous negatives are primary gates. Real representative AU/NZ runs are required where safe, with rollback-only/isolated paths for consequential actions.
+- concurrent second active source run rejected by the database one-active-source guard;
+- idempotency replay rejected;
+- retry/resume retained `retry_of` linkage and progressed the resume cursor;
+- reconciliation counters accumulated correctly across continuation batches;
+- simulated large AU count variance blocked APPLY;
+- paused NZ source produced no scheduled dispatch;
+- real NZ scheduled verification completed through the nonce path without canonical APPLY;
+- stale scheduled dispatch and stale regular run recovery were proven;
+- transient housekeeping removed eligible expired queue state while Evidence and retained source-operation versions remained unchanged.
 
-## Rollback / reversion
+## Security / performance
 
-Additive operations-profile/queue state is reversible independently of canonical tables. Browser changes can be reverted to the M2.4.0 Layer 1 shell. Any worker change must retain adapter-specific rollback and must not delete existing Evidence or accepted source versions.
+Final browser/data boundary:
 
-## Documentation impact
+- `anon`: no Layer 1 read/command/service-function/table access;
+- `authenticated`: governed public Admin bridges only, with server-side rank checks; no direct Layer 1 table/service-helper access;
+- `service_role`: service helpers/table access as required by workers/scheduler.
 
-- PIM Admin Guide: required.
-- Architecture: additive operations objects only unless later semantic review requires a version bump.
-- Running build: update only after exact acceptance SHA passes.
-- Master plan: update only at M2.4.1 closure.
-- UAT/design docs: required.
-- Zoho contract: no change.
+Final Supabase Security Advisor contains INFO-only observations and no new material M2.4.1 Critical/High/Warning finding.
+
+Final Performance Advisor contains no unindexed Layer 1 foreign key. Low-traffic Layer 1 indexes may report unused INFO and remain intentionally retained where they cover governed FK/drill-through paths.
+
+## Staged UAT
+
+The final accepted chain after correcting one stale permanent-test version pin was:
+
+- **Stage A targeted:** Pilot `721658a732c763892179250fee1c0268bd27051d`, run `32971449084` — PASS;
+- **Stage B bounded integration:** marker `98172a4f616291212253c23f16fe1ab633b9c34b`, run `32971584012` — desktop/mobile PASS;
+- **Stage C full acceptance:** `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`, run `32972106291` — desktop/mobile PASS.
+
+An earlier Stage C candidate `6de71a2576307ae28b46666538f4d9a4a6bf8ff7` / run `32970866977` was correctly rejected because two permanent Course Detail tests still hard-coded the previous visible release `v2.15.6`. Application/runtime behaviour was green; the stale test assertion was corrected without changing product/runtime semantics, and the full staged chain was restarted as required.
+
+## Repository/runtime reconciliation
+
+Pilot repository truth mirrors the deployed M2.4.1 migration chain through the final Layer 1 recovery/housekeeping metadata migration and subsequent accepted admin-read bridge reconciliation migration `20260826124452`.
+
+Deployed Edge sources are mirrored in Pilot:
+
+- `layer1-operations-control` — runtime `layer1-operations-control-v1.0.1`;
+- `layer1-operations-scheduled` — runtime `layer1-operations-scheduled-v1.0.0`.
+
+The final `public.admin_read` contract preserves the accepted Data Quality and Layer 2 dispatches while adding Layer 1 operations; the bridge reconciliation was directly and browser-regression tested before final acceptance.
+
+## Documentation
+
+Accepted documentation includes:
+
+- `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md`;
+- `docs/coursefinder-operations-runbook-v1.3.md`;
+- `docs/coursefinder-pim-admin-guide-v1.21.md`;
+- M2.4.1 runsheet/current-state/follow-up records;
+- PIM Admin v2.15.7 release notes.
+
+## Semantic / production boundary
+
+No canonical identity or field-meaning authority was transferred. AU CRICOS and NZ NZQA remain Layer 1 authorities; Layer 2/3/4 and Search/Publication remain downstream according to the accepted architecture.
+
+Production establishment/cutover, broad Publication and Zoho cutover are not authorised by this closure.
 
 ## Decision / status history
 
 | Timestamp | Status | Decision / event | Reference |
 |---|---|---|---|
 | 26 Aug 2026 20:52 AEST | PROPOSED | M2.4.1 initiated from accepted M2.4.0 checkpoint | workstream prompt |
-| 26 Aug 2026 21:xx AEST | APPLIED — ACTIVE UAT/IMPLEMENTATION | Reconciled actual Pilot/Supabase AU/NZ state and recorded gap matrix | `project-runsheets/milestone-2/m2.4/m2.4.1/RUNSHEET.md` |
+| 26 Aug 2026 | APPLIED — ACTIVE UAT/IMPLEMENTATION | AU/NZ control plane, scheduler, recovery, housekeeping, UI and documentation implemented | M2.4.1 runsheet |
+| 27 Aug 2026 04:18 AEST | CLOSED / PASS | Final frozen Stage C desktop/mobile acceptance PASS; advisors and runtime reconciliation complete | Pilot `ed41ea4d…`, run `32972106291` |
 
 ## Closure
 
-**Final status:** ACTIVE  
-**Closed at:** N/A  
-**Outcome:** Implementation/UAT in progress; M2.4.2 remains blocked from feature implementation until this record is CLOSED/PASS.
+**Final status:** CLOSED / PASS  
+**Closed at:** 27 August 2026 04:18 AEST (+10:00)  
+**Outcome:** M2.4.1 accepted. M2.4.2 may now begin under the standing M2 staged-UAT, security and change-control governance.
