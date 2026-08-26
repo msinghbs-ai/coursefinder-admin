@@ -1,101 +1,76 @@
 # CF-CHG-20260825-037 — Country / Provider / Course Onboarding Framework
 
-**Status:** APPROVED / IN PROGRESS — IMPLEMENTED IN PILOT; REPRESENTATIVE LIFECYCLE ACCEPTANCE REMAINS  
+**Status:** CLOSED / PASS  
 **Category:** 10-architecture-data-model  
 **Initiated:** 25 August 2026 22:13 AEST (+10:00)  
-**Last reconciled:** 26 August 2026 09:55 AEST (+10:00)  
+**Closed:** 26 August 2026 12:23 AEST (+10:00)  
 **Owner:** CourseFinder architecture / Data Operations
 
 ## Decision
 
-M2.3 requires a reusable Onboarding capability for Countries, regulatory sources, Providers and Courses rather than country-specific canonical forks.
+CourseFinder uses one reusable Country / Provider / Course onboarding framework and one shared canonical Provider/Course/Campus/Scholarship model. Source and country differences remain in source-native staging, Evidence, adapters/configuration and genuinely country-specific fact/extension tables. No country-specific canonical Provider/Course fork is authorised.
 
-The canonical architecture remains shared and country-neutral:
-
-- one shared Provider/Course/Campus/Scholarship model;
-- governed country/subdivision identity;
-- stable entity keys independent of adapter/provider implementation;
-- shared source/profile/provider/Evidence/job foundations;
-- source-native staging where source grain must be preserved;
-- extension/fact tables only for genuinely country-specific concepts;
-- adapters/Workers own source differences;
-- no separate canonical Provider/Course schema per country.
-
-Default database-extension preference remains:
+Default extension preference remains:
 
 `existing canonical field → existing fact/relationship table → generic extension/fact table → country-specific extension table → canonical change only when globally valid`.
 
-## Lifecycle
+## Implemented lifecycle
 
-Every Onboarding case supports:
+`Draft → Source Qualification → Adapter Assessment → Schema Assessment → L1 UAT → L2 UAT → L3 Ready → Operational Certification → Production Promotion Ready`
 
-`Draft → Source Qualification → Adapter Assessment → Schema Assessment → L1 UAT → L2 UAT → L3 Ready → Operational Certification → Production Promotion Ready`.
+Outcome state supports READY / CONDITIONAL / BLOCKED / PAUSED / REJECTED. Actor/time/reason/Change Control/UAT lineage is retained.
 
-Outcome state supports READY / CONDITIONAL / BLOCKED / PAUSED / REJECTED. Lifecycle decisions retain actor/time/reason/Change Control/UAT lineage and browser writes use rank-checked contracts rather than direct table CRUD.
+Deployed implementation is based on migration:
 
-## Reconciled deployed implementation
+`20260825202903_m2_3_onboarding_lifecycle_foundation`
 
-The earlier 06:37 AEST statement that no reusable Onboarding foundation existed is superseded by deployed migration:
+It provides private case/audit storage, rank-checked implementations, public SECURITY INVOKER browser contracts, stage/outcome validation, references to existing source/profile/provider/course/Evidence registries, adapter/schema decisions and the M2.3 Intelligence Onboarding workspace.
 
-`20260825202903_m2_3_onboarding_lifecycle_foundation`.
+## Representative acceptance
 
-Live Pilot contains:
+Rollback-only AU lifecycle UAT passed:
 
-- private `pipeline.onboarding_cases`;
-- private immutable lifecycle-event/audit structure;
-- rank-checked private implementations;
-- public SECURITY INVOKER browser contracts;
-- stage/outcome transition validation;
-- references to existing source/source-profile/provider/course/Evidence/governance identifiers rather than duplicate registries;
-- shared adapter/schema decision fields;
-- deployed M2.3 Intelligence **Onboarding** Admin workspace with case list/filter, lifecycle state, decision history and governed create/transition controls.
+- one representative case traversed all nine stages through `production_promotion_ready`;
+- invalid stage jump was rejected;
+- lifecycle outcome semantics were retained;
+- 10 immutable lifecycle/audit events were observed;
+- the case linked existing source/profile/provider/course/Evidence records rather than duplicate registries;
+- shared schema decision explicitly recorded `canonical_fork=false`;
+- curator/insufficient-rank case creation was denied;
+- anonymous access was denied;
+- authenticated direct access to private implementation/helpers was denied;
+- synthetic UAT state was rolled back and did not persist.
 
-Direct browser CRUD remains prohibited. The private tables have RLS enabled with no browser policy by design. Elevated helpers are not exposed to anon/authenticated.
+This proves Source Qualification precedes adapter/schema promotion and that L3 Ready/Operational Certification do not bypass Layer 1–4 authority.
 
-## Deployed browser evidence
+## Browser/runtime evidence
 
-Go 3 accepted runtime `e94383bd4fd3b5718566bc4bb1c19f8cf687de36` passed permanent desktop and mobile deployed acceptance. The M2.3 Intelligence test verifies:
+Final accepted Pilot runtime:
 
-- Onboarding workspace is reachable;
-- shared canonical lifecycle messaging is visible;
-- all nine lifecycle stages are exposed;
-- governed case creation is present.
+`msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`
 
-Evidence:
+- Frontend Build `32917685085` — PASS;
+- browser smoke — PASS;
+- deployed UAT `32917685022` — PASS;
+- desktop `98024710961` — PASS;
+- mobile `98024711090` — 29/29 PASS.
 
-- deployed UAT `32910110993` — PASS;
-- desktop `98002494209` — PASS;
-- mobile `98002494407` — PASS.
+Permanent M2.3 browser UAT verifies the Onboarding workspace, lifecycle stages, shared-canonical messaging and governed controls on desktop/mobile.
 
-Go 4 target `87da570d8e6701928e45d532caf11877b6eab369` retains the same Onboarding foundation while adding Layer 3 provider credential control; final Go 4 deployed regression is tracked in the M2.3 run sheet.
+## Security posture
 
-## Layer authority reconciliation
+Direct browser CRUD remains prohibited. Private tables retain RLS with no browser policy by design, elevated helpers remain non-executable by anon/authenticated, and public browser contracts remain SECURITY INVOKER.
 
-Onboarding `L3 Ready` means the case has the required source/Evidence/field profile and eligibility configuration to participate safely in the governed Layer 3 platform. It does not imply an external model can run and never bypasses the provider-profile credential/quality benchmark.
+Final Security Advisor posture is INFO-only with no WARN/ERROR.
 
-Provider/Course onboarding continues to prefer authoritative regulatory identity first. Canonical entities must not be manually invented merely to enable enrichment.
+## NZ expansion relationship
 
-## Environment / promotion boundary
+NZ first-party Layer 2 Course enrichment is not configured and is deferred to future NZ source qualification/onboarding. The accepted framework is the mechanism that must be used for that later expansion; the deferral does not require a country-specific schema fork.
 
-The same codebase, migrations, adapter framework and onboarding workflow are intended for Pilot/UAT and Production while preserving separate trust boundaries. UAT secrets, live jobs and Evidence objects are not promotion artifacts; accepted migration/config/adapter SHAs and governed promotion manifests are.
+## Rollback / reversion
 
-## Remaining acceptance
-
-Implementation is no longer the blocker. Before CF-CHG-037 can close, automated rollback-only evidence must exercise at least one representative case through the governed lifecycle boundary and prove:
-
-- transition validation and invalid-transition rejection;
-- outcome semantics;
-- immutable audit lineage;
-- anon/insufficient-rank/private-table/private-helper denial;
-- source qualification before adapter/ETL implementation;
-- no country-specific canonical fork;
-- links to the existing source/profile/provider/entity/Evidence registries;
-- representative L1/L2/L3-ready/operational-certification decisions without bypassing layer authority.
-
-Synthetic UAT state must be rolled back.
+Any lifecycle contract correction must be delivered through a forward migration and permanent UAT. Browser changes may be reverted at source SHA level. Existing immutable lifecycle history must not be rewritten during rollback.
 
 ## Acceptance
 
-**Gate: IN PROGRESS — IMPLEMENTED; REPRESENTATIVE LIFECYCLE ACCEPTANCE REMAINS.**
-
-M2.4 must not start until the complete M2.3 boundary is classified PASS, BLOCKED with accepted evidence, or explicitly DEFERRED.
+**CLOSED / PASS.** The reusable onboarding architecture, lifecycle implementation and representative negative/rollback acceptance are complete for M2.3.
