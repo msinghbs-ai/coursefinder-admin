@@ -8,7 +8,7 @@
 
 CourseFinder M2 work is split across short chats and sub-milestones. The detailed task prompt may change, but the operating rules must not disappear when a new chat starts or one issue consumes the context window.
 
-Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`.
+Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md` **and** `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`.
 
 ## Mandatory start-of-chat reconciliation
 
@@ -16,12 +16,13 @@ Before material work:
 
 1. read `PROJECT_INSTRUCTIONS.md`;
 2. read this `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`;
-3. read `change-control/README.md` and `change-control/REGISTER.md`;
-4. read the latest Master Project Plan and Running Build;
-5. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
-6. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
-7. read overlapping open/recent Change Controls;
-8. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
+3. read `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`;
+4. read `change-control/README.md` and `change-control/REGISTER.md`;
+5. read the latest Master Project Plan and Running Build;
+6. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
+7. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
+8. read overlapping open/recent Change Controls;
+9. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
 
 Repository/runtime truth takes precedence over stale chat text. Do not overwrite newer parallel work.
 
@@ -34,6 +35,7 @@ Repository/runtime truth takes precedence over stale chat text. Do not overwrite
 - Every material observable change requires Change Control and exact implementation/UAT/rollback references.
 - Maintain visible release notes/version when browser-facing behaviour changes.
 - Keep Admin/PIM guides, Operations Runbooks and milestone records current as part of the gate, not as optional cleanup.
+- Follow A1–A6 for test staging, primary navigation, shared test adapters, CI run control, UX/performance evidence and naming.
 
 ## Authority model that must not regress
 
@@ -68,6 +70,8 @@ No PASS with unexplained Critical/High findings. New WARN findings require expli
 
 ## Automated UAT standing matrix
 
+The following checks remain mandatory where applicable, but execution order is governed by A1: **targeted validation → bounded integration → one nominated full acceptance matrix**.
+
 Use applicable automated checks for:
 
 - database integrity and frozen invariants;
@@ -87,7 +91,7 @@ Use applicable automated checks for:
 - Search signal only after an accepted canonical change;
 - regression against accepted prior milestone state.
 
-Do not weaken tests or role boundaries merely to obtain a PASS.
+Do not repeatedly use the complete permanent desktop/mobile matrix as the active-development feedback loop. Do not weaken tests or role boundaries merely to obtain a PASS.
 
 ## Data operations / UI principles carried forward from M2.2+
 
@@ -106,7 +110,7 @@ Normal operator journeys should favour:
 - cost/credits/latency/storage where relevant;
 - progressive disclosure for diagnostics.
 
-Experimental/probe/reset/qualification controls must not dominate normal operations. Retain advanced controls only where governed and safely role-gated.
+Experimental/probe/reset/qualification controls must not dominate normal operations. Retain advanced controls only where governed and safely role-gated. Accepted operational features must use the primary navigation contract; permanent UAT must not depend on floating launchers or hidden Settings routes.
 
 ## Operational maturity standing requirements
 
