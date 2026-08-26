@@ -1,8 +1,9 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — M2.4.0 CLEANUP / INTEGRATION REBASE REQUIRED BEFORE FEATURE EXPANSION  
-**Updated:** 26 August 2026 18:00 AEST  
-**Active Change Controls:** CF-CHG-20260826-040, CF-CHG-20260826-042
+**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 NEXT FEATURE GATE  
+**Updated:** 26 August 2026 20:43 AEST (+10:00)  
+**Standing governance:** CF-CHG-20260826-042 / A1–A6  
+**Recently closed:** CF-CHG-20260826-040
 
 ## Accepted baseline
 
@@ -10,74 +11,63 @@
 - M2.1 CLOSED/PASS.
 - M2.2 CLOSED/PASS.
 - M2.3 CLOSED/PASS with NZ first-party Layer 2 expansion deferred.
-- Last fully accepted pre-M2.4 Pilot runtime: `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
+- **M2.4.0 CLOSED/PASS.**
+- Current accepted Pilot runtime: `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
+- Visible browser release: PIM Admin `v2.15.6`.
 
-## Go 7 working state
+Acceptance evidence:
 
-PIM Admin v2.15.6 streamlined information architecture is implemented in working source:
+- Frontend Build `32958795576` — PASS;
+- full deployed UAT `32958795547` — PASS;
+- desktop `98146317262` — PASS;
+- mobile `98146317373` — PASS.
 
-1. Overview;
-2. Catalogue;
-3. Data Operations;
-4. Insights;
-5. Quality & Review;
-6. Decision Tools;
-7. Governance & Platform;
-8. Help & Guides.
+## M2.4.0 outcome
 
-The navigation-specific Go 7 tests passed, but full deployed UAT on `eabb7d99f93acf6260c06b33c852ed4b0bb6fd8a` failed because inherited permanent suites still searched for removed `Layer 2 Operations` and floating `M2.3 Intelligence` launch paths. The failures accumulated approximately 45–50 second selector waits/retries across many tests, creating a long disruptive matrix.
+The Go 7 integration liability is closed:
 
-This is classified as **test/integration architecture liability**, not permission to restore floating launchers or legacy menu labels.
+- accepted primary information architecture remains `Overview → Catalogue → Data Operations → Insights → Quality & Review → Decision Tools → Governance & Platform → Help & Guides`;
+- permanent UAT no longer depends on obsolete `Layer 2 Operations` or floating launcher paths;
+- shared navigation adapters are established;
+- CI now uses targeted → bounded integration → one nominated full acceptance matrix;
+- UX/content/performance audit capture is separated from permanent functional acceptance;
+- Layer 1 normal operator entry is `Data Operations → Layer 1 — Regulatory`, while Platform Settings/destructive authority remains separately privileged;
+- the inherited first-load Course performance blocker was resolved without widening the 3,000 ms budget. Retained integration evidence measured first desktop `courses_page` at 1,985 ms.
 
-## Post-stop Pilot working tree
+No database DDL, canonical/source semantic change, role/rank weakening, Search/Publication change or private Evidence/Vault exposure was introduced by M2.4.0.
 
-The Pilot repository subsequently contains test/audit work through `c63442ea9ae44382b88f17fd0e01974cf5c6b469`, including shared-compatibility/navigation test changes and page-content audit work. These commits are **UNACCEPTED WORKING STATE** until M2.4.0 reconciles them. Do not assume their full deployed acceptance simply because they are on `main`.
+## M2.4 plan
 
-## Permanent execution correction
+1. **M2.4.0 — CLOSED / PASS** — Integration Cleanup, Test-Liability Removal & Acceptance Rebase.
+2. **M2.4.1 — NEXT / READY** — Layer 1 Regulatory Operations Maturity & Automation.
+3. M2.4.2 — PLANNED — Layer 2 Full Enrichment, Operations Maturity & Performance.
+4. M2.4.3 — PLANNED — Layer 3 AI Operations Maturity.
+5. M2.4.4 — PLANNED — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance.
 
-The programme now inherits:
+## M2.4.1 governing intent
 
-- `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`;
-- mandatory M2.4.0 cleanup gate;
-- targeted → integration → one nominated full acceptance matrix;
-- primary-navigation-only permanent UAT;
-- shared navigation/test adapters;
-- lightweight UX/performance evidence collection separate from full functional acceptance.
+M2.4.1 should simplify and production-shape Layer 1 operations for at least AU and NZ without reopening M2.4.0 navigation architecture. Priorities include:
 
-## Existing M2.4 plan preserved
+- clear operator source/profile configuration and source validation;
+- admin ability to enter/validate regulatory URLs or source endpoints where the source model permits;
+- source record-count discovery/variance checks before ingestion;
+- governed queue/job creation and duplicate/concurrent-run protection;
+- deterministic progress bars and processed/accepted/rejected/unchanged/failed counts;
+- job progress, logs and Evidence lineage one or two clicks away;
+- retry/resume, stuck-job/heartbeat visibility and safe cleanup;
+- scheduled rechecks/freshness monitoring and change/hash detection;
+- housekeeping that never deletes governed Evidence;
+- simplified normal operator UI with experimental/qualification/destructive controls quarantined;
+- current guides/runbooks/release notes and retained automated UAT evidence.
 
-After M2.4.0 PASS:
+## Carry-forward constraints
 
-1. M2.4.1 — Layer 1 Regulatory Operations Maturity & Automation;
-2. M2.4.2 — Layer 2 Full Enrichment, Operations Maturity & Performance;
-3. M2.4.3 — Layer 3 AI Operations Maturity;
-4. M2.4.4 — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance.
-
-M2.4.1/2 remain the core user-directed plan; they are delayed only until cleanup removes the integration liability.
-
-## Documentation/evidence already retained
-
-- Admin Navigation IA v1.4;
-- M2.4 Data Operations Admin Guide v1.1;
-- Go 7 performance/content audit and retained screenshots;
-- Milestone 2 meeting progress record;
-- M2 Standing Instructions;
-- A1–A6 execution addenda;
-- dedicated M2.4 prompt pack.
+- NZ first-party Layer 2 Course enrichment remains deferred; do not conflate it with accepted NZ Layer 1.
+- M2.4.1 must establish explicit AU/NZ source validation and record-count variance thresholds before unattended schedule enablement.
+- transient queue/job/nonce/temp cleanup must have a retained Evidence/log lifecycle.
+- provider/economics/full-enrichment work belongs primarily to M2.4.2.
+- broad Publication, Production establishment and Zoho cutover remain separate later gates.
 
 ## Immediate next gate
 
-Execute **M2.4.0 only**:
-
-1. reconcile all post-Go7 Pilot commits and latest CI state;
-2. inventory obsolete navigation/floating-launcher dependencies;
-3. introduce/finish shared navigation adapters;
-4. migrate permanent suites without weakening their functional/security assertions;
-5. remove/quarantine floating operational launchers from accepted architecture;
-6. run targeted desktop/mobile tests;
-7. run bounded affected integration suites;
-8. only then nominate one SHA for one full deployed desktop/mobile acceptance matrix;
-9. reconcile CF-CHG-040 and current governance to the accepted checkpoint;
-10. hand off to M2.4.1.
-
-Do not start new Layer 1/2 feature implementation and do not launch a full permanent matrix as the first next action.
+Open/read the M2.4.1 runsheet/prompt and reconcile current Pilot, deployed Supabase state, Layer 1 source/profile/job contracts, existing Guides and follow-ups before making new feature changes. Continue to use A1 staged validation; do not launch the complete permanent matrix as the first development feedback loop.
