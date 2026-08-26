@@ -4,7 +4,7 @@ Copy/paste the block below into the next CourseFinder chat.
 
 ---
 
-**M2.3 — CONTINUE FROM REPOSITORY RUN SHEET / OPENROUTER BENCHMARK HANDOFF**
+**M2.3 — FINAL GOVERNANCE CLOSURE FROM ACCEPTED GO 5 RUNTIME**
 
 Before doing any work, read `PROJECT_INSTRUCTIONS.md` in `msinghbs-ai/coursefinder-admin`, then read in full:
 
@@ -13,26 +13,38 @@ Before doing any work, read `PROJECT_INSTRUCTIONS.md` in `msinghbs-ai/coursefind
 - `project-runsheets/milestone-2/m2.3/CURRENT-STATE.md`
 - this `NEXT-CHAT.md`
 - CF-CHG-20260825-036, -037 and -038
+- current Change Control REGISTER
 - current Running Build
+- current Master Project Plan
 
 Treat current GitHub, deployed Supabase/runtime and CI/UAT as authoritative. Inherit newer parallel work; do not rely on stale chat history, SHAs or assumptions.
 
-Current Go 4 target is Pilot SHA `87da570d8e6701928e45d532caf11877b6eab369`, PIM Admin `v2.15.5`, M2.3 Intelligence `v1.2`. The UI includes terminal Layer 4 and a Platform-Admin-only **Layer 3 Provider** control that can store an OpenRouter API key in Supabase Vault and run bounded provider verification. Credential save/verification never unpauses the profile.
+Accepted Go 5 Pilot runtime is `260ed6a0d19b80ad666d74b90aa13e735e802a6a`, PIM Admin `v2.15.5`, M2.3 Intelligence `v1.2`.
 
-Proceed autonomously in dependency order:
+Acceptance evidence:
 
-1. Reconcile the final Frontend Build/browser-smoke/deployed desktop/mobile outcome for the current Pilot head. If a newer head exists, use the newer accepted head rather than this SHA.
-2. If the permanent Go 4 desktop/mobile matrix is not PASS, diagnose and correct the product/runtime without weakening acceptance tests, then rerun the matrix.
-3. Reconcile `openrouter-free-router-v1`. Until the authorised user has entered a credential through **Layer 3 Provider**, keep the profile PAUSED and classify real-provider work `BLOCKED — USER CREDENTIAL NOT YET CONFIGURED`.
-4. Once the user has entered the key and selected **Verify provider**, read only non-secret profile/audit state. Never request, echo, retrieve into chat or persist the credential itself.
-5. Require successful connectivity state `credential_verified_pending_benchmark`; the profile must still be PAUSED.
-6. Execute the bounded real-provider Layer 3 benchmark autonomously using governed retained Evidence. Cover valid extraction, no-candidate, malformed output, unsupported/hallucinated candidate rejection, unavailable provider/model, timeout, retry/RPM/day/cost ceilings, unchanged-Evidence zero-call, changed/expired/revalidation eligibility and fallback behaviour. Retain configured/returned model, profile, prompt/validator versions, token/cost/latency/result/quality/Evidence/UAT/Change Control lineage.
-7. Do not unpause/resume Layer 3 until benchmark PASS is explicit and governance permits it. If benchmark fails, leave PAUSED and record evidence.
-8. Complete CF-CHG-037 representative Onboarding lifecycle rollback/negative UAT, including invalid transitions, rank/anon/private-helper denial, audit lineage and no canonical country fork.
-9. Complete any remaining CF-CHG-036 production-grade Layer 1/2 source/scale/economics, guide/role-tour and authority-regression gates.
-10. Establish the complete M2.3 PASS/BLOCKED/DEFERRED classification. M2.4 remains blocked until this boundary is explicit.
-11. Update RUNSHEET, CURRENT-STATE, NEXT-CHAT, applicable Change Controls, Change Control REGISTER and Running Build to actual deployed truth before ending.
+- Frontend Build `32917685085` — PASS;
+- browser smoke — PASS;
+- Deployed UAT `32917685022` — PASS;
+- desktop `98024710961` — PASS;
+- mobile `98024711090` — 29/29 PASS.
 
-Automated UAT is the default. Do not ask the user to perform routine technical UAT that can be automated. The only expected manual action at this boundary is entering their OpenRouter API key in the secure Admin UI; do not ask them to paste it into chat.
+Do not regress to `3feae676ea311531fe5dc24f55fc7a4321d2ad4e`; that SHA had a real mobile collision where the Scholarship Selection launcher intercepted the PIM release-notes control. The repaired SHA moves the mobile launcher to the lower-right safe zone and passes the unchanged test.
+
+Layer 3 is now benchmark-approved and ACTIVE on `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`. Benchmark run `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` passed 5/5 provider semantic cases and 13/13 controls at USD 0 observed cost. The earlier `openrouter/free` router-wide configuration failed and is not the accepted model state.
+
+Representative CF-CHG-037 Onboarding rollback-only lifecycle/negative-path UAT is PASS. AU/NZ Layer 1 recovery evidence and representative AU Layer 2 scale/economics are reconciled. NZ first-party Layer 2 Course enrichment is not currently configured and must be explicitly DEFERRED to future NZ source qualification/onboarding rather than described as PASS.
+
+Proceed autonomously:
+
+1. Reconcile no newer Pilot/Admin/DB runtime supersedes the accepted Go 5 evidence.
+2. Update CF-CHG-20260825-036, -037 and -038 with the final Go 5 PASS evidence and the NZ Layer 2 DEFERRED boundary.
+3. Update Change Control REGISTER and Running Build to the accepted SHA/evidence.
+4. Establish and record M2.3 final classification: PASS for accepted Pilot/UAT scope, with NZ first-party Layer 2 expansion explicitly DEFERRED, unless newer evidence requires BLOCKED/FAIL.
+5. Update Master Project Plan / delivery-plan state if current governance requires the milestone transition.
+6. Only after M2.3 is formally closed may M2.4 start.
+7. Keep RUNSHEET, CURRENT-STATE and this handoff aligned to the final closed state.
+
+Automated UAT remains the default. Do not ask the user to repeat technical UAT already proven by the accepted matrix unless newer runtime changes invalidate it.
 
 ---
