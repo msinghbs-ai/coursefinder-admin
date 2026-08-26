@@ -1,6 +1,6 @@
 # Milestone 2.3 Run Sheet
 
-**Status:** ACTIVE  
+**Status:** CLOSED / PASS — NZ FIRST-PARTY L2 COURSE ENRICHMENT DEFERRED  
 **Milestone:** M2.3 — Production-Grade Data Operations, Complete Layers 1–4, Decision UX and Acceptance  
 **Primary Change Controls:** CF-CHG-20260825-036, CF-CHG-20260825-037, CF-CHG-20260825-038
 
@@ -107,3 +107,26 @@ This file is the append-only execution history for M2.3. It records meaningful e
 - Previously failing release-notes interaction passed in 2.8s; Scholarship Selection acceptance also passed.
 
 **Outcome:** PASS — mobile defect corrected in product code and the complete repaired Go 5 desktop/mobile deployed matrix is green. `260ed6a0d19b80ad666d74b90aa13e735e802a6a` is the accepted Go 5 Pilot runtime pending final M2.3 governance classification write.
+
+## 2026-08-26 12:23 AEST — Go 6 final governance closure
+
+**Intent:** Convert the accepted Go 5 technical state into the authoritative programme closure and remove the M2.4 blocker.
+
+**Reconciliation:**
+- No newer Pilot implementation superseded `260ed6a0d19b80ad666d74b90aa13e735e802a6a` before closure.
+- No newer parallel Admin governance commit superseded the Go 5 handoff before closure.
+- CF-CHG-20260825-036 closed PASS with NZ first-party Layer 2 Course enrichment explicitly DEFERRED.
+- CF-CHG-20260825-037 closed PASS after representative lifecycle/negative-path acceptance.
+- CF-CHG-20260825-038 closed PASS after credential verification, pinned-model real-provider benchmark and Layer 3/4 acceptance.
+- Change Control Register updated to final M2.3 truth.
+- Master Project Plan v1.72 published.
+- Running Build v2.73 published.
+- Current State rewritten to CLOSED/PASS.
+
+**Final classification:**
+- M2.3 accepted Pilot/UAT scope — **CLOSED / PASS**.
+- NZ first-party Layer 2 Course enrichment — **DEFERRED** to future NZ source qualification/onboarding.
+- M2.4 — **PLANNED / UNBLOCKED / NOT STARTED**.
+- Production establishment, broad Publication and Zoho cutover — not authorised by M2.3 closure.
+
+**Outcome:** PASS — M2.3 governance and technical state are aligned. This run sheet is closed; future optimisation work belongs to M2.4 rather than reopening M2.3.
