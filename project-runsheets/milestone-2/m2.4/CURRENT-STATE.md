@@ -1,8 +1,8 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — GO 7 STREAMLINED DATA OPERATIONS UI UNDER DEPLOYED UAT  
-**Updated:** 26 August 2026 12:50 AEST  
-**Active Change Control:** CF-CHG-20260826-040
+**Status:** ACTIVE — M2.4.0 CLEANUP / INTEGRATION REBASE REQUIRED BEFORE FEATURE EXPANSION  
+**Updated:** 26 August 2026 18:00 AEST  
+**Active Change Controls:** CF-CHG-20260826-040, CF-CHG-20260826-042
 
 ## Accepted baseline
 
@@ -10,15 +10,11 @@
 - M2.1 CLOSED/PASS.
 - M2.2 CLOSED/PASS.
 - M2.3 CLOSED/PASS with NZ first-party Layer 2 expansion deferred.
-- Pre-Go7 accepted Pilot: `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
+- Last fully accepted pre-M2.4 Pilot runtime: `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
 
-## Go 7 candidate
+## Go 7 working state
 
-Pilot SHA `304da33d57f66059d33feb098455f749e438aac1`.
-
-Visible release: PIM Admin `v2.15.6`.
-
-Implemented primary IA:
+PIM Admin v2.15.6 streamlined information architecture is implemented in working source:
 
 1. Overview;
 2. Catalogue;
@@ -29,37 +25,59 @@ Implemented primary IA:
 7. Governance & Platform;
 8. Help & Guides.
 
-Data Operations unifies Layer 1 Regulatory, Layer 2 Enrichment, Layer 3 AI Interpretation, Layer 4 Human Resolution, Evidence & Provenance, Jobs & Runs and Onboarding according to existing role/rank availability. Scholarship Selection is under Decision Tools. Sources/Attributes/Users & Roles remain Governance & Platform. Guides & Runbooks is visible in-product.
+The navigation-specific Go 7 tests passed, but full deployed UAT on `eabb7d99f93acf6260c06b33c852ed4b0bb6fd8a` failed because inherited permanent suites still searched for removed `Layer 2 Operations` and floating `M2.3 Intelligence` launch paths. The failures accumulated approximately 45–50 second selector waits/retries across many tests, creating a long disruptive matrix.
 
-Layer 1 no longer presents the normal operator journey as Settings. The normal Layer 1 view suppresses the separate StatsCan PSIS Layer 2A parser qualification and destructive Pilot reset controls. No underlying privilege or source-authority contract changed.
+This is classified as **test/integration architecture liability**, not permission to restore floating launchers or legacy menu labels.
 
-## Role visibility
+## Post-stop Pilot working tree
 
-Existing security remains authoritative. A lower-rank UAT identity will not see Platform-Admin-only Layer 1 or Users & Roles, and may not see operator-only Jobs & Runs. The Go 7 UAT therefore proves the correct lower-rank menu rather than lowering privileges to make all items visible. Platform Admin retains the additional governed entries.
+The Pilot repository subsequently contains test/audit work through `c63442ea9ae44382b88f17fd0e01974cf5c6b469`, including shared-compatibility/navigation test changes and page-content audit work. These commits are **UNACCEPTED WORKING STATE** until M2.4.0 reconciles them. Do not assume their full deployed acceptance simply because they are on `main`.
 
-## Documentation
+## Permanent execution correction
 
-- CF-CHG-20260826-040 open/in progress.
-- Admin Navigation IA v1.4 published.
-- Data Operations Admin Guide v1.1 published with the v2.15.6 navigation model.
-- v2.15.6 release notes maintained in-product.
+The programme now inherits:
 
-## CI/UAT
+- `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`;
+- mandatory M2.4.0 cleanup gate;
+- targeted → integration → one nominated full acceptance matrix;
+- primary-navigation-only permanent UAT;
+- shared navigation/test adapters;
+- lightweight UX/performance evidence collection separate from full functional acceptance.
 
-Frontend Build run `32923926233`:
-- build PASS;
-- browser smoke PASS.
+## Existing M2.4 plan preserved
 
-Deployed UAT run `32923926200`:
-- desktop executing;
-- mobile queued at this state write.
+After M2.4.0 PASS:
 
-Do not call Go 7 accepted until both deployed projects pass.
+1. M2.4.1 — Layer 1 Regulatory Operations Maturity & Automation;
+2. M2.4.2 — Layer 2 Full Enrichment, Operations Maturity & Performance;
+3. M2.4.3 — Layer 3 AI Operations Maturity;
+4. M2.4.4 — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance.
 
-## Next gate
+M2.4.1/2 remain the core user-directed plan; they are delayed only until cleanup removes the integration liability.
 
-1. obtain deployed desktop/mobile outcome;
-2. fix any real product/navigation regression without weakening acceptance;
-3. when both pass, close CF-CHG-040, update Change Control REGISTER and publish Running Build v2.74;
-4. transition M2.4 programme state to ACTIVE in the next versioned Master Project Plan if no newer parallel plan supersedes it;
-5. update RUNSHEET/CURRENT-STATE/NEXT-CHAT to accepted truth.
+## Documentation/evidence already retained
+
+- Admin Navigation IA v1.4;
+- M2.4 Data Operations Admin Guide v1.1;
+- Go 7 performance/content audit and retained screenshots;
+- Milestone 2 meeting progress record;
+- M2 Standing Instructions;
+- A1–A6 execution addenda;
+- dedicated M2.4 prompt pack.
+
+## Immediate next gate
+
+Execute **M2.4.0 only**:
+
+1. reconcile all post-Go7 Pilot commits and latest CI state;
+2. inventory obsolete navigation/floating-launcher dependencies;
+3. introduce/finish shared navigation adapters;
+4. migrate permanent suites without weakening their functional/security assertions;
+5. remove/quarantine floating operational launchers from accepted architecture;
+6. run targeted desktop/mobile tests;
+7. run bounded affected integration suites;
+8. only then nominate one SHA for one full deployed desktop/mobile acceptance matrix;
+9. reconcile CF-CHG-040 and current governance to the accepted checkpoint;
+10. hand off to M2.4.1.
+
+Do not start new Layer 1/2 feature implementation and do not launch a full permanent matrix as the first next action.
