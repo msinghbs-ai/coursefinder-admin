@@ -1,0 +1,54 @@
+{
+  "captured_from": {
+    "deployed_uat_run": 32924717797,
+    "pilot_sha": "eabb7d99f93acf6260c06b33c852ed4b0bb6fd8a",
+    "note": "Performance tests completed successfully. The run later failed inherited stale navigation selectors; these measurements themselves returned HTTP 200 and remained inside the accepted budgets."
+  },
+  "budgets": {
+    "rpc_ms": 3000,
+    "course_filter_payload_bytes": 350000,
+    "page_payload_bytes": 250000
+  },
+  "desktop": {
+    "core": [
+      {"operation":"providers_page","elapsed_ms":1470,"status":200,"payload_bytes":34198},
+      {"operation":"dashboard","elapsed_ms":354,"status":200,"payload_bytes":2553},
+      {"operation":"dashboard","elapsed_ms":998,"status":200,"payload_bytes":2553},
+      {"operation":"courses_page","elapsed_ms":2024,"status":200,"payload_bytes":80557},
+      {"operation":"course_filters","elapsed_ms":null,"status":200,"payload_bytes":257659},
+      {"operation":"campuses_page","elapsed_ms":449,"status":200,"payload_bytes":35417},
+      {"operation":"scholarships_page","elapsed_ms":335,"status":200,"payload_bytes":3428},
+      {"operation":"evidence_page","elapsed_ms":463,"status":200,"payload_bytes":50344},
+      {"operation":"data_quality_overview","elapsed_ms":389,"status":200,"payload_bytes":17174}
+    ],
+    "course_interactions": [
+      {"operation":"courses_page","elapsed_ms":957,"status":200,"payload_bytes":80557},
+      {"operation":"courses_page_exact_lookup","elapsed_ms":645,"status":200,"payload_bytes":1788},
+      {"operation":"course_detail","elapsed_ms":758,"status":200,"payload_bytes":15258},
+      {"operation":"courses_page","elapsed_ms":941,"status":200,"payload_bytes":80557},
+      {"operation":"courses_page","elapsed_ms":819,"status":200,"payload_bytes":80689},
+      {"operation":"courses_page","elapsed_ms":889,"status":200,"payload_bytes":80689}
+    ]
+  },
+  "mobile": {
+    "core": [
+      {"operation":"providers_page","elapsed_ms":1270,"status":200,"payload_bytes":34198},
+      {"operation":"dashboard","elapsed_ms":710,"status":200,"payload_bytes":2553},
+      {"operation":"dashboard","elapsed_ms":397,"status":200,"payload_bytes":2553},
+      {"operation":"courses_page","elapsed_ms":2164,"status":200,"payload_bytes":80557},
+      {"operation":"course_filters","elapsed_ms":null,"status":200,"payload_bytes":257659},
+      {"operation":"campuses_page","elapsed_ms":403,"status":200,"payload_bytes":35417},
+      {"operation":"scholarships_page","elapsed_ms":283,"status":200,"payload_bytes":3428},
+      {"operation":"evidence_page","elapsed_ms":452,"status":200,"payload_bytes":50344},
+      {"operation":"data_quality_overview","elapsed_ms":286,"status":200,"payload_bytes":17174}
+    ],
+    "course_interactions": [
+      {"operation":"courses_page","elapsed_ms":880,"status":200,"payload_bytes":80557},
+      {"operation":"courses_page_exact_lookup","elapsed_ms":618,"status":200,"payload_bytes":1788},
+      {"operation":"course_detail","elapsed_ms":724,"status":200,"payload_bytes":15258},
+      {"operation":"courses_page","elapsed_ms":936,"status":200,"payload_bytes":80557},
+      {"operation":"courses_page","elapsed_ms":885,"status":200,"payload_bytes":80689},
+      {"operation":"courses_page","elapsed_ms":850,"status":200,"payload_bytes":80689}
+    ]
+  }
+}
