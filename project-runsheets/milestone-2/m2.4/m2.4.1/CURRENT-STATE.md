@@ -1,119 +1,93 @@
 # M2.4.1 — Current State
 
-**Status:** ACTIVE — bounded Stage B integration in progress  
-**Change Control:** `CF-CHG-20260826-043`  
+**Status:** CLOSED / PASS  
+**Closed:** 27 August 2026 04:18 AEST (+10:00)  
+**Change Control:** `CF-CHG-20260826-043` — CLOSED/PASS  
 **Accepted starting Pilot:** `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`  
-**Frozen working Pilot:** `fcb77befb797e98f9369b33a79ab29a4950717ff`  
-**Stage B marker Pilot:** `69c21bab97cee34505787403af4f6065ddcd79f7`  
-**Final targeted UAT:** `32968177074` — PASS
+**Accepted final Pilot:** `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`  
+**Visible browser release:** PIM Admin `v2.15.7`
 
-## Implemented runtime
+## Accepted capability
 
-- Production-shaped AU/NZ Layer 1 operations workspace: Source Health, Current/Next Job, Progress, Reconciliation, Evidence/Provenance, Schedule/Recheck and Blockers/Required Actions.
-- Governed source authority/configuration with retained configuration versions, approved authority domains, expected source format/count semantics, cadence and variance guardrails.
-- Rank split: Pipeline Operator rank >=4 may read and validate a governed source; Platform Admin rank >=6 retains source configuration, dry-run/APPLY queueing, pause/resume, retry/resume and stale-run recovery.
-- AU CRICOS live validation dynamically checks CKAN package/resource shape and counts active Course rows from source `Expired` semantics rather than hard-coding the accepted baseline.
-- NZ NZQA live validation checks all five accepted tertiary organisation listing types and deduplicates stable provider IDs.
-- One-active-run-per-source queue guard, idempotency keys, heartbeat/stuck detection, resume cursor, cumulative reconciliation and no-change hash path.
-- Scheduled authoritative-source verification using the existing M2.3 refresh substrate and short-lived one-time nonce; scheduled verification is non-destructive and never silently APPLYs canonical data.
-- Scheduled dispatch timeout recovery after 30 minutes.
-- Platform Admin `recover_stuck` operation bounded to a genuinely running job whose heartbeat is older than 30 minutes.
-- Daily transient Layer 1 housekeeping at 03:17 UTC; only expired terminal queue state is eligible for deletion.
+Layer 1 Regulatory is now a production-shaped AU/NZ operating workspace with governed source configuration/validation, expected-count and variance safety, queue/progress/reconciliation, Evidence/Jobs drill-through, retry/resume/idempotency, scheduled non-destructive rechecks, stuck/stale handling and safe transient housekeeping.
 
-## Repository/runtime reconciliation
+Routine entry remains `Data Operations → Layer 1 — Regulatory`. Experimental/destructive controls remain outside the normal operator path.
 
-Pilot `96559a13c847330c78a0eb64101d94faa1936d76` mirrored the then-live nine M2.4.1 migrations and both deployed Edge sources into repository truth.
+## Accepted authority and counts
 
-Pilot `fcb77befb797e98f9369b33a79ab29a4950717ff` added and mirrored final migration `20260826121631_m2_4_1_layer1_recovery_housekeeping_metadata.sql`, explicit APPLY warning confirmation, source-config version, queue position/runtime and stuck recovery UI.
+### AU CRICOS
 
-Deployed Edge sources mirrored in Pilot:
+- live validation: 26,648 active, 90 expired, 26,738 total Course rows;
+- required CRICOS CKAN package/resources and Course Code identity passed;
+- active count derives from source `Expired` semantics and is not hard-coded.
 
-- `supabase/functions/layer1-operations-control/index.ts` — runtime `layer1-operations-control-v1.0.1`;
-- `supabase/functions/layer1-operations-scheduled/index.ts` — runtime `layer1-operations-scheduled-v1.0.0`.
+### NZ NZQA
 
-## Operational evidence
+- live validation: 411 unique providers across UNI/POLLY/WANA/PTE/GTE;
+- previous accepted baseline: 409;
+- variance approximately 0.489%; PASS under 5% warning / 20% block thresholds.
 
-### Real AU CRICOS validation
+## Accepted operational controls
 
-- accepted comparison baseline: 26,648 active CRICOS Course rows;
-- live validation: 26,648 active, 90 expired, 26,738 total rows;
-- authority/package/resource shape passed;
-- parser no longer relies on a hard-coded 26,648 assertion.
+- rank >=4 read and source-validation authority;
+- rank >=6 source configuration, dry-run/APPLY, pause/resume and recovery authority;
+- explicit warning acknowledgement before APPLY;
+- blocking variance prevents APPLY;
+- one active run per source;
+- idempotency/replay protection;
+- retry/resume linkage and cursor;
+- cumulative reconciliation counters;
+- heartbeat/stuck visibility and bounded `recover_stuck`;
+- hash-sensitive `no_change` path;
+- scheduled authoritative-source validation through one-time nonce without unattended canonical APPLY;
+- paused-source scheduler exclusion and stale-dispatch recovery;
+- 30-day transient queue retention and daily safe housekeeping preserving Evidence/source versions/canonical history.
 
-### Real NZ NZQA validation
+## Repository/runtime truth
 
-- previous accepted baseline remains 409 providers;
-- live source currently returns 411 unique providers across UNI/POLLY/WANA/PTE/GTE;
-- variance approximately 0.489%; decision PASS under initial 5% warning / 20% block thresholds.
+Pilot contains the deployed M2.4.1 migration/Edge chain, including the final `public.admin_read` bridge reconciliation migration `20260826124452`, which preserves accepted Data Quality and Layer 2 dispatches while adding Layer 1 operations.
 
-### Scheduled recheck
+Mirrored Edge runtimes:
 
-A real NZ scheduled verification request completed through the one-time nonce path in approximately six seconds, advanced next verification, recorded `completed_changed`, and did not APPLY canonical data.
+- `layer1-operations-control-v1.0.1`;
+- `layer1-operations-scheduled-v1.0.0`.
 
-### Queue / retry / resume / idempotency — rollback-safe proof
+## Security / performance
 
-- concurrent second active source run blocked by the unique one-active-source guard;
-- failed run retried with explicit `retry_of` linkage;
-- resume cursor progressed from 100 to 411;
-- reconciliation counters accumulated rather than reset;
-- duplicate idempotency replay was blocked;
-- transaction rollback left no test queue residue.
+Final Security Advisor: INFO-only observations; no new material M2.4.1 Critical/High/Warning finding.
 
-### Variance / pause / stuck guards — rollback-safe proof
+Final Performance Advisor: no unindexed Layer 1 foreign key. Low-traffic Layer 1 indexes may remain as unused INFO where required for governed FK/drill-through paths.
 
-- simulated AU count 1,000 versus 26,648 produced -96.2474% variance, `block`, and APPLY rejection;
-- paused NZ source produced zero scheduled requests;
-- scheduled request older than 30 minutes was automatically failed with a visible schedule error;
-- regular running NZ job with heartbeat 31 minutes old was successfully recovered through rank-6 `recover_stuck`, then rolled back.
+Accepted browser/data boundary:
 
-### Housekeeping — rollback-safe proof
+- anonymous users cannot execute Layer 1 read/command/table/service-helper paths;
+- authenticated users use governed public Admin bridges with independent rank checks;
+- service role retains worker/scheduler-only helper access.
 
-One expired terminal queue record was removed while Evidence remained 1,696 → 1,696 and retained source-operation versions remained 2 → 2.
+## Final UAT evidence
 
-## Security / performance evidence
+Final staged chain after correcting one obsolete permanent-test release pin:
 
-Final browser/data ACL reconciliation:
+- Stage A targeted: `721658a732c763892179250fee1c0268bd27051d`, run `32971449084` — PASS;
+- Stage B integration: `98172a4f616291212253c23f16fe1ab633b9c34b`, run `32971584012` — desktop/mobile PASS;
+- Stage C acceptance: `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`, run `32972106291` — desktop/mobile PASS;
+- final frontend build `32972106272` — PASS;
+- build job `98188036405` — PASS;
+- browser smoke `98188175754` — PASS;
+- deployed acceptance job `98188037242` — desktop/mobile PASS.
 
-- `anon`: no Layer 1 read/command/service-function/table access;
-- `authenticated`: public Admin read/command bridges only; no direct Layer 1 table or service-only helper access;
-- `service_role`: service helpers/table access as required;
-- rank is independently enforced inside security functions/Edge authority checks.
-
-Final Security Advisor after M2.4.1 database shape reports INFO-only `rls_enabled_no_policy` observations; no M2.4.1 Critical/High/Warning finding is present. Layer 1 tables deliberately use RLS with no browser policies/direct grants.
-
-Final Performance Advisor reports no unindexed Layer 1 foreign keys. Fresh/low-traffic Layer 1 indexes may appear as unused INFO, including `layer1_run_queue_actual_job_idx`; it is retained because it covers the actual-job FK/drill-through path.
-
-## UAT progression
-
-### Stage A — PASS
-
-Final frozen working candidate `fcb77befb797e98f9369b33a79ab29a4950717ff`:
-
-- deployed UAT `32968177074`: PASS;
-- targeted suite = Layer 1 only;
-- desktop only during development by A7 design;
-- includes real AU CRICOS and NZ NZQA authority/count validation and rank-4 UI authority assertions.
-
-### Stage B — ACTIVE
-
-Integration marker `69c21bab97cee34505787403af4f6065ddcd79f7` points to frozen working SHA `fcb77bef…`.
-
-Deployed integration run `32968310102` is executing the bounded desktop/mobile regression set covering Layer 1, Admin navigation, Data Quality, performance, screen-state persistence and release notes.
-
-No Pilot application/runtime change is authorised while this candidate is under evaluation. A substantive fix invalidates the candidate and requires Stage A → Stage B again.
+No threshold or authority/security contract was weakened to obtain PASS.
 
 ## Documentation
 
-Admin repo commit `09b20d1fe74b2b9a3ce3a36af98305a051fb3d14` published:
+Current accepted operational guidance:
 
-- Data Operations Admin Guide v1.2;
-- Operations Runbook v1.3;
-- PIM Admin Guide v1.21.
+- `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md`;
+- `docs/coursefinder-operations-runbook-v1.3.md`;
+- `docs/coursefinder-pim-admin-guide-v1.21.md`.
 
-These match the deployed M2.4.1 authority, validation, variance, scheduling, recovery, retry/resume and housekeeping behaviour.
+## Next gate
 
-## Current acceptance position
+M2.4.2 — Layer 2 Full Enrichment, Operations Maturity & Performance — is now authorised to begin under the standing M2 change-control/security/staged-UAT rules.
 
-Stage C is not yet authorised. Stage B must PASS first. If Stage B passes without code/runtime change, nominate one frozen acceptance marker and execute exactly one complete deployed desktop/mobile Stage C matrix.
-
-M2.4.2 remains blocked until M2.4.1 is formally CLOSED/PASS.
+NZ first-party Layer 2 Course enrichment remains separately DEFERRED pending future source qualification/onboarding. Production cutover, broad Publication and Zoho cutover remain later governed gates.
