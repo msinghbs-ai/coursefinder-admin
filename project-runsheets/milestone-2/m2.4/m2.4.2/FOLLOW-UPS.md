@@ -15,7 +15,7 @@
 | ID | Problem / decision | Evidence | Owner | Next action | Status |
 |---|---|---|---|---|---|
 | M242-FU-001 | Deployed Layer 2 operational run model is still trial-scale at milestone start: 1 batch / 3 items despite 103 provider attempts. | Start reconciliation 27 Aug 2026. | M2.4.2 | Mature orchestration/visibility before full-run claim. | ACTIVE |
-| M242-FU-002 | Ordered routing and terminal statuses are corrected; Direct-success stop and Firecrawl acquisition are proven, but controlled failure-triggered Direct → Firecrawl transition remains unproven. | Jobs `e5055e66-8711-4a24-a2c3-d926d681cc15` and `dd48db0c-db0d-4403-ba7f-de2a5482004c`; A9 UAT `33016596722`. | M2.4.2 | Add a bounded internal routing UAT that forces a safe Direct fallback condition without changing production authority, then prove next-provider fallback. | ACTIVE / PRE-BROAD-RUN GATE |
+| M242-FU-002 | Ordered routing, terminal states and controlled Direct → Firecrawl fallback are proven. | Job `cf96948e-9103-4afd-ad05-377df5ca267c`: Direct HTTP 404 attempt 1 → Firecrawl 200/succeeded attempt 2; temporary 404 fallback restored immediately. | M2.4.2 | Preserve route-order/fallback proof in Stage B/full-run evidence; test next-provider only if Firecrawl failure is observed or a safe bounded diagnostic is needed. | TARGETED PASS |
 | M242-FU-003 | Country / State / University scope resolution and routine-screen cleanup are implemented and targeted deployed UAT passes. | AU=1,072/3; VIC=690/2; QLD=404/2; RMIT=500/1; UAT `33016596722`. | M2.4.2 | Preserve in Stage B/mobile and full-run evidence; refine only from measured operator/runtime evidence. | TARGETED PASS / STAGE B OPEN |
 
 ## Rule
