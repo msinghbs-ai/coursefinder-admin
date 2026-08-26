@@ -1,84 +1,77 @@
 # CF-CHG-20260825-038 — M2.3 Layer 3/4 Launch, Refresh Intelligence & Important Dates
 
-**Status:** APPROVED / IN PROGRESS — UI/RUNTIME LAUNCHED; REAL-PROVIDER BENCHMARK PENDING USER CREDENTIAL  
+**Status:** CLOSED / PASS  
 **Category:** 00-governance-programme  
 **Initiated:** 25 August 2026 22:26 AEST (+10:00)  
-**Last reconciled:** 26 August 2026 09:55 AEST (+10:00)  
+**Closed:** 26 August 2026 12:23 AEST (+10:00)  
 **Owner:** CourseFinder programme / Data Operations
 
 ## Decision and authority boundary
 
-M2.3 operationalises governed Layer 3 AI Interpretation and terminal Layer 4 Human Resolution together with bounded refresh intelligence, Important Links and Important Dates.
+M2.3 operationalises governed Layer 3 AI Interpretation and terminal Layer 4 Human Resolution together with bounded Refresh, Important Links and Important Dates.
 
 `Layer 1 authoritative/regulatory → Layer 2 deterministic acquisition/extraction → Layer 3 AI-assisted Evidence interpretation → Layer 4 human resolution`.
 
-Layer 4 is terminal. Search Projection, Search Visibility and Publication remain downstream states. Layer 3 cannot mutate Layer 1 identity or canonical Course values directly.
+Layer 4 remains terminal. Search Projection, Search Visibility and Publication remain downstream. Layer 3 cannot directly mutate Layer 1 identity or canonical Course values.
 
-## Layer 3 provider operating contract
+## Accepted Layer 3 provider state
 
-The deployed `openrouter-free-router-v1` profile remains:
+Profile code remains `openrouter-free-router-v1`, but the router-wide `openrouter/free` model selection is explicitly **not accepted** because its first quality benchmark failed through nondeterministic free-model routing.
 
-- aggregator `openrouter`;
-- endpoint `https://openrouter.ai/api/v1`;
-- configured model `openrouter/free`;
-- enabled `true`;
-- paused `true`;
-- current validation state `pending_credentials_and_benchmark`;
-- requests/minute 20;
-- requests/day 50;
-- max input/output 12,000 / 1,200 tokens;
-- retry ceiling 1;
-- timeout 30 seconds;
-- initial cost ceiling USD 0.
+Accepted configured model:
 
-### Governed credential path — implemented
+`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`
 
-Go 4 removes the previous tooling limitation that prevented an authorised credential from being configured/verifiably managed through CourseFinder Admin.
+Current governed state:
 
-Applied migrations:
+- aggregator: OpenRouter;
+- enabled: true;
+- paused: false;
+- validation state: `benchmark_passed`;
+- requests/minute: 20;
+- requests/day: 50;
+- max input/output: 12,000 / 1,200 tokens;
+- retry ceiling: 1;
+- timeout: 30 seconds;
+- initial cost ceiling: USD 0.
 
-- `20260825234756_m2_3_layer3_vault_credential_bridge`;
-- `20260825234817_m2_3_layer3_provider_validation_audit`.
+## Credential architecture
 
-The browser now exposes a Platform-Admin-only **Layer 3 Provider** workspace. The operator can select the governed OpenRouter profile, enter an API key in a password input and provide a mandatory reason. The key is submitted once to the JWT-protected Edge control and is not returned to the browser or persisted in browser storage.
+The Platform-Admin-only **Layer 3 Provider** workspace writes the API key once through a JWT-protected rank-6 Edge control to Supabase Vault. The key is never returned to the browser or stored in browser/localStorage. Only non-secret configured/verified state and audit metadata are returned.
 
-Server-side handling:
+Public credential service wrappers remain SECURITY INVOKER and service-role-only. Private elevated helpers are not executable by anon/authenticated. Browser roles have no direct Vault table grants.
 
-- credential is stored/replaced in Supabase Vault;
-- only non-secret configured/updated state is returned to Admin;
-- credential writes and verification are immutably audit-recorded without storing the secret in the audit table;
-- public service wrappers are SECURITY INVOKER and service-role-only;
-- private SECURITY DEFINER helpers are non-executable by anon/authenticated;
-- browser roles have no direct Vault table grants;
-- setting or verifying a credential always leaves the profile PAUSED.
+`layer3-interpret` resolves the existing environment secret first and the governed Vault credential second while retaining zero-call, rate/day/token/retry/timeout/cost and deterministic-validation controls.
 
-Current Vault credential state at reconciliation: **not configured**. No credential has been fabricated or inferred.
+## Real-provider benchmark evidence
 
-### Edge runtime
+Credential verification succeeded before quality acceptance. The initial router-wide configuration then failed the quality benchmark and remained unaccepted.
 
-`layer3-provider-control`:
+After pinning the model, benchmark run:
 
-- ID `4f380c4e-d5da-49dd-ad00-73a6486930a9`;
-- version 1;
-- ACTIVE;
-- `verify_jwt=true`;
-- deployed SHA-256 `4dbbcbb36fc6a0936c83f2d386cdb46a1892b3571d539292bc8fcdd18c61d2d5`.
+`a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407`
 
-It requires effective Platform Admin rank 6. `set_credential` stores the Vault secret; `verify_credential` makes one bounded connectivity call using the configured profile and records the returned provider model/result. Verification is not the quality benchmark.
+passed:
 
-`layer3-interpret`:
+- 5/5 provider semantic cases;
+- 13/13 control cases;
+- valid extraction;
+- no-candidate handling;
+- malformed/unsupported/hallucinated candidate rejection;
+- unavailable-model rejection;
+- unchanged-Evidence zero-call;
+- changed/expired/revalidation eligibility;
+- retry/RPM/day/timeout/cost controls;
+- no silent fallback;
+- observed cost USD 0;
+- maximum observed provider latency 2.811 s;
+- 315 input / 462 output tokens.
 
-- ID `33dd7564-990a-4b15-a884-35ac609c2258`;
-- version 2;
-- ACTIVE;
-- `verify_jwt=true`;
-- deployed SHA-256 `c0fad5ef9e9fd282eab3735cc180c80456b1ef4b709e2b7d6d1d97523c7d22bf`.
+Only after this explicit PASS was the profile resumed. The one-time unauthenticated benchmark trigger was removed and the retained benchmark endpoint is JWT-protected and returns HTTP 410.
 
-It preserves the original environment-secret path first and then resolves the governed Vault credential. Existing eligibility, unchanged-Evidence zero-call, RPM/day/token/retry/timeout/cost ceilings, deterministic validation and Layer 4-only escalation remain intact.
+## Layer 4 acceptance
 
-## Layer 4 — deployed operational workspace
-
-`security.layer4_course_scalar_resolve_impl` remains the only canonical Course scalar authority. The browser/runtime exposes all six terminal actions:
+All six terminal actions passed rollback-only UAT:
 
 1. Approve;
 2. Edit and Approve;
@@ -87,47 +80,51 @@ It preserves the original environment-secret path first and then resolves the go
 5. Return to Layer 2;
 6. Return to Layer 3.
 
-The current M2.3 Intelligence Layer 4 tab includes status/field filtering, before/proposed values, Evidence/L2/L3 references, mandatory decision reason, edited final JSON value where applicable and the governed `layer4_review_context` package including Evidence source, configured/returned L3 model, validator/token/cost context and decision history. Search-refresh signalling remains downstream of successful canonical approve/edit-and-approve only.
+Approve/Edit-and-Approve created Search refresh signals only after accepted canonical change. Reject created no Search signal. More Evidence/Return L2/Return L3 created only bounded refresh/revalidation work and did not imply canonical acceptance.
+
+The browser exposes status/field filtering, before/proposed values, Evidence/L2/L3 lineage, configured/returned model context, validator/token/cost context, decision history, reason capture and edited final JSON value where applicable.
 
 ## Refresh / Important Links / Important Dates
 
-Refresh remains source/profile/entity bounded. The scheduler continues to select bounded work only and does not itself perform uncontrolled ingestion/model calls/human approval/Search publication.
+Refresh remains source/profile/entity bounded and cannot independently perform uncontrolled ingestion/model calls/human approval/Search publication.
 
-Important Dates Admin uses the source-precision contract and deployed UAT verifies date-only values `2026-11-30` and `2027-02-22`, source-vague handling, no manufactured timestamps and country-reference no-ingestion semantics.
+Important Dates preserve source precision. Permanent UAT verifies exact date-only values, source-vague handling, no manufactured timestamps and country-reference no-ingestion semantics.
 
-## Onboarding integration
+Important Links remains an operational directory and does not become semantic authority.
 
-The M2.3 Intelligence workspace includes the reusable Country / Provider / Course Onboarding lifecycle implemented under CF-CHG-20260825-037. Layer 3 Ready means eligibility/configuration readiness only and never bypasses the provider benchmark.
+## Accepted browser/runtime evidence
 
-## Security / performance reconciliation
+Final Pilot source:
 
-Post-Go-4 Security Advisor: **INFO-only**. No WARN/ERROR. The new private credential audit table has RLS enabled with no browser policy by design. Advisor reference for that baseline class: https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy
-
-Post-Go-4 Performance Advisor: **INFO-only**. Existing unindexed-FK/unused-index/Auth connection-strategy observations remain programme backlog; the new credential bridge adds no acceptance-level performance finding. References: https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys and https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index
-
-## Browser release / acceptance target
+`msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`
 
 Visible release:
 
 - PIM Admin `v2.15.5`;
 - M2.3 Intelligence `v1.2`.
 
-Go 3 fully accepted runtime remains `e94383bd4fd3b5718566bc4bb1c19f8cf687de36`, build `32910110978` PASS, deployed UAT `32910110993` PASS, desktop `98002494209` PASS and mobile `98002494407` PASS.
+Evidence:
 
-Go 4 acceptance target is `87da570d8e6701928e45d532caf11877b6eab369`. Frontend build is PASS; browser smoke and final deployed desktop/mobile UAT were executing at this reconciliation write and must be updated to final outcome before this SHA is called deployed-accepted.
+- Frontend Build `32917685085` — PASS;
+- browser smoke — PASS;
+- Deployed UAT `32917685022` — PASS;
+- desktop `98024710961` — PASS;
+- mobile `98024711090` — 29/29 PASS.
 
-## Real-provider benchmark gate
+## Security / performance
 
-Once the authorised Platform Admin enters the OpenRouter API key in **Layer 3 Provider** and selects **Verify provider**:
+Final Security Advisor: INFO-only; no WARN/ERROR.
 
-1. confirm profile state becomes `credential_verified_pending_benchmark` if connectivity succeeds;
-2. keep the profile PAUSED;
-3. execute the bounded benchmark covering valid extraction, no-candidate, malformed output, unsupported/hallucinated candidate rejection, unavailable provider/model, timeout/retry/RPM/day/cost ceilings, unchanged-Evidence zero-call, changed/expired/revalidation eligibility and fallback behaviour;
-4. persist configured and returned model, profile, prompt/validator versions, token/cost/latency/result/quality/Evidence/UAT/Change Control lineage;
-5. only then decide whether resume is authorised.
+Final Performance Advisor: INFO-only; remaining unindexed-FK/unused-index/Auth connection-strategy notices are backlog. The benchmark-job profile FK introduced during Go 5 was indexed before closure.
 
-**Current provider gate: BLOCKED — USER CREDENTIAL NOT YET CONFIGURED / QUALITY BENCHMARK NOT RUN.**
+## Rollback / reversion
+
+- If Layer 3 provider/model quality regresses, pause the profile immediately before further calls.
+- Provider/model changes require governed revalidation/benchmark before resume.
+- Browser regressions may be reverted at source SHA level and must pass permanent deployed UAT.
+- Database contract corrections use forward migrations; historical deployed migration files are not rewritten.
+- Layer 4 canonical authority and downstream Search gating cannot be bypassed by rollback.
 
 ## Acceptance
 
-This Change Control is not closed solely by launching the UI. The noncredential Layer 3/Layer 4/refresh/Admin foundations are implemented and under permanent deployed regression. Real-provider execution remains blocked until the user supplies the authorised credential and the quality benchmark passes. M2.4 does not begin before the complete M2.3 acceptance boundary is established.
+**CLOSED / PASS.** The credential gate, real-provider benchmark, Layer 3 execution boundary, terminal Layer 4 actions, Refresh, Important Links/Dates, security and deployed desktop/mobile regression have all met the accepted M2.3 Pilot/UAT gate.
