@@ -15,7 +15,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 NEXT / READY.** Current accepted Pilot SHA `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272` PASS; Stage C deployed UAT `32972106291` desktop/mobile PASS. CF-CHG-043 is CLOSED/PASS. A1–A7 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
+> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 ACTIVE / FULL-RUN EVIDENCE IN PROGRESS.** M2.4.1 remains the last accepted milestone baseline at Pilot SHA `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272` PASS; Stage C deployed UAT `32972106291` desktop/mobile PASS. CF-CHG-044 is ACTIVE. UQ full deterministic discovery/enrichment/canonical apply has passed for 153 governed Courses with 3 explicit Layer 3 exceptions; RMIT broad discovery and Federation source-limited completion remain open. A1–A7 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
 >
 > **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates.
 
@@ -64,6 +64,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-041 | 00-governance-programme | Restore M2.2+ Standing Cross-Chat Instruction Contract | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-041-m2-standing-instructions-restoration.md` |
 | CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
+| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | ACTIVE — FULL-RUN EVIDENCE IN PROGRESS | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
 
 ## Current programme baseline
 
@@ -76,7 +77,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Layer 1 operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md` plus Operations Runbook v1.3 and PIM Admin Guide v1.21;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A7;
-- M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 NEXT, then M2.4.3 and M2.4.4.
+- M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 ACTIVE, then M2.4.3 and M2.4.4.
 
 ## Accepted runtime/source authority
 
@@ -102,4 +103,4 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Next gate boundary
 
-Proceed to M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance. Reconcile current Pilot/deployed Supabase Layer 2 source profiles, provider routes, jobs, Evidence, queues and current browser operations before changing anything. Preserve accepted Layer 1 authority/security/operations contracts and use targeted → bounded integration → one nominated full desktop/mobile acceptance matrix. Production cutover, broad Publication and Zoho cutover remain later gates.
+Continue M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance from CF-CHG-044 and the M2.4.2 runsheet/current-state. Reconcile current Pilot/deployed Supabase Layer 2 source profiles, provider routes, jobs, Evidence, queues and current browser operations before each acceptance step. Preserve accepted Layer 1 authority/security/operations contracts and use targeted → bounded integration → one nominated full desktop/mobile acceptance matrix. Production cutover, broad Publication and Zoho cutover remain later gates.
