@@ -17,7 +17,8 @@
 ### Platform Admin
 - Own role/access administration, platform configuration and approved operational controls.
 - May inspect all M2.3 operational surfaces but must not bypass Layer authority, private-helper ACLs, model-profile validation or Publication governance.
-- A PAUSED Layer 3 model profile stays PAUSED until the provider benchmark is explicitly PASS.
+- May use **OpenRouter API Key** to save/rotate the provider credential through the write-only Supabase Vault boundary and run the bounded provider verification check.
+- Saving or verifying a credential never grants benchmark authority by itself. A PAUSED Layer 3 profile stays PAUSED until the real-provider quality benchmark is explicitly PASS.
 
 ### Pipeline Operator
 - Operates acquisition/provider profiles, bounded refresh, onboarding and model-profile operational state where rank permits.
@@ -45,11 +46,15 @@ A failed provider attempt must retain deterministic attempt/status evidence; ret
 
 Layer 3 is Evidence interpretation only. It cannot directly mutate canonical Course values or publish to Search.
 
-The current OpenRouter profile remains **PAUSED** until the authorised server credential is verified and the bounded real-provider benchmark passes. Do not bypass the pause.
+The accepted Pilot profile is `openrouter-free-router-v1`, pinned to `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`. It is ACTIVE only because the governed Go 5 real-provider quality benchmark passed. The prior router-wide `openrouter/free` configuration was rejected after benchmark evidence showed model switching and a semantic extraction failure.
+
+The accepted benchmark proves valid extraction, no-candidate/hallucination guards, exact URL extraction, unavailable-model rejection, malformed/unsupported-result rejection, zero-call unchanged Evidence, changed/expired/revalidation eligibility, request/day/retry/timeout/cost ceilings and no silent fallback. The accepted benchmark run is retained in private benchmark lineage.
 
 Eligibility is evaluated before a provider call. Identical still-fresh Evidence returns a zero-call result. Explicit governed revalidation, changed Evidence or expired interpretation can create provider-call eligibility subject to rate/day/token/retry/timeout/cost controls.
 
-Credentials are server-only. The deployed Edge function requires JWT. Returned model output remains untrusted until deterministic validation passes.
+Credentials are server-only. Platform Admin credential entry is write-only to Supabase Vault; browser code cannot read the key. `layer3-interpret` resolves the approved credential server-side and remains JWT protected. Returned model output remains untrusted until deterministic validation passes.
+
+If the credential, pinned model, provider trust boundary, prompt/validator contract or relevant cost/rate controls materially change, do not assume the existing benchmark remains valid. Pause/revalidate/rebenchmark under Change Control before relying on the changed profile for governed interpretation.
 
 ## 5. Layer 4 terminal review
 
@@ -92,7 +97,7 @@ Outcomes are READY, CONDITIONAL, BLOCKED, PAUSED or REJECTED.
 
 Onboarding must reuse the shared canonical Provider/Course/Campus/Scholarship architecture. Do not create a country-specific canonical fork. Source/adaptor differences belong in source-native staging, adapters, configuration or genuinely country-specific extension facts.
 
-Lifecycle transitions are rank-checked server operations with immutable actor/time/reason lineage.
+Lifecycle transitions are rank-checked server operations with immutable actor/time/reason lineage. M2.3 rollback acceptance exercised the complete nine-stage lifecycle against an existing AU source/profile/provider/course/Evidence chain, including invalid-transition rejection and direct/private access denial.
 
 ## 8. QILT and PRISMS decision context
 
@@ -124,4 +129,4 @@ Production cutover and broad Publication authority remain outside this Pilot/UAT
 
 A surface is accepted only when database/API/security/deployed-browser UAT is PASS or the exact residual item is explicitly DEFERRED/BLOCKED with evidence.
 
-The current non-routine blocker is the real Layer 3 provider credential/benchmark gate. The model profile must remain PAUSED until that benchmark is explicitly PASS.
+The Go 5 Layer 3 credential and real-provider benchmark blocker is cleared. The accepted profile is benchmark-passed and ACTIVE in Pilot. Any material provider/model/credential-contract change reopens the relevant verification/benchmark gate; it must not be inferred safe from the current PASS.
