@@ -1,113 +1,103 @@
 # CF-CHG-20260825-036 — M2.3 Production-Grade Data Operations, Scale Enrichment & Decision UX
 
-**Status:** APPROVED / IN PROGRESS — CORE PILOT UX/RUNTIME IMPLEMENTED; FINAL ACCEPTANCE CLASSIFICATION REMAINS  
+**Status:** CLOSED / PASS — ACCEPTED PILOT/UAT SCOPE; NZ FIRST-PARTY L2 COURSE ENRICHMENT DEFERRED  
 **Category:** 00-governance-programme  
 **Initiated:** 25 August 2026 21:26 AEST (+10:00)  
 **Scope expanded:** 25 August 2026 22:13 AEST (+10:00)  
-**Last reconciled:** 26 August 2026 09:55 AEST (+10:00)  
+**Closed:** 26 August 2026 12:23 AEST (+10:00)  
 **Owner:** CourseFinder programme / Data Operations
 
-## Core milestone outcome
+## Outcome
 
-M2.3 is the production-grade Layers 1–4 Data Operations gate in Pilot/UAT. It does not create the separate Production environment or grant broad Publication authority.
+M2.3 production-grade Data Operations is accepted in Pilot/UAT for the governed Layers 1–4 operating model:
 
 `Layer 1 authoritative/regulatory → Layer 2 deterministic acquisition/extraction → Layer 3 AI-assisted Evidence interpretation → Layer 4 human resolution`.
 
-Layer 4 is terminal. Search/Publication remain downstream states.
+Layer 4 remains terminal. Search/Publication remain downstream and broad Publication/Production cutover are not authorised by this closure.
 
-## Current reconciled implementation
+## Accepted implementation
 
-The earlier 06:36 AEST partial-implementation record is superseded by Go 3/Go 4 runtime reconciliation.
+The accepted Pilot includes:
 
-Implemented and deployed in Pilot include:
+- AU CRICOS and NZ NZQA Layer 1 operational/recovery evidence with bounded retry/resume behaviour;
+- shared Layer 2 source/profile/provider/Evidence/job foundations and representative AU scale/economics UAT;
+- Firecrawl paid entitlement recorded as 5,000 pages/month with 250-page reserve and no silent paid fallback;
+- governed Layer 3 provider profile, Vault-backed credential control, deterministic validation and zero-call/revalidation controls under CF-CHG-20260825-038;
+- terminal Layer 4 queue and all six governed actions with Search refresh only after accepted canonical change;
+- reusable Country / Provider / Course Onboarding under CF-CHG-20260825-037;
+- source-precise Important Dates, bounded Refresh and Important Links;
+- QILT/PRISMS decision context at their correct non-Course grains;
+- Scholarship Selection with SOURCE FACT / DERIVED SCORE / MISSING-UNRESOLVED separation and no eligibility inference;
+- role-specific M2.3 Data Operations guide;
+- permanent deployed desktop/mobile regression across Data Quality, Layer 2, Course Detail, M2.3 Intelligence, Layer 3 provider control, Scholarship Selection, release notes, performance and screen-state persistence.
 
-- production-oriented Layer 1/Layer 2 execution and Evidence controls including bounded batch/retry/resume foundations;
-- Firecrawl monthly budget guard for the user-confirmed 5,000 pages/month entitlement;
-- Layer 3 profile/runtime under CF-CHG-20260825-038;
-- terminal Layer 4 workspace with all six governed actions and detailed review context;
-- reusable Country / Provider / Course Onboarding foundation and Admin workspace under CF-CHG-20260825-037;
-- source-precise Important Dates and bounded refresh intelligence;
-- Important Links directory;
-- Scholarship Selection with explicit source-fact / derived-score / missing-unresolved semantics;
-- PIM Admin release-note history;
-- permanent deployed desktop/mobile regression across Data Quality, performance, Layer 2, Course Detail, M2.3 Intelligence and Scholarship Selection.
+## Final accepted runtime
 
-Go 4 adds the Platform-Admin-only Layer 3 Provider credential workflow using Supabase Vault without changing Layer 1, Layer 2, Layer 4 or Publication authority.
+Pilot source:
 
-## Runtime checkpoints
+`msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`
 
-### Go 3 accepted baseline
+Visible release:
 
-Pilot SHA `e94383bd4fd3b5718566bc4bb1c19f8cf687de36`:
+- PIM Admin `v2.15.5`;
+- M2.3 Intelligence `v1.2`.
 
-- Frontend Build `32910110978` — PASS;
-- Deployed UAT `32910110993` — PASS;
-- desktop `98002494209` — PASS;
-- mobile `98002494407` — PASS.
+Evidence:
 
-The desktop Evidence test recorded one transient `admin_read/evidence_detail` HTTP 500 that passed on retry; the job was green. Mobile was clean 27/27.
+- Frontend Build `32917685085` — PASS;
+- browser smoke — PASS;
+- Deployed UAT `32917685022` — PASS;
+- desktop job `98024710961` — PASS;
+- mobile job `98024711090` — 29/29 PASS.
 
-### Go 4 target
+The preceding SHA `3feae676ea311531fe5dc24f55fc7a4321d2ad4e` is explicitly superseded because its Scholarship Selection launcher obstructed the mobile release-notes control. The repaired accepted SHA moves the launcher to the lower-right mobile safe zone; the unchanged release-notes test then passed.
 
-Pilot SHA `87da570d8e6701928e45d532caf11877b6eab369`:
+## Layer 3 benchmark
 
-- visible PIM Admin `v2.15.5`;
-- M2.3 Intelligence `v1.2`;
-- Frontend build PASS at this reconciliation write;
-- expanded browser smoke and deployed desktop/mobile UAT executing; only their final outcome may establish this SHA as deployed-accepted.
+The initial router-wide `openrouter/free` benchmark failed because routing was nondeterministic across free models. It was not accepted.
 
-## Layer 4/Admin UX — implemented
+The profile was pinned to:
 
-The deployed M2.3 Intelligence workspace exposes:
+`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`
 
-- status and unresolved-field filtering/prioritisation;
-- before/proposed values;
-- Evidence, Layer 2 and Layer 3 lineage;
-- configured and returned Layer 3 model context;
-- validator/token/cost context;
-- full decision history;
-- all six terminal actions;
-- edited final value for Edit and Approve;
-- downstream Search refresh signal context.
+Benchmark run `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` passed:
 
-No second Layer 4 canonical authority is authorised.
+- provider semantic cases: 5/5;
+- control cases: 13/13;
+- observed cost: USD 0;
+- maximum observed provider latency: 2.811 s;
+- input/output tokens: 315 / 462.
 
-## Important Dates/Admin UX — implemented
+The profile is therefore benchmark-approved and ACTIVE. The one-time benchmark execution path was retired after use.
 
-The browser is aligned to the source-precision model. Permanent deployed UAT verifies date-only UQ values, source-vague semantics, no fabricated timestamps and country-reference no-ingestion messaging.
+## Onboarding acceptance
 
-## Onboarding — implemented, acceptance dependency remains
+Representative rollback-only AU lifecycle UAT passed all nine stages through `production_promotion_ready`, invalid-transition rejection, immutable audit lineage, insufficient-rank/anon/private access denial and `canonical_fork=false`. Synthetic state was rolled back.
 
-Migration `20260825202903_m2_3_onboarding_lifecycle_foundation` and the deployed Admin workspace provide the reusable lifecycle described in CF-CHG-037. The remaining CF-CHG-037 gate is representative lifecycle/negative-path acceptance, not implementation.
+## NZ Layer 2 deferral
 
-## Layer 3 provider boundary
+NZ authoritative Layer 1 is accepted. A dedicated NZ first-party Layer 2 Course enrichment source/profile is **not currently configured**.
 
-The prior blocker caused by inability to manage/verify an authorised secret through the available surface is superseded. Go 4 provides an Admin-entered, Vault-backed, audited credential path. At this checkpoint the user has not yet entered a key; `openrouter-free-router-v1` remains enabled, PAUSED and `pending_credentials_and_benchmark`.
+That expansion is explicitly **DEFERRED** to a future NZ source-qualification/onboarding scope. The deferral does not create an M2.3 blocker because the shared Layer 2 platform, Layer 1 NZ authority and onboarding framework are accepted and the absent NZ source has not been represented as implemented.
 
-**Layer 3 external gate: BLOCKED — USER CREDENTIAL NOT YET CONFIGURED / QUALITY BENCHMARK NOT RUN.**
+## Security / performance
 
-## Advisor state
+Final Security Advisor posture: INFO-only; no WARN/ERROR.
 
-Post-Go-4 Security Advisor: INFO-only; no WARN/ERROR.
+Final Performance Advisor posture: INFO-only. Existing unindexed-FK, unused-index and Auth connection-strategy notices remain backlog and are not M2.3 acceptance-level regressions. The new Layer 3 benchmark-job profile FK received a covering index before closure.
 
-Post-Go-4 Performance Advisor: INFO-only. Inherited unindexed-FK, unused-index and Auth connection-strategy observations remain backlog and do not represent a new Go 4 acceptance-level regression.
+## Rollback / reversion boundary
 
-## Firecrawl commercial boundary
+- Browser/UI regressions: revert the relevant Pilot source commit and redeploy through the governed build/UAT path.
+- Layer 3 provider risk: immediately pause the model profile; credentials remain server-side/Vault-backed.
+- Database contract changes: use forward corrective migrations; do not mutate historical migration files after deployment.
+- Layer 4 authority and Search signalling must not be bypassed during rollback.
 
-User-confirmed entitlement remains **Firecrawl paid subscription — 5,000 pages/month**. Do not fabricate monetary subscription cost. The deployed M2.3 budget guard must prevent silent paid fallback beyond the approved page allowance. Direct HTTP/zero-cost acquisition remains preferred when it satisfies the Evidence contract.
+## Acceptance
 
-## Remaining M2.3 acceptance classification
+**CLOSED / PASS for accepted M2.3 Pilot/UAT scope, with NZ first-party Layer 2 Course enrichment explicitly DEFERRED.**
 
-Before M2.3 can close, reconcile the final Go 4 desktop/mobile result and explicitly classify remaining criteria, including:
-
-- representative Onboarding lifecycle rollback/negative UAT;
-- final production-grade Layer 1 source certification/recovery matrix;
-- representative AU/NZ Layer 2 scale/economics qualification where not already covered;
-- role guides/quick tours aligned to the final `v2.15.5` screens;
-- the real Layer 3 OpenRouter benchmark after the user supplies the authorised credential;
-- any remaining database/API/security/storage/replay/authority regressions not already retained in permanent UAT.
-
-Every gate must end PASS, BLOCKED with evidence/accepted residual decision, or explicitly DEFERRED. M2.4 does not start before that classification.
+M2.4 is now unblocked but remains a separate optimisation/regression/residual-risk gate. Production establishment, broad Publication and Zoho cutover remain later authorised work.
 
 ## Commercial/time boundary
 
