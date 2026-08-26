@@ -1,6 +1,6 @@
 # M2.4.0 — Integration Cleanup, Test-Liability Removal & Acceptance Rebase
 
-**Status:** NEXT / MANDATORY BEFORE M2.4.1  
+**Status:** ACTIVE — GATE A COMPLETE / GATE B RUNNING  
 **Parent:** M2.4  
 **Governance:** inherit `PROJECT_INSTRUCTIONS.md`, `STANDING-INSTRUCTIONS.md` and A1–A6.
 
@@ -13,51 +13,71 @@ Clear the Go 7 navigation/test integration liability before further feature work
 - M2.3 accepted baseline remains `260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
 - Go 7 introduced PIM Admin v2.15.6 and the streamlined menu.
 - Go 7 navigation-specific tests passed, but full deployed UAT on `eabb7d99f93acf6260c06b33c852ed4b0bb6fd8a` failed because inherited suites still searched for removed `Layer 2 Operations` and floating `M2.3 Intelligence` launchers.
-- After the user stopped the long run, additional Pilot test/audit commits exist through `c63442ea9ae44382b88f17fd0e01974cf5c6b469`; these are **unaccepted working state** and must be reconciled before any new feature implementation.
-- No full-matrix rerun is authorised as the first cleanup action.
+- After the user stopped the long run, additional Pilot test/audit commits existed through `c63442ea9ae44382b88f17fd0e01974cf5c6b469`; these were treated as **unaccepted working state**, not as a baseline.
+- The pre-cleanup full run `32930647800` proved desktop green and isolated mobile failures to off-viewport primary-menu interaction, the coupled screenshot/content audit, one `courses_page` performance-budget miss, and one screen-state restore flake. No security assertion was weakened.
 
-## Cleanup scope
+## Gate A — inventory/static cleanup — COMPLETE
 
-1. Inventory every permanent test and UI module that references:
-   - legacy `Layer 2 Operations` primary-nav label;
-   - `.m23-launcher`, `.l2*-launcher`, `.ops-launcher`, `.ss-launcher` or other floating operational entry points;
-   - Settings as the normal Layer 1 operator path;
-   - duplicated workspace-opening logic.
-2. Introduce shared primary-navigation adapters for Layer 1/2/3/4, Evidence, Onboarding, Guides and Governance provider configuration.
-3. Migrate affected permanent functional suites to shared adapters while retaining their existing security/data assertions.
-4. Remove or explicitly classify remaining floating/experimental launcher code:
-   - delete when superseded;
-   - retain only if diagnostic/temporary and impossible to confuse with accepted operator navigation;
-   - permanent UAT must not depend on it.
-5. Review post-Go7 audit commits and keep only useful evidence/audit code that does not re-couple the permanent matrix to screenshot collection.
-6. Separate lightweight UX/performance evidence capture from functional acceptance according to A5.
-7. Review workflow triggers and prepare a targeted/integration/acceptance CI structure. Do not create overlapping full matrices during cleanup.
+Implemented on Pilot working `main` after `c63442e…`:
 
-## Testing sequence
+- removed the `Layer 2 Operations` compatibility alias from permanent navigation support;
+- introduced `tests/uat/support/navigation.mjs` with shared adapters for Layer 1, Layer 2, Layer 2 Advanced/Providers/Trials, Layer 3, Layer 4, Evidence, Onboarding, Guides, Governance Provider and Scholarship Selection;
+- migrated affected permanent Layer 2, M2.3, provider-governance, Scholarship and navigation suites onto accepted primary-navigation adapters;
+- removed permanent UAT assertions against `.m23-launcher`, `.l3cred-launcher` and other hidden launcher selectors;
+- set deterministic primary-navigation/UI timeout to 6 seconds while retaining long bounds only for authentication, provider/acquisition and other genuinely asynchronous operations;
+- made primary-navigation interaction mobile-safe by opening/scrolling the sidebar instead of waiting for an off-viewport element to become visible by itself;
+- separated `m2-4-navigation-content-audit.spec.mjs` from the permanent acceptance matrix and created `.github/workflows/m2-4-ux-audit.yml` for lightweight audit capture;
+- changed `.github/workflows/deployed-uat.yml` to targeted → integration → acceptance tiers. Normal commits no longer trigger the complete permanent matrix.
 
-### Gate A — Static/inventory
-- search-based legacy-selector inventory;
-- test discovery;
-- build/lint/syntax where present;
-- confirm no permanent test depends on hidden/floating launchers.
+### Transitional runtime launcher classification
 
-### Gate B — Targeted desktop/mobile
-Run only:
-- streamlined navigation;
-- Layer 2 platform/provider/trial navigation entry;
-- Layer 3/4/Onboarding workspace entry;
-- Layer 3 provider governance entry;
+Go 7 currently hides several legacy launcher controls and the accepted primary menu may bridge to those already-existing workspace entry controls internally. They are **not accepted operator navigation**, are hidden by the primary information architecture, and permanent UAT no longer references them. Removing those implementation bridges is not allowed to become a risky workspace rewrite inside M2.4.0; their complete deletion remains part of the cleanup/quarantine review and must not reappear as a second visible architecture.
+
+Layer 1's operator journey is the primary `Layer 1 — Regulatory` entry. The underlying legacy host reuse is an implementation detail; Settings is not exposed as the normal operator path.
+
+## Supabase/runtime reconciliation
+
+- Pilot Supabase project `coursefinder_Pilot` / `fxcwkweaxjtknorudmwp` is `ACTIVE_HEALTHY`.
+- Current Security Advisor contains INFO-only `RLS enabled/no policy` notices on intentionally non-direct-access schemas; no new public `SECURITY DEFINER` warning class was observed during this cleanup reconciliation.
+- Current Performance Advisor remains INFO-only technical debt (unindexed foreign keys / unused indexes / Auth connection-strategy advice). M2.4.0 introduces no DDL and does not weaken RLS, grants, role/rank checks, Edge authentication or credential boundaries to address navigation/testing concerns.
+
+## Gate B — targeted desktop/mobile — RUNNING
+
+Latest working Pilot commit at this update: `cba72ca187a5da4f73b8072fd9534e8cb55bd601`.
+
+Targeted workflow run: `32950523478` — queued/running at time of this runsheet update. Required targeted coverage includes:
+- streamlined navigation contract;
+- Layer 2 platform/provider/trial entry;
+- Layer 3/4/Onboarding;
+- Layer 3 provider governance;
+- Scholarship Selection;
 - Guides;
 - release notes;
-- responsive menu interaction.
+- desktop/mobile primary-navigation interaction.
 
-Fail deterministic missing selectors quickly.
+Do not promote this SHA merely because it is current `main`.
 
-### Gate C — Integration
-Run affected Layer 1–4 functional/security suites plus performance paths that depend on navigation. Do not run unrelated frozen suites repeatedly while Gate B is red.
+## Gate C — bounded integration — NOT STARTED
 
-### Gate D — Full acceptance
-Only after A–C are green, nominate one SHA and run one complete deployed desktop/mobile permanent matrix. That SHA becomes the M2.4.0 accepted checkpoint.
+Start only after Gate B is green. Include:
+- changed UI and immediate upstream/downstream suites;
+- Data Quality;
+- Evidence/navigation paths;
+- M2.3 Layer 3/4 invariants;
+- role/rank negative paths;
+- screen-state persistence;
+- performance budgets, including the existing 3,000 ms `courses_page` budget.
+
+The previous mobile `courses_page` result (3.177 s then 5.720 s on retry) remains a real assertion to revalidate. Do **not** raise the threshold merely to obtain PASS.
+
+## Gate D — one full acceptance matrix — NOT STARTED
+
+Only after Gates B and C are green:
+1. nominate one acceptance SHA;
+2. run exactly one complete deployed permanent desktop/mobile matrix for that SHA;
+3. update Running Build / Register / CF-CHG-040 only if that matrix passes.
+
+Any Pilot source/test change after nomination invalidates that candidate.
 
 ## Exit gate
 
@@ -65,10 +85,14 @@ M2.4.0 closes only when:
 
 - no permanent UAT depends on floating operational launchers or obsolete menu names;
 - shared navigation adapters are in place;
-- targeted desktop/mobile and integration suites PASS;
-- one full desktop/mobile deployed matrix PASSes on one nominated SHA;
+- deterministic UI failures fail fast;
+- targeted desktop/mobile validation PASSes;
+- bounded integration regression PASSes;
+- one nominated SHA PASSes one full desktop/mobile deployed permanent matrix;
+- no authority/security boundary was weakened;
 - CF-CHG-20260826-040 is reconciled to that accepted runtime;
-- CI execution plan follows targeted → integration → acceptance;
-- CURRENT-STATE/NEXT-CHAT/FOLLOW-UPS identify M2.4.1 as the next feature gate.
+- CF-CHG-20260826-042 records the staged-testing outcome;
+- CURRENT-STATE/NEXT-CHAT/FOLLOW-UPS identify M2.4.1 as the next feature gate;
+- Running Build / Register change only after proof.
 
 Do not start M2.4.1 implementation before this exit gate is met.
