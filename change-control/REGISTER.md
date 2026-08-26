@@ -17,13 +17,11 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 L3/L4:** Layer 3 is ACTIVE only after benchmark PASS on pinned model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`; benchmark `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` passed 5/5 provider semantic cases and 13/13 controls at USD 0 observed cost. Layer 4 all-six-action rollback UAT passed with Search signalling only after accepted canonical change.
 >
-> **M2.3 ONBOARDING:** `CF-CHG-20260825-037` is **CLOSED / PASS**. Representative rollback-only AU lifecycle UAT traversed all nine stages, retained immutable audit lineage, denied invalid/insufficient-rank/anonymous/private access and recorded `canonical_fork=false`.
+> **M2.3 NZ L2 DEFERRAL:** NZ authoritative Layer 1 is accepted. Dedicated NZ first-party Layer 2 Course enrichment is **DEFERRED** to future source qualification/onboarding.
 >
-> **M2.3 NZ L2 DEFERRAL:** NZ authoritative Layer 1 is accepted. Dedicated NZ first-party Layer 2 Course enrichment is not configured and is **DEFERRED** to future NZ source qualification/onboarding; it is not represented as completed M2.3 scope.
+> **M2.4:** **ACTIVE — M2.4.0 CLEANUP / INTEGRATION REBASE REQUIRED BEFORE M2.4.1.** Go 7 working UI/navigation exists but full permanent UAT exposed stale distributed navigation/floating-launcher test dependencies. Post-Go7 Pilot commits through `c63442ea9ae44382b88f17fd0e01974cf5c6b469` are unaccepted working state until M2.4.0 nominates one accepted SHA. A1–A6 now govern targeted → integration → one full acceptance matrix.
 >
-> **M2.4:** **PLANNED / UNBLOCKED / NOT STARTED.** Its scope remains AI/Data Quality optimisation, provider/model monitoring, queue tuning, full-stack regression, residual-risk closure and the pre-blackout checkpoint.
->
-> **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates and are not authorised by M2.3 closure.
+> **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates.
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
@@ -62,24 +60,25 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260825-033 | 50-search-api-consumers | M2.2 Bounded Search / pgvector Showcase | CLOSED / PASS — VECTOR DEFERRED | `50-search-api-consumers/CF-CHG-20260825-033-m2-2-search-pgvector-showcase.md` |
 | CF-CHG-20260825-034 | 70-security-platform | M2.2 Security & Production Foundation | CLOSED / PASS — PILOT FOUNDATION | `70-security-platform/CF-CHG-20260825-034-m2-2-security-production-foundation.md` |
 | CF-CHG-20260825-035 | 80-uat-release-operations | M2.2 Consolidated Automated UAT & Release Gate | CLOSED / PASS | `80-uat-release-operations/CF-CHG-20260825-035-m2-2-consolidated-uat-release.md` |
-| CF-CHG-20260825-036 | 00-governance-programme | M2.3 Production-Grade Data Operations, Scale Enrichment & Decision UX | **CLOSED / PASS — NZ L2 EXPANSION DEFERRED** | `00-governance-programme/CF-CHG-20260825-036-m2-3-l2-scale-enrichment-ux.md` |
-| CF-CHG-20260825-037 | 10-architecture-data-model | Country / Provider / Course Onboarding Framework | **CLOSED / PASS** | `10-architecture-data-model/CF-CHG-20260825-037-country-provider-course-onboarding-framework.md` |
-| CF-CHG-20260825-038 | 00-governance-programme | M2.3 Layer 3/4 Launch, Refresh Intelligence & Important Dates | **CLOSED / PASS** | `00-governance-programme/CF-CHG-20260825-038-m2-3-layer3-layer4-refresh-intelligence.md` |
+| CF-CHG-20260825-036 | 00-governance-programme | M2.3 Production-Grade Data Operations, Scale Enrichment & Decision UX | CLOSED / PASS — NZ L2 EXPANSION DEFERRED | `00-governance-programme/CF-CHG-20260825-036-m2-3-l2-scale-enrichment-ux.md` |
+| CF-CHG-20260825-037 | 10-architecture-data-model | Country / Provider / Course Onboarding Framework | CLOSED / PASS | `10-architecture-data-model/CF-CHG-20260825-037-country-provider-course-onboarding-framework.md` |
+| CF-CHG-20260825-038 | 00-governance-programme | M2.3 Layer 3/4 Launch, Refresh Intelligence & Important Dates | CLOSED / PASS | `00-governance-programme/CF-CHG-20260825-038-m2-3-layer3-layer4-refresh-intelligence.md` |
+| CF-CHG-20260826-039 | 00-governance-programme | Repository run-sheet / cross-chat continuity | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-039-repository-run-sheet-cross-chat-continuity.md` |
+| CF-CHG-20260826-040 | 30-admin-pim-ux | Streamlined Data Operations Navigation & Visible Guides | ACCEPTANCE REBASE REQUIRED | `30-admin-pim-ux/CF-CHG-20260826-040-data-operations-navigation-guides.md` |
+| CF-CHG-20260826-041 | 00-governance-programme | Restore M2.2+ Standing Cross-Chat Instruction Contract | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-041-m2-standing-instructions-restoration.md` |
+| CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.72.md`;
+- Master Project Plan: latest `docs/coursefinder-master-project-plan-*.md` (v1.73 published for active M2.4 working state);
 - M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.73.md`;
+- Running Build: last accepted M2.3 `docs/coursefinder-running-build-v2.73.md` until M2.4.0 acceptance nominates a new runtime;
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md` plus closed M2.3 Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md` plus closed M2.3 Change Controls;
-- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.3.md` plus accepted M2.3 runtime;
-- Current User Guide: `docs/coursefinder-user-guide-v2.3.md` plus M2.3 Data Operations guide;
-- Current PIM/Admin operating guidance: current PIM/Admin guide plus `docs/coursefinder-m2-3-data-operations-admin-guide-v1.0.md`;
-- Current Operations Runbook: current runbook plus applicable M2 addenda;
-- Data Flow & Feature Atlas: `docs/coursefinder-data-flow-feature-atlas-v1.1.md`;
-- M2.3 governance: CLOSED under `CF-CHG-20260825-036`, `CF-CHG-20260825-037`, `CF-CHG-20260825-038`.
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md` plus current M2.4 Change Controls;
+- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md` as M2.4 working design;
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`;
+- M2.4 plan: mandatory M2.4.0 cleanup, then M2.4.1 Layer 1, M2.4.2 Layer 2, M2.4.3 Layer 3, M2.4.4 cross-layer acceptance.
 
 ## Accepted runtime/source authority
 
@@ -88,6 +87,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - M2.2 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@38ad08bb75ee7cf26a0a701a3ae008d1563b915b`; build `32840377937`; deployed UAT `32840377935`.
 - M2.3 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`; build `32917685085`; deployed UAT `32917685022`; desktop `98024710961`; mobile `98024711090` 29/29 PASS.
 - M2.3 accepted Layer 3 benchmark: `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407`; pinned model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`.
+- Current M2.4 Pilot main through `c63442ea9ae44382b88f17fd0e01974cf5c6b469` is **working/unaccepted** until M2.4.0 PASS.
 
 ## Preserved technical/semantic baseline
 
@@ -100,9 +100,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - QILT/PRISMS context must preserve actual source grain/reporting period;
 - Important Dates retain source date precision and must not fabricate times;
 - refresh scheduling remains source/profile/entity bounded;
-- NZ first-party Layer 2 Course enrichment remains explicitly DEFERRED pending source qualification/onboarding;
-- M2.4 is unblocked but remains separate from Production/Publication/Zoho scope.
+- NZ first-party Layer 2 Course enrichment remains explicitly DEFERRED pending source qualification/onboarding.
 
 ## Next gate boundary
 
-M2.3 is closed. M2.4 may begin only under its own governed continuation and should focus on AI/Data Quality optimisation, provider/model monitoring, queue tuning, full-stack regression, residual-risk closure and the pre-blackout acceptance checkpoint. Production establishment, broad Publication and Zoho cutover remain later gates.
+Execute M2.4.0 only. Reconcile the current Pilot working state, remove stale/floating permanent-test dependencies, establish shared primary-navigation adapters, run targeted desktop/mobile and bounded integration, then run one complete deployed acceptance matrix on one nominated SHA. M2.4.1 begins only after that PASS.
