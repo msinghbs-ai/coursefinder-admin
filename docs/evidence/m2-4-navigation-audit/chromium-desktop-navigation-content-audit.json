@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-08-26T04:37:16.945Z",
+  "project": "chromium-desktop",
+  "viewport": {"width": 1440, "height": 900},
+  "navigation": [
+    {"group":"Overview","items":["Dashboard"]},
+    {"group":"Catalogue","items":["Providers","Courses","Campuses","Scholarships"]},
+    {"group":"Data Operations","items":["Layer 2 — Enrichment","Layer 3 — AI Interpretation","Layer 4 — Human Resolution","Evidence & Provenance","Jobs & Runs","Onboarding"]},
+    {"group":"Insights","items":["Outcomes (QILT)","Student Flow (PRISMS)"]},
+    {"group":"Quality & Review","items":["Completeness"]},
+    {"group":"Decision Tools","items":["Scholarship Selection"]},
+    {"group":"Governance & Platform","items":["Sources"]},
+    {"group":"Help & Guides","items":["Guides & Runbooks"]}
+  ],
+  "role_note": "Captured with the governed Pipeline Operator UAT account. Platform Admin-only Layer 1, Layer 3 Provider, Attributes and Users & Roles are assessed separately and are not exposed by role elevation for screenshot generation.",
+  "pages": [
+    {"label":"Dashboard","elapsed_ms":669,"surface":"page","heading":"Operational overview","route":"dashboard","content_summary":"Operational command view with catalogue counts, pipeline health, running/failed jobs, recent activity, Search state and attention actions.","screenshot":"desktop-audit-dashboard.png"},
+    {"label":"Providers","elapsed_ms":674,"surface":"page","heading":"Providers","route":"providers","content_summary":"Governed Provider catalogue with country/state, lifecycle/publication, city, Course and Evidence cross-links and verification context.","screenshot":"desktop-audit-providers.png"},
+    {"label":"Courses","elapsed_ms":709,"surface":"page","heading":"Courses","route":"courses","content_summary":"Decision-grade Course catalogue with Provider/CRICOS identity, geography/study filters, regulatory tuition, legacy presence and verification plus Course detail drill-through.","screenshot":"desktop-audit-courses.png"},
+    {"label":"Campuses","elapsed_ms":694,"surface":"page","heading":"Campuses","route":"campuses","content_summary":"Campus geography and Provider relationships with country/state/city, Course links and status.","screenshot":"desktop-audit-campuses.png"},
+    {"label":"Scholarships","elapsed_ms":668,"surface":"page","heading":"Scholarships","route":"scholarships","content_summary":"Scholarship catalogue with Provider, type, audience, award/source/publication state.","screenshot":"desktop-audit-scholarships.png"},
+    {"label":"Layer 2 — Enrichment","elapsed_ms":691,"surface":"dialog","heading":"Layer 2 Operations","route":"scholarships","content_summary":"Course/Scholarship enrichment plan, configured acquisition methods, provider health, Evidence counts, review needs, batches, cost-routing policy and advanced configuration/trial drill-down.","screenshot":"desktop-audit-layer-2-enrichment.png"},
+    {"label":"Layer 3 — AI Interpretation","elapsed_ms":679,"surface":"dialog","heading":"Layers 1–4 Data Operations","route":"scholarships","content_summary":"Governed model profiles, pinned benchmark-passed OpenRouter model, rate/day/cost ceilings, Evidence interpretation form and recent interpretation/validation context.","screenshot":"desktop-audit-layer-3-ai-interpretation.png"},
+    {"label":"Layer 4 — Human Resolution","elapsed_ms":678,"surface":"dialog","heading":"Layers 1–4 Data Operations","route":"scholarships","content_summary":"Terminal human review queue with status/field filters and governed approve/edit/reject/more-evidence/return-L2/return-L3 actions when pending rows exist.","screenshot":"desktop-audit-layer-4-human-resolution.png"},
+    {"label":"Evidence & Provenance","elapsed_ms":666,"surface":"page","heading":"Evidence & provenance","route":"evidence","content_summary":"Private governed Evidence workspace tracing source → job → artifact → observation/claim → canonical entity → review → Search/publication consequence with filters and drill-through.","screenshot":"desktop-audit-evidence-provenance.png"},
+    {"label":"Jobs & Runs","elapsed_ms":680,"surface":"dialog","heading":"Pipeline Operations","route":"jobs","content_summary":"Server-paged pipeline execution history across Layers 1–4 with status/mode/country filtering and expandable evidence/error detail.","screenshot":"desktop-audit-jobs-runs.png"},
+    {"label":"Onboarding","elapsed_ms":705,"surface":"dialog","heading":"Layers 1–4 Data Operations","route":"dashboard","content_summary":"Shared nine-stage Country/Provider/Course onboarding lifecycle with canonical-fork prohibition, stage/outcome filters, governed case creation and audit lineage.","screenshot":"desktop-audit-onboarding.png"},
+    {"label":"Outcomes (QILT)","elapsed_ms":666,"surface":"page","heading":"Outcomes (QILT)","route":"outcomes-qilt","content_summary":"Provider/study-area outcome observations with survey, metric, Provider, year, status, source and Evidence context kept separate from canonical Course identity.","screenshot":"desktop-audit-outcomes-qilt.png"},
+    {"label":"Student Flow (PRISMS)","elapsed_ms":675,"surface":"page","heading":"Student Flow (PRISMS)","route":"student-flow-prisms","content_summary":"Time-scoped international student-flow observations with state/study-area/sector/remoteness, enrolments, periods, suppression, source and Evidence semantics.","screenshot":"desktop-audit-student-flow-prisms.png"},
+    {"label":"Completeness","elapsed_ms":676,"surface":"full-screen-workspace","heading":"Data Quality & Readiness","route":"data-quality-readiness","content_summary":"Layer-aware Data Quality with domain readiness, governed exception states, AU/NZ scope and explicit no-composite-score policy plus bounded exception drill-through.","screenshot":"desktop-audit-completeness.png"},
+    {"label":"Scholarship Selection","elapsed_ms":676,"surface":"dialog","heading":"Scholarship Selection","route":"dashboard","content_summary":"Course-scoped scholarship decision support; structural relevance only with explicit prohibition on eligibility inference.","screenshot":"desktop-audit-scholarship-selection.png"},
+    {"label":"Sources","elapsed_ms":672,"surface":"dialog","heading":"Pipeline Operations","route":"sources","content_summary":"Governed source/configuration inventory with layer/country/status, health, freshness, workload and Evidence coverage.","screenshot":"desktop-audit-sources.png"},
+    {"label":"Guides & Runbooks","elapsed_ms":705,"surface":"dialog","heading":"Guides & Runbooks","route":"dashboard","content_summary":"Role-oriented Layers 1–4 operating model, workflow quick starts, Platform Admin/Pipeline Operator/Reviewer guidance and maintained reference list.","screenshot":"desktop-audit-guides-runbooks.png"}
+  ]
+}
