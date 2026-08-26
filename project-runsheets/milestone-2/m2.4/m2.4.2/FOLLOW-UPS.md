@@ -15,8 +15,8 @@
 | ID | Problem / decision | Evidence | Owner | Next action | Status |
 |---|---|---|---|---|---|
 | M242-FU-001 | Deployed Layer 2 operational run model is still trial-scale at milestone start: 1 batch / 3 items despite 103 provider attempts. | Start reconciliation 27 Aug 2026. | M2.4.2 | Mature orchestration/visibility before full-run claim. | ACTIVE |
-| M242-FU-002 | Discovery is hard-wired to Direct HTTP and latest Federation run failed 5/5 at invalid provider-attempt terminal status, so fallback routing never executed. | Job `c7dd414e-487a-4861-a9f3-defbfd9458f2`, 27 Aug 2026 07:07 AEST. | M2.4.2 | Reconcile terminal status vocabulary; route discovery through common ordered provider resolver; prove Direct → Firecrawl → next-provider fallback. | ACTIVE / BLOCKING BROAD RUN |
-| M242-FU-003 | Routine Layer 2 scope is university-centric and still exposes more internals than required. | Operator feedback / A9. | M2.4.2 | Implement Country / State / University scope resolution and remove/move low-level controls to Advanced configuration. | ACTIVE / PRIORITY |
+| M242-FU-002 | Ordered routing and terminal statuses are corrected; Direct-success stop and Firecrawl acquisition are proven, but controlled failure-triggered Direct → Firecrawl transition remains unproven. | Jobs `e5055e66-8711-4a24-a2c3-d926d681cc15` and `dd48db0c-db0d-4403-ba7f-de2a5482004c`; A9 UAT `33016596722`. | M2.4.2 | Add a bounded internal routing UAT that forces a safe Direct fallback condition without changing production authority, then prove next-provider fallback. | ACTIVE / PRE-BROAD-RUN GATE |
+| M242-FU-003 | Country / State / University scope resolution and routine-screen cleanup are implemented and targeted deployed UAT passes. | AU=1,072/3; VIC=690/2; QLD=404/2; RMIT=500/1; UAT `33016596722`. | M2.4.2 | Preserve in Stage B/mobile and full-run evidence; refine only from measured operator/runtime evidence. | TARGETED PASS / STAGE B OPEN |
 
 ## Rule
 
