@@ -1,7 +1,7 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 26 August 2026
+**Effective:** 27 August 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
@@ -9,17 +9,13 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 > **M1:** CLOSED / PASS / FROZEN under `CF-CHG-20260823-028`.
 >
-> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is **CLOSED / PASS**. Final deployed authenticated desktop/mobile UAT passed on Pilot SHA `cba0e9ecd2f4878bfd51ad5278e60046b1fae581`, run `32795496640`.
+> **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is CLOSED / PASS.
 >
-> **M2.2:** `CF-CHG-20260825-032` through `-035` are **CLOSED / PASS** for their accepted Pilot scope. Final accepted M2.2 Pilot SHA remains `38ad08bb75ee7cf26a0a701a3ae008d1563b915b`.
+> **M2.2:** `CF-CHG-20260825-032` through `-035` are CLOSED / PASS for accepted Pilot scope.
 >
-> **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are **CLOSED / PASS** for accepted Pilot/UAT scope. Final accepted Pilot SHA is `260ed6a0d19b80ad666d74b90aa13e735e802a6a`; build `32917685085` PASS; deployed UAT `32917685022` PASS; desktop `98024710961` PASS; mobile `98024711090` 29/29 PASS.
+> **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.3 L3/L4:** Layer 3 is ACTIVE only after benchmark PASS on pinned model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`; benchmark `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` passed 5/5 provider semantic cases and 13/13 controls at USD 0 observed cost. Layer 4 all-six-action rollback UAT passed with Search signalling only after accepted canonical change.
->
-> **M2.3 NZ L2 DEFERRAL:** NZ authoritative Layer 1 is accepted. Dedicated NZ first-party Layer 2 Course enrichment is **DEFERRED** to future source qualification/onboarding.
->
-> **M2.4:** **ACTIVE — M2.4.0 CLOSED / PASS; M2.4.1 NEXT.** Accepted Pilot SHA `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`; build `32958795576` PASS; deployed UAT `32958795547` PASS; desktop `98146317262` PASS; mobile `98146317373` PASS. CF-CHG-040 is CLOSED/PASS. A1–A6 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
+> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 NEXT / READY.** Current accepted Pilot SHA `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272` PASS; Stage C deployed UAT `32972106291` desktop/mobile PASS. CF-CHG-043 is CLOSED/PASS. A1–A7 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
 >
 > **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates.
 
@@ -66,42 +62,44 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-039 | 00-governance-programme | Repository run-sheet / cross-chat continuity | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-039-repository-run-sheet-cross-chat-continuity.md` |
 | CF-CHG-20260826-040 | 30-admin-pim-ux | Streamlined Data Operations Navigation & Visible Guides | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260826-040-data-operations-navigation-guides.md` |
 | CF-CHG-20260826-041 | 00-governance-programme | Restore M2.2+ Standing Cross-Chat Instruction Contract | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-041-m2-standing-instructions-restoration.md` |
-| CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
+| CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
+| CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.74.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.75.md`;
 - M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.74.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md` plus closed M2.3 Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md` plus accepted M2.4.0 Change Controls;
-- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md` as accepted M2.4 primary design;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`;
-- M2.4 plan: M2.4.0 CLOSED/PASS, then M2.4.1 Layer 1, M2.4.2 Layer 2, M2.4.3 Layer 3, M2.4.4 cross-layer acceptance.
+- Running Build: `docs/coursefinder-running-build-v2.75.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md` plus closed M2.3/M2.4.1 Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md` plus accepted M2.4 Change Controls;
+- Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
+- Layer 1 operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md` plus Operations Runbook v1.3 and PIM Admin Guide v1.21;
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A7;
+- M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 NEXT, then M2.4.3 and M2.4.4.
 
 ## Accepted runtime/source authority
 
 - Frozen M1 browser/performance baseline: `msinghbs-ai/Coursefinder-Pilot@1bcb96d26f7c701ec6cf91d771016cb6405f51b2`.
-- M2.1 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@cba0e9ecd2f4878bfd51ad5278e60046b1fae581`; run `32795496640`.
-- M2.2 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@38ad08bb75ee7cf26a0a701a3ae008d1563b915b`; build `32840377937`; deployed UAT `32840377935`.
-- M2.3 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`; build `32917685085`; deployed UAT `32917685022`; desktop `98024710961`; mobile `98024711090` 29/29 PASS.
-- M2.3 accepted Layer 3 benchmark: `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407`; pinned model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`.
-- **M2.4.0 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`; build `32958795576`; deployed UAT `32958795547`; desktop `98146317262`; mobile `98146317373`.
+- M2.1 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@cba0e9ecd2f4878bfd51ad5278e60046b1fae581`.
+- M2.2 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@38ad08bb75ee7cf26a0a701a3ae008d1563b915b`.
+- M2.3 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
+- M2.4.0 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
+- **M2.4.1 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272`; Stage C deployed UAT `32972106291` desktop/mobile PASS.
 
 ## Preserved technical/semantic baseline
 
 - Layer 1 authoritative identity remains source-governed and cannot be overwritten by Layer 2/3/4 shortcuts;
 - Layer 2 remains deterministic acquisition/extraction with native Evidence retained;
 - Layer 3 consumes governed Evidence and cannot write canonical Course values directly;
-- Layer 3 provider/model changes require governed revalidation/benchmark before resume;
-- Layer 4 is terminal and uses the existing canonical scalar-resolution authority;
+- Layer 4 is terminal and uses the accepted canonical scalar-resolution authority;
 - Search/Publication remain downstream and broad Publication is not authorised;
-- QILT/PRISMS context must preserve actual source grain/reporting period;
+- QILT/PRISMS context preserves actual source grain/reporting period;
 - Important Dates retain source date precision and must not fabricate times;
 - refresh scheduling remains source/profile/entity bounded;
+- AU CRICOS and NZ NZQA Layer 1 validation/variance/scheduling/housekeeping contracts are now accepted foundations;
 - NZ first-party Layer 2 Course enrichment remains explicitly DEFERRED pending source qualification/onboarding.
 
 ## Next gate boundary
 
-Proceed to M2.4.1 Layer 1 Regulatory Operations Maturity & Automation. Reconcile the accepted M2.4.0 Pilot runtime and current Supabase Layer 1 source/profile/job state; address AU/NZ source validation, record-count variance guardrails, queue/progress/Evidence operations, retry/resume, recheck scheduling and safe housekeeping under the primary navigation and A1–A6 staged-UAT discipline. Do not reopen floating operational navigation or weaken Layer authority/security merely to simplify the operator experience.
+Proceed to M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance. Reconcile current Pilot/deployed Supabase Layer 2 source profiles, provider routes, jobs, Evidence, queues and current browser operations before changing anything. Preserve accepted Layer 1 authority/security/operations contracts and use targeted → bounded integration → one nominated full desktop/mobile acceptance matrix. Production cutover, broad Publication and Zoho cutover remain later gates.
