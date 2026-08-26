@@ -1,6 +1,6 @@
 # CF-CHG-20260827-044 — M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance
 
-**Status:** ACTIVE — A8 TARGETED PASS / FULL-RUN GATES OPEN  
+**Status:** ACTIVE — A9 TARGETED PASS / FULL-RUN GATES OPEN  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 27 August 2026 04:28 AEST (+10:00)  
 **Origin chat/workstream:** M2.4.2 — Layer 2 Full Enrichment, Operations Maturity & Performance  
@@ -140,6 +140,24 @@ The current targeted suite proves:
 - no credential exposure through provider UI;
 - no browser/server runtime errors in the targeted slice.
 
+## A9 implementation and targeted evidence
+
+- Scope-first UI and service contract implemented for Country / State / University.
+- AU Country preview: 1,072 Courses / 3 universities.
+- VIC State preview: 690 Courses / 2 universities.
+- QLD State preview: 404 Courses / 2 universities.
+- RMIT University preview: 500 Courses / 1 university.
+- AU Course route order is Direct HTTP → Firecrawl → remaining configured providers.
+- Discovery and managed batches now use the existing ordered runtime route list; managed runs no longer force a preselected provider.
+- Corrected Federation discovery job `e5055e66-8711-4a24-a2c3-d926d681cc15`: 5 processed / 0 runtime failures / 0 unsafe selections.
+- Firecrawl governed acquisition trial `dd48db0c-db0d-4403-ba7f-de2a5482004c`: PASS with Evidence `ea932ca9-5fa2-4889-a0fb-9103ac4ed374`, no canonical mutation.
+- Current targeted Pilot: `638970c0b6fe323ba93260289301218a7f218aff`.
+- Deployed targeted desktop UAT `33016596722`: PASS.
+- Frontend build + local browser smoke `33016596701`: PASS.
+- Security Advisor: INFO-only (129), no WARN/ERROR.
+- Performance Advisor: INFO-only (167), no WARN/ERROR.
+- Controlled Direct-failure → Firecrawl automatic transition remains a pre-broad-run gate; this record does not claim that transition has yet been forced in runtime.
+
 ## Performance / advisor evidence
 
 - Security Advisor: current A8 architecture has no new WARN/ERROR; the rejected direct authenticated SECURITY DEFINER bridge finding was eliminated before the PASS candidate.
@@ -168,9 +186,10 @@ Prefer additive migrations and independently reversible frontend/Edge changes. R
 | 27 Aug 2026 | ACTIVE / SECURITY CORRECTED | Direct authenticated SECURITY DEFINER sync bridge rejected after Advisor WARN; replaced by authenticated Edge + service-only rank-checked helper. | `layer2-sync-control`, `m2_4_2_operator_sync_service_bridge` |
 | 27 Aug 2026 | ACTIVE / A8 TARGETED PASS | Corrected A8 candidate passes frontend build/browser smoke and targeted deployed desktop UAT. | Pilot `db8ff542...`; runs `33004496198`, `33004496331` |
 | 27 Aug 2026 07:13 AEST | ACTIVE / A9 | Latest Federation discovery run reviewed: 5/5 failed at invalid provider-attempt terminal status and only Direct HTTP was attempted. A9 adopts Country/State/University scope, ordered Direct → Firecrawl → remaining-provider routing, and routine-screen cleanup. | Job `c7dd414e-487a-4861-a9f3-defbfd9458f2`; RUNSHEET A9 |
+| 27 Aug 2026 | ACTIVE / A9 TARGETED PASS | Scope-first UI, ordered routing, bounded continuation and service-only scope contracts implemented. Targeted deployed UAT and frontend/browser build pass; broad run remains gated on controlled fallback and full-run evidence. | Pilot `638970c0...`; UAT `33016596722`; build `33016596701` |
 
 ## Closure
 
 **Final status:** OPEN  
 **Closed at:** N/A  
-**Outcome:** A8 targeted operator simplification PASS; pending full authorised discovery/enrichment evidence, scheduling/recovery/housekeeping/performance gates, Stage B, final Stage C and remaining M2.4.2 requirements.
+**Outcome:** A9 targeted scope-first/routing/UI slice PASS; pending controlled fallback UAT, full authorised discovery/enrichment evidence, scheduling/recovery/housekeeping/performance gates, Stage B, final Stage C and remaining M2.4.2 requirements.
