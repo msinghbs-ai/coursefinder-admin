@@ -1,7 +1,7 @@
 # CourseFinder Project Operating Instructions
 
 **Status:** AUTHORITATIVE CROSS-CHAT OPERATING ENTRY POINT  
-**Effective:** 20 August 2026  
+**Effective:** 26 August 2026  
 **Applies to:** Every new or existing CourseFinder implementation, ingestion, enrichment, Admin/PIM, Search/API, Zoho, security, UAT and governance chat/workstream.
 
 ## Purpose
@@ -15,16 +15,19 @@ The GitHub Admin repository `msinghbs-ai/coursefinder-admin` is the authoritativ
 Before making a material CourseFinder change, read/review the latest applicable versions of:
 
 1. `PROJECT_INSTRUCTIONS.md` — this file.
-2. `change-control/README.md` — change-control routing and record rules.
-3. `change-control/REGISTER.md` — active/recent change index and overlapping work.
-4. Latest `docs/coursefinder-master-project-plan-*.md`.
-5. Latest `docs/coursefinder-running-build-*.md`.
-6. Latest accepted `docs/coursefinder-database-architecture-*.md`.
-7. Latest Admin/PIM design-decision document when UI/PIM/field semantics are involved.
-8. Relevant UAT/source-qualification/design documents for the task.
-9. The relevant category under `change-control/` for open or recently closed changes touching the same surface.
+2. For Milestone 2 work, `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`.
+3. For Milestone 2 execution/testing, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`.
+4. `change-control/README.md` — change-control routing and record rules.
+5. `change-control/REGISTER.md` — active/recent change index and overlapping work.
+6. Latest `docs/coursefinder-master-project-plan-*.md`.
+7. Latest `docs/coursefinder-running-build-*.md`.
+8. Latest accepted `docs/coursefinder-database-architecture-*.md`.
+9. Latest Admin/PIM design-decision document when UI/PIM/field semantics are involved.
+10. Relevant milestone/sub-milestone runsheets, UAT/source-qualification/design documents and overlapping Change Controls.
 
 A chat should inspect implementation repositories and live Supabase state when the task depends on current deployed behaviour. Do not overwrite newer parallel work based on stale chat context.
+
+For M2 work, task-specific prompts may narrow scope but must not remove the standing M2 authority/security/operations contract or A1–A6 execution discipline. Full deployed acceptance is a nominated checkpoint gate, not the default feedback loop for every intermediate change.
 
 ## Change-control trigger
 
@@ -139,4 +142,4 @@ Update the running-build/master-plan only when the programme status genuinely ch
 
 When opening a new CourseFinder chat, the opening prompt should tell it to read this file first. Existing chats should also re-read it whenever their work becomes material, overlaps another workstream, or changes scope.
 
-This file is intentionally concise enough to be read every session. Detailed rules belong in the referenced category/change/UAT/design documents.
+This file is intentionally concise enough to be read every session. Detailed rules belong in the referenced milestone/addenda/category/change/UAT/design documents.
