@@ -14,7 +14,8 @@ Immediate work:
 - inspect whether Zoho Creator MCP is now connected and enumerate exact exposed tools/permissions;
 - if connected, use it for supported record/action work only; do not claim it can build Creator structures;
 - establish the target Creator Pilot app/roles/connection through supported Creator structural tooling;
-- implement a dedicated server-side Pilot HTTP transport over `zoho-integration-v1`; never give Zoho a Supabase service-role key;
+- reuse the deployed `zoho-course-api` v2 server-side Pilot transport for the Courses screen; never give Zoho a Supabase service-role key;
+- configure the Creator Connection with the dedicated Pilot integration token and run end-to-end 401/400/404/429/search/lookup/filter-option UAT;
 - reconcile/admit QILT/PRISMS contextual DTOs only at their real Provider/study-area/state/sector grain;
 - run targeted auth/exact/search/paging/null/incremental/replay/reconciliation tests, then bounded Creator integration/responsive UAT;
 - keep Production/public Website integration out of scope.
