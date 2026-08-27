@@ -237,3 +237,14 @@ Targeted validation must prove:
 ## Exit gate
 
 M2.4.2 closes only when Layer 2 can be run and monitored as a routine enrichment service, broad accepted enrichment has been executed/measured, performance/cost/storage are known, unresolved domains are cleanly handed to Layer 3, and the UI/operations documentation reflects actual operating evidence.
+
+## A8 — single release-notes surface / footer cleanup
+
+M2.4.2 inherits `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`.
+
+For this workstream:
+- the persistent footer/runtime feature marker is obsolete and must remain removed;
+- the top-right PIM Admin version control + Release Notes overlay is the single operator-facing release/version surface;
+- deployment readiness/UAT must not use the removed footer as a test hook;
+- permanent browser UAT must assert the footer marker is absent and the version overlay remains accessible;
+- the M2.4.2 version bump/release entry occurs only when the release slice is frozen after the remaining full-run gates.
