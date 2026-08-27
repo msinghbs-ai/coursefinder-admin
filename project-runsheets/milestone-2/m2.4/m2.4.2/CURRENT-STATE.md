@@ -425,3 +425,20 @@ A10 is targeted PASS on Pilot `f8e743c417df26ead234523718a2b8024e415646`:
 - shared filter rendering is capped to 10 items per page.
 
 Admin/PIM Design Decisions v1.17 now carries the platform-wide paged-filter, dependent-scope and tablet-focus contract.
+
+
+### A10 platform-wide paged-filter PASS
+
+A10 is now PASS for the current large dynamic Admin filter surfaces on Pilot `656999ef5f92f74b850482e559f418beb93ac9bc`:
+- cross-screen deployed UAT `33031938406` — PASS;
+- frontend build `33031938398` — PASS;
+- Layer 2 State/University options are server-paged at 10; State preview no longer returns the full profile list;
+- Course Country/State/Provider/Study level/Field/Delivery use server-paged options;
+- Evidence Source uses country-aware server paging; the legacy Evidence bundle now returns `sources: []`;
+- QILT Provider and Metric use server paging; the legacy QILT bundle now returns empty `providers`/`metrics` arrays;
+- PRISMS Study Area uses server paging; the legacy PRISMS bundle now returns `study_areas: []`;
+- shared/local filter renderers are capped to 10 rows and no longer use unconditional `autoFocus`;
+- coarse-pointer deployed UAT proves filter opening does not focus the search field;
+- CI automatically selects `tests/uat/a10-paged-filters-deployed.spec.mjs` for A10 filter changes and includes it in integration/acceptance.
+
+Current runtime option cardinalities at acceptance: Evidence Source 44; QILT Provider 105; QILT Metric 19; PRISMS Study Area 13. Oversized requests remain server-capped to 10.
