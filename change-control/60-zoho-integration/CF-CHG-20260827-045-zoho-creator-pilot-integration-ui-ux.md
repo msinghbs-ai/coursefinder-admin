@@ -98,6 +98,9 @@ Targeted Pilot results:
 - current manifest totals: 33,105 Courses / 3,085 Providers / 4 Scholarships;
 - Security Advisor after DDL: 129 INFO, 0 WARN/ERROR, no Zoho-specific finding;
 - Performance Advisor after DDL: 165 INFO, 0 WARN/ERROR, no Zoho-specific finding.
+- representative direct DB timing: Course text search ~937 ms; exact Course lookup ~11 ms; Provider search ~49 ms.
+- no-result search returns 200-style empty item semantics at the DB contract; negative limit/offset are bounded to 1/0.
+- Course detail QILT/PRISMS context remains explicit `not_admitted` with correct grain labels.
 
 Bounded HTTP/Zoho integration, malformed-request transport handling, rate limiting, responsive Creator UI and final acceptance remain open because the Zoho connection/transport is not yet available.
 
@@ -131,6 +134,7 @@ No canonical mutation, Search mutation or Publication mutation is part of these 
 | 27 Aug 2026 12:34 AEST | PROPOSED | Zoho Pilot UI/integration workstream initiated | current workstream |
 | 27 Aug 2026 | ACTIVE / PARTIAL | No Zoho Creator tool exposed; continued safe Pilot implementation | tool discovery |
 | 27 Aug 2026 | ACTIVE / PARTIAL | `zoho-integration-v1` read family deployed, source-mirrored and targeted security/UAT passed | migrations + commits above |
+| 27 Aug 2026 | ACTIVE / PARTIAL | Official Zoho MCP/ChatGPT setup constraint documented; structural Creator build remains outside MCP capability | Zoho Creator MCP + OpenAI MCP app documentation |
 
 ## Closure
 
