@@ -1,9 +1,9 @@
 # CourseFinder Data Operations Admin Guide v1.2
 
 **Status:** CURRENT M2.4 DATA OPERATIONS GUIDE  
-**Date:** 26 August 2026  
+**Date:** 28 August 2026  
 **Supersedes:** `docs/coursefinder-m2-4-data-operations-admin-guide-v1.1.md`  
-**Change Control:** `CF-CHG-20260826-043`  
+**Change Controls:** `CF-CHG-20260826-043`; `CF-CHG-20260827-044`  
 **Pilot UI:** PIM Admin v2.15.7 and later until superseded
 
 ## 1. Authority model
@@ -245,3 +245,28 @@ Alert read failure must not prevent Country/Scope controls from loading.
 - UQ broad deterministic enrichment is accepted evidence.
 - Federation is partially queueable and otherwise explicitly source-limited.
 - RMIT broad discovery must use current first-party detail-page CRICOS verification; pre-v1.3.0 title-only decisions are superseded.
+
+
+## 17. A12 contextual insights and Scholarships
+
+Provider and Course detail now expose bounded related decision context through the existing governed read boundary:
+- **Student outcomes / benchmarks**;
+- **International student flow**;
+- **Scholarships / funding**.
+
+Country-specific names such as QILT and PRISMS are source labels, not separate blade architecture.
+
+Provider-level outcome rows remain Provider facts. When shown from Course detail they are explicitly contextual and must not be treated as Course-level canonical facts. PRISMS/student-flow observations are shown only at the grain supported by the governed relationship; direct Provider/Course relationship, regional/field context, or explicit `not mapped` are all valid states.
+
+Scholarships use governed scope. Direct Course scope is strongest. Compatible study-level, field, campus or Provider-wide scope may be shown as contextual eligibility; exclusion scopes override broad inclusion. Contextual relevance is not proof of student eligibility.
+
+Every related item preserves source family, observation period/granularity and Evidence where available. Reading contextual data does not authorise canonical, Search or Publication mutation.
+
+## 18. M2.4.2 refresh-policy disposition
+
+Current accepted Course-profile refresh state is evidence-driven:
+- UQ weekly Course refresh is enabled after accepted full-run/canonical evidence;
+- RMIT weekly Course refresh remains disabled until its frozen 212-record canonical-promotion gate passes;
+- Federation weekly Course refresh remains disabled and its source profile remains paused/source-limited.
+
+Do not enable a profile merely to remove an alert or make the operations screen appear healthy.
