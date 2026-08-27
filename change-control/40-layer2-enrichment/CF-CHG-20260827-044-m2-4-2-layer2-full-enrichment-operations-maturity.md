@@ -364,3 +364,23 @@ Controls:
 - Search/Publication authority is unchanged.
 
 Change-control closure does not require every AU/NZ university to be individually enriched. It requires representative broad evidence, safe scalable onboarding, measurable operations, governed exceptions, cross-layer handoff and the remaining M2.4.2 security/UAT/documentation gates.
+
+
+## A11 deployed scale-scope proof (27 August 2026)
+
+The Layer 2 routine scope contract now reads from the full Layer 1 catalogue instead of only existing executable Layer 2 profiles.
+
+Verified live catalogue:
+- AU — 1,546 institutions / 26,648 Courses / 8 represented subdivisions;
+- CA — 82 institutions / 10,356 Courses / 10 represented subdivisions;
+- NZ — 286 institutions / 6,457 Courses / no current Layer 1 subdivision linkage.
+
+The UI/API now distinguishes:
+- Layer 1 catalogue scope;
+- Layer 2 qualified/executable institutions;
+- qualification-required institutions;
+- governed URL readiness.
+
+Bounded non-mutating A11 proof created 5-institution × 10-Course qualification waves in AU, CA and NZ. A second AU wave selected another five institutions with zero overlap, proving active-wave deduplication. Qualification creation explicitly records canonical mutation=false, Search mutation=false and Publication mutation=false.
+
+This proves catalogue visibility and scalable wave orchestration. It does not yet qualify the selected institutions’ first-party sources. The next gate is governed deterministic acquisition/Evidence over those samples followed by reusable source-pattern/profile promotion where identity safety passes.
