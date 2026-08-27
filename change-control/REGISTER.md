@@ -17,7 +17,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 ACTIVE / FULL-RUN EVIDENCE IN PROGRESS.** M2.4.1 remains the last accepted milestone baseline at Pilot SHA `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272` PASS; Stage C deployed UAT `32972106291` desktop/mobile PASS. CF-CHG-044 is ACTIVE. UQ full deterministic discovery/enrichment/canonical apply has passed for 153 governed Courses with 3 explicit Layer 3 exceptions; RMIT broad discovery and Federation source-limited completion remain open. A1–A7 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
 >
-> **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL for Pilot-only read-contract/UI design work. Zoho MCP connection, Creator structural build and bounded integration UAT remain open; no Zoho cutover is authorised.
+> **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Pilot read contract and the first Courses-screen HTTP gateway are deployed; Zoho Creator connection/structural build and bounded end-to-end integration UAT remain open; no Zoho cutover is authorised.
 >
 > **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates.
 
@@ -67,7 +67,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
 | CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | ACTIVE — FULL-RUN EVIDENCE IN PROGRESS | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
-| CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — PILOT READ CONTRACT DEPLOYED; ZOHO CONNECTION BLOCKED | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
+| CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — COURSE HTTP GATEWAY DEPLOYED; ZOHO CONNECTION BLOCKED | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
 
 ## Current programme baseline
 
