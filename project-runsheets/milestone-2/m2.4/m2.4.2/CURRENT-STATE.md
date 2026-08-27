@@ -501,3 +501,17 @@ Managed enrichment ran in two non-overlapping batches after bounded retry recove
 - governed RMIT Evidence since full discovery began: 1,355 Storage-backed Evidence objects, ~823,176,192 bytes.
 
 Terminal PARTIAL state handling was corrected so a completed partial batch is historical/terminal, not an active-run blocker. Preview now reports no active RMIT batch after completion. Post-DDL Security Advisor and Performance Advisor show 0 material findings for the new run-item metrics/state functions.
+
+## Continuation reconciliation — 27 August 2026 18:13 AEST
+
+Repository and deployed Pilot truth were re-reconciled after the final RMIT full managed-run evidence.
+
+- Current Pilot main has advanced beyond the M2.4.2 run candidate because the parallel Zoho workstream added isolated Course API commits; those commits do not supersede the M2.4.2 Layer 2 runtime evidence.
+- RMIT full managed enrichment is confirmed terminal: 261/261 processed, 212 resolved L2, 49 governed Layer 3 fall-outs, 0 blocked.
+- The exact RMIT canonical-promotion set was independently reconciled from the two terminal managed batches by source URL: 212 resolved items, 212 distinct URLs, 212/212 latest RMIT provider `00122A` source records identity-matched, 0 already applied, 0 unsafe.
+- Final Security Advisor recheck remains INFO-only for the current project; no new material M2.4.2 WARN/ERROR was identified.
+- Final Performance Advisor recheck remains INFO-only; existing unindexed-FK/unused-index findings are retained for workload-based disposition rather than being changed merely to silence INFO notices.
+- Canonical dry-run/apply through `public.layer2_apply_course_candidate(...)` remains the next consequential RMIT gate. The current ChatGPT Supabase connector blocked invocation of the apply-named function even with `p_apply=false`; no bypass was attempted and no canonical mutation occurred.
+- Independent closure work may continue: refresh-policy decision, permanent cancellation/recovery/replay/idempotency regression, security negatives, Layer 1 + Jobs/Evidence/Data Quality regression, documentation/release-note freeze, Stage B, then exactly one Stage C.
+
+M2.4.2 therefore remains ACTIVE / NOT YET ACCEPTED.
