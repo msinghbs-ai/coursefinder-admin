@@ -10,7 +10,7 @@
 
 Zoho Creator is a separate CourseFinder consumer. It must not use the Website contract blindly and must never query raw `catalogue`, `pipeline`, Evidence, review, Vault, Search internals or Admin tables.
 
-Pilot functions are service-role-only database helpers for a future server-side Zoho transport. **Do not place the Supabase service-role key in Zoho Creator, Deluge, forms, pages or browser code.**
+Pilot functions are service-role-only database helpers. The first server-side transport is now deployed for the Courses screen as Supabase Edge Function `zoho-course-api`. **Do not place the Supabase service-role key in Zoho Creator, Deluge, forms, pages or browser code.**
 
 Production is a later clean trust boundary and is not covered by this contract.
 
@@ -138,7 +138,7 @@ Current Pilot `zoho_course_lookup_v1` deliberately returns QILT/PRISMS context a
 Database helper objects return bounded resource errors such as:
 - `NOT_FOUND` for failed exact lookup.
 
-The future HTTP transport must additionally implement:
+The HTTP transport implements or must preserve:
 - 400 malformed/unsupported input;
 - 401 missing/invalid integration authentication;
 - 403 authenticated but not authorised;
@@ -153,7 +153,7 @@ Search no-results is 200 + empty `items`.
 
 Current DB helpers are `service_role` only. That is an internal server boundary, not a Zoho credential model.
 
-Required Pilot transport:
+Pilot transport:
 - Zoho Creator uses a Creator **Connection** or other server-side credential store;
 - credential is scoped to the dedicated CourseFinder Pilot integration endpoint;
 - endpoint stores/uses Supabase service credentials only server-side;
@@ -161,7 +161,7 @@ Required Pilot transport:
 - rate-limit by integration identity and resource;
 - log request ID, resource, outcome, latency and reconciliation counts without payload secrets.
 
-The HTTP transport is not yet deployed under CF-CHG-045.
+For the Courses screen, `zoho-course-api` v2 is deployed under CF-CHG-045. It authenticates a dedicated Pilot bearer token by SHA-256 hash against a private service-role-only credential table, rate-limits each action to 120 requests/minute, returns request IDs and safe errors, and never exposes the Supabase service-role key. Creator Connection end-to-end acceptance remains open.
 
 ## 11. Explicit exclusions
 
@@ -187,4 +187,4 @@ Targeted Pilot evidence on 27 August 2026:
 - Security Advisor: INFO only; no Zoho-specific finding;
 - Performance Advisor: INFO only; no Zoho-specific finding.
 
-Bounded HTTP + actual Zoho integration acceptance remains open.
+Courses-screen Supabase transport deployment is PASS. Actual Zoho Creator Connection invocation, external-path malformed-request/401/404/429 checks and responsive UI acceptance remain open.
