@@ -771,3 +771,24 @@ Current accepted Course-profile policies are intentionally split by measured evi
 - Federation weekly Course refresh: **disabled**, source profile remains paused/source-limited.
 
 Do not normalise these into one blanket enable/disable decision. UQ has accepted canonical full-run evidence; RMIT does not yet have its final canonical promotion consequence; Federation remains source-limited by design.
+
+
+## Stage B integration nomination — 28 August 2026
+
+Pilot `75e77c0599a32c77e8e890de9fc2ce2ba8c10a3c` updates the M2.4 integration marker after A12 targeted PASS.
+
+Workflow evidence:
+- frontend build run `33115387890` — PASS;
+- deployed Stage B workflow run `33115387818` — currently executing the broader desktop/mobile integration matrix at this checkpoint;
+- do not record Stage B PASS until both desktop and mobile conclude successfully.
+
+Independent closure work completed while Stage B runs:
+- final live Security Advisor regression: 0 WARN / 0 ERROR;
+- final live Performance Advisor regression for current slice: 0 WARN / 0 ERROR;
+- service-only canonical apply/reconcile ACL reconfirmed;
+- A12 rank/anon negative retained;
+- Data Operations Admin Guide v1.2 updated with A12 + refresh-policy truth;
+- Operations Runbook v1.4 published;
+- Admin/PIM Design Decisions v1.18 published with A12 contextual-detail decision.
+
+No Stage C marker has been created. RMIT 212-record canonical promotion remains open and no connector-safety bypass has been attempted.
