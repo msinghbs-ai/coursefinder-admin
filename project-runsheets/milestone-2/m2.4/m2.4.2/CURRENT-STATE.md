@@ -394,3 +394,20 @@ Footer/runtime feature-marker cleanup is now targeted PASS:
 - frontend build `33029342761` — PASS.
 
 The normal Admin no longer renders `#governed-runtime-marker`; shell readiness and release UAT use the real `.m-release-pill` control and the Release Notes overlay.
+
+
+## A10 paged-filter / tablet-focus implementation
+
+A10 is now standing M2 governance.
+
+Implemented in the current Pilot slice:
+- deployed `security.admin_catalogue_filter_page(jsonb)` through `admin_read('catalogue_filter_page')`;
+- server hard cap: maximum 10 filter options per request;
+- response includes items, total, limit, offset and has_more;
+- Course Country, State/Region, Provider, Study level, Field and Delivery filters use lazy server-side paging/search rather than the previous full `course_filters` bundle;
+- shared local `FilterSelect` renders at most 10 options per page;
+- shared filter search input no longer uses unconditional `autoFocus`; only fine-pointer desktop contexts receive programmatic focus;
+- Layer 2 State preview visibly lists all resolved governed universities/profiles and pages the display 10 at a time;
+- State scope remains a single scope action: operators do not individually select each university.
+
+A10 targeted build/deployed UAT is in progress and must PASS before this slice is accepted.
