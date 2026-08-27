@@ -327,3 +327,5 @@ A10 targeted deployed evidence is PASS: Pilot `f8e743c417df26ead234523718a2b8024
 ### A10 platform-wide acceptance
 
 A10 is PASS on Pilot `656999ef5f92f74b850482e559f418beb93ac9bc`: deployed UAT `33031938406` PASS and frontend build `33031938398` PASS. The 10-item server-paged option contract is implemented for Layer 2 State/University, Course dynamic filters, Evidence Source, QILT Provider/Metric and PRISMS Study Area. Legacy bulk bundles no longer backload those growing domains. Coarse-pointer browser UAT proves no automatic search focus. The dedicated A10 suite is permanently routed by CI and included in integration/acceptance.
+
+A10 post-DDL Advisor check: Security Advisor 0 material WARN/ERROR/new executable-function findings for the paging functions; Performance Advisor 0 material WARN/ERROR findings for A10. Existing INFO-class project notices remain unchanged.
