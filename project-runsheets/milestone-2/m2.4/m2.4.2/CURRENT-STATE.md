@@ -384,3 +384,13 @@ Pilot implementation:
 - release, Layer 3 and Course Detail deployed suites now explicitly require the obsolete runtime marker to be absent.
 
 The PIM Admin release version is intentionally not bumped yet because M2.4.2 full RMIT acceptance is still in progress.
+
+
+### A8 deployed acceptance
+
+Footer/runtime feature-marker cleanup is now targeted PASS:
+- Pilot `27f56ddb944569e3ca1061ce6d27f760642e58e0`;
+- deployed UAT `33029342740` — PASS;
+- frontend build `33029342761` — PASS.
+
+The normal Admin no longer renders `#governed-runtime-marker`; shell readiness and release UAT use the real `.m-release-pill` control and the Release Notes overlay.
