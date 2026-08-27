@@ -411,3 +411,17 @@ Implemented in the current Pilot slice:
 - State scope remains a single scope action: operators do not individually select each university.
 
 A10 targeted build/deployed UAT is in progress and must PASS before this slice is accepted.
+
+
+### A10 targeted deployed acceptance
+
+A10 is targeted PASS on Pilot `f8e743c417df26ead234523718a2b8024e415646`:
+- deployed UAT `33030713534` — PASS;
+- frontend build `33030713535` — PASS;
+- server filter API hard-cap independently verified by requesting `limit=50` and receiving `limit=10`, 10 items, `total=84`, `has_more=true` for a Provider search;
+- coarse-pointer browser UAT proved opening the Course Provider filter does not focus the search input;
+- Course Provider search remains server-side and page-bounded to 10;
+- Layer 2 Queensland State preview visibly shows The University of Queensland as an included governed university/profile;
+- shared filter rendering is capped to 10 items per page.
+
+Admin/PIM Design Decisions v1.17 now carries the platform-wide paged-filter, dependent-scope and tablet-focus contract.
