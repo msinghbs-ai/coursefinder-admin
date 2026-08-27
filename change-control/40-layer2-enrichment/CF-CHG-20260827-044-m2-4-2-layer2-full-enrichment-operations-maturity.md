@@ -307,3 +307,6 @@ The obsolete persistent runtime/footer marker that listed PIM Admin and implemen
 Browser/UAT readiness has been migrated off the footer marker. Permanent tests require the marker to remain absent and continue to verify the accessible version/release overlay.
 
 No M2.4.2 release-version bump is made until the current full-run/runtime slice is frozen.
+
+
+A8 targeted deployed evidence: Pilot `27f56ddb944569e3ca1061ce6d27f760642e58e0`, deployed UAT `33029342740` PASS, frontend build `33029342761` PASS. The footer/runtime marker is absent and no longer used by deployment-readiness helpers.
