@@ -450,3 +450,19 @@ Post-A10 Supabase Advisor review is clean for the new paged-filter functions:
 - Security Advisor: 129 total notices, **0 material WARN/ERROR or new function-executable findings** related to `admin_filter_option_page`, `layer2_scope_options_page_service` or `layer2_scope_countries_service`;
 - Performance Advisor: 166 total notices, **0 material WARN/ERROR findings** related to the A10 functions;
 - remaining notices are existing INFO-class RLS/no-policy, unused-index and project configuration findings and were not changed without workload/security evidence.
+
+
+### RMIT full discovery + bounded retry gate
+
+RMIT discovery/retry is complete for the accepted current profile version `409b0f7c-4e04-4a33-8f4d-e173fc3f9c40`:
+- canonical RMIT catalogue: 500 Courses;
+- terminal deterministic discovery outcomes: 498/500;
+- selected current first-party Course URLs: 261;
+- detail-CRICOS verified selected URLs: 261/261;
+- selected URLs outside RMIT-owned hosts: 0;
+- duplicate selected URLs across Courses: 0 at the verified-set audit;
+- canonical `catalogue.courses.course_url` mutations during discovery: 0;
+- bounded retry request `2257` recovered 21 additional verified selected Courses beyond the original 240 auto-sync set;
+- two residual Courses remain source-limited: CRICOS `091377B` and `091378A`, both `RMIT Inbound Internship`. The accepted profile requires `/study-with-us/levels-of-study/`; all configured providers exhausted for these records. Current RMIT first-party material for the inbound internship sits on the separate `inbound.rmit.edu.au` estate and does not provide an accepted CRICOS-bearing Course page under the current profile contract. No prefix/identity rule was weakened and no third-party page was accepted.
+
+The primary discovery chain auto-created managed batch `6abe8558-e1b9-4a6f-ba97-47481ba488bb` for the 240 verified selections available at its completion boundary. The 21 retry selections are intentionally outside that active batch and will be processed in a second bounded batch only after the first batch reaches terminal state.
