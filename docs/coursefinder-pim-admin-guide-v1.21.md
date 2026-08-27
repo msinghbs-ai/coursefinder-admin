@@ -111,3 +111,27 @@ Scholarships are first-class related entities. Listing/search Evidence discovers
 ## 14. Terminology
 
 Avoid **Search Admission**. Use Search Eligibility, Search Projection, Search Visibility, Publication Eligibility or Publication.
+
+## 15. M2.4.2 Layer 2 operator model
+
+The routine Layer 2 screen is scope-first rather than provider-first. Operators select Country and Country/State/University scope, review queueability, then start one governed sync action.
+
+Low-level source profiles, route priority, vendor concurrency, credentials and billing configuration remain Advanced controls.
+
+### Course URL identity
+
+A first-party Course URL is an enrichment source location, not an identity authority.
+
+RMIT specifically requires current detail-page CRICOS verification before a discovered URL becomes queueable. Matching the canonical title alone is insufficient where legacy and current CRICOS registrations share the same Course title.
+
+### Paused and source-limited profiles
+
+Paused profiles are deliberately excluded from executable scope options and are shown as blockers. Do not weaken discovery thresholds or identity rules to make a paused/source-limited profile appear complete.
+
+### Refresh and alerts
+
+Course-profile refresh policies are governed and initially disabled until full-run acceptance. Layer 2 operational alerts cover stale runs, paused profiles, blocked items, repeated provider failures and quota reserve.
+
+### Evidence and Layer 3 fall-out
+
+Ambiguous, identity-mismatch and not-found discovery outcomes are legitimate deterministic fall-out. Preserve their Evidence. Only unresolved extracted facts from governed Evidence may proceed to Layer 3; Layer 3 still cannot redefine Layer 1 Course identity.
