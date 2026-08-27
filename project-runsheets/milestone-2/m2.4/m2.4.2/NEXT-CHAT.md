@@ -170,3 +170,10 @@ Retryable non-terminal discovery failures observed so far in the broad run:
 - `658f183e-667d-4504-8900-89dd8cf53de4` — signal aborted.
 
 These failures must remain retryable/non-terminal and must not be converted into fabricated discovery outcomes. After the main continuation chain reaches the end of scope, restart only unresolved/retryable Courses through terminal-outcome idempotency, then audit final selected/verified/duplicate counts before managed enrichment.
+
+
+## A10 filter/selector rule
+
+Read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md`.
+
+Do not reintroduce eager full option-list loading for Course/University/Provider filters. Dynamic option pages are capped at 10. Layer 2 State scope must visibly list all included universities, paged 10 at a time. On touch/tablet/coarse-pointer devices opening a filter must not auto-focus the search input.
