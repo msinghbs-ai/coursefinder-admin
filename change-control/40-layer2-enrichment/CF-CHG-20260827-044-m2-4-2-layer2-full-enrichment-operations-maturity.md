@@ -236,3 +236,36 @@ Prefer additive migrations and independently reversible frontend/Edge changes. R
 
 ### Acceptance status
 M2.4.2 remains ACTIVE. UQ now provides broad end-to-end deterministic discovery → managed acquisition/extraction → governed canonical apply evidence. RMIT/Federation final disposition, schedule/recheck/alerts/housekeeping, full performance/security regression, Stage B and exactly one final Stage C remain open.
+
+
+## RMIT identity-safety correction and operational maturity update — 27 August 2026
+
+A broad RMIT discovery review found that search-result title similarity alone can map legacy and current CRICOS Course records to the same current first-party Course page. BH079 and BH077 provided concrete examples. Pre-v1.3.0 RMIT discovery decisions are therefore **superseded** as acceptance evidence.
+
+Worker `layer2-scope-discover-scheduled-v1.3.0` now requires the top candidate's current first-party detail page to contain the expected CRICOS before `selected=true`. Detail verification:
+- uses the existing governed provider chain;
+- retains separate native verification HTML Evidence;
+- retains provider-attempt telemetry;
+- records `detail_cricos_verified`;
+- performs no canonical mutation.
+
+All pre-v1.3.0 terminal RMIT current-version candidate decisions were retained historically but invalidated to non-selected `candidate` rows with their prior status preserved in `match_basis`.
+
+Targeted identity control request `2164`:
+- `110997A` → current BH079: PASS, selected and verified;
+- `079626B` → current BH079: PASS negative, not selected / identity mismatch because the first-party page does not contain the legacy CRICOS;
+- 2 processed / 1 selected / 0 runtime failures / no continuation.
+
+RMIT is paused while this contract is frozen into permanent source/UAT; broad RMIT discovery/enrichment must be repeated under v1.3.0.
+
+Additional M2.4.2 operational maturity now deployed:
+- terminal discovery restart idempotency;
+- bounded continuation set subtraction and hard invocation/Course time budgets;
+- Layer 2 Course refresh dispatcher and reconciler using the existing managed-batch service;
+- disabled weekly profile-scoped refresh policies pending full-run acceptance;
+- non-destructive Layer 2 housekeeping with zero governed-history deletion;
+- cron scheduling for refresh dispatch and housekeeping;
+- computed rank-4 Layer 2 alerts for stale runs, paused profiles, blocked items, provider failure streak and quota reserve;
+- alert browser exposure only through accepted `admin_read` governance, with no credential exposure.
+
+M2.4.2 remains ACTIVE. No Stage B or Stage C candidate has been nominated.
