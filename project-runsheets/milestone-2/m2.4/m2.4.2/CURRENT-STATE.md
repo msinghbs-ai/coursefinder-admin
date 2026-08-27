@@ -254,3 +254,69 @@ Pilot runtime/source reconciliation includes:
 
 - UQ now satisfies the broad deterministic discovery → managed acquisition/extraction → governed canonical-apply evidence path for 153 Courses, with 3 explicit Layer 3 exceptions.
 - This is substantial full-run evidence, but M2.4.2 remains ACTIVE because RMIT/Federation accepted-scope disposition, scheduling/rechecks/alerts/housekeeping, final performance/security regression, Stage B and exactly one final Stage C are still open.
+
+
+## RMIT detail-page CRICOS gate + Layer 2 operational maturity (27 August 2026)
+
+### RMIT identity correction
+
+Broad RMIT search-result discovery exposed two duplicate URL groups where legacy and current CRICOS records shared the same Course title:
+- BH079 Chemical Engineering (Honours): legacy `079626B` and current `110997A`;
+- BH077 Civil and Infrastructure (Honours): legacy `079625C` and current `110995C`.
+
+The current first-party RMIT detail pages identify the current CRICOS values, so title-only search-result selection was rejected as unsafe.
+
+Corrective action:
+- RMIT discovery was paused;
+- all pre-v1.3.0 current-version terminal RMIT discovery decisions were invalidated to non-selected `candidate` rows while preserving Evidence, provider attempts, timestamps and the prior status in `match_basis.pre_detail_verification_status`;
+- discovery worker advanced to `layer2-scope-discover-scheduled-v1.3.0`;
+- a top search candidate is now queueable only after its current first-party Course detail page contains the expected CRICOS;
+- verification HTML is retained as Layer 2 Evidence with `operation=course_url_identity_verification`;
+- verification provider attempt telemetry records `detail_cricos_verified` / `detail_cricos_missing`;
+- no canonical mutation occurs during discovery/verification.
+
+Two-Course control request `2164` PASS:
+- current CRICOS `110997A` → BH079: selected, `detail_cricos_verified=true`, verification Evidence retained, Direct HTTP detail verification succeeded;
+- legacy CRICOS `079626B` → same BH079 URL: not selected, `identity_mismatch`, `detail_cricos_verified=false`, explicit blocker that current first-party page does not contain the legacy CRICOS;
+- processed 2 / selected 1 / failed 0 / no continuation.
+
+RMIT was re-paused after the control while the v1.3.0 contract is frozen into source/UAT before any broad restart.
+
+### Discovery runtime / restart hardening
+
+- terminal discovery outcomes are idempotent for an immutable profile version; restarts no longer re-acquire already terminal exact/likely/ambiguous/mismatch/not-found Courses;
+- provider/acquisition failures remain retryable;
+- continuation uses set subtraction rather than assuming context/input ordering;
+- per-Course and per-invocation budgets prevent routine continuations exceeding pg_net's outer request ceiling;
+- paused profiles are enforced through the existing `layer2_runtime_context` executable-state contract, without exposing private `security.*` helpers.
+
+### Refresh / housekeeping
+
+A Layer 2 Course refresh dispatcher and non-destructive housekeeping substrate are deployed:
+- cron `coursefinder-layer2-refresh-dispatcher`: 03/18/33/48 minutes each hour;
+- cron `coursefinder-layer2-housekeeping`: daily 03:27;
+- profile-scoped weekly UQ/RMIT/Federation refresh policies exist but remain deliberately disabled until full-run acceptance;
+- due Layer 2 profile refreshes will reuse the existing managed-batch service and reconcile `refresh_requests` from the resulting batch;
+- housekeeping only recovers stale provider attempts/jobs/batches;
+- verification run: 0 Evidence deleted, 0 profile versions deleted, 0 provider-attempt history deleted, 0 run history deleted, 0 canonical history deleted.
+
+### Operational alerts
+
+The existing Layer 2 operator workspace now receives governed computed alerts through `admin_read('layer2_ops_alerts')`:
+- stale managed run;
+- paused Course profile;
+- blocked run items;
+- repeated acquisition-provider failures;
+- provider quota near configured reserve.
+
+The alert helper requires authenticated rank >=4, exposes no credentials/private table access, and follows the accepted authenticated EXECUTE/private-schema read-helper pattern.
+
+Current alert evidence includes Federation's intentional pause/source limitation; RMIT pause is also expected while the CRICOS verification gate is frozen.
+
+### Current acceptance impact
+
+- UQ broad end-to-end enrichment remains PASS.
+- Federation safe subset remains PASS / remainder source-limited.
+- RMIT title-only broad discovery evidence before v1.3.0 is explicitly superseded and cannot be used as acceptance evidence.
+- RMIT broad discovery/enrichment must be rerun under the v1.3.0 detail-page CRICOS gate before M2.4.2 can close.
+- Stage B and Stage C remain NOT nominated.
