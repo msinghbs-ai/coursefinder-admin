@@ -578,3 +578,109 @@ Deployed implementation:
 Post-DDL Security and Performance Advisors remain INFO-only for this slice; no new material WARN/ERROR was observed.
 
 A11 is therefore **POC PASS for full Layer 1 visibility + bounded cross-country wave selection/orchestration**. It is not yet evidence that unqualified providers have completed deterministic acquisition/source qualification. The next consequential gate is to execute the selected qualification samples through governed acquisition/Evidence and promote reusable source-pattern/profile families only when identity-safe evidence passes.
+
+
+## A11 qualification execution and cross-layer handoff — POC gate
+
+A11 has progressed beyond catalogue visibility into live governed source qualification.
+
+### Source-seed qualification
+
+The first AU/CA/NZ 5-provider × 10-Course waves were executed through the existing Layer 2 acquisition-provider routing and Evidence lifecycle. Qualification-only profiles use authority class `qualification_candidate`; they are service/runtime-internal and are explicitly excluded from routine Layer 2 qualified/executable scope until a later strict promotion gate succeeds.
+
+Provider-level source-seed outcomes:
+
+**Australia**
+- Adelaide University — source-limited because the current Layer 1 provider website seed is missing/invalid;
+- Monash University — Evidence-backed first-party source-pattern candidate;
+- The University of Sydney — Evidence-backed source-pattern candidate;
+- University of Technology Sydney — Evidence-backed source-pattern candidate;
+- UNSW Sydney — Evidence-backed source-pattern candidate.
+
+**Canada**
+- British Columbia Institute of Technology;
+- Simon Fraser University;
+- University of Alberta;
+- University of British Columbia;
+- University of Victoria.
+
+All five selected CA providers are source-limited because the current Layer 1 records have no provider website seed. No website was guessed or manufactured.
+
+**New Zealand**
+- Massey University — Evidence-backed source-pattern candidate;
+- University of Auckland — source-limited because the Layer 1 website value is malformed;
+- University of Canterbury — Evidence-backed source-pattern candidate;
+- University of Waikato — Evidence-backed source-pattern candidate;
+- Victoria University of Wellington — Evidence-backed but no deterministic Course-navigation signal, therefore Layer 3 required.
+
+Source-seed sample totals:
+- AU: 40/50 Evidence-backed pattern candidates; 10/50 source-limited;
+- CA: 0/50 Evidence-backed; 50/50 source-limited;
+- NZ: 30/50 pattern candidates; 10/50 Evidence-backed Layer 3 required; 10/50 source-limited.
+
+### Strict deterministic pattern-control gate
+
+Homepage/study navigation signals were not accepted as sufficient qualification evidence. Candidate catalogue/study URLs were passed back through the mature `layer2-scope-discover-scheduled-v1.3.0` identity-verification worker with three Layer 1 control Courses per provider.
+
+The promotion rule is strict: **3/3 control Courses must resolve to identity-verified current first-party detail pages before a qualification candidate may become `first_party_qualified`.**
+
+Results:
+- Monash — 0/3 verified → Layer 3 required;
+- Sydney — Layer 1 source exposed a legacy HTTP candidate; the mature verifier correctly requires HTTPS. No automatic protocol rewrite was accepted → Layer 3 required;
+- UTS — initial direct route returned HTTP 401; the qualification-only route was safely extended to permit 401 fallback, but bounded revalidation still produced 0/3 verified → Layer 3 required;
+- UNSW — 0/3 verified → Layer 3 required;
+- Massey — 0/3 verified → Layer 3 required;
+- Canterbury — 0/3 verified → Layer 3 required;
+- Waikato — 0/3 verified → Layer 3 required;
+- Victoria University of Wellington was already Layer 3 required from the source-seed gate.
+
+**No new provider profile was automatically promoted.** This is a safety PASS: generic deterministic source-pattern guesses were rejected rather than weakening Layer 1 identity controls.
+
+### Cross-layer handoff
+
+A governed cross-layer handoff now writes bounded provider-level refresh requests:
+
+- **8 Evidence-backed providers → Layer 3 source-pattern interpretation queue**;
+- **7 source-seed gaps → Layer 4/provider-source-resolution queue**.
+
+Layer 3 requests are intentionally recorded as `blocked` with `blocked_pending_dedicated_source_pattern_layer3_profile_benchmark`. The existing production Layer 3 profile is benchmarked only for Course fact tasks; A11 does not silently add a new task class to that accepted profile.
+
+Required Layer 3 contract:
+1. dedicated source-pattern interpretation task/profile;
+2. same first-party host constraint from retained Layer 2 Evidence;
+3. no regulatory identity inference;
+4. candidate discovery pattern only;
+5. candidate must return to Layer 2 strict 3/3 control validation before profile promotion;
+6. no canonical/Search/Publication mutation from interpretation.
+
+Layer 4 source-resolution requests are provider-level and identify missing/malformed first-party seed data. They must resolve/verify the source rather than manufacture it.
+
+### Runtime/security evidence
+
+- scheduled qualification worker: `layer2-scale-qualify-scheduled-v1.0.1`;
+- custom one-time nonce authentication; worker is not a browser path;
+- `layer2-sync-control` remains JWT-authenticated for browser operations;
+- qualification preparation, pattern dispatch/reconcile and cross-layer handoff helpers are service-only;
+- anon/authenticated EXECUTE checks are false; service_role checks are true;
+- post-DDL Security Advisor: INFO-only, no material new WARN/ERROR;
+- post-DDL Performance Advisor: INFO-only, no material new WARN/ERROR;
+- canonical mutation false;
+- Search mutation false;
+- Publication mutation false.
+
+Pilot source reconciliation:
+- qualification worker: `27ed598f382b49dcd4cfac9d7ec36ddfcd8a9665`;
+- live qualification execution/current helper mirror: `aff905d058271d26bb47ebea6f9c1470fd5259f2`;
+- permanent safety/UAT contract update: `ceaee1ca3b3f94f7c90e94d10974c90fc39c98c2`.
+
+### Gate interpretation
+
+A11 is **POC PASS** for:
+- full Layer 1 scope visibility;
+- multi-provider wave selection and deduplication;
+- governed source-seed acquisition;
+- Evidence retention;
+- strict no-false-promotion pattern validation;
+- explicit Layer 3/Layer 4 handoff.
+
+The POC demonstrates why remaining national rollout should not become bespoke Layer 2 engineering. The next layer-specific work is a separately benchmarked Layer 3 source-pattern interpretation capability and provider-source resolution for Layer 4/L1 gaps. M2.4.2 remains ACTIVE pending its remaining acceptance/regression/documentation gates.
