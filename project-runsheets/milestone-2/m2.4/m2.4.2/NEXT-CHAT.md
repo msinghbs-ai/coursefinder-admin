@@ -146,3 +146,27 @@ Targeted UI/runtime gate after this correction:
 Read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`.
 
 Do not restore `#governed-runtime-marker` or any equivalent footer/floating feature-version chip. The top-right PIM Admin version + Release Notes overlay is the only normal operator-facing release surface. UAT must use deterministic shell/version controls rather than a debug/footer marker.
+
+
+## Latest live RMIT continuation checkpoint
+
+Full RMIT v1.3.0 discovery remains ACTIVE through the governed continuation chain.
+
+Latest checkpoint recorded in this continuation:
+- 192 terminal Courses;
+- 80 selected;
+- 80/80 selected URLs detail-CRICOS verified;
+- 0 unverified selected URLs;
+- 0 duplicate selected URL groups at the last duplicate audit;
+- latest active worker/job at snapshot: `f9dbaa88-2f56-4604-8f53-ad4cb630cf13`;
+- latest completed continuation before that worker: request `2189`, which spawned `2190`.
+
+Retryable non-terminal discovery failures observed so far in the broad run:
+- `0efc74b6-839b-4a04-826b-ff0675ead3ce` — signal aborted;
+- `58c4440c-0b59-45de-9962-714c068bd419` — signal aborted;
+- `5a5da2ce-380b-4913-bfa1-ac9688994324` — signal aborted;
+- `7216063f-4843-4a92-8921-b2588ca1269a` — providers exhausted after Direct HTTP extraction failure, Firecrawl 502, Scrape.do timeout, ScraperAPI credential missing and ZenRows extraction failure;
+- `7323c63e-5f12-4813-b72a-01b56aacad3c` — signal aborted;
+- `658f183e-667d-4504-8900-89dd8cf53de4` — signal aborted.
+
+These failures must remain retryable/non-terminal and must not be converted into fabricated discovery outcomes. After the main continuation chain reaches the end of scope, restart only unresolved/retryable Courses through terminal-outcome idempotency, then audit final selected/verified/duplicate counts before managed enrichment.
