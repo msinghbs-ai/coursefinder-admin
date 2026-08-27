@@ -684,3 +684,49 @@ A11 is **POC PASS** for:
 - explicit Layer 3/Layer 4 handoff.
 
 The POC demonstrates why remaining national rollout should not become bespoke Layer 2 engineering. The next layer-specific work is a separately benchmarked Layer 3 source-pattern interpretation capability and provider-source resolution for Layer 4/L1 gaps. M2.4.2 remains ACTIVE pending its remaining acceptance/regression/documentation gates.
+
+
+## A11 Layer 3 source-pattern benchmark disposition — 27 August 2026
+
+A dedicated Layer 3 source-pattern profile was created rather than extending the already accepted Course-fact model profile. The profile remains isolated to task class `source_pattern`, is paused unless its own benchmark passes, and may only select a same-host HTTPS catalogue/discovery URL that appears exactly in retained Layer 2 Evidence links. It cannot infer Layer 1 identity or mutate canonical/Search/Publication state.
+
+Benchmark progression:
+- initial benchmark `552fc743-3aa3-45cd-859f-5c8203b93739` — FAIL; exposed output-shape mismatch plus intermittent empty completions;
+- refined benchmark `fad59a7a-b03f-4946-8ac9-7e91e3ac3261` — FAIL at 3/4 live providers + 2/3 controls;
+- supported-request Nemotron benchmark `579a52d5-f4c2-4995-ab42-0adc4754cef2` — FAIL at **3/4 live providers + 3/3 controls**, exact configured model, USD 0; Massey retained an intermittent empty completion;
+- alternate specific free structured-output model benchmark `ba0ca2de-1034-4bdf-a9ea-82e7a6a7918d` — FAIL before inference because OpenRouter returned immediate 404 for the model endpoint in this runtime.
+
+The acceptance threshold was **not lowered**. The dedicated source-pattern profile is now `paused=true` / `source_pattern_benchmark_blocked`. All eight A11 Layer 3 source-pattern requests remain blocked and no Layer 3 candidate has been fed back into Layer 2 qualification.
+
+Post-change ACL/advisor regression:
+- benchmark profile/evidence/record helpers: anon=false, authenticated=false, service_role=true;
+- Security Advisor: INFO-only, no material new WARN/ERROR;
+- Performance Advisor: INFO-only, no material new WARN/ERROR;
+- canonical/Search/Publication mutation remains false.
+
+Pilot source reconciliation for this gate includes:
+- dedicated profile/benchmark migration and worker;
+- blocked-state migration `20260827235900_m2_4_2_a11_source_pattern_benchmark_blocked.sql`;
+- latest source-pattern benchmark worker `layer3-source-pattern-benchmark-v1.0.6`;
+- permanent source-pattern safety assertions in the Layer 2 operations maturity UAT suite.
+
+This blocker is downstream and does not prevent independent M2.4.2 closure work.
+
+## M2.4.2 permanent recovery/reference regression — 27 August 2026
+
+Rollback-only deployed recovery contract PASS:
+- cancel-during-wave → late `layer2_run_batch_reconcile` preserves batch/item `cancelled`;
+- stale in-flight batch/item → `layer2_run_batch_recover_stuck` returns both to `queued` and stamps `stale_recovery`;
+- transaction rollback leaves no retained test batch/history.
+
+TOEFL reference regression PASS:
+- `ref.english_tests.code='TOEFL_IBT'` exists;
+- legacy `TOEFL` reference code does not exist;
+- `layer2_apply_course_candidate` maps extracted TOEFL to `TOEFL_IBT`;
+- apply helper remains service-role only.
+
+Discovery restart/idempotency PASS:
+- an existing terminal UQ `current_page_not_found` Course was submitted to `layer2_discovery_context_scope`;
+- returned `courses=[]`, proving terminal outcomes are excluded from immutable-profile restart acquisition.
+
+M2.4.2 remains ACTIVE. RMIT canonical promotion, refresh-policy decision, broader UI/navigation regression, documentation/Stage B and exactly one final Stage C remain open.
