@@ -466,3 +466,15 @@ RMIT discovery/retry is complete for the accepted current profile version `409b0
 - two residual Courses remain source-limited: CRICOS `091377B` and `091378A`, both `RMIT Inbound Internship`. The accepted profile requires `/study-with-us/levels-of-study/`; all configured providers exhausted for these records. Current RMIT first-party material for the inbound internship sits on the separate `inbound.rmit.edu.au` estate and does not provide an accepted CRICOS-bearing Course page under the current profile contract. No prefix/identity rule was weakened and no third-party page was accepted.
 
 The primary discovery chain auto-created managed batch `6abe8558-e1b9-4a6f-ba97-47481ba488bb` for the 240 verified selections available at its completion boundary. The 21 retry selections are intentionally outside that active batch and will be processed in a second bounded batch only after the first batch reaches terminal state.
+
+
+### Managed-run observability correction
+
+During the representative RMIT managed batch, deployed truth showed that `layer2_run_items.retry_count` incremented on the first normal `acquiring` transition and the existing runner left `response_ms`, `extraction_ms` and `outcome_code` empty. This was corrected without changing acquisition, routing or extraction semantics:
+- migration `20260827234000_m2_4_2_run_item_observability_fix.sql` corrects retry semantics so only a subsequent acquisition attempt increments `retry_count`;
+- active RMIT batch first-attempt rows were corrected from retry_count 1 to 0 because no item-level requeue/resume had occurred;
+- service-only `layer2_run_item_metrics_mark` records response/extraction timing and terminal outcome/failure class;
+- `layer2-batch-runner` v6 is deployed with the existing custom-auth boundary and records acquisition `latency_ms` plus normalise+deterministic-extraction elapsed time;
+- deployed verification after v6 showed retry_count=0, populated response/extraction timing and outcome codes on new items.
+
+Representative post-fix sample at the 160-item checkpoint: acquisition ~1.4–1.5s average, deterministic normalise+extract ~1.5s average, zero item-level retries and zero blocked items. Evidence Storage growth since the primary batch began was ~342.5 MB at that checkpoint.
