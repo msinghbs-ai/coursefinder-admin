@@ -177,3 +177,38 @@ These failures must remain retryable/non-terminal and must not be converted into
 Read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md`.
 
 Do not reintroduce eager full option-list loading for Course/University/Provider filters. Dynamic option pages are capped at 10. Layer 2 State scope must visibly list all included universities, paged 10 at a time. On touch/tablet/coarse-pointer devices opening a filter must not auto-focus the search input.
+
+
+## Continuation checkpoint — 28 August 2026
+
+Latest accepted/non-mutating Pilot source before Stage B marker: `c58cff1790e8be59b7256ce30e68aa8a1d7a1be0`.
+Stage B marker Pilot: `75e77c0599a32c77e8e890de9fc2ce2ba8c10a3c`.
+
+A12 targeted PASS:
+- Provider/Course detail now surfaces governed Student outcomes / International student flow / Scholarships context;
+- RMIT Provider live proof: 36 QILT, 452 VIC PRISMS regional-context rows, 3 Scholarships;
+- representative RMIT Course: Provider-context outcome rows + 3 Provider-scope Scholarships; PRISMS explicit not-mapped when no safe Course relationship exists;
+- UQ Provider: 36 QILT rows + regional PRISMS context;
+- targeted deployed UAT `33080519873` PASS;
+- Security and Performance Advisors both 0 WARN / 0 ERROR after A12.
+
+Refresh policy truth:
+- UQ weekly Course refresh ENABLED;
+- RMIT weekly Course refresh DISABLED pending canonical promotion;
+- Federation weekly Course refresh DISABLED and profile paused/source-limited.
+
+Documentation advanced:
+- `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md` extended with A12 and current refresh disposition;
+- `docs/coursefinder-operations-runbook-v1.4.md` published.
+
+Stage B integration workflow run: `33115387818` — reconcile current conclusion before further release progression. Do not create/update the final acceptance marker until Stage B is PASS and the RMIT canonical-promotion blocker is resolved or formally accepted/deferred under governance.
+
+RMIT canonical promotion remains the main technical blocker:
+- frozen set: 212 distinct latest source records;
+- 212/212 identity matched;
+- 0 unsafe;
+- 0 already applied at reconciliation;
+- ChatGPT Supabase connector blocks invoking the apply-capable RPC even with dry-run flag;
+- do not bypass this by synthesising a new privileged path solely to evade connector safety.
+
+Source-pattern Layer 3 benchmark remains separately BLOCKED; this does not block independent M2.4.2 closure work.
