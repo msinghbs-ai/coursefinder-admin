@@ -442,3 +442,11 @@ A10 is now PASS for the current large dynamic Admin filter surfaces on Pilot `65
 - CI automatically selects `tests/uat/a10-paged-filters-deployed.spec.mjs` for A10 filter changes and includes it in integration/acceptance.
 
 Current runtime option cardinalities at acceptance: Evidence Source 44; QILT Provider 105; QILT Metric 19; PRISMS Study Area 13. Oversized requests remain server-capped to 10.
+
+
+### A10 advisor verification
+
+Post-A10 Supabase Advisor review is clean for the new paged-filter functions:
+- Security Advisor: 129 total notices, **0 material WARN/ERROR or new function-executable findings** related to `admin_filter_option_page`, `layer2_scope_options_page_service` or `layer2_scope_countries_service`;
+- Performance Advisor: 166 total notices, **0 material WARN/ERROR findings** related to the A10 functions;
+- remaining notices are existing INFO-class RLS/no-policy, unused-index and project configuration findings and were not changed without workload/security evidence.
