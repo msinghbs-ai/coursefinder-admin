@@ -248,3 +248,18 @@ For this workstream:
 - deployment readiness/UAT must not use the removed footer as a test hook;
 - permanent browser UAT must assert the footer marker is absent and the version overlay remains accessible;
 - the M2.4.2 version bump/release entry occurs only when the release slice is frozen after the remaining full-run gates.
+
+
+## A10 — paged filters, tablet focus and dependent State scope
+
+M2.4.2 inherits `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md`.
+
+For this workstream:
+- Layer 2 State scope must visibly list every included governed university/profile;
+- State-scope university display is paged 10 at a time;
+- large University/Provider/reference option lists must not be eagerly backloaded;
+- Course catalogue filters are the priority server-paged implementation;
+- shared filter/dropdown rendering is capped at 10 options per page;
+- tablet/touch/coarse-pointer filter opening must not auto-focus the search input or summon the keyboard;
+- parent-scope changes must clear invalid dependent State/Provider selections;
+- Stage B must include tablet/touch coverage for the paged filter interaction.
