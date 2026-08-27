@@ -168,3 +168,80 @@ Do not collapse them into a generic ingestion failure because recovery and gover
 ## 14. Escalation
 
 Do not bypass a blocked source, authority mismatch, explicit variance acknowledgement, role boundary, Evidence requirement or idempotency guard to make a run succeed. Record the blocker under the active Change Control and use the applicable technical UAT/recovery path.
+
+## 15. Layer 2 Course enrichment operations — M2.4.2
+
+Routine Course enrichment is under **Data Operations → Layer 2 — Enrichment**.
+
+The normal operator journey is:
+
+`Country → Fetch scope (Country / State / University) → Preview → Discover & sync / Sync now → Progress → Results → Evidence / Jobs`.
+
+Only executable, non-paused Course profiles appear as active scope options. A paused/source-limited profile is surfaced under **Blockers / required actions** rather than silently executed.
+
+### Deterministic discovery and Course identity
+
+Layer 2 may discover a first-party Course detail URL, but discovery does not redefine Layer 1 Course identity.
+
+For RMIT, a search-result title match is not sufficient. The accepted M2.4.2 rule is:
+
+1. candidate must be a first-party HTTPS RMIT Course-detail path;
+2. title/path ranking must meet deterministic match rules;
+3. the current first-party Course detail page must contain the expected CRICOS code;
+4. only then may the candidate become `selected=true` and queueable.
+
+Current detail verification retains separate native HTML Evidence and provider-attempt telemetry with `detail_cricos_verified` / `detail_cricos_missing`.
+
+Legacy/current CRICOS title collisions must resolve conservatively. If the current Course page does not contain the expected CRICOS, the result is an identity mismatch, not a title-only success.
+
+### Provider routing
+
+The accepted routine order is governed by the source profile route list, currently Direct HTTP first then Firecrawl where configured, followed by remaining approved providers. Fallback reasons are explicit.
+
+Direct HTTP remains the preferred zero-vendor-fee path when it provides sufficient source content. Rendered-search acquisition may fall through to Firecrawl. Unknown-cost fallback remains blocked.
+
+Vendor concurrency, rate limits, credentials and billing model are Advanced controls. Provider credentials stay server-side/Vault-backed and are never displayed back to the browser.
+
+### Managed batches and terminal state
+
+Selected governed URLs are processed through managed Layer 2 batches. Terminal item states are retained as resolved L2, Layer 3 required, blocked or cancelled. Late runner reconciliation must not resurrect a cancelled batch.
+
+Discovery restarts are idempotent for terminal evaluated outcomes of the current immutable profile version. Acquisition/provider failures remain retryable.
+
+### Schedule / recheck
+
+Layer 2 Course-profile refresh uses the common refresh-policy/request substrate plus the Layer 2 managed-batch dispatcher.
+
+The dispatcher cron runs at minutes **03, 18, 33 and 48** each hour.
+
+M2.4.2 initially creates weekly Course-profile refresh policies disabled. Enable a profile only after accepted full-run behaviour, cost/quota and source quality are known. A paused/source-limited profile must not be silently scheduled.
+
+### Housekeeping
+
+Layer 2 recovery housekeeping runs daily at **03:27 UTC**.
+
+It may recover stale provider attempts, abandoned Layer 2 Jobs and stale managed batches. It is recovery-only and must not delete:
+- Evidence;
+- immutable source-profile versions;
+- provider-attempt history;
+- managed-run history;
+- canonical history.
+
+### Operational alerts
+
+The Layer 2 blockers panel consumes governed computed alerts for:
+- stale managed runs;
+- paused Course profiles;
+- blocked run items;
+- repeated acquisition-provider failures;
+- provider quota approaching the configured reserve.
+
+Alert read failure must not prevent Country/Scope controls from loading.
+
+## 16. Current M2.4.2 country boundary
+
+- AU Course enrichment is the authorised current scope.
+- NZ first-party Layer 2 Course enrichment remains **DEFERRED** pending source qualification/onboarding.
+- UQ broad deterministic enrichment is accepted evidence.
+- Federation is partially queueable and otherwise explicitly source-limited.
+- RMIT broad discovery must use current first-party detail-page CRICOS verification; pre-v1.3.0 title-only decisions are superseded.
