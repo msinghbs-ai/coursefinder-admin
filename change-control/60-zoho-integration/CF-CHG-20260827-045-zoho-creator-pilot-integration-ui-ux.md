@@ -1,6 +1,6 @@
 # CF-CHG-20260827-045 — Zoho Creator Pilot Integration & UI/UX
 
-**Status:** ACTIVE / PARTIAL — PILOT READ CONTRACT DEPLOYED; ZOHO MCP CONNECTION BLOCKED  
+**Status:** ACTIVE / PARTIAL — PILOT COURSE HTTP GATEWAY DEPLOYED; ZOHO CREATOR CONNECTION BLOCKED  
 **Category:** 60-zoho-integration  
 **Initiated:** 27 August 2026 12:34 AEST (+10:00)  
 **Origin chat/workstream:** CourseFinder — Zoho Creator UI/UX + Pilot Integration  
@@ -54,7 +54,7 @@ Contract identifier: `zoho-integration-v1`.
 
 The functions return curated DTOs only and do not expose raw `catalogue`, `pipeline`, Evidence, review, Vault, secret or credential structures.
 
-Direct use of a Supabase service-role key by Zoho is **prohibited**. A later bounded Pilot transport gate must place these functions behind a server-side integration endpoint with Zoho-side credential storage/rotation and rate limiting.
+Direct use of a Supabase service-role key by Zoho is **prohibited**. The first bounded Pilot transport is now deployed as `zoho-course-api` for the Courses screen. It uses a dedicated bearer token whose SHA-256 hash is stored in `private`, service-role-only database helpers, safe errors, request IDs and per-action rate limiting. The raw token is not stored in the database or source repository.
 
 ## Source authority / evidence
 
@@ -70,9 +70,15 @@ Direct use of a Supabase service-role key by Zoho is **prohibited**. A later bou
 
 - Supabase deployed migration: `20260827023923 / zoho_integration_v1_pilot_read_contract`.
 - Supabase deployed migration: `20260827024224 / zoho_integration_v1_search_campus_reconcile`.
+- Supabase deployed migration: `20260827054951 / zoho_pilot_course_api_auth_and_filter_options_v1`.
+- Supabase deployed migration: `20260827055312 / zoho_pilot_course_api_rate_limit_v1`.
+- Supabase Edge Function: `zoho-course-api` v2 ACTIVE, `verify_jwt=false` by design because the handler performs dedicated integration-token authentication before any resource action.
 - Pilot source mirror:
   - `supabase/migrations/20260827234500_zoho_integration_v1_pilot_read_contract.sql` — commit `733dccc843bbfe636165cf9e02e7b95bf1c27dec`.
   - `supabase/migrations/20260827234600_zoho_integration_v1_search_campus_reconcile.sql` — commit `ddbad8012ed1052989aa1f374b145eac9f7386b3`.
+  - `supabase/migrations/20260827054951_zoho_pilot_course_api_auth_and_filter_options_v1.sql` — commit `a3d8ac5a71530a2aaba0f6f9045fadfabb8dfae7`.
+  - `supabase/migrations/20260827055312_zoho_pilot_course_api_rate_limit_v1.sql` — commit `a461df6af40ee0fd3edc260866da4d0190deab89`.
+  - `supabase/functions/zoho-course-api/index.ts` — latest commit `ef9ea02318942ccc315cef6909a3f505f8e57397`.
 - RPC/API objects:
   - `api.zoho_provider_search_v1`
   - `api.zoho_provider_lookup_v1`
@@ -101,14 +107,20 @@ Targeted Pilot results:
 - representative direct DB timing: Course text search ~937 ms; exact Course lookup ~11 ms; Provider search ~49 ms.
 - no-result search returns 200-style empty item semantics at the DB contract; negative limit/offset are bounded to 1/0.
 - Course detail QILT/PRISMS context remains explicit `not_admitted` with correct grain labels.
+- integration credential hash check: valid hash=true / invalid hash=false; `anon=false`, `authenticated=false`, `service_role=true`: PASS.
+- Course filter options: Search-backed countries currently AU/NZ; AU subdivisions 8: PASS.
+- rate-limit helper: limit=2 test produced allowed=true,true,false; `anon=false`, `authenticated=false`, `service_role=true`: PASS.
+- Edge Function `zoho-course-api` v2 is ACTIVE with 120 requests/minute per action and 429 + `Retry-After` semantics.
 
-Bounded HTTP/Zoho integration, malformed-request transport handling, rate limiting, responsive Creator UI and final acceptance remain open because the Zoho connection/transport is not yet available.
+The Supabase HTTP transport for the Courses screen is deployed. Actual end-to-end HTTP invocation with the Zoho Creator Connection, malformed-request checks through that external path, responsive Creator UI and final acceptance remain open because the Creator connection is not yet configured.
 
 ## Security findings
 
 - New read functions use explicit `search_path`, SECURITY DEFINER and service-role-only EXECUTE.
 - No service-role/database/Vault/Evidence credential is returned.
 - Zoho must not call these RPCs using a service-role key.
+- `private.zoho_integration_credentials` stores only a SHA-256 token hash; raw integration token is external to Supabase/source.
+- `private.zoho_integration_rate_windows` is not exposed to `anon` or `authenticated`.
 - The existing legacy `api.zoho_course_candidates_v1` is not promoted by this change and requires separate disposition before final Zoho acceptance.
 
 ## Rollback / reversion
@@ -135,9 +147,10 @@ No canonical mutation, Search mutation or Publication mutation is part of these 
 | 27 Aug 2026 | ACTIVE / PARTIAL | No Zoho Creator tool exposed; continued safe Pilot implementation | tool discovery |
 | 27 Aug 2026 | ACTIVE / PARTIAL | `zoho-integration-v1` read family deployed, source-mirrored and targeted security/UAT passed | migrations + commits above |
 | 27 Aug 2026 | ACTIVE / PARTIAL | Official Zoho MCP/ChatGPT setup constraint documented; structural Creator build remains outside MCP capability | Zoho Creator MCP + OpenAI MCP app documentation |
+| 27 Aug 2026 15:53 AEST | ACTIVE / PARTIAL | Courses-screen Pilot HTTP gateway, hashed integration auth, filter-options RPC and per-action rate limiting deployed; source mirrored | migrations `20260827054951`, `20260827055312`; Edge Function `zoho-course-api` v2 |
 
 ## Closure
 
 **Final status:** ACTIVE / PARTIAL  
 **Closed at:** N/A  
-**Outcome:** Pilot-safe read substrate is deployed and governed. Actual Zoho Creator connection/UI construction and server-side transport acceptance remain open; Production and public Website integration are not authorised.
+**Outcome:** Pilot-safe read substrate and first Courses-screen HTTP transport are deployed and governed. Actual Zoho Creator connection/UI construction and end-to-end Creator transport acceptance remain open; Production and public Website integration are not authorised.
