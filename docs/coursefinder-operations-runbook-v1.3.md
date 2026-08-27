@@ -139,3 +139,88 @@ Treat separately:
 - browser/UAT harness failure.
 
 Do not collapse these into a generic `pipeline failed` condition.
+
+## 14. Layer 2 full-run operating procedure — M2.4.2
+
+### Scope launch
+
+1. Open **Data Operations → Layer 2 — Enrichment**.
+2. Select Country and Country/State/University scope.
+3. Review Catalogue Courses, Ready to sync, Needs discovery and active-run counts.
+4. Do not resume a paused profile merely to remove a blocker. Resolve the source/identity reason first.
+5. Start **Discover & sync** only when the profile is executable and quota/cost guardrails are acceptable.
+
+### RMIT identity-verification procedure
+
+For every selected RMIT Course URL, verify that `match_basis.detail_cricos_verified=true`.
+
+A selected URL without detail-page CRICOS verification is a release blocker.
+
+If multiple canonical Courses share the same title:
+- retain legacy/current records independently;
+- verify the current detail page against each expected CRICOS;
+- accept only the CRICOS actually present;
+- leave ambiguous/mismatch records unresolved;
+- never reuse a current page for a legacy CRICOS only because the title matches.
+
+Before broad apply, run a duplicate-selected-URL audit. A duplicate URL across distinct RMIT Course identities requires investigation unless each identity is independently evidenced as valid.
+
+### Bounded continuation
+
+Discovery workers have per-Course and per-invocation budgets and must return before the outer pg_net timeout. A successful wave records a continuation request for the remaining scoped Course IDs.
+
+If a worker exceeds the outer request ceiling:
+1. stop broad expansion;
+2. inspect running provider attempts and Job state;
+3. recover only genuinely stale transient work;
+4. correct the continuation/runtime budget;
+5. restart from terminal-outcome idempotency rather than deleting prior Evidence.
+
+### Provider quota and economics
+
+Before a broad vendor-backed run:
+1. read current provider monthly-unit limit;
+2. subtract recorded current-period usage;
+3. preserve the configured stop reserve;
+4. confirm remaining workload fits inside the reserve-aware entitlement;
+5. distinguish vendor-unit consumption from cash cost.
+
+A subscription provider with unrecorded subscription price is **not** a measured zero-cost provider. Record quota consumption even when per-request cash cost is configured as zero.
+
+### Layer 2 refresh dispatcher
+
+The Layer 2 refresh dispatcher runs four times per hour at minutes 03/18/33/48.
+
+It reconciles running refresh requests bound to managed Layer 2 batches, dispatches queued profile-scoped Course refreshes through the managed-batch service, and fails stale orphaned refresh requests visibly.
+
+Course-profile refresh policies remain disabled until the profile's broad-run acceptance is complete.
+
+### Layer 2 housekeeping
+
+Daily 03:27 UTC housekeeping is recovery-only:
+- stale provider attempts → terminal failed/recovered;
+- abandoned Layer 2 Jobs → terminal failed/recovered;
+- stale managed batches → existing stuck-run recovery path.
+
+Verification must confirm zero deletion of governed Evidence, profile versions, provider-attempt history, run history and canonical history.
+
+### Layer 2 alerts
+
+Investigate separately:
+- stale run;
+- paused profile;
+- blocked items;
+- provider failure streak;
+- provider quota reserve.
+
+Do not treat a deliberate source-limited pause as an execution defect.
+
+## 15. Layer 2 security checks before acceptance
+
+Verify:
+- `anon` cannot execute Layer 2 alert, housekeeping or refresh-dispatch functions;
+- ordinary authenticated users cannot execute housekeeping/refresh service functions;
+- alert read requires authenticated rank >=4;
+- provider credentials are never returned to the browser;
+- private pipeline/catalogue tables remain inaccessible except through accepted governed bridges;
+- Search and Publication mutation remain false during Layer 2 discovery/extraction.
