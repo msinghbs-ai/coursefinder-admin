@@ -36,3 +36,23 @@
 ## Next gate
 
 Connect the Zoho MCP server, inspect its actual exposed Creator tools/permissions, establish the target Creator Pilot app, then implement/test the server-side Pilot transport and Creator UI from the maintained v1 UI specification.
+
+## Exact connection setup required
+
+Current official setup path:
+
+1. A Zoho MCP administrator opens Zoho MCP and creates an MCP server.
+2. Add Tools → Zoho Creator; expose only the required least-privilege Creator tools.
+3. In the MCP server Connect section, copy the generated server URL.
+4. In ChatGPT on web, an eligible workspace admin/authorised developer enables Developer Mode and creates a custom MCP app.
+5. Supply the Zoho MCP endpoint, configure authentication, run Scan Tools, complete OAuth authorization and create the draft app.
+6. Select the draft app in a new ChatGPT web chat and verify the actual tool inventory/permissions before any Creator operation.
+
+Current product constraints:
+- full custom MCP support is governed by ChatGPT plan/workspace availability and is configured on web;
+- current OpenAI documentation states MCP apps are not available on mobile;
+- current Zoho documentation states Creator MCP cannot create/modify forms, fields, reports, pages, workflows or connections.
+
+Official references:
+- Zoho Creator: “Integrating AI clients with Creator Using Zoho MCP”.
+- OpenAI Help: “Developer mode and MCP apps in ChatGPT”.
