@@ -8,7 +8,7 @@
 
 CourseFinder M2 work is split across short chats and sub-milestones. The detailed task prompt may change, but the operating rules must not disappear when a new chat starts or one issue consumes the context window.
 
-Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`.
+Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`.
 
 ## Mandatory start-of-chat reconciliation
 
@@ -18,12 +18,13 @@ Before material work:
 2. read this `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`;
 3. read `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md`;
 4. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`;
-5. read `change-control/README.md` and `change-control/REGISTER.md`;
-6. read the latest Master Project Plan and Running Build;
-7. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
-8. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
-9. read overlapping open/recent Change Controls;
-10. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
+5. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`;
+6. read `change-control/README.md` and `change-control/REGISTER.md`;
+7. read the latest Master Project Plan and Running Build;
+8. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
+9. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
+10. read overlapping open/recent Change Controls;
+11. reconcile current Pilot//Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
 
 Repository/runtime truth takes precedence over stale chat text. Do not overwrite newer parallel work.
 
@@ -38,6 +39,7 @@ Repository/runtime truth takes precedence over stale chat text. Do not overwrite
 - Keep Admin/PIM guides, Operations Runbooks and milestone records current as part of the gate, not as optional cleanup.
 - Follow A1–A6 for test staging, primary navigation, shared test adapters, CI run control, UX/performance evidence and naming.
 - Follow A7 for UAT harness efficiency. Review and tune test setup/coverage/runtime between every major milestone, and before substantial M2.4.1 feature work continues.
+- Follow A8 for release/version presentation: the top-right version Release Notes overlay is the single operator-facing release surface; persistent footer/runtime feature markers are prohibited.
 
 ## Authority model that must not regress
 
