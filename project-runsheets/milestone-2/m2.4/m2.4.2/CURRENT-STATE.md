@@ -515,3 +515,23 @@ Repository and deployed Pilot truth were re-reconciled after the final RMIT full
 - Independent closure work may continue: refresh-policy decision, permanent cancellation/recovery/replay/idempotency regression, security negatives, Layer 1 + Jobs/Evidence/Data Quality regression, documentation/release-note freeze, Stage B, then exactly one Stage C.
 
 M2.4.2 therefore remains ACTIVE / NOT YET ACCEPTED.
+
+
+## Scale-out strategy decision — 27 August 2026
+
+The programme will no longer treat each remaining AU/NZ university as a separate engineering exercise.
+
+UQ, RMIT and Federation are accepted as the initial Layer 2 qualification/evidence cohort. Their combined evidence demonstrates:
+- broad deterministic first-party discovery and governed canonical promotion (UQ);
+- high-volume identity-safe discovery, provider routing, Evidence growth, managed-run performance and explicit L3 fall-out (RMIT);
+- safe source-limited handling without weakening identity controls (Federation).
+
+The next operating model is wave-based onboarding:
+
+`sample → source/profile qualification → automated full discovery → managed enrichment → safe L2 promotion → L3/L4 exception handoff`
+
+Australia will progress in multi-university waves, with representative bounded qualification before automatic full scope. Identity safety remains absolute for anything automatically selected/promoted, while incomplete coverage is accepted as governed source-limited/ambiguous/L3/L4 fall-out.
+
+NZ will not clone the AU implementation university-by-university. NZQA remains Layer 1 authority and a small 2–3-provider source-pattern qualification cohort will be used to establish reusable NZ first-party profile families before broad rollout.
+
+M2.4.2 acceptance therefore requires a proven scalable onboarding/operations contract and representative national-scale evidence, not individual completion of every AU/NZ university. Remaining catalogue rollout becomes follow-on operations that can run while Layer 3 and Layer 4 consume the accumulated governed exception/Evidence stream.
