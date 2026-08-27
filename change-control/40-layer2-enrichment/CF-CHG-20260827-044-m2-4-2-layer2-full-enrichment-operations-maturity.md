@@ -342,3 +342,25 @@ Managed-run observability correction: `retry_count` previously counted the first
 ### RMIT full managed-run evidence
 
 Representative RMIT full-profile gate completed: 498/500 deterministic discovery terminal outcomes; 261/261 selected URLs detail-CRICOS verified; 261/261 managed enrichment items processed across two bounded batches; 212 resolved L2, 49 governed Layer 3 fall-outs, 0 blocked, 0 item retries, USD 0 recorded vendor cost. Timing sample after observability correction: acquisition ~1.45s average / 1.81s p95; deterministic normalise+extract ~1.52s average / 1.89s p95. Evidence footprint since full discovery began: 1,355 objects / ~823 MB. No canonical Course URL mutation, non-RMIT selected URL or duplicate selected URL was accepted. Completed PARTIAL batches are now terminal history rather than active-run blockers. Post-DDL Advisor review found 0 material security/performance findings for these changes.
+
+
+## Scale-out decision — AU/NZ (27 August 2026)
+
+Accepted scope interpretation is amended to prevent M2.4.2 becoming a serial university-by-university implementation project.
+
+UQ, RMIT and Federation are the initial evidence/qualification cohort. M2.4.2 must use those results to prove the reusable operating contract, then transition remaining providers into controlled wave onboarding.
+
+Accepted rollout pattern:
+
+`bounded sample → qualify source/profile → automated full discovery → managed enrichment → safe canonical promotion → governed L3/L4 exceptions`
+
+Controls:
+- 100% identity safety is mandatory for any automatic selection/promotion;
+- coverage may be incomplete and must be represented honestly as ambiguous, identity-mismatch, source-limited, L3-required or L4-required;
+- unresolved coverage must not trigger weaker identity/source controls;
+- Australian rollout should batch multiple universities where execution policy permits;
+- NZ rollout begins with a 2–3-provider first-party source-pattern qualification cohort anchored to NZQA Layer 1 identity, then expands by reusable source pattern;
+- Layer 3/4 may consume the Evidence-backed exception stream in parallel once generated;
+- Search/Publication authority is unchanged.
+
+Change-control closure does not require every AU/NZ university to be individually enriched. It requires representative broad evidence, safe scalable onboarding, measurable operations, governed exceptions, cross-layer handoff and the remaining M2.4.2 security/UAT/documentation gates.
