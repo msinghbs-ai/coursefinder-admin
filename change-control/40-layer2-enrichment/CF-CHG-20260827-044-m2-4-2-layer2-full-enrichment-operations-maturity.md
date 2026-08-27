@@ -296,3 +296,14 @@ RMIT duplicate-title/multi-CRICOS cohort:
 - bounded continuation `2165 → 2166 → 2167 → 2168`.
 
 Full RMIT university rerun began through the normal operator scope contract as request `2169`; early waves remain bounded with zero runtime failures and no unverified/duplicate selected URLs. Final full-run disposition remains open.
+
+
+## A8 release/version surface cleanup
+
+CF-CHG-044 now inherits Milestone 2 Addendum A8.
+
+The obsolete persistent runtime/footer marker that listed PIM Admin and implementation component versions is removed from the normal operator UI. The top-right PIM Admin version control and governed Release Notes overlay are now the single operator-facing release surface.
+
+Browser/UAT readiness has been migrated off the footer marker. Permanent tests require the marker to remain absent and continue to verify the accessible version/release overlay.
+
+No M2.4.2 release-version bump is made until the current full-run/runtime slice is frozen.
