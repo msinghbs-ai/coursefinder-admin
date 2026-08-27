@@ -263,3 +263,63 @@ For this workstream:
 - tablet/touch/coarse-pointer filter opening must not auto-focus the search input or summon the keyboard;
 - parent-scope changes must clear invalid dependent State/Provider selections;
 - Stage B must include tablet/touch coverage for the paged filter interaction.
+
+
+## Addendum A11 — Evidence-Driven AU/NZ Scale-Out Strategy (27 August 2026)
+
+### Decision
+
+M2.4.2 will **not** require university-by-university bespoke engineering or completion of every AU/NZ university before acceptance. UQ, RMIT and Federation are the qualification/evidence cohort used to prove the Layer 2 operating model. Their evidence is sufficient to define the scalable onboarding contract for the remaining catalogue.
+
+M2.4.2 closes when the platform proves that Layer 2 can safely onboard, qualify, run, observe and hand off universities at scale. National catalogue completion becomes an operational rollout, not a prerequisite for this submilestone.
+
+### Standard onboarding path
+
+Remaining universities should normally follow:
+
+`Sample → qualify source/profile → automated full discovery → automated managed enrichment → canonical promotion of safe L2 results → governed L3/L4 exception stream`
+
+A university returns to engineering only when the generic governed path cannot safely qualify the source or satisfy identity/Evidence requirements.
+
+### Australia rollout
+
+Australian providers are processed in waves rather than serial bespoke projects:
+
+- **Tier 1 — large/high-volume universities:** bounded representative sample, then automatic full discovery/enrichment when safety gates pass.
+- **Tier 2 — medium universities:** sample approximately 10–20 representative Courses; auto-promote to full-run when profile/source-pattern thresholds pass.
+- **Tier 3 — small/specialist providers:** bounded qualification; unresolved records remain source-limited/L3/L4 rather than driving bespoke engineering by default.
+- **Exception providers:** provider-specific source qualification is permitted only where the generic Direct HTTP → Firecrawl → remaining governed fallback path cannot safely resolve identity/source structure.
+
+Rollout waves should normally contain multiple universities (target 5–10 where workload/rate limits permit), retain per-profile execution policy, and report provider-level acceptance/fall-out separately.
+
+### Safety and acceptance thresholds
+
+- Anything automatically selected or canonically promoted must retain **100% identity safety** under the accepted Layer 1 identity contract.
+- Discovery/enrichment coverage is not required to be 100%.
+- Missing, ambiguous, identity-mismatch and source-limited outcomes are valid governed terminal outcomes.
+- Coverage shortfall must not cause identity thresholds to be weakened.
+- One difficult university must not block national progression where its safe outcomes and exception population are explicitly recorded.
+- Search and Publication remain unauthorised by Layer 2 unless separately approved.
+
+### New Zealand rollout
+
+NZ first-party Course enrichment remains deferred until an NZ source-pattern qualification cohort is completed. The intended rollout is:
+
+`NZQA canonical catalogue → qualify 2–3 representative first-party source patterns → generic NZ profile families → bounded sample → automated wave rollout`
+
+NZ should expand by **reusable source pattern**, not by bespoke university implementation. NZQA remains Layer 1 authority; first-party Layer 2 evidence may enrich but never redefine identity.
+
+### Cross-layer evidence handoff
+
+Layer 2 must deliberately produce a structured exception stream that downstream layers can consume:
+- deterministic L2-resolved candidates;
+- L3-required interpretation cases;
+- L4 human-resolution cases;
+- ambiguous/identity-mismatch/source-limited outcomes;
+- Evidence IDs, source/profile/version, acquisition route and reason codes.
+
+Once the qualification evidence exists, Layer 3 and Layer 4 workstreams may operate on these governed exceptions in parallel without waiting for complete national Layer 2 coverage.
+
+### Exit-gate interpretation
+
+For M2.4.2, “broad accepted enrichment” means representative full-run evidence plus a production-shaped scalable rollout mechanism and governed cross-layer fall-out. It does **not** mean every Australian and New Zealand university has already been individually enriched.
