@@ -369,3 +369,18 @@ Full RMIT university rerun started under the normal operator service as request 
 - early full-scope waves remain bounded and failure-free;
 - all selected URLs observed so far are detail-CRICOS verified;
 - duplicate selected URL audit remains zero.
+
+
+## A8 release-surface cleanup
+
+A8 is now standing M2 governance for M2.4.2 onward.
+
+Pilot implementation:
+- removed the persistent `#governed-runtime-marker` footer/chip and its styling;
+- simplified the browser document title to the PIM Admin product/version rather than component feature-version inventory;
+- retained the top-right `.m-release-pill` as the sole operator-facing release/version control;
+- release overlay remains the governed version/date/change-history surface;
+- UAT shell readiness now checks the actual version control rather than the removed footer;
+- release, Layer 3 and Course Detail deployed suites now explicitly require the obsolete runtime marker to be absent.
+
+The PIM Admin release version is intentionally not bumped yet because M2.4.2 full RMIT acceptance is still in progress.
