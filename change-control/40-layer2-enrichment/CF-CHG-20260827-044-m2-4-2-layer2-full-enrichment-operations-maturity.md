@@ -337,3 +337,8 @@ RMIT current-profile discovery plus exact non-terminal retry completed with 498/
 
 
 Managed-run observability correction: `retry_count` previously counted the first normal acquisition as a retry and response/extraction timing fields were not populated. Migration `20260827234000_m2_4_2_run_item_observability_fix.sql` and `layer2-batch-runner` v6 correct retry semantics and add service-only response/extraction/outcome telemetry without changing routing or extraction behaviour. Deployed verification shows retry_count=0 for first attempts and populated timing/outcome fields on v6-processed items.
+
+
+### RMIT full managed-run evidence
+
+Representative RMIT full-profile gate completed: 498/500 deterministic discovery terminal outcomes; 261/261 selected URLs detail-CRICOS verified; 261/261 managed enrichment items processed across two bounded batches; 212 resolved L2, 49 governed Layer 3 fall-outs, 0 blocked, 0 item retries, USD 0 recorded vendor cost. Timing sample after observability correction: acquisition ~1.45s average / 1.81s p95; deterministic normalise+extract ~1.52s average / 1.89s p95. Evidence footprint since full discovery began: 1,355 objects / ~823 MB. No canonical Course URL mutation, non-RMIT selected URL or duplicate selected URL was accepted. Completed PARTIAL batches are now terminal history rather than active-run blockers. Post-DDL Advisor review found 0 material security/performance findings for these changes.
