@@ -426,3 +426,29 @@ The Layer 3 blocker therefore remains recorded without stopping unrelated M2.4.2
 ## A12 contextual insight integration
 
 CF-CHG-044 inherits Milestone 2 Addendum A12. The existing QILT, PRISMS and Scholarship workspaces remain valid bulk operational views, but M2.4.2 must also surface relevant governed outcomes/student-flow/funding context from Provider and Course detail blades. The contextual projection is read-only, must preserve source granularity/provenance, and must not imply Course-specific truth from Provider/state/sector aggregates. Country-equivalent source families must use the same generic blade contract when later available.
+
+
+## A12 targeted acceptance evidence
+
+A12 contextual insight integration is implemented and targeted-PASS:
+- bounded read-only contextual projection behind `public.admin_read`;
+- Provider/Course detail semantic groups: outcomes/benchmarks, international student flow, Scholarships/funding;
+- RMIT Provider live proof: 36 QILT outcome rows, 452 VIC PRISMS regional-context observations, 3 Scholarships;
+- representative RMIT Course: Provider-context outcomes + 3 governed Provider-scope Scholarships; PRISMS remains explicit `not_mapped` where no defensible Course relationship exists;
+- UQ Provider: 36 QILT outcome rows plus regional PRISMS context;
+- rank-0/anon negative PASS;
+- Security Advisor 0 WARN/0 ERROR; Performance Advisor 0 WARN/0 ERROR;
+- targeted deployed UAT `33080519873` PASS at Pilot `c58cff1790e8be59b7256ce30e68aa8a1d7a1be0`.
+
+The contextual projection does not authorise canonical, Search or Publication mutation.
+
+## Refresh-policy disposition
+
+Measured profile-specific disposition replaces any blanket assumption that all Course-profile refresh is disabled:
+- UQ weekly Course refresh is enabled after accepted full-run/canonical evidence;
+- RMIT weekly Course refresh remains disabled pending its frozen 212-record canonical promotion;
+- Federation weekly Course refresh remains disabled with its profile paused/source-limited.
+
+## Stage B nomination
+
+Pilot `75e77c0599a32c77e8e890de9fc2ce2ba8c10a3c` updates the integration-candidate marker after A12 targeted PASS. This is Stage B only; it does not authorise final Stage C. RMIT canonical promotion remains open and no connector-safety bypass is authorised.
