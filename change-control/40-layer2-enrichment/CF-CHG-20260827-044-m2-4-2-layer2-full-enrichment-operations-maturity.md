@@ -384,3 +384,23 @@ The UI/API now distinguishes:
 Bounded non-mutating A11 proof created 5-institution × 10-Course qualification waves in AU, CA and NZ. A second AU wave selected another five institutions with zero overlap, proving active-wave deduplication. Qualification creation explicitly records canonical mutation=false, Search mutation=false and Publication mutation=false.
 
 This proves catalogue visibility and scalable wave orchestration. It does not yet qualify the selected institutions’ first-party sources. The next gate is governed deterministic acquisition/Evidence over those samples followed by reusable source-pattern/profile promotion where identity safety passes.
+
+
+## A11 qualification execution result (27 August 2026)
+
+The full-Layer-1 scale POC has now executed its first governed source-qualification cohort.
+
+Across AU/CA/NZ, the initial 15-provider / 150-Course sample produced:
+- 8 providers with retained first-party Layer 2 Evidence requiring source-pattern interpretation;
+- 7 providers with missing/malformed Layer 1 first-party source seeds and therefore explicit source-limited outcomes;
+- 0 unsafe automatic provider-profile promotions.
+
+The Evidence-backed deterministic pattern candidates were subjected to the existing v1.3.0 Course-detail identity verifier with three Layer 1 controls per provider. No candidate achieved the mandatory 3/3 identity-safe threshold. The platform therefore handed them to Layer 3 rather than introducing provider-specific Layer 2 rules or weakening identity matching.
+
+A service-only cross-layer handoff now records:
+- 8 Layer 3 provider/source-pattern requests, blocked pending a dedicated benchmarked source-pattern model profile;
+- 7 Layer 4/provider-source-resolution requests.
+
+The accepted existing Layer 3 model profile is not modified because its quality benchmark covers Course fact task classes, not provider source-pattern interpretation. A dedicated profile must be benchmarked before those requests can execute.
+
+This result validates the A11 scale strategy: Layer 2 performs bounded deterministic qualification, produces Evidence, promotes only when identity controls pass, and exports unresolved work to the correct downstream layer. Canonical/Search/Publication mutation remain false throughout this qualification path.
