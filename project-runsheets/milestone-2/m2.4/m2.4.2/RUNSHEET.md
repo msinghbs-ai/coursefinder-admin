@@ -323,3 +323,8 @@ Once the qualification evidence exists, Layer 3 and Layer 4 workstreams may oper
 ### Exit-gate interpretation
 
 For M2.4.2, “broad accepted enrichment” means representative full-run evidence plus a production-shaped scalable rollout mechanism and governed cross-layer fall-out. It does **not** mean every Australian and New Zealand university has already been individually enriched.
+
+
+## A12 contextual insight integration
+
+M2.4.2 now inherits A12. QILT/PRISMS/country-equivalent statistics and Scholarships are not operator-complete as isolated admin workspaces. Relevant governed data must be surfaced in Provider/Course detail blades at its true granularity, with provenance/freshness and explicit not-available/not-mapped/suppressed states. Standalone insight pages remain for bulk QA/operations. Targeted API/browser/security UAT is required before Stage B nomination.
