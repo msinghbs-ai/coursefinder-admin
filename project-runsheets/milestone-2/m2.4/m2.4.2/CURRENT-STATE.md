@@ -478,3 +478,26 @@ During the representative RMIT managed batch, deployed truth showed that `layer2
 - deployed verification after v6 showed retry_count=0, populated response/extraction timing and outcome codes on new items.
 
 Representative post-fix sample at the 160-item checkpoint: acquisition ~1.4–1.5s average, deterministic normalise+extract ~1.5s average, zero item-level retries and zero blocked items. Evidence Storage growth since the primary batch began was ~342.5 MB at that checkpoint.
+
+
+### RMIT full managed-run gate — PASS for representative profile
+
+Final deployed RMIT representative/full-profile results:
+- canonical catalogue: 500 Courses;
+- deterministic discovery terminal outcomes: 498/500;
+- selected first-party current Course URLs: 261;
+- detail-CRICOS verified selected URLs: 261/261;
+- selected URLs outside RMIT-owned hosts: 0;
+- duplicate selected URLs: 0;
+- canonical Course URL mutations during discovery: 0;
+- residual source-limited Courses: CRICOS 091377B / 091378A only.
+
+Managed enrichment ran in two non-overlapping batches after bounded retry recovery:
+- `6abe8558-e1b9-4a6f-ba97-47481ba488bb`: 240 processed, 193 resolved L2, 47 Layer 3 required, 0 blocked;
+- `aaf5809a-0dbd-47e2-9461-9fe58a3bba11`: 21 processed, 19 resolved L2, 2 Layer 3 required, 0 blocked;
+- combined: 261/261 processed, 212 resolved L2, 49 governed Layer 3 fall-outs, 0 blocked, 261 vendor units, USD 0 recorded vendor cost, 0 item-level retries;
+- combined wall-clock from first batch start to second batch completion: 1,353.18 seconds;
+- post-observability-fix timing sample: 111 items, acquisition average ~1.45s / p95 ~1.81s; deterministic normalise+extract average ~1.52s / p95 ~1.89s;
+- governed RMIT Evidence since full discovery began: 1,355 Storage-backed Evidence objects, ~823,176,192 bytes.
+
+Terminal PARTIAL state handling was corrected so a completed partial batch is historical/terminal, not an active-run blocker. Preview now reports no active RMIT batch after completion. Post-DDL Security Advisor and Performance Advisor show 0 material findings for the new run-item metrics/state functions.
