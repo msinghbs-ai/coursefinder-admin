@@ -310,3 +310,12 @@ No M2.4.2 release-version bump is made until the current full-run/runtime slice 
 
 
 A8 targeted deployed evidence: Pilot `27f56ddb944569e3ca1061ce6d27f760642e58e0`, deployed UAT `33029342740` PASS, frontend build `33029342761` PASS. The footer/runtime marker is absent and no longer used by deployment-readiness helpers.
+
+
+## A10 platform-wide paged-filter / tablet-focus scope
+
+CF-CHG-044 inherits Milestone 2 Addendum A10.
+
+Current implementation moves the Course catalogue's large dynamic filters to a server-paged option contract capped at 10 results per request, retains client-side 10-row paging for shared filters, removes unconditional filter search auto-focus on touch/tablet contexts, and makes Layer 2 State scope visibly enumerate its included universities in 10-row pages.
+
+This is a browser/performance UX change only; Layer 1 identity, Layer 2 authority, Search/Publication boundaries and provider credential controls are unchanged.
