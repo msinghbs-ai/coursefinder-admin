@@ -319,3 +319,6 @@ CF-CHG-044 inherits Milestone 2 Addendum A10.
 Current implementation moves the Course catalogue's large dynamic filters to a server-paged option contract capped at 10 results per request, retains client-side 10-row paging for shared filters, removes unconditional filter search auto-focus on touch/tablet contexts, and makes Layer 2 State scope visibly enumerate its included universities in 10-row pages.
 
 This is a browser/performance UX change only; Layer 1 identity, Layer 2 authority, Search/Publication boundaries and provider credential controls are unchanged.
+
+
+A10 targeted deployed evidence is PASS: Pilot `f8e743c417df26ead234523718a2b8024e415646`, deployed UAT `33030713534`, frontend build `33030713535`. Course dynamic filters are server-paged at a hard maximum of 10 options, touch/coarse-pointer filter opening does not auto-focus search, and Layer 2 State scope visibly enumerates included universities. Platform-wide semantics are accepted in Admin/PIM Design Decisions v1.17.
