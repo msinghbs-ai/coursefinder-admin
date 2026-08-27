@@ -535,3 +535,46 @@ Australia will progress in multi-university waves, with representative bounded q
 NZ will not clone the AU implementation university-by-university. NZQA remains Layer 1 authority and a small 2–3-provider source-pattern qualification cohort will be used to establish reusable NZ first-party profile families before broad rollout.
 
 M2.4.2 acceptance therefore requires a proven scalable onboarding/operations contract and representative national-scale evidence, not individual completion of every AU/NZ university. Remaining catalogue rollout becomes follow-on operations that can run while Layer 3 and Layer 4 consume the accumulated governed exception/Evidence stream.
+
+
+## A11 implementation — full Layer 1 catalogue scope + qualification-wave POC
+
+A11 has moved from strategy to deployed proof-of-concept.
+
+The Layer 2 Country/State/University selectors are no longer sourced only from executable Layer 2 profiles. They now resolve from the full current Layer 1 catalogue and expose qualification state separately.
+
+Live Layer 1 scope at implementation:
+- AU: 1,546 institutions / 26,648 Courses;
+- CA: 82 institutions / 10,356 Courses;
+- NZ: 286 institutions / 6,457 Courses.
+
+Subdivision/state scope now resolves from Layer 1 where subdivision data exists:
+- AU: all 8 states/territories represented;
+- CA: 10 provinces/territories represented in the current Layer 1 catalogue;
+- NZ: no subdivision options are currently returned because the ingested NZ Layer 1 provider/course catalogue does not presently carry usable subdivision linkage. This is a Layer 1 data-coverage fact, not a Layer 2 hard-coded restriction.
+
+New scope semantics:
+- every Layer 1 institution with Courses is selectable;
+- qualified/executable Layer 2 institutions are labelled separately;
+- unqualified institutions remain visible as “Needs Layer 2 qualification” rather than being hidden;
+- country/state/university previews report Layer 1 institution/Course counts, L2-qualified institutions, qualification-required institutions, executable Courses and governed-URL readiness.
+
+Initial live qualification-wave POC:
+- AU qualification run `a8363428-f6b9-4201-8ddb-c2dda0d79396`: 5 institutions / 50 Course samples;
+- CA qualification run `5aa15976-585c-4d85-9c92-b31f72b7251a`: 5 / 50;
+- NZ qualification run `dd0da717-e903-4d28-9c6d-d95ad0e46241`: 5 / 50.
+- follow-on AU dedupe proof `f0eac45d-e72e-4179-b39a-5dd545ded1c0`: second 5 / 50 wave with **0 provider overlap** against the first AU wave.
+
+The qualification-wave POC is intentionally non-mutating. It selects deterministic bounded samples and records the next step as deterministic source qualification. Canonical/Search/Publication mutation flags are all false.
+
+Wave orchestration has also been hardened so providers already present in active planned/running qualification waves are skipped by subsequent waves.
+
+Deployed implementation:
+- migration `m2_4_2_a11_layer1_catalogue_scale_scope`;
+- migration `m2_4_2_a11_qualification_wave_dedupe`;
+- `layer2-sync-control` Edge v5 with `verify_jwt=true`;
+- Pilot source commits through `e646e3537975d0b6e4b6897ffe32409b848a96eb`.
+
+Post-DDL Security and Performance Advisors remain INFO-only for this slice; no new material WARN/ERROR was observed.
+
+A11 is therefore **POC PASS for full Layer 1 visibility + bounded cross-country wave selection/orchestration**. It is not yet evidence that unqualified providers have completed deterministic acquisition/source qualification. The next consequential gate is to execute the selected qualification samples through governed acquisition/Evidence and promote reusable source-pattern/profile families only when identity-safe evidence passes.
