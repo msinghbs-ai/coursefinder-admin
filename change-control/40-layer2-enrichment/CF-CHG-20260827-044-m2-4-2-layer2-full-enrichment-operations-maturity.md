@@ -421,3 +421,8 @@ Independent M2.4.2 regression gates were continued:
 - immutable-profile terminal discovery restart/idempotency PASS.
 
 The Layer 3 blocker therefore remains recorded without stopping unrelated M2.4.2 closure work.
+
+
+## A12 contextual insight integration
+
+CF-CHG-044 inherits Milestone 2 Addendum A12. The existing QILT, PRISMS and Scholarship workspaces remain valid bulk operational views, but M2.4.2 must also surface relevant governed outcomes/student-flow/funding context from Provider and Course detail blades. The contextual projection is read-only, must preserve source granularity/provenance, and must not imply Course-specific truth from Provider/state/sector aggregates. Country-equivalent source families must use the same generic blade contract when later available.
