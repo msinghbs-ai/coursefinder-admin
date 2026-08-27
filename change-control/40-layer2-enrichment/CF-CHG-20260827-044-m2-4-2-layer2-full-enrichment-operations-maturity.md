@@ -404,3 +404,20 @@ A service-only cross-layer handoff now records:
 The accepted existing Layer 3 model profile is not modified because its quality benchmark covers Course fact task classes, not provider source-pattern interpretation. A dedicated profile must be benchmarked before those requests can execute.
 
 This result validates the A11 scale strategy: Layer 2 performs bounded deterministic qualification, produces Evidence, promotes only when identity controls pass, and exports unresolved work to the correct downstream layer. Canonical/Search/Publication mutation remain false throughout this qualification path.
+
+
+## A11 Layer 3 benchmark blocker + independent regression closure (27 August 2026)
+
+A dedicated `source_pattern` Layer 3 profile was implemented with exact-Evidence-link, same-host, HTTPS-only validators and a separate quality gate. The existing accepted Course-fact model profile was not modified.
+
+Best benchmark candidate: `579a52d5-f4c2-4995-ab42-0adc4754cef2` — 3/4 live Evidence cases + 3/3 controls, exact configured model, USD 0. One real Massey case still produced an empty completion after bounded retry. An alternate current free structured-output endpoint returned OpenRouter 404 in the Pilot runtime. The threshold was not lowered; the profile remains paused and all eight A11 Layer 3 requests remain blocked.
+
+No canonical/Search/Publication mutation occurred. New benchmark helpers are service-only and post-change Security/Performance Advisors remain INFO-only.
+
+Independent M2.4.2 regression gates were continued:
+- rollback-only cancel-during-wave + late-reconcile PASS;
+- rollback-only stale recovery PASS;
+- TOEFL→TOEFL_IBT reference/apply-contract regression PASS;
+- immutable-profile terminal discovery restart/idempotency PASS.
+
+The Layer 3 blocker therefore remains recorded without stopping unrelated M2.4.2 closure work.
