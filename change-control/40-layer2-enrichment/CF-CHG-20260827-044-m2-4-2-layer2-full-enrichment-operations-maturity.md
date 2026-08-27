@@ -334,3 +334,6 @@ A10 post-DDL Advisor check: Security Advisor 0 material WARN/ERROR/new executabl
 ### RMIT representative full-run discovery gate
 
 RMIT current-profile discovery plus exact non-terminal retry completed with 498/500 terminal outcomes and 261/261 selected URLs detail-CRICOS verified. No non-RMIT selected URLs, duplicate selected URLs or canonical Course URL mutations were accepted. Residual CRICOS `091377B`/`091378A` (`RMIT Inbound Internship`) remain source-limited because the accepted `/study-with-us/levels-of-study/` contract does not cover RMIT's separate inbound internship estate; no routing or identity rule was weakened. Primary managed batch `6abe8558-e1b9-4a6f-ba97-47481ba488bb` contains the initial 240 verified selections; 21 retry recoveries remain queued for a second bounded batch after the primary batch terminates.
+
+
+Managed-run observability correction: `retry_count` previously counted the first normal acquisition as a retry and response/extraction timing fields were not populated. Migration `20260827234000_m2_4_2_run_item_observability_fix.sql` and `layer2-batch-runner` v6 correct retry semantics and add service-only response/extraction/outcome telemetry without changing routing or extraction behaviour. Deployed verification shows retry_count=0 for first attempts and populated timing/outcome fields on v6-processed items.
