@@ -139,3 +139,10 @@ Targeted UI/runtime gate after this correction:
 - Do not create Stage B/Stage C markers prematurely.
 - Do not delete governed Evidence/history during recovery or housekeeping.
 - NZ first-party Layer 2 Course enrichment remains DEFERRED.
+
+
+## A8 release-surface rule
+
+Read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`.
+
+Do not restore `#governed-runtime-marker` or any equivalent footer/floating feature-version chip. The top-right PIM Admin version + Release Notes overlay is the only normal operator-facing release surface. UAT must use deterministic shell/version controls rather than a debug/footer marker.
