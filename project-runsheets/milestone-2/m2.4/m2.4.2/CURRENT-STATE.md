@@ -730,3 +730,44 @@ Discovery restart/idempotency PASS:
 - returned `courses=[]`, proving terminal outcomes are excluded from immutable-profile restart acquisition.
 
 M2.4.2 remains ACTIVE. RMIT canonical promotion, refresh-policy decision, broader UI/navigation regression, documentation/Stage B and exactly one final Stage C remain open.
+
+
+## A12 contextual insight integration — targeted PASS
+
+A12 is now implemented as a bounded, read-only contextual projection behind the existing authenticated `public.admin_read(text,jsonb)` boundary.
+
+Provider/Course detail now exposes three generic semantic groups:
+- Student outcomes / benchmarks;
+- International student flow;
+- Scholarships / funding.
+
+Country-specific labels such as QILT and PRISMS are source labels rather than hard-coded blade architecture.
+
+Live authenticated validation:
+- RMIT Provider: 36 QILT outcome rows, 452 VIC PRISMS regional-context rows, 3 Provider Scholarships;
+- representative RMIT Course: 36 Provider-context outcome rows, 3 governed Provider-scope Scholarships, PRISMS correctly reported as `not_mapped` rather than invented as Course-level truth;
+- UQ Provider: 36 QILT rows plus regional PRISMS context.
+
+Authority/security:
+- contextual projection is stable/read-only;
+- rank-0 negative PASS;
+- anon execute false;
+- authenticated read is rank checked;
+- canonical/Search/Publication mutation is not authorised;
+- post-DDL Security Advisor: 0 WARN / 0 ERROR;
+- post-DDL Performance Advisor: 0 WARN / 0 ERROR.
+
+Permanent deployed A12 UAT:
+- initial two failures were test-contract corrections only: wrong same-title Course selection, then brittle copy assertion;
+- final targeted desktop UAT run `33080519873` PASS at Pilot `c58cff1790e8be59b7256ce30e68aa8a1d7a1be0`.
+
+A12 is therefore **TARGETED PASS / ACCEPTANCE INPUT**. Stage B integration is nominated separately and does not close M2.4.2.
+
+## Refresh-policy disposition reconciliation
+
+Current accepted Course-profile policies are intentionally split by measured evidence:
+- UQ weekly Course refresh: **enabled**, next due 3 September 2026 UTC/AEST-adjusted runtime schedule;
+- RMIT weekly Course refresh: **disabled** pending the frozen 212-record canonical-promotion gate;
+- Federation weekly Course refresh: **disabled**, source profile remains paused/source-limited.
+
+Do not normalise these into one blanket enable/disable decision. UQ has accepted canonical full-run evidence; RMIT does not yet have its final canonical promotion consequence; Federation remains source-limited by design.
