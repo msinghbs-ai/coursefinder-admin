@@ -269,3 +269,30 @@ Additional M2.4.2 operational maturity now deployed:
 - alert browser exposure only through accepted `admin_read` governance, with no credential exposure.
 
 M2.4.2 remains ACTIVE. No Stage B or Stage C candidate has been nominated.
+
+
+## RMIT v1.3.0 targeted acceptance update
+
+Corrected post-v1.3.0 targeted browser/runtime gate:
+- Pilot `a6e09ccd84a1d39e1911f37fbd793d48cf52cdb8`;
+- deployed targeted UAT `33027788662` PASS;
+- frontend build/browser smoke `33027788651` PASS.
+
+The preceding targeted failure was caused by stale UAT expectations plus an alert-helper ACL grant that had been rolled back with its validation transaction; no runtime security boundary was weakened. The durable ACL is mirrored in `20260827225500_m2_4_2_layer2_alert_acl_reconcile.sql`. The primary Layer 2 sync UI now loads independently of the alert feed.
+
+Security negatives:
+- anon cannot execute alert, housekeeping or Layer 2 refresh-dispatch helpers;
+- authenticated users cannot execute housekeeping/refresh helpers;
+- rank-3 authenticated alert read is rejected;
+- rank-4 authenticated alert read succeeds through the private helper and internal rank check.
+
+RMIT duplicate-title/multi-CRICOS cohort:
+- 20/20 terminal;
+- 6 selected;
+- 6/6 selected detail-CRICOS verified;
+- 0 unverified selections;
+- 0 duplicate selected URL groups;
+- 4 ambiguous / 10 identity mismatch / 0 runtime failures;
+- bounded continuation `2165 → 2166 → 2167 → 2168`.
+
+Full RMIT university rerun began through the normal operator scope contract as request `2169`; early waves remain bounded with zero runtime failures and no unverified/duplicate selected URLs. Final full-run disposition remains open.
