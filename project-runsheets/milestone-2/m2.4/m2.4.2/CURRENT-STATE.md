@@ -320,3 +320,52 @@ Current alert evidence includes Federation's intentional pause/source limitation
 - RMIT title-only broad discovery evidence before v1.3.0 is explicitly superseded and cannot be used as acceptance evidence.
 - RMIT broad discovery/enrichment must be rerun under the v1.3.0 detail-page CRICOS gate before M2.4.2 can close.
 - Stage B and Stage C remain NOT nominated.
+
+
+## Targeted UAT recovery + RMIT v1.3.0 high-risk cohort
+
+The post-v1.3.0 targeted browser failure was diagnosed and corrected without weakening runtime controls:
+- alert-read ACL was missing for the rank-4 authenticated helper path because an earlier validation GRANT had been rolled back with its test transaction;
+- runtime ACL was applied in a committed call and mirrored by `20260827225500_m2_4_2_layer2_alert_acl_reconcile.sql`;
+- Layer 2 UI now loads primary sync scope independently of the optional alert feed;
+- deployed UAT no longer assumes paused profiles are executable scope options;
+- the legacy hidden provider-launcher force-click was removed from routine rank-4 UAT;
+- the source assertion now matches the hardened 80-second invocation budget.
+
+Corrected targeted evidence:
+- Pilot `a6e09ccd84a1d39e1911f37fbd793d48cf52cdb8`;
+- deployed targeted UAT `33027788662` — PASS;
+- frontend build/browser smoke `33027788651` — PASS.
+
+Rank/ACL evidence:
+- anon alert helper EXECUTE: false;
+- authenticated alert helper EXECUTE: true, with internal rank >=4 enforcement;
+- anon/authenticated housekeeping EXECUTE: false;
+- anon/authenticated Layer 2 refresh dispatcher EXECUTE: false;
+- rank-3 authenticated alert read rejected with `pipeline_operator role required`;
+- rank-4 authenticated alert read PASS.
+
+RMIT high-risk duplicate-title/multi-CRICOS cohort:
+- request chain `2165 → 2166 → 2167 → 2168`;
+- 20/20 Courses terminal;
+- 6 selected;
+- 6/6 selected with `detail_cricos_verified=true`;
+- 0 unverified selections;
+- 0 duplicate selected URL groups;
+- 4 ambiguous;
+- 10 identity mismatch;
+- 0 current-page-not-found in this cohort;
+- 0 runtime failures.
+
+Provider telemetry for the cohort:
+- Firecrawl: 20 rendered-search attempts, 20 succeeded, average ~11.5s;
+- Direct HTTP: 34 attempts including search fall-through/detail verification, 6 succeeded verification, average ~0.6s, zero vendor fee;
+- subscription cash cost for Firecrawl remains not recorded; vendor quota is measured separately.
+
+Full RMIT university rerun started under the normal operator service as request `2169`:
+- 500 total Courses;
+- 493 needed discovery at launch;
+- 7 already governed/selected preserved;
+- early full-scope waves remain bounded and failure-free;
+- all selected URLs observed so far are detail-CRICOS verified;
+- duplicate selected URL audit remains zero.
