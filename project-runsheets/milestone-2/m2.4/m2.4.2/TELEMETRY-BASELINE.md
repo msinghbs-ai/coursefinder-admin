@@ -67,3 +67,8 @@ The A14 audit identified and closed the separate scheduled-discovery telemetry p
 ### A14 active-path audit completion
 
 Active Edge audit confirms exactly three current Layer 2 functions start provider attempts: `layer2-acquire-v2` v9, `layer2-scope-discover-scheduled` v19 and `layer2-scale-qualify-scheduled` v3. All three now retain vendor-unit usage and estimated-cost fields where available in addition to provider/latency/outcome telemetry. No other active Layer 2 provider-attempt starter was found. Post-deploy Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
+
+
+### A14 Layer 3 active-call audit completion
+
+Active chat-completion audit confirms three current Layer 3 model callers: `layer3-interpret` v3, `layer3-provider-control` v2 and `layer3-source-pattern-benchmark` v7. All retain model identity, external-call count, input/output tokens, latency and cost where available. Interpretation failures now retain call count/latency, and credential verification retains its small token/cost footprint rather than hiding it. New nullable telemetry columns preserve unavailable provider usage without inference. Post-DDL/Edge Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
