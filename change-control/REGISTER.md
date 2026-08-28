@@ -15,7 +15,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 ACTIVE / STAGE B DESKTOP+MOBILE PASS / FINAL STAGE C PENDING.** M2.4.1 remains the last closed milestone baseline. M2.4.2 Stage B passed on Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, run `33214733610`, desktop/mobile PASS. CF-CHG-044 remains ACTIVE until exactly one final Stage C acceptance PASS. RMIT frozen 212-record canonical promotion is formally BLOCKED without an authorised exact-set executor; UQ refresh is enabled, RMIT disabled, Federation disabled/paused/source-limited. A1–A14 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
+> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 BLOCKED AFTER SINGLE FINAL STAGE C FAILURE.** Stage B remains accepted PASS at Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, run `33214733610`, desktop/mobile PASS. The one final Stage C candidate `91b115ddf64b020563c7ae6bbd1ea395db866d3f` failed run `33215640328` with 45/46 desktop tests passing and mobile skipped after desktop failure. The sole failure was a stale pre-A12 Course-card reorder assertion, corrected afterward at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`. Per the frozen one-final-candidate rule, CF-CHG-044 is BLOCKED and requires explicit governance reopening before any future final-acceptance attempt. Running Build/Master Plan remain at the prior accepted baseline. RMIT frozen 212-record canonical promotion remains separately BLOCKED; UQ refresh enabled, RMIT disabled, Federation disabled/paused/source-limited. A1–A14 / CF-CHG-042 remain standing governance.
 >
 > **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Pilot read contract and the first Courses-screen HTTP gateway are deployed; Zoho Creator connection/structural build and bounded end-to-end integration UAT remain open; no Zoho cutover is authorised.
 >
@@ -66,7 +66,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-041 | 00-governance-programme | Restore M2.2+ Standing Cross-Chat Instruction Contract | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-041-m2-standing-instructions-restoration.md` |
 | CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
-| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | ACTIVE — STAGE B PASS / FINAL STAGE C PENDING | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
+| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | BLOCKED — SINGLE FINAL STAGE C FAILED / GOVERNANCE REOPENING REQUIRED | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
 | CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — COURSE HTTP GATEWAY DEPLOYED; ZOHO CONNECTION BLOCKED | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
 
 ## Current programme baseline
@@ -91,6 +91,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - M2.4.0 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
 - **M2.4.1 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272`; Stage C deployed UAT `32972106291` desktop/mobile PASS.
 - **M2.4.2 Stage B candidate:** frozen source `msinghbs-ai/Coursefinder-Pilot@69cb9b465de0a00247db381bcbffcc98a6b1f30a`; marker `e2eec9b8de0187a5373b506342316ea457b79a0b`; deployed integration `33214733610` desktop/mobile PASS; not yet a closed milestone baseline until Stage C PASS.
+- **M2.4.2 Stage C final gate:** candidate `msinghbs-ai/Coursefinder-Pilot@91b115ddf64b020563c7ae6bbd1ea395db866d3f`; acceptance `33215640328` FAIL (45/46 desktop PASS, mobile skipped). Stale pre-A12 reorder assertion corrected afterward at `60e9e25a86a48522dbae7a29d6c2955c9d295761`; no replacement Stage C is authorised without explicit governance reopening.
 
 ## Preserved technical/semantic baseline
 
