@@ -63,3 +63,18 @@ Do not close an item merely because independent M2.4.2 work can continue. Record
 | M242-FU-027 | Post-demo UAT reconciliation | Stakeholder demo received very positive reception, but latest visual-uplift UAT is not accepted: A12 run `33157407844` failed on stale wording/layout assertions; A13 run `33156550691` failed because test still depends on hidden `.l2o-launcher`. | M2.4.2 | Update UAT to the accepted new UI semantics/primary navigation without weakening authority assertions; rerun targeted desktop/mobile. | OPEN / NEXT CHAT PRIORITY |
 
 | M242-FU-028 | Demo follow-up targeted acceptance | A13 primary-navigation/filter/Evidence suite passed deployed at Pilot `c63db2db…`, run `33174990072`; A12 redesign reconciliation rerun is tracked separately before Stage B. | M2.4.2 | Preserve the accepted UI; proceed to Stage B only after A12 is clean. | A13 PASS / A12 RERUN IN PROGRESS |
+
+
+## A14 Layer 2 / Layer 3 telemetry retention — 29 August 2026
+
+A14 is now a standing M2 rule. Layer 2 must retain scraper/provider attempts, route/fallback outcome, latency, retries, vendor units/credits where measurable, estimated/measured cost, Evidence count/bytes, fields resolved and L3 fall-out. Layer 3 must retain exact model/profile, external calls, prompt/input tokens, completion/output tokens, latency, validator outcome and estimated/measured cost when the provider/runtime supplies them. Missing usage metadata remains explicit unavailable and is never manufactured.
+
+Runtime checkpoint at adoption:
+- 3,065 retained Layer 2 provider attempts; all have a metrics object and 3,012 already retain attempt latency;
+- historical attempt-level vendor-unit/cost fields were not consistently populated, although managed-run/item metrics retained vendor usage/cost;
+- `layer2-acquire-v2.9` now retains per-attempt provider key, request-unit usage basis, vendor units, latency and estimated request cost when available;
+- Layer 3 accepted production interpretations remain 0, so production token totals are correctly 0;
+- retained Layer 3 benchmark runs already record external-call count, input/output tokens, configured/returned model, cost and maximum latency;
+- Security Advisor remains 131 INFO / 0 WARN / 0 ERROR and Performance Advisor 167 INFO / 0 WARN / 0 ERROR after the Edge update.
+
+A new scraper/model execution path is not acceptable if it silently bypasses this telemetry contract.
