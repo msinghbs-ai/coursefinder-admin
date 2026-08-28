@@ -15,7 +15,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 ACTIVE / FULL-RUN EVIDENCE IN PROGRESS.** M2.4.1 remains the last accepted milestone baseline at Pilot SHA `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272` PASS; Stage C deployed UAT `32972106291` desktop/mobile PASS. CF-CHG-044 is ACTIVE. UQ full deterministic discovery/enrichment/canonical apply has passed for 153 governed Courses with 3 explicit Layer 3 exceptions; RMIT broad discovery and Federation source-limited completion remain open. A1–A7 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
+> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 ACTIVE / STAGE B DESKTOP+MOBILE PASS / FINAL STAGE C PENDING.** M2.4.1 remains the last closed milestone baseline. M2.4.2 Stage B passed on Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, run `33214733610`, desktop/mobile PASS. CF-CHG-044 remains ACTIVE until exactly one final Stage C acceptance PASS. RMIT frozen 212-record canonical promotion is formally BLOCKED without an authorised exact-set executor; UQ refresh is enabled, RMIT disabled, Federation disabled/paused/source-limited. A1–A14 / CF-CHG-042 remain standing governance for targeted → integration → one full acceptance matrix.
 >
 > **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Pilot read contract and the first Courses-screen HTTP gateway are deployed; Zoho Creator connection/structural build and bounded end-to-end integration UAT remain open; no Zoho cutover is authorised.
 >
@@ -66,7 +66,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-041 | 00-governance-programme | Restore M2.2+ Standing Cross-Chat Instruction Contract | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-041-m2-standing-instructions-restoration.md` |
 | CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
-| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | ACTIVE — FULL-RUN EVIDENCE IN PROGRESS | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
+| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | ACTIVE — STAGE B PASS / FINAL STAGE C PENDING | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
 | CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — COURSE HTTP GATEWAY DEPLOYED; ZOHO CONNECTION BLOCKED | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
 
 ## Current programme baseline
@@ -76,10 +76,10 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
 - Running Build: `docs/coursefinder-running-build-v2.75.md`;
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md` plus closed M2.3/M2.4.1 Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.14.md` plus accepted M2.4 Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.19.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
-- Layer 1 operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md` plus Operations Runbook v1.3 and PIM Admin Guide v1.21;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A7;
+- Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.3.md` plus Operations Runbook v1.5 and PIM Admin Guide v1.21;
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A14;
 - M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 ACTIVE, then M2.4.3 and M2.4.4.
 
 ## Accepted runtime/source authority
@@ -90,6 +90,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - M2.3 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
 - M2.4.0 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
 - **M2.4.1 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272`; Stage C deployed UAT `32972106291` desktop/mobile PASS.
+- **M2.4.2 Stage B candidate:** frozen source `msinghbs-ai/Coursefinder-Pilot@69cb9b465de0a00247db381bcbffcc98a6b1f30a`; marker `e2eec9b8de0187a5373b506342316ea457b79a0b`; deployed integration `33214733610` desktop/mobile PASS; not yet a closed milestone baseline until Stage C PASS.
 
 ## Preserved technical/semantic baseline
 
