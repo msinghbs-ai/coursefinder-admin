@@ -519,3 +519,24 @@ Active Edge audit confirms exactly three current Layer 2 functions start provide
 ### A14 Layer 3 active-call audit completion
 
 Active chat-completion audit confirms three current Layer 3 model callers: `layer3-interpret` v3, `layer3-provider-control` v2 and `layer3-source-pattern-benchmark` v7. All retain model identity, external-call count, input/output tokens, latency and cost where available. Interpretation failures now retain call count/latency, and credential verification retains its small token/cost footprint rather than hiding it. New nullable telemetry columns preserve unavailable provider usage without inference. Post-DDL/Edge Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
+
+
+## Final Stage B integration PASS — 29 August 2026
+
+The final M2.4.2 Stage B integration gate is PASS:
+- frozen Pilot source before marker: `69cb9b465de0a00247db381bcbffcc98a6b1f30a`;
+- integration marker: `e2eec9b8de0187a5373b506342316ea457b79a0b`;
+- deployed UAT run: `33214733610`;
+- chromium-desktop: PASS;
+- chromium-mobile: PASS.
+
+The final reconciliation preserved all accepted controls:
+- A10 paged State/University scope remains capped at 10 options/items per page;
+- A12 Course decision-workspace geometry is explicitly tested across desktop/tablet/mobile;
+- A13 Firecrawl/Evidence screenshot path remains governed and private;
+- transient Evidence-detail 5xx responses are retried only with bounded 5xx-only logic, retained as recovered runtime evidence when a subsequent 2xx succeeds, and remain hard failures if unrecovered;
+- no Layer 1 identity, canonical, Search, Publication or secret authority was broadened.
+
+RMIT canonical promotion remains formally BLOCKED with the frozen 212-record cohort unchanged (212/212 identity matched, 0 unsafe, 0 applied; fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`). This blocker is accepted as a separately carried-forward governed item and does not authorise bypass.
+
+Exactly one final Stage C acceptance candidate remains before CF-CHG-044 can close.
