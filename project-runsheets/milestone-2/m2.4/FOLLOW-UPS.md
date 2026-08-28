@@ -40,3 +40,7 @@ Every blocked, deferred or newly discovered item must record ID, origin, problem
 ## Next review
 
 At M2.4.2 start, review M24-FU-002, M24-FU-005, M24-FU-006 and standing M24-FU-007. Preserve all accepted M2.4.1 Layer 1 authority/security/operations contracts while maturing Layer 2.
+
+## M2.4.2 Stage B closure input — 29 August 2026
+
+Stage B desktop/mobile PASS is now accepted input for M2.4.2 final acceptance: run `33214733610`, marker `e2eec9b8de0187a5373b506342316ea457b79a0b`. Remaining consequential gate is exactly one Stage C final acceptance. RMIT canonical promotion and the Layer 3 source-pattern benchmark remain explicitly blocked/carry-forward and must not be bypassed.
