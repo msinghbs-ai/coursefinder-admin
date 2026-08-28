@@ -76,3 +76,26 @@ Metrics are operational context only. They do not authorise canonical, Search or
 No new scraper/provider/model execution path is accepted if it silently bypasses the applicable telemetry contract.
 
 Before a release gate, verify that new Layer 2/Layer 3 paths populate or explicitly mark unavailable the telemetry fields they can govern.
+
+
+## Active-path audit — 29 August 2026
+
+Current runtime audit must be repeated whenever an execution function is introduced or materially changed.
+
+At adoption the active execution surface is:
+
+Layer 2 provider-attempt starters:
+- `layer2-acquire-v2` v9;
+- `layer2-scope-discover-scheduled` v19;
+- `layer2-scale-qualify-scheduled` v3.
+
+All retain provider identity, request-unit usage basis/vendor units, latency and estimated request cost where available.
+
+Layer 3 chat-completion callers:
+- `layer3-interpret` v3;
+- `layer3-provider-control` v2;
+- `layer3-source-pattern-benchmark` v7.
+
+All retain model identity, external-call count, input/output tokens, latency and cost where returned/measured. Credential verification is included even though its call is small. Interpretation retries are included in external-call count.
+
+The audit is based on active deployed Edge code, not only repository naming. A future path must be added to this contract before acceptance.
