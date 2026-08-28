@@ -871,3 +871,37 @@ Pilot commits:
 - PRISMS same-metric trend correction `24998336…`.
 
 Build/deployed A12 regression is the active acceptance gate for this visual uplift.
+
+
+## Stakeholder demo outcome and post-demo acceptance checkpoint — 28 August 2026
+
+The 28 August 2026 milestone/demo meeting received **very positive stakeholder reception**.
+
+This is recorded as stakeholder validation of the operator/UX direction, not as automatic technical acceptance.
+
+Positively received direction to preserve:
+- Layer 2 routine workflow with one primary action plus visible Direct HTTP → Firecrawl → fallback → Evidence routing;
+- first-party source Evidence plus screenshot thumbnail drill-through;
+- wider Course decision workspace;
+- QILT/PRISMS/Scholarships contextualised on Provider/Course detail;
+- visually stronger QILT benchmark cards and PRISMS contextual market panel;
+- explicit authority/granularity labels.
+
+Latest Pilot head at the post-demo checkpoint: `24998336d54b92b6ec3c5f341e217779bd6d0134`.
+
+Frontend build `33157407841`: PASS.
+
+Latest deployed UAT is **not PASS yet**:
+- A12 run `33157407844` — desktop FAIL, mobile skipped. The failure includes stale test assertions after the accepted wording/layout redesign (for example test expects `Student outcomes / benchmarks` while the new component renders `Student outcomes & benchmarks`). Provider/Course visual selectors also require reconciliation against the new wide cockpit.
+- A13 run `33156550691` — 1 PASS / 1 FAIL. The failing test waits for hidden `.l2o-launcher`; normal operator navigation should be used instead. Do not reintroduce the hidden launcher to satisfy UAT.
+
+These are acceptance-contract follow-ups, not reasons to regress the demonstrated UX.
+
+Continuation prompt is now recorded at:
+`project-runsheets/milestone-2/m2.4/m2.4.2/prompts/02-M2.4.2-DEMO-FOLLOW-UP-AND-CLOSURE.md`.
+
+Next execution priority:
+1. reconcile/fix A12 UAT for the new Course decision workspace;
+2. reconcile/fix A13 UAT to use primary navigation and prove screenshot thumbnail/full-view;
+3. rerun targeted desktop/mobile;
+4. then resume broader Stage B / RMIT canonical-promotion / closure sequence.
