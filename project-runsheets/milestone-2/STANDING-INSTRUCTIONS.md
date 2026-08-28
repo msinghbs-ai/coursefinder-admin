@@ -8,7 +8,7 @@
 
 CourseFinder M2 work is split across short chats and sub-milestones. The detailed task prompt may change, but the operating rules must not disappear when a new chat starts or one issue consumes the context window.
 
-Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md`.
+Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`.
 
 ## Mandatory start-of-chat reconciliation
 
@@ -21,12 +21,13 @@ Before material work:
 5. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`;
 6. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md`;
 7. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md`;
-8. read `change-control/README.md` and `change-control/REGISTER.md`;
-9. read the latest Master Project Plan and Running Build;
-10. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
-11. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
-12. read overlapping open/recent Change Controls;
-13. reconcile current Pilot///Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
+8. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`;
+9. read `change-control/README.md` and `change-control/REGISTER.md`;
+10. read the latest Master Project Plan and Running Build;
+11. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
+12. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
+13. read overlapping open/recent Change Controls;
+14. reconcile current Pilot///Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
 
 Repository/runtime truth takes precedence over stale chat text. Do not overwrite newer parallel work.
 
@@ -44,6 +45,7 @@ Repository/runtime truth takes precedence over stale chat text. Do not overwrite
 - Follow A8 for release/version presentation: the top-right version Release Notes overlay is the single operator-facing release surface; persistent footer/runtime feature markers are prohibited.
 - Follow A10 for platform-wide filter performance and tablet behaviour: large option sets are server-paged/searchable at 10 items per page, dependent filters remain scoped, and touch/tablet dropdowns must not auto-focus search inputs.
 - Follow A12 for contextual insight integration: QILT/PRISMS/country-equivalent statistics and Scholarships must be relationally surfaced on Provider/Course decision blades at their true source granularity, with provenance and explicit unavailable/not-mapped states.
+- Follow A13 for stable Course/tablet filters and Layer 2 demo traceability: filter menus remain anchored to their trigger and the routine Layer 2 screen must expose automatic Direct HTTP → Firecrawl → fallback routing plus linked captured Evidence without fabricating screenshots.
 
 ## Authority model that must not regress
 
