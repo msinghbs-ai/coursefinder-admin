@@ -103,3 +103,24 @@ A milestone that ingests QILT/PRISMS/country-equivalent or Scholarship data is n
 4. provenance/freshness is preserved;
 5. targeted browser/API/security UAT covers the contextual projection.
 
+
+
+## A12.6 — Course detail decision workspace
+
+The Course detail presentation must use the available desktop width as a decision workspace rather than a narrow stacked drawer.
+
+Required presentation:
+- desktop Course drawer target: approximately 55–60% viewport width with a bounded maximum around 900–950px;
+- tablet: near-full-width overlay;
+- mobile: full-screen;
+- compact top summary grid for authoritative Course identity/state;
+- Course facts and fees/entry requirements remain visually primary;
+- QILT/country-equivalent outcomes render as benchmark cards, using only governed metric and benchmark values;
+- PRISMS/country-equivalent student flow renders as a contextual market panel with direct/context state, bounded observations and source-market chips where present;
+- a trend may be drawn only from repeated observations of the same governed metric across periods; never connect unrelated metrics;
+- Scholarships remain a separate compact governed-scope panel;
+- Provider/regional context remains visually labelled and must not be presented as Course-level truth;
+- Evidence access stays adjacent to the insight it supports;
+- the authority note remains visible in the contextual workspace.
+
+The wider Course detail treatment applies only to Course detail. Other Admin drawers retain their existing width unless separately governed.
