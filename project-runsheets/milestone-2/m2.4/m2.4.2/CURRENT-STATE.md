@@ -945,3 +945,18 @@ Replacement Stage B candidate:
 - status: RUNNING at this checkpoint.
 
 Do not create Stage C until this replacement Stage B is PASS and docs/runtime remain frozen.
+
+
+## A14 Layer 2 / Layer 3 telemetry retention — 29 August 2026
+
+A14 is now a standing M2 rule. Layer 2 must retain scraper/provider attempts, route/fallback outcome, latency, retries, vendor units/credits where measurable, estimated/measured cost, Evidence count/bytes, fields resolved and L3 fall-out. Layer 3 must retain exact model/profile, external calls, prompt/input tokens, completion/output tokens, latency, validator outcome and estimated/measured cost when the provider/runtime supplies them. Missing usage metadata remains explicit unavailable and is never manufactured.
+
+Runtime checkpoint at adoption:
+- 3,065 retained Layer 2 provider attempts; all have a metrics object and 3,012 already retain attempt latency;
+- historical attempt-level vendor-unit/cost fields were not consistently populated, although managed-run/item metrics retained vendor usage/cost;
+- `layer2-acquire-v2.9` now retains per-attempt provider key, request-unit usage basis, vendor units, latency and estimated request cost when available;
+- Layer 3 accepted production interpretations remain 0, so production token totals are correctly 0;
+- retained Layer 3 benchmark runs already record external-call count, input/output tokens, configured/returned model, cost and maximum latency;
+- Security Advisor remains 131 INFO / 0 WARN / 0 ERROR and Performance Advisor 167 INFO / 0 WARN / 0 ERROR after the Edge update.
+
+A new scraper/model execution path is not acceptable if it silently bypasses this telemetry contract.
