@@ -540,3 +540,23 @@ The final reconciliation preserved all accepted controls:
 RMIT canonical promotion remains formally BLOCKED with the frozen 212-record cohort unchanged (212/212 identity matched, 0 unsafe, 0 applied; fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`). This blocker is accepted as a separately carried-forward governed item and does not authorise bypass.
 
 Exactly one final Stage C acceptance candidate remains before CF-CHG-044 can close.
+
+
+## Final Stage C acceptance result — BLOCKED
+
+The one authorised final Stage C candidate was Pilot `91b115ddf64b020563c7ae6bbd1ea395db866d3f`.
+
+Deployed acceptance run `33215640328`:
+- desktop: FAIL;
+- mobile: skipped by workflow after desktop failure;
+- desktop result: 45 PASS / 1 FAIL.
+
+The only failure was the Course decision-card reorder persistence assertion. A12 had inserted the accepted `Related insights & funding` card between Fees and Locations. The test still assumed the older card topology and expected one `Move Locations up` action to move Locations two positions to first. Runtime correctly performs a one-position swap.
+
+The stale test contract was corrected after the failed gate at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`. This corrective commit does **not** replace, erase or convert the failed Stage C result.
+
+CF-CHG-044 status is therefore:
+
+**BLOCKED — SINGLE FINAL STAGE C FAILED / GOVERNANCE REOPENING REQUIRED**
+
+No second final candidate or silent rerun is authorised. Running Build/Master Project Plan must remain at the prior accepted baseline until an explicit governance decision authorises any future final-acceptance reopening.
