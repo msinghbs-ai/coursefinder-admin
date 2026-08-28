@@ -243,3 +243,39 @@ Use the ready-to-copy continuation prompt:
 `project-runsheets/milestone-2/m2.4/m2.4.2/prompts/02-M2.4.2-DEMO-FOLLOW-UP-AND-CLOSURE.md`.
 
 Do not create Stage C until targeted A12/A13 and broader Stage B are clean and the RMIT canonical-promotion blocker is resolved or formally dispositioned.
+
+
+## Authoritative pre-Stage C continuation — 29 August 2026
+
+This section supersedes stale runtime/version statements above where they conflict.
+
+Current Pilot Stage B accepted state:
+- source before marker: `69cb9b465de0a00247db381bcbffcc98a6b1f30a`;
+- Stage B marker: `e2eec9b8de0187a5373b506342316ea457b79a0b`;
+- integration run `33214733610`: desktop PASS, mobile PASS;
+- PIM Admin release surface: v2.15.9.
+
+Current deployed discovery/telemetry truth:
+- `layer2-acquire-v2` Edge v9;
+- `layer2-scope-discover-scheduled` Edge v19 / worker v1.3.2;
+- `layer2-scale-qualify-scheduled` Edge v3;
+- active Layer 3 callers: `layer3-interpret` v3, `layer3-provider-control` v2, `layer3-source-pattern-benchmark` v7;
+- A14 telemetry is mandatory for new execution paths.
+
+Current refresh/promotion truth:
+- UQ weekly Course refresh ENABLED;
+- RMIT weekly Course refresh DISABLED;
+- Federation weekly Course refresh DISABLED and profile PAUSED/source-limited;
+- RMIT frozen promotion cohort: 212/212 identity matched, 0 unsafe, 0 applied, fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`;
+- RMIT promotion remains formally BLOCKED because no already-authorised exact frozen-set executor exists. Do not create a privileged bypass.
+
+Current docs:
+- Data Operations Admin Guide v1.3;
+- Operations Runbook v1.5;
+- Admin/PIM Design Decisions v1.19.
+
+Next gate:
+1. re-run live Security/Performance Advisor and runtime freeze checks;
+2. create exactly one M2.4.2 Stage C acceptance marker;
+3. require desktop/mobile acceptance PASS;
+4. only then close CF-CHG-044/M2.4.2 and advance Running Build/Master Project Plan.
