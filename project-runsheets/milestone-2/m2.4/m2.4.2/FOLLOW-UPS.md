@@ -102,3 +102,17 @@ This section supersedes stale Stage B/A12/A13 statuses earlier in this file.
 - RMIT refresh: DISABLED.
 - Federation refresh/profile: DISABLED / PAUSED / SOURCE-LIMITED.
 - Stage C: NOT YET CREATED at this checkpoint; exactly one final acceptance candidate remains.
+
+
+## Final Stage C follow-up — 29 August 2026
+
+- Stage C candidate: `91b115ddf64b020563c7ae6bbd1ea395db866d3f`.
+- Acceptance run: `33215640328`.
+- Result: desktop FAIL (45 PASS / 1 FAIL); mobile skipped.
+- Sole failure: stale pre-A12 Course-card reorder assertion.
+- Runtime behaviour is correct one-step movement; test contract corrected at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`.
+- No second Stage C candidate/run is authorised under the frozen M2.4.2 rule.
+
+**Status: BLOCKED / GOVERNANCE DECISION REQUIRED BEFORE ANY FUTURE FINAL-ACCEPTANCE REOPENING.**
+
+Do not close CF-CHG-044 or advance Running Build/Master Plan from this state.
