@@ -820,3 +820,32 @@ Pilot implementation through:
 - permanent A13 browser UAT added and routed subsequently.
 
 Initial post-fix build `33153586864` PASS and deployed targeted UAT `33153586948` PASS; the dedicated A13 semantic/tablet test is the current consequential validation.
+
+
+## A13 screenshot Evidence extension — 28 August 2026
+
+Firecrawl provider configuration already requested `markdown`, `html` and `screenshot`. The prior gap was persistence: the acquisition workers retained raw/HTML Evidence but did not copy the Firecrawl-hosted screenshot into governed private Storage.
+
+Implemented:
+- `layer2-acquire-v2.8` now reads Firecrawl screenshot output, downloads PNG/JPEG/WebP immediately, creates `layer2_screenshot` Evidence and links `screenshot_evidence_id` to the provider attempt;
+- `layer2-scope-discover-scheduled-v1.3.1` applies the same screenshot capture to discovery and identity-verification acquisitions;
+- screenshot failure is secondary and does not fail an otherwise valid HTML acquisition;
+- Evidence detail now returns a related visual artifact where the attempt contains screenshot Evidence;
+- Evidence workspace renders that image through the existing private 60-second signed-access boundary as a thumbnail, with full screenshot and screenshot-Evidence drill-through;
+- WebP preview support is included in the signed-access service;
+- HTML/raw Evidence remains authoritative; screenshot is explicitly secondary visual Evidence.
+
+Immediate accepted UQ proof was backfilled through a one-time nonce worker without canonical re-extraction:
+- source Evidence: `eb305cd4-577e-4ced-988b-243fc3318f6e`;
+- source page: `https://study.uq.edu.au/study-options/programs/bachelor-arts-2000?year=2027`;
+- original attempt: `bbead59b-9e17-492a-95c3-021c049c95cf`;
+- screenshot Evidence: `48733f50-959b-43fb-b495-71aa518a10e8`;
+- MIME: `image/png`;
+- size: 281,129 bytes;
+- screenshot captured 28 August 2026;
+- canonical/Search/Publication mutation false.
+
+Post-change Security Advisor: 0 WARN / 0 ERROR.
+Post-change Performance Advisor: 0 WARN / 0 ERROR.
+
+Permanent A13 deployed UAT has been extended to require the UQ screenshot thumbnail and signed full-image action before this screenshot extension is accepted.
