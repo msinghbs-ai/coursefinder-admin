@@ -83,3 +83,9 @@ Priorities:
 ## Immediate next gate
 
 Open/reconcile the M2.4.2 prompt/runsheet, current Pilot and deployed Supabase Layer 2 providers/profiles/jobs/Evidence/runtime before feature changes. Use targeted Stage A during implementation, bounded integration before promotion, and exactly one final deployed desktop/mobile acceptance matrix.
+
+## M2.4.2 closure checkpoint — 29 August 2026
+
+M2.4.2 final Stage B integration is PASS on desktop and mobile, deployed run `33214733610`, Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, frozen source `69cb9b465de0a00247db381bcbffcc98a6b1f30a`.
+
+RMIT canonical promotion remains formally blocked without an authorised exact frozen-set executor; no bypass is permitted. UQ refresh remains enabled, RMIT disabled, Federation disabled/paused/source-limited. Exactly one Stage C final acceptance gate remains before M2.4.2 closure.
