@@ -187,9 +187,14 @@ No performance threshold, security/rank boundary, authority contract or data ass
 
 Current accepted guides:
 
-- `docs/coursefinder-m2-4-data-operations-admin-guide-v1.2.md`;
-- `docs/coursefinder-operations-runbook-v1.3.md`;
+- `docs/coursefinder-m2-4-data-operations-admin-guide-v1.4.md`;
+- `docs/coursefinder-operations-runbook-v1.6.md`;
 - `docs/coursefinder-pim-admin-guide-v1.21.md`.
+
+## Accepted architecture baseline
+
+- `docs/coursefinder-database-architecture-v2.10.43.md`;
+- `docs/coursefinder-admin-pim-design-decisions-v1.19.md`.
 
 ## Gate state
 
