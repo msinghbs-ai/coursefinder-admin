@@ -4,7 +4,8 @@
 **Started:** 27 August 2026 04:28 AEST (+10:00)  
 **Change Control:** `CF-CHG-20260827-044` — CLOSED / PASS
 **Accepted starting Pilot:** `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`  
-**Current A9 targeted Pilot head:** `638970c0b6fe323ba93260289301218a7f218aff`  
+**Accepted final Pilot:** `093010fada8391c93626b59e59c678064f4961c3`  
+**Historical A9 targeted Pilot head:** `638970c0b6fe323ba93260289301218a7f218aff`  
 **Visible browser baseline at M2.4.2 start:** PIM Admin `v2.15.7`
 
 ## Accepted inherited baseline
