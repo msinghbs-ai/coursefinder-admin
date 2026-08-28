@@ -57,3 +57,8 @@ Historical values must remain distinguishable from post-A14 telemetry completene
 - historical rows with retry_count > 0: **220**; note M2.4.2 corrected earlier first-attempt retry semantics, so time/profile context must be considered before treating historical retry counts as comparable.
 
 Use provider-attempt metrics for acquisition-provider comparisons and managed-run metrics for execution/fall-out comparisons. Do not sum unlike usage bases without labelling them.
+
+
+### A14 scheduled-discovery telemetry completion
+
+The A14 audit identified and closed the separate scheduled-discovery telemetry path. `layer2-scope-discover-scheduled-v1.3.2` (deployed Edge version 19) now records provider key, request-unit usage basis, vendor units, latency and estimated request cost where available for scheduled discovery, fallback/failure and Course detail identity-verification attempts. Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
