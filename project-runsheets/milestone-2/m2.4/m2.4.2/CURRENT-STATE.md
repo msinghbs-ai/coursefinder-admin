@@ -982,3 +982,32 @@ Active chat-completion audit confirms three current Layer 3 model callers: `laye
 Stage B run `33210173798` completed desktop with 34 PASS, 6 FAIL and 1 flaky; mobile was not run because desktop failed. The six failures were traced to stale/timing-sensitive UAT contracts rather than lost Layer 2 profiles or weakened runtime controls: obsolete navigation copy, exact State-option label shape, pre-A14 worker version assertions, non-deterministic advanced-profile filter waits, and pre-A9 provider-guard wording. These were reconciled in Pilot without weakening QILT/PRISMS exclusion, paging, authority, secret, telemetry, or source-profile assertions. A13 Evidence-detail returned one transient HTTP 500 and passed on retry; it remains visible as flaky rather than being suppressed.
 
 New frozen Stage B source: `0ae8fd85e42691e6074497157f3fb8c221ab57dc`; integration marker: `da970aa95e11368e68994a73a2ce4a8eec5a7ebb`. Stage C remains unauthorised until this candidate is desktop/mobile PASS.
+
+
+## Final Stage B PASS / pre-Stage C freeze — 29 August 2026
+
+Stage B is now **PASS on both desktop and mobile**.
+
+Final accepted integration candidate:
+- frozen Pilot source before marker: `69cb9b465de0a00247db381bcbffcc98a6b1f30a`;
+- Stage B marker: `e2eec9b8de0187a5373b506342316ea457b79a0b`;
+- deployed integration run: `33214733610`;
+- desktop: PASS;
+- mobile: PASS.
+
+The final mobile-only reconciliation did not weaken acceptance:
+- A12 explicitly sets the desktop viewport before testing desktop/tablet/mobile Course-workspace geometry, so the assertions are independent of the Playwright project starting viewport.
+- `evidence_detail` retries only HTTP 5xx responses with bounded backoff. Recovered 5xx responses remain retained as `recovered_server_errors`; any unrecovered 5xx remains a hard UAT failure.
+- Direct governed execution of the accepted UQ Evidence-detail contract succeeded; 20 direct role-checked executions averaged ~182 ms, max ~913 ms, zero empty results.
+
+Current release surface remains PIM Admin v2.15.9 through the existing top-right release-notes overlay only.
+
+RMIT canonical promotion remains formally BLOCKED without bypass:
+- frozen cohort 212;
+- 212/212 identity matched;
+- 0 unsafe;
+- 0 applied;
+- fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`.
+RMIT weekly refresh remains disabled. UQ weekly refresh remains enabled. Federation remains disabled/paused/source-limited.
+
+Stage C has **not** yet been created in this checkpoint. The next action is the one final acceptance candidate after live advisor/runtime/docs freeze.
