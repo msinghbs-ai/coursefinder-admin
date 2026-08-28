@@ -89,3 +89,12 @@ Open/reconcile the M2.4.2 prompt/runsheet, current Pilot and deployed Supabase L
 M2.4.2 final Stage B integration is PASS on desktop and mobile, deployed run `33214733610`, Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, frozen source `69cb9b465de0a00247db381bcbffcc98a6b1f30a`.
 
 RMIT canonical promotion remains formally blocked without an authorised exact frozen-set executor; no bypass is permitted. UQ refresh remains enabled, RMIT disabled, Federation disabled/paused/source-limited. Exactly one Stage C final acceptance gate remains before M2.4.2 closure.
+
+
+## M2.4.2 final-gate disposition — 29 August 2026
+
+M2.4.2 Stage B remains accepted PASS on desktop/mobile (`33214733610`).
+
+The single final Stage C candidate `91b115ddf64b020563c7ae6bbd1ea395db866d3f` failed acceptance run `33215640328` with 45/46 desktop tests passing; mobile was skipped after desktop failure. The sole failure was a stale pre-A12 Course-card reorder assertion, corrected afterward at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`.
+
+Under the one-final-candidate rule, M2.4.2 is **BLOCKED**. No replacement Stage C is authorised without a new explicit governance/change-control decision. Running Build/Master Plan remain unadvanced.
