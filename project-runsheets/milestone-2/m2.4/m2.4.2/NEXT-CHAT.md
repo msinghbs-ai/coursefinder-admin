@@ -1,11 +1,11 @@
 # M2.4.2 — Next Chat / Continuation Contract
 
-**Status:** ACTIVE — continue current repository/runtime truth; do not restart from chat assumptions.
+**Status:** CLOSED / PASS — historical continuation record; next workstream is M2.4.3.
 
 ## Mandatory start
 
 1. Read `PROJECT_INSTRUCTIONS.md`.
-2. Read M2 Standing Instructions and execution addenda A1–A7.
+2. Read M2 Standing Instructions and execution addenda A1–A14.
 3. Read `change-control/README.md`, `change-control/REGISTER.md` and CF-CHG-20260827-044.
 4. Read current Running Build, Master Project Plan, accepted database architecture and Admin/PIM decisions.
 5. Read:
