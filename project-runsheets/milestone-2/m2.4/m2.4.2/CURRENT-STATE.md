@@ -792,3 +792,31 @@ Independent closure work completed while Stage B runs:
 - Admin/PIM Design Decisions v1.18 published with A12 contextual-detail decision.
 
 No Stage C marker has been created. RMIT 212-record canonical promotion remains open and no connector-safety bypass has been attempted.
+
+
+## A13 urgent demo-readiness slice — 28 August 2026
+
+A reported Course-filter/tablet defect was reproduced from source: the <=980px CSS explicitly forced `.m-filter-popover` to fixed viewport centre using `left:50%; top:50%; transform:translate(-50%,-50%)`. This is superseded by A13. Course filters now remain absolutely anchored below their trigger at tablet/mobile widths, retain bounded height/width and preserve coarse-pointer no-autofocus behaviour.
+
+Layer 2 routine transparency is also improved without adding a second execution control. The normal screen now explains:
+`Direct HTTP → Firecrawl → other governed fallback → Evidence + deterministic extraction`.
+
+The Layer 2 overview read projection now returns a bounded recent provider-attempt list and one accepted meeting-ready Firecrawl proof when available. Live accepted UQ example:
+- profile: `au-uq-course-catalogue`;
+- URL: `https://study.uq.edu.au/study-options/programs/bachelor-arts-2000?year=2027`;
+- provider: Firecrawl;
+- HTTP 200;
+- attempt 1;
+- Evidence: `eb305cd4-577e-4ced-988b-243fc3318f6e`;
+- job: `18ccf630-1f32-4055-8f86-4bed27b2b062`.
+
+The UI links directly to the private governed Evidence drawer/Preview. A screenshot image is not implied: Firecrawl/provider output may be retained as HTML/JSON/document Evidence and screenshot Evidence remains null unless actually returned.
+
+Pilot implementation through:
+- DB/source migration `20260828081000_m2_4_2_a13_demo_visible_provider_attempts.sql`;
+- routing/evidence UI `100060800eed63800abaf2b9f434c08acc300544`;
+- route styling `5f3ce40c89885e8cc9d4901d057d10ca647cf0bc`;
+- tablet anchoring fix `9b1e23360333ea1241af0e0f471b8e4e4fd15c61`;
+- permanent A13 browser UAT added and routed subsequently.
+
+Initial post-fix build `33153586864` PASS and deployed targeted UAT `33153586948` PASS; the dedicated A13 semantic/tablet test is the current consequential validation.
