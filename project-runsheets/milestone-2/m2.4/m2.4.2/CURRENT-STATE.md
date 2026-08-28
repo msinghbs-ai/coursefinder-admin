@@ -965,3 +965,8 @@ A new scraper/model execution path is not acceptable if it silently bypasses thi
 ### A14 scheduled-discovery telemetry completion
 
 The A14 audit identified and closed the separate scheduled-discovery telemetry path. `layer2-scope-discover-scheduled-v1.3.2` (deployed Edge version 19) now records provider key, request-unit usage basis, vendor units, latency and estimated request cost where available for scheduled discovery, fallback/failure and Course detail identity-verification attempts. Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
+
+
+### A14 active-path audit completion
+
+Active Edge audit confirms exactly three current Layer 2 functions start provider attempts: `layer2-acquire-v2` v9, `layer2-scope-discover-scheduled` v19 and `layer2-scale-qualify-scheduled` v3. All three now retain vendor-unit usage and estimated-cost fields where available in addition to provider/latency/outcome telemetry. No other active Layer 2 provider-attempt starter was found. Post-deploy Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
