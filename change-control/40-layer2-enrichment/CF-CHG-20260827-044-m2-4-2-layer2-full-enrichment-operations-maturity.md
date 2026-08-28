@@ -464,3 +464,24 @@ CF-CHG-044 inherits A13. The Course tablet filter must stay anchored to its trig
 Rendered Firecrawl acquisition now persists provider-returned screenshots as separate private `layer2_screenshot` Evidence linked to the same provider attempt. The image is secondary visual Evidence; HTML/raw Evidence remains authoritative for extraction. Visual capture failure does not invalidate a successful source acquisition.
 
 Evidence detail exposes the related screenshot through the existing authenticated private signed-access service and renders it as a thumbnail. An accepted UQ Bachelor of Arts acquisition was backfilled without canonical extraction: source Evidence `eb305cd4-577e-4ced-988b-243fc3318f6e` → screenshot Evidence `48733f50-959b-43fb-b495-71aa518a10e8` (PNG, 281,129 bytes). No canonical/Search/Publication mutation occurred.
+
+
+## Post-demo targeted acceptance and closure disposition
+
+Targeted post-demo UAT is now clean:
+- A12 deployed UAT `33175425752` PASS at Pilot `859b030c…`;
+- A13 deployed UAT `33174990072` PASS at Pilot `c63db2db…`.
+
+The accepted UI direction is preserved: wider Course decision workspace, contextual QILT/PRISMS/Scholarship panels, one-action Layer 2 operator journey, explicit governed route, and secondary screenshot Evidence through private signed access. PIM Admin v2.15.8 records the browser-facing change through the existing top-right release overlay only.
+
+RMIT promotion has been formally dispositioned BLOCKED for this gate. The frozen cohort is 212/212 identity matched, 0 unsafe, 0 applied, fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`. The apply RPC remains `postgres`/`service_role` only and no already-authorised exact frozen-set service/CI executor exists in the currently inspected governed paths. No connector-safety bypass was introduced. RMIT weekly refresh remains disabled.
+
+Live refresh disposition remains:
+- UQ weekly Course refresh ENABLED;
+- RMIT DISABLED pending future authorised canonical promotion;
+- Federation DISABLED / profile paused / source-limited.
+
+Security Advisor: 131 INFO / 0 WARN / 0 ERROR.
+Performance Advisor: 167 INFO / 0 WARN / 0 ERROR.
+
+Replacement Stage B is nominated at Pilot marker commit `5e0eea7784571bab79146342d3dbfb9eae9a86b3`, frozen source `c6756f2f96ecb8f766a0e14194446944a9adfd7c`. Final Stage C remains prohibited until Stage B PASS and final source/docs/runtime freeze.
