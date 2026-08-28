@@ -51,3 +51,18 @@ Stage B desktop/mobile PASS is now accepted input for M2.4.2 final acceptance: r
 Stage C final acceptance run `33215640328` failed 1 of 46 desktop tests; mobile was skipped. Root cause is a stale pre-A12 test assumption, not a runtime reorder defect. The test is corrected at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`, but governance prohibits silently replacing/re-running the single final Stage C.
 
 Carry forward as **BLOCKED / GOVERNANCE REOPENING REQUIRED**. Do not advance programme baselines until explicitly authorised.
+
+
+## Explicit governance reopening — corrective Stage C
+
+**Authorisation:** User explicitly authorised one corrective M2.4.2 Stage C acceptance run using the corrected UAT contract on 29 August 2026.
+
+Scope of reopening:
+- permits exactly **one** corrective Stage C acceptance candidate/run;
+- uses corrected Pilot source beginning at `60e9e25a86a48522dbae7a29d6c2955c9d295761`;
+- does not erase or replace historical Stage C failure `33215640328`;
+- does not broaden Layer 1 identity, canonical, Search, Publication, Evidence, secret or provider authority;
+- preserves the RMIT 212-record canonical-promotion BLOCK and Layer 3 source-pattern benchmark BLOCK;
+- preserves A14 telemetry;
+- if the corrective acceptance run fails, M2.4.2 remains BLOCKED and no further Stage C attempt is authorised without another explicit governance decision;
+- if desktop and mobile both PASS, CF-CHG-044/M2.4.2 may close and the Running Build/Master Project Plan may advance.
