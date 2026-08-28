@@ -1011,3 +1011,46 @@ RMIT canonical promotion remains formally BLOCKED without bypass:
 RMIT weekly refresh remains disabled. UQ weekly refresh remains enabled. Federation remains disabled/paused/source-limited.
 
 Stage C has **not** yet been created in this checkpoint. The next action is the one final acceptance candidate after live advisor/runtime/docs freeze.
+
+
+## Single Stage C final disposition — 29 August 2026
+
+The one final M2.4.2 Stage C candidate was created at Pilot `91b115ddf64b020563c7ae6bbd1ea395db866d3f`.
+
+Acceptance run `33215640328`:
+- chromium-desktop: **FAIL**;
+- chromium-mobile: **SKIPPED by workflow because desktop failed**;
+- desktop suite: **45 PASS / 1 FAIL**.
+
+The sole failing acceptance test was:
+`tests/uat/course-detail-polish-deployed.spec.mjs` — “Course decision-card order persists for the signed-in user and can be restored”.
+
+Root cause is a stale acceptance assertion introduced before A12 inserted the accepted `Related insights & funding` card between `Fees & entry requirements` and `Locations`.
+
+Current accepted default order is:
+`Fees & entry requirements → Related insights & funding → Locations → …`
+
+The test clicked `Move Locations up` once. The implemented reorder control correctly swaps Locations with the immediately preceding card, yielding:
+`Fees & entry requirements → Locations → Related insights & funding → …`
+
+The stale test incorrectly expected Locations to become the first card after one move.
+
+This is therefore a **UAT contract defect, not a runtime reorder/persistence defect**. The permanent test was corrected at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761` to assert the actual one-step reorder semantics and persistence. The final Stage C run was **not replaced or rerun**.
+
+Per the frozen one-final-candidate rule, M2.4.2 is now:
+
+**BLOCKED — SINGLE FINAL STAGE C FAILED / NO REPLACEMENT FINAL CANDIDATE AUTHORISED**
+
+Consequences:
+- CF-CHG-20260827-044 remains open/BLOCKED;
+- Running Build and Master Project Plan are not advanced;
+- Stage B remains accepted PASS evidence;
+- the Stage C failure record is retained permanently;
+- any future decision to re-open/re-run final acceptance requires a new explicit governance decision/change-control authorisation rather than silently replacing this gate.
+
+All pre-Stage C runtime controls remain unchanged:
+- Security Advisor 131 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 167 INFO / 0 WARN / 0 ERROR;
+- RMIT frozen promotion cohort 212/212 identity matched, 0 unsafe, 0 applied;
+- UQ refresh enabled; RMIT disabled; Federation disabled/paused/source-limited;
+- A14 telemetry standing requirement remains active.
