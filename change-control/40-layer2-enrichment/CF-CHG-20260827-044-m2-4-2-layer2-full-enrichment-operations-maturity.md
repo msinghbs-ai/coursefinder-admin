@@ -485,3 +485,22 @@ Security Advisor: 131 INFO / 0 WARN / 0 ERROR.
 Performance Advisor: 167 INFO / 0 WARN / 0 ERROR.
 
 Replacement Stage B is nominated at Pilot marker commit `5e0eea7784571bab79146342d3dbfb9eae9a86b3`, frozen source `c6756f2f96ecb8f766a0e14194446944a9adfd7c`. Final Stage C remains prohibited until Stage B PASS and final source/docs/runtime freeze.
+
+
+## A14 telemetry retention — 29 August 2026
+
+CF-CHG-044 now inherits Execution Addendum A14.
+
+Layer 2 provider/scraper and Layer 3 AI usage/performance metrics are retained as operational evidence rather than one-off test output. The required contract covers provider/model identity, attempts/calls, latency, retries/fall-out, vendor units/quota, cost, Evidence footprint, fields resolved and Layer 3 input/output tokens where returned by the provider/runtime.
+
+Initial runtime baseline is retained at `project-runsheets/milestone-2/m2.4/m2.4.2/TELEMETRY-BASELINE.md`.
+
+At adoption:
+- 3,065 Layer 2 provider attempts were retained; 3,012 already had attempt latency;
+- managed Layer 2 history retained 483 aggregate vendor units across 7 batches;
+- historical provider-attempt unit/cost telemetry was incomplete and is not backfilled by inference;
+- deployed `layer2-acquire-v2.9` now records provider key, request-unit usage basis, vendor units, latency and estimated request cost when available;
+- Layer 3 production interpretations remain zero; benchmark history retains model, external-call count, input/output tokens, latency and cost;
+- Security Advisor remains 0 WARN / 0 ERROR and Performance Advisor remains 0 WARN / 0 ERROR after the Edge update.
+
+This telemetry is read/operations evidence only and grants no canonical, Search or Publication authority.
