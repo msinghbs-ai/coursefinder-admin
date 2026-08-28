@@ -317,3 +317,35 @@ Scope of reopening:
 - preserves A14 telemetry;
 - if the corrective acceptance run fails, M2.4.2 remains BLOCKED and no further Stage C attempt is authorised without another explicit governance decision;
 - if desktop and mobile both PASS, CF-CHG-044/M2.4.2 may close and the Running Build/Master Project Plan may advance.
+
+
+## Corrective Stage C PASS / M2.4.2 CLOSED — 29 August 2026
+
+The explicitly authorised corrective Stage C is PASS.
+
+- corrected UAT source: `60e9e25a86a48522dbae7a29d6c2955c9d295761`;
+- corrective Stage C candidate / accepted Pilot: `093010fada8391c93626b59e59c678064f4961c3`;
+- deployed acceptance run: `33219089690`;
+- chromium-desktop: **45/45 PASS**;
+- chromium-mobile: **45/45 PASS**.
+
+Historical Stage C failure `33215640328` remains retained as immutable evidence. It was not rewritten or removed; the explicit governance reopening authorised exactly one corrective run after the stale pre-A12 reorder assertion was corrected.
+
+Final post-acceptance runtime:
+- Security Advisor: 131 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 167 INFO / 0 WARN / 0 ERROR;
+- UQ weekly Course refresh ENABLED;
+- RMIT weekly Course refresh DISABLED;
+- Federation weekly Course refresh DISABLED; source profile PAUSED/source-limited;
+- RMIT frozen cohort remains 212/212 identity matched, 0 unsafe, 0 applied, fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`;
+- RMIT canonical promotion remains separately BLOCKED pending an already-authorised exact frozen-set executor;
+- Layer 3 source-pattern benchmark remains separately BLOCKED under its unchanged quality threshold;
+- A14 telemetry remains standing and carries into M2.4.3.
+
+M2.4.2 is **CLOSED / PASS** for its accepted Pilot scope.
+
+Accepted programme documents:
+- Running Build: `docs/coursefinder-running-build-v2.76.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.76.md`.
+
+Next gate: **M2.4.3 — Layer 3 AI Operations Maturity**.
