@@ -44,3 +44,10 @@ At M2.4.2 start, review M24-FU-002, M24-FU-005, M24-FU-006 and standing M24-FU-0
 ## M2.4.2 Stage B closure input — 29 August 2026
 
 Stage B desktop/mobile PASS is now accepted input for M2.4.2 final acceptance: run `33214733610`, marker `e2eec9b8de0187a5373b506342316ea457b79a0b`. Remaining consequential gate is exactly one Stage C final acceptance. RMIT canonical promotion and the Layer 3 source-pattern benchmark remain explicitly blocked/carry-forward and must not be bypassed.
+
+
+## M2.4.2 final-gate blocker — 29 August 2026
+
+Stage C final acceptance run `33215640328` failed 1 of 46 desktop tests; mobile was skipped. Root cause is a stale pre-A12 test assumption, not a runtime reorder defect. The test is corrected at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`, but governance prohibits silently replacing/re-running the single final Stage C.
+
+Carry forward as **BLOCKED / GOVERNANCE REOPENING REQUIRED**. Do not advance programme baselines until explicitly authorised.
