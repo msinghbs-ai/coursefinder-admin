@@ -15,7 +15,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 GOVERNANCE REOPENED FOR ONE CORRECTIVE STAGE C ACCEPTANCE RUN.** Stage B remains accepted PASS at Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, run `33214733610`, desktop/mobile PASS. Historical Stage C candidate `91b115ddf64b020563c7ae6bbd1ea395db866d3f` and failed run `33215640328` remain immutable evidence. The stale pre-A12 Course-card reorder assertion was corrected at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`. On 29 August 2026 the user explicitly authorised exactly one corrective Stage C acceptance run using the corrected UAT contract. If it fails, M2.4.2 returns to BLOCKED; if desktop/mobile both PASS, CF-CHG-044 may close and programme baselines may advance. RMIT frozen 212-record canonical promotion remains separately BLOCKED; UQ refresh enabled, RMIT disabled, Federation disabled/paused/source-limited. A1–A14 / CF-CHG-042 remain standing governance.
+> **M2.4:** ACTIVE — M2.4.0 CLOSED / PASS; **M2.4.1 CLOSED / PASS; M2.4.2 CLOSED / PASS; M2.4.3 NEXT / READY.** Stage B passed at Pilot marker `e2eec9b8de0187a5373b506342316ea457b79a0b`, run `33214733610`, desktop/mobile PASS. Historical Stage C `33215640328` remains immutable failed-gate evidence. After explicit governance reopening, corrective Stage C candidate `093010fada8391c93626b59e59c678064f4961c3` passed run `33219089690` with 45/45 desktop and 45/45 mobile. CF-CHG-044 is CLOSED/PASS. RMIT frozen 212-record canonical promotion remains separately BLOCKED; UQ refresh enabled, RMIT disabled, Federation disabled/paused/source-limited. The Layer 3 source-pattern benchmark remains blocked and carries into M2.4.3. A1–A14 / CF-CHG-042 remain standing governance.
 >
 > **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Pilot read contract and the first Courses-screen HTTP gateway are deployed; Zoho Creator connection/structural build and bounded end-to-end integration UAT remain open; no Zoho cutover is authorised.
 >
@@ -66,21 +66,21 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-041 | 00-governance-programme | Restore M2.2+ Standing Cross-Chat Instruction Contract | APPLIED — GOVERNANCE BASELINE | `00-governance-programme/CF-CHG-20260826-041-m2-standing-instructions-restoration.md` |
 | CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
-| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | ACTIVE — GOVERNANCE REOPENED FOR ONE CORRECTIVE STAGE C RUN | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
+| CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | CLOSED / PASS — CORRECTIVE STAGE C DESKTOP+MOBILE PASS | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
 | CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — COURSE HTTP GATEWAY DEPLOYED; ZOHO CONNECTION BLOCKED | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.75.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.76.md`;
 - M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.75.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.42.md` plus closed M2.3/M2.4.1 Change Controls;
+- Running Build: `docs/coursefinder-running-build-v2.76.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.43.md` plus closed prior Change Controls;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.19.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.3.md` plus Operations Runbook v1.5 and PIM Admin Guide v1.21;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A14;
-- M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 ACTIVE, then M2.4.3 and M2.4.4.
+- M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 CLOSED/PASS, M2.4.3 NEXT/READY, then M2.4.4.
 
 ## Accepted runtime/source authority
 
@@ -90,9 +90,9 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - M2.3 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@260ed6a0d19b80ad666d74b90aa13e735e802a6a`.
 - M2.4.0 accepted Pilot source: `msinghbs-ai/Coursefinder-Pilot@ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
 - **M2.4.1 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`; build `32972106272`; Stage C deployed UAT `32972106291` desktop/mobile PASS.
-- **M2.4.2 Stage B candidate:** frozen source `msinghbs-ai/Coursefinder-Pilot@69cb9b465de0a00247db381bcbffcc98a6b1f30a`; marker `e2eec9b8de0187a5373b506342316ea457b79a0b`; deployed integration `33214733610` desktop/mobile PASS; not yet a closed milestone baseline until Stage C PASS.
-- **M2.4.2 Stage C historical final gate:** candidate `msinghbs-ai/Coursefinder-Pilot@91b115ddf64b020563c7ae6bbd1ea395db866d3f`; acceptance `33215640328` FAIL (45/46 desktop PASS, mobile skipped). Stale pre-A12 reorder assertion corrected afterward at `60e9e25a86a48522dbae7a29d6c2955c9d295761`; historical failure retained.
-- **M2.4.2 corrective Stage C authorisation:** one corrective final acceptance attempt explicitly authorised by the user on 29 August 2026 using the corrected UAT contract. No additional attempt is authorised beyond this corrective run.
+- **M2.4.2 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@093010fada8391c93626b59e59c678064f4961c3`; Stage B `33214733610` desktop/mobile PASS; corrective Stage C `33219089690` 45/45 desktop and 45/45 mobile PASS.
+- **M2.4.2 historical Stage C:** candidate `msinghbs-ai/Coursefinder-Pilot@91b115ddf64b020563c7ae6bbd1ea395db866d3f`; acceptance `33215640328` FAIL (45/46 desktop PASS, mobile skipped), retained permanently.
+- **M2.4.2 corrective Stage C:** explicit governance reopening authorised one corrective run using corrected UAT; candidate `093010fada8391c93626b59e59c678064f4961c3`; acceptance `33219089690` desktop/mobile PASS.
 
 ## Preserved technical/semantic baseline
 
@@ -109,4 +109,4 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Next gate boundary
 
-Continue M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance from CF-CHG-044 and the M2.4.2 runsheet/current-state. Reconcile current Pilot/deployed Supabase Layer 2 source profiles, provider routes, jobs, Evidence, queues and current browser operations before each acceptance step. Preserve accepted Layer 1 authority/security/operations contracts and use targeted → bounded integration → one nominated full desktop/mobile acceptance matrix. Production cutover, broad Publication and Zoho cutover remain later gates.
+Proceed to M2.4.3 Layer 3 AI Operations Maturity from the accepted M2.4.2 baseline. Preserve Layer 1/2 authority, Evidence, A14 telemetry, the RMIT canonical-promotion block and the source-pattern model-quality threshold. Production cutover, broad Publication and Zoho cutover remain later gates.
