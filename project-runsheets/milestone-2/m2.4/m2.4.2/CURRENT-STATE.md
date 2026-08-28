@@ -905,3 +905,43 @@ Next execution priority:
 2. reconcile/fix A13 UAT to use primary navigation and prove screenshot thumbnail/full-view;
 3. rerun targeted desktop/mobile;
 4. then resume broader Stage B / RMIT canonical-promotion / closure sequence.
+
+
+## Demo follow-up targeted acceptance — 28 August 2026
+
+Post-demo source/UAT reconciliation is now materially advanced.
+
+Targeted A12:
+- Pilot `859b030c1c335ef2db7d460e079460fadce2ef36`;
+- deployed UAT `33175425752`;
+- PASS;
+- retained runtime checks for QILT Provider granularity, PRISMS relationship/granularity, Scholarship governed scope, QILT benchmark-card rendering and responsive Course drawer geometry.
+
+Targeted A13:
+- Pilot `c63db2db2441b894a474c8ed258c056c4ee4778a`;
+- deployed UAT `33174990072`;
+- PASS;
+- primary Layer 2 navigation, trigger-anchored tablet Course filter, visible `Direct HTTP → Firecrawl → governed fallback → Evidence` route, UQ source Evidence, screenshot thumbnail and signed full screenshot all passed.
+
+Browser-visible release surface is frozen as PIM Admin v2.15.8 through the existing top-right release-notes overlay. No footer/debug release marker was introduced.
+
+RMIT exact frozen promotion cohort was re-derived from the two terminal managed batches:
+- 212 distinct resolved-L2 source URLs;
+- 212 latest provider `00122A` source records;
+- 212/212 identity matched;
+- 0 unsafe;
+- 0 applied;
+- frozen record-set fingerprint `627bb7daa62fe3bbfc3047ce2b57a88e`.
+
+The apply RPC is executable only by `postgres`/`service_role`. No already-authorised exact frozen-set service/CI executor was found in the current governed runtime/repository paths. No privileged bypass was created. The RMIT promotion gate is therefore formally BLOCKED; RMIT weekly refresh remains disabled. UQ weekly refresh remains enabled; Federation remains disabled/paused/source-limited.
+
+Current advisor reconciliation after these non-DB follow-up changes:
+- Security: 131 INFO, 0 WARN, 0 ERROR;
+- Performance: 167 INFO, 0 WARN, 0 ERROR.
+
+Replacement Stage B candidate:
+- frozen browser/runtime source before marker: `c6756f2f96ecb8f766a0e14194446944a9adfd7c`;
+- integration marker commit: `5e0eea7784571bab79146342d3dbfb9eae9a86b3`;
+- status: RUNNING at this checkpoint.
+
+Do not create Stage C until this replacement Stage B is PASS and docs/runtime remain frozen.
