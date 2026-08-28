@@ -975,3 +975,10 @@ Active Edge audit confirms exactly three current Layer 2 functions start provide
 ### A14 Layer 3 active-call audit completion
 
 Active chat-completion audit confirms three current Layer 3 model callers: `layer3-interpret` v3, `layer3-provider-control` v2 and `layer3-source-pattern-benchmark` v7. All retain model identity, external-call count, input/output tokens, latency and cost where available. Interpretation failures now retain call count/latency, and credential verification retains its small token/cost footprint rather than hiding it. New nullable telemetry columns preserve unavailable provider usage without inference. Post-DDL/Edge Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
+
+
+## Stage B reconciliation — 29 August 2026
+
+Stage B run `33210173798` completed desktop with 34 PASS, 6 FAIL and 1 flaky; mobile was not run because desktop failed. The six failures were traced to stale/timing-sensitive UAT contracts rather than lost Layer 2 profiles or weakened runtime controls: obsolete navigation copy, exact State-option label shape, pre-A14 worker version assertions, non-deterministic advanced-profile filter waits, and pre-A9 provider-guard wording. These were reconciled in Pilot without weakening QILT/PRISMS exclusion, paging, authority, secret, telemetry, or source-profile assertions. A13 Evidence-detail returned one transient HTTP 500 and passed on retry; it remains visible as flaky rather than being suppressed.
+
+New frozen Stage B source: `0ae8fd85e42691e6074497157f3fb8c221ab57dc`; integration marker: `da970aa95e11368e68994a73a2ce4a8eec5a7ebb`. Stage C remains unauthorised until this candidate is desktop/mobile PASS.
