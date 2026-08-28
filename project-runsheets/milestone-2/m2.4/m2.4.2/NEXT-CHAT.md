@@ -212,3 +212,34 @@ RMIT canonical promotion remains the main technical blocker:
 - do not bypass this by synthesising a new privileged path solely to evade connector safety.
 
 Source-pattern Layer 3 benchmark remains separately BLOCKED; this does not block independent M2.4.2 closure work.
+
+
+## Post-demo authoritative continuation — 28 August 2026
+
+This section supersedes stale statements earlier in this file where they conflict with newer accepted state.
+
+Stakeholder meeting outcome: **very positive reception** of the Layer 2 transparency/Evidence journey and the wider QILT/PRISMS/Scholarships Course-detail decision workspace. Preserve that direction, but do not treat reception as technical PASS.
+
+Latest Pilot head: `24998336d54b92b6ec3c5f341e217779bd6d0134`.
+Frontend build `33157407841`: PASS.
+
+Latest targeted deployed UAT:
+- A12 `33157407844`: FAIL — stale test wording/layout contract after redesign. Do not revert UI; reconcile the test to the accepted semantic contract.
+- A13 `33156550691`: FAIL 1/2 — hidden `.l2o-launcher` test assumption. Use normal primary Layer 2 navigation; do not restore hidden launcher.
+
+Current refresh truth:
+- UQ weekly Course refresh ENABLED;
+- RMIT DISABLED pending 212-record canonical promotion;
+- Federation DISABLED / paused / source-limited.
+
+A13 live screenshot proof remains:
+- source Evidence `eb305cd4-577e-4ced-988b-243fc3318f6e`;
+- screenshot Evidence `48733f50-959b-43fb-b495-71aa518a10e8`;
+- PNG 281,129 bytes;
+- private signed thumbnail/full-view path;
+- canonical/Search/Publication mutation false.
+
+Use the ready-to-copy continuation prompt:
+`project-runsheets/milestone-2/m2.4/m2.4.2/prompts/02-M2.4.2-DEMO-FOLLOW-UP-AND-CLOSURE.md`.
+
+Do not create Stage C until targeted A12/A13 and broader Stage B are clean and the RMIT canonical-promotion blocker is resolved or formally dispositioned.
