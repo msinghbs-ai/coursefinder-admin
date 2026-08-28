@@ -116,3 +116,18 @@ This section supersedes stale Stage B/A12/A13 statuses earlier in this file.
 **Status: BLOCKED / GOVERNANCE DECISION REQUIRED BEFORE ANY FUTURE FINAL-ACCEPTANCE REOPENING.**
 
 Do not close CF-CHG-044 or advance Running Build/Master Plan from this state.
+
+
+## Explicit governance reopening — corrective Stage C
+
+**Authorisation:** User explicitly authorised one corrective M2.4.2 Stage C acceptance run using the corrected UAT contract on 29 August 2026.
+
+Scope of reopening:
+- permits exactly **one** corrective Stage C acceptance candidate/run;
+- uses corrected Pilot source beginning at `60e9e25a86a48522dbae7a29d6c2955c9d295761`;
+- does not erase or replace historical Stage C failure `33215640328`;
+- does not broaden Layer 1 identity, canonical, Search, Publication, Evidence, secret or provider authority;
+- preserves the RMIT 212-record canonical-promotion BLOCK and Layer 3 source-pattern benchmark BLOCK;
+- preserves A14 telemetry;
+- if the corrective acceptance run fails, M2.4.2 remains BLOCKED and no further Stage C attempt is authorised without another explicit governance decision;
+- if desktop and mobile both PASS, CF-CHG-044/M2.4.2 may close and the Running Build/Master Project Plan may advance.
