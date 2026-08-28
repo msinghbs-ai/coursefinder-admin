@@ -66,3 +66,22 @@ No demo affordance may:
 - create synthetic screenshots or Evidence;
 - start a paid/broad run without normal scope/guardrails.
 
+
+
+## A13.5 — Screenshot Evidence and thumbnail
+
+Where a governed rendered acquisition provider returns a screenshot reference, Layer 2 should immediately retain the image as a separate private Evidence artifact linked to the same acquisition attempt.
+
+Required semantics:
+- HTML/raw source Evidence remains authoritative for extraction and audit;
+- screenshot Evidence is secondary visual Evidence only;
+- screenshot capture is optional and must not make the acquisition fail when visual capture alone fails;
+- the returned screenshot URL must be consumed immediately and the image copied into the private Evidence bucket because provider-hosted screenshot URLs may be temporary;
+- screenshot Evidence records the same source URL, job, profile version and acquisition attempt provenance;
+- the provider-attempt record stores `screenshot_evidence_id`;
+- no screenshot may be fabricated when the provider does not return one;
+- the Evidence drawer may obtain a short-lived signed image URL through the existing private Evidence access service and render a thumbnail;
+- full screenshot and screenshot-Evidence drill-through remain available from the thumbnail;
+- canonical, Search and Publication mutation remain false.
+
+A bounded service-only historical backfill may be used for accepted Evidence where the original acquisition requested screenshots but older workers did not persist the returned image. Backfill must use the existing one-time nonce bridge, must not rerun canonical extraction and must attach the screenshot to the original attempt/Evidence group.
