@@ -279,3 +279,26 @@ Next gate:
 2. create exactly one M2.4.2 Stage C acceptance marker;
 3. require desktop/mobile acceptance PASS;
 4. only then close CF-CHG-044/M2.4.2 and advance Running Build/Master Project Plan.
+
+
+## Authoritative post-Stage C continuation — 29 August 2026
+
+This section supersedes any earlier instruction to create or run Stage C.
+
+The single final Stage C has already been consumed:
+- candidate `91b115ddf64b020563c7ae6bbd1ea395db866d3f`;
+- run `33215640328`;
+- desktop 45 PASS / 1 FAIL;
+- mobile skipped because desktop failed.
+
+The sole failing test was a stale Course-card reorder assertion that predated the accepted A12 insight card. Runtime one-step reorder semantics are correct. The permanent test contract was corrected at Pilot `60e9e25a86a48522dbae7a29d6c2955c9d295761`.
+
+Do **not** create a replacement Stage C marker and do **not** silently rerun final acceptance. M2.4.2 is BLOCKED until an explicit governance/change-control decision authorises a new final-acceptance attempt.
+
+Until then:
+- retain Stage B run `33214733610` as desktop/mobile PASS evidence;
+- retain Stage C run `33215640328` as the immutable final-gate failure;
+- do not close CF-CHG-044;
+- do not advance Running Build/Master Project Plan;
+- preserve RMIT canonical-promotion and Layer 3 source-pattern blockers;
+- preserve A14 telemetry.
