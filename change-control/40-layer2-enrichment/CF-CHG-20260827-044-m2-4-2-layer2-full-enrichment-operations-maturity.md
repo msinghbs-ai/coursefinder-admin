@@ -457,3 +457,10 @@ Pilot `75e77c0599a32c77e8e890de9fc2ce2ba8c10a3c` updates the integration-candida
 ## A13 filter stability and Layer 2 demo trace
 
 CF-CHG-044 inherits A13. The Course tablet filter must stay anchored to its trigger and must not use viewport-centred modal positioning. The routine Layer 2 screen retains one execution action but now makes the governed acquisition chain and recent provider attempts visible. An accepted UQ Firecrawl attempt is exposed as a meeting/demo proof with a deep link to governed private Evidence. This is a read/UX change only; no new canonical/Search/Publication authority is introduced and screenshots are not fabricated where screenshot Evidence is absent.
+
+
+## A13 screenshot Evidence extension
+
+Rendered Firecrawl acquisition now persists provider-returned screenshots as separate private `layer2_screenshot` Evidence linked to the same provider attempt. The image is secondary visual Evidence; HTML/raw Evidence remains authoritative for extraction. Visual capture failure does not invalidate a successful source acquisition.
+
+Evidence detail exposes the related screenshot through the existing authenticated private signed-access service and renders it as a thumbnail. An accepted UQ Bachelor of Arts acquisition was backfilled without canonical extraction: source Evidence `eb305cd4-577e-4ced-988b-243fc3318f6e` → screenshot Evidence `48733f50-959b-43fb-b495-71aa518a10e8` (PNG, 281,129 bytes). No canonical/Search/Publication mutation occurred.
