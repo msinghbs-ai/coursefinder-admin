@@ -1,9 +1,9 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 NEXT FEATURE GATE  
-**Updated:** 27 August 2026 04:18 AEST (+10:00)  
-**Standing governance:** CF-CHG-20260826-042 / A1–A7  
-**Recently closed:** CF-CHG-20260826-043
+**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 CLOSED/PASS; M2.4.3 NEXT/READY  
+**Updated:** 29 August 2026  
+**Standing governance:** CF-CHG-20260826-042 / A1–A14  
+**Recently closed:** CF-CHG-20260827-044
 
 ## Accepted baseline
 
@@ -12,11 +12,20 @@
 - M2.2 CLOSED/PASS.
 - M2.3 CLOSED/PASS with NZ first-party Layer 2 expansion deferred.
 - M2.4.0 CLOSED/PASS.
-- **M2.4.1 CLOSED/PASS.**
-- Current accepted Pilot runtime: `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`.
-- Visible browser release: PIM Admin `v2.15.7`.
+- M2.4.1 CLOSED/PASS.
+- **M2.4.2 CLOSED/PASS.**
+- Current accepted Pilot runtime: `093010fada8391c93626b59e59c678064f4961c3`.
+- Visible browser release: PIM Admin `v2.15.9`.
 
-Final M2.4.1 evidence:
+Final M2.4.2 evidence:
+
+- Stage B `33214733610` — desktop/mobile PASS;
+- corrective Stage C `33219089690` — 45/45 desktop and 45/45 mobile PASS;
+- accepted Pilot `093010fada8391c93626b59e59c678064f4961c3`;
+- Security Advisor 0 WARN / 0 ERROR;
+- Performance Advisor 0 WARN / 0 ERROR.
+
+Historical M2.4.1 evidence:
 
 - frontend build `32972106272` — PASS;
 - Stage C deployed UAT `32972106291` — desktop/mobile PASS;
@@ -51,13 +60,24 @@ Final Security Advisor has no new material M2.4.1 Critical/High/Warning finding.
 
 1. **M2.4.0 — CLOSED / PASS** — Integration Cleanup, Test-Liability Removal & Acceptance Rebase.
 2. **M2.4.1 — CLOSED / PASS** — Layer 1 Regulatory Operations Maturity & Automation.
-3. **M2.4.2 — NEXT / READY** — Layer 2 Full Enrichment, Operations Maturity & Performance.
-4. M2.4.3 — PLANNED — Layer 3 AI Operations Maturity.
+3. **M2.4.2 — CLOSED / PASS** — Layer 2 Full Enrichment, Operations Maturity & Performance.
+4. **M2.4.3 — NEXT / READY** — Layer 3 AI Operations Maturity.
 5. M2.4.4 — PLANNED — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance.
 
-## M2.4.2 governing intent
+## Current next gate — M2.4.3
 
-M2.4.2 should mature Layer 2 across the accepted source/provider architecture without weakening Layer 1 authority or reopening M2.4.0/M2.4.1 foundations.
+M2.4.3 should mature Layer 3 AI operations using the accepted M2.4.2 Evidence and telemetry substrate without granting direct canonical write authority.
+
+Current inputs:
+- A14 model/call/token/latency/cost telemetry is standing;
+- accepted production Layer 3 interpretations remain 0 at M2.4.2 closure;
+- the dedicated source-pattern benchmark remains blocked under its unchanged quality threshold;
+- RMIT canonical promotion remains a separate Layer 2 carry-forward blocker and must not be bypassed through Layer 3;
+- Search/Publication authority remains downstream and unchanged.
+
+## Historical M2.4.2 governing intent — CLOSED
+
+M2.4.2 matured Layer 2 across the accepted source/provider architecture without weakening Layer 1 authority or reopening M2.4.0/M2.4.1 foundations.
 
 Priorities:
 
