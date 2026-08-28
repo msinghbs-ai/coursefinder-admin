@@ -452,3 +452,8 @@ Measured profile-specific disposition replaces any blanket assumption that all C
 ## Stage B nomination
 
 Pilot `75e77c0599a32c77e8e890de9fc2ce2ba8c10a3c` updates the integration-candidate marker after A12 targeted PASS. This is Stage B only; it does not authorise final Stage C. RMIT canonical promotion remains open and no connector-safety bypass is authorised.
+
+
+## A13 filter stability and Layer 2 demo trace
+
+CF-CHG-044 inherits A13. The Course tablet filter must stay anchored to its trigger and must not use viewport-centred modal positioning. The routine Layer 2 screen retains one execution action but now makes the governed acquisition chain and recent provider attempts visible. An accepted UQ Firecrawl attempt is exposed as a meeting/demo proof with a deep link to governed private Evidence. This is a read/UX change only; no new canonical/Search/Publication authority is introduced and screenshots are not fabricated where screenshot Evidence is absent.
