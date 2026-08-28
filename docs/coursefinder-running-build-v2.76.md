@@ -18,13 +18,16 @@ Visible browser release:
 - Layer 1 Ops `v1.0`;
 - accepted M2.3 Layer 2/3/4 capabilities remain inherited.
 
-Final acceptance evidence:
+Final M2.4.2 acceptance evidence:
 
-- Frontend Build `32972106272` — PASS;
-- build job `98188036405` — PASS;
-- browser smoke `98188175754` — PASS;
-- deployed Stage C UAT `32972106291` — PASS;
-- deployed acceptance job `98188037242` — desktop/mobile PASS.
+- Stage B integration `33214733610` — chromium-desktop PASS / chromium-mobile PASS;
+- historical first Stage C `33215640328` — 45/46 desktop PASS with one stale pre-A12 reorder assertion; mobile skipped; retained as immutable failed-gate evidence;
+- explicit governance reopening authorised one corrective Stage C;
+- corrected UAT source `60e9e25a86a48522dbae7a29d6c2955c9d295761`;
+- corrective Stage C candidate / accepted Pilot `093010fada8391c93626b59e59c678064f4961c3`;
+- corrective Stage C `33219089690` — **45/45 chromium-desktop PASS and 45/45 chromium-mobile PASS**;
+- final Security Advisor: 131 INFO / 0 WARN / 0 ERROR;
+- final Performance Advisor: 167 INFO / 0 WARN / 0 ERROR.
 
 ## M2.4.2 accepted closure
 
