@@ -849,3 +849,25 @@ Post-change Security Advisor: 0 WARN / 0 ERROR.
 Post-change Performance Advisor: 0 WARN / 0 ERROR.
 
 Permanent A13 deployed UAT has been extended to require the UQ screenshot thumbnail and signed full-image action before this screenshot extension is accepted.
+
+
+## A12 Course detail workspace redesign — 28 August 2026
+
+The real Course detail UI has been upgraded from the narrow stacked drawer to a wider decision workspace.
+
+Pilot implementation:
+- `m-drawer-course` desktop width is now bounded at 940px / 58vw, 860px / 72vw for smaller desktop, 94vw tablet and 100vw mobile;
+- Course summary grid expands to five columns on wide desktop and collapses responsively;
+- QILT/outcomes render as five bounded benchmark cards using actual metric value, national benchmark, source period, context label and Evidence action;
+- PRISMS/student-flow renders as a dedicated market-context panel with mapping state, latest governed observation, same-metric-only trend and bounded source-market chips;
+- Scholarships render as a separate governed-scope summary rather than a generic stacked list;
+- all A12 authority/granularity semantics remain unchanged.
+
+Pilot commits:
+- insight workspace redesign `8a88c3e3…`;
+- Course-only drawer class `fcb64a32…`;
+- widened Course workspace `85ebf14a…`;
+- Course layout polish `0b7bc20c…`;
+- PRISMS same-metric trend correction `24998336…`.
+
+Build/deployed A12 regression is the active acceptance gate for this visual uplift.
