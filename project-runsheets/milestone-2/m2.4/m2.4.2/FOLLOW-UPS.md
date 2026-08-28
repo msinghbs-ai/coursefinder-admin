@@ -85,3 +85,20 @@ A new scraper/model execution path is not acceptable if it silently bypasses thi
 Stage B run `33210173798` completed desktop with 34 PASS, 6 FAIL and 1 flaky; mobile was not run because desktop failed. The six failures were traced to stale/timing-sensitive UAT contracts rather than lost Layer 2 profiles or weakened runtime controls: obsolete navigation copy, exact State-option label shape, pre-A14 worker version assertions, non-deterministic advanced-profile filter waits, and pre-A9 provider-guard wording. These were reconciled in Pilot without weakening QILT/PRISMS exclusion, paging, authority, secret, telemetry, or source-profile assertions. A13 Evidence-detail returned one transient HTTP 500 and passed on retry; it remains visible as flaky rather than being suppressed.
 
 New frozen Stage B source: `0ae8fd85e42691e6074497157f3fb8c221ab57dc`; integration marker: `da970aa95e11368e68994a73a2ce4a8eec5a7ebb`. Stage C remains unauthorised until this candidate is desktop/mobile PASS.
+
+
+## Authoritative Stage B disposition — 29 August 2026
+
+This section supersedes stale Stage B/A12/A13 statuses earlier in this file.
+
+- A12 targeted acceptance: PASS.
+- A13 targeted acceptance: PASS.
+- Stage B final integration: **desktop PASS / mobile PASS**, run `33214733610`.
+- Final frozen Pilot source before Stage B marker: `69cb9b465de0a00247db381bcbffcc98a6b1f30a`.
+- Stage B marker: `e2eec9b8de0187a5373b506342316ea457b79a0b`.
+- RMIT 212-record promotion: **FORMALLY BLOCKED / NO AUTHORISED EXACT FROZEN-SET EXECUTOR**; do not bypass.
+- Source-pattern Layer 3 benchmark: BLOCKED independently and carried forward.
+- UQ refresh: ENABLED.
+- RMIT refresh: DISABLED.
+- Federation refresh/profile: DISABLED / PAUSED / SOURCE-LIMITED.
+- Stage C: NOT YET CREATED at this checkpoint; exactly one final acceptance candidate remains.
