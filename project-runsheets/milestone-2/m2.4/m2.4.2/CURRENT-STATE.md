@@ -960,3 +960,8 @@ Runtime checkpoint at adoption:
 - Security Advisor remains 131 INFO / 0 WARN / 0 ERROR and Performance Advisor 167 INFO / 0 WARN / 0 ERROR after the Edge update.
 
 A new scraper/model execution path is not acceptable if it silently bypasses this telemetry contract.
+
+
+### A14 scheduled-discovery telemetry completion
+
+The A14 audit identified and closed the separate scheduled-discovery telemetry path. `layer2-scope-discover-scheduled-v1.3.2` (deployed Edge version 19) now records provider key, request-unit usage basis, vendor units, latency and estimated request cost where available for scheduled discovery, fallback/failure and Course detail identity-verification attempts. Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
