@@ -44,3 +44,16 @@ Future reviews should compare:
 - time-window changes.
 
 Historical values must remain distinguishable from post-A14 telemetry completeness.
+
+
+## Managed Layer 2 execution baseline
+
+- managed batches retained: **7**
+- aggregate batch vendor units: **483**
+- aggregate retained batch cost: **USD 0** (cash cost as currently recorded; not proof that subscriptions are free)
+- managed run items retained: **589**
+- items with response + extraction timing populated: **111**
+- items currently classified Layer 3 required: **106**
+- historical rows with retry_count > 0: **220**; note M2.4.2 corrected earlier first-attempt retry semantics, so time/profile context must be considered before treating historical retry counts as comparable.
+
+Use provider-attempt metrics for acquisition-provider comparisons and managed-run metrics for execution/fall-out comparisons. Do not sum unlike usage bases without labelling them.
