@@ -72,3 +72,30 @@ Active Edge audit confirms exactly three current Layer 2 functions start provide
 ### A14 Layer 3 active-call audit completion
 
 Active chat-completion audit confirms three current Layer 3 model callers: `layer3-interpret` v3, `layer3-provider-control` v2 and `layer3-source-pattern-benchmark` v7. All retain model identity, external-call count, input/output tokens, latency and cost where available. Interpretation failures now retain call count/latency, and credential verification retains its small token/cost footprint rather than hiding it. New nullable telemetry columns preserve unavailable provider usage without inference. Post-DDL/Edge Security remains 131 INFO / 0 WARN / 0 ERROR; Performance remains 167 INFO / 0 WARN / 0 ERROR.
+
+
+## Final accepted M2.4.2 telemetry snapshot — 29 August 2026
+
+Captured immediately after corrective Stage C PASS.
+
+### Layer 2 acquisition
+
+| Provider | Attempts | Succeeded | Failed | Avg latency ms | P95 latency ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Direct HTTP | 2,246 | 1,442 | 43 | 732.3 | 1,818.5 |
+| Firecrawl | 740 | 671 | 21 | 8,606.8 | 20,634.9 |
+| Scrape.do | 52 | 2 | 19 | 4,438.7 | 9,579.3 |
+| ZenRows | 39 | 2 | 0 | 7,978.6 | 23,841.9 |
+
+The zero historical provider-attempt cost/unit totals remain a retained-data limitation, not evidence that subscription providers consumed no quota or commercial value. A14 instrumentation is prospective and must remain distinct from historical pre-A14 records.
+
+### Layer 3 benchmark usage
+
+- Nemotron reasoning profile: **26 external calls**, **10,462 input tokens**, **7,078 output tokens**, retained cost USD 0, max latency 22,263 ms.
+- OpenRouter/free trial: **5 calls**, **452 input tokens**, **422 output tokens**, retained cost USD 0, max latency 3,229 ms.
+- GPT-OSS free trial: **7 calls**; token usage was not returned and remains explicitly unavailable/zero-retained rather than inferred.
+- Accepted production Layer 3 interpretations: **0** at M2.4.2 closure.
+
+### Acceptance relationship
+
+These metrics are operational evidence only. They do not create canonical, Search or Publication authority. The Layer 3 source-pattern benchmark remains blocked under its existing quality threshold and carries into M2.4.3.
