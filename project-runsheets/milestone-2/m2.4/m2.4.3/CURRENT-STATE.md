@@ -1,6 +1,6 @@
 # M2.4.3 Current State
 
-**Status:** ACTIVE — A15 TARGETED PASS / COHORT ROLLOUT IN PROGRESS
+**Status:** ACTIVE — A15 CLOSED / PASS; CORE LAYER 3 MATURITY CONTINUES
 **Updated:** 29 August 2026
 
 ## A15
@@ -122,3 +122,30 @@ Current disposition:
 - Apollo remains configuration-blocked/non-blocking;
 - Search/Publication/Layer 1 authority remains unchanged;
 - CF-CHG-046 cannot close until the final acceptance desktop/mobile matrix is terminal PASS and documentation/runtime/advisor state is reconciled.
+
+
+## A15 closure checkpoint
+
+A15 contact intelligence is CLOSED / PASS under CF-CHG-20260829-046.
+
+Final accepted Pilot:
+- `f6741a0cc29c5fea236e85b9042f8079762c6993`.
+
+Final acceptance:
+- run `33251745111`;
+- resolved deployed UAT tier: `acceptance`;
+- 17 permanent suites;
+- 48/48 desktop PASS;
+- 48/48 mobile PASS.
+
+Showcase/authority mapping:
+- Layer 1: Provider/Course identity and canonical Provider website authority only; A15 does not overwrite it.
+- Layer 2: source of truth for captured international contact observations, source URL, Evidence, freshness, territory text/codes, acquisition route and provider telemetry.
+- Admin Provider blade: primary operator showcase via **International contacts** with source/Evidence/freshness.
+- Course blade: optional read-only Provider context only; must stay explicitly labelled Provider context, never Course truth.
+- Layer 3: may consume governed A15 Evidence for interpretation/change intelligence, not canonical authority.
+- Layer 4: operator review/resolution for ambiguous or changed contacts when required.
+- Search/public website: no A15 admission authorised yet.
+- Zoho/API: no A15 consumer admission authorised yet; expose only through a separately governed curated API contract.
+
+M2.4.3 remains ACTIVE because core Layer 3 AI Operations Maturity and the source-pattern benchmark are not closed by A15 acceptance.
