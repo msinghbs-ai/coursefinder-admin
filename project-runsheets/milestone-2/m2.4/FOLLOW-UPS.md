@@ -25,6 +25,10 @@ Every blocked, deferred or newly discovered item must record ID, origin, problem
 | M24-FU-007 | M2.4 | Keep Guides, Runbooks, release notes and current-state files synchronized with accepted UI/runtime behaviour. | Every sub-milestone | STANDING |
 | M24-FU-014 | M2.4.1 Stage C | An obsolete permanent Course Detail release pin to v2.15.6 invalidated the first acceptance attempt; test was corrected without runtime semantic change and the full Stage A→B→C chain was restarted successfully. Prevent patch-version literals where a feature contract is intended. | UAT hygiene | CLOSED / PASS |
 
+| M24-FU-015 | M2.4.3 / A15 | Complete governed first-party International contact discovery across the 52 AU + 8 NZ university cohort; preserve source-limited outcomes, Evidence, provider-route telemetry and extraction-quality disposition. | M2.4.3 | ACTIVE |
+| M24-FU-016 | M2.4.3 / A15 | Three NZ Provider canonical website strings contain duplicate schemes (AUT, Lincoln University, University of Auckland). A15 transport profiles are safely normalised; Layer 1 canonical website correction requires its own governed source correction rather than an L2 overwrite. | Layer 1 source correction | OPEN / NON-BLOCKING |
+| M24-FU-017 | M2.4.3 / A15 | Validate optional Apollo credential/configuration and licensed professional-title search; do not request personal email/phone reveal and retain first-party university contact precedence. | M2.4.3 | ACTIVE |
+
 ## M2.4.1 evidence summary
 
 - accepted final Pilot: `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`;
@@ -98,3 +102,13 @@ Accepted programme documents:
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.76.md`.
 
 Next gate: **M2.4.3 — Layer 3 AI Operations Maturity**.
+
+
+## A15 evidence checkpoint — 29 August 2026
+
+- Change Control: CF-CHG-20260829-046.
+- Target profiles: 60 (52 AU + 8 NZ) derived from governed catalogue.
+- UQ structured first-party proof: 8 accepted current territory/contact observations.
+- Targeted deployed browser UAT: PASS, run `33221965310`.
+- Initial broad UQ probe noise retained but rejected/non-current; no evidence history deleted.
+- Direct 403 on Australian Catholic University and malformed NZ transport URLs discovered during rollout; both are being handled without weakening Layer 1 authority.
