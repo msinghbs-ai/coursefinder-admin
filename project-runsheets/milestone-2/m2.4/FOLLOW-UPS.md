@@ -27,7 +27,7 @@ Every blocked, deferred or newly discovered item must record ID, origin, problem
 
 | M24-FU-015 | M2.4.3 / A15 | Complete governed first-party International contact discovery across the 52 AU + 8 NZ university cohort; preserve source-limited outcomes, Evidence, provider-route telemetry and extraction-quality disposition. | M2.4.3 | ACTIVE |
 | M24-FU-016 | M2.4.3 / A15 | Three NZ Provider canonical website strings contain duplicate schemes (AUT, Lincoln University, University of Auckland). A15 transport profiles are safely normalised; Layer 1 canonical website correction requires its own governed source correction rather than an L2 overwrite. | Layer 1 source correction | OPEN / NON-BLOCKING |
-| M24-FU-017 | M2.4.3 / A15 | Validate optional Apollo credential/configuration and licensed professional-title search; do not request personal email/phone reveal and retain first-party university contact precedence. | M2.4.3 | ACTIVE |
+| M24-FU-017 | M2.4.3 / A15 | Apollo adapter is implemented and no-reveal contract verified, but Pilot has no `APOLLO_API_KEY`. Licensed enrichment remains configuration-blocked and non-blocking; first-party contact rollout continues independently. | M2.4.3 | BLOCKED — CONFIGURATION / NON-BLOCKING |
 
 ## M2.4.1 evidence summary
 
@@ -112,3 +112,10 @@ Next gate: **M2.4.3 — Layer 3 AI Operations Maturity**.
 - Targeted deployed browser UAT: PASS, run `33221965310`.
 - Initial broad UQ probe noise retained but rejected/non-current; no evidence history deleted.
 - Direct 403 on Australian Catholic University and malformed NZ transport URLs discovered during rollout; both are being handled without weakening Layer 1 authority.
+
+## A15 runtime checkpoint
+
+- Current A15 security advisor: 135 INFO / 0 WARN / 0 ERROR.
+- Current A15 performance advisor: 171 INFO / 0 WARN / 0 ERROR.
+- Apollo Pilot probe: configuration BLOCKED because `APOLLO_API_KEY` is not configured; probe confirmed `personal_email_requested=false` and `phone_requested=false`. This is non-blocking for first-party rollout.
+- Current first-party worker after rollout efficiency hardening: `provider-contact-discover-scheduled-v1.2.3` / Edge v9.
