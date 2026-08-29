@@ -91,3 +91,10 @@ Open before closure:
 - run Security/Performance Advisors;
 - integration + final acceptance per M2 execution discipline;
 - close/update documentation and exact runtime refs.
+
+## Runtime/security checkpoint — 29 August 2026
+
+- Current A15 security advisor: 135 INFO / 0 WARN / 0 ERROR.
+- Current A15 performance advisor: 171 INFO / 0 WARN / 0 ERROR.
+- Apollo Pilot probe: configuration BLOCKED because `APOLLO_API_KEY` is not configured; probe confirmed `personal_email_requested=false` and `phone_requested=false`. This is non-blocking for first-party rollout.
+- Current first-party worker after rollout efficiency hardening: `provider-contact-discover-scheduled-v1.2.3` / Edge v9.
