@@ -186,3 +186,16 @@ Acceptance conditions:
 9. bounded integration and final acceptance pass before closure.
 
 A15 does not expand Production, Publication, Search authority or Layer 1 identity scope.
+
+
+## A15 first-party rollout completion checkpoint
+
+The M2.4.3 A15 contact-intelligence addendum has completed its governed AU/NZ first-party rollout baseline:
+- 60/60 Provider profiles successful;
+- 31 current contacts / 11 Providers;
+- 17 territory-assigned contacts;
+- first-party source precedence and private-schema boundaries intact;
+- targeted deployed UAT PASS on frozen Pilot `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- Security/Performance Advisors: 0 WARN / 0 ERROR.
+
+A15 now proceeds through post-freeze integration/change-control acceptance. This does not close M2.4.3 Layer 3 AI Operations Maturity as a whole.
