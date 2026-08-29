@@ -98,3 +98,52 @@ Open before closure:
 - Current A15 performance advisor: 171 INFO / 0 WARN / 0 ERROR.
 - Apollo Pilot probe: configuration BLOCKED because `APOLLO_API_KEY` is not configured; probe confirmed `personal_email_requested=false` and `phone_requested=false`. This is non-blocking for first-party rollout.
 - Current first-party worker after rollout efficiency hardening: `provider-contact-discover-scheduled-v1.2.3` / Edge v9.
+
+
+## Full AU/NZ cohort rollout checkpoint — 29 August 2026
+
+A15 first-party AU/NZ contact rollout is now terminal across the governed cohort.
+
+Coverage:
+- AU: 52/52 profiles attempted; 52 successful; 0 current errors.
+- NZ: 8/8 profiles attempted; 8 successful; 0 current errors.
+- total: 60/60 profiles attempted/successful.
+
+Current accepted observations:
+- AU: 27 current contacts across 8 Providers;
+- NZ: 4 current contacts across 3 Providers;
+- total: 31 current contacts across 11 Providers;
+- 17 current contacts carry explicit territory/market assignments;
+- 30 current contacts carry institutional email;
+- 18 current contacts carry public work phone;
+- 45 historical/noisy observations are retained as rejected rather than deleted.
+
+Acquisition telemetry for A15 contact pages:
+- Direct HTTP: 319 attempts; 154 succeeded; 165 failed/fell through; 0 vendor units; average 599.41 ms; p95 1,944.5 ms.
+- Firecrawl: 107 attempts; 107 succeeded; 107 page units; average 3,996.84 ms; p95 7,132.2 ms.
+- retained estimated per-request cash cost remains USD 0 because Firecrawl is subscription-backed with subscription price not recorded; vendor units remain the authoritative consumption metric.
+
+Recovery evidence:
+- Wellington: stale canonical domain/root produced HTTP 410. A15 transport-only entry point moved to the live `wgtn.ac.nz` International Office page; Direct HTTP 410 now qualifies for governed Firecrawl fallback. Recovery PASS.
+- CQU: historical direct HTTP 403 recovered through governed Firecrawl fallback. Recovery PASS with 0 accepted contacts.
+- Bond: prior Evidence uniqueness error did not recur under serialized recovery; recovery PASS with 0 accepted contacts.
+- Layer 1 canonical Provider website values were not silently rewritten; stale/malformed canonical website corrections remain separate Layer 1/source-governance follow-ups.
+
+Current first-party worker:
+- `provider-contact-discover-scheduled-v1.3.2`;
+- deployed Edge version 15;
+- Direct HTTP preferred;
+- governed fallback conditions include 403, 410, 429, 5xx and bounded network/timeout classes.
+
+Post-rollout advisors:
+- Security Advisor: 135 INFO / 0 WARN / 0 ERROR.
+- Performance Advisor: 171 INFO / 0 WARN / 0 ERROR.
+
+Apollo:
+- adapter implemented;
+- `APOLLO_API_KEY` remains absent in Pilot;
+- personal email reveal disabled;
+- phone reveal disabled;
+- licensed enrichment remains configuration-blocked/non-blocking.
+
+A15 remains ACTIVE until the post-freeze targeted/integration/final browser acceptance chain is complete.
