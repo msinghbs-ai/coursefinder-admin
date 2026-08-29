@@ -214,3 +214,17 @@ Corrective bounded integration candidate:
 - desktop/mobile result pending at this checkpoint.
 
 Do not nominate final acceptance until this exact corrective integration candidate is terminal PASS on both desktop and mobile.
+
+
+## Final acceptance gate nomination — 29 August 2026
+
+Post-freeze validation is now reconciled through bounded integration:
+- frozen functional A15: `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- permanent final-suite inclusion: `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`;
+- final corrected integration candidate: `70bd290154b7d5f16d8f04569b90b6074a239611`;
+- bounded integration run `33240736705`: desktop PASS / mobile PASS.
+
+Final acceptance has been nominated with Pilot marker:
+- `f6741a0cc29c5fea236e85b9042f8079762c6993`.
+
+CF-CHG-20260829-046 remains ACTIVE until final acceptance desktop/mobile is terminal PASS and runtime/docs/advisors reconcile. No broad cohort rerun, Search mutation, Publication mutation, LinkedIn HTML scraping or Layer 1 identity change is authorised by this nomination.
