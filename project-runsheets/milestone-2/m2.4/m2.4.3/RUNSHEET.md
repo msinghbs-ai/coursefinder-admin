@@ -50,3 +50,29 @@ Add governed Provider international recruitment contact intelligence:
 - verify current worker and provider-unit telemetry;
 - bounded integration desktop/mobile;
 - final acceptance at the M2.4.3 checkpoint when broader Layer 3 scope is ready.
+
+
+## A15 frozen rollout baseline
+
+Cohort: 52 AU + 8 NZ = 60 profiles.
+Terminal coverage: 60/60 successful, 0 current profile errors.
+Current contact inventory: 31 contacts / 11 Providers.
+Territory contacts: 17.
+Rejected provenance history: 45 observations.
+
+Runtime:
+- `provider-contact-discover-scheduled-v1.3.2` / Edge v15;
+- Direct HTTP first;
+- Firecrawl fallback for governed 403/410/429/5xx/network/timeout classes;
+- no overlapping cohort batches;
+- one-time nonce execution retained.
+
+Provider telemetry:
+- Direct HTTP 319 attempts; 154 succeeded; 165 failed/fell through; avg 599.41 ms; p95 1,944.5 ms.
+- Firecrawl 107 attempts; 107 succeeded; 107 page units; avg 3,996.84 ms; p95 7,132.2 ms.
+
+Post-freeze acceptance sequence:
+1. targeted deployed A15 gate on frozen Pilot source;
+2. bounded integration desktop/mobile;
+3. final checkpoint acceptance only when current M2.4.3 governance permits;
+4. close CF-CHG-046 only after docs/runtime/UAT/advisors reconcile.
