@@ -267,3 +267,33 @@ Open before A15 closure:
 - Security/Performance Advisors;
 - bounded integration regression and final acceptance;
 - closure documentation with exact accepted runtime refs.
+
+
+## A15 frozen first-party rollout baseline
+
+A15 international contact intelligence is implemented and first-party cohort rollout is complete.
+
+Runtime:
+- Pilot freeze: `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- first-party worker: `provider-contact-discover-scheduled-v1.3.2` / Edge v15;
+- Provider detail International contacts UI: PIM Admin v2.15.10;
+- targeted deployed UAT: PASS `33229889360`.
+
+Coverage:
+- 52/52 AU profiles successful;
+- 8/8 NZ profiles successful;
+- 0 current errors;
+- 31 current contacts across 11 Providers;
+- 17 territory-assigned contacts;
+- 45 rejected historical/noisy observations retained.
+
+Acquisition telemetry:
+- Direct HTTP 319 attempts, 154 succeeded, 165 failed/fell through, avg 599.41 ms, p95 1,944.5 ms;
+- Firecrawl 107 attempts, 107 succeeded, 107 page units, avg 3,996.84 ms, p95 7,132.2 ms.
+
+Recovery cases:
+- Wellington HTTP 410: live `wgtn.ac.nz` International Office entry point plus governed Firecrawl fallback;
+- CQU HTTP 403: governed Firecrawl recovery;
+- Bond Evidence uniqueness error: serialized retry PASS.
+
+Advisors remain 0 WARN / 0 ERROR.
