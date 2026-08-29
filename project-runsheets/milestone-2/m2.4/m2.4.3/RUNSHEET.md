@@ -122,3 +122,27 @@ Corrective bounded integration candidate:
 - desktop/mobile result pending at this checkpoint.
 
 Do not nominate final acceptance until this exact corrective integration candidate is terminal PASS on both desktop and mobile.
+
+
+## A15 final acceptance nomination — 29 August 2026
+
+Third bounded integration candidate:
+- Pilot marker `70bd290154b7d5f16d8f04569b90b6074a239611`;
+- deployed run `33240736705`;
+- chromium-desktop PASS;
+- chromium-mobile PASS.
+
+This clears the inherited A13 Evidence-detail mobile blocker without weakening Evidence, retry, authority, UAT or access-control semantics.
+
+Final acceptance candidate:
+- Pilot marker `f6741a0cc29c5fea236e85b9042f8079762c6993`;
+- marker path `.github/m2-4-acceptance-candidate`;
+- permanent A15 final-suite inclusion remains `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`.
+
+Gate state:
+- A15 first-party rollout: GO / FROZEN;
+- A15 bounded integration: PASS;
+- A15 final acceptance: NOMINATED / RUN PENDING;
+- CF-CHG-20260829-046 remains ACTIVE until final desktop/mobile PASS and closure reconciliation.
+
+Do not broad-rerun the 60-profile cohort and do not mutate Search/Publication while this final gate is outstanding.
