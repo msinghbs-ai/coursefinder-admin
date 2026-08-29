@@ -107,3 +107,18 @@ Corrective bounded integration candidate:
 - desktop/mobile result pending at this checkpoint.
 
 Do not nominate final acceptance until this exact corrective integration candidate is terminal PASS on both desktop and mobile.
+
+
+## A15 current gate — final acceptance nominated
+
+- frozen functional source: `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- acceptance-suite inclusion: `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`;
+- final corrected integration source: `70bd290154b7d5f16d8f04569b90b6074a239611`;
+- bounded integration run `33240736705`: desktop PASS / mobile PASS;
+- final acceptance marker: `f6741a0cc29c5fea236e85b9042f8079762c6993`.
+
+Current disposition:
+- rollout and contact-quality baseline remain frozen at 60/60 profiles, 31 current first-party contacts across 11 Providers, 17 territory/market contacts and 45 retained rejected/noisy observations;
+- Apollo remains configuration-blocked/non-blocking;
+- Search/Publication/Layer 1 authority remains unchanged;
+- CF-CHG-046 cannot close until the final acceptance desktop/mobile matrix is terminal PASS and documentation/runtime/advisor state is reconciled.
