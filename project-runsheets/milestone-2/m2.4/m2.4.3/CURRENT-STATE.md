@@ -40,3 +40,15 @@ Continue sequential nonce-backed batches until no Provider contact profile remai
 - Performance Advisor: 171 INFO / 0 WARN / 0 ERROR.
 - Apollo remains configuration-blocked because `APOLLO_API_KEY` is absent; no personal email/phone reveal is requested.
 - remaining A15 gate: post-freeze deployed UAT chain and closure documentation.
+
+
+## A15 acceptance-suite inclusion
+
+Permanent A15 UAT is now included in all relevant deployed validation tiers:
+- targeted A15 change validation;
+- bounded integration desktop/mobile;
+- final acceptance desktop/mobile.
+
+Pilot workflow contract commit: `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`.
+
+This closes the prior governance gap where A15 was present in targeted/integration but omitted from the acceptance suite list.
