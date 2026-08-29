@@ -36,7 +36,7 @@ The contact scraper targets:
 - Representatives / advisers;
 - territory-specific manager pages.
 
-Discovery must remain same-host to the governed provider website. Candidate links are scored from URL and anchor text; only bounded pages are fetched per run.
+Discovery must remain within the governed Provider registrable domain and already-governed first-party origins/subdomains. Transport normalization may repair malformed URL syntax for acquisition only; it must not silently mutate Layer 1 Provider website authority. Candidate links are scored from URL and anchor text; only bounded pages are fetched per run.
 
 Extract only public professional contact information:
 - name;
@@ -100,3 +100,16 @@ Targeted UAT must prove:
 - A14 telemetry;
 - Security and Performance Advisor disposition;
 - canonical/Search/Publication unchanged.
+
+
+## Active implementation checkpoint
+
+At 29 August 2026:
+- 60 profiles are seeded from governed AU/NZ Provider data;
+- UQ proves structured territory extraction with 8 accepted first-party regional-manager assignments;
+- Provider blade presentation and v2.15.10 release notes are implemented;
+- targeted deployed browser UAT is PASS (`33221965310`);
+- private pipeline storage remains behind service-role RPCs;
+- blocked direct pages use the governed acquisition provider route with Firecrawl fallback, budget controls and telemetry;
+- licensed Apollo search remains optional and personal-email/phone reveal remains disabled;
+- full cohort rollout, integration acceptance and advisor reconciliation remain active.
