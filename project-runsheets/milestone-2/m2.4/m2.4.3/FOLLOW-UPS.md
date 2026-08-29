@@ -40,3 +40,19 @@
 - M243-FU-003 — stale/malformed Provider website corrections: **OPEN / LAYER 1 GOVERNANCE / NON-BLOCKING**.
 - M243-FU-002 — Apollo credential: **BLOCKED / CONFIGURATION / NON-BLOCKING**.
 - Core M2.4.3 Layer 3 maturity/source-pattern benchmark remains **ACTIVE** and is the next execution focus.
+
+
+## Core Layer 3 maturity follow-ups — 30 August 2026
+
+| ID | Item | Status |
+|---|---|---|
+| M243-FU-011 | Reconcile source-pattern model-quality blocker without weakening the threshold. | **CLOSED / PASS** — `089befcf-a2f2-42ec-ad03-7bfe02816e1b` |
+| M243-FU-012 | Deterministic governed Layer 2 Evidence selection into Layer 3. | **IMPLEMENTED / TARGETED PASS** |
+| M243-FU-013 | Zero-call, replay/revalidation and concurrency/idempotency contract. | **IMPLEMENTED / ROLLBACK CONTRACT PASS** |
+| M243-FU-014 | Attempt-level retry/fallback/token/cost/latency provenance and A14 telemetry. | **IMPLEMENTED** |
+| M243-FU-015 | Confidence fall-out and Layer 4 routing for low-confidence/no-candidate results. | **IMPLEMENTED** |
+| M243-FU-016 | Layer 3 stale execution recovery / housekeeping schedule. | **IMPLEMENTED** |
+| M243-FU-017 | Mature Layer 3 operator UI and permanent deployed UAT. | **IMPLEMENTED / TARGETED PASS** |
+| M243-FU-018 | Correct stale inherited integration assertions and exact migration-version mirror. | **CORRECTED — DEPLOYED VALIDATION ACTIVE** |
+| M243-FU-019 | Corrective bounded integration desktop/mobile. | **PENDING CORRECTIVE TARGETED PASS** |
+| M243-FU-020 | Final M2.4.3 acceptance and closure reconciliation. | **PENDING** |

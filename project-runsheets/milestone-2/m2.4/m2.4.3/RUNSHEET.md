@@ -146,3 +146,63 @@ Gate state:
 - CF-CHG-20260829-046 remains ACTIVE until final desktop/mobile PASS and closure reconciliation.
 
 Do not broad-rerun the 60-profile cohort and do not mutate Search/Publication while this final gate is outstanding.
+
+
+## Core Layer 3 maturity checkpoint — 30 August 2026
+
+Governance:
+- active Change Control: `CF-CHG-20260829-047`;
+- A15 / `CF-CHG-20260829-046` remains CLOSED / PASS and frozen;
+- M2.4.4 is not authorised to start until this runsheet closes.
+
+Source-pattern quality blocker:
+- resolved without lowering the accepted threshold;
+- qualified profile: `openrouter-source-pattern-v1`;
+- pinned model: `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
+- requalification run: `089befcf-a2f2-42ec-ad03-7bfe02816e1b`;
+- provider cases 4/4 PASS;
+- controls 3/3 PASS;
+- 8 actual provider calls because one control required a malformed-output retry;
+- 4,454 input / 832 output tokens;
+- estimated cost USD 0;
+- profile unpaused only after the complete benchmark PASS.
+
+Deployed operating contract:
+- deterministic Layer 2 text-Evidence selection;
+- screenshot Evidence excluded from AI text input;
+- benchmark-passed enabled/unpaused model-profile enforcement;
+- zero-call paths for Layer-2-resolved, unchanged Evidence and active in-flight work;
+- explicit governed revalidation;
+- bounded structured-output retry with attempt-level provenance;
+- fallback only to an explicitly configured enabled/unpaused benchmark-passed profile;
+- A14 calls/tokens/latency/cost/result telemetry;
+- confidence threshold and Layer 4 fall-out for low-confidence/no-candidate outcomes;
+- no direct canonical Layer 1/2 or Search/Publication mutation;
+- entity/task/profile concurrency serialization;
+- stale reservation/call recovery housekeeping without deleting history;
+- Layer 3 operator presentation: Evidence → model/profile → result/confidence/provenance → human-review state.
+
+Runtime migrations:
+- `20260829125553_m2_4_3_layer3_operations_maturity_foundation`;
+- `20260829125717_m2_4_3_source_pattern_benchmark_provenance`;
+- `20260829130640_m2_4_3_layer3_concurrency_recovery_housekeeping`.
+
+Targeted deployed evidence before integration:
+- Pilot `1e7701c9a8dcb53228a292afc74e714a8c499c08`;
+- frontend build `33254225361`: PASS;
+- targeted deployed UAT `33254225454`: PASS.
+
+First bounded integration:
+- marker `b6318bdcbc657b4be524ee58e5728c2b84f91687`;
+- run `33254320472`: FAIL on desktop, mobile skipped;
+- 42 tests PASS / 2 tests FAIL;
+- both failures were stale checked-in acceptance assertions after the governed Layer 3 change:
+  1. expected source-pattern worker v1.0.6 instead of deployed/repo v1.1.0;
+  2. expected old UI wording `Validation: Benchmark Passed` instead of the matured `Quality: Benchmark Passed`;
+- the new permanent M2.4.3 Layer 3 UAT itself PASSed;
+- no model-quality threshold, authority, Evidence or runtime behavior was weakened.
+
+Corrective source:
+- migration mirror renamed from erroneous repo version `20260829130600` to deployed ledger version `20260829130640`;
+- inherited M2.3 and Layer 2 permanent assertions reconciled to the accepted M2.4.3 contract;
+- corrective Pilot source `3b43f0a8cb4d1758225b139a773b118be372be30` is undergoing deployed targeted validation before a new bounded integration nomination.

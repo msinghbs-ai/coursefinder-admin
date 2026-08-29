@@ -149,3 +149,20 @@ Showcase/authority mapping:
 - Zoho/API: no A15 consumer admission authorised yet; expose only through a separately governed curated API contract.
 
 M2.4.3 remains ACTIVE because core Layer 3 AI Operations Maturity and the source-pattern benchmark are not closed by A15 acceptance.
+
+
+## Core Layer 3 maturity — active checkpoint
+
+- Source-pattern benchmark blocker: **RESOLVED / PASS** under `CF-CHG-20260829-047`.
+- Benchmark run: `089befcf-a2f2-42ec-ad03-7bfe02816e1b` — 4/4 provider + 3/3 control PASS.
+- Pinned source-pattern model: `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`.
+- Retry telemetry proved one malformed-output recovery; threshold was not lowered.
+- `layer3-interpret`: Edge v4 / JWT enforced.
+- `layer3-source-pattern-benchmark`: Edge v9 / one-time nonce governed.
+- `layer3-provider-control`: Edge v2 / JWT enforced.
+- Current advisor reconciliation after Layer 3 runtime changes returned no current Security or Performance findings.
+- 155 current Layer 2 `layer3_required` items were available for deterministic Layer 3 Evidence selection at the rollback-only contract checkpoint.
+- Rollback-only contract proof passed for Layer-2-resolved zero-call, unchanged-Evidence zero-call and explicit governed revalidation; no test interpretation rows were retained.
+- First bounded integration `33254320472` failed only on two stale checked-in assertions; 42 tests passed and the new M2.4.3 suite itself passed.
+- Corrective source `3b43f0a8cb4d1758225b139a773b118be372be30` reconciles those assertions and the migration filename to deployed version `20260829130640`.
+- M2.4.3 remains **ACTIVE** pending corrective targeted → bounded integration desktop/mobile → final acceptance.

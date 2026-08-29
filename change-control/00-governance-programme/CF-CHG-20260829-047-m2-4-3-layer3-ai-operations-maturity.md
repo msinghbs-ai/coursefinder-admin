@@ -75,3 +75,31 @@ A10–A15 behaviour remains protected, including paged/tablet-safe filters, cont
 ## Rollback
 
 Layer 3 changes must remain additive/reversible around existing Evidence, interpretation and Layer 4 review history. Rollback must pause the affected profile/route or restore the prior Edge/UI contract without deleting governed Evidence, benchmark history, interpretation provenance or Layer 4 history.
+
+
+## Execution checkpoint — 30 August 2026
+
+The source-pattern quality blocker was resolved without changing the accepted acceptance threshold.
+
+Accepted requalification:
+- benchmark run `089befcf-a2f2-42ec-ad03-7bfe02816e1b`;
+- 4/4 governed real-provider cases PASS;
+- 3/3 controls PASS;
+- exact pinned model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
+- 8 actual provider calls, including one successful malformed-output retry;
+- 4,454 input / 832 output tokens;
+- USD 0 estimated provider cost.
+
+The deployed Layer 3 operating contract now includes deterministic governed Evidence selection, benchmark-qualified profile execution, zero-call/replay/revalidation paths, attempt-level retry telemetry, explicit qualified fallback semantics, confidence fall-out to Layer 4, active-work concurrency dedupe, stale execution recovery and the operator Evidence→model→result→review chain.
+
+First bounded integration evidence is retained as a failed gate:
+- candidate `b6318bdcbc657b4be524ee58e5728c2b84f91687`;
+- run `33254320472`;
+- desktop FAIL / mobile skipped;
+- 42 tests PASS / 2 tests FAIL;
+- failures were stale checked-in assertions for the old benchmark worker version and old Layer 3 UI label;
+- the new M2.4.3 permanent suite passed in that run.
+
+Corrective source `3b43f0a8cb4d1758225b139a773b118be372be30` aligns the inherited assertions and repository migration filename with deployed runtime version `20260829130640`. No authority, benchmark threshold, Evidence security, model output acceptance rule or retry limit was weakened.
+
+Status remains ACTIVE pending corrective targeted/integration and final acceptance.
