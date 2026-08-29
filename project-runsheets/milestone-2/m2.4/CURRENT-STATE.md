@@ -194,3 +194,10 @@ Rollout hardening in progress:
 - full 60-profile AU/NZ rollout and final integration/advisor reconciliation remain active.
 
 A15 does not alter Layer 1 Provider/Course identity, Search, Publication or canonical authority.
+
+## A15 advisor/provider checkpoint
+
+- Current A15 security advisor: 135 INFO / 0 WARN / 0 ERROR.
+- Current A15 performance advisor: 171 INFO / 0 WARN / 0 ERROR.
+- Apollo Pilot probe: configuration BLOCKED because `APOLLO_API_KEY` is not configured; probe confirmed `personal_email_requested=false` and `phone_requested=false`. This is non-blocking for first-party rollout.
+- Current first-party worker after rollout efficiency hardening: `provider-contact-discover-scheduled-v1.2.3` / Edge v9.
