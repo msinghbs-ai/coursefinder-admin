@@ -147,3 +147,15 @@ Apollo:
 - licensed enrichment remains configuration-blocked/non-blocking.
 
 A15 remains ACTIVE until the post-freeze targeted/integration/final browser acceptance chain is complete.
+
+
+## A15 acceptance-suite inclusion
+
+Permanent A15 UAT is now included in all relevant deployed validation tiers:
+- targeted A15 change validation;
+- bounded integration desktop/mobile;
+- final acceptance desktop/mobile.
+
+Pilot workflow contract commit: `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`.
+
+This closes the prior governance gap where A15 was present in targeted/integration but omitted from the acceptance suite list.
