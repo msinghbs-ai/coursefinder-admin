@@ -119,3 +119,13 @@ Next gate: **M2.4.3 — Layer 3 AI Operations Maturity**.
 - Current A15 performance advisor: 171 INFO / 0 WARN / 0 ERROR.
 - Apollo Pilot probe: configuration BLOCKED because `APOLLO_API_KEY` is not configured; probe confirmed `personal_email_requested=false` and `phone_requested=false`. This is non-blocking for first-party rollout.
 - Current first-party worker after rollout efficiency hardening: `provider-contact-discover-scheduled-v1.2.3` / Edge v9.
+
+
+## A15 carry-forward checkpoint — 29 August 2026
+
+- First-party AU/NZ contact sweep: CLOSED/PASS at 60/60 profiles.
+- A15 provider/contact telemetry: CLOSED/PASS for first rollout baseline.
+- Apollo licensed enrichment: BLOCKED / CONFIGURATION / NON-BLOCKING.
+- Stale/malformed canonical Provider website values discovered by A15 remain a Layer 1/source-governance correction follow-up; A15 transport normalization must not mutate Layer 1 truth.
+- A15 post-freeze integration/final change-control acceptance remains ACTIVE.
+- Broader M2.4.3 Layer 3 source-pattern benchmark remains independently BLOCKED and must not be conflated with A15.
