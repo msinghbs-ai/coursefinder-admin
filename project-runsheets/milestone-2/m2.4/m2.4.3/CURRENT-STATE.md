@@ -52,3 +52,12 @@ Permanent A15 UAT is now included in all relevant deployed validation tiers:
 Pilot workflow contract commit: `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`.
 
 This closes the prior governance gap where A15 was present in targeted/integration but omitted from the acceptance suite list.
+
+
+## A15 integration nomination
+
+A15 integration candidate `8a49a2652758784926d42bc6114ceb4270d2cdaa` is nominated against:
+- functional freeze `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- acceptance-suite workflow fix `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`.
+
+Pilot must remain frozen until the integration desktop/mobile matrix is terminal.
