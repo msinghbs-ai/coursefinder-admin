@@ -27,3 +27,16 @@
 - M243-FU-008 — promote VU/Otago/Wellington accepted team/person/territory corrections into durable reconciliation behaviour so parser refresh cannot recreate lower-quality semantics: **OPEN / NON-BLOCKING**.
 - M243-FU-009 — map Firecrawl subscription cash cost to retained page-unit telemetry: **OPEN / NON-BLOCKING**.
 - M243-FU-010 — maintain frozen contact-quality regression measures (team-vs-person correctness, unsupported territory removal, duplicate rejection, first-party source coverage, reconciliation persistence): **OPEN / NON-BLOCKING**.
+
+
+## A15 closure disposition
+
+- M243-FU-007 — final acceptance desktop/mobile: **CLOSED / PASS**, run `33251745111`, 48/48 desktop + 48/48 mobile.
+- CF-CHG-20260829-046: **CLOSED / PASS**.
+- Accepted A15 Pilot: `f6741a0cc29c5fea236e85b9042f8079762c6993`.
+- M243-FU-008 — durable contact-quality reconciliation: **OPEN / NON-BLOCKING / CARRY FORWARD**.
+- M243-FU-009 — Firecrawl cash-cost mapping: **OPEN / NON-BLOCKING / CARRY FORWARD**.
+- M243-FU-010 — contact-quality regression metrics: **OPEN / NON-BLOCKING / CARRY FORWARD**.
+- M243-FU-003 — stale/malformed Provider website corrections: **OPEN / LAYER 1 GOVERNANCE / NON-BLOCKING**.
+- M243-FU-002 — Apollo credential: **BLOCKED / CONFIGURATION / NON-BLOCKING**.
+- Core M2.4.3 Layer 3 maturity/source-pattern benchmark remains **ACTIVE** and is the next execution focus.
