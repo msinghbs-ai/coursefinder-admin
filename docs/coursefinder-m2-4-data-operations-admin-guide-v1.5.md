@@ -356,3 +356,23 @@ Contact intelligence does not:
 - approve Search visibility;
 - publish a Course;
 - replace regulatory/source authority.
+
+
+## 18. A15 rollout baseline and operator interpretation
+
+First rollout baseline:
+- 60/60 AU/NZ profiles completed;
+- 31 current contacts across 11 Providers;
+- 17 territory-assigned contacts;
+- 0 current profile errors.
+
+A successful zero-contact result means the site was checked but no contact met the current deterministic acceptance rules.
+
+When a contact is visible:
+- first-party source remains preferred;
+- territory labels are shown only where supported;
+- team contacts may appear without a person name;
+- rejected parser history is not shown as current;
+- Evidence/source freshness remains available.
+
+Do not interpret 31 current contacts as the total number of international staff employed by the cohort. It is the accepted deterministic contact inventory under A15 rules.
