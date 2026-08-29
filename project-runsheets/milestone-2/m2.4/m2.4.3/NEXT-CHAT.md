@@ -19,3 +19,26 @@ Immediate A15 continuation:
 - Apollo is configuration-blocked unless a server-side key has been separately supplied.
 
 Do not weaken first-party precedence, privacy, Layer 1 identity, Evidence, Search or Publication boundaries.
+
+
+## Frozen A15 continuation
+
+A15 first-party rollout is complete: 60/60 profiles successful, 0 current errors.
+
+Do not rerun the cohort merely to increase contact count.
+
+Immediate continuation:
+1. read current Pilot head and deployed A15 Edge versions;
+2. confirm targeted UAT for the frozen source;
+3. run bounded integration desktop/mobile;
+4. reconcile Security/Performance Advisors;
+5. retain Apollo as configuration-blocked/non-blocking unless a server-side credential is separately supplied;
+6. retain canonical website corrections as Layer 1/source-governance follow-up;
+7. close CF-CHG-046 only after the post-freeze acceptance chain passes.
+
+Frozen runtime metrics:
+- 31 current contacts / 11 Providers;
+- 17 territory contacts;
+- Direct HTTP 319 attempts;
+- Firecrawl 107 attempts / 107 page units;
+- worker v1.3.2 / Edge v15.
