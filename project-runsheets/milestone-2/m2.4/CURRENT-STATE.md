@@ -1,9 +1,9 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 CLOSED/PASS; M2.4.3 NEXT/READY  
+**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 CLOSED/PASS; M2.4.3 ACTIVE  
 **Updated:** 29 August 2026  
-**Standing governance:** CF-CHG-20260826-042 / A1–A14  
-**Recently closed:** CF-CHG-20260827-044
+**Standing governance:** CF-CHG-20260826-042 / A1–A15  
+**Active change:** CF-CHG-20260829-046
 
 ## Accepted baseline
 
@@ -15,7 +15,7 @@
 - M2.4.1 CLOSED/PASS.
 - **M2.4.2 CLOSED/PASS.**
 - Current accepted Pilot runtime: `093010fada8391c93626b59e59c678064f4961c3`.
-- Visible browser release: PIM Admin `v2.15.9`.
+- Visible browser release: PIM Admin `v2.15.10`.
 
 Final M2.4.2 evidence:
 
@@ -61,7 +61,7 @@ Final Security Advisor has no new material M2.4.1 Critical/High/Warning finding.
 1. **M2.4.0 — CLOSED / PASS** — Integration Cleanup, Test-Liability Removal & Acceptance Rebase.
 2. **M2.4.1 — CLOSED / PASS** — Layer 1 Regulatory Operations Maturity & Automation.
 3. **M2.4.2 — CLOSED / PASS** — Layer 2 Full Enrichment, Operations Maturity & Performance.
-4. **M2.4.3 — NEXT / READY** — Layer 3 AI Operations Maturity.
+4. **M2.4.3 — ACTIVE** — Layer 3 AI Operations Maturity plus governed A15 institute international contact intelligence.
 5. M2.4.4 — PLANNED — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance.
 
 ## Current next gate — M2.4.3
@@ -165,3 +165,32 @@ Accepted programme documents:
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.76.md`.
 
 Next gate: **M2.4.3 — Layer 3 AI Operations Maturity**.
+
+
+## M2.4.3 A15 active checkpoint — 29 August 2026
+
+CF-CHG-20260829-046 / A15 is ACTIVE.
+
+Implemented/deployed:
+- private Provider contact discovery profiles, observations, watch events and enrichment-attempt telemetry;
+- governed Provider-detail projection with first-party source precedence;
+- Provider blade International contacts panel;
+- PIM Admin v2.15.10 release notes;
+- first-party contact discovery worker using governed Provider origins/subdomains, sitemap/deep-link discovery and structured regional-manager-table extraction;
+- optional Apollo domain/title search adapter with personal-email/phone reveal disabled;
+- one-time nonce allowlist and service-role-only private-schema bridges;
+- contact-change semantics separating initial discovery from later meaningful title/territory/contact changes.
+
+Initial governed cohort: 52 AU + 8 NZ = 60 Provider contact profiles.
+
+Accepted live proof:
+- The University of Queensland: 8 current first-party International Regional Manager territory assignments retained from its governed university page, each with institutional email, source URL, Evidence and 0.98 extraction confidence.
+- final clean proof worker: provider-contact-discover-scheduled v1.1.2 / Edge v5 before fallback hardening.
+- A15 targeted deployed browser UAT: PASS, run `33221965310`, commit `1c6fa1992a8068b408df1ef9bcb7cb59a535bf2c`.
+
+Rollout hardening in progress:
+- transport-only URL normalization corrects duplicate-scheme discovery-profile values without modifying Layer 1 Provider website authority;
+- Direct HTTP → governed Firecrawl fallback added for blocked first-party contact pages with per-attempt usage/latency/cost telemetry;
+- full 60-profile AU/NZ rollout and final integration/advisor reconciliation remain active.
+
+A15 does not alter Layer 1 Provider/Course identity, Search, Publication or canonical authority.
