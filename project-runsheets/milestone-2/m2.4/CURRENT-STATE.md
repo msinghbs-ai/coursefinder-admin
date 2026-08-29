@@ -201,3 +201,24 @@ A15 does not alter Layer 1 Provider/Course identity, Search, Publication or cano
 - Current A15 performance advisor: 171 INFO / 0 WARN / 0 ERROR.
 - Apollo Pilot probe: configuration BLOCKED because `APOLLO_API_KEY` is not configured; probe confirmed `personal_email_requested=false` and `phone_requested=false`. This is non-blocking for first-party rollout.
 - Current first-party worker after rollout efficiency hardening: `provider-contact-discover-scheduled-v1.2.3` / Edge v9.
+
+
+## M2.4.3 A15 frozen rollout — 29 August 2026
+
+A15 Institute International Contact Intelligence is at post-rollout acceptance.
+
+- 60/60 governed AU/NZ contact profiles attempted/successful;
+- 0 current profile errors;
+- 31 current contacts across 11 Providers;
+- 17 current contacts with territory/market assignments;
+- 45 noisy/obsolete observations retained as rejected history;
+- Direct HTTP: 319 attempts, avg 599.41 ms, p95 1,944.5 ms;
+- Firecrawl: 107/107 success, 107 page units, avg 3,996.84 ms, p95 7,132.2 ms;
+- current worker: `provider-contact-discover-scheduled-v1.3.2` / Edge v15;
+- frozen Pilot head: `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- targeted deployed UAT: PASS, run `33229889360`;
+- Security Advisor: 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 171 INFO / 0 WARN / 0 ERROR;
+- Apollo remains configuration-blocked/non-blocking because `APOLLO_API_KEY` is absent.
+
+A15 does not close the broader M2.4.3 Layer 3 maturity gate.
