@@ -58,3 +58,36 @@ Targeted automated UAT must prove:
 - browser Provider blade rendering;
 - Security/Performance Advisors no new WARN/ERROR;
 - no canonical/Search/Publication mutation.
+
+
+## Implementation checkpoint — 29 August 2026
+
+Pilot implementation refs:
+- `190a1e9d6c8ec7f8eea6c6c5692e778233e030cd` — private contact schema + Provider-detail projection;
+- `5bc47a2291add9cc1c14e168d108d49de2fa9814` — nonce allowlist;
+- `88be2c7c1c6a16d9006e357db7a319e7f6b443cd` — service-role bridge;
+- `938a5440f2000593bafc5c9d267a19369731198e` — Apollo adapter through service bridge;
+- `4f2b36ba2b3c26549f519322513ca7d37348723b` — structured table precedence;
+- `0269c59443f46abd07cc88dda4bde94106dbe959` — governed Provider origins/subdomains;
+- `bc87d580f6924b53f47028b199122b64d393ee44` — meaningful contact-change semantics;
+- `305fcb1fe6246aa418ae1877a1b79748f2199307` — transport URL normalization + provider lookup;
+- `5b8ad0717076a55348f8054a43d943bfa8ddcf45` — governed Firecrawl fallback + A14-style acquisition telemetry;
+- `24d5ddc68c3f7bef0cf86debca83bd291a1400ea` — Provider blade International contacts;
+- `e0c32e0b8a21847be1ba1756d2ff3eea4c41091e` — PIM Admin v2.15.10 release notes;
+- `80ee906c91c09026586bd717e7c41235b679dbfa` — permanent A15 deployed UAT;
+- `1c6fa1992a8068b408df1ef9bcb7cb59a535bf2c` — A15 UAT tier wiring.
+
+Live evidence:
+- initial target cohort: 52 AU + 8 NZ = 60 governed contact profiles;
+- UQ final structured proof: 8 current first-party regional-manager territory rows with institutional emails and Evidence;
+- targeted deployed browser UAT: PASS, run `33221965310`;
+- initial noisy UQ probes retained as rejected/non-current historical Evidence rather than deleted;
+- ACU direct HTTP 403 and three malformed NZ canonical website values discovered during rollout and handled without Layer 1 overwrite.
+
+Open before closure:
+- complete and reconcile the 60-profile first-party rollout;
+- verify Firecrawl fallback proof on blocked sites;
+- verify Apollo credential/configuration and bounded no-reveal search if configured;
+- run Security/Performance Advisors;
+- integration + final acceptance per M2 execution discipline;
+- close/update documentation and exact runtime refs.
