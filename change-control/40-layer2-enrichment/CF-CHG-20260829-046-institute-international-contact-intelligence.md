@@ -1,6 +1,6 @@
 # CF-CHG-20260829-046 — Institute International Contact Intelligence
 
-**Status:** ACTIVE — A15 IMPLEMENTATION / TARGETED UAT
+**Status:** CLOSED / PASS — FINAL ACCEPTANCE DESKTOP+MOBILE PASS
 **Category:** 40-layer2-enrichment
 **Initiated:** 29 August 2026
 **Origin chat/workstream:** M2.4.3 addendum — institute manager / international contact details
@@ -228,3 +228,47 @@ Final acceptance has been nominated with Pilot marker:
 - `f6741a0cc29c5fea236e85b9042f8079762c6993`.
 
 CF-CHG-20260829-046 remains ACTIVE until final acceptance desktop/mobile is terminal PASS and runtime/docs/advisors reconcile. No broad cohort rerun, Search mutation, Publication mutation, LinkedIn HTML scraping or Layer 1 identity change is authorised by this nomination.
+
+
+## Closure — 29 August 2026
+
+CF-CHG-20260829-046 is CLOSED / PASS.
+
+Accepted functional/data baseline:
+- functional contact freeze: `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
+- 52/52 AU + 8/8 NZ = 60/60 profiles successful;
+- 0 current profile errors;
+- 31 current first-party contacts across 11 Providers;
+- 17 current territory/market-assigned contacts;
+- 30 contacts with institutional email;
+- 18 contacts with public work phone;
+- 45 rejected/noisy historical observations retained.
+
+Accepted runtime/UAT:
+- permanent A15 final-suite inclusion: `b0b00f3f26d1e07bc1adc69061b3b16f9125c565`;
+- bounded integration: `33240736705` desktop/mobile PASS;
+- final accepted Pilot: `f6741a0cc29c5fea236e85b9042f8079762c6993`;
+- final acceptance: `33251745111`;
+- workflow resolved `acceptance` tier with 17 permanent suites;
+- 48/48 chromium-desktop PASS;
+- 48/48 chromium-mobile PASS;
+- A15 Provider blade/Evidence test PASS on both;
+- A15 private-table/non-revealing licensed-search boundary PASS on both.
+
+Accepted presentation/consumption boundary:
+- contact intelligence is a Layer 2 Evidence-backed Provider enrichment capability;
+- primary showcase is Provider detail → International contacts;
+- Evidence/source/freshness remains directly traceable from the Provider contact presentation;
+- Course detail may consume Provider contact context read-only when explicitly designed, but contact data must not be represented as Course truth;
+- Layer 3 may interpret governed Layer 2 contact Evidence for bounded operational intelligence/change analysis, but cannot become source authority;
+- Layer 4 may surface human review/resolution where a contact change or ambiguity needs an operator decision;
+- Search/Public website and Zoho publication/consumption remain separate governed admission/API decisions and are not authorised by this closure.
+
+Non-blocking carry-forward:
+- Apollo credential/configuration and licensed enrichment;
+- durable VU/Otago/Wellington reconciliation rules across parser refresh;
+- Firecrawl subscription cash-cost mapping;
+- Layer 1 correction of stale/malformed Provider website values;
+- contact-quality regression metrics.
+
+No broad cohort rerun is required for closure.
