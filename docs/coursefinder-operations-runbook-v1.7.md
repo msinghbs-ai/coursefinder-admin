@@ -357,3 +357,27 @@ Before A15 acceptance:
 - no personal-email/phone reveal in licensed adapter;
 - Security/Performance Advisors have no new unexplained WARN/ERROR;
 - targeted/integration/final browser UAT complete.
+
+
+## 18. A15 post-rollout operations
+
+Frozen baseline:
+- 60/60 profiles successful;
+- 0 current errors;
+- 31 current contacts;
+- worker v1.3.2 / Edge v15.
+
+Do not broad-rerun the cohort simply to increase contact count.
+
+For future refresh:
+1. run only governed scheduled/profile-scoped discovery;
+2. retain Direct HTTP failure and Firecrawl fallback separately;
+3. review newly created change events rather than treating unchanged contacts as incidents;
+4. preserve rejected history;
+5. if a canonical Provider website is stale, use a transport-only correction for contact discovery and raise a separate Layer 1 source correction.
+
+Provider consumption baseline:
+- Direct HTTP: 319 attempts;
+- Firecrawl: 107 page units.
+
+Apollo remains disabled until a server-side credential is supplied through normal secret governance.
