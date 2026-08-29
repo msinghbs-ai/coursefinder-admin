@@ -246,3 +246,20 @@ Initial discovery should not flood the operator with “new contact” alerts. T
 Contact intelligence is currently Provider-grain. Course detail may later display read-only Provider contact context, but it must be labelled as Provider/institute context rather than a Course fact.
 
 On responsive layouts, contact cards stack on narrow/tablet/mobile views and retain source/Evidence access without forcing a separate workspace.
+
+
+## Decision 26 — contact coverage quality is more important than contact count
+
+A completed Provider contact scan may legitimately expose zero contacts.
+
+The UI must prefer:
+- exact first-party regional/country/market assignments;
+- named international recruitment contacts;
+- clearly labelled international-team contacts;
+over speculative names, generic information aliases, event/job-page text or inferred territory.
+
+Noisy parser output is retained as rejected history and excluded from the current Provider blade.
+
+A team-level contact is valid when the university publishes an institutional international-contact function even if no named manager is public. A building, CTA, event title or unrelated academic text must never be presented as a person.
+
+Multiple current Provider identities may legitimately show the same institutional international contact when the governed Provider catalogue contains distinct registrations/entities sharing that contact surface.
