@@ -76,3 +76,49 @@ Post-freeze acceptance sequence:
 2. bounded integration desktop/mobile;
 3. final checkpoint acceptance only when current M2.4.3 governance permits;
 4. close CF-CHG-046 only after docs/runtime/UAT/advisors reconcile.
+
+
+## A15 bounded integration correction — 29 August 2026
+
+Frozen first-party rollout remains:
+- 52/52 AU profiles successful;
+- 8/8 NZ profiles successful;
+- 60/60 total successful;
+- 0 current profile errors;
+- 31 current first-party contacts across 11 Providers;
+- 17 current territory/market-assigned contacts;
+- 45 rejected/noisy historical observations retained.
+
+First bounded integration:
+- candidate `8a49a2652758784926d42bc6114ceb4270d2cdaa`;
+- run `33230112004`;
+- desktop PASS;
+- mobile FAIL;
+- sole failure: inherited A13 `evidence_detail` HTTP 500 remained unrecovered on both test attempts.
+
+Diagnosis:
+- direct role-checked `security.admin_evidence_detail` remained logically correct;
+- 25-call proof before hardening: 25/25 success, avg ~375 ms, max ~7.2 s;
+- `security.admin_evidence_related_visual` searched `pipeline.layer2_provider_attempts` by raw/html/screenshot Evidence IDs without indexes.
+
+Corrective performance hardening:
+- added partial indexes for `raw_evidence_id`, `html_evidence_id`, and `screenshot_evidence_id`;
+- no read semantics, authority or UAT assertion changed;
+- existing bounded 5xx-only browser retry remains unchanged;
+- 25-call proof after hardening: 25/25 success, avg ~164 ms, p95 ~134 ms, max ~2.04 s;
+- Performance Advisor improved to 170 INFO / 0 WARN / 0 ERROR;
+- Security Advisor remains 135 INFO / 0 WARN / 0 ERROR.
+
+Post-freeze Wellington transport proof was reconciled back to the accepted first-party team record:
+- International Student Experience;
+- `international-support@vuw.ac.nz`;
+- `+64 4 463 5350`;
+- source `https://www.wgtn.ac.nz/students/support/international/contact-us`.
+
+Corrected targeted UAT on `f3cf5001e5ac506d5edbac324bfbf25d706d4858`: PASS, run `33240216793`.
+
+Corrective bounded integration candidate:
+- `1197099ccedacd5d7946e45400c7bb36fe1dad26`;
+- desktop/mobile result pending at this checkpoint.
+
+Do not nominate final acceptance until this exact corrective integration candidate is terminal PASS on both desktop and mobile.
