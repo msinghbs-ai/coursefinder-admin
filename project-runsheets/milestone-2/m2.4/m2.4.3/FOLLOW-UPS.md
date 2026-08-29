@@ -18,3 +18,12 @@
 - M243-FU-003 — stale/malformed canonical Provider website corrections: **OPEN / LAYER 1 SOURCE GOVERNANCE / NON-BLOCKING FOR A15**.
 - M243-FU-005 — post-freeze integration/final browser acceptance: **ACTIVE**.
 - M243-FU-006 — broader Layer 3 maturity remains standing; A15 closure must not imply Layer 3 benchmark closure.
+
+
+## A15 post-integration follow-ups — 29 August 2026
+
+- M243-FU-005 — bounded integration desktop/mobile: **CLOSED / PASS**, run `33240736705`.
+- M243-FU-007 — final acceptance desktop/mobile against Pilot marker `f6741a0cc29c5fea236e85b9042f8079762c6993`: **ACTIVE / NOMINATED**.
+- M243-FU-008 — promote VU/Otago/Wellington accepted team/person/territory corrections into durable reconciliation behaviour so parser refresh cannot recreate lower-quality semantics: **OPEN / NON-BLOCKING**.
+- M243-FU-009 — map Firecrawl subscription cash cost to retained page-unit telemetry: **OPEN / NON-BLOCKING**.
+- M243-FU-010 — maintain frozen contact-quality regression measures (team-vs-person correctness, unsupported territory removal, duplicate rejection, first-party source coverage, reconciliation persistence): **OPEN / NON-BLOCKING**.
