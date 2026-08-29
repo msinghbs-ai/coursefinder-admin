@@ -241,3 +241,22 @@ Change semantics:
 - rejected/noisy extraction remains retained historically but is excluded from current Provider contact presentation.
 
 At adoption, the initial governed cohort is 52 AU + 8 NZ Provider profiles. The UQ proof retains eight structured International Regional Manager territory assignments from first-party Evidence.
+
+
+## 16. A15 accepted rollout characteristics
+
+The first AU/NZ contact-intelligence rollout establishes the following measured baseline:
+- 60 contact profiles;
+- 31 current accepted professional/institutional contact observations;
+- 17 current territory-assigned observations;
+- 45 rejected historical/noisy observations retained for provenance;
+- 0 current profile errors after recovery.
+
+Acquisition is explicitly multi-provider:
+- Direct HTTP is preferred and may fail transparently;
+- Firecrawl is a governed fallback for 403, 410, 429, 5xx and bounded network/timeout classes;
+- attempt telemetry retains provider, calls, vendor units, latency, cost field and outcome.
+
+Transport corrections (for example stale/malformed Provider website strings or a contact-specific live entry point) are private Layer 2 operational configuration. They do not mutate canonical Layer 1 Provider website authority.
+
+Licensed enrichment remains optional and secondary. Absence of a credential is a configuration state, not a reason to weaken first-party precedence.
