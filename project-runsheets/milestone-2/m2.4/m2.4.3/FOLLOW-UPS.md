@@ -104,3 +104,20 @@
 - M243-FU-020 — final M2.4.3 acceptance and closure reconciliation: **NOMINATED / AWAITING STATUS PUBLICATION**.
 - replacement acceptance marker/current Pilot head: `96de9add3762a0594ebc371fba49d4d990ff4b45`.
 - do not create another acceptance candidate while this marker's workflow is active or awaiting connector status publication.
+
+
+## M2.4.3 closure disposition — 30 August 2026
+
+- M243-FU-019 — corrective bounded integration: **CLOSED / PASS**, run `33285703513`.
+- M243-FU-020 — replacement final acceptance and closure reconciliation: **CLOSED / PASS**, run `33286437795`.
+- Desktop acceptance retained one recovered timing-sensitive inherited M2.3 UI flake as visible evidence; mobile 50/50 PASS.
+- M2.4.3 core gate: **CLOSED / PASS**.
+
+Carry-forward items remain non-blocking and do not reopen M2.4.3:
+- M243-FU-002 Apollo credential configuration;
+- M243-FU-003 Layer 1 Provider website source-governance corrections;
+- M243-FU-008 durable contact-quality reconciliation;
+- M243-FU-009 Firecrawl cash-cost mapping;
+- M243-FU-010 contact-quality regression metrics.
+
+RMIT 212-record promotion remains separately BLOCKED. NZ first-party Layer 2 Course enrichment remains DEFERRED.
