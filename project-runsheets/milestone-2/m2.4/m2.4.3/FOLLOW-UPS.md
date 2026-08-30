@@ -96,3 +96,11 @@
 - exact corrective source before marker: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`.
 - the available connector had not yet exposed the Actions run ID at handoff; capture it from this exact commit before any new candidate.
 - M243-FU-020 — replacement final acceptance/closure remains **BLOCKED ON M243-FU-019 DESKTOP+MOBILE PASS**.
+
+
+## Replacement final acceptance handoff — 30 August 2026
+
+- M243-FU-019 — corrective bounded integration: **CLOSED / PASS**, run `33285703513`, desktop PASS / mobile PASS.
+- M243-FU-020 — final M2.4.3 acceptance and closure reconciliation: **NOMINATED / AWAITING STATUS PUBLICATION**.
+- replacement acceptance marker/current Pilot head: `96de9add3762a0594ebc371fba49d4d990ff4b45`.
+- do not create another acceptance candidate while this marker's workflow is active or awaiting connector status publication.
