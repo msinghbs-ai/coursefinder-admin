@@ -132,3 +132,21 @@ Decision: bounded integration gate PASS. Exactly one final M2.4.4 acceptance can
 - GitHub Actions run `33303037986`;
 - current stage at checkpoint: desktop acceptance in progress, mobile pending;
 - no second acceptance candidate is permitted while this run is active.
+
+## A16 continuation requirement
+
+Before attempting M2.4.4 closure, read:
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md`;
+- `docs/coursefinder-layer4-governed-intervention-design-v0.1.md`.
+
+Then continue:
+1. inspect current A15/L2 Evidence and define the 60-Provider Layer 3 contact-disposition/extraction implementation;
+2. inspect existing Layer 4 scalar-resolution structures before introducing any new persistence;
+3. implement the smallest compatible override-ledger/effective-value architecture, preserving existing accepted Layer 4 behaviour;
+4. classify fields as editable / elevated approval / immutable;
+5. implement field-level L4 marker, audit drawer, reason/comment and revert/supersede behaviour;
+6. keep publication decision separate and role-gated;
+7. add targeted security/RBAC/audit/replay UAT;
+8. run bounded integration then one final desktop/mobile acceptance.
+
+The earlier final candidate `6c480ed3b248f3b118f21dea80bb4d742ab8c282` / run `33303037986` predates A16 and must not be treated as the M2.4.4 closing gate.
