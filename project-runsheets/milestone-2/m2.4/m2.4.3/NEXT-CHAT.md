@@ -135,3 +135,41 @@ At handoff, the connected GitHub API had not yet published commit statuses/targe
 5. If either integration platform fails, retain immutable evidence and diagnose only the exact defect/contract.
 
 Historical failed final acceptance `33284867253` remains immutable evidence.
+
+
+## Exact pickup point — replacement final acceptance nominated
+
+Corrective bounded integration is now terminal PASS:
+- marker `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- run `33285703513`;
+- desktop PASS;
+- mobile PASS.
+
+Final runtime/advisor pre-check before acceptance:
+- corrective migration present;
+- Layer 3 Edge versions unchanged and active;
+- source-pattern benchmark/profile remains PASS, enabled and unpaused on the exact pinned model;
+- Layer 3 housekeeping cron active;
+- Security Advisor 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+
+Replacement final acceptance marker/current Pilot head:
+`96de9add3762a0594ebc371fba49d4d990ff4b45`.
+
+At handoff, its Actions run ID was not yet exposed by the connector. Do not create a duplicate acceptance marker.
+
+### First action next chat
+
+1. Check commit `96de9add3762a0594ebc371fba49d4d990ff4b45` first and capture the final-acceptance run ID.
+2. If still running, do nothing else.
+3. If desktop/mobile PASS:
+   - reconcile Pilot/Admin heads, migrations, Edge, cron/jobs and advisors one final time;
+   - CLOSE/PASS `CF-CHG-20260829-047`;
+   - CLOSE/PASS M2.4.3;
+   - reconcile REGISTER, RUNSHEET, CURRENT-STATE, FOLLOW-UPS and NEXT-CHAT;
+   - update Master Project Plan, Running Build, DB Architecture and Admin/PIM decisions where programme state changed;
+   - preserve all historical failure evidence;
+   - only after the closure commit assess whether M2.4.4 may start.
+4. If either platform fails, retain immutable evidence and correct only the exact defect/contract.
+
+Historical failed acceptance `33284867253` remains immutable.
