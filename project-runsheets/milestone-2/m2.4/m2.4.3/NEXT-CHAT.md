@@ -63,3 +63,18 @@ Preserve all accepted A10–A15 UI/Evidence behaviour and do not regress Layer 1
 - Apollo configuration/licensed enrichment.
 
 If the core Layer 3 maturity gate closes, then assess whether M2.4.3 itself can close and whether M2.4.4 should formally start. Do not start M2.4.4 merely because A15 closed.
+
+## Final acceptance nomination — 30 August 2026
+
+- Final bounded integration source: `ea6077e8e443a4a43adbf9f3285dac3dd3e631fd`.
+- Integration run `33276423521`: **PASS**.
+- Resolved tier: `integration`, 15 permanent suites.
+- Desktop: **45/45 PASS**.
+- Mobile: **45/45 PASS**.
+- Frontend build `33276423532`: **PASS**.
+- Final acceptance marker commit: `3a8a31310ea7147016374d6c818d08034ba0be64`.
+- Final acceptance UAT run: `33284867253` — **QUEUED at handoff**.
+- Final acceptance frontend build: `33284867261` — **QUEUED at handoff**.
+- Do not create another acceptance candidate unless this exact run fails for a source/runtime defect requiring a corrective change.
+- If `33284867253` resolves `acceptance` and both desktop/mobile PASS, reconcile advisors/runtime/heads, close CF-CHG-20260829-047, mark M2.4.3 CLOSED/PASS, update Master Project Plan / Running Build / DB Architecture / Admin-PIM decisions as required, then and only then assess M2.4.4.
+- If it fails, retain the run as immutable evidence, diagnose the exact failing suite, correct only the defect/contract drift, rerun targeted then bounded integration as required before nominating a new acceptance candidate.
