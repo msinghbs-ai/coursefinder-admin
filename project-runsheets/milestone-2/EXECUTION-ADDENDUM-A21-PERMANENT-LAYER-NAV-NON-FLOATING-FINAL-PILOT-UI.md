@@ -88,3 +88,18 @@ Specifically prohibited:
 - using MutationObserver to continually reconcile a competing menu model.
 
 Historical compatibility code may remain in source only if it is not loaded by the Pilot shell. Permanent UAT must assert that no legacy navigation marker or injected menu item is rendered.
+
+
+## A21.8 — Stable filter restoration
+
+Catalogue filter state restoration must never simulate user interaction.
+
+Standing rule:
+- saved query/filter/sort/advanced state is restored directly into canonical React state;
+- restoration must not programmatically click filter buttons or options;
+- no filter popover may open automatically during page load, reload, route restoration or screen-state recovery;
+- only the filter explicitly opened by the operator may render a popover;
+- async option loading may show a spinner inside that filter control, but must not move focus or open another filter;
+- bounded option paging remains 10 visible options per page for large filter sets.
+
+Legacy screen-state adapters that restore by DOM clicking must not be loaded by the Pilot shell.
