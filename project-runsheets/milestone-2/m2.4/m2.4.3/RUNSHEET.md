@@ -248,3 +248,30 @@ Replacement final acceptance marker:
 - desktop and mobile must both PASS.
 
 At handoff the run ID/status target was not yet exposed. Do not create a duplicate acceptance marker. M2.4.3 remains ACTIVE; M2.4.4 remains unauthorised.
+
+
+## Authoritative closure — 30 August 2026
+
+M2.4.3 is **CLOSED / PASS** under `CF-CHG-20260829-047`.
+
+Accepted Pilot marker/head:
+`96de9add3762a0594ebc371fba49d4d990ff4b45`.
+
+Final acceptance `33286437795`:
+- desktop governed PASS: 49 passed + 1 timing-sensitive inherited M2.3 UI flake recovered on retry;
+- mobile: 50/50 PASS;
+- both acceptance status contexts successful.
+
+Final corrective integration `33285703513`: desktop/mobile PASS.
+
+Final runtime/advisor state:
+- corrective dashboard hardening migration present;
+- Layer 3 Edges v5/v2/v9 as accepted;
+- source-pattern profile enabled/unpaused on exact pinned model;
+- housekeeping cron active;
+- Security 135 INFO / 0 WARN / 0 ERROR;
+- Performance 169 INFO / 0 WARN / 0 ERROR.
+
+Historical failures remain immutable evidence, including `33284867253`.
+
+M2.4.4 is NEXT/READY, not started. It requires separate active governance before material work.
