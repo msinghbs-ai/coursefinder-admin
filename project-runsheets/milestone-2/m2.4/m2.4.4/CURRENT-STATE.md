@@ -1,6 +1,6 @@
 # M2.4.4 Current State
 
-**Status:** ACTIVE — ENTRY RECONCILIATION  
+**Status:** ACTIVE — IMPLEMENTATION COMPLETE / BOUNDED INTEGRATION NEXT  
 **Updated:** 30 August 2026  
 **Change Control:** `CF-CHG-20260830-048`
 
@@ -42,8 +42,10 @@ Root cause:
 Corrective Pilot source:
 `29cffeb1ad3824f7569d4b597e0103e3c880bb8a`.
 
-Migration:
-`20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`.
+Migration reconciliation:
+- deployed Supabase history: `20260830021159_m2_4_4_layer1_legacy_stale_job_recovery`;
+- repository mirror: `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery.sql`;
+- function body reconciled; do not redeploy only to force timestamp equality.
 
 Deployed validation:
 - candidate query matched exactly 1 stale legacy regulatory job;
@@ -56,3 +58,27 @@ Deployed validation:
 - Performance Advisor remains 169 INFO / 0 WARN / 0 ERROR.
 
 The recovery excludes any job still owned by a live `layer1_run_queue` heartbeat.
+
+
+## Cross-layer reconciliation result
+
+M244-FU-001 through M244-FU-005 material work is complete.
+
+- L1/L2/L3 stale recovery ownership/windows are non-overlapping and preserve governed history.
+- general/L1/L2 scheduling is idempotent/target-bounded; no active L1–L3 duplicate refresh work exists.
+- L3 alert gap corrected by deployed migrations `20260830071523` and `20260830072215`.
+- `layer3_ops_alerts` is available through the governed `admin_read` boundary and retains the rank-4+ internal guard.
+- current L3 alert conditions: 0.
+- A14 active paths remain telemetry-bearing; unavailable historical/vendor usage is not inferred.
+- private Evidence footprint observed at 6,248 objects / 3,781,700,044 bytes; no authorised storage threshold is configured.
+- all seven operational cron jobs latest-success.
+- Security Advisor 135 INFO / 0 WARN / 0 ERROR.
+- Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+- Guides reconciled: Operations Runbook v1.8, Data Operations Admin Guide v1.6, PIM Admin Guide v1.22.
+- permanent M2.4.4 UAT source contract added to targeted/integration/acceptance tiers.
+
+M244-FU-006 remains visible non-blocking timing-sensitive UAT hygiene evidence. A15/Apollo/RMIT/NZ boundaries remain unchanged.
+
+## Next decision
+
+Nominate one bounded integration desktop/mobile candidate from the latest Pilot head. Do not create another candidate while that run is active. Final acceptance may be nominated only after both integration platforms PASS.
