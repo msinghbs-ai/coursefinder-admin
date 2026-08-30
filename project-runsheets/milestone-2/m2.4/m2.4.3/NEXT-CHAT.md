@@ -1,94 +1,103 @@
-# M2.4.3 Next Chat — Core Layer 3 AI Operations Maturity
+# Next Chat — M2.4.3 Final Corrective Integration, Acceptance & Closure
 
-A15 contact intelligence is CLOSED / PASS. Do not restart or broad-rerun the A15 cohort.
+## Status at handoff
+
+M2.4.2 is CLOSED / PASS under CF-CHG-20260827-044. Its addenda are reconciled in:
+`project-runsheets/milestone-2/m2.4/m2.4.2/ADDENDA-CLOSURE-RECONCILIATION.md`.
+
+Do not reopen M2.4.2 merely because standing addenda or deliberately carried follow-ups remain active.
+
+M2.4.3 remains ACTIVE under CF-CHG-20260829-047.
+
+Latest Pilot corrective source:
+`eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`.
+
+Corrective runtime:
+- migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening`;
+- dashboard recent-activity expression indexes added with no output/access/authority semantic change;
+- Evidence recent-activity top-10 plan verified on new index at ~3.25 ms execution.
+
+Pre-gates:
+- targeted deployed UAT `33285369673`: PASS;
+- frontend build/local smoke `33285369676`: PASS.
+
+Historical first final-acceptance attempt:
+- acceptance marker `3a8a31310ea7147016374d6c818d08034ba0be64`;
+- run `33284867253`: FAIL;
+- desktop 50/50 PASS;
+- mobile 48 PASS / 1 persistent failure;
+- persistent failure was inherited Layer 2 provider-acquisition test observing `admin_read(operation=dashboard)` HTTP 500;
+- Postgres logs proved statement timeouts on both attempts;
+- one separate mobile performance miss recovered on retry;
+- frontend build `33284867261`: PASS;
+- failure remains immutable evidence.
 
 ## Mandatory start
+
 1. Read `PROJECT_INSTRUCTIONS.md`.
 2. Read `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`.
-3. Read all current execution addenda A1–A15.
-4. Read `change-control/README.md`, `change-control/REGISTER.md` and closed `CF-CHG-20260829-046`.
-5. Read the latest Master Project Plan, Running Build, DB Architecture and Admin/PIM design decisions.
-6. Read this M2.4.3 `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md`, and current `NEXT-CHAT.md`.
-7. Reconcile current heads of `msinghbs-ai/coursefinder-admin` and `msinghbs-ai/Coursefinder-Pilot`.
-8. Reconcile deployed Supabase/Edge state, migrations/functions/jobs, current Security/Performance Advisors and latest GitHub Actions before changing anything.
+3. Read A1–A6 plus A7, A8, A10, A12, A13, A14 and A15.
+4. Read `change-control/README.md`, `change-control/REGISTER.md`, and active `CF-CHG-20260829-047`.
+5. Read latest Master Project Plan, Running Build, DB Architecture and Admin/PIM design decisions.
+6. Read M2.4.2 `ADDENDA-CLOSURE-RECONCILIATION.md` so standing governance is not confused with an open M2.4.2 gate.
+7. Read M2.4.3 `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and this file.
+8. Reconcile current heads of `msinghbs-ai/coursefinder-admin` and `msinghbs-ai/Coursefinder-Pilot`.
+9. Reconcile deployed Supabase migrations, Edge functions, cron/jobs, current Security/Performance Advisors and applicable Actions.
+10. Repository/runtime truth is authoritative; do not rely on stale chat assumptions.
 
-## Accepted A15 baseline
-- CF-CHG-20260829-046: CLOSED / PASS.
-- Functional contact freeze: `f9e4e530462b49cf5a83ad8e0d5137631255028a`.
-- Accepted Pilot: `f6741a0cc29c5fea236e85b9042f8079762c6993`.
-- Final acceptance run: `33251745111`.
-- Acceptance tier: 17 permanent suites.
-- Desktop: 48/48 PASS.
-- Mobile: 48/48 PASS.
-- Cohort: 60/60 profiles successful, 0 current errors.
-- Current contacts: 31 across 11 Providers; 17 territory/market contacts.
-- Rejected/noisy history: 45 retained.
-- Worker: provider-contact-discover-scheduled-v1.3.2 / Edge v15.
-- Apollo: configuration-blocked/non-blocking; no personal-email/phone reveal.
+## Execution order
 
-## Data/showcase boundary to preserve
-- Layer 1 remains canonical Provider/Course identity and source authority.
-- A15 contact intelligence is Layer 2 deterministic enrichment backed by first-party Evidence.
-- Showcase captured contacts primarily in Provider detail → International contacts, with team/person, title, territory, institutional work contact, source class, freshness and Evidence.
-- Course detail may show Provider contact context only as clearly-labelled Provider context; never convert Provider contact facts into Course truth.
-- Layer 3 may interpret governed Layer 2 Evidence for contact-change, source-pattern or operational intelligence, but cannot overwrite Layer 1/Layer 2 source facts.
-- Layer 4 is for human resolution of ambiguity/change where required.
-- Search/public website admission is not authorised by A15 closure.
-- Zoho/API consumption is not authorised by A15 closure and needs a separate curated consumer/API contract.
+Proceed autonomously:
 
-## Next execution objective
-Continue **M2.4.3 Layer 3 AI Operations Maturity** from the accepted A15 baseline. Do not treat A15 closure as M2.4.3 closure.
+1. Confirm corrective source `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7` remains current and no parallel source superseded it.
+2. Nominate a new bounded integration candidate from this exact corrective lineage.
+3. Run bounded integration desktop/mobile.
+4. If bounded integration PASS:
+   - recheck runtime/advisors/heads;
+   - nominate one replacement final acceptance candidate;
+   - run final acceptance desktop/mobile.
+5. If final acceptance PASS:
+   - CLOSE/PASS CF-CHG-20260829-047;
+   - CLOSE/PASS M2.4.3;
+   - update REGISTER, RUNSHEET, CURRENT-STATE, FOLLOW-UPS, NEXT-CHAT;
+   - update Master Project Plan / Running Build / DB Architecture / Admin-PIM decisions where programme state changed;
+   - preserve all historical failed-gate evidence;
+   - only then assess whether M2.4.4 may begin.
+6. If any gate fails:
+   - retain exact failure as immutable evidence;
+   - diagnose only the failing defect/contract;
+   - do not weaken thresholds, authority, security, Evidence or test semantics merely to obtain PASS;
+   - apply targeted correction and repeat the minimum required gate sequence.
 
-Focus on:
-- the existing blocked Layer 3 source-pattern/model-quality benchmark;
-- deterministic Evidence selection into Layer 3;
-- model/provider routing and pinned model/profile controls;
-- prompt/input/output provenance;
-- zero-call/revalidation paths;
-- token/cost/latency telemetry under A14;
-- retry/failure/fallback semantics;
-- concurrency/scheduling/housekeeping;
-- confidence/quality thresholds without lowering the accepted benchmark;
-- human-review handoff to Layer 4;
-- operational UI that explains what Layer 3 is doing without exposing secrets;
-- final Layer 3 acceptance criteria and permanent UAT inclusion.
+## Boundaries that must not regress
 
-Preserve all accepted A10–A15 UI/Evidence behaviour and do not regress Layer 1/Layer 2 authority.
+- Layer 1 remains canonical identity/regulatory authority.
+- Layer 2 remains deterministic source/Evidence authority.
+- Layer 3 consumes governed Evidence and cannot directly rewrite canonical Layer 1/2 truth.
+- Layer 4 remains terminal human resolution.
+- Search/Publication/Zoho admission remains separately governed.
+- A14 telemetry remains mandatory.
+- A15 contact intelligence is CLOSED/PASS and must remain frozen/protected.
+- RMIT 212-record promotion remains separately blocked pending an already-authorised exact frozen-set executor; do not invent a privileged bypass.
+- NZ first-party Layer 2 enrichment remains deferred pending source qualification.
+- A10 paging/tablet behaviour, A12 contextual granularity, A13 route/Evidence transparency and A8 release-note surface remain standing accepted behaviour.
 
-## Carry-forward, non-blocking
-- durable VU/Otago/Wellington contact reconciliation across refresh;
-- Firecrawl subscription cash-cost mapping;
-- Layer 1 correction of stale/malformed Provider website values;
-- contact-quality regression metrics;
-- Apollo configuration/licensed enrichment.
+## Long-running automation rule
 
-If the core Layer 3 maturity gate closes, then assess whether M2.4.3 itself can close and whether M2.4.4 should formally start. Do not start M2.4.4 merely because A15 closed.
+If a bounded integration or final acceptance matrix is still running after the substantive work is complete and is expected to exceed about five minutes, do not hold the chat open just to wait.
 
-## Final acceptance nomination — 30 August 2026
+Instead:
+- record exact run IDs, head SHA, current stage and next decision rule in CURRENT-STATE/NEXT-CHAT;
+- do not start a duplicate candidate while the run is active;
+- finish the chat with the exact pickup point;
+- the following chat checks those run IDs first.
 
-- Final bounded integration source: `ea6077e8e443a4a43adbf9f3285dac3dd3e631fd`.
-- Integration run `33276423521`: **PASS**.
-- Resolved tier: `integration`, 15 permanent suites.
-- Desktop: **45/45 PASS**.
-- Mobile: **45/45 PASS**.
-- Frontend build `33276423532`: **PASS**.
-- Final acceptance marker commit: `3a8a31310ea7147016374d6c818d08034ba0be64`.
-- Final acceptance UAT run: `33284867253` — **QUEUED at handoff**.
-- Final acceptance frontend build: `33284867261` — **QUEUED at handoff**.
-- Do not create another acceptance candidate unless this exact run fails for a source/runtime defect requiring a corrective change.
-- If `33284867253` resolves `acceptance` and both desktop/mobile PASS, reconcile advisors/runtime/heads, close CF-CHG-20260829-047, mark M2.4.3 CLOSED/PASS, update Master Project Plan / Running Build / DB Architecture / Admin-PIM decisions as required, then and only then assess M2.4.4.
-- If it fails, retain the run as immutable evidence, diagnose the exact failing suite, correct only the defect/contract drift, rerun targeted then bounded integration as required before nominating a new acceptance candidate.
+## Closure condition
 
-## Final acceptance live handoff — 30 August 2026
+M2.4.3 is CLOSED only after:
+- corrective bounded integration desktop/mobile PASS;
+- replacement final acceptance desktop/mobile PASS;
+- final runtime/advisor/head reconciliation;
+- documentation/change-control reconciliation.
 
-- Pilot final acceptance marker: `3a8a31310ea7147016374d6c818d08034ba0be64`.
-- CourseFinder Deployed UAT run: `33284867253` — **IN PROGRESS at handoff**.
-- Pilot Frontend Build run: `33284867261` — **IN PROGRESS at handoff**.
-- The acceptance workflow has resolved the marker-driven final gate and has entered the desktop validation step.
-- Do not wait/retrigger while these runs are active.
-- Next action is a single status reconciliation:
-  1. if build PASS and acceptance run PASS with both desktop/mobile success, reconcile Pilot/Admin heads, Supabase migrations/Edges/jobs, Security/Performance Advisors, then CLOSE/PASS `CF-CHG-20260829-047` and M2.4.3;
-  2. update Master Project Plan, Running Build, DB Architecture/Admin-PIM decisions and continuity docs;
-  3. only after the closure commit, assess/create M2.4.4;
-  4. if either run fails, retain immutable evidence and diagnose the exact failing suite before any new candidate.
-
+Do not start M2.4.4 before all four are true.
