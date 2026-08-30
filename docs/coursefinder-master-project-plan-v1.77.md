@@ -1,201 +1,84 @@
 # CourseFinder Master Project Plan v1.77
 
-**Issued:** 29 August 2026  
+**Issued:** 30 August 2026  
 **Status:** CURRENT  
-**Supersedes:** v1.75  
-**Programme position:** M2.3 CLOSED/PASS; M2.4 ACTIVE; **M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 CLOSED/PASS; M2.4.3 ACTIVE**
+**Supersedes:** v1.76  
+**Programme position:** M1 FROZEN; M2.1–M2.3 CLOSED/PASS; M2.4 ACTIVE; M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 NEXT/READY
 
 ## 1. Programme position
 
-M1 remains frozen. M2.1, M2.2 and M2.3 are CLOSED/PASS for their accepted scope. NZ first-party Layer 2 Course enrichment remains explicitly deferred to future NZ source qualification/onboarding.
+M2.4.3 Layer 3 AI Operations Maturity is CLOSED / PASS under `CF-CHG-20260829-047`.
 
-M2.4 remains ACTIVE. M2.4.0, M2.4.1 and M2.4.2 are CLOSED/PASS. Current accepted Pilot source is:
+Accepted Pilot marker/head:
+`msinghbs-ai/Coursefinder-Pilot@96de9add3762a0594ebc371fba49d4d990ff4b45`.
 
-`msinghbs-ai/Coursefinder-Pilot@093010fada8391c93626b59e59c678064f4961c3`
+Final acceptance run `33286437795`:
+- chromium-desktop: terminal PASS; 49 passed plus one timing-sensitive M2.3 Important Links/Important Dates test recovered on retry and retained as flaky evidence;
+- chromium-mobile: 50/50 PASS;
+- both governed acceptance commit-status contexts: success.
 
-Final M2.4.2 corrective acceptance: deployed Stage C `33219089690` desktop/mobile PASS (45/45 each). Historical failed Stage C `33215640328` remains retained as immutable evidence of the stale pre-A12 UAT assertion that triggered the explicit governance reopening.
+Corrective path before final acceptance:
+- corrective source `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`;
+- migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening`;
+- targeted deployed UAT `33285369673` PASS;
+- bounded integration marker `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- bounded integration run `33285703513` desktop/mobile PASS.
 
-The separate Production environment remains M2.5. Broad Publication and Zoho cutover remain later governed gates. No additional billable hours are inferred by this status transition; the engagement-time record remains authoritative.
+Historical failed final acceptance `33284867253` remains immutable evidence.
 
 ## 2. Authority model
 
-`Layer 1 Authoritative / Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`
+`Layer 1 authoritative/regulatory → Layer 2 deterministic acquisition/extraction → Layer 3 governed AI Evidence interpretation → Layer 4 human resolution`.
 
-Layer 4 remains terminal. Search Projection, Search Visibility and Publication remain downstream product states.
+Search Projection, Search Visibility, Publication, Website and Zoho remain separately governed downstream consumer states. Layer 3 has no direct canonical Layer 1/2 write authority.
 
-## 3. Milestone sequence
+## 3. Accepted M2.4.3 operating baseline
 
-| Milestone | Status | Planned-hours baseline | Outcome / focus |
-|---|---|---:|---|
-| M2.0 | COMPLETE | 8 | programme consolidation / Auto-UAT |
-| M2.1 | CLOSED / PASS | 3 | Layer 2 platform foundation |
-| M2.2 | CLOSED / PASS | 10 | Security & Production foundation + deterministic Search showcase |
-| M2.3 | CLOSED / PASS — NZ L2 EXPANSION DEFERRED | 12 baseline | production-grade Layers 1–4 and decision operations |
-| **M2.4** | **ACTIVE — M2.4.0 PASS / M2.4.1 PASS / M2.4.2 PASS / M2.4.3 ACTIVE** | **7 baseline** | operational maturity, UX simplification, automation, monitoring, performance and pre-blackout checkpoint |
-| Blackout 16–30 Sep | NO DELIVERY | 0 | no planned project delivery |
-| M2.5 | PLANNED | 12 | clean Production stack deployment/restore/security acceptance |
-| M3 | PLANNED | 10 | consumer API / Zoho integration |
-| M4 | PLANNED | 8 | Search/publication/final Production handover |
+The accepted Layer 3 baseline includes:
+- deterministic governed Layer 2 text-Evidence selection;
+- screenshot Evidence excluded from AI text input;
+- benchmark-passed enabled/unpaused model-profile enforcement;
+- immutable profile/prompt/model/version provenance;
+- zero-call paths for resolved, unchanged and in-flight duplicate work;
+- governed replay/revalidation;
+- bounded retry with attempt-level A14 telemetry;
+- qualified fallback only when explicitly configured;
+- confidence/no-candidate fall-out to Layer 4;
+- entity/task/profile concurrency serialization;
+- stale-execution recovery/housekeeping;
+- operator Evidence → model/profile → result/confidence/provenance → review presentation;
+- no automatic Search/Publication/Website/Zoho admission.
 
-## 4. M2.4.0 — CLOSED / PASS
+Source-pattern benchmark authority:
+- run `089befcf-a2f2-42ec-ad03-7bfe02816e1b`;
+- 4/4 governed Provider cases PASS;
+- 3/3 controls PASS;
+- exact model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
+- 8 calls, 4,454 input / 832 output tokens, estimated USD 0;
+- threshold was not lowered.
 
-Accepted Pilot checkpoint: `ba846abb8f55c0c28d65de9e676bd29ed09a3ab4`.
+## 4. Standing carried boundaries
 
-M2.4.0 closed the navigation/test integration liability, established the primary Data Operations information architecture and shared navigation adapters, introduced targeted → bounded integration → one final acceptance matrix CI discipline, and corrected the first Course-page performance contention without widening the 3,000 ms RPC budget.
+- A1–A15 remain standing governance where applicable.
+- A15 contact intelligence remains CLOSED/PASS and frozen under `CF-CHG-20260829-046`.
+- RMIT frozen 212-record canonical promotion remains BLOCKED pending an already-authorised exact frozen-set executor.
+- NZ first-party Layer 2 Course enrichment remains DEFERRED pending source qualification/onboarding.
+- Apollo credential remains configuration-blocked/non-blocking.
+- Production cutover, broad Publication and Zoho cutover remain later governed gates.
 
-## 5. M2.4.1 — CLOSED / PASS
+## 5. Next gate
 
-M2.4.1 production-shaped Layer 1 Regulatory operations for AU CRICOS and NZ NZQA.
+M2.4.4 Cross-layer Checkpoint is **NEXT / READY**, but is not started by this document. It requires its own active governance/change-control entry before material execution.
 
-Accepted capabilities:
+M2.4.4 focus:
+- cross-layer housekeeping and scheduling;
+- recheck/replay orchestration;
+- recovery and alerts;
+- operational/documentation reconciliation;
+- pre-blackout acceptance.
 
-- governed/versioned source operations profiles;
-- authority-domain and expected-source-format validation;
-- dynamic AU CRICOS and NZ NZQA record-count assessment;
-- warning/block variance guardrails before APPLY;
-- one-active-source queue protection, idempotency, retry/resume and cumulative reconciliation;
-- live progress/heartbeat/stuck visibility and bounded recovery;
-- source-hash/no-change execution path;
-- scheduled non-destructive authoritative-source rechecks through one-time nonce;
-- paused-source exclusion and stale schedule recovery;
-- safe transient housekeeping preserving governed Evidence/source versions/canonical history;
-- simplified operator UX with direct Evidence/Jobs provenance.
+M2.4.4 is not Production cutover.
 
-Live proof:
+## 6. Execution discipline
 
-- AU CRICOS: 26,648 active / 90 expired / 26,738 total Course rows;
-- NZ NZQA: 411 current providers versus 409 accepted baseline, approximately 0.489% PASS variance.
-
-Security/ACL/rank boundaries remain enforced server-side. Final Security Advisor has no new material M2.4.1 Critical/High/Warning finding. Final Performance Advisor has no unindexed Layer 1 foreign key.
-
-Final staged UAT:
-
-- Stage A `32971449084` — PASS;
-- Stage B `32971584012` — desktop/mobile PASS;
-- Stage C `32972106291` — desktop/mobile PASS;
-- accepted Pilot `ed41ea4d7d6672e871cd4ce401bfca24fe3eb64d`.
-
-CF-CHG-20260826-043 is CLOSED/PASS.
-
-## 6. M2.4 sub-milestone sequence
-
-| Sub-milestone | Status | Purpose |
-|---|---|---|
-| M2.4.0 | CLOSED / PASS | integration cleanup, navigation/test-liability removal, accepted rebase |
-| M2.4.1 | CLOSED / PASS | Layer 1 Regulatory Operations Maturity & Automation |
-| M2.4.2 | **CLOSED / PASS** | Layer 2 Full Enrichment, Operations Maturity & Performance |
-| **M2.4.3** | **ACTIVE** | Layer 3 AI Operations Maturity |
-| M2.4.4 | PLANNED | cross-layer operations, housekeeping, scheduling and pre-blackout acceptance |
-
-## 7. M2.4.2 — CLOSED / PASS
-
-M2.4.2 matured Layer 2 across the accepted source/provider architecture without weakening Layer 1 authority or reopening accepted M2.4.0/M2.4.1 foundations.
-
-Accepted closure evidence:
-- Stage B `33214733610` desktop/mobile PASS;
-- corrective Stage C `33219089690` desktop/mobile PASS, 45/45 each;
-- accepted Pilot `093010fada8391c93626b59e59c678064f4961c3`;
-- Security Advisor 0 WARN / 0 ERROR;
-- Performance Advisor 0 WARN / 0 ERROR;
-- A14 telemetry contract retained across active Layer 2 provider-attempt and Layer 3 model-call paths;
-- contextual QILT/PRISMS/Scholarship Course/Provider detail integration accepted;
-- A13 screenshot Evidence accepted as secondary visual Evidence only;
-- paged tablet-safe selectors and one-action Layer 2 operations accepted.
-
-Carried forward without weakening:
-- RMIT 212-record canonical promotion remains BLOCKED pending an already-authorised exact frozen-set executor;
-- RMIT weekly refresh remains disabled;
-- Federation remains disabled/paused/source-limited;
-- Layer 3 source-pattern benchmark remains BLOCKED under its unchanged threshold.
-
-The historical first Stage C `33215640328` remains permanently recorded as a failed gate caused by a stale UAT assumption; explicit governance reopening authorised one corrective run after the contract was corrected.
-
-### Original M2.4.2 objectives
-
-Primary objectives:
-
-- execute representative/full enrichment across accepted AU scope;
-- mature the normal Layer 2 operator journey under Data Operations;
-- make source/profile/provider routing and governed configuration clear;
-- expose queue/job/progress/reconciliation/Evidence/log state with minimum navigation;
-- prove retry/resume/recovery and idempotent execution;
-- measure full-run throughput and latency;
-- measure provider spend/economics/quota behaviour;
-- measure Evidence/storage growth and Layer 3 fall-out;
-- tune concurrency/schedules only after evidence is captured;
-- add/verify operational alerts for Layer 2 provider/source/job states;
-- evolve UI/UX using real full-run evidence;
-- maintain Guides/Runbooks/release notes and automated UAT.
-
-NZ first-party Layer 2 Course enrichment remains deferred unless separately qualified and authorised.
-
-## 8. M2.4.3 — Layer 3
-
-Mature Layer 3 provider/model operations, quality monitoring, revalidation, budgets, cost/latency/quality telemetry and queue handling without granting uncontrolled canonical write authority.
-
-## 9. M2.4.4 — Cross-layer checkpoint
-
-Complete cross-layer housekeeping, scheduling, recheck orchestration, recovery/replay, alerts, documentation and pre-blackout acceptance. Preserve the Production boundary; M2.4.4 is not Production cutover.
-
-## 10. Execution discipline
-
-All M2.4.x implementation inherits `PROJECT_INSTRUCTIONS.md`, M2 Standing Instructions and execution addenda A1–A14.
-
-Material changes progress through:
-
-1. targeted development validation;
-2. bounded integration regression;
-3. one nominated full deployed desktop/mobile acceptance matrix at the relevant checkpoint.
-
-Permanent operational journeys/UAT use accepted primary navigation. Do not restore floating operational architecture, weaken role/security boundaries, alter Layer authority, or widen accepted performance assertions merely to obtain PASS.
-
-## 11. Production / downstream boundary
-
-M2.4 does not silently authorise:
-
-- Production project establishment/cutover;
-- broad Publication;
-- consumer/website release;
-- Zoho cutover;
-- reclassification of Search as an identity authority.
-
-These remain later governed gates.
-
-## M2.4.3 active addendum — A15 institute international contact intelligence
-
-A15 is an active M2.4.3 additive workstream under CF-CHG-20260829-046.
-
-Scope:
-- first-party international recruitment/regional-manager contact discovery for governed AU/NZ universities;
-- optional licensed professional-title enrichment;
-- Provider decision-blade presentation;
-- contact freshness/change monitoring;
-- acquisition/enrichment telemetry.
-
-Initial scope baseline: 52 AU + 8 NZ Provider profiles.
-
-Acceptance conditions:
-1. source/evidence/authority boundaries remain intact;
-2. first-party university contacts remain preferred over licensed enrichment;
-3. private contact tables have no direct browser/anon access;
-4. personal email/phone reveal is not requested by default from licensed enrichment;
-5. contact acquisition uses governed provider routing/fallback and telemetry;
-6. Provider blade works on desktop/tablet/mobile;
-7. full cohort outcomes are reconciled including source-limited sites;
-8. Security/Performance Advisors have no new unexplained WARN/ERROR;
-9. bounded integration and final acceptance pass before closure.
-
-A15 does not expand Production, Publication, Search authority or Layer 1 identity scope.
-
-
-## A15 first-party rollout completion checkpoint
-
-The M2.4.3 A15 contact-intelligence addendum has completed its governed AU/NZ first-party rollout baseline:
-- 60/60 Provider profiles successful;
-- 31 current contacts / 11 Providers;
-- 17 territory-assigned contacts;
-- first-party source precedence and private-schema boundaries intact;
-- targeted deployed UAT PASS on frozen Pilot `f9e4e530462b49cf5a83ad8e0d5137631255028a`;
-- Security/Performance Advisors: 0 WARN / 0 ERROR.
-
-A15 now proceeds through post-freeze integration/change-control acceptance. This does not close M2.4.3 Layer 3 AI Operations Maturity as a whole.
+All later M2 work inherits `PROJECT_INSTRUCTIONS.md`, Milestone 2 Standing Instructions, accepted addenda and closed-gate evidence. Do not weaken security, source authority, Evidence, telemetry, identity, paging/tablet, contextual-grain or UAT semantics merely to obtain PASS.
