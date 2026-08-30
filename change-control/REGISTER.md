@@ -15,7 +15,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** ACTIVE — M2.4.0, M2.4.1, M2.4.2 and **M2.4.3 are CLOSED / PASS**. M2.4.3 closed under `CF-CHG-20260829-047` at accepted Pilot `96de9add3762a0594ebc371fba49d4d990ff4b45`; replacement final acceptance run `33286437795` published successful desktop/mobile governed status contexts. A15 remains CLOSED/PASS under `CF-CHG-20260829-046`. RMIT frozen 212-record canonical promotion remains separately BLOCKED; NZ first-party Layer 2 Course enrichment remains DEFERRED. A1–A15 remain standing governance where applicable.
+> **M2.4:** ACTIVE — M2.4.0, M2.4.1, M2.4.2 and **M2.4.3 are CLOSED / PASS**. M2.4.4 is ACTIVE under `CF-CHG-20260830-048`; A16 now adds Layer 3 international-contact coverage and Layer 4 governed human intervention to the closing scope. M2.4.3 closed under `CF-CHG-20260829-047` at accepted Pilot `96de9add3762a0594ebc371fba49d4d990ff4b45`; replacement final acceptance run `33286437795` published successful desktop/mobile governed status contexts. A15 remains CLOSED/PASS under `CF-CHG-20260829-046`. RMIT frozen 212-record canonical promotion remains separately BLOCKED; NZ first-party Layer 2 Course enrichment remains DEFERRED. A1–A16 remain standing governance where applicable.
 >
 > **M2.4.3 FINAL ACCEPTANCE:** corrective bounded integration `33285703513` PASS desktop/mobile. Replacement final acceptance `33286437795` is PASS: desktop 49 passed + 1 timing-sensitive M2.3 UI flake recovered on retry; mobile 50/50 PASS; both commit-status contexts success. Historical failed acceptance `33284867253` remains immutable evidence. Final runtime/advisor reconciliation: Security 135 INFO / 0 WARN / 0 ERROR; Performance 169 INFO / 0 WARN / 0 ERROR. M2.4.4 is now NEXT/READY but not started.
 >
@@ -83,7 +83,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.20.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A15;
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A16;
 - M2.4 plan: M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 ACTIVE under `CF-CHG-20260830-048`.
 
 ## Accepted runtime/source authority
