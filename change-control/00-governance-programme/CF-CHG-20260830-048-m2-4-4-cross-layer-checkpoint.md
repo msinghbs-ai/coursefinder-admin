@@ -74,3 +74,32 @@ Before material implementation:
 ## Acceptance discipline
 
 Use targeted validation during implementation, bounded integration before promotion, then one nominated final desktop/mobile acceptance matrix. Preserve all failures and recovered flakes as evidence rather than suppressing them.
+
+
+## Entry reconciliation / corrective housekeeping — 30 August 2026
+
+Initial cross-layer inventory found one stale legacy Layer 1 `pipeline.jobs` record left `running` since 17 August 2026. Existing Layer 1 housekeeping only deleted expired terminal `layer1_run_queue` rows, while Layer 2 and Layer 3 already had bounded stale-execution recovery.
+
+Corrective Pilot:
+`29cffeb1ad3824f7569d4b597e0103e3c880bb8a`.
+
+Migration:
+`20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`.
+
+Correction:
+- extends `public.svc_layer1_housekeeping()`;
+- only targets `pipeline.jobs.job_type='regulatory_sync'`;
+- requires age >45 minutes;
+- excludes any live `layer1_run_queue` heartbeat within 30 minutes;
+- marks abandoned jobs failed with explicit recovery provenance;
+- preserves governed Evidence, source-operation versions and canonical history.
+
+Runtime proof:
+- 1 candidate before correction;
+- 1 recovered;
+- 0 stale legacy regulatory jobs after correction;
+- 0 governed Evidence/source-version/canonical-history deletions;
+- post-change Security Advisor 135 INFO / 0 WARN / 0 ERROR;
+- post-change Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+
+This is an M2.4.4 housekeeping correction only. It does not alter Layer authority or downstream consumer scope.
