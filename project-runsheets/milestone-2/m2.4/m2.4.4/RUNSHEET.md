@@ -72,7 +72,7 @@ A stale legacy Layer 1 `regulatory_sync` job from 17 August 2026 remained `runni
 
 Implemented/deployed:
 - Pilot `29cffeb1ad3824f7569d4b597e0103e3c880bb8a`;
-- migration `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`;
+- repository mirror `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery.sql`; deployed Supabase migration-history version `20260830021159`;
 - `svc_layer1_housekeeping()` now recovers only abandoned `regulatory_sync` jobs older than 45 minutes and excludes any live Layer 1 run-queue heartbeat;
 - no Evidence, source-version or canonical-history deletion.
 
@@ -84,3 +84,56 @@ Validation:
 - Performance 169 INFO / 0 WARN / 0 ERROR.
 
 No browser-facing behaviour changed; no release-note version change required for this database-only housekeeping correction.
+
+
+## Cross-layer implementation checkpoint — 30 August 2026
+
+### W1 / W3 — recovery, retention and replay
+
+Reconciled and accepted policy map:
+- L1 legacy regulatory Job: >45 minutes, but never while owned by a live L1 queue heartbeat within 30 minutes;
+- L2 provider attempt: greater of 2× provider timeout or 300 seconds; orphan L2 Job >45 minutes; managed batch uses policy stale window (default 30 minutes);
+- L3 reserved/calling interpretation: >20 minutes → provider_error with recovery provenance;
+- no recovery path deletes governed Evidence/canonical history; L2 profile/provider/run history and L3 interpretation/benchmark history remain retained.
+
+No second conflicting recovery mechanism was found or added.
+
+### W2 — scheduling/recheck
+
+General refresh scheduler, L1 scheduler and L2 scheduler are target-bounded and deduplicate active work. At reconciliation there were no queued/running L1–L3 refresh requests. Eight historical blocked L3 A11 source-pattern requests and seven L4 human-resolution requests remain intentionally preserved and are not scheduler duplication.
+
+### W4 — alerts
+
+Existing:
+- L1 source/stale/variance/stuck/schedule health;
+- L2 stuck run, paused profile, blocked items, provider failure streak and provider quota reserve.
+
+Added genuine L3 gap:
+- runtime migration `20260830071523_m2_4_4_layer3_operational_alerts`;
+- runtime migration `20260830072215_m2_4_4_layer3_alert_admin_read_bridge`;
+- rank-4+ `layer3_ops_alerts` through the existing governed `admin_read` boundary;
+- stale execution, profile state/qualification, latest failed benchmark, provider-error streak and recorded cost-ceiling breach alerts;
+- current alert-condition count: 0.
+
+Observed private Evidence footprint: 6,248 objects / 3,781,700,044 bytes. No governed storage capacity threshold exists, therefore no artificial storage warning threshold was created.
+
+### W5 — A14 telemetry
+
+Active L2/L3 Edge execution paths retain provider/model identity, outcome and available latency/usage/cost telemetry. Latest L3 source-pattern benchmark retains exact model, 8 calls, 4,454 input / 832 output tokens, 3,096 ms max latency and recorded USD 0 provider cost. Unavailable vendor usage remains unavailable.
+
+### W6 — documentation
+
+Created:
+- Operations Runbook v1.8;
+- Data Operations Admin Guide v1.6;
+- PIM Admin Guide v1.22.
+
+### Validation
+
+- all seven operational cron jobs latest-success after correction;
+- Security Advisor: 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 169 INFO / 0 WARN / 0 ERROR;
+- permanent `m2-4-4-cross-layer-operations-deployed.spec.mjs` added to targeted/integration/acceptance tiers;
+- Pilot implementation source currently includes migrations through `20260830072215` and permanent UAT coverage.
+
+Next gate: nominate exactly one bounded integration desktop/mobile candidate.
