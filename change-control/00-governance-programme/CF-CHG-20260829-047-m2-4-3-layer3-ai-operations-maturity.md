@@ -1,6 +1,6 @@
 # CF-CHG-20260829-047 — M2.4.3 Layer 3 AI Operations Maturity
 
-**Status:** ACTIVE  
+**Status:** CLOSED / PASS  
 **Category:** 00-governance-programme  
 **Initiated:** 29 August 2026  
 **Origin chat/workstream:** M2.4.3 — Layer 3 AI Operations Maturity — Continue After A15 Closure  
@@ -170,3 +170,38 @@ Replacement final acceptance marker:
 `96de9add3762a0594ebc371fba49d4d990ff4b45`.
 
 CF-CHG-20260829-047 remains ACTIVE until this marker's final deployed desktop/mobile acceptance is terminal PASS and final documentation/runtime reconciliation is complete. M2.4.4 remains unauthorised.
+
+
+## Closure — 30 August 2026
+
+**Disposition:** CLOSED / PASS.
+
+Accepted Pilot marker/head:
+`96de9add3762a0594ebc371fba49d4d990ff4b45`.
+
+Final replacement acceptance:
+- run `33286437795`;
+- chromium-desktop: governed PASS, 49 passed plus one timing-sensitive M2.3 Important Links/Important Dates test recovered on retry and retained as flaky evidence;
+- chromium-mobile: 50/50 PASS;
+- desktop/mobile commit-status contexts: success.
+
+Corrective bounded integration:
+- marker `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- run `33285703513`;
+- desktop/mobile PASS.
+
+Final runtime/advisor reconciliation:
+- corrective migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening` present;
+- `layer3-interpret` v5 / JWT enforced;
+- `layer3-provider-control` v2 / JWT enforced;
+- `layer3-source-pattern-benchmark` v9 / governed nonce contract;
+- source-pattern profile enabled/unpaused on exact accepted Nemotron model;
+- Layer 3 housekeeping cron active;
+- Security Advisor 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+
+Historical acceptance `33284867253` remains immutable FAIL evidence and is not rewritten.
+
+No Layer 1/2 authority, Evidence, benchmark threshold, retry bound, A14 telemetry, Layer 4 fall-out, Search/Publication/Website/Zoho boundary or A15 privacy/quality control was weakened to obtain closure.
+
+M2.4.4 is NEXT / READY but is not started by this closure. A separate active governance/change-control entry is required before material M2.4.4 work.
