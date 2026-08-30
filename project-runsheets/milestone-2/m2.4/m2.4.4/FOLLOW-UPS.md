@@ -40,10 +40,22 @@ Next gate is bounded integration desktop/mobile.
 
 | ID | Origin | Item | Status |
 |---|---|---|---|
-| M244-FU-011 | A16 / A15 coverage | Produce explicit 60/60 AU/NZ international-student/admissions contact-channel dispositions from governed first-party Evidence; extraction/classification occurs in Layer 3. | ACTIVE |
-| M244-FU-012 | A16 / Layer 4 | Implement governed field-level Layer 4 override ledger/effective-value resolution across editable platform fields. | ACTIVE |
-| M244-FU-013 | A16 / Audit | Retain actor, time, before/after, reason, optional comment/Evidence, supersede/revert history for every L4 decision. | ACTIVE |
-| M244-FU-014 | A16 / Publication | Implement publication as a separately role-gated, auditable Layer 4 decision rather than a normal editable boolean. | ACTIVE |
-| M244-FU-015 | A16 / Security | Define editable/elevated/immutable field classes and prove server-side RBAC plus anonymous/insufficient-rank negative paths. | ACTIVE |
+| M244-FU-011 | A16 / A15 coverage | Produce explicit 60/60 AU/NZ international-student/admissions contact-channel dispositions from governed first-party Evidence; extraction/classification occurs in Layer 3. | COMPLETE |
+| M244-FU-012 | A16 / Layer 4 | Implement governed field-level Layer 4 override ledger/effective-value resolution across editable platform fields. | COMPLETE |
+| M244-FU-013 | A16 / Audit | Retain actor, time, before/after, reason, optional comment/Evidence, supersede/revert history for every L4 decision. | COMPLETE |
+| M244-FU-014 | A16 / Publication | Implement publication as a separately role-gated, auditable Layer 4 decision rather than a normal editable boolean. | COMPLETE |
+| M244-FU-015 | A16 / Security | Define editable/elevated/immutable field classes and prove server-side RBAC plus anonymous/insufficient-rank negative paths. | COMPLETE |
 
 The pre-A16 final acceptance run remains evidence only and cannot close these follow-ups.
+
+
+## A16 implementation checkpoint — 30 August 2026
+
+- M244-FU-011 COMPLETE: explicit 60/60 Provider dispositions retained (11 published contact found; 49 not found in qualified Evidence). Dedicated Layer 3 contact benchmark run `b16d1801-977e-4aaf-84da-e3b2726ac7ba` PASS: 3/3 retained first-party Evidence cases + 3/3 controls, exact pinned model, 8 calls, 16,702 input / 3,761 output tokens, recorded cost USD 0.
+- M244-FU-012 COMPLETE: append-only Layer 4 effective-value override ledger implemented across Provider, Course, Campus, Scholarship and Provider-contact fields; source/canonical/Evidence/history remain preserved.
+- M244-FU-013 COMPLETE: actor/time/before-after/reason/comment/Evidence/supersede/revert audit contract implemented and Admin-visible.
+- M244-FU-014 COMPLETE: publication override is a separate rank-5+ auditable decision and does not itself authorise Production, Website or Zoho cutover.
+- M244-FU-015 COMPLETE: editable/immutable registry expanded to 50 governed fields (21 immutable); anonymous A16 RPC execution denied; browser-facing RPCs refactored to SECURITY INVOKER via non-exposed `l4_api`; Security Advisor returned to 0 WARN / 0 ERROR.
+- Targeted A16 deployed UAT run `33308932765`: PASS. Frontend build run `33308932790`: PASS.
+
+Next gate: exactly one A16-aware bounded integration desktop/mobile candidate.
