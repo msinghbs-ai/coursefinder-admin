@@ -35,3 +35,15 @@
 - **M244-FU-006 OPEN / NON-BLOCKING:** retain M2.4.3 Important Links/Important Dates timing-sensitive desktop flake/retry as hygiene evidence unless reproduced as a product defect.
 
 Next gate is bounded integration desktop/mobile.
+
+## A16 follow-ups — 30 August 2026
+
+| ID | Origin | Item | Status |
+|---|---|---|---|
+| M244-FU-011 | A16 / A15 coverage | Produce explicit 60/60 AU/NZ international-student/admissions contact-channel dispositions from governed first-party Evidence; extraction/classification occurs in Layer 3. | ACTIVE |
+| M244-FU-012 | A16 / Layer 4 | Implement governed field-level Layer 4 override ledger/effective-value resolution across editable platform fields. | ACTIVE |
+| M244-FU-013 | A16 / Audit | Retain actor, time, before/after, reason, optional comment/Evidence, supersede/revert history for every L4 decision. | ACTIVE |
+| M244-FU-014 | A16 / Publication | Implement publication as a separately role-gated, auditable Layer 4 decision rather than a normal editable boolean. | ACTIVE |
+| M244-FU-015 | A16 / Security | Define editable/elevated/immutable field classes and prove server-side RBAC plus anonymous/insufficient-rank negative paths. | ACTIVE |
+
+The pre-A16 final acceptance run remains evidence only and cannot close these follow-ups.
