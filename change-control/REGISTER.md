@@ -82,7 +82,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.44.md` plus closed prior Change Controls;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.20.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
-- Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.4.md` plus Operations Runbook v1.6 and PIM Admin Guide v1.21;
+- Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A15;
 - M2.4 plan: M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 ACTIVE under `CF-CHG-20260830-048`.
 
