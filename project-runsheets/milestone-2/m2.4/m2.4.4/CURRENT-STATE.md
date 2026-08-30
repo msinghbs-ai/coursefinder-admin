@@ -137,3 +137,23 @@ At handoff:
 - first inspect this exact SHA;
 - if desktop+mobile both PASS, record its run ID/results then nominate one final acceptance candidate;
 - if either fails, retain the run as immutable evidence and correct only the exact defect/contract.
+
+
+## Replacement bounded integration — PASS
+
+Candidate `a256283bb5751dda727d8a6e4ae057abbffdcbbf` completed as PASS in deployed UAT run `33300281890`.
+
+- desktop: PASS;
+- mobile: PASS;
+- corrective targeted run `33300234103`: PASS;
+- first candidate `55f867bc371fb961f38631129e746fad9d9ec00b` / run `33299250997` remains immutable FAIL evidence;
+- unchanged 3,000 ms Course interaction budget was retained.
+
+Post-integration runtime reconciliation:
+- all seven active operational cron jobs latest-success;
+- Security Advisor: 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 169 INFO / 0 WARN / 0 ERROR;
+- no active Layer 1–3 refresh requests; seven retained Layer 4 human-resolution requests remain queued;
+- Layer 3 stale reserved/calling executions: 0.
+
+Decision: bounded integration gate PASS. Exactly one final M2.4.4 acceptance candidate is authorised next under CF-CHG-20260830-048.
