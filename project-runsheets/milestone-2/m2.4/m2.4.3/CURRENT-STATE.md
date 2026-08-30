@@ -1,7 +1,7 @@
 # M2.4.3 Current State
 
-**Status:** ACTIVE — A15 CLOSED / PASS; CORE LAYER 3 MATURITY CONTINUES
-**Updated:** 29 August 2026
+**Status:** CLOSED / PASS — M2.4.3 ACCEPTED
+**Updated:** 30 August 2026
 
 ## A15
 - Change: CF-CHG-20260829-046.
@@ -269,3 +269,30 @@ Replacement final acceptance:
 At handoff, the connector had not yet published commit statuses or the Actions run ID for `96de9add...`. Do not create another acceptance candidate. The next action is to check this exact commit first.
 
 M2.4.3 remains ACTIVE. M2.4.4 remains unauthorised.
+
+
+## Final authoritative state — 30 August 2026
+
+M2.4.3 is **CLOSED / PASS** under `CF-CHG-20260829-047`.
+
+Accepted Pilot:
+`96de9add3762a0594ebc371fba49d4d990ff4b45`.
+
+Replacement final acceptance run `33286437795`:
+- desktop status PASS, with 49 passed + one timing-sensitive M2.3 Important Links/Important Dates flake recovered on retry;
+- mobile 50/50 PASS;
+- both governed commit-status contexts success.
+
+Corrective integration `33285703513`: desktop/mobile PASS.
+
+Closure runtime:
+- migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening` present;
+- Layer 3 Edges v5/v2/v9;
+- source-pattern profile benchmark-passed/enabled/unpaused;
+- housekeeping cron active;
+- Security 135 INFO / 0 WARN / 0 ERROR;
+- Performance 169 INFO / 0 WARN / 0 ERROR.
+
+Historical failed final acceptance `33284867253` remains immutable evidence.
+
+M2.4.4 is NEXT / READY, not started.
