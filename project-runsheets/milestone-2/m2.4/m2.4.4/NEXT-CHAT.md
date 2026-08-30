@@ -115,3 +115,12 @@ Post-integration runtime reconciliation:
 - Layer 3 stale reserved/calling executions: 0.
 
 Decision: bounded integration gate PASS. Exactly one final M2.4.4 acceptance candidate is authorised next under CF-CHG-20260830-048.
+
+
+## Final acceptance candidate — nominated
+
+- marker: `6c480ed3b248f3b118f21dea80bb4d742ab8c282`;
+- source lineage: replacement integration `a256283bb5751dda727d8a6e4ae057abbffdcbbf`;
+- integration run `33300281890`: desktop PASS / mobile PASS;
+- decision rule: final acceptance requires desktop PASS + mobile PASS plus clean closing reconciliation;
+- do not create another acceptance candidate while this marker is active.
