@@ -150,3 +150,27 @@ Then continue:
 8. run bounded integration then one final desktop/mobile acceptance.
 
 The earlier final candidate `6c480ed3b248f3b118f21dea80bb4d742ab8c282` / run `33303037986` predates A16 and must not be treated as the M2.4.4 closing gate.
+
+
+## A16 implementation + targeted validation PASS — 30 August 2026
+
+A16 implementation is complete at Pilot source `44960cc8a61c4ee743840bd5aca3cf25f7c10094`.
+
+Runtime/state proof:
+- explicit AU/NZ contact disposition: 60/60 Providers = 11 `published_contact_found` + 49 `not_found_in_qualified_evidence`; no synthetic contact values;
+- dedicated Layer 3 international-contact profile enabled/unpaused after benchmark run `b16d1801-977e-4aaf-84da-e3b2726ac7ba` PASS (3/3 retained first-party Evidence cases + 3/3 controls; exact model; 8 calls; 16,702 input / 3,761 output tokens; recorded USD 0);
+- Layer 4 append-only effective-value override ledger covers Provider, Course, Campus, Scholarship and Provider-contact fields;
+- field registry: 50 governed fields / 21 immutable;
+- publication override remains a separate rank-5+ audited decision;
+- browser-facing A16 RPCs are SECURITY INVOKER through non-exposed `l4_api`; anon execute denied;
+- Security Advisor: 139 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 175 INFO / 0 WARN / 0 ERROR;
+- all seven active operational cron jobs latest-success;
+- no active L1-L3 refresh work; seven intentional queued L4 human-resolution requests retained.
+
+Validation evidence:
+- contact benchmark failed runs remain immutable evidence before corrective qualification;
+- frontend import failure run `33308697271` retained; corrected frontend build `33308932790` PASS;
+- targeted selector-only failure run `33308781849` retained; corrected targeted A16 deployed UAT run `33308932765` PASS.
+
+Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-aware bounded integration candidate is authorised next. The pre-A16 final acceptance candidate/run remains evidence only and cannot close M2.4.4.
