@@ -223,3 +223,28 @@ Corrective source:
 - At handoff, the connected GitHub interface had not yet exposed the Actions run ID for this commit. Do not create a duplicate candidate; check this commit first in the next chat.
 - Only after bounded integration PASS may one replacement final acceptance candidate be nominated.
 - M2.4.4 remains unauthorised.
+
+
+## Replacement final acceptance gate — 30 August 2026
+
+Corrective bounded integration is PASS:
+- marker `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- run `33285703513`;
+- desktop PASS;
+- mobile PASS.
+
+Pre-acceptance runtime/advisor reconciliation:
+- corrective migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening` present;
+- Layer 3 Edge runtime remains v5/v2/v9 for interpret/provider-control/source-pattern-benchmark;
+- source-pattern profile enabled/unpaused on the exact accepted Nemotron model;
+- Layer 3 housekeeping cron active;
+- Security Advisor 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+
+Replacement final acceptance marker:
+- current Pilot head `96de9add3762a0594ebc371fba49d4d990ff4b45`;
+- path `.github/m2-4-acceptance-candidate`;
+- expected tier `acceptance`;
+- desktop and mobile must both PASS.
+
+At handoff the run ID/status target was not yet exposed. Do not create a duplicate acceptance marker. M2.4.3 remains ACTIVE; M2.4.4 remains unauthorised.
