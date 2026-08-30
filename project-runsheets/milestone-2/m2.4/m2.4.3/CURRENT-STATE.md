@@ -195,3 +195,18 @@ M2.4.3 remains ACTIVE because core Layer 3 AI Operations Maturity and the source
   3. only after the closure commit, assess/create M2.4.4;
   4. if either run fails, retain immutable evidence and diagnose the exact failing suite before any new candidate.
 
+## Acceptance corrective checkpoint — 30 August 2026
+
+- Final acceptance marker `3a8a31310ea7147016374d6c818d08034ba0be64`.
+- Acceptance run `33284867253`: **FAIL** — desktop **50/50 PASS**; mobile **48 PASS / 1 persistent failure**, plus one performance retry that recovered.
+- Frontend build `33284867261`: **PASS**.
+- Persistent mobile failure was inherited Layer 2 provider-acquisition UAT observing `admin_read(operation=dashboard)` HTTP 500 on both attempts.
+- Postgres logs at `2026-08-30T01:12:52.509Z` and `01:13:18.873Z` confirm both 500s were `canceling statement due to statement timeout`.
+- No Layer 3 model, Evidence authority, prompt, threshold, retry or Layer 4 contract failed.
+- Corrective runtime migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening` adds expression indexes matching dashboard `coalesce(...)` recent-activity/status access paths without changing output/access semantics.
+- Verified Evidence recent-activity plan now uses `pipeline_evidence_activity_time_idx`; top-10 execution measured ~3.25 ms.
+- Pilot corrective source: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`.
+- Corrective targeted UAT: `33285369673` — queued at checkpoint.
+- Corrective frontend build: `33285369676` — queued at checkpoint.
+- Required sequence remains targeted PASS → bounded integration desktop/mobile PASS → one replacement final acceptance candidate. M2.4.3 remains ACTIVE; M2.4.4 remains unauthorised.
+
