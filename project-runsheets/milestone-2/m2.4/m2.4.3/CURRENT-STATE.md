@@ -210,3 +210,32 @@ M2.4.3 remains ACTIVE because core Layer 3 AI Operations Maturity and the source
 - Corrective frontend build: `33285369676` — queued at checkpoint.
 - Required sequence remains targeted PASS → bounded integration desktop/mobile PASS → one replacement final acceptance candidate. M2.4.3 remains ACTIVE; M2.4.4 remains unauthorised.
 
+
+
+## Corrective bounded integration nomination — 30 August 2026
+
+Repository/runtime reconciliation before nomination:
+- Pilot corrective implementation source remained exactly `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`; no parallel Pilot implementation commit superseded it.
+- Admin head before this handoff was `b4cb9c34b0a83dd11935f6a72c48daff234a7d80`.
+- deployed migration ledger confirms `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening` as the latest migration;
+- all four corrective recent-activity indexes are present;
+- Layer 3 housekeeping cron is active and recent executions complete successfully;
+- available Postgres timeout errors correspond to the immutable failed acceptance attempt and predate the hardening migration;
+- current Security/Performance Advisor output contains INFO-class findings only in the observed reconciliation; no new M2.4.3 Critical/High/WARN defect was identified.
+
+Corrective bounded integration candidate:
+- exact source before marker: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`;
+- marker commit / current Pilot head: `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- marker path: `.github/m2-4-integration-candidate`;
+- expected resolved tier: `integration`;
+- required result: both chromium-desktop and chromium-mobile PASS.
+
+Automation handoff:
+- the GitHub workflow is triggered by the marker commit;
+- at handoff the connected GitHub API has not yet published commit statuses/target URLs for `d1d5f78...`, so the exact Actions run ID is not yet exposed through the available connector;
+- do not create a duplicate integration candidate;
+- next chat must first query commit `d1d5f78ab3673696845fedc96c1f467bd27b3e71` status and capture the resulting integration run ID;
+- if both platforms PASS, reconcile heads/runtime/advisors and nominate exactly one replacement final acceptance candidate;
+- if either platform fails, retain immutable failure evidence and diagnose only the exact failing contract.
+
+M2.4.3 remains ACTIVE. M2.4.4 remains unauthorised.
