@@ -272,3 +272,8 @@ A21 makes the following a standing UI rule:
 - normal workspaces must lead with concise status, meaningful KPIs, blockers and actionable controls;
 - advanced configuration belongs under Administration/progressive disclosure;
 - no new feature may add an independent visible root/menu model outside `src/mature-main.jsx::NAV` without a governed superseding design decision.
+
+
+### Canonical navigation implementation guard
+
+Post-render menu mutation is prohibited. Browser scripts, MutationObservers and feature entrypoints must not rename, hide or replace `src/mature-main.jsx::NAV` items after React renders them. Legacy navigation adapters may remain only as unloaded historical source until removed. Permanent deployed UAT must detect injected/legacy navigation markers.
