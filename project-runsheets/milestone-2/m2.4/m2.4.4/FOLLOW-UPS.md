@@ -12,3 +12,14 @@
 | M244-FU-008 | Layer 1 governance | Canonical Provider website source corrections discovered by A15. | OPEN / NON-BLOCKING |
 | M244-FU-009 | RMIT | Frozen 212-record canonical promotion. | BLOCKED / SEPARATE AUTHORITY |
 | M244-FU-010 | NZ L2 | First-party Course enrichment. | DEFERRED / SOURCE QUALIFICATION |
+
+
+## Entry reconciliation checkpoint — 30 August 2026
+
+- M244-FU-001 — Layer 1/2/3 housekeeping reconciliation: **IN PROGRESS**.
+  - first material gap found and corrected: stale legacy Layer 1 `regulatory_sync` `pipeline.jobs` recovery;
+  - Pilot commit `29cffeb1ad3824f7569d4b597e0103e3c880bb8a`;
+  - migration `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`;
+  - exactly one stale job recovered; zero governed Evidence/history deletion;
+  - post-change advisors unchanged at 135 Security INFO / 169 Performance INFO, 0 WARN/ERROR.
+- Continue M244-FU-001 by reconciling Layer 2 batch/provider-attempt recovery and Layer 3 stale-execution recovery as one cross-layer policy map before adding any further mechanism.
