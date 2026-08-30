@@ -277,3 +277,8 @@ A21 makes the following a standing UI rule:
 ### Canonical navigation implementation guard
 
 Post-render menu mutation is prohibited. Browser scripts, MutationObservers and feature entrypoints must not rename, hide or replace `src/mature-main.jsx::NAV` items after React renders them. Legacy navigation adapters may remain only as unloaded historical source until removed. Permanent deployed UAT must detect injected/legacy navigation markers.
+
+
+### Catalogue filter stability guard
+
+Filter restoration must not simulate user clicks. Saved catalogue filter/search/sort state must be restored directly in canonical component state. No popover may auto-open during restore/loading, and async option loading must stay anchored to the operator-selected filter. Legacy DOM-click screen-state restoration is prohibited.
