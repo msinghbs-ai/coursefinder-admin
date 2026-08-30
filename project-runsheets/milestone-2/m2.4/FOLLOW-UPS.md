@@ -129,3 +129,18 @@ Next gate: **M2.4.3 — Layer 3 AI Operations Maturity**.
 - Stale/malformed canonical Provider website values discovered by A15 remain a Layer 1/source-governance correction follow-up; A15 transport normalization must not mutate Layer 1 truth.
 - A15 post-freeze integration/final change-control acceptance remains ACTIVE.
 - Broader M2.4.3 Layer 3 source-pattern benchmark remains independently BLOCKED and must not be conflated with A15.
+
+
+## M2.4.3 closure / M2.4.4 readiness — 30 August 2026
+
+- M2.4.3 core Layer 3 gate: **CLOSED / PASS** under `CF-CHG-20260829-047`.
+- M24-FU-015 first-party contact rollout: **CLOSED / PASS**; A15 remains frozen.
+- M24-FU-017 Apollo credential: **BLOCKED / CONFIGURATION / NON-BLOCKING**.
+- M24-FU-016 canonical Provider website corrections: **OPEN / LAYER 1 SOURCE GOVERNANCE / NON-BLOCKING**.
+- M24-FU-004 cross-layer housekeeping: **CARRY FORWARD TO M2.4.4**.
+- M24-FU-006 cross-layer alerting/operational thresholds: **CARRY FORWARD TO M2.4.4**.
+- M24-FU-007 guides/runbooks/release-state synchronization: **STANDING / M2.4.4 CLOSURE INPUT**.
+- RMIT frozen 212-record promotion remains separately BLOCKED.
+- NZ first-party Layer 2 Course enrichment remains DEFERRED.
+
+M2.4.4 is NEXT / READY and requires a dedicated Change Control before material execution.
