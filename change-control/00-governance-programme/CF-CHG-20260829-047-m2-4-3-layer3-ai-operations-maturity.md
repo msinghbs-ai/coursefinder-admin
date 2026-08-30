@@ -134,3 +134,17 @@ Status remains ACTIVE pending corrective targeted/integration and final acceptan
 - Corrective frontend build: `33285369676` — queued at checkpoint.
 - Required sequence remains targeted PASS → bounded integration desktop/mobile PASS → one replacement final acceptance candidate. M2.4.3 remains ACTIVE; M2.4.4 remains unauthorised.
 
+
+
+## Corrective post-timeout integration checkpoint — 30 August 2026
+
+- First final acceptance marker `3a8a31310ea7147016374d6c818d08034ba0be64` / run `33284867253` remains immutable FAIL evidence: desktop 50/50 PASS; mobile 48 PASS / 1 persistent inherited Layer 2 dashboard timeout failure.
+- Corrective deployed migration: `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening`.
+- Corrective implementation source: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`.
+- Corrective targeted deployed UAT `33285369673`: PASS.
+- Corrective frontend build/local smoke `33285369676`: PASS.
+- Pilot source was reconciled before nomination and had not been superseded by parallel implementation work.
+- New bounded integration marker/current Pilot head: `d1d5f78ab3673696845fedc96c1f467bd27b3e71`.
+- Decision rule: both chromium-desktop and chromium-mobile must PASS before one replacement final acceptance candidate is permitted.
+- At handoff, the available GitHub connector had not yet published the new marker's Actions run ID/status target; no duplicate candidate is authorised.
+- M2.4.3 remains ACTIVE and M2.4.4 remains unauthorised.
