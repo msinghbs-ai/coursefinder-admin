@@ -174,3 +174,20 @@ Decision: bounded integration gate PASS. Exactly one final M2.4.4 acceptance can
 - GitHub Actions run `33303037986`;
 - current stage at checkpoint: desktop acceptance in progress, mobile pending;
 - no second acceptance candidate is permitted while this run is active.
+
+## A16 scope change — 30 August 2026
+
+User-authorised M2.4.4 scope now includes Addendum A16:
+- close the A15 coverage distinction by retaining an explicit international-student/admissions contact-channel disposition for every governed AU/NZ Provider;
+- perform contact-channel classification/extraction in Layer 3 from governed Layer 2 first-party Evidence;
+- define Layer 4 as a cross-platform governed human intervention layer using append-only field overrides and effective-value resolution.
+
+Layer 4 must not destructively rewrite source/Evidence/history. Each overridden field is visibly L4-edited and retains authenticated actor, timestamp, before/after, reason, optional comment/Evidence and supersede/revert history. Publication is a separate role-gated consequential decision.
+
+Working design:
+`docs/coursefinder-layer4-governed-intervention-design-v0.1.md`.
+
+Gate impact:
+the already-nominated final acceptance marker `6c480ed3b248f3b118f21dea80bb4d742ab8c282` / run `33303037986` predates A16. It remains immutable evidence but is no longer sufficient by itself to close the expanded M2.4.4 scope.
+
+Next implementation sequence is M244-FU-011 through M244-FU-015, followed by targeted validation, bounded integration and one later final acceptance candidate.
