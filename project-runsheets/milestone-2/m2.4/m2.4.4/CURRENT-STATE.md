@@ -114,3 +114,13 @@ Corrective source:
 - no runtime, authority, Security, Evidence, Course-path or 3,000 ms performance budget was weakened.
 
 The inherited Course performance failure is preserved and must be re-tested under the unchanged budget before promotion.
+
+
+## Replacement bounded integration candidate — 30 August 2026
+
+- corrective source: `8494293f118bb9f8f3a5884ca4bde1a3331831f1`;
+- targeted deployed UAT: `33300234103` PASS;
+- replacement integration candidate: `a256283bb5751dda727d8a6e4ae057abbffdcbbf`;
+- decision rule: desktop and mobile must both PASS under unchanged budgets;
+- first candidate/run `55f867bc... / 33299250997` remains immutable FAIL evidence;
+- do not create another integration candidate while `a256283b...` is active.
