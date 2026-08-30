@@ -82,3 +82,13 @@ M244-FU-006 remains visible non-blocking timing-sensitive UAT hygiene evidence. 
 ## Next decision
 
 Nominate one bounded integration desktop/mobile candidate from the latest Pilot head. Do not create another candidate while that run is active. Final acceptance may be nominated only after both integration platforms PASS.
+
+
+## Bounded integration candidate nominated — 30 August 2026
+
+- candidate SHA: `55f867bc371fb961f38631129e746fad9d9ec00b`;
+- implementation source before marker: `7ef74a0b787e50e46d4cf11300a0e27391f13e54`;
+- stage: bounded integration desktop/mobile;
+- decision rule: both commit-status contexts must be success before one final acceptance marker is created;
+- duplicate candidate rule: do not create another integration marker while this candidate is active;
+- workflow run ID: pending GitHub Actions publication at this checkpoint.
