@@ -179,3 +179,31 @@ Post-integration runtime reconciliation:
 - Layer 3 stale reserved/calling executions: 0.
 
 Decision: bounded integration gate PASS. Exactly one final M2.4.4 acceptance candidate is authorised next under CF-CHG-20260830-048.
+
+## A16 scope expansion — contact coverage and Layer 4 intervention
+
+M2.4.4 now additionally owns active Addendum A16.
+
+### W8 — Layer 3 international-contact coverage
+
+Build on the frozen A15 cohort without redefining A15 history:
+- Layer 2 retains first-party contact-page acquisition, URL and Evidence;
+- Layer 3 classifies/extracts international-student/admissions URLs, contact/team URLs, institutional email, named/territory contacts and explicit unavailable/not-published dispositions;
+- target is an explicit disposition for all 60 governed AU/NZ Provider profiles;
+- no contact value is manufactured merely to achieve coverage.
+
+### W9 — Layer 4 governed intervention
+
+Implement the A16 Layer 4 override-ledger model:
+- editable fields can receive an audited human override at any stage;
+- original Layer 1/2/3 truth and Evidence remain immutable;
+- effective values show an L4 marker;
+- every decision records authenticated actor, timestamp, before/after, reason and optional comment/Evidence;
+- revert/supersede is append-only;
+- upstream refresh does not silently erase an active L4 override;
+- publication is a separate consequential override/decision, not an ordinary field edit;
+- editability and required role are server-governed.
+
+### Gate consequence
+
+Final acceptance candidate `6c480ed3b248f3b118f21dea80bb4d742ab8c282` / run `33303037986` predates A16. Preserve it as immutable acceptance evidence, but do not use it alone to close M2.4.4. A16 requires its own implementation, targeted validation and a later bounded/final acceptance sequence.
