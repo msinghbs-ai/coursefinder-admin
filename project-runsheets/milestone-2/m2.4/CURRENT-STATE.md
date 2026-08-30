@@ -3,7 +3,7 @@
 **Status:** ACTIVE — M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 NEXT/READY  
 **Updated:** 30 August 2026  
 **Standing governance:** CF-CHG-20260826-042 / A1–A15  
-**Active change:** none pending M2.4.4 initiation
+**Active change:** CF-CHG-20260830-048
 
 ## Accepted baseline
 
@@ -242,6 +242,16 @@ Current programme baselines:
 
 ## Immediate next gate
 
-M2.4.4 Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance is **NEXT / READY**. It requires its own active Change Control before material execution.
+M2.4.4 Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance is **ACTIVE** under `CF-CHG-20260830-048`.
 
 Do not reopen M2.4.2/M2.4.3 because non-blocking carry-forwards remain.
+
+
+## M2.4.4 activation — 30 August 2026
+
+- Change Control `CF-CHG-20260830-048`: ACTIVE.
+- Master Project Plan: v1.78.
+- Running Build: v2.78.
+- DB Architecture remains v2.10.44.
+- Admin/PIM Decisions remain v1.20.
+- M2.4.4 entry reconciliation may proceed; no Production/downstream cutover authority is granted.
