@@ -222,3 +222,10 @@ M2 work after 31 August 2026 must also read and preserve:
 - `EXECUTION-ADDENDUM-A19-SCHOLARSHIP-SCHEDULED-ETL-MAINTENANCE.md`.
 
 Standing requirements added by these addenda include bounded Layer 2 execution waves, parent-navigation operational registries, deterministic Course–Scholarship mapping only from explicit governed scopes, and scheduled Scholarship ETL/maintenance with Evidence/history retention.
+
+
+## A20 — UniPIM-style information architecture and central Administration
+
+M2 work after 31 August 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A20-UNOPIM-STYLE-UI-IA-CENTRAL-ADMIN.md`.
+
+A20 requires task-first primary navigation, catalogue/data-quality/operator workspaces outside settings, one central Administration entry for configuration, grouped record cards, progressive disclosure for advanced/raw configuration, and backwards-compatible deep links where feasible.
