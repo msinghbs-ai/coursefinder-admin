@@ -215,3 +215,15 @@ Validation evidence:
 - targeted selector-only failure run `33308781849` retained; corrected targeted A16 deployed UAT run `33308932765` PASS.
 
 Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-aware bounded integration candidate is authorised next. The pre-A16 final acceptance candidate/run remains evidence only and cannot close M2.4.4.
+
+
+## A16 bounded integration candidate active — 30 August 2026
+
+- implementation source before marker: `44960cc8a61c4ee743840bd5aca3cf25f7c10094`;
+- integration candidate marker: `0855720f9c102cfd8e26949f340d22c418b77560`;
+- deployed UAT run: `33309171128` — active at checkpoint;
+- paired frontend build: `33309171258` — active at checkpoint;
+- required outcome: integration chromium-desktop PASS + chromium-mobile PASS under unchanged budgets;
+- duplicate-candidate rule: do not nominate another integration candidate while this run is active;
+- on PASS: record both results, reconcile runtime once, then nominate exactly one A16-aware final acceptance candidate;
+- on failure: preserve immutable run evidence and correct only the exact defect/contract.
