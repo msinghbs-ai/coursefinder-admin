@@ -38,6 +38,21 @@ M2.4.4 will reconcile and mature cross-layer operations before blackout:
 7. Guides, Runbooks, release-state and handoff documentation;
 8. targeted validation, bounded integration and final pre-blackout acceptance.
 
+## A16 authorised scope expansion — 30 August 2026
+
+M2.4.4 additionally adopts `EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md`.
+
+Added scope:
+- Layer 3 must classify/extract explicit international-student/admissions contact-channel dispositions from governed Layer 2 first-party Evidence for the 60-provider AU/NZ cohort;
+- Layer 4 must mature into a governed human-intervention capability across editable platform fields using append-only override decisions and effective-value resolution;
+- all L4 edits retain actor/time/before/after/reason/comment/Evidence history and visible L4 provenance;
+- publication decisions are separately role-gated and audited;
+- immutable Evidence/source/history/telemetry fields remain non-editable.
+
+Working design: `docs/coursefinder-layer4-governed-intervention-design-v0.1.md`.
+
+The pre-A16 final acceptance marker `6c480ed3b248f3b118f21dea80bb4d742ab8c282` / run `33303037986` remains immutable evidence but cannot alone close the expanded M2.4.4 scope. A16 implementation requires targeted validation, bounded integration and a later final desktop/mobile acceptance candidate.
+
 ## Out of scope
 
 This change does not authorise:
