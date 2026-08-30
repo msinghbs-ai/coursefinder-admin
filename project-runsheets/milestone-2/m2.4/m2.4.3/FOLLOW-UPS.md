@@ -87,3 +87,12 @@
 - Corrective frontend build: `33285369676` — queued at checkpoint.
 - Required sequence remains targeted PASS → bounded integration desktop/mobile PASS → one replacement final acceptance candidate. M2.4.3 remains ACTIVE; M2.4.4 remains unauthorised.
 
+
+
+## Corrective post-timeout integration handoff — 30 August 2026
+
+- M243-FU-019 — corrective bounded integration: **NOMINATED / WORKFLOW ACTIVE OR AWAITING STATUS PUBLICATION**.
+- candidate marker/head: `d1d5f78ab3673696845fedc96c1f467bd27b3e71`.
+- exact corrective source before marker: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`.
+- the available connector had not yet exposed the Actions run ID at handoff; capture it from this exact commit before any new candidate.
+- M243-FU-020 — replacement final acceptance/closure remains **BLOCKED ON M243-FU-019 DESKTOP+MOBILE PASS**.
