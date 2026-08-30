@@ -148,3 +148,25 @@ Status remains ACTIVE pending corrective targeted/integration and final acceptan
 - Decision rule: both chromium-desktop and chromium-mobile must PASS before one replacement final acceptance candidate is permitted.
 - At handoff, the available GitHub connector had not yet published the new marker's Actions run ID/status target; no duplicate candidate is authorised.
 - M2.4.3 remains ACTIVE and M2.4.4 remains unauthorised.
+
+
+## Replacement final acceptance nomination — 30 August 2026
+
+Corrective bounded integration completed successfully:
+- marker `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- run `33285703513`;
+- chromium-desktop PASS;
+- chromium-mobile PASS.
+
+Pre-acceptance reconciliation remained clean for this change:
+- corrective migration present in deployed ledger;
+- Layer 3 runtime remains `layer3-interpret` v5, `layer3-provider-control` v2 and `layer3-source-pattern-benchmark` v9;
+- accepted source-pattern profile remains enabled/unpaused on `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
+- housekeeping cron remains active;
+- Security Advisor 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+
+Replacement final acceptance marker:
+`96de9add3762a0594ebc371fba49d4d990ff4b45`.
+
+CF-CHG-20260829-047 remains ACTIVE until this marker's final deployed desktop/mobile acceptance is terminal PASS and final documentation/runtime reconciliation is complete. M2.4.4 remains unauthorised.
