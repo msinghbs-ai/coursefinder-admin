@@ -229,3 +229,32 @@ Standing requirements added by these addenda include bounded Layer 2 execution w
 M2 work after 31 August 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A20-UNOPIM-STYLE-UI-IA-CENTRAL-ADMIN.md`.
 
 A20 requires task-first primary navigation, catalogue/data-quality/operator workspaces outside settings, one central Administration entry for configuration, grouped record cards, progressive disclosure for advanced/raw configuration, and backwards-compatible deep links where feasible.
+
+
+## Canonical Admin navigation standard
+
+The **current navigation registry implemented in the Pilot repository is the UI navigation source of truth**.
+
+Authoritative implementation:
+- `msinghbs-ai/Coursefinder-Pilot/src/mature-main.jsx`
+- primary navigation: `NAV`
+- backwards-compatible non-primary routes: `HIDDEN_ROUTES`
+- page metadata / labels: `PAGE_META`
+- route resolver: `routeFromHash()`
+
+Standing rule for all future Admin/PIM UI work:
+
+1. Extend or modify the canonical navigation registry first; do not create a parallel menu model in a feature component.
+2. Routine user journeys must be reachable from the canonical primary navigation.
+3. Configuration/settings must enter through the single `Administration` workspace unless a later governed design decision explicitly supersedes A20.
+4. Feature-specific launchers/overlays may exist only as secondary affordances; permanent UAT must not require them.
+5. `HIDDEN_ROUTES` are compatibility routes, not primary-navigation authority.
+6. Any navigation change must update:
+   - `NAV` / `HIDDEN_ROUTES` / `PAGE_META` as applicable;
+   - A20 or its governed successor;
+   - Admin/PIM design decisions;
+   - desktop/tablet navigation UAT;
+   - release notes where user-visible.
+7. New menu items must be placed by user task/domain, not by implementation layer or developer convenience.
+8. Do not reintroduce duplicate Settings/Sources/Attributes/Scheduling/Onboarding entries beside routine Catalogue/Operations work.
+9. Repo/runtime truth overrides stale screenshots, chat assumptions or older menu documentation.
