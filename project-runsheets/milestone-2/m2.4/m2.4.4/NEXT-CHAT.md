@@ -82,3 +82,16 @@ The inherited Course performance failure is preserved and must be re-tested unde
 - decision rule: desktop and mobile must both PASS under unchanged budgets;
 - first candidate/run `55f867bc... / 33299250997` remains immutable FAIL evidence;
 - do not create another integration candidate while `a256283b...` is active.
+
+
+## Active long-running gate handoff
+
+Replacement bounded integration `a256283bb5751dda727d8a6e4ae057abbffdcbbf` is the **only active candidate**.
+
+At handoff:
+- GitHub has not yet published terminal integration desktop/mobile commit-status contexts;
+- workflow run ID is therefore not yet trustworthy/available through the connected status surface;
+- do not create another integration candidate;
+- first inspect this exact SHA;
+- if desktop+mobile both PASS, record its run ID/results then nominate one final acceptance candidate;
+- if either fails, retain the run as immutable evidence and correct only the exact defect/contract.
