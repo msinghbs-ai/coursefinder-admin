@@ -97,3 +97,17 @@ A20 requires:
 4. direct routes/bookmarks remain backwards compatible where feasible;
 5. Layer workspaces show effective config/health but do not become settings pages;
 6. desktop/tablet navigation and record detail UAT pass.
+
+
+## A20.6 — Canonical navigation source of truth
+
+The implemented Pilot navigation is the authoritative menu contract:
+
+- `src/mature-main.jsx::NAV` defines primary navigation;
+- `src/mature-main.jsx::HIDDEN_ROUTES` exists only for backwards-compatible deep routes;
+- `PAGE_META` supplies the canonical page naming/subtitle contract;
+- `routeFromHash()` resolves supported routes.
+
+All feature work must integrate through this contract. Feature modules must not introduce competing top-level navigation, duplicated Settings concepts or hidden launcher-only user journeys.
+
+A navigation change is consequential UI architecture and therefore requires the same repo/governance/UAT reconciliation as other A20 changes. If documentation and the implemented registry disagree, reconcile documentation to repository/runtime truth before continuing.
