@@ -8,7 +8,7 @@
 
 CourseFinder M2 work is split across short chats and sub-milestones. The detailed task prompt may change, but the operating rules must not disappear when a new chat starts or one issue consumes the context window.
 
-Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`.
+Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A14-L2-L3-TELEMETRY.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`.
 
 ## Mandatory start-of-chat reconciliation
 
@@ -22,12 +22,14 @@ Before material work:
 6. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md`;
 7. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md`;
 8. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`;
-9. read `change-control/README.md` and `change-control/REGISTER.md`;
-10. read the latest Master Project Plan and Running Build;
-11. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
-12. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
-13. read overlapping open/recent Change Controls;
-14. reconcile current Pilot///Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
+9. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A14-L2-L3-TELEMETRY.md`;
+10. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`;
+11. read `change-control/README.md` and `change-control/REGISTER.md`;
+12. read the latest Master Project Plan and Running Build;
+13. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
+14. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
+15. read overlapping open/recent Change Controls;
+16. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
 
 Repository/runtime truth takes precedence over stale chat text. Do not overwrite newer parallel work.
 
@@ -46,6 +48,8 @@ Repository/runtime truth takes precedence over stale chat text. Do not overwrite
 - Follow A10 for platform-wide filter performance and tablet behaviour: large option sets are server-paged/searchable at 10 items per page, dependent filters remain scoped, and touch/tablet dropdowns must not auto-focus search inputs.
 - Follow A12 for contextual insight integration: QILT/PRISMS/country-equivalent statistics and Scholarships must be relationally surfaced on Provider/Course decision blades at their true source granularity, with provenance and explicit unavailable/not-mapped states.
 - Follow A13 for stable Course/tablet filters and Layer 2 demo traceability: filter menus remain anchored to their trigger and the routine Layer 2 screen must expose automatic Direct HTTP → Firecrawl → fallback routing plus linked captured Evidence without fabricating screenshots.
+- Follow A14 for standing Layer 2 / Layer 3 telemetry: scraper/provider route, retry, latency, vendor units/cost/Evidence/fall-out and model/profile/calls/tokens/latency/cost/validator metrics must be retained where supplied; unavailable usage is explicit and never manufactured.
+- Follow A15 for accepted institute contact intelligence boundaries: first-party source authority, privacy, evidence/quality reconciliation and no automatic Search/Zoho admission remain protected.
 
 ## Authority model that must not regress
 
@@ -183,3 +187,16 @@ Before ending a substantial chat, update repo state so the next chat can continu
 - Running Build/Master Plan only where programme state actually changed;
 - UAT/run evidence;
 - guides/release notes where affected.
+
+
+## Long-running automation handoff rule
+
+When a CI/UAT/deployment automation is expected to take more than about five minutes, or is still running after the substantive implementation and pre-gates are complete:
+
+- do not hold the chat open merely waiting for automation;
+- record the exact repository head, workflow/run IDs, current status and next decision rule in `CURRENT-STATE.md` and `NEXT-CHAT.md`;
+- leave running workflows untouched unless they are superseded or clearly defective;
+- end the chat with the exact pickup point;
+- the next chat must check those run IDs first before creating another candidate or rerun.
+
+This does not permit skipping a required gate. It only changes how long-running automation is handed across chats.
