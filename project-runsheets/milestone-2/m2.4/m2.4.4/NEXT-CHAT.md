@@ -124,3 +124,11 @@ Decision: bounded integration gate PASS. Exactly one final M2.4.4 acceptance can
 - integration run `33300281890`: desktop PASS / mobile PASS;
 - decision rule: final acceptance requires desktop PASS + mobile PASS plus clean closing reconciliation;
 - do not create another acceptance candidate while this marker is active.
+
+
+## Final acceptance active run
+
+- candidate `6c480ed3b248f3b118f21dea80bb4d742ab8c282`;
+- GitHub Actions run `33303037986`;
+- current stage at checkpoint: desktop acceptance in progress, mobile pending;
+- no second acceptance candidate is permitted while this run is active.
