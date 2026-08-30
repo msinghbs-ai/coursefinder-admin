@@ -92,3 +92,25 @@ Nominate one bounded integration desktop/mobile candidate from the latest Pilot 
 - decision rule: both commit-status contexts must be success before one final acceptance marker is created;
 - duplicate candidate rule: do not create another integration marker while this candidate is active;
 - workflow run ID: pending GitHub Actions publication at this checkpoint.
+
+
+## Bounded integration failure evidence — run 33299250997
+
+Candidate `55f867bc371fb961f38631129e746fad9d9ec00b` is terminal FAIL and remains immutable evidence.
+
+Desktop:
+- 44 passed;
+- 2 failed after retry;
+- M2.4.4 source-contract test failed because its checked-in assertion searched for unescaped `p_operation='layer3_ops_alerts'` while the migration correctly stores the PL/pgSQL replacement string using doubled SQL quotes;
+- inherited performance test also exceeded the unchanged 3,000 ms Course-page interaction budget: 3,313 ms, then 3,962 ms on retry.
+
+Mobile:
+- skipped because desktop failed;
+- published integration mobile context is failure/skipped, not an independently executed product failure.
+
+Corrective source:
+- `8494293f118bb9f8f3a5884ca4bde1a3331831f1`;
+- correction changes only the M2.4.4 checked-in test assertion to verify the stable `layer3_ops_alerts` contract token;
+- no runtime, authority, Security, Evidence, Course-path or 3,000 ms performance budget was weakened.
+
+The inherited Course performance failure is preserved and must be re-tested under the unchanged budget before promotion.
