@@ -1,9 +1,9 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — M2.4.0 CLOSED/PASS; M2.4.1 CLOSED/PASS; M2.4.2 CLOSED/PASS; M2.4.3 ACTIVE  
-**Updated:** 29 August 2026  
+**Status:** ACTIVE — M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 NEXT/READY  
+**Updated:** 30 August 2026  
 **Standing governance:** CF-CHG-20260826-042 / A1–A15  
-**Active change:** CF-CHG-20260829-046
+**Active change:** none pending M2.4.4 initiation
 
 ## Accepted baseline
 
@@ -222,3 +222,26 @@ A15 Institute International Contact Intelligence is at post-rollout acceptance.
 - Apollo remains configuration-blocked/non-blocking because `APOLLO_API_KEY` is absent.
 
 A15 does not close the broader M2.4.3 Layer 3 maturity gate.
+
+
+## M2.4.3 authoritative closure — 30 August 2026
+
+- CF-CHG-20260829-047: CLOSED / PASS.
+- accepted Pilot marker/head: `96de9add3762a0594ebc371fba49d4d990ff4b45`.
+- corrective bounded integration `33285703513`: desktop/mobile PASS.
+- replacement final acceptance `33286437795`: desktop governed PASS (49 passed + 1 recovered timing-sensitive M2.3 flake), mobile 50/50 PASS.
+- final Security Advisor: 135 INFO / 0 WARN / 0 ERROR.
+- final Performance Advisor: 169 INFO / 0 WARN / 0 ERROR.
+- historical failed acceptance `33284867253` retained immutable.
+
+Current programme baselines:
+- Master Project Plan v1.77;
+- Running Build v2.77;
+- Database Architecture v2.10.44;
+- Admin/PIM Design Decisions v1.20.
+
+## Immediate next gate
+
+M2.4.4 Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance is **NEXT / READY**. It requires its own active Change Control before material execution.
+
+Do not reopen M2.4.2/M2.4.3 because non-blocking carry-forwards remain.
