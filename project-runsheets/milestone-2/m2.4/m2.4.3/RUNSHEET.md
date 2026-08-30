@@ -206,3 +206,20 @@ Corrective source:
 - migration mirror renamed from erroneous repo version `20260829130600` to deployed ledger version `20260829130640`;
 - inherited M2.3 and Layer 2 permanent assertions reconciled to the accepted M2.4.3 contract;
 - corrective Pilot source `3b43f0a8cb4d1758225b139a773b118be372be30` is undergoing deployed targeted validation before a new bounded integration nomination.
+
+
+## Corrective bounded integration nomination — 30 August 2026
+
+- Active Change Control: `CF-CHG-20260829-047`.
+- A15 / `CF-CHG-20260829-046` remains CLOSED / PASS.
+- Historical failed final acceptance `33284867253` remains immutable evidence.
+- Corrective implementation source: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`.
+- Corrective migration: `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening`.
+- Targeted deployed UAT `33285369673`: PASS.
+- Frontend build/local smoke `33285369676`: PASS.
+- New bounded integration marker/current Pilot head: `d1d5f78ab3673696845fedc96c1f467bd27b3e71`.
+- Marker path: `.github/m2-4-integration-candidate`.
+- Required outcome: chromium-desktop PASS and chromium-mobile PASS.
+- At handoff, the connected GitHub interface had not yet exposed the Actions run ID for this commit. Do not create a duplicate candidate; check this commit first in the next chat.
+- Only after bounded integration PASS may one replacement final acceptance candidate be nominated.
+- M2.4.4 remains unauthorised.
