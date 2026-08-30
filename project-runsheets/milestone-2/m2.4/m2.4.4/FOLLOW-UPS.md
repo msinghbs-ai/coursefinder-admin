@@ -83,3 +83,23 @@ Next gate: exactly one A16-aware bounded integration desktop/mobile candidate.
 - Important Links and Important Dates remain Operations reference registries, consistent with the prior parent-menu requirement.
 - Hidden/deep routes remain recognised for backwards compatibility while the normal operator journey starts at Administration.
 - Next A20 work: validate frontend build/tablet navigation; refine Administration sub-sections for Sources & Onboarding, PIM Configuration, Scheduling, Acquisition, AI and Platform; remove duplicated advanced settings from Layer 1–4 operational views while preserving effective-status readouts.
+
+
+## A21 permanent Layer navigation / final Pilot placement — 31 August 2026
+
+- Addendum: `EXECUTION-ADDENDUM-A21-PERMANENT-LAYER-NAV-NON-FLOATING-FINAL-PILOT-UI.md`.
+- Pilot commits:
+  - `38e969122a4acf16b1057b09f6bac0601d59d16b` — exported Layer 3/4 and registry workspaces for canonical embedding;
+  - `ed087ee6ce5dd72c544a4fa0300ee499e076999d` — Layer 2 embedded workspace mode;
+  - `2f9d28caa0a5daa6953f7203d5007424bd05b564` — Layer 1 embedded workspace mode;
+  - `3f08d9817c89cb2853990c3bd046b2da0b3ecfb0` — canonical Operations routes for Layer 1/2/3/4;
+  - `37e5a3d4e0ea2e2576723f5e5da3c1891ae4a043` — removed global floating Layer/config feature mounts from `index.html`;
+  - `59c06a316f9df84b23498cb92a5aae301553db4a` — legacy Layer route aliases retained;
+  - `c075f408ae2c0d490f142e08e1e0a58df0645314` — permanent A21 navigation UAT;
+  - `0daa88bdc71afdc27256288e7bbf42b5f50efa55` — A21 UAT wired into targeted/integration/acceptance suite resolution.
+- Canonical Operations placement: Layer 1 — Authority; Layer 2 — Enrichment; Layer 3 — AI Interpretation; Layer 4 — Human Resolution; Important Links; Important Dates; Jobs.
+- Layer 3 and Layer 4 are now separate canonical routes.
+- Old visible global mounts for Layer 1, Layer 2 ops/platform/provider/trial, combined M2.3 Layer 3/4, Layer 3 credential, pipeline ops and Scholarship selection are disabled in `index.html`; source modules remain for controlled embedding/Administration migration.
+- Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.22.md`, Decision 34.
+- Pilot rule: no trial/floating navigation experiments in normal user-facing shell; UI must demonstrate intended final placement with concise useful information and actionable buttons.
+- Validation head: `0daa88bdc71afdc27256288e7bbf42b5f50efa55`; frontend build run `33335240424` and targeted deployed UAT run `33335240463` active at checkpoint. Do not duplicate while active.
