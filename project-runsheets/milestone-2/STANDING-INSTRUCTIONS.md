@@ -258,3 +258,17 @@ Standing rule for all future Admin/PIM UI work:
 7. New menu items must be placed by user task/domain, not by implementation layer or developer convenience.
 8. Do not reintroduce duplicate Settings/Sources/Attributes/Scheduling/Onboarding entries beside routine Catalogue/Operations work.
 9. Repo/runtime truth overrides stale screenshots, chat assumptions or older menu documentation.
+
+
+## A21 — Permanent Layer navigation and final Pilot placement
+
+M2 work after 31 August 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A21-PERMANENT-LAYER-NAV-NON-FLOATING-FINAL-PILOT-UI.md`.
+
+A21 makes the following a standing UI rule:
+- Layer 1, Layer 2, Layer 3 and Layer 4 are permanent sibling routes under canonical Operations navigation;
+- Layer 3 and Layer 4 are separate workspaces;
+- floating launchers/dialog-only primary journeys are prohibited;
+- the Pilot must present intended final placement rather than trial navigation experiments;
+- normal workspaces must lead with concise status, meaningful KPIs, blockers and actionable controls;
+- advanced configuration belongs under Administration/progressive disclosure;
+- no new feature may add an independent visible root/menu model outside `src/mature-main.jsx::NAV` without a governed superseding design decision.
