@@ -40,3 +40,13 @@ Apollo credential, A15 frozen baseline, RMIT 212 promotion block and NZ L2 defer
 ## Boundaries
 
 Production, broad Publication, Website/Zoho cutover, RMIT 212 promotion and deferred NZ L2 first-party enrichment remain outside this gate.
+
+
+## Bounded integration candidate nominated — 30 August 2026
+
+- candidate SHA: `55f867bc371fb961f38631129e746fad9d9ec00b`;
+- implementation source before marker: `7ef74a0b787e50e46d4cf11300a0e27391f13e54`;
+- stage: bounded integration desktop/mobile;
+- decision rule: both commit-status contexts must be success before one final acceptance marker is created;
+- duplicate candidate rule: do not create another integration marker while this candidate is active;
+- workflow run ID: pending GitHub Actions publication at this checkpoint.
