@@ -239,3 +239,33 @@ Automation handoff:
 - if either platform fails, retain immutable failure evidence and diagnose only the exact failing contract.
 
 M2.4.3 remains ACTIVE. M2.4.4 remains unauthorised.
+
+
+## Corrective integration PASS / replacement final acceptance nominated — 30 August 2026
+
+Corrective bounded integration:
+- marker `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- run `33285703513`;
+- chromium-desktop: PASS;
+- chromium-mobile: PASS.
+
+Pre-acceptance reconciliation:
+- Pilot and Admin heads showed no superseding implementation drift;
+- deployed corrective migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening` remains present;
+- `layer3-interpret` Edge v5 / JWT enforced;
+- `layer3-provider-control` Edge v2 / JWT enforced;
+- `layer3-source-pattern-benchmark` Edge v9 / governed nonce contract;
+- source-pattern profile remains enabled/unpaused on exact model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
+- Layer 3 housekeeping cron remains active;
+- Security Advisor: 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 169 INFO / 0 WARN / 0 ERROR.
+
+Replacement final acceptance:
+- marker/current Pilot head `96de9add3762a0594ebc371fba49d4d990ff4b45`;
+- marker path `.github/m2-4-acceptance-candidate`;
+- expected resolved tier: `acceptance`;
+- required outcome: chromium-desktop PASS and chromium-mobile PASS.
+
+At handoff, the connector had not yet published commit statuses or the Actions run ID for `96de9add...`. Do not create another acceptance candidate. The next action is to check this exact commit first.
+
+M2.4.3 remains ACTIVE. M2.4.4 remains unauthorised.
