@@ -75,16 +75,16 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.77.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.78.md`;
 - M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.77.md`;
+- Running Build: `docs/coursefinder-running-build-v2.78.md`;
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.44.md` plus closed prior Change Controls;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.20.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.4.md` plus Operations Runbook v1.6 and PIM Admin Guide v1.21;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A15;
-- M2.4 plan: M2.4.0 CLOSED/PASS, M2.4.1 CLOSED/PASS, M2.4.2 CLOSED/PASS, M2.4.3 CLOSED/PASS; M2.4.4 NEXT/READY and not started.
+- M2.4 plan: M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 ACTIVE under `CF-CHG-20260830-048`.
 
 ## Accepted runtime/source authority
 
@@ -115,6 +115,6 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Next gate boundary
 
-M2.4.3 is CLOSED / PASS. M2.4.4 Cross-layer Checkpoint is NEXT / READY but not started. It requires its own active governance/change-control entry before material execution.
+M2.4.3 is CLOSED / PASS. M2.4.4 Cross-layer Checkpoint is ACTIVE under `CF-CHG-20260830-048`.
 
 Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4 terminal human resolution, A8/A10/A12/A13/A15 standing behaviour, the RMIT canonical-promotion block and NZ Layer 2 source-qualification deferral. Production cutover, broad Publication and Zoho cutover remain later gates.
