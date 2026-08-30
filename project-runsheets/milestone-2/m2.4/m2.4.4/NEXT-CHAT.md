@@ -4,34 +4,38 @@
 
 M2.4.4 is ACTIVE under `CF-CHG-20260830-048`.
 
-Accepted entry baseline:
-`96de9add3762a0594ebc371fba49d4d990ff4b45`.
+Material implementation and targeted runtime reconciliation are complete. Bounded integration is the next gate.
 
-Current corrective Pilot head:
-`29cffeb1ad3824f7569d4b597e0103e3c880bb8a`.
+## Accepted/reconciled state
 
-## Completed entry work
-
-Cross-layer cron inventory shows all current schedulers/housekeeping jobs latest-success.
-
-First genuine gap corrected:
-- stale legacy Layer 1 `regulatory_sync` `pipeline.jobs` recovery;
-- migration `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`;
-- exactly 1 stale job recovered;
-- 0 stale legacy regulatory jobs remain;
-- 0 governed Evidence/source-version/canonical-history deletions;
-- Security 135 INFO / 0 WARN / 0 ERROR;
+- M2.4.3 accepted source: `96de9add3762a0594ebc371fba49d4d990ff4b45`.
+- M2.4.4 initial corrective source: `29cffeb1ad3824f7569d4b597e0103e3c880bb8a`.
+- L1 recovery deployed ledger version: `20260830021159`; repository mirror filename: `20260830021400...`; same accepted function body.
+- L3 alert migration: `20260830071523_m2_4_4_layer3_operational_alerts`.
+- L3 Admin-read bridge: `20260830072215_m2_4_4_layer3_alert_admin_read_bridge`.
+- all seven active operational cron jobs latest-success.
+- Security 135 INFO / 0 WARN / 0 ERROR.
 - Performance 169 INFO / 0 WARN / 0 ERROR.
+- current L3 alert-condition count: 0.
+- no queued/running L1–L3 refresh duplication.
+- A14 telemetry continuity reconciled; unavailable usage not invented.
+- Guides: Operations Runbook v1.8; Data Operations Admin Guide v1.6; PIM Admin Guide v1.22.
+- permanent M2.4.4 UAT added to targeted/integration/acceptance tiers.
 
-## First actions next
+## Follow-up disposition
 
-1. Reconcile latest Admin/Pilot heads; do not overwrite parallel work.
-2. Confirm migration `20260830021400...` remains deployed.
-3. Continue M244-FU-001 by mapping Layer 1, Layer 2 and Layer 3 stale-recovery windows/ownership as one policy.
-4. Reconcile M244-FU-002 scheduling/recheck orchestration and queued/running refresh-request duplication.
-5. Inventory alert/threshold coverage for M244-FU-003.
-6. Preserve A14 telemetry while checking provider/model operational paths.
-7. Use targeted validation before nominating any bounded integration candidate.
+M244-FU-001–005 COMPLETE.
+M244-FU-006 remains OPEN / NON-BLOCKING UAT hygiene.
+Apollo credential, A15 frozen baseline, RMIT 212 promotion block and NZ L2 defer remain unchanged.
+
+## Exact next action
+
+1. Reconcile latest Admin/Pilot heads.
+2. If no parallel work superseded the lineage, nominate exactly one M2.4.4 bounded integration candidate using the latest Pilot head.
+3. Record candidate SHA/run ID and both desktop/mobile outcomes here and in CURRENT-STATE.
+4. If both PASS, nominate exactly one final M2.4.4 pre-blackout acceptance candidate.
+5. If either fails, retain immutable evidence and correct only the exact defect/contract.
+6. On final desktop+mobile PASS, close CF-CHG-20260830-048 and M2.4.4, reconcile REGISTER/Master Plan/Running Build and assess the next authorised milestone without starting it automatically.
 
 ## Boundaries
 
