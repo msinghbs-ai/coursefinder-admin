@@ -240,3 +240,11 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.22.md`, Decision 34.
 - Pilot rule: no trial/floating navigation experiments in normal user-facing shell; UI must demonstrate intended final placement with concise useful information and actionable buttons.
 - Validation head: `0daa88bdc71afdc27256288e7bbf42b5f50efa55`; frontend build run `33335240424` and targeted deployed UAT run `33335240463` active at checkpoint. Do not duplicate while active.
+
+
+### A21 validation correction — 31 August 2026
+
+- Frontend build on `0daa88bdc71afdc27256288e7bbf42b5f50efa55`: run `33335240424` PASS.
+- Targeted UAT run `33335240463` FAIL is immutable test-contract evidence: inherited `tests/uat/support/navigation.mjs` still expected Layer 1 as a dialog and old primary label `Layer 1 — Regulatory`; product intentionally changed to embedded canonical route under A21.
+- Shared navigation helper corrected at Pilot commit `0a35e722ceb04f5515110a71a6cb50e11044ec36` to use canonical embedded Layer 1/2 and separate Layer 3/4 routes without weakening functional assertions.
+- Replacement frontend build run `33335368000` and deployed targeted UAT run `33335367950` active at checkpoint. Do not duplicate while active.
