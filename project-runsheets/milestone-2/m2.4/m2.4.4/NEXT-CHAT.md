@@ -210,3 +210,13 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Important Links and Important Dates remain Operations reference registries, consistent with the prior parent-menu requirement.
 - Hidden/deep routes remain recognised for backwards compatibility while the normal operator journey starts at Administration.
 - Next A20 work: validate frontend build/tablet navigation; refine Administration sub-sections for Sources & Onboarding, PIM Configuration, Scheduling, Acquisition, AI and Platform; remove duplicated advanced settings from Layer 1–4 operational views while preserving effective-status readouts.
+
+
+## Canonical navigation standard promoted — 31 August 2026
+
+- Canonical UI navigation authority is the implemented Pilot repository registry in `src/mature-main.jsx`: `NAV`, `HIDDEN_ROUTES`, `PAGE_META`, and `routeFromHash()`.
+- Standing Instructions now require all future UI work to follow/extend that registry and prohibit parallel top-level menu models or launcher-only permanent journeys.
+- Administration remains the single normal configuration/settings entrypoint under A20.
+- Hidden routes are backwards compatibility only, not primary navigation authority.
+- Admin/PIM Design Decisions baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.21.md`, Decision 33.
+- Repo/runtime navigation truth overrides stale chat assumptions, screenshots and older menu documentation.
