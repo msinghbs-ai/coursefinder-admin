@@ -259,7 +259,7 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Standing Instructions now require all future UI work to follow/extend that registry and prohibit parallel top-level menu models or launcher-only permanent journeys.
 - Administration remains the single normal configuration/settings entrypoint under A20.
 - Hidden routes are backwards compatibility only, not primary navigation authority.
-- Admin/PIM Design Decisions baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.22.md`, Decision 33.
+- Admin/PIM Design Decisions baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.23.md`, Decision 33.
 - Repo/runtime navigation truth overrides stale chat assumptions, screenshots and older menu documentation.
 
 
@@ -278,7 +278,7 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Canonical Operations placement: Layer 1 — Authority; Layer 2 — Enrichment; Layer 3 — AI Interpretation; Layer 4 — Human Resolution; Important Links; Important Dates; Jobs.
 - Layer 3 and Layer 4 are now separate canonical routes.
 - Old visible global mounts for Layer 1, Layer 2 ops/platform/provider/trial, combined M2.3 Layer 3/4, Layer 3 credential, pipeline ops and Scholarship selection are disabled in `index.html`; source modules remain for controlled embedding/Administration migration.
-- Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.22.md`, Decision 34.
+- Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.23.md`, Decision 34.
 - Pilot rule: no trial/floating navigation experiments in normal user-facing shell; UI must demonstrate intended final placement with concise useful information and actionable buttons.
 - Validation head: `0daa88bdc71afdc27256288e7bbf42b5f50efa55`; frontend build run `33335240424` and targeted deployed UAT run `33335240463` active at checkpoint. Do not duplicate while active.
 
@@ -289,3 +289,25 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Targeted UAT run `33335240463` FAIL is immutable test-contract evidence: inherited `tests/uat/support/navigation.mjs` still expected Layer 1 as a dialog and old primary label `Layer 1 — Regulatory`; product intentionally changed to embedded canonical route under A21.
 - Shared navigation helper corrected at Pilot commit `0a35e722ceb04f5515110a71a6cb50e11044ec36` to use canonical embedded Layer 1/2 and separate Layer 3/4 routes without weakening functional assertions.
 - Replacement frontend build run `33335368000` and deployed targeted UAT run `33335367950` active at checkpoint. Do not duplicate while active.
+
+
+## A21 corrective regression — legacy navigation mutator / shared layer-status RPC — 31 August 2026
+
+User-visible evidence showed two genuine regressions:
+1. `src/data-acquisition-nav-entry.js` was still globally loaded and rewrote the canonical React navigation after render. It renamed groups, injected the obsolete Data Operations menu and routed Layer 1 to the legacy `#settings` surface.
+2. `security.admin_layer_status_summary()` contained stale schema/helper assumptions, producing the cross-screen `column "layer" does not exist` banner.
+
+Corrective actions:
+- removed `data-acquisition-nav-entry.js` from `index.html` at Pilot commit `798e4ad846075696b7a38e00c8f8a37fbba5ea2c`;
+- stopped Users & Roles from injecting itself into Operations at `c8fe02cee96460b068ad561f6a086f132ef3b76d`;
+- moved Users & Roles entry to the central Administration workspace and aligned visible shell version to v2.15.12 at `1959be0d7a78d9490925efc4d808b6bc7f622d2b`;
+- release note v2.15.12 recorded at `268d26d10b9ea6229ef776c59b0a9db8bc01b46a`;
+- runtime layer-status corrections deployed as migrations:
+  - `20260830234349_m2_4_4_a21_layer_status_source_metadata_fix`;
+  - `20260830234440_m2_4_4_a21_layer_status_evidence_metadata_fix`;
+  - `20260830234526_m2_4_4_a21_layer_status_candidate_helper_fix`;
+- current runtime `security.admin_layer_status_summary()` executes successfully and returns L1/L2/L3/L4/Scholarship summary data;
+- permanent A21 UAT now rejects `.go7-nav-item`, `html[data-go7-navigation]`, obsolete `Data Operations` / `Governance & Platform` groups, and the `column "layer" does not exist` banner at Pilot commit `b3e1a3596371c479f8e715fc83c96d7b7466043f`;
+- Admin/PIM design baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.23.md`, Decision 35.
+
+Validation head `b3e1a3596371c479f8e715fc83c96d7b7466043f`: frontend build run `33342743511` and deployed targeted UAT run `33342743510` active at checkpoint; do not duplicate while active.
