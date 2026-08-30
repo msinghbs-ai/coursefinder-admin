@@ -200,3 +200,15 @@ When a CI/UAT/deployment automation is expected to take more than about five min
 - the next chat must check those run IDs first before creating another candidate or rerun.
 
 This does not permit skipping a required gate. It only changes how long-running automation is handed across chats.
+
+## A16 — Layer 3 contact coverage and Layer 4 governed intervention
+
+M2 work after 30 August 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md`.
+
+A16 requires:
+- explicit international-student/admissions contact-channel disposition for each governed Provider rather than treating a successful discovery run as a successful contact result;
+- Layer 2 first-party acquisition/Evidence followed by Layer 3 Evidence-bound contact classification/extraction;
+- Layer 4 human intervention through governed, auditable overrides rather than destructive rewriting of source/Evidence/history;
+- field-level L4 marking, actor/time/reason/comment history and reversible/superseding decisions;
+- publication overrides as separately role-gated consequential decisions;
+- immutable/protected field classes and server-side editability enforcement.
