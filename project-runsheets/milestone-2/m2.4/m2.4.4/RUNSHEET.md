@@ -55,3 +55,32 @@ M2.4.4 closes only after:
 - bounded integration PASS;
 - final acceptance desktop/mobile PASS;
 - change-control and programme baselines reconciled.
+
+
+## Entry reconciliation — first corrective housekeeping fix
+
+Cross-layer cron inventory:
+- general refresh scheduler: active / latest success;
+- Data Quality snapshot refresh: active / latest success;
+- Layer 1 regulatory scheduler: active / latest success;
+- Layer 1 housekeeping: active / latest success;
+- Layer 2 refresh scheduler: active / latest success;
+- Layer 2 housekeeping: active / latest success;
+- Layer 3 housekeeping: active / latest success.
+
+A stale legacy Layer 1 `regulatory_sync` job from 17 August 2026 remained `running` because Layer 1 housekeeping did not cover legacy `pipeline.jobs`.
+
+Implemented/deployed:
+- Pilot `29cffeb1ad3824f7569d4b597e0103e3c880bb8a`;
+- migration `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`;
+- `svc_layer1_housekeeping()` now recovers only abandoned `regulatory_sync` jobs older than 45 minutes and excludes any live Layer 1 run-queue heartbeat;
+- no Evidence, source-version or canonical-history deletion.
+
+Validation:
+- pre-fix stale candidates: 1;
+- recovered: 1;
+- post-fix stale candidates: 0;
+- Security 135 INFO / 0 WARN / 0 ERROR;
+- Performance 169 INFO / 0 WARN / 0 ERROR.
+
+No browser-facing behaviour changed; no release-note version change required for this database-only housekeeping correction.
