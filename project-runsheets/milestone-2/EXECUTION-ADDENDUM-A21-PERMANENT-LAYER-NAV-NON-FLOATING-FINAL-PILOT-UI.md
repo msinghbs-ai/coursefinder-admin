@@ -74,3 +74,17 @@ A21 requires:
 5. desktop/tablet/mobile route navigation passes;
 6. existing role/rank boundaries remain server-side enforced;
 7. permanent UAT navigates through canonical routes only.
+
+
+## A21.7 — No post-render navigation mutation
+
+The canonical React navigation may not be rewritten after render by MutationObserver/DOM-injection scripts.
+
+Specifically prohibited:
+- renaming canonical `NAV` groups from browser-side DOM code;
+- hiding canonical menu items and injecting replacement buttons;
+- routing a canonical Layer menu item to an unrelated Settings/legacy surface;
+- injecting legacy groups such as `Data Operations`, `Governance & Platform`, `Decision Tools` or `Help & Guides` outside the canonical registry;
+- using MutationObserver to continually reconcile a competing menu model.
+
+Historical compatibility code may remain in source only if it is not loaded by the Pilot shell. Permanent UAT must assert that no legacy navigation marker or injected menu item is rendered.
