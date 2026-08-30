@@ -101,3 +101,37 @@ M2.4.3 is CLOSED only after:
 - documentation/change-control reconciliation.
 
 Do not start M2.4.4 before all four are true.
+
+
+## Exact pickup point — corrective bounded integration now nominated
+
+A new corrective integration marker has been committed.
+
+- corrective implementation source before marker: `eaab5a7b6fc7bfaddb2b6863e23f5033184fa4b7`;
+- current Pilot marker/head: `d1d5f78ab3673696845fedc96c1f467bd27b3e71`;
+- marker path: `.github/m2-4-integration-candidate`;
+- marker commit message: `M2.4.3: nominate post-timeout bounded integration candidate`;
+- expected workflow tier: `integration`;
+- desktop and mobile must both PASS.
+
+Before this nomination, runtime reconciliation confirmed:
+- deployed migration `20260830011809_m2_4_3_acceptance_dashboard_timeout_hardening`;
+- four intended recent-activity indexes present;
+- Layer 3 housekeeping cron active/completing;
+- the logged statement timeouts are the preserved pre-hardening failed-acceptance evidence;
+- no new material M2.4.3 security/performance defect was identified from current advisors.
+
+At handoff, the connected GitHub API had not yet published commit statuses/target URLs for this new marker, so the exact Actions run ID was not yet exposed. Do not launch another candidate.
+
+### First action in the next chat
+
+1. Check commit `d1d5f78ab3673696845fedc96c1f467bd27b3e71` first and capture its CourseFinder Deployed UAT integration run ID.
+2. If still running, do nothing else and preserve the no-duplicate rule.
+3. If integration desktop/mobile PASS:
+   - reconcile current Pilot/Admin heads, Supabase migration/Edge/cron state and advisors;
+   - nominate exactly one replacement final acceptance marker from this lineage;
+   - run final acceptance desktop/mobile.
+4. If final acceptance PASS, perform full CF-CHG-047/M2.4.3 closure reconciliation and only then assess M2.4.4.
+5. If either integration platform fails, retain immutable evidence and diagnose only the exact defect/contract.
+
+Historical failed final acceptance `33284867253` remains immutable evidence.
