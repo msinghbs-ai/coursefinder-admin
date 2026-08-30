@@ -212,3 +212,13 @@ A16 requires:
 - field-level L4 marking, actor/time/reason/comment history and reversible/superseding decisions;
 - publication overrides as separately role-gated consequential decisions;
 - immutable/protected field classes and server-side editability enforcement.
+
+
+## A17–A19 — Operations UX, Scholarship coverage and Scholarship scheduled ETL
+
+M2 work after 31 August 2026 must also read and preserve:
+- `EXECUTION-ADDENDUM-A17-OPERATIONS-UX-L2-WAVES-PRIMARY-NAV.md`;
+- `EXECUTION-ADDENDUM-A18-COURSE-SCHOLARSHIP-COVERAGE.md`;
+- `EXECUTION-ADDENDUM-A19-SCHOLARSHIP-SCHEDULED-ETL-MAINTENANCE.md`.
+
+Standing requirements added by these addenda include bounded Layer 2 execution waves, parent-navigation operational registries, deterministic Course–Scholarship mapping only from explicit governed scopes, and scheduled Scholarship ETL/maintenance with Evidence/history retention.
