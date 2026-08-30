@@ -78,3 +78,17 @@ If the core Layer 3 maturity gate closes, then assess whether M2.4.3 itself can 
 - Do not create another acceptance candidate unless this exact run fails for a source/runtime defect requiring a corrective change.
 - If `33284867253` resolves `acceptance` and both desktop/mobile PASS, reconcile advisors/runtime/heads, close CF-CHG-20260829-047, mark M2.4.3 CLOSED/PASS, update Master Project Plan / Running Build / DB Architecture / Admin-PIM decisions as required, then and only then assess M2.4.4.
 - If it fails, retain the run as immutable evidence, diagnose the exact failing suite, correct only the defect/contract drift, rerun targeted then bounded integration as required before nominating a new acceptance candidate.
+
+## Final acceptance live handoff — 30 August 2026
+
+- Pilot final acceptance marker: `3a8a31310ea7147016374d6c818d08034ba0be64`.
+- CourseFinder Deployed UAT run: `33284867253` — **IN PROGRESS at handoff**.
+- Pilot Frontend Build run: `33284867261` — **IN PROGRESS at handoff**.
+- The acceptance workflow has resolved the marker-driven final gate and has entered the desktop validation step.
+- Do not wait/retrigger while these runs are active.
+- Next action is a single status reconciliation:
+  1. if build PASS and acceptance run PASS with both desktop/mobile success, reconcile Pilot/Admin heads, Supabase migrations/Edges/jobs, Security/Performance Advisors, then CLOSE/PASS `CF-CHG-20260829-047` and M2.4.3;
+  2. update Master Project Plan, Running Build, DB Architecture/Admin-PIM decisions and continuity docs;
+  3. only after the closure commit, assess/create M2.4.4;
+  4. if either run fails, retain immutable evidence and diagnose the exact failing suite before any new candidate.
+
