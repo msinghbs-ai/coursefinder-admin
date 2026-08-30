@@ -56,8 +56,8 @@ Inherits:
 - Milestone 2 `STANDING-INSTRUCTIONS.md`;
 - A1–A15;
 - accepted M2.4.0–M2.4.3 closure evidence;
-- Master Project Plan v1.77;
-- Running Build v2.77;
+- Master Project Plan v1.78;
+- Running Build v2.78;
 - DB Architecture v2.10.44;
 - Admin/PIM Design Decisions v1.20.
 
@@ -83,8 +83,10 @@ Initial cross-layer inventory found one stale legacy Layer 1 `pipeline.jobs` rec
 Corrective Pilot:
 `29cffeb1ad3824f7569d4b597e0103e3c880bb8a`.
 
-Migration:
-`20260830021400_m2_4_4_layer1_legacy_stale_job_recovery`.
+Migration reconciliation:
+- deployed Supabase migration-history version `20260830021159_m2_4_4_layer1_legacy_stale_job_recovery`;
+- repository mirror filename `20260830021400_m2_4_4_layer1_legacy_stale_job_recovery.sql`;
+- reconciled function body is identical; timestamp mismatch is recorded history/filename alias, not authority to redeploy.
 
 Correction:
 - extends `public.svc_layer1_housekeeping()`;
@@ -103,3 +105,50 @@ Runtime proof:
 - post-change Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
 
 This is an M2.4.4 housekeeping correction only. It does not alter Layer authority or downstream consumer scope.
+
+
+## Cross-layer implementation reconciliation — 30 August 2026
+
+M244-FU-001–005 material implementation is complete.
+
+### Recovery and retention
+
+L1/L2/L3 recovery ownership was mapped and found non-conflicting. Governed Evidence, canonical history, retained source/profile versions and interpretation/benchmark history remain outside destructive housekeeping.
+
+### Scheduling/recheck
+
+General refresh creation plus L1/L2 dispatchers retain target-level active-work deduplication/idempotency. No queued/running L1–L3 refresh request existed at the checkpoint. Historical blocked L3 requests and L4 human-resolution queue state remain preserved.
+
+### Genuine alert gap corrected
+
+Layer 1 and Layer 2 already exposed governed operational health/alerts. Layer 3 lacked equivalent operator alert visibility.
+
+Deployed:
+- `20260830071523_m2_4_4_layer3_operational_alerts`;
+- `20260830072215_m2_4_4_layer3_alert_admin_read_bridge`.
+
+The new `layer3_ops_alerts` Admin read remains authenticated/rank-4+ and covers stale execution, enabled/paused/unqualified profile state, latest benchmark failure, repeated provider errors and recorded cost-ceiling breaches. It is read-only and cannot mutate canonical, Evidence, Search or Publication state.
+
+Current Layer 3 alert-condition count: 0.
+
+Storage observation: private Evidence 6,248 objects / 3,781,700,044 bytes. No governed capacity threshold is configured; no artificial threshold was introduced.
+
+### A14 telemetry
+
+Active Layer 2/3 paths retain applicable provider/model calls, latency, vendor units/tokens/cost and outcomes. Missing historical/vendor usage remains unavailable rather than inferred.
+
+### Documentation and validation
+
+Created:
+- Operations Runbook v1.8;
+- Data Operations Admin Guide v1.6;
+- PIM Admin Guide v1.22.
+
+Permanent M2.4.4 source-contract UAT is included in targeted, bounded-integration and acceptance tiers.
+
+Runtime post-change:
+- all seven operational cron jobs latest-success;
+- Security Advisor 135 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 169 INFO / 0 WARN / 0 ERROR.
+
+Next gate: one bounded integration desktop/mobile candidate. Final acceptance is not nominated unless both platforms PASS.
