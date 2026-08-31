@@ -733,3 +733,24 @@ The following failures from `33416346862` must prove PASS in the replacement int
 Do not nominate integration until latest-head build `33420469497` and targeted UAT `33420469521` are both PASS.
 After PASS/PASS, nominate exactly one bounded integration candidate that includes the permanent A17-A28-relevant suites plus hard Evidence/performance gates.
 
+## Replacement A17-A28 integration candidate active — 4c47ea72 — 1 September 2026
+
+Pre-candidate proof on implementation head `8309d6003c51767785f7c84ced0f6dfba61812cb`:
+- frontend build `33420469497`: PASS;
+- targeted deployed UAT `33420469521`: PASS.
+
+Exactly one replacement bounded integration candidate has now been nominated:
+- candidate commit `4c47ea72a8c5acce70cd3402c0dd512c5ed94537`;
+- frontend build `33421322395` — QUEUED at handover;
+- deployed integration UAT `33421322389` — QUEUED at handover.
+
+Candidate scope explicitly revalidates A17-A28 and retains unchanged hard gates:
+- A25 Evidence type/screenshot lineage;
+- private Regulatory Snapshot Evidence opening;
+- direct acquisition creating governed versioned Evidence;
+- Layer 2/Course <= 3,000 ms performance budgets;
+- role/security boundaries.
+
+Do not nominate another integration candidate while `33421322389` is active.
+Next chat must check `33421322395` and `33421322389` first. If integration FAILS, preserve exact evidence and correct only demonstrated defects. If desktop+mobile integration PASS, reconcile runtime once and nominate exactly one final acceptance candidate.
+
