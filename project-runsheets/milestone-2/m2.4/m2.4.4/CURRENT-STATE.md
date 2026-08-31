@@ -1199,3 +1199,54 @@ Do not create another integration or final acceptance candidate while `334498389
 If desktop+mobile integration PASS, perform one runtime reconciliation and nominate exactly one final acceptance candidate.
 If FAIL, preserve immutable evidence and correct only demonstrated defects; no unchanged rerun.
 
+## Focused A25 + Layer-status load regression active — e8da4d1a — 1 September 2026
+
+Replacement integration candidate `03ebfab70fbec46a8d12e2a2e7b8e67e0f500f99` is immutable FAIL evidence:
+- build `33449838833`: PASS;
+- integration UAT `33449838909`: FAIL;
+- desktop: 67/67 PASS;
+- mobile: 65 PASS, 1 flaky/retry-PASS, 1 real FAIL.
+
+Sole real integration failure:
+- A25 screenshot Evidence own-image test for Evidence `e465eb03-e983-4007-b3f5-d63d00c925fe`;
+- two `evidence_detail` HTTP 500 responses during the long mobile run;
+- Postgres logs at the corresponding times show `canceling statement due to statement timeout`;
+- A25 JSON and HTML tests passed; screenshot lineage semantics remain unchanged.
+
+Runtime reconciliation also found repeated `unsupported admin read operation: layer_status_summary` errors on fresh Dashboard loads. The helper existed but its `public.admin_read` dispatch branch had been lost during dispatcher reconciliation. Simply restoring it would have added excessive load: initial `security.admin_layer_status_summary()` timing was ~1.53 s, with major cost in Layer 2 pending-wave and Layer 3 candidate counts.
+
+Corrections:
+- live migration + repo `20260901083000_m2_4_4_layer_status_count_indexes.sql` / commit `6133e57f26440e1fe99fb5c173b6dc583585938f`;
+- indexes added for Layer 2 wave-item status, recent completed Layer 2 items, and Evidence layer/time projection;
+- live Layer-status helper improved to ~0.79 s in direct verification;
+- live migration + repo `20260901083100_m2_4_4_layer_status_dispatch_restore.sql` / commit `074646f015d78e1fd0176baffad85fba7cdc00af`;
+- restored `layer_status_summary` through `public.admin_read`;
+- public-dispatch verification completed successfully at ~1.37 s, below unchanged 3,000 ms gate;
+- screenshot Evidence detail reverified warm at ~16 ms; its contract/lineage logic was not weakened.
+
+Permanent UAT coverage:
+- `tests/uat/m2-4-4-layer-status-deployed.spec.mjs` added in `792a8161387a82db3f724fb4b16b2e6d63b06868`;
+- validates Dashboard Layer 1-4 status and no Layer-status RPC error;
+- `cbc8357cf13a155e1c10dc21ea6a680b55241f29` adds the test permanently to integration and final acceptance suites and adds a focused A25/Layer-status/performance selector.
+
+Focused marker:
+- `e8da4d1a0742fa315bb05776fad2c20610b84bbb`
+
+Focused scope:
+- A25 JSON/HTML/screenshot Evidence lineage;
+- Dashboard Layer 1-4 operational status without RPC 5xx/errors;
+- unchanged performance and responsive budgets.
+
+Active exact-head runs at handover:
+- frontend build `33451852402` — IN PROGRESS;
+- focused deployed UAT `33451852365` — IN PROGRESS.
+
+Supabase advisors were rerun after DDL. Visible findings are INFO-level; security follow-up `M244-FU-020` remains open and is not resolved by the advisor run.
+
+Decision:
+- do not poll these runs indefinitely;
+- next continuation checks `33451852402` and `33451852365` first;
+- focused PASS/PASS → inspect logs once, reconcile, then nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve exact evidence and fix only the demonstrated remaining defect;
+- no unchanged rerun and no Evidence/performance/security threshold weakening.
+
