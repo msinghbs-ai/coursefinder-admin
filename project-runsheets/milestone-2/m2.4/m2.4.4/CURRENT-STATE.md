@@ -592,3 +592,16 @@ Current required correction:
 
 This defect is now a closure blocker for M2.4.4 and must be included in the next corrective Pilot head alongside A26.
 
+## A28 captured — Layer 2/3 summary and experimental UI hardening — 1 September 2026
+
+User direction recorded under `EXECUTION-ADDENDUM-A28-L2-L3-OPERATOR-SUMMARY-EXPERIMENTAL-UI-HARDENING.md`.
+
+Required correction:
+- reassess Layer 2 end-page blocker/info messages and retain only actionable exceptions as blockers;
+- make Layer 2/3 Jobs/Runs and Evidence summaries concise, current and useful;
+- reconcile those summaries with A26 parent-run/job/Evidence lineage;
+- remove or relocate experimental/debug/demo-only information from normal Layer 2/3 operator routes;
+- include demonstrated Layer 2/3 UI bugs in the same corrective sweep.
+
+A28 is now part of the M2.4.4 closure gate.
+
