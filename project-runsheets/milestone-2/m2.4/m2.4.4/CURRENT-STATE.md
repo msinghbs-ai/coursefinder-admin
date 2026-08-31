@@ -915,3 +915,30 @@ Active latest-head runs:
 Do not act on intermediate head `6b5211d8...` while the settled marker head is active.
 No integration candidate until `33441608153` is terminal PASS.
 
+## Replacement integration active after hard-gate PASS — 8fe22790 — 1 September 2026
+
+Focused hard-gate retry 3 completed successfully:
+- source head `09468fa5e51e152aa6cff36487d28dcb3292bb3f`
+- build `33441608240`: PASS
+- focused UAT `33441608153`: PASS
+
+Proven together before integration:
+- A25 JSON Evidence no-screenshot inheritance PASS;
+- A25 HTML exact same-attempt screenshot PASS;
+- A25 screenshot-own-image PASS;
+- bounded Firecrawl-first acquisition creating governed versioned Evidence PASS;
+- core workspace performance PASS;
+- catalogue filter paging restored after dispatcher reconciliation;
+- Layer 2 ops + paged Administration source registry remain within unchanged 3,000 ms / 250 KB budgets.
+
+Exactly one replacement bounded integration candidate is now nominated:
+- candidate commit `8fe22790a5bb51710fc09e6d90b8dcd0448cced4`
+- frontend build `33441876450` — IN PROGRESS at handover
+- deployed integration UAT `33441876525` — QUEUED at handover
+
+Scope revalidates A17-A28 together on desktop/mobile while retaining A10/A12 dispatcher contracts and all Evidence/security/performance gates.
+
+Do not nominate another integration candidate while `33441876525` is active.
+If integration PASSes on desktop+mobile, reconcile once and nominate exactly one final acceptance candidate.
+If it FAILs, preserve exact evidence and correct only demonstrated defects; no unchanged rerun and no threshold weakening.
+
