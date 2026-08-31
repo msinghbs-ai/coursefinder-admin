@@ -661,3 +661,19 @@ Those three defects are corrected on `6390374...`.
 
 Do not rerun or act on superseded intermediate heads. If latest build/UAT PASS, reconcile once and nominate one replacement integration candidate. If latest FAIL, preserve evidence and fix only the demonstrated defect.
 
+## Active A17-A28 integration pickup — 4c47ea72 — 1 September 2026
+
+First action in next chat:
+- check build `33421322395`;
+- check deployed integration UAT `33421322389`;
+- candidate commit `4c47ea72a8c5acce70cd3402c0dd512c5ed94537`;
+- implementation source before marker `8309d6003c51767785f7c84ced0f6dfba61812cb`.
+
+This is the single replacement bounded integration candidate after A17-A28 reconciliation.
+
+Decision:
+- integration desktop+mobile PASS → reconcile runtime once, then nominate exactly one final acceptance candidate;
+- any FAIL → inspect exact failed suites/logs/artifacts, preserve evidence, correct only demonstrated defects, and do not rerun unchanged.
+
+Do not weaken A25 Evidence lineage, private Evidence access, direct-acquisition Evidence creation, 3,000 ms performance budgets, or authority/security boundaries.
+
