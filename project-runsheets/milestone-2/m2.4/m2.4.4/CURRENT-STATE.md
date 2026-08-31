@@ -506,3 +506,26 @@ Architecture baseline:
 - Only seven Layer 4 human-resolution refresh requests remain active/queued; no active Layer 1–3 refresh queue work was introduced by this correction.
 - **Integration MUST NOT be nominated while this recovery wave is still active/unreconciled.** Do not update `.github/m2-4-integration-candidate` yet.
 - Exact next action: allow the autonomous chain to continue; when run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` is terminal, reconcile item outcomes, scheduler auto-progress behaviour, Firecrawl budget/telemetry, Advisors, cron latest status and repository heads. Only then consider one A17–A25-aware bounded integration candidate.
+
+## A23 qualification recovery/finalizer closure — 1 September 2026
+
+- `M244-FU-016` is now **COMPLETE / RECONCILED**.
+- Original stalled recovery run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` completed with 50/50 Firecrawl attempts succeeded, 50 vendor units, 50 distinct Evidence objects and 500 Evidence-backed identity samples.
+- Final provider outcomes for that repaired wave: 36 `source_pattern_candidate`, 14 `layer3_required`, 0 source-limited/blocked.
+- Autonomous continuation repair remains Pilot `c473a785fce3a31c90349044e05926f77a2fa2f7`; corrective UAT/build `33385645813` / `33385645810` PASS.
+- Downstream finalization/orchestration is now implemented at Pilot `adf5ac1d85bff0291355ac44650dc149deedcb09` via `20260831115800_m2_4_4_a23_qualification_finalizer_handoff.sql`.
+- The finalizer:
+  - runs policy-bounded deterministic `source_pattern_candidate` dispatch/reconcile;
+  - uses the benchmark-PASS `openrouter-source-pattern-v1` profile for Layer 3 queue eligibility;
+  - creates governed Layer 3/Layer 4 refresh requests but does **not** autonomously invoke Layer 3 AI;
+  - preserves canonical/Search/Publication mutation boundaries.
+- Finalizer targeted deployed UAT `33390795147`: PASS.
+- Finalizer frontend build `33390795285`: PASS.
+- Cron `coursefinder-layer2-qualification-finalizer` is active at `2-59/5 * * * *` and latest-success.
+- At final pre-integration reconciliation there are **no active/planned qualification runs** and no Provider overlap.
+- Expected governed queues are now explicit rather than orphaned: 90 A23 Layer 3 source-pattern queued requests and 24 new A23 Layer 4 source-resolution queued requests (31 total Layer 4 queued including pre-existing human-resolution items).
+- Firecrawl period budget: 1,820 used / 5,000 limit / 3,180 remaining / 250 reserve; no silent paid fallback.
+- Current contact disposition contract remains 11 found + 49 not-found = 60 Providers.
+- Security Advisor: 146 INFO / 0 WARN / 0 ERROR.
+- Performance Advisor: 177 INFO / 0 WARN / 0 ERROR.
+- Integration nomination is now permitted from Pilot source `adf5ac1d85bff0291355ac44650dc149deedcb09`.
