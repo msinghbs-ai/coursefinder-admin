@@ -333,3 +333,15 @@ Standing requirements:
 - terminal/stale/blocked states must reconcile without manufacturing progress;
 - A26 extends A14/A17/A23/A25 and does not authorise Production cutover or broad Publication.
 
+## A27 — Administration workspace navigation reliability
+
+M2 work after 1 September 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A27-ADMINISTRATION-WORKSPACE-NAVIGATION-RELIABILITY.md`.
+
+Standing requirements:
+- canonical Administration click must always render a non-empty usable workspace;
+- visible Administration sub-context items must respond to pointer/touch/keyboard input, update active state and render their associated content;
+- parent route defaults to a meaningful overview/first section;
+- rank-gated/loading/error states must be explicit rather than blank;
+- direct/deep routes and back/forward must not produce an empty shell;
+- implementation must extend the canonical `src/mature-main.jsx` route/navigation model and must not depend on legacy floating launchers or post-render DOM mutation.
+
