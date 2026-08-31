@@ -334,3 +334,21 @@ Correction:
 - No product threshold, filter behaviour or navigation contract was weakened.
 - UAT selectors corrected at Pilot commit `74a2c67d613d64f9ab3f83bc613b6109fc947ffe`.
 - Replacement build `33344238253` and targeted deployed UAT `33344238236` queued at checkpoint. Do not duplicate while active.
+
+
+## A21 Layer 2 floating-shell regression correction — 31 August 2026
+
+User-visible Layer 2 still appeared as a floater with the canonical navigation hidden.
+
+Root cause:
+- Layer 2 was correctly routed from `src/mature-main.jsx::NAV`, but the embedded workspace reused `.l2o-shell` from its old standalone implementation.
+- `src/layer2-operations.css` still declared `.l2o-shell { position: fixed; inset: 0; z-index: 2200; ... }`, covering the canonical sidebar and making the embedded route look like a separate application.
+- `src/layer2-enrichment-scope-entry.js` was also still loaded globally as a post-render Layer 2 label mutator.
+
+Correction:
+- `923b290a906b30b50769f696581d246f5e4c1826`: Layer 2 workspace now explicitly marks embedded mode and uses `role="region"` instead of dialog semantics.
+- `33f03b7fb8628c3e77030802a43524a57526960b`: full-screen fixed positioning is now scoped to non-embedded Layer 2 only; `.l2o-embedded` is normal in-page content.
+- `6095b05c0c0d8a64bcf6913a1a46fc4a9135db4c`: removed global Layer 2 post-render label mutator from `index.html`.
+- `46fa6f64212b87deb89cdd641c01961e89ecc67a`: permanent A21 UAT now asserts Layer 2 is `l2o-embedded`, `role="region"`, and the canonical sidebar remains visible.
+- Final validation head: `46fa6f64212b87deb89cdd641c01961e89ecc67a`.
+- Build run `33345415420` and deployed targeted UAT `33345415500` active at checkpoint. Do not duplicate.
