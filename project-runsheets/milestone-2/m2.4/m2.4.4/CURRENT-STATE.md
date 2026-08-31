@@ -825,3 +825,36 @@ These gates remain unchanged:
 
 Do not nominate a new integration candidate until `33438250059` and `33438250056` are terminal and the focused UAT is PASS.
 
+## Focused hard-gate corrective retry — bf412b7d — 1 September 2026
+
+Focused hard-gate run `33438250056` is immutable FAIL evidence. Its build `33438250059` passed.
+
+Failure breakdown from the focused suite:
+- bounded acquisition itself PASSed twice and created governed Evidence; the stale assertion incorrectly required `direct_http` while the accepted A23 production route is Firecrawl-first.
+- A25 JSON integrity semantics PASSed up to the final label check; the failure was a strict-mode duplicate `Layer2 Raw Json` text locator.
+- A25 HTML exact-attempt screenshot PASS.
+- A25 screenshot-own-image PASS.
+- core workspace performance PASS.
+- remaining real performance defect: Administration `layer2_profiles` payload 1,226,444 bytes against unchanged <=250,000-byte budget.
+
+Corrections:
+- `3bc19b4577b5a34e5656ae0754bc7e5aaea91c62` — added rank-gated bounded `security.admin_layer2_profiles_page(jsonb)` and conditional `admin_read('layer2_profiles', args)` dispatch while preserving the legacy unpaged contract for other consumers.
+- `32bfda07a3760e19e109385889c0fcf2a4cc7691` — Administration source registry now requests 50-row server pages with server-side query/country/method/health filters and true total/summary metadata.
+- `0ac72fd55539a3c5d6556e5029f3d65164b9a358` — acquisition Evidence gate aligned to accepted Firecrawl-first route; Evidence ID and HTTP 200 requirements remain.
+- `bf412b7dc5f6156b28b646857a9c6a50e13690a1` — A25 duplicate JSON label assertion scoped; no Evidence semantic requirement changed.
+
+Live Supabase truth:
+- `security.admin_layer2_profiles_page(jsonb)` exists;
+- `public.admin_read(text,jsonb)` dispatches to it when paging/filter args are supplied;
+- legacy unpaged `layer2_profiles` path remains for existing trial/provider consumers.
+
+Current Pilot head:
+- `bf412b7dc5f6156b28b646857a9c6a50e13690a1`
+
+Active latest-head validation:
+- frontend build `33439561990` — IN PROGRESS at handover;
+- deployed targeted UAT `33439561973` — IN PROGRESS at handover.
+
+Do not act on cancelled intermediate runs.
+Next chat must check `33439561990` and `33439561973` first. If PASS/PASS, rerun the focused hard-gate marker/suite only; do not nominate integration until the focused suite passes.
+
