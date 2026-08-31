@@ -704,3 +704,17 @@ Security note:
 
 If latest targeted build/UAT PASS, run focused hard-gate validation next. Only after focused PASS should a replacement integration candidate be nominated.
 
+## Focused hard-gate pickup — cdc4fbf4 — 1 September 2026
+
+Check first:
+- head `cdc4fbf4345ee1794557150148fcd5f769bf424a`
+- build `33438250059`
+- focused UAT `33438250056`
+
+The focused UAT contains only:
+- A25 Evidence integrity;
+- direct acquisition Evidence creation;
+- performance budgets.
+
+If all PASS, reconcile once and then nominate exactly one replacement bounded integration candidate. Any FAIL must be preserved and corrected only at the demonstrated gate; do not weaken thresholds or rerun unchanged.
+
