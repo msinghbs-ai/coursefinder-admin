@@ -556,3 +556,66 @@ In the next corrective cycle:
 
 A28 should be implemented alongside A26 and A27 from the settled corrective head.
 
+## Copyable continuation prompt — A26/A27/A28 corrective implementation and long-UAT handover
+
+Continue CourseFinder M2.4.4 autonomously from repository/runtime truth.
+
+Mandatory start:
+1. Read `PROJECT_INSTRUCTIONS.md`.
+2. Read `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`.
+3. Read A26, A27 and A28:
+   - `EXECUTION-ADDENDUM-A26-L2-PRODUCTION-RUN-PROGRESS-LINEAGE.md`
+   - `EXECUTION-ADDENDUM-A27-ADMINISTRATION-WORKSPACE-NAVIGATION-RELIABILITY.md`
+   - `EXECUTION-ADDENDUM-A28-L2-L3-OPERATOR-SUMMARY-EXPERIMENTAL-UI-HARDENING.md`
+4. Read the current M2.4.4 RUNSHEET, CURRENT-STATE, FOLLOW-UPS and active `CF-CHG-20260830-048`.
+5. Reconcile current heads of `msinghbs-ai/coursefinder-admin` and `msinghbs-ai/Coursefinder-Pilot` plus deployed runtime truth before editing.
+
+Starting Pilot handover head: `aa824aa6abe943e6beebf4aaab361f29d54678ef`.
+
+Preserve immutable integration evidence:
+- deployed UAT `33416346862`: desktop FAIL, mobile skipped.
+- Do not rerun unchanged.
+- Do not weaken the 3,000 ms performance budget or any role/security boundary.
+
+Proceed with one coherent corrective cycle:
+
+A26:
+- finalise the normal Layer 2 production-oriented background action;
+- create/retain one stable parent run ID across qualification, production waves, scheduler continuations, retries and child jobs;
+- align Jobs & Runs and Evidence to that parent run;
+- make Dashboard show real Layer 2 runtime progress, heartbeat, scheduled remainder, route/vendor/Evidence counts and next automatic action;
+- ensure cross-surface status/counts reconcile.
+
+A27:
+- reproduce and fix the Administration blank parent workspace;
+- make every visible Administration sub-context clickable and content-rendering;
+- provide a meaningful default section;
+- preserve canonical `src/mature-main.jsx` navigation;
+- add explicit rank/loading/error states;
+- verify deep links and browser back/forward;
+- no floating launcher or DOM mutation workaround.
+
+A28:
+- reassess Layer 2 end-page Blockers/required-actions;
+- normal healthy background qualification/scheduling is informational, not a blocker;
+- improve Layer 2 and Layer 3 Jobs/Runs summaries;
+- improve Layer 2 and Layer 3 Evidence summaries;
+- remove/relocate experimental/debug/demo-only UI from routine routes;
+- include a bounded Layer 2/3 bug sweep for dead controls, blank panels, duplicate headings, loading flashes, overflow, alert severity, accessibility and count inconsistencies.
+
+Also correct only the demonstrated inherited integration defects/selectors/contracts from run `33416346862`; preserve real performance failures for correction/retest.
+
+Validation discipline:
+- targeted tests first;
+- then one bounded integration candidate only after targeted PASS;
+- final acceptance only after bounded integration PASS;
+- do not duplicate active runs.
+
+Long automated UAT rule:
+- if a CI/UAT/deployment run is still active after substantive work is complete, do not hold the chat open waiting;
+- update CURRENT-STATE and NEXT-CHAT with exact commit SHA, run IDs, current job/step status and next decision rule;
+- hand over the chat;
+- the next chat must check those run IDs first and report progress before creating another candidate or rerun.
+
+Keep RUNSHEET, CURRENT-STATE, FOLLOW-UPS, NEXT-CHAT and CF-CHG-20260830-048 updated as work proceeds.
+
