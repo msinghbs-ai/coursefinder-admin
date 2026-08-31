@@ -942,3 +942,48 @@ Do not nominate another integration candidate while `33441876525` is active.
 If integration PASSes on desktop+mobile, reconcile once and nominate exactly one final acceptance candidate.
 If it FAILs, preserve exact evidence and correct only demonstrated defects; no unchanged rerun and no threshold weakening.
 
+## Post-integration A13/A16 correction active — 037612ae — 1 September 2026
+
+Replacement integration candidate `8fe22790a5bb51710fc09e6d90b8dcd0448cced4` is immutable FAIL evidence:
+- build `33441876450`: PASS;
+- integration UAT `33441876525`: FAIL on desktop before mobile acceptance.
+
+Important integration truth:
+- Administration navigation PASS;
+- A21 permanent Layer navigation PASS;
+- A23 background Firecrawl controls PASS;
+- A24 unified headers PASS;
+- A25 JSON/HTML/screenshot Evidence integrity PASS;
+- A26-A28 operator UX PASS;
+- Layer 2 provider acquisition Evidence PASS;
+- Layer 3 operations PASS;
+- core performance PASS;
+- Layer 2/Admin management performance PASS;
+- release notes PASS.
+
+Only three demonstrated failures remained:
+1. A13 tablet Provider filter contained an obsolete assertion that the anchored popover must also sit >40 px from viewport centre; actual anchoring and repeat-position checks remained correct.
+2. A13 accepted acquisition example disappeared because the A26 compact `layer2_ops_overview` removed `demo_firecrawl_attempt` / `recent_provider_attempts` along with the unwanted full source registry.
+3. A16 Provider top-level Layer 4 overlay had zero field rows, so runtime `Underlying:/Effective:` row assertions were invalid even though the governed intervention surface and nested contact resolve control were present.
+
+Corrections:
+- `502cbd01093430f5ef0e4f0291f4e52942aa7155` adds migration `20260901075000_m2_4_4_a13_restore_compact_acquisition_proof.sql`, restoring only a bounded latest Firecrawl proof and five recent attempts.
+- live Supabase `admin_layer2_ops_read` now contains `demo_firecrawl_attempt` and `recent_provider_attempts`.
+- compact source registry exclusion remains intact: live function still contains `'sources','[]'::jsonb`.
+- `05767bd23bea4edcec3e0da56593750b8c5679c6` removes only the arbitrary viewport-centre heuristic while retaining anchor X/Y, no-auto-focus, close/reopen and repeat-position checks.
+- `037612ae22cea3aee633e5d28b1f32c04185d484` aligns A16 runtime acceptance to the always-visible effective-value overlay contract; source-level tests still prove `Underlying:` / `Effective:` row rendering and append-only governance.
+
+Current Pilot head:
+- `037612ae22cea3aee633e5d28b1f32c04185d484`
+
+Active exact-head validation:
+- frontend build `33442600012` — IN PROGRESS at handover;
+- deployed targeted UAT `33442600014` — IN PROGRESS at handover.
+
+Intermediate runs for `502cbd...` / `05767bd...` were superseded/cancelled; do not treat them as product failures.
+
+Decision:
+- next chat checks `33442600012` and `33442600014` first;
+- if PASS/PASS, run one focused validation covering A13 + A16 + performance/A25 regression safety before any further integration nomination;
+- do not rerun `33441876525` unchanged.
+
