@@ -645,3 +645,19 @@ Decision:
 - Any FAIL → inspect exact logs/artifacts and correct only demonstrated defects; do not rerun unchanged.
 - Preserve the 3,000 ms performance budget and all authority/security boundaries.
 
+## Latest active retry pickup — 6390374 — 1 September 2026
+
+Check these exact latest-head runs first:
+- Pilot `6390374049cbd8a82a9084c418641d7599b8290f`
+- frontend build `33419997121`
+- targeted deployed UAT `33419997114`
+
+The prior `f32eb940...` failures were traced to test-contract defects, not a production-bundle compilation failure:
+- malformed admin-navigation test;
+- missing parenthesis in A26-A28 test;
+- stale A23 expectation for old Administration cards.
+
+Those three defects are corrected on `6390374...`.
+
+Do not rerun or act on superseded intermediate heads. If latest build/UAT PASS, reconcile once and nominate one replacement integration candidate. If latest FAIL, preserve evidence and fix only the demonstrated defect.
+
