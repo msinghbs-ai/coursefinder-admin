@@ -161,7 +161,7 @@ Pilot transport:
 - rate-limit by integration identity and resource;
 - log request ID, resource, outcome, latency and reconciliation counts without payload secrets.
 
-For the Courses screen, `zoho-course-api` v2 is deployed under CF-CHG-045. It authenticates a dedicated Pilot bearer token by SHA-256 hash against a private service-role-only credential table, rate-limits each action to 120 requests/minute, returns request IDs and safe errors, and never exposes the Supabase service-role key. Creator Connection end-to-end acceptance remains open.
+For the Courses screen, `zoho-course-api` v10 is deployed under CF-CHG-045. It authenticates the dedicated Pilot integration token by SHA-256 hash against a private service-role-only credential table, uses service-role-only public wrappers for PostgREST-safe RPC access, rate-limits each action to 120 requests/minute, returns request IDs and safe errors, and never exposes the Supabase service-role key. Creator Developer Console bridge invocation is proven for bounded read actions. Developer Console's documented External Calls allowance is low (50/day), so UI/runtime design must remain cache-first and reserve `invokeURL` calls for explicit live actions.
 
 ## 11. Explicit exclusions
 
@@ -188,3 +188,30 @@ Targeted Pilot evidence on 27 August 2026:
 - Performance Advisor: INFO only; no Zoho-specific finding.
 
 Courses-screen Supabase transport deployment is PASS. Actual Zoho Creator Connection invocation, external-path malformed-request/401/404/429 checks and responsive UI acceptance remain open.
+
+## 13. Quota-safe reference cache bundle — 31 August 2026
+
+HTTP action `reference_bundle` is available for the Pilot cache-refresh workflow.
+
+Purpose:
+- replace dozens of paged daily reference-data HTTP calls with one authenticated call;
+- minimise Zoho Creator Developer Console External Calls;
+- keep Course Search and Course Lookup live while common filters/navigation remain local.
+
+Current payload sections:
+- `countries[]`;
+- `subdivisions[]`;
+- `providers[]`;
+- `platform_stats.provider_counts`;
+- `platform_stats.course_counts`;
+- `platform_stats.top_study_areas`.
+
+Validated current Pilot snapshot:
+- countries = 3 status records (AU/NZ live regulatory, CA beta/limited);
+- subdivisions = 21 current reference rows;
+- Providers = 3,085;
+- Provider counts: AU 1,546 / NZ 409 / CA 1,130;
+- Search Course counts: AU 26,648 / NZ 6,457;
+- payload size ≈ 1.22 MB.
+
+The bundle is a reference/cache transport. It does not make Zoho an authority and does not admit QILT/PRISMS as Course facts.
