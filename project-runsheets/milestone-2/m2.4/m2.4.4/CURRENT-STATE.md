@@ -879,3 +879,39 @@ Focused scope remains only:
 
 Do not nominate another integration candidate until `33441013635` is terminal PASS.
 
+## Focused hard-gate retry 3 active — 09468fa5 — 1 September 2026
+
+Focused hard-gate retry 2:
+- build `33441013976`: PASS
+- UAT `33441013635`: FAIL
+- 9 tests passed; sole failure was core performance because `catalogue_filter_page` returned HTTP 400.
+- A25 JSON PASS.
+- A25 HTML exact-attempt screenshot PASS.
+- A25 screenshot-own-image PASS.
+- bounded Firecrawl-first acquisition + governed Evidence PASS.
+
+Root cause:
+- migration `20260901071500_m2_4_4_a27_layer2_profiles_paged_admin.sql` recreated `public.admin_read` from an older dispatcher baseline and inadvertently removed later A10/A12 branches including `catalogue_filter_page`.
+
+Correction:
+- commit `6b5211d8e8100135afeda871553729100b82c8c5`
+- migration `20260901073500_m2_4_4_admin_read_dispatch_reconcile.sql`
+- restores `admin_filter_option_page`, `catalogue_filter_page`, Layer 2 alerts, Provider/Course contextual insights and all prior mature dispatcher paths;
+- retains A27 bounded `layer2_profiles` paging.
+
+Live Supabase dispatcher verification:
+- catalogue_filter_page restored = true
+- admin_filter_option_page restored = true
+- bounded Layer 2 profile paging retained = true
+- contextual insight projection retained = true
+
+Focused retry marker:
+- `09468fa5e51e152aa6cff36487d28dcb3292bb3f`
+
+Active latest-head runs:
+- build `33441608240` — QUEUED at handover
+- focused UAT `33441608153` — PENDING at handover
+
+Do not act on intermediate head `6b5211d8...` while the settled marker head is active.
+No integration candidate until `33441608153` is terminal PASS.
+
