@@ -319,3 +319,17 @@ Standing Evidence UX/data-integrity rules:
 - Related screenshots are permitted only for an exact HTML acquisition attempt using non-null Evidence linkage; empty/null matching is prohibited.
 - Screenshot Evidence previews its own image; JSON/text preview comes from the selected artifact's own governed private object.
 - Screenshot Evidence remains visual corroboration only and does not replace source/HTML/JSON Evidence for extraction, lineage or audit.
+
+## A26 — Layer 2 production run, job, Evidence and progress lineage
+
+M2 work after 1 September 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A26-L2-PRODUCTION-RUN-PROGRESS-LINEAGE.md`.
+
+Standing requirements:
+- one normal Layer 2 production-oriented background action for the selected governed scope;
+- one stable parent-run identity across qualification, production waves, scheduler continuations, child jobs and retries;
+- child jobs and Evidence must reconcile to the parent run rather than presenting unrelated counters;
+- Layer 2 workspace, Dashboard, Jobs & Runs and Evidence must show consistent status/count/lineage or explicitly label a different grain;
+- Dashboard active progress must include measurable counters, heartbeat/runtime, scheduled remainder, Evidence count, route/vendor telemetry where supplied and next automatic action;
+- terminal/stale/blocked states must reconcile without manufacturing progress;
+- A26 extends A14/A17/A23/A25 and does not authorise Production cutover or broad Publication.
+
