@@ -451,3 +451,11 @@ Permanent UAT:
 
 Architecture baseline:
 - Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decisions 36–37.
+
+
+### A25 targeted acceptance evidence
+- Pilot settled head: `ee49740da33f09f5378395d04b9f2d807b06a9d7`.
+- Deployed UAT run `33359217661`: PASS.
+- Frontend build run `33359217695`: PASS.
+- Direct runtime relation proof: JSON Evidence returns no related visual; exact RMIT HTML returns only screenshot `e465eb03-e983-4007-b3f5-d63d00c925fe`; selected screenshot Evidence returns no secondary related visual because it previews itself.
+- A25 is accepted at targeted scope; wider M2.4.4 integration/acceptance remains separately governed.
