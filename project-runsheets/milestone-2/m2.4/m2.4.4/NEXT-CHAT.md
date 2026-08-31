@@ -820,3 +820,20 @@ Decision:
 - focused FAIL → preserve exact evidence and fix only demonstrated defects;
 - do not weaken A25 Evidence, Firecrawl lineage, Layer 4 governance, 3,000 ms latency, 250 KB payload, filter payload, role or security boundaries.
 
+## Replacement integration pickup — 612f5075 — 1 September 2026
+
+Check first:
+- candidate `612f5075d7324b212392fcd6c9d9c623ea484aef`
+- build `33443274461`
+- integration UAT `33443274535`
+
+Pre-proof:
+- build `33443025457` PASS
+- focused A13/A16 + A25/performance UAT `33443025460` PASS
+
+Decision:
+- desktop + mobile integration PASS → reconcile runtime once, then nominate exactly one final acceptance candidate;
+- any FAIL → inspect exact failing suites/logs/artifacts, preserve immutable evidence, fix only demonstrated defects, no unchanged rerun.
+
+Keep A25 Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB payload, 60 KB filter payload, role/security and Layer 1 authority boundaries unchanged.
+
