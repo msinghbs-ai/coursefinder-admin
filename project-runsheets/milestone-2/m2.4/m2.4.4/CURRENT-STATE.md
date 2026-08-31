@@ -1037,3 +1037,46 @@ Do not create another integration candidate while `33443274535` is active.
 If desktop+mobile PASS, reconcile runtime once and nominate exactly one final acceptance candidate.
 If FAIL, preserve exact evidence and correct only demonstrated defects; no unchanged rerun.
 
+## Course interaction performance correction active — 1f423711 — 1 September 2026
+
+Replacement integration candidate `612f5075d7324b212392fcd6c9d9c623ea484aef` is immutable FAIL evidence:
+- build `33443274461`: PASS;
+- integration UAT `33443274535`: FAIL on desktop; mobile skipped because desktop gate failed.
+
+All integration suites passed except the exact Course interaction performance test:
+- `courses_page` interaction latency: 6,755 ms > unchanged 3,000 ms budget;
+- `course_detail` interaction latency: 4,225 ms > unchanged 3,000 ms budget.
+
+No Evidence, Layer, Administration, acquisition, release-note or other performance suite failed.
+
+Root-cause analysis:
+- default Course browse used `count(*) over()` across the full catalogue before returning the first 50 rows, causing temp spill and poor headroom under full-suite load;
+- exact CRICOS lookup itself remains fast;
+- Course detail base/detail enrichment is generally fast, but `admin_course_state_summary` unnecessarily called the general catalogue-page function to recompute six readiness booleans for one Course.
+
+Correction commit:
+- `1f423711706114675b2d4cacfb84258e0fe2f7e8`
+- migration `20260901082000_m2_4_4_course_interaction_performance_headroom.sql`
+
+Correction details:
+- adds `courses_canonical_title_lower_id_idx`;
+- adds `security.admin_course_page_unfiltered_fast(jsonb)` for the normal unfiltered Course browse only;
+- common browse now counts directly and pages first, then enriches only returned rows;
+- all complex filters/search/sorts retain the existing accepted fallback;
+- rewrites `security.admin_course_state_summary(uuid)` to compute readiness signals directly with indexed existence checks rather than calling the general catalogue page;
+- no threshold or payload gate changed.
+
+Live post-change database timing under current load:
+- default Course page: ~1,220 ms, no temp spill;
+- full Course detail for CRICOS `121174E`: ~980 ms;
+- both below the unchanged 3,000 ms gate at the DB boundary.
+
+Active exact-head validation:
+- build `33447312341` — QUEUED at handover;
+- deployed UAT `33447312300` — IN PROGRESS at handover.
+
+Decision:
+- check these exact runs first next;
+- if PASS/PASS, run focused Course interaction performance regression before any new integration nomination;
+- do not rerun `33443274535` unchanged.
+
