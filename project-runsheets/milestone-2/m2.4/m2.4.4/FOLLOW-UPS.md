@@ -218,3 +218,13 @@ Architecture baseline:
 - **Owner:** M2.4.4
 - **Target:** M2.4.4 closure
 
+## M244-FU-018 — Administration parent route renders empty / sub-context clicks ineffective
+- **Source:** M2.4.4 A27, 1 September 2026
+- **Status:** OPEN
+- **Problem:** canonical Administration can display an empty screen and visible sub-context/menu items do not reliably work on click.
+- **Impact:** centralised configuration introduced by A20/A21 becomes unreachable or misleading; production-readiness/navigation acceptance is not satisfied.
+- **Authority/security:** preserve role/rank gating and canonical `src/mature-main.jsx` navigation authority; do not restore floating launchers or DOM-mutating legacy navigation.
+- **Exact next action:** reconcile the current Administration route/component bindings, repair default section rendering and sub-context activation, add explicit permission/loading/error states, and add deployed desktop/tablet/mobile UAT before the next integration nomination.
+- **Owner:** M2.4.4
+- **Target:** M2.4.4 closure
+
