@@ -870,3 +870,22 @@ Decision:
 - focused performance FAIL → preserve exact timings/evidence and fix only demonstrated bottlenecks;
 - no threshold or payload-gate weakening.
 
+## Replacement integration pickup — 298057d1 — 1 September 2026
+
+Check first:
+- candidate `298057d19a1774d2e6f4cb58a08cd2879aea5902`
+- build `33447809060`
+- integration UAT `33447808931`
+
+Pre-proof:
+- focused Course performance `33447610954` PASS
+- build `33447611021` PASS
+- Course corrective deployed UAT `33447312300` PASS
+- focused A13/A16+A25/performance `33443025460` PASS
+
+Decision:
+- desktop + mobile integration PASS → one runtime reconciliation, then exactly one final acceptance candidate;
+- any FAIL → inspect exact logs/artifacts, preserve immutable evidence, correct only demonstrated defects, no unchanged rerun.
+
+Do not weaken Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, role/security or Layer 1 authority boundaries.
+
