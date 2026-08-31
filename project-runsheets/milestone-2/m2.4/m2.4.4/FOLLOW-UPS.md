@@ -196,3 +196,14 @@ Permanent UAT:
 
 Architecture baseline:
 - Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decisions 36–37.
+
+## M244-FU-016 — A23 background qualification continuation recovery
+
+- Status: **ACTIVE — autonomous recovery proven; terminal reconciliation pending**.
+- Run: `94557562-e292-4ed9-bdf3-8b2dcc370c6b`.
+- Corrective Pilot head: `c473a785fce3a31c90349044e05926f77a2fa2f7`.
+- Targeted UAT `33385645813` PASS; build `33385645810` PASS.
+- Autonomous continuation is proven after governed resume `2388`; do not manually repeat continuation while the chain is advancing.
+- At checkpoint: 60 `layer3_required`, 150 `source_pattern_candidate`, 290 `qualifying` samples.
+- Close this follow-up only after the run reaches a terminal state and post-run scheduler/budget/telemetry/advisor reconciliation is clean.
+- Bounded integration nomination remains blocked until this follow-up is terminal/reconciled.
