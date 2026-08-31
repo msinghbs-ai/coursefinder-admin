@@ -390,3 +390,10 @@ Implementation:
 - targeted/integration/acceptance suite inclusion: `261b7ac50dc4e9f36bbcbf2182f5574324a9b5d9`.
 
 A24 acceptance remains open until the settled-head frontend build and targeted deployed UAT complete. This addendum does not alter Layer authority, routing, publication or cutover governance.
+
+
+### A24 targeted acceptance evidence
+- Pilot settled head: `261b7ac50dc4e9f36bbcbf2182f5574324a9b5d9`.
+- Deployed UAT run `33347595340`: PASS.
+- Frontend build run `33347595455`: PASS.
+- A24 implementation is accepted at targeted scope; integration/acceptance remain governed by the wider M2.4.4 gate.
