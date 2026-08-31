@@ -889,3 +889,24 @@ Decision:
 
 Do not weaken Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, role/security or Layer 1 authority boundaries.
 
+## Focused mobile navigation/profile pickup — 0d7e8b9a — 1 September 2026
+
+Check first:
+- head `0d7e8b9a3a97e4d53c0e5fb79142d7d889325c0d`
+- build `33449532352`
+- focused UAT `33449532351`
+
+Previous integration `33447808931`:
+- desktop PASS;
+- mobile FAIL;
+- root causes narrowed to direct off-canvas sidebar clicks in remaining tests plus a Layer 2 profile request race.
+
+Corrections now active:
+- affected tests use existing hamburger-aware `clickPrimaryNav`;
+- Layer 2 profile registry ignores stale out-of-order page/search responses.
+
+Decision:
+- focused PASS → reconcile once and nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve exact mobile evidence and fix only demonstrated remaining defects;
+- no performance, Evidence, security, role or navigation-authority weakening.
+
