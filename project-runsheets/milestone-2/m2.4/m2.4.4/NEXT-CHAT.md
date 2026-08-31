@@ -910,3 +910,23 @@ Decision:
 - focused FAIL → preserve exact mobile evidence and fix only demonstrated remaining defects;
 - no performance, Evidence, security, role or navigation-authority weakening.
 
+## Replacement integration pickup — 03ebfab7 — 1 September 2026
+
+Check first:
+- candidate `03ebfab70fbec46a8d12e2a2e7b8e67e0f500f99`
+- build `33449838833`
+- integration UAT `33449838909`
+
+Pre-proof:
+- focused mobile navigation/profile UAT `33449532351` PASS
+- build `33449532352` PASS
+- prior desktop integration leg `33447808931` 67/67 PASS
+- focused Course performance `33447610954` PASS
+- focused A13/A16+A25/performance `33443025460` PASS
+
+Decision:
+- desktop + mobile integration PASS → one runtime reconciliation, then exactly one final acceptance candidate;
+- any FAIL → inspect exact logs/artifacts, preserve immutable evidence, fix only demonstrated defects, no unchanged rerun.
+
+Do not weaken A25 Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, role/security, responsive navigation or Layer 1 authority boundaries.
+
