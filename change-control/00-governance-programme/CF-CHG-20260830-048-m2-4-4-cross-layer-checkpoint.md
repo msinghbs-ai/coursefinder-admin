@@ -591,3 +591,24 @@ Sequencing: Pilot candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef` / deploye
 
 This change does not authorise Production cutover, broad Publication or Website/Zoho cutover.
 
+## A27 scope addition — Administration workspace navigation reliability — 1 September 2026
+
+Stakeholder-reported UI defect adds `EXECUTION-ADDENDUM-A27-ADMINISTRATION-WORKSPACE-NAVIGATION-RELIABILITY.md` to this active Change Control.
+
+Affected surfaces:
+- canonical Administration navigation;
+- Administration landing/default panel;
+- Administration sub-context navigation;
+- embedded configuration components;
+- deep-link/back-forward behaviour;
+- desktop/tablet/mobile UI acceptance.
+
+Required outcome:
+- Administration parent route is never a blank shell;
+- all visible sub-context controls work and render their associated content;
+- role/loading/error states are explicit;
+- canonical navigation architecture remains authoritative;
+- legacy floating/config launchers and post-render DOM mutation remain prohibited.
+
+A27 is a M2.4.4 closure blocker and must be corrected before the next bounded integration candidate.
+
