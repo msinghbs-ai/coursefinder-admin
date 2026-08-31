@@ -1,6 +1,6 @@
 # CF-CHG-20260827-045 — Zoho Creator Pilot Integration & UI/UX
 
-**Status:** ACTIVE / PARTIAL — PILOT COURSE HTTP GATEWAY DEPLOYED; ZOHO CREATOR CONNECTION BLOCKED  
+**Status:** ACTIVE / PARTIAL — ZOHO CREATOR E2E READ PATH PROVEN; DEVELOPER-CONSOLE QUOTA/CACHE HARDENING ACTIVE  
 **Category:** 60-zoho-integration  
 **Initiated:** 27 August 2026 12:34 AEST (+10:00)  
 **Origin chat/workstream:** CourseFinder — Zoho Creator UI/UX + Pilot Integration  
@@ -72,7 +72,9 @@ Direct use of a Supabase service-role key by Zoho is **prohibited**. The first b
 - Supabase deployed migration: `20260827024224 / zoho_integration_v1_search_campus_reconcile`.
 - Supabase deployed migration: `20260827054951 / zoho_pilot_course_api_auth_and_filter_options_v1`.
 - Supabase deployed migration: `20260827055312 / zoho_pilot_course_api_rate_limit_v1`.
-- Supabase Edge Function: `zoho-course-api` v2 ACTIVE, `verify_jwt=false` by design because the handler performs dedicated integration-token authentication before any resource action.
+- Supabase Edge Function: `zoho-course-api` v10 ACTIVE, `verify_jwt=false` by design because the handler performs dedicated integration-token authentication before any resource action.
+- Public service-role-only Edge wrappers reconcile PostgREST exposed-schema constraints without exposing `api` to anon/authenticated.
+- `reference_bundle` now returns countries, subdivisions, Provider reference rows and dashboard platform statistics in one authenticated call for Zoho cache refresh.
 - Pilot source mirror:
   - `supabase/migrations/20260827234500_zoho_integration_v1_pilot_read_contract.sql` — commit `733dccc843bbfe636165cf9e02e7b95bf1c27dec`.
   - `supabase/migrations/20260827234600_zoho_integration_v1_search_campus_reconcile.sql` — commit `ddbad8012ed1052989aa1f374b145eac9f7386b3`.
@@ -110,9 +112,13 @@ Targeted Pilot results:
 - integration credential hash check: valid hash=true / invalid hash=false; `anon=false`, `authenticated=false`, `service_role=true`: PASS.
 - Course filter options: Search-backed countries currently AU/NZ; AU subdivisions 8: PASS.
 - rate-limit helper: limit=2 test produced allowed=true,true,false; `anon=false`, `authenticated=false`, `service_role=true`: PASS.
-- Edge Function `zoho-course-api` v2 is ACTIVE with 120 requests/minute per action and 429 + `Retry-After` semantics.
+- Edge Function `zoho-course-api` v10 is ACTIVE with 120 requests/minute per action and 429 + `Retry-After` semantics.
+- Zoho Creator Developer Console end-to-end Course lookup/search/filter/provider actions: PASS after public wrapper correction; exact Course `082960F`, AU nursing=330, AU/NZ countries, AU subdivisions and RMIT provider options were observed from Creator.
+- Developer Console quota finding: official Zoho usage documentation limits Developer Console to 50 External Calls/day; `invokeURL` consumes External Calls. Repeated bridge/UI calls can therefore exhaust Development quota and surface generic `COURSEFINDER_UNAVAILABLE` even while Supabase remains healthy.
+- Corrective UI design v3.1: dashboard makes zero live API calls, reference filters prefer Zoho cache/static AU/NZ references, bridge calls are de-duplicated, polling is bounded to two reads and failures open a client-side circuit breaker.
+- One-call reference bundle validation: 3 countries, 21 current subdivisions, 3,085 Providers, payload ~1.22 MB; provider counts AU=1,546 / NZ=409 / CA=1,130; Search Course counts AU=26,648 / NZ=6,457.
 
-The Supabase HTTP transport for the Courses screen is deployed. Actual end-to-end HTTP invocation with the Zoho Creator Connection, malformed-request checks through that external path, responsive Creator UI and final acceptance remain open because the Creator connection is not yet configured.
+The Supabase HTTP transport and Developer Console bridge path are now proven end-to-end for bounded read actions. Remaining acceptance is focused on quota-safe cache scheduling, high-fidelity responsive UI, persistent Zoho workflow forms and final bounded UAT. Production cutover remains unauthorised.
 
 ## Security findings
 
@@ -148,9 +154,11 @@ No canonical mutation, Search mutation or Publication mutation is part of these 
 | 27 Aug 2026 | ACTIVE / PARTIAL | `zoho-integration-v1` read family deployed, source-mirrored and targeted security/UAT passed | migrations + commits above |
 | 27 Aug 2026 | ACTIVE / PARTIAL | Official Zoho MCP/ChatGPT setup constraint documented; structural Creator build remains outside MCP capability | Zoho Creator MCP + OpenAI MCP app documentation |
 | 27 Aug 2026 15:53 AEST | ACTIVE / PARTIAL | Courses-screen Pilot HTTP gateway, hashed integration auth, filter-options RPC and per-action rate limiting deployed; source mirrored | migrations `20260827054951`, `20260827055312`; Edge Function `zoho-course-api` v2 |
+| 28 Aug 2026 | ACTIVE / PARTIAL | Creator bridge end-to-end read path proven after PostgREST `PGRST106` diagnosis and service-role-only public wrapper correction | exact lookup/search/filter/provider Creator evidence; Edge v8-v9 |
+| 31 Aug 2026 | ACTIVE / PARTIAL | Developer Console 50 External Calls/day quota identified as repeated `COURSEFINDER_UNAVAILABLE` cause; quota-safe Widget v3.1 design prepared; one-call `reference_bundle` deployed | Edge v10; Pilot migration mirror `20260831051000_zoho_public_edge_wrappers_and_reference_bundle_v1.sql` |
 
 ## Closure
 
 **Final status:** ACTIVE / PARTIAL  
 **Closed at:** N/A  
-**Outcome:** Pilot-safe read substrate and first Courses-screen HTTP transport are deployed and governed. Actual Zoho Creator connection/UI construction and end-to-end Creator transport acceptance remain open; Production and public Website integration are not authorised.
+**Outcome:** Pilot-safe read substrate, HTTP transport and bounded Zoho Creator bridge reads are proven. Developer Console quota behaviour is now an explicit Pilot constraint; cache-first/high-fidelity UI hardening and persistent Zoho workflow acceptance remain open. Production and public Website integration are not authorised.
