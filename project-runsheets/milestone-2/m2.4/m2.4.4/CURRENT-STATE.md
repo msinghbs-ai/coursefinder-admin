@@ -1109,3 +1109,31 @@ Active marker-head runs:
 
 Do not nominate another integration candidate until `33447610954` is terminal PASS.
 
+## Replacement integration active after Course performance PASS — 298057d1 — 1 September 2026
+
+Focused Course-performance proof:
+- source `be590663a228d2f986e0707bc06e6a7a8db15edc`
+- build `33447611021`: PASS
+- focused performance UAT `33447610954`: PASS
+
+Pre-proof retained:
+- corrective build `33447312341`: PASS
+- corrective deployed UAT `33447312300`: PASS
+- focused A13/A16 + A25 + performance UAT `33443025460`: PASS
+
+Exactly one replacement bounded integration candidate is now nominated:
+- candidate `298057d19a1774d2e6f4cb58a08cd2879aea5902`
+- frontend build `33447809060` — QUEUED at handover
+- deployed integration UAT `33447808931` — QUEUED at handover
+
+This candidate revalidates A17-A28 on desktop/mobile with A10/A12, A13/A16, A21-A28, A25 Evidence integrity, Course interaction performance, Layer 2/Admin performance and security/private Evidence boundaries.
+
+Hard gates remain unchanged:
+- RPC/detail latency <=3,000 ms
+- page/management payload <=250,000 bytes
+- filter-option payload <=60,000 bytes
+
+Do not nominate another integration or final-acceptance candidate while `33447808931` is active.
+If desktop+mobile integration PASS, perform one runtime reconciliation and nominate exactly one final acceptance candidate.
+If FAIL, preserve immutable evidence and correct only demonstrated defects; no unchanged rerun.
+
