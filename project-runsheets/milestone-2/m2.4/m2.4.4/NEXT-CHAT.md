@@ -619,3 +619,29 @@ Long automated UAT rule:
 
 Keep RUNSHEET, CURRENT-STATE, FOLLOW-UPS, NEXT-CHAT and CF-CHG-20260830-048 updated as work proceeds.
 
+## A26-A28 active UAT pickup — f32eb940 — 1 September 2026
+
+First action in the next chat: check these exact runs before any code change or candidate nomination:
+- Pilot head `f32eb94063f0ff6190a63db8905b3a6e73805bee`
+- frontend build `33419567099`
+- targeted deployed UAT `33419567115`
+
+At handover:
+- build is IN PROGRESS;
+- targeted UAT is IN PROGRESS;
+- no replacement integration candidate has been nominated.
+
+A26-A28 corrective implementation on this head includes:
+- Layer 2 production-action wording and improved post-action scheduler/run status;
+- canonical Jobs/Evidence links;
+- normal qualification removed from blocker classification;
+- experimental meeting-ready acquisition proof moved under progressive disclosure;
+- Administration non-empty overview plus clickable sub-context tabs;
+- Layer 3 current operations/Evidence summary and normal-route profile-control cleanup;
+- dedicated A26-A28 deployed UAT suite wired into all validation tiers.
+
+Decision:
+- PASS/PASS → reconcile runtime and nominate exactly one replacement bounded integration candidate.
+- Any FAIL → inspect exact logs/artifacts and correct only demonstrated defects; do not rerun unchanged.
+- Preserve the 3,000 ms performance budget and all authority/security boundaries.
+
