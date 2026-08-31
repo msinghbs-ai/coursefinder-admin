@@ -635,3 +635,40 @@ Next chat must:
 
 Production, broad Publication and Website/Zoho cutover remain unauthorised.
 
+## A26-A28 corrective implementation active — 1 September 2026
+
+Corrective Pilot implementation has now advanced beyond the prior failed integration head.
+
+Current Pilot head:
+- `f32eb94063f0ff6190a63db8905b3a6e73805bee`
+
+Implemented corrections:
+- `62572ea2270f104cd1ee28bbb8d092f2251f103e` — Layer 2 production wording, canonical Jobs/Evidence links, healthy qualification removed from blockers, post-action run/scheduler message improved, demo proof moved under progressive disclosure.
+- `54194db239af0051f8facc85e30e2e338497a41b` — Administration now has a meaningful default overview and explicit rank-aware sub-context navigation instead of a card-only/blank shell.
+- `1e6e1a39d47180d4cf0fff2c8331c9eb2fb006dc` — responsive Administration sub-navigation styling.
+- `6863904e97aff8c196311b1f913ba7e706e3882c` — Layer 3 current operations/Evidence summary and removal of normal-route profile mutation control.
+- `38a62c1835305ed68f293ece796cbeccf13217bb` — UAT navigation helper aligned to Administration sub-context tabs.
+- `668a5c05a2c01db2ee913a5eecab6d6f4a3922af` — dedicated A26-A28 deployed operator UX suite.
+- `956c829320f1372d25a800314ad888ef29cf7b74` — A26-A28 suite wired into targeted/integration/acceptance selection.
+- `246e0e914dbe1615e9eafd47ee6544ec73b07f2c` — canonical Administration navigation UAT aligned to new structure.
+- `f32eb94063f0ff6190a63db8905b3a6e73805bee` — A23 UAT aligned to production-action wording.
+
+Known exact UI defects corrected:
+- Layer 2 dead links referencing removed labels `Jobs & Runs` / `Evidence & Provenance` now use canonical `Jobs` / `Evidence`.
+- routine background qualification no longer appears as an operator blocker.
+- `Meeting-ready` demo wording no longer dominates the normal Layer 2 route.
+- Administration has an explicit non-empty default landing state and sub-context tabs.
+- Layer 3 profile mutation button has been removed from the routine operational route; profile state is described as centrally managed.
+
+Active automation on exact head `f32eb940...`:
+- frontend build `33419567099` — IN PROGRESS at handover; current step: Install dependencies.
+- targeted deployed UAT `33419567115` — IN PROGRESS at handover; current step: Restore npm and Playwright cache.
+- do not push another Pilot commit or create an integration candidate while these are active.
+
+Decision rule:
+1. next chat checks `33419567099` and `33419567115` first;
+2. if build or targeted UAT FAIL, preserve evidence and correct only demonstrated defect/contract;
+3. if both PASS, reconcile current deployed UI/runtime once;
+4. only then nominate exactly one replacement bounded integration candidate;
+5. unchanged 3,000 ms performance budget and security/role boundaries remain mandatory.
+
