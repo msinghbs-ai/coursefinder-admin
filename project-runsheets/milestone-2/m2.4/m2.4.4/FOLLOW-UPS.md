@@ -238,3 +238,12 @@ Architecture baseline:
 - **Owner:** M2.4.4
 - **Target:** M2.4.4 closure
 
+## M244-FU-020 — Reconcile RLS-disabled table introspection versus Security Advisor
+- **Source:** M2.4.4 corrective runtime review, 1 September 2026
+- **Status:** OPEN / SECURITY REVIEW
+- **Observation:** Supabase table introspection reports 15 RLS-disabled tables, including operational `pipeline.*` tables, while the current Supabase Security Advisor reports 146 INFO / 0 WARN / 0 ERROR.
+- **Risk:** schema exposure settings and grants must be reconciled before Production; blanket RLS enablement without compatible policies could break governed RPCs or operational workers.
+- **Action:** inspect exposed Data API schemas, grants, direct browser accessibility and existing SECURITY DEFINER/INVOKER boundaries; determine which tables require RLS versus schema/grant isolation; implement only through governed security change control.
+- **Do not:** auto-enable RLS across all listed tables without tested policies.
+- **Target:** before Production cutover / final security baseline.
+
