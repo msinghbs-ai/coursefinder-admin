@@ -103,3 +103,17 @@ Standing rule:
 - bounded option paging remains 10 visible options per page for large filter sets.
 
 Legacy screen-state adapters that restore by DOM clicking must not be loaded by the Pilot shell.
+
+
+## A21.9 — Embedded workspace CSS isolation
+
+Canonical embedded Layer workspaces must not inherit legacy full-screen/floating shell CSS.
+
+Standing rule:
+- embedded Layer workspaces use normal document flow (`position: relative/static`);
+- no embedded workspace may use `position: fixed; inset: 0` or a z-index that obscures the canonical sidebar/header;
+- standalone/modal CSS must be scoped to explicit non-embedded classes/selectors;
+- canonical route UAT must assert the sidebar remains visible when each Layer route is open;
+- feature-specific DOM label mutators must not be loaded globally.
+
+The Layer 2 regression where `.l2o-shell` remained `position: fixed; inset: 0; z-index: 2200` after canonical embedding is explicitly prohibited.
