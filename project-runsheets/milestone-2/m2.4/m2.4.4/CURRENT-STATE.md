@@ -1080,3 +1080,32 @@ Decision:
 - if PASS/PASS, run focused Course interaction performance regression before any new integration nomination;
 - do not rerun `33443274535` unchanged.
 
+## Focused Course performance active — be590663 — 1 September 2026
+
+Latest corrective proof:
+- source head `1f423711706114675b2d4cacfb84258e0fe2f7e8`
+- build `33447312341`: PASS
+- deployed UAT `33447312300`: PASS
+
+Focused performance selector:
+- selector commit `09a5e119d63cf9ad57e03464ca1b03e5853adb3c`
+- marker commit `be590663a228d2f986e0707bc06e6a7a8db15edc`
+
+Focused deployed scope:
+- `tests/uat/performance-deployed.spec.mjs` only;
+- exact CRICOS lookup, Course detail, paging/browser-back;
+- core workspace budgets;
+- Layer 2/Admin management-view budgets;
+- responsive-width regression.
+
+Hard gates unchanged:
+- RPC/detail latency <=3,000 ms;
+- page/management payload <=250,000 bytes;
+- filter-option payload <=60,000 bytes.
+
+Active marker-head runs:
+- frontend build `33447611021` — QUEUED at handover;
+- focused deployed UAT `33447610954` — PENDING at handover.
+
+Do not nominate another integration candidate until `33447610954` is terminal PASS.
+
