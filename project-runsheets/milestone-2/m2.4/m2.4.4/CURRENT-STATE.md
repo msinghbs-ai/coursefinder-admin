@@ -795,3 +795,33 @@ Decision:
 3. only after those pass may another bounded integration candidate be nominated;
 4. do not rerun `33421322389` unchanged.
 
+## Focused hard-gate validation active — cdc4fbf4 — 1 September 2026
+
+Latest corrective proof:
+- `cfad41b46d2300519c49b094e9f1bd00fe6840f8`
+- frontend build `33437964516`: PASS
+- targeted deployed UAT `33437964520`: PASS
+
+A dedicated focused hard-gate selector has been added so the remaining genuine gates can be tested without prematurely nominating integration:
+- selector commit `ebe90bb1792359ea07f602d41144d584bfc475d0`;
+- marker commit `cdc4fbf4345ee1794557150148fcd5f769bf424a`.
+
+Focused suite scope:
+1. `m2-4-4-a25-evidence-type-aware-preview-deployed.spec.mjs`
+2. `layer2-provider-deployed.spec.mjs`
+3. `performance-deployed.spec.mjs`
+
+Active exact-head runs:
+- frontend build `33438250059` — QUEUED at handover;
+- focused deployed UAT `33438250056` — QUEUED at handover.
+
+These gates remain unchanged:
+- JSON Evidence cannot inherit screenshots;
+- HTML may use only exact same-attempt screenshots;
+- screenshot Evidence must display its own image;
+- bounded direct Course acquisition must create governed versioned Evidence;
+- Layer 2 operations <= 3,000 ms and <=250,000 bytes;
+- all existing role/security/private Evidence boundaries.
+
+Do not nominate a new integration candidate until `33438250059` and `33438250056` are terminal and the focused UAT is PASS.
+
