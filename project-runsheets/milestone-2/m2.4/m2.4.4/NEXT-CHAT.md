@@ -282,3 +282,14 @@ Correction:
 - added permanent deployed UAT asserting reload/restoration leaves `.m-filter-popover` count at zero until the operator explicitly opens a filter at `5f5b94c6271e9403ce3c69f6d69fd2efb008f681`;
 - release version advanced to v2.15.13; canonical shell/document title aligned by `6cb5b4de5171e045d4523b5f2878923f72098a31` / `afc0a58ee7646eb21a6484aeee560386a4889ad2`;
 - replacement build run `33343098440` and targeted deployed UAT run `33343098402` queued/pending at checkpoint; do not duplicate while active.
+
+### A21 v2.15.13 targeted UAT selector correction — 31 August 2026
+
+- Frontend build `33343098440` on `afc0a58ee7646eb21a6484aeee560386a4889ad2`: PASS.
+- Targeted deployed UAT `33343098402`: FAIL retained as immutable test-contract evidence.
+- Product filter-restoration test itself PASSed; failure was limited to:
+  1. negative `.m-alert` assertion waiting for a non-existent element instead of asserting zero matching error alerts;
+  2. Layer 2 heading selector matching both canonical page heading and embedded workspace heading.
+- No product threshold, filter behaviour or navigation contract was weakened.
+- UAT selectors corrected at Pilot commit `74a2c67d613d64f9ab3f83bc613b6109fc947ffe`.
+- Replacement build `33344238253` and targeted deployed UAT `33344238236` queued at checkpoint. Do not duplicate while active.
