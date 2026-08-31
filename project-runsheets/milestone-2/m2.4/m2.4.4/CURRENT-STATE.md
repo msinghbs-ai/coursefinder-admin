@@ -1011,3 +1011,29 @@ Active marker-head runs:
 
 Do not nominate another integration candidate until `33443025460` is terminal PASS.
 
+## Replacement integration active after A13/A16 regression PASS — 612f5075 — 1 September 2026
+
+Focused regression proof:
+- source `85d33b3481fb22d3a1c8fb8458ebf31800c2f5c5`
+- build `33443025457`: PASS
+- focused A13/A16 + A25 + performance UAT `33443025460`: PASS
+
+Proven together before integration:
+- A13 tablet Course Provider filter anchoring/no-autofocus/reopen stability PASS;
+- A13 bounded accepted Firecrawl acquisition proof and governed Evidence navigation PASS;
+- A16 cross-layer Layer 4 intervention surfaces PASS;
+- A25 JSON/HTML/screenshot Evidence lineage PASS;
+- core performance PASS;
+- Layer 2 operations/Admin profile paging performance PASS.
+
+Exactly one replacement bounded integration candidate is now nominated:
+- candidate `612f5075d7324b212392fcd6c9d9c623ea484aef`
+- frontend build `33443274461` — QUEUED at handover
+- deployed integration UAT `33443274535` — QUEUED at handover
+
+This integration revalidates A17-A28 on desktop/mobile with A10/A12, bounded Layer 2 proof, Evidence, security and unchanged performance gates.
+
+Do not create another integration candidate while `33443274535` is active.
+If desktop+mobile PASS, reconcile runtime once and nominate exactly one final acceptance candidate.
+If FAIL, preserve exact evidence and correct only demonstrated defects; no unchanged rerun.
+
