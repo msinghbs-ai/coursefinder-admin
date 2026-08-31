@@ -677,3 +677,30 @@ Decision:
 
 Do not weaken A25 Evidence lineage, private Evidence access, direct-acquisition Evidence creation, 3,000 ms performance budgets, or authority/security boundaries.
 
+## Post-integration correction pickup — cfad41b4 — 1 September 2026
+
+Check first:
+- Pilot head `cfad41b46d2300519c49b094e9f1bd00fe6840f8`;
+- build `33437964516`;
+- targeted deployed UAT `33437964520`.
+
+The previous integration `33421322389` is immutable FAIL evidence.
+
+Corrections on the latest head:
+- JSON Evidence tests now enforce A25 no-screenshot inheritance;
+- duplicate/role-aware UAT selectors corrected without weakening semantics;
+- A25 waits for governed Evidence detail up to 20 seconds but retains exact JSON/HTML/screenshot integrity requirements;
+- `layer2_ops_overview` no longer returns the unused 939-profile source registry;
+- migration `20260901064000_m2_4_4_a26_layer2_ops_overview_compact.sql` is committed and the live function is already reconciled.
+
+Unresolved hard gates:
+- bounded direct Course acquisition must create versioned Evidence;
+- A25 JSON/HTML/screenshot Evidence integrity must prove PASS;
+- Layer 2 overview must prove <=3,000 ms and <=250,000 bytes;
+- security/role/private Evidence boundaries remain unchanged.
+
+Security note:
+- table introspection reports 15 RLS-disabled tables, while current Security Advisor is 146 INFO / 0 WARN / 0 ERROR. Investigate exposure/policy intent before Production; do not blanket-enable RLS.
+
+If latest targeted build/UAT PASS, run focused hard-gate validation next. Only after focused PASS should a replacement integration candidate be nominated.
+
