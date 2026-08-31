@@ -1277,3 +1277,34 @@ Decision:
 - focused FAIL → preserve immutable evidence and fix only demonstrated defect;
 - do not rerun either failed focused candidate unchanged.
 
+## Replacement integration active after A25/Layer-status PASS — 2c548673 — 1 September 2026
+
+Focused retry proof:
+- source `5b1725ed1d0775eb1543553374cbb55bf20d3525`
+- build `33452204866`: PASS
+- focused UAT `33452204859`: PASS
+- focused log: 8/8 PASS
+
+Proven together:
+- A25 JSON Evidence PASS;
+- A25 HTML exact-attempt screenshot PASS;
+- A25 screenshot-own-image PASS;
+- Dashboard Layer 1-4 operational status PASS without `layer_status_summary` RPC errors;
+- core workspace performance PASS;
+- exact Course lookup/detail/paging/back PASS;
+- Layer 2/Admin management performance PASS;
+- responsive overflow checks PASS.
+
+Exactly one replacement bounded integration candidate is now nominated:
+- candidate `2c548673383920b1f134c809269d218042237de0`
+- frontend build `33452687372` — QUEUED at handover
+- deployed integration UAT `33452687369` — QUEUED at handover
+
+This candidate revalidates A17-A28 on desktop/mobile with permanent Dashboard Layer-status coverage and all previously accepted Evidence, performance, navigation, Layer 4 and Firecrawl boundaries.
+
+Do not create another integration or final-acceptance candidate while `33452687369` is active.
+
+Important post-integration decision:
+- integration PASS is necessary but not sufficient for M2.4.4 closure;
+- after PASS, perform runtime reconciliation for A26 stable parent lineage, A27 Administration deep-link/back-forward semantics, A28 parent-linked cross-surface summaries, and M244-FU-020 security review before final acceptance nomination.
+
