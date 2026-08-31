@@ -21,7 +21,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **A15 CONTACT INTELLIGENCE:** CF-CHG-20260829-046 is CLOSED / PASS. Frozen cohort: 60/60 AU/NZ profiles successful, 0 current errors, 31 current first-party contacts across 11 Providers, 17 territory/market contacts, 45 rejected/noisy observations retained; worker v1.3.2 / Edge v15. Final accepted Pilot `f6741a0cc29c5fea236e85b9042f8079762c6993`; acceptance run `33251745111` resolved the acceptance tier with 17 permanent suites and passed 48/48 desktop + 48/48 mobile. Apollo remains configuration-blocked/non-blocking. Broader M2.4.3 Layer 3 maturity remains active.
 >
-> **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Pilot read contract and the first Courses-screen HTTP gateway are deployed; Zoho Creator connection/structural build and bounded end-to-end integration UAT remain open; no Zoho cutover is authorised.
+> **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Zoho Creator bridge lookup/search/filter/provider reads are proven end-to-end. Developer Console's documented 50 External Calls/day limit is now a bounded Pilot constraint; quota-safe Widget v3.1 and one-call `reference_bundle` cache refresh are the active corrective path. No Zoho Production cutover is authorised.
 >
 > **PRODUCTION:** separate Production establishment/cutover, broad Publication, Zoho cutover and final handover remain later governed gates.
 
@@ -71,7 +71,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-042 | 00-governance-programme | M2 Automated UAT, Navigation & Integration Discipline | APPLIED — GOVERNANCE BASELINE / VALIDATED BY M2.4.0 AND M2.4.1 | `00-governance-programme/CF-CHG-20260826-042-m2-automated-uat-integration-discipline.md` |
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
 | CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | CLOSED / PASS — CORRECTIVE STAGE C DESKTOP+MOBILE PASS | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
-| CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — COURSE HTTP GATEWAY DEPLOYED; ZOHO CONNECTION BLOCKED | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
+| CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — CREATOR E2E READ PROVEN; QUOTA/CACHE HARDENING ACTIVE | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
 
 ## Current programme baseline
 
