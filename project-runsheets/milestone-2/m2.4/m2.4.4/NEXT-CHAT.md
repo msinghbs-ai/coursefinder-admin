@@ -802,3 +802,21 @@ Latest corrections:
 
 If latest build/UAT PASS, run focused A13+A16 regression validation plus A25/performance safety. Only then nominate one replacement bounded integration candidate.
 
+## Focused A13/A16 regression pickup — 85d33b34 — 1 September 2026
+
+Check first:
+- head `85d33b3481fb22d3a1c8fb8458ebf31800c2f5c5`
+- build `33443025457`
+- focused UAT `33443025460`
+
+Pre-proof:
+- build `33442600012` PASS
+- targeted UAT `33442600014` PASS
+
+Focused suite includes A13 + A16 plus A25/performance regression safety.
+
+Decision:
+- focused PASS → reconcile once and nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve exact evidence and fix only demonstrated defects;
+- do not weaken A25 Evidence, Firecrawl lineage, Layer 4 governance, 3,000 ms latency, 250 KB payload, filter payload, role or security boundaries.
+
