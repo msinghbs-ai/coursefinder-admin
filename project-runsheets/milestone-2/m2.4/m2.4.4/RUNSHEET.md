@@ -375,3 +375,18 @@ Correction:
 - Security Advisor: 0 WARN / 0 ERROR (146 INFO).
 - Performance Advisor: 0 WARN / 0 ERROR (179 INFO).
 - Final A23 build/UAT on `e76852f75cf6c6034dd08f225078c793d5923bd3` active at checkpoint; do not duplicate/cancel it.
+
+
+## A24 unified Layer header scheme — 31 August 2026
+
+User accepted the Layer 2 header colour treatment as the visual baseline for all four Layer workspaces.
+
+Implementation:
+- Layer 1 header changed from white to the Layer 2 navy/violet/white treatment: Pilot `14ab365ca436d882ea467debab35ecc54761eb10`.
+- Layer 2 marked as the shared baseline with `data-layer-header="2"`: `0e5bae21c04190b9379d41ffd527e82e682a5486`.
+- Layer 3 and Layer 4 receive permanent embedded workspace headers with semantic eyebrows and refresh utility actions: `7d0619d4913f8d1b49f91a2792842cff8a1f52d2`.
+- shared responsive header system added in `mature.css`: `9f078cef62ff2f0a9bb85f8fa5f1f67f92b7ba39`.
+- permanent A24 deployed UAT added: `841354024728b6785420f386d58e72f412b5409e`.
+- targeted/integration/acceptance suite inclusion: `261b7ac50dc4e9f36bbcbf2182f5574324a9b5d9`.
+
+A24 acceptance remains open until the settled-head frontend build and targeted deployed UAT complete. This addendum does not alter Layer authority, routing, publication or cutover governance.
