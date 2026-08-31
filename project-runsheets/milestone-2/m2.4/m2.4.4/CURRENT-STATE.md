@@ -563,3 +563,19 @@ Required correction:
 
 Implementation is intentionally not pushed yet because A17–A25 bounded integration run `33416346862` on Pilot `aa824aa6abe943e6beebf4aaab361f29d54678ef` is still active. Next technical action is to check that run first; after terminal result, implement A26 from the settled head without weakening A14/A23/A25.
 
+## A17–A25 integration failure after A26 capture — 1 September 2026
+
+Deployed bounded integration run `33416346862` for Pilot candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef` is terminal FAIL.
+
+- desktop: FAIL;
+- mobile: skipped because desktop failed;
+- immutable evidence retained;
+- no threshold was weakened.
+
+Observed failure classes include:
+- stale UI/UAT assertions after accepted navigation/Layer 2 wording/release-note changes;
+- duplicate-heading/strict-locator assumptions;
+- inherited Course/Layer 2 management-view latency breaches against the unchanged 3,000 ms budget.
+
+A26 remains ACTIVE. Implementation may now proceed from the settled head, but the next integration nomination must reconcile both the demonstrated inherited failures and A26 targeted acceptance.
+
