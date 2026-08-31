@@ -282,3 +282,18 @@ Post-render menu mutation is prohibited. Browser scripts, MutationObservers and 
 ### Catalogue filter stability guard
 
 Filter restoration must not simulate user clicks. Saved catalogue filter/search/sort state must be restored directly in canonical component state. No popover may auto-open during restore/loading, and async option loading must stay anchored to the operator-selected filter. Legacy DOM-click screen-state restoration is prohibited.
+
+
+## A22–A23 — Responsive detail blades and quota-aware Layer 2 background execution
+
+M2 work after 31 August 2026 must also read and preserve:
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A22-RESPONSIVE-DETAIL-BLADES-UI-ACCEPTANCE.md`;
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A23-L2-QUOTA-AWARE-BACKGROUND-FIRECRAWL.md`.
+
+Standing requirements:
+- Provider/Course detail blades are responsive final workspaces with one reliable vertical scroll owner; desktop/tablet/mobile acceptance is mandatory.
+- Layer 2 qualification sampling is a background source-quality/identity gate, never the production Course batch size.
+- Layer 2 operator UI must not expose hard-coded qualification sample/wave/provider-routing knobs as the primary workflow.
+- Layer 2 production execution is background/scheduled and quota-aware; current effective Firecrawl entitlement/reserve/rate/concurrency is read from runtime provider configuration.
+- Firecrawl direct/scraper-first is the default effective production route under A23; no silent paid fallback.
+- Qualification/production policy is edited centrally under Administration and shown read-only/effective in Layer 2 operations.
