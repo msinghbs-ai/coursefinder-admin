@@ -755,3 +755,17 @@ Decision:
 - focused FAIL → preserve exact evidence and correct only the failing hard gate;
 - do not weaken Evidence lineage, Firecrawl-first acquisition Evidence, 3,000 ms latency, 250 KB payload, role or security boundaries.
 
+## Focused hard-gate retry 3 pickup — 09468fa5 — 1 September 2026
+
+Check first:
+- settled head `09468fa5e51e152aa6cff36487d28dcb3292bb3f`
+- build `33441608240`
+- focused UAT `33441608153`
+
+Retry 2 proved all hard gates except the core performance suite's `catalogue_filter_page` HTTP status. The 400 was caused by an admin_read dispatcher regression introduced during A27 paging; the full A10/A12 dispatcher is now restored while A27 paging remains.
+
+Decision:
+- focused PASS → reconcile once and nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve exact evidence and correct only the demonstrated remaining gate;
+- no threshold, Evidence, role or security weakening.
+
