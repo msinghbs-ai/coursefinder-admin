@@ -930,3 +930,29 @@ Decision:
 
 Do not weaken A25 Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, role/security, responsive navigation or Layer 1 authority boundaries.
 
+## Focused A25 + Layer-status load pickup — e8da4d1a — 1 September 2026
+
+Check first:
+- marker `e8da4d1a0742fa315bb05776fad2c20610b84bbb`;
+- build `33451852402`;
+- focused UAT `33451852365`.
+
+Previous integration `33449838909` is immutable FAIL evidence:
+- desktop 67/67 PASS;
+- mobile 65 PASS + 1 flaky retry-PASS + 1 real FAIL;
+- real failure was A25 screenshot Evidence `e465eb03-e983-4007-b3f5-d63d00c925fe` receiving two `evidence_detail` HTTP 500 statement timeouts under long-suite load.
+
+Current corrections:
+- Layer-status table-count indexes applied and committed;
+- missing `public.admin_read('layer_status_summary')` dispatch restored;
+- Layer-status direct helper improved from ~1.53 s to ~0.79 s and public route verified ~1.37 s;
+- screenshot Evidence detail warm verification ~16 ms;
+- permanent Dashboard Layer-status UAT added to integration + final acceptance.
+
+Decision:
+- focused PASS/PASS → inspect the focused log once for all three A25 tests, Layer-status test and performance PASS; then nominate exactly one replacement bounded integration candidate;
+- focused FAIL → inspect exact failure and correct only demonstrated issue;
+- do not rerun an unchanged failed candidate.
+
+After a future integration PASS, still perform the required runtime reconciliation for A26 stable parent lineage, A27 deep-link/back-forward Administration semantics, A28 parent-linked cross-surface summaries, and `M244-FU-020` security review before milestone closure/final production baseline.
+
