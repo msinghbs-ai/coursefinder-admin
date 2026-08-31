@@ -718,3 +718,24 @@ The focused UAT contains only:
 
 If all PASS, reconcile once and then nominate exactly one replacement bounded integration candidate. Any FAIL must be preserved and corrected only at the demonstrated gate; do not weaken thresholds or rerun unchanged.
 
+## Latest hard-gate retry pickup — bf412b7d — 1 September 2026
+
+Check first:
+- Pilot head `bf412b7dc5f6156b28b646857a9c6a50e13690a1`
+- build `33439561990`
+- targeted UAT `33439561973`
+
+Latest corrective changes:
+- Administration Layer 2 source registry is now server-paged (50 rows) behind the same `layer2_profiles` operation when paging/filter args are present;
+- live helper/dispatch verified in Supabase;
+- legacy full registry remains available for existing non-Administration consumers;
+- acquisition Evidence gate now validates the accepted Firecrawl-first route;
+- A25 JSON duplicate-label assertion scoped without relaxing JSON/no-screenshot integrity.
+
+If build + targeted UAT PASS, trigger only the focused hard-gate validation again:
+1. A25 JSON/HTML/screenshot integrity;
+2. bounded acquisition creating versioned Evidence;
+3. performance budgets.
+
+Only after focused PASS may a replacement bounded integration candidate be nominated.
+
