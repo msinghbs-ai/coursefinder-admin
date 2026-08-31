@@ -769,3 +769,20 @@ Decision:
 - focused FAIL → preserve exact evidence and correct only the demonstrated remaining gate;
 - no threshold, Evidence, role or security weakening.
 
+## Replacement integration pickup — 8fe22790 — 1 September 2026
+
+Check first:
+- candidate `8fe22790a5bb51710fc09e6d90b8dcd0448cced4`
+- build `33441876450`
+- integration UAT `33441876525`
+
+Pre-proof:
+- build `33441608240` PASS
+- focused hard-gate UAT `33441608153` PASS
+
+Decision:
+- desktop + mobile integration PASS → reconcile runtime once, then nominate exactly one final acceptance candidate;
+- any FAIL → inspect exact failing suites/logs/artifacts, preserve evidence, correct only demonstrated defects, do not rerun unchanged.
+
+Do not weaken A25 Evidence lineage, Firecrawl-first acquisition Evidence, 3,000 ms latency, 250 KB payload, 60 KB filter payload, role/security or Layer 1 authority boundaries.
+
