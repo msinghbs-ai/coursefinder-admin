@@ -541,3 +541,18 @@ In the next corrective Pilot cycle:
 
 A27 should be corrected alongside A26 before one replacement bounded integration candidate is nominated.
 
+## A28 pickup — Layer 2/3 operator-summary hardening — 1 September 2026
+
+New active addendum: `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A28-L2-L3-OPERATOR-SUMMARY-EXPERIMENTAL-UI-HARDENING.md`.
+
+In the next corrective cycle:
+- inspect the current Layer 2 Blockers/required-actions panel and classify each message as actionable blocker vs normal informational progress;
+- move normal background qualification/scheduling info into progress/run summaries;
+- improve Layer 2 and Layer 3 Jobs/Runs summaries using current governed run/job lineage;
+- improve Layer 2 and Layer 3 Evidence summaries using actual active/latest Evidence lineage and type-aware counts;
+- remove/relocate experimental, test-only, demo-only and debug information from normal routes;
+- include a bounded L2/L3 UI bug sweep;
+- validate desktop/tablet/mobile before the next integration nomination.
+
+A28 should be implemented alongside A26 and A27 from the settled corrective head.
+
