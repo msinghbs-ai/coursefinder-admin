@@ -579,3 +579,16 @@ Observed failure classes include:
 
 A26 remains ACTIVE. Implementation may now proceed from the settled head, but the next integration nomination must reconcile both the demonstrated inherited failures and A26 targeted acceptance.
 
+## A27 captured — Administration workspace blank/sub-navigation defect — 1 September 2026
+
+User-observed defect recorded under `EXECUTION-ADDENDUM-A27-ADMINISTRATION-WORKSPACE-NAVIGATION-RELIABILITY.md`.
+
+Current required correction:
+- Administration parent click must render real content;
+- visible sub-context items must respond and switch active content;
+- empty/loading/error/insufficient-rank states must be explicit;
+- canonical route/deep-link/back-forward behaviour must remain functional;
+- no legacy launcher/post-render menu mutation may be used as the fix.
+
+This defect is now a closure blocker for M2.4.4 and must be included in the next corrective Pilot head alongside A26.
+
