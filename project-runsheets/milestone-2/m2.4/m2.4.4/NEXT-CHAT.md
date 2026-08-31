@@ -956,3 +956,22 @@ Decision:
 
 After a future integration PASS, still perform the required runtime reconciliation for A26 stable parent lineage, A27 deep-link/back-forward Administration semantics, A28 parent-linked cross-surface summaries, and `M244-FU-020` security review before milestone closure/final production baseline.
 
+## Focused A25 + Layer-status retry pickup — 5b1725ed — 1 September 2026
+
+Check first:
+- head `5b1725ed1d0775eb1543553374cbb55bf20d3525`;
+- build `33452204866`;
+- focused UAT `33452204859`.
+
+Previous focused run:
+- build `33451852402` PASS;
+- UAT `33451852365` FAIL only because the newly added Layer-status test used incorrect exact capitalization for Layer 3/4 labels;
+- A25 JSON/HTML/screenshot PASS;
+- performance suite PASS.
+
+Current change is test-only label alignment; no runtime or hard-gate change.
+
+Decision:
+- PASS/PASS → inspect the focused log once and nominate exactly one replacement bounded integration candidate;
+- FAIL → correct only demonstrated defect, no unchanged rerun.
+
