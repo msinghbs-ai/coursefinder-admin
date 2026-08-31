@@ -529,3 +529,23 @@ Architecture baseline:
 - Security Advisor: 146 INFO / 0 WARN / 0 ERROR.
 - Performance Advisor: 177 INFO / 0 WARN / 0 ERROR.
 - Integration nomination is now permitted from Pilot source `adf5ac1d85bff0291355ac44650dc149deedcb09`.
+
+## A17–A25 bounded integration active gate — 1 September 2026
+
+- FU-016 is CLOSED / RECONCILED.
+- Final pre-candidate Pilot implementation source: `adf5ac1d85bff0291355ac44650dc149deedcb09`.
+- Exactly one new bounded integration marker was nominated:
+  - candidate commit `aa824aa6abe943e6beebf4aaab361f29d54678ef`;
+  - marker `.github/m2-4-integration-candidate` updated once.
+- Active CI on that exact candidate:
+  - deployed UAT run `33416346862` — **ACTIVE / integration desktop running; mobile pending**;
+  - frontend build run `33416346835` — **PASS**.
+- Do not create another integration candidate while `33416346862` is active.
+- Integration decision rule remains unchanged:
+  - desktop PASS;
+  - mobile PASS;
+  - unchanged 3,000 ms Course performance budget;
+  - no threshold weakening.
+- If `33416346862` fails: retain immutable evidence, inspect exact failure, correct only demonstrated defect/contract, rerun targeted if needed, and nominate a replacement candidate only after this run is terminal.
+- If `33416346862` passes desktop + mobile: record the result, run one closing runtime/Advisor reconciliation, then nominate exactly one new A17–A25-aware final acceptance candidate.
+- Production, broad Publication, Website and Zoho cutover remain unauthorised.
