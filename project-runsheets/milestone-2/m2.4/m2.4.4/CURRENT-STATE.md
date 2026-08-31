@@ -987,3 +987,27 @@ Decision:
 - if PASS/PASS, run one focused validation covering A13 + A16 + performance/A25 regression safety before any further integration nomination;
 - do not rerun `33441876525` unchanged.
 
+## Focused A13/A16 regression active — 85d33b34 — 1 September 2026
+
+Latest corrective head proof:
+- source `037612ae22cea3aee633e5d28b1f32c04185d484`
+- build `33442600012`: PASS
+- targeted UAT `33442600014`: PASS
+
+A dedicated focused regression selector was added:
+- selector commit `6d6f627608fb6ee45b602817af55739ecbb87a49`
+- marker commit `85d33b3481fb22d3a1c8fb8458ebf31800c2f5c5`
+
+Focused regression scope:
+1. A13 tablet Course Provider filter anchoring / no-autofocus / reopen stability;
+2. A13 bounded accepted Firecrawl acquisition proof + governed Evidence navigation;
+3. A16 cross-layer Layer 4 intervention surfaces;
+4. A25 Evidence JSON/HTML/screenshot lineage safety;
+5. performance regression safety including catalogue filters, Layer 2 ops and paged Administration profiles.
+
+Active marker-head runs:
+- frontend build `33443025457` — QUEUED at handover;
+- focused deployed UAT `33443025460` — QUEUED at handover.
+
+Do not nominate another integration candidate until `33443025460` is terminal PASS.
+
