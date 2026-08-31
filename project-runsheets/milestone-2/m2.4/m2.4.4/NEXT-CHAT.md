@@ -513,3 +513,15 @@ Then implement A26:
 - cross-surface counts/status reconcile;
 - targeted UAT before any replacement integration/final acceptance candidate.
 
+## Integration result to preserve before A26 implementation — 1 September 2026
+
+Run `33416346862` is terminal FAIL on candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef`.
+
+Desktop failed; mobile was skipped. Preserve the run as immutable evidence. Do not rerun unchanged.
+
+Before the next integration candidate:
+- correct only demonstrated stale selector/contract defects;
+- retain the 3,000 ms performance budget and investigate real latency breaches;
+- implement and targeted-test A26 parent-run/job/Evidence/Dashboard lineage;
+- then nominate one replacement integration candidate from the settled corrected head.
+
