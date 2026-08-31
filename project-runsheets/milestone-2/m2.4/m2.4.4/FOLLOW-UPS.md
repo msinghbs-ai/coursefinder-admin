@@ -228,3 +228,13 @@ Architecture baseline:
 - **Owner:** M2.4.4
 - **Target:** M2.4.4 closure
 
+## M244-FU-019 — Rationalise Layer 2/3 blocker, run and Evidence summaries; remove experimental UI
+- **Source:** M2.4.4 A28, 1 September 2026
+- **Status:** OPEN
+- **Problem:** Layer 2 end-page blocker/info content may overstate expected background operations; Layer 2/3 Jobs/Runs and Evidence summaries need stronger current-status value; experimental/debug residue and minor UI defects must be swept from normal operator routes.
+- **Impact:** production-readiness suffers when normal automation looks like a blocker or when run/Evidence state is vague, duplicated or inconsistent.
+- **Authority/security:** preserve A14 telemetry, A21 canonical navigation, A23 quota/background policy, A25 Evidence integrity, A26 run lineage and A27 Administration reliability.
+- **Exact next action:** review current Layer 2/3 UI against runtime truth; reclassify blocker/info messages; improve run/Evidence summaries; remove/relocate experimental content; fix demonstrated UI defects; add targeted desktop/tablet/mobile UAT.
+- **Owner:** M2.4.4
+- **Target:** M2.4.4 closure
+
