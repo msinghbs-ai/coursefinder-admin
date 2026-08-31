@@ -207,3 +207,14 @@ Architecture baseline:
 - Governed downstream queues are now explicit and expected: Layer 3 source-pattern requests + Layer 4 source-resolution requests.
 - Closed; bounded integration nomination is permitted.
 
+## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
+- **Source:** M2.4.4 A26, 1 September 2026
+- **Status:** OPEN / BLOCKED ONLY BY ACTIVE INTEGRATION HEAD
+- **Problem / decision:** the accepted A23 background model exists, but production readiness requires one parent-run contract spanning the Layer 2 action, scheduler continuations, Jobs & Runs, Evidence and Dashboard progress.
+- **Impact:** without a shared run identity, operators can see inconsistent progress or unrelated job/Evidence counters and cannot reliably monitor a long-running production-scale scope.
+- **Authority/security:** preserve Layer 1 authority, A14 telemetry, A23 quota/background controls, A25 Evidence integrity and existing role boundaries.
+- **Current evidence:** Pilot `aa824aa6abe943e6beebf4aaab361f29d54678ef`; deployed bounded integration run `33416346862` active when A26 was recorded.
+- **Exact next action:** when `33416346862` is terminal, reconcile the settled Pilot/runtime head; implement stable parent-run lineage, production action message, child-job/Evidence correlation and Dashboard progress; add targeted desktop/tablet/mobile UAT; only then nominate a new integration/final acceptance candidate if required.
+- **Owner:** M2.4.4
+- **Target:** M2.4.4 closure
+
