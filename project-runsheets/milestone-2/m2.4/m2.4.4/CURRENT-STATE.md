@@ -459,3 +459,12 @@ Architecture baseline:
 - Runtime proof remains live: qualification run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` is processing a governed 50-Provider / 500 identity-sample background wave with `route_mode=scraper_first`, `background_scheduler_authorized=true`, and no canonical/Search/Publication mutation authority.
 - Security Advisor: 0 WARN / 0 ERROR (146 INFO).
 - Performance Advisor: 0 WARN / 0 ERROR (178 INFO).
+
+### A23 targeted replacement PASS — 31 August 2026
+
+- Final selector/navigation correction head: `33ff74a9ab4a465aa35edb835a6a5218b42dbdb6`.
+- Deployed targeted UAT run `33362379727`: PASS.
+- This replacement closes the immutable failure lineage from `33346924249`, `33362104361`, and `33362227645` without weakening product role boundaries, Firecrawl quota policy, or performance thresholds.
+- A23 operator contract now proves: background-enrichment action, no manual Wave-1/route knobs, Firecrawl-first effective policy, qualification/production distinction.
+- Administration contract now proves Layer 2 source/provider configuration is reached centrally under Administration with role-appropriate controls.
+- Paired frontend build `33362379732` remained active at this checkpoint; do not push a new Pilot commit until terminal.
