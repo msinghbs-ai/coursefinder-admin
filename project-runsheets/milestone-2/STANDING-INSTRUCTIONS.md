@@ -345,3 +345,15 @@ Standing requirements:
 - direct/deep routes and back/forward must not produce an empty shell;
 - implementation must extend the canonical `src/mature-main.jsx` route/navigation model and must not depend on legacy floating launchers or post-render DOM mutation.
 
+## A28 — Layer 2/3 operator summary and experimental UI hardening
+
+M2 work after 1 September 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A28-L2-L3-OPERATOR-SUMMARY-EXPERIMENTAL-UI-HARDENING.md`.
+
+Standing requirements:
+- Layer 2/3 routine pages show actionable operational status, not experimental/debug residue;
+- expected healthy background processing must not be styled or classified as a blocker;
+- Jobs/Runs and Evidence summaries must reconcile with governed runtime/run lineage;
+- Layer 3 gets the same information-quality treatment as Layer 2;
+- experimental/test-only controls, stale demo labels, developer probes and duplicated settings must be removed from normal operator routes or moved under governed diagnostics/Administration;
+- perform a bounded Layer 2/3 UI bug-fix sweep before M2.4.4 closure.
+
