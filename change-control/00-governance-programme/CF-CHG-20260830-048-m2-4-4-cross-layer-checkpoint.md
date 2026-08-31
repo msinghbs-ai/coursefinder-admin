@@ -634,3 +634,22 @@ Required semantic outcome:
 
 A28 is a M2.4.4 closure requirement and should ship in the same corrective cycle as A26/A27 before the next bounded integration candidate.
 
+## A26-A28 implementation checkpoint — f32eb940 — 1 September 2026
+
+Corrective implementation is active at Pilot `f32eb94063f0ff6190a63db8905b3a6e73805bee`.
+
+Implemented observable changes:
+- Layer 2 normal action now communicates production-enrichment intent and scheduler continuation.
+- obsolete Jobs/Evidence navigation labels corrected to canonical routes.
+- healthy source qualification removed from the blocker list.
+- experimental/demo-oriented Firecrawl proof reduced to progressive disclosure.
+- Administration parent route now renders a non-empty overview with explicit clickable sub-context tabs.
+- Layer 3 exposes a current operations/Evidence summary and removes routine profile mutation control from the operational page.
+- dedicated A26-A28 deployed acceptance suite added and wired into targeted/integration/acceptance tiers.
+
+Active validation:
+- frontend build `33419567099`;
+- targeted deployed UAT `33419567115`.
+
+No replacement integration candidate is authorised until both are terminal and reconciled. Existing performance/security thresholds remain unchanged.
+
