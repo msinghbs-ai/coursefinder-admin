@@ -786,3 +786,19 @@ Decision:
 
 Do not weaken A25 Evidence lineage, Firecrawl-first acquisition Evidence, 3,000 ms latency, 250 KB payload, 60 KB filter payload, role/security or Layer 1 authority boundaries.
 
+## Post-integration A13/A16 pickup — 037612ae — 1 September 2026
+
+Check first:
+- Pilot head `037612ae22cea3aee633e5d28b1f32c04185d484`
+- build `33442600012`
+- targeted UAT `33442600014`
+
+Previous integration `33441876525` is immutable FAIL evidence. All major A17-A28, A25, acquisition Evidence, Administration and performance suites passed; only A13/A16 assertions remained.
+
+Latest corrections:
+- bounded Firecrawl acquisition proof restored to compact Layer 2 overview while `sources=[]` remains;
+- tablet anchoring test no longer requires arbitrary distance from viewport centre;
+- A16 Provider runtime test accepts an empty-but-governed top-level L4 overlay while still proving nested contact resolve and source-level Underlying/Effective rendering.
+
+If latest build/UAT PASS, run focused A13+A16 regression validation plus A25/performance safety. Only then nominate one replacement bounded integration candidate.
+
