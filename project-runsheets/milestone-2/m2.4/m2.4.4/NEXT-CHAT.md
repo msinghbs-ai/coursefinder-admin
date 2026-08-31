@@ -853,3 +853,20 @@ Latest correction adds a page-first unfiltered Course browse path and removes th
 
 If latest build/UAT PASS, run focused Course interaction performance validation next. Only after focused PASS may another replacement bounded integration candidate be nominated.
 
+## Focused Course performance pickup — be590663 — 1 September 2026
+
+Check first:
+- head `be590663a228d2f986e0707bc06e6a7a8db15edc`
+- build `33447611021`
+- focused performance UAT `33447610954`
+
+Pre-proof:
+- build `33447312341` PASS
+- deployed UAT `33447312300` PASS
+- live DB timing after correction: default Course page ~1.22 s; full Course detail ~0.98 s.
+
+Decision:
+- focused performance PASS → reconcile once and nominate exactly one replacement bounded integration candidate;
+- focused performance FAIL → preserve exact timings/evidence and fix only demonstrated bottlenecks;
+- no threshold or payload-gate weakening.
+
