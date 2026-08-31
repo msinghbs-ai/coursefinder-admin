@@ -672,3 +672,30 @@ Decision rule:
 4. only then nominate exactly one replacement bounded integration candidate;
 5. unchanged 3,000 ms performance budget and security/role boundaries remain mandatory.
 
+## A26-A28 corrective retry active — 6390374 — 1 September 2026
+
+Prior head `f32eb94063f0ff6190a63db8905b3a6e73805bee` produced immutable FAIL evidence:
+- frontend workflow `33419567099`: production bundle build job PASS, browser-smoke FAIL during UAT suite discovery because two test files had syntax defects;
+- targeted deployed UAT `33419567115`: FAIL because A23 still expected the obsolete Administration cards.
+
+Exact demonstrated defects corrected:
+- `f2c2b4b5ed20e43853c7125abac15f434f5ed224` — repaired malformed Administration UAT source and canonical assertions;
+- `ffd3cd20731e6cc41865a3cc62c534bd7623421d` — repaired missing parenthesis in A26-A28 deployed operator UX spec;
+- `6390374049cbd8a82a9084c418641d7599b8290f` — aligned A23 Administration acceptance to the new sub-context tab contract.
+
+Current authoritative Pilot head:
+- `6390374049cbd8a82a9084c418641d7599b8290f`
+
+Active latest-head automation:
+- frontend build `33419997121` — QUEUED at handover;
+- targeted deployed UAT `33419997114` — PENDING at handover.
+
+Intermediate earlier-head runs may still be cancelling/finishing due push concurrency and are not candidate evidence for the settled head.
+
+Decision rule:
+1. next chat checks `33419997121` and `33419997114` first;
+2. if either FAILS, inspect exact latest-head evidence and correct only demonstrated defects;
+3. if both PASS, reconcile deployed runtime/UI once and nominate exactly one replacement bounded integration candidate;
+4. do not rerun older superseded heads;
+5. preserve unchanged performance/security thresholds.
+
