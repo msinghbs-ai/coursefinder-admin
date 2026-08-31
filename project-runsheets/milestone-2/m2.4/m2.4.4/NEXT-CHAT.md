@@ -975,3 +975,20 @@ Decision:
 - PASS/PASS → inspect the focused log once and nominate exactly one replacement bounded integration candidate;
 - FAIL → correct only demonstrated defect, no unchanged rerun.
 
+## Replacement integration pickup — 2c548673 — 1 September 2026
+
+Check first:
+- candidate `2c548673383920b1f134c809269d218042237de0`
+- build `33452687372`
+- integration UAT `33452687369`
+
+Pre-proof:
+- focused build `33452204866` PASS
+- focused A25 + Layer-status + performance UAT `33452204859` PASS, 8/8
+
+Decision:
+- desktop + mobile integration PASS → record integrated PASS, then perform the required A26/A27/A28 runtime reconciliation and M244-FU-020 security review before any final acceptance nomination;
+- any FAIL → inspect exact logs/artifacts, preserve immutable evidence, fix only demonstrated defects, no unchanged rerun.
+
+Do not weaken A25 Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, responsive navigation, role/security or Layer 1 authority boundaries.
+
