@@ -552,3 +552,18 @@ M2.4.4 now additionally owns active Addendum A26.
 ### Sequencing guard
 Pilot candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef` is still under deployed bounded integration run `33416346862`. Do not push A26 implementation until that run is terminal. Preserve its result, then implement A26 from the settled head and run targeted validation before any new integration/final-acceptance nomination.
 
+## A27 — Administration empty-screen/sub-navigation defect — 1 September 2026
+
+M2.4.4 now additionally owns active Addendum A27.
+
+### W13 — Administration workspace reliability
+- fix the canonical Administration parent route so it never renders as an empty shell;
+- ensure all visible Administration sub-context items are actually interactive and render their associated content;
+- provide a meaningful default/overview section when no sub-route is selected;
+- preserve rank/permission boundaries with explicit unavailable states rather than blank content;
+- verify deep links and browser back/forward behaviour;
+- verify desktop/tablet/mobile interaction;
+- preserve A20/A21 canonical navigation and avoid reintroducing floating configuration launchers.
+
+A27 must be corrected in the same settled-head cycle as A26 before the next bounded integration nomination.
+
