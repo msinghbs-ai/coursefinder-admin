@@ -297,3 +297,13 @@ Standing requirements:
 - Layer 2 production execution is background/scheduled and quota-aware; current effective Firecrawl entitlement/reserve/rate/concurrency is read from runtime provider configuration.
 - Firecrawl direct/scraper-first is the default effective production route under A23; no silent paid fallback.
 - Qualification/production policy is edited centrally under Administration and shown read-only/effective in Layer 2 operations.
+
+
+## A24 — Unified Layer workspace header scheme
+
+Read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A24-UNIFIED-LAYER-HEADER-SCHEME.md`.
+
+- The accepted Layer 2 dark header treatment is the permanent header architecture for Layers 1–4.
+- Use dark navy, violet/indigo eyebrow, white Layer title, muted explanatory text and dark utility actions.
+- Keep the Layer workspace embedded; do not reintroduce floating/experimental Layer banners.
+- Preserve responsive wrapping and no horizontal overflow at tablet/mobile widths.
