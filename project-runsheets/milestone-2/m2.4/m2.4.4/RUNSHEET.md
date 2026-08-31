@@ -567,3 +567,26 @@ M2.4.4 now additionally owns active Addendum A27.
 
 A27 must be corrected in the same settled-head cycle as A26 before the next bounded integration nomination.
 
+## A28 — Layer 2/3 operator-summary and experimental UI hardening — 1 September 2026
+
+M2.4.4 now additionally owns active Addendum A28.
+
+### W14 — blocker/info-message rationalisation
+- reassess the Layer 2 end-of-page Blockers/required-actions section;
+- only real operator-action conditions remain blockers;
+- healthy scheduled qualification/background continuation moves into progress/run context;
+- avoid duplicated or alarm-styled informational messages.
+
+### W15 — Layer 2/3 Jobs & Runs / Evidence summaries
+- provide concise, current Layer 2 and Layer 3 run summaries using governed parent-run/job lineage;
+- provide useful Evidence summaries scoped to active/latest work rather than only raw totals;
+- link directly to detailed Jobs & Runs and Evidence views;
+- reconcile counts/status across Layer pages, Dashboard, Jobs and Evidence.
+
+### W16 — Layer 2/3 experimental UI and defect sweep
+- remove/relocate pilot, experimental, demo-only, probe/debug, stale workaround and duplicated configuration content from routine routes;
+- perform a bounded Layer 2/Layer 3 UI bug-fix sweep for dead controls, duplicate headings, blank panels, loading flashes, overflow, incorrect alert severity, accessibility and count inconsistencies;
+- preserve A14/A21/A23/A25/A26/A27 authority and UX contracts.
+
+A28 must be included in the same corrective cycle as A26/A27 before the next bounded integration nomination.
+
