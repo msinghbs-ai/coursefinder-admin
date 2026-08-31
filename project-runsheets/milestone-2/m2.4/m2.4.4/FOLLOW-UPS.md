@@ -199,11 +199,11 @@ Architecture baseline:
 
 ## M244-FU-016 — A23 background qualification continuation recovery
 
-- Status: **ACTIVE — autonomous recovery proven; terminal reconciliation pending**.
-- Run: `94557562-e292-4ed9-bdf3-8b2dcc370c6b`.
-- Corrective Pilot head: `c473a785fce3a31c90349044e05926f77a2fa2f7`.
-- Targeted UAT `33385645813` PASS; build `33385645810` PASS.
-- Autonomous continuation is proven after governed resume `2388`; do not manually repeat continuation while the chain is advancing.
-- At checkpoint: 60 `layer3_required`, 150 `source_pattern_candidate`, 290 `qualifying` samples.
-- Close this follow-up only after the run reaches a terminal state and post-run scheduler/budget/telemetry/advisor reconciliation is clean.
-- Bounded integration nomination remains blocked until this follow-up is terminal/reconciled.
+- Status: **COMPLETE / RECONCILED — 1 September 2026**.
+- Original run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` completed after autonomous continuation repair.
+- Continuation repair: `c473a785fce3a31c90349044e05926f77a2fa2f7`; targeted UAT/build PASS.
+- Finalizer/handoff completion: `adf5ac1d85bff0291355ac44650dc149deedcb09`; targeted UAT `33390795147` PASS; build `33390795285` PASS.
+- Final runtime reconciliation: no active/planned qualification waves; qualification/finalizer crons latest-success; Firecrawl 1,820/5,000 used with reserve intact; Advisors 0 WARN/0 ERROR.
+- Governed downstream queues are now explicit and expected: Layer 3 source-pattern requests + Layer 4 source-resolution requests.
+- Closed; bounded integration nomination is permitted.
+
