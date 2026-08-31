@@ -858,3 +858,24 @@ Active latest-head validation:
 Do not act on cancelled intermediate runs.
 Next chat must check `33439561990` and `33439561973` first. If PASS/PASS, rerun the focused hard-gate marker/suite only; do not nominate integration until the focused suite passes.
 
+## Focused hard-gate retry 2 active — df80f67f — 1 September 2026
+
+Latest corrective head before marker:
+- `bf412b7dc5f6156b28b646857a9c6a50e13690a1`
+- build `33439561990`: PASS
+- targeted deployed UAT `33439561973`: PASS
+
+Focused hard-gate retry marker:
+- `df80f67f03ea2b9ea8bf61f5abffcecaf4c02988`
+
+Active runs:
+- frontend build `33441013976` — QUEUED at handover
+- focused deployed UAT `33441013635` — QUEUED at handover
+
+Focused scope remains only:
+1. A25 JSON/HTML/screenshot Evidence integrity;
+2. bounded Firecrawl-first Course acquisition creating governed versioned Evidence;
+3. performance budgets, including Layer 2 operations and Administration source registry <=3,000 ms / <=250,000 bytes.
+
+Do not nominate another integration candidate until `33441013635` is terminal PASS.
+
