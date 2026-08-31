@@ -612,3 +612,25 @@ Required outcome:
 
 A27 is a M2.4.4 closure blocker and must be corrected before the next bounded integration candidate.
 
+## A28 scope addition — Layer 2/3 operator summary and experimental UI hardening — 1 September 2026
+
+Stakeholder direction adds `EXECUTION-ADDENDUM-A28-L2-L3-OPERATOR-SUMMARY-EXPERIMENTAL-UI-HARDENING.md` to this active Change Control.
+
+Affected surfaces:
+- Layer 2 canonical workspace;
+- Layer 3 canonical workspace;
+- blocker/info-message presentation;
+- Layer-specific Jobs/Runs summaries;
+- Layer-specific Evidence summaries;
+- browser-facing diagnostics/experimental content;
+- targeted UI defect corrections.
+
+Required semantic outcome:
+- expected healthy automation is not misclassified as a blocker;
+- actionable blockers remain prominent;
+- Layer 2/3 run and Evidence summaries reconcile with governed runtime lineage;
+- experimental/debug/demo-only information does not dominate routine operator views;
+- demonstrated Layer 2/3 UI defects are corrected before closure.
+
+A28 is a M2.4.4 closure requirement and should ship in the same corrective cycle as A26/A27 before the next bounded integration candidate.
+
