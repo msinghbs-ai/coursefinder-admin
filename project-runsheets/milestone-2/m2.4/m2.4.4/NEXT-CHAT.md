@@ -739,3 +739,19 @@ If build + targeted UAT PASS, trigger only the focused hard-gate validation agai
 
 Only after focused PASS may a replacement bounded integration candidate be nominated.
 
+## Focused hard-gate retry 2 pickup — df80f67f — 1 September 2026
+
+Check first:
+- head `df80f67f03ea2b9ea8bf61f5abffcecaf4c02988`
+- build `33441013976`
+- focused UAT `33441013635`
+
+Pre-proof on `bf412b7d...`:
+- build PASS
+- targeted UAT PASS
+
+Decision:
+- focused PASS → reconcile once and nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve exact evidence and correct only the failing hard gate;
+- do not weaken Evidence lineage, Firecrawl-first acquisition Evidence, 3,000 ms latency, 250 KB payload, role or security boundaries.
+
