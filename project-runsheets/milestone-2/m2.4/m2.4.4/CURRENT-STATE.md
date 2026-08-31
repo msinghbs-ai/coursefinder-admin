@@ -549,3 +549,17 @@ Architecture baseline:
 - If `33416346862` fails: retain immutable evidence, inspect exact failure, correct only demonstrated defect/contract, rerun targeted if needed, and nominate a replacement candidate only after this run is terminal.
 - If `33416346862` passes desktop + mobile: record the result, run one closing runtime/Advisor reconciliation, then nominate exactly one new A17–A25-aware final acceptance candidate.
 - Production, broad Publication, Website and Zoho cutover remain unauthorised.
+
+## A26 captured — Layer 2 production run/progress lineage — 1 September 2026
+
+Addendum `EXECUTION-ADDENDUM-A26-L2-PRODUCTION-RUN-PROGRESS-LINEAGE.md` is ACTIVE.
+
+Required correction:
+- one production-oriented Layer 2 background action;
+- stable parent-run identity across qualification/production/scheduler continuations;
+- Jobs & Runs and Evidence aligned to that run;
+- Dashboard uses the same reconciled run for measurable runtime progress and scheduled remainder;
+- cross-surface status/count lineage must agree.
+
+Implementation is intentionally not pushed yet because A17–A25 bounded integration run `33416346862` on Pilot `aa824aa6abe943e6beebf4aaab361f29d54678ef` is still active. Next technical action is to check that run first; after terminal result, implement A26 from the settled head without weakening A14/A23/A25.
+
