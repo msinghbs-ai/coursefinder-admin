@@ -1250,3 +1250,30 @@ Decision:
 - focused FAIL → preserve exact evidence and fix only the demonstrated remaining defect;
 - no unchanged rerun and no Evidence/performance/security threshold weakening.
 
+## Focused A25 + Layer-status retry active — 5b1725ed — 1 September 2026
+
+Focused marker `e8da4d1a0742fa315bb05776fad2c20610b84bbb` produced:
+- build `33451852402`: PASS;
+- focused UAT `33451852365`: FAIL.
+
+The focused UAT failure was a new-test contract mismatch only:
+- all three A25 JSON/HTML/screenshot Evidence tests PASS;
+- all performance tests PASS;
+- sole failure was `m2-4-4-layer-status-deployed.spec.mjs` expecting `Layer 3 · AI Interpretation` / `Layer 4 · Human Resolution`;
+- production UI correctly renders `Layer 3 · AI interpretation` / `Layer 4 · Human resolution`;
+- no runtime, Evidence, performance, role or security regression was demonstrated.
+
+Correction:
+- test-only label alignment commit `e4b1b952b2ecc4a57de0024fc5fc8f2530b3a17d`;
+- focused marker updated in `5b1725ed1d0775eb1543553374cbb55bf20d3525`;
+- no runtime semantics or hard gates changed.
+
+Active exact-head runs:
+- frontend build `33452204866` — QUEUED at handover;
+- focused deployed UAT `33452204859` — PENDING at handover.
+
+Decision:
+- focused PASS/PASS → inspect once, then nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve immutable evidence and fix only demonstrated defect;
+- do not rerun either failed focused candidate unchanged.
+
