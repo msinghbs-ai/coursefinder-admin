@@ -567,3 +567,27 @@ Architecture baseline:
 - If `33416346862` fails: retain immutable evidence, inspect exact failure, correct only demonstrated defect/contract, rerun targeted if needed, and nominate a replacement candidate only after this run is terminal.
 - If `33416346862` passes desktop + mobile: record the result, run one closing runtime/Advisor reconciliation, then nominate exactly one new A17–A25-aware final acceptance candidate.
 - Production, broad Publication, Website and Zoho cutover remain unauthorised.
+
+## A26 scope addition — Layer 2 production run/progress lineage — 1 September 2026
+
+Stakeholder direction adds `EXECUTION-ADDENDUM-A26-L2-PRODUCTION-RUN-PROGRESS-LINEAGE.md` to this active Change Control.
+
+Affected surfaces:
+- Layer 2 canonical Operations workspace;
+- Dashboard / pipeline operations overview;
+- Jobs & Runs;
+- private Evidence/provenance read paths;
+- scheduler/run reconciliation;
+- operator guidance/release notes/UAT.
+
+Required semantic outcome:
+- a single governed Layer 2 production action creates/resolves one stable parent run;
+- qualification, production waves, scheduler continuations, retries and child jobs correlate to it;
+- Evidence produced by the workload links to the producing run/job/attempt;
+- Dashboard progress is calculated from the reconciled active run and explicitly shows scheduled remainder/next action;
+- the same run cannot present contradictory status/counts across Layer 2, Dashboard, Jobs & Runs and Evidence.
+
+Sequencing: Pilot candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef` / deployed UAT `33416346862` was active when A26 was recorded. Do not alter that candidate. Implement A26 only from the settled head after this run becomes terminal.
+
+This change does not authorise Production cutover, broad Publication or Website/Zoho cutover.
+
