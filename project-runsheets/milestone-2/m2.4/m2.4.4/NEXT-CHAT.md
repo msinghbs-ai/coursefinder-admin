@@ -493,3 +493,23 @@ Architecture baseline:
 - If `33416346862` fails: retain immutable evidence, inspect exact failure, correct only demonstrated defect/contract, rerun targeted if needed, and nominate a replacement candidate only after this run is terminal.
 - If `33416346862` passes desktop + mobile: record the result, run one closing runtime/Advisor reconciliation, then nominate exactly one new A17–A25-aware final acceptance candidate.
 - Production, broad Publication, Website and Zoho cutover remain unauthorised.
+
+## A26 pickup — production run/progress lineage — 1 September 2026
+
+New active addendum: `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A26-L2-PRODUCTION-RUN-PROGRESS-LINEAGE.md`.
+
+Before touching Pilot:
+1. check deployed integration run `33416346862` for candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef`;
+2. do not push while that run is active;
+3. once terminal, preserve its immutable result and reconcile the settled Pilot/runtime head.
+
+Then implement A26:
+- one production-oriented Layer 2 background action;
+- stable parent-run ID through qualification, production waves and scheduler continuation;
+- post-action message includes run/phase/dispatched/remainder/next scheduler action;
+- Jobs & Runs child jobs reconcile to the parent;
+- Evidence retains exact producing run/job/attempt lineage;
+- Dashboard shows real runtime phase/progress/heartbeat/remainder/route/vendor/Evidence/next-action state;
+- cross-surface counts/status reconcile;
+- targeted UAT before any replacement integration/final acceptance candidate.
+
