@@ -1172,3 +1172,30 @@ Active marker-head runs:
 
 Do not nominate another integration or final acceptance candidate until `33449532351` is terminal PASS.
 
+## Replacement integration active after mobile regression PASS — 03ebfab7 — 1 September 2026
+
+Focused mobile-navigation/profile proof:
+- source `0d7e8b9a3a97e4d53c0e5fb79142d7d889325c0d`
+- build `33449532352`: PASS
+- focused deployed UAT `33449532351`: PASS
+
+Proven before integration:
+- mobile canonical navigation uses the existing hamburger-aware `clickPrimaryNav`;
+- Layer 2 profile registry ignores stale out-of-order page/search responses;
+- Administration/A21/A23/A24/A26-A28 mobile regression PASS;
+- Layer 2 profile list/detail filtered-search stability PASS;
+- prior desktop integration leg `33447808931`: 67/67 PASS;
+- focused Course performance `33447610954`: PASS;
+- focused A13/A16+A25+performance `33443025460`: PASS.
+
+Exactly one replacement bounded integration candidate is now nominated:
+- candidate `03ebfab70fbec46a8d12e2a2e7b8e67e0f500f99`
+- frontend build `33449838833` — QUEUED at handover
+- deployed integration UAT `33449838909` — QUEUED at handover
+
+This candidate revalidates A17-A28 on desktop/mobile with all unchanged Evidence, performance, Layer 1 authority, role/security and responsive-navigation boundaries.
+
+Do not create another integration or final acceptance candidate while `33449838909` is active.
+If desktop+mobile integration PASS, perform one runtime reconciliation and nominate exactly one final acceptance candidate.
+If FAIL, preserve immutable evidence and correct only demonstrated defects; no unchanged rerun.
+
