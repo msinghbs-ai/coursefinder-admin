@@ -699,3 +699,37 @@ Decision rule:
 4. do not rerun older superseded heads;
 5. preserve unchanged performance/security thresholds.
 
+## A17-A28 reconciliation checkpoint — 8309d600 — 1 September 2026
+
+Latest Pilot head:
+- `8309d6003c51767785f7c84ced0f6dfba61812cb`
+
+Latest-head automation:
+- frontend build `33420469497` — IN PROGRESS at checkpoint;
+- targeted deployed UAT `33420469521` — PENDING at checkpoint.
+
+A17-A25 have been explicitly reconciled against failed integration `33416346862`; they are not being treated as implicitly fixed.
+
+### Earlier-addenda acceptance reconciliation
+- A17/A18/A19/A20 navigation/governance surfaces: canonical sidebar/Administration tests remain in integration; Administration blank-shell and routing issues additionally covered by A27.
+- A21 permanent Layer navigation: stale Layer 2 action wording corrected to `Start production enrichment`; canonical four-Layer route assertions remain.
+- A22 responsive Provider/Course blades: Course drawer acceptance updated to the already-implemented wider `min(1100px,66vw)` desktop contract; tablet/mobile scroll/containment remains a hard gate.
+- A23 quota/background execution: production-action wording, Administration configuration tabs, worker v1.0.3 continuation contract and background policy assertions reconciled; no manual Wave-1 controls restored.
+- A24 unified Layer headers: existing integration suite remains unchanged and must pass.
+- A25 Evidence type-aware integrity: **not relaxed**. JSON must not inherit screenshots; HTML may use only exact same-attempt screenshot; screenshot Evidence must preview its own image.
+- A13 accepted acquisition Evidence demonstration was updated from experimental/meeting wording to the production Firecrawl/scheduler/budget/Evidence route and progressive-disclosure acquisition example.
+- Layer 3 operations acceptance now matches the canonical `Qualified model routes` heading while preserving benchmark, Evidence, credentials and human-review provenance checks.
+- release-note acceptance now targets v2.15.14 and retains prior release history checks.
+
+### Hard gates deliberately not weakened
+The following failures from `33416346862` must prove PASS in the replacement integration rather than being edited away:
+- Data Quality → private Regulatory Snapshot Evidence opening;
+- A25 JSON/screenshot Evidence lineage;
+- bounded direct Course acquisition creating governed versioned Evidence;
+- Layer 2 management-view and Course interaction latency <= 3,000 ms;
+- security/role/Evidence boundaries.
+
+### Replacement integration rule
+Do not nominate integration until latest-head build `33420469497` and targeted UAT `33420469521` are both PASS.
+After PASS/PASS, nominate exactly one bounded integration candidate that includes the permanent A17-A28-relevant suites plus hard Evidence/performance gates.
+
