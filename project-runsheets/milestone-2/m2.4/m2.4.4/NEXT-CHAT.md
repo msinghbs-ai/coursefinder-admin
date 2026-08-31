@@ -385,3 +385,21 @@ Permanent UAT:
 
 Architecture baseline:
 - Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decisions 36–37.
+
+### A23 navigation/UAT correction and live background proof — 31 August 2026
+
+- Immutable A23 deployed UAT failure `33346924249` was reviewed in full.
+- Failure 1 was selector-only: the test expected a standalone exact text node `Firecrawl direct`; the canonical route renders it inside the numbered effective acquisition-policy chain.
+- Failure 2 was role-boundary mismatch: the test assumed the browser UAT account could see the rank-5 Layer 2 policy editor. The product correctly hides that editor below rank 5.
+- No server-side role threshold or Firecrawl quota/production limit was weakened.
+- Canonical Administration product gap was also corrected: mature Layer 2 source-profile and acquisition-provider consoles are now embedded under the central Administration workspace rather than being unreachable legacy modules:
+  - source console embed `bcb8a5140703e89b24cb65a662cba1b754c7870b`;
+  - provider console embed `61b5242d31dfe945847a5c9ddb432cf3d4e94461`;
+  - embedded layout CSS `48e55fe546e72d9656eb6c040711215d4dddc192` / `20b38e916d4f0b0b1906eb6c04fbc1b4298e574a`;
+  - central Administration placement `23cf4d63437a900a43f407984d88b77f13f76dc1`;
+  - shared UAT navigation corrected to Administration `29ae2b9a95f043863a1f5448129e50deac00bead`;
+  - A23 UAT made route-aware and rank-aware `b86c88a0d1ce6819fd6741cd37dadd7cb7bacea0`.
+- Replacement A23 build/UAT pair: build `33362104409`, targeted deployed UAT `33362104361`; active at this checkpoint and must not be duplicated/cancelled.
+- Runtime proof remains live: qualification run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` is processing a governed 50-Provider / 500 identity-sample background wave with `route_mode=scraper_first`, `background_scheduler_authorized=true`, and no canonical/Search/Publication mutation authority.
+- Security Advisor: 0 WARN / 0 ERROR (146 INFO).
+- Performance Advisor: 0 WARN / 0 ERROR (178 INFO).
