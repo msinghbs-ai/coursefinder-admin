@@ -754,3 +754,44 @@ Candidate scope explicitly revalidates A17-A28 and retains unchanged hard gates:
 Do not nominate another integration candidate while `33421322389` is active.
 Next chat must check `33421322395` and `33421322389` first. If integration FAILS, preserve exact evidence and correct only demonstrated defects. If desktop+mobile integration PASS, reconcile runtime once and nominate exactly one final acceptance candidate.
 
+## Post-integration corrective cycle — cfad41b4 — 1 September 2026
+
+Replacement bounded integration candidate `4c47ea72a8c5acce70cd3402c0dd512c5ed94537` is immutable FAIL evidence:
+- build `33421322395`: PASS;
+- deployed integration UAT `33421322389`: FAIL on desktop; mobile not accepted.
+
+Failure reconciliation:
+- A13 expected a screenshot on JSON Evidence; corrected to enforce A25 semantics instead (JSON preview + no inherited visual).
+- Data Quality Regulatory Snapshot assertion hit duplicate visible headings; scoped to the first heading without weakening private Evidence checks.
+- Onboarding create controls are rank-gated; test now proves the create surface only when available and otherwise proves no Create Draft action is exposed.
+- Layer 3 Evidence guidance and A28 Jobs/Evidence links had duplicate valid renderings; assertions scoped without changing content requirements.
+- A21 Firecrawl route assertion now validates the complete governed route chain rather than exact duplicate leaf text.
+- A25 Evidence integrity semantics remain unchanged; only detail-settle timeout was raised from the 6-second deterministic UI helper to 20 seconds.
+- bounded direct Course acquisition creating versioned Evidence remains a genuine unresolved integration gate.
+- Layer 2 performance remained a genuine defect: `layer2_ops_overview` measured 4,929 ms and 743,462 bytes against unchanged <=3,000 ms / <=250,000-byte budgets.
+
+Performance correction:
+- live Supabase `security.admin_layer2_ops_read('layer2_ops_overview')` no longer returns the unused 939-profile source registry;
+- source registry remains available through dedicated Administration projections;
+- committed migration: `20260901064000_m2_4_4_a26_layer2_ops_overview_compact.sql`;
+- Pilot corrective head: `cfad41b46d2300519c49b094e9f1bd00fe6840f8`;
+- live function definition verified with `'sources','[]'::jsonb`.
+
+Advisor truth after the DDL:
+- Security Advisor: 146 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor: 175 INFO / 0 WARN / 0 ERROR.
+
+Security follow-up:
+- Supabase table introspection separately reported 15 RLS-disabled tables (including operational `pipeline.*` tables) while the Security Advisor still reports 0 WARN / 0 ERROR.
+- do not blanket-enable RLS without policy reconciliation; record as a security architecture investigation before Production cutover.
+
+Active latest-head validation:
+- build `33437964516` — IN PROGRESS at handover;
+- deployed targeted UAT `33437964520` — IN PROGRESS at handover.
+
+Decision:
+1. next chat checks these two exact runs first;
+2. if PASS/PASS, run focused hard-gate validation for A25 Evidence, direct acquisition Evidence creation and performance;
+3. only after those pass may another bounded integration candidate be nominated;
+4. do not rerun `33421322389` unchanged.
+
