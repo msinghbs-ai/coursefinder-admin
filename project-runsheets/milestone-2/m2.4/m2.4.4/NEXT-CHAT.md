@@ -837,3 +837,19 @@ Decision:
 
 Keep A25 Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB payload, 60 KB filter payload, role/security and Layer 1 authority boundaries unchanged.
 
+## Course performance pickup — 1f423711 — 1 September 2026
+
+Check first:
+- Pilot head `1f423711706114675b2d4cacfb84258e0fe2f7e8`
+- build `33447312341`
+- deployed UAT `33447312300`
+
+Previous integration `33443274535` is immutable FAIL evidence. Its only failing area was exact Course interaction performance:
+- courses_page 6,755 ms;
+- course_detail 4,225 ms;
+- unchanged gate remains <=3,000 ms.
+
+Latest correction adds a page-first unfiltered Course browse path and removes the general catalogue-page roundtrip from Course state summary. Live DB timing after the change is ~1.22 s for default page and ~0.98 s for full Course detail.
+
+If latest build/UAT PASS, run focused Course interaction performance validation next. Only after focused PASS may another replacement bounded integration candidate be nominated.
+
