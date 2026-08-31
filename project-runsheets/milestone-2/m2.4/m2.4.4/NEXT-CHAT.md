@@ -525,3 +525,19 @@ Before the next integration candidate:
 - implement and targeted-test A26 parent-run/job/Evidence/Dashboard lineage;
 - then nominate one replacement integration candidate from the settled corrected head.
 
+## A27 pickup — Administration workspace reliability — 1 September 2026
+
+New active addendum: `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A27-ADMINISTRATION-WORKSPACE-NAVIGATION-RELIABILITY.md`.
+
+In the next corrective Pilot cycle:
+- reproduce Administration parent-route blank state from current repo/runtime truth;
+- reconcile canonical `src/mature-main.jsx` Administration route and embedded sub-context bindings;
+- make parent click render a meaningful default section;
+- make every visible sub-context actually switch/render content;
+- add explicit rank/loading/error states;
+- validate direct/deep links and browser back/forward;
+- run desktop/tablet/mobile targeted UAT;
+- do not use floating launchers or post-render DOM mutation as the solution.
+
+A27 should be corrected alongside A26 before one replacement bounded integration candidate is nominated.
+
