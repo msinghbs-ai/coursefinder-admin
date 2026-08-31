@@ -307,3 +307,15 @@ Read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A24-UNIFIED-
 - Use dark navy, violet/indigo eyebrow, white Layer title, muted explanatory text and dark utility actions.
 - Keep the Layer workspace embedded; do not reintroduce floating/experimental Layer banners.
 - Preserve responsive wrapping and no horizontal overflow at tablet/mobile widths.
+
+
+## A25 — Evidence type-aware preview and screenshot lineage integrity
+
+Read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A25-EVIDENCE-TYPE-AWARE-PREVIEW-SCREENSHOT-INTEGRITY.md`.
+
+Standing Evidence UX/data-integrity rules:
+- Evidence type and MIME/format remain separately visible and filterable.
+- JSON/API/text/workbook/PDF Evidence must never be replaced by a generic website screenshot thumbnail.
+- Related screenshots are permitted only for an exact HTML acquisition attempt using non-null Evidence linkage; empty/null matching is prohibited.
+- Screenshot Evidence previews its own image; JSON/text preview comes from the selected artifact's own governed private object.
+- Screenshot Evidence remains visual corroboration only and does not replace source/HTML/JSON Evidence for extraction, lineage or audit.
