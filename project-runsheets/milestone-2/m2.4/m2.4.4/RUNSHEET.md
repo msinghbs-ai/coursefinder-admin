@@ -528,3 +528,27 @@ Architecture baseline:
 - If `33416346862` fails: retain immutable evidence, inspect exact failure, correct only demonstrated defect/contract, rerun targeted if needed, and nominate a replacement candidate only after this run is terminal.
 - If `33416346862` passes desktop + mobile: record the result, run one closing runtime/Advisor reconciliation, then nominate exactly one new A17–A25-aware final acceptance candidate.
 - Production, broad Publication, Website and Zoho cutover remain unauthorised.
+
+## A26 — Layer 2 production run and runtime progress contract — 1 September 2026
+
+M2.4.4 now additionally owns active Addendum A26.
+
+### W10 — Layer 2 production execution lineage
+- finalise the normal Layer 2 button as one governed background-production action for the selected scope;
+- create/resolve one parent run identity and carry it through qualification, production waves, scheduler continuation, retry/resume and terminal reconciliation;
+- align Jobs & Runs child jobs to the parent run rather than independent/unrelated execution rows;
+- return a durable operator message with run ID, phase, dispatched count, scheduled remainder, next automatic action and links to Jobs/Evidence.
+
+### W11 — Evidence/run alignment
+- every produced Layer 2 Evidence artifact must retain exact run/job/provider-attempt lineage where available;
+- preserve A25 type-aware preview and prohibit null/empty/provider-wide screenshot inheritance;
+- support run → child job/attempt → Evidence traversal and reverse run/job context from Evidence when present.
+
+### W12 — Dashboard runtime monitoring
+- make Dashboard/operations progress use the reconciled active run as Layer 2 authority;
+- show phase, parent run, scope, target/selected/processed, L2 resolved, L3 escalated, blocked/failed, wave/remainder, percent, heartbeat, runtime, route, vendor usage, Evidence count and next scheduler action where supplied;
+- distinguish active, scheduled, complete, stale/stuck and historical totals.
+
+### Sequencing guard
+Pilot candidate `aa824aa6abe943e6beebf4aaab361f29d54678ef` is still under deployed bounded integration run `33416346862`. Do not push A26 implementation until that run is terminal. Preserve its result, then implement A26 from the settled head and run targeted validation before any new integration/final-acceptance nomination.
+
