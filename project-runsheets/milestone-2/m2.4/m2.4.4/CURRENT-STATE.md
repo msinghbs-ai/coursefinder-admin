@@ -605,3 +605,33 @@ Required correction:
 
 A28 is now part of the M2.4.4 closure gate.
 
+## Handover checkpoint — A26/A27/A28 corrective cycle — 1 September 2026
+
+Authoritative Pilot head at handover: `aa824aa6abe943e6beebf4aaab361f29d54678ef`.
+
+Latest bounded integration evidence:
+- deployed UAT `33416346862`: terminal FAIL;
+- desktop: FAIL;
+- mobile: skipped because desktop failed;
+- do not rerun unchanged;
+- preserve immutable failure evidence and unchanged performance budgets.
+
+New active closure blockers/addenda:
+- A26 — Layer 2 production run/job/Evidence/Dashboard lineage;
+- A27 — Administration blank workspace/sub-context click reliability;
+- A28 — Layer 2/3 blocker/info rationalisation, Jobs/Runs + Evidence summaries, experimental UI cleanup and bounded UI bug sweep.
+
+No corrective Pilot implementation commit has been made after `aa824aa6...` at this handover checkpoint.
+
+Next chat must:
+1. read PROJECT_INSTRUCTIONS, Standing Instructions and A26–A28;
+2. inspect current Pilot/runtime truth before editing;
+3. correct demonstrated stale acceptance selectors/contracts without weakening thresholds;
+4. implement A26/A27/A28 in one coherent corrective cycle;
+5. run targeted validation first;
+6. if targeted passes, nominate exactly one bounded integration candidate;
+7. when CI/UAT runs longer than about five minutes, record exact run IDs/status in CURRENT-STATE/NEXT-CHAT and hand over rather than waiting;
+8. the subsequent chat must check those exact run IDs before creating any rerun/candidate.
+
+Production, broad Publication and Website/Zoho cutover remain unauthorised.
+
