@@ -218,7 +218,7 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Standing Instructions now require all future UI work to follow/extend that registry and prohibit parallel top-level menu models or launcher-only permanent journeys.
 - Administration remains the single normal configuration/settings entrypoint under A20.
 - Hidden routes are backwards compatibility only, not primary navigation authority.
-- Admin/PIM Design Decisions baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.23.md`, Decision 33.
+- Admin/PIM Design Decisions baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decision 33.
 - Repo/runtime navigation truth overrides stale chat assumptions, screenshots and older menu documentation.
 
 
@@ -237,7 +237,7 @@ Decision: M244-FU-011 through M244-FU-015 are complete. Exactly one new A16-awar
 - Canonical Operations placement: Layer 1 — Authority; Layer 2 — Enrichment; Layer 3 — AI Interpretation; Layer 4 — Human Resolution; Important Links; Important Dates; Jobs.
 - Layer 3 and Layer 4 are now separate canonical routes.
 - Old visible global mounts for Layer 1, Layer 2 ops/platform/provider/trial, combined M2.3 Layer 3/4, Layer 3 credential, pipeline ops and Scholarship selection are disabled in `index.html`; source modules remain for controlled embedding/Administration migration.
-- Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.23.md`, Decision 34.
+- Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decision 34.
 - Pilot rule: no trial/floating navigation experiments in normal user-facing shell; UI must demonstrate intended final placement with concise useful information and actionable buttons.
 - Validation head: `0daa88bdc71afdc27256288e7bbf42b5f50efa55`; frontend build run `33335240424` and targeted deployed UAT run `33335240463` active at checkpoint. Do not duplicate while active.
 
@@ -267,7 +267,7 @@ Corrective actions:
   - `20260830234526_m2_4_4_a21_layer_status_candidate_helper_fix`;
 - current runtime `security.admin_layer_status_summary()` executes successfully and returns L1/L2/L3/L4/Scholarship summary data;
 - permanent A21 UAT now rejects `.go7-nav-item`, `html[data-go7-navigation]`, obsolete `Data Operations` / `Governance & Platform` groups, and the `column "layer" does not exist` banner at Pilot commit `b3e1a3596371c479f8e715fc83c96d7b7466043f`;
-- Admin/PIM design baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.23.md`, Decision 35.
+- Admin/PIM design baseline advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decision 35.
 
 Validation head `b3e1a3596371c479f8e715fc83c96d7b7466043f`: frontend build run `33342743511` and deployed targeted UAT run `33342743510` active at checkpoint; do not duplicate while active.
 
@@ -352,3 +352,36 @@ Implementation:
 - targeted/integration/acceptance suite inclusion: `261b7ac50dc4e9f36bbcbf2182f5574324a9b5d9`.
 
 A24 acceptance remains open until the settled-head frontend build and targeted deployed UAT complete. This addendum does not alter Layer authority, routing, publication or cutover governance.
+
+
+## A25 Evidence type-aware preview / screenshot lineage integrity — 31 August 2026
+
+User-visible evidence regression confirmed: one UQ screenshot was being associated with hundreds of unrelated Evidence artifacts because A13 used empty-string COALESCE matching across nullable Evidence IDs.
+
+Runtime truth before correction:
+- only 2 actual `layer2_screenshot` artifacts existed;
+- JSON remained present at scale, including 2,041 `layer2_extraction_input` JSON artifacts, 1,047 regulatory JSON snapshots, 61 source JSON snapshots and 11 raw Layer 2 JSON artifacts;
+- the erroneous UQ screenshot `48733f50-959b-43fb-b495-71aa518a10e8` resolved as a related visual for hundreds of unrelated HTML/JSON artifacts across multiple sources/Providers.
+
+Correction:
+- runtime migration `20260831050125_m2_4_4_a25_evidence_visual_lineage_integrity`;
+- Pilot migration mirror `8032cb41647eff1f8e0118ce0da9bde1e385b8b6`;
+- related screenshot requires an exact HTML artifact ID match to the same Layer 2 provider attempt; null/empty/provider-wide inheritance removed;
+- post-fix 1,500-artifact sample resolves only one valid related visual: the exact RMIT HTML artifact `55026c98-20f6-4500-9173-071070b85761` → screenshot `e465eb03-e983-4007-b3f5-d63d00c925fe`.
+
+UI:
+- `525de38762030db42ef061dd61bb37207dd516c9`: Evidence list/detail now displays explicit format labels and type-aware previews;
+- JSON/text preview comes from the selected artifact's own signed private object and is bounded to 20,000 characters;
+- screenshot/image Evidence previews its own image;
+- HTML may show only an exact same-attempt related screenshot;
+- PDF remains signed-preview; workbook/archive/non-browser-safe formats remain explicit format/download artifacts rather than receiving a screenshot;
+- `35b22854fcc18989322ef2b9f22c0410a95509e9`: type-aware preview styling.
+
+Permanent UAT:
+- `e9289a2afeb5d6e43a8169786c1ad6b89b777db5`: JSON=no screenshot, HTML=exact related screenshot, screenshot=own image.
+- `ee49740da33f09f5378395d04b9f2d807b06a9d7`: A25 suite wired into targeted/integration/acceptance resolution.
+- targeted deployed UAT run `33359217661`: PASS.
+- paired frontend build `33359217695` was still running at this checkpoint.
+
+Architecture baseline:
+- Admin/PIM Design Decisions advanced to `docs/coursefinder-admin-pim-design-decisions-v1.24.md`, Decisions 36–37.
