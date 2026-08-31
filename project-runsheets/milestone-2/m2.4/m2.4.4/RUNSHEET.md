@@ -447,3 +447,41 @@ Architecture baseline:
 - A23 operator contract now proves: background-enrichment action, no manual Wave-1/route knobs, Firecrawl-first effective policy, qualification/production distinction.
 - Administration contract now proves Layer 2 source/provider configuration is reached centrally under Administration with role-appropriate controls.
 - Paired frontend build `33362379732` remained active at this checkpoint; do not push a new Pilot commit until terminal.
+
+## A22 closure + A23 background continuation corrective checkpoint — 31 August 2026
+
+### A22 responsive Provider/Course detail blades — TARGETED PASS
+- Final settled A22 source: `4b48fb27332847ce9bca8843c621b27b08c99de0`.
+- Deployed targeted UAT `33384244501`: PASS.
+- Paired frontend build `33384244532`: PASS.
+- Provider blade proved responsive width, single content scroll-owner, no contextual-card clipping and no page-level horizontal overflow.
+- Course blade proved explicit scroll-capable content ownership and tablet/mobile usability; sparse records are not required to manufacture overflow.
+- Immutable failed/corrective runs remain retained: `33362703943`, `33363086937`, `33363219113`, `33384098203`. These were selector/navigation/test-assumption corrections, not threshold weakening.
+
+### A23 background qualification continuation defect and correction
+- Runtime reconciliation found background qualification run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` stalled after its first two Provider slices: 20 samples `layer3_required`, 480 still `qualifying`.
+- Edge evidence retained: worker v3 request at 04:40 UTC returned HTTP 500 after two Providers and did not create a continuation nonce.
+- First correction `389c52ccfea8f39a62d1b162fd6b8261cc2acdf2` moved continuation off the deliberately non-exposed `pipeline` PostgREST schema, deployed worker `layer2-scale-qualify-scheduled` runtime v4 / source v1.0.3, and added permanent A23 regression coverage.
+- Immutable v4 failure retained: request `2387` returned HTTP 500 / PostgREST 403 because the SECURITY INVOKER bridge could execute but did not have direct SELECT privilege on protected `pipeline.layer2_scale_qualification_runs`.
+- Exact error retained from `net._http_response`: `layer2_qualification_continue_service: permission denied for table layer2_scale_qualification_runs`.
+- Final privilege-boundary correction is Pilot commit `c473a785fce3a31c90349044e05926f77a2fa2f7`:
+  - public `layer2_qualification_continue_service(uuid)` remains SECURITY INVOKER and service-role-only;
+  - protected-table access moved to non-exposed `security.layer2_qualification_continue_impl(uuid)` SECURITY DEFINER;
+  - both functions revoke public/anon/authenticated execution; only service_role is granted;
+  - continuation is allowed only for an already-authorised `running` wave with `background_scheduler_authorized=true` and remaining `qualifying` items;
+  - no canonical, Search or Publication mutation authority is introduced.
+- Corrective targeted UAT `33385645813`: PASS.
+- Corrective frontend build `33385645810`: PASS.
+- Security Advisor after correction: 146 INFO / 0 WARN / 0 ERROR.
+- Performance Advisor after correction: 178 INFO / 0 WARN / 0 ERROR.
+- Relevant Edge runtime: `layer2-scale-qualify-scheduled` v4 verify_jwt=false with one-time nonce auth; `layer3-interpret` v8 JWT=true; `layer3-contact-benchmark` v3 verify_jwt=false governed nonce.
+
+### Live recovery proof / gate
+- Governed resume request `2388` returned HTTP 200 and created successor `2389`; autonomous chain then proved `2389 → 2390 → 2391 → 2392` with HTTP 200 and further one-time nonces.
+- No repeated manual continuation is being used after request `2388`.
+- Latest sampled wave state at this checkpoint: 60 samples `layer3_required`, 150 `source_pattern_candidate`, 290 `qualifying` (29 Provider slices remain at 10 samples each).
+- The chain is actively consuming new continuation nonces autonomously; run remains `running`.
+- Current contact-disposition contract remains exactly 60 current Providers: 11 `published_contact_found`, 49 `not_found_in_qualified_evidence`, 0 current pending and no duplicate current Providers. Historical superseded pending rows remain append-only history.
+- Only seven Layer 4 human-resolution refresh requests remain active/queued; no active Layer 1–3 refresh queue work was introduced by this correction.
+- **Integration MUST NOT be nominated while this recovery wave is still active/unreconciled.** Do not update `.github/m2-4-integration-candidate` yet.
+- Exact next action: allow the autonomous chain to continue; when run `94557562-e292-4ed9-bdf3-8b2dcc370c6b` is terminal, reconcile item outcomes, scheduler auto-progress behaviour, Firecrawl budget/telemetry, Advisors, cron latest status and repository heads. Only then consider one A17–A25-aware bounded integration candidate.
