@@ -1137,3 +1137,38 @@ Do not nominate another integration or final-acceptance candidate while `3344780
 If desktop+mobile integration PASS, perform one runtime reconciliation and nominate exactly one final acceptance candidate.
 If FAIL, preserve immutable evidence and correct only demonstrated defects; no unchanged rerun.
 
+## Focused mobile navigation/profile regression active — 0d7e8b9a — 1 September 2026
+
+Replacement integration candidate `298057d19a1774d2e6f4cb58a08cd2879aea5902` is immutable FAIL evidence:
+- build `33447809060`: PASS;
+- integration UAT `33447808931`: desktop PASS, mobile FAIL.
+
+Desktop integration:
+- 67/67 PASS including performance, Evidence, Layer 1–4, Administration, A17–A28 and acquisition Evidence.
+
+Mobile integration:
+- 57 PASS, 9 FAIL, 1 flaky.
+- common failure: tests directly clicked canonical sidebar buttons while the responsive sidebar was correctly off-canvas/closed; Playwright reported buttons as outside the viewport.
+- this was acceptance-harness drift because `clickPrimaryNav` already contains the governed hamburger-aware mobile interaction.
+- one separate Layer 2 profile-detail failure showed an older unfiltered page response overwriting a newer `Federation` search response.
+
+Corrections:
+- `b73f94b91a266489b8b29c98f340912d1b4c2155`: Layer 2 source registry now sequences page requests and ignores stale out-of-order responses.
+- Admin/A21/A23/A24/A26-A28 UAT contracts now use existing `clickPrimaryNav` for mobile-aware canonical navigation; no UI route or authority weakening.
+- focused selector commit `e899a478b9b9fa9ee1b2a53194f28bc8bf92688b`.
+- marker `0d7e8b9a3a97e4d53c0e5fb79142d7d889325c0d`.
+
+Focused regression scope:
+1. Administration navigation;
+2. A21 canonical Layer navigation;
+3. A23 Layer 2/Admin navigation;
+4. A24 unified Layer headers;
+5. A26-A28 Administration/operator UX;
+6. Layer 2 source profile list/detail filtered-search stability.
+
+Active marker-head runs:
+- frontend build `33449532352` — QUEUED at handover;
+- focused deployed UAT `33449532351` — PENDING at handover.
+
+Do not nominate another integration or final acceptance candidate until `33449532351` is terminal PASS.
+
