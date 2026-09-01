@@ -78,13 +78,17 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260829-047 | 00-governance-programme | M2.4.3 Layer 3 AI Operations Maturity | CLOSED / PASS | `00-governance-programme/CF-CHG-20260829-047-m2-4-3-layer3-ai-operations-maturity.md` |
 | CF-CHG-20260830-048 | 00-governance-programme | M2.4.4 Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance | CLOSED / PASS | `00-governance-programme/CF-CHG-20260830-048-m2-4-4-cross-layer-checkpoint.md` |
 | CF-CHG-20260901-049 | 70-security-platform | M2.5 Clean Production Stack Establishment, Restore & Security Acceptance | ACTIVE / READINESS — PRODUCTION NOT PROVISIONED | `70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md` |
+| CF-CHG-20260901-050 | 00-governance-programme | Post-M2.4 Platform Maturity Design & Implementation Backlog | APPLIED — DESIGN BASELINE | `00-governance-programme/CF-CHG-20260901-050-platform-maturity-design-backlog.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.80.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
 - M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.80.md`;
+- Running Build: `docs/coursefinder-running-build-v2.81.md`;
+- Platform maturity design: `docs/coursefinder-platform-maturity-design-v1.0.md`;
+- UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.0.md`;
+- Platform maturity implementation backlog: `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`;
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.44.md` plus closed prior Change Controls;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.20.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
