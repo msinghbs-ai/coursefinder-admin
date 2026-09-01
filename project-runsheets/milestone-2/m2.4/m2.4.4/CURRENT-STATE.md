@@ -1752,3 +1752,63 @@ Decision:
 - focused PASS/PASS → inspect logs once, reconcile quiet runtime/advisors once, then nominate exactly one replacement final acceptance candidate;
 - focused FAIL → preserve immutable evidence and fix only demonstrated defect;
 - final candidate `41428941...` must never be rerun unchanged.
+
+## Replacement final acceptance active — 95f2991e — 1 September 2026
+
+Focused corrective gate after immutable final-acceptance failure:
+- head `fb7715031d089a1d95511589726da913dbb8f821`;
+- frontend build `33461321738`: PASS;
+- focused deployed UAT `33461321744`: PASS;
+- targeted job `99711879878`: PASS.
+
+Immutable prior final acceptance:
+- candidate `41428941a1bae18f6e53ac37f81ae54ef5704b1a`;
+- build `33460038601`: PASS;
+- acceptance UAT `33460038608`: FAIL desktop; mobile skipped;
+- do not rerun unchanged.
+
+Corrections retained:
+- Scholarship decision support now resides under the canonical Scholarships workspace;
+- no removed `Scholarship Selection` top-level navigation restored;
+- full acceptance performance contention was isolated from the proven Firecrawl background workload without weakening any performance gate;
+- parent projection now uses queueable production grain and separates item metrics from Evidence aggregation.
+
+### Quiet runtime before replacement nomination
+The resumed Firecrawl remainder reached 154/196 in its second production batch before acceptance isolation. The batch was stopped at the governed cancellation boundary:
+- batch `bc25dfed-495b-49dc-a896-03f08fd33745`;
+- 42 unfinished items cancelled/rescheduled;
+- completed Firecrawl Jobs/Evidence retained;
+- one boundary-crossing Firecrawl attempt `7a881999-dbf3-4959-baf0-5ee0fb775589` completed successfully and remains immutable history.
+
+Current parent/wave:
+- parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- total queueable production Courses: 261;
+- completed/dispatched: 219;
+- failed: 0;
+- scheduled remainder: 42;
+- next wave not before `2026-09-01 05:03:19.957195+00`;
+- route `scraper_first`;
+- no active production batch/vendor attempt at replacement-final nomination.
+
+Fresh Advisors at replacement nomination:
+- Security: 146 INFO / 0 WARN / 0 ERROR;
+- Performance: 172 INFO / 0 WARN / 0 ERROR.
+
+Hard gates remain unchanged:
+- RPC/detail <= 3,000 ms;
+- page/management payload <= 250,000 bytes;
+- filter payload <= 60,000 bytes.
+
+### Replacement final acceptance
+Exactly one replacement final candidate:
+- `95f2991e97e76e644bd74f73512b8bf2725fd4b7`.
+
+Active exact-head runs at handover:
+- frontend build `33468512538` — IN PROGRESS;
+- replacement final deployed acceptance `33468512515` — QUEUED.
+
+Decision:
+- both build and desktop/mobile acceptance must PASS before M2.4.4 / CF-CHG-20260830-048 can close;
+- any replacement-final failure is immutable and only demonstrated defects may be corrected;
+- no additional final candidate while `33468512515` is active.
