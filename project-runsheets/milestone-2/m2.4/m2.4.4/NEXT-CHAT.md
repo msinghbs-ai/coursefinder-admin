@@ -1060,3 +1060,37 @@ Decision:
 4. If a child batch/job/Evidence exists, verify all carry parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f` and parent projection counts reconcile.
 5. If no child exists, diagnose scheduler/eligibility without consuming large Firecrawl quota solely for proof; A26 remains runtime-child-proof pending.
 6. Only after focused PASS plus real child-lineage proof may A26/A27/A28 be marked complete and exactly one final acceptance candidate be nominated.
+
+## Final focused closure pickup — 419bcc59 — 1 September 2026
+
+Check first:
+- head `419bcc5988f8c9b9fd6fef5776e87c7faf6b1d4b`;
+- build `33457383942`;
+- focused UAT `33457383894`.
+
+Already accepted:
+- integration `38203222... / 33454842388`: desktop + mobile PASS;
+- focused runtime `258e5c04... / 33456205806`: PASS;
+- FU-020 resolved.
+
+A26 runtime child proof is now complete:
+- parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- corrected batch `accd42a2-f096-452b-a084-dc609bd45030`;
+- Firecrawl Job `ed945d14-1458-41b7-bd75-0d1db77531a4`;
+- Firecrawl Evidence `5bc09143...`, `e8a0ddf7...`, `567993f6...`;
+- all carry the same parent/wave lineage.
+
+Corrective history:
+- v6 batch `69be7f45...` used direct-http because the batch runner omitted selected provider;
+- it was cancelled; completed Evidence/history retained;
+- runner v7 now forces selected provider under `scraper_first`;
+- terminal partial batches no longer block later scheduled production;
+- parent projection fan-out fixed;
+- child progress refreshes parent batch heartbeat.
+
+Decision:
+1. If `33457383942` + `33457383894` PASS, inspect focused log once and reconcile Security/Performance Advisors/runtime once.
+2. If clean, mark A26/A27/A28 closure gates satisfied and nominate exactly one final acceptance candidate.
+3. Do not wait for the entire 261-Course background batch merely to prove progress; ongoing background work is valid A26 runtime state.
+4. Any focused failure is immutable evidence; no unchanged rerun.
