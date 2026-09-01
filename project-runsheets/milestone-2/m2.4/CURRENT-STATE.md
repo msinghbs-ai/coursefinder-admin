@@ -1,9 +1,9 @@
 # M2.4 Current State
 
-**Status:** ACTIVE — M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 NEXT/READY  
+**Status:** CLOSED / PASS — M2.4.0–M2.4.4 CLOSED/PASS
 **Updated:** 30 August 2026  
 **Standing governance:** CF-CHG-20260826-042 / A1–A15  
-**Active change:** CF-CHG-20260830-048
+**Active change:** none — CF-CHG-20260830-048 CLOSED/PASS
 
 ## Accepted baseline
 
@@ -255,3 +255,14 @@ Do not reopen M2.4.2/M2.4.3 because non-blocking carry-forwards remain.
 - DB Architecture remains v2.10.44.
 - Admin/PIM Decisions remain v1.20.
 - M2.4.4 entry reconciliation may proceed; no Production/downstream cutover authority is granted.
+
+## M2.4 authoritative closure — 1 September 2026
+- M2.4.4 CLOSED/PASS under `CF-CHG-20260830-048`.
+- Accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`.
+- Build `33468512538` PASS.
+- Final acceptance `33468512515` PASS: desktop 75 passed; mobile 76 passed; both status contexts success.
+- Final Security Advisor 146 INFO / 0 WARN / 0 ERROR.
+- Final Performance Advisor 172 INFO / 0 WARN / 0 ERROR.
+- Layer 2 parent `c65e67a6...`: 219/261 complete, 42 scheduled remainder, 0 failed; scheduled remainder does not reopen M2.4.4.
+- Master Project Plan advanced to v1.79; Running Build advanced to v2.79.
+- Production cutover, broad Publication, Website/Zoho production cutover, RMIT frozen promotion and deferred NZ L2 enrichment remain separate future gates.
