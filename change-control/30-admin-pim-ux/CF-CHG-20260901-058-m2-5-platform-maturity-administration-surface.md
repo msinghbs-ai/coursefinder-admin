@@ -252,3 +252,26 @@ Targeted source/build validation trigger: `bd267ab46216529e21f94a4448394365b12a2
 **IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015.**
 
 Even after source/build targeted PASS, deployed browser acceptance must remain BLOCKED until the external Cloudflare Worker is reconciled from v2.15.14 to current repository source.
+
+
+## CF-058 targeted build correction
+
+Initial trigger \`bd267ab46216529e21f94a4448394365b12a2cae\` ran in workflow \`33506554067\` / job \`99851861314\` and failed inside the unchanged \`npm run build\` assertion.
+
+The failure was not a CF-058 Platform component syntax error. It exposed an older malformed \`src/layer2-operations-entry.jsx\` tail originating from the prior managed-run currency edit:
+- managed-run cost JSX was truncated;
+- ~20 KB of duplicate tail content existed after the first legitimate root render.
+
+Corrective source commit:
+\`a4cde432dcf8798ad1e61b986db3052ddeb64b74\`.
+
+The repair:
+- restores the managed-run cost cell as a syntax-safe \`$<amount>\` display;
+- removes the accidental duplicate tail after the canonical root render;
+- retains CF-052 terminal-run classification and observability semantics;
+- does not alter Layer 2 authority, quota, retry, Search or Publication behaviour.
+
+Fresh unchanged CF-058 source/build trigger:
+\`97dc4085e4c00208864529bca21eb743ac46c05d\`.
+
+Do not claim targeted PASS until that exact trigger completes successfully.
