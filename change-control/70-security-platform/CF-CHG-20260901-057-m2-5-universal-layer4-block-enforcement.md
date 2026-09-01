@@ -1,6 +1,6 @@
 # CF-CHG-20260901-057 — M2.5 Universal Layer 4 Block Enforcement
 
-**Status:** IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Category:** 70-security-platform  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 security/platform maturity  
@@ -256,6 +256,13 @@ The permanent contract verifies:
 
 ## Current status decision
 
-**IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING.**
+**IMPLEMENTED / TARGETED PASS.**
+
+Targeted Chromium desktop UAT:
+- workflow `33503165142`;
+- job `99840959713`;
+- 1/1 test passed;
+- commit status `coursefinder/deployed-uat/targeted/chromium-desktop = success`;
+- trigger commit `2073621cf2c2df085d1add918d84b72fd49c207c`.
 
 Cloudflare deployment drift does not block this source/server contract. Canonical Admin UI for block management remains a separate FU-011 UX item.
