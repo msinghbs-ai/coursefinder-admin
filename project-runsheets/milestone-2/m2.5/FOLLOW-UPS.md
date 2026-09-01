@@ -61,3 +61,5 @@
 | M25-FU-038 | Manual ranking publisher file upload | Historical paywall/access can block automation | Add privileged private-Evidence upload registration, validation/preview/reconcile/apply states and duplicate hash checks | DESIGN ACCEPTED / BACKEND PENDING |
 | M25-FU-039 | Provider/Course statistics deep-links | Blades can become overloaded without hierarchy | Add concise summaries plus View Statistics / Add to Compare | OPEN |
 | M25-FU-040 | Navigation/Admin reorganisation | Current menu separates QILT/PRISMS and hides Compare | Apply IA v1.5 and Administration Sources & Imports section; desktop/tablet/mobile UAT | ACTIVE / CF-064 |
+
+| M25-FU-041 | Supabase RLS advisory reconciliation | Current Supabase tool advisory reports RLS disabled on 24 tables including private pipeline control/state tables; enabling RLS blindly could break governed RPCs | Reconcile Data API exposed schemas/grants and each affected table's intended access; apply explicit RLS/policies only under security Change Control after negative-path UAT | OPEN / SECURITY REVIEW REQUIRED |
