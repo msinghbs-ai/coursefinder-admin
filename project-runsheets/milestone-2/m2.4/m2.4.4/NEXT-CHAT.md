@@ -1124,3 +1124,30 @@ Decision:
 3. If clean, close M244-FU-017/018/019 and nominate exactly one final acceptance candidate.
 4. Do not wait for all 261 Courses to finish; active healthy background progress is acceptable.
 5. Any failure remains immutable; no unchanged rerun.
+
+## Final acceptance pickup — 41428941 — 1 September 2026
+
+Check first:
+- final candidate `41428941a1bae18f6e53ac37f81ae54ef5704b1a`;
+- build `33460038601`;
+- final acceptance UAT `33460038608`.
+
+Pre-final closure proof:
+- integrated desktop/mobile `33454842388` PASS;
+- runtime reconciliation `33456205806` PASS;
+- timeout-safe closure build `33459679420` PASS;
+- timeout-safe closure UAT `33459679417` PASS;
+- A26/A27/A28 closure gates satisfied;
+- FU-020 resolved;
+- fresh Security/Performance Advisors INFO-only.
+
+If final build + desktop/mobile acceptance PASS:
+1. inspect final log once;
+2. reconcile final runtime/advisors/documentation once;
+3. close M2.4.4 / CF-CHG-20260830-048 PASS and record immutable final evidence;
+4. prepare the next milestone/chat handover.
+
+If final acceptance FAIL:
+- preserve immutable evidence;
+- fix only demonstrated defect;
+- no unchanged rerun.
