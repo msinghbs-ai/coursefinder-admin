@@ -209,36 +209,31 @@ Architecture baseline:
 
 ## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
 - **Source:** M2.4.4 A26, 1 September 2026
-- **Status:** RUNTIME PROOF COMPLETE / TIMEOUT-RECOVERY FOCUSED GATE ACTIVE
-- **Stable lineage:** parent `c65e67a6...` → wave `1bb1504d...` → corrected Firecrawl batch `accd42a2...` → Firecrawl Jobs/Evidence with matching parent/wave lineage.
-- **Route:** runner selected-provider handoff fixed and deployed; direct-http corrective history remains immutable.
-- **Additional runtime defect found:** runner v7 timed out at ~150 s on a 10-item Firecrawl chunk, leaving one successful vendor acquisition unattached to its item.
-- **Recovery:** stale acquisition recovery `0fcfce64...`; resume context `9a718029...`; runner v8 `8c9d8591...`; Firecrawl chunks capped at 2; existing successful acquisition reused rather than duplicated.
-- **Live recovery proof:** item `60322b65...` reused Job `81a09da3...`; batch advanced to 9/261, blocked 0, heartbeat current.
-- **Regression source:** `454058ff...`.
-- **Focused head:** `ccb5db220e7e34ab0f0f16cf04228f78b45f6ad9`; build `33459679420`; UAT `33459679417`.
-- **Closure rule:** close on focused PASS/PASS and one final runtime/advisor reconciliation.
+- **Status:** COMPLETE / FINAL ACCEPTANCE ACTIVE
+- **Proof:** stable parent `c65e67a6...` → wave `1bb1504d...` → Firecrawl batch `accd42a2...` → Firecrawl Jobs/Evidence with identical parent/wave lineage.
+- **Runtime hardening:** terminal partial non-blocking; selected-provider Firecrawl handoff; timeout-safe chunks; stale acquisition recovery; resume without duplicate scrape; child heartbeat; exact parent aggregation.
+- **Final focused proof:** build `33459679420` PASS; UAT `33459679417` PASS.
+- **Final acceptance:** candidate `41428941...`; UAT `33460038608` active.
 - **Owner:** M2.4.4
-- **Target:** before final acceptance nomination
+- **Target:** close with final acceptance
 
 ## M244-FU-018 — Administration parent route renders empty / sub-context clicks ineffective
 - **Source:** M2.4.4 A27, 1 September 2026
-- **Status:** IMPLEMENTED / PRIOR FOCUSED PASS / FINAL CLOSURE REGRESSION ACTIVE
-- **Implementation:** canonical `#administration?section=<key>` state at `89b908731414ab438f3a9e413fc79c3d7c2fb567`.
-- **Proof:** direct link / refresh / back / forward test `032c606f51160d4012a656da0ea1ab38a970c95d`; prior focused UAT `33456205806` PASS.
-- **Final focused gate:** `33457383894`.
+- **Status:** COMPLETE / FINAL ACCEPTANCE ACTIVE
+- **Implementation:** canonical `#administration?section=<key>` route state.
+- **Proof:** direct link, refresh, back and forward restoration; focused UAT `33456205806` PASS and final closure UAT `33459679417` PASS.
+- **Final acceptance:** `33460038608` active.
 - **Owner:** M2.4.4
-- **Target:** close on final focused PASS
+- **Target:** close with final acceptance
 
 ## M244-FU-019 — Rationalise Layer 2/3 blocker, run and Evidence summaries; remove experimental UI
 - **Source:** M2.4.4 A28, 1 September 2026
-- **Status:** IMPLEMENTED / PRIOR FOCUSED PASS / FINAL CLOSURE REGRESSION ACTIVE
-- **Implementation:** parent-linked Layer 2 progress, scheduled-vs-idle correction, Jobs/Evidence actions and concise blocker semantics retained at `30921582ca37e107c1b3095a4d52be8f88b1aece`.
-- **Runtime reconciliation:** exact parent counts now avoid Evidence fan-out; cancelled corrective history is separately projected; heartbeat follows child progress.
-- **Prior focused UAT:** `33456205806` PASS.
-- **Final focused gate:** `33457383894`.
+- **Status:** COMPLETE / FINAL ACCEPTANCE ACTIVE
+- **Implementation:** parent-linked Layer 2 progress, scheduled-vs-idle correction, Jobs/Evidence actions, concise blocker semantics, exact parent counts, cancelled corrective history and heartbeat visibility.
+- **Proof:** focused UAT `33456205806` PASS and final closure UAT `33459679417` PASS.
+- **Final acceptance:** `33460038608` active.
 - **Owner:** M2.4.4
-- **Target:** close on final focused PASS
+- **Target:** close with final acceptance
 
 ## M244-FU-020 — Reconcile RLS-disabled table introspection versus Security Advisor
 - **Source:** M2.4.4 corrective runtime review, 1 September 2026
