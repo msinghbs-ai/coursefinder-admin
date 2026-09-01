@@ -162,3 +162,25 @@ No canonical mutation, Search mutation or Publication mutation is part of these 
 **Final status:** ACTIVE / PARTIAL  
 **Closed at:** N/A  
 **Outcome:** Pilot-safe read substrate, HTTP transport and bounded Zoho Creator bridge reads are proven. Developer Console quota behaviour is now an explicit Pilot constraint; cache-first/high-fidelity UI hardening and persistent Zoho workflow acceptance remain open. Production and public Website integration are not authorised.
+
+## 1 September 2026 — UI v4 / full Course filter-cache increment
+
+Pilot consumer hardening advanced without Production cutover:
+
+- deployed Supabase migration `20260901063100 / zoho_full_course_filter_facets_and_search_v2_retry`;
+- added `api.zoho_course_search_v2` and service-role-only `public.zoho_edge_course_search_v2`;
+- deployed `zoho-course-api` v11 ACTIVE so the existing `search` action accepts the additional optional filters while preserving the current response shape;
+- extended `reference_bundle` to `zoho-integration-v2` with `course_filters`;
+- current full AU/NZ filter-domain validation: 22 Study Levels, 79 Study Areas, 1 delivery mode, 1 intake year / 4 intake labels, 4 English-test domains;
+- current enrichment-availability snapshot remains explicit: 33,105 AU/NZ search documents; Intake=10, English=10, Scholarship=0, Provider-current tuition=10, Regulatory tuition=26,457, Official link=10;
+- validated a representative compound search across AU + QLD + Bachelor Honours + Nursing + Intake + English + current/regulatory tuition + official link: total=1;
+- `reference_bundle` size is ~1.35 MB and still uses one authenticated CourseFinder external call for the Zoho cache refresh;
+- Edge source mirrored to Pilot commit `10f8108e1e36cc4187c2694e50c8aa1154ced5f0`.
+
+UI implementation package `CF-ZOHO-UI-v4.0.0` is prepared for Creator structural upload/UAT. It keeps the proven bridge/cache substrate but replaces the functional scaffold with the approved high-fidelity wide-screen design contract for Dashboard, Courses, tabbed Course Detail, Proposal Builder and Student Proposal/Print-PDF. Responsive breakpoints and cache-first filter adapters are included.
+
+The Zoho cache refresh is extended to add one `course_filters` cache row. With the proven 62 Provider chunks, the expected reference cache becomes 66 rows total. This is still well within the Developer Console 2,500-record limit.
+
+No QILT/PRISMS Course-level fact is admitted. No scholarship value is manufactured. The current Scholarship filter must accurately expose that the Search projection has zero admitted scholarship relationships until enrichment/admission changes.
+
+Final Creator visual/responsive acceptance of UI v4 remains open.
