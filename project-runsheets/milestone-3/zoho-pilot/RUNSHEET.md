@@ -32,3 +32,21 @@
 - deploy server-side HTTP integration transport; never expose service-role credential to Zoho;
 - reconcile and admit QILT/PRISMS contextual projection;
 - run bounded Zoho integration/responsive UAT.
+
+## 2026-09-01 — quota-safe cache + UI v4 implementation
+
+**Intent:** move from integration proof to the final mockup-aligned Zoho Pilot outcome without replacing the proven transport.
+
+**Actions:**
+- proved the chunked Creator cache with 65/65 persisted/parsed rows and 3,085 Providers represented in 62 JSON chunks;
+- retained one-call `reference_bundle` cache refresh;
+- deployed Course search v2 + full filter facets;
+- deployed Edge `zoho-course-api` v11;
+- validated the full filter domain and a compound filter search;
+- prepared `CF-ZOHO-UI-v4.0.0` with mockup-aligned Courses, tabbed Course Detail, Proposal Builder and student Print/PDF layout;
+- retained explicit AU/NZ live versus CA Beta/Limited presentation;
+- retained QILT/PRISMS contextual/non-admission and Scholarship non-fabrication rules.
+
+**Outcome:** IMPLEMENTED / CREATOR VISUAL UAT PENDING.
+
+**Next:** refresh Creator cache to 66 rows including `course_filters`, upload v4 and complete bounded visual/responsive/PDF acceptance.
