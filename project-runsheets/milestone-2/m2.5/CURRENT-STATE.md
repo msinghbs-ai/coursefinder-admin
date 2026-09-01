@@ -3,7 +3,8 @@
 **Status:** ACTIVE / READINESS — PLATFORM FOUNDATION IMPLEMENTED; PRODUCTION PROVISIONING BLOCKED  
 **Updated:** 1 September 2026  
 **Production Change Control:** `CF-CHG-20260901-049`  
-**Platform foundation Change Control:** `CF-CHG-20260901-051`
+**Platform foundation Change Control:** `CF-CHG-20260901-051`  
+**Layer 2 corrective Change Control:** `CF-CHG-20260901-052`
 
 ## Accepted entry baseline
 
@@ -24,13 +25,16 @@ Final M2.4.4 acceptance:
 
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
-Current M2.5 implementation/UAT-wiring head at this checkpoint:
-`dac23d68e6df230bc30c306fa7b61e720ecb431c`.
+Current M2.5 Pilot source head at this checkpoint:
+`9fa8f590c8370bf600f1495794f9205fabbdf8a7`.
+
+Admin UI version: **v2.15.15**.
 
 Deployed M2.5 migrations:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`;
 - `20260901061041 m2_5_capacity_integrity_alert_classification`;
-- `20260901061233 m2_5_environment_gate_reconcile_layer4_blocking`.
+- `20260901061233 m2_5_environment_gate_reconcile_layer4_blocking`;
+- `20260901062200 m2_5_layer2_run_observability_correction`.
 
 Post-change advisors:
 - Security: 146 INFO / 0 WARN / 0 ERROR;
@@ -96,14 +100,28 @@ Live request `1bb1504d-7bad-42d9-b059-4adeaf9118c7` is now terminal `completed`:
 
 Therefore M25-FU-006 is no longer “42 still waiting”; failure/root-cause review is a separate Pilot operations follow-up and does not reopen M2.4.
 
+### CF-052 observability correction
+
+The operator-visible lineage defect is corrected without reopening M2.4:
+- terminal parent projection retains completed/failed child Jobs and Evidence;
+- current VIC terminal lineage proves **261 child Jobs** and **783 Evidence artifacts**;
+- Recent acquisition attempts and Recent managed runs now display timestamps;
+- active parent work is separated from the latest terminal production run;
+- retry-window no-op qualification checks return `qualification_waiting` instead of implying new production work;
+- bounded live VIC check `c876a8fb-5f03-4433-85ab-5af7e96cee63` created **0 production wave requests** and **0 Course Jobs**;
+- post-action read failures are no longer silently swallowed.
+
 ## CI/UAT state
 
-Permanent source-contract suite:
-`tests/uat/m2-5-platform-readiness-deployed.spec.mjs`.
+Permanent source-contract suites:
+- `tests/uat/m2-5-platform-readiness-deployed.spec.mjs`;
+- `tests/uat/m2-5-layer2-run-observability-deployed.spec.mjs`.
 
-`.github/workflows/deployed-uat.yml` now routes M2.5 changes to that suite and includes it in integration/acceptance.
+`.github/workflows/deployed-uat.yml` includes both in integration/acceptance and provides targeted routing.
 
-Targeted deployed UAT `33476711758` / job `99757413769` PASS on final head `dac23d68e6df230bc30c306fa7b61e720ecb431c`. Targeted tier is desktop-only. Wider Production integration/acceptance is not implied.
+Platform-readiness targeted deployed UAT `33476711758` / job `99757413769` PASS on `dac23d68e6df230bc30c306fa7b61e720ecb431c`.
+
+CF-052 targeted deployed UAT `33477539721` / job `99760830965` PASS: **2 passed / 0 failed** on Chromium desktop. Targeted tier is desktop-only. Wider Production integration/acceptance is not implied.
 
 ## Production decision remains blocked
 
