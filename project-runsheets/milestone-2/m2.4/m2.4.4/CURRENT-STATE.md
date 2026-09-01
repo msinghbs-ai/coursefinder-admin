@@ -1308,3 +1308,49 @@ Important post-integration decision:
 - integration PASS is necessary but not sufficient for M2.4.4 closure;
 - after PASS, perform runtime reconciliation for A26 stable parent lineage, A27 Administration deep-link/back-forward semantics, A28 parent-linked cross-surface summaries, and M244-FU-020 security review before final acceptance nomination.
 
+## Focused Campus/Course performance active — f07f354d — 1 September 2026
+
+Replacement integration candidate `2c548673383920b1f134c809269d218042237de0` is immutable FAIL evidence:
+- build `33452687372`: PASS;
+- integration UAT `33452687369`: FAIL;
+- desktop integration reached 66 PASS, 1 flaky/retry-PASS, 1 real failing performance contract.
+
+Repeatable demonstrated failure:
+- `campuses_page` latency 3,863 ms > unchanged 3,000 ms gate on both attempts.
+- one `courses_page` interaction measured 3,752 ms but passed on immediate retry; subsequent direct Course verification remained healthy.
+
+Root cause:
+- default Campus browse computed per-Campus Course counts across the full Campus set, then `count(*) over()` and sorted the full enriched set before returning 50 rows.
+
+Correction:
+- migration `20260901084500_m2_4_4_campus_browse_performance_headroom.sql`;
+- commit `104980b1d5b678eed376644b9eaed65015e356fc`;
+- adds `campuses_lower_name_id_idx`;
+- adds `security.admin_campus_page_fast(jsonb)`;
+- common unfiltered name-ascending Campus browse pages first and enriches only returned rows;
+- non-default Campus filters/sorts retain existing accepted `security.admin_catalogue_page` fallback;
+- `public.admin_read('campuses_page')` now routes through the bounded fast wrapper.
+
+Live verification after correction:
+- default `campuses_page`: ~4 ms at DB boundary;
+- default/exact Course path reverified ~71 ms;
+- no latency/payload threshold changed.
+
+Focused performance marker:
+- `f07f354d8b3842c02dde04cff31e576924fc989f`
+
+Active exact-head runs:
+- frontend build `33454525548` — QUEUED at handover;
+- focused performance UAT `33454525536` — QUEUED at handover.
+
+Focused scope:
+- core workspace budgets including Campus;
+- exact Course lookup/detail/paging/back;
+- Layer 2/Admin management budgets;
+- responsive widths.
+
+Decision:
+- focused PASS/PASS → inspect once and nominate exactly one replacement bounded integration candidate;
+- focused FAIL → preserve immutable evidence and correct only the demonstrated remaining performance defect;
+- no unchanged rerun and no threshold weakening.
+
