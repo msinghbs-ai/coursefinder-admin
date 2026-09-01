@@ -129,3 +129,24 @@ Post-change advisors remain:
 ## Next
 
 Obtain explicit organisation + Production region confirmation, then obtain and confirm Supabase project cost before provisioning the Production project.
+
+
+### M2.5 CF-057 — universal Layer 4 block enforcement
+
+CF-057 deploys server-side enforcement for the reversible Layer 4 block ledger without deleting source/canonical data.
+
+Pilot migration:
+`20260901211500_m2_5_universal_layer4_block_enforcement.sql`
+(commit `f97c1aa2040890e9a49c1ddf38a9755700b0fee3`).
+
+Implemented owners:
+- Layer 2 Course Fact apply operational block;
+- Layer 3 interpretation/source-pattern operational block before model call;
+- publication readiness and publishable decision;
+- 20 Website/Zoho/legacy Search/read contracts;
+- secured Data Quality quarantine read.
+
+Provider-level Search/quarantine blocks inherit to child entities. Layer 1 regulatory source recording remains unaffected. Rollback-only live UAT left zero retained block decisions. Security remains 146 INFO / 0 WARN / 0 ERROR and Performance 171 INFO / 0 WARN / 0 ERROR.
+
+Permanent targeted contract:
+`tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs`.
