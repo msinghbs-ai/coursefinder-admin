@@ -275,3 +275,21 @@ Fresh unchanged CF-058 source/build trigger:
 \`97dc4085e4c00208864529bca21eb743ac46c05d\`.
 
 Do not claim targeted PASS until that exact trigger completes successfully.
+
+
+### Second CF-058 build correction
+
+Fresh trigger \`97dc4085e4c00208864529bca21eb743ac46c05d\` ran in workflow \`33507331297\` / job \`99854598112\` and again failed the unchanged \`npm run build\` assertion.
+
+The first repair correctly removed the accidental duplicate tail, but the managed-run line itself remained malformed. A subsequent direct replacement initially encountered JavaScript replacement-string \`$'\` expansion and was immediately superseded.
+
+Final syntax-safe restoration:
+\`27abb0f3c64a508227e2a442fdf5d4c78ca0f051\`.
+
+That commit restores the entire Recent managed runs JSX line from the last known-good baseline and applies the currency prefix using a literal-safe function replacement:
+\`('$'+Number(r.vendor_cost_usd).toFixed(2))\`.
+
+Fresh unchanged CF-058 source/build trigger:
+\`7f7f6a920fd303578cad7430401f4dce522c6e0c\`.
+
+Do not claim source/build targeted PASS until this exact trigger completes successfully.
