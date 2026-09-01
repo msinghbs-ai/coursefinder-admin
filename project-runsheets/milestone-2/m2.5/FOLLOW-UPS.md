@@ -15,3 +15,4 @@
 | M25-FU-011 | Platform maturity Admin UI not yet implemented | New gates/capacity/UAT/blocking controls are not yet consolidated in canonical Administration | Add through a separately tested canonical Administration change | OPEN |
 | M25-FU-012 | Block enforcement not wired to all owners | Ledger state alone is not universal enforcement | Add enforcement and UAT per operation/publication/Search/data-quality path | OPEN |
 | M25-FU-013 | M2.5 targeted CI final status | Source-contract suite validated | Run 33476711758 / job 99757413769 PASS on dac23d68; retain as CF-051 targeted evidence | COMPLETE / TARGETED PASS |
+| M25-FU-014 | Layer 2 run observability defect | Operator history hid terminal Jobs and lacked timestamps | CF-052 migration/UI correction deployed; run 33477539721 / job 99760830965 PASS; retain 219 VIC failures as separate Pilot ops review | COMPLETE / TARGETED PASS |
