@@ -17,8 +17,17 @@ Create and accept a clean Production trust boundary from the closed M2.4 Pilot b
 - final acceptance `33468512515` PASS;
 - Security 146 INFO / 0 WARN / 0 ERROR;
 - Performance 172 INFO / 0 WARN / 0 ERROR;
-- Master Project Plan v1.79;
-- Running Build v2.79.
+- Master Project Plan v1.81;
+- Running Build v2.81.
+
+## Platform maturity design inputs
+
+M2.5 inherits the design baseline from `CF-CHG-20260901-050`:
+- `docs/coursefinder-platform-maturity-design-v1.0.md`
+- `docs/coursefinder-uat-performance-baseline-v1.0.md`
+- `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`
+
+Only PM items allocated to M2.5 become implementation requirements here. M3/M4/future items remain deferred.
 
 ## Entry inventory
 
