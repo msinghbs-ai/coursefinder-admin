@@ -1384,3 +1384,95 @@ If integration PASS:
 If integration FAIL:
 - preserve immutable evidence and correct only demonstrated defects; no unchanged rerun.
 
+## Integrated PASS + runtime reconciliation active — 258e5c04 — 1 September 2026
+
+Replacement bounded integration candidate `38203222a137d0aeac8aa69e64ed1b12bf874fff` is accepted integrated PASS evidence:
+- frontend build `33454842391`: PASS;
+- deployed integration UAT `33454842388`: PASS;
+- desktop governed validation: PASS;
+- mobile gate: PASS.
+
+Final acceptance is not yet nominated. Required runtime reconciliation was performed first.
+
+### A26 stable parent lineage — implemented / focused validation active
+Existing A23 execution architecture was reused; no parallel run table was introduced.
+
+Runtime chain:
+`layer2_scale_qualification_runs` → `layer2_scope_wave_requests` → `layer2_scope_wave_items` → `layer2_run_batches` → `layer2_run_items` → Jobs / Evidence.
+
+Migration:
+- `20260901091000_m2_4_4_a26_parent_lineage.sql`;
+- Pilot commit `8600e4da7cc9ad47c17e0a558ba463f7a6140b14`;
+- applied live successfully.
+
+Stable-parent behaviour:
+- qualification-chain root is derived from existing `next_qualification_run_id`;
+- terminal qualification `production_result.request_id` links qualification to the existing scope-wave request;
+- wave request metadata carries parent/run/scope lineage;
+- batch policy snapshot inherits parent/wave/scope/route lineage;
+- child Job payload and Evidence metadata inherit `layer2_lineage`;
+- future Evidence is stamped on insert;
+- bounded `admin_read('layer2_parent_runs')` projects parent status/counts/scheduler/Jobs/Evidence.
+
+Current AU scheduled state-wave request:
+- wave request `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- stable parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- terminal qualification `0d8e75fe-a9c3-43a9-9e76-f5abbb065b70`;
+- status `scheduled`;
+- 261 total / 0 dispatched / 261 scheduled remainder at reconciliation;
+- route `scraper_first`;
+- parent projection currently reports 0 child batches / 0 child Jobs / 0 Evidence because no production child has yet dispatched.
+
+Do not mark A26 fully closed until one real scheduler-created child batch/job/Evidence chain proves the same parent ID end-to-end. Do not consume large Firecrawl quota merely to manufacture proof.
+
+### A28 parent-linked operator progress — implemented / focused validation active
+Pilot commit `30921582ca37e107c1b3095a4d52be8f88b1aece`:
+- Layer 2 loads the bounded parent-run projection;
+- current progress prefers the active/scheduled parent rather than legacy batch-only state;
+- scheduled work no longer appears falsely Idle;
+- displays parent short ID, processed/total, L2/L3/blocked, scope/country, wave ID, child Jobs, Evidence, scheduled remainder and next scheduler time;
+- Jobs and Evidence remain direct operator actions;
+- legacy batch progress remains fallback/history.
+
+Permanent A26/A28 assertion extended at `5c30fcac61360f5a3faba974575a821fa8bee735`.
+
+### A27 Administration URL/history semantics — implemented / focused validation active
+Pilot commit `89b908731414ab438f3a9e413fc79c3d7c2fb567`:
+- Administration subcontext is derived from canonical route params;
+- default remains `#administration` → Overview;
+- subcontexts use `#administration?section=<key>`;
+- tab selection updates canonical URL;
+- refresh and browser back/forward restore subcontext;
+- no parallel top-level navigation or launcher introduced.
+
+Deployed deep-link/refresh/back-forward proof added at `032c606f51160d4012a656da0ea1ab38a970c95d`.
+
+### M244-FU-020 security reconciliation — resolved
+All 15 previously observed RLS-disabled tables were inspected directly.
+
+Findings:
+- none has `anon` or `authenticated` table grants;
+- `anon` and `authenticated` have no `pipeline` schema USAGE;
+- most pipeline tables are postgres-only;
+- required ingestion/staging tables are service-role-only where applicable;
+- public `_layer1_depth_uat_control` has postgres/service-role grants only, no anon/authenticated grants;
+- therefore the RLS-disabled pipeline tables are not directly browser/Data-API accessible by anon/authenticated roles;
+- blanket RLS enablement is neither required nor authorised and could break governed workers/RPCs.
+
+Fresh Security/Performance Advisor snapshots remain INFO-only at this reconciliation; no WARN/ERROR condition was introduced by the lineage/security work. Re-open FU-020 only if exposed schemas or direct grants change.
+
+### Focused runtime reconciliation gate
+Selector commit `06ca76524a1a8aeb388fd531af6d52fa633d91d9`.
+Marker/head `258e5c041b96abb886d1f3247d8821033d92c477`.
+
+Focused suites:
+- Administration canonical navigation + deep-link/history;
+- A26/A28 parent operator UX;
+- A25 Evidence integrity;
+- unchanged performance budgets.
+
+Active at handover:
+- frontend build `33456205759` — IN PROGRESS;
+- focused deployed UAT `33456205806` — IN PROGRESS.
+
+No final acceptance candidate may be nominated while this focused gate is active.
