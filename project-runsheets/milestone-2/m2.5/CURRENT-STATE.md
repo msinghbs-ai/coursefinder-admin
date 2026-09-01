@@ -474,3 +474,22 @@ Current design authority:
 - `CF-CHG-20260902-063`.
 
 No ranking schema migration, live source ingestion, Provider mapping, browser UI or consumer publication has been claimed yet. Implementation remains tracked under M25-FU-029 through M25-FU-035.
+
+
+## CF-064 Statistics / Rankings / Compare IA
+
+Status: **DESIGN ACCEPTED / UI IMPLEMENTATION ACTIVE**.
+
+The accepted M2.5 information architecture now introduces:
+- a primary Statistics & Rankings workspace for QILT, PRISMS, QS, THE and future accepted statistical datasets;
+- primary Compare navigation with entity → dataset → period/edition selection;
+- Administration → Sources & Imports for governed manual publisher artifacts;
+- private Evidence reuse for authorised historical ranking files when automated publisher retrieval is restricted;
+- concise Provider/Course contextual summaries with deep-links rather than oversized detail blades.
+
+Design authority:
+- `docs/coursefinder-statistics-rankings-comparison-ux-v1.0.md`;
+- Admin Navigation IA v1.5;
+- CF-064.
+
+The existing Evidence bucket already supports CSV/XLSX/PDF/JSON/ZIP and remains private. Backend registration/parse/apply for manual ranking files is not yet claimed complete.
