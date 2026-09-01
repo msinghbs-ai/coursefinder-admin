@@ -1,6 +1,6 @@
 # M2 Execution Addendum A27 — Administration Workspace Navigation Reliability
 
-**Status:** ACTIVE / REQUIRED FOR M2.4.4 CLOSURE  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 1 September 2026  
 **Primary Change Control:** `CF-CHG-20260830-048`  
 **Applies to:** canonical Administration route, Administration sub-navigation, embedded configuration panels, responsive Admin/PIM navigation and deployed UI acceptance.
@@ -57,3 +57,8 @@ A27 must be implemented together with the current M2.4.4 corrective head before 
 ## Non-goals
 
 A27 does not authorise new configuration domains, Production cutover, broad Publication, Website/Zoho cutover, or bypass of role/rank enforcement.
+
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
