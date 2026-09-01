@@ -394,4 +394,4 @@ Runtime is PASS after two additive schema-name corrections:
 - post-DDL Security 147 INFO / 0 WARN / 0 ERROR;
 - Performance 175 INFO / 0 WARN / 0 ERROR.
 
-Source/build targeted PASS: trigger `b423af67af6917ae3407e3f5137dcd403d0da225`, workflow `33515174810`, job `99880438005`. Dedicated deployed gate `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs` is triggered by candidate `35fef88e07cff9e7d6e568d740c31722c3c3720e`; it had no attached status at the last bounded check. Check that candidate first. Do not call CF-061 deployed PASS until Cloudflare serves v2.15.21 and this browser gate passes.
+CF-061 is TARGETED PASS. Source/build: `b423af67...` / workflow `33515174810` / job `99880438005`. Deployed desktop: `35fef88e...` / workflow `33515683960` / job `99882055173`. Responsive tablet/mobile viewport recheck: `90123d16...` / workflow `33515936377` / job `99882833322`, PASS. Worker v2.15.21 is current. Do not reopen CF-061 unless later integration/regression evidence identifies a new defect.
