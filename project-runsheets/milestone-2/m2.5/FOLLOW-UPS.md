@@ -37,3 +37,16 @@
 | M25-FU-026 | Registration/migration overlays | Policy/licensing can be confused with job outcomes | Implement separate time-scoped overlays, disclaimers and stale-state handling | OPEN |
 | M25-FU-027 | A17 acceptance/publication gate | Consumer publication is not authorised | Run bounded AU+NZ schema/source/AI/browser/security/performance UAT and separately approve publication | OPEN |
 | M25-FU-028 | QILT/PRISMS comparison deployed acceptance | CF-061 runtime/source/build/deployed comparison is PASS on Worker v2.15.21, including 900px tablet and 390px mobile viewport checks | Retain workflow `33515936377` / job `99882833322` as targeted evidence; broader M2.5 regression remains milestone-owned | COMPLETE / TARGETED PASS |
+
+
+## A18 QS / THE Ranking follow-ups — 2 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-029 | QS/THE ranking schema migration | Ranking domain is design-only | Implement private ranking tables, indexes, RLS/grants, Evidence links and secured read projections from DB architecture v2.10.46 | OPEN |
+| M25-FU-030 | QS 2026/2027 source qualification | Current QS editions not yet ingested | Qualify official current/year pages and authorised Excel artifact path; record terms/access and fingerprints | OPEN |
+| M25-FU-031 | THE 2026 source qualification | Current THE edition not yet ingested | Qualify official 2026 table and methodology; record terms/access and source fingerprint | OPEN |
+| M25-FU-032 | Ranking historical backfill | No longitudinal Provider ranking series yet | Backfill 2025/2024 first, then extend towards 5–10 years where official publisher sources remain accessible/authorised | OPEN |
+| M25-FU-033 | Ranking Provider crosswalk | Publisher institution names/IDs are not yet mapped to canonical Providers | Build deterministic mapping + unresolved Layer 4 queue; do not create Providers from ranking rows | OPEN |
+| M25-FU-034 | Ranking Admin/Compare UX | Provider blades/Compare do not yet show QS/THE | Add latest cards, edition selector, 5-year trend and explicit Provider-context labelling | OPEN |
+| M25-FU-035 | Ranking consumer admission | Website/Zoho/Search exposure is not authorised | After Pilot acceptance, separately decide fields, filters/sort and cache/version contract; no hidden relevance boost | OPEN |
