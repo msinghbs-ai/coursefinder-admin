@@ -1151,3 +1151,32 @@ If final acceptance FAIL:
 - preserve immutable evidence;
 - fix only demonstrated defect;
 - no unchanged rerun.
+
+## Focused corrective pickup after final acceptance FAIL — fb771503 — 1 September 2026
+
+Check first:
+- head `fb7715031d089a1d95511589726da913dbb8f821`;
+- build `33461321738`;
+- focused UAT `33461321744`.
+
+Immutable final acceptance:
+- candidate `41428941a1bae18f6e53ac37f81ae54ef5704b1a`;
+- build `33460038601` PASS;
+- UAT `33460038608` FAIL desktop; mobile skipped.
+Do not rerun unchanged.
+
+Final acceptance defects corrected:
+- Scholarship decision support moved under canonical Scholarships route; no old top-level nav restored.
+- live Firecrawl production workload administratively paused after runtime proof; 65 valid results retained, 196 rescheduled one hour out under same parent/wave.
+- request counters restored to queueable production grain.
+- parent item/Evidence aggregation fan-out corrected.
+
+Current parent:
+- `c65e67a6...`;
+- wave `1bb1504d...`;
+- 65 processed / 65 L3 / 0 blocked / 65 Jobs / 195 Evidence / 196 scheduled remainder.
+
+Decision:
+1. Focused PASS/PASS → inspect once and rerun fresh Advisors/runtime while batch remains scheduled/no active batch.
+2. If clean, nominate exactly one replacement final acceptance candidate.
+3. If focused FAIL, fix only demonstrated defect.
