@@ -176,15 +176,14 @@ UAT evidence proves:
 
 Treat FU-015 as an external Cloudflare Git deployment blocker. Do not rerun until the Worker is actually publishing current `main`; do not weaken the browser contract.
 
-## Immediate next check — CF-055 targeted source/runtime UAT
+## CF-055 targeted source/runtime UAT
 
-Permanent test:
-`tests/uat/m2-5-evidence-lineage-contract.spec.mjs`.
+`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389` is **PASS**:
+- workflow `33495782424`;
+- job `99817573838`;
+- targeted Chromium desktop 1/1 passed.
 
-Trigger:
-`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
-
-At handback no GitHub status/run ID had yet been attached. Check this commit first on the next Proceed.
+CF-055 is IMPLEMENTED / TARGETED PASS. Remaining 5 unresolved objects + 2 legacy Canadian paths are historical provenance remediation only; no cleanup is authorised by this pass.
 
 ## CI gate
 
