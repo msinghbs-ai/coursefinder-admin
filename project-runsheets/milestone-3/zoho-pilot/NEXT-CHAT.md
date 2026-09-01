@@ -21,3 +21,25 @@ Immediate work:
 - keep Production/public Website integration out of scope.
 
 If a blocker persists, update FOLLOW-UPS with evidence and continue independent safe work. Before handoff update RUNSHEET, CURRENT-STATE, FOLLOW-UPS, NEXT-CHAT and CF-CHG-20260827-045.
+
+## Current continuation checkpoint — 1 September 2026
+
+Do not restart bridge/auth diagnosis. The Creator bridge and chunked reference cache are proven.
+
+Continue from:
+- `zoho-course-api` v11 ACTIVE;
+- `zoho-integration-v2` Course search/filter contract deployed;
+- reference bundle contains full Course filter facets;
+- Creator reference cache currently proven at 65 rows / 62 Provider chunks before the new `course_filters` row;
+- `CF-ZOHO-UI-v4.0.0` package prepared.
+
+Immediate sequence:
+1. add `course_filters` to Creator `Cache_Type`;
+2. replace/run `cf_refresh_reference_cache` v2 and confirm 66/66;
+3. upload v4;
+4. UAT Dashboard → Courses → Course Detail → Proposal Builder → Student Proposal/PDF at wide desktop, 1920px and tablet;
+5. verify full cached filter lists, provider autocomplete and no unexpected external calls;
+6. keep `demoMode=true` for customer-demo stability until explicitly testing live search;
+7. only then set `demoMode=false` for bounded live Search v2 / Lookup tests.
+
+Do not present QILT/PRISMS percentages or scholarship values unless admitted by the governed DTOs.
