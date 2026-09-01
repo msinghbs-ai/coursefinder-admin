@@ -1,6 +1,6 @@
 # CF-CHG-20260901-061 — QILT / PRISMS Provider & Course Comparison Experience
 
-**Status:** IMPLEMENTED / PILOT RUNTIME PASS — SOURCE CI PENDING — DEPLOYED UAT PENDING  
+**Status:** IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD TARGETED PASS — DEPLOYED UAT PENDING  
 **Initiated:** 1 September 2026 23:13 AEST  
 **Primary category:** 30-admin-pim-ux  
 **Origin:** CourseFinder project chat — user supplied ComparED provider/detail/comparison mobile references.
@@ -142,7 +142,16 @@ Post-DDL advisors:
 Permanent source/build contract:
 `tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
 
-Workflow routing is included in `.github/workflows/deployed-uat.yml`. At this checkpoint no commit status has yet been attached to trigger `b423af67af6917ae3407e3f5137dcd403d0da225`; therefore source/build CI is **PENDING**, not PASS.
+Workflow routing is included in `.github/workflows/deployed-uat.yml`.
+
+Source/build targeted proof:
+- trigger `b423af67af6917ae3407e3f5137dcd403d0da225`;
+- workflow `33515174810`;
+- job `99880438005`;
+- targeted Chromium desktop **PASS**;
+- the permanent CF-061 source/build contract includes a full `npm run build`.
+
+A dedicated deployed-browser comparison gate is now present at `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs`. Candidate trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e` had no attached status at the last bounded check, so deployed acceptance remains **PENDING**, not PASS.
 
 ## Remaining acceptance
 
