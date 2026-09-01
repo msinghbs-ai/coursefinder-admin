@@ -64,4 +64,4 @@ Post-migration Pilot:
 Final implementation/UAT-wiring head at issue:
 `dac23d68e6df230bc30c306fa7b61e720ecb431c`.
 
-At issue time no terminal commit status had yet been published for that head. Record exact CI run IDs when terminal rather than polling indefinitely.
+Targeted deployed UAT `33476711758` / job `99757413769` PASS on that head. Targeted tier is desktop-only by standing workflow design. This is M2.5 foundation validation, not Production acceptance.
