@@ -1,6 +1,6 @@
 # CF-CHG-20260901-061 — QILT / PRISMS Provider & Course Comparison Experience
 
-**Status:** IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD TARGETED PASS — DEPLOYED UAT PENDING  
+**Status:** IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD + DEPLOYED DESKTOP TARGETED PASS — RESPONSIVE RECHECK PENDING  
 **Initiated:** 1 September 2026 23:13 AEST  
 **Primary category:** 30-admin-pim-ux  
 **Origin:** CourseFinder project chat — user supplied ComparED provider/detail/comparison mobile references.
@@ -151,8 +151,18 @@ Source/build targeted proof:
 - targeted Chromium desktop **PASS**;
 - the permanent CF-061 source/build contract includes a full `npm run build`.
 
-A dedicated deployed-browser comparison gate is now present at `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs`. Candidate trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e` had no attached status at the last bounded check, so deployed acceptance remains **PENDING**, not PASS.
+Dedicated deployed-browser comparison proof:
+- test `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs`;
+- trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e`;
+- workflow `33515683960`;
+- job `99882055173`;
+- targeted Chromium desktop **PASS**;
+- deployed release pill explicitly proved **v2.15.21**;
+- Provider comparison (Charles Darwin University + Curtin University) returned two aligned governed entities;
+- Course detail/comparison retained QILT `provider_context` grain.
+
+The deployed test has subsequently been extended with explicit 900px tablet and 390px mobile viewport checks plus document-level overflow protection. Trigger `90123d162103e707473ac8eb7a7a226cade51280` is the responsive recheck candidate; its status was not attached at the last bounded check.
 
 ## Remaining acceptance
 
-Do not call the browser experience deployed until the external Cloudflare Pilot Worker serves v2.15.21 and the targeted deployed comparison/browser checks pass. This remains aligned with M25-FU-015 deployment-currentness governance.
+Cloudflare currentness to v2.15.21 is now proven by the deployed comparison test. Keep final CF-061 responsive acceptance open only until the explicit tablet/mobile viewport recheck on trigger `90123d162103e707473ac8eb7a7a226cade51280` is terminal.
