@@ -31,13 +31,13 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`7f10e29bac5351b173b5de2df4b61d28d51eed07`.
+`97c3679d8304c36e10ae6e5b74d6cc99a2834152`.
 
 CF-054 post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced run `33492617096` / job `99807392499` FAIL due only to a malformed Playwright assertion string. The corrected clean-rerun trigger `1605d15bca7ccb46620ce5bd12ca01805a3f30f4` passed targeted Chromium desktop in workflow `33492875364`.
 
-Admin source UI version: **v2.15.19**.
+Admin source UI version: **v2.15.20**.
 
-Important deployment distinction: combined deployed-currentness run `33493637581` / job `99810738327` proved the external Cloudflare Worker is serving **PIM Admin v2.15.14** while repository source is now **v2.15.19**. CF-053/CF-054 deployed browser acceptance remains blocked by external Cloudflare Git deployment drift; do not weaken the tests.
+Important deployment distinction: earlier run `33493637581` / job `99810738327` captured stale Worker v2.15.14, but user UAT now visibly proves the external Cloudflare Worker reached **PIM Admin v2.15.19**. CF-060 advances source to v2.15.20; currentness recheck is pending rather than treating Cloudflare Git integration as persistently broken.
 
 Deployed M2.5 migrations:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`;
@@ -229,7 +229,7 @@ Permanent contract `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs` p
 
 Server migration \`20260901220500_m2_5_platform_maturity_admin_read_surface\` is deployed.
 
-Canonical Administration source is now **v2.15.19** and its Platform tab uses \`PlatformMaturity\` instead of the legacy Regulatory Settings component. The workspace consolidates:
+Canonical Administration source is now **v2.15.20** and its Platform tab uses \`PlatformMaturity\` instead of the legacy Regulatory Settings component. The workspace consolidates:
 - M2.5 readiness and Production-boundary state;
 - capacity/Evidence integrity telemetry;
 - source/scraper/AI environment gates;
@@ -271,6 +271,26 @@ Post-CF-059:
 - Performance **175 INFO / 0 WARN / 0 ERROR**.
 
 Permanent contract \`tests/uat/m2-5-evidence-lineage-reconciliation-contract.spec.mjs\` is wired; targeted CI is pending.
+
+## CF-060 Jobs workspace read-path restoration
+
+User UAT showed `#jobs` at 0 records while Layer 2 was active. Live Pilot database simultaneously contained **3,964 Jobs**, including 2 running and 2,643 Layer 2 Jobs.
+
+Root cause: `src/lib/supabase.js` still returned `[]` for `adminRead('jobs')` / `adminRead('sources')` when the browser hash matched those routes. That guard belonged to a removed Pipeline Ops overlay; `index.html` no longer mounts that overlay, so the guard suppressed the canonical Jobs page itself.
+
+Correction:
+- canonical Jobs → exported governed `JobsWorkspace`;
+- canonical Sources → exported governed `SourcesWorkspace`;
+- Jobs uses `pipeline_jobs_page`, `pipeline_filters`, `pipeline_job_detail`;
+- stale route suppression removed;
+- version **v2.15.20**;
+- source/build contract and deployed Jobs contract added.
+
+Validation trigger `97c3679d8304c36e10ae6e5b74d6cc99a2834152`:
+- workflow `33511601936` pending at handover;
+- frontend build `33511602057` queued at handover.
+
+No database migration, replay/reset authority, Firecrawl quota change, Search or Publication authority is introduced.
 
 ## Production decision remains blocked
 
