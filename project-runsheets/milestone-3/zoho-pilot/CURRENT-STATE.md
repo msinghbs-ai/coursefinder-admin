@@ -63,3 +63,27 @@ Current product constraints:
 Official references:
 - Zoho Creator: “Integrating AI clients with Creator Using Zoho MCP”.
 - OpenAI Help: “Developer mode and MCP apps in ChatGPT”.
+
+
+## 1 September 2026 reconciliation
+
+The earlier "Creator connection/UI build blocked" state is superseded for the active manual Developer Console path.
+
+Proven now:
+- Creator `CF_API_Bridge → cf_course_gateway → zoho-course-api` end-to-end lookup/search/filter/provider reads;
+- chunked Creator reference cache: 65/65 rows parsed, 62/62 Provider chunks, 3 countries, 21 subdivisions, 3,085 Provider reference rows;
+- cache reference source is genuinely Zoho Cache while Customer Demo Course source remains the governed embedded snapshot when `demoMode=true`;
+- Developer Console observed usage remains bounded by 50 External Calls/day, therefore reference navigation stays cache-first;
+- `zoho-course-api` v11 ACTIVE;
+- new `zoho-integration-v2` Course search supports Study Level, Study Area, Delivery, Intake year/label, English test, tuition/data-availability and publication filters;
+- `reference_bundle` now includes full Course filter domains and counts;
+- `CF-ZOHO-UI-v4.0.0` upload package prepared with mockup-aligned Dashboard/Courses/Course Detail/Proposal Builder/Student Proposal and responsive/print rules.
+
+Current next acceptance:
+1. add `course_filters` to the Creator cache-type dropdown;
+2. run the v2 cache refresh and confirm expected 66 rows;
+3. upload UI v4 and run desktop/tablet responsive visual UAT against the approved mockups;
+4. validate Proposal print/PDF appearance;
+5. only after quota/cache validation, switch `demoMode=false` for bounded live search/detail UAT.
+
+Production remains unchanged and unauthorised.
