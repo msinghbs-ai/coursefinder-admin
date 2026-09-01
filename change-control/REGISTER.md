@@ -94,6 +94,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-063 | 10-architecture-data-model | QS / THE World University Ranking Layer 1 Context | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `10-architecture-data-model/CF-CHG-20260902-063-qs-the-world-ranking-layer1-context.md` |
 
+| CF-CHG-20260902-064 | 30-admin-pim-ux | Statistics, Rankings, Comparison & Manual Publisher Import UX | DESIGN ACCEPTED / UI IMPLEMENTATION ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-064-statistics-rankings-comparison-manual-import-ux.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
