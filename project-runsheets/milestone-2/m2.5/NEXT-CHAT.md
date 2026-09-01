@@ -46,18 +46,24 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 / CF-052 implementation state
+## CF-051 / CF-052 / CF-053 / CF-054 implementation state
 
 Pilot M2.5 source head at handover:
-`9fa8f590c8370bf600f1495794f9205fabbdf8a7`.
+`65fd4913f4c328b44847840e91aad024c8f6c7ed`.
 
-Admin UI version: **v2.15.15**.
+Admin source UI version: **v2.15.17**.
+
+Do not assume the external Cloudflare Pilot Worker has this source. CF-053 browser acceptance proves the Worker is stale.
 
 Migrations deployed:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`
 - `20260901061041 m2_5_capacity_integrity_alert_classification`
 - `20260901061233 m2_5_environment_gate_reconcile_layer4_blocking`
 - `20260901062200 m2_5_layer2_run_observability_correction`
+- `20260901083800 m2_5_layer2_finalizer_fairness`
+- `20260901085000 m2_5_layer2_stale_pattern_control_handoff`
+- `20260901091500 m2_5_layer3_source_pattern_operator_handback`
+- `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`
 
 Implemented:
 - source/capability lifecycle and Pilot/Production separation;
@@ -75,9 +81,11 @@ Pilot reconciliation:
 - three benchmark-PASS Layer 3 profiles = Pilot-qualified;
 - Production source/scraper/AI rows = zero.
 
-Post-change Advisors:
+Post-CF-054 Advisors:
 - Security 146 INFO / 0 WARN / 0 ERROR;
-- Performance 174 INFO / 0 WARN / 0 ERROR.
+- Performance 173 INFO / 0 WARN / 0 ERROR.
+
+`layer3-interpret` Pilot Edge Function is version 9, JWT enforced.
 
 ## Capacity / integrity finding
 
@@ -116,6 +124,39 @@ CF-052 additionally corrected the operator observability defect:
 
 CF-052 is **IMPLEMENTED / TARGETED PASS**.
 
+### CF-053
+
+Finalizer fairness/stale-control correction is implemented and runtime-proven:
+- 293 pending deterministic Provider dispatches at discovery → 233 at latest checkpoint under normal bounded cron;
+- historical VIC 219 = acceptance-isolation/rescheduled markers, operational acquisition failures = 0;
+- 6,562 missing URLs = Course-page discovery backlog across 337 Providers with Provider websites already present.
+
+CF-053 deployed browser acceptance is **BLOCKED**, not PASS:
+- run `33488961340`;
+- jobs `99795659209` and `99796810066` failed because the external Cloudflare Worker did not contain current main's UI classification element.
+
+### CF-054
+
+Manual-governed Layer 3 Provider source-pattern path is implemented:
+- secure Curator+ queue;
+- Edge `layer3-interpret` v9;
+- exact same-host/Evidence-link URL validation;
+- valid candidate returns to Layer 2 3-Course identity control;
+- no candidate/low confidence returns to Layer 4 Provider source resolution;
+- no direct Provider qualification/canonical/Search/Publication mutation;
+- A23 no-autonomous-L2→L3 boundary retained.
+
+Rollback-only valid/no-candidate/idempotency paths PASS with no retained synthetic state.
+
+Permanent source-contract CI:
+- run `33491843514`;
+- job `99804902558`;
+- PASS.
+
+Live source-pattern queue at handover: **390 queued / 0 completed / 0 failed**. Do not bulk drain it. No real CF-054 model execution has been performed.
+
+CF-054 deployed UI acceptance remains blocked until the external Cloudflare Pilot deployment is reconciled.
+
 ## CI gate
 
 Permanent tests:
@@ -133,6 +174,9 @@ Targeted deployed UAT is terminal PASS:
 CF-051 is IMPLEMENTED / TARGETED PASS. Production integration/acceptance remains future work under CF-049.
 
 ## Next authorised priorities
+
+Before relying on Pilot browser UI:
+0. **Reconcile Cloudflare external Git deployment** for Worker `coursefinder-pilot`: confirm repository `msinghbs-ai/Coursefinder-Pilot`, branch `main`, build/output/deploy settings and latest deployment. Then rerun CF-053 + CF-054 deployed browser UAT unchanged.
 
 Without Production provisioning:
 1. reconcile Evidence lineage mismatch without deleting data;
