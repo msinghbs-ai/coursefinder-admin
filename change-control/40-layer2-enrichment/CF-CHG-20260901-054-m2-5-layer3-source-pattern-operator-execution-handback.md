@@ -255,6 +255,19 @@ Current post-correction checkpoint:
 
 The post-09:25 targeted source-contract was triggered by Pilot commit `dbd7bdde61e28fa49170875786066d7015ccd77d`. At handback GitHub had not yet published a commit status/run ID. Per operating instruction, do not poll/wait in-chat; check that commit on the next user `Proceed` and record the resulting run/job.
 
+### Post-reconcile targeted CI correction
+
+Post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced workflow run `33492617096` / job `99807392499` = **FAIL**, but the failure was isolated to the permanent test harness:
+- Playwright parser error: unterminated string constant in `m2-5-layer3-source-pattern-operator-contract.spec.mjs`;
+- no CF-054 runtime assertion executed;
+- no model call executed;
+- no database/Edge regression was observed.
+
+The malformed assertion was corrected on Pilot commit:
+`1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
+
+That commit is the clean targeted-rerun trigger. At handback GitHub had not yet attached a workflow status/run ID. Per operating instruction, do not poll in-chat; check `1605d15b...` first on the next Proceed.
+
 ### Deployed Admin blocker
 
 The Pilot Admin source is v2.15.17, but the Cloudflare Worker is not publishing current `main`.
