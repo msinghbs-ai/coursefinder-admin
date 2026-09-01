@@ -157,7 +157,8 @@ M2.5 now carries the accepted design and implementation backlog under `CF-CHG-20
 Authoritative design artifacts:
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`;
 - `docs/coursefinder-course-skills-career-labour-market-design-v0.1.md`;
-- `docs/coursefinder-career-skills-demo-operator-guide-v0.1.md`.
+- `docs/coursefinder-career-skills-demo-operator-guide-v0.1.md`;
+- `docs/coursefinder-career-skills-implementation-guide-v0.1.md`.
 
 M2.5 implementation sequence:
 1. A17-P1 reference schema and OSCA/NOL/concordance adapters;
