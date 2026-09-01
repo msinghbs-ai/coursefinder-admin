@@ -1,6 +1,6 @@
 # CF-CHG-20260902-063 — QS / THE World University Ranking Layer 1 Context
 
-**Status:** DESIGN ACCEPTED / IMPLEMENTATION PENDING  
+**Status:** SCHEMA / READ FOUNDATION IMPLEMENTED — DATA INGESTION PENDING  
 **Initiated:** 2026-09-02 05:29 Australia/Melbourne  
 **Primary category:** 10 — Architecture / Data Model  
 **Related:** Layer 1 authoritative ingestion; Admin/PIM; Search/API consumers; M2.5
@@ -59,3 +59,28 @@ Documentation/design addition can be reverted without runtime impact. Any later 
 ## Acceptance status
 
 DESIGN ACCEPTED. Implementation and source/licensing qualification remain open under M2.5 follow-ups.
+
+
+## Implementation checkpoint
+
+Pilot now contains the private `ranking` schema with:
+- systems;
+- editions;
+- publisher institutions;
+- Provider mappings;
+- observations;
+- indicator observations;
+- manual imports.
+
+Secure helper/read functions are wired through the existing Admin gateway and ranking context is attached to Provider detail, Course Provider-context detail and Compare.
+
+The manual publisher-file registration path is operational via `ranking-publisher-import` v1 and the existing private Evidence bucket.
+
+Not yet complete:
+- QS 2026/2027 parser/load;
+- THE 2026 parser/load;
+- historical edition parser/load;
+- Provider crosswalk reconciliation;
+- accepted ranking observations.
+
+Therefore this Change Control remains open for data ingestion and acceptance.
