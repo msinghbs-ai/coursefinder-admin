@@ -170,3 +170,23 @@ Therefore CF-053 is not marked deployed-browser PASS. Application/runtime correc
 **IMPLEMENTED / RUNTIME PASS — DEPLOYED BROWSER ACCEPTANCE BLOCKED.**
 
 M2.4 remains CLOSED/PASS. CF-053 remains an M2.5 Pilot operations correction and does not alter the frozen M2.4 acceptance baseline.
+
+
+## Combined deployed-currentness proof — 1 September 2026
+
+Permanent non-mutating browser test:
+`tests/uat/m2-5-pilot-deployment-currentness-deployed.spec.mjs`.
+
+Run:
+- workflow `33493637581`;
+- job `99810738327`;
+- result **FAIL**.
+
+The failure is deployment currentness, not this change's source/runtime contract:
+- UAT artifact captured deployed **PIM Admin v2.15.14**;
+- repository source is **v2.15.17**;
+- the deployed CF-053 Layer 2 terminal card lacks `data-l2-wave-classification`;
+- execution stopped there, before the CF-054 Provider source-pattern queue assertion;
+- no AI action/model call was executed.
+
+Therefore the external Cloudflare Worker `coursefinder-pilot.techm.workers.dev` is conclusively stale. Do not weaken either CF-053 or CF-054 browser contract. Reconcile the external Cloudflare Git integration to current `msinghbs-ai/Coursefinder-Pilot/main` before rerunning deployed browser acceptance.
