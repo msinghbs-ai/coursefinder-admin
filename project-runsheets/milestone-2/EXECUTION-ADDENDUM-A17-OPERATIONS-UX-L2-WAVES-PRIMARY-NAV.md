@@ -1,6 +1,6 @@
 # Execution Addendum A17 — Operations UX, Layer Wave Control & Primary Navigation
 
-**Status:** ACTIVE — M2.4.4 ADDENDUM  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 30 August 2026  
 **Change Control:** `CF-CHG-20260830-048`
 
@@ -38,3 +38,8 @@ Dashboard must show meaningful status for Layers 1, 2 and 3, including:
 ## Acceptance
 
 A17 requires targeted deployed desktop validation of the new controls/navigation, server-side wave clamping/deduplication, scraper-first governance, and no regression of A10/A13/A14.
+
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
