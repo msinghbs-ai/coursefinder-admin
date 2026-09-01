@@ -245,7 +245,7 @@ Permanent source/build contract:
 Workflow routing commit:
 \`45dcf406090be5bedc8838b965495b71aee7cee0\`.
 
-Check the final CF-058 trigger first on next Proceed. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
+Final CF-058 source/build trigger: `bd267ab46216529e21f94a4448394365b12a2cae`. Check this commit first on next Proceed. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
 
 ## CI gate
 
