@@ -1,6 +1,6 @@
 # CF-CHG-20260901-060 — M2.5 Jobs Workspace Read-Path Restoration
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / SOURCE CI PENDING — DEPLOYED UAT PENDING  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 Platform/Admin operations  
@@ -107,3 +107,33 @@ No database migration is required for CF-060.
 - no autonomous replay;
 - no Firecrawl quota change;
 - no Layer 3 authority change.
+
+## Implementation checkpoint
+
+Pilot source head: `97c3679d8304c36e10ae6e5b74d6cc99a2834152`.
+
+Implemented:
+- exported governed `JobsWorkspace` / `SourcesWorkspace` from `pipeline-ops-entry.jsx`;
+- canonical `mature-main.jsx` now mounts those workspaces directly;
+- obsolete hash-route empty-result suppression removed from `src/lib/supabase.js`;
+- Admin/release version advanced to **v2.15.20**;
+- permanent source/build contract added: `tests/uat/m2-5-jobs-workspace-read-path-contract.spec.mjs`;
+- permanent deployed contract added: `tests/uat/m2-5-jobs-workspace-deployed.spec.mjs`;
+- workflow targeted/integration/acceptance routing added under commit `35a2e02d457e5faccffe78979ff3756757571e3d`.
+
+Live runtime count at investigation time:
+- 3,964 total Jobs;
+- 1,082 created in the previous 24h;
+- 2 running;
+- 237 failed;
+- 3,720 completed/succeeded;
+- 2,643 Layer 2 jobs.
+
+User screenshot also proves the external Cloudflare Worker had caught up from the previous v2.15.14 drift to deployed **v2.15.19** before CF-060 began. FU-015 therefore changes from a persistent stale-deployment blocker to a currentness recheck after v2.15.20 publishes.
+
+Validation trigger:
+- commit `97c3679d8304c36e10ae6e5b74d6cc99a2834152`;
+- deployed-UAT workflow `33511601936` = pending at handover;
+- frontend build workflow `33511602057` = queued at handover.
+
+Do not poll long-running CI in this chat. Check these exact runs on the next Proceed.
