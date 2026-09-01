@@ -14,4 +14,4 @@
 | M25-FU-010 | Capacity notification target unset | Thresholds and observations exist without external escalation | Select notification channel and severity routing | OPEN |
 | M25-FU-011 | Platform maturity Admin UI not yet implemented | New gates/capacity/UAT/blocking controls are not yet consolidated in canonical Administration | Add through a separately tested canonical Administration change | OPEN |
 | M25-FU-012 | Block enforcement not wired to all owners | Ledger state alone is not universal enforcement | Add enforcement and UAT per operation/publication/Search/data-quality path | OPEN |
-| M25-FU-013 | M2.5 targeted CI final status | Source-contract suite wired; terminal status not yet recorded | Record exact final run/build IDs when terminal; correct only demonstrated defects | ACTIVE |
+| M25-FU-013 | M2.5 targeted CI final status | Source-contract suite validated | Run 33476711758 / job 99757413769 PASS on dac23d68; retain as CF-051 targeted evidence | COMPLETE / TARGETED PASS |
