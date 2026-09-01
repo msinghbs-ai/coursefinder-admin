@@ -25,10 +25,10 @@ Current capacity/integrity finding:
 - 205 unmatched Storage objects and 18 regulatory artifact rows without a matching object require lineage reconciliation before any cleanup.
 
 Still open:
-- Admin UX for the new controls;
+- Admin UX for the new controls — CF-058 source/server implementation complete; source/build CI pending and deployed browser acceptance blocked by FU-015;
 - notification delivery/escalation;
 - purge executor (only if separately authorised after dry-run/integrity proof);
-- block enforcement in each owning operation/consumer;
+- block enforcement in each owning operation/consumer — COMPLETE / TARGETED PASS under CF-057;
 - Production-specific qualification/canary/restore/load UAT after Production exists.
 
 
