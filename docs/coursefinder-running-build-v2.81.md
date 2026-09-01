@@ -160,7 +160,7 @@ Pilot server migration:
 \`20260901220500_m2_5_platform_maturity_admin_read_surface.sql\`
 (commit \`ded6ff03156126aa66e5d1ca2914e2e62e337a77\`).
 
-Source version has advanced to **PIM Admin v2.15.19**. The workspace exposes governed readiness, capacity/integrity, environment gates, UAT catalogue, performance/workload profiles, retention dry-run/classes and CF-057 block controls. It does not expose Production enablement, PITR purchase, destructive purge or consumer cutover.
+Source version has advanced to **PIM Admin v2.15.20**. The workspace exposes governed readiness, capacity/integrity, environment gates, UAT catalogue, performance/workload profiles, retention dry-run/classes and CF-057 block controls. It does not expose Production enablement, PITR purchase, destructive purge or consumer cutover.
 
 Latest sampled Pilot telemetry:
 - DB 632,933,523 bytes;
@@ -206,9 +206,31 @@ Post-change advisors:
 - Security 147 INFO / 0 WARN / 0 ERROR;
 - Performance 175 INFO / 0 WARN / 0 ERROR.
 
-Admin/release source version is **v2.15.19** and the Platform capacity view displays raw, reconciled and unresolved lineage separately.
+Admin/release source version has advanced to **v2.15.20** and the Platform capacity view displays raw, reconciled and unresolved lineage separately.
 
 Permanent contract:
 \`tests/uat/m2-5-evidence-lineage-reconciliation-contract.spec.mjs\`.
 
 Deployed browser acceptance remains separately blocked by FU-015.
+
+
+### M2.5 CF-060 — Jobs workspace read-path restoration
+
+Deployed user UAT on v2.15.19 exposed a canonical Jobs regression: the page displayed 0 rows even though the live pipeline held 3,964 Jobs.
+
+Root cause was browser-side only. The governed read helper still suppressed `jobs` and `sources` reads when the current hash matched those routes, a compatibility rule from a Pipeline Ops overlay that is no longer mounted.
+
+Repository source v2.15.20 now:
+- mounts the existing server-paged governed Pipeline Jobs workspace directly from canonical navigation;
+- uses `pipeline_jobs_page`, `pipeline_filters` and `pipeline_job_detail`;
+- displays current/history Layer, mode, status, source/provider, counts, Evidence, duration/cursor and timestamps;
+- removes the obsolete route-based empty-result suppression;
+- mounts the governed Sources workspace directly as well.
+
+No DB migration or new mutation authority is required.
+
+Permanent contracts:
+- `tests/uat/m2-5-jobs-workspace-read-path-contract.spec.mjs`;
+- `tests/uat/m2-5-jobs-workspace-deployed.spec.mjs`.
+
+Source trigger `97c3679d8304c36e10ae6e5b74d6cc99a2834152` launched workflow `33511601936` and frontend build `33511602057`; both were still pending/queued at handover.
