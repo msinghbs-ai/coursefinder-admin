@@ -992,3 +992,27 @@ Decision:
 
 Do not weaken A25 Evidence lineage, Layer 4 governance, Firecrawl-first acquisition proof, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, responsive navigation, role/security or Layer 1 authority boundaries.
 
+## Focused Campus/Course performance pickup — f07f354d — 1 September 2026
+
+Check first:
+- head `f07f354d8b3842c02dde04cff31e576924fc989f`;
+- build `33454525548`;
+- focused performance UAT `33454525536`.
+
+Previous integration `33452687369` is immutable FAIL evidence:
+- repeatable real failure: `campuses_page` 3,863 ms > 3,000 ms;
+- one transient `courses_page` 3,752 ms overrun passed on retry.
+
+Current correction:
+- page-first default Campus browse;
+- lower(name),id Campus index;
+- filtered/sorted Campus paths unchanged;
+- direct live Campus ~4 ms; Course ~71 ms;
+- performance thresholds unchanged.
+
+Decision:
+- PASS/PASS → inspect focused performance log once and nominate exactly one replacement bounded integration candidate;
+- FAIL → fix only the demonstrated remaining bottleneck, no unchanged rerun.
+
+After any future integration PASS, still complete A26/A27/A28 runtime reconciliation and M244-FU-020 security review before final acceptance.
+
