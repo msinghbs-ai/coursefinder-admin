@@ -645,3 +645,20 @@ Not required to finish M2.5:
 10. Purging is class-based, dry-run, audit-safe and excludes governed Evidence/history by default.
 11. Consumer caching/version invalidation is part of performance architecture.
 12. Existing hard performance budgets remain standing.
+
+
+# 17. Course skills, career pathways and labour-market intelligence
+
+M2.5 accepts the detailed A17 design in `docs/coursefinder-course-skills-career-labour-market-design-v0.1.md` under `CF-CHG-20260901-062`.
+
+Platform-level decisions:
+1. Course-developed skills are evidence-backed relationships, not Course scalar fields.
+2. Occupation-required skills are separately modelled and cannot automatically become Course-developed skills.
+3. AU occupation identity is OSCA-first; NZ is NOL-first where available; native source classifications remain versioned.
+4. Labour-market metrics are immutable/time-series observations preserving period, geography, methodology and native code basis.
+5. Course↔occupation mappings retain relationship basis and confidence rather than a single opaque job-match score.
+6. Registration/licensing and migration policy are separate time-scoped overlays.
+7. Layer 3 proposes mappings; Layer 4/governed thresholds decide acceptance; consumer publication is a later gate.
+8. Course blades and comparison must show provenance, freshness and explicit unavailable/not-mapped states.
+
+Implementation follows PM-A17-01 through PM-A17-11 in the M2.5 platform-maturity backlog.
