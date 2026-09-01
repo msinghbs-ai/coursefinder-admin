@@ -148,3 +148,23 @@ M2.5 does not automatically authorise:
 ## Current blocker
 
 Paid Production project creation cannot proceed until explicit organisation/cost/region confirmation is captured.
+
+
+## A17 — Course Skills, Career Pathways & Labour-Market Intelligence
+
+M2.5 now carries the accepted design and implementation backlog under `CF-CHG-20260901-062`.
+
+Authoritative design artifacts:
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`;
+- `docs/coursefinder-course-skills-career-labour-market-design-v0.1.md`;
+- `docs/coursefinder-career-skills-demo-operator-guide-v0.1.md`.
+
+M2.5 implementation sequence:
+1. A17-P1 reference schema and OSCA/NOL/concordance adapters;
+2. A17-P2 official labour-market/pathway adapters (JSA/Tahatū) with time-series provenance;
+3. A17-P3 first-party Course learning outcomes/career/accreditation Evidence;
+4. A17-P4 Layer 3 skills normalisation and occupation candidates;
+5. A17-P5 Layer 4 review + Course blade + comparison UX;
+6. A17-P6 governed consumer projection only after explicit publication acceptance.
+
+Production boundary: A17 design is accepted, but no broad career/skills consumer publication is authorised by this runsheet alone.
