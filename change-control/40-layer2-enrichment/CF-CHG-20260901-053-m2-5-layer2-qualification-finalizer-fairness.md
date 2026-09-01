@@ -1,6 +1,6 @@
 # CF-CHG-20260901-053 — M2.5 Layer 2 Qualification Finalizer Fairness & Historical Wave Classification
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / RUNTIME PASS — DEPLOYED BROWSER ACCEPTANCE BLOCKED BY PILOT CLOUDFLARE GIT DEPLOYMENT DRIFT  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5  
@@ -124,3 +124,49 @@ Correct historical operator semantics:
 ## Rollback
 
 Restore the prior finalizer/projection function definitions. No data deletion or canonical rollback is expected because the correction changes scheduling fairness/read semantics, not retained Evidence or canonical Course facts.
+
+
+## Implementation & validation update — 1 September 2026
+
+Implementation repository: `msinghbs-ai/Coursefinder-Pilot`.
+
+Applied corrections:
+- `supabase/migrations/20260901083800_m2_5_layer2_finalizer_fairness.sql` — finalizer prioritises `pending_dispatch` work and records progress/selection class;
+- `supabase/migrations/20260901085000_m2_5_layer2_stale_pattern_control_handoff.sql` — incomplete pattern controls older than 30 minutes route to governed Layer 3 source-pattern review instead of remaining permanent scheduler blockers;
+- Layer 2 parent projection preserves the stored 219 terminal audit markers while exposing acceptance-isolation/rescheduled rows separately from operational failures;
+- source Admin release advanced through v2.15.16 and later v2.15.17 under the adjacent CF-054 operator-path correction.
+
+Runtime proof:
+- pending deterministic pattern dispatch decreased from **293** at discovery to **233** by the later CF-054 checkpoint under the unchanged five-minute bounded finalizer cron;
+- the normal cron independently selected `pending_dispatch` runs and recorded `progressed=true`;
+- UTas stale control (2/3 terminal) and ETEA stale control (0/3 terminal) were retained but routed to `layer3_required`, one governed Layer 3 source-pattern request each;
+- no Provider was auto-qualified and no canonical Course URL/Search/Publication authority was granted;
+- VIC request `1bb1504d-7bad-42d9-b059-4adeaf9118c7` reconciles to 42 completed + 219 acceptance-isolation/rescheduled + **0 operational acquisition failures**, while retaining the original 219 audit markers;
+- 6,562 missing URL rows remain a Course-page discovery backlog across 337 Providers, all of which already have Provider websites.
+
+Advisor state after the subsequent CF-054 hardening remains:
+- Security: 146 INFO / **0 WARN / 0 ERROR**;
+- Performance: 173 INFO / **0 WARN / 0 ERROR**.
+
+### Deployed browser blocker
+
+CF-053 deployed browser gate:
+- workflow run `33488961340`;
+- original job `99795659209` — FAIL;
+- rerun job `99796810066` — FAIL.
+
+The source-contract test passed, but the deployed Worker did not contain the new `data-l2-wave-classification` element. Current `main` does contain it.
+
+Repository reconciliation proves:
+- `Coursefinder-Pilot/wrangler.jsonc` still targets Worker `coursefinder-pilot`;
+- static assets remain `./dist` with SPA fallback;
+- the deployed UAT workflow does **not** deploy Cloudflare; it only waits for the external Worker deployment;
+- historical project records identify Cloudflare external Git deployment as the Pilot deployment owner.
+
+Therefore CF-053 is not marked deployed-browser PASS. Application/runtime correction is implemented and proven; browser acceptance is blocked by external Cloudflare Git deployment drift, tracked in M2.5 follow-ups.
+
+## Current status decision
+
+**IMPLEMENTED / RUNTIME PASS — DEPLOYED BROWSER ACCEPTANCE BLOCKED.**
+
+M2.4 remains CLOSED/PASS. CF-053 remains an M2.5 Pilot operations correction and does not alter the frozen M2.4 acceptance baseline.
