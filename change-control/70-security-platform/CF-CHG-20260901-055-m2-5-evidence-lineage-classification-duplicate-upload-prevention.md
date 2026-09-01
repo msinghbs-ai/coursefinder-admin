@@ -1,6 +1,6 @@
 # CF-CHG-20260901-055 — M2.5 Evidence Lineage Classification & Duplicate Upload Prevention
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING  
 **Category:** 70-security-platform  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 platform maturity  
@@ -175,3 +175,87 @@ Historical cleanup/remediation requires a later explicitly reviewed action after
 ## Rollback
 
 Restore prior snapshot function and worker source. No historical data rollback is required because CF-055 does not delete or rewrite existing Evidence/Storage lineage.
+
+
+## Implementation & runtime proof — 1 September 2026
+
+Pilot source trigger:
+`msinghbs-ai/Coursefinder-Pilot@ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
+
+### Telemetry migration
+
+Deployed:
+`supabase/migrations/20260901195000_m2_5_evidence_lineage_classification.sql`
+(commit `0f483134de8e0b9cce9791e048e4dfc6e3ceb6ce`).
+
+Corrected live Pilot snapshot after deployment:
+- severity: **warning**;
+- database: **617,819,283 bytes**;
+- Evidence objects: **9,484** at the observation instant;
+- Evidence bytes: **4,902,002,299**;
+- Evidence planning utilisation: **7.61%**;
+- raw unlinked Storage objects: **205**;
+- proven duplicate unlinked objects: **200**;
+- unresolved orphan objects: **5**;
+- virtual/external Evidence references: **16**;
+- missing bucket objects: **2**;
+- integrity count used for severity: **5**.
+
+Raw counts remain visible in the snapshot. Compatibility fields now represent unresolved integrity only:
+- `orphan_object_count=5`;
+- `failed_upload_count=2`.
+
+No existing Storage object or Evidence row was changed.
+
+### Forward duplicate prevention
+
+Deployed Edge revisions:
+- `layer2-scope-discover-scheduled` source v1.3.3 / Supabase Edge version **20** — commit `a12b4124b7ff3d96c7aae2456cf3124d17ef5151`;
+- `layer2-screenshot-backfill-scheduled` source v1.0.1 / Edge version **2** — commit `3f1658ec6c28e03e0504f7bd0a01d47b347a73ae`;
+- `provider-contact-discover-scheduled` source v1.3.3 / Edge version **18** — commit `649982a5981e9104776a427f17d3626f2c066e94`;
+- `scholarships-au-etl` source v0.1.2 / Edge version **3** — commit `6aca195afbb1a0ecf6db73adbb3891d3662a8c9d`.
+
+All preserve their existing scheduled one-time-nonce boundary and `verify_jwt=false` deployment setting.
+
+The cleanup rule is deliberately narrow:
+- registration must prove the just-uploaded path is not the retained Evidence path;
+- only that just-uploaded duplicate object is removed;
+- Storage API is used, never direct SQL mutation of `storage.objects`;
+- cleanup failure logs a warning but does not fail the acquisition;
+- retained Evidence paths are never removed.
+
+No real acquisition run was started to prove CF-055.
+
+### Remaining unresolved historical lineage
+
+Retain without deletion:
+- 4 Provider-contact Storage objects with no registered-object fingerprint match;
+- 1 recovered Layer 2 discovery object with no registered-object fingerprint match;
+- 2 legacy Canadian management-plane Evidence paths with no current bucket object.
+
+The two Canadian rows have later Storage-backed Evidence from the same source lineage, but their hashes differ. They remain historical references, not byte-equivalent replacements.
+
+### Advisors
+
+After the telemetry migration and Edge deployments:
+- Security: **146 INFO / 0 WARN / 0 ERROR**;
+- Performance: **172 INFO / 0 WARN / 0 ERROR**.
+
+### Permanent contract
+
+Added:
+`tests/uat/m2-5-evidence-lineage-contract.spec.mjs`.
+
+Wired into targeted/integration/acceptance by:
+`0a130874d715012def20eefc4105c1ac7c50f200`.
+
+Final trigger:
+`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
+
+At handback GitHub had not yet attached a workflow run/status. Per the user’s operating instruction, do not poll in-chat; check this exact commit first on the next `Proceed`.
+
+## Current status decision
+
+**IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING.**
+
+M25-FU-009 is no longer an undifferentiated HIGH integrity finding. Historical unresolved lineage remains open, but classified duplicates/virtual references no longer drive HIGH severity.
