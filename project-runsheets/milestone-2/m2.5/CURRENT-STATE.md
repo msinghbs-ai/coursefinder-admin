@@ -399,3 +399,39 @@ Key source decisions:
 - Immigration NZ policy data is a time-scoped policy overlay, not student eligibility.
 
 No A17 schema migration, adapter, model call, UI publication or Production enablement has been performed yet.
+
+
+## CF-061 QILT / PRISMS comparison experience
+
+CF-061 is **IMPLEMENTED / PILOT RUNTIME PASS — SOURCE CI PENDING — DEPLOYED UAT PENDING**.
+
+Pilot source is now **v2.15.21** and adds:
+- a dedicated Compare workspace for up to six Providers or Courses;
+- Catalogue and Provider/Course detail entry actions;
+- QILT aligned comparison rows keyed by survey + metric + study level + study area + collection period;
+- QILT confidence interval, response-count and national-benchmark rendering where stored;
+- PRISMS comparison context that retains actual Provider/geography/study-area/cohort grain;
+- responsive navy/indigo, teal and magenta comparison styling without copying third-party brand assets.
+
+Pilot migrations:
+- `20260901133212 cf_061_contextual_compare_qilt_prisms`;
+- `20260901134059 cf_061_contextual_compare_provider_city_fix`;
+- `20260901134137 cf_061_contextual_insights_study_area_code_fix`.
+
+Runtime proof:
+- 3-Provider comparison PASS;
+- 2-Course comparison PASS;
+- Course QILT grain remains `provider_context`;
+- maximum-six guard PASS (7 rejected);
+- no-JWT rejection PASS;
+- Security **147 INFO / 0 WARN / 0 ERROR**;
+- Performance **175 INFO / 0 WARN / 0 ERROR**.
+
+Initial APPLY exposed two schema-name defects (`providers.city`, `external_study_areas.code`); both were corrected through additive migrations and the live read was re-proven.
+
+Permanent source/build contract:
+`tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
+
+Latest targeted source trigger at this checkpoint:
+`msinghbs-ai/Coursefinder-Pilot@b423af67af6917ae3407e3f5137dcd403d0da225`.
+No commit status was attached at the last check, so source CI remains pending. Do not claim deployed browser acceptance until Cloudflare serves v2.15.21 and the comparison UI is exercised there.
