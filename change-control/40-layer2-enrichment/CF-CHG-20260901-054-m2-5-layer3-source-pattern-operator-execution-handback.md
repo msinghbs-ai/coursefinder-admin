@@ -253,7 +253,7 @@ Current post-correction checkpoint:
 - Security Advisor: **146 INFO / 0 WARN / 0 ERROR**;
 - Performance Advisor: **172 INFO / 0 WARN / 0 ERROR**.
 
-A new targeted source-contract run is required after the 09:25 host reconciliation. Per operating instruction, do not wait in-chat for that CI; record the run and hand control back to the user.
+The post-09:25 targeted source-contract was triggered by Pilot commit `dbd7bdde61e28fa49170875786066d7015ccd77d`. At handback GitHub had not yet published a commit status/run ID. Per operating instruction, do not poll/wait in-chat; check that commit on the next user `Proceed` and record the resulting run/job.
 
 ### Deployed Admin blocker
 
