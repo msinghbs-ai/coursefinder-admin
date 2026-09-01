@@ -16,6 +16,7 @@ Adopt Execution Addendum A17 and the governed relational model documented in:
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`
 - `docs/coursefinder-course-skills-career-labour-market-design-v0.1.md`
 - `docs/coursefinder-career-skills-demo-operator-guide-v0.1.md`
+- `docs/coursefinder-career-skills-implementation-guide-v0.1.md`
 
 ## Semantic before / after
 
