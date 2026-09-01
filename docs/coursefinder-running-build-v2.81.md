@@ -234,3 +234,36 @@ Permanent contracts:
 - `tests/uat/m2-5-jobs-workspace-deployed.spec.mjs`.
 
 Source trigger `97c3679d8304c36e10ae6e5b74d6cc99a2834152` launched workflow `33511601936` and frontend build `33511602057`; both were still pending/queued at handover.
+
+
+### M2.5 CF-061 — QILT / PRISMS Provider & Course comparison experience
+
+Pilot source has advanced to **v2.15.21** for a bounded contextual comparison experience modelled on the interaction pattern shown in the user-supplied ComparED references while retaining CourseFinder branding and authority rules.
+
+Implemented:
+- Provider and Course **Compare** workspace, maximum six selections;
+- Catalogue and detail-blade Compare entry actions;
+- like-for-like QILT alignment by survey + metric + study level + study area + collection period;
+- QILT confidence interval, response count and national benchmark where stored;
+- PRISMS contextual comparison retaining actual Provider/geography/study-area/cohort grain;
+- responsive desktop/tablet/mobile layout;
+- no Search, Publication or Zoho admission change.
+
+Pilot migrations:
+- `20260901133212_cf_061_contextual_compare_qilt_prisms.sql`;
+- `20260901134059_cf_061_contextual_compare_provider_city_fix.sql`;
+- `20260901134137_cf_061_contextual_insights_study_area_code_fix.sql`.
+
+Live read validation:
+- 3-Provider comparison PASS;
+- 2-Course comparison PASS;
+- Course QILT remains `provider_context`;
+- 7-item request rejected by six-item boundary;
+- unauthenticated read rejected;
+- Security **147 INFO / 0 WARN / 0 ERROR**;
+- Performance **175 INFO / 0 WARN / 0 ERROR**.
+
+Permanent source/build contract:
+`tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
+
+Source trigger `b423af67af6917ae3407e3f5137dcd403d0da225` had no attached commit status at the recorded checkpoint. Deployed browser acceptance remains pending until Cloudflare serves v2.15.21.
