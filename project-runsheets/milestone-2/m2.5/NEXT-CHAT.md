@@ -46,7 +46,7 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 implementation state
+## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 implementation state
 
 Pilot M2.5 source head at handover:
 `ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
@@ -68,6 +68,7 @@ Migrations deployed:
 - `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`
 - `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`
 - `20260901195000 m2_5_evidence_lineage_classification`
+- `20260901211500 m2_5_universal_layer4_block_enforcement`
 
 Implemented:
 - source/capability lifecycle and Pilot/Production separation;
@@ -185,6 +186,33 @@ Treat FU-015 as an external Cloudflare Git deployment blocker. Do not rerun unti
 
 CF-055 is IMPLEMENTED / TARGETED PASS. Remaining 5 unresolved objects + 2 legacy Canadian paths are historical provenance remediation only; no cleanup is authorised by this pass.
 
+## CF-057 universal Layer 4 block enforcement
+
+CF-057 is **IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING**.
+
+Runtime proof:
+- direct Course Search block hides Zoho + Website exact/search reads;
+- Search unblock restores visibility;
+- Provider Search block hides Provider and child Course;
+- publication readiness shows `layer4_publication_block`;
+- publishable Layer 4 decision rejected; not-publishable remains allowed;
+- Layer 2 apply rejected by operational block;
+- Layer 3 source-pattern context non-executable and reservation `call_required=false`;
+- no model call/new interpretation;
+- Provider quarantine is direct and child Course quarantine inherited;
+- quarantine alone does not hide Search;
+- rollback leaves **0 CF057_UAT / 0 total block decisions**.
+
+Coverage: 20/20 inventoried API functions include Search-block enforcement.
+Advisors: Security 146 INFO / 0 WARN / 0 ERROR; Performance 171 INFO / 0 WARN / 0 ERROR.
+
+Permanent contract:
+`tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs`.
+Workflow routing commit:
+`1df7c2d0ce995895468b727cc6e8003dd95a47c7`.
+
+Check the final CF-057 trigger first on the next Proceed once recorded below.
+
 ## CI gate
 
 Permanent tests:
@@ -211,7 +239,7 @@ Without Production provisioning:
 2. CF-056 backup/PITR metadata is reconciled as far as current tools allow; final Production restore/DR remains a clean-environment gate;
 3. define notification destination/escalation for capacity/integrity;
 4. mature canonical Administration surfaces for environment gates/capacity/UAT/blocking;
-5. add explicit block enforcement + UAT to each owning path before treating block state as universal;
+5. CF-057 block enforcement is runtime-proven; retain canonical block-management UI under FU-011 and close targeted CI before treating it as release-gated;
 6. analyse 219 current Layer 2 failures and missing-URL population as Pilot operations, not M2.4 reopening;
 7. continue serving-vs-ingestion performance profile design/benchmarks.
 
