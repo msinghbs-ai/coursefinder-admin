@@ -1,6 +1,6 @@
 # CF-CHG-20260901-051 — M2.5 Platform Operations Maturity Foundation
 
-**Status:** IMPLEMENTED / TARGETED UAT PENDING  
+**Status:** IMPLEMENTED / TARGETED PASS — FOLLOW-UPS OPEN  
 **Category:** 70-security-platform  
 **Initiated:** 1 September 2026  
 **Owner:** M2.5  
@@ -161,9 +161,15 @@ Permanent test:
 Workflow:
 `.github/workflows/deployed-uat.yml` now resolves `m2_5` changes to the M2.5 targeted contract and includes it in integration/acceptance.
 
-At this checkpoint the final Pilot head is `dac23d68e6df230bc30c306fa7b61e720ecb431c`; GitHub had not yet published a terminal commit status. Do not poll indefinitely. Next decision:
-- PASS → record run/build IDs and move CF-051 to targeted PASS;
-- FAIL → preserve run, fix only the demonstrated defect; do not weaken gates.
+Final Pilot head: `dac23d68e6df230bc30c306fa7b61e720ecb431c`.
+
+Targeted deployed UAT:
+- run `33476711758` — PASS;
+- job `99757413769` — PASS;
+- desktop M2.5 source-contract suite PASS;
+- mobile intentionally skipped because targeted tier is desktop-only by standing workflow design.
+
+Decision: CF-051 implementation foundation is **TARGETED PASS**. Wider integration/Production acceptance remains governed by CF-049 and future Production gates.
 
 ## Explicit non-authorisations
 
