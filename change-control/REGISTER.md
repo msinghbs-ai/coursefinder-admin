@@ -17,7 +17,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS.
 >
-> **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. Non-billable platform maturity foundation `CF-CHG-20260901-051` is IMPLEMENTED / TARGETED PASS. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
+> **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. Non-billable platform maturity foundation `CF-CHG-20260901-051` is IMPLEMENTED / TARGETED PASS. Layer 2 run-observability correction `CF-CHG-20260901-052` is IMPLEMENTED / TARGETED PASS. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
 >
 > **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR. M2.4 is CLOSED/PASS.
 >
@@ -80,6 +80,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260901-049 | 70-security-platform | M2.5 Clean Production Stack Establishment, Restore & Security Acceptance | ACTIVE / READINESS — PRODUCTION NOT PROVISIONED | `70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md` |
 | CF-CHG-20260901-050 | 00-governance-programme | Post-M2.4 Platform Maturity Design & Implementation Backlog | APPLIED — DESIGN BASELINE | `00-governance-programme/CF-CHG-20260901-050-platform-maturity-design-backlog.md` |
 | CF-CHG-20260901-051 | 70-security-platform | M2.5 Platform Operations Maturity Foundation | IMPLEMENTED / TARGETED PASS — FOLLOW-UPS OPEN | `70-security-platform/CF-CHG-20260901-051-m2-5-platform-operations-maturity-foundation.md` |
+| CF-CHG-20260901-052 | 40-layer2-enrichment | M2.5 Layer 2 Run Observability Correction | IMPLEMENTED / TARGETED PASS | `40-layer2-enrichment/CF-CHG-20260901-052-m2-5-layer2-run-observability-correction.md` |
 
 ## Current programme baseline
 
