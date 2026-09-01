@@ -369,6 +369,7 @@ Read before implementing Course skills/jobs/career intelligence:
 - A17 execution addendum;
 - `docs/coursefinder-course-skills-career-labour-market-design-v0.1.md`;
 - `docs/coursefinder-career-skills-demo-operator-guide-v0.1.md`;
+- `docs/coursefinder-career-skills-implementation-guide-v0.1.md`;
 - M25-FU-017 through M25-FU-026.
 
 Start from repository/runtime truth. Do not jump directly to AI mapping or UI. First establish the versioned occupation/code/concordance and skills relationship schema, then qualify AU/NZ authoritative source adapters. Preserve the explicit distinction between Course-acquired skills, occupation skills, labour demand, registration and migration policy.
