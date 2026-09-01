@@ -19,9 +19,9 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. No Production Supabase project exists yet. Production provisioning requires explicit organisation, quoted-cost and region confirmation; Pilot must not be promoted in place.
 >
-> **M2.4.3 FINAL ACCEPTANCE:** corrective bounded integration `33285703513` PASS desktop/mobile. Replacement final acceptance `33286437795` is PASS: desktop 49 passed + 1 timing-sensitive M2.3 UI flake recovered on retry; mobile 50/50 PASS; both commit-status contexts success. Historical failed acceptance `33284867253` remains immutable evidence. Final runtime/advisor reconciliation: Security 135 INFO / 0 WARN / 0 ERROR; Performance 169 INFO / 0 WARN / 0 ERROR. M2.4.4 is now NEXT/READY but not started.
+> **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR. M2.4 is CLOSED/PASS.
 >
-> **A15 CONTACT INTELLIGENCE:** CF-CHG-20260829-046 is CLOSED / PASS. Frozen cohort: 60/60 AU/NZ profiles successful, 0 current errors, 31 current first-party contacts across 11 Providers, 17 territory/market contacts, 45 rejected/noisy observations retained; worker v1.3.2 / Edge v15. Final accepted Pilot `f6741a0cc29c5fea236e85b9042f8079762c6993`; acceptance run `33251745111` resolved the acceptance tier with 17 permanent suites and passed 48/48 desktop + 48/48 mobile. Apollo remains configuration-blocked/non-blocking. Broader M2.4.3 Layer 3 maturity remains active.
+> **A15 CONTACT INTELLIGENCE:** `CF-CHG-20260829-046` remains CLOSED/PASS and frozen. It does not reopen M2.4.
 >
 > **ZOHO PILOT:** CF-CHG-20260827-045 is ACTIVE / PARTIAL. Zoho Creator bridge lookup/search/filter/provider reads are proven end-to-end. Developer Console's documented 50 External Calls/day limit is now a bounded Pilot constraint; quota-safe Widget v3.1 and one-call `reference_bundle` cache refresh are the active corrective path. No Zoho Production cutover is authorised.
 >
