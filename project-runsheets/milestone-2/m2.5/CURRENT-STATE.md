@@ -493,3 +493,21 @@ Design authority:
 - CF-064.
 
 The existing Evidence bucket already supports CSV/XLSX/PDF/JSON/ZIP and remains private. Backend registration/parse/apply for manual ranking files is not yet claimed complete.
+
+
+### CF-064 Pilot UI checkpoint
+
+Pilot source **v2.15.22** now implements the first Statistics/Compare IA increment:
+- sidebar group **Statistics & Insights**;
+- primary **Statistics & Rankings** route;
+- primary **Compare** route;
+- QILT/PRISMS moved to Statistics drill-down routes rather than separate sidebar concepts;
+- Data Operations groups Layers 1–4, Evidence and Jobs;
+- Quality & Review groups Completeness / Review;
+- Administration adds **Sources & Imports**;
+- Statistics page uses current QILT/PRISMS counts/periods and explicit not-yet-ingested QS/THE states;
+- Compare adds dataset toggles and explicit QILT year selection; QS/THE remain disabled until CF-063 ingestion exists.
+
+Pilot head: `msinghbs-ai/Coursefinder-Pilot@4d5276c97792e370a8dca253183dea6a359a2c19`.
+
+Frontend build job in workflow `33551442693` completed the production build step PASS; browser smoke was still running at this bounded checkpoint. Deployed UAT `33551441967` was also still running. Do not claim deployed browser PASS yet.
