@@ -1034,3 +1034,29 @@ Decision:
 
 Keep Evidence lineage, Layer 4 governance, Firecrawl-first acquisition, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, responsive navigation, role/security and Layer 1 authority boundaries unchanged.
 
+## Runtime reconciliation pickup — 258e5c04 — 1 September 2026
+
+Integrated baseline is PASS:
+- candidate `38203222a137d0aeac8aa69e64ed1b12bf874fff`;
+- build `33454842391` PASS;
+- integration `33454842388` PASS desktop + mobile.
+
+Check first:
+- focused head `258e5c041b96abb886d1f3247d8821033d92c477`;
+- build `33456205759`;
+- focused UAT `33456205806`.
+
+Runtime changes under proof:
+- A26 parent lineage migration `20260901091000_m2_4_4_a26_parent_lineage.sql`, commit `8600e4da...`;
+- current scheduled wave `1bb1504d...` parent `c65e67a6...`, 261 scheduled remainder;
+- A28 parent-linked Layer 2 progress commit `30921582...`;
+- A27 canonical Administration section/history commit `89b90873...`, deep-link UAT `032c606f...`;
+- FU-020 reconciled: no anon/auth table grants and no anon/auth pipeline-schema USAGE; no blanket RLS change.
+
+Decision:
+1. Focused FAIL → preserve immutable evidence; fix only demonstrated defect.
+2. Focused PASS/PASS → inspect logs once.
+3. Then inspect wave request `1bb1504d-7bad-42d9-b059-4adeaf9118c7` and its scheduler state.
+4. If a child batch/job/Evidence exists, verify all carry parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f` and parent projection counts reconcile.
+5. If no child exists, diagnose scheduler/eligibility without consuming large Firecrawl quota solely for proof; A26 remains runtime-child-proof pending.
+6. Only after focused PASS plus real child-lineage proof may A26/A27/A28 be marked complete and exactly one final acceptance candidate be nominated.
