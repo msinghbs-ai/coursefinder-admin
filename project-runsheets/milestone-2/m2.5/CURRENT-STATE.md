@@ -7,6 +7,7 @@
 **Layer 2 corrective Change Controls:** `CF-CHG-20260901-052`, `CF-CHG-20260901-053`  
 **Layer 3 source-pattern corrective Change Control:** `CF-CHG-20260901-054`
 **Evidence-lineage corrective Change Control:** `CF-CHG-20260901-055`
+**Backup/PITR reconciliation Change Control:** `CF-CHG-20260901-056`
 
 ## Accepted entry baseline
 
@@ -106,7 +107,7 @@ Evidence classification:
 
 No historical Storage object or Evidence row was deleted or rewritten. The five unresolved objects and two legacy Canadian missing paths remain retained for later provenance remediation.
 
-Backup/PITR status remains `platform_api_required` in DB telemetry and must be reconciled through Supabase platform metadata.
+CF-056 reconciles the non-billable recovery boundary: Pilot project identity/health is management-plane proven, paid-plan daily-backup capability is product-level only, actual backup inventory/PITR state remains control-plane unverified, and no restore has executed. Database backups do not restore deleted Storage object bodies, so Evidence Storage requires separate DR treatment. Production P6 remains OPEN.
 
 ## Layer 2 scheduled-work reconciliation
 
