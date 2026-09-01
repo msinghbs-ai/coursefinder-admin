@@ -17,7 +17,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS.
 >
-> **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. No Production Supabase project exists yet. Production provisioning requires explicit organisation, quoted-cost and region confirmation; Pilot must not be promoted in place.
+> **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. Non-billable platform maturity foundation `CF-CHG-20260901-051` is IMPLEMENTED / TARGETED PASS. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
 >
 > **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR. M2.4 is CLOSED/PASS.
 >
@@ -79,6 +79,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260830-048 | 00-governance-programme | M2.4.4 Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance | CLOSED / PASS | `00-governance-programme/CF-CHG-20260830-048-m2-4-4-cross-layer-checkpoint.md` |
 | CF-CHG-20260901-049 | 70-security-platform | M2.5 Clean Production Stack Establishment, Restore & Security Acceptance | ACTIVE / READINESS — PRODUCTION NOT PROVISIONED | `70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md` |
 | CF-CHG-20260901-050 | 00-governance-programme | Post-M2.4 Platform Maturity Design & Implementation Backlog | APPLIED — DESIGN BASELINE | `00-governance-programme/CF-CHG-20260901-050-platform-maturity-design-backlog.md` |
+| CF-CHG-20260901-051 | 70-security-platform | M2.5 Platform Operations Maturity Foundation | IMPLEMENTED / TARGETED PASS — FOLLOW-UPS OPEN | `70-security-platform/CF-CHG-20260901-051-m2-5-platform-operations-maturity-foundation.md` |
 
 ## Current programme baseline
 
@@ -87,10 +88,11 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
 - Running Build: `docs/coursefinder-running-build-v2.81.md`;
 - Platform maturity design: `docs/coursefinder-platform-maturity-design-v1.0.md`;
-- UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.0.md`;
+- UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.1.md`;
 - Platform maturity implementation backlog: `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.44.md` plus closed prior Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.20.md` plus accepted later Change Controls;
+- M2.5 platform operations readiness: `docs/coursefinder-m2-5-platform-operations-readiness-v1.0.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.45.md` plus closed prior Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.25.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A16;
@@ -109,6 +111,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - **M2.4.2 corrective Stage C:** explicit governance reopening authorised one corrective run using corrected UAT; candidate `093010fada8391c93626b59e59c678064f4961c3`; acceptance `33219089690` desktop/mobile PASS.
 - **M2.4.3 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@96de9add3762a0594ebc371fba49d4d990ff4b45`; bounded integration `33285703513` desktop/mobile PASS; replacement final acceptance `33286437795` desktop/mobile governed status PASS.
 - **M2.4.4 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; final acceptance `33468512515` desktop 75 / mobile 76 PASS; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR.
+- **M2.5 foundation Pilot source:** `msinghbs-ai/Coursefinder-Pilot@dac23d68e6df230bc30c306fa7b61e720ecb431c`; targeted deployed UAT `33476711758` / job `99757413769` PASS; post-change Security 146 INFO / 0 WARN / 0 ERROR; Performance 174 INFO / 0 WARN / 0 ERROR. This does not replace the frozen M2.4 acceptance baseline.
 - **A15 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@f6741a0cc29c5fea236e85b9042f8079762c6993`; final acceptance `33251745111`, 48/48 desktop and 48/48 mobile PASS. Functional contact freeze remains `f9e4e530462b49cf5a83ad8e0d5137631255028a`.
 
 ## Preserved technical/semantic baseline
