@@ -50,3 +50,14 @@
 | M25-FU-033 | Ranking Provider crosswalk | Publisher institution names/IDs are not yet mapped to canonical Providers | Build deterministic mapping + unresolved Layer 4 queue; do not create Providers from ranking rows | OPEN |
 | M25-FU-034 | Ranking Admin/Compare UX | Provider blades/Compare do not yet show QS/THE | Add latest cards, edition selector, 5-year trend and explicit Provider-context labelling | OPEN |
 | M25-FU-035 | Ranking consumer admission | Website/Zoho/Search exposure is not authorised | After Pilot acceptance, separately decide fields, filters/sort and cache/version contract; no hidden relevance boost | OPEN |
+
+
+## Statistics / Compare / Manual Import follow-ups — 2 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-036 | Statistics & Rankings workspace | QILT/PRISMS/rankings are fragmented | Implement unified coverage/year/observation/source workspace and dataset drill-downs | ACTIVE / CF-064 |
+| M25-FU-037 | Compare dataset/year controls | Existing Compare assumes QILT/PRISMS and hides route | Promote Compare to primary navigation; add dataset toggles and aligned period/edition selection | ACTIVE / CF-064 |
+| M25-FU-038 | Manual ranking publisher file upload | Historical paywall/access can block automation | Add privileged private-Evidence upload registration, validation/preview/reconcile/apply states and duplicate hash checks | DESIGN ACCEPTED / BACKEND PENDING |
+| M25-FU-039 | Provider/Course statistics deep-links | Blades can become overloaded without hierarchy | Add concise summaries plus View Statistics / Add to Compare | OPEN |
+| M25-FU-040 | Navigation/Admin reorganisation | Current menu separates QILT/PRISMS and hides Compare | Apply IA v1.5 and Administration Sources & Imports section; desktop/tablet/mobile UAT | ACTIVE / CF-064 |
