@@ -469,8 +469,8 @@ A29 now defines QS World University Rankings 2026/2027 and Times Higher Educatio
 Current design authority:
 - `docs/coursefinder-university-ranking-data-design-v1.0.md`;
 - DB Architecture `v2.10.46`;
-- Admin/PIM decisions `v1.26`;
-- execution addendum A18;
+- Admin/PIM decisions `v1.27`;
+- execution addendum A29;
 - `CF-CHG-20260902-063`.
 
 No ranking schema migration, live source ingestion, Provider mapping, browser UI or consumer publication has been claimed yet. Implementation remains tracked under M25-FU-029 through M25-FU-035.
