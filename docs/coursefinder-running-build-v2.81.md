@@ -267,3 +267,28 @@ Permanent source/build contract:
 `tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
 
 Source/build trigger `b423af67af6917ae3407e3f5137dcd403d0da225` passed targeted Chromium desktop in workflow `33515174810` / job `99880438005`, including the full frontend build. Deployed comparison trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e` passed workflow `33515683960` / job `99882055173` and proved Worker v2.15.21. Responsive recheck `90123d162103e707473ac8eb7a7a226cade51280` passed workflow `33515936377` / job `99882833322`, including explicit 900px tablet and 390px mobile viewport checks. CF-061 is IMPLEMENTED / TARGETED PASS.
+
+
+### M2.5 CF-063 — QS / THE World University Rankings
+
+Status: **DESIGN ACCEPTED / IMPLEMENTATION PENDING**.
+
+Added governance/design for publisher-authoritative institutional ranking context:
+- QS WUR 2026 and 2027 current targets;
+- THE WUR 2026 current target;
+- historical backfill target of 5–10 years where official publisher access/reuse permits;
+- private editioned ranking domain rather than scalar Provider rank columns;
+- exact/tied/banded/unranked semantics;
+- methodology/source revision/Evidence retention;
+- publisher-institution → canonical Provider crosswalk;
+- Provider-level cards/history and Compare design;
+- explicit separation from Course quality, regulatory identity and undisclosed Search relevance.
+
+New design baselines:
+- `docs/coursefinder-university-ranking-data-design-v1.0.md`;
+- DB Architecture `v2.10.46`;
+- Admin/PIM Decisions `v1.26`;
+- A29;
+- CF-CHG-20260902-063.
+
+No ranking migration, source ingestion, Provider mapping, UI implementation or consumer admission has been performed yet. Follow-ups M25-FU-029 through M25-FU-035 own implementation.
