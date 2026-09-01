@@ -394,4 +394,4 @@ Runtime is PASS after two additive schema-name corrections:
 - post-DDL Security 147 INFO / 0 WARN / 0 ERROR;
 - Performance 175 INFO / 0 WARN / 0 ERROR.
 
-Source trigger `b423af67af6917ae3407e3f5137dcd403d0da225` had no attached commit status at the last check. Check that exact source/build state before retriggering. Then confirm external Cloudflare serves v2.15.21 and run bounded responsive deployed comparison UAT. Do not call CF-061 deployed PASS from source/runtime proof alone.
+Source/build targeted PASS: trigger `b423af67af6917ae3407e3f5137dcd403d0da225`, workflow `33515174810`, job `99880438005`. Dedicated deployed gate `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs` is triggered by candidate `35fef88e07cff9e7d6e568d740c31722c3c3720e`; it had no attached status at the last bounded check. Check that candidate first. Do not call CF-061 deployed PASS until Cloudflare serves v2.15.21 and this browser gate passes.
