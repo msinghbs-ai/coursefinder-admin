@@ -27,7 +27,9 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`5977642a5568fc2acbc061eacea608ca2fcde450`.
+`dbd7bdde61e28fa49170875786066d7015ccd77d`.
+
+CF-054 post-HTTP-reconcile targeted contract trigger: commit `dbd7bdde61e28fa49170875786066d7015ccd77d`; workflow status/run ID had not yet been published at handback.
 
 Admin source UI version: **v2.15.17**.
 
