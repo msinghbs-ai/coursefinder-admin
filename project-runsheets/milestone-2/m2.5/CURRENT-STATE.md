@@ -31,13 +31,13 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
+`7f10e29bac5351b173b5de2df4b61d28d51eed07`.
 
 CF-054 post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced run `33492617096` / job `99807392499` FAIL due only to a malformed Playwright assertion string. The corrected clean-rerun trigger `1605d15bca7ccb46620ce5bd12ca01805a3f30f4` passed targeted Chromium desktop in workflow `33492875364`.
 
-Admin source UI version: **v2.15.18**.
+Admin source UI version: **v2.15.19**.
 
-Important deployment distinction: combined deployed-currentness run `33493637581` / job `99810738327` proved the external Cloudflare Worker is serving **PIM Admin v2.15.14** while repository source is now **v2.15.18**. CF-053/CF-054 deployed browser acceptance remains blocked by external Cloudflare Git deployment drift; do not weaken the tests.
+Important deployment distinction: combined deployed-currentness run `33493637581` / job `99810738327` proved the external Cloudflare Worker is serving **PIM Admin v2.15.14** while repository source is now **v2.15.19**. CF-053/CF-054 deployed browser acceptance remains blocked by external Cloudflare Git deployment drift; do not weaken the tests.
 
 Deployed M2.5 migrations:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`;
@@ -49,7 +49,10 @@ Deployed M2.5 migrations:
 - `20260901091500 m2_5_layer3_source_pattern_operator_handback`;
 - `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`;
 - `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`;
-- `20260901195000 m2_5_evidence_lineage_classification`.
+- `20260901195000 m2_5_evidence_lineage_classification`;
+- `20260901211500 m2_5_universal_layer4_block_enforcement`;
+- `20260901220500 m2_5_platform_maturity_admin_read_surface`;
+- `20260901224000 m2_5_evidence_lineage_reconciliation_contact_claim`.
 
 Post-CF-054 advisors:
 - Security: 146 INFO / 0 WARN / 0 ERROR;
@@ -226,7 +229,7 @@ Permanent contract `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs` p
 
 Server migration \`20260901220500_m2_5_platform_maturity_admin_read_surface\` is deployed.
 
-Canonical Administration source is now **v2.15.18** and its Platform tab uses \`PlatformMaturity\` instead of the legacy Regulatory Settings component. The workspace consolidates:
+Canonical Administration source is now **v2.15.19** and its Platform tab uses \`PlatformMaturity\` instead of the legacy Regulatory Settings component. The workspace consolidates:
 - M2.5 readiness and Production-boundary state;
 - capacity/Evidence integrity telemetry;
 - source/scraper/AI environment gates;
@@ -235,7 +238,7 @@ Canonical Administration source is now **v2.15.18** and its Platform tab uses \`
 - retention dry-run/classes;
 - CF-057 Layer 4 block state and rank-5 block/unblock controls.
 
-Current sampled Pilot capacity is ~632.9 MB DB and ~5.22 GB Evidence / 10,546 objects, with **8.11%** of the governed 60 GiB Evidence planning envelope. Integrity remains **WARNING**: 205 raw unlinked objects = 200 proven duplicates + 5 unresolved; 2 Evidence paths are genuinely missing and 16 are virtual/external references.
+CF-059 subsequently reconciled the known historical lineage exceptions. Latest snapshot: DB 627,092,627 bytes; Evidence 10,868 objects / 5,326,216,492 bytes; 8.27% of the governed planning envelope; raw unlinked objects 205 = 200 proven duplicates + 5 reconciled historical orphans + 0 unresolved; raw missing bucket refs 2 = 2 reconciled legacy references + 0 unresolved; 16 direct virtual refs; integrity severity **OK**.
 
 No Production enable, PITR purchase/enable, destructive purge or broad Publication action is introduced by CF-058.
 
@@ -243,7 +246,31 @@ Post-migration:
 - Security 146 INFO / **0 WARN / 0 ERROR**;
 - Performance 171 INFO / **0 WARN / 0 ERROR**.
 
-Permanent source/build contract \`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\` is wired. Source/build targeted CI is pending. Deployed browser acceptance remains BLOCKED by FU-015 because Cloudflare still serves v2.15.14.
+Permanent CF-058 source/build contract `tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs` passed workflow `33507629698` / job `99855436515`. Deployed browser acceptance remains BLOCKED by FU-015 because Cloudflare still serves v2.15.14.
+
+## CF-059 Evidence-lineage reconciliation & contact claims
+
+Migration \`20260901224000_m2_5_evidence_lineage_reconciliation_contact_claim\` is deployed.
+
+Known historical lineage is now explicitly reconciled without deleting or rewriting Evidence:
+- 5 Storage-object reconciliations;
+- 2 legacy Evidence-reference reconciliations;
+- raw unlinked count 205 retained;
+- 200 fingerprint duplicates retained/classified;
+- unresolved orphan count **0**;
+- raw missing bucket refs 2 retained;
+- unresolved missing bucket count **0**;
+- integrity severity **OK**.
+
+Provider-contact discovery now uses atomic leased profile claims and a claim-aware finish service. The scheduled worker is source v1.3.4 / Edge version 19. Rollback-only UAT proved overlapping claims cannot take the same Provider, wrong tokens are rejected, expired claims are reclaimable and correct finish clears all claim state. Live active claims are 0.
+
+The worker also removes only a just-uploaded object if Evidence registration itself fails, preserving retained Evidence objects.
+
+Post-CF-059:
+- Security **147 INFO / 0 WARN / 0 ERROR**;
+- Performance **175 INFO / 0 WARN / 0 ERROR**.
+
+Permanent contract \`tests/uat/m2-5-evidence-lineage-reconciliation-contract.spec.mjs\` is wired; targeted CI is pending.
 
 ## Production decision remains blocked
 
