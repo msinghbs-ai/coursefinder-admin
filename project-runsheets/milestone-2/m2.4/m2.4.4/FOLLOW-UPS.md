@@ -209,32 +209,34 @@ Architecture baseline:
 
 ## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
 - **Source:** M2.4.4 A26, 1 September 2026
-- **Status:** IMPLEMENTED / FOCUSED VALIDATION ACTIVE / CHILD-LINEAGE RUNTIME PROOF PENDING
-- **Implementation:** existing qualification → scope-wave → batch → item → Job/Evidence architecture retained. Migration `20260901091000_m2_4_4_a26_parent_lineage.sql` / Pilot `8600e4da7cc9ad47c17e0a558ba463f7a6140b14` projects a stable qualification-root parent and propagates it into wave metadata, batch policy, Job payload and Evidence metadata.
-- **Current runtime:** AU state request `1bb1504d-7bad-42d9-b059-4adeaf9118c7` has parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`, status scheduled, 261 total / 261 remainder, currently 0 child batches/Jobs/Evidence.
-- **UI:** Layer 2 parent progress is implemented at `30921582ca37e107c1b3095a4d52be8f88b1aece`.
-- **Validation:** focused head `258e5c041b96abb886d1f3247d8821033d92c477`, build `33456205759`, UAT `33456205806` active.
-- **Remaining closure proof:** observe one legitimate scheduler-created production child batch/job/Evidence chain and verify identical parent ID/count reconciliation. Do not consume large Firecrawl quota merely to manufacture evidence.
+- **Status:** RUNTIME PROOF COMPLETE / FINAL FOCUSED VALIDATION ACTIVE
+- **Stable parent proof:** parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f` → wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7` → corrected batch `accd42a2-f096-452b-a084-dc609bd45030` → Firecrawl Job `ed945d14-1458-41b7-bd75-0d1db77531a4` → raw/screenshot/extraction Evidence `5bc09143...`, `e8a0ddf7...`, `567993f6...`.
+- **Route proof:** Job and Evidence carry `provider_key=firecrawl`, route `scraper_first`, same parent and scope-wave IDs.
+- **Corrections:** terminal partial guard `f0fdc527...`; runner selected-provider handoff + deployed v7 `3edbfbd9...`; exact parent aggregation `1788ab63...`; child heartbeat `3bc7c067...`.
+- **Corrective history:** superseded v6 direct-http batch `69be7f45...` cancelled; completed Jobs/Evidence retained immutable.
+- **Final focused gate:** head `419bcc5988f8c9b9fd6fef5776e87c7faf6b1d4b`; build `33457383942`; UAT `33457383894` active.
+- **Closure rule:** close on focused PASS/PASS; the ongoing 261-Course background workload itself is valid production-progress state and does not require long polling before acceptance.
 - **Owner:** M2.4.4
 - **Target:** before final acceptance nomination
 
 ## M244-FU-018 — Administration parent route renders empty / sub-context clicks ineffective
 - **Source:** M2.4.4 A27, 1 September 2026
-- **Status:** IMPLEMENTED / FOCUSED VALIDATION ACTIVE
-- **Implementation:** `89b908731414ab438f3a9e413fc79c3d7c2fb567` makes Administration subcontext canonical URL state: `#administration` defaults Overview; `?section=<key>` restores selected section.
-- **Proof added:** `032c606f51160d4012a656da0ea1ab38a970c95d` validates direct deep link, reload, back and forward restoration with rank-aware tabs.
-- **Focused validation:** head `258e5c041b96abb886d1f3247d8821033d92c477`; UAT `33456205806` active.
+- **Status:** IMPLEMENTED / PRIOR FOCUSED PASS / FINAL CLOSURE REGRESSION ACTIVE
+- **Implementation:** canonical `#administration?section=<key>` state at `89b908731414ab438f3a9e413fc79c3d7c2fb567`.
+- **Proof:** direct link / refresh / back / forward test `032c606f51160d4012a656da0ea1ab38a970c95d`; prior focused UAT `33456205806` PASS.
+- **Final focused gate:** `33457383894`.
 - **Owner:** M2.4.4
-- **Target:** close on focused PASS
+- **Target:** close on final focused PASS
 
 ## M244-FU-019 — Rationalise Layer 2/3 blocker, run and Evidence summaries; remove experimental UI
 - **Source:** M2.4.4 A28, 1 September 2026
-- **Status:** IMPLEMENTED / FOCUSED VALIDATION ACTIVE
-- **Implementation:** Layer 2 operator summary now uses the stable parent projection and distinguishes scheduled work from false Idle; displays parent ID, progress, L2/L3/blocked, Jobs, Evidence, scheduled remainder and next scheduler action. Existing actionable-blocker and Layer 3 concise-summary hardening remains retained.
-- **Source:** `30921582ca37e107c1b3095a4d52be8f88b1aece`; assertion `5c30fcac61360f5a3faba974575a821fa8bee735`.
-- **Focused validation:** head `258e5c041b96abb886d1f3247d8821033d92c477`; UAT `33456205806` active.
+- **Status:** IMPLEMENTED / PRIOR FOCUSED PASS / FINAL CLOSURE REGRESSION ACTIVE
+- **Implementation:** parent-linked Layer 2 progress, scheduled-vs-idle correction, Jobs/Evidence actions and concise blocker semantics retained at `30921582ca37e107c1b3095a4d52be8f88b1aece`.
+- **Runtime reconciliation:** exact parent counts now avoid Evidence fan-out; cancelled corrective history is separately projected; heartbeat follows child progress.
+- **Prior focused UAT:** `33456205806` PASS.
+- **Final focused gate:** `33457383894`.
 - **Owner:** M2.4.4
-- **Target:** close on focused PASS plus A26 child-lineage reconciliation
+- **Target:** close on final focused PASS
 
 ## M244-FU-020 — Reconcile RLS-disabled table introspection versus Security Advisor
 - **Source:** M2.4.4 corrective runtime review, 1 September 2026
