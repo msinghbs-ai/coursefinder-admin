@@ -293,6 +293,22 @@ Validation trigger `97c3679d8304c36e10ae6e5b74d6cc99a2834152`:
 
 No database migration, replay/reset authority, Firecrawl quota change, Search or Publication authority is introduced.
 
+
+## CF-065 Layer 1 operations v2
+
+Layer 1 Pilot/Admin source has advanced to **v2.15.24** under `CF-CHG-20260902-065`.
+
+Implemented without changing Layer 1 authority or canonical semantics:
+- compact country-first Authority & Statistical Ingestion operations dashboard;
+- Country / Dataset / Status filters with Healthy / Running / Attention / Due summary signals;
+- registry-driven responsive dataset cards and running progress;
+- routine actions reduced to Run now / View run / Details with diagnostics progressively disclosed;
+- Layer 1 source URL, authority metadata, guardrails and cadence moved to **Administration → Layer 1 sources** for Platform Admin;
+- no destructive canonical/Evidence purge control added.
+
+Current validation candidate: `msinghbs-ai/Coursefinder-Pilot@3b0f0ab2785580a982cc54a0e6b4568defc07231`.
+Frontend build job has compiled the candidate successfully; local browser smoke and the focused CF-065 targeted deployed source contract are still running at this checkpoint. The earlier targeted failure on `490c3307...` was an obsolete CF-060 hard-coded version assertion, not a Layer 1 functional failure, and has been corrected without weakening the Jobs contract.
+
 ## Production decision remains blocked
 
 Production project creation still requires explicit:
