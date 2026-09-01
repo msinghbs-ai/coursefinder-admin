@@ -27,7 +27,7 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`65fd4913f4c328b44847840e91aad024c8f6c7ed`.
+`5977642a5568fc2acbc061eacea608ca2fcde450`.
 
 Admin source UI version: **v2.15.17**.
 
@@ -41,11 +41,12 @@ Deployed M2.5 migrations:
 - `20260901083800 m2_5_layer2_finalizer_fairness`;
 - `20260901085000 m2_5_layer2_stale_pattern_control_handoff`;
 - `20260901091500 m2_5_layer3_source_pattern_operator_handback`;
-- `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`.
+- `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`;
+- `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`.
 
 Post-CF-054 advisors:
 - Security: 146 INFO / 0 WARN / 0 ERROR;
-- Performance: 173 INFO / 0 WARN / 0 ERROR.
+- Performance: 172 INFO / 0 WARN / 0 ERROR.
 
 Pilot Edge:
 - `layer3-interpret` version 9;
@@ -134,6 +135,19 @@ Permanent source-contract suites:
 Platform-readiness targeted deployed UAT `33476711758` / job `99757413769` PASS on `dac23d68e6df230bc30c306fa7b61e720ecb431c`.
 
 CF-052 targeted deployed UAT `33477539721` / job `99760830965` PASS: **2 passed / 0 failed** on Chromium desktop. Targeted tier is desktop-only. Wider Production integration/acceptance is not implied.
+
+### CF-054 legacy HTTP host reconciliation
+
+The manual-governed source-pattern hand-back now supports retained historical `http://` Provider Evidence/source URLs while keeping the Layer 3 candidate itself HTTPS-only.
+
+Rollback-only Sydney proof:
+- `http://sydney.edu.au` retained Evidence → `https://sydney.edu.au/study/study-areas/law.html` candidate;
+- hand-back → Layer 2 three-Course identity control;
+- Provider not qualified;
+- no canonical/Search/Publication mutation;
+- rollback restored the original queued request and 10 `layer3_required` sample rows.
+
+Current checkpoint: **227 pending dispatch / 66 pending control / 422 source-pattern queued / 0 completed / 0 interpretations**. No real model call or bulk drain has been performed.
 
 ## Production decision remains blocked
 
