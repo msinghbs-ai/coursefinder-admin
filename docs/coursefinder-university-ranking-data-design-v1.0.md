@@ -3,7 +3,7 @@
 **Status:** CURRENT DESIGN — IMPLEMENTATION PENDING  
 **Date:** 2 September 2026  
 **Change Control:** `CF-CHG-20260902-063`  
-**Execution addendum:** `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A18-QS-THE-WORLD-RANKINGS.md`
+**Execution addendum:** `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A29-QS-THE-WORLD-RANKINGS.md`
 
 ## Objective
 
