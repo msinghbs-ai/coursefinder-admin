@@ -464,7 +464,7 @@ Responsive follow-up trigger `90123d162103e707473ac8eb7a7a226cade51280` passed w
 
 Status: **DESIGN ACCEPTED / IMPLEMENTATION PENDING**.
 
-A18 now defines QS World University Rankings 2026/2027 and Times Higher Education World University Rankings 2026 as Layer 1 publisher-authoritative institutional context, with 5–10 year historical backfill where official publisher access/reuse permits.
+A29 now defines QS World University Rankings 2026/2027 and Times Higher Education World University Rankings 2026 as Layer 1 publisher-authoritative institutional context, with 5–10 year historical backfill where official publisher access/reuse permits.
 
 Current design authority:
 - `docs/coursefinder-university-ranking-data-design-v1.0.md`;
