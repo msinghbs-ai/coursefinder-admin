@@ -49,9 +49,9 @@ Do not create a billable Production project until organisation, Production regio
 ## CF-051 / CF-052 / CF-053 / CF-054 implementation state
 
 Pilot M2.5 source head at handover:
-`dbd7bdde61e28fa49170875786066d7015ccd77d`.
+`1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
 
-CF-054 post-HTTP-reconcile source-contract CI was triggered by this commit; GitHub had not yet published its status/run ID at handback. Check this commit first rather than rerunning immediately.
+The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax is corrected in `1605d15b...`; check this commit's workflow status first rather than rerunning immediately.
 
 Admin source UI version: **v2.15.17**.
 
