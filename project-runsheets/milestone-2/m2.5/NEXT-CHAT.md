@@ -46,15 +46,18 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 implementation state
+## CF-051 / CF-052 implementation state
 
-Pilot M2.5 implementation/UAT-wiring head at handover:
-`dac23d68e6df230bc30c306fa7b61e720ecb431c`.
+Pilot M2.5 source head at handover:
+`9fa8f590c8370bf600f1495794f9205fabbdf8a7`.
+
+Admin UI version: **v2.15.15**.
 
 Migrations deployed:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`
 - `20260901061041 m2_5_capacity_integrity_alert_classification`
 - `20260901061233 m2_5_environment_gate_reconcile_layer4_blocking`
+- `20260901062200 m2_5_layer2_run_observability_correction`
 
 Implemented:
 - source/capability lifecycle and Pilot/Production separation;
@@ -104,12 +107,22 @@ Live request `1bb1504d-7bad-42d9-b059-4adeaf9118c7` later became terminal:
 
 Do not describe “42 scheduled remainder” as current pending work. Failure review is a separate Pilot operations item and does not reopen M2.4.
 
+CF-052 additionally corrected the operator observability defect:
+- terminal parent lineage now retains **261 Jobs / 783 Evidence artifacts**;
+- Recent acquisition attempts and Recent managed runs show timestamps;
+- active progress is separated from latest terminal production history;
+- bounded VIC retry-window check `c876a8fb-5f03-4433-85ab-5af7e96cee63` returned `qualification_waiting` and created zero production wave requests / zero Course Jobs;
+- dedicated deployed UAT `33477539721` / job `99760830965` PASS — 2/2 desktop.
+
+CF-052 is **IMPLEMENTED / TARGETED PASS**.
+
 ## CI gate
 
-Permanent test:
-`tests/uat/m2-5-platform-readiness-deployed.spec.mjs`.
+Permanent tests:
+- `tests/uat/m2-5-platform-readiness-deployed.spec.mjs`;
+- `tests/uat/m2-5-layer2-run-observability-deployed.spec.mjs`.
 
-`.github/workflows/deployed-uat.yml` routes M2.5 changes to it and includes it in integration/acceptance.
+`.github/workflows/deployed-uat.yml` includes both in integration/acceptance with targeted routing.
 
 Targeted deployed UAT is terminal PASS:
 - run `33476711758`;
