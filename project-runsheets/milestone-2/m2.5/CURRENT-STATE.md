@@ -458,3 +458,19 @@ Deployed proof includes:
 - no unexpected HTTP 5xx.
 
 Responsive follow-up trigger `90123d162103e707473ac8eb7a7a226cade51280` passed workflow `33515936377` / job `99882833322`. The test explicitly exercises 900px tablet and 390px mobile viewport layouts and proves document-level horizontal overflow remains bounded while the comparison matrix scrolls inside its own container. CF-061 is targeted PASS.
+
+
+## CF-063 QS / THE World University Rankings — design checkpoint
+
+Status: **DESIGN ACCEPTED / IMPLEMENTATION PENDING**.
+
+A18 now defines QS World University Rankings 2026/2027 and Times Higher Education World University Rankings 2026 as Layer 1 publisher-authoritative institutional context, with 5–10 year historical backfill where official publisher access/reuse permits.
+
+Current design authority:
+- `docs/coursefinder-university-ranking-data-design-v1.0.md`;
+- DB Architecture `v2.10.46`;
+- Admin/PIM decisions `v1.26`;
+- execution addendum A18;
+- `CF-CHG-20260902-063`.
+
+No ranking schema migration, live source ingestion, Provider mapping, browser UI or consumer publication has been claimed yet. Implementation remains tracked under M25-FU-029 through M25-FU-035.
