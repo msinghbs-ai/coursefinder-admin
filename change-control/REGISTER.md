@@ -15,7 +15,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** ACTIVE — M2.4.0, M2.4.1, M2.4.2 and **M2.4.3 are CLOSED / PASS**. M2.4.4 is ACTIVE under `CF-CHG-20260830-048`; A16 now adds Layer 3 international-contact coverage and Layer 4 governed human intervention to the closing scope. M2.4.3 closed under `CF-CHG-20260829-047` at accepted Pilot `96de9add3762a0594ebc371fba49d4d990ff4b45`; replacement final acceptance run `33286437795` published successful desktop/mobile governed status contexts. A15 remains CLOSED/PASS under `CF-CHG-20260829-046`. RMIT frozen 212-record canonical promotion remains separately BLOCKED; NZ first-party Layer 2 Course enrichment remains DEFERRED. A1–A16 remain standing governance where applicable.
+> **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS. M2.4.4 closed under `CF-CHG-20260830-048` at accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; final acceptance `33468512515` passed desktop 75 and mobile 76 with both governed status contexts successful. A15 remains CLOSED/PASS under `CF-CHG-20260829-046`. The Layer 2 parent has 42 governed scheduled remainder items; this background work does not reopen M2.4.4. RMIT frozen canonical promotion and NZ first-party Layer 2 enrichment remain separately blocked/deferred.
 >
 > **M2.4.3 FINAL ACCEPTANCE:** corrective bounded integration `33285703513` PASS desktop/mobile. Replacement final acceptance `33286437795` is PASS: desktop 49 passed + 1 timing-sensitive M2.3 UI flake recovered on retry; mobile 50/50 PASS; both commit-status contexts success. Historical failed acceptance `33284867253` remains immutable evidence. Final runtime/advisor reconciliation: Security 135 INFO / 0 WARN / 0 ERROR; Performance 169 INFO / 0 WARN / 0 ERROR. M2.4.4 is now NEXT/READY but not started.
 >
@@ -72,19 +72,22 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260826-043 | 20-layer1-regulatory-ingestion | M2.4.1 Layer 1 Regulatory Operations Maturity & Automation | CLOSED / PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260826-043-m2-4-1-layer1-operations-maturity.md` |
 | CF-CHG-20260827-044 | 40-layer2-enrichment | M2.4.2 Layer 2 Full Enrichment, Operations Maturity & Performance | CLOSED / PASS — CORRECTIVE STAGE C DESKTOP+MOBILE PASS | `40-layer2-enrichment/CF-CHG-20260827-044-m2-4-2-layer2-full-enrichment-operations-maturity.md` |
 | CF-CHG-20260827-045 | 60-zoho-integration | Zoho Creator Pilot Integration & UI/UX | ACTIVE / PARTIAL — CREATOR E2E READ PROVEN; QUOTA/CACHE HARDENING ACTIVE | `60-zoho-integration/CF-CHG-20260827-045-zoho-creator-pilot-integration-ui-ux.md` |
+| CF-CHG-20260829-046 | 40-layer2-enrichment | A15 Provider International Contact Intelligence | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260829-046-a15-provider-international-contact-intelligence.md` |
+| CF-CHG-20260829-047 | 00-governance-programme | M2.4.3 Layer 3 AI Operations Maturity | CLOSED / PASS | `00-governance-programme/CF-CHG-20260829-047-m2-4-3-layer3-ai-operations-maturity.md` |
+| CF-CHG-20260830-048 | 00-governance-programme | M2.4.4 Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance | CLOSED / PASS | `00-governance-programme/CF-CHG-20260830-048-m2-4-4-cross-layer-checkpoint.md` |
 
 ## Current programme baseline
 
-- Master Project Plan: `docs/coursefinder-master-project-plan-v1.78.md`;
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.79.md`;
 - M2→Production Delivery Plan / TSOW: `docs/coursefinder-m2-production-delivery-plan-tsow-v1.4.md`;
 - Pilot-to-Production Plan: `docs/coursefinder-pilot-to-production-project-plan-v1.10.md`;
-- Running Build: `docs/coursefinder-running-build-v2.78.md`;
+- Running Build: `docs/coursefinder-running-build-v2.79.md`;
 - Current database architecture: `docs/coursefinder-database-architecture-v2.10.44.md` plus closed prior Change Controls;
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.20.md` plus accepted later Change Controls;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A16;
-- M2.4 plan: M2.4.0–M2.4.3 CLOSED/PASS; M2.4.4 ACTIVE under `CF-CHG-20260830-048`.
+- M2.4 plan: M2.4.0–M2.4.4 CLOSED/PASS; `CF-CHG-20260830-048` CLOSED/PASS.
 
 ## Accepted runtime/source authority
 
@@ -98,6 +101,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - **M2.4.2 historical Stage C:** candidate `msinghbs-ai/Coursefinder-Pilot@91b115ddf64b020563c7ae6bbd1ea395db866d3f`; acceptance `33215640328` FAIL (45/46 desktop PASS, mobile skipped), retained permanently.
 - **M2.4.2 corrective Stage C:** explicit governance reopening authorised one corrective run using corrected UAT; candidate `093010fada8391c93626b59e59c678064f4961c3`; acceptance `33219089690` desktop/mobile PASS.
 - **M2.4.3 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@96de9add3762a0594ebc371fba49d4d990ff4b45`; bounded integration `33285703513` desktop/mobile PASS; replacement final acceptance `33286437795` desktop/mobile governed status PASS.
+- **M2.4.4 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; final acceptance `33468512515` desktop 75 / mobile 76 PASS; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR.
 - **A15 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@f6741a0cc29c5fea236e85b9042f8079762c6993`; final acceptance `33251745111`, 48/48 desktop and 48/48 mobile PASS. Functional contact freeze remains `f9e4e530462b49cf5a83ad8e0d5137631255028a`.
 
 ## Preserved technical/semantic baseline
@@ -115,6 +119,6 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Next gate boundary
 
-M2.4.3 is CLOSED / PASS. M2.4.4 Cross-layer Checkpoint is ACTIVE under `CF-CHG-20260830-048`.
+M2.4.3 and M2.4.4 are CLOSED / PASS. M2.4 is CLOSED / PASS.
 
 Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4 terminal human resolution, A8/A10/A12/A13/A15 standing behaviour, the RMIT canonical-promotion block and NZ Layer 2 source-qualification deferral. Production cutover, broad Publication and Zoho cutover remain later gates.
