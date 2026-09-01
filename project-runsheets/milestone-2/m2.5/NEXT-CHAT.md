@@ -103,7 +103,7 @@ CF-055 corrected Pilot integrity snapshot:
 
 Do not delete historical objects/rows. Forward duplicate prevention is deployed; 5 unresolved objects + 2 Canadian legacy paths remain remediation work.
 
-Backup/PITR is intentionally `platform_api_required` in the SQL snapshot until platform metadata is reconciled.
+CF-056 reconciles the recovery boundary: Pilot identity/health is management-plane proven; paid-plan backup capability is product-level; actual backup inventory/PITR configuration remains Dashboard/control-plane unverified; no restore has executed. Database backups do not recover deleted Storage object bodies. Production P6 remains OPEN.
 
 ## Layer 2 closure-snapshot reconciliation
 
@@ -208,7 +208,7 @@ Before relying on Pilot browser UI:
 
 Without Production provisioning:
 1. reconcile Evidence lineage mismatch without deleting data;
-2. reconcile Supabase backup/PITR/platform capacity metadata;
+2. CF-056 backup/PITR metadata is reconciled as far as current tools allow; final Production restore/DR remains a clean-environment gate;
 3. define notification destination/escalation for capacity/integrity;
 4. mature canonical Administration surfaces for environment gates/capacity/UAT/blocking;
 5. add explicit block enforcement + UAT to each owning path before treating block state as universal;
