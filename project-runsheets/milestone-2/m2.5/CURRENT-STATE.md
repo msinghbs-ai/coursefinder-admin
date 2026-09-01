@@ -6,6 +6,7 @@
 **Platform foundation Change Control:** `CF-CHG-20260901-051`  
 **Layer 2 corrective Change Controls:** `CF-CHG-20260901-052`, `CF-CHG-20260901-053`  
 **Layer 3 source-pattern corrective Change Control:** `CF-CHG-20260901-054`
+**Evidence-lineage corrective Change Control:** `CF-CHG-20260901-055`
 
 ## Accepted entry baseline
 
@@ -27,13 +28,13 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
+`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
 
 CF-054 post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced run `33492617096` / job `99807392499` FAIL due only to a malformed Playwright assertion string. The corrected clean-rerun trigger `1605d15bca7ccb46620ce5bd12ca01805a3f30f4` passed targeted Chromium desktop in workflow `33492875364`.
 
 Admin source UI version: **v2.15.17**.
 
-Important deployment distinction: the external Cloudflare Worker is not currently publishing this source head; deployed browser acceptance for CF-053/CF-054 is blocked by Pilot Cloudflare Git deployment drift.
+Important deployment distinction: combined deployed-currentness run `33493637581` / job `99810738327` proved the external Cloudflare Worker is serving **PIM Admin v2.15.14** while repository source is **v2.15.17**. CF-053/CF-054 deployed browser acceptance remains blocked by external Cloudflare Git deployment drift; do not weaken the tests.
 
 Deployed M2.5 migrations:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`;
@@ -44,7 +45,8 @@ Deployed M2.5 migrations:
 - `20260901085000 m2_5_layer2_stale_pattern_control_handoff`;
 - `20260901091500 m2_5_layer3_source_pattern_operator_handback`;
 - `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`;
-- `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`.
+- `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`;
+- `20260901195000 m2_5_evidence_lineage_classification`.
 
 Post-CF-054 advisors:
 - Security: 146 INFO / 0 WARN / 0 ERROR;
@@ -87,18 +89,22 @@ Current reconciled Pilot state:
 
 ## Capacity / storage snapshot
 
-Current Pilot:
-- logical DB ~611 MB;
-- cumulative PostgreSQL temp activity ~216.6 GB / ~51.1k temp files;
-- Evidence Storage 8,623 objects / ~4.62 GB;
-- Evidence planning utilisation ~7.18% of the existing 60 GiB planning envelope;
-- largest relation remains `search.course_documents` at ~155 MB.
+Current corrected CF-055 snapshot:
+- logical DB **617,819,283 bytes**;
+- Evidence Storage **9,484 objects / 4,902,002,299 bytes** at the observation instant;
+- Evidence planning utilisation **7.61%** of the 60 GiB planning envelope;
+- largest relation remains `search.course_documents` at ~155 MB;
+- integrity severity: **WARNING**, not HIGH.
 
-Current HIGH platform state is Evidence-lineage integrity, not storage exhaustion:
-- 205 Storage objects lack a current `pipeline.evidence_artifacts.storage_path` match;
-- 18 regulatory Evidence artifact rows lack a current Storage-object match.
+Evidence classification:
+- raw unlinked Storage objects: **205**;
+- ETag+size-proven duplicates: **200**;
+- unresolved orphan objects: **5**;
+- virtual/external Evidence URI references: **16**;
+- real missing bucket-object paths: **2**;
+- integrity count used for severity: **5**.
 
-No cleanup is authorised until this lineage is classified.
+No historical Storage object or Evidence row was deleted or rewritten. The five unresolved objects and two legacy Canadian missing paths remain retained for later provenance remediation.
 
 Backup/PITR status remains `platform_api_required` in DB telemetry and must be reconciled through Supabase platform metadata.
 
@@ -169,6 +175,25 @@ The gate:
 - does **not** click the AI execution action and therefore consumes no model call.
 
 At handback GitHub had not yet attached a workflow run/status to `e15aee26...`. Per operating instruction, check this commit first on the next Proceed and do not trigger another run unless needed.
+
+## CF-055 Evidence-lineage correction
+
+Implemented:
+- telemetry migration `20260901195000_m2_5_evidence_lineage_classification`;
+- Layer 2 discovery Edge v20 / source v1.3.3;
+- screenshot backfill Edge v2 / source v1.0.1;
+- Provider-contact discovery Edge v18 / source v1.3.3;
+- Scholarships ETL Edge v3 / source v0.1.2.
+
+Forward rule: if Evidence registration proves the just-uploaded object is redundant, remove only that new duplicate via the Storage API. Cleanup failure is non-fatal; retained Evidence paths are never removed.
+
+Post-change advisors:
+- Security 146 INFO / **0 WARN / 0 ERROR**;
+- Performance 172 INFO / **0 WARN / 0 ERROR**.
+
+Permanent contract trigger:
+`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
+Status/run ID was not yet published at handback; check this commit first next time.
 
 ## Production decision remains blocked
 
