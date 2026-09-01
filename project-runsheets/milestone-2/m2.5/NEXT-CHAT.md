@@ -46,14 +46,14 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 / CF-058 implementation state
+## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 / CF-058 / CF-059 implementation state
 
-Pilot M2.5 source head at handover:
-`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
+Pilot M2.5 source head before the final CF-059 trigger:
+`7f10e29bac5351b173b5de2df4b61d28d51eed07`.
 
 The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax correction `1605d15b...` passed targeted Chromium desktop in workflow `33492875364`. Next check the dedicated deployed browser acceptance for the v2.15.17 Provider source-pattern queue.
 
-Admin source UI version: **v2.15.18**.
+Admin source UI version: **v2.15.19**.
 
 Do not assume the external Cloudflare Pilot Worker has this source. CF-053 browser acceptance proves the Worker is stale.
 
@@ -69,6 +69,8 @@ Migrations deployed:
 - `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`
 - `20260901195000 m2_5_evidence_lineage_classification`
 - `20260901211500 m2_5_universal_layer4_block_enforcement`
+- `20260901220500 m2_5_platform_maturity_admin_read_surface`
+- `20260901224000 m2_5_evidence_lineage_reconciliation_contact_claim`
 
 Implemented:
 - source/capability lifecycle and Pilot/Production separation;
@@ -170,7 +172,7 @@ Run `33493637581` / job `99810738327` = **FAIL**.
 
 UAT evidence proves:
 - deployed Worker Admin version: **v2.15.14**;
-- repository source version: **v2.15.18**;
+- repository source version: **v2.15.19**;
 - CF-053 Layer 2 classification element is absent;
 - test stopped before reaching the CF-054 queue;
 - no AI action was executed.
@@ -224,7 +226,7 @@ Source:
 - \`src/platform-maturity-entry.jsx\`;
 - \`src/platform-maturity.css\`;
 - canonical Administration mounts \`PlatformMaturity\`;
-- source/release version **v2.15.18**.
+- source/release version **v2.15.19**.
 
 Runtime proof:
 - anonymous \`admin_read\` denied;
@@ -238,7 +240,7 @@ Current Pilot capacity snapshot shown by the workspace:
 - DB 632,933,523 bytes;
 - Evidence 10,546 objects / 5,224,808,213 bytes;
 - 8.11% governed planning envelope;
-- integrity WARNING: 200 proven duplicate unlinked objects, 5 unresolved, 2 missing Storage objects, 16 virtual refs.
+- CF-059 supersedes that historical integrity snapshot: raw 205 unlinked = 200 duplicates + 5 reconciled historical orphans + 0 unresolved; raw 2 missing bucket refs = 2 reconciled legacy refs + 0 unresolved; integrity OK.
 
 Permanent source/build contract:
 \`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\`.
@@ -246,6 +248,45 @@ Workflow routing commit:
 \`45dcf406090be5bedc8838b965495b71aee7cee0\`.
 
 Initial CF-058 trigger `bd267ab46216529e21f94a4448394365b12a2cae` failed because the full Vite build exposed older Layer 2 source corruption. Repair commit: `a4cde432dcf8798ad1e61b986db3052ddeb64b74`. Trigger `97dc4085e4c00208864529bca21eb743ac46c05d` also failed because the managed-run JSX line itself was still malformed after duplicate-tail removal. Final syntax-safe restoration: `27abb0f3c64a508227e2a442fdf5d4c78ca0f051`. Final CF-058 trigger `7f7f6a920fd303578cad7430401f4dce522c6e0c` passed workflow `33507629698` / job `99855436515`; no further source/build rerun is needed unless CF-058 materially changes. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
+
+## CF-059 Evidence-lineage reconciliation & contact claim hardening
+
+CF-059 is **IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING**.
+
+Live proof:
+- private reconciliation ledger 7 rows = 5 Storage objects + 2 legacy Evidence refs;
+- raw unlinked objects 205 remain visible;
+- proven duplicates 200;
+- reconciled historical orphans 5;
+- unresolved orphans 0;
+- raw missing bucket refs 2;
+- reconciled legacy refs 2;
+- unresolved missing bucket refs 0;
+- integrity severity OK / severity input 0;
+- active Provider-contact claims 0.
+
+Provider-contact worker:
+- source v1.3.4;
+- Edge v19;
+- atomic \`FOR UPDATE SKIP LOCKED\` profile claim;
+- 1,800-second bounded lease;
+- wrong finish token rejection;
+- claim expiry/reclaim;
+- failed Evidence-registration cleanup of only the just-uploaded object.
+
+Rollback-only UAT passed those claim semantics and left no active claim state.
+
+Advisors:
+- Security 147 INFO / 0 WARN / 0 ERROR;
+- Performance 175 INFO / 0 WARN / 0 ERROR.
+
+Permanent contract:
+\`tests/uat/m2-5-evidence-lineage-reconciliation-contract.spec.mjs\`.
+
+Workflow routing commit:
+\`7f10e29bac5351b173b5de2df4b61d28d51eed07\`.
+
+The final targeted trigger is recorded below after it is created. Check that exact commit first on the next Proceed. Do not run stale-Worker browser acceptance while FU-015 remains open.
 
 ## CI gate
 
@@ -269,11 +310,11 @@ Before relying on Pilot browser UI:
 0. **Reconcile Cloudflare external Git deployment** for Worker `coursefinder-pilot`: confirm repository `msinghbs-ai/Coursefinder-Pilot`, branch `main`, build/output/deploy settings and latest deployment. Then rerun CF-053 + CF-054 deployed browser UAT unchanged.
 
 Without Production provisioning:
-1. reconcile Evidence lineage mismatch without deleting data;
+1. CF-059 has reconciled the known Evidence lineage mismatch without deletion; close its targeted CI before marking FU-009 complete;
 2. CF-056 backup/PITR metadata is reconciled as far as current tools allow; final Production restore/DR remains a clean-environment gate;
 3. define notification destination/escalation for capacity/integrity;
 4. mature canonical Administration surfaces for environment gates/capacity/UAT/blocking;
-5. CF-058 now provides the canonical block-management/platform UI in source; close its source/build targeted contract, while deployed UI remains blocked by FU-015;
+5. CF-058 source/build is targeted PASS; deployed Platform UI remains blocked only by FU-015;
 6. analyse 219 current Layer 2 failures and missing-URL population as Pilot operations, not M2.4 reopening;
 7. continue serving-vs-ingestion performance profile design/benchmarks.
 
