@@ -92,3 +92,20 @@ Make accepted test domains and environment-specific Production UAT traceable in 
 
 ### PM-A12 — Performance & Workload Isolation
 Keep hard gates, add workload profiles for normal API serving, scheduled refresh, major re-ingestion and concurrent Admin/UAT.
+
+
+## A17 — Course Skills, Career Pathways & Labour-Market Intelligence
+
+| ID | Capability | Target | Status | Acceptance anchor |
+|---|---|---|---|---|
+| PM-A17-01 | Versioned occupation taxonomy + code concordance model | M2.5 | OPEN | OSCA/NOL/ANZSCO uniqueness + correspondence UAT |
+| PM-A17-02 | Versioned canonical skills taxonomy/relationships | M2.5 | OPEN | no occupation-skill→Course-skill leakage |
+| PM-A17-03 | AU ABS/JSA source adapters | M2.5 | OPEN | source/version/period/geography provenance |
+| PM-A17-04 | NZ NOL/Tahatū source adapters | M2.5 | OPEN | source/API qualification + provenance |
+| PM-A17-05 | Course learning outcomes/career/accreditation Evidence | M2.5 | OPEN | first-party Evidence coverage |
+| PM-A17-06 | Layer 3 skills/occupation candidate mapping | M2.5 | OPEN | benchmark + negative controls + zero direct publish |
+| PM-A17-07 | Layer 4 career-mapping review | M2.5 | OPEN | audit/revert/source preservation |
+| PM-A17-08 | Career & Skills Course blade | M2.5 | OPEN | desktop/mobile + provenance/freshness |
+| PM-A17-09 | Career/skills comparison | M2.5/M3 | OPEN | comparable-period/geography rules |
+| PM-A17-10 | Registration/migration policy overlays | M2.5/M3 | OPEN | separate time-scoped policy signals |
+| PM-A17-11 | Governed Website/Zoho projection | M3 | DEFERRED | publication gate + bounded payload |
