@@ -1,6 +1,6 @@
 # CF-CHG-20260901-054 — M2.5 Layer 3 Source-Pattern Operator Execution & Deterministic Layer 2 Hand-back
 
-**Status:** IMPLEMENTED / SOURCE+ROLLBACK PASS — DEPLOYED UI ACCEPTANCE BLOCKED BY PILOT CLOUDFLARE GIT DEPLOYMENT DRIFT  
+**Status:** IMPLEMENTED / SOURCE+ROLLBACK PASS — POST-HTTP-RECONCILE TARGETED CI PENDING; DEPLOYED UI ACCEPTANCE BLOCKED BY PILOT CLOUDFLARE GIT DEPLOYMENT DRIFT  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 Pilot operations maturity  
@@ -143,12 +143,13 @@ Restore prior Layer 3 worker/UI/helper definitions. Retained Evidence, interpret
 
 ### Implementation references
 
-Pilot source head used for the final source-contract trigger:
-`msinghbs-ai/Coursefinder-Pilot@65fd4913f4c328b44847840e91aad024c8f6c7ed`.
+Pilot source head after legacy HTTP→HTTPS same-host reconciliation:
+`msinghbs-ai/Coursefinder-Pilot@5977642a5568fc2acbc061eacea608ca2fcde450`.
 
 Database:
 - `20260901091500_m2_5_layer3_source_pattern_operator_handback.sql` — commit `768ea48997ce23b2024845552d9a3104215cc05c`, deployed to Pilot;
-- `20260901091800_m2_5_layer3_source_pattern_legacy_completion_guard.sql` — final syntax-corrected commit `35d1a8035a0f5ee66fe825178e13b123951063fb`, deployed to Pilot.
+- `20260901091800_m2_5_layer3_source_pattern_legacy_completion_guard.sql` — final syntax-corrected commit `35d1a8035a0f5ee66fe825178e13b123951063fb`, deployed to Pilot;
+- `20260901092500_m2_5_layer3_source_pattern_legacy_http_host_reconcile.sql` — commit `5977642a5568fc2acbc061eacea608ca2fcde450`, deployed to Pilot; keeps candidates HTTPS-only while allowing retained legacy HTTP Evidence/source URLs to compare by exact hostname.
 
 Edge:
 - `supabase/functions/layer3-interpret/index.ts` — commit `4cd766baed84a3f21e097be7aff594bf559cabf2`;
@@ -219,6 +220,40 @@ At final reconciliation:
 - live source-pattern interpretations: **0**.
 
 This is intentional at this gate: CF-054 makes the manual-governed execution path usable but does not autonomously drain the queue or increase the model profile's 10/minute, 30/day limits.
+
+### Additional rollback-only legacy HTTP→HTTPS proof
+
+A live queued University of Sydney source-pattern request exposed a legacy source/Evidence origin using `http://sydney.edu.au`. The source-pattern candidate contract correctly remains HTTPS-only, but the original hand-back host parser accepted only `https://` on both sides and would reject a legitimate same-host HTTPS upgrade.
+
+Correction:
+- host extraction now accepts `http://` or `https://` for retained Evidence/source lineage;
+- the Layer 3 candidate itself still must match `^https://`;
+- same-host and exact Evidence-link validator flags remain mandatory.
+
+Rollback-only proof:
+- request `17b6d075-81d3-4add-b321-b9a3a9a0c30f`;
+- Provider: The University of Sydney;
+- retained Evidence origin: `http://sydney.edu.au`;
+- synthetic candidate: `https://sydney.edu.au/study/study-areas/law.html`;
+- hand-back returned `path=layer2_identity_control`;
+- exactly three Layer 2 control Courses were selected;
+- `provider_qualified=false`;
+- canonical/Search/Publication mutation authority remained false;
+- temporary profile version and dispatch state were fully rolled back;
+- original request remained `queued` and all 10 qualification items remained `layer3_required`.
+
+No-candidate rollback proof on the same request returned `path=layer4_source_resolution` with one governed Provider source-resolution handoff and no Provider qualification/canonical mutation.
+
+Current post-correction checkpoint:
+- pending deterministic Provider dispatch: **227**;
+- pending Layer 2 pattern controls: **66**;
+- source-pattern requests: **422 queued / 0 completed**;
+- live source-pattern interpretations: **0**;
+- no real model call and no bulk queue drain were performed;
+- Security Advisor: **146 INFO / 0 WARN / 0 ERROR**;
+- Performance Advisor: **172 INFO / 0 WARN / 0 ERROR**.
+
+A new targeted source-contract run is required after the 09:25 host reconciliation. Per operating instruction, do not wait in-chat for that CI; record the run and hand control back to the user.
 
 ### Deployed Admin blocker
 
