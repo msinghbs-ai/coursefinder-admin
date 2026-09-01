@@ -245,7 +245,7 @@ Permanent source/build contract:
 Workflow routing commit:
 \`45dcf406090be5bedc8838b965495b71aee7cee0\`.
 
-Final CF-058 source/build trigger: `bd267ab46216529e21f94a4448394365b12a2cae`. Check this commit first on next Proceed. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
+Initial CF-058 trigger `bd267ab46216529e21f94a4448394365b12a2cae` failed because the full Vite build exposed older Layer 2 source corruption. Repair commit: `a4cde432dcf8798ad1e61b986db3052ddeb64b74`. Fresh CF-058 source/build trigger: `97dc4085e4c00208864529bca21eb743ac46c05d`. Check this exact commit first on next Proceed. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
 
 ## CI gate
 
