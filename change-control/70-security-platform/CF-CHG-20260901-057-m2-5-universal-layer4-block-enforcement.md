@@ -1,6 +1,6 @@
 # CF-CHG-20260901-057 — M2.5 Universal Layer 4 Block Enforcement
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING  
 **Category:** 70-security-platform  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 security/platform maturity  
@@ -133,3 +133,129 @@ A rollback-only blocked-entity canary must prove Search filtering without leavin
 ## Rollback
 
 Restore prior owning function definitions. The append-only block ledger remains valid historical governance state. No data deletion is required.
+
+
+## Implementation & rollback-only Pilot proof — 1 September 2026
+
+### Pilot implementation
+
+Migration:
+`supabase/migrations/20260901211500_m2_5_universal_layer4_block_enforcement.sql`
+
+Pilot commit:
+`f97c1aa2040890e9a49c1ddf38a9755700b0fee3`.
+
+The migration applied successfully to Pilot as:
+`m2_5_universal_layer4_block_enforcement`.
+
+Implemented:
+- effective latest non-expired block view;
+- inherited Provider block resolution;
+- Search-blocked Provider/Course/Campus/Scholarship secured views;
+- `security.layer4_entity_or_parent_blocked(...)`;
+- secured Data Quality quarantine read;
+- Layer 2 Course Fact apply operational gate;
+- Layer 3 interpretation reservation operational gate;
+- Layer 3 source-pattern request operational gate;
+- publication-readiness blocker;
+- Layer 4 `publishable` decision rejection while publication-blocked;
+- Search filtering across all 20 inventoried Website/Zoho/legacy API search/lookup/reference-manifest functions.
+
+Layer 1 `svc_layer1_*` regulatory ingestion definitions are not replaced by CF-057. Authoritative source observations remain recordable.
+
+### Consumer API coverage
+
+Live definition inspection after migration:
+- **20/20** inventoried API functions contain `layer4_search_blocked_*` enforcement;
+- publication readiness owner = enforced;
+- publication decision owner = enforced;
+- Layer 2 Course Facts apply owner = enforced;
+- Layer 3 reservation owner = enforced;
+- source-pattern request owner = enforced;
+- Data Quality quarantine dispatch owner = enforced.
+
+### Rollback-only canary
+
+All synthetic decisions used reason `CF057_UAT` and ran inside an explicit transaction which was rolled back.
+
+Baseline:
+- chosen Course visible through Zoho exact lookup;
+- chosen Course visible through Website exact preview;
+- chosen Provider visible through Zoho exact lookup.
+
+Direct Course Search block:
+- effective blocked-Course view = true;
+- Zoho Course lookup hidden;
+- Website Course lookup hidden;
+- Website Search preview no longer returns the target Course;
+- legacy role-gated Course list hides the target.
+
+Course Search unblock:
+- effective blocked view cleared;
+- Zoho and Website exact lookup restored.
+
+Provider Search block:
+- Provider hidden from Zoho lookup;
+- child Course inherited Search block;
+- child Course hidden from Zoho and Website Course reads.
+
+Provider Search unblock:
+- Provider and child Course visibility restored without canonical rewrite.
+
+Publication block:
+- readiness returned `layer4_publication_block`;
+- `signals.layer4_publication_blocked=true`;
+- `publishable` Layer 4 decision rejected with `42501`;
+- `not_publishable` decision remained allowed;
+- `publishing.set_course_publication_v1(...,'internal',...)` rejected;
+- canonical publication state remained unchanged.
+
+Operational Course block:
+- `layer2_apply_course_candidate(...,true)` rejected before Course Fact apply;
+- error = `course operationally blocked by Layer 4`.
+
+Operational Provider block on a live queued CF-054 source-pattern request:
+- request context returned `executable=false`;
+- reason = `layer4_operational_block`;
+- interpretation reservation returned `call_required=false`;
+- reason = `layer4_operational_block`;
+- new source-pattern interpretations during the transaction = **0**;
+- no external model call executed.
+
+Data-quality quarantine:
+- Provider quarantine appears as a direct Provider quarantine;
+- child Course appears through inherited Provider quarantine;
+- Search remains visible when only quarantine is active, proving block-scope independence.
+
+Post-rollback verification:
+- retained `CF057_UAT` decisions = **0**;
+- total live Layer 4 block decisions = **0**;
+- no synthetic canonical/Search/publication state remains.
+
+### Advisors
+
+After deployed enforcement:
+- Security: **146 INFO / 0 WARN / 0 ERROR**;
+- Performance: **171 INFO / 0 WARN / 0 ERROR**.
+
+### Permanent UAT
+
+Added:
+`tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs`
+(commit `8e06e0c106eff6c6ea137d201f9568140b80deda`).
+
+Workflow routing:
+`1df7c2d0ce995895468b727cc6e8003dd95a47c7`.
+
+The permanent contract verifies:
+- independent operational/publication/Search/quarantine ownership;
+- Provider inheritance;
+- all 20 consumer contracts carry Search filtering;
+- no Search projection deletion;
+- no Layer 1 regulatory-function rewrite.
+
+## Current status decision
+
+**IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING.**
+
+Cloudflare deployment drift does not block this source/server contract. Canonical Admin UI for block management remains a separate FU-011 UX item.
