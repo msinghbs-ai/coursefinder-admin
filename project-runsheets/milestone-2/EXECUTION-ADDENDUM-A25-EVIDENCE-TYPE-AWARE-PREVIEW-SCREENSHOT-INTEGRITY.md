@@ -1,6 +1,6 @@
 # Execution Addendum A25 — Evidence Type-aware Preview & Screenshot Lineage Integrity
 
-**Status:** ACTIVE — M2.4.4 ADDENDUM  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 31 August 2026  
 **Change Control:** `CF-CHG-20260830-048`
 
@@ -57,3 +57,8 @@ A25 requires:
 5. selected screenshot evidence previews its own image;
 6. format badge/label is visible in list and detail;
 7. permanent deployed UAT covers JSON, HTML+related screenshot and screenshot/image cases.
+
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
