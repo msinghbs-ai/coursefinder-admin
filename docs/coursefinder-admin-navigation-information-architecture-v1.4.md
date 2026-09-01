@@ -1,107 +1,105 @@
-# CourseFinder Admin Navigation & Information Architecture v1.4
+# CourseFinder Admin Navigation & Information Architecture v1.5
 
-**Status:** CURRENT — M2.4 STREAMLINED OPERATING MODEL  
-**Date:** 26 August 2026  
-**Supersedes:** v1.3  
-**Related Change Controls:** `CF-CHG-20260823-030`, `CF-CHG-20260825-036`, `CF-CHG-20260825-037`, `CF-CHG-20260825-038`, `CF-CHG-20260826-040`
+**Status:** CURRENT — M2.5 STATISTICS / COMPARISON OPERATING MODEL  
+**Date:** 2 September 2026  
+**Supersedes:** v1.4  
+**Related Change Controls:** `CF-CHG-20260826-040`, `CF-CHG-20260901-061`, `CF-CHG-20260902-063`, `CF-CHG-20260902-064`
 
 ## Principle
 
-The Admin sidebar must describe the operating model, not implementation history. Layers 1–4 are first-class governed workflows and must be reachable from one Data Operations group. Qualification tools, provider internals and UAT-only controls must not make the primary product look experimental.
+The sidebar describes operator journeys, not source-table history.
 
 Authority remains:
 
 `Layer 1 Authoritative / Regulatory → Layer 2 Deterministic Acquisition & Extraction → Layer 3 AI-assisted Evidence Interpretation → Layer 4 Human Resolution`.
 
-Layer 4 is terminal. Search Projection, Search Visibility and Publication remain downstream product states.
+Statistics/rankings are contextual decision data. They do not become a new authority layer.
 
-## Accepted primary navigation order
+## Primary navigation order
 
 | Order | Group | Menu item | Purpose |
 |---:|---|---|---|
-| 1 | Overview | Dashboard | cross-platform health, blockers, cost, freshness and next actions |
+| 1 | Overview | Dashboard | cross-platform health, blockers, freshness and next actions |
 | 2 | Catalogue | Providers / Courses / Campuses / Scholarships | canonical decision workspaces |
-| 3 | Data Operations | Layer 1 — Regulatory | authoritative source ingestion, source health, bounded reconciliation and Evidence |
-| 3 | Data Operations | Layer 2 — Enrichment | deterministic first-party acquisition/extraction, provider routing and completeness |
-| 3 | Data Operations | Layer 3 — AI Interpretation | governed Evidence interpretation using benchmarked server-side model profiles |
-| 3 | Data Operations | Layer 4 — Human Resolution | terminal human resolution with retained reason and lineage |
-| 3 | Data Operations | Evidence & Provenance | cross-layer source snapshots and consequence tracing |
-| 3 | Data Operations | Jobs & Runs | pipeline execution history and operational state |
-| 3 | Data Operations | Onboarding | reusable Country / Provider / Course lifecycle |
-| 4 | Insights | Outcomes (QILT) / Student Flow (PRISMS) | contextual outcome/student-flow intelligence at true source grain |
-| 5 | Quality & Review | Completeness | factual and decision-context completeness/readiness |
-| 6 | Decision Tools | Scholarship Selection | source fact + transparent derived relevance + unresolved eligibility decision support |
-| 7 | Governance & Platform | Sources | governed source inventory/configuration |
-| 7 | Governance & Platform | Attributes | PIM taxonomy/attribute governance |
-| 7 | Governance & Platform | Users & Roles | Platform Admin identity/role administration |
-| 8 | Help & Guides | Guides & Runbooks | visible role-oriented operator guidance and workflow launch points |
+| 3 | Statistics & Insights | Statistics & Rankings | unified coverage, years, observations, mappings, Evidence and source verification for QILT/PRISMS/QS/THE |
+| 3 | Statistics & Insights | Compare | select Providers/Courses, datasets and aligned year/period for comparison |
+| 4 | Data Operations | Layer 1 — Authority | authoritative/regulatory and publisher-authoritative ingestion |
+| 4 | Data Operations | Layer 2 — Enrichment | deterministic first-party acquisition/extraction |
+| 4 | Data Operations | Layer 3 — AI Interpretation | governed Evidence interpretation |
+| 4 | Data Operations | Layer 4 — Human Resolution | terminal human resolution |
+| 4 | Data Operations | Evidence | cross-layer provenance |
+| 4 | Data Operations | Jobs | run history and operational state |
+| 5 | Quality & Review | Completeness / reconciliation | coverage/readiness and unresolved decision work |
+| 6 | Administration | Administration | Sources & Imports, acquisition, scheduling, onboarding, PIM, users/roles, platform |
+| 7 | Help | Guides & Runbooks | maintained operator guidance |
 
-Items remain role-filtered by the existing security model. The sidebar must not expose a control merely because the component exists.
+## Statistics & Rankings rule
 
-## Layer 1 presentation rule
+QILT and PRISMS remain first-class datasets but are no longer required to appear as separate top-level concepts. Their detailed dataset views are reached from Statistics & Rankings.
 
-Layer 1 is a Data Operations capability, not a generic Settings feature. The normal Layer 1 journey presents regulatory source selection, health, bounded validation/apply, deterministic offsets/resume, reconciliation, Evidence and source registry.
+The workspace also owns QS/THE verification once ingested and provides:
+- dataset/year coverage;
+- mapped/unmapped state;
+- suppression/unavailable state;
+- Evidence/source links;
+- manual publisher-file import entry for authorised historical artifacts.
 
-Qualification and destructive Pilot/UAT tools are outside the normal Layer 1 journey. In particular:
+## Compare rule
 
-- StatsCan PSIS Layer 2A parser qualification must not appear inside normal Layer 1 operations;
-- Reset Pilot database must not appear inside normal Layer 1 operations;
-- underlying privileged ACLs are unchanged by navigation presentation;
-- direct legacy Settings routing is not the supported operator journey.
+Compare is primary navigation, not a hidden route.
 
-## Layer 2 presentation rule
+The comparison journey is:
+1. choose Provider or Course mode;
+2. select up to six entities;
+3. choose datasets;
+4. choose latest common or explicit period/edition;
+5. render aligned comparison.
 
-Layer 2 is an accepted deterministic capability. Primary navigation says `Layer 2 — Enrichment`; Provider registry, source profile, provider attempt and trial/benchmark screens are progressive drill-downs rather than separate top-level navigation.
+QS and THE are independent ranking systems. QILT/PRISMS retain true source grain. Course views may inherit Provider-level context only with explicit labelling.
 
-## Layer 3 presentation rule
+## Administration sub-navigation
 
-Layer 3 opens directly to AI Interpretation. Model/provider credentials remain server-side and role restricted. Provider/model changes require governed revalidation/benchmark before resume. The benchmark-approved initial profile remains pinned until a later accepted provider/model change.
+Administration consolidates configuration into:
+- Overview;
+- Sources & Imports;
+- Acquisition;
+- Scheduling;
+- Onboarding;
+- PIM configuration;
+- Users & Roles;
+- Platform.
 
-## Layer 4 presentation rule
+Manual ranking publisher upload belongs under Sources & Imports and is also deep-linked from Statistics & Rankings.
 
-Layer 4 opens directly to terminal human resolution. The older generic Review Queue entry is removed from the primary menu to avoid two apparent human-resolution authorities. Existing canonical resolution contracts remain unchanged.
+## Detail blade rule
 
-## Evidence and Jobs
+Provider/Course blades contain concise contextual summaries and links, not full statistical workspaces.
 
-Evidence and Jobs are cross-layer operations and therefore sit inside Data Operations. Layer-specific screens deep-link into the same governed surfaces rather than duplicating them.
-
-## Decision Tools
-
-Scholarship Selection is not a catalogue editor and not a Layer 2/3 authority. It remains decision support and therefore sits under Decision Tools. Source facts, derived scope score and missing/unresolved eligibility must remain visibly distinct.
-
-## Governance & Platform
-
-Sources, Attributes and Users & Roles remain governance functions. Their existing rank boundaries remain authoritative. Generic Settings is removed from the primary sidebar because its Layer 1 content has a dedicated operating entry and its qualification/destructive controls are not routine navigation.
-
-## Help & Guides
-
-Guidance is an in-product requirement, not repository-only documentation. The visible Guides & Runbooks workspace provides:
-
-- operating-authority summary;
-- Layer 1/2/3/4 quick guides;
-- Evidence and Onboarding quick guides;
-- Platform Admin, Pipeline Operator, Curator/Reviewer and read-only role guidance;
-- direct entry into governed workflows;
-- references to the maintained User Guide, Data Operations Admin Guide, Operations Runbook and release notes.
-
-The in-product guide supplements rather than replaces repository governance.
+Each applicable blade should expose:
+- View statistics;
+- Add to Compare;
+- latest available contextual indicators;
+- explicit Provider-context labels where inherited.
 
 ## Mobile / responsive
 
-The same logical menu must be available through the mobile navigation drawer. Floating launchers are suppressed where equivalent primary navigation exists, preventing overlap with version/release controls and page actions.
+The same logical groups are preserved in the mobile drawer. Compare tray and statistics filters must not create document-level horizontal overflow.
 
 ## Security / semantic boundary
 
-This IA changes presentation only. It does not change canonical identity, source precedence, RPC grants, role/rank thresholds, Layer authority, Search/Publication semantics or data contracts.
+Navigation changes do not alter role ranks, source precedence, Search/Publication authority or consumer admission.
+
+Manual file import is privileged, private-Evidence-backed and server-registered.
 
 ## UAT gate
 
-A navigation release is accepted only when desktop and mobile deployed UAT proves:
-
-- group labels/order;
-- layer launch behaviour;
-- Guides visibility;
-- legacy Settings/duplicate Review Queue/floating launcher suppression;
-- QILT/PRISMS contextual placement;
-- role restrictions remain intact;
-- existing Course Detail/Data Quality/Layer 2/Layer 3/Layer 4/performance/release regression remains green.
+Desktop/tablet/mobile acceptance covers:
+- exact group labels/order;
+- Statistics & Rankings route;
+- Compare primary route;
+- dataset drill-downs;
+- Administration sub-navigation;
+- upload privilege-negative path;
+- Provider/Course deep-links;
+- no duplicate legacy top-level QILT/PRISMS ambiguity;
+- role restrictions and existing regression.
