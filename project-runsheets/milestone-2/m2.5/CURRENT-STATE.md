@@ -219,7 +219,7 @@ Post-CF-057 advisors:
 - Security 146 INFO / **0 WARN / 0 ERROR**;
 - Performance 171 INFO / **0 WARN / 0 ERROR**.
 
-Permanent contract: `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs`; targeted CI pending.
+Permanent contract `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs` passed targeted Chromium desktop: workflow `33503165142`, job `99840959713`, 1/1 PASS. CF-057 is **IMPLEMENTED / TARGETED PASS**.
 
 ## Production decision remains blocked
 
