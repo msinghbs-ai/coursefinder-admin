@@ -51,7 +51,7 @@ Do not create a billable Production project until organisation, Production regio
 Pilot M2.5 source head at handover:
 `1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
 
-The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax is corrected in `1605d15b...`; check this commit's workflow status first rather than rerunning immediately.
+The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax correction `1605d15b...` passed targeted Chromium desktop in workflow `33492875364`. Next check the dedicated deployed browser acceptance for the v2.15.17 Provider source-pattern queue.
 
 Admin source UI version: **v2.15.17**.
 
