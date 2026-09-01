@@ -49,7 +49,7 @@ Do not create a billable Production project until organisation, Production regio
 ## CF-051 / CF-052 / CF-053 / CF-054 implementation state
 
 Pilot M2.5 source head at handover:
-`65fd4913f4c328b44847840e91aad024c8f6c7ed`.
+`5977642a5568fc2acbc061eacea608ca2fcde450`.
 
 Admin source UI version: **v2.15.17**.
 
@@ -64,6 +64,7 @@ Migrations deployed:
 - `20260901085000 m2_5_layer2_stale_pattern_control_handoff`
 - `20260901091500 m2_5_layer3_source_pattern_operator_handback`
 - `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`
+- `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`
 
 Implemented:
 - source/capability lifecycle and Pilot/Production separation;
@@ -153,7 +154,9 @@ Permanent source-contract CI:
 - job `99804902558`;
 - PASS.
 
-Live source-pattern queue at handover: **390 queued / 0 completed / 0 failed**. Do not bulk drain it. No real CF-054 model execution has been performed.
+Live source-pattern queue at handover: **422 queued / 0 completed / 0 failed**; deterministic finalizer state **227 pending dispatch / 66 pending controls**. Do not bulk drain it. No real CF-054 model execution has been performed.
+
+Legacy HTTP-origin Evidence/source URLs are reconciled by hostname only: candidates remain HTTPS-only and exact Evidence-link bound. Sydney rollback-only proof returned to Layer 2 three-Course control and left no retained test state.
 
 CF-054 deployed UI acceptance remains blocked until the external Cloudflare Pilot deployment is reconciled.
 
