@@ -209,14 +209,14 @@ Architecture baseline:
 
 ## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
 - **Source:** M2.4.4 A26, 1 September 2026
-- **Status:** COMPLETE RUNTIME PROOF / FINAL-ACCEPTANCE CORRECTIVE GATE ACTIVE
-- **Runtime proof retained:** stable parent/wave, Firecrawl Job/Evidence, timeout-safe recovery and heartbeat are complete.
-- **Acceptance isolation:** validated batch `accd42a2...` stopped after proof; 65 valid processed items retained and 196 unfinished items scheduled for continuation under the same parent/wave.
-- **Current parent projection:** 65 processed / 65 L3 / 0 blocked / 65 Jobs / 195 Evidence / 196 scheduled remainder / 0 active batches.
-- **Projection corrections:** `74ede7dd...` production-grain projection; `ff958a1c...` item/Evidence aggregate split.
-- **Focused corrective gate:** head `fb7715031d089a1d95511589726da913dbb8f821`; build `33461321738`; UAT `33461321744`.
+- **Status:** COMPLETE / REPLACEMENT FINAL ACCEPTANCE ACTIVE
+- **Runtime proof:** stable parent/wave, Firecrawl Job/Evidence lineage, timeout-safe continuation/recovery and heartbeat all proven.
+- **Current production state at nomination:** 219/261 completed, 42 scheduled remainder, failed 0, no active batch/provider attempt.
+- **Latest completed production batch history:** `bc25dfed...` stopped at governed acceptance boundary after 154/196 completion; 42 unfinished items rescheduled, completed Evidence retained.
+- **Focused corrective gate:** `33461321738` PASS / `33461321744` PASS.
+- **Replacement final:** candidate `95f2991e...`; build `33468512538`; UAT `33468512515` active.
 - **Owner:** M2.4.4
-- **Target:** replacement final acceptance
+- **Target:** close with replacement final acceptance
 
 ## M244-FU-018 — Administration parent route renders empty / sub-context clicks ineffective
 - **Source:** M2.4.4 A27, 1 September 2026
