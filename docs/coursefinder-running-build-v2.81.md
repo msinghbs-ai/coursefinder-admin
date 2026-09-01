@@ -160,13 +160,13 @@ Pilot server migration:
 \`20260901220500_m2_5_platform_maturity_admin_read_surface.sql\`
 (commit \`ded6ff03156126aa66e5d1ca2914e2e62e337a77\`).
 
-Source version is **PIM Admin v2.15.18**. The workspace exposes governed readiness, capacity/integrity, environment gates, UAT catalogue, performance/workload profiles, retention dry-run/classes and CF-057 block controls. It does not expose Production enablement, PITR purchase, destructive purge or consumer cutover.
+Source version has advanced to **PIM Admin v2.15.19**. The workspace exposes governed readiness, capacity/integrity, environment gates, UAT catalogue, performance/workload profiles, retention dry-run/classes and CF-057 block controls. It does not expose Production enablement, PITR purchase, destructive purge or consumer cutover.
 
 Latest sampled Pilot telemetry:
 - DB 632,933,523 bytes;
 - Evidence 10,546 objects / 5,224,808,213 bytes;
 - 8.11% of governed 60 GiB Evidence planning envelope;
-- integrity WARNING: 200 proven duplicates, 5 unresolved objects, 2 missing Storage paths and 16 virtual/external references.
+- CF-059 now preserves that raw history but reconciles the 5 historical orphan objects and 2 legacy missing-path references; current unresolved integrity is 0 / severity OK.
 
 Post-DDL advisors remain Security 146 INFO / 0 WARN / 0 ERROR and Performance 171 INFO / 0 WARN / 0 ERROR.
 
@@ -174,3 +174,41 @@ Permanent source/build contract:
 \`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\`.
 
 Deployed UI acceptance is not claimed because FU-015 still proves Cloudflare Worker deployment drift.
+
+
+### M2.5 CF-059 — Evidence lineage reconciliation & Provider-contact claim hardening
+
+CF-059 closes the known FU-009 provenance population without deleting or rewriting historical Storage/Evidence.
+
+Pilot migration:
+\`20260901224000_m2_5_evidence_lineage_reconciliation_contact_claim.sql\`
+(commit \`b98776b45ff21520933674fb448aa3eba2fa5fa4\`).
+
+A private reconciliation ledger records:
+- five explained historical Storage orphans;
+- two legacy Canadian management-plane Evidence references.
+
+Latest Pilot integrity:
+- raw unlinked Storage objects 205;
+- fingerprint duplicates 200;
+- reconciled historical orphans 5;
+- unresolved orphans 0;
+- raw missing bucket refs 2;
+- reconciled legacy refs 2;
+- unresolved missing bucket refs 0;
+- integrity severity **OK**.
+
+Provider-contact scheduled discovery is now source v1.3.4 / Edge v19 and uses atomic leased claims so overlapping scheduled invocations cannot select the same profile. Failed Evidence registration cleans only the just-uploaded object via the Storage API.
+
+Rollback-only UAT proved overlapping claim exclusion, wrong-token rejection, lease expiry/reclaim and correct claim clearing. Live active claims are 0.
+
+Post-change advisors:
+- Security 147 INFO / 0 WARN / 0 ERROR;
+- Performance 175 INFO / 0 WARN / 0 ERROR.
+
+Admin/release source version is **v2.15.19** and the Platform capacity view displays raw, reconciled and unresolved lineage separately.
+
+Permanent contract:
+\`tests/uat/m2-5-evidence-lineage-reconciliation-contract.spec.mjs\`.
+
+Deployed browser acceptance remains separately blocked by FU-015.
