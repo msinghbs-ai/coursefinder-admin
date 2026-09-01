@@ -27,9 +27,9 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`dbd7bdde61e28fa49170875786066d7015ccd77d`.
+`1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
 
-CF-054 post-HTTP-reconcile targeted contract trigger: commit `dbd7bdde61e28fa49170875786066d7015ccd77d`; workflow status/run ID had not yet been published at handback.
+CF-054 post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced run `33492617096` / job `99807392499` FAIL due only to a malformed Playwright assertion string. The corrected clean-rerun trigger is `1605d15bca7ccb46620ce5bd12ca01805a3f30f4`; no workflow status/run ID had been attached at handback.
 
 Admin source UI version: **v2.15.17**.
 
