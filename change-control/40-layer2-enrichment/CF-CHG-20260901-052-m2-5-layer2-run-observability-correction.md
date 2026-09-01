@@ -1,6 +1,6 @@
 # CF-CHG-20260901-052 — M2.5 Layer 2 Run Observability Correction
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 1 September 2026, Australia/Sydney  
 **Owner:** M2.5  
@@ -82,6 +82,45 @@ Required:
 4. Security Advisor and Performance Advisor: 0 WARN / 0 ERROR.
 
 Full M2.4 acceptance is not authorised or required for this corrective M2.5 change.
+
+## Implementation and acceptance evidence
+
+Pilot DB/API correction:
+- migration `20260901062200_m2_5_layer2_run_observability_correction.sql`;
+- Pilot commit `929b4a13af16defc67bbe512b1e04ee8f9aaabef`;
+- live migration applied successfully to `fxcwkweaxjtknorudmwp`;
+- terminal parent projection now includes wave-item states `dispatched`, `completed` and `failed` for retained Jobs/Evidence;
+- background start orchestration returns `qualification_waiting` when the qualification gate finds no currently eligible Providers inside the configured retry window.
+
+Pilot Admin correction:
+- operator UI correction `7e8ca776170ebc9897313d06cbf0a087508ec0fc`;
+- permanent CF-052 deployed UAT added/wired under `e214058bc4aaf1df869bf06ffc504db0c5e36c78` / `3d6fbed8c1018406be1fce68362b332bfff8d73c`;
+- Admin version moved to v2.15.15 with the Layer 2 terminal-run observability release note;
+- permanent release-note UAT was aligned to v2.15.15;
+- managed-run USD display retained while adding timestamps.
+
+Live VIC proof on 1 September 2026:
+- bounded start check observed at `2026-09-01T06:30:33.376782Z` returned `qualification_waiting`;
+- qualification check `c876a8fb-5f03-4433-85ab-5af7e96cee63` completed immediately with zero Providers / zero Course samples and `nothing_to_qualify`;
+- **0 new production wave requests** and **0 new Course Jobs** were created by that retry-window check;
+- historical VIC parent `1bb1504d-7bad-42d9-b059-4adeaf9118c7` remains terminal `completed` with 261 total items, 42 completed and 219 failed;
+- retained lineage is **261 child Jobs** and **783 Evidence artifacts**.
+
+Targeted deployed UAT:
+- run `33477539721`;
+- job `99760830965`;
+- **2 passed / 0 failed** on Chromium desktop;
+- browser proof covers acquisition timestamps, managed-run timestamps and retained terminal parent Jobs;
+- source-contract proof covers `qualification_waiting`, server observation timestamp, terminal child lineage and refresh-error visibility.
+
+Post-change advisors:
+- Security: **146 INFO / 0 WARN / 0 ERROR**;
+- Performance: **174 INFO / 0 WARN / 0 ERROR**.
+
+Decision:
+- CF-052 is **IMPLEMENTED / TARGETED PASS**;
+- no M2.4 gate is reopened;
+- the 219 historical VIC failures remain a separate Pilot operations/root-cause follow-up under M2.5 and are not hidden by this observability correction.
 
 ## Rollback
 
