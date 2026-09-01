@@ -10,6 +10,7 @@
 **Backup/PITR reconciliation Change Control:** `CF-CHG-20260901-056`
 **Universal block-enforcement Change Control:** `CF-CHG-20260901-057`
 **Platform Administration Change Control:** `CF-CHG-20260901-058`
+**Career Skills / Labour-Market Change Control:** `CF-CHG-20260901-062`
 
 ## Accepted entry baseline
 
@@ -382,3 +383,19 @@ CF-053 deployed browser run `33488961340`:
 - both observed the old Worker bundle while current `main` contained the required new element.
 
 No Cloudflare control-plane connector is available in the current execution environment. Do not weaken browser UAT or treat source CI as deployed proof. Reconcile the external Cloudflare Git integration first, then rerun CF-053 and CF-054 deployed browser gates.
+
+
+## A17 Course Skills / Career / Labour-Market Intelligence
+
+Status: **DESIGN ACCEPTED / IMPLEMENTATION PENDING**.
+
+The M2.5 design now defines Course → evidence-backed skills → governed occupation mappings → official labour-market observations, with registration and migration maintained as separate signals.
+
+Key source decisions:
+- AU canonical occupation reference: ABS OSCA;
+- current JSA market series may remain native ANZSCO until source transition, resolved through explicit versioned concordance;
+- NZ canonical occupation reference: Stats NZ NOL;
+- NZ career/occupation context: TEC Tahatū subject to adapter/source qualification;
+- Immigration NZ policy data is a time-scoped policy overlay, not student eligibility.
+
+No A17 schema migration, adapter, model call, UI publication or Production enablement has been performed yet.
