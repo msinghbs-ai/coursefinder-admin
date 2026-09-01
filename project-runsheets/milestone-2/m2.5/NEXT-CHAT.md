@@ -360,3 +360,15 @@ proceed through CF-049 P0→P8; Production canary/UAT remains mandatory.
 No broad Publication, Website Production cutover, Zoho Production cutover, RMIT frozen canonical promotion, deferred NZ first-party Layer 2 expansion or autonomous Layer 3 canonical mutation is authorised.
 
 16–30 September 2026 remains the no-planned-delivery blackout unless separately authorised.
+
+
+## A17 continuation requirement
+
+Read before implementing Course skills/jobs/career intelligence:
+- `CF-CHG-20260901-062`;
+- A17 execution addendum;
+- `docs/coursefinder-course-skills-career-labour-market-design-v0.1.md`;
+- `docs/coursefinder-career-skills-demo-operator-guide-v0.1.md`;
+- M25-FU-017 through M25-FU-026.
+
+Start from repository/runtime truth. Do not jump directly to AI mapping or UI. First establish the versioned occupation/code/concordance and skills relationship schema, then qualify AU/NZ authoritative source adapters. Preserve the explicit distinction between Course-acquired skills, occupation skills, labour demand, registration and migration policy.
