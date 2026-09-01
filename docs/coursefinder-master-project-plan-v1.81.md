@@ -91,9 +91,9 @@ M2.5 does not automatically authorise:
 
 ## 9. Current baselines
 
-- Running Build: `docs/coursefinder-running-build-v2.80.md`;
-- DB Architecture: v2.10.44 plus accepted M2.4.4 migrations;
-- Admin/PIM Decisions: v1.24 plus accepted M2.4.4 standing addenda;
+- Running Build: `docs/coursefinder-running-build-v2.81.md`;
+- DB Architecture: `docs/coursefinder-database-architecture-v2.10.46.md`;
+- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.26.md`;
 - Production Change Control: `CF-CHG-20260901-049`.
 
 ## 10. Post-M2.4 platform maturity design
@@ -117,3 +117,22 @@ Before any billable Supabase Production project is created:
 3. fetch exact supplier project cost;
 4. present and confirm cost;
 5. create the clean Production project only after confirmation.
+
+
+## 12. QS / THE ranking context addendum — 2 September 2026
+
+CF-CHG-20260902-063 / A29 adds a design-approved M2.5+ workstream for:
+- QS World University Rankings 2026 and 2027;
+- Times Higher Education World University Rankings 2026;
+- 5–10 years of historical editions where official publisher access and reuse conditions permit;
+- editioned Layer 1 publisher-authoritative Provider context;
+- governed Provider crosswalk, source Evidence, methodology/version retention and historical trend display;
+- Provider/detail and comparison UX after bounded Pilot implementation.
+
+Current authority:
+- `docs/coursefinder-university-ranking-data-design-v1.0.md`;
+- `docs/coursefinder-database-architecture-v2.10.46.md`;
+- `docs/coursefinder-admin-pim-design-decisions-v1.26.md`;
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A29-QS-THE-WORLD-RANKINGS.md`.
+
+This is design/readiness scope only at this checkpoint. It does not claim deployed schema, live ranking ingestion, Production enablement, or Search/Website/Zoho publication.
