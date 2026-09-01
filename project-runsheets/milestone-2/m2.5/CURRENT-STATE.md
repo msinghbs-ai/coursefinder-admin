@@ -103,7 +103,7 @@ Permanent source-contract suite:
 
 `.github/workflows/deployed-uat.yml` now routes M2.5 changes to that suite and includes it in integration/acceptance.
 
-At this checkpoint GitHub had not yet published a terminal commit status for final head `dac23d68...`. Do not poll indefinitely; record exact run/build IDs when terminal.
+Targeted deployed UAT `33476711758` / job `99757413769` PASS on final head `dac23d68e6df230bc30c306fa7b61e720ecb431c`. Targeted tier is desktop-only. Wider Production integration/acceptance is not implied.
 
 ## Production decision remains blocked
 
