@@ -373,3 +373,25 @@ Read before implementing Course skills/jobs/career intelligence:
 - M25-FU-017 through M25-FU-026.
 
 Start from repository/runtime truth. Do not jump directly to AI mapping or UI. First establish the versioned occupation/code/concordance and skills relationship schema, then qualify AU/NZ authoritative source adapters. Preserve the explicit distinction between Course-acquired skills, occupation skills, labour demand, registration and migration policy.
+
+
+## CF-061 continuation checkpoint
+
+QILT/PRISMS comparison work is implemented in Pilot runtime/source under **v2.15.21**.
+
+Read before changing it:
+- `change-control/30-admin-pim-ux/CF-CHG-20260901-061-qilt-prisms-provider-course-comparison-experience.md`;
+- A12.7 comparison rules;
+- Pilot migrations `20260901133212`, `20260901134059`, `20260901134137`;
+- `src/ComparisonWorkspace.jsx`, `src/ContextualInsights.jsx`, `src/mature-main.jsx`;
+- `tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
+
+Runtime is PASS after two additive schema-name corrections:
+- Provider comparison returns requested Providers;
+- Course comparison returns Course context with QILT grain `provider_context`;
+- seven selections are rejected;
+- no-JWT request is rejected;
+- post-DDL Security 147 INFO / 0 WARN / 0 ERROR;
+- Performance 175 INFO / 0 WARN / 0 ERROR.
+
+Source trigger `b423af67af6917ae3407e3f5137dcd403d0da225` had no attached commit status at the last check. Check that exact source/build state before retriggering. Then confirm external Cloudflare serves v2.15.21 and run bounded responsive deployed comparison UAT. Do not call CF-061 deployed PASS from source/runtime proof alone.
