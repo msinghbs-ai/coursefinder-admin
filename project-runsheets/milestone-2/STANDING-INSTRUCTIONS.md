@@ -8,7 +8,7 @@
 
 CourseFinder M2 work is split across short chats and sub-milestones. The detailed task prompt may change, but the operating rules must not disappear when a new chat starts or one issue consumes the context window.
 
-Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A14-L2-L3-TELEMETRY.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`.
+Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A14-L2-L3-TELEMETRY.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A18-QS-THE-WORLD-RANKINGS.md`.
 
 ## Mandatory start-of-chat reconciliation
 
@@ -26,12 +26,13 @@ Before material work:
 10. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`;
 11. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md`;
 12. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`;
-13. read `change-control/README.md` and `change-control/REGISTER.md`;
+13. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A18-QS-THE-WORLD-RANKINGS.md`;
+14. read `change-control/README.md` and `change-control/REGISTER.md`;
 14. read the latest Master Project Plan and Running Build;
 15. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
 16. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
-17. read overlapping open/recent Change Controls;
-18. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
+18. read overlapping open/recent Change Controls;
+19. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
 
 Repository/runtime truth takes precedence over stale chat text. Do not overwrite newer parallel work.
 
@@ -373,3 +374,8 @@ Standing rules:
 - migration/registration are separate policy/licensing signals, never Course promises;
 - Layer 3 produces candidates only; governed acceptance/publication remains downstream;
 - Course blade/comparison must expose provenance, freshness and unavailable/not-mapped states.
+
+
+## A18 ranking context standing rule — 2 September 2026
+
+QS/THE World University Rankings are Layer 1 publisher-authoritative **institutional context**, not regulatory identity and not Course-level quality. Preserve edition/source revision, exact-versus-banded rank semantics, methodology version, Evidence and governed Provider mapping. Historical backfill must remain access/licensing-aware. Do not silently use rankings as Search relevance or publish them to Website/Zoho without a separate admission gate.
