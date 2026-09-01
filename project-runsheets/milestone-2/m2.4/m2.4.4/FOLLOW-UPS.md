@@ -209,41 +209,42 @@ Architecture baseline:
 
 ## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
 - **Source:** M2.4.4 A26, 1 September 2026
-- **Status:** OPEN / BLOCKED ONLY BY ACTIVE INTEGRATION HEAD
-- **Problem / decision:** the accepted A23 background model exists, but production readiness requires one parent-run contract spanning the Layer 2 action, scheduler continuations, Jobs & Runs, Evidence and Dashboard progress.
-- **Impact:** without a shared run identity, operators can see inconsistent progress or unrelated job/Evidence counters and cannot reliably monitor a long-running production-scale scope.
-- **Authority/security:** preserve Layer 1 authority, A14 telemetry, A23 quota/background controls, A25 Evidence integrity and existing role boundaries.
-- **Current evidence:** Pilot `aa824aa6abe943e6beebf4aaab361f29d54678ef`; deployed bounded integration run `33416346862` active when A26 was recorded.
-- **Exact next action:** when `33416346862` is terminal, reconcile the settled Pilot/runtime head; implement stable parent-run lineage, production action message, child-job/Evidence correlation and Dashboard progress; add targeted desktop/tablet/mobile UAT; only then nominate a new integration/final acceptance candidate if required.
+- **Status:** IMPLEMENTED / FOCUSED VALIDATION ACTIVE / CHILD-LINEAGE RUNTIME PROOF PENDING
+- **Implementation:** existing qualification → scope-wave → batch → item → Job/Evidence architecture retained. Migration `20260901091000_m2_4_4_a26_parent_lineage.sql` / Pilot `8600e4da7cc9ad47c17e0a558ba463f7a6140b14` projects a stable qualification-root parent and propagates it into wave metadata, batch policy, Job payload and Evidence metadata.
+- **Current runtime:** AU state request `1bb1504d-7bad-42d9-b059-4adeaf9118c7` has parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`, status scheduled, 261 total / 261 remainder, currently 0 child batches/Jobs/Evidence.
+- **UI:** Layer 2 parent progress is implemented at `30921582ca37e107c1b3095a4d52be8f88b1aece`.
+- **Validation:** focused head `258e5c041b96abb886d1f3247d8821033d92c477`, build `33456205759`, UAT `33456205806` active.
+- **Remaining closure proof:** observe one legitimate scheduler-created production child batch/job/Evidence chain and verify identical parent ID/count reconciliation. Do not consume large Firecrawl quota merely to manufacture evidence.
 - **Owner:** M2.4.4
-- **Target:** M2.4.4 closure
+- **Target:** before final acceptance nomination
 
 ## M244-FU-018 — Administration parent route renders empty / sub-context clicks ineffective
 - **Source:** M2.4.4 A27, 1 September 2026
-- **Status:** OPEN
-- **Problem:** canonical Administration can display an empty screen and visible sub-context/menu items do not reliably work on click.
-- **Impact:** centralised configuration introduced by A20/A21 becomes unreachable or misleading; production-readiness/navigation acceptance is not satisfied.
-- **Authority/security:** preserve role/rank gating and canonical `src/mature-main.jsx` navigation authority; do not restore floating launchers or DOM-mutating legacy navigation.
-- **Exact next action:** reconcile the current Administration route/component bindings, repair default section rendering and sub-context activation, add explicit permission/loading/error states, and add deployed desktop/tablet/mobile UAT before the next integration nomination.
+- **Status:** IMPLEMENTED / FOCUSED VALIDATION ACTIVE
+- **Implementation:** `89b908731414ab438f3a9e413fc79c3d7c2fb567` makes Administration subcontext canonical URL state: `#administration` defaults Overview; `?section=<key>` restores selected section.
+- **Proof added:** `032c606f51160d4012a656da0ea1ab38a970c95d` validates direct deep link, reload, back and forward restoration with rank-aware tabs.
+- **Focused validation:** head `258e5c041b96abb886d1f3247d8821033d92c477`; UAT `33456205806` active.
 - **Owner:** M2.4.4
-- **Target:** M2.4.4 closure
+- **Target:** close on focused PASS
 
 ## M244-FU-019 — Rationalise Layer 2/3 blocker, run and Evidence summaries; remove experimental UI
 - **Source:** M2.4.4 A28, 1 September 2026
-- **Status:** OPEN
-- **Problem:** Layer 2 end-page blocker/info content may overstate expected background operations; Layer 2/3 Jobs/Runs and Evidence summaries need stronger current-status value; experimental/debug residue and minor UI defects must be swept from normal operator routes.
-- **Impact:** production-readiness suffers when normal automation looks like a blocker or when run/Evidence state is vague, duplicated or inconsistent.
-- **Authority/security:** preserve A14 telemetry, A21 canonical navigation, A23 quota/background policy, A25 Evidence integrity, A26 run lineage and A27 Administration reliability.
-- **Exact next action:** review current Layer 2/3 UI against runtime truth; reclassify blocker/info messages; improve run/Evidence summaries; remove/relocate experimental content; fix demonstrated UI defects; add targeted desktop/tablet/mobile UAT.
+- **Status:** IMPLEMENTED / FOCUSED VALIDATION ACTIVE
+- **Implementation:** Layer 2 operator summary now uses the stable parent projection and distinguishes scheduled work from false Idle; displays parent ID, progress, L2/L3/blocked, Jobs, Evidence, scheduled remainder and next scheduler action. Existing actionable-blocker and Layer 3 concise-summary hardening remains retained.
+- **Source:** `30921582ca37e107c1b3095a4d52be8f88b1aece`; assertion `5c30fcac61360f5a3faba974575a821fa8bee735`.
+- **Focused validation:** head `258e5c041b96abb886d1f3247d8821033d92c477`; UAT `33456205806` active.
 - **Owner:** M2.4.4
-- **Target:** M2.4.4 closure
+- **Target:** close on focused PASS plus A26 child-lineage reconciliation
 
 ## M244-FU-020 — Reconcile RLS-disabled table introspection versus Security Advisor
 - **Source:** M2.4.4 corrective runtime review, 1 September 2026
-- **Status:** OPEN / SECURITY REVIEW
-- **Observation:** Supabase table introspection reports 15 RLS-disabled tables, including operational `pipeline.*` tables, while the current Supabase Security Advisor reports 146 INFO / 0 WARN / 0 ERROR.
-- **Risk:** schema exposure settings and grants must be reconciled before Production; blanket RLS enablement without compatible policies could break governed RPCs or operational workers.
-- **Action:** inspect exposed Data API schemas, grants, direct browser accessibility and existing SECURITY DEFINER/INVOKER boundaries; determine which tables require RLS versus schema/grant isolation; implement only through governed security change control.
-- **Do not:** auto-enable RLS across all listed tables without tested policies.
-- **Target:** before Production cutover / final security baseline.
+- **Status:** RESOLVED / RECONCILED — 1 September 2026
+- **Finding:** all 15 observed RLS-disabled tables have no `anon` or `authenticated` table grants. `anon` and `authenticated` have no `pipeline` schema USAGE. The public UAT control table also has no anon/authenticated table grants.
+- **Operational access:** a small subset of staging/qualification tables is service-role-only where required; most inspected pipeline tables are postgres-only.
+- **Conclusion:** the tables are isolated by schema/grants and are not directly browser/Data-API reachable by anon/authenticated roles. The Security Advisor discrepancy is therefore explained; blanket RLS enablement is not required and could break governed service/RPC paths.
+- **Security rule:** re-open only if exposed schemas, direct grants or browser access boundaries change. Never blanket-enable RLS without tested policies.
+- **Advisor reconciliation:** fresh Security/Performance Advisor snapshots after the review are INFO-only; no WARN/ERROR security condition was introduced.
+- **Owner:** M2.4.4
+- **Target:** RESOLVED
+
 
