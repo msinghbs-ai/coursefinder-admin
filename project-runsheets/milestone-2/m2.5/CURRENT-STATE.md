@@ -27,7 +27,7 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
+`e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
 
 CF-054 post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced run `33492617096` / job `99807392499` FAIL due only to a malformed Playwright assertion string. The corrected clean-rerun trigger `1605d15bca7ccb46620ce5bd12ca01805a3f30f4` passed targeted Chromium desktop in workflow `33492875364`.
 
@@ -150,6 +150,25 @@ Rollback-only Sydney proof:
 - rollback restored the original queued request and 10 `layer3_required` sample rows.
 
 Current checkpoint: **227 pending dispatch / 66 pending control / 422 source-pattern queued / 0 completed / 0 interpretations**. No real model call or bulk drain has been performed.
+
+## Combined deployed browser currentness gate
+
+A non-mutating combined CF-053/CF-054 deployed browser gate is now permanent:
+
+`tests/uat/m2-5-pilot-deployment-currentness-deployed.spec.mjs`
+
+Trigger commit:
+`msinghbs-ai/Coursefinder-Pilot@e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
+
+The gate:
+- logs in using governed UAT credentials;
+- proves the deployed Layer 2 terminal card contains the CF-053 acceptance-isolation/rescheduled classification;
+- proves the deployed Layer 3 page contains the CF-054 governed Provider source-pattern queue;
+- proves a per-request **Run source-pattern interpretation** control is present;
+- proves there is no **Run all source-pattern** control;
+- does **not** click the AI execution action and therefore consumes no model call.
+
+At handback GitHub had not yet attached a workflow run/status to `e15aee26...`. Per operating instruction, check this commit first on the next Proceed and do not trigger another run unless needed.
 
 ## Production decision remains blocked
 
