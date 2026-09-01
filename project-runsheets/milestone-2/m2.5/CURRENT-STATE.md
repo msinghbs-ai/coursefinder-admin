@@ -17,6 +17,17 @@ Final M2.4.4 acceptance:
 - desktop 75 passed;
 - mobile 76 passed.
 
+## Current programme/design baseline
+
+- Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`
+- Running Build: `docs/coursefinder-running-build-v2.81.md`
+- Platform maturity design: `docs/coursefinder-platform-maturity-design-v1.0.md`
+- UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.0.md`
+- Implementation backlog: `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`
+- Platform maturity change control: `CF-CHG-20260901-050` — APPLIED / DESIGN BASELINE
+
+M2.4 remains CLOSED/PASS. PM-A1…PM-A12 are future controlled implementation items and do not reopen M2.4.
+
 ## Production inventory
 
 No Production CourseFinder Supabase project exists.
@@ -27,6 +38,16 @@ Visible Supabase organisation:
 Because Supabase project creation is billable, tooling requires explicit organisation confirmation before cost lookup and explicit cost confirmation before project creation.
 
 Production region is also not yet approved.
+
+## Pilot compute / workload sizing note
+
+The Mumbai Pilot runs under the Pro organisation and may be vertically scaled for ingestion/UAT pressure.
+
+Sizing principle:
+- benchmark Production steady-state independently from bulk ingestion;
+- Website/Zoho are expected to be read-heavy API consumers with caching;
+- use compact/versioned consumer bundles and invalidation rather than repeated full reference downloads;
+- do not size steady-state Production solely from temporary Firecrawl + UAT contention.
 
 ## Current decision
 
