@@ -1,6 +1,6 @@
 # CF-CHG-20260901-055 — M2.5 Evidence Lineage Classification & Duplicate Upload Prevention
 
-**Status:** IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Category:** 70-security-platform  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 platform maturity  
@@ -252,10 +252,10 @@ Wired into targeted/integration/acceptance by:
 Final trigger:
 `ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
 
-At handback GitHub had not yet attached a workflow run/status. Per the user’s operating instruction, do not poll in-chat; check this exact commit first on the next `Proceed`.
+Targeted Chromium desktop UAT is PASS: workflow `33495782424`, job `99817573838`, 1/1 test passed. Commit status `coursefinder/deployed-uat/targeted/chromium-desktop = success`.
 
 ## Current status decision
 
-**IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING.**
+**IMPLEMENTED / TARGETED PASS.**
 
 M25-FU-009 is no longer an undifferentiated HIGH integrity finding. Historical unresolved lineage remains open, but classified duplicates/virtual references no longer drive HIGH severity.
