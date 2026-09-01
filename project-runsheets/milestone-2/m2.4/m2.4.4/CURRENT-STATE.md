@@ -1354,3 +1354,33 @@ Decision:
 - focused FAIL → preserve immutable evidence and correct only the demonstrated remaining performance defect;
 - no unchanged rerun and no threshold weakening.
 
+## Replacement integration active after Campus performance PASS — 38203222 — 1 September 2026
+
+Focused performance proof:
+- source `f07f354d8b3842c02dde04cff31e576924fc989f`
+- build `33454525548`: PASS
+- focused performance UAT `33454525536`: PASS
+- focused log: 4/4 PASS
+
+Proven together:
+- core workspace budgets PASS including `campuses_page`;
+- exact Course lookup/detail/paging/back PASS;
+- Layer 2/Admin management performance PASS;
+- responsive-width regression PASS.
+
+Exactly one replacement bounded integration candidate is now nominated:
+- candidate `38203222a137d0aeac8aa69e64ed1b12bf874fff`
+- frontend build `33454842391` — QUEUED at handover
+- deployed integration UAT `33454842388` — QUEUED at handover
+
+This candidate revalidates A17-A28 on desktop/mobile with permanent A25, Dashboard Layer-status, Campus/Course performance, mobile navigation, Layer 4 and Firecrawl protections.
+
+Do not create another integration or final-acceptance candidate while `33454842388` is active.
+
+If integration PASS:
+- record desktop/mobile integrated PASS;
+- then perform the required runtime reconciliation for A26 stable parent lineage, A27 Administration deep-link/back-forward semantics, A28 parent-linked cross-surface summaries, and M244-FU-020 security review before final acceptance nomination.
+
+If integration FAIL:
+- preserve immutable evidence and correct only demonstrated defects; no unchanged rerun.
+
