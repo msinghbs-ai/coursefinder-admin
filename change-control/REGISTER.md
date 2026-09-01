@@ -17,7 +17,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS.
 >
-> **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. Platform maturity foundation `CF-CHG-20260901-051` and run-observability correction `CF-CHG-20260901-052` are IMPLEMENTED / TARGETED PASS. CF-053 finalizer fairness is IMPLEMENTED / RUNTIME PASS and CF-054 source-pattern operator hand-back is IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS with legacy HTTP→HTTPS same-host reconciliation; its deployed UI gate is pending while Cloudflare drift is rechecked. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
+> **M2.5:** ACTIVE / READINESS under `CF-CHG-20260901-049`. Platform foundation `CF-CHG-20260901-051` and CF-052 are IMPLEMENTED / TARGETED PASS. CF-053 is IMPLEMENTED / RUNTIME PASS and CF-054 is IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS, but their deployed UI is blocked because `coursefinder-pilot.techm.workers.dev` is still serving Admin v2.15.14 while source is v2.15.17. CF-055 Evidence-lineage classification/duplicate prevention is IMPLEMENTED / RUNTIME PASS with targeted CI pending; integrity is WARNING rather than HIGH after classified duplicates/virtual references are separated from unresolved lineage. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
 >
 > **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR. M2.4 is CLOSED/PASS.
 >
@@ -83,6 +83,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260901-052 | 40-layer2-enrichment | M2.5 Layer 2 Run Observability Correction | IMPLEMENTED / TARGETED PASS | `40-layer2-enrichment/CF-CHG-20260901-052-m2-5-layer2-run-observability-correction.md` |
 | CF-CHG-20260901-053 | 40-layer2-enrichment | M2.5 Layer 2 Qualification Finalizer Fairness & Historical Wave Classification | IMPLEMENTED / RUNTIME PASS — DEPLOYED BROWSER BLOCKED | `40-layer2-enrichment/CF-CHG-20260901-053-m2-5-layer2-qualification-finalizer-fairness.md` |
 | CF-CHG-20260901-054 | 40-layer2-enrichment | M2.5 Layer 3 Source-Pattern Operator Execution & Deterministic Layer 2 Hand-back | IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS — DEPLOYED UI PENDING | `40-layer2-enrichment/CF-CHG-20260901-054-m2-5-layer3-source-pattern-operator-execution-handback.md` |
+| CF-CHG-20260901-055 | 70-security-platform | M2.5 Evidence Lineage Classification & Duplicate Upload Prevention | IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING | `70-security-platform/CF-CHG-20260901-055-m2-5-evidence-lineage-classification-duplicate-upload-prevention.md` |
 
 ## Current programme baseline
 
