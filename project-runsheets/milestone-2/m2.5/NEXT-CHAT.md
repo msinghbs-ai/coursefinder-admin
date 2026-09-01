@@ -46,10 +46,10 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 / CF-052 / CF-053 / CF-054 implementation state
+## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 implementation state
 
 Pilot M2.5 source head at handover:
-`e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
+`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
 
 The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax correction `1605d15b...` passed targeted Chromium desktop in workflow `33492875364`. Next check the dedicated deployed browser acceptance for the v2.15.17 Provider source-pattern queue.
 
@@ -67,6 +67,7 @@ Migrations deployed:
 - `20260901091500 m2_5_layer3_source_pattern_operator_handback`
 - `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`
 - `20260901092500 m2_5_layer3_source_pattern_legacy_http_host_reconcile`
+- `20260901195000 m2_5_evidence_lineage_classification`
 
 Implemented:
 - source/capability lifecycle and Pilot/Production separation;
@@ -92,18 +93,15 @@ Post-CF-054 Advisors:
 
 ## Capacity / integrity finding
 
-Current Pilot snapshot:
-- DB ~611 MB;
-- Evidence Storage 8,623 objects / ~4.62 GB;
-- ~7.18% of 60 GiB Evidence planning envelope;
-- cumulative temp activity ~216.6 GB / ~51.1k files;
-- largest relation `search.course_documents` ~155 MB.
+CF-055 corrected Pilot integrity snapshot:
+- DB **617,819,283 bytes**;
+- Evidence Storage **9,484 objects / 4,902,002,299 bytes** at observation;
+- Evidence planning utilisation **7.61%**;
+- raw unlinked Storage objects **205** = **200 proven duplicates + 5 unresolved**;
+- raw Evidence missing-path rows **18** = **16 virtual/external URI references + 2 real legacy missing bucket paths**;
+- severity **WARNING** with integrity input **5**.
 
-HIGH state is Evidence lineage integrity:
-- 205 Storage objects have no current Evidence artifact-path match;
-- 18 regulatory Evidence artifact rows have no current Storage object.
-
-Do not delete either side. Classify the lineage first.
+Do not delete historical objects/rows. Forward duplicate prevention is deployed; 5 unresolved objects + 2 Canadian legacy paths remain remediation work.
 
 Backup/PITR is intentionally `platform_api_required` in the SQL snapshot until platform metadata is reconciled.
 
@@ -162,21 +160,31 @@ Legacy HTTP-origin Evidence/source URLs are reconciled by hostname only: candida
 
 CF-054 deployed UI acceptance remains blocked until the external Cloudflare Pilot deployment is reconciled.
 
-## Immediate next check — combined Cloudflare/currentness browser UAT
+## Cloudflare/currentness browser result
 
-Permanent non-mutating test:
+Combined non-mutating test:
 `tests/uat/m2-5-pilot-deployment-currentness-deployed.spec.mjs`.
 
+Run `33493637581` / job `99810738327` = **FAIL**.
+
+UAT evidence proves:
+- deployed Worker Admin version: **v2.15.14**;
+- repository source version: **v2.15.17**;
+- CF-053 Layer 2 classification element is absent;
+- test stopped before reaching the CF-054 queue;
+- no AI action was executed.
+
+Treat FU-015 as an external Cloudflare Git deployment blocker. Do not rerun until the Worker is actually publishing current `main`; do not weaken the browser contract.
+
+## Immediate next check — CF-055 targeted source/runtime UAT
+
+Permanent test:
+`tests/uat/m2-5-evidence-lineage-contract.spec.mjs`.
+
 Trigger:
-`e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
+`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
 
-It checks both:
-- CF-053 Layer 2 acceptance-isolation/rescheduled terminal classification;
-- CF-054 Layer 3 governed Provider source-pattern queue and single-request action.
-
-It does not execute AI.
-
-At handback no GitHub run/status had yet been attached. On the next Proceed, check `e15aee26...` first. If PASS, the prior Cloudflare drift is reconciled at the required UI level. If FAIL for missing UI elements, retain FU-015 and address the external Cloudflare Git deployment rather than weakening the test.
+At handback no GitHub status/run ID had yet been attached. Check this commit first on the next Proceed.
 
 ## CI gate
 
