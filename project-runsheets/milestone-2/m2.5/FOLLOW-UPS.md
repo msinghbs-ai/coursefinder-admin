@@ -20,3 +20,19 @@
 | M25-FU-015 | Pilot Cloudflare external Git deployment drift | User UAT screenshot on 1 Sep proves Worker deployment recovered to **v2.15.19**, replacing the earlier v2.15.14 stale state. Source is now **v2.15.20** under CF-060 | Recheck currentness after v2.15.20 publishes, then rerun deferred CF-053/054/058 browser acceptance unchanged | RECOVERED / CURRENTNESS RECHECK PENDING |
 | M25-FU-016 | Layer 3 source-pattern operator execution | CF-054 backend/Edge/manual queue implemented; rollback/source contract `33492875364` PASS | Worker deployment has recovered to v2.15.19; rerun deployed UI acceptance only after CF-060 v2.15.20 currentness is confirmed. No real model canary without separate authorisation | IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS / DEPLOYED UI RECHECK PENDING |
 | M25-FU-017 | Jobs workspace returns 0 records despite active pipeline Jobs | CF-060 found obsolete route suppression in `adminRead` after the Pipeline Ops overlay was removed; live DB had 3,964 Jobs | Check source/build runs `33511601936` and `33511602057`; after PASS trigger deployed Jobs UAT and confirm non-zero server total | IMPLEMENTED / SOURCE CI PENDING / DEPLOYED UAT PENDING |
+
+
+## A17 Career Skills / Labour-Market follow-ups — 1 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-018 | A17 reference schema | No canonical occupation/skill relationship model yet | Implement occupations, versioned codes/concordances, skills and relationship tables with RLS/grants | OPEN |
+| M25-FU-019 | AU OSCA reference ingestion | AU occupation identity/versioning not yet loaded | Qualify ABS OSCA + correspondence downloads and OSCA 2027 change path | OPEN |
+| M25-FU-020 | AU JSA market adapter | Market context not yet available | Qualify JSA profiles + monthly IVI; retain native ANZSCO period/geography while transition continues | OPEN |
+| M25-FU-021 | NZ NOL/Tahatū adapter | NZ occupation/pathway context not yet available | Qualify Stats NZ NOL + Tahatū API/source terms and bounded Pilot adapter | OPEN |
+| M25-FU-022 | Course learning-outcome Evidence | Course-acquired skills cannot be proven without first-party evidence | Extend L2 Course enrichment for learning outcomes, graduate attributes, career statements and accreditation | OPEN |
+| M25-FU-023 | Layer 3 skill/occupation mapping | No governed candidate-generation task yet | Build benchmarked normalisation/mapping with negative controls against manufactured skills/jobs | OPEN |
+| M25-FU-024 | Layer 4 mapping review | Consequential mappings need human resolution | Add accept/reject/adjust/note/review-date workflow with immutable source lineage | OPEN |
+| M25-FU-025 | Career & Skills UX | Course blade/compare do not expose new model yet | Implement responsive Course blade + compare group with provenance/freshness/unavailable states | OPEN |
+| M25-FU-026 | Registration/migration overlays | Policy/licensing can be confused with job outcomes | Implement separate time-scoped overlays, disclaimers and stale-state handling | OPEN |
+| M25-FU-027 | A17 acceptance/publication gate | Consumer publication is not authorised | Run bounded AU+NZ schema/source/AI/browser/security/performance UAT and separately approve publication | OPEN |
