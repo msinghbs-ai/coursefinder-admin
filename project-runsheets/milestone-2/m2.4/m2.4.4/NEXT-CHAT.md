@@ -1215,3 +1215,26 @@ If replacement final acceptance FAIL:
 - preserve immutable evidence;
 - fix only demonstrated defect;
 - no unchanged rerun.
+
+## M2.4.4 CLOSED / PASS handover — 1 September 2026
+
+M2.4.4 and `CF-CHG-20260830-048` are CLOSED/PASS.
+
+Accepted evidence:
+- Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`;
+- build `33468512538` PASS;
+- final acceptance `33468512515` PASS;
+- desktop 75 passed;
+- mobile 76 passed;
+- both acceptance status contexts success;
+- Security 146 INFO / 0 WARN / 0 ERROR;
+- Performance 172 INFO / 0 WARN / 0 ERROR.
+
+Layer 2 parent `c65e67a6...` has 219/261 complete and 42 scheduled remainder under the governed scheduler. This is background work, not an M2.4.4 blocker.
+
+Next chat must:
+1. read Master Plan v1.79 and Running Build v2.79;
+2. read closed `CF-CHG-20260830-048` and Standing Instructions;
+3. assess the next authorised milestone from repository/runtime truth;
+4. not reopen M2.4.2, M2.4.3 or M2.4.4 merely because scheduled/background/deferred work remains;
+5. preserve Production, Publication, Website/Zoho cutover, RMIT promotion and NZ L2 expansion boundaries unless separately authorised.
