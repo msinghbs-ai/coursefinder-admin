@@ -209,7 +209,7 @@ Architecture baseline:
 
 ## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
 - **Source:** M2.4.4 A26, 1 September 2026
-- **Status:** COMPLETE / REPLACEMENT FINAL ACCEPTANCE ACTIVE
+- **Status:** COMPLETE / CLOSED WITH M2.4.4
 - **Runtime proof:** stable parent/wave, Firecrawl Job/Evidence lineage, timeout-safe continuation/recovery and heartbeat all proven.
 - **Current production state at nomination:** 219/261 completed, 42 scheduled remainder, failed 0, no active batch/provider attempt.
 - **Latest completed production batch history:** `bc25dfed...` stopped at governed acceptance boundary after 154/196 completion; 42 unfinished items rescheduled, completed Evidence retained.
@@ -220,7 +220,7 @@ Architecture baseline:
 
 ## M244-FU-018 — Administration parent route renders empty / sub-context clicks ineffective
 - **Source:** M2.4.4 A27, 1 September 2026
-- **Status:** COMPLETE / FINAL ACCEPTANCE ACTIVE
+- **Status:** COMPLETE / CLOSED WITH M2.4.4
 - **Implementation:** canonical `#administration?section=<key>` route state.
 - **Proof:** direct link, refresh, back and forward restoration; focused UAT `33456205806` PASS and final closure UAT `33459679417` PASS.
 - **Final acceptance:** `33460038608` active.
@@ -229,7 +229,7 @@ Architecture baseline:
 
 ## M244-FU-019 — Rationalise Layer 2/3 blocker, run and Evidence summaries; remove experimental UI
 - **Source:** M2.4.4 A28, 1 September 2026
-- **Status:** COMPLETE / FINAL ACCEPTANCE ACTIVE
+- **Status:** COMPLETE / CLOSED WITH M2.4.4
 - **Implementation:** parent-linked Layer 2 progress, scheduled-vs-idle correction, Jobs/Evidence actions, concise blocker semantics, exact parent counts, cancelled corrective history and heartbeat visibility.
 - **Proof:** focused UAT `33456205806` PASS and final closure UAT `33459679417` PASS.
 - **Final acceptance:** `33460038608` active.
@@ -247,4 +247,7 @@ Architecture baseline:
 - **Owner:** M2.4.4
 - **Target:** RESOLVED
 
-
+## M2.4.4 follow-up closure note
+- M244-FU-017, -018 and -019 are CLOSED/PASS by replacement final acceptance `33468512515`.
+- M244-FU-020 remains RESOLVED/RECONCILED.
+- The 42-Course Layer 2 remainder is governed scheduled background work, not a closure blocker.
