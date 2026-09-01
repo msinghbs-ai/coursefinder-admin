@@ -9,3 +9,4 @@
 | M25-FU-005 | Backup/restore/DR not yet proven | Production recovery gate open | Perform controlled backup + restore rehearsal before final acceptance | OPEN |
 | M25-FU-006 | 42-Course Pilot Layer 2 scheduled remainder | Background Pilot work exists | Let governed Pilot scheduler continue independently; do not treat as Production seed truth or M2.5 blocker | OPEN / NON-BLOCKING |
 | M25-FU-007 | Zoho Pilot CF-CHG-045 remains ACTIVE/PARTIAL | Parallel integration must not be mistaken for Production cutover | Keep M3 Zoho Pilot separate; no Production Zoho secrets/cutover in M2.5 | OPEN / PARALLEL |
+| M25-FU-008 | Platform maturity design backlog | Future enhancements need controlled allocation, not M2.4 reopening | Use CF-CHG-20260901-050 / PM-A1…PM-A12; implement only in owning M2.5/M3/M4/future gate | OPEN / DESIGN BASELINE |
