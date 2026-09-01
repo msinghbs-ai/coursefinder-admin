@@ -124,3 +124,17 @@ Required presentation:
 - the authority note remains visible in the contextual workspace.
 
 The wider Course detail treatment applies only to Course detail. Other Admin drawers retain their existing width unless separately governed.
+
+
+## A12.7 — Provider and Course comparison workspace
+
+Where governed comparison context exists, the Admin may provide a dedicated comparison workspace using up to six selected Providers or Courses.
+
+- Provider comparison aligns only like-for-like QILT/country-equivalent metrics and retains survey period, study level/study area, confidence interval, response count and benchmark when supplied.
+- Course comparison keeps direct Course facts separate from contextual outcomes/student-flow signals.
+- QILT/country-equivalent values shown for a Course must be labelled with their true Provider/study-area/study-level grain unless directly Course-linked.
+- PRISMS/country-equivalent student-flow values retain Provider/geography/sector/cohort grain and are not promoted to Course facts.
+- Mismatched periods, levels, study areas or metric definitions must be visibly classified rather than silently aligned.
+- Comparison reads should be bounded and preferably retrieved through one governed server projection per comparison set rather than N independent client reads.
+- Responsive behaviour must support desktop matrix comparison and tablet/mobile use without requiring the raw standalone insight tables.
+- Visual styling may take interaction inspiration from public comparison products, but CourseFinder must retain its own design system and must not copy third-party brand assets, text, CSS or illustrations.
