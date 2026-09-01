@@ -89,7 +89,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260901-058 | 30-admin-pim-ux | M2.5 Platform Maturity Administration Surface | IMPLEMENTED / SOURCE+BUILD TARGETED PASS — DEPLOYED UI BLOCKED BY FU-015 | `30-admin-pim-ux/CF-CHG-20260901-058-m2-5-platform-maturity-administration-surface.md` |
 | CF-CHG-20260901-059 | 70-security-platform | M2.5 Evidence Lineage Reconciliation & Provider-Contact Claim Hardening | IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING | `70-security-platform/CF-CHG-20260901-059-m2-5-evidence-lineage-reconciliation-contact-claim-hardening.md` |
 | CF-CHG-20260901-060 | 30-admin-pim-ux | M2.5 Jobs Workspace Read-Path Restoration | IMPLEMENTED / SOURCE CI PENDING — DEPLOYED UAT PENDING | `30-admin-pim-ux/CF-CHG-20260901-060-m2-5-jobs-workspace-read-path-restoration.md` |
-| CF-CHG-20260901-061 | 30-admin-pim-ux | QILT / PRISMS Provider & Course Comparison Experience | IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD TARGETED PASS — DEPLOYED UAT PENDING | `30-admin-pim-ux/CF-CHG-20260901-061-qilt-prisms-provider-course-comparison-experience.md` |
+| CF-CHG-20260901-061 | 30-admin-pim-ux | QILT / PRISMS Provider & Course Comparison Experience | IMPLEMENTED / TARGETED PASS | `30-admin-pim-ux/CF-CHG-20260901-061-qilt-prisms-provider-course-comparison-experience.md` |
 | CF-CHG-20260901-062 | 10-architecture-data-model | Course Skills, Career Pathways & Labour-Market Intelligence | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `10-architecture-data-model/CF-CHG-20260901-062-course-skills-career-labour-market-intelligence.md` |
 
 ## Current programme baseline
