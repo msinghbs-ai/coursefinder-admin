@@ -150,3 +150,27 @@ Provider-level Search/quarantine blocks inherit to child entities. Layer 1 regul
 
 Permanent targeted contract:
 `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs`.
+
+
+### M2.5 CF-058 — Platform maturity Administration surface
+
+CF-058 replaces the canonical Administration → Platform legacy surface in repository source with a responsive M2.5 Platform workspace.
+
+Pilot server migration:
+\`20260901220500_m2_5_platform_maturity_admin_read_surface.sql\`
+(commit \`ded6ff03156126aa66e5d1ca2914e2e62e337a77\`).
+
+Source version is **PIM Admin v2.15.18**. The workspace exposes governed readiness, capacity/integrity, environment gates, UAT catalogue, performance/workload profiles, retention dry-run/classes and CF-057 block controls. It does not expose Production enablement, PITR purchase, destructive purge or consumer cutover.
+
+Latest sampled Pilot telemetry:
+- DB 632,933,523 bytes;
+- Evidence 10,546 objects / 5,224,808,213 bytes;
+- 8.11% of governed 60 GiB Evidence planning envelope;
+- integrity WARNING: 200 proven duplicates, 5 unresolved objects, 2 missing Storage paths and 16 virtual/external references.
+
+Post-DDL advisors remain Security 146 INFO / 0 WARN / 0 ERROR and Performance 171 INFO / 0 WARN / 0 ERROR.
+
+Permanent source/build contract:
+\`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\`.
+
+Deployed UI acceptance is not claimed because FU-015 still proves Cloudflare Worker deployment drift.
