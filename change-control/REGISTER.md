@@ -90,6 +90,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260901-059 | 70-security-platform | M2.5 Evidence Lineage Reconciliation & Provider-Contact Claim Hardening | IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING | `70-security-platform/CF-CHG-20260901-059-m2-5-evidence-lineage-reconciliation-contact-claim-hardening.md` |
 | CF-CHG-20260901-060 | 30-admin-pim-ux | M2.5 Jobs Workspace Read-Path Restoration | IMPLEMENTED / SOURCE CI PENDING — DEPLOYED UAT PENDING | `30-admin-pim-ux/CF-CHG-20260901-060-m2-5-jobs-workspace-read-path-restoration.md` |
 | CF-CHG-20260901-061 | 30-admin-pim-ux | QILT / PRISMS Provider & Course Comparison Experience | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `30-admin-pim-ux/CF-CHG-20260901-061-qilt-prisms-provider-course-comparison-experience.md` |
+| CF-CHG-20260901-062 | 10-architecture-data-model | Course Skills, Career Pathways & Labour-Market Intelligence | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `10-architecture-data-model/CF-CHG-20260901-062-course-skills-career-labour-market-intelligence.md` |
 
 ## Current programme baseline
 
@@ -105,7 +106,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.25.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.4.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A16;
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + execution addenda A1–A17;
 - M2.4 plan: M2.4.0–M2.4.4 CLOSED/PASS; M2.5 ACTIVE/READINESS under `CF-CHG-20260901-049`.
 
 ## Accepted runtime/source authority
