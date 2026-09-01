@@ -1,6 +1,6 @@
 # CF-CHG-20260901-061 — QILT / PRISMS Provider & Course Comparison Experience
 
-**Status:** DESIGN ACCEPTED / IMPLEMENTATION PENDING  
+**Status:** IMPLEMENTED / PILOT RUNTIME PASS — SOURCE CI PENDING — DEPLOYED UAT PENDING  
 **Initiated:** 1 September 2026 23:13 AEST  
 **Primary category:** 30-admin-pim-ux  
 **Origin:** CourseFinder project chat — user supplied ComparED provider/detail/comparison mobile references.
@@ -96,3 +96,54 @@ Targeted acceptance must cover:
 ## Rollback
 
 Frontend comparison components can be reverted independently. New read projections/RPC wrappers, if required, must be independently reversible and read-only. No imported QILT/PRISMS source rows are to be deleted or rewritten for rollback.
+
+
+## Implementation — 1 September 2026
+
+Pilot implementation is now present on `msinghbs-ai/Coursefinder-Pilot`.
+
+Frontend:
+- `src/ComparisonWorkspace.jsx` — bounded Provider/Course comparison workspace, maximum six selected entities;
+- `src/mature-main.jsx` — Compare route, Catalogue entry action and Provider/Course detail action;
+- `src/ContextualInsights.jsx` — QILT confidence interval, response-count and national-benchmark presentation;
+- Admin source/release version **v2.15.21**.
+
+Pilot database:
+- `20260901133212_cf_061_contextual_compare_qilt_prisms.sql`;
+- `20260901134059_cf_061_contextual_compare_provider_city_fix.sql`;
+- `20260901134137_cf_061_contextual_insights_study_area_code_fix.sql`.
+
+Read contract:
+- `security.admin_contextual_insights_v2(text,uuid)`;
+- `security.admin_contextual_compare(jsonb)`;
+- browser route remains `public.admin_read('contextual_compare', ...)`;
+- direct private helper execution remains unavailable to `anon` / `authenticated`;
+- authenticated Catalogue Reader+ is required;
+- comparison is rejected above six entities.
+
+Two schema-name defects were found during live Pilot verification immediately after initial APPLY (`providers.city` and `external_study_areas.code`). Both were corrected through additive follow-up migrations rather than rewriting migration history.
+
+## Runtime verification
+
+Rollback-only / read-only Pilot verification proves:
+- three selected Providers return in caller-requested order;
+- QILT metric payload contains stored confidence interval / response-count fields when the source supplied them;
+- two selected Courses return successfully;
+- Course outcome grain remains `provider_context`;
+- PRISMS context remains at its governed returned grain and is not converted to a Course outcome;
+- a seven-entity request is rejected with `maximum six comparison entities`;
+- a request without authenticated JWT context is rejected with `authentication required`;
+- no canonical, Search, Publication or Zoho mutation was introduced.
+
+Post-DDL advisors:
+- Security: **147 INFO / 0 WARN / 0 ERROR**;
+- Performance: **175 INFO / 0 WARN / 0 ERROR**.
+
+Permanent source/build contract:
+`tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
+
+Workflow routing is included in `.github/workflows/deployed-uat.yml`. At this checkpoint no commit status has yet been attached to trigger `b423af67af6917ae3407e3f5137dcd403d0da225`; therefore source/build CI is **PENDING**, not PASS.
+
+## Remaining acceptance
+
+Do not call the browser experience deployed until the external Cloudflare Pilot Worker serves v2.15.21 and the targeted deployed comparison/browser checks pass. This remains aligned with M25-FU-015 deployment-currentness governance.
