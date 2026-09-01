@@ -1,6 +1,6 @@
 # Execution Addendum A21 — Permanent Layer Navigation, Non-floating Workspaces & Final Pilot UI Placement
 
-**Status:** ACTIVE — M2.4.4 ADDENDUM  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 31 August 2026  
 **Change Control:** `CF-CHG-20260830-048`
 
@@ -117,3 +117,8 @@ Standing rule:
 - feature-specific DOM label mutators must not be loaded globally.
 
 The Layer 2 regression where `.l2o-shell` remained `position: fixed; inset: 0; z-index: 2200` after canonical embedding is explicitly prohibited.
+
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
