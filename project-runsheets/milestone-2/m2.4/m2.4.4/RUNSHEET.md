@@ -1,6 +1,6 @@
 # M2.4.4 RUNSHEET — Cross-layer Operations, Housekeeping, Scheduling & Pre-blackout Acceptance
 
-**Status:** ACTIVE  
+**Status:** CLOSED / PASS  
 **Change Control:** `CF-CHG-20260830-048`  
 **Started:** 30 August 2026
 
@@ -589,4 +589,48 @@ M2.4.4 now additionally owns active Addendum A28.
 - preserve A14/A21/A23/A25/A26/A27 authority and UX contracts.
 
 A28 must be included in the same corrective cycle as A26/A27 before the next bounded integration nomination.
+
+## Final authoritative closure — 1 September 2026
+
+
+**Status:** CLOSED / PASS  
+**Accepted Pilot:** `95f2991e97e76e644bd74f73512b8bf2725fd4b7`  
+**Frontend build:** `33468512538` — PASS  
+**Final acceptance:** `33468512515` — PASS  
+- chromium-desktop: **75 passed**
+- chromium-mobile: **76 passed**
+- both acceptance status contexts: **success**
+
+Final runtime reconciliation:
+- Layer 2 parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- scope wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- 261 queueable production Courses;
+- 219 completed/dispatched;
+- 0 failed;
+- 42 scheduled remainder;
+- no active production batch/provider attempt at closure;
+- route remains `scraper_first`;
+- parent/job/Evidence lineage, timeout-safe recovery, heartbeat and scheduler semantics proven;
+- completed/cancelled corrective history retained immutable.
+
+Final advisor snapshot:
+- Security Advisor: **146 INFO / 0 WARN / 0 ERROR**;
+- Performance Advisor: **172 INFO / 0 WARN / 0 ERROR**.
+
+Closure includes A16–A28 accepted M2.4.4 scope, including:
+- international-contact disposition and Layer 4 governed intervention;
+- scholarship ETL/decision support;
+- canonical four-Layer navigation and central Administration;
+- responsive detail blades;
+- quota-aware Firecrawl-first Layer 2 production;
+- unified Layer headers;
+- type-aware Evidence previews and screenshot lineage;
+- A26 stable parent run/job/Evidence/Dashboard lineage;
+- A27 Administration deep-link/refresh/back-forward reliability;
+- A28 production operator summaries and experimental-UI hardening;
+- M244-FU-020 security reconciliation.
+
+Historical failed candidates and corrective runs remain immutable evidence, including final candidate `41428941a1bae18f6e53ac37f81ae54ef5704b1a` / UAT `33460038608`.
+
+No Production cutover, broad Publication, Website cutover, Zoho production cutover, RMIT frozen canonical promotion or deferred NZ first-party Layer 2 enrichment is authorised by this closure.
 
