@@ -1575,3 +1575,60 @@ Decision:
 - final focused PASS/PASS → inspect logs once, reconcile runtime/advisors once, then nominate exactly one final acceptance candidate;
 - FAIL → preserve immutable evidence and correct only the demonstrated defect;
 - do not create final acceptance while `33457383894` is active.
+
+## Timeout-safe Firecrawl continuation closure active — ccb5db22 — 1 September 2026
+
+Final focused run `419bcc5988f8c9b9fd6fef5776e87c7faf6b1d4b` produced:
+- build `33457383942`: PASS;
+- focused UAT `33457383894`: immutable FAIL;
+- 20 tests PASS;
+- sole UAT failure was an invalid source assertion that searched the migration file for absence of the old `partial` predicate even though that predicate is intentionally stored in `v_old` for replacement. Runtime behaviour was not regressed by this failure.
+
+The assertion was corrected at `a621dabc2bcd52dfe47a39b800ff10228f529ff4`.
+
+Before final acceptance nomination, live production monitoring exposed a separate genuine A26 runtime defect:
+- `layer2-batch-runner` v7 processed up to 10 sequential Firecrawl items per invocation;
+- one invocation hit HTTP 504 after ~150,103 ms;
+- batch `accd42a2-f096-452b-a084-dc609bd45030` stopped continuing;
+- item `60322b65-f0a1-476b-8c5c-5685c90083d0` remained `acquiring`;
+- its Firecrawl Job `81a09da3-3a9d-4a61-bf32-99810c9a356a` had actually succeeded, so blind requeue would have consumed a duplicate paid scrape.
+
+Corrections:
+- `20260901105500_m2_4_4_a26_stale_item_recovery.sql` / `0fcfce64a83398f4f94c02aa855f64ae0f3cd6ad`: service-only stale acquisition recovery prefers an already-succeeded matching provider Job and only requeues when no reusable success exists;
+- `20260901110000_m2_4_4_a26_resume_context.sql` / `9a718029ec483feded35b49a230706ac6a64d1cb`: service-only resume context exposes only the Job/attempt/Evidence fields required to resume extraction;
+- runner commit `8c9d8591881cb96c5c2e150e2f15a22052871e22`, deployed `layer2-batch-runner` **v8**;
+- `scraper_first` invocation chunk capped to 2 items;
+- stale recovery executes before batch context;
+- recovered `extracting` items are processed before queued items and resume from the attached acquisition attempt instead of rescraping;
+- existing custom authentication / `verify_jwt=false` contract retained.
+
+Live v8 recovery proof:
+- stale item `60322b65-f0a1-476b-8c5c-5685c90083d0` attached original Firecrawl Job `81a09da3-3a9d-4a61-bf32-99810c9a356a`;
+- no duplicate acquisition was issued for that item;
+- item completed `layer3_required` at ~01:39:47 UTC;
+- batch reconciled from 5 to 7 processed, then to 9 processed;
+- blocked remains 0;
+- batch heartbeat advanced to ~01:41:07 UTC;
+- subsequent acquisitions continue with provider `firecrawl`.
+
+Permanent source regression coverage extended at `454058ffcc5d3c2a6ec795991fbf3237c5a0f0fb` for:
+- selected-provider Firecrawl handoff;
+- terminal partial non-blocking semantics;
+- stale recovery;
+- lossless resume context;
+- `scraper_first` chunk cap;
+- child heartbeat.
+
+Fresh replacement focused closure marker:
+- `ccb5db220e7e34ab0f0f16cf04228f78b45f6ad9`.
+
+Active exact-head runs:
+- frontend build `33459679420` — IN PROGRESS at handover;
+- focused deployed UAT `33459679417` — PENDING at handover.
+
+The intermediate focused runs on `bc26b445...` are superseded by the later runtime correction and must not be used for final acceptance.
+
+Decision:
+- PASS/PASS on `33459679420` + `33459679417` → inspect once, reconcile Advisors/runtime once, then nominate exactly one final acceptance candidate;
+- FAIL → preserve immutable evidence and correct only demonstrated defect;
+- no final acceptance while this focused gate is active.
