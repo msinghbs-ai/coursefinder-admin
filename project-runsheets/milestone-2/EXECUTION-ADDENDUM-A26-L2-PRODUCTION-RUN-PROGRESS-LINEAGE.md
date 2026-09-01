@@ -1,6 +1,6 @@
 # M2 Execution Addendum A26 — Layer 2 Production Run, Job, Evidence & Progress Lineage
 
-**Status:** ACTIVE / REQUIRED FOR M2.4.4 CLOSURE  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 1 September 2026  
 **Primary Change Control:** `CF-CHG-20260830-048`  
 **Applies to:** Layer 2 operator execution, Jobs & Runs, Evidence, Dashboard/operations scorecards, scheduling and production-readiness acceptance.
@@ -150,3 +150,7 @@ A26 does not authorise:
 - autonomous Layer 3 AI execution beyond existing governed policy;
 - deletion or rewriting of historical runs/jobs/Evidence.
 
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
