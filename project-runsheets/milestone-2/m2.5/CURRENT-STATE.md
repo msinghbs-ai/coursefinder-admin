@@ -9,6 +9,7 @@
 **Evidence-lineage corrective Change Control:** `CF-CHG-20260901-055`
 **Backup/PITR reconciliation Change Control:** `CF-CHG-20260901-056`
 **Universal block-enforcement Change Control:** `CF-CHG-20260901-057`
+**Platform Administration Change Control:** `CF-CHG-20260901-058`
 
 ## Accepted entry baseline
 
@@ -34,9 +35,9 @@ Current M2.5 Pilot source head at this checkpoint:
 
 CF-054 post-HTTP-reconcile trigger `dbd7bdde61e28fa49170875786066d7015ccd77d` produced run `33492617096` / job `99807392499` FAIL due only to a malformed Playwright assertion string. The corrected clean-rerun trigger `1605d15bca7ccb46620ce5bd12ca01805a3f30f4` passed targeted Chromium desktop in workflow `33492875364`.
 
-Admin source UI version: **v2.15.17**.
+Admin source UI version: **v2.15.18**.
 
-Important deployment distinction: combined deployed-currentness run `33493637581` / job `99810738327` proved the external Cloudflare Worker is serving **PIM Admin v2.15.14** while repository source is **v2.15.17**. CF-053/CF-054 deployed browser acceptance remains blocked by external Cloudflare Git deployment drift; do not weaken the tests.
+Important deployment distinction: combined deployed-currentness run `33493637581` / job `99810738327` proved the external Cloudflare Worker is serving **PIM Admin v2.15.14** while repository source is now **v2.15.18**. CF-053/CF-054 deployed browser acceptance remains blocked by external Cloudflare Git deployment drift; do not weaken the tests.
 
 Deployed M2.5 migrations:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`;
@@ -220,6 +221,29 @@ Post-CF-057 advisors:
 - Performance 171 INFO / **0 WARN / 0 ERROR**.
 
 Permanent contract `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs` passed targeted Chromium desktop: workflow `33503165142`, job `99840959713`, 1/1 PASS. CF-057 is **IMPLEMENTED / TARGETED PASS**.
+
+## CF-058 Platform maturity Administration surface
+
+Server migration \`20260901220500_m2_5_platform_maturity_admin_read_surface\` is deployed.
+
+Canonical Administration source is now **v2.15.18** and its Platform tab uses \`PlatformMaturity\` instead of the legacy Regulatory Settings component. The workspace consolidates:
+- M2.5 readiness and Production-boundary state;
+- capacity/Evidence integrity telemetry;
+- source/scraper/AI environment gates;
+- UAT catalogue;
+- workload profiles;
+- retention dry-run/classes;
+- CF-057 Layer 4 block state and rank-5 block/unblock controls.
+
+Current sampled Pilot capacity is ~632.9 MB DB and ~5.22 GB Evidence / 10,546 objects, with **8.11%** of the governed 60 GiB Evidence planning envelope. Integrity remains **WARNING**: 205 raw unlinked objects = 200 proven duplicates + 5 unresolved; 2 Evidence paths are genuinely missing and 16 are virtual/external references.
+
+No Production enable, PITR purchase/enable, destructive purge or broad Publication action is introduced by CF-058.
+
+Post-migration:
+- Security 146 INFO / **0 WARN / 0 ERROR**;
+- Performance 171 INFO / **0 WARN / 0 ERROR**.
+
+Permanent source/build contract \`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\` is wired. Source/build targeted CI is pending. Deployed browser acceptance remains BLOCKED by FU-015 because Cloudflare still serves v2.15.14.
 
 ## Production decision remains blocked
 
