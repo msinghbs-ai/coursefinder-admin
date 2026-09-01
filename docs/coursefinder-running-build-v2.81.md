@@ -94,6 +94,38 @@ Future controlled backlog:
 
 See `docs/coursefinder-platform-maturity-design-v1.0.md`.
 
+## M2.5 Pilot corrective state
+
+Layer 2 run observability is corrected under `CF-CHG-20260901-052` without reopening M2.4.
+
+Current Pilot source head at this checkpoint:
+`9fa8f590c8370bf600f1495794f9205fabbdf8a7`.
+
+Admin UI version:
+**v2.15.15**.
+
+Deployed correction:
+- `20260901062200 m2_5_layer2_run_observability_correction`;
+- terminal production parents retain child Jobs/Evidence after wave items become completed/failed;
+- acquisition attempts and managed runs display timestamps;
+- active work is separated from latest terminal production history;
+- qualification retry-window no-op checks return `qualification_waiting`;
+- post-action operator refresh errors are visible.
+
+VIC proof:
+- historical request `1bb1504d-7bad-42d9-b059-4adeaf9118c7`: 261 total / 42 completed / 219 failed;
+- retained lineage: 261 Jobs / 783 Evidence artifacts;
+- bounded check `c876a8fb-5f03-4433-85ab-5af7e96cee63`: zero eligible Providers, zero new production wave requests, zero new Course Jobs.
+
+CF-052 targeted deployed UAT:
+- run `33477539721`;
+- job `99760830965`;
+- Chromium desktop: **2 passed / 0 failed**.
+
+Post-change advisors remain:
+- Security 146 INFO / 0 WARN / 0 ERROR;
+- Performance 174 INFO / 0 WARN / 0 ERROR.
+
 ## Next
 
 Obtain explicit organisation + Production region confirmation, then obtain and confirm Supabase project cost before provisioning the Production project.
