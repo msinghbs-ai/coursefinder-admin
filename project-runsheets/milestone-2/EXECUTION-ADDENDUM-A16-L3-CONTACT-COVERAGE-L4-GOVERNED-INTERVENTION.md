@@ -1,6 +1,6 @@
 # Execution Addendum A16 — Layer 3 International Contact Coverage & Layer 4 Governed Human Intervention
 
-**Status:** ACTIVE — M2.4.4 ADDENDUM  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 30 August 2026  
 **Change Control:** `CF-CHG-20260830-048`
 
@@ -136,3 +136,8 @@ A16 is not complete until:
 9. targeted validation → bounded integration → final desktop/mobile acceptance passes.
 
 Any M2.4.4 acceptance run nominated before this addendum remains immutable evidence but cannot alone close the expanded M2.4.4 scope.
+
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
