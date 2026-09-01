@@ -43,7 +43,7 @@
 
 | ID | Item | Impact | Next action | Status |
 |---|---|---|---|---|
-| M25-FU-029 | QS/THE ranking schema migration | Ranking domain is design-only | Implement private ranking tables, indexes, RLS/grants, Evidence links and secured read projections from DB architecture v2.10.46 | OPEN |
+| M25-FU-029 | QS/THE ranking schema migration | Private ranking domain and secured read projections are now live in Pilot | Retain applied migrations as baseline; only extend through additive governed migrations | COMPLETE / TARGETED DB PASS |
 | M25-FU-030 | QS 2026/2027 source qualification | Current QS editions not yet ingested | Qualify official current/year pages and authorised Excel artifact path; record terms/access and fingerprints | OPEN |
 | M25-FU-031 | THE 2026 source qualification | Current THE edition not yet ingested | Qualify official 2026 table and methodology; record terms/access and source fingerprint | OPEN |
 | M25-FU-032 | Ranking historical backfill | No longitudinal Provider ranking series yet | Backfill 2025/2024 first, then extend towards 5–10 years where official publisher sources remain accessible/authorised | OPEN |
@@ -58,8 +58,8 @@
 |---|---|---|---|---|
 | M25-FU-036 | Statistics & Rankings workspace | QILT/PRISMS/rankings are fragmented | Implement unified coverage/year/observation/source workspace and dataset drill-downs | ACTIVE / CF-064 |
 | M25-FU-037 | Compare dataset/year controls | Existing Compare assumes QILT/PRISMS and hides route | Promote Compare to primary navigation; add dataset toggles and aligned period/edition selection | ACTIVE / CF-064 |
-| M25-FU-038 | Manual ranking publisher file upload | Historical paywall/access can block automation | Add privileged private-Evidence upload registration, validation/preview/reconcile/apply states and duplicate hash checks | DESIGN ACCEPTED / BACKEND PENDING |
+| M25-FU-038 | Manual ranking publisher file upload | Historical paywall/access can block automation | Upload/register + private Evidence + duplicate hashing are implemented; add parser preview/reconcile/apply workflow | PARTIAL / UPLOAD REGISTRATION IMPLEMENTED |
 | M25-FU-039 | Provider/Course statistics deep-links | Blades can become overloaded without hierarchy | Add concise summaries plus View Statistics / Add to Compare | OPEN |
-| M25-FU-040 | Navigation/Admin reorganisation | Current menu separates QILT/PRISMS and hides Compare | Apply IA v1.5 and Administration Sources & Imports section; desktop/tablet/mobile UAT | ACTIVE / CF-064 |
+| M25-FU-040 | Navigation/Admin reorganisation | Current menu separates QILT/PRISMS and hides Compare | IA v1.5 implemented in Pilot v2.15.23; retain targeted deployed/browser acceptance evidence | IMPLEMENTED / TARGETED UAT ACTIVE |
 
 | M25-FU-041 | Supabase RLS advisory reconciliation | Current Supabase tool advisory reports RLS disabled on 24 tables including private pipeline control/state tables; enabling RLS blindly could break governed RPCs | Reconcile Data API exposed schemas/grants and each affected table's intended access; apply explicit RLS/policies only under security Change Control after negative-path UAT | OPEN / SECURITY REVIEW REQUIRED |
