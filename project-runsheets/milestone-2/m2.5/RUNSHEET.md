@@ -29,6 +29,38 @@ M2.5 inherits the design baseline from `CF-CHG-20260901-050`:
 
 Only PM items allocated to M2.5 become implementation requirements here. M3/M4/future items remain deferred.
 
+
+## Readiness implementation checkpoint — 1 September 2026
+
+Non-billable platform maturity foundation is implemented in Pilot under `CF-CHG-20260901-051`.
+
+Completed foundation:
+- PM-A1 environment-specific source/capability gates;
+- PM-A4 reversible Layer 4 block ledger;
+- PM-A6 scraper environment gate;
+- PM-A7 AI profile environment gate;
+- PM-A8 capacity policy/observations;
+- PM-A9 class-based retention policy + dry-run;
+- PM-A11 platform UAT catalogue + permanent M2.5 CI contract;
+- PM-A12 serving/ingestion/concurrency workload profiles.
+
+No Production project/resource was created.
+
+Runtime validation after M2.5 migrations:
+- Security 146 INFO / 0 WARN / 0 ERROR;
+- Performance 174 INFO / 0 WARN / 0 ERROR;
+- zero Production source/scraper/AI gate rows.
+
+Capacity baseline:
+- DB ~611 MB;
+- Evidence Storage ~4.62 GB / 8,623 objects;
+- Evidence planning utilisation ~7.18%;
+- cumulative temp activity ~216.6 GB;
+- HIGH integrity follow-up: 205 unmatched Storage objects + 18 regulatory Evidence rows without current object matches.
+
+The integrity finding is not authority to purge data.
+
+
 ## Entry inventory
 
 Supabase projects visible:
