@@ -39,7 +39,7 @@
 | M25-FU-028 | QILT/PRISMS comparison deployed acceptance | CF-061 runtime/source/build/deployed comparison is PASS on Worker v2.15.21, including 900px tablet and 390px mobile viewport checks | Retain workflow `33515936377` / job `99882833322` as targeted evidence; broader M2.5 regression remains milestone-owned | COMPLETE / TARGETED PASS |
 
 
-## A18 QS / THE Ranking follow-ups — 2 September 2026
+## A29 QS / THE Ranking follow-ups — 2 September 2026
 
 | ID | Item | Impact | Next action | Status |
 |---|---|---|---|---|
