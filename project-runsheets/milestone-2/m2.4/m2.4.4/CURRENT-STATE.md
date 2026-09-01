@@ -1632,3 +1632,40 @@ Decision:
 - PASS/PASS on `33459679420` + `33459679417` → inspect once, reconcile Advisors/runtime once, then nominate exactly one final acceptance candidate;
 - FAIL → preserve immutable evidence and correct only demonstrated defect;
 - no final acceptance while this focused gate is active.
+
+## Final acceptance active — 41428941 — 1 September 2026
+
+Timeout-safe final closure gate:
+- source/head `ccb5db220e7e34ab0f0f16cf04228f78b45f6ad9`;
+- frontend build `33459679420`: PASS;
+- focused deployed UAT `33459679417`: PASS;
+- targeted job `99707067503`: PASS.
+
+Final runtime reconciliation before nomination:
+- corrected Firecrawl batch `accd42a2-f096-452b-a084-dc609bd45030` remains healthy background work;
+- latest bounded state: 236 queued, 1 acquiring, 24 Layer 3 required, 0 blocked;
+- parent remains `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- wave remains `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- lossless stale-acquisition recovery and current heartbeat are proven;
+- full 261-Course completion is not required for acceptance because background-progress semantics are part of A26.
+
+Fresh Supabase Advisors:
+- Security Advisor: INFO-only; no WARN/ERROR security condition introduced;
+- Performance Advisor: INFO-only;
+- FU-020 remains RESOLVED.
+
+A26/A27/A28 closure gates are satisfied:
+- A26 stable parent lineage and real Firecrawl Job/Evidence chain runtime-proven;
+- A27 canonical Administration deep-link / refresh / back / forward proof PASS;
+- A28 parent-linked operator summary and blocker semantics PASS;
+- timeout-safe Firecrawl continuation/recovery PASS.
+
+Exactly one final acceptance candidate is nominated:
+- marker/head `41428941a1bae18f6e53ac37f81ae54ef5704b1a`;
+- frontend build `33460038601` — QUEUED at handover;
+- final deployed acceptance UAT `33460038608` — QUEUED at handover.
+
+Decision:
+- both final build and desktop/mobile acceptance must PASS before M2.4.4 and CF-CHG-20260830-048 may close;
+- any final acceptance failure is immutable evidence and only demonstrated defects may be corrected;
+- no second final candidate while `33460038608` is active.
