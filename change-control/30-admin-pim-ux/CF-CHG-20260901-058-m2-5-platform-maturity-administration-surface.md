@@ -1,6 +1,6 @@
 # CF-CHG-20260901-058 — M2.5 Platform Maturity Administration Surface
 
-**Status:** ACTIVE / SOURCE+SERVER IMPLEMENTATION  
+**Status:** IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 platform maturity / Admin UX  
@@ -152,3 +152,103 @@ CF-058 does not authorise:
 - PITR purchase/enablement;
 - autonomous block/unblock;
 - M2.4 reopening.
+
+
+## Implementation evidence — 1 September 2026
+
+### Server/read surface
+
+Pilot migration:
+\`supabase/migrations/20260901220500_m2_5_platform_maturity_admin_read_surface.sql\`
+
+Pilot commit:
+\`ded6ff03156126aa66e5d1ca2914e2e62e337a77\`.
+
+Applied successfully as:
+\`m2_5_platform_maturity_admin_read_surface\`.
+
+Added \`security.admin_platform_maturity_read(...)\` behind \`public.admin_read\` for:
+- readiness;
+- capacity/integrity;
+- environment gates;
+- UAT catalogue;
+- workload profiles;
+- retention dry-run/classes;
+- active Layer 4 blocks.
+
+The migration also routes the existing CF-057 \`data_quality_quarantine\` secured read through \`public.admin_read\`; this corrects the browser dispatcher without reopening or weakening CF-057 enforcement.
+
+Post-deploy boundary proof:
+- anonymous \`public.admin_read\` execute = false;
+- authenticated \`public.admin_read\` execute = true;
+- anonymous private Platform dispatcher execute = false;
+- authenticated dispatcher route exists but server function enforces rank >= 4;
+- no Vault IDs, secret environment keys or raw approval evidence are returned;
+- no Production enable/update path is added.
+
+### Canonical Administration source
+
+New source:
+- \`src/platform-maturity-entry.jsx\` — commit \`ccd673bd4936849a5da471212cafe1b0081d2439\`;
+- \`src/platform-maturity.css\` — commit \`d01052664abb52d20632bad342e0a72fabcba139\`;
+- canonical Administration mount + existing PIM-link correction — \`defa70bbe87c7d9a6f56b244d1b8b3ae38b837f3\`;
+- Admin title version — \`3a03063e594cc735337938ee75d59419bd59973a\`;
+- v2.15.18 release note — \`9ef46df36698efc06d47ad5dee87737b78756761\`;
+- release-note permanent contract aligned — \`f00f9fb4c3acaab27119e0f94f8e0067a680f38d\`.
+
+Repository source is now **PIM Admin v2.15.18**.
+
+The Platform workspace provides:
+- readiness/Production-boundary overview;
+- current capacity and Evidence lineage classification;
+- Pilot/Production source, scraper and AI gate tables;
+- UAT catalogue;
+- workload and retention policy views;
+- governed rank-5 Layer 4 block/unblock controls using the existing CF-057 mutation contract.
+
+It deliberately provides **no**:
+- Production enable action;
+- PITR purchase/enable action;
+- destructive purge;
+- broad Publication or consumer cutover.
+
+Responsive CSS includes bounded table overflow and mobile/tablet stacking for metrics, forms and block controls.
+
+### Current runtime capacity shown by the contract
+
+Latest sampled Pilot snapshot:
+- logical DB: **632,933,523 bytes**;
+- Evidence: **10,546 objects / 5,224,808,213 bytes**;
+- governed Evidence planning utilisation: **8.11%**;
+- integrity severity: **WARNING**;
+- raw unlinked objects: **205**;
+- proven duplicates: **200**;
+- unresolved orphan objects: **5**;
+- missing Storage objects: **2**;
+- virtual/external Evidence references: **16**.
+
+The UI labels the 60 GiB Evidence value as a governed planning envelope, not a Supabase vendor hard quota.
+
+### Advisors after CF-058 server migration
+
+- Security: **146 INFO / 0 WARN / 0 ERROR**;
+- Performance: **171 INFO / 0 WARN / 0 ERROR**.
+
+### Permanent source/build UAT
+
+Added:
+\`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\`
+(commit \`34603320e6c4d094041c0b6cd4ccc5a2c3e21f3c\`).
+
+Workflow routing commit:
+\`45dcf406090be5bedc8838b965495b71aee7cee0\`.
+
+The contract checks the server/read boundary, v2.15.18/release history, canonical Administration mount, responsive CSS, no Production/purge mutation and performs \`npm run build\`.
+
+Targeted CI is not yet claimed here; trigger it after this governance checkpoint and hand back rather than polling a long UAT.
+
+## Current decision
+
+**IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015.**
+
+Even after source/build targeted PASS, deployed browser acceptance must remain BLOCKED until the external Cloudflare Worker is reconciled from v2.15.14 to current repository source.
