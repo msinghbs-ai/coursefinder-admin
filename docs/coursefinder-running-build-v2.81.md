@@ -266,4 +266,4 @@ Live read validation:
 Permanent source/build contract:
 `tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
 
-Source/build trigger `b423af67af6917ae3407e3f5137dcd403d0da225` passed targeted Chromium desktop in workflow `33515174810` / job `99880438005`, including the full frontend build. Dedicated deployed-browser candidate `35fef88e07cff9e7d6e568d740c31722c3c3720e` is pending. Deployed acceptance is not claimed until Cloudflare serves v2.15.21 and that comparison gate passes.
+Source/build trigger `b423af67af6917ae3407e3f5137dcd403d0da225` passed targeted Chromium desktop in workflow `33515174810` / job `99880438005`, including the full frontend build. Deployed comparison trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e` passed workflow `33515683960` / job `99882055173` and proved Worker v2.15.21. Responsive recheck `90123d162103e707473ac8eb7a7a226cade51280` passed workflow `33515936377` / job `99882833322`, including explicit 900px tablet and 390px mobile viewport checks. CF-061 is IMPLEMENTED / TARGETED PASS.
