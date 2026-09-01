@@ -403,7 +403,7 @@ No A17 schema migration, adapter, model call, UI publication or Production enabl
 
 ## CF-061 QILT / PRISMS comparison experience
 
-CF-061 is **IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD TARGETED PASS — DEPLOYED UAT PENDING**.
+CF-061 is **IMPLEMENTED / TARGETED PASS**.
 
 Pilot source is now **v2.15.21** and adds:
 - a dedicated Compare workspace for up to six Providers or Courses;
@@ -457,4 +457,4 @@ Deployed proof includes:
 - Course comparison opening from the detail blade;
 - no unexpected HTTP 5xx.
 
-A follow-up trigger `90123d162103e707473ac8eb7a7a226cade51280` adds explicit 900px tablet and 390px mobile viewport checks plus document-overflow protection. Its status is pending at this bounded checkpoint.
+Responsive follow-up trigger `90123d162103e707473ac8eb7a7a226cade51280` passed workflow `33515936377` / job `99882833322`. The test explicitly exercises 900px tablet and 390px mobile viewport layouts and proves document-level horizontal overflow remains bounded while the comparison matrix scrolls inside its own container. CF-061 is targeted PASS.
