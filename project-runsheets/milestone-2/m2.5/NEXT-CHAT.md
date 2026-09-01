@@ -46,14 +46,14 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 / CF-058 / CF-059 implementation state
+## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 / CF-058 / CF-059 / CF-060 implementation state
 
-Pilot M2.5 source head before the final CF-059 trigger:
-`7f10e29bac5351b173b5de2df4b61d28d51eed07`.
+Pilot M2.5 source head at handover:
+`97c3679d8304c36e10ae6e5b74d6cc99a2834152`.
 
 The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax correction `1605d15b...` passed targeted Chromium desktop in workflow `33492875364`. Next check the dedicated deployed browser acceptance for the v2.15.17 Provider source-pattern queue.
 
-Admin source UI version: **v2.15.19**.
+Admin source UI version: **v2.15.20**.
 
 Do not assume the external Cloudflare Pilot Worker has this source. CF-053 browser acceptance proves the Worker is stale.
 
@@ -172,12 +172,12 @@ Run `33493637581` / job `99810738327` = **FAIL**.
 
 UAT evidence proves:
 - deployed Worker Admin version: **v2.15.14**;
-- repository source version: **v2.15.19**;
+- repository source version: **v2.15.20**;
 - CF-053 Layer 2 classification element is absent;
 - test stopped before reaching the CF-054 queue;
 - no AI action was executed.
 
-Treat FU-015 as an external Cloudflare Git deployment blocker. Do not rerun until the Worker is actually publishing current `main`; do not weaken the browser contract.
+FU-015 is no longer a persistent v2.15.14 blocker: user UAT proves the Worker reached v2.15.19. Recheck currentness after v2.15.20 publishes; do not weaken any browser contract.
 
 ## CF-055 targeted source/runtime UAT
 
@@ -226,7 +226,7 @@ Source:
 - \`src/platform-maturity-entry.jsx\`;
 - \`src/platform-maturity.css\`;
 - canonical Administration mounts \`PlatformMaturity\`;
-- source/release version **v2.15.19**.
+- source/release version **v2.15.20**.
 
 Runtime proof:
 - anonymous \`admin_read\` denied;
@@ -287,6 +287,40 @@ Workflow routing commit:
 \`7f10e29bac5351b173b5de2df4b61d28d51eed07\`.
 
 The final targeted trigger is recorded below after it is created. Check that exact commit first on the next Proceed. Do not run stale-Worker browser acceptance while FU-015 remains open.
+
+## CF-060 Jobs workspace read-path restoration
+
+User UAT trigger: Jobs showed **0 records** on deployed v2.15.19 while Layer 2 showed background activity.
+
+Live runtime at investigation:
+- total Jobs 3,964;
+- recent 24h 1,082;
+- running 2;
+- failed 237;
+- completed/succeeded 3,720;
+- Layer 2 Jobs 2,643.
+
+Root cause: obsolete `adminRead` route suppression returned `[]` for Jobs/Sources after the old Pipeline Ops overlay had been removed from `index.html`.
+
+Implemented v2.15.20:
+- canonical Jobs mounts governed server-paged `JobsWorkspace`;
+- canonical Sources mounts `SourcesWorkspace`;
+- stale suppression removed;
+- current/history filters, timestamps, Evidence counts, duration/cursor and expandable detail use existing governed `pipeline_*` RPCs;
+- no generic mutation actions.
+
+Permanent tests:
+- `tests/uat/m2-5-jobs-workspace-read-path-contract.spec.mjs`;
+- `tests/uat/m2-5-jobs-workspace-deployed.spec.mjs`.
+
+Workflow wiring: `35a2e02d457e5faccffe78979ff3756757571e3d`.
+
+Source validation trigger: `97c3679d8304c36e10ae6e5b74d6cc99a2834152`.
+At handover:
+- CourseFinder Deployed UAT run `33511601936` = **pending**;
+- Pilot Frontend Build run `33511602057` = **queued**.
+
+**Next action:** inspect those exact two runs first. If source/build PASS, create/update `.github/m2-5-jobs-workspace-deployed-candidate` to run only the deployed Jobs test after Cloudflare serves v2.15.20. If deployed test passes, mark CF-060/FU-017 targeted PASS and FU-015 currentness recovered.
 
 ## CI gate
 
