@@ -1016,3 +1016,21 @@ Decision:
 
 After any future integration PASS, still complete A26/A27/A28 runtime reconciliation and M244-FU-020 security review before final acceptance.
 
+## Replacement integration pickup — 38203222 — 1 September 2026
+
+Check first:
+- candidate `38203222a137d0aeac8aa69e64ed1b12bf874fff`
+- build `33454842391`
+- integration UAT `33454842388`
+
+Pre-proof:
+- focused performance build `33454525548` PASS
+- focused performance UAT `33454525536` PASS, 4/4
+- A25 + Layer-status + performance `33452204859` PASS
+
+Decision:
+- desktop + mobile integration PASS → record integrated PASS, then complete A26/A27/A28 runtime reconciliation and M244-FU-020 security review before any final acceptance nomination;
+- any FAIL → inspect exact logs/artifacts, preserve immutable evidence, fix only demonstrated defect, no unchanged rerun.
+
+Keep Evidence lineage, Layer 4 governance, Firecrawl-first acquisition, 3,000 ms latency, 250 KB page/management payload, 60 KB filter payload, responsive navigation, role/security and Layer 1 authority boundaries unchanged.
+
