@@ -511,3 +511,20 @@ Pilot source **v2.15.22** now implements the first Statistics/Compare IA increme
 Pilot head: `msinghbs-ai/Coursefinder-Pilot@4d5276c97792e370a8dca253183dea6a359a2c19`.
 
 Frontend build job in workflow `33551442693` completed the production build step PASS; browser smoke was still running at this bounded checkpoint. Deployed UAT `33551441967` was also still running. Do not claim deployed browser PASS yet.
+
+
+### CF-063 / CF-064 ranking backend checkpoint
+
+Pilot backend now includes:
+- private `ranking` schema and seven ranking tables;
+- RLS enabled on every ranking table;
+- direct browser grants revoked;
+- secured `ranking_summary`, `ranking_filters`, `ranking_observations`, `ranking_imports` reads through `public.admin_read`;
+- Provider/Course/Compare ranking context helpers;
+- private Evidence-backed manual publisher upload registration;
+- Edge Function `ranking-publisher-import` v1 with JWT + role-rank checks, MIME/size validation, SHA-256 duplicate handling and cleanup on registration failure;
+- FK index hardening.
+
+Pilot UI is now **v2.15.23** and supports Statistics & Rankings, Sources & Imports, dataset/year selection in Compare and dynamic QS/THE rendering when accepted observations become available.
+
+No QS/THE observation rows have been accepted yet. The next functional gate is parser/source qualification + Provider mapping, not more UI scaffolding.
