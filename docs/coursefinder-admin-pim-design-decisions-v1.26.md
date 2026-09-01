@@ -28,3 +28,24 @@ Latest rank cards and comparison rows must expose edition, publisher source and 
 ## Decision 48 — Ranking filters/sorts require explicit consumer semantics
 
 A ranking filter or sort is permitted only after consumer admission and must state ranking system + edition. Ranking is never an undisclosed Search relevance boost.
+
+
+## Decision 49 — Statistics & Rankings is the verification hub
+
+QILT, PRISMS, QS, THE and future admitted statistical datasets are organised through one Statistics & Rankings workspace for coverage, period availability, observation review, mapping and Evidence verification.
+
+## Decision 50 — Compare is a first-class workflow
+
+Compare is exposed directly in primary navigation. Entity selection is followed by dataset selection and period/edition selection. Users are not forced to accept every available metric or the latest year.
+
+## Decision 51 — Manual historical publisher files reuse governed Evidence
+
+When automated acquisition is blocked by publisher access controls, an authorised publisher artifact may be uploaded through a privileged Sources & Imports flow into the existing private Evidence store. Upload, parse, reconcile and apply are separate states.
+
+## Decision 52 — Detail blades summarise and deep-link
+
+Provider/Course blades show concise contextual statistics and ranking summaries with View Statistics and Add to Compare actions. They do not duplicate the full statistics workspace.
+
+## Decision 53 — Navigation separates insights from operations
+
+Primary groups become Overview, Catalogue, Statistics & Insights, Data Operations, Quality & Review and Administration. QILT/PRISMS detailed pages remain available as dataset drill-downs rather than competing top-level concepts.
