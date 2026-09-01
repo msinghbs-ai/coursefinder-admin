@@ -442,3 +442,19 @@ Dedicated deployed comparison gate:
 `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs`.
 
 Candidate trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e` had no attached status at the last bounded check. Do not claim deployed browser acceptance until that gate proves Cloudflare is serving v2.15.21 and the comparison UI passes.
+
+
+### CF-061 deployed browser checkpoint
+
+Deployed targeted run `33515683960` / job `99882055173` is **PASS** on trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e`.
+
+The test explicitly observed Worker release pill **v2.15.21**, so the older FU-015 v2.15.14/v2.15.19 currentness evidence is superseded: the external Git deployment is current at this checkpoint.
+
+Deployed proof includes:
+- two-Provider comparison and bounded `contextual_compare` response;
+- correct Provider QILT grain;
+- Course detail QILT `provider_context` grain;
+- Course comparison opening from the detail blade;
+- no unexpected HTTP 5xx.
+
+A follow-up trigger `90123d162103e707473ac8eb7a7a226cade51280` adds explicit 900px tablet and 390px mobile viewport checks plus document-overflow protection. Its status is pending at this bounded checkpoint.
