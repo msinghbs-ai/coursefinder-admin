@@ -1,6 +1,6 @@
 # CF-CHG-20260901-058 — M2.5 Platform Maturity Administration Surface
 
-**Status:** IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015  
+**Status:** IMPLEMENTED / SOURCE+BUILD TARGETED PASS — DEPLOYED UI BLOCKED BY FU-015  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 platform maturity / Admin UX  
@@ -249,7 +249,7 @@ Targeted source/build validation trigger: `bd267ab46216529e21f94a4448394365b12a2
 
 ## Current decision
 
-**IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015.**
+**IMPLEMENTED / SOURCE+BUILD TARGETED PASS — DEPLOYED UI BLOCKED BY FU-015.**
 
 Even after source/build targeted PASS, deployed browser acceptance must remain BLOCKED until the external Cloudflare Worker is reconciled from v2.15.14 to current repository source.
 
@@ -292,4 +292,4 @@ That commit restores the entire Recent managed runs JSX line from the last known
 Fresh unchanged CF-058 source/build trigger:
 \`7f7f6a920fd303578cad7430401f4dce522c6e0c\`.
 
-Do not claim source/build targeted PASS until this exact trigger completes successfully.
+Final unchanged source/build trigger `7f7f6a920fd303578cad7430401f4dce522c6e0c` passed targeted Chromium desktop in workflow `33507629698` / job `99855436515`. The contract includes `npm run build`; source/build acceptance is therefore PASS. Deployed-browser acceptance remains separately blocked by FU-015.
