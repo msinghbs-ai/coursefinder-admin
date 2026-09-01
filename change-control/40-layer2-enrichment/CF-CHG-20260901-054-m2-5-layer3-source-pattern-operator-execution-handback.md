@@ -1,6 +1,6 @@
 # CF-CHG-20260901-054 — M2.5 Layer 3 Source-Pattern Operator Execution & Deterministic Layer 2 Hand-back
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / SOURCE+ROLLBACK PASS — DEPLOYED UI ACCEPTANCE BLOCKED BY PILOT CLOUDFLARE GIT DEPLOYMENT DRIFT  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 Pilot operations maturity  
@@ -137,3 +137,104 @@ Restore prior Layer 3 worker/UI/helper definitions. Retained Evidence, interpret
 - canonical Course URL mutation;
 - Search or Publication admission;
 - reopening M2.4.
+
+
+## Implementation & UAT update — 1 September 2026
+
+### Implementation references
+
+Pilot source head used for the final source-contract trigger:
+`msinghbs-ai/Coursefinder-Pilot@65fd4913f4c328b44847840e91aad024c8f6c7ed`.
+
+Database:
+- `20260901091500_m2_5_layer3_source_pattern_operator_handback.sql` — commit `768ea48997ce23b2024845552d9a3104215cc05c`, deployed to Pilot;
+- `20260901091800_m2_5_layer3_source_pattern_legacy_completion_guard.sql` — final syntax-corrected commit `35d1a8035a0f5ee66fe825178e13b123951063fb`, deployed to Pilot.
+
+Edge:
+- `supabase/functions/layer3-interpret/index.ts` — commit `4cd766baed84a3f21e097be7aff594bf559cabf2`;
+- deployed Pilot Edge Function `layer3-interpret` **version 9**;
+- `verify_jwt=true`;
+- deployed SHA-256 `5d47c64f49275a513bebd6edd76562239a9970004cd14081e3ff2d30efb3fd92`.
+
+Admin source:
+- `src/m2-3-intelligence-entry.jsx` — commit `5b1d9b5ec884e810fe992973ff59bfdcf747e575`;
+- source UI release **v2.15.17**;
+- dedicated manual-governed Provider source-pattern queue; no run-all/background drain action.
+
+Permanent contract:
+- `tests/uat/m2-5-layer3-source-pattern-operator-contract.spec.mjs`;
+- final targeted workflow run `33491843514`;
+- job `99804902558`;
+- **PASS** on Chromium desktop targeted tier;
+- commit status `coursefinder/deployed-uat/targeted/chromium-desktop = success`.
+This is a source/server contract gate; it does not prove the stale external Cloudflare Worker contains v2.15.17.
+
+### Rollback-only live Pilot UAT
+
+All consequential-path tests ran inside transactions and were rolled back.
+
+Validated source-pattern candidate:
+- synthetic interpretation `05400000-0000-0000-0000-000000000001`;
+- governed UNSW request `b7ed5652-9255-4a8a-becf-4cadf6dab245`;
+- candidate `https://www.unsw.edu.au/study`;
+- generated one temporary CF-054 Layer 2 profile version;
+- returned the Provider to the normal Layer 2 pattern-control path;
+- generated a downstream bounded discovery request inside the transaction;
+- Provider authority remained `qualification_candidate`;
+- generic Layer 4 field-review rows = **0**;
+- canonical mutation authority = **false**.
+
+No-candidate path:
+- synthetic interpretation `05400000-0000-0000-0000-000000000002`;
+- interpretation status `no_candidate`;
+- generic Layer 4 field-review rows = **0**;
+- exactly one Provider source-resolution request created;
+- Provider authority remained `qualification_candidate`;
+- canonical mutation authority = **false**.
+
+Idempotency:
+- synthetic interpretation `05400000-0000-0000-0000-000000000003`;
+- second hand-back returned `idempotent=true`.
+
+Post-rollback verification:
+- all three synthetic interpretations = **0 remaining**;
+- CF-054 profile versions = **0 remaining**;
+- original UNSW source-pattern request returned to `queued`;
+- original UNSW qualification sample rows remained `layer3_required`.
+
+Negative security proof:
+- an actor with no governed role is rejected by the source-pattern request-context service;
+- result: `curator_role_negative_pass`.
+
+Post-change advisors:
+- Security: 146 INFO / **0 WARN / 0 ERROR**;
+- Performance: 173 INFO / **0 WARN / 0 ERROR**.
+
+### Current backlog observation
+
+At final reconciliation:
+- Layer 2 Providers awaiting deterministic pattern dispatch: **233**;
+- pending Layer 2 pattern controls: **60**;
+- source-pattern Layer 3 requests: **390 queued / 0 completed / 0 failed**;
+- live source-pattern interpretations: **0**.
+
+This is intentional at this gate: CF-054 makes the manual-governed execution path usable but does not autonomously drain the queue or increase the model profile's 10/minute, 30/day limits.
+
+### Deployed Admin blocker
+
+The Pilot Admin source is v2.15.17, but the Cloudflare Worker is not publishing current `main`.
+
+Reconciliation:
+- `wrangler.jsonc` still declares Worker `coursefinder-pilot`;
+- assets directory remains `./dist`;
+- historical project records identify Cloudflare external Git integration as the deployment mechanism;
+- the GitHub deployed-UAT workflow contains no Cloudflare deployment step;
+- CF-053 browser run `33488961340` and rerun both proved the Worker was serving an older bundle.
+
+No Cloudflare control-plane connector is available in the current execution environment, so the external Git integration cannot be repaired or inspected here. The correct next action is to reconcile the Cloudflare `coursefinder-pilot` Git integration against `msinghbs-ai/Coursefinder-Pilot` / `main`, then rerun CF-053 and CF-054 deployed browser acceptance without weakening either test.
+
+## Current status decision
+
+**IMPLEMENTED / SOURCE+ROLLBACK PASS — DEPLOYED UI ACCEPTANCE BLOCKED.**
+
+No real source-pattern AI request was executed and the 390-item queue was not bulk-drained. M2.4 remains CLOSED/PASS.
