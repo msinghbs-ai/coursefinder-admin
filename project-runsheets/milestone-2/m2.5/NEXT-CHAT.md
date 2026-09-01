@@ -215,7 +215,7 @@ Targeted Chromium proof: trigger `2073621cf2c2df085d1add918d84b72fd49c207c`, wor
 
 ## CF-058 Platform maturity Administration
 
-CF-058 is **IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015**.
+CF-058 is **IMPLEMENTED / SOURCE+BUILD TARGETED PASS — DEPLOYED UI BLOCKED BY FU-015**.
 
 Pilot migration:
 \`20260901220500_m2_5_platform_maturity_admin_read_surface\`.
@@ -245,7 +245,7 @@ Permanent source/build contract:
 Workflow routing commit:
 \`45dcf406090be5bedc8838b965495b71aee7cee0\`.
 
-Initial CF-058 trigger `bd267ab46216529e21f94a4448394365b12a2cae` failed because the full Vite build exposed older Layer 2 source corruption. Repair commit: `a4cde432dcf8798ad1e61b986db3052ddeb64b74`. Trigger `97dc4085e4c00208864529bca21eb743ac46c05d` also failed because the managed-run JSX line itself was still malformed after duplicate-tail removal. Final syntax-safe restoration: `27abb0f3c64a508227e2a442fdf5d4c78ca0f051`. Fresh CF-058 source/build trigger: `7f7f6a920fd303578cad7430401f4dce522c6e0c`. Check this exact commit first on next Proceed. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
+Initial CF-058 trigger `bd267ab46216529e21f94a4448394365b12a2cae` failed because the full Vite build exposed older Layer 2 source corruption. Repair commit: `a4cde432dcf8798ad1e61b986db3052ddeb64b74`. Trigger `97dc4085e4c00208864529bca21eb743ac46c05d` also failed because the managed-run JSX line itself was still malformed after duplicate-tail removal. Final syntax-safe restoration: `27abb0f3c64a508227e2a442fdf5d4c78ca0f051`. Final CF-058 trigger `7f7f6a920fd303578cad7430401f4dce522c6e0c` passed workflow `33507629698` / job `99855436515`; no further source/build rerun is needed unless CF-058 materially changes. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
 
 ## CI gate
 
