@@ -266,4 +266,4 @@ Live read validation:
 Permanent source/build contract:
 `tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
 
-Source trigger `b423af67af6917ae3407e3f5137dcd403d0da225` had no attached commit status at the recorded checkpoint. Deployed browser acceptance remains pending until Cloudflare serves v2.15.21.
+Source/build trigger `b423af67af6917ae3407e3f5137dcd403d0da225` passed targeted Chromium desktop in workflow `33515174810` / job `99880438005`, including the full frontend build. Dedicated deployed-browser candidate `35fef88e07cff9e7d6e568d740c31722c3c3720e` is pending. Deployed acceptance is not claimed until Cloudflare serves v2.15.21 and that comparison gate passes.
