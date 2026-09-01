@@ -188,7 +188,7 @@ CF-055 is IMPLEMENTED / TARGETED PASS. Remaining 5 unresolved objects + 2 legacy
 
 ## CF-057 universal Layer 4 block enforcement
 
-CF-057 is **IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING**.
+CF-057 is **IMPLEMENTED / TARGETED PASS**.
 
 Runtime proof:
 - direct Course Search block hides Zoho + Website exact/search reads;
@@ -211,7 +211,7 @@ Permanent contract:
 Workflow routing commit:
 `1df7c2d0ce995895468b727cc6e8003dd95a47c7`.
 
-Check the final CF-057 trigger first on the next Proceed once recorded below.
+Targeted Chromium proof: trigger `2073621cf2c2df085d1add918d84b72fd49c207c`, workflow `33503165142`, job `99840959713`, 1/1 PASS.
 
 ## CI gate
 
