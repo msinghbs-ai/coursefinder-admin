@@ -245,7 +245,7 @@ Workflow routing commit:
 
 The contract checks the server/read boundary, v2.15.18/release history, canonical Administration mount, responsive CSS, no Production/purge mutation and performs \`npm run build\`.
 
-Targeted CI is not yet claimed here; trigger it after this governance checkpoint and hand back rather than polling a long UAT.
+Targeted source/build validation trigger: `bd267ab46216529e21f94a4448394365b12a2cae`. Result is intentionally not polled in-chat; check this exact commit first on the next Proceed.
 
 ## Current decision
 
