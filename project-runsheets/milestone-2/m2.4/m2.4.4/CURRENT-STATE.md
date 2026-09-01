@@ -1669,3 +1669,86 @@ Decision:
 - both final build and desktop/mobile acceptance must PASS before M2.4.4 and CF-CHG-20260830-048 may close;
 - any final acceptance failure is immutable evidence and only demonstrated defects may be corrected;
 - no second final candidate while `33460038608` is active.
+
+## Final acceptance FAIL + focused corrective gate active — fb771503 — 1 September 2026
+
+Final acceptance candidate `41428941a1bae18f6e53ac37f81ae54ef5704b1a` is immutable FAIL evidence:
+- frontend build `33460038601`: PASS;
+- final acceptance UAT `33460038608`: FAIL;
+- desktop failed;
+- mobile skipped after desktop failure.
+
+Exact demonstrated desktop failures:
+1. `courses_page` interaction 3,122 ms > unchanged 3,000 ms;
+2. `course_detail` interaction 3,876 ms > unchanged 3,000 ms;
+3. `layer2_ops_overview` 7,571 ms > unchanged 3,000 ms;
+4. `evidence_page` 5,418 ms > unchanged 3,000 ms;
+5. stale Scholarship acceptance expected removed primary-nav item `Scholarship Selection`.
+
+The same performance paths were rechecked directly at the DB boundary during reconciliation and remained healthy:
+- exact Course lookup ~67 ms;
+- Course detail ~106 ms;
+- Evidence page ~396 ms;
+- Layer 2 ops overview ~1.1 s.
+This isolates the final-acceptance performance failure to contention from the live Firecrawl production workload rather than a new query-plan regression. No thresholds were changed.
+
+### Scholarship canonical-route correction
+- `986cad7084668feae39dda0ab9ce375e39f6ddcf`: exports the existing Scholarship decision-support workspace.
+- `09e2f4e40a4c006c345f21f0e7c648863dcb87fb`: restores decision support inside the canonical `Scholarships` page using `Open Course decision support`; no removed top-level route is reintroduced.
+- `f2300e48b9936fced5e09562495678628601d87a`: deployed-UAT helper navigates through `Scholarships` and opens the dialog there.
+- `ac8a42281d05c44a86bc08c5c8ab75e0b80e1d93`: acceptance suite naming aligned to Scholarship decision support.
+
+### Acceptance workload isolation / scheduled remainder
+The already-proven Firecrawl batch `accd42a2-f096-452b-a084-dc609bd45030` was stopped at the governed cancellation boundary only after parent/Job/Evidence/timeout-recovery proof was complete.
+- 65 valid Firecrawl-processed items retained;
+- 196 unfinished RMIT items rescheduled under the same wave/parent;
+- next wave not before `2026-09-01 03:03:40.984693+00`;
+- completed Firecrawl Evidence/history retained;
+- direct-http corrective history retained;
+- one Firecrawl call crossing the cancellation boundary completed successfully and is preserved as boundary history.
+
+Current request `1bb1504d-7bad-42d9-b059-4adeaf9118c7`:
+- parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- total queueable production Courses 261;
+- completed/dispatched 65;
+- failed 0;
+- scheduled remainder 196;
+- route `scraper_first`.
+
+State-scope inventory contains additional `missing_url` rows, which are not counted as production queueable items.
+
+### Parent projection reconciliation
+- `74ede7dd78af1f7829cd0635193037e823324b27`: projects the currently linked production grain rather than missing-URL inventory or superseded history.
+- `ff958a1cbb571e1f9b0117ac8a6648d1b6557313`: separates item metrics from Evidence aggregation to remove remaining fan-out.
+
+Live parent projection after correction:
+- processed 65;
+- Layer 3 required 65;
+- resolved L2 0;
+- blocked 0;
+- child Jobs 65;
+- Evidence 195;
+- scheduled remainder 196;
+- active batches 0.
+
+### Replacement focused corrective gate
+Workflow selector extended at `c8c2d396a337017ec5d0040e67872b2218b9a2d5`.
+Marker/head:
+- `fb7715031d089a1d95511589726da913dbb8f821`.
+
+Focused suites:
+- Administration navigation/deep-link;
+- Scholarship decision support;
+- A23 Firecrawl production safeguards;
+- A26/A28 parent operator UX;
+- A25 Evidence integrity;
+- unchanged performance budgets.
+
+Active exact-head runs at handover:
+- frontend build `33461321738` — QUEUED;
+- focused deployed UAT `33461321744` — PENDING.
+
+Decision:
+- focused PASS/PASS → inspect logs once, reconcile quiet runtime/advisors once, then nominate exactly one replacement final acceptance candidate;
+- focused FAIL → preserve immutable evidence and fix only demonstrated defect;
+- final candidate `41428941...` must never be rerun unchanged.
