@@ -8,6 +8,7 @@
 **Layer 3 source-pattern corrective Change Control:** `CF-CHG-20260901-054`
 **Evidence-lineage corrective Change Control:** `CF-CHG-20260901-055`
 **Backup/PITR reconciliation Change Control:** `CF-CHG-20260901-056`
+**Universal block-enforcement Change Control:** `CF-CHG-20260901-057`
 
 ## Accepted entry baseline
 
@@ -199,6 +200,26 @@ Permanent contract trigger `ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389` passed tar
 - commit status `coursefinder/deployed-uat/targeted/chromium-desktop = success`.
 
 CF-055 is **IMPLEMENTED / TARGETED PASS**.
+
+## CF-057 universal block enforcement
+
+Migration `20260901211500_m2_5_universal_layer4_block_enforcement` is deployed.
+
+Server-side enforcement now covers:
+- operational: Layer 2 Course Fact apply + Layer 3 reservation/source-pattern execution;
+- publication: readiness + publishable decision gate;
+- Search: all 20 inventoried Website/Zoho/legacy consumer API search/lookup/reference-manifest functions;
+- Data Quality: secured quarantine read with direct/Provider-inherited state.
+
+Provider Search blocks inherit to child Courses/Campuses and Provider-owned Scholarships. Quarantine remains independent from Search/publication. Layer 1 regulatory ingestion is not rewritten by CF-057.
+
+Rollback-only Pilot UAT proved Course block/unblock, Provider inheritance, publication rejection/nonpublishable allowance, Layer 2 apply rejection, Layer 3 zero-call behavior and quarantine. Post-rollback live block decisions remain **0**.
+
+Post-CF-057 advisors:
+- Security 146 INFO / **0 WARN / 0 ERROR**;
+- Performance 171 INFO / **0 WARN / 0 ERROR**.
+
+Permanent contract: `tests/uat/m2-5-layer4-block-enforcement-contract.spec.mjs`; targeted CI pending.
 
 ## Production decision remains blocked
 
