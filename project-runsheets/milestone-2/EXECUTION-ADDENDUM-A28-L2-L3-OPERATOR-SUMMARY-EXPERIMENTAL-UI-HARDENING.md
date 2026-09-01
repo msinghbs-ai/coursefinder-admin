@@ -1,6 +1,6 @@
 # M2 Execution Addendum A28 — Layer 2/3 Operator Summary & Experimental UI Hardening
 
-**Status:** ACTIVE / REQUIRED FOR M2.4.4 CLOSURE  
+**Status:** CLOSED / PASS — ACCEPTED M2.4.4 STANDING BEHAVIOUR
 **Effective:** 1 September 2026  
 **Primary Change Control:** `CF-CHG-20260830-048`  
 **Applies to:** Layer 2 and Layer 3 canonical workspaces, Jobs & Runs summaries, Evidence summaries, blocker/info messages, diagnostics and browser-facing bug fixes.
@@ -113,3 +113,8 @@ A28 is not accepted until targeted deployed UAT proves:
 ## Sequencing
 
 A28 should be implemented in the same M2.4.4 corrective cycle as A26 and A27 before the next bounded integration candidate.
+
+## Closure disposition — 1 September 2026
+- Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
+- Replacement final acceptance `33468512515` PASS on desktop and mobile.
+- This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
