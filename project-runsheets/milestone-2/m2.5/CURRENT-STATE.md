@@ -191,9 +191,13 @@ Post-change advisors:
 - Security 146 INFO / **0 WARN / 0 ERROR**;
 - Performance 172 INFO / **0 WARN / 0 ERROR**.
 
-Permanent contract trigger:
-`ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
-Status/run ID was not yet published at handback; check this commit first next time.
+Permanent contract trigger `ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389` passed targeted Chromium desktop:
+- workflow `33495782424`;
+- job `99817573838`;
+- 1/1 test passed;
+- commit status `coursefinder/deployed-uat/targeted/chromium-desktop = success`.
+
+CF-055 is **IMPLEMENTED / TARGETED PASS**.
 
 ## Production decision remains blocked
 
