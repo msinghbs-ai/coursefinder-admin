@@ -165,3 +165,27 @@ Per edition report:
 - A rank movement can reflect methodology or population changes.
 - Banded ranks cannot be converted to exact ranks.
 - Missing/unranked is not rank 0.
+
+
+## Manual publisher artifact fallback
+
+When a historical publisher page/download is unavailable to automation because of authentication, registration, paywall or bot controls, CourseFinder must not circumvent the restriction.
+
+A privileged operator may instead upload an authorised publisher artifact into the existing private Evidence bucket.
+
+Required import metadata:
+- ranking system;
+- edition year;
+- publisher/source URL;
+- licence/access note;
+- original filename/MIME/size;
+- methodology URL/revision where known;
+- uploader and upload timestamp;
+- file hash/Evidence ID.
+
+The ingestion lifecycle is:
+`uploaded → validated → parsed → reconciled → applied`.
+
+Upload is not apply. Duplicate file hash + ranking system + edition is idempotent/rejected as duplicate. Unresolved institution mapping remains review work.
+
+The Statistics & Rankings workspace is the verification surface for imported editions and historical coverage.
