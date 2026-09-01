@@ -5,6 +5,33 @@
 **Design:** `docs/coursefinder-platform-maturity-design-v1.0.md`  
 **Change Control:** `CF-CHG-20260901-050`
 
+## Implementation checkpoint — 1 September 2026
+
+Runtime implementation is now controlled by `CF-CHG-20260901-051`. The design baseline remains CF-050.
+
+Implemented foundation in Pilot:
+- PM-A1 / PM-004+005: environment-specific source/capability gate deployed; AU CRICOS and NZ NZQA Provider/Course Pilot states reconciled; zero Production rows;
+- PM-A4 / PM-018: append-only operational/publication/Search/quarantine block ledger and secured decision/read helpers deployed; cross-consumer enforcement/UI remains follow-up;
+- PM-A6 / PM-011: Layer 2 acquisition-provider environment gate deployed; Direct HTTP + Firecrawl reconciled Pilot-qualified;
+- PM-A7 / PM-009: Layer 3 profile environment gate deployed; three benchmark-PASS profiles reconciled Pilot-qualified;
+- PM-A8 / PM-015+016: capacity policy, daily observations and secured snapshot deployed; notification destination remains unset;
+- PM-A9 / PM-017: class-based retention policy and dry-run-only read deployed; destructive purge remains unauthorised;
+- PM-A11 / PM-006: platform UAT catalogue deployed and permanent M2.5 contract test wired into CI;
+- PM-A12 / PM-007+020: four workload profiles deployed with unchanged hard budgets.
+
+Current capacity/integrity finding:
+- DB ~611 MB;
+- Evidence Storage ~4.62 GB / 8,623 objects (~7.18% of 60 GiB planning envelope);
+- 205 unmatched Storage objects and 18 regulatory artifact rows without a matching object require lineage reconciliation before any cleanup.
+
+Still open:
+- Admin UX for the new controls;
+- notification delivery/escalation;
+- purge executor (only if separately authorised after dry-run/integrity proof);
+- block enforcement in each owning operation/consumer;
+- Production-specific qualification/canary/restore/load UAT after Production exists.
+
+
 | ID | Feature | Current truth | Target gate | Priority |
 |---|---|---|---|---|
 | PM-001 | Scholarship relationship visibility | typed scopes/course links exist; scheduled ETL accepted | M3 consumer/admin maturity | P1 |
