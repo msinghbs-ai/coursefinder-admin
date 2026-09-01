@@ -111,12 +111,13 @@ Permanent test:
 
 `.github/workflows/deployed-uat.yml` routes M2.5 changes to it and includes it in integration/acceptance.
 
-At handover no terminal commit status had yet been published for `dac23d68...`.
+Targeted deployed UAT is terminal PASS:
+- run `33476711758`;
+- job `99757413769`;
+- desktop M2.5 source-contract PASS;
+- mobile skipped by targeted-tier design.
 
-Decision rule:
-- if terminal PASS: record exact build/UAT run IDs in CF-051/CURRENT-STATE and move targeted UAT to PASS;
-- if terminal FAIL: preserve the run and correct only the demonstrated defect; do not weaken security/performance gates;
-- if automation remains active beyond the allowed short monitoring window, record head/run state and stop polling.
+CF-051 is IMPLEMENTED / TARGETED PASS. Production integration/acceptance remains future work under CF-049.
 
 ## Next authorised priorities
 
