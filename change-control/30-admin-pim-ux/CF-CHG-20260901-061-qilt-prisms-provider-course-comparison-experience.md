@@ -1,6 +1,6 @@
 # CF-CHG-20260901-061 — QILT / PRISMS Provider & Course Comparison Experience
 
-**Status:** IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD + DEPLOYED DESKTOP TARGETED PASS — RESPONSIVE RECHECK PENDING  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 1 September 2026 23:13 AEST  
 **Primary category:** 30-admin-pim-ux  
 **Origin:** CourseFinder project chat — user supplied ComparED provider/detail/comparison mobile references.
@@ -161,8 +161,18 @@ Dedicated deployed-browser comparison proof:
 - Provider comparison (Charles Darwin University + Curtin University) returned two aligned governed entities;
 - Course detail/comparison retained QILT `provider_context` grain.
 
-The deployed test has subsequently been extended with explicit 900px tablet and 390px mobile viewport checks plus document-level overflow protection. Trigger `90123d162103e707473ac8eb7a7a226cade51280` is the responsive recheck candidate; its status was not attached at the last bounded check.
+Responsive deployed recheck:
+- trigger `90123d162103e707473ac8eb7a7a226cade51280`;
+- workflow `33515936377`;
+- job `99882833322`;
+- targeted Chromium **PASS**;
+- explicit 900px tablet viewport PASS;
+- explicit 390px mobile viewport PASS;
+- document-level horizontal overflow guard PASS while the comparison matrix remains intentionally scrollable inside its bounded container.
 
 ## Remaining acceptance
 
-Cloudflare currentness to v2.15.21 is now proven by the deployed comparison test. Keep final CF-061 responsive acceptance open only until the explicit tablet/mobile viewport recheck on trigger `90123d162103e707473ac8eb7a7a226cade51280` is terminal.
+Cloudflare currentness to v2.15.21 and the bounded responsive comparison experience are now targeted PASS. Broader M2.5 integration/final acceptance remains governed by the milestone and is not implied by this targeted CF-061 closure.
+
+
+**Targeted acceptance timestamp:** 1 September 2026 AEST. CF-061 requires no further corrective action unless a later integration/regression gate finds a new defect.
