@@ -49,7 +49,7 @@ Do not create a billable Production project until organisation, Production regio
 ## CF-051 / CF-052 / CF-053 / CF-054 implementation state
 
 Pilot M2.5 source head at handover:
-`1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
+`e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
 
 The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax correction `1605d15b...` passed targeted Chromium desktop in workflow `33492875364`. Next check the dedicated deployed browser acceptance for the v2.15.17 Provider source-pattern queue.
 
@@ -161,6 +161,22 @@ Live source-pattern queue at handover: **422 queued / 0 completed / 0 failed**; 
 Legacy HTTP-origin Evidence/source URLs are reconciled by hostname only: candidates remain HTTPS-only and exact Evidence-link bound. Sydney rollback-only proof returned to Layer 2 three-Course control and left no retained test state.
 
 CF-054 deployed UI acceptance remains blocked until the external Cloudflare Pilot deployment is reconciled.
+
+## Immediate next check — combined Cloudflare/currentness browser UAT
+
+Permanent non-mutating test:
+`tests/uat/m2-5-pilot-deployment-currentness-deployed.spec.mjs`.
+
+Trigger:
+`e15aee26cc910dcc6ee09658f65ef57aeb0f1bae`.
+
+It checks both:
+- CF-053 Layer 2 acceptance-isolation/rescheduled terminal classification;
+- CF-054 Layer 3 governed Provider source-pattern queue and single-request action.
+
+It does not execute AI.
+
+At handback no GitHub run/status had yet been attached. On the next Proceed, check `e15aee26...` first. If PASS, the prior Cloudflare drift is reconciled at the required UI level. If FAIL for missing UI elements, retain FU-015 and address the external Cloudflare Git deployment rather than weakening the test.
 
 ## CI gate
 
