@@ -1,6 +1,6 @@
 # CF-CHG-20260901-059 — M2.5 Evidence Lineage Reconciliation & Provider-Contact Claim Hardening
 
-**Status:** ACTIVE / CORRECTIVE IMPLEMENTATION  
+**Status:** IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING  
 **Category:** 70-security-platform  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 platform maturity / Evidence integrity  
@@ -197,3 +197,111 @@ No contact canonical/Search/Publication authority changes.
 ## Rollback
 
 Restore prior capacity snapshot function and Provider-contact selector/worker source. Reconciliation ledger rows remain historical governance evidence unless a later explicit change supersedes them.
+
+
+## Implementation & Pilot runtime proof — 1 September 2026
+
+### Migration and reconciliation ledger
+
+Pilot migration:
+\`supabase/migrations/20260901224000_m2_5_evidence_lineage_reconciliation_contact_claim.sql\`
+
+Pilot source commit:
+\`b98776b45ff21520933674fb448aa3eba2fa5fa4\`.
+
+The complete migration was first executed inside a rollback transaction. The dry-run compiled the ledger, claim services and telemetry together and returned the expected reconciled capacity snapshot before rollback.
+
+It was then applied successfully as:
+\`m2_5_evidence_lineage_reconciliation_contact_claim\`.
+
+Live ledger:
+- total reconciliation rows: **7**;
+- Storage-object reconciliations: **5**;
+- legacy Evidence-reference reconciliations: **2**.
+
+The ledger is private and append-only for this gate. No historical Storage object or Evidence artifact row was deleted or rewritten.
+
+### Provider-contact worker hardening
+
+Current worker:
+- source version \`provider-contact-discover-scheduled-v1.3.4\`;
+- source commit \`abf67de65f0f7648ca880350199799934341c85e\`;
+- deployed Supabase Edge version **19**;
+- \`verify_jwt=false\` retained for the existing nonce-governed scheduled boundary.
+
+The worker now:
+- acquires Provider-contact profiles through the atomic claim service;
+- uses a 1,800-second bounded lease;
+- passes the claim token to claim-aware finish;
+- clears the claim on success/failure;
+- removes only the just-uploaded object when Evidence registration fails;
+- retains CF-055 duplicate-object cleanup after successful dedupe;
+- never removes the retained Evidence object's path.
+
+### Rollback-only claim UAT
+
+Proven without leaving claim state:
+- first claim returned exactly one profile and a claim token;
+- overlapping second claim for the same Provider returned zero profiles;
+- wrong finish token was rejected with \`stale or invalid Provider-contact claim token\`;
+- forced expired lease reclaimed the same profile with a different token;
+- correct finish succeeded;
+- separate post-finish read proved \`claim_token\`, \`claimed_at\` and \`claim_until\` all cleared;
+- live active Provider-contact claims after UAT: **0**.
+
+No real contact acquisition run was launched for CF-059.
+
+### Corrected live integrity snapshot
+
+Latest post-CF-059 snapshot:
+- severity: **OK**;
+- database: **627,092,627 bytes**;
+- Evidence objects: **10,868**;
+- Evidence bytes: **5,326,216,492**;
+- Evidence artifacts: **10,713**;
+- governed Evidence planning utilisation: **8.27%**;
+- raw unlinked Storage objects: **205**;
+- proven fingerprint duplicates: **200**;
+- reconciled historical orphans: **5**;
+- unresolved orphan objects: **0**;
+- direct virtual/external Evidence references: **16**;
+- reconciled legacy references: **2**;
+- total virtual/external references: **18**;
+- raw missing bucket objects: **2**;
+- unresolved missing bucket objects: **0**;
+- \`failed_upload_count=0\`;
+- integrity count used for severity: **0**.
+
+Raw historical counts remain visible. The OK state means there is no *unexplained* integrity fault in this known population; it does not erase the historical reconciliation evidence.
+
+### Platform Admin and release
+
+Platform Administration now displays raw, duplicate, reconciled and unresolved Evidence-lineage counts separately.
+
+Repository source/release version is **PIM Admin v2.15.19**.
+
+Release title:
+**Evidence lineage reconciliation and contact claim hardening**.
+
+### Advisors
+
+After the migration and Edge deployment:
+- Security: **147 INFO / 0 WARN / 0 ERROR**;
+- Performance: **175 INFO / 0 WARN / 0 ERROR**.
+
+### Permanent UAT
+
+Added:
+\`tests/uat/m2-5-evidence-lineage-reconciliation-contract.spec.mjs\`
+(commit \`d6320ca9ac090f20ed51db936fa2d9686bc868eb\`).
+
+Workflow routing/integration/acceptance:
+\`7f10e29bac5351b173b5de2df4b61d28d51eed07\`.
+
+The permanent contract checks reconciliation seeds, unresolved-only telemetry, atomic claim semantics, failed-registration cleanup, Platform UI lineage labels, release/version consistency and a full \`npm run build\`.
+
+## Current decision
+
+**IMPLEMENTED / RUNTIME PASS — TARGETED CI PENDING.**
+
+FU-009 has no unexplained known lineage fault remaining. Final CF-059 targeted source/build validation is the remaining gate before marking the follow-up complete.
