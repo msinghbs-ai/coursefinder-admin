@@ -4,7 +4,8 @@
 **Updated:** 1 September 2026  
 **Production Change Control:** `CF-CHG-20260901-049`  
 **Platform foundation Change Control:** `CF-CHG-20260901-051`  
-**Layer 2 corrective Change Control:** `CF-CHG-20260901-052`
+**Layer 2 corrective Change Controls:** `CF-CHG-20260901-052`, `CF-CHG-20260901-053`  
+**Layer 3 source-pattern corrective Change Control:** `CF-CHG-20260901-054`
 
 ## Accepted entry baseline
 
@@ -26,19 +27,30 @@ Final M2.4.4 acceptance:
 Pilot repository progressed after the frozen M2.4 acceptance only for M2.5 work.
 
 Current M2.5 Pilot source head at this checkpoint:
-`9fa8f590c8370bf600f1495794f9205fabbdf8a7`.
+`65fd4913f4c328b44847840e91aad024c8f6c7ed`.
 
-Admin UI version: **v2.15.15**.
+Admin source UI version: **v2.15.17**.
+
+Important deployment distinction: the external Cloudflare Worker is not currently publishing this source head; deployed browser acceptance for CF-053/CF-054 is blocked by Pilot Cloudflare Git deployment drift.
 
 Deployed M2.5 migrations:
 - `20260901060826 m2_5_platform_operations_maturity_foundation`;
 - `20260901061041 m2_5_capacity_integrity_alert_classification`;
 - `20260901061233 m2_5_environment_gate_reconcile_layer4_blocking`;
 - `20260901062200 m2_5_layer2_run_observability_correction`.
+- `20260901083800 m2_5_layer2_finalizer_fairness`;
+- `20260901085000 m2_5_layer2_stale_pattern_control_handoff`;
+- `20260901091500 m2_5_layer3_source_pattern_operator_handback`;
+- `20260901091800 m2_5_layer3_source_pattern_legacy_completion_guard`.
 
-Post-change advisors:
+Post-CF-054 advisors:
 - Security: 146 INFO / 0 WARN / 0 ERROR;
-- Performance: 174 INFO / 0 WARN / 0 ERROR.
+- Performance: 173 INFO / 0 WARN / 0 ERROR.
+
+Pilot Edge:
+- `layer3-interpret` version 9;
+- `verify_jwt=true`;
+- deployed SHA-256 `5d47c64f49275a513bebd6edd76562239a9970004cd14081e3ff2d30efb3fd92`.
 
 ## Supabase inventory
 
@@ -141,3 +153,75 @@ Do not promote or rename Pilot.
 - Admin/PIM decisions: `docs/coursefinder-admin-pim-design-decisions-v1.25.md`
 - UAT/performance: `docs/coursefinder-uat-performance-baseline-v1.1.md`
 - M2.5 operations: `docs/coursefinder-m2-5-platform-operations-readiness-v1.0.md`
+
+
+## CF-053 / CF-054 Pilot operations reconciliation
+
+### CF-053 finalizer fairness
+
+The 219 VIC terminal `failed` markers are retained audit history, not operational acquisition failures:
+- total historical production items: 261;
+- completed: 42;
+- acceptance-isolation/rescheduled markers: 219;
+- operational acquisition failures: **0**;
+- all 261 Jobs succeeded;
+- all 261 Firecrawl acquisition attempts succeeded / HTTP 200 / normalised.
+
+The 6,562 missing URLs are all Course-page discovery work across 337 Providers; all 337 already have Provider websites.
+
+The finalizer fairness correction is active under the existing five-minute bounded cron:
+- pending dispatch at defect discovery: 293;
+- latest checkpoint: **233**;
+- pending controls: **60**;
+- no quota/concurrency expansion.
+
+Stale incomplete controls no longer starve the scheduler; they route to governed Layer 3 source-pattern review.
+
+### CF-054 manual-governed source-pattern path
+
+The source-pattern queue remains intentionally operator-triggered.
+
+Implemented:
+- Curator+ secured Provider source-pattern queue;
+- Layer 3 Edge v9 exact Evidence-bound HTTPS/same-host validator;
+- valid candidate → normal Layer 2 3-Course deterministic identity control;
+- no candidate / low confidence → Layer 4 Provider source resolution;
+- no generic Layer 4 AI field-review for source-pattern;
+- no direct Provider qualification;
+- no canonical Course URL/Search/Publication mutation;
+- no automatic L2→L3 call and no run-all queue drain.
+
+Rollback-only UAT:
+- valid candidate path PASS;
+- no-candidate path PASS;
+- idempotency PASS;
+- synthetic interpretation/profile/dispatch state fully rolled back;
+- negative Curator-role enforcement PASS.
+
+Permanent source contract:
+- test `tests/uat/m2-5-layer3-source-pattern-operator-contract.spec.mjs`;
+- final targeted run `33491843514`;
+- job `99804902558`;
+- PASS.
+
+Live queue checkpoint:
+- source-pattern requests: **390 queued / 0 completed / 0 failed**;
+- live source-pattern interpretations: **0**.
+No real model call or bulk queue drain was performed in CF-054.
+
+## Pilot Cloudflare deployment blocker
+
+Current repository deployment configuration:
+- `Coursefinder-Pilot/wrangler.jsonc`;
+- Worker name `coursefinder-pilot`;
+- static assets `./dist`;
+- SPA fallback enabled.
+
+Historical project records identify Cloudflare **external Git integration** as the Pilot deployment mechanism. The GitHub deployed-UAT workflow does not deploy Cloudflare; it only waits for the Worker to update.
+
+CF-053 deployed browser run `33488961340`:
+- job `99795659209` FAIL;
+- rerun job `99796810066` FAIL;
+- both observed the old Worker bundle while current `main` contained the required new element.
+
+No Cloudflare control-plane connector is available in the current execution environment. Do not weaken browser UAT or treat source CI as deployed proof. Reconcile the external Cloudflare Git integration first, then rerun CF-053 and CF-054 deployed browser gates.
