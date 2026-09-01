@@ -1180,3 +1180,38 @@ Decision:
 1. Focused PASS/PASS → inspect once and rerun fresh Advisors/runtime while batch remains scheduled/no active batch.
 2. If clean, nominate exactly one replacement final acceptance candidate.
 3. If focused FAIL, fix only demonstrated defect.
+
+## Replacement final acceptance pickup — 95f2991e — 1 September 2026
+
+Check first:
+- candidate `95f2991e97e76e644bd74f73512b8bf2725fd4b7`;
+- build `33468512538`;
+- replacement final acceptance UAT `33468512515`.
+
+Accepted prerequisites:
+- integrated desktop/mobile `33454842388` PASS;
+- runtime reconciliation `33456205806` PASS;
+- timeout-safe closure `33459679417` PASS;
+- final corrective focus `33461321744` PASS;
+- Security Advisor 146 INFO / 0 WARN / 0 ERROR;
+- Performance Advisor 172 INFO / 0 WARN / 0 ERROR.
+
+Quiet runtime at nomination:
+- parent `c65e67a6...`;
+- wave `1bb1504d...`;
+- 219/261 completed;
+- 42 scheduled remainder;
+- no active batch/provider attempt;
+- Firecrawl route and lineage proof retained.
+
+If replacement final build + desktop/mobile acceptance PASS:
+1. inspect final logs once;
+2. reconcile final runtime/advisors/docs once;
+3. close M2.4.4 and CF-CHG-20260830-048 PASS with immutable evidence;
+4. resume/schedule the 42-Course background remainder through the governed scheduler after acceptance if still pending;
+5. prepare next milestone/chat handover.
+
+If replacement final acceptance FAIL:
+- preserve immutable evidence;
+- fix only demonstrated defect;
+- no unchanged rerun.
