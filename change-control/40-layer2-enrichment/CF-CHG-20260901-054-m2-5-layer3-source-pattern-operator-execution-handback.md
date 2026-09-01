@@ -1,6 +1,6 @@
 # CF-CHG-20260901-054 — M2.5 Layer 3 Source-Pattern Operator Execution & Deterministic Layer 2 Hand-back
 
-**Status:** IMPLEMENTED / SOURCE+ROLLBACK PASS — POST-HTTP-RECONCILE TARGETED CI PENDING; DEPLOYED UI ACCEPTANCE BLOCKED BY PILOT CLOUDFLARE GIT DEPLOYMENT DRIFT  
+**Status:** IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS — DEPLOYED UI ACCEPTANCE PENDING / CLOUDFLARE DRIFT UNDER RECHECK  
 **Category:** 40-layer2-enrichment  
 **Initiated:** 1 September 2026, Australia/Melbourne  
 **Owner:** M2.5 Pilot operations maturity  
@@ -267,6 +267,15 @@ The malformed assertion was corrected on Pilot commit:
 `1605d15bca7ccb46620ce5bd12ca01805a3f30f4`.
 
 That commit is the clean targeted-rerun trigger. At handback GitHub had not yet attached a workflow status/run ID. Per operating instruction, do not poll in-chat; check `1605d15b...` first on the next Proceed.
+
+### Clean post-reconcile source-contract result
+
+Corrected trigger `1605d15bca7ccb46620ce5bd12ca01805a3f30f4`:
+- workflow run `33492875364`;
+- targeted Chromium desktop status: **PASS**;
+- the CF-054 source/server contract including legacy HTTP→HTTPS host reconciliation is accepted at targeted source/runtime level.
+
+This does not by itself prove the external Cloudflare Worker contains the v2.15.17 Layer 3 queue UI. A dedicated browser acceptance is now required and must be run unchanged against the deployed Worker.
 
 ### Deployed Admin blocker
 
