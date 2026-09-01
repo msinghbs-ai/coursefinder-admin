@@ -46,14 +46,14 @@ Supabase at last reconciliation:
 
 Do not create a billable Production project until organisation, Production region and quoted cost are explicitly approved. Do not rename/promote Pilot.
 
-## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 implementation state
+## CF-051 / CF-052 / CF-053 / CF-054 / CF-055 / CF-056 / CF-057 / CF-058 implementation state
 
 Pilot M2.5 source head at handover:
 `ca1e54f95f9a52b39c3c1b3bf9357d332d6f2389`.
 
 The prior CF-054 post-reconcile trigger `dbd7bdde...` ran as `33492617096` / job `99807392499` and failed before executing tests because of an unterminated assertion string. The test syntax correction `1605d15b...` passed targeted Chromium desktop in workflow `33492875364`. Next check the dedicated deployed browser acceptance for the v2.15.17 Provider source-pattern queue.
 
-Admin source UI version: **v2.15.17**.
+Admin source UI version: **v2.15.18**.
 
 Do not assume the external Cloudflare Pilot Worker has this source. CF-053 browser acceptance proves the Worker is stale.
 
@@ -170,7 +170,7 @@ Run `33493637581` / job `99810738327` = **FAIL**.
 
 UAT evidence proves:
 - deployed Worker Admin version: **v2.15.14**;
-- repository source version: **v2.15.17**;
+- repository source version: **v2.15.18**;
 - CF-053 Layer 2 classification element is absent;
 - test stopped before reaching the CF-054 queue;
 - no AI action was executed.
@@ -213,6 +213,40 @@ Workflow routing commit:
 
 Targeted Chromium proof: trigger `2073621cf2c2df085d1add918d84b72fd49c207c`, workflow `33503165142`, job `99840959713`, 1/1 PASS.
 
+## CF-058 Platform maturity Administration
+
+CF-058 is **IMPLEMENTED / SERVER RUNTIME PASS — SOURCE TARGETED CI PENDING / DEPLOYED UI BLOCKED BY FU-015**.
+
+Pilot migration:
+\`20260901220500_m2_5_platform_maturity_admin_read_surface\`.
+
+Source:
+- \`src/platform-maturity-entry.jsx\`;
+- \`src/platform-maturity.css\`;
+- canonical Administration mounts \`PlatformMaturity\`;
+- source/release version **v2.15.18**.
+
+Runtime proof:
+- anonymous \`admin_read\` denied;
+- authenticated read route preserved;
+- private Platform dispatcher rank >=4;
+- no secrets/raw approval evidence exposed;
+- Security 146 INFO / 0 WARN / 0 ERROR;
+- Performance 171 INFO / 0 WARN / 0 ERROR.
+
+Current Pilot capacity snapshot shown by the workspace:
+- DB 632,933,523 bytes;
+- Evidence 10,546 objects / 5,224,808,213 bytes;
+- 8.11% governed planning envelope;
+- integrity WARNING: 200 proven duplicate unlinked objects, 5 unresolved, 2 missing Storage objects, 16 virtual refs.
+
+Permanent source/build contract:
+\`tests/uat/m2-5-platform-maturity-admin-contract.spec.mjs\`.
+Workflow routing commit:
+\`45dcf406090be5bedc8838b965495b71aee7cee0\`.
+
+Check the final CF-058 trigger first on next Proceed. Do not run deployed-browser acceptance until FU-015 Cloudflare drift is repaired.
+
 ## CI gate
 
 Permanent tests:
@@ -239,7 +273,7 @@ Without Production provisioning:
 2. CF-056 backup/PITR metadata is reconciled as far as current tools allow; final Production restore/DR remains a clean-environment gate;
 3. define notification destination/escalation for capacity/integrity;
 4. mature canonical Administration surfaces for environment gates/capacity/UAT/blocking;
-5. CF-057 block enforcement is runtime-proven; retain canonical block-management UI under FU-011 and close targeted CI before treating it as release-gated;
+5. CF-058 now provides the canonical block-management/platform UI in source; close its source/build targeted contract, while deployed UI remains blocked by FU-015;
 6. analyse 219 current Layer 2 failures and missing-URL population as Pilot operations, not M2.4 reopening;
 7. continue serving-vs-ingestion performance profile design/benchmarks.
 
