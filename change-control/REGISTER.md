@@ -96,6 +96,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-064 | 30-admin-pim-ux | Statistics, Rankings, Comparison & Manual Publisher Import UX | DESIGN ACCEPTED / UI IMPLEMENTATION ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-064-statistics-rankings-comparison-manual-import-ux.md` |
 
+| CF-CHG-20260902-065 | 30-admin-pim-ux | Layer 1 Authority & Statistical Ingestion Operations v2 | IMPLEMENTED / TARGETED VALIDATION IN PROGRESS | `30-admin-pim-ux/CF-CHG-20260902-065-layer1-authority-statistical-ingestion-operations-v2.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
