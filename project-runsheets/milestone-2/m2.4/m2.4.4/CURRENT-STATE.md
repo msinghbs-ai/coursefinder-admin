@@ -1476,3 +1476,102 @@ Active at handover:
 - focused deployed UAT `33456205806` — IN PROGRESS.
 
 No final acceptance candidate may be nominated while this focused gate is active.
+
+## A26 child-lineage + A23 Firecrawl route closure — 1 September 2026
+
+Prior focused runtime reconciliation:
+- head `258e5c041b96abb886d1f3247d8821033d92c477`;
+- build `33456205759`: PASS;
+- focused UAT `33456205806`: PASS.
+
+### A26 real child lineage — PROVEN
+Governed scheduled request:
+- parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- scope wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- AU state scope `62b431e1-444b-435f-b738-ab33031a2c73`;
+- route mode `scraper_first`;
+- 261 production Courses.
+
+Initial scheduler blocker:
+- fully processed legacy batch `3e279662-1a61-4a3d-8936-d10f0d9f0766` remained status `partial`;
+- scope dispatcher incorrectly treated any profile-level `partial` batch as concurrently active;
+- correction migration `20260901092500_m2_4_4_a26_partial_batch_terminal_dispatch.sql`;
+- Pilot commit `f0fdc52736af227e2879db652c495c5306c884e0`;
+- duplicate protection now blocks only queued/running profile batches; terminal partial history no longer blocks later scheduled production.
+
+First dispatched corrective-history batch:
+- `69be7f45-89b3-4e04-b26e-cd89a122a4b5`;
+- parent lineage propagated correctly into batch / Job / Evidence;
+- runtime inspection exposed an A23 regression: batch runner v6 did not pass `selected_provider_id` into `layer2-acquire-v2`, so actual acquisitions used `direct-http` despite parent route `scraper_first`;
+- batch cancelled with 230 queued/in-flight items; already completed direct-http Jobs/Evidence retained as immutable corrective history;
+- no Evidence/history was deleted or rewritten.
+
+A23 route correction:
+- Pilot `3edbfbd9e279a6aeaf5b2ea4f2c5b271e17824bb`;
+- `layer2-batch-runner` now passes `provider_id: priorProvider` into `layer2-acquire-v2`;
+- under `scraper_first`, missing selected provider is rejected rather than silently using another route;
+- deployed runner version: **v7**, `verify_jwt=false` retained because the existing function uses pilot-key/admin custom authentication.
+
+Corrected production batch:
+- `accd42a2-f096-452b-a084-dc609bd45030`;
+- same parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- same scope wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- 261 Courses requeued under Firecrawl selection.
+
+Live accepted child proof:
+- Job `ed945d14-1458-41b7-bd75-0d1db77531a4`: succeeded;
+- provider: `firecrawl`;
+- Job payload lineage parent: `c65e67a6-3b2e-47e3-832a-57118fe5cf5f`;
+- wave: `1bb1504d-7bad-42d9-b059-4adeaf9118c7`;
+- raw JSON Evidence `5bc09143-a8d7-477a-a446-570a2e49e451`;
+- screenshot Evidence `e8a0ddf7-295c-46fd-b0c2-6392c28de0ee`;
+- extraction Evidence `567993f6-8918-46b7-bc0e-886327bf181d`;
+- all three Evidence artifacts carry the same parent / scope-wave lineage and provider `firecrawl`.
+
+Therefore the required qualification → production wave → batch → Job → Evidence parent lineage is now runtime-proven.
+
+### A26 parent projection correctness
+Initial parent projection fan-out was corrected:
+- migration `20260901094000_m2_4_4_a26_parent_projection_reconcile.sql`;
+- Pilot `1788ab6355f28663727b81b74c4ec8b19c35f5b6`;
+- processed/L2/L3/blocked/vendor counts aggregate batches exactly rather than multiplying through Job/Evidence joins;
+- cancelled corrective history is explicitly separated using `cancelled_batches` and `historical_cancelled_processed`;
+- lineage Job/Evidence counts retain complete parent history.
+
+### A26 heartbeat
+Slow Firecrawl calls could leave the batch heartbeat unchanged between reconciliations.
+Correction:
+- migration `20260901101500_m2_4_4_a26_child_heartbeat.sql`;
+- Pilot `3bc7c0673f842c9916aca443605cbe1a0ed45026`;
+- every child item state update now refreshes the owning queued/running batch heartbeat;
+- result/outcome/retry semantics unchanged.
+
+Permanent regression assertions:
+- A23/A26 route/terminal-partial contract: `aa9e4f04aa51426ede8e01c0fb5e989ca135c4be`;
+- A26 child heartbeat contract: `8c7e24155426b77ac64939f023dc48d425b9e775`.
+
+### Final focused closure regression
+Marker/head:
+- `419bcc5988f8c9b9fd6fef5776e87c7faf6b1d4b`.
+
+Active runs at handover:
+- frontend build `33457383942` — IN PROGRESS;
+- focused deployed UAT `33457383894` — QUEUED.
+
+Focused suites:
+- Administration deep-link/history;
+- A23 Firecrawl-first background production;
+- A26/A28 parent operator UX;
+- A25 Evidence integrity;
+- unchanged performance budgets.
+
+Corrected production batch remains active background work and is not itself a reason to long-poll closure. At the latest bounded read its items were:
+- queued 255;
+- acquiring 1;
+- Layer 3 required 5;
+- blocked 0.
+
+Decision:
+- final focused PASS/PASS → inspect logs once, reconcile runtime/advisors once, then nominate exactly one final acceptance candidate;
+- FAIL → preserve immutable evidence and correct only the demonstrated defect;
+- do not create final acceptance while `33457383894` is active.
