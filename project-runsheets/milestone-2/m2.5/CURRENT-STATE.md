@@ -403,7 +403,7 @@ No A17 schema migration, adapter, model call, UI publication or Production enabl
 
 ## CF-061 QILT / PRISMS comparison experience
 
-CF-061 is **IMPLEMENTED / PILOT RUNTIME PASS — SOURCE CI PENDING — DEPLOYED UAT PENDING**.
+CF-061 is **IMPLEMENTED / PILOT RUNTIME + SOURCE/BUILD TARGETED PASS — DEPLOYED UAT PENDING**.
 
 Pilot source is now **v2.15.21** and adds:
 - a dedicated Compare workspace for up to six Providers or Courses;
@@ -432,6 +432,13 @@ Initial APPLY exposed two schema-name defects (`providers.city`, `external_study
 Permanent source/build contract:
 `tests/uat/cf-061-qilt-prisms-comparison-contract.spec.mjs`.
 
-Latest targeted source trigger at this checkpoint:
-`msinghbs-ai/Coursefinder-Pilot@b423af67af6917ae3407e3f5137dcd403d0da225`.
-No commit status was attached at the last check, so source CI remains pending. Do not claim deployed browser acceptance until Cloudflare serves v2.15.21 and the comparison UI is exercised there.
+Targeted source/build proof:
+- trigger `msinghbs-ai/Coursefinder-Pilot@b423af67af6917ae3407e3f5137dcd403d0da225`;
+- workflow `33515174810`;
+- job `99880438005`;
+- targeted Chromium desktop PASS.
+
+Dedicated deployed comparison gate:
+`tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs`.
+
+Candidate trigger `35fef88e07cff9e7d6e568d740c31722c3c3720e` had no attached status at the last bounded check. Do not claim deployed browser acceptance until that gate proves Cloudflare is serving v2.15.21 and the comparison UI passes.
