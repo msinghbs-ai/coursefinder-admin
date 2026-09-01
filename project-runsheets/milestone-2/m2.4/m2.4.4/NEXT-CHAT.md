@@ -1094,3 +1094,33 @@ Decision:
 2. If clean, mark A26/A27/A28 closure gates satisfied and nominate exactly one final acceptance candidate.
 3. Do not wait for the entire 261-Course background batch merely to prove progress; ongoing background work is valid A26 runtime state.
 4. Any focused failure is immutable evidence; no unchanged rerun.
+
+## Timeout-safe Firecrawl closure pickup — ccb5db22 — 1 September 2026
+
+Check first:
+- head `ccb5db220e7e34ab0f0f16cf04228f78b45f6ad9`;
+- build `33459679420`;
+- focused UAT `33459679417`.
+
+Important immutable evidence:
+- `33457383942` PASS / `33457383894` FAIL: test-only invalid migration-string assertion; 20 other focused tests passed.
+- after that, live batch monitoring found a real runner timeout: v7 hit 504 at ~150 s with one successful Firecrawl acquisition orphaned from its run item.
+
+Current production correction:
+- runner v8 deployed;
+- Firecrawl chunks capped at 2;
+- stale acquiring items recover an already-succeeded matching Job when available;
+- recovered extraction resumes from original attempt/Evidence, avoiding duplicate vendor usage;
+- child heartbeat retained.
+
+Live proof:
+- item `60322b65...` reused Job `81a09da3...` and completed without a duplicate scrape;
+- batch `accd42a2...` reached 9/261 processed, 0 blocked, with current heartbeat;
+- parent remains `c65e67a6...`; wave remains `1bb1504d...`.
+
+Decision:
+1. PASS/PASS → inspect focused logs once.
+2. Reconcile Security + Performance Advisors and parent/batch runtime once.
+3. If clean, close M244-FU-017/018/019 and nominate exactly one final acceptance candidate.
+4. Do not wait for all 261 Courses to finish; active healthy background progress is acceptable.
+5. Any failure remains immutable; no unchanged rerun.
