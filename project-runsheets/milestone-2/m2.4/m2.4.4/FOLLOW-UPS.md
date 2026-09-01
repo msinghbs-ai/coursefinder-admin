@@ -209,13 +209,15 @@ Architecture baseline:
 
 ## M244-FU-017 — Finalise Layer 2 production run / job / Evidence / Dashboard lineage
 - **Source:** M2.4.4 A26, 1 September 2026
-- **Status:** RUNTIME PROOF COMPLETE / FINAL FOCUSED VALIDATION ACTIVE
-- **Stable parent proof:** parent `c65e67a6-3b2e-47e3-832a-57118fe5cf5f` → wave `1bb1504d-7bad-42d9-b059-4adeaf9118c7` → corrected batch `accd42a2-f096-452b-a084-dc609bd45030` → Firecrawl Job `ed945d14-1458-41b7-bd75-0d1db77531a4` → raw/screenshot/extraction Evidence `5bc09143...`, `e8a0ddf7...`, `567993f6...`.
-- **Route proof:** Job and Evidence carry `provider_key=firecrawl`, route `scraper_first`, same parent and scope-wave IDs.
-- **Corrections:** terminal partial guard `f0fdc527...`; runner selected-provider handoff + deployed v7 `3edbfbd9...`; exact parent aggregation `1788ab63...`; child heartbeat `3bc7c067...`.
-- **Corrective history:** superseded v6 direct-http batch `69be7f45...` cancelled; completed Jobs/Evidence retained immutable.
-- **Final focused gate:** head `419bcc5988f8c9b9fd6fef5776e87c7faf6b1d4b`; build `33457383942`; UAT `33457383894` active.
-- **Closure rule:** close on focused PASS/PASS; the ongoing 261-Course background workload itself is valid production-progress state and does not require long polling before acceptance.
+- **Status:** RUNTIME PROOF COMPLETE / TIMEOUT-RECOVERY FOCUSED GATE ACTIVE
+- **Stable lineage:** parent `c65e67a6...` → wave `1bb1504d...` → corrected Firecrawl batch `accd42a2...` → Firecrawl Jobs/Evidence with matching parent/wave lineage.
+- **Route:** runner selected-provider handoff fixed and deployed; direct-http corrective history remains immutable.
+- **Additional runtime defect found:** runner v7 timed out at ~150 s on a 10-item Firecrawl chunk, leaving one successful vendor acquisition unattached to its item.
+- **Recovery:** stale acquisition recovery `0fcfce64...`; resume context `9a718029...`; runner v8 `8c9d8591...`; Firecrawl chunks capped at 2; existing successful acquisition reused rather than duplicated.
+- **Live recovery proof:** item `60322b65...` reused Job `81a09da3...`; batch advanced to 9/261, blocked 0, heartbeat current.
+- **Regression source:** `454058ff...`.
+- **Focused head:** `ccb5db220e7e34ab0f0f16cf04228f78b45f6ad9`; build `33459679420`; UAT `33459679417`.
+- **Closure rule:** close on focused PASS/PASS and one final runtime/advisor reconciliation.
 - **Owner:** M2.4.4
 - **Target:** before final acceptance nomination
 
