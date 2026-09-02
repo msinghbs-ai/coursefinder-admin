@@ -1,6 +1,6 @@
 # CF-CHG-20260902-071 — QS 2026 Provider Reconciliation Preview
 
-**Status:** IMPLEMENTED / TARGETED UAT ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026 Australia/Melbourne  
 **Primary category:** 20 — Layer 1 Regulatory / Authoritative Ingestion  
 **Related:** CF-063, CF-064, CF-067, CF-068, A29
@@ -40,3 +40,23 @@ Initial live preview: **36 AU QS rows / 21 unique exact / 1 exact ambiguity / 14
 The 14 unmatched rows were verified against existing active CRICOS Providers and registered as source-scoped `catalogue.provider_aliases` with `alias_type=qs_wur_publisher_name` and QS 2026 source provenance. No Provider identity or canonical name was changed.
 
 Expected post-alias preview: **35 mapped / 1 governed review / 0 unmatched**. The remaining ambiguity is QS `Victoria University`, which matches two active CRICOS Provider records (`00124K` and `02475D`); it is intentionally not auto-resolved.
+
+
+## Targeted proof
+
+Deployed targeted workflow `33586539099` / job `100111777360` — **PASS** on `Coursefinder-Pilot@ec00d8f6fa57e462bf15b7561fa7521daf14fb87`.
+
+Observed reconciliation:
+- source rows: **1,501**;
+- AU QS rows: **36**;
+- source-scoped alias matches: **14**;
+- direct exact matches: **21**;
+- total deterministic mappings: **35 / 36 (97.22%)**;
+- unmatched: **0**;
+- ambiguous: **1** — Victoria University, candidates CRICOS `00124K` and `02475D`;
+- ranking observations after test: **0**.
+
+Frontend build `33586539127` — **PASS**.
+Security advisor: **156 INFO / 0 WARN / 0 ERROR**. Performance advisor: **185 INFO only**.
+
+The Victoria University row remains deliberately unresolved because the ranking observation model currently stores one Provider ID while the institutional publisher entity corresponds to more than one active CRICOS Provider record. No arbitrary representative Provider is selected.
