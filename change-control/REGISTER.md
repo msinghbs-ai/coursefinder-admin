@@ -128,11 +128,11 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.1.md`;
 - Platform maturity implementation backlog: `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`;
 - M2.5 platform operations readiness: `docs/coursefinder-m2-5-platform-operations-readiness-v1.0.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.49.md` plus closed prior Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.30.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.50.md` plus closed prior Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.31.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.6.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A32 (as applicable);
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A33 (as applicable);
 - M2.4 plan: M2.4.0–M2.4.4 CLOSED/PASS; M2.5 ACTIVE/READINESS under `CF-CHG-20260901-049`.
 
 ## Accepted runtime/source authority
@@ -179,3 +179,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260902-082 | 40-layer2-enrichment | Provider Page Fan-out Extraction | IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES | `40-layer2-enrichment/CF-CHG-20260902-082-provider-page-fanout-extraction.md` |
 
 | CF-CHG-20260903-083 | 40-layer2-enrichment | Scholarship Catalogue→Detail Acquisition & Provider Asset Promotion | IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES | `40-layer2-enrichment/CF-CHG-20260903-083-scholarship-catalogue-detail-provider-asset-promotion.md` |
+
+| CF-CHG-20260903-084 | 70-security-platform | Admin Environment, Credentials & Production Supabase Migration Controls | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `70-security-platform/CF-CHG-20260903-084-admin-environment-production-migration-controls.md` |
