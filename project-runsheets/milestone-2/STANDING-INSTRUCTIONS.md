@@ -8,7 +8,7 @@
 
 CourseFinder M2 work is split across short chats and sub-milestones. The detailed task prompt may change, but the operating rules must not disappear when a new chat starts or one issue consumes the context window.
 
-Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A14-L2-L3-TELEMETRY.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A29-QS-THE-WORLD-RANKINGS.md`.
+Every M2 continuation prompt and runsheet must explicitly inherit this file in addition to `PROJECT_INSTRUCTIONS.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDA-A1-A6.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A7-UAT-EFFICIENCY-REVIEW.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A8-RELEASE-NOTES-SINGLE-SURFACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A10-PAGED-FILTERS-TABLET-FOCUS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A12-CONTEXTUAL-INSIGHTS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A13-FILTER-STABILITY-L2-DEMO-TRACE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A14-L2-L3-TELEMETRY.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A15-INSTITUTE-CONTACT-INTELLIGENCE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`, `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A29-QS-THE-WORLD-RANKINGS.md` and `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`.
 
 ## Mandatory start-of-chat reconciliation
 
@@ -27,12 +27,13 @@ Before material work:
 11. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A16-L3-CONTACT-COVERAGE-L4-GOVERNED-INTERVENTION.md`;
 12. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A17-COURSE-SKILLS-CAREER-LABOUR-MARKET-INTELLIGENCE.md`;
 13. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A29-QS-THE-WORLD-RANKINGS.md`;
-14. read `change-control/README.md` and `change-control/REGISTER.md`;
-15. read the latest Master Project Plan and Running Build;
-16. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
-17. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
-18. read overlapping open/recent Change Controls;
-19. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
+14. read `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md` when Provider contact data management/import/export is involved;
+15. read `change-control/README.md` and `change-control/REGISTER.md`;
+16. read the latest Master Project Plan and Running Build;
+17. read the latest accepted database architecture and Admin/PIM design decisions relevant to the task;
+18. read the current milestone/sub-milestone `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` and `NEXT-CHAT.md` where present;
+19. read overlapping open/recent Change Controls;
+20. reconcile current Pilot/Production implementation repository heads, deployed Supabase state and applicable CI/UAT before changing shared foundations.
 
 Repository/runtime truth takes precedence over stale chat text. Do not overwrite newer parallel work.
 
@@ -53,6 +54,7 @@ Repository/runtime truth takes precedence over stale chat text. Do not overwrite
 - Follow A13 for stable Course/tablet filters and Layer 2 demo traceability: filter menus remain anchored to their trigger and the routine Layer 2 screen must expose automatic Direct HTTP → Firecrawl → fallback routing plus linked captured Evidence without fabricating screenshots.
 - Follow A14 for standing Layer 2 / Layer 3 telemetry: scraper/provider route, retry, latency, vendor units/cost/Evidence/fall-out and model/profile/calls/tokens/latency/cost/validator metrics must be retained where supplied; unavailable usage is explicit and never manufactured.
 - Follow A15 for accepted institute contact intelligence boundaries: first-party source authority, privacy, evidence/quality reconciliation and no automatic Search/Zoho admission remain protected.
+- Follow A30 for Provider Contacts management: preserve A15 observations/Evidence, use stable managed contact IDs with append-only versions, dry-run/idempotent imports, reversible delete/restore, privileged audited exports and no automatic consumer admission.
 
 ## Authority model that must not regress
 
@@ -379,3 +381,24 @@ Standing rules:
 ## A29 ranking context standing rule — 2 September 2026
 
 QS/THE World University Rankings are Layer 1 publisher-authoritative **institutional context**, not regulatory identity and not Course-level quality. Preserve edition/source revision, exact-versus-banded rank semantics, methodology version, Evidence and governed Provider mapping. Historical backfill must remain access/licensing-aware. Do not silently use rankings as Search relevance or publish them to Website/Zoho without a separate admission gate.
+
+
+## A30 Provider Contacts database management standing rule — 2 September 2026
+
+Provider Contacts is a first-class Catalogue/PIM workspace linked many-to-one to canonical Providers.
+
+Standing requirements:
+- A15 source observations remain immutable acquisition/Evidence history;
+- managed contact identity is stable and versioned separately from source observations;
+- mass import is private-Evidence-backed, hash-addressed, dry-run first and idempotent;
+- legacy/merged institution names resolve through governed Provider mappings and ambiguous matches are not guessed;
+- routine deletion is soft and reversible; restore is auditable;
+- individual edits append managed versions/history rather than rewriting Evidence;
+- the grid is server-paged/searchable/filterable/sortable with operator-controlled column order/visibility/width;
+- PIM/Data Admin import/export/create/edit/delete/restore is server-role-gated and audited;
+- Search, Website/Wix and Zoho contact publication remain separate consumer-admission decisions.
+
+Authoritative design:
+- `CF-CHG-20260902-076`;
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
+- `docs/coursefinder-provider-contact-database-management-design-v1.0.md`.
