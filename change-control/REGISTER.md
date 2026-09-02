@@ -112,6 +112,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-075 | 20-layer1-regulatory-ingestion | Compact Multi-Year Ranking Dataset Families | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-075-compact-multi-year-ranking-dataset-families.md` |
 
+| CF-CHG-20260902-076 | 30-admin-pim-ux | Provider Contact Database Management | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `30-admin-pim-ux/CF-CHG-20260902-076-provider-contact-database-management.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
