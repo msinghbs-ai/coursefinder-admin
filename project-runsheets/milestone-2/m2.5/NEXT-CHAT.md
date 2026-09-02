@@ -414,33 +414,27 @@ CF-073 is **IMPLEMENTED / TARGETED PASS**.
 Do not reopen CF-073 unless later integration/regression evidence identifies a new route failure.
 
 
-## CF-077 / A30 Provider Contacts continuation
+## CF-080 / A30 Provider Contacts continuation
 
-Provider Contacts design is accepted; no runtime implementation is claimed yet.
+Provider Contacts runtime/source implementation is present in Pilot v2.15.41. The exact targeted deployed UAT trigger is:
+- `msinghbs-ai/Coursefinder-Pilot@1dbfef925c576e061dcb72f347487615548d0e2c` — `.github/cf-080-provider-contacts-candidate`.
 
-Read before implementation:
-- `change-control/30-admin-pim-ux/CF-CHG-20260902-077-provider-contact-database-management.md`;
+Read before any further change:
+- `change-control/30-admin-pim-ux/CF-CHG-20260902-080-provider-contact-database-management.md`;
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
 - `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
-- DB Architecture `v2.10.47`;
-- Admin/PIM Decisions `v1.28`;
-- Admin Navigation IA `v1.6`;
-- existing A15 schema/worker/UI and CF-059 contact-claim hardening.
+- current Pilot migrations/functions/UI at repository/runtime truth.
 
-Initial attachment contract:
-- 306 rows / 17 columns;
-- 42 source university labels / 41 current institutions;
-- 291 named staff / 15 team contacts;
-- 9 duplicated logical Adelaide contact groups appear twice because University of Adelaide and University of South Australia legacy source labels both map to current Adelaide University. Dry-run must collapse/reconcile through Provider mapping rather than insert duplicates.
+Implemented state:
+- managed private registry, versions, import batches/rows and audit;
+- A15 backfill 31 contacts / 31 versions / 31 linked observations;
+- Catalogue → Provider Contacts module, Provider deep-link, configurable decision grid and contact drawer;
+- PIM Operator rank-5 mutation/import/export boundary;
+- private Evidence CSV upload → dry-run → resumable APPLY;
+- Provider ambiguity/conflict handling; manual current versions are not silently overwritten;
+- JWT Edge functions v2;
+- Security Advisor 0 Provider Contacts WARN/ERROR after public-wrapper hardening.
 
-Do not commit the raw uploaded CSV as a repository fixture. Register it through private Evidence/import storage at implementation time.
+Initial user CSV remains **not APPLY-imported** and must not be committed as a fixture. When it is uploaded through the module, preserve the 9 duplicate Adelaide logical groups through dry-run reconciliation and leave Victoria University in provider_ambiguous until a stable Provider mapping is approved.
 
-Implementation pickup:
-1. reconcile current Pilot head/runtime and current role-rank authority;
-2. add stable managed-contact/version/import/audit schema without rewriting A15 observations;
-3. implement secured read/mutation/import/export boundaries;
-4. implement CSV v1 dry-run with Provider alias/merger reconciliation and idempotency;
-5. add Catalogue → Provider Contacts route/grid/drawer;
-6. add edit/delete/restore/history/export;
-7. run targeted DB/API/security/browser/performance UAT;
-8. keep Search/Website/Wix/Zoho unchanged unless separately authorised.
+Next action: check the exact CF-080 candidate deployed-UAT status first. If PASS, mark CF-080 targeted PASS and retain only the initial 306-row CSV APPLY / Victoria mapping as operational follow-up. If FAIL, diagnose that exact run without weakening auth, Evidence or ambiguity controls.
