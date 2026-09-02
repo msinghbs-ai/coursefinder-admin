@@ -607,3 +607,14 @@ The Layer 1 read projection now supports **GLOBAL** scope and returns ranking sy
 Admin UI release: **v2.15.26**.
 
 No real QS/THE observations are claimed accepted yet. First authorised publisher-artifact dry-run/apply is the remaining data acceptance gate.
+
+
+### CF-067 targeted proof
+
+Implementation head `Coursefinder-Pilot@e431c4e18a0da65a770f98a426b5e8dcebf3c603`:
+- Frontend Build `33576970066` PASS;
+- Deployed UAT `33576969873` PASS;
+- Supabase Security 156 INFO / 0 WARN / 0 ERROR;
+- ranking Global source read PASS.
+
+Permanent source contract added at `tests/uat/cf-067-ranking-layer1-contract.spec.mjs`. Admin release notes advanced to v2.15.26.
