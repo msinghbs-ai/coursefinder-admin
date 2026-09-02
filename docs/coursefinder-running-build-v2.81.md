@@ -313,7 +313,7 @@ Deployed targeted UAT `33590571041` / `100123554544` PASS, **1 passed (4.6s)** o
 
 ### M2.5 CF-081 — Consolidated Layer 2 acquisition, Scholarship seed & Provider assets
 
-CF-081 is **APPLIED / TARGETED VERIFICATION ACTIVE** in Pilot.
+CF-081 is **APPLIED / TARGETED PASS — DATA POPULATION CONTINUES** in Pilot.
 
 Pilot migration: `20260902132027 cf_081_layer2_consolidated_acquisition_scholarship_assets`.
 
@@ -322,14 +322,14 @@ Implemented:
 - shared same-URL Evidence cache + downstream fan-out queue;
 - Provider asset/logo candidate + approved-asset domain;
 - 933 AU/NZ Provider Scholarship profiles and 933 Provider-logo profiles seeded from first-party `web_catalogue` anchors;
-- 7,464 acquisition routes across Direct HTTP / disabled Parse.bot / Firecrawl / ZenRows for those new profiles;
+- 7,464 acquisition routes across Direct HTTP / disabled Parse.bot / Firecrawl / ZenRows for those new profiles; 933 existing Course profiles sharing the same sources are now shared-fetch enabled;
 - Parse.bot registered disabled with no fabricated endpoint or credential;
 - `layer2-acquire-v2` upgraded to v10; successful acquisitions register shared Evidence and subsequent sibling requests can return at zero vendor cost inside TTL;
 - Study Australia full refresh reduced from daily to weekly; DFAT to monthly; Scholarship maintenance to weekly;
-- bounded Study Australia bootstrap dispatches submitted for pages 6–10, 11–15 and 16–20.
+- bounded Study Australia bootstrap pages 6–20 completed HTTP 200, raising canonical Scholarships 54→180 and source records 114→240.
 
 Pilot source refs:
 - worker change `e3d3109734306701fe6c63acbc2472e47dc06d95`;
-- migration source `24ed81365d2ae2e7cb410b8c67b806a83adbb647`.
+- migration source `24ed81365d2ae2e7cb410b8c67b806a83adbb647`, FK-index hardening `93ea860691186c89ecc13eefd107289dac28a096`, shared-profile routing `c32c0d366eb7afa200b0ed64ce757a149afdf368`.
 
 No Search/Website/Zoho Scholarship/logo admission is authorised by this change.
