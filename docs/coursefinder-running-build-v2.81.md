@@ -373,3 +373,30 @@ Authority:
 - Admin/PIM Decisions v1.30.
 
 No Search/Website/Wix/Zoho Scholarship or logo admission is authorised.
+
+
+### M2.5 CF-084 — Environment, credentials & Production Supabase migration controls
+
+Status: **IMPLEMENTED / TARGETED VERIFICATION ACTIVE**.
+
+Pilot UI v2.15.43 adds `Administration → Environment & Migration`.
+
+Implemented:
+- Parse.bot endpoint/API-key provision using the existing write-only Layer 2 Vault credential path;
+- Firecrawl quota/rate/reserve editable as governed provider configuration;
+- Scrape.do, ScraperAPI and ZenRows central credential/settings access;
+- OpenRouter credential access through the established Layer 3 provider-control path;
+- Apollo moved to prefer an Admin-managed Vault credential, retaining legacy Edge env fallback during transition;
+- Production target organisation/project ref/project URL/region/Admin origin/Website origin metadata;
+- private environment/integration/migration registries;
+- Production migration manifest covering Database/Auth, Vault, Storage, Functions, secrets, Auth/API keys, cron, extensions, origins, Evidence links and later consumer integrations;
+- release notes advanced to v2.15.43.
+
+Pilot portability telemetry:
+17,400 Evidence rows / 17,626 Storage objects / 14 cron jobs / 7 Vault secrets / 0 absolute Evidence Storage paths / 0 Pilot Supabase URLs embedded in Evidence source/metadata.
+
+The recorded Firecrawl monthly limit remains 5,000 until Platform Admin enters the user's newly increased vendor entitlement. CF-084 does not guess the new value.
+
+Parse.bot remains disabled until trial endpoint/key and bounded adapter UAT are supplied.
+
+No Production project is created and no consumer cutover is authorised by CF-084.
