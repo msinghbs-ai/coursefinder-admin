@@ -416,25 +416,25 @@ Do not reopen CF-073 unless later integration/regression evidence identifies a n
 
 ## CF-080 / A30 Provider Contacts continuation
 
-Provider Contacts runtime/source implementation is present in Pilot v2.15.41. The exact targeted deployed UAT trigger is:
-- `msinghbs-ai/Coursefinder-Pilot@1dbfef925c576e061dcb72f347487615548d0e2c` — `.github/cf-080-provider-contacts-candidate`.
+Provider Contacts runtime/source is now **v2.15.42** with Layer 4 reconciliation.
 
-Read before any further change:
-- `change-control/30-admin-pim-ux/CF-CHG-20260902-080-provider-contact-database-management.md`;
-- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
-- `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
-- current Pilot migrations/functions/UI at repository/runtime truth.
+Latest exact deployed-UAT trigger:
+- msinghbs-ai/Coursefinder-Pilot@f8be2429ffd60863bf34fbda8f0b0d17401bdb19 — refreshed CF-080 candidate.
 
-Implemented state:
-- managed private registry, versions, import batches/rows and audit;
-- A15 backfill 31 contacts / 31 versions / 31 linked observations;
-- Catalogue → Provider Contacts module, Provider deep-link, configurable decision grid and contact drawer;
-- PIM Operator rank-5 mutation/import/export boundary;
-- private Evidence CSV upload → dry-run → resumable APPLY;
-- Provider ambiguity/conflict handling; manual current versions are not silently overwritten;
-- JWT Edge functions v2;
-- Security Advisor 0 Provider Contacts WARN/ERROR after public-wrapper hardening.
+Implemented:
+- managed registry/version/import/audit model;
+- 31 A15 observations backfilled non-destructively;
+- Catalogue → Provider Contacts module and Provider deep-link;
+- rank-5 PIM create/edit/delete/restore/import/export;
+- JWT Provider Contact Edge functions v3;
+- exact repeat auto-skip;
+- non-identical duplicate, Provider ambiguity and manual/import conflict → Layer 4 Human Resolution;
+- deterministic rows APPLY while parked rows remain pending;
+- batch state applied_with_review_pending until last human decision;
+- Layer 4 actions: merge existing, accept incoming, keep existing, keep separate, map Provider + apply, reject import;
+- rollback proof closes a review-pending batch back to applied;
+- Provider Contacts Security/Performance Advisor: 0 WARN / 0 ERROR for the changed surface.
 
-Initial user CSV remains **not APPLY-imported** and must not be committed as a fixture. When it is uploaded through the module, preserve the 9 duplicate Adelaide logical groups through dry-run reconciliation and leave Victoria University in provider_ambiguous until a stable Provider mapping is approved.
+Initial 306-row user CSV remains **not APPLY-imported** and must not be committed as a fixture. On upload through the module, the nine Adelaide legacy duplicate groups should surface through the new Layer 4 rule where non-identical; exact repeats should auto-skip. Victoria University remains Provider ambiguity and should be decided in Layer 4, not guessed.
 
-Next action: check the exact CF-080 candidate deployed-UAT status first. If PASS, mark CF-080 targeted PASS and retain only the initial 306-row CSV APPLY / Victoria mapping as operational follow-up. If FAIL, diagnose that exact run without weakening auth, Evidence or ambiguity controls.
+Next action: check exact SHA f8be2429ffd60863bf34fbda8f0b0d17401bdb19. If PASS, mark CF-080 targeted PASS and leave only the actual 306-row authenticated import/human resolutions as operational follow-up.
