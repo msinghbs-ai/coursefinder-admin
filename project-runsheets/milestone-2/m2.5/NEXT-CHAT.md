@@ -444,3 +444,18 @@ Operational follow-up only:
 - resolve Victoria University Provider ambiguity in Layer 4 rather than guessing.
 
 Do not reopen CF-080 unless the real import or later regression exposes a new defect.
+
+
+## CF-081 / A31 continuation checkpoint
+
+CF-081 is applied in Pilot. Start from migration `20260902132027`, Edge `layer2-acquire-v2` v10 and Pilot source commits `e3d3109734306701fe6c63acbc2472e47dc06d95` / `24ed81365d2ae2e7cb410b8c67b806a83adbb647`.
+
+Do next:
+1. inspect the three Study Australia bootstrap dispatch outcomes for page windows 6–10, 11–15, 16–20 and record canonical/source-record deltas;
+2. run a bounded shared-fetch UAT proving first request acquires Evidence and a sibling profile reuses it without an additional vendor unit;
+3. run a bounded Provider-logo candidate extraction/approval trial before broad population;
+4. run Security + Performance advisors and classify only new/material findings;
+5. keep Parse.bot disabled until the user supplies the trial API details;
+6. do not broaden Hotcourses/IDP into canonical ingestion without explicit reuse/source approval.
+
+Do not change the new default cadences merely because the hourly scheduler evaluates due state. Study Australia full refresh is weekly, DFAT monthly, Provider logos quarterly and Course facts monthly with lighter change checks/acceleration.
