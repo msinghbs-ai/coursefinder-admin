@@ -412,3 +412,35 @@ CF-073 is **IMPLEMENTED / TARGETED PASS**.
 - No Layer 2 authority, credentials, execution policy, Evidence, Search, Publication or Zoho semantics changed.
 
 Do not reopen CF-073 unless later integration/regression evidence identifies a new route failure.
+
+
+## CF-076 / A30 Provider Contacts continuation
+
+Provider Contacts design is accepted; no runtime implementation is claimed yet.
+
+Read before implementation:
+- `change-control/30-admin-pim-ux/CF-CHG-20260902-076-provider-contact-database-management.md`;
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
+- `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
+- DB Architecture `v2.10.47`;
+- Admin/PIM Decisions `v1.28`;
+- Admin Navigation IA `v1.6`;
+- existing A15 schema/worker/UI and CF-059 contact-claim hardening.
+
+Initial attachment contract:
+- 306 rows / 17 columns;
+- 42 source university labels / 41 current institutions;
+- 291 named staff / 15 team contacts;
+- 9 duplicated logical Adelaide contact groups appear twice because University of Adelaide and University of South Australia legacy source labels both map to current Adelaide University. Dry-run must collapse/reconcile through Provider mapping rather than insert duplicates.
+
+Do not commit the raw uploaded CSV as a repository fixture. Register it through private Evidence/import storage at implementation time.
+
+Implementation pickup:
+1. reconcile current Pilot head/runtime and current role-rank authority;
+2. add stable managed-contact/version/import/audit schema without rewriting A15 observations;
+3. implement secured read/mutation/import/export boundaries;
+4. implement CSV v1 dry-run with Provider alias/merger reconciliation and idempotency;
+5. add Catalogue → Provider Contacts route/grid/drawer;
+6. add edit/delete/restore/history/export;
+7. run targeted DB/API/security/browser/performance UAT;
+8. keep Search/Website/Wix/Zoho unchanged unless separately authorised.
