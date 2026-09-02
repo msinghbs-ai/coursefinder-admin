@@ -169,3 +169,32 @@ M2.5 implementation sequence:
 6. A17-P6 governed consumer projection only after explicit publication acceptance.
 
 Production boundary: A17 design is accepted, but no broad career/skills consumer publication is authorised by this runsheet alone.
+
+
+## A30 — Provider Contacts Database Management
+
+M2.5 now carries the accepted Provider Contacts management design under `CF-CHG-20260902-076`.
+
+Authoritative design artifacts:
+- `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
+- `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
+- DB Architecture `v2.10.47`;
+- Admin/PIM Decisions `v1.28`;
+- Admin Navigation IA `v1.6`.
+
+Initial import contract:
+- 17-column Provider-contact CSV;
+- 306 rows;
+- 42 source university names / 41 current institution names;
+- 291 named staff / 15 team contacts.
+
+Implementation sequence:
+1. A30-P1 additive managed-contact/version/import/audit schema + secured RPC/server boundaries;
+2. A30-P2 CSV v1 parser, Provider crosswalk and dry-run/idempotency;
+3. A30-P3 Catalogue → Provider Contacts grid/drawer + Provider deep-links;
+4. A30-P4 individual create/edit/verify + soft-delete/restore + version/audit history;
+5. A30-P5 filtered/full export with privilege checks, audit and CSV-injection safety;
+6. A30-P6 targeted DB/API/browser/security/performance UAT;
+7. A30-P7 documentation/release notes + bounded integration nomination.
+
+A15 acquisition observations/Evidence remain intact. No Search/Website/Wix/Zoho contact publication or Production deployment is authorised by design acceptance alone.
