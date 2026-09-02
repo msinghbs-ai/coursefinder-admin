@@ -44,10 +44,10 @@
 | ID | Item | Impact | Next action | Status |
 |---|---|---|---|---|
 | M25-FU-029 | QS/THE ranking schema migration | Private ranking domain and secured read projections are now live in Pilot | Retain applied migrations as baseline; only extend through additive governed migrations | COMPLETE / TARGETED DB PASS |
-| M25-FU-030 | QS 2026/2027 source qualification | Current QS editions not yet ingested | Qualify official current/year pages and authorised Excel artifact path; record terms/access and fingerprints | OPEN |
-| M25-FU-031 | THE 2026 source qualification | Current THE edition not yet ingested | Qualify official 2026 table and methodology; record terms/access and source fingerprint | OPEN |
+| M25-FU-030 | QS 2026/2027 source qualification | QS 2026/2027 are now registered as Global Layer 1 sources with governed CSV/XLSX ingestion path | Upload/obtain authorised publisher artifacts, dry-run each edition, record source fingerprints, then apply accepted observations | IMPLEMENTED PATH / ARTIFACT UAT PENDING |
+| M25-FU-031 | THE 2026 source qualification | THE 2026 is now registered as a Global Layer 1 source with governed CSV/XLSX ingestion path | Upload/obtain authorised publisher artifact, dry-run edition, record fingerprint/methodology, then apply accepted observations | IMPLEMENTED PATH / ARTIFACT UAT PENDING |
 | M25-FU-032 | Ranking historical backfill | No longitudinal Provider ranking series yet | Backfill 2025/2024 first, then extend towards 5–10 years where official publisher sources remain accessible/authorised | OPEN |
-| M25-FU-033 | Ranking Provider crosswalk | Publisher institution names/IDs are not yet mapped to canonical Providers | Build deterministic mapping + unresolved Layer 4 queue; do not create Providers from ranking rows | OPEN |
+| M25-FU-033 | Ranking Provider crosswalk | Exact canonical/display name + country mapping is implemented; ambiguous/unmatched institutions remain unresolved | Run first real artifact and reconcile unresolved mappings through governed review; do not create Providers from ranking rows | PARTIAL / DETERMINISTIC AUTO-MAP IMPLEMENTED |
 | M25-FU-034 | Ranking Admin/Compare UX | Provider blades/Compare do not yet show QS/THE | Add latest cards, edition selector, 5-year trend and explicit Provider-context labelling | OPEN |
 | M25-FU-035 | Ranking consumer admission | Website/Zoho/Search exposure is not authorised | After Pilot acceptance, separately decide fields, filters/sort and cache/version contract; no hidden relevance boost | OPEN |
 
@@ -58,7 +58,7 @@
 |---|---|---|---|---|
 | M25-FU-036 | Statistics & Rankings workspace | QILT/PRISMS/rankings are fragmented | Implement unified coverage/year/observation/source workspace and dataset drill-downs | ACTIVE / CF-064 |
 | M25-FU-037 | Compare dataset/year controls | Existing Compare assumes QILT/PRISMS and hides route | Promote Compare to primary navigation; add dataset toggles and aligned period/edition selection | ACTIVE / CF-064 |
-| M25-FU-038 | Manual ranking publisher file upload | Historical paywall/access can block automation | Upload/register + private Evidence + duplicate hashing are implemented; add parser preview/reconcile/apply workflow | PARTIAL / UPLOAD REGISTRATION IMPLEMENTED |
+| M25-FU-038 | Manual ranking publisher file upload | Historical paywall/access can block automation | Upload/register + private Evidence + duplicate hashing + Layer 1 CSV/XLSX dry-run/apply parser are implemented; add dedicated adapters for retained PDF/ZIP/JSON where needed | IMPLEMENTED FOR CSV/XLSX / OTHER ADAPTERS OPEN |
 | M25-FU-039 | Provider/Course statistics deep-links | Blades can become overloaded without hierarchy | Add concise summaries plus View Statistics / Add to Compare | OPEN |
 | M25-FU-040 | Navigation/Admin reorganisation | Current menu separates QILT/PRISMS and hides Compare | IA v1.5 implemented in Pilot v2.15.23; retain targeted deployed/browser acceptance evidence | IMPLEMENTED / TARGETED UAT ACTIVE |
 
