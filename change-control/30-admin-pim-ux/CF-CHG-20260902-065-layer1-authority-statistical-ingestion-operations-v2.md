@@ -1,6 +1,6 @@
 # CF-CHG-20260902-065 — Layer 1 Authority & Statistical Ingestion Operations v2
 
-**Status:** IMPLEMENTED / DEPLOYED TARGETED REVALIDATION IN PROGRESS  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026, 08:50 AEST  
 **Origin:** CourseFinder Layer 1 refactor v2 user request  
 **Owner:** CourseFinder programme  
@@ -93,7 +93,15 @@ Corrective integration:
 - `850765e4af52255d04f952e0f533ab5b1d2902e7` — permanent Layer 1 deployed acceptance updated for country-first cards and progressive details while retaining real AU/NZ authority validation;
 - `288590cabc3b72ae61b95ac9fae677547ce532ef` — targeted routing corrected so Layer 1 v2/support changes execute the permanent deployed Layer 1 acceptance rather than an obsolete selector path.
 
-Deployed targeted revalidation workflow `33573716514` is running against `288590cabc3b72ae61b95ac9fae677547ce532ef`. A PASS must be recorded before this change is described as targeted-pass.
+Deployed targeted revalidation workflow `33573716514` proved the corrected v2 navigation and both real AU/NZ authority validations, but one UI assertion selected the hidden Status dropdown option rather than the visible summary card. The visible-summary selector was corrected in `2ed222925a02abeaa1d9bca7474d5e0eb4dcf4ed`.
+
+Final targeted candidate:
+- source/test head: `2ed222925a02abeaa1d9bca7474d5e0eb4dcf4ed`;
+- frontend build workflow `33573906087`: **PASS**;
+- deployed targeted UAT workflow `33573906103`: **PASS**;
+- permanent Layer 1 suite: **4/4 PASS** on Chromium desktop, including real NZQA authority/count validation, real CRICOS authority/shape/active-count validation and anonymous-boundary proof.
+
+CF-065 is therefore **IMPLEMENTED / TARGETED PASS**. Integration/full acceptance remain part of the later M2.5 checkpoint rather than being re-run for this isolated UI refactor.
 
 ## Rollback
 
