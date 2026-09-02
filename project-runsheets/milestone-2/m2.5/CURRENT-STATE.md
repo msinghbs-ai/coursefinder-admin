@@ -885,3 +885,35 @@ The shared-Evidence fan-out mechanism is now targeted PASS:
 - final UAT queue: 0 fan-out queued;
 - current asset staging: 1 accepted CQUniversity navigation-logo candidate, 8 rejected false positives, 1 low-confidence CDU OG candidate;
 - no primary Provider logo has been published.
+
+
+## CF-083 Scholarship catalogue→detail and Provider asset promotion — 3 September 2026
+
+Status: **IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES**.
+
+Provider assets:
+- governed approve/promote operation implemented;
+- managed private asset copy + SHA-256 + MIME/size validation;
+- CQUniversity primary SVG promoted;
+- Edith Cowan University primary PNG promoted;
+- Charles Sturt official SVG remains accepted-but-unpromoted because source fetch returned HTTP 403; controls were not weakened.
+
+Scholarship catalogue proof:
+- seven AU first-party catalogue entrypoints acquired/normalised 7/7;
+- 3 Direct HTTP + 4 Firecrawl;
+- 52 total catalogue candidates recorded;
+- CDU 5, Charles Sturt 14, Curtin 14, Deakin 6, ECU 13;
+- ACU and ANU remain needs-review at zero discovered links and are not marked complete.
+
+Detail proof:
+- six first-party details acquired 6/6;
+- official detail URL is stable source identity;
+- Charles Sturt award extraction includes 25%, 30%, 15%, AUD 1,000 and 50%;
+- six canonical Provider-linked roots created;
+- all six remain `publication_status='unpublished'`;
+- six Layer 4 `scope_resolution` items pending;
+- no Course applicability or cycles/windows/scopes fabricated.
+
+Live Scholarship baseline after CF-083: **186 canonical Scholarships**.
+
+Authority: CF-083 / A32 / DB Architecture v2.10.49 / Admin-PIM Decisions v1.30.
