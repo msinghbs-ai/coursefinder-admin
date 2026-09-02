@@ -175,3 +175,5 @@ Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4
 CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statistical Provider Equivalence Fan-out authority. Provider Contacts therefore uses **CF-CHG-20260902-080 / A30** as its final authority. The CF-076 and contact-specific CF-077 files are retained only as void collision evidence.
 
 | CF-CHG-20260902-081 | 40-layer2-enrichment | Consolidated Layer 2 Acquisition, Scholarship Seed & Provider Assets | APPLIED / TARGETED VERIFICATION ACTIVE | `40-layer2-enrichment/CF-CHG-20260902-081-layer2-consolidated-acquisition-scholarship-assets.md` |
+
+| CF-CHG-20260902-082 | 40-layer2-enrichment | Provider Page Fan-out Extraction | IMPLEMENTED / BOUNDED UAT ACTIVE | `40-layer2-enrichment/CF-CHG-20260902-082-provider-page-fanout-extraction.md` |
