@@ -818,20 +818,20 @@ Implementation refs: `51f15f2775d028e5e52ba11bb8015c9f167a8e57`, `a2203904bde3f3
 
 ## CF-081 Layer 2 acquisition consolidation — 2 September 2026
 
-Status: **APPLIED / TARGETED VERIFICATION ACTIVE**.
+Status: **APPLIED / TARGETED PASS — DATA POPULATION CONTINUES**.
 
 Pilot runtime:
 - migration `20260902132027 cf_081_layer2_consolidated_acquisition_scholarship_assets`;
 - `layer2-acquire-v2` Edge v10;
 - 933 AU/NZ first-party Scholarship profiles;
 - 933 AU/NZ Provider-logo profiles;
-- 7,464 new profile/provider routes;
+- 7,464 new Scholarship/logo profile-provider routes; 933 existing Course profiles sharing these first-party sources are shared-fetch enabled;
 - Parse.bot enabled=false, endpoint/credential unset;
 - Study Australia cadence 168h; Australia Awards cadence 720h;
 - Scholarship maintenance cron now weekly Sunday 05:20.
 
 Shared-fetch tables are initially empty by design; they populate when v10 acquisitions execute. Same-URL reuse does not copy Course/Scholarship/logo interpretation and does not bypass profile/version/Evidence controls.
 
-Initial Scholarship baseline before extra bootstrap dispatch: 54 canonical Scholarships / 114 source records / 42 Layer 2 discovery candidates. Additional bounded Study Australia page windows 6–10, 11–15 and 16–20 were dispatched as one-time seed expansion.
+Initial Scholarship baseline was 54 canonical Scholarships / 114 source records / 42 Layer 2 discovery candidates. Bounded Study Australia page windows 6–10, 11–15 and 16–20 completed HTTP 200 and raised the live catalogue to 180 canonical Scholarships / 240 source records.
 
 Authority: CF-081 / A31 / DB Architecture v2.10.48 / Admin-PIM Decisions v1.29.
