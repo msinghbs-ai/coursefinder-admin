@@ -70,3 +70,16 @@ A19 requires:
 - Accepted under closed `CF-CHG-20260830-048` / M2.4.4.
 - Replacement final acceptance `33468512515` PASS on desktop and mobile.
 - This addendum remains standing behavioural/governance guidance where applicable, but does not keep M2.4.4 open.
+
+
+## A31 cadence supersession — 2 September 2026
+
+A31 / CF-CHG-20260902-081 supersedes the **Default Pilot cadence** above without changing A19 source authority, Evidence retention or deterministic mapping rules.
+
+Current Pilot defaults:
+- Study Australia full Scholarship catalogue refresh: **weekly (168h)** after bootstrap;
+- DFAT Australia Awards full refresh: **monthly (720h)** unless a new programme/cycle announcement requires earlier revalidation;
+- Scholarship maintenance/mapping reconciliation: **weekly** plus event/change-triggered reconciliation where applicable;
+- lightweight source/hash checks may run more frequently than full extraction;
+- a Scholarship source may accelerate to 24-hour checks inside a consequential application boundary window or on changed content;
+- blanket daily full Scholarship recrawls are not the default.
