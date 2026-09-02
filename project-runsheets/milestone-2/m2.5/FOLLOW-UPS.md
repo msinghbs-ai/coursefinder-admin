@@ -90,3 +90,13 @@
 | M25-FU-056 | Provider logo extraction/approval | 933 AU/NZ logo acquisition profiles and governed asset tables exist; canonical logo approval still needs extraction/selection runs | Run bounded first-party logo discovery, retain original asset Evidence, approve one primary display logo per Provider where confidence is sufficient | READY / DATA POPULATION PENDING |
 | M25-FU-057 | Scholarship catalogue bootstrap completeness | Study Australia pages 6–20 raised live baseline 54→180 canonical and 114→240 source records | Continue controlled catalogue coverage/reconciliation without turning bootstrap into daily full crawl | ACTIVE / INITIAL SEED PASS |
 | M25-FU-058 | Shared-fetch production telemetry | Rollback-only register/lookup/fan-out passed; 933 Course + 933 Scholarship + 933 logo profiles are wired for reuse | Measure real cache hit rate, Firecrawl calls avoided and vendor units during normal due runs before changing TTL/cadence | TARGETED CONTRACT PASS / RUNTIME TELEMETRY PENDING |
+
+
+## CF-082 Provider page fan-out follow-ups — 2 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-059 | Logo bounded-quality gate | Initial markup-only scoring admitted partner/network/news images | v1.3 now requires explicit logo/brand or header/navigation semantics; finish current evidence-only recheck before broad rollout | ACTIVE / HARDENED |
+| M25-FU-060 | Primary logo promotion | Strong candidates exist but Provider identity/display should not be changed speculatively | Add governed approve/promote operation with Evidence/asset download/hash validation; do not write legacy `providers.logo_url` directly | OPEN |
+| M25-FU-061 | Provider Scholarship entrypoint acquisition | 13 first-party scholarship-like links discovered in 5-Provider cohort | Qualify high-value international/general Scholarship entrypoints and acquire them through the same Layer 2 route; keep research/outreach noise review-only | READY |
+| M25-FU-062 | Shared-fetch savings telemetry | 5/5 sibling Scholarship calls avoided a second acquisition | Add cache hit/vendor-unit avoidance KPIs to Layer 2 operations and retain this 5-Provider proof as acceptance evidence | TARGETED PASS / UI TELEMETRY OPEN |
