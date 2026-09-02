@@ -744,3 +744,8 @@ Deployed targeted UAT `33590571041` / job `100123554544` PASS: **1 passed (4.6s)
 ### CF-074 native THE historical JSON
 
 Native Times Higher Education ranking JSON/TXT ingestion is implemented. The supplied 2015 file validates as **1,526 publisher rows / 93 locations / 37 Australian institutions**, SHA-256 `538984dff990e3bed1377e772238d08ffde21cb8b894bdcc2cf634ea97e38d8c`. The parser preserves exact/tied/banded ranks, score ranges and six THE indicator dimensions. AU Provider reconciliation is **36/37 (97.30%)**, 0 unmatched, with Victoria University intentionally retained as one-to-many CRICOS review. Admin release **v2.15.32** accepts native THE JSON/TXT as private Evidence. No THE observations were applied from the supplied attachment.
+
+
+### CF-075 compact ranking families
+
+Layer 1 ranking administration now presents **one QS family card and one THE family card** rather than one card per year. Edition selectors default to the current publisher edition (QS 2027 / THE 2026), with THE 2015–2026 provisioned for historical upload. The supplied compact QS Australia CSV shape (39 rows; 2027 + 2026 rank columns) and compact THE Australia CSV shape (39 rows; 2026 rank + score) are supported with edition-specific parsing and country-scope safeguards. Compare now defaults to the latest/current available period in **Current snapshot** mode and exposes explicit **Multi-year trend** mode for retained history. No Search/Website/Zoho publication authority changed.
