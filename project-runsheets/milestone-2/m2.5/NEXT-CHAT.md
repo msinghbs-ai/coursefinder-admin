@@ -532,3 +532,26 @@ Do not:
 - infer scope from eligibility prose without accepted resolution;
 - weaken CDN/fetch/security controls to force logo promotion;
 - publish CF-083 assets/Scholarships to consumers without a separate admission gate.
+
+
+## CF-084 / A33 continuation checkpoint
+
+Start from:
+- Pilot UI v2.15.43;
+- `Administration → Environment & Migration`;
+- migration `20260903092000_cf_084_admin_environment_migration_controls.sql`;
+- Edge `platform-environment-control`;
+- Apollo worker v1.0.2;
+- CF-084 / A33 / DB Architecture v2.10.50 / Admin-PIM Decisions v1.31.
+
+Next actions:
+1. obtain the exact new Firecrawl monthly vendor-unit entitlement from the user and update it in Admin; do not guess;
+2. when Parse.bot trial details arrive, configure endpoint/key, leave disabled, then run bounded qualification;
+3. eliminate hard-coded Pilot CORS/origin constants before Production deployment by moving them to deployment/environment configuration;
+4. once Production organisation/region/cost are explicitly approved, create the separate target project and record target identity in Admin;
+5. migrate/verify Database/Auth data, then Storage object bytes preserving paths, Edge Functions, secrets, Auth settings/API keys, cron and extensions;
+6. validate Evidence object counts and sampled SHA-256 against the target;
+7. use target-generated Supabase publishable/secret keys; never copy Pilot keys;
+8. keep Website/Wix/Zoho cutover separate.
+
+Do not mark the migration complete from a database-only clone/restore.
