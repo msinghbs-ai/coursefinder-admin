@@ -618,3 +618,14 @@ Implementation head `Coursefinder-Pilot@e431c4e18a0da65a770f98a426b5e8dcebf3c603
 - ranking Global source read PASS.
 
 Permanent source contract added at `tests/uat/cf-067-ranking-layer1-contract.spec.mjs`. Admin release notes advanced to v2.15.26.
+
+
+## CF-069 Course detail contextual helper ACL restoration
+
+User UAT on 2 September 2026 exposed a Course detail failure: `permission denied for function admin_contextual_insights_v2`.
+
+Root cause was CF-061 ACL drift: `public.admin_read` remained the intended SECURITY INVOKER browser boundary, while the newly introduced `security.admin_contextual_insights_v2` and `security.admin_contextual_compare` helpers had authenticated EXECUTE revoked. Course/Provider detail and Compare therefore could not complete under a signed-in browser role.
+
+Pilot migration `20260902011913` restores authenticated EXECUTE only for those two read-only, internally role-checked helpers while retaining public/anon denial. Authenticated rollback-only runtime proof returned the Course detail and `contextual_insights` payload successfully. Post-change advisors: Security 156 INFO / 0 WARN / 0 ERROR; Performance 185 INFO / 0 WARN / 0 ERROR.
+
+Repository migration: `Coursefinder-Pilot/supabase/migrations/20260902011913_cf_069_contextual_detail_invoker_acl_fix.sql` at `7e9fa8fa76d3b333c38f7ed934678eb2fb90793e`. No frontend asset was changed; parallel v2.15.27 work is preserved.
