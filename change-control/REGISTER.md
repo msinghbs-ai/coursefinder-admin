@@ -176,4 +176,4 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 | CF-CHG-20260902-081 | 40-layer2-enrichment | Consolidated Layer 2 Acquisition, Scholarship Seed & Provider Assets | APPLIED / TARGETED VERIFICATION ACTIVE | `40-layer2-enrichment/CF-CHG-20260902-081-layer2-consolidated-acquisition-scholarship-assets.md` |
 
-| CF-CHG-20260902-082 | 40-layer2-enrichment | Provider Page Fan-out Extraction | IMPLEMENTED / BOUNDED UAT ACTIVE | `40-layer2-enrichment/CF-CHG-20260902-082-provider-page-fanout-extraction.md` |
+| CF-CHG-20260902-082 | 40-layer2-enrichment | Provider Page Fan-out Extraction | IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES | `40-layer2-enrichment/CF-CHG-20260902-082-provider-page-fanout-extraction.md` |
