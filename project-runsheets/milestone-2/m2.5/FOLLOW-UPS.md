@@ -111,3 +111,15 @@
 | M25-FU-065 | Scholarship detail extraction quality | CDU VCIHAS root is identified but award remains unresolved; some sites need source-specific parsing | Add bounded source adapters only where generic detail extraction is insufficient; preserve evidence and no fabrication | ACTIVE |
 | M25-FU-066 | Provider logo population | Two approved primary assets prove promotion path, but AU/NZ population remains incomplete | Continue bounded logo cohorts, review precision, promote only accepted first-party assets | ACTIVE |
 | M25-FU-067 | Scholarship/Provider consumer projections | Website UI requires logo + applicable Scholarship summaries | Design/cache provider/course Scholarship aggregates after scope acceptance; do not admit internal candidates/review states | NOT YET AUTHORISED |
+
+
+## CF-084 / A33 follow-ups — 3 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-068 | Firecrawl entitlement reconciliation | Vendor limit was increased externally but Pilot still records 5,000 units/month | Platform Admin enters exact new monthly units and reserve under Environment & Migration; verify Layer 2 budget status/wave clamp | USER INPUT REQUIRED |
+| M25-FU-069 | Parse.bot trial onboarding | Admin key/endpoint provision is ready but no trial details exist | Enter endpoint/key when supplied, keep disabled, run bounded adapter/cost/response UAT, then selectively enable approved routes | WAITING FOR TRIAL |
+| M25-FU-070 | Production target identity | Separate Production Supabase tenancy/project is not yet created | Confirm organisation, region and supplier cost; create target only after existing approval gate | BLOCKED / USER CONFIRMATION |
+| M25-FU-071 | Storage byte migration | DB references are portable but 17,626 Storage objects must be copied separately | At Production migration copy buckets/objects preserving exact paths; reconcile counts + sampled hashes | PRODUCTION GATE |
+| M25-FU-072 | Production secrets rotation | Pilot Vault and project keys cannot be blindly treated as Production credentials | Rotate/re-enter vendor/integration credentials and use target-generated Supabase keys; verify bounded connectivity | PRODUCTION GATE |
+| M25-FU-073 | Hard-coded Pilot origins | Edge source still contains Pilot CORS origin constants | Before Production deployment replace with environment-managed Production origin pattern and prove no Production request points at Pilot | ACTIVE / PRODUCTION HARDENING |
