@@ -749,3 +749,40 @@ Native Times Higher Education ranking JSON/TXT ingestion is implemented. The sup
 ### CF-075 compact ranking families
 
 Layer 1 ranking administration now presents **one QS family card and one THE family card** rather than one card per year. Edition selectors default to the current publisher edition (QS 2027 / THE 2026), with THE 2015–2026 provisioned for historical upload. The supplied compact QS Australia CSV shape (39 rows; 2027 + 2026 rank columns) and compact THE Australia CSV shape (39 rows; 2026 rank + score) are supported with edition-specific parsing and country-scope safeguards. Compare now defaults to the latest/current available period in **Current snapshot** mode and exposes explicit **Multi-year trend** mode for retained history. No Search/Website/Zoho publication authority changed.
+
+
+## CF-076 / A30 Provider Contacts database-management design — 2 September 2026
+
+Design accepted; implementation not yet claimed.
+
+User-supplied baseline CSV contract:
+- 306 rows / 17 columns;
+- 42 source university names;
+- 41 current institution names because legacy/merged naming is present;
+- 291 named-staff rows;
+- 15 team-contact rows;
+- email/phone/location are legitimately sparse and are not made mandatory.
+
+Accepted design:
+- first-class **Catalogue → Provider Contacts** module;
+- many contacts per canonical Provider;
+- stable managed contact ID above immutable A15 source observations;
+- append-only managed versions/history;
+- dry-run/idempotent mass import with Provider mapping and duplicate/conflict classification;
+- individual create/edit/verify;
+- soft-delete and restore;
+- server-side search/filter/sort and operator-controlled columns;
+- PIM/Data Admin import/export from the module;
+- import/export/delete/restore audit;
+- Provider blade deep-link to the filtered module;
+- no automatic Search/Website/Wix/Zoho admission.
+
+Authority:
+- `CF-CHG-20260902-076`;
+- A30 execution addendum;
+- `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
+- DB Architecture `v2.10.47` — design authority only;
+- Admin/PIM Decisions `v1.28`;
+- Admin Navigation IA `v1.6`.
+
+The raw uploaded contact CSV was analysed for format/quality but was not committed to GitHub. Implementation must register it through the governed private Evidence/import path before APPLY.
