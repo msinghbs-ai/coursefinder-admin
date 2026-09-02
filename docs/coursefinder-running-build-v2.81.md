@@ -333,3 +333,43 @@ Pilot source refs:
 - migration source `24ed81365d2ae2e7cb410b8c67b806a83adbb647`, FK-index hardening `93ea860691186c89ecc13eefd107289dac28a096`, shared-profile routing `c32c0d366eb7afa200b0ed64ce757a149afdf368`.
 
 No Search/Website/Zoho Scholarship/logo admission is authorised by this change.
+
+
+### M2.5 CF-083 — Scholarship catalogue→detail acquisition and Provider asset promotion
+
+Status: **IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES**.
+
+Pilot source head after committed CF-083 migrations: `Coursefinder-Pilot@8fbcb36f76c52af7cd535adb910c7f2116378c66`.
+
+Implemented:
+- private `provider-assets` bucket and governed Provider asset promotion worker/RPCs;
+- CQUniversity and Edith Cowan University promoted as approved primary Provider logos;
+- Scholarship source grain split into `scholarship_catalogue` and `scholarship_detail`;
+- catalogue pages are enumeration-only and are blocked from individual Scholarship extraction;
+- `pipeline.scholarship_catalogue_runs` completeness ledger;
+- dedicated catalogue enumerator;
+- detail extractor hardened through v1.6 for stable first-party URL identity, award/date quality and scope-review flagging;
+- Scholarship `scope_resolution` added to the existing Layer 4 field registry;
+- six first-party detail records applied as canonical Provider-linked unpublished Scholarship roots;
+- six pending Layer 4 scope reviews;
+- no fabricated cycles/windows/scopes and no consumer publication.
+
+Bounded UAT:
+- 7/7 catalogue acquisitions HTTP 200: 3 Direct HTTP + 4 Firecrawl;
+- catalogue enumeration: ACU 0 needs-review, ANU 0 needs-review, CDU 5, Charles Sturt 14, Curtin 14, Deakin 6, ECU 13;
+- 52 catalogue links recorded;
+- 6/6 selected individual detail acquisitions HTTP 200;
+- extracted award examples: 25%, 30%, 15%, AUD 1,000 and 50%;
+- canonical Scholarships increased from 180 to 186;
+- 0 unmapped Providers in canonical dry-run/apply;
+- all six new canonical records remain unpublished.
+
+Post-change changed surface: Security/Performance **0 WARN / 0 ERROR**. Two new catalogue-run FK-index INFO findings were corrected.
+
+Authority:
+- CF-CHG-20260903-083;
+- A32;
+- DB Architecture v2.10.49;
+- Admin/PIM Decisions v1.30.
+
+No Search/Website/Wix/Zoho Scholarship or logo admission is authorised.
