@@ -735,6 +735,12 @@ The Layer 1 source configuration card UI introduced in v2.15.30 is retained in t
 Original implementation refs: `8b4fbe1565f889a13a6f0551a311b2041dcc252b`, `58270afb4037fbe5cad53b2c5bdbacc521380183`, `3df210e7be39abd402b6a62aa334d0095fa21af2`, `3dd49fb09b1df602ecdff0fdb28d3083c1bed4d8`, `73ba1836547c913f40a2f5aa19696d8f09e6186f`, `1d802f0310ffb8bbd1f3409925fa442f938deae0`. Current-release alignment: `46200f00e62fd80a1f4eb582505993359797caa9`. Targeted deployed verification remains pending; the current deployed-UAT credential intentionally does not expose the Platform Admin-only Layer 1 source configuration tab.
 
 
+
+
+### CF-072 closure
+
+**CLOSED / PASS — 2 September 2026.** Final review against current Pilot v2.15.39 confirms the Layer 1 source configuration stylesheet mount, responsive card layout, Source & authority / Cadence & guardrails grouping and current ranking-edition controls remain intact. Current release alignment is retained at `46200f00e62fd80a1f4eb582505993359797caa9`. The latest deployed-UAT failure `33621476194` belongs to the later ranking-import suite/Platform Admin visibility boundary and is not evidence of regression in this closed styling correction.
+
 ## CF-073 — Administration Acquisition route render-crash correction — 2 September 2026
 
 User-reported Pilot defect on `/#administration?section=layer2-providers` was traced to a browser render exception in v2.15.30: `Layer2ExecutionPolicySettings` referenced `ShieldCheck` without importing it. For privileged roles this could unmount the routed React tree; Back/Forward then changed hashes while the UI remained blank until refresh.
