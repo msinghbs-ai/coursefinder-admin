@@ -1,6 +1,6 @@
 # CF-CHG-20260902-080 — Provider Contact Database Management
 
-**Status:** IMPLEMENTED / TARGETED VERIFICATION ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Category:** 30-admin-pim-ux  
 **Initiated:** 2 September 2026 16:24 AEST (+10:00)  
 **Origin chat/workstream:** CourseFinder M2.5 addendum — dedicated Provider Contacts module  
@@ -276,3 +276,33 @@ Rollback-only proof:
 - Provider ambiguity → parked_layer4;
 - intermediate batch state → applied_with_review_pending;
 - after human decisions → layer4_merge_existing + layer4_map_provider_apply, 0 pending reviews, batch → applied.
+
+## Targeted acceptance — PASS
+
+Accepted Pilot candidate: `msinghbs-ai/Coursefinder-Pilot@49ee093c020f7fdc9a16d2a711fb31b217dd96f0`.
+
+Deployed targeted UAT:
+- workflow run `33629987860`;
+- job `100246981014`;
+- `tests/uat/cf-080-provider-contacts-deployed.spec.mjs`;
+- 4/4 PASS in 9.6s.
+
+Proven deployed cases:
+- Provider Contacts Catalogue route and managed current rows;
+- actual governed role boundary: lower-rank UAT credential remains read-only while rank-5 mutation controls stay protected;
+- Provider deep-link/source contract;
+- 768px tablet and 390px mobile viewport containment without document-level overflow;
+- Layer 4 Human Resolution route exposes Provider Contact reconciliation workload.
+
+Database rollback proofs additionally confirm:
+- exact repeated row → duplicate skip / 0 Layer 4 items;
+- non-identical legacy duplicate → parked_layer4;
+- Provider ambiguity → parked_layer4;
+- manual-current/import conflict → parked Layer 4 with reason `manual_current_version_conflicts_with_import`;
+- deterministic rows continue to APPLY;
+- unresolved batch → applied_with_review_pending;
+- terminal human decisions close linked reviews and return the batch to applied.
+
+Provider Contacts Security/Performance Advisor disposition after the Layer 4 extension: 0 WARN / 0 ERROR for the changed surface.
+
+The supplied 306-row contact CSV is not part of this acceptance run and remains an operational import through the authenticated private Evidence path. Its human-review items will use the accepted Layer 4 workflow.
