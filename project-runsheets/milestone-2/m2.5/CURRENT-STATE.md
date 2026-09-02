@@ -835,3 +835,41 @@ Shared-fetch tables are initially empty by design; they populate when v10 acquis
 Initial Scholarship baseline was 54 canonical Scholarships / 114 source records / 42 Layer 2 discovery candidates. Bounded Study Australia page windows 6–10, 11–15 and 16–20 completed HTTP 200 and raised the live catalogue to 180 canonical Scholarships / 240 source records.
 
 Authority: CF-081 / A31 / DB Architecture v2.10.48 / Admin-PIM Decisions v1.29.
+
+
+## CF-082 Provider Page fan-out extraction — 2 September 2026
+
+Status: **IMPLEMENTED / BOUNDED UAT ACTIVE**.
+
+Five-AU-university acquisition cohort:
+- Australian Catholic University;
+- Australian National University;
+- Central Queensland University;
+- Charles Darwin University;
+- Curtin University.
+
+Acquisition result: 5/5 HTTP 200.
+- Direct HTTP: 3;
+- Firecrawl fallback: 2;
+- Parse.bot: 0;
+- failed: 0.
+
+Shared-fetch reuse proof:
+- the sibling Scholarship profile for all five Providers reused the original Provider-page Evidence;
+- 5/5 returned `provider_key=shared-fetch`;
+- 5/5 returned `shared_fetch_reused=true`;
+- estimated request cost = 0 for all five sibling calls;
+- each shared-fetch row has reuse_count=1.
+
+Provider-page fan-out v1.1 found 13 Scholarship discovery links across the cohort and demonstrated why these remain discovery candidates rather than canonical Scholarship facts.
+
+Logo UAT exposed and reconciled false positives:
+- ACU 2050 Alliance partner logo rejected;
+- CQUniversity Regional Universities Network footer logo rejected;
+- generic CQUniversity campus/news imagery and CDU news imagery rejected;
+- CQUniversity navigation logo is the current strong candidate at 0.99 confidence;
+- no logo candidate has been copied into `providers.logo_url` or published to consumers.
+
+Extractor is now Edge v4 / worker `layer2-provider-page-fanout-v1.3` with an explicit logo/navigation semantic gate before Provider-name confidence can apply.
+
+Post-change advisors: Security INFO only / 0 WARN / 0 ERROR; Performance INFO only / 0 WARN / 0 ERROR.
