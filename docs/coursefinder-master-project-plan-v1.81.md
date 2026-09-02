@@ -92,8 +92,8 @@ M2.5 does not automatically authorise:
 ## 9. Current baselines
 
 - Running Build: `docs/coursefinder-running-build-v2.81.md`;
-- DB Architecture: `docs/coursefinder-database-architecture-v2.10.48.md`;
-- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.29.md`;
+- DB Architecture: `docs/coursefinder-database-architecture-v2.10.49.md`;
+- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.30.md`;
 - Production Change Control: `CF-CHG-20260901-049`.
 
 ## 10. Post-M2.4 platform maturity design
@@ -151,3 +151,20 @@ Current design authority:
 - CF-CHG-20260902-081.
 
 Parse.bot is only a disabled onboarding slot pending trial API qualification. Firecrawl remains the active rendered fallback.
+
+
+## 14. Scholarship catalogue→detail and Provider asset promotion addendum — 3 September 2026
+
+CF-CHG-20260903-083 / A32 extends A31 with a governed production-shaped pattern for large Provider Scholarship catalogues and Provider-logo promotion.
+
+Current Pilot proof:
+- seven first-party AU Scholarship catalogue entrypoints acquired/normalised;
+- five yielded enumerated candidates and two correctly remain needs-review;
+- 52 catalogue candidate links recorded;
+- six individual first-party Scholarship detail pages completed acquisition/normalisation/extraction;
+- six stable URL-identified canonical Scholarship roots created, all unpublished;
+- six Layer 4 `scope_resolution` review items pending;
+- two primary Provider logos promoted into managed hashed asset storage;
+- changed surface remains 0 WARN / 0 ERROR.
+
+This does not authorise broad Scholarship population, scope acceptance, Search/Website/Zoho admission or Production cutover.
