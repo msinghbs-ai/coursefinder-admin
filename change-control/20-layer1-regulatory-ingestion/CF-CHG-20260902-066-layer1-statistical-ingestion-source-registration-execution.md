@@ -1,6 +1,6 @@
 # CF-CHG-20260902-066 — Layer 1 Statistical Ingestion Source Registration & Execution
 
-**Status:** IMPLEMENTED / TARGETED VALIDATION IN PROGRESS  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026, 10:02 AEST  
 **Origin:** User correction after CF-065 Layer 1 v2 review  
 **Owner:** CourseFinder programme  
@@ -102,7 +102,17 @@ Permanent Layer 1 deployed UAT has been extended to prove:
 - real PRISMS dry-run validation succeeds;
 - existing NZQA, CRICOS and anonymous-boundary tests remain intact.
 
-Candidate validation is running against Coursefinder-Pilot main after v2.15.25 release alignment.
+Final targeted candidate: `msinghbs-ai/Coursefinder-Pilot@fea444a9343839c55a4b4848fb96c6dfd2dcc241`.
+
+Validation:
+- frontend build workflow `33575858611`: **PASS**;
+- deployed targeted UAT workflow `33575858607`: **PASS**;
+- permanent Layer 1 deployed suite: **5/5 PASS** on Chromium desktop;
+- new AU Statistics source test: PASS, including live QILT GOS and PRISMS dry-run validation through the Layer 1 control plane;
+- CRICOS and NZQA live authority validation: PASS;
+- anonymous browser boundary: PASS.
+
+The immediately preceding run `33575703760` had already proved the new Statistics test but failed only on obsolete CRICOS/NZQA worker-version string assertions after the Layer 1 control worker advanced from v1.0.1 to v1.1.0. The assertions were aligned to the governed v1.x control family and the final candidate passed cleanly.
 
 ## Rollback
 
