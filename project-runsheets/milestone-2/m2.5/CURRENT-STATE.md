@@ -939,3 +939,12 @@ Central credentials cover Layer 2 providers, Layer 3/OpenRouter, Apollo and a se
 Production target fields remain pending until the separate Production project/tenancy is approved and created.
 
 Authority: CF-084 / A33 / Production Supabase Migration design v1.0 / DB Architecture v2.10.50 / Admin-PIM Decisions v1.31.
+
+
+CF-084 portability scan/hardening:
+- executable database dispatch helpers hard-bound to Pilot URL: 6 found → 0 after environment binding;
+- source rows with Pilot Supabase URL: 0;
+- cron commands with Pilot/Worker URL: 0;
+- Website consumer credential: configured in Pilot, hash-only;
+- Zoho consumer credential: configured in Pilot, hash-only;
+- Production consumer tokens must be newly rotated in the Production environment, not staged in Pilot.
