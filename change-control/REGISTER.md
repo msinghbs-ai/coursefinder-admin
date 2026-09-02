@@ -101,6 +101,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260902-066 | 50-search-api-consumers | Website / Wix Pilot Search Integration v3 | IMPLEMENTED / DB TARGETED PASS — WIX HTTP E2E PENDING | `50-search-api-consumers/CF-CHG-20260902-066-website-wix-pilot-search-integration-v3.md` |
 | CF-CHG-20260902-067 | 20-layer1-regulatory-ingestion | QS / THE Layer 1 Ranking Ingestion Operations | IMPLEMENTED / TARGETED UAT ACTIVE | `20-layer1-regulatory-ingestion/CF-CHG-20260902-067-qs-the-layer1-ranking-ingestion-operations.md` |
 | CF-CHG-20260902-069 | 70-security-platform | Course detail contextual helper ACL restoration | CLOSED / PASS | `70-security-platform/CF-CHG-20260902-069-course-detail-contextual-helper-acl-restoration.md` |
+| CF-CHG-20260902-070 | 30-admin-pim-ux | Provider Compare Interaction & Theme Correction | IMPLEMENTED / TARGETED UAT PENDING | `30-admin-pim-ux/CF-CHG-20260902-070-provider-compare-interaction-theme-correction.md` |
 
 | CF-CHG-20260902-068 | 20-layer1-regulatory-ingestion | QS Direct XHR / JSON Layer 1 Acquisition Qualification | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-068-qs-direct-xhr-json-layer1-acquisition.md` |
 
