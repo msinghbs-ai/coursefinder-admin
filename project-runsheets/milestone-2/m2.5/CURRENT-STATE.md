@@ -317,6 +317,35 @@ Validation:
 
 Two earlier targeted failures are retained as diagnostic history: the first exposed stale pre-v2 shared navigation/test selectors; the second exposed a test selector resolving the hidden Status dropdown option instead of the visible Healthy summary. Both were corrected at test/integration level without weakening Layer 1 authority, source validation or security boundaries.
 
+
+## CF-066 Layer 1 statistical ingestion
+
+Layer 1 Pilot/Admin source is now **v2.15.25** under `CF-CHG-20260902-066`.
+
+The CF-065 UI could display Statistics, but live `pipeline.layer1_source_operations` originally contained only CRICOS and NZQA. CF-066 closes that operational gap by registering the existing Evidence-backed AU statistical sources rather than creating duplicate data:
+- QILT ESS 2025 — 228 observations;
+- QILT GOS 2025 — 593 observations;
+- QILT GOS-L 2025 — 235 observations;
+- QILT SES 2024 — 977 observations;
+- Department of Education PRISMS SA4 December 2025 — 2,270 observations.
+
+All retain `identity_authority=false`; no Provider/Course identity, Search or Publication authority changed. QILT/PRISMS preserve their existing statistical observation grain and historical Layer 2A lineage while Layer 1 becomes their operational ingestion/control surface.
+
+Runtime routing:
+- `qilt-au-etl` Edge v8 / source v0.2.5;
+- `prisms-au-etl` Edge v2 / source v0.1.1;
+- `layer1-operations-control` Edge v3 / source v1.1.0;
+- `layer1-operations-scheduled` Edge v2 / source v1.1.0.
+
+Live proof refreshed QILT GOS to 593 candidate observations / 100 mapped institutions and PRISMS to 2,270 candidate observations / period 2025-12 through the Layer 1 control plane.
+
+Final targeted candidate: `msinghbs-ai/Coursefinder-Pilot@fea444a9343839c55a4b4848fb96c6dfd2dcc241`.
+- frontend build `33575858611`: PASS;
+- deployed targeted UAT `33575858607`: PASS;
+- permanent Layer 1 suite: 5/5 Chromium desktop PASS, including the new AU Statistics QILT/PRISMS live-validation test, CRICOS, NZQA and anonymous boundary.
+
+QS/THE are intentionally not represented as automated **Run now** sources until automated ranking ingestion adapters are accepted; their governed publisher-import/onboarding path remains separate.
+
 ## Production decision remains blocked
 
 Production project creation still requires explicit:
