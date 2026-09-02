@@ -110,6 +110,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-074 | 20-layer1-regulatory-ingestion | Native THE Historical JSON Ranking Ingestion | IMPLEMENTED / SOURCE+RUNTIME PASS / BATCH EVIDENCE PENDING | `20-layer1-regulatory-ingestion/CF-CHG-20260902-074-the-native-json-historical-ranking-ingestion.md` |
 
+| CF-CHG-20260902-075 | 20-layer1-regulatory-ingestion | Compact Multi-Year Ranking Dataset Families | IMPLEMENTED / TARGETED UAT ACTIVE | `20-layer1-regulatory-ingestion/CF-CHG-20260902-075-compact-multi-year-ranking-dataset-families.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
