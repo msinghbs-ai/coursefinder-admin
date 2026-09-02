@@ -163,3 +163,17 @@ Permanent targeted UAT must cover:
 - responsive desktop/tablet/mobile;
 - A15 regression;
 - no consumer publication change.
+
+## Layer 4 parking rule
+
+Imports must distinguish deterministic duplicates from judgement cases.
+
+- exact repeated source/payload row → deterministic duplicate skip;
+- non-identical duplicate candidate → Layer 4;
+- Provider ambiguity → Layer 4;
+- managed-manual versus incoming first-party conflict → Layer 4;
+- provider-unmatched/invalid rows remain import validation/review failures unless separately promoted by a later rule.
+
+Layer 4 parked rows do not block deterministic APPLY. The import batch uses applied_with_review_pending while linked Layer 4 items remain pending.
+
+Provider Contact Layer 4 actions are domain-specific and must not reuse or weaken the generic course-scalar approval path. Accepted actions are merge existing, accept incoming, keep existing, keep separate, map Provider and apply, or reject import. All actions are auditable and preserve original Evidence/import rows.
