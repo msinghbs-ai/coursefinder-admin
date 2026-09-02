@@ -3,7 +3,7 @@
 **Status:** AUTHORITATIVE ADDENDUM — ACTIVE  
 **Effective:** 2 September 2026  
 **Applies to:** M2.5 and later until superseded  
-**Change Control:** CF-CHG-20260902-077
+**Change Control:** CF-CHG-20260902-080
 
 ## Purpose
 
