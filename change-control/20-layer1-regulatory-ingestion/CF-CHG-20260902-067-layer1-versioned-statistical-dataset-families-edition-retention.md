@@ -1,6 +1,6 @@
 # CF-CHG-20260902-067 — Layer 1 Versioned Statistical Dataset Families & Edition Retention
 
-**Status:** IMPLEMENTED / TARGETED VALIDATION IN PROGRESS  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026, 15:35 AEST  
 **Origin:** User requirement to retain prior statistical years/periods for ongoing comparison  
 **Owner:** CourseFinder programme  
@@ -131,7 +131,23 @@ Permanent Layer 1 deployed UAT is updated to verify:
 - real QILT and PRISMS validation remains intact;
 - CRICOS/NZQA and anonymous boundaries remain intact.
 
-Targeted validation is running against the v2.15.33 candidate at this record update.
+Final implementation UI is **v2.15.34**.
+
+Final targeted candidate:
+- `msinghbs-ai/Coursefinder-Pilot@e7f5a1c8eec7301c5e3c9266e7a225a0a81f2e9c`;
+- frontend build `33596621514`: **PASS**;
+- deployed targeted UAT `33596621522`: **PASS**;
+- permanent Layer 1 suite: **6/6 PASS** on Chromium desktop;
+- AU Statistics dataset-family/edition-history test: PASS, including live QILT GOS and PRISMS validation;
+- real CRICOS and NZQA authority validation: PASS;
+- Platform Admin source-configuration role boundary: PASS;
+- anonymous browser boundary: PASS.
+
+Corrective validation history is retained:
+1. the first CF-067 deployed run exposed that replacing `security.admin_layer1_operations_read` had dropped the required authenticated EXECUTE grant used by the role-gated public admin reader; migration `20260902005100_cf_067_restore_authenticated_layer1_read_acl.sql` restored authenticated execution while keeping anon/public revoked;
+2. subsequent failures were test-selector integration only (ambiguous family name and Administration heading), corrected without weakening access or data semantics.
+
+CF-067 is therefore **IMPLEMENTED / TARGETED PASS**.
 
 ## Rollback
 
