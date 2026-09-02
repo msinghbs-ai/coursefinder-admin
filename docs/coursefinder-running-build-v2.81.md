@@ -309,3 +309,27 @@ Pilot **v2.15.31** now:
 Accepted source: `Coursefinder-Pilot@c546c2c3bf87e41154a2c5f5d7b6d554026deba4`.
 Frontend build `33590571059` PASS; build job `100123554410` PASS; browser-smoke job `100123640329` PASS.
 Deployed targeted UAT `33590571041` / `100123554544` PASS, **1 passed (4.6s)** on Worker v2.15.31.
+
+
+### M2.5 CF-081 — Consolidated Layer 2 acquisition, Scholarship seed & Provider assets
+
+CF-081 is **APPLIED / TARGETED VERIFICATION ACTIVE** in Pilot.
+
+Pilot migration: `20260902132027 cf_081_layer2_consolidated_acquisition_scholarship_assets`.
+
+Implemented:
+- one source can support multiple versioned Layer 2 extraction profiles;
+- shared same-URL Evidence cache + downstream fan-out queue;
+- Provider asset/logo candidate + approved-asset domain;
+- 933 AU/NZ Provider Scholarship profiles and 933 Provider-logo profiles seeded from first-party `web_catalogue` anchors;
+- 7,464 acquisition routes across Direct HTTP / disabled Parse.bot / Firecrawl / ZenRows for those new profiles;
+- Parse.bot registered disabled with no fabricated endpoint or credential;
+- `layer2-acquire-v2` upgraded to v10; successful acquisitions register shared Evidence and subsequent sibling requests can return at zero vendor cost inside TTL;
+- Study Australia full refresh reduced from daily to weekly; DFAT to monthly; Scholarship maintenance to weekly;
+- bounded Study Australia bootstrap dispatches submitted for pages 6–10, 11–15 and 16–20.
+
+Pilot source refs:
+- worker change `e3d3109734306701fe6c63acbc2472e47dc06d95`;
+- migration source `24ed81365d2ae2e7cb410b8c67b806a83adbb647`.
+
+No Search/Website/Zoho Scholarship/logo admission is authorised by this change.
