@@ -100,3 +100,22 @@ Required:
 ## Current boundary
 
 The ingestion **mechanism** is live. No QS/THE ranking observation is claimed accepted until an authorised publisher CSV/XLSX artifact is uploaded and the edition passes dry-run/apply reconciliation.
+
+
+## Targeted proof
+
+Implemented source head before release-note/test-only commits:
+- `Coursefinder-Pilot@e431c4e18a0da65a770f98a426b5e8dcebf3c603`.
+
+Proof:
+- Pilot Frontend Build workflow `33576970066` — **PASS**;
+- CourseFinder Deployed UAT workflow `33576969873` — **PASS**;
+- Layer 1 authenticated read returns QS 2026, QS 2027 and THE 2026 under `country_code=GLOBAL`;
+- ranking source metadata includes source system, edition, acquisition mode and publisher authority;
+- Supabase Security advisor after CF-067: **156 INFO / 0 WARN / 0 ERROR**;
+- Performance advisor: INFO-only; new ranking FK indexes are present and unused-index notices are expected before observation load.
+
+Permanent regression contract:
+- `tests/uat/cf-067-ranking-layer1-contract.spec.mjs`.
+
+Release-note/test-only head is later than the proven implementation head and has its own CI running; it does not change runtime semantics.
