@@ -402,3 +402,18 @@ Authoritative design:
 - `CF-CHG-20260902-080`;
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
 - `docs/coursefinder-provider-contact-database-management-design-v1.0.md`.
+
+
+## A31 — Consolidated Layer 2 acquisition, Scholarships and Provider assets
+
+M2 work after 2 September 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A31-L2-CONSOLIDATED-ACQUISITION-SCHOLARSHIPS-PROVIDER-ASSETS.md`.
+
+Standing requirements:
+- treat Layer 2 acquisition as a shared Evidence plane rather than one paid scrape per module;
+- reuse bounded same-URL Evidence before another vendor call where the profile/source authority permits;
+- fan out one acquisition into independent Course, Scholarship and Provider-asset extraction tasks without copying interpretation between domains;
+- Direct HTTP remains first; Parse.bot remains disabled until trial qualification; Firecrawl remains the active rendered fallback;
+- Provider logos are evidence-backed display assets and never Provider identity;
+- full refresh cadence follows source volatility: Course monthly, Scholarship weekly, logos quarterly, with lighter change/hash checks and bounded acceleration;
+- QILT/PRISMS/statistical Layer 1 domains remain outside generic Layer 2 acquisition routing;
+- commercial aggregators are reconciliation sources by default, not automatic canonical ingestion authority.
