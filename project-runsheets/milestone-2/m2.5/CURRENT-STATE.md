@@ -709,3 +709,8 @@ Pilot v2.15.31:
 Accepted Pilot head: `c546c2c3bf87e41154a2c5f5d7b6d554026deba4`.
 Frontend build `33590571059` PASS, including build job `100123554410` and browser-smoke job `100123640329`.
 Deployed targeted UAT `33590571041` / job `100123554544` PASS: **1 passed (4.6s)**, direct Acquisition route + Administration overview + browser Back recovery on Worker v2.15.31.
+
+
+### CF-074 native THE historical JSON
+
+Native Times Higher Education ranking JSON/TXT ingestion is implemented. The supplied 2015 file validates as **1,526 publisher rows / 93 locations / 37 Australian institutions**, SHA-256 `538984dff990e3bed1377e772238d08ffde21cb8b894bdcc2cf634ea97e38d8c`. The parser preserves exact/tied/banded ranks, score ranges and six THE indicator dimensions. AU Provider reconciliation is **36/37 (97.30%)**, 0 unmatched, with Victoria University intentionally retained as one-to-many CRICOS review. Admin release **v2.15.32** accepts native THE JSON/TXT as private Evidence. No THE observations were applied from the supplied attachment.
