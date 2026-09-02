@@ -306,8 +306,16 @@ Implemented without changing Layer 1 authority or canonical semantics:
 - Layer 1 source URL, authority metadata, guardrails and cadence moved to **Administration → Layer 1 sources** for Platform Admin;
 - no destructive canonical/Evidence purge control added.
 
-Current validation candidate: `msinghbs-ai/Coursefinder-Pilot@3b0f0ab2785580a982cc54a0e6b4568defc07231`.
-Frontend build job has compiled the candidate successfully; local browser smoke and the focused CF-065 targeted deployed source contract are still running at this checkpoint. The earlier targeted failure on `490c3307...` was an obsolete CF-060 hard-coded version assertion, not a Layer 1 functional failure, and has been corrected without weakening the Jobs contract.
+Final targeted candidate: `msinghbs-ai/Coursefinder-Pilot@2ed222925a02abeaa1d9bca7474d5e0eb4dcf4ed`.
+
+Validation:
+- frontend build `33573906087` PASS;
+- deployed targeted UAT `33573906103` PASS;
+- Layer 1 deployed suite 4/4 PASS on Chromium desktop;
+- real NZQA and CRICOS source validation paths passed;
+- anonymous browser boundary passed.
+
+Two earlier targeted failures are retained as diagnostic history: the first exposed stale pre-v2 shared navigation/test selectors; the second exposed a test selector resolving the hidden Status dropdown option instead of the visible Healthy summary. Both were corrected at test/integration level without weakening Layer 1 authority, source validation or security boundaries.
 
 ## Production decision remains blocked
 
