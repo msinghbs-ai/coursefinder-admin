@@ -346,6 +346,36 @@ Final targeted candidate: `msinghbs-ai/Coursefinder-Pilot@fea444a9343839c55a4b48
 
 QS/THE are intentionally not represented as automated **Run now** sources until automated ranking ingestion adapters are accepted; their governed publisher-import/onboarding path remains separate.
 
+
+## CF-067 versioned statistical datasets
+
+Layer 1 statistical ingestion now uses a **dataset family → edition → source/Evidence/observations** model rather than permanent year-specific operational cards. UI baseline is **v2.15.34**.
+
+Current AU families and editions:
+- QILT Graduate Outcomes Survey — Current 2025 — 593 observations;
+- QILT Student Experience Survey — Current 2024 — 977 observations;
+- QILT Graduate Outcomes Survey – Longitudinal — Current 2025 — 235 observations;
+- QILT Employer Satisfaction Survey — Current 2025 — 228 observations;
+- PRISMS International Student Flow — Current 2025-12 — 2,270 observations.
+
+A newer accepted edition is registered under the same family, becomes Current only when newer, and the prior Current edition is retained with its source, Evidence and observations for comparison. Layer 1 run/schedule control follows Current only; retained editions are comparison/audit inputs and are not separate runnable cards. QILT remains annual by survey family; PRISMS is periodic. New QILT publisher layouts still require source/parser qualification before APPLY; accepted edition rollover is then automatic.
+
+Governed structures:
+- `pipeline.layer1_dataset_families`;
+- `pipeline.layer1_dataset_editions`;
+- `pipeline.sync_layer1_statistical_edition(uuid)` with a service-role public wrapper for ETLs;
+- refresh-policy transfer from prior Current to a newer Current source.
+
+Security boundary remains unchanged: QILT/PRISMS retain `identity_authority=false`; no Provider/Course identity, Search or Publication authority is granted. The browser Layer 1 read remains authenticated + role-gated; anon/public execute is revoked.
+
+Final targeted candidate: `msinghbs-ai/Coursefinder-Pilot@e7f5a1c8eec7301c5e3c9266e7a225a0a81f2e9c`.
+- frontend build `33596621514`: PASS;
+- deployed targeted UAT `33596621522`: PASS;
+- permanent Layer 1 suite: 6/6 Chromium desktop PASS;
+- edition-family/history UX, live QILT/PRISMS validation, CRICOS, NZQA, Platform Admin config boundary and anonymous boundary all passed.
+
+An interim ACL regression from replacing the Layer 1 read function was detected by deployed UAT and corrected with `20260902005100_cf_067_restore_authenticated_layer1_read_acl.sql`; this restored authenticated execution for the existing role-gated public reader without granting anonymous access.
+
 ## Production decision remains blocked
 
 Production project creation still requires explicit:
