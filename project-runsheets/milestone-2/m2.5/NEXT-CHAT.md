@@ -451,8 +451,8 @@ Do not reopen CF-080 unless the real import or later regression exposes a new de
 CF-081 is applied in Pilot. Start from migration `20260902132027`, Edge `layer2-acquire-v2` v10 and Pilot source commits `e3d3109734306701fe6c63acbc2472e47dc06d95` / `24ed81365d2ae2e7cb410b8c67b806a83adbb647`.
 
 Do next:
-1. inspect the three Study Australia bootstrap dispatch outcomes for page windows 6–10, 11–15, 16–20 and record canonical/source-record deltas;
-2. run a bounded shared-fetch UAT proving first request acquires Evidence and a sibling profile reuses it without an additional vendor unit;
+1. continue Study Australia/provider-catalogue completeness from the accepted 180 canonical / 240 source-record baseline; do not repeat pages 6–20 merely to prove activity;
+2. inspect real shared-fetch hit/vendor-unit telemetry from the next naturally due Course/Scholarship/logo runs; rollback-only register/lookup + 2-task fan-out already PASS;
 3. run a bounded Provider-logo candidate extraction/approval trial before broad population;
 4. run Security + Performance advisors and classify only new/material findings;
 5. keep Parse.bot disabled until the user supplies the trial API details;
