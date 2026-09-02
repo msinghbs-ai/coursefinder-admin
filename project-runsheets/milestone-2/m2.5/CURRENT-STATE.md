@@ -917,3 +917,25 @@ Detail proof:
 Live Scholarship baseline after CF-083: **186 canonical Scholarships**.
 
 Authority: CF-083 / A32 / DB Architecture v2.10.49 / Admin-PIM Decisions v1.30.
+
+
+## CF-084 Environment & Production portability — 3 September 2026
+
+Status: **IMPLEMENTED / TARGETED VERIFICATION ACTIVE**.
+
+Administration now contains a Platform Admin-only `Environment & Migration` section.
+
+Live source inventory shown by the new control surface:
+- Evidence rows: 17,400;
+- Storage objects: 17,626;
+- Storage buckets: 2;
+- cron jobs: 14;
+- Vault secrets: 7;
+- Evidence absolute Storage paths: 0;
+- Pilot Supabase URLs embedded in Evidence source/metadata: 0.
+
+Central credentials cover Layer 2 providers, Layer 3/OpenRouter, Apollo and a separate Production automation key. Secret values remain write-only.
+
+Production target fields remain pending until the separate Production project/tenancy is approved and created.
+
+Authority: CF-084 / A33 / Production Supabase Migration design v1.0 / DB Architecture v2.10.50 / Admin-PIM Decisions v1.31.
