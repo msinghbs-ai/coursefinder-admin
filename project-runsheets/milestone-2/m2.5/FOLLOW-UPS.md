@@ -67,3 +67,16 @@
 | M25-FU-042 | Administration Acquisition route blanks app / Back remains blank | v2.15.30 omitted the `ShieldCheck` import used by rank-5+ execution-policy rendering; uncaught route render could unmount the React root | CF-073 v2.15.31 imports dependency, adds route-keyed error boundary and permanent exact-route/Back deployed UAT; run 33590571041 / job 100123554544 PASS | COMPLETE / TARGETED PASS |
 
 | M25-FU-047 | Ranking multi-year Evidence backfill | QS/THE now render as compact dataset families with edition selectors; supplied QS compact CSV and THE compact/native formats are supported | Upload/validate/apply authorised historical editions through the family selector; retain unresolved Provider ambiguities for governed review | IMPLEMENTED UX / HISTORICAL EVIDENCE BACKFILL PENDING |
+
+
+## A30 Provider Contacts follow-ups — 2 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-048 | Managed contact registry schema | Current A15 tables are source-observation oriented and not safe CRUD rows | Add stable managed contacts, append-only versions, import batches/rows, audit events and optional observation linkage with RLS/grants/RPCs | OPEN / CF-076 |
+| M25-FU-049 | CSV v1 mass-import contract | 306-row/17-column baseline cannot yet be dry-run/applied through governed PIM import | Implement parser, file/row hashes, validation, Provider crosswalk, duplicate matching, dry-run and resumable APPLY | OPEN / CF-076 |
+| M25-FU-050 | Legacy/merged Provider mapping | 42 source university labels resolve to 41 current institution names and can create duplicates if matched naively | Reconcile source-scoped aliases/current Provider IDs; keep ambiguous mappings in review rather than guessing | OPEN / CF-076 |
+| M25-FU-051 | Provider Contacts Catalogue module | Contacts are visible only inside Provider detail; no dedicated database-management grid exists | Add canonical NAV route, paged searchable/filterable/sortable grid, column controls, row drawer and Provider deep-links | OPEN / CF-076 |
+| M25-FU-052 | Individual edit/delete/restore/history | PIM operators cannot safely manage a logical contact lifecycle | Add role-checked create/edit/verify, append-only versions, soft-delete, deleted filter, restore and audit | OPEN / CF-076 |
+| M25-FU-053 | Contact export / audit / CSV safety | No governed module-level export contract exists | Add filtered/current/full managed export, export audit, selected-column handling and spreadsheet formula-injection protection | OPEN / CF-076 |
+| M25-FU-054 | A30 acceptance / consumer boundary | New PIM surface could regress A15 privacy/Evidence or leak into consumers | Run targeted DB/API/security/browser/performance UAT and prove Search/Website/Wix/Zoho remain unchanged | OPEN / CF-076 |
