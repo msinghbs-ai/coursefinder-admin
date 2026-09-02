@@ -671,3 +671,12 @@ Corrective candidate:
 `msinghbs-ai/Coursefinder-Pilot@9e30626e24bd1eb20a3b8fb5879ba3354a7a138d`.
 
 At the last bounded status check no commit status had attached yet; CF-070 remains **IMPLEMENTED / TARGETED UAT PENDING**.
+
+
+## CF-071 Layer 1 Operations naming alignment
+
+The primary Admin Data Operations label is now standardised to **Layer 1 — Operations**. The top-level page title and embedded Layer 1 workspace now use Operations terminology rather than presenting the operational control plane as “Authority”. Historical `#layer-1-regulatory` and `#layer-1-authority` routes remain compatible and resolve to the canonical `#layer-1-operations` surface.
+
+Pilot UI is **v2.15.29**. Source, parser, authority, Evidence, execution-role, Search and Publication semantics are unchanged. Layer 1 source/settings configuration remains under Administration → Layer 1 sources.
+
+Implementation refs: `f22415d229838411067678352030dbf20e89d1fd`, `46fbde662340a39ac609c224ead81fd4d31c4517`, `cc3aba52cc3c693e45716c9798c844864a701afc`, `c6e11bfb8b39f97cd4ba96a599482a830387e036`, with Layer 1 acceptance adapters aligned at `fa766d68afbf9d4ee17b73364d2e9a9b0c8b5012`, `4ec367a889da3faccfc479fd36993f78fedc1254` and `f71b37f317d784273278617bc951042994fb9cc0`. Targeted deployed UAT is active; an earlier intermediate run was cancelled by workflow concurrency and is not a functional failure.
