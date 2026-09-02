@@ -113,7 +113,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260902-075 | 20-layer1-regulatory-ingestion | Compact Multi-Year Ranking Dataset Families | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-075-compact-multi-year-ranking-dataset-families.md` |
 
 | CF-CHG-20260902-077 | 20-layer1-regulatory-ingestion | Statistical Provider Equivalence Fan-out | IMPLEMENTED / TARGETED DATA CONTRACT PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-077-statistical-provider-equivalence-fanout.md` |
-| CF-CHG-20260902-080 | 30-admin-pim-ux | Provider Contact Database Management | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-080-provider-contact-database-management.md` |
+| CF-CHG-20260902-080 | 30-admin-pim-ux | Provider Contact Database Management | IMPLEMENTED / TARGETED PASS | `30-admin-pim-ux/CF-CHG-20260902-080-provider-contact-database-management.md` |
 
 | CF-CHG-20260902-078 | 70-security-platform | Users & Roles / PIM Operator Restoration | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `70-security-platform/CF-CHG-20260902-078-users-roles-pim-operator-restoration.md` |
 | CF-CHG-20260902-079 | 30-admin-pim-ux | Course Comparison Provider Coverage Correction | IMPLEMENTED / TARGETED UAT ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-079-course-comparison-provider-coverage-correction.md` |
