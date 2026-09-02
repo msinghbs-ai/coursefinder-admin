@@ -432,3 +432,9 @@ Standing requirements:
 - unresolved Provider/Course/Study Level/Field/Campus/Country applicability is parked in the existing Layer 4 `scope_resolution` review field;
 - Provider logos are promoted only from approved first-party candidates into managed hashed assets; never weaken fetch/security controls to force a promotion;
 - Search, Website/Wix and Zoho admission remain separate downstream gates.
+
+
+A32 authority:
+- `CF-CHG-20260903-083`;
+- DB Architecture `v2.10.49`;
+- Admin/PIM Decisions `v1.30`.
