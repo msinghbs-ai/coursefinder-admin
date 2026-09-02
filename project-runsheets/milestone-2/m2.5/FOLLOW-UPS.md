@@ -97,6 +97,17 @@
 | ID | Item | Impact | Next action | Status |
 |---|---|---|---|---|
 | M25-FU-059 | Logo bounded-quality gate | Initial markup-only scoring admitted partner/network/news images | v1.3 now requires explicit logo/brand or header/navigation semantics; finish current evidence-only recheck before broad rollout | ACTIVE / HARDENED |
-| M25-FU-060 | Primary logo promotion | Strong candidates exist but Provider identity/display should not be changed speculatively | Add governed approve/promote operation with Evidence/asset download/hash validation; do not write legacy `providers.logo_url` directly | OPEN |
-| M25-FU-061 | Provider Scholarship entrypoint acquisition | 13 first-party scholarship-like links discovered in 5-Provider cohort | Qualify high-value international/general Scholarship entrypoints and acquire them through the same Layer 2 route; keep research/outreach noise review-only | READY |
+| M25-FU-060 | Primary logo promotion | Governed promotion now exists; CQUniversity and ECU primary assets promoted, Charles Sturt blocked by source 403 | Continue bounded Provider cohorts; retain blocked/ambiguous assets in review and never weaken fetch/security controls | IMPLEMENTED / DATA POPULATION ACTIVE |
+| M25-FU-061 | Provider Scholarship entrypoint acquisition | Seven first-party catalogues acquired; catalogue/detail grain separated and 52 catalogue candidates enumerated | Continue Provider catalogue coverage using catalogue→detail pattern; ACU/ANU zero-result runs remain needs-review | IMPLEMENTED / DATA POPULATION ACTIVE |
 | M25-FU-062 | Shared-fetch savings telemetry | 5/5 sibling Scholarship calls avoided a second acquisition | Add cache hit/vendor-unit avoidance KPIs to Layer 2 operations and retain this 5-Provider proof as acceptance evidence | TARGETED PASS / UI TELEMETRY OPEN |
+
+
+## CF-083 / A32 follow-ups — 3 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-063 | Scholarship catalogue completeness expansion | Current seven-provider proof found 52 links but is not full AU coverage | Expand in bounded Provider cohorts; record expected/discovered/acquired/canonical/review/error counts and investigate zero-result sources | ACTIVE |
+| M25-FU-064 | Layer 4 Scholarship scope resolution | Six new unpublished roots cannot be shown as course-applicable until scope is accepted | Review Provider/Course/Study Level/Field/Campus include-exclude semantics from exact first-party Evidence | PENDING HUMAN REVIEW |
+| M25-FU-065 | Scholarship detail extraction quality | CDU VCIHAS root is identified but award remains unresolved; some sites need source-specific parsing | Add bounded source adapters only where generic detail extraction is insufficient; preserve evidence and no fabrication | ACTIVE |
+| M25-FU-066 | Provider logo population | Two approved primary assets prove promotion path, but AU/NZ population remains incomplete | Continue bounded logo cohorts, review precision, promote only accepted first-party assets | ACTIVE |
+| M25-FU-067 | Scholarship/Provider consumer projections | Website UI requires logo + applicable Scholarship summaries | Design/cache provider/course Scholarship aggregates after scope acceptance; do not admit internal candidates/review states | NOT YET AUTHORISED |
