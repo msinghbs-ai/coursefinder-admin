@@ -1,6 +1,6 @@
 # CF-CHG-20260902-075 — Compact Multi-Year Ranking Dataset Families
 
-**Status:** IMPLEMENTED / TARGETED UAT ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026 Australia/Melbourne  
 **Category:** 20 — Layer 1 Regulatory / Authoritative Ingestion  
 **Related:** CF-063, CF-064, CF-067, CF-068, CF-071, CF-074, A29
@@ -74,3 +74,13 @@ QS and THE remain independent ranking systems. Course ranking context remains in
 - multi-year trend mode available;
 - frontend build and deployed UAT pass;
 - Security advisor remains 0 WARN / 0 ERROR.
+
+
+## Targeted proof
+
+- permanent CF-075 targeted contract commit `805a6390a05c8e6201eaf02a1a2ceffd8550c567`: frontend build **PASS**, deployed UAT **PASS**;
+- latest direct family-card upload commit `1104612ac4590ea94c58c1aa12a2e57c2aacd98c`: build job `100147815603` **PASS**, browser smoke job `100147905803` **PASS**, deployed targeted UAT job `100147815947` **PASS**;
+- Security advisor: **158 INFO / 0 WARN / 0 ERROR**;
+- Performance advisor: **186 INFO only**.
+
+The direct Platform Admin family-card uploader uses the same authenticated `ranking-publisher-import` service as the advanced import workspace; server-side size/type/year validation, private Evidence retention and deduplication remain authoritative.
