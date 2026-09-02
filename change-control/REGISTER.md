@@ -103,7 +103,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260902-069 | 70-security-platform | Course detail contextual helper ACL restoration | CLOSED / PASS | `70-security-platform/CF-CHG-20260902-069-course-detail-contextual-helper-acl-restoration.md` |
 | CF-CHG-20260902-070 | 30-admin-pim-ux | Provider Compare Interaction & Theme Correction | IMPLEMENTED / TARGETED UAT PENDING | `30-admin-pim-ux/CF-CHG-20260902-070-provider-compare-interaction-theme-correction.md` |
 | CF-CHG-20260902-071 | 30-admin-pim-ux | Layer 1 Operations Admin naming alignment | APPLIED / TARGETED UAT ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-071-layer1-operations-admin-naming-alignment.md` |
-| CF-CHG-20260902-072 | 30-admin-pim-ux | Layer 1 source configuration card UI restoration | IMPLEMENTED / RETAINED IN v2.15.39 / DEPLOYED VERIFY PENDING | `30-admin-pim-ux/CF-CHG-20260902-072-layer1-source-configuration-card-ui-restoration.md` |
+| CF-CHG-20260902-072 | 30-admin-pim-ux | Layer 1 source configuration card UI restoration | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260902-072-layer1-source-configuration-card-ui-restoration.md` |
 | CF-CHG-20260902-073 | 30-admin-pim-ux | Administration Acquisition route render-crash correction | IMPLEMENTED / TARGETED PASS | `30-admin-pim-ux/CF-CHG-20260902-073-administration-acquisition-route-render-crash-correction.md` |
 
 | CF-CHG-20260902-068 | 20-layer1-regulatory-ingestion | QS Direct XHR / JSON Layer 1 Acquisition Qualification | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-068-qs-direct-xhr-json-layer1-acquisition.md` |
