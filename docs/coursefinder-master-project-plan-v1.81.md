@@ -92,8 +92,8 @@ M2.5 does not automatically authorise:
 ## 9. Current baselines
 
 - Running Build: `docs/coursefinder-running-build-v2.81.md`;
-- DB Architecture: `docs/coursefinder-database-architecture-v2.10.49.md`;
-- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.30.md`;
+- DB Architecture: `docs/coursefinder-database-architecture-v2.10.50.md`;
+- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.31.md`;
 - Production Change Control: `CF-CHG-20260901-049`.
 
 ## 10. Post-M2.4 platform maturity design
@@ -168,3 +168,23 @@ Current Pilot proof:
 - changed surface remains 0 WARN / 0 ERROR.
 
 This does not authorise broad Scholarship population, scope acceptance, Search/Website/Zoho admission or Production cutover.
+
+
+## 15. Environment & Production Supabase portability addendum — 3 September 2026
+
+CF-CHG-20260903-084 / A33 establishes the Administration and migration-control foundation for a clean Production Supabase project in a separate tenancy/project.
+
+Production migration is explicitly multi-plane:
+Database/Auth data + Vault/credentials + Storage bucket configuration + Storage object bytes + Edge Functions + custom secrets + Auth settings/project keys + cron + extensions/project settings + CORS/origins + Evidence path verification.
+
+Pilot Evidence portability snapshot at this gate:
+- 17,400 Evidence rows;
+- 17,391 relative Storage paths;
+- 0 absolute Evidence Storage paths;
+- 0 Pilot Supabase URLs in Evidence source/metadata;
+- 17,626 Storage objects;
+- 2 private buckets;
+- 14 cron jobs;
+- 7 Vault secrets.
+
+Admin UI v2.15.43 adds Administration → Environment & Migration. It does not create Production or waive the separate organisation/region/cost approval gate.
