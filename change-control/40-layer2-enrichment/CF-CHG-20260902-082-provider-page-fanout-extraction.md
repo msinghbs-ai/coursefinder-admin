@@ -44,3 +44,25 @@ Initial acquisition cohort is limited to five AU university Providers:
 - Curtin University.
 
 The first attempt correctly exposed a stale `layer2_runtime_context` domain guard and returned HTTP 409 without vendor acquisition. CF-082 then extended the existing service-role runtime guard specifically to `provider_asset`; the cohort was requeued once after correction.
+
+
+## Live bounded acquisition result
+All five university Provider-page acquisitions passed HTTP 200:
+- Direct HTTP: ANU, CDU, Curtin — 3/5;
+- Firecrawl fallback: ACU, CQUniversity — 2/5;
+- no Parse.bot calls;
+- no failed acquisition.
+
+Sibling Scholarship-profile reuse then passed 5/5:
+- every request returned `provider_key=shared-fetch`;
+- `shared_fetch_reused=true`;
+- each retained the original Evidence ID;
+- estimated request cost was 0 for all five;
+- each shared-fetch row now has `reuse_count=1`.
+
+This proves one Provider-page acquisition can serve another Layer 2 module without a second vendor acquisition.
+
+## Fan-out quality finding
+Initial deterministic extraction found useful Scholarship discovery entrypoints but the first logo scoring rule produced false positives for an ACU partnership logo and CQUniversity Regional Universities Network footer logo. Those rows were explicitly rejected and the extractor was tightened before broader rollout. No candidate was promoted into `catalogue.provider_assets` or `providers.logo_url`.
+
+The fan-out Edge is now v3 / worker `layer2-provider-page-fanout-v1.2`.
