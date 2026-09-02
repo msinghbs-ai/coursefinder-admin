@@ -108,6 +108,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-068 | 20-layer1-regulatory-ingestion | QS Direct XHR / JSON Layer 1 Acquisition Qualification | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-068-qs-direct-xhr-json-layer1-acquisition.md` |
 
+| CF-CHG-20260902-074 | 20-layer1-regulatory-ingestion | Native THE Historical JSON Ranking Ingestion | IMPLEMENTED / SOURCE+RUNTIME VALIDATION ACTIVE | `20-layer1-regulatory-ingestion/CF-CHG-20260902-074-the-native-json-historical-ranking-ingestion.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
