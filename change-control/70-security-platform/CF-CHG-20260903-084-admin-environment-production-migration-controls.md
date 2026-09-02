@@ -1,0 +1,88 @@
+# CF-CHG-20260903-084 — Admin Environment, Credentials & Production Supabase Migration Controls
+
+**Status:** IMPLEMENTED / TARGETED VERIFICATION ACTIVE  
+**Date:** 3 September 2026  
+**Primary owner:** Platform / Production Readiness  
+**Builds on:** CF-049, CF-081, CF-083 / A31 / A32
+
+## Objective
+Create one Platform Admin control surface for environment-specific integration settings and make the clean Production Supabase tenancy migration explicit and auditable.
+
+## Admin surface
+Pilot UI v2.15.43 adds:
+`Administration → Environment & Migration`.
+
+The workspace exposes only masked/configured state for secrets and allows write-only credential rotation.
+
+Centralised controls:
+- Parse.bot endpoint, enabled state, API credential, rate/concurrency/timeout;
+- Firecrawl credential, current recorded rate, monthly vendor-unit entitlement and stop-at reserve;
+- Scrape.do, ScraperAPI and ZenRows credentials/settings;
+- OpenRouter Layer 3 credentials;
+- Apollo contact-enrichment credential;
+- separate Production automation credential;
+- target Production Supabase organisation/project ref/project URL/region;
+- Production Admin and Website origins;
+- target-generated/deployment-managed Supabase/Auth settings as checklist state.
+
+## Security
+Secret values are never returned by Admin reads.
+
+Layer 2 provider credentials continue to use the accepted `layer2_provider_control` Vault path.
+Layer 3/OpenRouter continues to use the accepted Layer 3 credential Vault path.
+Apollo now prefers `coursefinder_integration_apollo` in Vault, with the existing `APOLLO_API_KEY` Edge environment value retained only as transitional fallback.
+
+Production Supabase publishable/secret keys are project-generated and are not copied into the Pilot registry.
+
+## Production portability registry
+New private structures:
+- `pipeline.environment_settings`;
+- `pipeline.integration_secret_registry`;
+- `pipeline.production_migration_manifest`.
+
+Browser roles have no direct table access. Platform Admin access is through `platform-environment-control` and service-role-only RPCs.
+
+## Migration manifest
+Required components explicitly tracked:
+1. database schema/data/indexes/roles/Auth user data;
+2. Vault/provider credentials;
+3. Storage bucket configuration;
+4. Storage objects;
+5. Edge Functions;
+6. Edge Function custom secrets;
+7. Auth settings and target API keys;
+8. cron schedules;
+9. database extensions/project settings;
+10. CORS/origins;
+11. Evidence/source-link portability;
+12. later Website/Zoho/API consumer reconfiguration.
+
+## Evidence portability proof
+Pilot snapshot:
+- Evidence rows: 17,400;
+- Evidence rows with relative Storage paths: 17,391;
+- absolute Evidence Storage paths: 0;
+- Pilot Supabase absolute URLs in Evidence source/metadata: 0;
+- Provider asset rows: 2;
+- absolute Provider asset paths: 0;
+- Storage objects: 17,626;
+- Storage buckets: 2;
+- cron jobs: 14;
+- Vault secrets: 7.
+
+Therefore database Evidence references are portable if bucket names and exact object paths are preserved. Signed/download URLs must be regenerated against the target project.
+
+## Parse.bot
+Parse.bot remains registered but disabled. Admin may store the trial API key and endpoint when available. Enabling production routes still requires bounded adapter UAT; credential presence alone is not qualification.
+
+## Firecrawl
+Pilot currently records a 5,000-unit monthly entitlement. The user has increased the vendor limit externally. CF-084 deliberately does not invent the new value; Platform Admin now updates the entitlement/reserve through Admin and Layer 2 budget clamping then uses the persisted value.
+
+## Production boundary
+This change does not create the Production Supabase project and does not waive the existing organisation/region/cost approval gate. It prepares the source-of-truth inventory and target settings needed when the separate tenancy is created.
+
+## Supabase portability rule
+A database-only clone/restore is insufficient for full CourseFinder Production migration. Storage objects, Edge Functions, Auth settings/API keys and project settings require explicit target work. Vault handling must follow the chosen restore method and be verified before relying on copied encrypted values.
+
+## Consumer boundary
+No Website/Wix/Zoho cutover is authorised. Consumer endpoints/keys stay a later gate.
