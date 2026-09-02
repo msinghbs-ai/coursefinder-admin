@@ -173,7 +173,7 @@ Production boundary: A17 design is accepted, but no broad career/skills consumer
 
 ## A30 — Provider Contacts Database Management
 
-M2.5 now carries the accepted Provider Contacts management design under `CF-CHG-20260902-076`.
+M2.5 now carries the accepted Provider Contacts management design under `CF-CHG-20260902-077`.
 
 Authoritative design artifacts:
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
