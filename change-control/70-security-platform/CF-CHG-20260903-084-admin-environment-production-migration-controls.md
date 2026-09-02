@@ -1,6 +1,6 @@
 # CF-CHG-20260903-084 — Admin Environment, Credentials & Production Supabase Migration Controls
 
-**Status:** IMPLEMENTED / TARGETED VERIFICATION ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Date:** 3 September 2026  
 **Primary owner:** Platform / Production Readiness  
 **Builds on:** CF-049, CF-081, CF-083 / A31 / A32
@@ -111,3 +111,21 @@ Administration → Environment & Migration now shows configured status and provi
 - Website API bearer token.
 
 Do not pre-stage Production consumer tokens in Pilot because rotation changes the current environment's active token. After the target Production project is created, rotate new Production tokens from the same Admin menu in Production. Consumer cutover remains separately governed.
+
+
+## Targeted verification closure
+
+Accepted Pilot source: `Coursefinder-Pilot@076a0e40047bfe7bbb146d868e44a569d6bb9c57`.
+
+Verification:
+- Pilot Frontend Build workflow `33695621150`: PASS;
+- CourseFinder Deployed UAT workflow `33695621166`: PASS;
+- current Admin shell/release version: v2.15.43;
+- live `platform_environment_read_service`: PASS;
+- current Website/Zoho hash-only credential status read: PASS;
+- runtime Edge base URL/automation-selector read: PASS;
+- post-change Security Advisor: 174 INFO / 0 WARN / 0 ERROR;
+- post-change Performance Advisor: 209 INFO / 0 WARN / 0 ERROR;
+- changed private environment tables report expected RLS-no-policy INFO only because browser roles have no direct table access.
+
+CF-084 is therefore TARGETED PASS for the Pilot control surface and portability contracts. Production project creation/cutover remains a separate gate.
