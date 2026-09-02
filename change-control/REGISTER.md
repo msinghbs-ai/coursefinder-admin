@@ -112,7 +112,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-075 | 20-layer1-regulatory-ingestion | Compact Multi-Year Ranking Dataset Families | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-075-compact-multi-year-ranking-dataset-families.md` |
 
-| CF-CHG-20260902-077 | 30-admin-pim-ux | Provider Contact Database Management | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `30-admin-pim-ux/CF-CHG-20260902-077-provider-contact-database-management.md` |
+| CF-CHG-20260902-077 | 20-layer1-regulatory-ingestion | Statistical Provider Equivalence Fan-out | IMPLEMENTED / TARGETED DATA CONTRACT PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-077-statistical-provider-equivalence-fanout.md` |
+| CF-CHG-20260902-080 | 30-admin-pim-ux | Provider Contact Database Management | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-080-provider-contact-database-management.md` |
 
 | CF-CHG-20260902-078 | 70-security-platform | Users & Roles / PIM Operator Restoration | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `70-security-platform/CF-CHG-20260902-078-users-roles-pim-operator-restoration.md` |
 | CF-CHG-20260902-079 | 30-admin-pim-ux | Course Comparison Provider Coverage Correction | IMPLEMENTED / TARGETED UAT ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-079-course-comparison-provider-coverage-correction.md` |
@@ -171,4 +172,4 @@ Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4
 
 
 ### Governance collision note — 2 September 2026
-CF-076 is already used by ranking-import UX/UAT. CF-077 is already deployed for statistical Provider-equivalence/ranking migrations. Provider Contacts therefore uses **CF-CHG-20260902-080 / A30** as its final authority. The CF-076 and CF-077 Provider Contacts files are retained only as void collision evidence.
+CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statistical Provider Equivalence Fan-out authority. Provider Contacts therefore uses **CF-CHG-20260902-080 / A30** as its final authority. The CF-076 and contact-specific CF-077 files are retained only as void collision evidence.
