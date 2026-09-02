@@ -132,7 +132,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.29.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.6.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A31 (as applicable);
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A32 (as applicable);
 - M2.4 plan: M2.4.0–M2.4.4 CLOSED/PASS; M2.5 ACTIVE/READINESS under `CF-CHG-20260901-049`.
 
 ## Accepted runtime/source authority
@@ -177,3 +177,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260902-081 | 40-layer2-enrichment | Consolidated Layer 2 Acquisition, Scholarship Seed & Provider Assets | APPLIED / TARGETED VERIFICATION ACTIVE | `40-layer2-enrichment/CF-CHG-20260902-081-layer2-consolidated-acquisition-scholarship-assets.md` |
 
 | CF-CHG-20260902-082 | 40-layer2-enrichment | Provider Page Fan-out Extraction | IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES | `40-layer2-enrichment/CF-CHG-20260902-082-provider-page-fanout-extraction.md` |
+
+| CF-CHG-20260903-083 | 40-layer2-enrichment | Scholarship Catalogue→Detail Acquisition & Provider Asset Promotion | IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES | `40-layer2-enrichment/CF-CHG-20260903-083-scholarship-catalogue-detail-provider-asset-promotion.md` |
