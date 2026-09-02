@@ -1,6 +1,6 @@
 # CF-CHG-20260902-081 — Layer 2 consolidated acquisition, Scholarship seed & Provider assets
 
-**Status:** APPLIED / TARGETED VERIFICATION IN PROGRESS  
+**Status:** APPLIED / TARGETED PASS — DATA POPULATION CONTINUES  
 **Initiated:** 2 September 2026 (Australia/Melbourne)  
 **Primary owner:** Layer 2 Enrichment  
 **Origin:** Scholarship initial seed, Provider logos and cross-module acquisition-cost consolidation  
@@ -50,9 +50,21 @@ The accepted Study Australia seed existed before this change. CF-081 extends the
 - no Search/Website/Zoho publication is authorised.
 
 ## Implementation
-- Pilot migration `20260902132027`;
+- Pilot migrations: `20260902132027`, `20260902132817`, `20260902133045`;
 - `layer2-acquire-v2` upgraded to v10 for shared-fetch lookup/register;
-- Pilot source commit: `e3d3109734306701fe6c63acbc2472e47dc06d95`.
+- Pilot source head: `c32c0d366eb7afa200b0ed64ce757a149afdf368`.
+
+## Targeted verification
+- 933 AU/NZ Scholarship profiles READY;
+- 933 AU/NZ Provider-logo profiles READY;
+- 933 existing Course profiles on the same first-party anchors now have `reuse_shared_fetch=true`;
+- 2,803 enabled Firecrawl routes exist platform-wide;
+- rollback-only shared-fetch proof registered one Evidence object and created 2 sibling fan-out tasks, then rolled back;
+- Parse.bot remains disabled;
+- due-only Layer 2 scheduler tick returned 0 queueable items, so no unnecessary Course scrape was forced;
+- three Study Australia seed runs returned HTTP 200; canonical Scholarships increased 54 → 180 and source records 114 → 240;
+- changed-surface Security Advisor: INFO only / 0 WARN / 0 ERROR;
+- changed-surface Performance Advisor: INFO unused-new-index notices only after FK index hardening / 0 WARN / 0 ERROR.
 
 ## Rollback
 Disable new Scholarship/logo profiles and Parse.bot, restore previous cadence, revert Layer 2 worker to v9, then remove new fan-out/assets structures only after proving no retained Evidence/asset references depend on them. Do not delete canonical Scholarship or Evidence history as rollback.
