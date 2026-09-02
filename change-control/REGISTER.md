@@ -128,11 +128,11 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.1.md`;
 - Platform maturity implementation backlog: `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`;
 - M2.5 platform operations readiness: `docs/coursefinder-m2-5-platform-operations-readiness-v1.0.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.47.md` plus closed prior Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.28.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.48.md` plus closed prior Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.29.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.6.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
-- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A30 (as applicable);
+- M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A31 (as applicable);
 - M2.4 plan: M2.4.0–M2.4.4 CLOSED/PASS; M2.5 ACTIVE/READINESS under `CF-CHG-20260901-049`.
 
 ## Accepted runtime/source authority
@@ -173,3 +173,5 @@ Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4
 
 ### Governance collision note — 2 September 2026
 CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statistical Provider Equivalence Fan-out authority. Provider Contacts therefore uses **CF-CHG-20260902-080 / A30** as its final authority. The CF-076 and contact-specific CF-077 files are retained only as void collision evidence.
+
+| CF-CHG-20260902-081 | 40-layer2-enrichment | Consolidated Layer 2 Acquisition, Scholarship Seed & Provider Assets | APPLIED / TARGETED VERIFICATION ACTIVE | `40-layer2-enrichment/CF-CHG-20260902-081-layer2-consolidated-acquisition-scholarship-assets.md` |
