@@ -629,3 +629,14 @@ Root cause was CF-061 ACL drift: `public.admin_read` remained the intended SECUR
 Pilot migration `20260902011913` restores authenticated EXECUTE only for those two read-only, internally role-checked helpers while retaining public/anon denial. Authenticated rollback-only runtime proof returned the Course detail and `contextual_insights` payload successfully. Post-change advisors: Security 156 INFO / 0 WARN / 0 ERROR; Performance 185 INFO / 0 WARN / 0 ERROR.
 
 Repository migration: `Coursefinder-Pilot/supabase/migrations/20260902011913_cf_069_contextual_detail_invoker_acl_fix.sql` at `7e9fa8fa76d3b333c38f7ed934678eb2fb90793e`. No frontend asset was changed; parallel v2.15.27 work is preserved.
+
+
+## CF-068 QS direct XHR acquisition
+
+Status: **IMPLEMENTED / DEPLOYED UAT ACTIVE**.
+
+QS 2026 NID `4061771` direct static publisher XHR returned HTTP 200 with **1,501 rows** and is now the primary Layer 1 acquisition route for that edition. Raw JSON is retained as private Evidence and direct JSON APPLY remains disabled pending dry-run/access acceptance.
+
+QS 2027 NID `4153156`: equivalent static asset returns 404 and the current REST endpoint returns a Cloudflare managed challenge from Pilot Supabase egress. No bypass is attempted; manual authorised-file fallback remains available.
+
+Admin release: **v2.15.27**.
