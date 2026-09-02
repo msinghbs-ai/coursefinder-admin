@@ -685,3 +685,12 @@ Implementation refs: `f22415d229838411067678352030dbf20e89d1fd`, `46fbde662340a3
 ### CF-071 QS Provider reconciliation
 
 QS 2026 retained publisher JSON was reconciled without APPLY. AU result: **36 QS institutions / 35 deterministic Provider mappings (97.22%) / 0 unmatched / 1 governed ambiguity**. Fourteen publisher-name variants are retained in `catalogue.provider_aliases` with QS source provenance; 21 institutions match canonical/display name directly. Victoria University remains unresolved between active CRICOS Providers `00124K` and `02475D`; no arbitrary Provider selection is authorised. Deployed targeted UAT `33586539099` PASS; frontend build `33586539127` PASS; `ranking.observations` remains 0.
+
+
+## CF-072 Layer 1 source configuration card UI restoration
+
+User UAT confirmed that Administration → Layer 1 sources in v2.15.29 still rendered browser-default fields even though Layer 1 Operations itself was correctly themed. Root cause: the configuration component reused Layer 1 CSS classes but did not mount the shared `STYLES` block.
+
+Pilot v2.15.30 now mounts the shared Layer 1 styles and presents source configuration as responsive CourseFinder cards with the same navy/indigo visual language, regulatory/statistics status badges, grouped Source & authority / Cadence & guardrails sections, source metadata, safe-maintenance guidance and consistent Validate / Dry run / Save actions. No source authority, parser, Evidence, Search or Publication semantics changed.
+
+Implementation refs: `8b4fbe1565f889a13a6f0551a311b2041dcc252b`, `58270afb4037fbe5cad53b2c5bdbacc521380183`, `3df210e7be39abd402b6a62aa334d0095fa21af2`, `3dd49fb09b1df602ecdff0fdb28d3083c1bed4d8`, `73ba1836547c913f40a2f5aa19696d8f09e6186f`, `1d802f0310ffb8bbd1f3409925fa442f938deae0`. Targeted deployed UAT is active.
