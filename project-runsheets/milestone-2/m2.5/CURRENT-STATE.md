@@ -766,42 +766,36 @@ Native Times Higher Education ranking JSON/TXT ingestion is implemented. The sup
 Layer 1 ranking administration now presents **one QS family card and one THE family card** rather than one card per year. Edition selectors default to the current publisher edition (QS 2027 / THE 2026), with THE 2015–2026 provisioned for historical upload. The supplied compact QS Australia CSV shape (39 rows; 2027 + 2026 rank columns) and compact THE Australia CSV shape (39 rows; 2026 rank + score) are supported with edition-specific parsing and country-scope safeguards. Compare now defaults to the latest/current available period in **Current snapshot** mode and exposes explicit **Multi-year trend** mode for retained history. No Search/Website/Zoho publication authority changed.
 
 
-## CF-077 / A30 Provider Contacts database-management design — 2 September 2026
+## CF-080 / A30 Provider Contacts implementation — 2 September 2026
 
-Design accepted; implementation not yet claimed.
+Provider Contacts is implemented in Pilot **v2.15.41** and targeted deployed verification is active.
 
-User-supplied baseline CSV contract:
-- 306 rows / 17 columns;
-- 42 source university names;
-- 41 current institution names because legacy/merged naming is present;
-- 291 named-staff rows;
-- 15 team-contact rows;
-- email/phone/location are legitimately sparse and are not made mandatory.
-
-Accepted design:
+Implemented runtime/source:
 - first-class **Catalogue → Provider Contacts** module;
-- many contacts per canonical Provider;
-- stable managed contact ID above immutable A15 source observations;
-- append-only managed versions/history;
-- dry-run/idempotent mass import with Provider mapping and duplicate/conflict classification;
-- individual create/edit/verify;
-- soft-delete and restore;
-- server-side search/filter/sort and operator-controlled columns;
-- PIM/Data Admin import/export from the module;
-- import/export/delete/restore audit;
-- Provider blade deep-link to the filtered module;
-- no automatic Search/Website/Wix/Zoho admission.
+- 31 A15 current observations backfilled non-destructively into 31 managed contacts / 31 versions / 31 audit events;
+- stable Provider-linked managed contact identity with append-only versions;
+- server-paged global/column search, filtering, sorting and operator-controlled column order/visibility/width;
+- Provider blade → filtered Provider Contacts deep-link;
+- PIM Operator / Platform Admin create, edit, verify, deactivate, soft-delete, restore, import and audited export;
+- private Evidence-backed CSV upload, hash/idempotency, dry-run reconciliation and resumable APPLY;
+- explicit create/update/restore/unchanged/duplicate/unmatched/ambiguous/invalid/conflict classifications;
+- public SECURITY INVOKER wrappers over private role-checked implementations; direct authenticated table access remains denied;
+- JWT-protected provider-contact-import and provider-contact-control Edge Functions v2;
+- four reproducible Supabase migrations through cf_080_provider_contacts_security_hardening.
+
+Security/ACL checkpoint:
+- Provider Contacts Security Advisor: **0 WARN / 0 ERROR** after wrapper hardening;
+- remaining contact-table RLS-no-policy notices are INFO and intentional for private RPC-only tables;
+- authenticated direct SELECT on managed contacts/versions/import batches: denied;
+- authenticated service-role import APPLY RPC: denied;
+- Victoria University remains a governed two-Provider ambiguity and is not guessed.
+
+Initial supplied CSV contract remains 306 rows / 17 columns / 42 source university labels / 41 current institutions / 291 named staff / 15 team contacts. The raw CSV is not committed and has not been APPLY-imported; it must enter through the authenticated private Evidence/import surface.
 
 Authority:
-- `CF-CHG-20260902-077`;
-- A30 execution addendum;
+- `CF-CHG-20260902-080`; A30;
 - `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
-- DB Architecture `v2.10.47` — design authority only;
-- Admin/PIM Decisions `v1.28`;
-- Admin Navigation IA `v1.6`.
-
-The raw uploaded contact CSV was analysed for format/quality but was not committed to GitHub. Implementation must register it through the governed private Evidence/import path before APPLY.
-
+- DB Architecture `v2.10.47`; Admin/PIM Decisions `v1.28`; Admin Navigation IA `v1.6`.
 
 ## CF-079 Course Comparison Provider Coverage Correction
 
