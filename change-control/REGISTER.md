@@ -112,7 +112,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-075 | 20-layer1-regulatory-ingestion | Compact Multi-Year Ranking Dataset Families | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260902-075-compact-multi-year-ranking-dataset-families.md` |
 
-| CF-CHG-20260902-076 | 30-admin-pim-ux | Provider Contact Database Management | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `30-admin-pim-ux/CF-CHG-20260902-076-provider-contact-database-management.md` |
+| CF-CHG-20260902-077 | 30-admin-pim-ux | Provider Contact Database Management | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `30-admin-pim-ux/CF-CHG-20260902-077-provider-contact-database-management.md` |
 
 ## Current programme baseline
 
@@ -165,3 +165,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 M2.4.3 and M2.4.4 are CLOSED / PASS. M2.4 is CLOSED / PASS.
 
 Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4 terminal human resolution, A8/A10/A12/A13/A15 standing behaviour, the RMIT canonical-promotion block and NZ Layer 2 source-qualification deferral. Production cutover, broad Publication and Zoho cutover remain later gates.
+
+
+### Governance collision note — 2 September 2026
+Pilot source already uses CF-CHG-20260902-076 for compact ranking-import UX/UAT. Provider Contacts was reassigned to CF-CHG-20260902-077; the old Provider Contacts CF-076 file is retained only as a void collision notice.
