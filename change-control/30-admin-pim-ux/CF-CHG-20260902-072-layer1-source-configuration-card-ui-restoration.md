@@ -4,7 +4,7 @@
 - **Origin:** CourseFinder — “Proceed” following UAT evidence that Administration → Layer 1 sources still rendered unstyled fields.
 - **Category:** 30-admin-pim-ux
 - **Change class:** Browser-facing UI defect correction
-- **Status:** IMPLEMENTED / RETAINED IN CURRENT UI v2.15.39 / TARGETED DEPLOYED VERIFICATION PENDING
+- **Status:** CLOSED / PASS
 
 ## Problem
 
@@ -100,6 +100,51 @@ Revert the six implementation/test commits listed above. No database migration o
 
 ## Status
 
-**IMPLEMENTED / RETAINED IN CURRENT UI v2.15.39 / TARGETED DEPLOYED VERIFICATION PENDING**
+**CLOSED / PASS**
 
 The corrective UI is no longer treated as a standalone v2.15.30 delivery. It is reconciled against current repository head and forms part of v2.15.39. No additional UI-version bump is required solely for this reconciliation.
+
+## Closure review — 2 September 2026
+
+Final repository review was performed against the current Pilot head after the later ranking and access-administration work had landed.
+
+### Current-release verification
+
+Current UI release is **v2.15.39**:
+
+- `src/mature-main.jsx` → `UI_VERSION='2.15.39'`;
+- `src/pim-version-entry.js` → `VERSION='2.15.39'`;
+- `index.html` → `Coursefinder PIM Admin v2.15.39`.
+
+The CF-072 implementation remains intact in current source:
+
+- `Layer1SourceSettings` still mounts `<style>{STYLES}</style>`;
+- `.l1s-shell`, `.l1s-grid` and `.l1s-card` remain the active configuration layout;
+- **Source & authority** and **Cadence & guardrails** sections remain present;
+- the navy/indigo Layer 1 Administration/Operations styling remains retained;
+- the later ranking-edition upload/validation controls were integrated into the same card UI rather than replacing it;
+- the source/build regression contract still asserts the stylesheet mount, card layout and grouped field structure.
+
+The v2.15.39 release history was explicitly reconciled at `46200f00e62fd80a1f4eb582505993359797caa9` so the current release records that this UI remains part of the shipped Admin experience.
+
+### Deployed UAT disposition
+
+The latest targeted deployed run `33621476194` reports failures in the later ranking-import UX suite. The recorded failures are for CF-076 ranking-import navigation/retained-edition scenarios, including inability of the governed deployed UAT identity to see the Platform Admin-only Layer 1 source card. That does **not** demonstrate a regression of CF-072's styling implementation and must not be misreported as a CF-072 failure.
+
+CF-072's role boundary remains intentional: Layer 1 source configuration is rank-6 Platform Admin-only. Closing this UI correction does not weaken that boundary merely to make the lower-rank deployed UAT identity render the screen.
+
+### Acceptance
+
+PASS for this change because the defect corrected by CF-072 is demonstrably absent from current repository truth and protected by a permanent source/build contract:
+
+1. shared styles are mounted by the configuration component;
+2. source configuration uses card layout rather than browser-default flowing fields;
+3. themed source/status presentation remains;
+4. grouped configuration sections remain;
+5. later Layer 1 ranking functionality is preserved;
+6. current UI/version surfaces are aligned at v2.15.39;
+7. no authority, parser, Evidence, Search or Publication semantics changed.
+
+Any failure of the later ranking-import deployed workflow remains owned by its ranking-import workstream and is not a reason to keep this styling defect open.
+
+**Closure:** CLOSED / PASS — 2026-09-02T20:48:00+10:00.
