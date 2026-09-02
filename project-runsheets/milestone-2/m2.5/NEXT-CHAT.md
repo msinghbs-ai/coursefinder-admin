@@ -414,27 +414,33 @@ CF-073 is **IMPLEMENTED / TARGETED PASS**.
 Do not reopen CF-073 unless later integration/regression evidence identifies a new route failure.
 
 
-## CF-080 / A30 Provider Contacts continuation
+## CF-080 / A30 Provider Contacts accepted checkpoint
 
-Provider Contacts runtime/source is now **v2.15.42** with Layer 4 reconciliation.
+CF-080 / A30 is **IMPLEMENTED / TARGETED PASS** on Pilot v2.15.42.
 
-Latest exact deployed-UAT trigger:
-- msinghbs-ai/Coursefinder-Pilot@f8be2429ffd60863bf34fbda8f0b0d17401bdb19 — refreshed CF-080 candidate.
+Accepted source/UAT:
+- `msinghbs-ai/Coursefinder-Pilot@49ee093c020f7fdc9a16d2a711fb31b217dd96f0`;
+- deployed workflow `33629987860`, job `100246981014`;
+- exact permanent suite `tests/uat/cf-080-provider-contacts-deployed.spec.mjs`: 4/4 PASS.
 
-Implemented:
-- managed registry/version/import/audit model;
-- 31 A15 observations backfilled non-destructively;
-- Catalogue → Provider Contacts module and Provider deep-link;
-- rank-5 PIM create/edit/delete/restore/import/export;
-- JWT Provider Contact Edge functions v3;
-- exact repeat auto-skip;
-- non-identical duplicate, Provider ambiguity and manual/import conflict → Layer 4 Human Resolution;
-- deterministic rows APPLY while parked rows remain pending;
-- batch state applied_with_review_pending until last human decision;
-- Layer 4 actions: merge existing, accept incoming, keep existing, keep separate, map Provider + apply, reject import;
-- rollback proof closes a review-pending batch back to applied;
-- Provider Contacts Security/Performance Advisor: 0 WARN / 0 ERROR for the changed surface.
+Accepted Layer 4 rule:
+- exact repeated row → deterministic duplicate skip; no Layer 4 item;
+- non-identical duplicate candidate → Layer 4;
+- Provider ambiguity → Layer 4;
+- manual-current/import conflict → Layer 4;
+- deterministic rows continue to APPLY;
+- batch uses applied_with_review_pending until human decisions finish;
+- decisions: merge existing, accept incoming, keep existing, keep separate, map Provider + apply, reject import.
 
-Initial 306-row user CSV remains **not APPLY-imported** and must not be committed as a fixture. On upload through the module, the nine Adelaide legacy duplicate groups should surface through the new Layer 4 rule where non-identical; exact repeats should auto-skip. Victoria University remains Provider ambiguity and should be decided in Layer 4, not guessed.
+Rollback proofs include exact-repeat no-L4, manual/import conflict parking, duplicate/Provider ambiguity parking, deterministic APPLY, and terminal decisions returning a review-pending batch to applied.
 
-Next action: check exact SHA f8be2429ffd60863bf34fbda8f0b0d17401bdb19. If PASS, mark CF-080 targeted PASS and leave only the actual 306-row authenticated import/human resolutions as operational follow-up.
+Security boundary remains: private tables are not directly readable by authenticated browser roles; public reconciliation/mutation wrappers are SECURITY INVOKER over private role-checked implementations; service helpers remain service-role only. Changed-surface advisors: 0 WARN / 0 ERROR.
+
+Operational follow-up only:
+- the user-supplied 306-row AU contacts CSV has **not** been APPLY-imported;
+- do not commit the raw file;
+- upload it through Catalogue → Provider Contacts → Import CSV;
+- review non-identical Adelaide legacy duplicates in Layer 4;
+- resolve Victoria University Provider ambiguity in Layer 4 rather than guessing.
+
+Do not reopen CF-080 unless the real import or later regression exposes a new defect.
