@@ -4,7 +4,7 @@
 - **Origin:** CourseFinder — “Proceed” following UAT evidence that Administration → Layer 1 sources still rendered unstyled fields.
 - **Category:** 30-admin-pim-ux
 - **Change class:** Browser-facing UI defect correction
-- **Status:** APPLIED / TARGETED UAT ACTIVE
+- **Status:** IMPLEMENTED / RETAINED IN CURRENT UI v2.15.39 / TARGETED DEPLOYED VERIFICATION PENDING
 
 ## Problem
 
@@ -68,7 +68,17 @@ Commits:
 
 ## UI version
 
-**v2.15.30**
+Originally introduced in **v2.15.30** and now explicitly retained/delivered in the current Admin release **v2.15.39**.
+
+Repository reconciliation on 2 September 2026 confirmed:
+- `src/mature-main.jsx` current UI version is `2.15.39`;
+- `src/pim-version-entry.js` current release version is `2.15.39`;
+- `index.html` current browser title is `v2.15.39`;
+- the Layer 1 source card implementation, shared `<style>{STYLES}</style>`, responsive `l1s-grid` / `l1s-card` layout and grouped **Source & authority** / **Cadence & guardrails** UI remain present after the subsequent ranking and access-admin changes;
+- current Layer 1 source configuration also retains the later ranking-edition/upload/validation enhancements rather than reverting them.
+
+Current-release alignment commit:
+- `46200f00e62fd80a1f4eb582505993359797caa9` — v2.15.39 release notes explicitly retain the Layer 1 source configuration card UI.
 
 ## UAT
 
@@ -90,4 +100,6 @@ Revert the six implementation/test commits listed above. No database migration o
 
 ## Status
 
-**APPLIED / TARGETED UAT ACTIVE**
+**IMPLEMENTED / RETAINED IN CURRENT UI v2.15.39 / TARGETED DEPLOYED VERIFICATION PENDING**
+
+The corrective UI is no longer treated as a standalone v2.15.30 delivery. It is reconciled against current repository head and forms part of v2.15.39. No additional UI-version bump is required solely for this reconciliation.
