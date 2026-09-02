@@ -814,3 +814,24 @@ User UAT reported that Course comparison did not make all universities available
 Pilot **v2.15.40** adds a Provider-first Course comparison path: search any governed University/Provider through `providers_page`, choose it, then browse/search Courses scoped by the existing `provider_id` filter. Global Course search remains available with no Provider scope and the comparison remains bounded to six Courses. No Provider/Course identity, QILT, PRISMS, ranking, Search or Publication authority changed.
 
 Implementation refs: `51f15f2775d028e5e52ba11bb8015c9f167a8e57`, `a2203904bde3f3ff474ba9e9723dba29c6a4ad16`, `0cfa576621df5a7c76d7ba06a67e8f2b504aaede`, `cebbdec1dfe1eb35b513e8b2cecf4f2f83b232df`, `f3af3a13a8351ab9f58a6e6bc882d40e221461ab`, `adf3ba21b4c490255b71fe80841acf5c49c6b36c`, `1f3dc58c88b8e2c7ccf8e1d41303df35f74792a9`, `6bb0a7a8bf73608a5a4f675babf1c1fb914210a6`. Targeted deployed UAT is active.
+
+
+## CF-081 Layer 2 acquisition consolidation — 2 September 2026
+
+Status: **APPLIED / TARGETED VERIFICATION ACTIVE**.
+
+Pilot runtime:
+- migration `20260902132027 cf_081_layer2_consolidated_acquisition_scholarship_assets`;
+- `layer2-acquire-v2` Edge v10;
+- 933 AU/NZ first-party Scholarship profiles;
+- 933 AU/NZ Provider-logo profiles;
+- 7,464 new profile/provider routes;
+- Parse.bot enabled=false, endpoint/credential unset;
+- Study Australia cadence 168h; Australia Awards cadence 720h;
+- Scholarship maintenance cron now weekly Sunday 05:20.
+
+Shared-fetch tables are initially empty by design; they populate when v10 acquisitions execute. Same-URL reuse does not copy Course/Scholarship/logo interpretation and does not bypass profile/version/Evidence controls.
+
+Initial Scholarship baseline before extra bootstrap dispatch: 54 canonical Scholarships / 114 source records / 42 Layer 2 discovery candidates. Additional bounded Study Australia page windows 6–10, 11–15 and 16–20 were dispatched as one-time seed expansion.
+
+Authority: CF-081 / A31 / DB Architecture v2.10.48 / Admin-PIM Decisions v1.29.
