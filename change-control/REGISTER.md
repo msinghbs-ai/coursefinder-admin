@@ -114,6 +114,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-077 | 30-admin-pim-ux | Provider Contact Database Management | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `30-admin-pim-ux/CF-CHG-20260902-077-provider-contact-database-management.md` |
 
+| CF-CHG-20260902-078 | 70-security-platform | Users & Roles / PIM Operator Restoration | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `70-security-platform/CF-CHG-20260902-078-users-roles-pim-operator-restoration.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
