@@ -128,8 +128,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - UAT/performance baseline: `docs/coursefinder-uat-performance-baseline-v1.1.md`;
 - Platform maturity implementation backlog: `project-runsheets/milestone-2/m2.5/PLATFORM-MATURITY-IMPLEMENTATION-BACKLOG.md`;
 - M2.5 platform operations readiness: `docs/coursefinder-m2-5-platform-operations-readiness-v1.0.md`;
-- Current database architecture: `docs/coursefinder-database-architecture-v2.10.48.md` plus closed prior Change Controls;
-- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.29.md`;
+- Current database architecture: `docs/coursefinder-database-architecture-v2.10.49.md` plus closed prior Change Controls;
+- Admin/PIM design decisions: `docs/coursefinder-admin-pim-design-decisions-v1.30.md`;
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.6.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A32 (as applicable);
