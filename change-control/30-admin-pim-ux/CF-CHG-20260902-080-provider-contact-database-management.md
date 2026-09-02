@@ -221,27 +221,58 @@ After implementation, rollback must disable the Provider Contacts module/read-mu
 
 ## Current disposition
 
-Design is accepted. No Pilot schema, UI route, import batch, contact mutation or consumer publication is claimed by this record yet.
+Design is implemented in Pilot. Consumer publication remains explicitly unauthorised by this Change Control.
 
 ## Implementation checkpoint — 2 September 2026
 
 Pilot runtime/source implementation is now present under CF-080:
 
-- PIM Admin v2.15.41 Catalogue → Provider Contacts module;
+- PIM Admin v2.15.42 Catalogue → Provider Contacts module;
 - Provider-detail deep-link into the managed module;
 - private managed registry, append-only versions, import batches/rows and audit events;
 - authenticated read through public.admin_read, with direct browser table access denied;
 - PIM Operator / Platform Admin create, edit, verify, deactivate, soft-delete, restore and audited export;
 - private Evidence-backed CSV registration, dry-run reconciliation and resumable APPLY;
-- JWT-protected provider-contact-import and provider-contact-control Edge Functions;
+- JWT-protected provider-contact-import and provider-contact-control Edge Functions v3;
 - reproducible Pilot migrations:
   - 20260902114000_cf_080_provider_contacts_registry.sql;
   - 20260902114100_cf_080_provider_contacts_admin_contracts.sql;
   - 20260902114200_cf_080_provider_contacts_import_contracts.sql;
-  - 20260902114300_cf_080_provider_contacts_security_hardening.sql.
+  - 20260902114300_cf_080_provider_contacts_security_hardening.sql;
+  - 20260902114400_cf_080_provider_contacts_layer4_reconciliation.sql.
 
 A15 backfill retains 31 managed logical contacts / 31 versions / 31 linked A15 observations. No A15 source observation or Evidence history was overwritten.
 
 The supplied 306-row CSV remains **not APPLY-imported** at this checkpoint. It must enter through the authenticated private Evidence/import surface. Victoria University currently resolves to two active CRICOS Provider identities and therefore remains a governed provider_ambiguous result until a stronger stable mapping is approved.
 
 Supabase Security Advisor after hardening: no Provider Contacts WARN/ERROR. INFO-only RLS-no-policy notices are expected for private tables because direct browser grants are revoked and role-checked RPCs are the access boundary.
+
+## Layer 4 reconciliation rule — implemented
+
+Non-deterministic Provider Contact import issues are parked in **Layer 4 — Human Resolution** rather than blocking the batch.
+
+Rules:
+- exact repeated source/payload rows remain deterministic duplicate skips;
+- non-identical duplicate candidates route to Layer 4;
+- provider_ambiguous routes to Layer 4;
+- manual-current-version versus incoming first-party import conflict routes to Layer 4;
+- deterministic rows continue to APPLY;
+- a batch with unresolved parked items becomes applied_with_review_pending;
+- the batch returns to applied automatically when the last linked Layer 4 item is resolved.
+
+Layer 4 terminal actions for Provider Contact reconciliation:
+- merge with existing managed contact;
+- accept incoming as the current managed version;
+- keep existing managed version;
+- keep as a separate contact under an explicit identity exception;
+- map one governed Provider candidate and apply the incoming contact;
+- reject the import row.
+
+All decisions write the existing pipeline.layer4_review_items / pipeline.layer4_decisions ledger plus Provider Contact audit metadata. No Layer 4 contact decision creates Search/Website/Wix/Zoho publication authority.
+
+Rollback-only proof:
+- deterministic row → create;
+- legacy/non-identical duplicate → parked_layer4;
+- Provider ambiguity → parked_layer4;
+- intermediate batch state → applied_with_review_pending;
+- after human decisions → layer4_merge_existing + layer4_map_provider_apply, 0 pending reviews, batch → applied.
