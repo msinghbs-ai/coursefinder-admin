@@ -459,3 +459,23 @@ Do next:
 6. do not broaden Hotcourses/IDP into canonical ingestion without explicit reuse/source approval.
 
 Do not change the new default cadences merely because the hourly scheduler evaluates due state. Study Australia full refresh is weekly, DFAT monthly, Provider logos quarterly and Course facts monthly with lighter change checks/acceleration.
+
+
+## CF-082 continuation checkpoint
+
+Start from:
+- Pilot source function commits `4a827d7d964a4b1ab96559b1ad4a40b598cdb2c8`, `26af48f8d10d8829625e67a9611d4e75864f64e2`, `3825d79294df3c1da8676fe6932a8e6c46b428ab`, `8f5f7321d1267528bca8321afb53b3a9a9901615`;
+- migrations `20260902134010`, `20260902134700`, `20260902135230`, `20260902135900`, `20260902140400`;
+- Edge `layer2-provider-page-fanout` v4 / worker v1.3.
+
+Accepted live efficiency proof:
+- five Provider-page acquisitions = 3 Direct HTTP + 2 Firecrawl, all PASS;
+- the five sibling Scholarship acquisitions then reused the same Evidence 5/5 at zero additional estimated request cost;
+- no Parse.bot use.
+
+Before broad logo population:
+1. inspect the final v1.3 evidence-only re-extraction for the five Providers;
+2. broad rollout is allowed only if partner/network/news/campus images no longer enter candidate state;
+3. add a separate governed primary-asset approval/promotion operation rather than writing `providers.logo_url` directly;
+4. acquire only the most relevant first-party Scholarship entrypoints discovered by the fan-out and preserve research/outreach/non-international items as candidates/review;
+5. Parse.bot remains disabled until the trial API arrives.
