@@ -801,3 +801,12 @@ Authority:
 - Admin Navigation IA `v1.6`.
 
 The raw uploaded contact CSV was analysed for format/quality but was not committed to GitHub. Implementation must register it through the governed private Evidence/import path before APPLY.
+
+
+## CF-079 Course Comparison Provider Coverage Correction
+
+User UAT reported that Course comparison did not make all universities available. Repository/runtime review confirmed the Course catalogue itself was not missing Providers; the selector used one bounded global `courses_page` search, so Providers with many matching Courses or earlier sort positions could fill the visible result window and make other universities appear unavailable.
+
+Pilot **v2.15.40** adds a Provider-first Course comparison path: search any governed University/Provider through `providers_page`, choose it, then browse/search Courses scoped by the existing `provider_id` filter. Global Course search remains available with no Provider scope and the comparison remains bounded to six Courses. No Provider/Course identity, QILT, PRISMS, ranking, Search or Publication authority changed.
+
+Implementation refs: `51f15f2775d028e5e52ba11bb8015c9f167a8e57`, `a2203904bde3f3ff474ba9e9723dba29c6a4ad16`, `0cfa576621df5a7c76d7ba06a67e8f2b504aaede`, `cebbdec1dfe1eb35b513e8b2cecf4f2f83b232df`, `f3af3a13a8351ab9f58a6e6bc882d40e221461ab`, `adf3ba21b4c490255b71fe80841acf5c49c6b36c`, `1f3dc58c88b8e2c7ccf8e1d41303df35f74792a9`, `6bb0a7a8bf73608a5a4f675babf1c1fb914210a6`. Targeted deployed UAT is active.
