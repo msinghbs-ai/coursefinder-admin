@@ -640,3 +640,8 @@ QS 2026 NID `4061771` direct static publisher XHR returned HTTP 200 with **1,501
 QS 2027 NID `4153156`: equivalent static asset returns 404 and the current REST endpoint returns a Cloudflare managed challenge from Pilot Supabase egress. No bypass is attempted; manual authorised-file fallback remains available.
 
 Admin release: **v2.15.27**.
+
+
+### CF-068 targeted proof
+
+Deployed targeted workflow `33579305870` / job `100090017855` PASS. QS 2026 validates 1,501 rows with retained JSON Evidence and SHA-256; QS 2027 access challenge is represented as governed 409. Direct ranking APPLY remains disabled and `ranking.observations` remains 0.
