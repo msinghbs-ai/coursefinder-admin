@@ -180,4 +180,4 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 | CF-CHG-20260903-083 | 40-layer2-enrichment | Scholarship Catalogue→Detail Acquisition & Provider Asset Promotion | IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES | `40-layer2-enrichment/CF-CHG-20260903-083-scholarship-catalogue-detail-provider-asset-promotion.md` |
 
-| CF-CHG-20260903-084 | 70-security-platform | Admin Environment, Credentials & Production Supabase Migration Controls | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `70-security-platform/CF-CHG-20260903-084-admin-environment-production-migration-controls.md` |
+| CF-CHG-20260903-084 | 70-security-platform | Admin Environment, Credentials & Production Supabase Migration Controls | IMPLEMENTED / TARGETED PASS | `70-security-platform/CF-CHG-20260903-084-admin-environment-production-migration-controls.md` |
