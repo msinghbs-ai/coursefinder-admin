@@ -395,3 +395,20 @@ Runtime is PASS after two additive schema-name corrections:
 - Performance 175 INFO / 0 WARN / 0 ERROR.
 
 CF-061 is TARGETED PASS. Source/build: `b423af67...` / workflow `33515174810` / job `99880438005`. Deployed desktop: `35fef88e...` / workflow `33515683960` / job `99882055173`. Responsive tablet/mobile viewport recheck: `90123d16...` / workflow `33515936377` / job `99882833322`, PASS. Worker v2.15.21 is current. Do not reopen CF-061 unless later integration/regression evidence identifies a new defect.
+
+
+## CF-073 continuation checkpoint — Administration Acquisition blank-page correction
+
+CF-073 is **IMPLEMENTED / TARGETED PASS**.
+
+- Reported route: `/#administration?section=layer2-providers`.
+- Root cause: v2.15.30 rank-5+ execution-policy renderer referenced `ShieldCheck` without importing it; uncaught render could unmount the app and leave Back/Forward on blank hashes.
+- Fix commit: `9373966e1a0dcb00ae177fa6376a5ab5942dae44`.
+- Accepted Pilot head: `c546c2c3bf87e41154a2c5f5d7b6d554026deba4`.
+- Admin release: **v2.15.31**.
+- Frontend build `33590571059`: PASS; browser smoke PASS.
+- Deployed CF-073 UAT `33590571041` / job `100123554544`: PASS, 1/1.
+- Direct Acquisition route, Administration overview and browser Back recovery are proven on deployed Worker v2.15.31.
+- No Layer 2 authority, credentials, execution policy, Evidence, Search, Publication or Zoho semantics changed.
+
+Do not reopen CF-073 unless later integration/regression evidence identifies a new route failure.

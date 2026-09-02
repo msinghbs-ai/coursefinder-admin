@@ -63,3 +63,5 @@
 | M25-FU-040 | Navigation/Admin reorganisation | Current menu separates QILT/PRISMS and hides Compare | IA v1.5 implemented in Pilot v2.15.23; retain targeted deployed/browser acceptance evidence | IMPLEMENTED / TARGETED UAT ACTIVE |
 
 | M25-FU-041 | Supabase RLS advisory reconciliation | Current Supabase tool advisory reports RLS disabled on 24 tables including private pipeline control/state tables; enabling RLS blindly could break governed RPCs | Reconcile Data API exposed schemas/grants and each affected table's intended access; apply explicit RLS/policies only under security Change Control after negative-path UAT | OPEN / SECURITY REVIEW REQUIRED |
+
+| M25-FU-042 | Administration Acquisition route blanks app / Back remains blank | v2.15.30 omitted the `ShieldCheck` import used by rank-5+ execution-policy rendering; uncaught route render could unmount the React root | CF-073 v2.15.31 imports dependency, adds route-keyed error boundary and permanent exact-route/Back deployed UAT; run 33590571041 / job 100123554544 PASS | COMPLETE / TARGETED PASS |

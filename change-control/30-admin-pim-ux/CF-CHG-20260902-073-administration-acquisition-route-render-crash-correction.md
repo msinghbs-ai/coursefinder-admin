@@ -1,6 +1,6 @@
 # CF-CHG-20260902-073 — Administration Acquisition route render-crash correction
 
-**Status:** APPLIED / TARGETED UAT PENDING  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026, 14:16 AEST  
 **Origin:** CourseFinder user-reported Pilot browser defect — `/#administration?section=layer2-providers` blanks the application and browser Back changes hashes without restoring rendered pages.  
 **Owner / category:** Admin/PIM UX / `30-admin-pim-ux`  
@@ -50,12 +50,27 @@ This is a browser-render and resilience correction only. Existing rank checks, w
 
 ## UAT
 
-Planned permanent test:
-- `tests/uat/cf-073-administration-acquisition-route-deployed.spec.mjs`
-- direct visit to `/#administration?section=layer2-providers`
-- assert Admin shell, Acquisition provider workspace and Layer 2 execution policy render
-- navigate to Administration overview and use browser Back
-- assert the Acquisition route renders again without page error / blank root
+Permanent test:
+- `tests/uat/cf-073-administration-acquisition-route-deployed.spec.mjs`;
+- direct visit to `/#administration?section=layer2-providers`;
+- assert the canonical Admin shell and Acquisition provider workspace render;
+- assert Worker release **v2.15.31** and no workspace-boundary error;
+- navigate to Administration overview, use browser Back and prove the Acquisition route renders again without a blank root or browser page error.
+
+The first deployed run `33590425757` failed only because the test also required the rank-5+ **Layer 2 execution policy** heading while the governed UAT account is a lower-rank operator. The Acquisition page itself rendered in that run. The assertion was corrected without widening role permissions.
+
+Targeted deployed proof:
+- Pilot source/test head: `c546c2c3bf87e41154a2c5f5d7b6d554026deba4`;
+- deployed UAT run `33590571041`, job `100123554544`: **PASS**;
+- Chromium desktop: **1 passed (4.6s)**;
+- exact route + browser Back recovery: **PASS**;
+- Worker visible release: **v2.15.31**;
+- no `.m-workspace-error` and no browser `pageerror` observed.
+
+Frontend proof:
+- build run `33590571059`: **PASS**;
+- build job `100123554410`: **PASS**;
+- browser-smoke job `100123640329`: **PASS**.
 
 ## Rollback
 
@@ -63,8 +78,15 @@ Revert the CF-073 Pilot source commit(s), visible version bump and UAT wiring. N
 
 ## Implementation refs
 
-Pending source commit and deployed targeted UAT evidence.
+- Root-cause/fix commit: `Coursefinder-Pilot@9373966e1a0dcb00ae177fa6376a5ab5942dae44`.
+- Role-boundary UAT correction / accepted head: `Coursefinder-Pilot@c546c2c3bf87e41154a2c5f5d7b6d554026deba4`.
+- UI/release: **v2.15.31**.
+- Deployed UAT: `33590571041` / `100123554544` PASS.
+- Frontend build: `33590571059` / `100123554410` PASS.
+- Browser smoke: `100123640329` PASS.
 
 ## Closure
 
-Pending targeted source/build/deployed browser proof.
+**Closed targeted corrective gate:** 2 September 2026, 14:24 AEST.
+
+The reported white-page failure is corrected on current Pilot main and verified on the deployed Worker. Browser history itself remains hash-based by design; the route-level error boundary now prevents a future workspace renderer exception from leaving Back/Forward on a permanently blank React root.

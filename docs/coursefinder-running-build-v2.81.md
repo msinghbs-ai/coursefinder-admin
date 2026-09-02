@@ -292,3 +292,20 @@ New design baselines:
 - CF-CHG-20260902-063.
 
 No ranking migration, source ingestion, Provider mapping, UI implementation or consumer admission has been performed yet. Follow-ups M25-FU-029 through M25-FU-035 own implementation.
+
+
+### M2.5 CF-073 — Administration Acquisition route render-crash correction
+
+A user-reported browser regression on `/#administration?section=layer2-providers` was corrected without reopening M2.4.
+
+Root cause in v2.15.30: the rank-5+ `Layer2ExecutionPolicySettings` renderer referenced Lucide `ShieldCheck` without importing it. The synchronous render exception could unmount the React route tree, leaving browser Back/Forward to change hash URLs while the application stayed blank until reload.
+
+Pilot **v2.15.31** now:
+- imports `ShieldCheck` explicitly;
+- retains all existing Layer 2 rank/credential/policy boundaries;
+- adds a route-keyed workspace error boundary so future route-local render faults keep the Admin shell recoverable;
+- permanently tests the reported Acquisition hash and browser Back recovery.
+
+Accepted source: `Coursefinder-Pilot@c546c2c3bf87e41154a2c5f5d7b6d554026deba4`.
+Frontend build `33590571059` PASS; build job `100123554410` PASS; browser-smoke job `100123640329` PASS.
+Deployed targeted UAT `33590571041` / `100123554544` PASS, **1 passed (4.6s)** on Worker v2.15.31.

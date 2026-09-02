@@ -694,3 +694,18 @@ User UAT confirmed that Administration → Layer 1 sources in v2.15.29 still ren
 Pilot v2.15.30 now mounts the shared Layer 1 styles and presents source configuration as responsive CourseFinder cards with the same navy/indigo visual language, regulatory/statistics status badges, grouped Source & authority / Cadence & guardrails sections, source metadata, safe-maintenance guidance and consistent Validate / Dry run / Save actions. No source authority, parser, Evidence, Search or Publication semantics changed.
 
 Implementation refs: `8b4fbe1565f889a13a6f0551a311b2041dcc252b`, `58270afb4037fbe5cad53b2c5bdbacc521380183`, `3df210e7be39abd402b6a62aa334d0095fa21af2`, `3dd49fb09b1df602ecdff0fdb28d3083c1bed4d8`, `73ba1836547c913f40a2f5aa19696d8f09e6186f`, `1d802f0310ffb8bbd1f3409925fa442f938deae0`. Targeted deployed UAT is active.
+
+
+## CF-073 — Administration Acquisition route render-crash correction — 2 September 2026
+
+User-reported Pilot defect on `/#administration?section=layer2-providers` was traced to a browser render exception in v2.15.30: `Layer2ExecutionPolicySettings` referenced `ShieldCheck` without importing it. For privileged roles this could unmount the routed React tree; Back/Forward then changed hashes while the UI remained blank until refresh.
+
+Pilot v2.15.31:
+- explicitly imports `ShieldCheck`;
+- wraps routed workspaces in a route-keyed error boundary so a future page-local render failure cannot permanently unmount the Admin shell;
+- preserves existing role, credential, Layer 2 policy, Evidence, Search and Publication boundaries;
+- adds permanent deployed regression `cf-073-administration-acquisition-route-deployed.spec.mjs`.
+
+Accepted Pilot head: `c546c2c3bf87e41154a2c5f5d7b6d554026deba4`.
+Frontend build `33590571059` PASS, including build job `100123554410` and browser-smoke job `100123640329`.
+Deployed targeted UAT `33590571041` / job `100123554544` PASS: **1 passed (4.6s)**, direct Acquisition route + Administration overview + browser Back recovery on Worker v2.15.31.
