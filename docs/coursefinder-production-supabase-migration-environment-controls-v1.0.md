@@ -122,3 +122,30 @@ Production cannot be accepted if:
 
 ## 10. Rollback
 Production cutover rollback must not mutate/delete Pilot Evidence or canonical history. Disable Production schedules/consumers, restore routing to the accepted prior endpoint, retain failed Production evidence for audit and correct the target environment before retry.
+
+
+## 11. Database-to-Edge runtime binding
+
+Database Edge dispatch must not use project-ref literals.
+
+Environment & Migration owns:
+- `runtime_edge_base_url`;
+- `runtime_automation_integration_key`.
+
+Pilot uses its Pilot URL and `pilot_automation`. Production must be rebound to its target Functions base URL and `production_automation` before any scheduler is enabled.
+
+## 12. Website and Zoho bearer tokens
+
+Existing consumer auth is hash-only:
+- `private.zoho_integration_credentials`;
+- `private.website_integration_credentials`.
+
+Raw Pilot tokens cannot be recovered from these tables. This is intentional.
+
+Production procedure:
+1. do not attempt to copy/recover the raw Pilot token;
+2. create a new random Production bearer token for each consumer;
+3. enter it through Administration → Environment & Migration while connected to Production;
+4. securely provide that same new token to the authorised Zoho/Website integration owner;
+5. perform bounded auth/rate-limit contract UAT;
+6. cut the consumer endpoint over only under its separate gate.
