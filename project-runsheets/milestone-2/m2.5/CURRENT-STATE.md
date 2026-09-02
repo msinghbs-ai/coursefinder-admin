@@ -751,7 +751,7 @@ Native Times Higher Education ranking JSON/TXT ingestion is implemented. The sup
 Layer 1 ranking administration now presents **one QS family card and one THE family card** rather than one card per year. Edition selectors default to the current publisher edition (QS 2027 / THE 2026), with THE 2015–2026 provisioned for historical upload. The supplied compact QS Australia CSV shape (39 rows; 2027 + 2026 rank columns) and compact THE Australia CSV shape (39 rows; 2026 rank + score) are supported with edition-specific parsing and country-scope safeguards. Compare now defaults to the latest/current available period in **Current snapshot** mode and exposes explicit **Multi-year trend** mode for retained history. No Search/Website/Zoho publication authority changed.
 
 
-## CF-076 / A30 Provider Contacts database-management design — 2 September 2026
+## CF-077 / A30 Provider Contacts database-management design — 2 September 2026
 
 Design accepted; implementation not yet claimed.
 
@@ -778,7 +778,7 @@ Accepted design:
 - no automatic Search/Website/Wix/Zoho admission.
 
 Authority:
-- `CF-CHG-20260902-076`;
+- `CF-CHG-20260902-077`;
 - A30 execution addendum;
 - `docs/coursefinder-provider-contact-database-management-design-v1.0.md`;
 - DB Architecture `v2.10.47` — design authority only;
