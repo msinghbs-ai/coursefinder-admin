@@ -3,7 +3,7 @@
 **Status:** CURRENT M2 DESIGN DECISIONS  
 **Date:** 2 September 2026  
 **Supersedes:** v1.27  
-**Change Controls:** CF-CHG-20260902-063, CF-CHG-20260902-064, CF-CHG-20260902-077
+**Change Controls:** CF-CHG-20260902-063, CF-CHG-20260902-064, CF-CHG-20260902-080
 
 ## Decisions 38–53
 
