@@ -768,7 +768,7 @@ Layer 1 ranking administration now presents **one QS family card and one THE fam
 
 ## CF-080 / A30 Provider Contacts implementation — 2 September 2026
 
-Provider Contacts is implemented in Pilot **v2.15.41** and targeted deployed verification is active.
+Provider Contacts is implemented in Pilot **v2.15.42**. Desktop/tablet/mobile containment UAT passed on the prior CF-080 candidate; refreshed Layer 4 reconciliation UAT candidate is active.
 
 Implemented runtime/source:
 - first-class **Catalogue → Provider Contacts** module;
@@ -780,8 +780,16 @@ Implemented runtime/source:
 - private Evidence-backed CSV upload, hash/idempotency, dry-run reconciliation and resumable APPLY;
 - explicit create/update/restore/unchanged/duplicate/unmatched/ambiguous/invalid/conflict classifications;
 - public SECURITY INVOKER wrappers over private role-checked implementations; direct authenticated table access remains denied;
-- JWT-protected provider-contact-import and provider-contact-control Edge Functions v2;
-- four reproducible Supabase migrations through cf_080_provider_contacts_security_hardening.
+- JWT-protected provider-contact-import and provider-contact-control Edge Functions v3;
+- five reproducible Supabase migrations through cf_080_provider_contacts_layer4_reconciliation.
+
+Layer 4 reconciliation checkpoint:
+- exact repeated rows remain deterministic skips;
+- non-identical duplicates, Provider ambiguity and managed-manual/import conflicts park in Layer 4;
+- deterministic rows continue to APPLY;
+- rollback proof: deterministic create + parked duplicate/ambiguity → applied_with_review_pending;
+- terminal human proof: layer4_merge_existing + layer4_map_provider_apply → 0 pending reviews → batch applied;
+- contact-specific Layer 4 decisions use the existing Layer 4 ledger and do not broaden course-scalar semantics.
 
 Security/ACL checkpoint:
 - Provider Contacts Security Advisor: **0 WARN / 0 ERROR** after wrapper hardening;
