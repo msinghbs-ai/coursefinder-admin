@@ -400,3 +400,8 @@ The recorded Firecrawl monthly limit remains 5,000 until Platform Admin enters t
 Parse.bot remains disabled until trial endpoint/key and bounded adapter UAT are supplied.
 
 No Production project is created and no consumer cutover is authorised by CF-084.
+
+
+CF-084 follow-up hardening also removes hard-coded Pilot Supabase URLs from executable database→Edge dispatch helpers. Runtime Edge base URL and automation-credential selection are Admin-managed per environment.
+
+Zoho and Website bearer tokens are now included in Environment & Migration as current-environment write-only rotation controls. Their private tables retain only SHA-256 hashes, so Production requires new token rotation rather than Pilot-token migration.
