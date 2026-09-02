@@ -413,3 +413,7 @@ CF-084 acceptance evidence:
 - deployed targeted UAT `33695621166` PASS;
 - Security 174 INFO / 0 WARN / 0 ERROR;
 - Performance 209 INFO / 0 WARN / 0 ERROR.
+
+### CF-085 — Firecrawl quota streamlined into Scraper Config
+
+Administration → Acquisition is renamed **Scraper Config**. Firecrawl monthly entitlement and safety reserve are now first-class editable fields in the Firecrawl provider drawer, with read-back verification. Layer 2 execution policy remains the effective readout for usage/wave clamping and no longer implies quota ownership. Environment & Migration no longer duplicates Firecrawl quota editing. UI version advances to v2.15.44.
