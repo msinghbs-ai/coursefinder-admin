@@ -376,6 +376,15 @@ Final targeted candidate: `msinghbs-ai/Coursefinder-Pilot@e7f5a1c8eec7301c5e3c92
 
 An interim ACL regression from replacing the Layer 1 read function was detected by deployed UAT and corrected with `20260902005100_cf_067_restore_authenticated_layer1_read_acl.sql`; this restored authenticated execution for the existing role-gated public reader without granting anonymous access.
 
+
+## CF-077 statistical provider equivalence
+
+Contextual/statistical data may now fan out across duplicate canonical Provider records when equivalence is deterministic by **same current Provider identifier** or **same exact normalised Provider/university name within the same country**. This is not an identity merge and does not relax CRICOS/Provider authority.
+
+Ranking now retains one publisher observation and links it to every equivalent Provider through `ranking.observation_provider_links`; Provider-specific ranking reads honour those links. Ranking reconciliation classifies exact duplicate names as `equivalent_exact_name_fanout` rather than blocking ambiguity. QILT now fans the same source observation across equivalent Provider IDs while retaining a single source mapping record with equivalence metadata. PRISMS SA4 currently has no Provider dimension and is unaffected.
+
+Pilot proof: the two AU Victoria University Provider records are returned as an exact statistical-equivalence set. THE reconciliation for Victoria University moved from one exact ambiguity to **100% mapped / equivalent fan-out**, with no identity merge.
+
 ## Production decision remains blocked
 
 Production project creation still requires explicit:
