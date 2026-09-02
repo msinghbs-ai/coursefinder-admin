@@ -92,13 +92,15 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 | CF-CHG-20260901-061 | 30-admin-pim-ux | QILT / PRISMS Provider & Course Comparison Experience | IMPLEMENTED / TARGETED PASS | `30-admin-pim-ux/CF-CHG-20260901-061-qilt-prisms-provider-course-comparison-experience.md` |
 | CF-CHG-20260901-062 | 10-architecture-data-model | Course Skills, Career Pathways & Labour-Market Intelligence | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `10-architecture-data-model/CF-CHG-20260901-062-course-skills-career-labour-market-intelligence.md` |
 
-| CF-CHG-20260902-063 | 10-architecture-data-model | QS / THE World University Ranking Layer 1 Context | DESIGN ACCEPTED / IMPLEMENTATION PENDING | `10-architecture-data-model/CF-CHG-20260902-063-qs-the-world-ranking-layer1-context.md` |
+| CF-CHG-20260902-063 | 10-architecture-data-model | QS / THE World University Ranking Layer 1 Context | SCHEMA / READ FOUNDATION IMPLEMENTED — DATA INGESTION PENDING | `10-architecture-data-model/CF-CHG-20260902-063-qs-the-world-ranking-layer1-context.md` |
 
-| CF-CHG-20260902-064 | 30-admin-pim-ux | Statistics, Rankings, Comparison & Manual Publisher Import UX | DESIGN ACCEPTED / UI IMPLEMENTATION ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-064-statistics-rankings-comparison-manual-import-ux.md` |
+| CF-CHG-20260902-064 | 30-admin-pim-ux | Statistics, Rankings, Comparison & Manual Publisher Import UX | IMPLEMENTED / TARGETED UAT ACTIVE | `30-admin-pim-ux/CF-CHG-20260902-064-statistics-rankings-comparison-manual-import-ux.md` |
 
 | CF-CHG-20260902-065 | 30-admin-pim-ux | Layer 1 Authority & Statistical Ingestion Operations v2 | IMPLEMENTED / TARGETED PASS | `30-admin-pim-ux/CF-CHG-20260902-065-layer1-authority-statistical-ingestion-operations-v2.md` |
 
 | CF-CHG-20260902-066 | 50-search-api-consumers | Website / Wix Pilot Search Integration v3 | IMPLEMENTED / DB TARGETED PASS — WIX HTTP E2E PENDING | `50-search-api-consumers/CF-CHG-20260902-066-website-wix-pilot-search-integration-v3.md` |
+| CF-CHG-20260902-067 | 20-layer1-regulatory-ingestion | QS / THE Layer 1 Ranking Ingestion Operations | IMPLEMENTED / TARGETED UAT ACTIVE | `20-layer1-regulatory-ingestion/CF-CHG-20260902-067-qs-the-layer1-ranking-ingestion-operations.md` |
+
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
