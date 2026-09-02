@@ -1,6 +1,6 @@
 # CF-CHG-20260902-074 — Native THE Historical JSON Ranking Ingestion
 
-**Status:** IMPLEMENTED / SOURCE+RUNTIME VALIDATION ACTIVE  
+**Status:** IMPLEMENTED / SOURCE+RUNTIME PASS / BATCH EVIDENCE REGISTRATION PENDING  
 **Initiated:** 2 September 2026 Australia/Melbourne  
 **Category:** 20 — Layer 1 Regulatory / Authoritative Ingestion  
 **Related:** CF-063, CF-064, CF-067, CF-068, CF-071, A29
@@ -88,3 +88,17 @@ Administration → Sources & Imports now advertises native THE JSON/TXT support.
 ## Next operational action
 
 Register the user-held THE 2015–2026 files through Administration → Sources & Imports (THE + matching edition year), dry-run each edition, confirm source fingerprints/counts and reconciliation, then APPLY authorised editions through the governed Layer 1 path.
+
+
+## Validation proof
+
+- supplied 2015 artifact parsed locally: **PASS**, 1,526 rows / 37 AU / SHA-256 `538984dff990e3bed1377e772238d08ffde21cb8b894bdcc2cf634ea97e38d8c`;
+- AU reconciliation after accepted aliases: **36/37 (97.30%)**, 0 unmatched, 1 Victoria University review;
+- frontend build job `100137232191`: **PASS** for native THE import UI commit;
+- Supabase Security advisor: **158 INFO / 0 WARN / 0 ERROR**;
+- Performance advisor: **187 INFO only**;
+- `anon` / `authenticated` EXECUTE on APPLY and reconciliation preview: **false**;
+- `service_role` EXECUTE: **true**;
+- `ranking.observations` after validation: **0**.
+
+A later parallel Layer 1 edition-history release advanced the visible Admin version beyond v2.15.32; CF-074 remains included in main history and is not overwritten.
