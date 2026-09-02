@@ -438,3 +438,26 @@ A32 authority:
 - `CF-CHG-20260903-083`;
 - DB Architecture `v2.10.49`;
 - Admin/PIM Decisions `v1.30`.
+
+
+## A33 — Environment credentials & Production Supabase portability
+
+M2/M3/M4 work after 3 September 2026 must read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A33-ENVIRONMENT-CREDENTIALS-PRODUCTION-SUPABASE-PORTABILITY.md` when environment, credentials, Production deployment, Storage, Edge Functions or consumer endpoints are involved.
+
+Standing requirements:
+- environment-specific settings and migration readiness are visible under Administration → Environment & Migration;
+- secret values are write-only and never returned by browser reads;
+- Production Supabase publishable/secret keys are target-generated and must not be copied from Pilot;
+- database migration alone is insufficient: Storage objects, Edge Functions, Auth settings/API keys, project settings, cron, origins and custom secrets require explicit reconciliation;
+- preserve Evidence bucket names/object paths so canonical relative `storage_path` values remain valid;
+- generate signed/download URLs in the current environment rather than persisting environment-specific Storage URLs;
+- vendor entitlement changes such as Firecrawl are Admin configuration, not source-code changes;
+- Parse.bot credential/endpoint configuration does not enable the provider until bounded UAT passes;
+- Production schedulers must not run until target functions/secrets/settings are verified;
+- Website/Wix/Zoho cutover remains a separate consumer gate.
+
+A33 authority:
+- `CF-CHG-20260903-084`;
+- `docs/coursefinder-production-supabase-migration-environment-controls-v1.0.md`;
+- DB Architecture `v2.10.50`;
+- Admin/PIM Decisions `v1.31`.
