@@ -873,3 +873,15 @@ Logo UAT exposed and reconciled false positives:
 Extractor is now Edge v4 / worker `layer2-provider-page-fanout-v1.3` with an explicit logo/navigation semantic gate before Provider-name confidence can apply.
 
 Post-change advisors: Security INFO only / 0 WARN / 0 ERROR; Performance INFO only / 0 WARN / 0 ERROR.
+
+
+### CF-082 targeted closure checkpoint
+The shared-Evidence fan-out mechanism is now targeted PASS:
+- Edge `layer2-provider-page-fanout` v4 / worker v1.3;
+- scheduler `coursefinder-layer2-fanout-scheduler` active every 10 minutes;
+- only Scholarship discovery and Provider assets auto-fan-out;
+- Course acquisition remains explicit and can reuse shared Evidence but is not auto-created from a Provider-page fetch;
+- live bounded UAT: 5 Provider acquisitions → 5 zero-cost Scholarship reuse calls;
+- final UAT queue: 0 fan-out queued;
+- current asset staging: 1 accepted CQUniversity navigation-logo candidate, 8 rejected false positives, 1 low-confidence CDU OG candidate;
+- no primary Provider logo has been published.
