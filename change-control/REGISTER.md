@@ -98,6 +98,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | CF-CHG-20260902-065 | 30-admin-pim-ux | Layer 1 Authority & Statistical Ingestion Operations v2 | IMPLEMENTED / TARGETED PASS | `30-admin-pim-ux/CF-CHG-20260902-065-layer1-authority-statistical-ingestion-operations-v2.md` |
 
+| CF-CHG-20260902-066 | 50-search-api-consumers | Website / Wix Pilot Search Integration v3 | IMPLEMENTED / DB TARGETED PASS — WIX HTTP E2E PENDING | `50-search-api-consumers/CF-CHG-20260902-066-website-wix-pilot-search-integration-v3.md` |
 ## Current programme baseline
 
 - Master Project Plan: `docs/coursefinder-master-project-plan-v1.81.md`;
