@@ -921,7 +921,7 @@ Authority: CF-083 / A32 / DB Architecture v2.10.49 / Admin-PIM Decisions v1.30.
 
 ## CF-084 Environment & Production portability — 3 September 2026
 
-Status: **IMPLEMENTED / TARGETED VERIFICATION ACTIVE**.
+Status: **IMPLEMENTED / TARGETED PASS**.
 
 Administration now contains a Platform Admin-only `Environment & Migration` section.
 
@@ -948,3 +948,11 @@ CF-084 portability scan/hardening:
 - Website consumer credential: configured in Pilot, hash-only;
 - Zoho consumer credential: configured in Pilot, hash-only;
 - Production consumer tokens must be newly rotated in the Production environment, not staged in Pilot.
+
+
+CF-084 accepted source/UAT:
+- Pilot `076a0e40047bfe7bbb146d868e44a569d6bb9c57`;
+- Build `33695621150` PASS;
+- Deployed UAT `33695621166` PASS;
+- Security 174 INFO / 0 WARN / 0 ERROR;
+- Performance 209 INFO / 0 WARN / 0 ERROR.
