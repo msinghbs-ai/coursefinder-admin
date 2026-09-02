@@ -92,8 +92,8 @@ M2.5 does not automatically authorise:
 ## 9. Current baselines
 
 - Running Build: `docs/coursefinder-running-build-v2.81.md`;
-- DB Architecture: `docs/coursefinder-database-architecture-v2.10.46.md`;
-- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.26.md`;
+- DB Architecture: `docs/coursefinder-database-architecture-v2.10.48.md`;
+- Admin/PIM Decisions: `docs/coursefinder-admin-pim-design-decisions-v1.29.md`;
 - Production Change Control: `CF-CHG-20260901-049`.
 
 ## 10. Post-M2.4 platform maturity design
@@ -136,3 +136,18 @@ Current authority:
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A29-QS-THE-WORLD-RANKINGS.md`.
 
 This is design/readiness scope only at this checkpoint. It does not claim deployed schema, live ranking ingestion, Production enablement, or Search/Website/Zoho publication.
+
+
+## 13. Layer 2 acquisition consolidation addendum — 2 September 2026
+
+CF-CHG-20260902-081 / A31 implements the Pilot foundation for shared Layer 2 acquisition across Course facts, Scholarships and Provider assets/logos.
+
+The change is cost/operations maturity work and does not reopen M2.4 or change the M2.5 Production gate. Full crawls follow source volatility rather than blanket daily execution, while same-URL Evidence can be reused across independent extraction profiles.
+
+Current design authority:
+- DB Architecture `v2.10.48`;
+- Admin/PIM Decisions `v1.29`;
+- A31;
+- CF-CHG-20260902-081.
+
+Parse.bot is only a disabled onboarding slot pending trial API qualification. Firecrawl remains the active rendered fallback.
