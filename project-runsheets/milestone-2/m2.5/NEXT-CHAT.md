@@ -489,3 +489,46 @@ The mechanism itself is targeted PASS. Future work should not redesign it.
 - acquire high-value first-party Scholarship entrypoints from the 55-candidate pool using normal Direct → Firecrawl routing;
 - track shared-fetch reuse/vendor units as operational KPIs;
 - keep Parse.bot disabled until trial credentials and response contract are supplied.
+
+
+## CF-083 / A32 continuation checkpoint
+
+CF-083 supersedes the open CF-082 logo-promotion / Scholarship-entrypoint implementation actions. Do not redesign the catalogue→detail mechanism.
+
+Start from:
+- Pilot committed head `8fbcb36f76c52af7cd535adb910c7f2116378c66`;
+- Edge `layer2-provider-asset-promote`;
+- Edge `layer2-scholarship-catalogue-enumerate`;
+- Edge `layer2-scholarship-extract` v1.6;
+- DB Architecture v2.10.49;
+- Admin/PIM Decisions v1.30;
+- CF-CHG-20260903-083 / A32.
+
+Accepted current proof:
+- primary Provider logos: CQUniversity + ECU;
+- Charles Sturt accepted logo remains unpromoted because its source CDN returns 403;
+- seven first-party Scholarship catalogue entrypoints acquired/normalised 7/7;
+- 52 catalogue candidates recorded;
+- ACU/ANU zero-link runs remain needs-review;
+- six individual first-party Scholarship detail pages acquired/normalised/extracted;
+- six new canonical Provider-linked Scholarship roots are unpublished;
+- six pending Layer 4 `scope_resolution` review items;
+- canonical Scholarship baseline = 186;
+- changed-surface advisors = 0 WARN / 0 ERROR.
+
+Next controlled work:
+1. resolve the six Layer 4 Scholarship scope reviews from exact Evidence before Course applicability is admitted;
+2. expand Scholarship catalogue completeness in bounded Provider cohorts, recording catalogue-run counts rather than assuming HTTP success means complete;
+3. add source-specific detail extraction only where generic extraction leaves material facts unresolved (for example CDU VCIHAS award);
+4. continue bounded Provider-logo cohorts using the governed promotion operation;
+5. design Provider/Course Scholarship summary projections and caching only after scope acceptance; no Website/Wix/Zoho/Search admission yet;
+6. retain Parse.bot disabled until qualified credentials/response contract are supplied;
+7. continue shared-fetch/vendor-unit telemetry as an operations KPI.
+
+Do not:
+- treat catalogue/search pages as individual Scholarships;
+- identify Scholarships by title or content hash;
+- create Scholarship×Course Cartesian mappings;
+- infer scope from eligibility prose without accepted resolution;
+- weaken CDN/fetch/security controls to force logo promotion;
+- publish CF-083 assets/Scholarships to consumers without a separate admission gate.
