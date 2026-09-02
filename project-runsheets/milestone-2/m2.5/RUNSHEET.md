@@ -198,3 +198,5 @@ Implementation sequence:
 7. A30-P7 documentation/release notes + bounded integration nomination.
 
 A15 acquisition observations/Evidence remain intact. No Search/Website/Wix/Zoho contact publication or Production deployment is authorised by design acceptance alone.
+
+A30 Layer 4 reconciliation is implemented: exact repeats auto-skip; non-identical duplicate candidates, Provider ambiguity and manual/import conflicts park in Layer 4 without blocking deterministic APPLY. Review-pending batches use applied_with_review_pending and close back to applied after the last human decision.
