@@ -417,3 +417,18 @@ Standing requirements:
 - full refresh cadence follows source volatility: Course monthly, Scholarship weekly, logos quarterly, with lighter change/hash checks and bounded acceleration;
 - QILT/PRISMS/statistical Layer 1 domains remain outside generic Layer 2 acquisition routing;
 - commercial aggregators are reconciliation sources by default, not automatic canonical ingestion authority.
+
+
+## A32 — Scholarship catalogue→detail acquisition and Provider asset promotion
+
+M2 work after 3 September 2026 must also read and preserve `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A32-SCHOLARSHIP-CATALOGUE-DETAIL-PROVIDER-ASSET-PROMOTION.md` when Scholarship catalogues/details, Scholarship applicability or Provider-logo promotion are involved.
+
+Standing requirements:
+- a Scholarship catalogue/search/index page is enumeration Evidence and must never be extracted as one Scholarship;
+- catalogue completeness is measured through `pipeline.scholarship_catalogue_runs`, including discovered/unique/duplicate counts and review state;
+- individual Scholarship facts come from separately acquired first-party detail sources;
+- where no stronger source-native identifier exists, the stable official first-party detail URL is the Scholarship source identifier; title/content hash are not identity;
+- canonical Scholarship roots may be created unpublished after stable Provider resolution and first-party Evidence, without fabricating cycles/windows/scopes;
+- unresolved Provider/Course/Study Level/Field/Campus/Country applicability is parked in the existing Layer 4 `scope_resolution` review field;
+- Provider logos are promoted only from approved first-party candidates into managed hashed assets; never weaken fetch/security controls to force a promotion;
+- Search, Website/Wix and Zoho admission remain separate downstream gates.
