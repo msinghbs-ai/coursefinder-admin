@@ -555,3 +555,9 @@ Next actions:
 8. keep Website/Wix/Zoho cutover separate.
 
 Do not mark the migration complete from a database-only clone/restore.
+
+
+Additional CF-084 Production step:
+- set Production `runtime_edge_base_url` and select `production_automation` before enabling any cron;
+- rotate Website and Zoho bearer tokens from the Production Admin environment because Pilot stores only token hashes;
+- never enter Production Website/Zoho tokens into Pilot merely to pre-stage them.
