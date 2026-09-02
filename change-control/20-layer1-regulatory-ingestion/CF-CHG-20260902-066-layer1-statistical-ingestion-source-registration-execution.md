@@ -80,7 +80,8 @@ The service key is never exposed to the browser.
 Deployed Pilot Edge versions:
 - `qilt-au-etl` v8 / source v0.2.5;
 - `prisms-au-etl` v2 / source v0.1.1;
-- `layer1-operations-control` v3 / source v1.1.0.
+- `layer1-operations-control` v3 / source v1.1.0;
+- `layer1-operations-scheduled` v2 / source v1.1.0, so scheduled revalidation also routes QILT/PRISMS through their statistical dry-run validators rather than the CRICOS parser.
 
 ## Operator UX
 
