@@ -680,3 +680,8 @@ The primary Admin Data Operations label is now standardised to **Layer 1 — Ope
 Pilot UI is **v2.15.29**. Source, parser, authority, Evidence, execution-role, Search and Publication semantics are unchanged. Layer 1 source/settings configuration remains under Administration → Layer 1 sources.
 
 Implementation refs: `f22415d229838411067678352030dbf20e89d1fd`, `46fbde662340a39ac609c224ead81fd4d31c4517`, `cc3aba52cc3c693e45716c9798c844864a701afc`, `c6e11bfb8b39f97cd4ba96a599482a830387e036`, with Layer 1 acceptance adapters aligned at `fa766d68afbf9d4ee17b73364d2e9a9b0c8b5012`, `4ec367a889da3faccfc479fd36993f78fedc1254` and `f71b37f317d784273278617bc951042994fb9cc0`. Targeted deployed UAT is active; an earlier intermediate run was cancelled by workflow concurrency and is not a functional failure.
+
+
+### CF-071 QS Provider reconciliation
+
+QS 2026 retained publisher JSON was reconciled without APPLY. AU result: **36 QS institutions / 35 deterministic Provider mappings (97.22%) / 0 unmatched / 1 governed ambiguity**. Fourteen publisher-name variants are retained in `catalogue.provider_aliases` with QS source provenance; 21 institutions match canonical/display name directly. Victoria University remains unresolved between active CRICOS Providers `00124K` and `02475D`; no arbitrary Provider selection is authorised. Deployed targeted UAT `33586539099` PASS; frontend build `33586539127` PASS; `ranking.observations` remains 0.
