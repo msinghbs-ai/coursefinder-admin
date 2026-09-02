@@ -1,6 +1,6 @@
 # CF-CHG-20260902-082 — Provider Page Fan-out Extraction
 
-**Status:** IMPLEMENTED / BOUNDED UAT ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS — CONTROLLED DATA POPULATION CONTINUES  
 **Date:** 2 September 2026  
 **Parent:** CF-CHG-20260902-081 / A31  
 **Layer:** Layer 2 Enrichment
@@ -66,3 +66,22 @@ This proves one Provider-page acquisition can serve another Layer 2 module witho
 Initial deterministic extraction found useful Scholarship discovery entrypoints but the first logo scoring rule produced false positives for an ACU partnership logo and CQUniversity Regional Universities Network footer logo. Those rows were explicitly rejected and the extractor was tightened before broader rollout. No candidate was promoted into `catalogue.provider_assets` or `providers.logo_url`.
 
 The fan-out Edge is now v3 / worker `layer2-provider-page-fanout-v1.2`.
+
+
+## Scheduler / final targeted disposition
+CF-082 adds `coursefinder-layer2-fanout-scheduler` at `7-59/10 * * * *`, maximum 10 shared fetches per tick. It performs no crawl: it only invokes the evidence-only fan-out worker for queued Scholarship/provider-asset tasks.
+
+Automatic Course `extract` fan-out was removed after UAT showed that a Provider-homepage acquisition should not manufacture a Course extraction task. Course jobs still reuse matching shared Evidence when explicitly executed.
+
+Final bounded snapshot:
+- shared fetches: 5;
+- successful sibling reuse events: 5;
+- completed fan-out groups: 5;
+- queued fan-out: 0;
+- reconciled skipped Course auto-fan-out tasks: 5;
+- Provider asset candidates: 10 = 1 accepted candidate, 8 rejected UAT false positives, 1 low-confidence discovered OG candidate;
+- Scholarship discovery candidates: 55 platform total after the five-Provider fan-out;
+- canonical Scholarships: 180;
+- Scholarship source records: 240.
+
+No Provider primary-logo publication or consumer admission is claimed.
