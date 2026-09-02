@@ -86,3 +86,28 @@ A database-only clone/restore is insufficient for full CourseFinder Production m
 
 ## Consumer boundary
 No Website/Wix/Zoho cutover is authorised. Consumer endpoints/keys stay a later gate.
+
+
+## Additional runtime portability hardening
+
+Database-to-Edge dispatch was found to contain six executable hard-coded Pilot project URLs. CF-084 now centralises those dependencies through:
+- `runtime_edge_base_url`;
+- `runtime_automation_integration_key`;
+- service helpers that resolve the selected Vault automation credential.
+
+Before Production cron is enabled:
+- set `runtime_edge_base_url` to the Production `/functions/v1` base;
+- set `runtime_automation_integration_key=production_automation`;
+- verify bounded database→Edge dispatch reaches Production.
+
+Post-hardening scan: no executable database dispatch helper, source row or cron command remains hard-bound to the Pilot project URL. The only retained Pilot URL occurrence in a database function is the intentional portability audit expression.
+
+## Consumer credentials
+
+Pilot Website and Zoho consumer authentication stores only SHA-256 bearer-token hashes. The raw tokens are unrecoverable by design.
+
+Administration → Environment & Migration now shows configured status and provides current-environment write-only rotation for:
+- Zoho API bearer token;
+- Website API bearer token.
+
+Do not pre-stage Production consumer tokens in Pilot because rotation changes the current environment's active token. After the target Production project is created, rotate new Production tokens from the same Admin menu in Production. Consumer cutover remains separately governed.
