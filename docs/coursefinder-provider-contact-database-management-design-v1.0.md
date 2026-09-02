@@ -310,3 +310,38 @@ P6 — targeted DB/API/browser/security/performance UAT.
 P7 — documentation/release notes and final bounded integration nomination.
 
 No Production deployment or consumer publication is authorised by design acceptance alone.
+
+## 17. Layer 4 reconciliation
+
+Human judgement cases are parked in the existing Layer 4 queue using:
+- entity_type = provider_contact_import_row;
+- field_code = provider_contact_reconciliation;
+- the import batch Evidence artifact;
+- before_value for the existing/prior candidate;
+- proposed_value for the incoming normalised contact;
+- layer2_state for import row, Provider candidates, logical key and reconciliation metadata.
+
+Exact repeated rows are not sent to Layer 4.
+
+Parked classes:
+- non-identical logical duplicate;
+- Provider ambiguity;
+- manual-current-version/import conflict.
+
+Batch behaviour:
+1. validate and create Layer 4 items;
+2. APPLY deterministic rows;
+3. mark parked rows parked_layer4;
+4. set batch applied_with_review_pending;
+5. human resolves parked rows;
+6. when no linked review remains pending, batch returns to applied.
+
+Contact-specific Layer 4 decisions:
+- merge existing;
+- accept incoming;
+- keep existing;
+- keep separate;
+- map Provider and apply;
+- reject import.
+
+The course-scalar Layer 4 apply contract remains unchanged.
