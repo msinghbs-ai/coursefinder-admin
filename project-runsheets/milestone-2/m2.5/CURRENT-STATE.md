@@ -768,7 +768,7 @@ Layer 1 ranking administration now presents **one QS family card and one THE fam
 
 ## CF-080 / A30 Provider Contacts implementation — 2 September 2026
 
-Provider Contacts is implemented in Pilot **v2.15.42**. Desktop/tablet/mobile containment UAT passed on the prior CF-080 candidate; refreshed Layer 4 reconciliation UAT candidate is active.
+Provider Contacts is implemented in Pilot **v2.15.42** and is **TARGETED PASS**. Accepted candidate `49ee093c020f7fdc9a16d2a711fb31b217dd96f0`; deployed run `33629987860` / job `100246981014` passed 4/4, including governed role boundary, Provider deep-link/source contract, 768px/390px containment and Layer 4 Provider Contact reconciliation.
 
 Implemented runtime/source:
 - first-class **Catalogue → Provider Contacts** module;
@@ -784,6 +784,8 @@ Implemented runtime/source:
 - five reproducible Supabase migrations through cf_080_provider_contacts_layer4_reconciliation.
 
 Layer 4 reconciliation checkpoint:
+- Exact-repeat proof: duplicate skip / 0 Layer 4 items;
+- manual/import conflict proof: conflict parked with `manual_current_version_conflicts_with_import`;
 - exact repeated rows remain deterministic skips;
 - non-identical duplicates, Provider ambiguity and managed-manual/import conflicts park in Layer 4;
 - deterministic rows continue to APPLY;
