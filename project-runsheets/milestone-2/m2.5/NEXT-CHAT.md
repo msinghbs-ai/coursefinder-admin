@@ -561,3 +561,6 @@ Additional CF-084 Production step:
 - set Production `runtime_edge_base_url` and select `production_automation` before enabling any cron;
 - rotate Website and Zoho bearer tokens from the Production Admin environment because Pilot stores only token hashes;
 - never enter Production Website/Zoho tokens into Pilot merely to pre-stage them.
+
+
+CF-084 mechanism is TARGETED PASS on Pilot `076a0e40047bfe7bbb146d868e44a569d6bb9c57` with build `33695621150` PASS and deployed UAT `33695621166` PASS. Do not reopen the environment-control design unless real Production migration exposes a new defect.
