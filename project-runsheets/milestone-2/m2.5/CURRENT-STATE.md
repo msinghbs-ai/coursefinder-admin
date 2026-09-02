@@ -581,3 +581,29 @@ Pilot backend now includes:
 Pilot UI is now **v2.15.23** and supports Statistics & Rankings, Sources & Imports, dataset/year selection in Compare and dynamic QS/THE rendering when accepted observations become available.
 
 No QS/THE observation rows have been accepted yet. The next functional gate is parser/source qualification + Provider mapping, not more UI scaffolding.
+
+
+## CF-067 QS / THE Layer 1 ranking ingestion
+
+Status: **IMPLEMENTED / TARGETED UAT ACTIVE**.
+
+Pilot Layer 1 now registers three Global ranking sources:
+- QS World University Rankings 2026;
+- QS World University Rankings 2027;
+- Times Higher Education World University Rankings 2026.
+
+Operational path:
+- Layer 1 source card → Validate / Run;
+- ranking dispatch through `layer1-operations-control` v4;
+- `ranking-layer1-etl` v1 parses the latest governed authorised CSV/XLSX publisher Evidence artifact;
+- exact/tied/banded/reporter/unranked semantics are preserved;
+- exact Provider name + country can auto-map;
+- unresolved publisher institutions remain unmapped and are retained for review;
+- no Provider is manufactured;
+- Layer 1 ranking card links directly to pre-filled Administration → Sources & Imports when a publisher file is needed.
+
+The Layer 1 read projection now supports **GLOBAL** scope and returns ranking system, edition, acquisition mode and source scope.
+
+Admin UI release: **v2.15.26**.
+
+No real QS/THE observations are claimed accepted yet. First authorised publisher-artifact dry-run/apply is the remaining data acceptance gate.
