@@ -956,3 +956,7 @@ CF-084 accepted source/UAT:
 - Deployed UAT `33695621166` PASS;
 - Security 174 INFO / 0 WARN / 0 ERROR;
 - Performance 209 INFO / 0 WARN / 0 ERROR.
+
+## CF-085 Firecrawl Scraper Config UX — 3 September 2026
+
+Firecrawl quota ownership is consolidated into Administration → Scraper Config. Platform Admin can edit monthly entitlement and safety reserve alongside endpoint, credential, rate, concurrency and timeout. Layer 2 execution policy reads effective values only. Environment & Migration does not duplicate quota editing.
