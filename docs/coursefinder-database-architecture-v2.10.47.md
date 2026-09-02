@@ -3,7 +3,7 @@
 **Status:** CURRENT ADDITIVE M2.5 ARCHITECTURE  
 **Date:** 2 September 2026  
 **Supersedes:** v2.10.46; all unchanged accepted architecture remains authoritative.  
-**Change Controls:** `CF-CHG-20260902-063`, `CF-CHG-20260902-077`
+**Change Controls:** `CF-CHG-20260902-063`, `CF-CHG-20260902-080`
 
 ## Inherited ranking domain
 
@@ -17,9 +17,9 @@ A15 already stores private Provider contact acquisition state and observations:
 - `pipeline.provider_contact_watch_events`;
 - `pipeline.provider_contact_enrichment_attempts`.
 
-A30/CF-077 adds a **logical managed-contact layer** above those source observations.
+A30/CF-080 adds a **logical managed-contact layer** above those source observations.
 
-Planned additive entities:
+Implemented additive entities:
 - `pipeline.provider_contacts` — stable logical contact identity linked many-to-one to `catalogue.providers`;
 - `pipeline.provider_contact_versions` — append-only managed state/history;
 - `pipeline.provider_contact_import_batches` — file/import lifecycle;
