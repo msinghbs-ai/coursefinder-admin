@@ -32,3 +32,11 @@ Direct QS JSON APPLY remains disabled. This change does not grant publication/Se
 - `ranking.observations` remains 0.
 - security advisor remains 0 WARN / 0 ERROR.
 - deployed targeted UAT must pass.
+
+## AU alias reconciliation
+
+Initial live preview: **36 AU QS rows / 21 unique exact / 1 exact ambiguity / 14 unmatched** (58.33% exact rate).
+
+The 14 unmatched rows were verified against existing active CRICOS Providers and registered as source-scoped `catalogue.provider_aliases` with `alias_type=qs_wur_publisher_name` and QS 2026 source provenance. No Provider identity or canonical name was changed.
+
+Expected post-alias preview: **35 mapped / 1 governed review / 0 unmatched**. The remaining ambiguity is QS `Victoria University`, which matches two active CRICOS Provider records (`00124K` and `02475D`); it is intentionally not auto-resolved.
