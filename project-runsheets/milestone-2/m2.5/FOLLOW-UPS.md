@@ -80,3 +80,13 @@
 | M25-FU-052 | Individual edit/delete/restore/history | Managed lifecycle required | Rank-5 create/edit/verify, append-only versions, soft-delete, restore, status filtering and audit are implemented; lower-rank deployed negative proven | COMPLETE / TARGETED PASS |
 | M25-FU-053 | Contact export / audit / CSV safety | Governed module-level export required | Filtered-view export, selected-column handling, audit and spreadsheet formula-injection protection are implemented | COMPLETE / TARGETED PASS |
 | M25-FU-054 | A30 acceptance / consumer boundary | New PIM surface could regress A15 privacy/Evidence or leak into consumers | Accepted candidate `49ee093c020f7fdc9a16d2a711fb31b217dd96f0`; run `33629987860` / job `100246981014` 4/4 PASS; Security/Performance 0 WARN/ERROR for changed surface; consumer admission unchanged | COMPLETE / TARGETED PASS / CF-080 |
+
+
+## A31 Layer 2 consolidation follow-ups — 2 September 2026
+
+| ID | Item | Impact | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-055 | Parse.bot trial onboarding | Structured proxy slot exists but no trial endpoint/key is available | When supplied, configure secret server-side, qualify response contract/cost/latency, bounded UAT, then selectively enable routes | WAITING FOR TRIAL API |
+| M25-FU-056 | Provider logo extraction/approval | 933 AU/NZ logo acquisition profiles and governed asset tables exist; canonical logo approval still needs extraction/selection runs | Run bounded first-party logo discovery, retain original asset Evidence, approve one primary display logo per Provider where confidence is sufficient | READY / DATA POPULATION PENDING |
+| M25-FU-057 | Scholarship catalogue bootstrap completeness | Existing 54 canonical / 114 source-record baseline is partial | Reconcile bounded Study Australia page 6–20 seed results, then continue controlled catalogue coverage without turning bootstrap into daily full crawl | ACTIVE / SEED DISPATCHED |
+| M25-FU-058 | Shared-fetch production telemetry | v10 shared-fetch/fan-out substrate is deployed but starts empty | Measure cache hit rate, Firecrawl calls avoided, vendor units and evidence reuse during bounded Course/Scholarship/logo runs before changing TTL/cadence | READY FOR BOUNDED UAT |
