@@ -479,3 +479,13 @@ Before broad logo population:
 3. add a separate governed primary-asset approval/promotion operation rather than writing `providers.logo_url` directly;
 4. acquire only the most relevant first-party Scholarship entrypoints discovered by the fan-out and preserve research/outreach/non-international items as candidates/review;
 5. Parse.bot remains disabled until the trial API arrives.
+
+
+### CF-082 next data-population rule
+The mechanism itself is targeted PASS. Future work should not redesign it.
+- let normal Layer 2 acquisitions feed the 10-minute fan-out scheduler;
+- expand Provider-logo population in bounded cohorts and review candidate precision before primary promotion;
+- add a governed asset approve/promote operation before writing any display/current logo projection;
+- acquire high-value first-party Scholarship entrypoints from the 55-candidate pool using normal Direct → Firecrawl routing;
+- track shared-fetch reuse/vendor units as operational KPIs;
+- keep Parse.bot disabled until trial credentials and response contract are supplied.
