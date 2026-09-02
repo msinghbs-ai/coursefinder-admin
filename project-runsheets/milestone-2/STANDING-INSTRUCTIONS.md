@@ -399,6 +399,6 @@ Standing requirements:
 - Search, Website/Wix and Zoho contact publication remain separate consumer-admission decisions.
 
 Authoritative design:
-- `CF-CHG-20260902-077`;
+- `CF-CHG-20260902-080`;
 - `project-runsheets/milestone-2/EXECUTION-ADDENDUM-A30-PROVIDER-CONTACT-DATABASE-MANAGEMENT.md`;
 - `docs/coursefinder-provider-contact-database-management-design-v1.0.md`.
