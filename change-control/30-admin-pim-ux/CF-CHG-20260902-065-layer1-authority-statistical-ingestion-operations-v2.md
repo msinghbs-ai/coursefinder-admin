@@ -1,6 +1,6 @@
 # CF-CHG-20260902-065 — Layer 1 Authority & Statistical Ingestion Operations v2
 
-**Status:** IMPLEMENTED / TARGETED VALIDATION IN PROGRESS  
+**Status:** IMPLEMENTED / DEPLOYED TARGETED REVALIDATION IN PROGRESS  
 **Initiated:** 2 September 2026, 08:50 AEST  
 **Origin:** CourseFinder Layer 1 refactor v2 user request  
 **Owner:** CourseFinder programme  
@@ -86,7 +86,14 @@ Permanent targeted source contract:
 
 Initial targeted run against `490c3307...` failed only because the unrelated CF-060 Jobs source contract hard-coded UI v2.15.20 while source correctly advanced to v2.15.24. The assertion was made version-agnostic while retaining the Jobs behaviour checks.
 
-The deployed-UAT selector now routes Layer 1 v2 changes to the CF-065 source contract. Build and targeted validation for candidate `3b0f0ab...` are in progress at this record update. A PASS must be recorded before this change is described as targeted-pass.
+Candidate `3b0f0ab...` compiled successfully, but deployed targeted run `33569663659` exposed a legitimate test-integration regression: the permanent shared `openLayer1()` adapter and M2.4.1 deployed Layer 1 acceptance still targeted the pre-v2 `.l1o-*` workspace and "Layer 1 — Regulatory" heading. No backend authority failure was observed.
+
+Corrective integration:
+- `1c1b3f8caa2e888479941d2b6055e51c98d73195` — shared navigation adapter aligned to the v2 workspace;
+- `850765e4af52255d04f952e0f533ab5b1d2902e7` — permanent Layer 1 deployed acceptance updated for country-first cards and progressive details while retaining real AU/NZ authority validation;
+- `288590cabc3b72ae61b95ac9fae677547ce532ef` — targeted routing corrected so Layer 1 v2/support changes execute the permanent deployed Layer 1 acceptance rather than an obsolete selector path.
+
+Deployed targeted revalidation workflow `33573716514` is running against `288590cabc3b72ae61b95ac9fae677547ce532ef`. A PASS must be recorded before this change is described as targeted-pass.
 
 ## Rollback
 
