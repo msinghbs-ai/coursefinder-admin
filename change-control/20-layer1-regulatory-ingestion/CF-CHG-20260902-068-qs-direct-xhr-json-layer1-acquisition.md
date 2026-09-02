@@ -1,6 +1,6 @@
 # CF-CHG-20260902-068 — QS Direct XHR / JSON Layer 1 Acquisition Qualification
 
-**Status:** IMPLEMENTED / DEPLOYED UAT ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2 September 2026 Australia/Melbourne  
 **Category:** 20 — Layer 1 Regulatory / Authoritative Ingestion  
 **Related:** CF-063, CF-064, CF-067, A29
@@ -90,3 +90,17 @@ Required:
 - no ranking observation APPLY from direct JSON;
 - no anti-bot bypass;
 - Security advisor 0 WARN / 0 ERROR.
+
+## Targeted proof
+
+Deployed targeted gate `33579305870` / job `100090017855` — **PASS** on `Coursefinder-Pilot@df33b6f732e2c4a0ce185f1a4e9545582be07582`.
+
+Runtime proof:
+- QS 2026 Layer 1 validation PASS;
+- expected observations **1,501**;
+- source SHA-256 `7805ac74c54de80ef134abadf7e521de23fa6d64636c6676b0e29b89b3d2724c`;
+- one retained `ranking_publisher_json` Evidence artifact;
+- QS 2027 publisher challenge surfaced as governed HTTP 409 rather than server 500;
+- direct ranking observation APPLY count remains **0**.
+
+Security advisor after CF-068: **156 INFO / 0 WARN / 0 ERROR**. Performance advisor remains INFO-only.
