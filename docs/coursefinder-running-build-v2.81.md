@@ -377,7 +377,7 @@ No Search/Website/Wix/Zoho Scholarship or logo admission is authorised.
 
 ### M2.5 CF-084 — Environment, credentials & Production Supabase migration controls
 
-Status: **IMPLEMENTED / TARGETED VERIFICATION ACTIVE**.
+Status: **IMPLEMENTED / TARGETED PASS**.
 
 Pilot UI v2.15.43 adds `Administration → Environment & Migration`.
 
@@ -405,3 +405,11 @@ No Production project is created and no consumer cutover is authorised by CF-084
 CF-084 follow-up hardening also removes hard-coded Pilot Supabase URLs from executable database→Edge dispatch helpers. Runtime Edge base URL and automation-credential selection are Admin-managed per environment.
 
 Zoho and Website bearer tokens are now included in Environment & Migration as current-environment write-only rotation controls. Their private tables retain only SHA-256 hashes, so Production requires new token rotation rather than Pilot-token migration.
+
+
+CF-084 acceptance evidence:
+- accepted Pilot source `076a0e40047bfe7bbb146d868e44a569d6bb9c57`;
+- frontend build `33695621150` PASS;
+- deployed targeted UAT `33695621166` PASS;
+- Security 174 INFO / 0 WARN / 0 ERROR;
+- Performance 209 INFO / 0 WARN / 0 ERROR.
