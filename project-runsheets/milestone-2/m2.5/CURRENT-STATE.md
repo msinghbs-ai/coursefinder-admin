@@ -645,3 +645,29 @@ Admin release: **v2.15.27**.
 ### CF-068 targeted proof
 
 Deployed targeted workflow `33579305870` / job `100090017855` PASS. QS 2026 validates 1,501 rows with retained JSON Evidence and SHA-256; QS 2027 access challenge is represented as governed 409. Direct ranking APPLY remains disabled and `ranking.observations` remains 0.
+
+
+## CF-070 Provider Compare Interaction & Theme Correction
+
+User UAT reported Provider Compare as non-working and the Compare header as visually inconsistent with the rest of the Admin.
+
+Implemented in Pilot source **v2.15.28**:
+- `ComparisonWorkspace` now updates selected Provider/Course IDs immediately through one `commitSelection` path before persisting the hash route;
+- Add / Remove / Clear / type-switch share the same bounded, de-duplicated state transition;
+- stale comparison payload is cleared while the next governed comparison read loads;
+- Provider search is explicitly labelled for accessibility;
+- Compare header now uses the established CourseFinder layer-header palette (`#172033` background / `#25324a` border / indigo active control) instead of the earlier bespoke gradient/magenta theme.
+
+Live Pilot server read remains healthy and CF-069 authenticated helper ACL is deployed. No QILT/PRISMS/ranking/Search/Publication/Zoho authority changed.
+
+Regression test `tests/uat/cf-061-qilt-prisms-comparison-deployed.spec.mjs` was strengthened to require:
+- immediate **2 / 6 selected** after Add;
+- selected IDs persisted in the route;
+- governed two-Provider response;
+- computed header colour/border matching the canonical theme;
+- existing tablet/mobile overflow checks.
+
+Corrective candidate:
+`msinghbs-ai/Coursefinder-Pilot@9e30626e24bd1eb20a3b8fb5879ba3354a7a138d`.
+
+At the last bounded status check no commit status had attached yet; CF-070 remains **IMPLEMENTED / TARGETED UAT PENDING**.
