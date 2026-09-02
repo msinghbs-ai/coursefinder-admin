@@ -2,7 +2,7 @@
 
 **Status:** DESIGN ACCEPTED / IMPLEMENTATION PENDING  
 **Date:** 2 September 2026  
-**Change Control:** CF-CHG-20260902-076  
+**Change Control:** CF-CHG-20260902-077  
 **Execution Addendum:** A30
 
 ## 1. Objective
