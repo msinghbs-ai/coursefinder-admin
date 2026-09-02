@@ -171,4 +171,4 @@ Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4
 
 
 ### Governance collision note — 2 September 2026
-Pilot source already uses CF-CHG-20260902-077 for compact ranking-import UX/UAT. Provider Contacts was reassigned to CF-CHG-20260902-077; the old Provider Contacts CF-077 file is retained only as a void collision notice.
+CF-076 is already used by ranking-import UX/UAT. CF-077 is already deployed for statistical Provider-equivalence/ranking migrations. Provider Contacts therefore uses **CF-CHG-20260902-080 / A30** as its final authority. The CF-076 and CF-077 Provider Contacts files are retained only as void collision evidence.
