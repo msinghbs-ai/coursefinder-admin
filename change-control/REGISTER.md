@@ -183,3 +183,6 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-084 | 70-security-platform | Admin Environment, Credentials & Production Supabase Migration Controls | IMPLEMENTED / TARGETED PASS | `70-security-platform/CF-CHG-20260903-084-admin-environment-production-migration-controls.md` |
 
 | CF-CHG-20260903-085 | 40-layer2 | Streamline Firecrawl quota into Scraper Config | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `40-layer2/CF-CHG-20260903-085-streamline-firecrawl-quota-scraper-config.md` |
+
+
+| CF-CHG-20260903-086 | 00-governance-programme | CourseFinder PIM Principles, Chat Lifecycle & Documentation Hygiene | APPLIED — GOVERNANCE BASELINE / ARCHIVE MIGRATION STAGED | `00-governance-programme/CF-CHG-20260903-086-coursefinder-pim-principles-chat-lifecycle-doc-hygiene.md` |
