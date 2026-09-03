@@ -211,3 +211,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-098 | 20-layer1-regulatory-ingestion | Ranking File-First Country/Global Bundle Parser | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260903-098-ranking-file-first-country-global-bundle-parser.md` |
 
 | CF-CHG-20260903-099 | 20-layer1-regulatory-ingestion | Ranking Multi-file Upload Transport | IMPLEMENTED / DEPLOYED UAT PASS — BUILD FINALISING | `20-layer1-regulatory-ingestion/CF-CHG-20260903-099-ranking-multifile-upload-transport.md` |
+
+| CF-CHG-20260903-100 | 10-architecture-data-model | Multi-country Same-edition Statistical & Ranking Ingestion Strategy | APPLIED — DESIGN / GOVERNANCE PASS | `10-architecture-data-model/CF-CHG-20260903-100-multi-country-same-edition-ingestion-strategy.md` |
