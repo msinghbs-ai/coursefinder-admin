@@ -15,3 +15,5 @@
 | M245-FU-011 | H10 | Milestone meeting preparation | ACTIVE | Maintain achieved/failed/next, timeline, commits, UAT, runtime metrics |
 | M245-FU-012 | H10 | Interaction/time evidence | ACTIVE | Record session timestamps; user-confirm billable hours separately |
 
+
+| M245-FU-090 | Ranking import recovery | Recover already-uploaded THE 2026 Evidence through corrected Parse/validate service boundary, apply only after successful parser/reconciliation gate, then prove Statistics becomes data-backed | ACTIVE / TARGETED UAT | CF-090 |
