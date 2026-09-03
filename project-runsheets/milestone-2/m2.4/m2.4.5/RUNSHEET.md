@@ -145,3 +145,17 @@ User-directed execution order changed: **H11-H13 are now the immediate M2.4.5 wo
 - H13 follows, with file/parser path proceeding even while Parse.bot live qualification remains blocked by the current 401 credential result.
 - H2 residual Parse.bot qualification is parked as a dependency only for Parse.bot-backed H13 execution.
 - H3-H10 remain active backlog/continuous controls and are not cancelled.
+
+
+## 2026-09-03 12:59 AEST — H13 established Parse.bot API contract
+
+CF-092 replaces the earlier assumption that QS/ARWU require generated Parse.bot scrapers.
+
+H13 now uses user-supplied established APIs:
+- QS: scraper `e3ecc5de-f530-478a-b464-867d43099420`, endpoint `get_world_rankings`;
+- ARWU reference page `0f6d2cb9-c7eb-4f31-9216-f7be578e9f96`, API execution scraper `9a025ecd-9ccb-4cf6-a454-be52e290b946`, endpoint `get_arwu_rankings`, snapshot header version 10;
+- target edition range: **2015–2026 inclusive** for both.
+
+Do not generate replacement QS/ARWU scrapers. Both established APIs must converge with uploaded Evidence parsing through the same staging/validate/reconcile/dry-run/manual-Apply contract.
+
+QS exact year/pagination parameter semantics must be verified from the established endpoint response/metadata before implementing the 2015–2026 loop; do not invent parameter names.
