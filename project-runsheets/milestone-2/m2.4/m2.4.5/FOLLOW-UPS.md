@@ -61,3 +61,5 @@
 | M245-FU-024 | H12/H13 / CF-097 | Ranking workflow/job lineage and hidden THE history | CLOSED / TARGETED PASS | v2.15.53 restores all editions + Jobs; THE 2024–2015 ready for individual Apply; THE 2025/2026 review only |
 
 | M245-FU-025 | H12/H13 / CF-098 | Reduce Parse.bot ranking API usage by supporting country/global publisher files | CLOSED / TARGETED PASS | File upload is primary; use Parse.bot only as optional metered fallback |
+
+| M245-FU-026 | H12/H13 / CF-099 | Mobile multi-file ranking upload stopped after CORS preflight | IMPLEMENTED / DEPLOYED UAT PASS | Refresh to v2.15.55 and retry AU+NZ selection once; confirm acquisition Job/import registration |
