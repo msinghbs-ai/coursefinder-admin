@@ -184,3 +184,8 @@ Administration → Sources & Imports now supports a single ranking acquisition e
 - governed validation and manual Apply.
 
 QS 2026 and ARWU 2026 endpoints are live-qualified. Targeted deployed UAT is PASS. Registered 2026 imports remain a short authenticated Admin-session action, preserving the operator/rank boundary.
+
+
+## CF-094 — 2026-09-03 14:55 AEST
+
+User validation screenshot identified ranking import UX follow-through issues. v2.15.50 now treats Recent imports as recent activity, locks a successful same-edition Parse action, clears outcome on edition/system change and adds an inline duplicate-year revision warning.
