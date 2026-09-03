@@ -132,7 +132,7 @@ Accepted Pilot source: `b6f75ffccf93981522a5c077100deeac87f7022a`.
 Results:
 - source contract + production build: PASS;
 - deployed CF-089 browser UAT run `33705175873`: PASS;
-- Pilot Frontend Build run `33705175916`: build job PASS; browser-smoke completion recorded separately by workflow;
+- Pilot Frontend Build run `33705175916`: PASS, including browser smoke;
 - deployed browser proved progressive Scraper Config load, bounded extraction-profile search, Parse.bot diagnostic rendering and preserved rank boundaries.
 
 The Parse.bot probe itself returned **HTTP 401 authentication_failed**. The UAT passes because the Admin correctly performs, records and presents the real diagnostic without converting an upstream credential rejection into a CourseFinder server failure. Parse.bot itself remains **not execution-qualified**.
