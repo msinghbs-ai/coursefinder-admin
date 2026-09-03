@@ -104,9 +104,12 @@ It verifies:
 - browser never receives service-role credentials;
 - upload/import requires authenticated rank-5+ operator;
 - remote imports reject non-HTTPS and obvious local/private-network URL targets and validate redirect hops;
+- the Provider identity-quality read was moved behind `security.admin_provider_identity_quality_summary()`; the exposed public wrapper is now `SECURITY INVOKER`, removing the advisor warning for an authenticated public `SECURITY DEFINER` RPC;
 - no Provider identity creation/merge is performed;
 - no Search, Website, Zoho or publication authority is added;
 - logo replacement does not alter canonical Provider name or regulatory identity.
+
+Post-change Security Advisor: **no CF-103 WARN/ERROR remains**. Existing INFO-only RLS/no-policy notices remain part of the wider private-schema posture and are not introduced by this change.
 
 ## Source/runtime evidence
 
@@ -126,14 +129,20 @@ Existing baseline commits include:
 - `85fed55194d81cc7bd9ff177860b294556527838` — URL source provenance / managed-asset RPC migration;
 - `aa67178c711190ae642a9baca180d5cfe99ebd4a` — expanded Provider identity/location quality gate;
 - `b18349eec590e4099812dcce295fcac9a36c6ab5` — expanded permanent CF-103 browser/source UAT;
-- `e8e07248750b3ce7e217b654d283493df4a1e83e` — duplicate temporary UAT removed.
+- `e8e07248750b3ce7e217b654d283493df4a1e83e` — duplicate temporary UAT removed;
+- `52f47b5d79fd328ea6ec1c31374f3eee3f0fd5c7` — secured Provider identity-quality RPC boundary.
 
 Pilot runtime after deployment:
 
 - `provider-asset-access` v2;
 - `provider-asset-upload` v3;
 - `cf_103_provider_logo_url_import` applied;
-- `cf_103_provider_identity_location_quality_v2` applied.
+- `cf_103_provider_identity_location_quality_v2` applied;
+- `cf_103_provider_identity_quality_security_boundary` applied.
+
+Latest source head at reconciliation: `52f47b5d79fd328ea6ec1c31374f3eee3f0fd5c7`.
+- Frontend Build run `33816296252`: build job PASS; browser-smoke still executing at the recorded checkpoint.
+- Deployed targeted UAT run `33816296285`: environment/preflight/browser setup PASS; desktop validation executing at the recorded checkpoint, mobile gate pending.
 
 ## Next
 
