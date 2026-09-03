@@ -193,3 +193,24 @@ Apply/publication remains manual. Release v2.15.52 records the correction.
 ### CF-096 final UAT evidence — 2026-09-03 16:16 AEST
 
 Final deployed targeted UAT `33722438639` PASS on Pilot `d9d1ab1be9dd5aca9f741f427cecc85e3907a39e`. The earlier workflow failure was a test-only negative-assertion defect after the banner had correctly disappeared; it did not invalidate the successful QS 2026 validation.
+
+
+## CF-097 ranking workflow/history restoration — 2026-09-03 16:33 AEST
+
+User screenshot exposed that ranking history was truncated to eight rows and acquisition had no visible Job stage.
+
+Corrected:
+- full ranking history restored (up to 100 rows) with All/QS/THE/ARWU filter;
+- Parse.bot URL and file acquisition now create `ranking_import_acquire` Jobs;
+- each import row shows latest linked Job and Job count;
+- Uploaded → Parse & validate;
+- Validated → Apply edition;
+- Needs review → Review edition;
+- Applied → View module.
+
+Existing THE data was never deleted:
+- THE 2026/2025 = needs_review (already applied);
+- THE 2024–2015 = validated and available for Apply.
+
+Admin v2.15.53.
+Final deployed targeted UAT `33723730026`: PASS.
