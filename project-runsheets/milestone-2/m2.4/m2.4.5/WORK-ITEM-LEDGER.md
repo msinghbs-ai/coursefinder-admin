@@ -42,3 +42,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 12:59 | GOVERNANCE/PRIORITY | User directed M2.4.5 to execute H11 onward first | H11-H13 | CF-CHG-20260903-091 / CF-087 | gate order updated; H2 residual blocker and H3-H10 parked/continuous as applicable | repository continuity validation | ACTIVE — begin H11 immediately |
 
 | 2026-09-03 12:59 | ADDENDA/INGESTION | Use established Parse.bot APIs for QS and ARWU multi-year 2015–2026 rather than generating new scrapers | H13 | CF-CHG-20260903-092 / CF-091 / CF-089 / CF-090 | QS `get_world_rankings`; ARWU `get_arwu_rankings` snapshot v10; shared staging/validate/apply contract | live qualification waits for valid Vault credential | ACTIVE / AUTH BLOCKED ONLY |
+
+| 2026-09-03 13:48 | UAT/BLOCKER | Revalidate current Vault Parse.bot key against established QS and ARWU APIs | H13 | CF-CHG-20260903-092 | read-only QS + ARWU API calls using Vault internally | both HTTP 401 `Invalid API key`; endpoint reachability proven | BLOCKED — replace/rotate Parse.bot API key |
