@@ -138,3 +138,22 @@ After a Production project is provisioned, rollback must preserve Pilot and dele
 **Final status:** ACTIVE / READINESS  
 **Closed at:** N/A  
 **Outcome:** Production readiness gate opened. Paid project creation blocked pending explicit organisation, quoted-cost and region confirmation.
+
+
+## Readiness reconciliation — 2026-09-03 10:13 AEST
+
+**Origin chat:** CF M2.5 — Production Readiness — 2026-09-03
+
+Reconciled evidence:
+- Admin head `4316ee0367ac487a3290933c6a3afd005a2287e4`;
+- Pilot head `ce8ab734a1d4bb4743b09b09f3ae45a47bb9d7dc`;
+- Pilot targeted deployed status SUCCESS, run `33696909480`;
+- Supabase inventory still has no CourseFinder Production project;
+- Production organisation/project ref/project URL/region are null/pending in the governed environment registry;
+- Pilot runtime bindings remain intentionally Pilot-bound;
+- `platform-environment-control` is present in Pilot.
+
+**P0 decision:** remains **BLOCKED / USER CONFIRMATION**. No paid Production resource was created. Required approval remains explicit Production organisation, region, project name and quoted/confirmed supplier cost.
+
+**UAT:** targeted non-mutating reconciliation only; no full acceptance rerun and no Production deployment was attempted.
+
