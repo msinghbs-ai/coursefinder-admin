@@ -1,6 +1,6 @@
 # CF-CHG-20260903-089 — Parse.bot qualification and Scraper Config UX/performance hardening
 
-**Status:** IMPLEMENTED / TARGETED VERIFICATION ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS — PARSE.BOT AUTH BLOCKED  
 **Initiated:** 2026-09-03 11:36 AEST  
 **Owner:** Layer 2 / Admin-PIM UX  
 **Parent:** CF-CHG-20260903-087 / M2.4.5 H2  
@@ -124,3 +124,19 @@ Therefore:
 - no generated API dispatch or endpoint execution is authorised until the Platform Admin rotates/re-enters a valid Parse API key and the connection probe passes.
 
 The secret value was not exposed or logged.
+
+## Final targeted verification — 2026-09-03 11:50 AEST
+
+Accepted Pilot source: `b6f75ffccf93981522a5c077100deeac87f7022a`.
+
+Results:
+- source contract + production build: PASS;
+- deployed CF-089 browser UAT run `33705175873`: PASS;
+- Pilot Frontend Build run `33705175916`: build job PASS; browser-smoke completion recorded separately by workflow;
+- deployed browser proved progressive Scraper Config load, bounded extraction-profile search, Parse.bot diagnostic rendering and preserved rank boundaries.
+
+The Parse.bot probe itself returned **HTTP 401 authentication_failed**. The UAT passes because the Admin correctly performs, records and presents the real diagnostic without converting an upstream credential rejection into a CourseFinder server failure. Parse.bot itself remains **not execution-qualified**.
+
+H2 therefore remains open only for:
+1. valid Parse.bot API-key rotation/re-entry and connection PASS;
+2. one bounded generated-API qualification using `POST /dispatch` → task polling → generated `scraper_id` / `endpoint_name` → endpoint execution → Evidence/cost telemetry.
