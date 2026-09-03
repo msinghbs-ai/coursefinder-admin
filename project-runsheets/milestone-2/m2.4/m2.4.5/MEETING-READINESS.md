@@ -189,3 +189,8 @@ QS 2026 and ARWU 2026 endpoints are live-qualified. Targeted deployed UAT is PAS
 ## CF-094 — 2026-09-03 14:55 AEST
 
 User validation screenshot identified ranking import UX follow-through issues. v2.15.50 now treats Recent imports as recent activity, locks a successful same-edition Parse action, clears outcome on edition/system change and adds an inline duplicate-year revision warning.
+
+
+## CF-095 — 2026-09-03 15:57 AEST
+
+Release-currentness defect closed. The live Worker now passes an explicit v2.15.51 ranking-import currentness test. QS 2026 remains the qualified default; QS 2027 Parse.bot is visibly blocked until its upstream publisher payload matches the scraper contract.
