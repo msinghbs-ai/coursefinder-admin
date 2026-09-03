@@ -114,3 +114,16 @@ First operator actions in an authenticated Admin session:
 7. Record import IDs, Evidence IDs, mapped/unmapped counts and Jobs.
 
 Do not bypass the authenticated Admin operator boundary from management tooling.
+
+
+## CF-096 immediate continuation — 2026-09-03 16:13 AEST
+
+QS 2026 Parse.bot Evidence is validated. Before Apply:
+1. review unmatched `The University of Technology Sydney (UTS)`;
+2. review equivalent-name fan-out for `Victoria University`;
+3. confirm intended Provider mappings;
+4. Apply QS 2026 only after bounded reconciliation acceptance;
+5. repeat the same Parse.bot URL import/validation flow for ARWU 2026;
+6. record import/Evidence IDs, mapped/unmapped counts and any Layer 4 review work.
+
+Do not auto-apply or publish ranking editions.
