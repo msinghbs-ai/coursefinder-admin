@@ -163,3 +163,12 @@ User supplied established Parse.bot APIs for QS and ARWU covering the intended 2
 **Evidence**
 - Pilot commits: `53ea54af4fcbc941248fe506bd4360f07ce9f3f4`, `11405c9d27fb61b74aca3857a71f6fb8cf45e5fb`, `bfadc963b49b59e255c270c7ed8126b4bf040275`, `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`.
 - Targeted CI started: build `33712087980`; deployed UAT `33712087970`.
+
+
+## H13 Parse.bot qualification — 2026-09-03 14:29 AEST
+
+User corrected the Parse.bot credential. Live dataset-adapter validation passed:
+- QS 2026 HTTP 200, 1,504 universities;
+- ARWU 2026 HTTP 200, 892 rankings.
+
+The milestone can now demonstrate a real multi-year ranking API path rather than only parser design. Next demo-ready increment is a controlled 2015–2026 Evidence/staging ingestion with Provider reconciliation and no automatic canonical publication.
