@@ -191,4 +191,4 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 | CF-CHG-20260903-087 | 00-governance-programme | M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness | ACTIVE / H2 — CF-089 TARGETED UAT | `00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md` |
 
-| CF-CHG-20260903-089 | 40-layer2 | Parse.bot qualification and Scraper Config UX/performance hardening | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `40-layer2/CF-CHG-20260903-089-parsebot-scraper-config-hardening.md` |
+| CF-CHG-20260903-089 | 40-layer2 | Parse.bot qualification and Scraper Config UX/performance hardening | IMPLEMENTED / TARGETED PASS — PARSE.BOT AUTH BLOCKED | `40-layer2/CF-CHG-20260903-089-parsebot-scraper-config-hardening.md` |
