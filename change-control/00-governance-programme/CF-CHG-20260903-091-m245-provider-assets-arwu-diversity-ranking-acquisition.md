@@ -149,3 +149,16 @@ Order:
 3. H13 Ranking Acquisition Adapters.
 
 The current Parse.bot 401 blocks only live Parse.bot qualification inside H13. It does not block H11, H12 or uploaded-file/parser work.
+
+
+## Established Parse.bot API adapter decision — 2026-09-03 12:59 AEST
+
+Child Change Control CF-092 defines the H13 API path:
+- use existing QS `get_world_rankings` API;
+- use existing ARWU `get_arwu_rankings` API with snapshot v10;
+- target editions/years 2015–2026;
+- do not generate replacement ranking scrapers;
+- preserve shared parser/API staging → validate → reconcile → dry-run → manual Apply;
+- retain the current 401 as a credential blocker only.
+
+ARWU's supplied reference-page scraper ID and API execution scraper ID differ and are intentionally retained as separate supplied identifiers pending live API verification.
