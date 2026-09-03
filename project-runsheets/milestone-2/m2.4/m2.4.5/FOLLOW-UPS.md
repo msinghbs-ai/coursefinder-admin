@@ -47,3 +47,7 @@
 | M245-FU-013A | H11 | Governed Provider asset coverage/read + Admin workspace | IMPLEMENTED / LIVE READ PASS / CI RUNNING | Close targeted source/deployed UAT; retain v2.15.48 evidence |
 | M245-FU-013B | H11 | Final university-only denominator | OPEN / DATA MODEL GAP IDENTIFIED | Establish governed university/provider scope because current Provider Type is null across catalogue; do not label all active Providers universities |
 | M245-FU-013C | H11 | Broad first-party logo acquisition | ACTIVE NEXT | Expand from current 7-Provider candidate cohort using first-party websites/shared L2 Evidence; prioritise missing AU/NZ university cohort; Hotcourses discovery only |
+
+
+| M245-FU-019 | H12/H13 / CF-093 | Register QS 2026 via Admin Parse.bot URL import | READY / ADMIN SESSION REQUIRED | In authenticated Admin: QS → 2026 → Parse.bot URL → Parse import; review validation then Apply |
+| M245-FU-020 | H12/H13 / CF-093 | Register ARWU 2026 via Admin Parse.bot URL import | READY / ADMIN SESSION REQUIRED | In authenticated Admin: ARWU → 2026 → Parse.bot URL → Parse import; review validation then Apply |
