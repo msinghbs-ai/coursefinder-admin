@@ -147,3 +147,19 @@ The existing Parse.bot 401 is retained as a transparent blocker but does not sto
 ## H13 adapter clarification — 2026-09-03 12:59 AEST
 
 User supplied established Parse.bot APIs for QS and ARWU covering the intended 2015–2026 history. CF-092 records these as the preferred H13 API path. This removes the need to generate new ranking scrapers. The existing HTTP 401 remains a credential issue only; it is not an endpoint-discovery/design blocker.
+
+
+## 2026-09-03 13:39 AEST — H11 Provider Assets proof
+
+**Achieved**
+- Added governed H11 completeness telemetry and Provider Assets Administration workspace at v2.15.48.
+- Live AU broad Provider baseline is measurable: 1,546 expected, 7 discovered/acquired, 2 approved, 1 blocked, 1,539 missing, 4 needs review.
+- Provider detail exposes primary managed logo provenance/Evidence/hash/verification without changing Provider identity or consumer publication.
+- Existing A31/A32 first-party authority and quarterly logo cadence preserved.
+
+**Risk / transparent limitation**
+- Provider Type is not populated, so the current 1,546 AU denominator is the active canonical Provider catalogue, not a defensible university-only count. The UI/read response states this explicitly.
+
+**Evidence**
+- Pilot commits: `53ea54af4fcbc941248fe506bd4360f07ce9f3f4`, `11405c9d27fb61b74aca3857a71f6fb8cf45e5fb`, `bfadc963b49b59e255c270c7ed8126b4bf040275`, `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`.
+- Targeted CI started: build `33712087980`; deployed UAT `33712087970`.
