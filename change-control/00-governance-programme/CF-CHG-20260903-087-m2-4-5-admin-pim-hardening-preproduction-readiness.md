@@ -118,3 +118,12 @@ CF-091 adds three governed M2.4.5 workstreams without reopening M2.4.4 or author
 - **H13 — Ranking Acquisition Adapters**: uploaded parser + governed API/Parse.bot acquisition normalised through one staging/validate/apply contract with Evidence, edition/year replay, identity controls and cost telemetry.
 
 Repository reconciliation also confirms the earlier CF-083/A32 bookkeeping gap has already been closed. Current authoritative docs remain DB Architecture v2.10.50 and Admin/PIM Decisions v1.31, which preserve v2.10.49/v1.30 respectively.
+
+
+## Priority override — 2026-09-03 12:59 AEST
+
+User directed execution to **H11 onward first**.
+
+Immediate sequence is H11 → H12 → H13. H2 residual Parse.bot qualification is parked until H13 reaches live Parse.bot execution. H3-H6 remain queued behind H13. H7-H10 remain continuous controls.
+
+This changes execution priority only; it does not weaken existing acceptance, source-authority, security, publication or Production boundaries.
