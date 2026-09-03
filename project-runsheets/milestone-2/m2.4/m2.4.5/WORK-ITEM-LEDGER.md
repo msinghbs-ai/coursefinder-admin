@@ -44,3 +44,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 12:59 | ADDENDA/INGESTION | Use established Parse.bot APIs for QS and ARWU multi-year 2015–2026 rather than generating new scrapers | H13 | CF-CHG-20260903-092 / CF-091 / CF-089 / CF-090 | QS `get_world_rankings`; ARWU `get_arwu_rankings` snapshot v10; shared staging/validate/apply contract | live qualification waits for valid Vault credential | ACTIVE / AUTH BLOCKED ONLY |
 
 | 2026-09-03 13:48 | UAT/BLOCKER | Revalidate current Vault Parse.bot key against established QS and ARWU APIs | H13 | CF-CHG-20260903-092 | read-only QS + ARWU API calls using Vault internally | both HTTP 401 `Invalid API key`; endpoint reachability proven | BLOCKED — replace/rotate Parse.bot API key |
+
+| 2026-09-03 14:29 | UAT/PASS | Validate corrected Vault Parse.bot key against established QS/ARWU ranking APIs | H13 | CF-CHG-20260903-092 | QS year=2026 items_per_page=1; ARWU year=2026 snapshot v10 | both HTTP 200; QS edition_year=2026 total=1504; ARWU year=2026 total=892 | PASS — begin controlled 2015–2026 Evidence/staging backfill |
