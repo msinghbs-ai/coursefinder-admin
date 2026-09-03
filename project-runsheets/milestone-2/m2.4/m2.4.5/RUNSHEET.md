@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / H1 IMPLEMENTED — H2 ACTIVE  
+**Status:** ACTIVE / H1 TARGETED PASS — H2 ACTIVE  
 **Opened:** 2026-09-03 10:28 AEST  
 **Change Control:** CF-CHG-20260903-087  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
