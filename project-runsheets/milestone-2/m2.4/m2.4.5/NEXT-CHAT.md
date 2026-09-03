@@ -98,3 +98,19 @@ Do not run the full acceptance suite during intermediate work.
 - update Production migration inventory/telemetry for every material runtime/schema/Edge/Storage/config change;
 - update MEETING-READINESS;
 - return only Achieved, Failed/Blocked, Next and recommended continuation chat.
+
+
+## CF-093 immediate continuation — 2026-09-03 14:42 AEST
+
+The ranking URL/file parser is implemented and deployed.
+
+First operator actions in an authenticated Admin session:
+1. Administration → Sources & Imports → Register ranking publisher file.
+2. QS World University Rankings → 2026 → Parse.bot URL.
+3. Confirm `/scrapers/e3ecc5de-f530-478a-b464-867d43099420` → Parse import.
+4. Review parse/reconciliation result; Apply edition only if bounded result is acceptable.
+5. Repeat for ARWU → 2026 using `/scrapers/0f6d2cb9-c7eb-4f31-9216-f7be578e9f96`.
+6. Confirm both cards/history become data-backed.
+7. Record import IDs, Evidence IDs, mapped/unmapped counts and Jobs.
+
+Do not bypass the authenticated Admin operator boundary from management tooling.
