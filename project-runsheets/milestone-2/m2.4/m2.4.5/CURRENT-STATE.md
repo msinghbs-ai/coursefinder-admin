@@ -78,3 +78,16 @@ User upload `THE_year2026.txt` is confirmed present as private ranking Evidence 
 - API/Parse.bot ranking fetch must converge with uploaded-file parsing into the same staging/validate/apply gate; credentials remain Vault-only.
 - CF-083/A32 repository cross-reference reconciliation is already complete. Current docs are v2.10.50 / v1.31, not v2.10.49 / v1.30.
 - No runtime/schema/Production change made by CF-091.
+
+
+## Execution priority — 2026-09-03 12:59 AEST
+
+Immediate workstream order is now **H11 → H12 → H13**.
+
+Parked without closure:
+- H2 residual Parse.bot authentication/qualification blocker;
+- H3 Scholarship PIM maturity;
+- H4 Scheduler/Jobs;
+- H5-H10 remaining/continuous hardening.
+
+Important dependency rule: the current Parse.bot HTTP 401 does **not** block H11, H12 or H13 uploaded-file/parser implementation. It blocks only live Parse.bot-generated API qualification/execution until the credential is corrected.
