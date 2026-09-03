@@ -65,13 +65,17 @@ Then:
 2. Support explicit edition/year and multi-year replay.
 3. Retain raw Evidence, request/source metadata, adapter/parser version, validation outcome and cost/latency/vendor telemetry.
 4. Proceed with file/parser implementation even if Parse.bot credentials remain invalid.
-5. For Parse.bot only:
+5. For Parse.bot ranking acquisition use the established dataset-specific APIs from CF-092:
+   - QS scraper_id `e3ecc5de-f530-478a-b464-867d43099420`, endpoint `get_world_rankings`;
+   - ARWU reference scraper `0f6d2cb9-c7eb-4f31-9216-f7be578e9f96`, execution scraper_id `9a025ecd-9ccb-4cf6-a454-be52e290b946`, endpoint `get_arwu_rankings`, `API-Snapshot-Version: 10`;
+   - target 2015–2026 inclusive;
    - keep key Vault-only;
-   - require successful connection/auth;
-   - qualify generated scraper_id + endpoint_name;
-   - execute one bounded endpoint;
-   - capture Evidence/cost telemetry;
-   - fail closed on auth/schema drift/identity ambiguity.
+   - require successful authentication;
+   - do not generate replacement QS/ARWU scrapers;
+   - determine QS year/pagination semantics from the endpoint contract rather than inventing parameters;
+   - execute bounded one-request qualification before multi-year backfill;
+   - capture Evidence/cost/latency/completeness telemetry;
+   - fail closed on auth/schema drift/incomplete pagination/identity ambiguity.
 6. Never allow generic unqualified Parse.bot proxy execution.
 
 ## Parked work
