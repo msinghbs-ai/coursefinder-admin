@@ -26,10 +26,12 @@ Do not infer the current document from the highest filename version or from chat
 ## Active milestone router
 
 - M1: CLOSED / PASS / FROZEN.
-- M2.1–M2.4: CLOSED / PASS.
-- M2.5: ACTIVE / READINESS.
-- Active continuity: `project-runsheets/milestone-2/m2.5/`.
-- Active production-readiness authority: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`.
+- M2.1–M2.4.4: CLOSED / PASS; M2.4.4 remains FROZEN.
+- **M2.4.5: ACTIVE / PRE-PRODUCTION HARDENING.**
+- M2.5: PAUSED / READINESS AT P0 until M2.4.5 closes.
+- Active continuity: `project-runsheets/milestone-2/m2.4/m2.4.5/`.
+- Active hardening authority: `change-control/00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md`.
+- Production-readiness authority retained: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`.
 - Change index: `change-control/REGISTER.md`.
 
 ## Document family policy
