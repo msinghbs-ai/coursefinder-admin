@@ -56,3 +56,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 16:13 | BUG/INGESTION | QS 2026 Parse.bot Evidence registered but Parse & validate falsely required Evidence | H12/H13 | CF-CHG-20260903-096 | exact-import RPC now returns private storage_path + ARWU source mapping | live QS import validated: 1,503 observations, 15,030 indicators, 97.22% AU mapping | CLOSED / APPLY MANUAL |
 
 | 2026-09-03 16:16 | UAT/PASS | Finalise QS 2026 Parse.bot Evidence hand-off gate after test assertion correction | H12/H13 | CF-CHG-20260903-096 | parser already validated live import; cleared-banner assertion corrected | deployed targeted UAT `33722438639` PASS | CLOSED / TARGETED PASS |
+
+| 2026-09-03 16:33 | BUG/WORKFLOW | Ranking import lacked visible acquisition Job; old THE imports appeared to disappear | H12/H13 | CF-CHG-20260903-097 | acquisition Jobs + full history + publisher filter + per-import job lineage + state-driven actions | frontend build PASS; deployed UAT `33723730026` PASS | CLOSED / TARGETED PASS |
