@@ -172,3 +172,15 @@ User corrected the Parse.bot credential. Live dataset-adapter validation passed:
 - ARWU 2026 HTTP 200, 892 rankings.
 
 The milestone can now demonstrate a real multi-year ranking API path rather than only parser design. Next demo-ready increment is a controlled 2015–2026 Evidence/staging ingestion with Provider reconciliation and no automatic canonical publication.
+
+
+## CF-093 demo increment — 2026-09-03 14:42 AEST
+
+Administration → Sources & Imports now supports a single ranking acquisition experience:
+- QS / THE / ARWU;
+- edition year;
+- Parse.bot URL or file upload;
+- Parse import / register-file-and-parse;
+- governed validation and manual Apply.
+
+QS 2026 and ARWU 2026 endpoints are live-qualified. Targeted deployed UAT is PASS. Registered 2026 imports remain a short authenticated Admin-session action, preserving the operator/rank boundary.
