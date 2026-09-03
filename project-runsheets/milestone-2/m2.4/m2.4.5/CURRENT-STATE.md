@@ -147,3 +147,13 @@ Implemented and deployed:
 - targeted deployed UAT run `33715985168` PASS.
 
 QS 2026 and ARWU 2026 live APIs are qualified (HTTP 200). The remaining creation of registered 2026 imports must run under an authenticated CourseFinder Admin session; management tooling does not bypass that operator JWT boundary.
+
+
+## CF-094 ranking import UX correction — 2026-09-03 14:55 AEST
+
+- Recent imports now order by latest parse/apply activity, not original upload time.
+- Successful parse disables the same system/year action until system/year changes.
+- Prior success message clears on system/year change.
+- Existing same-system/year registration now requires an inline **Continue with new revision** confirmation.
+- No popup operational workflow introduced.
+- Pilot v2.15.50; targeted deployed UAT run `33716795837` active.
