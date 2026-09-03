@@ -122,3 +122,13 @@ Fresh direct validation against both established CF-092 ranking APIs returned HT
 - ARWU `get_arwu_rankings?year=2024` with snapshot v10.
 
 Endpoint reachability is proven. Current Vault credential validity remains the only live H13 Parse.bot blocker.
+
+
+## H13 live qualification PASS — 2026-09-03 14:29 AEST
+
+Parse.bot credential has been corrected and the established ranking adapters now return HTTP 200.
+
+- QS 2026: `edition_year=2026`, total 1,504, pagination contract confirmed.
+- ARWU 2026: `year=2026`, total 892, snapshot v10 accepted.
+
+H13 is no longer authentication-blocked. Next action is controlled 2015–2026 Evidence/staging/backfill implementation, with manual Apply preserved.
