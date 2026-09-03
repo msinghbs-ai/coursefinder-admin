@@ -246,3 +246,14 @@ Mobile failure diagnosed from live Edge logs: preflight reached `ranking-publish
 v2.15.55 bundles selected country/page files client-side into one JSON Evidence file before invoking the Edge Function. Backend CF-098 validation/parser workflow remains unchanged.
 
 Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was still running at record time.
+
+
+## CF-100 multi-country same-edition strategy — 2026-09-03 18:58 AEST
+
+- Global ranking edition identity is now formally `system + edition/year`; country is observation/reconciliation scope.
+- AU/NZ can be loaded first for a year and CA/GB/US/IE added later without creating duplicate year editions.
+- Later-country Evidence extends the existing edition, preserves prior-country observations and remains independently fingerprinted/versioned.
+- Country-safe mapping is mandatory; exact-name reconciliation is constrained within country.
+- Edition completeness becomes per-country scope: Partial / Country-complete / Global-complete.
+- Country-native statistical datasets remain separate source-authority families unless a governed cross-country metric crosswalk exists.
+- Runtime/schema mutation is not required for this design decision; implementation/UAT should extend the CF-098/099 bundle flow with **Add country data** and same-edition replay assertions.
