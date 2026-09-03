@@ -127,3 +127,16 @@ QS 2026 Parse.bot Evidence is validated. Before Apply:
 6. record import/Evidence IDs, mapped/unmapped counts and any Layer 4 review work.
 
 Do not auto-apply or publish ranking editions.
+
+
+## CF-097 continuation — 2026-09-03 16:33 AEST
+
+Ranking workflow/history is restored and targeted PASS.
+
+Next ranking actions:
+1. Use publisher filter `THE` to review all retained editions.
+2. Apply validated THE 2024→2015 individually as required.
+3. Do not re-apply THE 2025/2026; they are already `needs_review`.
+4. Review QS 2026 reconciliation before any further apply/revision.
+5. Run ARWU 2026 through the corrected acquisition Job → Validate → Apply/Review workflow.
+6. For any new QS/ARWU run, confirm `ranking_import_acquire` appears in Jobs before accepting the attempt as valid workflow evidence.
