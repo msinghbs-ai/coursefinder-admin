@@ -59,3 +59,5 @@
 | M245-FU-023 | H12/H13 / CF-096 | QS 2026 Parse.bot Evidence hand-off false Evidence-required error | CLOSED / TARGETED PASS | Import now validated; reconcile UTS + Victoria University review before Apply |
 
 | M245-FU-024 | H12/H13 / CF-097 | Ranking workflow/job lineage and hidden THE history | CLOSED / TARGETED PASS | v2.15.53 restores all editions + Jobs; THE 2024–2015 ready for individual Apply; THE 2025/2026 review only |
+
+| M245-FU-025 | H12/H13 / CF-098 | Reduce Parse.bot ranking API usage by supporting country/global publisher files | CLOSED / TARGETED PASS | File upload is primary; use Parse.bot only as optional metered fallback |
