@@ -960,3 +960,11 @@ CF-084 accepted source/UAT:
 ## CF-085 Firecrawl Scraper Config UX — 3 September 2026
 
 Firecrawl quota ownership is consolidated into Administration → Scraper Config. Platform Admin can edit monthly entitlement and safety reserve alongside endpoint, credential, rate, concurrency and timeout. Layer 2 execution policy reads effective values only. Environment & Migration does not duplicate quota editing.
+
+
+## Governance alignment — 2026-09-03 10:03 AEST
+
+- CF-086 is APPLIED as the cross-programme PIM/Admin operating principle and documentation-hygiene baseline.
+- New M2.5 work must read `docs/README.md` and `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` before selecting versioned design/governance documents.
+- Bug/addendum/feature work remains inside the active milestone ledger unless explicitly split as a governed parallel workstream.
+- Historical docs archive migration is STAGED only; no unsafe path deletions are authorised until references are rewritten and validated.
