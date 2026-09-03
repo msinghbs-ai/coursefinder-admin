@@ -101,3 +101,15 @@ H13 live Parse.bot design is now dataset-specific rather than generated/generic:
 - controlled target years 2015–2026.
 
 Current stored Parse.bot credential 401 remains the only live-call blocker. No replacement scraper is required or authorised.
+
+
+## H11 Provider Assets implementation — 2026-09-03 13:39 AEST
+
+- H11 governed Provider logo coverage/read contract is deployed to Pilot runtime and committed as migration `20260903213000_cf_091_h11_provider_asset_coverage.sql`.
+- Administration v2.15.48 adds **Provider Assets** with expected/discovered/acquired/approved/blocked/missing coverage, country/state filters and Provider/Evidence drill-through.
+- Provider detail now receives `provider_asset_context` from the governed `admin_read` boundary.
+- AU broad active-Provider baseline: 1,546 expected / 7 discovered / 7 acquired / 2 approved / 1 blocked / 1,539 missing / 4 needs review.
+- This is intentionally **not** described as university-only coverage because Provider Type is unpopulated across the current catalogue; final H11 university denominator needs an explicit governed scope/type crosswalk.
+- Source commits: `53ea54af4fcbc941248fe506bd4360f07ce9f3f4`, `11405c9d27fb61b74aca3857a71f6fb8cf45e5fb`, `bfadc963b49b59e255c270c7ed8126b4bf040275`, `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`.
+- Frontend Build run `33712087980` and Deployed UAT run `33712087970` started for head `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`; final conclusions pending at this timestamp.
+- Security Advisor: existing INFO-only posture; no new WARN/ERROR identified from H11 read surface.
