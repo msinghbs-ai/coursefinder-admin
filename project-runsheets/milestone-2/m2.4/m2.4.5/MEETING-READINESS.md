@@ -209,3 +209,8 @@ Final deployed targeted UAT `33722438639` PASS. QS 2026 is validated from retain
 ## CF-097 — 2026-09-03 16:33 AEST
 
 Ranking acquisition is now visibly job-governed. The milestone demo can show complete THE 2015–2026 history, QS/THE/ARWU filtering, per-import Job lineage and correct state transitions. Existing THE 2024–2015 editions remain ready for Apply; THE 2025/2026 are already applied and remain in review state.
+
+
+## CF-098 — 2026-09-03 17:05 AEST
+
+Ranking demo path no longer depends on repeated Parse.bot calls. Admin v2.15.54 accepts country-level or global/multi-page files for QS/THE/ARWU and combines same-edition country/page JSON/TXT files into one governed Evidence bundle. The deployed test demonstrates AU + NZ QS 2027 detection as 45 source rows without Apply.
