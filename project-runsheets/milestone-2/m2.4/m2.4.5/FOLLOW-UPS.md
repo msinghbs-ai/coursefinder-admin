@@ -53,3 +53,5 @@
 | M245-FU-020 | H12/H13 / CF-093 | Register ARWU 2026 via Admin Parse.bot URL import | READY / ADMIN SESSION REQUIRED | In authenticated Admin: ARWU → 2026 → Parse.bot URL → Parse import; review validation then Apply |
 
 | M245-FU-021 | H12/H13 / CF-094 | Ranking recent-list refresh, success lock and duplicate-year warning | IMPLEMENTED / UAT ACTIVE | Confirm v2.15.50 deployed browser behaviour; then close |
+
+| M245-FU-022 | H12/H13 / CF-095 | Release badge/version drift + QS 2027 unreadable Parse.bot error | CLOSED / TARGETED PASS | v2.15.51 deployed/current; QS defaults 2026; 2027 URL route blocked with readable upstream guidance |
