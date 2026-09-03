@@ -1,7 +1,7 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / PLANNING  
-**Updated:** 2026-09-03 10:28 AEST  
+**Status:** ACTIVE / H1 IMPLEMENTED — TARGETED UAT ACTIVE / H2 STARTED  
+**Updated:** 2026-09-03 10:45 AEST  
 **Change Control:** CF-CHG-20260903-087
 
 ## Entry baseline
@@ -25,3 +25,14 @@ P7. Production migration inventory/telemetry update after each material change.
 P8. Faster targeted UAT.  
 P9. Milestone meeting evidence/time-interaction ledger.
 
+
+## H1/H2 execution state — 2026-09-03 10:45 AEST
+
+- Pilot source advanced to H1/H2 lineage ending `87eba42de1e03c9761b927f2cb59a793cd10215f` before final workflow routing.
+- Visible Admin release: **v2.15.45**.
+- H1 implemented under CF-088. Administration labels/ranks/breadcrumbs/cards share one metadata model. Users & Roles is embedded in Administration; legacy `#users-roles`, `#attributes` and `#settings` resolve to canonical sections.
+- Historic rank-3 Scheduling/Onboarding hidden routes remain because central Administration is rank 4; redirecting them would alter permissions.
+- H2 runtime inventory: Direct HTTP, Scrape.do, ScraperAPI, Firecrawl and ZenRows enabled; Parse.bot and Custom gateway disabled. Firecrawl records 5,000 monthly units / 250 reserve / 30 requests-min / concurrency 5 / 90s timeout.
+- Production migration manifest: all tracked components source-ready; all target states pending. No Production project exists.
+- Pilot roles remain viewer 1, counsellor 2, curator 3, pipeline_operator 4, PIM Operator 5, Platform Admin 6.
+- Targeted CI is running; no full acceptance run requested.
