@@ -200,3 +200,27 @@ Implementation sequence:
 A15 acquisition observations/Evidence remain intact. No Search/Website/Wix/Zoho contact publication or Production deployment is authorised by design acceptance alone.
 
 A30 Layer 4 reconciliation is implemented: exact repeats auto-skip; non-identical duplicate candidates, Provider ambiguity and manual/import conflicts park in Layer 4 without blocking deterministic APPLY. Review-pending batches use applied_with_review_pending and close back to applied after the last human decision.
+
+
+## 2026-09-03 10:03 AEST — CF-086 PIM principles and documentation alignment
+
+**Intent:** Stop chat/version sprawl and make milestone handoff, defect/addendum intake, UI/Settings integration and current-document selection deterministic.
+
+**Starting state:** M2.5 ACTIVE/READINESS; repository already had Project Instructions, Change Control and runsheets, but core versioned docs remained crowded in `docs/` and operating principles were distributed.
+
+**Actions:**
+- established authoritative `docs/README.md` current-document router;
+- established `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`;
+- updated Project Instructions, runsheet rules and M2 Standing Instructions;
+- registered CF-086;
+- staged reference-safe archive migration rather than deleting referenced historical paths.
+
+**Outcome:** PASS for governance baseline / archive migration STAGED.
+
+**Evidence:**
+- CF-CHG-20260903-086;
+- commits 1798e1825f520f921facbbeb1f86014b90233840, b51d8e8f61b90cfd579eea0514c860de8c34d176, f1d41d4d20c40b2355fbe0dff07f3d818158a7ef, 4422a233499bfb153a82ba90d257fdd87d264192, 5fd7e3b8a7f76d425f6a9bb9823d3b2441b87f89, ce6cb00d0ce9eef502ce8f7d9f439337c5be8335.
+
+**Follow-up:**
+- migrate historical docs in bounded reference-safe archive batches;
+- keep M2.5 implementation work governed by the new current-document and chat lifecycle gate.
