@@ -204,3 +204,8 @@ QS 2026 Parse.bot import now demonstrates the full governed Evidence → parser 
 ## CF-096 final gate — 2026-09-03 16:16 AEST
 
 Final deployed targeted UAT `33722438639` PASS. QS 2026 is validated from retained Parse.bot Evidence; Apply remains manual because the reconciliation preview still contains UTS unmatched and Victoria University equivalent-name review work.
+
+
+## CF-097 — 2026-09-03 16:33 AEST
+
+Ranking acquisition is now visibly job-governed. The milestone demo can show complete THE 2015–2026 history, QS/THE/ARWU filtering, per-import Job lineage and correct state transitions. Existing THE 2024–2015 editions remain ready for Apply; THE 2025/2026 are already applied and remain in review state.
