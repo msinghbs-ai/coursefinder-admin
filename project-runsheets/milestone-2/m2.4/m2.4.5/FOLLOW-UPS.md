@@ -17,3 +17,8 @@
 
 
 | M245-FU-090 | Ranking import recovery | Recover already-uploaded THE 2026 Evidence through corrected Parse/validate service boundary, apply only after successful parser/reconciliation gate, then prove Statistics becomes data-backed | ACTIVE / TARGETED UAT | CF-090 |
+
+| M245-FU-013 | H11 | Provider logo completeness & source discovery | OPEN / CF-091 | Build canonical Provider coverage matrix; first-party logos primary; evaluate Hotcourses sitemap/navigation as discovery/reconciliation only |
+| M245-FU-014 | H12 | ARWU ranking integration | DESIGN/IMPLEMENTATION OPEN / CF-091 | Add ARWU 2025 + multi-year editioned ingestion, validation, Statistics card/history and Provider crosswalk |
+| M245-FU-015 | H12 | University Diversity Index / HDI | DESIGN/IMPLEMENTATION OPEN / CF-091 | Define contextual dataset semantics, source/reuse authority, schema/read/UI and Provider/Compare presentation |
+| M245-FU-016 | H13 | Ranking parser + API/Parse.bot dual acquisition | DESIGN/IMPLEMENTATION OPEN / CF-091 | Unify file-parser and API/Parse.bot paths into shared staging/validate/apply contract; edition/year replay + Evidence/cost telemetry |
