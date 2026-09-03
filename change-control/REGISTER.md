@@ -216,3 +216,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 
 | CF-CHG-20260903-101 | 40-layer2-enrichment | H11 Provider Logo Completeness & Aggregator Fallback Hardening | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260903-101-h11-provider-logo-completeness-hotcourses-fallback.md` |
+
+| CF-CHG-20260904-102 | 40-layer2-enrichment | Provider Logo Display & Hotcourses Directory Reconciliation | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `40-layer2-enrichment/CF-CHG-20260904-102-provider-logo-display-hotcourses-directory-reconciliation.md` |
