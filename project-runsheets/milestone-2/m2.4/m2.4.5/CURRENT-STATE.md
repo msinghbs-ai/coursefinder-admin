@@ -113,3 +113,12 @@ Current stored Parse.bot credential 401 remains the only live-call blocker. No r
 - Source commits: `53ea54af4fcbc941248fe506bd4360f07ce9f3f4`, `11405c9d27fb61b74aca3857a71f6fb8cf45e5fb`, `bfadc963b49b59e255c270c7ed8126b4bf040275`, `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`.
 - Frontend Build run `33712087980` and Deployed UAT run `33712087970` started for head `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`; final conclusions pending at this timestamp.
 - Security Advisor: existing INFO-only posture; no new WARN/ERROR identified from H11 read surface.
+
+
+## Parse.bot credential revalidation — 2026-09-03 13:48 AEST
+
+Fresh direct validation against both established CF-092 ranking APIs returned HTTP 401 `Invalid API key`:
+- QS `get_world_rankings`;
+- ARWU `get_arwu_rankings?year=2024` with snapshot v10.
+
+Endpoint reachability is proven. Current Vault credential validity remains the only live H13 Parse.bot blocker.
