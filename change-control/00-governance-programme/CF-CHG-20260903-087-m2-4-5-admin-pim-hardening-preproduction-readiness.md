@@ -97,3 +97,14 @@ H2 started under CF-085.
 - global route mode vs per-profile routing remains the next bounded reconciliation.
 
 Production boundary remains unchanged: M2.5 is PAUSED AT P0 and no Production Supabase project exists.
+
+## H2 update — 2026-09-03 11:50 AEST
+
+CF-089 Scraper Config UX/performance hardening is TARGETED PASS:
+- Pilot `b6f75ffccf93981522a5c077100deeac87f7022a`;
+- Frontend Build `33705175916` PASS;
+- Deployed UAT `33705175873` PASS.
+
+H2 is not fully closed because the user-enabled Parse.bot credential returned HTTP 401 from the official Parse API. Parse.bot remains excluded from execution until a valid API key passes and one generated-API route is qualified.
+
+M2.4.4 remains frozen, M2.5 remains paused at P0, and no Production project has been created.
