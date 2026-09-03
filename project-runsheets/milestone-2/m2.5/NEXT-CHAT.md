@@ -569,3 +569,25 @@ Additional CF-084 Production step:
 
 
 CF-084 mechanism is TARGETED PASS on Pilot `076a0e40047bfe7bbb146d868e44a569d6bb9c57` with build `33695621150` PASS and deployed UAT `33695621166` PASS. Do not reopen the environment-control design unless real Production migration exposes a new defect.
+
+
+## 2026-09-03 10:13 AEST authoritative continuation override
+
+Use `docs/README.md` as the current-document router. Any older hard-coded version reference earlier in this file is subordinate to that router.
+
+Current heads:
+- Admin: `4316ee0367ac487a3290933c6a3afd005a2287e4`;
+- Pilot: `ce8ab734a1d4bb4743b09b09f3ae45a47bb9d7dc`;
+- targeted deployed status on Pilot head: SUCCESS, run `33696909480`.
+
+Runtime:
+- Pilot `fxcwkweaxjtknorudmwp` ACTIVE_HEALTHY;
+- demo `gfryvshbeptxwbzjomhe` ACTIVE_HEALTHY;
+- no CourseFinder Production project;
+- Production organisation/ref/url/region remain pending/null in `pipeline.environment_settings`;
+- Pilot runtime Edge base and automation selector remain Pilot-bound.
+
+**Exact next gate:** M2.5 P0 — Provisioning Decision.
+
+Do not create or rename a Supabase project until explicit Production organisation, region, project name and quoted/confirmed supplier cost are captured. After approval, continue P1 Clean Production Supabase and record the new project ref/region/plan before schema/data migration.
+
