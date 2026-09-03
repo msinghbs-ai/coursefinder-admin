@@ -22,3 +22,15 @@
 | M245-FU-014 | H12 | ARWU ranking integration | DESIGN/IMPLEMENTATION OPEN / CF-091 | Add ARWU 2025 + multi-year editioned ingestion, validation, Statistics card/history and Provider crosswalk |
 | M245-FU-015 | H12 | University Diversity Index / HDI | DESIGN/IMPLEMENTATION OPEN / CF-091 | Define contextual dataset semantics, source/reuse authority, schema/read/UI and Provider/Compare presentation |
 | M245-FU-016 | H13 | Ranking parser + API/Parse.bot dual acquisition | DESIGN/IMPLEMENTATION OPEN / CF-091 | Unify file-parser and API/Parse.bot paths into shared staging/validate/apply contract; edition/year replay + Evidence/cost telemetry |
+
+
+## Priority override — 2026-09-03 12:59 AEST
+
+| Priority | Workstream | Immediate action | Status |
+|---|---|---|---|
+| 1 | H11 | Build Provider/university logo coverage matrix and bounded first-party acquisition/promotion cohort; evaluate Hotcourses discovery gaps | ACTIVE NEXT |
+| 2 | H12 | Implement ARWU 2025/multi-year and Diversity contextual dataset foundations, ingestion/read/UI contracts | QUEUED NEXT |
+| 3 | H13 | Unify parser/API acquisition contract; proceed with file/parser path now; Parse.bot live path waits for valid credential | QUEUED NEXT / PARSE.BOT PARTIAL BLOCK |
+| Parked | H2 | Remaining Parse.bot 401 qualification | PARKED UNTIL H13 LIVE API STEP |
+| Parked | H3-H6 | Scholarship, Scheduler/Jobs, manual PIM, publication controls | OPEN / AFTER H13 |
+| Continuous | H7-H10 | migration telemetry, work-item intake, UAT efficiency, meeting readiness | ACTIVE THROUGHOUT |
