@@ -105,3 +105,9 @@ No billable duration is inferred from these interaction timestamps.
 | 2026-09-03 11:41 | Workload input styling corrected after screenshot/source CSS comparison | Pilot `80b9548eb23edefcdbbd9cc8fa943f42c73d1165` |
 
 No billable duration is inferred from these interaction timestamps.
+
+| 2026-09-03 11:48 | Parse.bot live API probe returned HTTP 401 authentication_failed; network/base endpoint proven, stored key rejected | CF-089 runtime telemetry |
+| 2026-09-03 11:50 | Final CF-089 deployed UI/diagnostic UAT passed after role-safe test correction | run 33705175873 |
+
+### CF-089 final decision
+Scraper Config UX/performance hardening is TARGETED PASS. Parse.bot integration is **not** functionally admitted yet because the stored API key failed authentication. The next operator action is credential rotation/re-entry, followed by the connection probe and then one bounded generated-API qualification.
