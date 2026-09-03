@@ -188,3 +188,12 @@ Pilot Evidence portability snapshot at this gate:
 - 7 Vault secrets.
 
 Admin UI v2.15.43 adds Administration → Environment & Migration. It does not create Production or waive the separate organisation/region/cost approval gate.
+
+## 15. M2.4.5 Provider assets and ranking expansion addendum — 3 September 2026
+
+CF-091 adds pre-Production completion work without changing the current architecture baseline:
+- H11: Provider/university primary-logo completeness and governed source discovery;
+- H12: ARWU 2025 + multi-year ARWU and University Diversity/HDI in Statistics & Rankings;
+- H13: dual ranking acquisition through uploaded parser Evidence and governed API/Parse.bot endpoints.
+
+Commercial aggregators including Hotcourses remain discovery/reconciliation sources by default; first-party/publisher/government authority and Evidence are preserved. Parse.bot credentials remain Vault-only and API/file acquisition must converge on a common editioned staging/validation/apply path.
