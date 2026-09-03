@@ -461,3 +461,13 @@ A33 authority:
 - `docs/coursefinder-production-supabase-migration-environment-controls-v1.0.md`;
 - DB Architecture `v2.10.50`;
 - Admin/PIM Decisions `v1.31`.
+
+
+## CF-086 PIM operating principles and current-document routing
+
+M2 work from 3 September 2026 onward must also preserve:
+
+- `docs/README.md` as the authoritative current-document router;
+- `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` as the standing PIM/Admin chat lifecycle, UI/UX, Settings protection, end-to-end feature wiring, work-item traceability and efficient UAT contract.
+
+Do not select core governance/design documents by highest filename version. Do not let BUG or ADDENDUM work bypass milestone runsheet/change-control recording. New/trial UI must use accepted design tokens and governed navigation from inception.
