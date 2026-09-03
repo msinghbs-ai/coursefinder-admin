@@ -591,3 +591,11 @@ Runtime:
 
 Do not create or rename a Supabase project until explicit Production organisation, region, project name and quoted/confirmed supplier cost are captured. After approval, continue P1 Clean Production Supabase and record the new project ref/region/plan before schema/data migration.
 
+
+
+## CF-087 sequencing override — 2026-09-03 10:28 AEST
+
+Do **not** use this M2.5 continuation while M2.4.5 is ACTIVE. Route implementation work to:
+`project-runsheets/milestone-2/m2.4/m2.4.5/NEXT-CHAT.md`.
+
+M2.5 resumes only after M2.4.5 closure and explicit Production P0 approvals.
