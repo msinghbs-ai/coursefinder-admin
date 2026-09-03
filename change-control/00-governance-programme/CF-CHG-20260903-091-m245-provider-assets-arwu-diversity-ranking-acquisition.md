@@ -183,3 +183,11 @@ Live Pilot proof:
 Important scope correction: `catalogue.providers.provider_type_id` is currently null across the active Provider catalogue. The H11 read contract therefore labels the present denominator as active canonical Providers matching the selected country/filter and explicitly does **not** call it a university-only denominator. A governed university scope/type crosswalk is still required before the final H11 university completeness percentage can be asserted.
 
 H11 status: **FOUNDATION IMPLEMENTED / LIVE READ PASS / SOURCE BUILD+DEPLOYED UAT RUNNING**. Broad first-party acquisition remains the next H11 data-population step; Hotcourses remains discovery/reconciliation only.
+
+
+## H11 targeted acceptance + H12 source confirmation — 2026-09-03 13:43 AEST
+
+- Added permanent targeted H11 deployed acceptance spec `tests/uat/cf-091-h11-provider-assets-deployed.spec.mjs` at Pilot commit `a3b533e821b5af980b46e8c50db2808a80e1ec2b`.
+- The spec asserts the source contract, Administration → Provider Assets route, coverage matrix, expected/approved/missing metrics, scope warning and deployed Provider rows.
+- New CI for that head: Frontend Build `33712208434`; Deployed UAT `33712208435`.
+- Current Hotcourses rankings index independently exposes Times Higher Education, QS, Academic Ranking of World Universities 2025 and Hotcourses Diversity Index. This supports H12 discovery/reconciliation, but Hotcourses remains a secondary discovery/reconciliation source rather than ranking identity authority.
