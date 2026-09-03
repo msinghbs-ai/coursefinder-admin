@@ -1,7 +1,7 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / H1 TARGETED PASS — H2 ACTIVE  
-**Updated:** 2026-09-03 10:45 AEST  
+**Status:** ACTIVE / H1 TARGETED PASS — H2 CF-089 TARGETED UAT ACTIVE  
+**Updated:** 2026-09-03 11:39 AEST  
 **Change Control:** CF-CHG-20260903-087
 
 ## Entry baseline
@@ -36,3 +36,16 @@ P9. Milestone meeting evidence/time-interaction ledger.
 - Production migration manifest: all tracked components source-ready; all target states pending. No Production project exists.
 - Pilot roles remain viewer 1, counsellor 2, curator 3, pipeline_operator 4, PIM Operator 5, Platform Admin 6.
 - H1 targeted validation PASS: Frontend Build `33700864619`; Deployed UAT `33700864824`. No full acceptance run requested.
+
+## H2 corrective implementation — 2026-09-03 11:39 AEST
+
+- User-enabled Parse.bot is now confirmed in runtime: enabled, Vault credential configured, base `https://api.parse.bot`, `X-API-Key`, priority 25, rate 30/min, concurrency 10, timeout 90s.
+- Official Parse API contract requires dispatch/build then generated scraper endpoint execution; the prior generic-proxy assumption was invalid.
+- CF-089 prevents Parse.bot from being called as a generic URL proxy until a generated API route is qualified.
+- A live server-side Parse.bot connection probe was added and targeted deployed UAT is executing it.
+- Scraper Config no longer eagerly reads the complete Layer 2 source-profile inventory. Profile routing is lazy and bounded to 10 searched matches.
+- Scraper Config embedded header/Refresh/typography aligned to canonical Administration.
+- `Layer 2 sources` relabelled **Extraction Profiles**; it remains the advanced source-specific extraction-rule/version/qualification workspace.
+- Layer 2 policy is reduced to **workload defaults** behind progressive disclosure; its legacy route mode is read-only in Admin so it no longer acts as a parallel routing writer.
+- Pilot runtime migrations CF-089 applied; Edge versions: provider-control v2, acquire-v2 v11, scope-discover-scheduled v21.
+- No Production project/resource created; Production migration target states remain pending.
