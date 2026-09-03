@@ -108,3 +108,13 @@ CF-089 Scraper Config UX/performance hardening is TARGETED PASS:
 H2 is not fully closed because the user-enabled Parse.bot credential returned HTTP 401 from the official Parse API. Parse.bot remains excluded from execution until a valid API key passes and one generated-API route is qualified.
 
 M2.4.4 remains frozen, M2.5 remains paused at P0, and no Production project has been created.
+
+## Addenda expansion — 2026-09-03 12:47 AEST
+
+CF-091 adds three governed M2.4.5 workstreams without reopening M2.4.4 or authorising Production:
+
+- **H11 — Provider Logo Completeness & University Source Discovery**: one approved primary logo per in-scope university/Provider where first-party Evidence is obtainable; Hotcourses sitemap/navigation may accelerate discovery/reconciliation but is not canonical authority by default.
+- **H12 — ARWU & University Diversity Statistics**: ARWU 2025 plus multi-year edition history; University Diversity/HDI as a separate contextual dataset in Statistics & Rankings.
+- **H13 — Ranking Acquisition Adapters**: uploaded parser + governed API/Parse.bot acquisition normalised through one staging/validate/apply contract with Evidence, edition/year replay, identity controls and cost telemetry.
+
+Repository reconciliation also confirms the earlier CF-083/A32 bookkeeping gap has already been closed. Current authoritative docs remain DB Architecture v2.10.50 and Admin/PIM Decisions v1.31, which preserve v2.10.49/v1.30 respectively.
