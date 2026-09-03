@@ -22,6 +22,7 @@ Do not infer the current document from the highest filename version or from chat
 | Operations Runbook | `docs/coursefinder-operations-runbook-v1.8.md` | CURRENT |
 | Data Operations Admin Guide | `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` | CURRENT |
 | Programme PIM Operating Principles | `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` | CURRENT |
+| University Ranking Data Design | `docs/coursefinder-university-ranking-data-design-v1.1.md` | CURRENT |
 
 ## Active milestone router
 
