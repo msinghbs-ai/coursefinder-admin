@@ -62,3 +62,8 @@ P9. Milestone meeting evidence/time-interaction ledger.
 - Layer 2 Sources is now presented as **Extraction Profiles** to describe its actual purpose: versioned non-secret source-specific extraction rules and qualification state.
 - Layer 2 workload defaults remain advanced scheduler/batch/wave controls, not scraper routing; the legacy route mode is read-only there.
 - Production remains unprovisioned; CF-089 portability delta is recorded in CF-084.
+
+
+### CF-090 ranking import recovery
+
+User upload `THE_year2026.txt` is confirmed present as private ranking Evidence (3,966,028 bytes; SHA-256 `00fdcfa0a2d5067982c9b7631e5baa7dc64e683c0c0280a1a02730edb45112fa`). Registration succeeded; the subsequent Parse & validate control failed because `ranking-publisher-control` attempted PostgREST access to the intentionally unexposed private `ranking` schema. The control now uses service-only RPCs instead. QS/THE Statistics cards are no longer grey merely because accepted_editions=0; they remain actionable with Manage imports while Compare remains gated on accepted observations. Admin release **v2.15.47**. Targeted recovery UAT is active and will reuse the existing THE 2026 Evidence.
