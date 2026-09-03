@@ -1,12 +1,12 @@
 # CF-CHG-20260903-100 — Multi-country Same-edition Statistical & Ranking Ingestion Strategy
 
-**Status:** APPLIED — DESIGN / GOVERNANCE PASS  
+**Status:** IMPLEMENTED / TARGETED VERIFICATION ACTIVE  
 **Initiated:** 2026-09-03 18:58 AEST  
 **Origin chat/workstream:** 01-CourseFinder PIM Principles / M2.4.5 H12-H13 continuation  
 **Owner:** CourseFinder programme governance  
 **Primary category:** 10-architecture-data-model  
 **Related:** CF-063, CF-067, CF-077, CF-098, CF-099  
-**Runtime mutation:** NONE
+**Runtime mutation:** Pilot secured read + Admin UI v2.15.56
 
 ## Trigger
 
@@ -69,3 +69,34 @@ Permanent/targeted tests should include:
 
 Revert documentation/governance commits. No database/runtime rollback is required.
 
+
+
+## Implementation advance — 2026-09-03 19:05 AEST
+
+Implemented in Pilot:
+- secured ranking import read now exposes per-import `detected_scope` and `logical_revision_count`;
+- Administration release v2.15.56 distinguishes all-new country scope from overlapping/mixed scope;
+- all-new country scope uses **Add country data & parse** without the old generic replacement warning;
+- overlapping/mixed scope remains a governed source revision and requires explicit continuation;
+- import history shows country scope and logical revision count;
+- Apply remains manual; no Search/Publication authority changed;
+- physical source-version rows remain provenance records while the logical operator edition is system + year.
+
+Pilot source commits:
+- `b3980cec000042549efba54bbd65d2de0d0550f9`;
+- `f304b46530827152904fe99b9c6fa59d1af35bf8`;
+- `f2d787df69605590bb7871b5882b1e344907aa25`;
+- `7b41e246f869654ded7028e8b118db9b73b95078`;
+- `5140ac5b2c557aeff8a89be7eb43d5a37cbfda78`;
+- UAT routing `46ccc13fc5f7aa4189da0d067c641cc76592aced`.
+
+Runtime:
+- CF-100 secured read migration applied successfully to Pilot;
+- function definition confirms detected-scope/revision fields;
+- ACL remains authenticated + service_role only, anon/public revoked;
+- Security/Performance advisor posture introduced no new WARN/ERROR finding attributable to CF-100.
+
+Validation:
+- frontend build compile job `100589327628`: PASS;
+- full frontend build workflow `33736846482`: browser-smoke active at record time;
+- targeted deployed UAT workflow `33736846609`: active at record time.
