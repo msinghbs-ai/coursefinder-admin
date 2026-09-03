@@ -86,3 +86,27 @@ Once a valid key is stored, qualify the two established APIs directly.
 ## Production portability
 
 Record these non-secret adapter identifiers/configuration in governed ranking/source profiles and Production migration inventory. The API key remains environment-specific Vault state and must be re-entered/rotated in Production.
+
+
+## Live credential validation — 2026-09-03 13:48 AEST
+
+Fresh read-only calls were executed from Pilot using the currently configured Vault secret. The secret value was not returned.
+
+QS:
+- request: `GET /scraper/e3ecc5de-f530-478a-b464-867d43099420/get_world_rankings?items_per_page=1`;
+- result: HTTP 401;
+- response: `Invalid API key`.
+
+ARWU:
+- request: `GET /scraper/9a025ecd-9ccb-4cf6-a454-be52e290b946/get_arwu_rankings?year=2024`;
+- header: `API-Snapshot-Version: 10`;
+- result: HTTP 401;
+- response: `Invalid API key`.
+
+Network/DNS/endpoint reachability is therefore proven for both established APIs. The current blocker is credential validity only.
+
+Vault metadata:
+- configured secret exists;
+- last Vault secret update: 2026-09-03 09:44:50 AEST.
+
+No ranking data was ingested, no canonical observation was changed and no routing was enabled.
