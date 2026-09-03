@@ -104,3 +104,14 @@ Compatibility rules:
 - Users & Roles no longer owns a separate full-screen Admin shell.
 
 No primary NAV label, Layer authority, Search/Publication authority or role rank changed under CF-088.
+
+## M2.4.5 H2 terminology refinement — CF-089
+
+Administration terminology now distinguishes two Layer 2 configuration responsibilities:
+
+- **Scraper Config** — vendor/provider control plane: enabled state, credential status, endpoint, rate, concurrency, timeout, quota and profile route membership.
+- **Extraction Profiles** — advanced source-specific deterministic extraction configuration: what is acquired/extracted, source constraints, target entity, validation/qualification and version history.
+
+Extraction Profiles is the relabelled presentation of the existing `layer2-sources` section. Its route key and backend contracts are unchanged.
+
+Layer 2 workload defaults (scheduler batch size, qualification cadence and production wave size) remain necessary platform configuration but are placed behind progressive disclosure. They are not a second scraper-routing editor; the legacy global route mode is read-only there.
