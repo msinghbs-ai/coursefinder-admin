@@ -197,3 +197,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-091 | 00-governance-programme | M2.4.5 Provider Assets, External Discovery, ARWU & Diversity Ranking Addenda | ADDED TO M2.4.5 BACKLOG / DESIGN-REVIEW ACTIVE | `00-governance-programme/CF-CHG-20260903-091-m245-provider-assets-arwu-diversity-ranking-acquisition.md` |
 
 | CF-CHG-20260903-092 | 20-layer1-regulatory-ingestion | Ranking Parse.bot Established API Adapters — QS + ARWU 2015–2026 | ACTIVE / IMPLEMENTATION DESIGN | `20-layer1-regulatory-ingestion/CF-CHG-20260903-092-ranking-parsebot-established-api-adapters.md` |
+
+| CF-CHG-20260903-093 | 20-layer1-regulatory-ingestion | Ranking URL/File Import Parser & ARWU Publisher Registration | IMPLEMENTED / TARGETED PASS — 2026 URL REGISTRATION REQUIRES ADMIN SESSION | `20-layer1-regulatory-ingestion/CF-CHG-20260903-093-ranking-url-file-import-parser-arwu.md` |
