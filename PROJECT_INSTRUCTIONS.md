@@ -10,6 +10,13 @@ This file is the single starting instruction for parallel CourseFinder work. A c
 
 The GitHub Admin repository `msinghbs-ai/coursefinder-admin` is the authoritative project-governance source. Supabase/migrations and implementation repositories remain authoritative for deployed technical state, but governance decisions, project status, change traceability and operating rules must be reconciled here.
 
+## Current-document and PIM principle gate
+
+Before selecting any versioned governance/design document, read:
+
+- `docs/README.md` — authoritative current-document router; do not infer “latest” from filename ordering.
+- `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` — standing Admin/PIM chat lifecycle, work-item, UI/UX, Settings, end-to-end wiring, UAT and handoff principles.
+
 ## Mandatory session start
 
 Before making a material CourseFinder change, read/review the latest applicable versions of:
