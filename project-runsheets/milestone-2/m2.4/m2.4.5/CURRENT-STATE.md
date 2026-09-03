@@ -91,3 +91,13 @@ Parked without closure:
 - H5-H10 remaining/continuous hardening.
 
 Important dependency rule: the current Parse.bot HTTP 401 does **not** block H11, H12 or H13 uploaded-file/parser implementation. It blocks only live Parse.bot-generated API qualification/execution until the credential is corrected.
+
+
+## CF-092 Parse.bot ranking API decision — 2026-09-03 12:59 AEST
+
+H13 live Parse.bot design is now dataset-specific rather than generated/generic:
+- QS established `get_world_rankings` API;
+- ARWU established `get_arwu_rankings?year={YEAR}` API with `API-Snapshot-Version: 10`;
+- controlled target years 2015–2026.
+
+Current stored Parse.bot credential 401 remains the only live-call blocker. No replacement scraper is required or authorised.
