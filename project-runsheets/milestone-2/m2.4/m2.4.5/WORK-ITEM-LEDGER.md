@@ -30,3 +30,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 11:41 | BUG/UX | Layer 2 workload inputs inherited browser-default layout because existing m-kv-list CSS styled div rows only, not label/input rows | H2 | CF-CHG-20260903-089 | `80b9548eb23edefcdbbd9cc8fa943f42c73d1165` canonical label/input/select/checkbox styling | build `33704684206` PASS; browser `33704684224` active | IMPLEMENTED / VERIFYING |
 
 | 2026-09-03 11:48 | UAT/BLOCKER | Real Parse.bot Vault-credential probe reached official API but returned HTTP 401 authentication_failed | H2 | CF-CHG-20260903-089 | diagnostic probe telemetry persisted; no secret exposed | live `GET /dispatch/tasks` probe | BLOCKED — rotate/re-enter valid Parse.bot API key before generated API qualification |
+
+| 2026-09-03 11:50 | UAT | Final CF-089 Scraper Config/Parse.bot diagnostic browser validation | H2/H9 | CF-CHG-20260903-089 | accepted Pilot `b6f75ffccf93981522a5c077100deeac87f7022a` | deployed `33705175873` PASS; frontend build job `33705175916` PASS | UI/PERFORMANCE TARGETED PASS; Parse.bot credential remains BLOCKED 401 |
