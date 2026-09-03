@@ -129,3 +129,16 @@ Scraper Config UX/performance hardening is TARGETED PASS. Parse.bot integration 
 | Date/time AEST | Interaction / decision | Evidence |
 |---|---|---|
 | 2026-09-03 12:47 | User added Provider-logo/source-discovery, ARWU, Diversity Index and parser/API-Parse.bot requirements to M2.4.5 | CF-091 / H11-H13 |
+
+
+## Priority decision — 2026-09-03 12:59 AEST
+
+User directed the milestone to execute **H11 onward first**.
+
+Meeting/demo sequence should now track:
+1. Provider logo completeness/source discovery;
+2. ARWU + University Diversity statistics;
+3. ranking parser/API acquisition;
+4. then return to remaining Admin/PIM operational hardening.
+
+The existing Parse.bot 401 is retained as a transparent blocker but does not stop first-party logo work, ARWU/Diversity design/ingestion, or uploaded-file parser work.
