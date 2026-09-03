@@ -58,3 +58,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 16:16 | UAT/PASS | Finalise QS 2026 Parse.bot Evidence hand-off gate after test assertion correction | H12/H13 | CF-CHG-20260903-096 | parser already validated live import; cleared-banner assertion corrected | deployed targeted UAT `33722438639` PASS | CLOSED / TARGETED PASS |
 
 | 2026-09-03 16:33 | BUG/WORKFLOW | Ranking import lacked visible acquisition Job; old THE imports appeared to disappear | H12/H13 | CF-CHG-20260903-097 | acquisition Jobs + full history + publisher filter + per-import job lineage + state-driven actions | frontend build PASS; deployed UAT `33723730026` PASS | CLOSED / TARGETED PASS |
+
+| 2026-09-03 17:05 | FEATURE/COST | File-first QS/THE/ARWU ingestion; country/global/multi-page bundle parser to avoid repeated Parse.bot cost | H12/H13 | CF-CHG-20260903-098 | shared JSON/TXT parser + multi-file Evidence bundle + file-first UI | build `33726246825` PASS; deployed UAT `33726246829` PASS | CLOSED / TARGETED PASS |
