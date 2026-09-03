@@ -1,6 +1,6 @@
 # CF-CHG-20260903-088 — M2.4.5 H1 Administration IA/UI standardisation
 
-**Status:** IMPLEMENTED / TARGETED VERIFICATION ACTIVE  
+**Status:** IMPLEMENTED / TARGETED PASS  
 **Initiated:** 2026-09-03 10:35 AEST (Australia/Sydney)  
 **Implementation started:** 2026-09-03 10:39 AEST  
 **Owner:** Admin/PIM UX  
@@ -142,4 +142,9 @@ Revert the listed Pilot commits in reverse order. Because this is UI/composition
 
 ## Verification
 
-Targeted workflows are running against the final H1 source lineage. Do not mark targeted PASS until both targeted build and deployed-browser evidence are successful.
+Targeted validation passed on final H1 source lineage `87eba42de1e03c9761b927f2cb59a793cd10215f`:
+- Pilot Frontend Build run `33700864619` — SUCCESS;
+- CourseFinder Deployed UAT run `33700864824` — SUCCESS;
+- targeted spec `tests/uat/cf-088-admin-ia-targeted.spec.mjs` included source contract, `npm run build`, canonical Administration browser checks, release v2.15.45 and the non-rank-6 legacy Users & Roles negative path.
+
+No full/integration acceptance suite was invoked.
