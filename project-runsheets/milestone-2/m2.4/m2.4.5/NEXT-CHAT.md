@@ -2,62 +2,95 @@
 
 Recommended chat name:
 
-`CF M2.4.5 — H2 Parse.bot Qualification → H3 Scholarships — 2026-09-03`
+`CF M2.4.5 — H11 Provider Assets & Rankings — 2026-09-03`
 
-Continue from repository/runtime truth.
+Continue CourseFinder M2.4.5 from repository/runtime truth.
 
-Mandatory:
-1. Read PROJECT_INSTRUCTIONS.md.
-2. Read docs/README.md and CF-086 PIM operating principles.
-3. Read M2 Standing Instructions.
-4. Read CF-087, CF-088, CF-085 and CF-089.
-5. Read this M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/WORK-ITEM-LEDGER/MEETING-READINESS.
-6. Read REGISTER and overlapping active Change Controls.
-7. Reconcile current Admin/Pilot heads, Pilot Supabase/runtime and targeted CI/UAT.
-8. Preserve M2.4.4 CLOSED/PASS/FROZEN.
-9. Preserve H1 CF-088 TARGETED PASS.
-10. Preserve CF-089 Scraper Config UI/performance TARGETED PASS.
-11. Keep M2.5 P0 paused; do not create Production resources.
+## Mandatory start
 
-Begin with the remaining H2 Parse.bot blocker:
-- current Parse.bot registry is Enabled but the live official-API credential probe returned HTTP 401 / authentication_failed;
-- do not expose or infer the stored key;
-- after the Platform Admin rotates/re-enters a valid Parse API key, rerun the built-in connection probe;
-- only after HTTP 2xx, perform one bounded official Parse API qualification:
-  1. POST /dispatch for one agreed first-party source URL;
-  2. poll /dispatch/tasks/{task_id};
-  3. capture generated scraper_id + endpoint_name as governed profile configuration;
-  4. execute one endpoint;
-  5. capture Evidence, credit/rate telemetry and cost basis;
-  6. keep generic Parse.bot proxy execution blocked;
-  7. admit Parse.bot route only after targeted PASS.
-- preserve Scraper Config as the one provider/routing control plane.
-- preserve Extraction Profiles as versioned source-specific non-secret rules/qualification.
-- preserve Layer 2 workload defaults as advanced scheduler/batch/wave controls with routing read-only.
+1. Read `PROJECT_INSTRUCTIONS.md`.
+2. Read `docs/README.md` as the authoritative current-document router.
+3. Read `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` and preserve CF-086.
+4. Read `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`.
+5. Read CF-087 and CF-091.
+6. Read CF-083/A32, CF-090, CF-089 and CF-084 where they overlap.
+7. Read current M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/WORK-ITEM-LEDGER/MEETING-READINESS.
+8. Read `change-control/REGISTER.md`.
+9. Reconcile current Admin/Pilot heads, Pilot Supabase/runtime and targeted CI/UAT before modifying shared foundations.
 
-If valid Parse.bot credentials are not available, record H2 Parse.bot as blocked/deferred and proceed to H3 Scholarship PIM maturity according to RUNSHEET.
+Preserve:
+- M2.4.4 CLOSED / PASS / FROZEN;
+- H1 CLOSED / TARGETED PASS;
+- CF-089 Scraper Config UI/performance TARGETED PASS;
+- Parse.bot live execution NOT qualified because current credential probe returned HTTP 401;
+- M2.5 PAUSED AT P0; do not create Production resources;
+- current DB Architecture/Admin-PIM documents selected through docs/README.md.
 
-Use targeted build/contract/browser UAT only.
+## Immediate priority: H11 onward first
 
-Before ending:
+### H11 — Provider Logo Completeness & University Source Discovery
+
+Start here.
+
+1. Build a canonical in-scope Provider/university logo coverage matrix:
+   - expected Provider count;
+   - discovered candidate;
+   - acquired Evidence;
+   - approved primary;
+   - blocked;
+   - missing;
+   - source/freshness.
+2. Reconcile existing CF-083/A32 provider-asset tables, profiles, approved assets and blocked cases before creating anything new.
+3. Run a bounded first-party logo discovery/acquisition cohort.
+4. Prefer official university/provider SVG/PNG/brand/header assets.
+5. Use Hotcourses sitemap/navigation only to identify missing Providers/source entrypoints or reconcile gaps; do not treat Hotcourses as canonical logo authority.
+6. Preserve Evidence, hashes, source URLs, approval state and rollback.
+7. Mature the Admin/PIM logo coverage/read surface only where needed and keep shared UI/UX rules.
+
+### H12 — ARWU & University Diversity Statistics
+
+After bounded H11 progress:
+1. Reconcile current QS/THE/ranking schema and CF-090 recovery.
+2. Add ARWU as an editioned ranking family beginning with 2025 and supporting multi-year history.
+3. Preserve exact/tied/banded/unranked semantics and Provider crosswalk/Evidence.
+4. Add University Diversity/HDI as a separate contextual dataset, not a QS/THE/ARWU score.
+5. Preserve year/edition, diversity rank, nationalities represented, international-student count, source and geography where available.
+6. Wire Statistics & Rankings, Provider and Compare surfaces through the accepted UI system.
+7. No Search/Website/Zoho admission without a separate consumer gate.
+
+### H13 — Ranking Acquisition Adapters
+
+Then:
+1. Make uploaded-file parser and governed API acquisition converge on one staging → validate → Provider reconcile → Apply contract.
+2. Support explicit edition/year and multi-year replay.
+3. Retain raw Evidence, request/source metadata, adapter/parser version, validation outcome and cost/latency/vendor telemetry.
+4. Proceed with file/parser implementation even if Parse.bot credentials remain invalid.
+5. For Parse.bot only:
+   - keep key Vault-only;
+   - require successful connection/auth;
+   - qualify generated scraper_id + endpoint_name;
+   - execute one bounded endpoint;
+   - capture Evidence/cost telemetry;
+   - fail closed on auth/schema drift/identity ambiguity.
+6. Never allow generic unqualified Parse.bot proxy execution.
+
+## Parked work
+
+Do not resume H2 residual Parse.bot qualification as a standalone priority. It becomes a dependency only when H13 reaches the live Parse.bot API step.
+
+H3-H6 remain parked until H11-H13 have been materially advanced. H7-H10 remain continuous governance/telemetry/UAT/meeting obligations.
+
+## Testing
+
+Use static/build/schema → targeted contract → bounded integration → targeted browser UAT.
+
+Do not run the full acceptance suite during intermediate work.
+
+## Before ending
+
 - update owning Change Controls;
 - update all M2.4.5 continuity files;
-- add absolute-time work ledger entries;
-- update CF-084 Production portability inventory if runtime changes;
-- update MEETING-READINESS achieved/failed/next and interaction evidence;
+- record absolute date/time, commits, runtime/migration evidence and targeted UAT;
+- update Production migration inventory/telemetry for every material runtime/schema/Edge/Storage/config change;
+- update MEETING-READINESS;
 - return only Achieved, Failed/Blocked, Next and recommended continuation chat.
-
-## CF-091 continuation requirement
-
-Also read:
-- CF-CHG-20260903-091;
-- CF-083 / A32;
-- CF-090 ranking-import recovery;
-- current DB Architecture v2.10.50 and Admin/PIM Decisions v1.31.
-
-Preserve the new M2.4.5 workstreams:
-- H11 Provider Logo Completeness & University Source Discovery;
-- H12 ARWU & University Diversity Statistics;
-- H13 Ranking Acquisition Adapters — parser + API/Parse.bot.
-
-Do not use Hotcourses/IDP as automatic canonical authority. Hotcourses sitemap/navigation may be used for discovery/reconciliation; prefer first-party Provider assets and official publisher/government ranking/statistics evidence. ARWU begins with 2025 and must be editioned/multi-year. Diversity/HDI remains a separate contextual dataset. Any Parse.bot ranking route must use Vault credentials, governed endpoint/profile configuration and the same staging/validate/apply gate as file parsing.
