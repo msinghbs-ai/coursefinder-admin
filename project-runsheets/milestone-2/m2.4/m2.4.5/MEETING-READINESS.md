@@ -194,3 +194,8 @@ User validation screenshot identified ranking import UX follow-through issues. v
 ## CF-095 — 2026-09-03 15:57 AEST
 
 Release-currentness defect closed. The live Worker now passes an explicit v2.15.51 ranking-import currentness test. QS 2026 remains the qualified default; QS 2027 Parse.bot is visibly blocked until its upstream publisher payload matches the scraper contract.
+
+
+## CF-096 — 2026-09-03 16:13 AEST
+
+QS 2026 Parse.bot import now demonstrates the full governed Evidence → parser → reconciliation path. The retained import validated at 1,503 observations / 15,030 indicator cells, with 35/36 AU Providers uniquely mapped. Apply remains intentionally manual while UTS and Victoria University reconciliation are reviewed.
