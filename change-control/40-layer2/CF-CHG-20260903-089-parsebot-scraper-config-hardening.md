@@ -112,3 +112,15 @@ Corrections:
 - `80b9548eb23edefcdbbd9cc8fa943f42c73d1165` additionally standardises workload-default form controls after the screenshot exposed browser-default label/input rendering.
 
 Final targeted build `33704684206` is PASS. Final deployed CF-089 UAT `33704684224` remains the acceptance result to record.
+
+## Parse.bot live credential result — 2026-09-03 11:48 AEST
+
+The corrected diagnostic probe reached the official Parse API endpoint using the Vault-stored credential and received **HTTP 401 / authentication_failed**.
+
+Therefore:
+- DNS/network/base URL connectivity is proven;
+- the configured `X-API-Key` value is not currently accepted by Parse.bot;
+- Parse.bot must remain **not execution-qualified** despite the registry Enabled flag;
+- no generated API dispatch or endpoint execution is authorised until the Platform Admin rotates/re-enters a valid Parse API key and the connection probe passes.
+
+The secret value was not exposed or logged.
