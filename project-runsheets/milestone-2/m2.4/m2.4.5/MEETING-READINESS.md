@@ -71,3 +71,37 @@ Repository interaction timestamps are evidence of when decisions/actions occurre
 | 2026-09-03 10:47 | H1 targeted build and deployed browser validation passed | runs 33700864619 / 33700864824 |
 
 No billable duration is inferred from these interaction timestamps.
+
+## H2 CF-089 update — 2026-09-03 11:41 AEST
+
+### Achieved
+- User-enabled Parse.bot was reconciled against the official Parse API contract rather than assumed to be a generic scraper proxy.
+- Parse.bot registry now uses `https://api.parse.bot` + write-only `X-API-Key`; runtime remains enabled but generic execution is explicitly blocked until generated API qualification.
+- Real server-side connection test added using `GET /dispatch/tasks`; stored Vault credential is never returned to the browser.
+- Scraper Config initial load reduced from full extraction-profile inventory to the seven-provider registry; profile routing is loaded only on demand with at most 10 search results.
+- Dark nested application header, icon-only Refresh, excessive provider-card bold styling and browser-default workload inputs corrected to canonical Admin patterns.
+- Layer 2 Sources is now presented as **Extraction Profiles**, separating source-specific extraction/version rules from scraper/provider controls.
+- Workload policy is collapsed as advanced defaults and no longer writes the legacy global routing mode.
+- Runtime migrations and Edge guards applied without creating Production resources.
+- Final source/build run `33704684206` passed.
+
+### Failed / blocked
+- First deployed UAT `33704442944` failed only because an older CF-088 regression pinned v2.15.45 while the Worker had correctly advanced to v2.15.46. The test and routing were corrected.
+- Parse.bot full extraction is not yet execution-qualified. A connection/auth PASS is only the prerequisite; generated Parse API `scraper_id` + `endpoint_name`, bounded execution, Evidence and cost telemetry remain required.
+
+### Next
+- Record final deployed run `33704684224`.
+- If Parse.bot connection passes, perform one bounded generated-API qualification on an agreed extraction profile before admitting Parse.bot to runtime routing.
+- Then finish H2 and continue H3 Scholarship PIM maturity.
+
+## Interaction timeline additions
+
+| Date/time AEST | Interaction / decision | Evidence |
+|---|---|---|
+| 2026-09-03 11:36 | User enabled Parse.bot and challenged Scraper Config loading, theme consistency, execution policy and Layer 2 Sources purpose | CF-089 trigger / supplied screenshots |
+| 2026-09-03 11:37 | Runtime/repo review identified 1,883 extraction profiles and 12,207 route rows being exposed behind eager profile loading | Pilot runtime reconciliation |
+| 2026-09-03 11:38 | Parse.bot generic-proxy mismatch corrected; bounded profile loading and connection probe implemented | CF-089 Pilot/migration/Edge commits |
+| 2026-09-03 11:39 | Initial deployed UAT failed on stale CF-088 v2.15.45 assertion, not application behaviour | run 33704442944 |
+| 2026-09-03 11:41 | Workload input styling corrected after screenshot/source CSS comparison | Pilot `80b9548eb23edefcdbbd9cc8fa943f42c73d1165` |
+
+No billable duration is inferred from these interaction timestamps.
