@@ -132,3 +132,18 @@ Parse.bot credential has been corrected and the established ranking adapters now
 - ARWU 2026: `year=2026`, total 892, snapshot v10 accepted.
 
 H13 is no longer authentication-blocked. Next action is controlled 2015–2026 Evidence/staging/backfill implementation, with manual Apply preserved.
+
+
+## CF-093 ranking publisher URL/file import — 2026-09-03 14:42 AEST
+
+Implemented and deployed:
+- ARWU first-class ranking system;
+- Admin ranking import method selector: Parse.bot URL or file upload;
+- QS/ARWU approved Parse.bot scraper reference fields with edition year;
+- governed URL importer retains complete API response as private Evidence;
+- parser v1.5.0 supports Parse.bot QS/ARWU JSON plus existing THE/file formats;
+- exact import-id parsing avoids QS direct-source override;
+- v2.15.49 UI;
+- targeted deployed UAT run `33715985168` PASS.
+
+QS 2026 and ARWU 2026 live APIs are qualified (HTTP 200). The remaining creation of registered 2026 imports must run under an authenticated CourseFinder Admin session; management tooling does not bypass that operator JWT boundary.
