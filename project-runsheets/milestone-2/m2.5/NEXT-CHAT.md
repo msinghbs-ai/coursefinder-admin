@@ -4,6 +4,11 @@ Continue CourseFinder autonomously from repository/runtime truth. Do not rely on
 
 ## Mandatory start
 
+Before any material work also read:
+- `docs/README.md` — current-document router;
+- `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` — CF-086 PIM/Admin operating principles.
+
+
 Read:
 1. `PROJECT_INSTRUCTIONS.md`
 2. `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`
