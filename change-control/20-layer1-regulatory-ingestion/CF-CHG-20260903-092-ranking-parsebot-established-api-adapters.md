@@ -110,3 +110,37 @@ Vault metadata:
 - last Vault secret update: 2026-09-03 09:44:50 AEST.
 
 No ranking data was ingested, no canonical observation was changed and no routing was enabled.
+
+
+## Established API qualification PASS — 2026-09-03 14:29 AEST
+
+Fresh live calls using the rotated/current Vault credential now pass.
+
+QS:
+- endpoint: `get_world_rankings`;
+- request: `?year=2026&items_per_page=1`;
+- HTTP 200;
+- response `edition_year=2026`;
+- response confirms pagination contract: `page`, `items_per_page`, `total_pages`, `has_more`;
+- 2026 reported total universities: 1,504.
+
+ARWU:
+- endpoint: `get_arwu_rankings`;
+- request: `?year=2026`;
+- header: `API-Snapshot-Version: 10`;
+- HTTP 200;
+- response `year=2026`;
+- 2026 reported total rankings: 892.
+
+This proves:
+- Vault credential valid;
+- QS year parameter is `year`;
+- QS pagination semantics are discoverable from the response;
+- ARWU year parameter and snapshot header work;
+- both established adapters are execution-qualified for bounded ingestion.
+
+Next gate:
+- implement controlled 2015–2026 fetch loops;
+- capture raw private Evidence per year/page;
+- validate completeness before Apply;
+- do not canonicalise until Provider reconciliation and dry-run pass.
