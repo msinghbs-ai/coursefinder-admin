@@ -267,3 +267,10 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - Country scope is displayed in ranking import history; Apply stays manual.
 - Pilot migration applied successfully; security/performance checks show no new WARN/ERROR attributable to CF-100.
 - Frontend build compile PASS; workflow `33736846482` browser smoke and deployed targeted UAT `33736846609` are active at this checkpoint.
+
+
+## Country expansion deferred — 2026-09-03 22:34 AEST
+
+- User explicitly deferred additional-country ranking/statistical expansion beyond the currently demonstrated AU/NZ scope.
+- CF-100 architecture and UI capability remain retained for later use, but CA/GB/US/IE or other country backfill is **not an M2.4.5 closure requirement**.
+- Immediate milestone focus returns to remaining AU/NZ/Admin/PIM hardening items: H11 Provider asset completeness, H12 ARWU/Diversity completion, then H3-H6 operational/PIM controls and the final M2.4.5 acceptance gate.
