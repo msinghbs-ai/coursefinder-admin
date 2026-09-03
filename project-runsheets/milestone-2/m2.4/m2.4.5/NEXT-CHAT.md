@@ -140,3 +140,19 @@ Next ranking actions:
 4. Review QS 2026 reconciliation before any further apply/revision.
 5. Run ARWU 2026 through the corrected acquisition Job → Validate → Apply/Review workflow.
 6. For any new QS/ARWU run, confirm `ranking_import_acquire` appears in Jobs before accepting the attempt as valid workflow evidence.
+
+
+## CF-098 continuation — 2026-09-03 17:05 AEST
+
+Use file-first ranking ingestion from v2.15.54.
+
+Recommended next operator action:
+1. QS → 2027 → File upload.
+2. Select both `QS_2027_AU.txt` and `QS_2027_NZ.txt` together.
+3. Confirm detection shows 45 rows and Australia + New Zealand.
+4. Register/Parse & validate.
+5. Review AU/NZ mapping/reconciliation before Apply.
+6. Use the same file-first pattern for ARWU/THE country or global files.
+7. Use Parse.bot only where an authorised file is unavailable and the API call is justified.
+
+Do not create separate same-year country imports when they represent one edition; select them together so they become one governed bundle.
