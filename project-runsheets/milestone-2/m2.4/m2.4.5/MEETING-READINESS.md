@@ -142,3 +142,8 @@ Meeting/demo sequence should now track:
 4. then return to remaining Admin/PIM operational hardening.
 
 The existing Parse.bot 401 is retained as a transparent blocker but does not stop first-party logo work, ARWU/Diversity design/ingestion, or uploaded-file parser work.
+
+
+## H13 adapter clarification — 2026-09-03 12:59 AEST
+
+User supplied established Parse.bot APIs for QS and ARWU covering the intended 2015–2026 history. CF-092 records these as the preferred H13 API path. This removes the need to generate new ranking scrapers. The existing HTTP 401 remains a credential issue only; it is not an endpoint-discovery/design blocker.
