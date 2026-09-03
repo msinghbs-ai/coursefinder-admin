@@ -34,3 +34,7 @@
 | Parked | H2 | Remaining Parse.bot 401 qualification | PARKED UNTIL H13 LIVE API STEP |
 | Parked | H3-H6 | Scholarship, Scheduler/Jobs, manual PIM, publication controls | OPEN / AFTER H13 |
 | Continuous | H7-H10 | migration telemetry, work-item intake, UAT efficiency, meeting readiness | ACTIVE THROUGHOUT |
+
+
+| M245-FU-017 | H13 / CF-092 | QS established Parse.bot API 2015–2026 | ADAPTER CONTRACT DEFINED / AUTH BLOCKED | With valid Vault key, probe `get_world_rankings`, determine exact year/pagination contract from response metadata, then bounded Evidence/staging validation |
+| M245-FU-018 | H13 / CF-092 | ARWU established Parse.bot API 2015–2026 | ADAPTER CONTRACT DEFINED / AUTH BLOCKED | With valid Vault key, probe one year using API execution scraper `9a025ecd-9ccb-4cf6-a454-be52e290b946` + snapshot v10, then controlled 2015–2026 loop |
