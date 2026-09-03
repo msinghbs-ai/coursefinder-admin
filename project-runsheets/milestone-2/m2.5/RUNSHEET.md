@@ -224,3 +224,24 @@ A30 Layer 4 reconciliation is implemented: exact repeats auto-skip; non-identica
 **Follow-up:**
 - migrate historical docs in bounded reference-safe archive batches;
 - keep M2.5 implementation work governed by the new current-document and chat lifecycle gate.
+
+
+## 2026-09-03 10:13 AEST — Production readiness reconciliation checkpoint
+
+**Chat:** CF M2.5 — Production Readiness — 2026-09-03
+
+Repository/runtime reconciliation:
+- Admin repo head: `4316ee0367ac487a3290933c6a3afd005a2287e4`;
+- Pilot repo head: `ce8ab734a1d4bb4743b09b09f3ae45a47bb9d7dc` (Admin shell v2.15.44 line);
+- latest Pilot targeted deployed status on that head: `coursefinder/deployed-uat/targeted/chromium-desktop = success`, run `33696909480`;
+- Supabase inventory still contains Pilot `fxcwkweaxjtknorudmwp` and demo `gfryvshbeptxwbzjomhe`; no CourseFinder Production project exists;
+- Pilot `pipeline.environment_settings` has Production organisation, project ref, project URL and region all `pending`/null;
+- Pilot runtime bindings still target Pilot: `runtime_edge_base_url=https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1`, `runtime_automation_integration_key=pilot_automation`;
+- `platform-environment-control` exists in the Pilot Edge inventory.
+
+**Exact next M2.5 gate:** P0 — Provisioning decision.
+
+**Decision:** BLOCKED / USER CONFIRMATION. CF-049 explicitly forbids paid Production creation until Production organisation, region, project name and quoted/confirmed supplier cost are captured. No Production resource was created, renamed or promoted.
+
+**Targeted validation:** repository heads, Supabase project inventory, Production target registry and current Pilot deployment status reconciled. Full acceptance suite was not rerun.
+
