@@ -52,3 +52,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 14:55 | BUG/UX | Recent ranking items stale; successful Parse remained enabled; duplicate edition needed warning | H12/H13 | CF-CHG-20260903-094 | latest-activity ordering + post-success lock + inline duplicate revision guard | Pilot DB applied; deployed UAT `33716795837` active | IMPLEMENTED / VERIFYING |
 
 | 2026-09-03 15:57 | BUG/RELEASE | Browser showed v2.15.48 while newer ranking UI was active; QS 2027 error rendered [object Object] | H12/H13 | CF-CHG-20260903-095 | v2.15.51 version sync + QS 2026 default + 2027 warning/block + nested error formatter + dedicated deployed UAT | run `33721019815` PASS | CLOSED / TARGETED PASS |
+
+| 2026-09-03 16:13 | BUG/INGESTION | QS 2026 Parse.bot Evidence registered but Parse & validate falsely required Evidence | H12/H13 | CF-CHG-20260903-096 | exact-import RPC now returns private storage_path + ARWU source mapping | live QS import validated: 1,503 observations, 15,030 indicators, 97.22% AU mapping | CLOSED / APPLY MANUAL |
