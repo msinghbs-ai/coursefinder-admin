@@ -64,3 +64,12 @@ Targeted runtime result proves the selected registered Parse.bot Evidence now pa
 ## Rollback
 
 Restore the previous service RPC definition if regression is found; this does not delete retained Evidence or validated import history.
+
+
+## Final targeted UAT — 2026-09-03 16:16 AEST
+
+- first recovery run proved the live import moved to `validated`, but the test itself falsely failed because it used `not.toContainText` on an alert element that had correctly disappeared;
+- the assertion was corrected to require zero matching Evidence-error banners;
+- final deployed targeted UAT run `33722438639`: **PASS**;
+- final Pilot candidate: `d9d1ab1be9dd5aca9f741f427cecc85e3907a39e`;
+- UI v2.15.52 currentness/deployment remains separately governed by the existing frontend currentness controls.
