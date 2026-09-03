@@ -214,3 +214,26 @@ Existing THE data was never deleted:
 
 Admin v2.15.53.
 Final deployed targeted UAT `33723730026`: PASS.
+
+
+## CF-098 file-first ranking parser — 2026-09-03 17:05 AEST
+
+Ranking ingestion now defaults to authorised file Evidence rather than metered Parse.bot acquisition.
+
+Supported QS/THE/ARWU file patterns:
+- country-scoped JSON/TXT;
+- one global JSON/TXT;
+- multiple country/page JSON/TXT files selected together;
+- direct payload arrays / responses / pages;
+- CSV/XLSX single file;
+- existing THE native and Parse.bot Evidence.
+
+User-provided QS 2027 AU (37 rows) + NZ (8 rows) shapes are accepted as one 45-row multi-file bundle.
+
+Runtime:
+- ranking-publisher-import v6;
+- ranking-layer1-etl v9 / parser v1.6.0;
+- Admin v2.15.54.
+
+Frontend build `33726246825` PASS.
+Deployed targeted UAT `33726246829` PASS.
