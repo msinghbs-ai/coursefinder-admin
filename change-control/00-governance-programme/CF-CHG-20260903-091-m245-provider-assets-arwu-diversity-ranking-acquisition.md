@@ -208,4 +208,10 @@ Accepted university cohort:
 
 Hotcourses policy for CourseFinder H11 is now explicit: exact university-owned marks may be used as operator-approved fallback copies with source provenance retained; Hotcourses/IDP branding itself is never canonical Provider branding.
 
-H11 runtime acceptance is PASS. Final H11 governance status will become CLOSED / PASS when the current targeted Frontend Build and deployed browser UAT for CF-101 both pass.
+H11 is **CLOSED / PASS** under CF-CHG-20260903-101.
+
+Final targeted verification:
+- Pilot Frontend Build `33802561372`: PASS;
+- deployed H11 UAT `33802561541`: PASS.
+
+The earlier `33802121519` failure is retained as a UAT-routing regression only: workflow precedence selected the stale CF-089 suite, which expected v2.15.46 while the deployed release was correctly v2.15.56. CF-101 routing precedence was corrected and the intended H11 suite then passed.
