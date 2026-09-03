@@ -1,7 +1,7 @@
 # M2.4.5 CURRENT STATE
 
 **Status:** ACTIVE / H1 TARGETED PASS — H2 UI TARGETED PASS / PARSE.BOT AUTH BLOCKED  
-**Updated:** 2026-09-03 11:50 AEST  
+**Updated:** 2026-09-03 12:47 AEST  
 **Change Control:** CF-CHG-20260903-087
 
 ## Entry baseline
@@ -67,3 +67,14 @@ P9. Milestone meeting evidence/time-interaction ledger.
 ### CF-090 ranking import recovery
 
 User upload `THE_year2026.txt` is confirmed present as private ranking Evidence (3,966,028 bytes; SHA-256 `00fdcfa0a2d5067982c9b7631e5baa7dc64e683c0c0280a1a02730edb45112fa`). Registration succeeded; the subsequent Parse & validate control failed because `ranking-publisher-control` attempted PostgREST access to the intentionally unexposed private `ranking` schema. The control now uses service-only RPCs instead. QS/THE Statistics cards are no longer grey merely because accepted_editions=0; they remain actionable with Manage imports while Compare remains gated on accepted observations. Admin release **v2.15.47**. Targeted recovery UAT is active and will reuse the existing THE 2026 Evidence.
+
+## CF-091 addenda — 2026-09-03 12:47 AEST
+
+- H11-H13 added to M2.4.5 for Provider logo completeness/source discovery, ARWU + University Diversity statistics, and ranking parser/API/Parse.bot acquisition.
+- Hotcourses rankings hub currently exposes THE, QS, ARWU and Hotcourses Diversity Index; Hotcourses HDI presents diversity rank, represented nationalities, international-student counts and source attribution.
+- Existing A31/A32 source-authority rule remains: Hotcourses/commercial aggregators are reconciliation/discovery by default unless explicit reuse authority is approved.
+- Initial ARWU target is 2025 with multi-year edition retention.
+- Diversity Index is to remain a separate contextual dataset rather than being flattened into QS/THE/ARWU ranking semantics.
+- API/Parse.bot ranking fetch must converge with uploaded-file parsing into the same staging/validate/apply gate; credentials remain Vault-only.
+- CF-083/A32 repository cross-reference reconciliation is already complete. Current docs are v2.10.50 / v1.31, not v2.10.49 / v1.30.
+- No runtime/schema/Production change made by CF-091.
