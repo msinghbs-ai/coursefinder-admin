@@ -306,4 +306,4 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - Parser result: AU 12/12 cards country-safe matched; NZ 10/12 matched; Ara Institute of Canterbury Limited and Massey University College remain intentionally unmatched; all 24 cards exposed institution image URLs.
 - Existing ranked university primary coverage remains **49/49**. No new review candidate was created because CF-102 never replaces an approved primary.
 - Security: 175 INFO / 0 WARN / 0 ERROR. Performance: 203 INFO / 0 WARN / 0 ERROR.
-- Targeted Frontend Build `33805770000` and Deployed UAT `33805769747` are active at this checkpoint.
+- Targeted Frontend Build `33805770000`: PASS. Deployed UAT `33805769747`: PASS. **CF-102 is CLOSED / PASS.**
