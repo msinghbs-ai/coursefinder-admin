@@ -188,3 +188,8 @@ QS 2026 import `05716189-91c6-4bd1-a99a-c82104e1f409` is now **validated** from 
 - Victoria University retained as equivalent-name fan-out review work.
 
 Apply/publication remains manual. Release v2.15.52 records the correction.
+
+
+### CF-096 final UAT evidence — 2026-09-03 16:16 AEST
+
+Final deployed targeted UAT `33722438639` PASS on Pilot `d9d1ab1be9dd5aca9f741f427cecc85e3907a39e`. The earlier workflow failure was a test-only negative-assertion defect after the banner had correctly disappeared; it did not invalidate the successful QS 2026 validation.
