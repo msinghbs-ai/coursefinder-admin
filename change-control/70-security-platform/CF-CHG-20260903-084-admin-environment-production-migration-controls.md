@@ -129,3 +129,14 @@ Verification:
 - changed private environment tables report expected RLS-no-policy INFO only because browser roles have no direct table access.
 
 CF-084 is therefore TARGETED PASS for the Pilot control surface and portability contracts. Production project creation/cutover remains a separate gate.
+
+## M2.4.5 H2 portability update — 2026-09-03 11:46 AEST
+
+CF-089 adds Pilot-only Layer 2 configuration/runtime artefacts that must be included in the existing Production migration inventory when M2.5 resumes:
+- database migrations `cf_089_scraper_config_profile_options`, `cf_089_parsebot_provider_contract`, `cf_089_provider_probe_telemetry`;
+- Edge Function `layer2-provider-control` advanced to v3;
+- `layer2-acquire-v2` advanced to v11;
+- `layer2-scope-discover-scheduled` advanced to v21;
+- Parse.bot provider registry metadata now records generated-API integration semantics.
+
+No Production target status was advanced. No Production project, secret, Storage object, cron or consumer endpoint was created by CF-089. Existing Production migration manifest rows therefore remain target-pending; the source inventory must deploy these migrations/functions when the separate Production tenancy is later authorised.
