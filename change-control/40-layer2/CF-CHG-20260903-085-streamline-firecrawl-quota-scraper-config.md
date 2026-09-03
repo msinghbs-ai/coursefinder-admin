@@ -64,3 +64,16 @@ Live provider state was read only. Parse.bot remains disabled. Firecrawl is enab
 Pilot commit `a033d3ef941eadb7fd992da15eb82c77956f9bec` clarifies the embedded surface as **Administration · Scraper Config** and its single provider-control-plane ownership. No route, database or provider state was mutated by this H2 step.
 
 H2 remains ACTIVE because effective global `route_mode` vs per-profile routing semantics still require bounded reconciliation.
+
+## CF-089 H2 consolidation — 2026-09-03 11:50 AEST
+
+CF-089 completes the targeted UI/performance part of H2:
+- Scraper Config is the only provider credential/enablement/limit/profile-route control plane;
+- Extraction Profiles is the advanced source-specific rule/version/qualification workspace;
+- workload defaults no longer write the legacy global route mode;
+- initial Scraper Config loading is provider-only with lazy bounded profile search;
+- Parse.bot is explicitly excluded from generic-proxy routing until generated-API qualification.
+
+Validation: Pilot `b6f75ffccf93981522a5c077100deeac87f7022a`; Frontend Build `33705175916` PASS; deployed CF-089 UAT `33705175873` PASS.
+
+Parse.bot remains a separate H2 blocker because the stored credential returned HTTP 401.
