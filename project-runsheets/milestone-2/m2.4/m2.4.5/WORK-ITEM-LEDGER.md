@@ -48,3 +48,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 14:29 | UAT/PASS | Validate corrected Vault Parse.bot key against established QS/ARWU ranking APIs | H13 | CF-CHG-20260903-092 | QS year=2026 items_per_page=1; ARWU year=2026 snapshot v10 | both HTTP 200; QS edition_year=2026 total=1504; ARWU year=2026 total=892 | PASS — begin controlled 2015–2026 Evidence/staging backfill |
 
 | 2026-09-03 14:42 | FEATURE/INGESTION | Add Admin URL/file ranking import parser for QS/ARWU and prepare both 2026 editions | H12/H13 | CF-CHG-20260903-093 / CF-092 | ARWU system + URL importer + parser v1.5.0 + exact import control + v2.15.49 UI; backend deployed | targeted deployed UAT `33715985168` PASS; QS/ARWU APIs HTTP 200 | IMPLEMENTED / 2026 registration awaits authenticated Admin action |
+
+| 2026-09-03 14:55 | BUG/UX | Recent ranking items stale; successful Parse remained enabled; duplicate edition needed warning | H12/H13 | CF-CHG-20260903-094 | latest-activity ordering + post-success lock + inline duplicate revision guard | Pilot DB applied; deployed UAT `33716795837` active | IMPLEMENTED / VERIFYING |
