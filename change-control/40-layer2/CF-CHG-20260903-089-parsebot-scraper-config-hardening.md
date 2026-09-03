@@ -99,3 +99,16 @@ Targeted source/build/browser UAT is active on Pilot head `c6f3dd45b7668887978c7
 The deployed test performs a real Parse.bot connection probe using the stored Vault credential but does not create a generated Parse API or spend a profile execution route. A successful connection is necessary but not sufficient for execution qualification.
 
 Do not claim Parse.bot execution-ready until a bounded generated-API qualification proves scraper creation/selection, task completion, endpoint execution, Evidence capture and cost/credit telemetry.
+
+## Targeted UAT correction — 2026-09-03 11:39 AEST
+
+Initial deployed run `33704442944` failed before exercising the CF-089 Parse.bot browser contract because the workflow selected the earlier CF-088 Administration regression. That frozen regression still pinned release v2.15.45 while the deployed Worker was correctly v2.15.46.
+
+This was a test-maintenance failure, not an application rollback or Parse.bot failure.
+
+Corrections:
+- `304597a70b6d6c43a327cb4168fc362aa097d21b` makes CF-088 release assertions durable across later compatible releases;
+- `726b3f962eda9aa03380a7f9a7e76dbed39a6fe7` ensures CF-089 workflow edits route to the CF-089 targeted suite;
+- `80b9548eb23edefcdbbd9cc8fa943f42c73d1165` additionally standardises workload-default form controls after the screenshot exposed browser-default label/input rendering.
+
+Final targeted build `33704684206` is PASS. Final deployed CF-089 UAT `33704684224` remains the acceptance result to record.
