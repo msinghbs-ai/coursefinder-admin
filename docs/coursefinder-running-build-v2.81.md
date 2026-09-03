@@ -417,3 +417,14 @@ CF-084 acceptance evidence:
 ### CF-085 — Firecrawl quota streamlined into Scraper Config
 
 Administration → Acquisition is renamed **Scraper Config**. Firecrawl monthly entitlement and safety reserve are now first-class editable fields in the Firecrawl provider drawer, with read-back verification. Layer 2 execution policy remains the effective readout for usage/wave clamping and no longer implies quota ownership. Environment & Migration no longer duplicates Firecrawl quota editing. UI version advances to v2.15.44.
+
+## M2.4.5 CF-091 planned surfaces — 3 September 2026
+
+Added to active pre-Production backlog:
+- complete first-party Provider logo coverage with evidence/approval telemetry;
+- Hotcourses sitemap/navigation review for discovery/reconciliation only;
+- ARWU as a first-class multi-year institutional ranking, initial 2025 edition;
+- University Diversity/HDI as a separate contextual university-statistics dataset;
+- ranking acquisition by both uploaded parser and governed API/Parse.bot adapter using one validation/apply contract.
+
+No CF-091 runtime/schema change is claimed by this Running Build entry. Current accepted DB Architecture remains v2.10.50 and Admin/PIM Decisions v1.31.
