@@ -137,3 +137,15 @@ H13 acceptance requires:
 7. targeted browser/API UAT.
 
 No Hotcourses-derived value is promoted as canonical merely because it is scrapeable.
+
+
+## Execution priority — 2026-09-03 12:59 AEST
+
+CF-091 is now the immediate M2.4.5 implementation focus.
+
+Order:
+1. H11 Provider Logo Completeness & University Source Discovery;
+2. H12 ARWU & University Diversity Statistics;
+3. H13 Ranking Acquisition Adapters.
+
+The current Parse.bot 401 blocks only live Parse.bot qualification inside H13. It does not block H11, H12 or uploaded-file/parser work.
