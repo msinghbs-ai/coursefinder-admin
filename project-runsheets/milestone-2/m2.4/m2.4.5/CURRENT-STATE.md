@@ -172,3 +172,19 @@ Corrected:
 
 Final Pilot head `791573c4a26903ab3ed5cffe7ce8711af63efba8`.
 Deployed targeted UAT `33721019815`: PASS.
+
+
+## CF-096 QS 2026 Parse.bot recovery — 2026-09-03 16:13 AEST
+
+Root cause fixed: exact-import service context omitted private `storage_path`, so the parser could not download already-registered Evidence.
+
+QS 2026 import `05716189-91c6-4bd1-a99a-c82104e1f409` is now **validated** from retained Parse.bot Evidence:
+- 1,503 candidate observations;
+- 15,030 indicator cells;
+- 0 unknown rank semantics;
+- AU rows 36;
+- mapped unique AU Providers 35 / 36 = 97.22%;
+- unmatched: The University of Technology Sydney (UTS);
+- Victoria University retained as equivalent-name fan-out review work.
+
+Apply/publication remains manual. Release v2.15.52 records the correction.
