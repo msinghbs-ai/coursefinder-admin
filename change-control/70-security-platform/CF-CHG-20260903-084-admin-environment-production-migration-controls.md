@@ -140,3 +140,21 @@ CF-089 adds Pilot-only Layer 2 configuration/runtime artefacts that must be incl
 - Parse.bot provider registry metadata now records generated-API integration semantics.
 
 No Production target status was advanced. No Production project, secret, Storage object, cron or consumer endpoint was created by CF-089. Existing Production migration manifest rows therefore remain target-pending; the source inventory must deploy these migrations/functions when the separate Production tenancy is later authorised.
+
+
+## CF-101 H11 portability update — 2026-09-04 06:25 AEST
+
+H11 Provider Logo completeness adds source artefacts that must be carried into the clean Production tenancy when M2.5 resumes:
+
+- CF-101 migrations for Hotcourses reconciliation/fallback profiles, inline-SVG promotion, asset-fetch fallback routes, false-positive cleanup, exact asset overrides and final source corrections;
+- current `layer2-provider-page-fanout`;
+- `layer2-acquire-v2` v13 behaviour allowing explicitly forced acquisition to retain a shared fetch;
+- current `layer2-provider-asset-promote` including sanitised inline SVG, controlled raw-byte proxy fallback and authorised logo-archive extraction;
+- all approved Provider logo Storage objects at their exact relative object paths;
+- Provider asset hashes/MIME/provenance rows;
+- configured Layer 2 provider/Vault dependencies required for raw-byte fallback;
+- retained Hotcourses source/profile crosswalks if Production operations will use that fallback.
+
+Accepted Pilot H11 snapshot is 49/49 primary university logos (41 AU, 8 NZ), with zero missing Storage/hash/MIME and zero duplicate primaries.
+
+No Production project, target Storage object, target Vault secret or consumer endpoint was created or advanced by CF-101. Production manifest target states remain pending.
