@@ -50,3 +50,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 14:42 | FEATURE/INGESTION | Add Admin URL/file ranking import parser for QS/ARWU and prepare both 2026 editions | H12/H13 | CF-CHG-20260903-093 / CF-092 | ARWU system + URL importer + parser v1.5.0 + exact import control + v2.15.49 UI; backend deployed | targeted deployed UAT `33715985168` PASS; QS/ARWU APIs HTTP 200 | IMPLEMENTED / 2026 registration awaits authenticated Admin action |
 
 | 2026-09-03 14:55 | BUG/UX | Recent ranking items stale; successful Parse remained enabled; duplicate edition needed warning | H12/H13 | CF-CHG-20260903-094 | latest-activity ordering + post-success lock + inline duplicate revision guard | Pilot DB applied; deployed UAT `33716795837` active | IMPLEMENTED / VERIFYING |
+
+| 2026-09-03 15:57 | BUG/RELEASE | Browser showed v2.15.48 while newer ranking UI was active; QS 2027 error rendered [object Object] | H12/H13 | CF-CHG-20260903-095 | v2.15.51 version sync + QS 2026 default + 2027 warning/block + nested error formatter + dedicated deployed UAT | run `33721019815` PASS | CLOSED / TARGETED PASS |
