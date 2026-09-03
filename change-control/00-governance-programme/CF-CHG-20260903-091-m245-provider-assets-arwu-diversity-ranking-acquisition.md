@@ -215,3 +215,10 @@ Final targeted verification:
 - deployed H11 UAT `33802561541`: PASS.
 
 The earlier `33802121519` failure is retained as a UAT-routing regression only: workflow precedence selected the stale CF-089 suite, which expected v2.15.46 while the deployed release was correctly v2.15.56. CF-101 routing precedence was corrected and the intended H11 suite then passed.
+
+
+## H11 visual-consumption follow-through — CF-102 — 2026-09-04
+
+H11 remains CLOSED / PASS at 49/49. CF-102 does not reopen the completeness gate; it consumes the accepted primary assets in Provider/Course/Compare UI and makes Hotcourses AU/NZ directory reconciliation repeatable through Layer 2.
+
+The directory parser is country-safe and alias-aware, does not create Provider identity, and only creates a `needs_review` logo candidate when a ranked university lacks an approved primary. Existing approved primary assets are never replaced automatically.
