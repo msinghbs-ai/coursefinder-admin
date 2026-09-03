@@ -199,3 +199,8 @@ Release-currentness defect closed. The live Worker now passes an explicit v2.15.
 ## CF-096 — 2026-09-03 16:13 AEST
 
 QS 2026 Parse.bot import now demonstrates the full governed Evidence → parser → reconciliation path. The retained import validated at 1,503 observations / 15,030 indicator cells, with 35/36 AU Providers uniquely mapped. Apply remains intentionally manual while UTS and Victoria University reconciliation are reviewed.
+
+
+## CF-096 final gate — 2026-09-03 16:16 AEST
+
+Final deployed targeted UAT `33722438639` PASS. QS 2026 is validated from retained Parse.bot Evidence; Apply remains manual because the reconciliation preview still contains UTS unmatched and Victoria University equivalent-name review work.
