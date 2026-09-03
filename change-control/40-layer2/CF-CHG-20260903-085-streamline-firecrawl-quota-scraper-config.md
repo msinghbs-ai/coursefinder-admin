@@ -49,3 +49,18 @@ Invalid reserve >= monthly limit is rejected.
 
 ## Non-impact
 No Layer 2 runtime route logic, Evidence lifecycle, Layer 1 authority, Layer 3, Search, Publication, Website or Zoho contract is changed.
+
+## M2.4.5 H2 reconciliation — 2026-09-03 10:43 AEST
+
+Source/runtime inventory confirms Scraper Config is the current provider-control surface:
+- reader paths: `layer2_acquisition_providers`, `layer2_profiles`, `layer2_provider_routes`;
+- writer: `layer2-provider-control`;
+- bounded acquisition runtime: `layer2-acquire`;
+- global wave policy: `layer2-sync-control` → `layer2_execution_policy_service` / `layer2_wave_scope_service`;
+- separate per-profile execution policy still exists through `layer2_ops_policy_update` and requires H2 reconciliation before any semantic consolidation.
+
+Live provider state was read only. Parse.bot remains disabled. Firecrawl is enabled with recorded monthly entitlement 5,000 and reserve 250, rate 30/min, concurrency 5 and timeout 90 seconds.
+
+Pilot commit `a033d3ef941eadb7fd992da15eb82c77956f9bec` clarifies the embedded surface as **Administration · Scraper Config** and its single provider-control-plane ownership. No route, database or provider state was mutated by this H2 step.
+
+H2 remains ACTIVE because effective global `route_mode` vs per-profile routing semantics still require bounded reconciliation.
