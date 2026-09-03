@@ -46,3 +46,18 @@ Before ending:
 - update CF-084 Production portability inventory if runtime changes;
 - update MEETING-READINESS achieved/failed/next and interaction evidence;
 - return only Achieved, Failed/Blocked, Next and recommended continuation chat.
+
+## CF-091 continuation requirement
+
+Also read:
+- CF-CHG-20260903-091;
+- CF-083 / A32;
+- CF-090 ranking-import recovery;
+- current DB Architecture v2.10.50 and Admin/PIM Decisions v1.31.
+
+Preserve the new M2.4.5 workstreams:
+- H11 Provider Logo Completeness & University Source Discovery;
+- H12 ARWU & University Diversity Statistics;
+- H13 Ranking Acquisition Adapters — parser + API/Parse.bot.
+
+Do not use Hotcourses/IDP as automatic canonical authority. Hotcourses sitemap/navigation may be used for discovery/reconciliation; prefer first-party Provider assets and official publisher/government ranking/statistics evidence. ARWU begins with 2025 and must be editioned/multi-year. Diversity/HDI remains a separate contextual dataset. Any Parse.bot ranking route must use Vault credentials, governed endpoint/profile configuration and the same staging/validate/apply gate as file parsing.
