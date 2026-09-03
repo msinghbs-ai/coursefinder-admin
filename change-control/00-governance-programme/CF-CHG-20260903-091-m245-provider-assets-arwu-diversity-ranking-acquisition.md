@@ -191,3 +191,21 @@ H11 status: **FOUNDATION IMPLEMENTED / LIVE READ PASS / SOURCE BUILD+DEPLOYED UA
 - The spec asserts the source contract, Administration → Provider Assets route, coverage matrix, expected/approved/missing metrics, scope warning and deployed Provider rows.
 - New CI for that head: Frontend Build `33712208434`; Deployed UAT `33712208435`.
 - Current Hotcourses rankings index independently exposes Times Higher Education, QS, Academic Ranking of World Universities 2025 and Hotcourses Diversity Index. This supports H12 discovery/reconciliation, but Hotcourses remains a secondary discovery/reconciliation source rather than ranking identity authority.
+
+
+## H11 completion advance — 2026-09-04 06:25 AEST
+
+Child CF-101 completes the H11 data-population and runtime acceptance objective.
+
+Accepted university cohort:
+- AU 41 / 41;
+- NZ 8 / 8;
+- total approved primary logos 49 / 49;
+- no remaining Provider;
+- no approved asset missing Storage path, content hash or MIME;
+- no duplicate approved primary;
+- no accepted known Hotcourses/IDP own-brand/placeholder/subject-image false positive.
+
+Hotcourses policy for CourseFinder H11 is now explicit: exact university-owned marks may be used as operator-approved fallback copies with source provenance retained; Hotcourses/IDP branding itself is never canonical Provider branding.
+
+H11 runtime acceptance is PASS. Final H11 governance status will become CLOSED / PASS when the current targeted Frontend Build and deployed browser UAT for CF-101 both pass.
