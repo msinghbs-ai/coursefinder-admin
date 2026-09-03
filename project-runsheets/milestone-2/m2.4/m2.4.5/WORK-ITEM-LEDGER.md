@@ -64,3 +64,5 @@ All material Bugs, Addenda, Features, Governance, Operations and Security items 
 | 2026-09-03 18:31 | BUG/TRANSPORT | Mobile multi-file ranking upload showed Failed to send request; OPTIONS reached Edge but POST did not | H12/H13 | CF-CHG-20260903-099 | client-side single Evidence bundle transport | deployed UAT `33733582425` PASS; build finalising | IMPLEMENTED / RETRY USER FLOW |
 
 | 2026-09-03 18:58 | DESIGN/INGESTION | Define safe strategy to add new countries to an existing ranking/statistical year without duplicate editions or overwrites | H12/H13 | CF-CHG-20260903-100 | v2.15.56 Add country data UX + secured scope/revision read + permanent CF-100 UAT | migration applied; build compile PASS; deployed UAT `33736846609` active | IMPLEMENTED / TARGETED VERIFICATION ACTIVE |
+
+| 2026-09-03 22:34 | SCOPE/DEFER | Skip additional-country data expansion for now; retain capability for later | H12/H13 | CF-CHG-20260903-100 / CF-087 | no runtime rollback; CF-100 capability retained | n/a | DEFERRED — other countries are not an M2.4.5 closure requirement |
