@@ -257,3 +257,13 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - Edition completeness becomes per-country scope: Partial / Country-complete / Global-complete.
 - Country-native statistical datasets remain separate source-authority families unless a governed cross-country metric crosswalk exists.
 - Runtime/schema mutation is not required for this design decision; implementation/UAT should extend the CF-098/099 bundle flow with **Add country data** and same-edition replay assertions.
+
+
+## CF-100 implementation — 2026-09-03 19:05 AEST
+
+- Pilot/Admin advanced to **v2.15.56** for same-edition country extension UX.
+- Secured `ranking_imports` read now returns detected country scope and logical source revision count.
+- A new-country file for an existing system/year is presented as **Add country data & parse**; overlapping/mixed country scope remains an explicit source-revision warning.
+- Country scope is displayed in ranking import history; Apply stays manual.
+- Pilot migration applied successfully; security/performance checks show no new WARN/ERROR attributable to CF-100.
+- Frontend build compile PASS; workflow `33736846482` browser smoke and deployed targeted UAT `33736846609` are active at this checkpoint.
