@@ -245,3 +245,8 @@ Repository/runtime reconciliation:
 
 **Targeted validation:** repository heads, Supabase project inventory, Production target registry and current Pilot deployment status reconciled. Full acceptance suite was not rerun.
 
+
+
+## 2026-09-03 10:28 AEST — M2.5 sequencing pause
+
+CF-087 inserts M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness before Production provisioning. M2.5 remains prepared but **PAUSED AT P0**. No Production resource may be created until M2.4.5 closes and the existing organisation/region/project-name/cost approval gate is satisfied. M2.4.4 remains frozen and is not reopened.
