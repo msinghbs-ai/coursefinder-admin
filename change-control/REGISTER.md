@@ -215,4 +215,4 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-100 | 10-architecture-data-model | Multi-country Same-edition Statistical & Ranking Ingestion Strategy | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `10-architecture-data-model/CF-CHG-20260903-100-multi-country-same-edition-ingestion-strategy.md` |
 
 
-| CF-CHG-20260904-101 | 40-layer2-enrichment | H11 Provider Logo Completeness & Aggregator Fallback Hardening | IMPLEMENTED / RUNTIME ACCEPTANCE PASS / DEPLOYED UAT ACTIVE | `40-layer2-enrichment/CF-CHG-20260904-101-h11-provider-logo-completeness-hotcourses-fallback.md` |
+| CF-CHG-20260903-101 | 40-layer2-enrichment | H11 Provider Logo Completeness & Aggregator Fallback Hardening | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260903-101-h11-provider-logo-completeness-hotcourses-fallback.md` |
