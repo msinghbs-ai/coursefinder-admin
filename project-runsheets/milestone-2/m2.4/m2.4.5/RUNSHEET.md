@@ -103,17 +103,23 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 
 ## Gate order
 
-1. H1/H2 foundations and duplication audit.
-2. H3/H4 operational workspaces.
-3. H11-H13 Provider asset/ranking expansion in bounded cohorts after current ranking-import recovery and source-authority review.
-4. H5 manual PIM pattern.
-5. H6 publication safety/control design and bounded implementation.
-6. H7 migration/telemetry reconciliation throughout.
-7. H8/H9 continuous intake/testing.
-8. H10 meeting pack continuously maintained.
-9. Final nominated M2.4.5 acceptance.
-10. Resume M2.5 P0.
+**Priority override — 2026-09-03 12:59 AEST:** execute **H11 onward first**.
 
+1. **H11 — Provider Logo Completeness & University Source Discovery.**
+2. **H12 — ARWU & University Diversity Statistics.**
+3. **H13 — Ranking Acquisition Adapters: parser + API/Parse.bot.**
+4. Complete/close CF-090 ranking-import recovery where it is a dependency of H12/H13.
+5. Resume H2 only for the remaining Parse.bot credential/qualification blocker; do not let the 401 block H11/H12 or file-parser work in H13.
+6. Then continue H3/H4 Scholarship and Scheduler/Jobs operational maturity.
+7. H5 manual PIM pattern.
+8. H6 publication safety/control design and bounded implementation.
+9. H7 migration/telemetry reconciliation throughout.
+10. H8/H9 continuous intake/testing.
+11. H10 meeting pack continuously maintained.
+12. Final nominated M2.4.5 acceptance.
+13. Resume M2.5 P0.
+
+H1 remains CLOSED / TARGETED PASS and must not be reopened without a new defect.
 
 ## 2026-09-03 10:45 AEST execution update
 
@@ -128,3 +134,14 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 - Existing A31/A32 rule remains: Hotcourses and similar commercial aggregators are discovery/reconciliation by default, not automatic canonical authority.
 - Repository reconciliation confirms CF-083/A32 bookkeeping is already complete and superseded by current DB Architecture v2.10.50 and Admin/PIM Decisions v1.31; do not roll current docs back to v2.10.49/v1.30.
 - No runtime/schema/Production mutation is authorised by CF-091 planning.
+
+
+## 2026-09-03 12:59 AEST priority update
+
+User-directed execution order changed: **H11-H13 are now the immediate M2.4.5 workstream sequence**.
+
+- H11 starts first.
+- H12 follows immediately, using current ranking/statistics foundations and CF-090 recovery where needed.
+- H13 follows, with file/parser path proceeding even while Parse.bot live qualification remains blocked by the current 401 credential result.
+- H2 residual Parse.bot qualification is parked as a dependency only for Parse.bot-backed H13 execution.
+- H3-H10 remain active backlog/continuous controls and are not cancelled.
