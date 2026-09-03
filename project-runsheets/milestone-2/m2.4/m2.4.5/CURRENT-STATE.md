@@ -237,3 +237,12 @@ Runtime:
 
 Frontend build `33726246825` PASS.
 Deployed targeted UAT `33726246829` PASS.
+
+
+## CF-099 ranking multi-file transport — 2026-09-03 18:31 AEST
+
+Mobile failure diagnosed from live Edge logs: preflight reached `ranking-publisher-import` (OPTIONS 204) but no POST arrived. AU+NZ files are ~70 KB combined, so not a size-limit failure.
+
+v2.15.55 bundles selected country/page files client-side into one JSON Evidence file before invoking the Edge Function. Backend CF-098 validation/parser workflow remains unchanged.
+
+Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was still running at record time.
