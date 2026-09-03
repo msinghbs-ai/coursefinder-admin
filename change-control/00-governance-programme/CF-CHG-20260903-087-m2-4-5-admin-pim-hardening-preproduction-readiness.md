@@ -1,6 +1,6 @@
 # CF-CHG-20260903-087 — M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PLANNING  
+**Status:** ACTIVE / H1 TARGETED PASS — H2 ACTIVE  
 **Category:** 00-governance-programme  
 **Initiated:** 2026-09-03 10:28 AEST  
 **Origin chat:** CF M2.5 — Production Readiness — 2026-09-03  
@@ -77,3 +77,23 @@ Validation:
 
 Rollback:
 - revert the listed governance commits and restore M2.5 as the active router if the inserted gate is later cancelled before implementation.
+
+## Execution update — 2026-09-03 10:47 AEST
+
+H1 completed under child Change Control `CF-CHG-20260903-088`.
+- Pilot visible release v2.15.45.
+- canonical Administration metadata/cards/deep links standardised;
+- Users & Roles moved from separate full-screen shell into canonical Administration;
+- role/rank boundaries preserved;
+- Frontend Build `33700864619` PASS;
+- targeted Deployed UAT `33700864824` PASS;
+- no full acceptance suite run.
+
+H2 started under CF-085.
+- live provider/config/routing readers and writers inventoried;
+- Parse.bot remains disabled;
+- Firecrawl recorded entitlement/reserve is 5,000 / 250;
+- no runtime routing semantic change yet;
+- global route mode vs per-profile routing remains the next bounded reconciliation.
+
+Production boundary remains unchanged: M2.5 is PAUSED AT P0 and no Production Supabase project exists.
