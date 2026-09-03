@@ -2,7 +2,7 @@
 
 Recommended chat name:
 
-`CF M2.4.5 — H2 Scraper Config & Routing — 2026-09-03`
+`CF M2.4.5 — H2 Parse.bot Qualification → H3 Scholarships — 2026-09-03`
 
 Continue from repository/runtime truth.
 
@@ -10,29 +10,39 @@ Mandatory:
 1. Read PROJECT_INSTRUCTIONS.md.
 2. Read docs/README.md and CF-086 PIM operating principles.
 3. Read M2 Standing Instructions.
-4. Read CF-087, CF-088 and CF-085.
+4. Read CF-087, CF-088, CF-085 and CF-089.
 5. Read this M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/WORK-ITEM-LEDGER/MEETING-READINESS.
 6. Read REGISTER and overlapping active Change Controls.
 7. Reconcile current Admin/Pilot heads, Pilot Supabase/runtime and targeted CI/UAT.
 8. Preserve M2.4.4 CLOSED/PASS/FROZEN.
-9. Preserve H1 CF-088 IMPLEMENTED/TARGETED PASS.
-10. Keep M2.5 P0 paused; do not create Production resources.
+9. Preserve H1 CF-088 TARGETED PASS.
+10. Preserve CF-089 Scraper Config UI/performance TARGETED PASS.
+11. Keep M2.5 P0 paused; do not create Production resources.
 
-Begin H2:
-- treat Administration → Scraper Config as the one provider-control plane;
-- inventory and reconcile provider enabled/disabled state, endpoint, write-only credential status, quota/reserve, rate, vendor concurrency, timeout, priority and route membership;
-- reconcile `layer2_acquisition_providers`, `layer2_profile_provider_routes`, global `layer2_execution_policy.route_mode`, per-profile `layer2_execution_policies.routing_strategy`, and the runtime consumers in `layer2-provider-control`, `layer2-sync-control`, `layer2-acquire` and scheduled/background paths;
-- show effective routing state in Layer operations without creating another writer/control plane;
-- preserve Parse.bot disabled until credential + bounded UAT;
-- do not alter routing semantics without an owning child Change Control and before/after targeted runtime evidence;
-- update Evidence/cost/telemetry and Production migration inventory only when materially affected;
-- use targeted build/contract/browser UAT only.
+Begin with the remaining H2 Parse.bot blocker:
+- current Parse.bot registry is Enabled but the live official-API credential probe returned HTTP 401 / authentication_failed;
+- do not expose or infer the stored key;
+- after the Platform Admin rotates/re-enters a valid Parse API key, rerun the built-in connection probe;
+- only after HTTP 2xx, perform one bounded official Parse API qualification:
+  1. POST /dispatch for one agreed first-party source URL;
+  2. poll /dispatch/tasks/{task_id};
+  3. capture generated scraper_id + endpoint_name as governed profile configuration;
+  4. execute one endpoint;
+  5. capture Evidence, credit/rate telemetry and cost basis;
+  6. keep generic Parse.bot proxy execution blocked;
+  7. admit Parse.bot route only after targeted PASS.
+- preserve Scraper Config as the one provider/routing control plane.
+- preserve Extraction Profiles as versioned source-specific non-secret rules/qualification.
+- preserve Layer 2 workload defaults as advanced scheduler/batch/wave controls with routing read-only.
 
-After H2, proceed to H3 Scholarship maturity according to RUNSHEET.
+If valid Parse.bot credentials are not available, record H2 Parse.bot as blocked/deferred and proceed to H3 Scholarship PIM maturity according to RUNSHEET.
+
+Use targeted build/contract/browser UAT only.
 
 Before ending:
 - update owning Change Controls;
-- update every M2.4.5 continuity file;
+- update all M2.4.5 continuity files;
 - add absolute-time work ledger entries;
+- update CF-084 Production portability inventory if runtime changes;
 - update MEETING-READINESS achieved/failed/next and interaction evidence;
 - return only Achieved, Failed/Blocked, Next and recommended continuation chat.
