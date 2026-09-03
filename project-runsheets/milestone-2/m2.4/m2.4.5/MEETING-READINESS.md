@@ -111,3 +111,21 @@ No billable duration is inferred from these interaction timestamps.
 
 ### CF-089 final decision
 Scraper Config UX/performance hardening is TARGETED PASS. Parse.bot integration is **not** functionally admitted yet because the stored API key failed authentication. The next operator action is credential rotation/re-entry, followed by the connection probe and then one bounded generated-API qualification.
+
+## H11-H13 addenda — 2026-09-03 12:47 AEST
+
+### Added to milestone achievement list
+- Provider/university primary-logo completeness with governed source/Evidence and coverage telemetry.
+- Hotcourses sitemap/navigation evaluation as a source-discovery/reconciliation accelerator while retaining first-party authority.
+- ARWU 2025 and multi-year ARWU in Statistics & Rankings.
+- University Diversity Index / HDI as a separate contextual university-statistics dataset.
+- Dual ranking ingestion: uploaded parser and governed API/Parse.bot fetch, converging on one validation/apply contract.
+
+### Repository reconciliation
+- User's historical note that CF-083/A32 bookkeeping was incomplete is superseded by repository truth.
+- REGISTER, Standing Instructions, Master Plan, Running Build and M2.5 continuity now reference CF-083/A32.
+- Current DB Architecture is v2.10.50; current Admin/PIM Decisions is v1.31.
+
+| Date/time AEST | Interaction / decision | Evidence |
+|---|---|---|
+| 2026-09-03 12:47 | User added Provider-logo/source-discovery, ARWU, Diversity Index and parser/API-Parse.bot requirements to M2.4.5 | CF-091 / H11-H13 |
