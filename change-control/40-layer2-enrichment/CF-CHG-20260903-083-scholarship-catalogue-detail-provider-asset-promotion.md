@@ -111,3 +111,12 @@ Post-change advisors: changed surface **0 WARN / 0 ERROR**. New FK-index INFO fi
 
 ## Consumer boundary
 No CF-083 Scholarship or Provider logo is admitted to Search, Website/Wix or Zoho by this change. Canonical Scholarship roots remain unpublished until scope/publication gates are satisfied.
+
+## M2.4.5 follow-on — CF-091
+
+CF-091 extends the Provider-asset portion of A32 into a measurable M2.4.5 H11 completion target:
+- one approved primary logo per in-scope canonical university/Provider where first-party evidence is obtainable;
+- explicit expected/discovered/acquired/approved/blocked/missing coverage;
+- source/evidence/freshness visible in Admin/PIM.
+
+Hotcourses sitemap/navigation may be evaluated as a discovery/reconciliation accelerator only. It does not supersede the A31/A32 first-party Provider-asset authority rule and must not create/merge Provider identity.
