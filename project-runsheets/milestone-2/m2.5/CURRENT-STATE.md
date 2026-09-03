@@ -995,3 +995,8 @@ The exact next M2.5 gate is therefore still **P0 Provisioning Decision** under C
 
 CF-086 remains preserved: `docs/README.md` is the current-document router; stale version references in older handoff text do not override it.
 
+
+
+## Sequencing update — 2026-09-03 10:28 AEST
+
+M2.5 is intentionally paused at P0 under CF-087 while M2.4.5 completes pre-production Admin/PIM hardening. Production project inventory remains NONE; no paid resource was created. Resume M2.5 only after M2.4.5 acceptance plus explicit P0 organisation/region/name/cost confirmation.
