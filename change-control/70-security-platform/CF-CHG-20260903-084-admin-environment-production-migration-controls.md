@@ -158,3 +158,18 @@ H11 Provider Logo completeness adds source artefacts that must be carried into t
 Accepted Pilot H11 snapshot is 49/49 primary university logos (41 AU, 8 NZ), with zero missing Storage/hash/MIME and zero duplicate primaries.
 
 No Production project, target Storage object, target Vault secret or consumer endpoint was created or advanced by CF-101. Production manifest target states remain pending.
+
+
+## CF-102 Provider-logo display / Hotcourses directory portability — 2026-09-04 07:02 AEST
+
+Production source inventory must additionally include:
+- migrations `cf_102_provider_logo_display_access`, `cf_102_hotcourses_directory_reconciliation`, `cf_102_hotcourses_parser_allowlist`, `cf_102_hotcourses_country_alias_matching`;
+- private `pipeline.provider_directory_observations`;
+- Hotcourses AU/NZ Provider Asset reconciliation sources/profiles/routes;
+- Edge `provider-asset-access`;
+- Edge `layer2-hotcourses-directory-parse`;
+- Admin v2.15.57 ProviderLogo UI integration.
+
+The `provider-assets` bucket remains private. Production must generate target-project signed URLs at runtime; Pilot signed URLs are ephemeral and must never be migrated or persisted as consumer URLs.
+
+No Production target state is advanced.
