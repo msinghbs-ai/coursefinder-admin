@@ -123,3 +123,15 @@
 | M25-FU-071 | Storage byte migration | DB references are portable but 17,626 Storage objects must be copied separately | At Production migration copy buckets/objects preserving exact paths; reconcile counts + sampled hashes | PRODUCTION GATE |
 | M25-FU-072 | Production secrets rotation | Pilot Vault and project keys cannot be blindly treated as Production credentials | Rotate/re-enter vendor/integration credentials and use target-generated Supabase keys; verify bounded connectivity | PRODUCTION GATE |
 | M25-FU-073 | Hard-coded Pilot origins | Edge source still contains Pilot CORS origin constants | Before Production deployment replace with environment-managed Production origin pattern and prove no Production request points at Pilot | ACTIVE / PRODUCTION HARDENING |
+
+
+## Production gate reconciliation — 2026-09-03 10:13 AEST
+
+| ID | Item | Runtime finding | Next action | Status |
+|---|---|---|---|---|
+| M25-FU-001 / M25-FU-070 | Production target identity / P0 | No CourseFinder Production Supabase project exists; Production organisation/project ref/project URL/region remain null and pending in the environment registry | Capture explicit organisation, region, Production project name and quoted/confirmed supplier cost; only then create the separate Production project | BLOCKED / USER CONFIRMATION |
+| M25-FU-003 | Protected Production deployment | Cannot bind a protected Production deployment to a non-existent target project | Reconcile GitHub Production environment after target identity exists | OPEN / DEPENDS ON P0 |
+| M25-FU-004 | Production Cloudflare boundary | No Production app/origin identity exists yet | Establish after Production app/API identity is created | OPEN / DEPENDS ON P0 |
+| M25-FU-071 / 072 | Storage/secrets migration | Migration controls exist, but no target project exists | Execute only after P0/P1; preserve Storage paths and rotate target secrets/keys | PRODUCTION GATE |
+| M25-FU-073 | Production origin hardening | Pilot runtime remains Pilot-bound as expected | Replace Production-bound origins during target deployment; do not alter Pilot to simulate Production | ACTIVE / PRODUCTION HARDENING |
+
