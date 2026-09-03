@@ -1,7 +1,7 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / H1 TARGETED PASS — H2 CF-089 TARGETED UAT ACTIVE  
-**Updated:** 2026-09-03 11:39 AEST  
+**Status:** ACTIVE / H1 TARGETED PASS — H2 UI TARGETED PASS / PARSE.BOT AUTH BLOCKED  
+**Updated:** 2026-09-03 11:50 AEST  
 **Change Control:** CF-CHG-20260903-087
 
 ## Entry baseline
@@ -49,3 +49,16 @@ P9. Milestone meeting evidence/time-interaction ledger.
 - Layer 2 policy is reduced to **workload defaults** behind progressive disclosure; its legacy route mode is read-only in Admin so it no longer acts as a parallel routing writer.
 - Pilot runtime migrations CF-089 applied; Edge versions: provider-control v2, acquire-v2 v11, scope-discover-scheduled v21.
 - No Production project/resource created; Production migration target states remain pending.
+
+## CF-089 targeted closure — 2026-09-03 11:50 AEST
+
+- Accepted Pilot head: `b6f75ffccf93981522a5c077100deeac87f7022a`.
+- Deployed targeted UAT `33705175873`: PASS.
+- Frontend build job in `33705175916`: PASS.
+- Parse.bot real authenticated diagnostic: HTTP 401 / `authentication_failed`.
+- Interpretation: CourseFinder can reach the official Parse API, but the currently stored Vault key is not accepted. Parse.bot stays enabled as configured by the user but is explicitly **not execution-qualified** and is excluded from generic proxy execution.
+- Scraper Config performance issue is corrected: 7-provider registry loads first; 1,883 extraction profiles / 12,207 route mappings are no longer eagerly loaded. Profile routing is opened on demand and search is capped at 10 results.
+- Scraper Config header/Refresh/typography and workload input layout now use canonical Administration patterns.
+- Layer 2 Sources is now presented as **Extraction Profiles** to describe its actual purpose: versioned non-secret source-specific extraction rules and qualification state.
+- Layer 2 workload defaults remain advanced scheduler/batch/wave controls, not scraper routing; the legacy route mode is read-only there.
+- Production remains unprovisioned; CF-089 portability delta is recorded in CF-084.
