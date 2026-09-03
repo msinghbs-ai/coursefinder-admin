@@ -274,3 +274,17 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - User explicitly deferred additional-country ranking/statistical expansion beyond the currently demonstrated AU/NZ scope.
 - CF-100 architecture and UI capability remain retained for later use, but CA/GB/US/IE or other country backfill is **not an M2.4.5 closure requirement**.
 - Immediate milestone focus returns to remaining AU/NZ/Admin/PIM hardening items: H11 Provider asset completeness, H12 ARWU/Diversity completion, then H3-H6 operational/PIM controls and the final M2.4.5 acceptance gate.
+
+
+## CF-101 H11 final completeness — 2026-09-04 06:25 AEST
+
+- H11 university cohort is now a governed 49-Provider AU/NZ scope: **41 AU + 8 NZ**.
+- Live Pilot acceptance: **49/49 approved primary logos**, 0 remaining, 0 missing Storage/hash/MIME, 0 duplicate approved primaries, 0 accepted known Hotcourses/IDP false positives.
+- Hotcourses is retained as Provider crosswalk/provenance/fallback transport where operator-approved; the canonical owner remains the university Provider.
+- Known Hotcourses/IDP own-brand logos, placeholders, flags and course-subject imagery are explicitly rejected.
+- Exact first-party CDN logos blocked by HTTP 403 can use controlled raw-byte fallback through configured Scrape.do/ScraperAPI/ZenRows routes without lowering the 0.90 promotion threshold.
+- QUT official international-logo ZIP is supported; accepted member: `QUT International Logo - International.png`.
+- Runtime workers: `layer2-acquire-v2` v13; `layer2-provider-asset-promote` deployed Edge v6 / worker v4.1; modern `layer2-provider-page-fanout` retained.
+- Post-change advisors: no CF-101 WARN/ERROR identified; existing INFO-only RLS-no-policy and unindexed-FK advisories remain.
+- Permanent browser acceptance was updated to the accepted university scope at Pilot `9f65736f0d7b83f613f55b4eb8bd707d446798a9`; targeted routing `94d10f5eecada99c9a603d5708559c5e92297e68`.
+- Current targeted workflows: Frontend Build `33802121501`; Deployed UAT `33802121519`. Final H11 closure awaits those workflow conclusions only.
