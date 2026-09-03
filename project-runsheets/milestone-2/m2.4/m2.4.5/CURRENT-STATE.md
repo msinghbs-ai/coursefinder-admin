@@ -1,6 +1,6 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / H1 IMPLEMENTED — TARGETED UAT ACTIVE / H2 STARTED  
+**Status:** ACTIVE / H1 TARGETED PASS — H2 ACTIVE  
 **Updated:** 2026-09-03 10:45 AEST  
 **Change Control:** CF-CHG-20260903-087
 
@@ -35,4 +35,4 @@ P9. Milestone meeting evidence/time-interaction ledger.
 - H2 runtime inventory: Direct HTTP, Scrape.do, ScraperAPI, Firecrawl and ZenRows enabled; Parse.bot and Custom gateway disabled. Firecrawl records 5,000 monthly units / 250 reserve / 30 requests-min / concurrency 5 / 90s timeout.
 - Production migration manifest: all tracked components source-ready; all target states pending. No Production project exists.
 - Pilot roles remain viewer 1, counsellor 2, curator 3, pipeline_operator 4, PIM Operator 5, Platform Admin 6.
-- Targeted CI is running; no full acceptance run requested.
+- H1 targeted validation PASS: Frontend Build `33700864619`; Deployed UAT `33700864824`. No full acceptance run requested.
