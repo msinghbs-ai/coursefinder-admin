@@ -203,3 +203,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-094 | 20-layer1-regulatory-ingestion | Ranking Import Recent Refresh & Duplicate-Year Guard | IMPLEMENTED / TARGETED UAT ACTIVE | `20-layer1-regulatory-ingestion/CF-CHG-20260903-094-ranking-import-recent-refresh-duplicate-guard.md` |
 
 | CF-CHG-20260903-095 | 20-layer1-regulatory-ingestion | Ranking Release Currentness & QS 2027 Parse.bot Error Handling | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260903-095-ranking-release-currentness-qs-2027-error.md` |
+
+| CF-CHG-20260903-096 | 20-layer1-regulatory-ingestion | Ranking Parse.bot Evidence Hand-off | IMPLEMENTED / TARGETED PASS — APPLY REMAINS MANUAL | `20-layer1-regulatory-ingestion/CF-CHG-20260903-096-ranking-parsebot-evidence-handoff.md` |
