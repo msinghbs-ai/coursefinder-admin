@@ -2,9 +2,9 @@
 
 | ID | Workstream | Item | Status | Next action |
 |---|---|---|---|---|
-| M245-FU-001 | H1 | Admin menu/submenu/UI standardisation | OPEN | Inventory NAV/subroutes/settings/workspaces and identify duplication before changing |
-| M245-FU-002 | H2 | Scraper Config complete enable/disable/control surface | OPEN | Reconcile CF-085/A31/A33 implementation and all readers/writers |
-| M245-FU-003 | H2 | Scraper routing/Layer config UX | OPEN | Map source→provider→qualification→effective routing and consolidate UI |
+| M245-FU-001 | H1 | Admin menu/submenu/UI standardisation | IMPLEMENTED / TARGETED UAT ACTIVE | CF-088; close after build + deployed targeted PASS |
+| M245-FU-002 | H2 | Scraper Config complete enable/disable/control surface | ACTIVE | Runtime/source inventory complete; reconcile qualification state and targeted provider-control UAT under CF-085 |
+| M245-FU-003 | H2 | Scraper routing/Layer config UX | ACTIVE | Readers/writers/runtime mapped; next reconcile global wave route_mode vs per-profile routing without semantic change |
 | M245-FU-004 | H3 | Scholarship grid/filter/order maturity | OPEN | Inspect current Scholarship route/grid/API and define targeted UI contract |
 | M245-FU-005 | H4 | Scheduler/Jobs operations | OPEN | Reconcile cron, scheduler RPCs, Jobs workspace, retries/lineage/telemetry |
 | M245-FU-006 | H5 | Manual record creation across PIM | OPEN | Define entity capability matrix + rank/audit/evidence semantics |
