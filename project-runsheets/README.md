@@ -97,3 +97,31 @@ A work block ends only as:
 - **DEFERRED** — explicitly moved outside the current gate.
 
 Do not use vague states such as “mostly done”, “looks good” or “continue later”.
+
+
+## Chat naming and closeout contract
+
+Primary milestone chat:
+
+`CF M<major>.<minor> — <short gate name> — YYYY-MM-DD`
+
+Continuation after repository handoff:
+
+`CF M<major>.<minor> — <short gate name> — C02 — YYYY-MM-DD`
+
+Bugs, addenda and small features remain work items in the active milestone chat unless deliberately separated as a governed parallel workstream.
+
+Before a continuation is opened, update `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md` where present, and `NEXT-CHAT.md`.
+
+User-facing closeout should be concise:
+
+- **Achieved** — material PASS outcomes;
+- **Failed / Blocked** — unresolved failures only;
+- **Next** — exact next gate;
+- **Next chat** — recommended name and compact prompt.
+
+The repository retains detail; the chat should not become the historical ledger.
+
+## Work-item timestamp rule
+
+Every material BUG / ADDENDUM / FEATURE / GOVERNANCE / DATA / SECURITY / OPERATIONS block must be recorded with absolute date/time + timezone, originating chat, Change ID, implementation evidence, outcome and next action.
