@@ -51,3 +51,14 @@ Primary navigation/shared test adapters are standing architecture under A2/A3. S
 - Any blocked task must be recorded in FOLLOW-UPS.md with owner, impact, evidence and next action before moving on.
 - Guides, release notes, runsheets and operational documentation are part of acceptance, not post-project cleanup.
 - Broad Publication and Production cutover remain separately governed.
+
+
+## Inserted M2.4.5 gate — 3 September 2026
+
+M2.4.4 remains CLOSED / PASS / FROZEN. A new additive pre-production gate is inserted before M2.5:
+
+`M2.4.4 frozen acceptance → M2.4.5 Admin/PIM hardening & operational readiness → M2.5 Production P0–P8`.
+
+Authority: CF-CHG-20260903-087 and `project-runsheets/milestone-2/m2.4/m2.4.5/`.
+
+M2.4.5 owns Admin IA/UI standardisation, Scraper Config/routing hardening, Scholarship PIM maturity, Scheduler/Jobs review, manual PIM records, publication control-plane safety, Production migration telemetry freshness, dated bug/addenda intake, faster targeted UAT and milestone-meeting evidence. It does not invalidate the M2.4.4 acceptance baseline.
