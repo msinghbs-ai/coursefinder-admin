@@ -157,3 +157,18 @@ QS 2026 and ARWU 2026 live APIs are qualified (HTTP 200). The remaining creation
 - Existing same-system/year registration now requires an inline **Continue with new revision** confirmation.
 - No popup operational workflow introduced.
 - Pilot v2.15.50; targeted deployed UAT run `33716795837` active.
+
+
+## CF-095 release-currentness correction — 2026-09-03 15:57 AEST
+
+User screenshot exposed release/version drift and unreadable QS Parse.bot failure.
+
+Corrected:
+- Admin/release/document title synchronised to v2.15.51;
+- QS Parse.bot defaults to 2026;
+- QS 2027 URL mode is explicitly warned/disabled because the current Parse.bot extraction returns `extraction_failed`;
+- nested Parse.bot error messages no longer render as `[object Object]`;
+- dedicated deployed release-currentness UAT added.
+
+Final Pilot head `791573c4a26903ab3ed5cffe7ce8711af63efba8`.
+Deployed targeted UAT `33721019815`: PASS.
