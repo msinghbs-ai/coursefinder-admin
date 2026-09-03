@@ -968,3 +968,30 @@ Firecrawl quota ownership is consolidated into Administration → Scraper Config
 - New M2.5 work must read `docs/README.md` and `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` before selecting versioned design/governance documents.
 - Bug/addendum/feature work remains inside the active milestone ledger unless explicitly split as a governed parallel workstream.
 - Historical docs archive migration is STAGED only; no unsafe path deletions are authorised until references are rewritten and validated.
+
+
+## Production readiness reconciliation — 2026-09-03 10:13 AEST
+
+Current repository/runtime truth:
+- Admin head: `4316ee0367ac487a3290933c6a3afd005a2287e4`;
+- Pilot head: `ce8ab734a1d4bb4743b09b09f3ae45a47bb9d7dc`;
+- current Pilot targeted deployed UAT status: SUCCESS, run `33696909480`;
+- Supabase Pilot: `fxcwkweaxjtknorudmwp` / ACTIVE_HEALTHY;
+- Supabase demo: `gfryvshbeptxwbzjomhe` / ACTIVE_HEALTHY;
+- CourseFinder Production project: **NONE**.
+
+Production target registry remains unconfigured:
+- `production_supabase_organization`: pending / null;
+- `production_supabase_project_ref`: pending / null;
+- `production_supabase_project_url`: pending / null;
+- `production_region`: pending / null;
+- `production_admin_origin`: pending / null.
+
+Pilot runtime remains correctly Pilot-bound:
+- `runtime_edge_base_url` = Pilot Functions base;
+- `runtime_automation_integration_key` = `pilot_automation`.
+
+The exact next M2.5 gate is therefore still **P0 Provisioning Decision** under CF-049. Production project creation is not authorised by the current repository/runtime state.
+
+CF-086 remains preserved: `docs/README.md` is the current-document router; stale version references in older handoff text do not override it.
+
