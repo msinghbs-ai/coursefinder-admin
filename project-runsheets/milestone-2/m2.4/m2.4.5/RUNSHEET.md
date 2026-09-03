@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PLANNING  
+**Status:** ACTIVE / H1 IMPLEMENTED — H2 ACTIVE  
 **Opened:** 2026-09-03 10:28 AEST  
 **Change Control:** CF-CHG-20260903-087  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
@@ -87,3 +87,10 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 8. Final nominated M2.4.5 acceptance.
 9. Resume M2.5 P0.
 
+
+## 2026-09-03 10:45 AEST execution update
+
+- H1 Administration IA/UI standardisation implemented under CF-088; v2.15.45 consolidates Users & Roles into canonical Administration and centralises Administration metadata/compact cards while preserving accepted deep links and rank boundaries.
+- H2 runtime/source inventory started under CF-085. Scraper Config remains the single provider-control plane; provider enablement/credential/limits/routes are live, Parse.bot remains disabled, and no routing semantics have been changed.
+- Targeted build/browser validation is running only; the full acceptance suite was not invoked.
+- Production migration target state remains pending; no Production Supabase project was created.
