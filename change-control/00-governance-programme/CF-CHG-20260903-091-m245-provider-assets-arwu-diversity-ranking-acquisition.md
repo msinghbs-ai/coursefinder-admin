@@ -162,3 +162,24 @@ Child Change Control CF-092 defines the H13 API path:
 - retain the current 401 as a credential blocker only.
 
 ARWU's supplied reference-page scraper ID and API execution scraper ID differ and are intentionally retained as separate supplied identifiers pending live API verification.
+
+
+## H11 implementation advance — 2026-09-03 13:39 AEST
+
+Pilot H11 foundation is implemented and live-read verified.
+
+Implementation:
+- Pilot migration `20260903213000_cf_091_h11_provider_asset_coverage.sql` committed at `53ea54af4fcbc941248fe506bd4360f07ce9f3f4`;
+- browser API helper commit `11405c9d27fb61b74aca3857a71f6fb8cf45e5fb`;
+- Provider Assets Administration workspace / Provider-detail asset context commit `bfadc963b49b59e255c270c7ed8126b4bf040275`;
+- Admin release v2.15.48 notes commit `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`.
+
+Live Pilot proof:
+- AU active canonical Provider baseline: expected 1,546; discovered 7; acquired 7; approved 2; blocked 1; missing 1,539; needs review 4.
+- Charles Sturt is the single accepted-but-unpromoted blocked case retained from the known source-CDN HTTP 403.
+- Provider-detail reads now expose managed logo source/Evidence/hash/verification context through the governed `admin_read` boundary.
+- Security Advisor after the change reports existing INFO findings only; no new WARN/ERROR finding was introduced by this surface.
+
+Important scope correction: `catalogue.providers.provider_type_id` is currently null across the active Provider catalogue. The H11 read contract therefore labels the present denominator as active canonical Providers matching the selected country/filter and explicitly does **not** call it a university-only denominator. A governed university scope/type crosswalk is still required before the final H11 university completeness percentage can be asserted.
+
+H11 status: **FOUNDATION IMPLEMENTED / LIVE READ PASS / SOURCE BUILD+DEPLOYED UAT RUNNING**. Broad first-party acquisition remains the next H11 data-population step; Hotcourses remains discovery/reconciliation only.
