@@ -207,3 +207,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-096 | 20-layer1-regulatory-ingestion | Ranking Parse.bot Evidence Hand-off | IMPLEMENTED / TARGETED PASS — APPLY REMAINS MANUAL | `20-layer1-regulatory-ingestion/CF-CHG-20260903-096-ranking-parsebot-evidence-handoff.md` |
 
 | CF-CHG-20260903-097 | 20-layer1-regulatory-ingestion | Ranking Import Workflow & History Restoration | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260903-097-ranking-import-workflow-history-restoration.md` |
+
+| CF-CHG-20260903-098 | 20-layer1-regulatory-ingestion | Ranking File-First Country/Global Bundle Parser | IMPLEMENTED / TARGETED PASS | `20-layer1-regulatory-ingestion/CF-CHG-20260903-098-ranking-file-first-country-global-bundle-parser.md` |
