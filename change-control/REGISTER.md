@@ -186,3 +186,5 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 
 | CF-CHG-20260903-086 | 00-governance-programme | CourseFinder PIM Principles, Chat Lifecycle & Documentation Hygiene | APPLIED — GOVERNANCE BASELINE / ARCHIVE MIGRATION STAGED | `00-governance-programme/CF-CHG-20260903-086-coursefinder-pim-principles-chat-lifecycle-doc-hygiene.md` |
+
+| CF-CHG-20260903-087 | 00-governance-programme | M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness | ACTIVE / PLANNING | `00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md` |
