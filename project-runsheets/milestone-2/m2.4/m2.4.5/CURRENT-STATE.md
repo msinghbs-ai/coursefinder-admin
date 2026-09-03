@@ -293,3 +293,17 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - prior `33802121519` failed only because workflow routing selected stale CF-089 release-currentness UAT; routing precedence was corrected at Pilot `7aa9f77e67d7855ea74c80150d3a1eadddd45fa3`.
 
 **H11 status: CLOSED / PASS.**
+
+
+## CF-102 Provider logo display + Hotcourses directory process — 2026-09-04 07:02 AEST
+
+- Admin release **v2.15.57** projects the approved primary university logo into the Provider detail header, Course detail Provider brand strip, Provider/Course comparison cards and selected Provider context.
+- Provider asset Storage remains private. Browser rendering uses authenticated `provider-asset-access` and 10-minute signed URLs; no service-role credential or public bucket was introduced.
+- Hotcourses AU/NZ university-directory pages are now repeatable Layer 2 **Provider Asset** reconciliation profiles rather than a one-off H11 scrape.
+- Initial Direct HTTP acquisition retained private Evidence at zero paid-vendor cost:
+  - AU Evidence `9871c365-5cd5-4be2-8d40-e0623e819f13`;
+  - NZ Evidence `6f3821e6-5644-4638-8e0b-291c6ad7992f`.
+- Parser result: AU 12/12 cards country-safe matched; NZ 10/12 matched; Ara Institute of Canterbury Limited and Massey University College remain intentionally unmatched; all 24 cards exposed institution image URLs.
+- Existing ranked university primary coverage remains **49/49**. No new review candidate was created because CF-102 never replaces an approved primary.
+- Security: 175 INFO / 0 WARN / 0 ERROR. Performance: 203 INFO / 0 WARN / 0 ERROR.
+- Targeted Frontend Build `33805770000` and Deployed UAT `33805769747` are active at this checkpoint.
