@@ -44,16 +44,18 @@ The defect was the regression contract: the permanent CF-102 source test was pin
 
 The deployed test still verifies real signed `provider-assets` images on Provider, Course and comparison surfaces. A new Provider-list test also constrains the list to a bounded number of `provider-asset-access` calls and verifies sessionStorage cache creation.
 
-### 2. Signed-logo lifetime
+### 2. Signed-logo lifetime and bulk signing performance
 
-`provider-asset-access` was advanced to Edge Function version 3.
+`provider-asset-access` was advanced to Edge Function **version 4**.
 
 - bucket remains private;
 - JWT verification remains enabled;
 - normal CourseFinder role validation remains required;
 - signed URL lifetime changed from 600 seconds to **1800 seconds**;
 - ProviderLogo already subtracts a safety margin before treating a signed URL as reusable;
-- Provider-list session cache therefore avoids repeat signing for longer Admin sessions without creating permanent/public URLs.
+- Provider-list session cache therefore avoids repeat signing for longer Admin sessions without creating permanent/public URLs;
+- the existing bulk request remains capped at 100 stable keys;
+- signed URLs for a bulk response are now generated concurrently with `Promise.all` rather than serially, reducing server-side list hydration latency without increasing browser request count.
 
 ### 3. Current release
 
