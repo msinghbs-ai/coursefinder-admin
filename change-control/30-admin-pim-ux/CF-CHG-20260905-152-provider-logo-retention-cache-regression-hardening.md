@@ -1,6 +1,6 @@
 # CF-CHG-20260905-152 — Provider Logo Retention & Cache Regression Hardening
 
-**Status:** IMPLEMENTED / TARGETED PASS PENDING FINAL CI  
+**Status:** CLOSED / PASS  
 **Milestone:** M2.4.5  
 **Parent feature:** CF-CHG-20260904-102 — CLOSED / PASS  
 **Admin release:** v2.15.62
@@ -49,31 +49,31 @@ The deployed test still verifies real signed `provider-assets` images on Provide
 
 ### 2. Signed-logo lifetime and bulk signing performance
 
-`provider-asset-access` is now Edge Function **version 5**.
+`provider-asset-access` is Edge Function **version 5**.
 
 - bucket remains private;
 - JWT verification remains enabled;
 - normal CourseFinder role validation remains required;
-- signed URL lifetime changed from 600 seconds to **1800 seconds**;
-- ProviderLogo already subtracts a safety margin before treating a signed URL as reusable;
+- signed URL lifetime is **1800 seconds**;
+- ProviderLogo subtracts a safety margin before treating a signed URL as reusable;
 - Provider-list session cache therefore avoids repeat signing for longer Admin sessions without creating permanent/public URLs;
-- the existing bulk request remains capped at 100 stable keys;
-- bulk signing now uses a concurrency pool capped at **8** instead of serial signing or unbounded Promise fan-out.
+- the bulk request remains capped at 100 stable keys;
+- bulk signing uses a concurrency pool capped at **8** instead of serial signing or unbounded Promise fan-out.
 
-### 3. Deployed UAT finding
+### 3. Deployed UAT finding and correction
 
-Two targeted deployed runs proved the critical CF-102 surfaces were healthy:
+Two earlier targeted deployed runs proved the critical CF-102 surfaces were healthy but exposed an over-eager new list-persistence assertion:
 
 - Provider detail rendered a real signed primary logo;
 - Course detail rendered the same governed Provider logo;
 - Provider comparison rendered two real signed logos;
 - source contract assertions passed.
 
-The new Provider-list persistence sub-test failed because it treated immediate fallback-slot rendering as proof that an asynchronous bulk request/cache write must already have completed. The test was revised to be response-aware:
+The Provider-list persistence sub-test initially treated immediate fallback-slot rendering as proof that an asynchronous bulk request/cache write must already have completed. The test was revised to be response-aware:
 
 - browser call count remains bounded;
 - if a bulk request is made, its response must be 2xx;
-- successful bulk results must then persist into the session cache within a bounded settle window;
+- successful bulk results must persist into the session cache within a bounded settle window;
 - absence of a new bulk request is not itself treated as cache failure.
 
 This preserves a strict runtime gate without confusing render timing with cache correctness.
@@ -86,7 +86,17 @@ Visible Admin release remains **v2.15.62** with release notes explicitly stating
 
 Current Pilot data contains **51 Providers with approved primary logo assets**. This change does not expand the governed H11/CF-102 university target to every AU/NZ Provider record; it protects the existing approved asset set and display architecture.
 
-The bulk descriptor RPC was also verified against 50 Provider stable keys and returned 50 descriptor rows, confirming that the DB-side bulk lookup contract itself is intact.
+The bulk descriptor RPC was verified against 50 Provider stable keys and returned 50 descriptor rows, confirming that the DB-side bulk lookup contract itself is intact.
+
+## Final validation
+
+Final source commit under test: `c87e076d68953c2299a642ec72e37ae8cd410cc1`.
+
+- Pilot Frontend Build `33917141425` — **PASS**;
+- local browser smoke under the same run — **PASS**;
+- deployed targeted UAT `33917141431` — **PASS**;
+- deployed Provider, Course and Compare surfaces rendered governed signed logo URLs;
+- Provider-list bounded/cache contract passed.
 
 ## Security boundary
 
