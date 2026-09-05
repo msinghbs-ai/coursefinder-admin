@@ -1,9 +1,11 @@
 # CF-CHG-20260905-211 — H5 Source-Backed Candidate Workflow & H6 Publication Controls
 
-**Status:** H6 ACCEPTED / H5 CANONICAL DETAIL SURFACE IMPLEMENTED / PRIMARY NAV RELEASE STEP OPEN  
+**Status:** CLOSED / ACCEPTED  
 **Milestone:** M2.4.5  
 **Workstreams:** H5, H6  
 **Initiated:** 5 September 2026 17:10 AEST  
+**Closed:** 5 September 2026  
+**Accepted visible Admin release:** **v2.15.66**  
 **Primary owner:** 30-admin-pim-ux  
 **Related:** CF-CHG-20260905-210
 
@@ -11,7 +13,7 @@
 
 Implement the governed operator workflow defined by CF-210 without weakening source-authoritative identity, and add explicit previewed publication controls while keeping automatic publication and consumer cutover disabled.
 
-## H5 implementation
+## H5 implementation and acceptance
 
 Pilot migration `20260905073000_cf_211_h5_h6_candidate_publication_controls.sql` adds private `pipeline.pim_source_candidates` and rank-5 candidate operations exposed through authenticated browser RPC wrappers:
 
@@ -31,11 +33,22 @@ Safety properties:
 - candidate decisions explicitly return `canonical_written=false` and `published=false`;
 - `ready_for_acquisition` means hand-off to the existing governed acquisition/reconciliation path, not a generic canonical writer.
 
-`src/ManualPimCandidateWorkspace.jsx` implements the rank-5 candidate registration/queue UI and now resolves the current operator rank from the governed context when rank is not explicitly supplied. It also accepts initial entity/provider context from an existing canonical record.
+`src/ManualPimCandidateWorkspace.jsx` implements the rank-5 candidate registration/queue UI and resolves the current operator rank from the governed context when rank is not explicitly supplied. It accepts initial entity/provider context from an existing canonical record.
 
-`src/Layer4Intervention.jsx` now exposes this workflow from the existing canonical Provider/Course/Campus/Scholarship detail surface under **Source-backed PIM candidate workflow**. This does not introduce a floating launcher or a second control plane. Provider context is inherited where available; canonical writes and publication remain separate.
+`src/Layer4Intervention.jsx` exposes the workflow from the existing canonical Provider/Course/Campus/Scholarship detail surface under **Source-backed PIM candidate workflow**. This does not introduce a floating launcher or second control plane. Provider context is inherited where available; canonical writes and publication remain separate.
 
-A dedicated primary-navigation entry is still considered a release/IA refinement, not a blocker to the governed H5 workflow itself. If added, it must use the existing navigation registry under Quality & Review or Administration.
+### Navigation decision
+
+A dedicated primary-navigation entry is not required for H5 closure. The existing canonical detail/Layer 4 surface is the accepted operator entry point because it preserves entity/provider context and avoids a duplicate candidate control plane. A future consolidated queue may be added only by reusing the same H5 state/RPC model and may not become a parallel canonical writer.
+
+Accepted H5 head:
+
+- `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84`.
+
+Acceptance:
+
+- Pilot Frontend Build run `33953096725` — SUCCESS;
+- CourseFinder Deployed UAT run `33953096702` — SUCCESS.
 
 ## H6 implementation and acceptance
 
@@ -51,15 +64,17 @@ The existing `layer4_publication_decide` remains the sole publication-decision p
 
 `src/Layer4Intervention.jsx` uses preview → operator confirmation → execute for single-record publication decisions and exposes target-scoped rollback.
 
-The underlying Layer 4 decision still reports `publication_status_changed=false` / `consumer_cutover_authorised=false`; therefore this work does not silently activate Search, Website, Zoho or Production publication.
+The underlying Layer 4 decision reports `publication_status_changed=false` / `consumer_cutover_authorised=false`; therefore this work does not silently activate Search, Website, Zoho or Production publication.
 
-The hardened H6 baseline at Pilot commit `4eb5e158f33ad871d9dee7abd3fffd9d6f548ee4` passed both Pilot Frontend Build and CourseFinder Deployed UAT on 5 September 2026. H6 is therefore technically accepted. Consumer cutover remains a separate future decision.
+The hardened H6 baseline at Pilot commit `4eb5e158f33ad871d9dee7abd3fffd9d6f548ee4` passed both Pilot Frontend Build and CourseFinder Deployed UAT. H6 is accepted. Consumer cutover remains a separate future decision.
+
+Mass execution is supported server-side but no broad mass-publish UI is enabled. Any future mass UI must use the same exact preview token and bounded cohort.
 
 ## Security hardening
 
 The first runtime migration used public `SECURITY DEFINER` functions with explicit server-side rank checks. Supabase Security Advisor correctly surfaced these as externally callable `SECURITY DEFINER` WARN findings.
 
-Corrective migration `20260905074000_cf_211_h5_h6_private_impl_wrappers.sql` now follows the established CourseFinder private-implementation pattern:
+Corrective migration `20260905074000_cf_211_h5_h6_private_impl_wrappers.sql` follows the established CourseFinder private-implementation pattern:
 
 - H5 privileged implementations moved to non-exposed `pim_api`;
 - H6 privileged implementations moved to non-exposed `l4_api`;
@@ -70,13 +85,13 @@ Corrective migration `20260905074000_cf_211_h5_h6_private_impl_wrappers.sql` now
 - candidate/settings tables retain RLS with direct `PUBLIC`, `anon` and `authenticated` table access revoked;
 - no service-role key or private Evidence content enters browser code.
 
-Live verification confirms the five public CF-211 browser functions are `security_definer=false`, while their private `pim_api` / `l4_api` implementations retain the privileged server-side boundary.
+Final Security Advisor re-check confirms the CF-211 browser functions remain absent from exposed `SECURITY DEFINER` WARN findings. Existing unrelated platform findings remain separate backlog items.
 
 ## Performance disposition
 
-Performance Advisor identified one new CF-211-specific INFO finding: the `pipeline.pim_source_candidates.evidence_id` foreign key lacked a covering index.
+Migration `20260905075000_cf_211_h5_candidate_evidence_index.sql` adds `pim_source_candidates_evidence_idx` for Evidence-backed review/query paths.
 
-Migration `20260905075000_cf_211_h5_candidate_evidence_index.sql` adds `pim_source_candidates_evidence_idx` for Evidence-backed review/query paths. Other Advisor INFO findings are pre-existing platform observations and are not introduced by CF-211.
+Final Performance Advisor re-check no longer reports the H5 Evidence foreign key as unindexed. New H5 indexes may appear as unused INFO until representative runtime usage accumulates; unrelated platform INFO observations are outside CF-211 scope.
 
 ## Verification
 
@@ -94,22 +109,28 @@ Runtime verification confirms:
 - `auto_publication_enabled=false` remains live;
 - no consumer cutover has been authorised.
 
-Targeted source contract: `tests/uat/cf-211-h5-h6-candidate-publication-controls.spec.mjs`, extended to cover private wrappers, Evidence FK indexing, operator-context resolution and canonical detail-surface placement.
+Targeted source contract: `tests/uat/cf-211-h5-h6-candidate-publication-controls.spec.mjs`, covering private wrappers, Evidence FK indexing, operator-context resolution and canonical detail-surface placement.
 
-Verified baseline results:
+Final accepted results:
 
-- Pilot Frontend Build run `33952467996` — SUCCESS;
-- CourseFinder Deployed UAT run `33952468057` — SUCCESS.
+- Pilot Frontend Build run `33953096725` — SUCCESS;
+- CourseFinder Deployed UAT run `33953096702` — SUCCESS;
+- final Security Advisor check — no new CF-211 WARN/ERROR;
+- final Performance Advisor check — CF-211 Evidence-FK issue resolved.
 
-Current H5 detail-surface candidate head: `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84`. Its fresh build/UAT run must pass before H5 is accepted.
+## Release reconciliation
 
-## Remaining closure work
+The live Admin UI is confirmed at **v2.15.66**. Earlier governance notes identifying v2.15.57 as the current release were stale documentation and are superseded by this closure record. No artificial version bump or rollback is required solely to close H5/H6.
 
-1. Confirm Frontend Build and Deployed UAT on `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84`.
-2. Run/confirm rank-4 negative and rank-5 positive browser behaviour for the source-backed candidate control.
-3. Re-run Security Advisor after the final H5 browser candidate; CF-211 public `SECURITY DEFINER` findings must remain absent.
-4. Decide whether a dedicated primary-nav entry is required for release; if yes, place it through the existing canonical navigation registry and bump the visible Admin version/release notes in the same change.
-5. Reconcile M2.4.5 H5/H6 execution state after the final H5 browser gate.
+## Closure decision
+
+### H5
+
+**CLOSED / ACCEPTED.** The source-backed candidate workflow is source/Evidence-backed, rank-gated, auditable, identity-preserving and separate from canonical Apply and publication.
+
+### H6
+
+**CLOSED / ACCEPTED.** Previewed target-scoped publication decisions and rollback are accepted. Automatic publication remains disabled; Search/API, Website, Zoho and Production cutover remain separately governed.
 
 ## Rollback
 
