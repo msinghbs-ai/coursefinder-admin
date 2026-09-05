@@ -1,6 +1,6 @@
 # CF-CHG-20260905-209 — Scheduler & Jobs Operations Acceptance
 
-**Status:** IMPLEMENTED / ACCEPTANCE ADDED / CI PENDING  
+**Status:** CLOSED / TARGETED PASS  
 **Milestone:** M2.4.5  
 **Workstream:** H4 — Scheduler / Jobs operations  
 **Type:** OPERATIONS / ADMIN-PIM UX / ACCEPTANCE  
@@ -57,37 +57,30 @@ The canonical Jobs workspace is already server-paged and acceptance-backed. It e
 
 Generic retry, replay and reset are intentionally **not** added.
 
-A cross-adapter retry button would be unsafe because replay semantics differ across authority ingestion, deterministic enrichment, AI interpretation and human-resolution workflows. Any future mutation must be adapter-specific and prove:
-
-1. bounded scope;
-2. idempotency/replay safety;
-3. explicit operator confirmation;
-4. retained audit lineage;
-5. no destructive Evidence/history cleanup;
-6. no implicit Publication or Search admission.
+A cross-adapter retry button would be unsafe because replay semantics differ across authority ingestion, deterministic enrichment, AI interpretation and human-resolution workflows. Any future mutation must be adapter-specific and prove bounded scope, idempotency/replay safety, explicit operator confirmation, retained audit lineage, non-destructive Evidence/history handling and no implicit Publication or Search admission.
 
 This is an accepted safety constraint, not an H4 gap.
 
 ## CF-209 acceptance
 
-Pilot acceptance added:
+Pilot acceptance:
 
 - `tests/uat/cf-209-scheduler-jobs-operations-contract.spec.mjs`
 - `tests/uat/cf-209-scheduler-jobs-operations-deployed.spec.mjs`
 
-The contracts lock:
+Final corrected Pilot source commit:
 
-- canonical Scheduling routing;
-- policy/request/Search-signal visibility;
-- bounded Layer 2 scheduler dispatch;
-- stale recovery and non-destructive housekeeping;
-- server-paged Jobs read path and telemetry;
-- absence of generic retry/replay/reset controls.
+- `85d0d8e6e5cff7fdd48505161e991be290ac454c`
+
+Final evidence:
+
+- CourseFinder Deployed UAT `33950842779` — SUCCESS;
+- Pilot Frontend Build `33950842781` — SUCCESS.
 
 ## Change impact
 
-No runtime schema, cron schedule, Edge Function, credential, Production resource, Publication state or Search admission state is changed by CF-209. This is a reconciliation and acceptance hardening change over existing scheduler/Jobs functionality.
+No runtime schema, cron schedule, Edge Function, credential, Production resource, Publication state or Search admission state is changed by CF-209. This is reconciliation and acceptance hardening over existing scheduler/Jobs functionality.
 
 ## Gate
 
-H4 is functionally implemented. Mark CLOSED / TARGETED PASS only after the new CF-209 source/deployed acceptance has successful CI/runtime evidence. Until then status remains IMPLEMENTED / ACCEPTANCE PENDING.
+H4 is CLOSED / TARGETED PASS. Generic retry/replay/reset remains disabled by design; adapter-specific replay may be introduced only under a separate governed change with idempotency and audit proof.
