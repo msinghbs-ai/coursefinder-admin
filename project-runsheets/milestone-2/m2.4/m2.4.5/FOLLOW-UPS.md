@@ -6,7 +6,7 @@
 | M245-FU-002 | H2 | Scraper Config complete enable/disable/control surface | TARGETED PASS / PARSE.BOT AUTH BLOCKED | CF-089 UI/performance PASS; rotate valid Parse.bot API key then rerun connection probe |
 | M245-FU-003 | H2 | Scraper routing/Layer config UX | PARTIAL / UI TARGETED PASS | No duplicate routing writer; Parse.bot generated API qualification remains blocked behind valid API key |
 | M245-FU-004 | H3 | Scholarship grid/filter/order maturity | IMPLEMENTED / CF-208 ACCEPTANCE PENDING | Mature Scholarship catalogue already provides governed search, Country/Lifecycle/Publication filters, sort, pagination and detail; CF-208 source + deployed acceptance added. Close after CI/deployed PASS. |
-| M245-FU-005 | H4 | Scheduler/Jobs operations | OPEN | Reconcile cron, scheduler RPCs, Jobs workspace, retries/lineage/telemetry |
+| M245-FU-005 | H4 | Scheduler/Jobs operations | IMPLEMENTED / CF-209 ACCEPTANCE PENDING | Existing bounded scheduler, 15-minute Layer 2 dispatcher, stale recovery, non-destructive housekeeping and server-paged Jobs telemetry reconciled. Generic retry/replay/reset remains intentionally disabled; close after CF-209 source/deployed PASS. |
 | M245-FU-006 | H5 | Manual record creation across PIM | OPEN | Define entity capability matrix + rank/audit/evidence semantics |
 | M245-FU-007 | H6 | Auto-publication + manual/mass controls | DESIGN REQUIRED | Keep disabled; design explicit safe enablement/preview/approval/rollback |
 | M245-FU-008 | H7 | Production migration data/telemetry freshness | ACTIVE | Update migration manifest/snapshot after every material change |
@@ -32,7 +32,8 @@
 | 2 | H12 | Implement ARWU 2025/multi-year and Diversity contextual dataset foundations, ingestion/read/UI contracts | QUEUED NEXT |
 | 3 | H13 | Unify parser/API acquisition contract; proceed with file/parser path now; Parse.bot live path waits for valid credential | QUEUED NEXT / PARSE.BOT PARTIAL BLOCK |
 | Parked | H2 | Remaining Parse.bot 401 qualification | PARKED UNTIL H13 LIVE API STEP |
-| Parked | H3-H6 | Scholarship, Scheduler/Jobs, manual PIM, publication controls | OPEN / AFTER H13 |
+| Resumed | H3-H4 | Scholarship PIM and Scheduler/Jobs maturity | IMPLEMENTED / CF-208 + CF-209 ACCEPTANCE PENDING |
+| Next | H5-H6 | Manual PIM and publication controls | OPEN / AFTER H4 ACCEPTANCE |
 | Continuous | H7-H10 | migration telemetry, work-item intake, UAT efficiency, meeting readiness | ACTIVE THROUGHOUT |
 
 
