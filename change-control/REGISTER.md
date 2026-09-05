@@ -1,7 +1,7 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 30 August 2026
+**Effective:** 5 September 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
@@ -17,7 +17,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS.
 >
-> **M2.4.5:** ACTIVE under `CF-CHG-20260903-087`. H1 Administration IA/UI standardisation is IMPLEMENTED / TARGETED PASS under `CF-CHG-20260903-088` (build `33700864619`, deployed UAT `33700864824`). H2 Scraper Config/routing hardening is ACTIVE under CF-085/CF-087. H11-H13 Provider assets, ARWU/Diversity and ranking acquisition adapters are added under CF-091. M2.4.4 remains CLOSED/PASS/FROZEN. No Production Supabase project exists.
+> **M2.4.5:** ACTIVE under `CF-CHG-20260903-087`. H1 Administration IA/UI standardisation is IMPLEMENTED / TARGETED PASS under `CF-CHG-20260903-088` (build `33700864619`, deployed UAT `33700864824`). H2 Scraper Config/routing hardening is ACTIVE under CF-085/CF-087. H11-H13 Provider assets, ARWU/Diversity and ranking acquisition adapters are added under CF-091. Scholarship acquisition/reconciliation is hardened through CF-195: 263 canonical international Scholarships, 0 published, 0 active detail-ready candidates, 0 active acquisition jobs and 0 reconciliation-ready records at the latest Pilot verification. M2.4.4 remains CLOSED/PASS/FROZEN. No Production Supabase project exists.
 >
 > **M2.5:** PAUSED AT P0 under `CF-CHG-20260901-049` until M2.4.5 closes. Platform foundation `CF-CHG-20260901-051` and CF-052 are IMPLEMENTED / TARGETED PASS. CF-053 is IMPLEMENTED / RUNTIME PASS and CF-054 is IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS, their earlier deployed UI block was caused by Worker v2.15.14 drift; user UAT now proves the Worker reached v2.15.19. Source has advanced to v2.15.21 under CF-061, so deployed currentness must be rechecked rather than treated as a persistent external-control-plane failure. CF-055 Evidence-lineage classification/duplicate prevention is IMPLEMENTED / TARGETED PASS; CF-056 Backup/PITR control-plane reconciliation is RECONCILED / PLATFORM PROOF PARTIAL with the executed restore gate still OPEN; CF-057 universal Layer 4 block enforcement is IMPLEMENTED / TARGETED PASS; CF-058 Platform maturity Administration surface is IMPLEMENTED / SOURCE+BUILD TARGETED PASS with deployed UI blocked by FU-015; CF-059 Evidence-lineage reconciliation/contact claim hardening is IMPLEMENTED / RUNTIME PASS with targeted CI pending. CF-060 Jobs workspace read-path restoration is IMPLEMENTED / SOURCE CI PENDING with deployed UAT pending. Raw Evidence lineage remains visible while the currently known unresolved integrity count is 0 / severity OK. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
 >
@@ -172,7 +172,6 @@ M2.4.3 and M2.4.4 are CLOSED / PASS. M2.4 is CLOSED / PASS.
 
 Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4 terminal human resolution, A8/A10/A12/A13/A15 standing behaviour, the RMIT canonical-promotion block and NZ Layer 2 source-qualification deferral. Production cutover, broad Publication and Zoho cutover remain later gates.
 
-
 ### Governance collision note — 2 September 2026
 CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statistical Provider Equivalence Fan-out authority. Provider Contacts therefore uses **CF-CHG-20260902-080 / A30** as its final authority. The CF-076 and contact-specific CF-077 files are retained only as void collision evidence.
 
@@ -185,7 +184,6 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 | CF-CHG-20260903-084 | 70-security-platform | Admin Environment, Credentials & Production Supabase Migration Controls | IMPLEMENTED / TARGETED PASS | `70-security-platform/CF-CHG-20260903-084-admin-environment-production-migration-controls.md` |
 
 | CF-CHG-20260903-085 | 40-layer2 | Streamline Firecrawl quota into Scraper Config | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `40-layer2/CF-CHG-20260903-085-streamline-firecrawl-quota-scraper-config.md` |
-
 
 | CF-CHG-20260903-086 | 00-governance-programme | CourseFinder PIM Principles, Chat Lifecycle & Documentation Hygiene | APPLIED — GOVERNANCE BASELINE / ARCHIVE MIGRATION STAGED | `00-governance-programme/CF-CHG-20260903-086-coursefinder-pim-principles-chat-lifecycle-doc-hygiene.md` |
 
@@ -214,7 +212,9 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 | CF-CHG-20260903-100 | 10-architecture-data-model | Multi-country Same-edition Statistical & Ranking Ingestion Strategy | IMPLEMENTED / TARGETED VERIFICATION ACTIVE | `10-architecture-data-model/CF-CHG-20260903-100-multi-country-same-edition-ingestion-strategy.md` |
 
-
 | CF-CHG-20260903-101 | 40-layer2-enrichment | H11 Provider Logo Completeness & Aggregator Fallback Hardening | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260903-101-h11-provider-logo-completeness-hotcourses-fallback.md` |
 
 | CF-CHG-20260904-102 | 40-layer2-enrichment | Provider Logo Display & Hotcourses Directory Reconciliation | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260904-102-provider-logo-display-hotcourses-directory-reconciliation.md` |
+| CF-CHG-20260905-182 | 40-layer2-enrichment | Scholarship Catalogue Coverage Wave 1 & Fan-out Hardening (CF-182–184) | IMPLEMENTED / TARGETED PASS | `40-layer2-enrichment/CF-CHG-20260905-182-scholarship-catalogue-coverage-wave1-and-fanout-hardening.md` |
+| CF-CHG-20260905-185–194 | 40-layer2-enrichment | Scholarship Queue Truth & Semantic Reconciliation Hardening | IMPLEMENTED / RUNTIME PASS — REPO RECONCILED | `40-layer2-enrichment/CF-CHG-20260905-185-194-scholarship-queue-semantic-reconciliation-hardening.md` |
+| CF-CHG-20260905-195 | 40-layer2-enrichment | Scholarship Admin Active Queue Statistics | IMPLEMENTED / RUNTIME PASS / RELEASED v2.15.64 | `40-layer2-enrichment/CF-CHG-20260905-195-scholarship-admin-active-queue-statistics.md` |
