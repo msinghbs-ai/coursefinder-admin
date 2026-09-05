@@ -1,9 +1,10 @@
 # CF-CHG-20260905-205 — Layer 4 Mass Operations & Quality Cross-check
 
-**Status:** IMPLEMENTED / RUNTIME PASS / UI RELEASED v2.15.65 / CI PENDING  
+**Status:** CLOSED / PASS — RUNTIME + BUILD + DEPLOYED UAT  
 **Milestone:** M2.4.5  
 **Type:** FEATURE / OPERATIONS / ADMIN-PIM UX  
 **Initiated:** 5 September 2026 13:12 AEST  
+**Closed:** 5 September 2026 13:25 AEST  
 **Originating workstream:** CF M2.4.5 — Scholarships Acquisition & PIM Completion  
 **Primary owner:** 30-admin-pim-ux  
 **Affected surfaces:** Layer 4 Human Resolution, Scholarship Course scope, Evidence, Layer 2/3 returns, operator quality review, release/UAT  
@@ -25,42 +26,21 @@ Replace impractical one-record-at-a-time Layer 4 handling with a simple, safe co
 
 Scholarship Course-scope candidates are grouped by exact `scholarship_id + candidate_reason`. Current Pilot state resolves the 2,199 rows into 10 operator cohorts instead of 2,199 individual decisions.
 
-Each cohort preview shows:
-- candidate count;
-- Evidence coverage / missing Evidence;
-- Scholarship/Course Provider mismatch count;
-- existing Course mappings;
-- study-level spread;
-- semantic-scope warning;
-- a bounded Course sample for source cross-check.
+Each cohort preview shows candidate count, Evidence coverage, missing Evidence, Scholarship/Course Provider mismatch, existing Course mappings, study-level spread, semantic-scope warning and a bounded Course sample.
 
-Mass accept/reject requires:
-- Pipeline Operator rank or higher;
-- an audited reason;
-- exact typed confirmation `ACCEPT N` or `REJECT N` based on the live cohort count;
-- zero missing Evidence and zero Provider mismatch for acceptance.
+Mass accept/reject requires Pipeline Operator rank or higher, an audited reason, exact typed confirmation (`ACCEPT N` / `REJECT N`) based on the live cohort count, and zero missing Evidence/provider mismatch for acceptance.
 
 Accepted cohorts create governed `scholarship.course_mappings` with Evidence, actor and `layer4_mass_review:<operation_id>` basis. Rejected cohorts remain traceable through candidate state and the mass-operation ledger. Publication and Search refresh remain separate.
 
 ### Generic Layer 4 queue
 
-Pending generic review items are grouped by exact `entity_type + field_code + escalation_reason` and may be mass:
-- rejected;
-- returned to Layer 2;
-- returned to Layer 3;
-- sent for more Evidence.
+Pending generic review items are grouped by exact `entity_type + field_code + escalation_reason` and may be mass rejected, returned to Layer 2, returned to Layer 3 or sent for more Evidence.
 
 The implementation deliberately does **not** bulk-approve generic scalar review items because proposed values can differ and the existing terminal apply contract is Course-scalar-specific.
 
 ### Errors / issues / improvements
 
-Layer 4 now exposes deterministic diagnostics for:
-- missing Scholarship-scope Evidence;
-- Scholarship/Course Provider mismatch;
-- stale Scholarship-scope review;
-- stale generic Layer 4 review;
-- accepted candidates without a corresponding canonical Course mapping;
-- large cohorts that should be handled as one governed rule/decision rather than row-by-row.
+Layer 4 now exposes deterministic diagnostics for missing Scholarship-scope Evidence, Scholarship/Course Provider mismatch, stale Scholarship-scope review, stale generic Layer 4 review, accepted candidates without a corresponding canonical Course mapping, and large cohorts that should be handled as one governed rule/decision rather than row-by-row.
 
 Operators can promote a diagnostic into a private tracked finding classified as `error`, `issue` or `improvement`, then resolve it with a note. Mass-operation history is separately retained for audit.
 
@@ -97,7 +77,7 @@ Added:
 - `src/layer4-mass-operations-entry.jsx`
 - `src/layer4-mass-operations.css`
 
-The workspace mounts inside the existing `Layer 4 — Human Resolution` route and does not add a floating launcher or a second navigation pattern.
+The workspace mounts inside the existing `Layer 4 — Human Resolution` route and does not add a floating launcher or second navigation pattern.
 
 Tabs:
 1. Scholarship scope
@@ -106,6 +86,9 @@ Tabs:
 4. Mass audit
 
 Visible release: **v2.15.65**.
+
+Operator guide:
+- `docs/coursefinder-layer4-mass-operations-operator-guide-v1.0.md`
 
 ## Security / authority
 
@@ -133,7 +116,7 @@ Pilot summary after CF-205:
 - Mass mutations executed during implementation: **0**
 - Publication changed: **false**
 
-Sample cohort checks include UNSW 665, UQ 382 and UWA 324+324 rows with full retained Evidence coverage and zero Provider mismatch. Their eligibility/exclusion semantics remain visibly warned for operator cross-check rather than silently accepted.
+Sample cohort checks include UNSW 665, UQ 382 and UWA 324+324 rows with full retained Evidence coverage and zero Provider mismatch. Eligibility/exclusion/no-explicit-scope semantics are visibly warned for operator cross-check rather than silently accepted.
 
 ## Regression protection
 
@@ -153,10 +136,14 @@ Pilot commits:
 - `da2ef599b8e82468b0caa3f15da1298f3c588047` — legacy scope-warning precision
 - `1d0ee2de86d3f9bd67e95d409776ba27f0edc8e9` — CF-205 source contract
 
+CI acceptance at final Pilot source `da2ef599b8e82468b0caa3f15da1298f3c588047`:
+- Pilot Frontend Build run **1642 / 33941727763 — PASS**
+- CourseFinder Deployed UAT run **1517 / 33941727752 — PASS**
+
 ## Rollback / recovery
 
 UI rollback can remove the CF-205 entry script and stylesheet while leaving audit data intact. RPC exposure may be revoked independently. Do not destructively delete executed mass-operation history. Any accepted/rejected cohort decision requiring reversal must use a governed corrective operation with Evidence and audit rather than deleting mappings or decision records directly.
 
-## Gate
+## Final gate
 
-Runtime read/preview/security invariants are PASS. No production data cohort was mass-accepted or rejected during implementation. Browser/build CI must pass before this record is marked CLOSED/PASS.
+Runtime read/preview/security invariants PASS. Source/build PASS. Deployed UAT PASS. No Scholarship cohort was mass-accepted or rejected during implementation; the workflow is available for governed operator decisions without changing Publication.
