@@ -63,3 +63,5 @@
 | M245-FU-025 | H12/H13 / CF-098 | Reduce Parse.bot ranking API usage by supporting country/global publisher files | CLOSED / TARGETED PASS | File upload is primary; use Parse.bot only as optional metered fallback |
 
 | M245-FU-026 | H12/H13 / CF-099 | Mobile multi-file ranking upload stopped after CORS preflight | IMPLEMENTED / DEPLOYED UAT PASS | Refresh to v2.15.55 and retry AU+NZ selection once; confirm acquisition Job/import registration |
+
+| M245-FU-027 | H14 / CF-207 | External-consumer API key lifecycle + complete Wix handover versioning | OPEN / GOVERNED | Implement Administration → API Keys with create/rotate/expiry/disable/revoke, one-time Copy/Secure Handover, secret-free audit history and expiry enforcement; current Wix handover is `docs/integrations/coursefinder-wix-api-handover-v1.1.md` |
