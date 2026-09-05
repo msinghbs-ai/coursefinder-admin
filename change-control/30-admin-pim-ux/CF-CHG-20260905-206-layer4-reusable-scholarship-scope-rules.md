@@ -1,9 +1,10 @@
 # CF-CHG-20260905-206 — Layer 4 Reusable Scholarship Scope Rules
 
-**Status:** IMPLEMENTED / RUNTIME PASS / UI RELEASED v2.15.66 / CI PENDING  
+**Status:** CLOSED / PASS — RUNTIME + BUILD + DEPLOYED UAT  
 **Milestone:** M2.4.5  
 **Type:** FEATURE / OPERATIONS / ADMIN-PIM UX  
 **Initiated:** 5 September 2026 13:26 AEST  
+**Closed:** 5 September 2026 13:33 AEST  
 **Originating workstream:** CF M2.4.5 — Scholarships Acquisition & PIM Completion  
 **Primary owner:** 30-admin-pim-ux  
 **Related:** CF-205 Layer 4 mass operations
@@ -75,7 +76,9 @@ No Course-by-Course rule authoring is introduced.
 - Current Scholarship Course-scope rows awaiting review: 2,199.
 - Current cohorts: 10.
 - Each current major cohort has one Evidence version and zero Provider mismatch.
-- No reusable eligibility rule was automatically created during implementation; source semantics still require an operator decision.
+- Reusable rules created during implementation: **0**.
+- Automatic rows resolved during implementation: **0**.
+- No source-semantic decision was fabricated on behalf of the operator.
 
 ## Source / replay
 
@@ -93,6 +96,15 @@ Contract:
 
 - `tests/uat/cf-206-layer4-reusable-scope-rules-contract.spec.mjs`
 
+## Validation
+
+- Runtime schema/RPC/trigger deployment: PASS.
+- Pilot Frontend Build run **1648**: PASS.
+- CourseFinder Deployed UAT run **1523**: PASS.
+- Desktop governed validation: PASS.
+- Mobile gate was not part of this targeted change and remained skipped by the governed tier.
+- Publication changed: false.
+
 ## Implementation refs
 
 - `6b75e37ed9cff77c3c8b580deea799c505f157db` — replay migration
@@ -108,4 +120,4 @@ The UI entry can be removed without deleting retained rule history. Rules can be
 
 ## Gate
 
-Runtime schema/RPC/trigger deployment is PASS. No eligibility rule was created or applied to live cohorts during implementation. Final browser/build CI must pass before this record is marked CLOSED/PASS.
+**CLOSED / PASS.** The reusable-rule infrastructure is available to operators. No eligibility rule was created or applied automatically during implementation because cohort source semantics still require the operator's explicit governed decision.
