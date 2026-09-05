@@ -7,8 +7,8 @@
 | M245-FU-003 | H2 | Scraper routing/Layer config UX | PARTIAL / UI TARGETED PASS | No duplicate routing writer; Parse.bot generated API qualification remains blocked behind valid API key |
 | M245-FU-004 | H3 | Scholarship grid/filter/order maturity | CLOSED / TARGETED PASS | CF-208; build 33950428195 PASS; deployed UAT 33950428173 PASS. |
 | M245-FU-005 | H4 | Scheduler/Jobs operations | CLOSED / TARGETED PASS | CF-209; build 33950842781 PASS; deployed UAT 33950842779 PASS. Existing bounded scheduler/15-minute Layer 2 dispatcher, stale recovery, non-destructive housekeeping and server-paged Jobs telemetry accepted; generic retry/replay/reset remains intentionally disabled. |
-| M245-FU-006 | H5 | Manual record creation across PIM | ACTIVE / CF-210 DESIGN | Define entity capability matrix + rank/audit/evidence semantics without weakening source-authoritative Provider/Course/Campus/Scholarship identity. |
-| M245-FU-007 | H6 | Auto-publication + manual/mass controls | DESIGN REQUIRED | Keep disabled; design explicit safe enablement/preview/approval/rollback |
+| M245-FU-006 | H5 | Manual record creation across PIM | CLOSED / ACCEPTED / CF-211 | Source-backed Provider/Course/Campus/Scholarship candidate workflow accepted on canonical detail/Layer 4 surface; rank 5+, source/Evidence backed, no direct canonical writer, no publication side effect. Dedicated primary navigation not required. Accepted in visible Admin v2.15.66. |
+| M245-FU-007 | H6 | Auto-publication + manual/mass controls | CLOSED / ACCEPTED / CF-211 | Preview → confirm → execute + rollback accepted for target-scoped manual decisions; automatic publication remains disabled; Search/API, Website, Zoho and Production cutover remain separately governed. Accepted in visible Admin v2.15.66. |
 | M245-FU-008 | H7 | Production migration data/telemetry freshness | ACTIVE | Update migration manifest/snapshot after every material change |
 | M245-FU-009 | H8 | Further Addenda/Bugs/Features | ACTIVE | Record each in WORK-ITEM-LEDGER with date/time and owning Change ID |
 | M245-FU-010 | H9 | Faster UAT | OPEN | Audit current CI routing and remove unnecessary full-suite repeats |
@@ -33,8 +33,7 @@
 | 3 | H13 | Unify parser/API acquisition contract; proceed with file/parser path now; Parse.bot live path waits for valid credential | QUEUED NEXT / PARSE.BOT PARTIAL BLOCK |
 | Parked | H2 | Remaining Parse.bot 401 qualification | PARKED UNTIL H13 LIVE API STEP |
 | Closed | H3-H4 | Scholarship PIM and Scheduler/Jobs maturity | CLOSED / TARGETED PASS |
-| Active | H5 | Manual PIM record capability | CF-210 DESIGN ACTIVE |
-| Next | H6 | Publication controls | OPEN / AFTER H5 |
+| Closed | H5-H6 | Manual PIM source-backed candidates + publication controls | CLOSED / ACCEPTED / CF-211 / v2.15.66 |
 | Continuous | H7-H10 | migration telemetry, work-item intake, UAT efficiency, meeting readiness | ACTIVE THROUGHOUT |
 
 
