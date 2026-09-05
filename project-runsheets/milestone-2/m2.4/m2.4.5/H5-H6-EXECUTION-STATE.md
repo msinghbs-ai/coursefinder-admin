@@ -1,8 +1,9 @@
 # M2.4.5 — H5/H6 Execution State
 
-**Updated:** 5 September 2026 17:40 AEST  
+**Updated:** 5 September 2026  
 **Change Control:** CF-CHG-20260905-211  
-**Status:** H5 FUNCTIONALLY ACCEPTED ON CANONICAL DETAIL SURFACE / RELEASE PACKAGING OPEN — H6 ACCEPTED
+**Status:** H5 CLOSED / ACCEPTED — H6 CLOSED / ACCEPTED  
+**Accepted visible Admin release:** **v2.15.66**
 
 ## H5 — Manual PIM source-backed candidates
 
@@ -21,9 +22,9 @@ Implemented and accepted in Pilot runtime/source:
 - `ManualPimCandidateWorkspace.jsx` operator registration and queue component;
 - operator rank resolved from governed Admin context when not explicitly supplied;
 - canonical Provider/entity context can be inherited from an existing detail record;
-- existing `Layer4Intervention` detail surface now exposes **Source-backed PIM candidate workflow** for Provider/Course/Campus/Scholarship without a floating launcher or second control plane.
+- existing `Layer4Intervention` detail surface exposes **Source-backed PIM candidate workflow** for Provider/Course/Campus/Scholarship without a floating launcher or second control plane.
 
-H5 functional acceptance head:
+H5 accepted Pilot head:
 
 - `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84`.
 
@@ -32,7 +33,11 @@ Acceptance results:
 - Pilot Frontend Build run `33953096725` — SUCCESS;
 - CourseFinder Deployed UAT run `33953096702` — SUCCESS.
 
-The remaining H5 item is release packaging/IA only: decide whether to expose a dedicated primary navigation entry. If required, it must be added through the existing canonical navigation registry and accompanied by the visible Admin version/release-note bump. This is not required for the governed detail-surface workflow to operate.
+### Navigation decision
+
+A dedicated primary-navigation entry is **not required** for H5 closure. The workflow is intentionally exposed from the existing canonical entity-detail/Layer 4 surface where the operator already has the entity and Provider context needed for a source-backed candidate decision. Adding a second primary workspace would duplicate the control plane and increase the risk of identity/context drift.
+
+Future IA refinement may add a consolidated candidate queue only if it reuses the same H5 RPC/state model and does not create a parallel canonical writer or publication path.
 
 ## H6 — Publication controls
 
@@ -50,7 +55,7 @@ Accepted:
 - automatic publication remains FALSE;
 - consumer cutover remains unauthorised.
 
-The hardened H6 baseline at `4eb5e158f33ad871d9dee7abd3fffd9d6f548ee4` passed both Frontend Build and Deployed UAT. H6 is technically accepted. Website, Zoho, Search/API or Production cutover remains a separate future release decision.
+The hardened H6 baseline at `4eb5e158f33ad871d9dee7abd3fffd9d6f548ee4` passed both Frontend Build and Deployed UAT. Website, Zoho, Search/API or Production cutover remains a separate future release decision.
 
 Mass execution is supported server-side but no broad mass-publish UI is enabled. Any future mass UI must use the same exact preview token and bounded cohort.
 
@@ -89,21 +94,18 @@ Pilot commits in this execution line include:
 - `7f771ce6c49579f1b503e0fe799f5a2656a7d316` — canonical detail-surface placement;
 - `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84` — final H5 placement contract tests and accepted Pilot head.
 
-Admin governance:
+## Release reconciliation
 
-- CF-CHG-20260905-211 current;
-- execution state reconciled to successful final build/UAT and final advisor review.
+The live UI is confirmed at **v2.15.66**. Earlier H5/H6 notes referring to v2.15.57 as the current visible release were stale documentation, not a requirement to roll the application version backwards or create another artificial bump.
 
-## Current gate
+H5/H6 are accepted as part of the current v2.15.66 Admin baseline.
 
-### H6
-
-**ACCEPTED.** No remaining H6 implementation blocker. Automatic publication remains disabled and consumer cutover remains separately governed.
+## Final gate
 
 ### H5
 
-**FUNCTIONALLY ACCEPTED.** The governed source-backed candidate workflow is available from the canonical entity-detail/Layer 4 surface and has passed build/deployed UAT.
+**CLOSED / ACCEPTED.** Source-backed candidate registration is governed, rank-gated, Evidence/source-backed and separate from canonical Apply and publication.
 
-**Release packaging remains open:** primary-nav exposure and visible Admin version/release-note bump should be completed together only if the project elects to expose H5 as a standalone workspace in the main IA.
+### H6
 
-Do not treat that packaging item as permission to weaken the H5 candidate boundary or introduce a second launcher/control plane.
+**CLOSED / ACCEPTED.** Previewed manual publication decisions and rollback are available; automatic publication remains disabled and consumer cutover remains independently governed.
