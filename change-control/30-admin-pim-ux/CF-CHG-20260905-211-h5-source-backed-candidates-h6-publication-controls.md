@@ -1,6 +1,6 @@
 # CF-CHG-20260905-211 — H5 Source-Backed Candidate Workflow & H6 Publication Controls
 
-**Status:** IMPLEMENTED / TARGETED RUNTIME PASS / UI INTEGRATION PARTIAL  
+**Status:** IMPLEMENTED / TARGETED RUNTIME PASS / CANONICAL H5 UI INTEGRATION OPEN  
 **Milestone:** M2.4.5  
 **Workstreams:** H5, H6  
 **Initiated:** 5 September 2026 17:10 AEST  
@@ -13,7 +13,7 @@ Implement the governed operator workflow defined by CF-210 without weakening sou
 
 ## H5 implementation
 
-Pilot migration `20260905073000_cf_211_h5_h6_candidate_publication_controls.sql` adds private `pipeline.pim_source_candidates` and authenticated rank-5 RPCs:
+Pilot migration `20260905073000_cf_211_h5_h6_candidate_publication_controls.sql` adds private `pipeline.pim_source_candidates` and rank-5 candidate operations exposed through authenticated browser RPC wrappers:
 
 - `manual_pim_candidate_register`;
 - `manual_pim_candidates_read`;
@@ -49,31 +49,56 @@ The existing `layer4_publication_decide` remains the sole publication-decision p
 
 The underlying Layer 4 decision still reports `publication_status_changed=false` / `consumer_cutover_authorised=false`; therefore this work does not silently activate Search, Website, Zoho or Production publication.
 
-## Security
+## Security hardening
 
-- private candidate/settings tables: RLS enabled and direct `PUBLIC`, `anon`, `authenticated` table access revoked;
-- public RPCs revoke `PUBLIC`/`anon` EXECUTE and grant `authenticated` only;
-- every RPC re-checks `auth.uid()` and `security.current_role_rank()` server-side;
-- H5/H6 mutation requires rank 5+;
+The first runtime migration used public `SECURITY DEFINER` functions with explicit server-side rank checks. Supabase Security Advisor correctly surfaced these as externally callable `SECURITY DEFINER` WARN findings.
+
+Corrective migration `20260905074000_cf_211_h5_h6_private_impl_wrappers.sql` now follows the established CourseFinder private-implementation pattern:
+
+- H5 privileged implementations moved to non-exposed `pim_api`;
+- H6 privileged implementations moved to non-exposed `l4_api`;
+- public browser RPCs are `SECURITY INVOKER` SQL wrappers;
+- `PUBLIC` and `anon` EXECUTE revoked;
+- authenticated wrapper access retained;
+- private implementations continue to enforce `auth.uid()` and `security.current_role_rank()` server-side;
+- candidate/settings tables retain RLS with direct `PUBLIC`, `anon` and `authenticated` table access revoked;
 - no service-role key or private Evidence content enters browser code.
+
+Live verification confirms the five public CF-211 browser functions are `security_definer=false`, while their private `pim_api` / `l4_api` implementations retain the privileged server-side boundary.
+
+## Performance disposition
+
+Performance Advisor identified one new CF-211-specific INFO finding: the `pipeline.pim_source_candidates.evidence_id` foreign key lacked a covering index.
+
+Migration `20260905075000_cf_211_h5_candidate_evidence_index.sql` adds `pim_source_candidates_evidence_idx` for Evidence-backed review/query paths. Other Advisor INFO findings are pre-existing platform observations and are not introduced by CF-211.
 
 ## Verification
 
-Live Pilot migration applied successfully to project `coursefinder_Pilot`.
+Live Pilot migrations applied successfully to `coursefinder_Pilot`:
 
-Runtime verification confirms all five CF-211 RPCs are present and only `authenticated` has explicit EXECUTE among `PUBLIC`/`anon`/`authenticated`.
+1. `cf_211_h5_h6_candidate_publication_controls`;
+2. `cf_211_h5_h6_private_impl_wrappers`;
+3. `cf_211_h5_candidate_evidence_index`.
 
-Targeted source contract: `tests/uat/cf-211-h5-h6-candidate-publication-controls.spec.mjs`.
+Runtime verification confirms:
 
-A local clone-based test attempt was unavailable because the execution container has no external DNS. This does not invalidate the live database verification; normal repository CI/deployed UAT remains the closure gate.
+- all five public CF-211 RPC wrappers are present;
+- privileged implementations are outside the public schema;
+- public wrappers are not `SECURITY DEFINER`;
+- `auto_publication_enabled=false` remains live;
+- no consumer cutover has been authorised.
+
+Targeted source contract: `tests/uat/cf-211-h5-h6-candidate-publication-controls.spec.mjs`, extended to cover private wrappers and the Evidence FK index.
+
+A local clone-based test attempt was unavailable because the execution container has no external DNS. Normal repository CI/deployed UAT remains the browser closure gate.
 
 ## Remaining closure work
 
 1. Wire `ManualPimCandidateWorkspace` into the canonical Admin/PIM navigation registry, preferably under Quality & Review or Administration according to the accepted IA decision.
-2. Bump visible Admin version/release notes for the browser-facing H5/H6 controls.
+2. Bump visible Admin version/release notes when canonical browser placement is committed.
 3. Run frontend build + targeted deployed UAT including rank-4 negative, rank-5 positive, duplicate candidate rejection, preview-token mismatch and rollback.
-4. Run security/performance advisors and disposition any new WARN/ERROR.
-5. Update M2.4.5 CURRENT-STATE/FOLLOW-UPS and close H5/H6 only after deployed browser acceptance.
+4. Re-run Security Advisor after the final browser candidate; CF-211 public `SECURITY DEFINER` findings must remain absent.
+5. Update M2.4.5 current-state/follow-ups and close H5/H6 only after deployed browser acceptance.
 
 ## Rollback
 
