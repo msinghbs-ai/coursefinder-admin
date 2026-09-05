@@ -1,6 +1,6 @@
 # CF-CHG-20260905-211 — H5 Source-Backed Candidate Workflow & H6 Publication Controls
 
-**Status:** IMPLEMENTED / TARGETED RUNTIME PASS / CANONICAL H5 UI INTEGRATION OPEN  
+**Status:** H6 ACCEPTED / H5 CANONICAL DETAIL SURFACE IMPLEMENTED / PRIMARY NAV RELEASE STEP OPEN  
 **Milestone:** M2.4.5  
 **Workstreams:** H5, H6  
 **Initiated:** 5 September 2026 17:10 AEST  
@@ -31,9 +31,13 @@ Safety properties:
 - candidate decisions explicitly return `canonical_written=false` and `published=false`;
 - `ready_for_acquisition` means hand-off to the existing governed acquisition/reconciliation path, not a generic canonical writer.
 
-`src/ManualPimCandidateWorkspace.jsx` implements the rank-5 candidate registration/queue UI. Canonical shell placement remains the remaining H5 UI integration step; it must be added to the existing navigation registry rather than through a floating launcher.
+`src/ManualPimCandidateWorkspace.jsx` implements the rank-5 candidate registration/queue UI and now resolves the current operator rank from the governed context when rank is not explicitly supplied. It also accepts initial entity/provider context from an existing canonical record.
 
-## H6 implementation
+`src/Layer4Intervention.jsx` now exposes this workflow from the existing canonical Provider/Course/Campus/Scholarship detail surface under **Source-backed PIM candidate workflow**. This does not introduce a floating launcher or a second control plane. Provider context is inherited where available; canonical writes and publication remain separate.
+
+A dedicated primary-navigation entry is still considered a release/IA refinement, not a blocker to the governed H5 workflow itself. If added, it must use the existing navigation registry under Quality & Review or Administration.
+
+## H6 implementation and acceptance
 
 The existing `layer4_publication_decide` remains the sole publication-decision primitive. CF-211 adds:
 
@@ -45,9 +49,11 @@ The existing `layer4_publication_decide` remains the sole publication-decision p
 - exact cohort token retained in Layer 4 approval context;
 - `pipeline.publication_control_settings.auto_publication_enabled=false` by default and currently immutable from the Admin surface.
 
-`src/Layer4Intervention.jsx` now uses preview → operator confirmation → execute for single-record publication decisions and exposes target-scoped rollback.
+`src/Layer4Intervention.jsx` uses preview → operator confirmation → execute for single-record publication decisions and exposes target-scoped rollback.
 
 The underlying Layer 4 decision still reports `publication_status_changed=false` / `consumer_cutover_authorised=false`; therefore this work does not silently activate Search, Website, Zoho or Production publication.
+
+The hardened H6 baseline at Pilot commit `4eb5e158f33ad871d9dee7abd3fffd9d6f548ee4` passed both Pilot Frontend Build and CourseFinder Deployed UAT on 5 September 2026. H6 is therefore technically accepted. Consumer cutover remains a separate future decision.
 
 ## Security hardening
 
@@ -88,17 +94,22 @@ Runtime verification confirms:
 - `auto_publication_enabled=false` remains live;
 - no consumer cutover has been authorised.
 
-Targeted source contract: `tests/uat/cf-211-h5-h6-candidate-publication-controls.spec.mjs`, extended to cover private wrappers and the Evidence FK index.
+Targeted source contract: `tests/uat/cf-211-h5-h6-candidate-publication-controls.spec.mjs`, extended to cover private wrappers, Evidence FK indexing, operator-context resolution and canonical detail-surface placement.
 
-A local clone-based test attempt was unavailable because the execution container has no external DNS. Normal repository CI/deployed UAT remains the browser closure gate.
+Verified baseline results:
+
+- Pilot Frontend Build run `33952467996` — SUCCESS;
+- CourseFinder Deployed UAT run `33952468057` — SUCCESS.
+
+Current H5 detail-surface candidate head: `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84`. Its fresh build/UAT run must pass before H5 is accepted.
 
 ## Remaining closure work
 
-1. Wire `ManualPimCandidateWorkspace` into the canonical Admin/PIM navigation registry, preferably under Quality & Review or Administration according to the accepted IA decision.
-2. Bump visible Admin version/release notes when canonical browser placement is committed.
-3. Run frontend build + targeted deployed UAT including rank-4 negative, rank-5 positive, duplicate candidate rejection, preview-token mismatch and rollback.
-4. Re-run Security Advisor after the final browser candidate; CF-211 public `SECURITY DEFINER` findings must remain absent.
-5. Update M2.4.5 current-state/follow-ups and close H5/H6 only after deployed browser acceptance.
+1. Confirm Frontend Build and Deployed UAT on `d7556a8a0aea078b19aacaa1051ddd98ebdcbf84`.
+2. Run/confirm rank-4 negative and rank-5 positive browser behaviour for the source-backed candidate control.
+3. Re-run Security Advisor after the final H5 browser candidate; CF-211 public `SECURITY DEFINER` findings must remain absent.
+4. Decide whether a dedicated primary-nav entry is required for release; if yes, place it through the existing canonical navigation registry and bump the visible Admin version/release notes in the same change.
+5. Reconcile M2.4.5 H5/H6 execution state after the final H5 browser gate.
 
 ## Rollback
 
