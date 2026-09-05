@@ -5,7 +5,7 @@
 | M245-FU-001 | H1 | Admin menu/submenu/UI standardisation | CLOSED / TARGETED PASS | CF-088; build 33700864619 PASS; deployed UAT 33700864824 PASS |
 | M245-FU-002 | H2 | Scraper Config complete enable/disable/control surface | TARGETED PASS / PARSE.BOT AUTH BLOCKED | CF-089 UI/performance PASS; rotate valid Parse.bot API key then rerun connection probe |
 | M245-FU-003 | H2 | Scraper routing/Layer config UX | PARTIAL / UI TARGETED PASS | No duplicate routing writer; Parse.bot generated API qualification remains blocked behind valid API key |
-| M245-FU-004 | H3 | Scholarship grid/filter/order maturity | OPEN | Inspect current Scholarship route/grid/API and define targeted UI contract |
+| M245-FU-004 | H3 | Scholarship grid/filter/order maturity | IMPLEMENTED / CF-208 ACCEPTANCE PENDING | Mature Scholarship catalogue already provides governed search, Country/Lifecycle/Publication filters, sort, pagination and detail; CF-208 source + deployed acceptance added. Close after CI/deployed PASS. |
 | M245-FU-005 | H4 | Scheduler/Jobs operations | OPEN | Reconcile cron, scheduler RPCs, Jobs workspace, retries/lineage/telemetry |
 | M245-FU-006 | H5 | Manual record creation across PIM | OPEN | Define entity capability matrix + rank/audit/evidence semantics |
 | M245-FU-007 | H6 | Auto-publication + manual/mass controls | DESIGN REQUIRED | Keep disabled; design explicit safe enablement/preview/approval/rollback |
