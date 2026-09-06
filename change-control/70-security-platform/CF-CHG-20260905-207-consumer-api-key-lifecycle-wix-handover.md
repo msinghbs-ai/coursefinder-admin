@@ -1,6 +1,6 @@
 # CF-CHG-20260905-207 — Consumer API Key Lifecycle & Wix Integration Handover
 
-**Status:** OPEN / M2.4.5 H14  
+**Status:** OPEN / M2.4.5 H14 — WIX AUTH HOTFIX APPLIED 2026-09-06  
 **Initiated:** 2026-09-05 15:48 AEST  
 **Origin:** CourseFinder Wix developer API/handover workstream  
 **Primary category:** 70-security-platform  
@@ -114,6 +114,36 @@ Wix remains cache-first:
 
 Normal visitor queries should not generate CourseFinder API calls. Course deltas use stable IDs and `changed_since`; failed refreshes retain last-known-good cache and do not advance the cursor.
 
+## 2026-09-06 Wix authentication incident and hotfix
+
+Developer testing reported `401 AUTHENTICATION_REQUIRED` using both `Authorization: Bearer` and `x-cf-token`, while an invalid action reportedly returned `INVALID_ACTION`.
+
+Investigation established:
+
+- the registered Wix Pilot credential is enabled and the current key hash is accepted by `website_edge_auth_v1`;
+- `wix-course-api` v1 used a hard-coded token hash, which was incompatible with the intended Admin-managed credential lifecycle;
+- v1 token extraction prioritised JSON-body `integration_token` over both supported headers, so any stale body value could override a valid `Authorization` or `x-cf-token` header;
+- in v1 and v2, `INVALID_ACTION` is evaluated only after successful authentication, therefore any request receiving `INVALID_ACTION` has already passed authentication for that request shape.
+
+Hotfix applied to Supabase Pilot Edge Function `wix-course-api` version 2 on 6 September 2026:
+
+1. authentication now validates the presented key through `website_edge_auth_v1` / the credential registry rather than a hard-coded hash;
+2. header precedence is now `Authorization: Bearer` first, then `x-cf-token`, with JSON-body `integration_token` retained only as a compatibility fallback;
+3. supported actions and external request contract remain unchanged;
+4. `verify_jwt=false` remains intentional because the function performs dedicated server-side integration-token authentication.
+
+Post-deploy verification:
+
+- Edge Function status: ACTIVE, version 2;
+- current Wix Pilot credential: enabled;
+- current Wix Pilot credential hash: accepted by `website_edge_auth_v1`;
+- full external HTTP smoke test still requires a caller capable of making the POST request from outside the current execution environment.
+
+Developer retest should use one authentication method only and omit `integration_token` from the JSON body:
+
+- preferred: `Authorization: Bearer <key>`;
+- alternative: `x-cf-token: <key>`.
+
 ## Security acceptance
 
 Before closure prove:
@@ -128,6 +158,7 @@ Before closure prove:
 8. Audit history contains lifecycle actions without secret material.
 9. Wix key remains distinct from Zoho, scraper/vendor and Supabase privileged credentials.
 10. Production migration inventory includes credential metadata/functions/Edge bindings but not reusable Pilot raw secrets.
+11. Wix Edge authentication reads the managed credential registry and requires no Edge redeploy for routine key rotation.
 
 ## Documentation evidence
 
@@ -137,7 +168,7 @@ Before closure prove:
 
 ## Implementation state
 
-Governance and handover documentation are applied in this change. Admin/API-key lifecycle runtime implementation remains an M2.4.5 H14 delivery item and must receive its own migration/Edge/UI/build/deployed-UAT evidence before this record can close.
+Governance and handover documentation are applied. Wix authentication hotfix v2 is applied to Pilot and now uses the managed credential registry. The broader Admin/API-key lifecycle runtime implementation remains an M2.4.5 H14 delivery item and must receive migration/Edge/UI/build/deployed-UAT evidence before this record can close.
 
 ## Rollback
 
