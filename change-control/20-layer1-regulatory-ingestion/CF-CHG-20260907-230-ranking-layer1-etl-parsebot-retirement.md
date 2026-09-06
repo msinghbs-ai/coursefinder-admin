@@ -1,7 +1,8 @@
 # CF-CHG-20260907-230 — Ranking Layer 1 ETL / Parse.bot Retirement
 
-**Status:** IMPLEMENTED IN SOURCE / TARGETED ACCEPTANCE PENDING  
+**Status:** CLOSED / TARGETED PASS  
 **Initiated:** 2026-09-07 AEST  
+**Closed:** 2026-09-07 AEST  
 **Category:** 20-layer1-regulatory-ingestion  
 **Milestone:** M2.4.5 — H12/H13  
 
@@ -9,7 +10,7 @@
 
 Ranking acquisition no longer uses Parse.bot.
 
-CourseFinder ranking ingestion is now Evidence-first Layer 1 ETL:
+CourseFinder ranking ingestion is Evidence-first Layer 1 ETL:
 
 1. obtain authorised publisher ranking Evidence;
 2. register the Evidence against the ranking system and edition;
@@ -60,18 +61,35 @@ Operator-facing changes:
 - file validation, edition detection, revision warnings, Jobs lineage, Apply, export and viewer actions remain available;
 - complete global publisher Evidence is preferred; supported same-edition country/page bundles remain accepted where necessary.
 
-The older React source still contains historical URL-mode code that is unreachable from the active UI and is backend-blocked. Its physical source deletion is non-functional cleanup only and must not delay CF-230 behavioural acceptance.
+## Acceptance result
 
-## Acceptance
+Targeted acceptance candidate: Pilot `11ff1a99a1884d11d48aeb1e698557df1f0f0110`.
 
-Required targeted checks:
+GitHub status:
 
-- QS official XLSX Evidence validates through `ranking-qs-official-etl` and canonical QS indicators remain populated.
-- THE XLSX Evidence validates through `ranking-the-official-etl`.
-- applying validated QS/THE imports still uses the existing `ranking-publisher-control` Layer 1 job path.
-- direct calls to all three retired URL workers return controlled 410 responses after authentication.
+- `coursefinder/deployed-uat/targeted/chromium-desktop` — **SUCCESS**
+- workflow run `34057703740`
+
+Accepted behaviour:
+
+- QS official Evidence remains on `ranking-qs-official-etl`.
+- THE official Evidence remains on `ranking-the-official-etl`.
+- validated QS/THE imports continue through the governed `ranking-publisher-control` Layer 1 job path.
+- retired ranking URL workers remain backend-blocked.
 - Admin no longer exposes Parse.bot/URL ranking acquisition.
-- historical imports/Evidence remain visible and exportable.
-- no Production environment is created or modified by this change.
+- historical imports/Evidence remain available for provenance and export.
+- no Production environment was created or modified by this change.
 
-Targeted acceptance candidate: Pilot `11ff1a99a1884d11d48aeb1e698557df1f0f0110`. At the time of this record GitHub had not yet attached a check status; do not claim PASS until the targeted result is present.
+## Non-blocking cleanup debt
+
+The legacy `mature-main.jsx` and browser API wrapper still contain unreachable historical URL-mode symbols. They are not operator-accessible and cannot execute a ranking acquisition because the UI hides the path and all ranking URL workers are retired server-side.
+
+Physical removal is a source-maintenance task only. It must:
+
+- remove `rankingParsebotRef`, URL-mode form state/branches and Parse.bot copy from the legacy React source;
+- remove the obsolete `importRankingPublisherUrl` browser wrapper;
+- remove the temporary DOM guard only after the native React panel is Evidence-only;
+- retain the 410 retirement workers for explicit compatibility/audit behaviour unless a later governed removal is approved;
+- run the same targeted ranking UAT after cleanup.
+
+This cleanup does not reopen CF-230 and must not reintroduce URL or metered ranking acquisition.
