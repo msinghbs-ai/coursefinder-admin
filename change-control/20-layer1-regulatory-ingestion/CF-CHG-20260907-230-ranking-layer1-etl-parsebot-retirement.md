@@ -1,6 +1,6 @@
 # CF-CHG-20260907-230 — Ranking Layer 1 ETL / Parse.bot Retirement
 
-**Status:** IMPLEMENTED IN SOURCE / DEPLOYMENT-UAT PENDING  
+**Status:** IMPLEMENTED IN SOURCE / TARGETED ACCEPTANCE PENDING  
 **Initiated:** 2026-09-07 AEST  
 **Category:** 20-layer1-regulatory-ingestion  
 **Milestone:** M2.4.5 — H12/H13  
@@ -41,18 +41,26 @@ Source commits:
 - Pilot `f1ccca9a5498d08f44e40f534ad1eb090416730f` — retire shared ranking URL acquisition.
 - Pilot `3f269a93627c780a42842224a59cb7ce7e1410e8` — retire QS URL acquisition/Parse.bot fallback.
 - Pilot `55907ea2c329acaf4e6fc3a1e4268237292d2fae` — retire THE Parse.bot-backed URL acquisition.
+- Pilot `ea8a107035e8164a14fefcafd9ff48f33fcea6e5` — add Evidence-only ranking Admin surface guard.
+- Pilot `1f63ff2e55593728f1d6b8096c5c003682a4e6d0` — load Evidence-only ranking Admin surface.
+- Pilot `11ff1a99a1884d11d48aeb1e698557df1f0f0110` — targeted CF-230 ranking acceptance candidate.
 
-## UI cleanup required before closure
+## Admin operator workflow
 
-The current Admin ranking registration screen still contains the historical URL/Parse.bot import method. It must be simplified to a single publisher-Evidence workflow:
+The active Sources & Imports ranking workflow is now:
 
-- remove Parse.bot/URL ranking method and scraper reference field;
-- retain publisher/source URL as provenance metadata only;
-- label QS/THE imports as Layer 1 Evidence ETL;
-- keep file validation, edition detection, revision warning, Jobs lineage, Apply and viewer actions;
-- do not remove Parse.bot from generic Scraper Config if another Layer 2 workflow still consumes it.
+`Publisher Evidence → registered import → Layer 1 Ranking ETL → reconciliation → apply → Statistics/Compare`
 
-Until this UI cleanup is deployed, the backend prevents accidental use by returning 410 for the retired URL routes.
+Operator-facing changes:
+
+- ranking URL/Parse.bot import method is not exposed;
+- scraper reference controls are not exposed;
+- publisher/source URL remains provenance metadata only;
+- QS/THE are described as dedicated Layer 1 Ranking ETL paths;
+- file validation, edition detection, revision warnings, Jobs lineage, Apply, export and viewer actions remain available;
+- complete global publisher Evidence is preferred; supported same-edition country/page bundles remain accepted where necessary.
+
+The older React source still contains historical URL-mode code that is unreachable from the active UI and is backend-blocked. Its physical source deletion is non-functional cleanup only and must not delay CF-230 behavioural acceptance.
 
 ## Acceptance
 
@@ -62,6 +70,8 @@ Required targeted checks:
 - THE XLSX Evidence validates through `ranking-the-official-etl`.
 - applying validated QS/THE imports still uses the existing `ranking-publisher-control` Layer 1 job path.
 - direct calls to all three retired URL workers return controlled 410 responses after authentication.
-- Admin no longer offers Parse.bot/URL ranking acquisition after UI cleanup.
+- Admin no longer exposes Parse.bot/URL ranking acquisition.
 - historical imports/Evidence remain visible and exportable.
 - no Production environment is created or modified by this change.
+
+Targeted acceptance candidate: Pilot `11ff1a99a1884d11d48aeb1e698557df1f0f0110`. At the time of this record GitHub had not yet attached a check status; do not claim PASS until the targeted result is present.
