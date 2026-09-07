@@ -120,6 +120,23 @@ Troubleshooting never authorises bypassing:
 
 A temporary diagnostic must not become a permanent browser-accessible bypass. Debug output must not leak secrets, credentials or private Evidence.
 
+## Permanent prevention controls from CF-239 recovery
+
+The CF-238/CF-239 recovery demonstrated that a technically plausible optimisation can create another failure when the complete deployed call chain is not validated first. The following controls are mandatory for future performance/security recovery work:
+
+1. **Validate the full ACL call chain before routing to a new private helper.** For an exposed `SECURITY INVOKER` wrapper, verify EXECUTE on every private helper for the intended authenticated role, verify the helper performs its own authentication/rank check where required, and explicitly verify `anon`/`public` remain denied. A fast helper returning 403 is not a successful optimisation.
+2. **Profile the exact production predicate before creating an index.** Partial-index predicates must match the real query form closely enough for PostgreSQL to use them. Do not assume logically similar forms such as `metadata->>'layer'='2'` and `coalesce(metadata->>'layer','')='2'` are interchangeable for planner matching. Confirm with `EXPLAIN (ANALYZE, BUFFERS)` on the exact read path.
+3. **Treat the governed performance budget as a ceiling, not the engineering target.** A direct database timing just below the limit is insufficient acceptance. Require material headroom and the deployed browser/RPC measurement because network, auth, PostgREST, planning, contention and rendering add overhead.
+4. **Measure the full RPC projection before rewriting semantics.** For large JSON/read projections, inspect planning/JIT time, buffer hits, repeated correlated scans, wide-row scans and index use first. Prefer planner/index/JIT corrections that preserve the accepted response contract over duplicating or simplifying governed data semantics.
+5. **Repository head is not runtime truth.** Do not start deployed UAT until every required migration/function/configuration change is confirmed applied in the target runtime. Record both source commit and deployed migration identity.
+6. **One material change, then one targeted proof.** Do not repeatedly rerun a failing suite without a corrective change. Read the exact job log and retained evidence, classify the new failure, then make the smallest correction before another run.
+7. **Security and performance must be proven together when a read path changes.** Any new helper/dispatcher route must pass ACL/role checks and latency/payload/zero-5xx checks before nomination to bounded integration.
+8. **Do not spend broad-suite capacity on an unproven targeted fix.** Use targeted → bounded → nominated acceptance. Desktop/mobile integration is re-opened only after the exact affected targeted gate is clean.
+9. **Stale test wording is reconciled to governed IA, never vice versa.** Preserve route/backend contracts where accepted and update only the proven-stale assertion; do not revert product terminology to make a test green.
+10. **Record failure evidence and the prevention lesson while the recovery is still open.** The owning Change Control must contain failed run IDs, root causes, attempted fixes that were insufficient, deployed migration IDs, final PASS evidence and the prevention control that would have caught the defect earlier.
+
+These controls are additive to the existing security, data-authority, UAT and release rules; they never authorise budget increases, swallowed server errors, weaker role boundaries or reduced Evidence semantics.
+
 ## Cross-chat continuity requirements
 
 Before ending a substantial troubleshooting chat, repository truth must be sufficient for another chat to continue without relying on the previous conversation. Record:
