@@ -1,0 +1,74 @@
+name: CF-242 Governance Sync
+on:
+  push:
+    branches: [cf-242-m245-ui-release-closure-20260907]
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cf-242-m245-ui-release-closure-20260907
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synchronize current M2.4.5 control records
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          root=Path('project-runsheets/milestone-2/m2.4/m2.4.5')
+
+          # CURRENT-STATE: refresh live header and insert latest accepted state without deleting history.
+          p=root/'CURRENT-STATE.md'; s=p.read_text()
+          s=re.sub(r'\*\*Status:\*\*.*?\n', '**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-242 UI + v2.15.73 CLOSED / PASS  \n', s, count=1)
+          s=re.sub(r'\*\*Updated:\*\*.*?\n', '**Updated:** 2026-09-07 17:06 AEST  \n', s, count=1)
+          latest='''\n## CF-242 accepted UI baseline and release currentness — 2026-09-07\n\n- **Visible Admin release:** v2.15.73.\n- **Accepted Pilot main head:** `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.\n- Functional UI acceptance head before release-only sync: `39dbf633d236c812cd5134ff263b993f6ac3e851`.\n- Governed Pilot read-contract reconciliation: `20260907064251_m245_ui_read_contract_reconciliation`.\n- Scholarship Provider filter is bounded/searchable and server-authoritative through `provider_id`; fluid list/grid behaviour and meaningful server ordering are accepted.\n- QILT/PRISMS fluid server-sorted datasets, QS/THE Open Dataset + Compare, and Provider Compare latest/history/sticky identity are accepted without changing source grain, Evidence, publication or Provider-equivalence semantics.\n- Targeted source contract `34092573017`: PASS. Build/browser smoke `34092486868`: PASS.\n- Bounded viewport gate `34093001623`: PASS at 1600×900 / 1366×768 / 900×820 / 390×844.\n- Functional deployed UAT `34093156194`: PASS.\n- Release-sync build/browser smoke `34093619913`: PASS.\n- Final merged-head build/browser smoke `34093765392`: PASS.\n- Final deployed v2.15.73 currentness UAT `34093765349`: PASS.\n- CF-242 is **CLOSED / PASS**. M2.4.5 remains ACTIVE for other recorded pre-production gates.\n- v2.15.72 remains superseded forensic history under CF-240. CF-241 remains reserved for separate forward CF-239 runtime reconciliation.\n- Production untouched; M2.5 not reopened.\n\n'''
+          anchor=re.search(r'(\*\*Change Control:\*\*.*?\n)',s)
+          if anchor and '## CF-242 accepted UI baseline' not in s:
+              pos=anchor.end(); s=s[:pos]+latest+s[pos:]
+          p.write_text(s)
+
+          # RUNSHEET: retain owning CF-087, refresh current status and add accepted bounded gate.
+          p=root/'RUNSHEET.md'; s=p.read_text()
+          s=re.sub(r'\*\*Status:\*\*.*?\n', '**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-242 UI + v2.15.73 CLOSED / PASS  \n', s, count=1)
+          marker='''\n## Latest accepted UI/release gate — CF-242\n\n- Scholarship Catalogue, Statistics & Rankings and Provider Compare UI improvements are CLOSED / PASS in Pilot/UAT.\n- Accepted visible release v2.15.73 at Pilot head `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.\n- DB read-contract migration `20260907064251_m245_ui_read_contract_reconciliation` is part of the accepted Pilot state.\n- Bounded viewport acceptance `34093001623` and final deployed currentness `34093765349` are PASS.\n- This does **not** close M2.4.5 as a whole. CF-241 runtime reconciliation and other open follow-ups remain separately governed.\n- Production remains untouched and M2.5 remains paused.\n\n'''
+          if '## Latest accepted UI/release gate — CF-242' not in s:
+              idx=s.find('## Objective')
+              s=s[:idx]+marker+s[idx:] if idx>=0 else s+marker
+          p.write_text(s)
+
+          # FOLLOW-UPS: insert a current closure row near the top.
+          p=root/'FOLLOW-UPS.md'; s=p.read_text()
+          row='| M245-FU-028 | UI improvements / CF-242 | Scholarship Provider filter; fluid/sortable Scholarship/QILT/PRISMS/QS/THE datasets; Provider Compare latest/history/sticky identity; v2.15.73 currentness | CLOSED / PASS | Accepted head `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded `34093001623` PASS; deployed currentness `34093765349` PASS. CF-241 remains separate; Production unchanged. |\n'
+          if 'M245-FU-028' not in s:
+              hdr='|---|---|---|---|---|\n'
+              s=s.replace(hdr,hdr+row,1)
+          p.write_text(s)
+
+          # REGISTER: refresh effective date, add an explicit currentness summary and CF-242 row.
+          p=Path('change-control/REGISTER.md'); s=p.read_text()
+          s=re.sub(r'\*\*Effective:\*\*.*?\n','**Effective:** 7 September 2026\n',s,count=1)
+          summary='> **M2.4.5 UI / RELEASE CURRENTNESS:** `CF-CHG-20260907-242` is CLOSED / PASS. Scholarship/Statistics/Rankings/Provider Compare UI improvements and the bounded read-contract reconciliation are accepted at Pilot v2.15.73 / `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded viewport `34093001623` PASS; final deployed currentness `34093765349` PASS. v2.15.72 remains superseded forensic history; CF-241 remains reserved for separate CF-239 runtime reconciliation. Production unchanged.\n>\n'
+          if 'M2.4.5 UI / RELEASE CURRENTNESS' not in s:
+              needle='> **M2.5:**'
+              idx=s.find(needle)
+              s=s[:idx]+summary+s[idx:] if idx>=0 else s+summary
+          row='| CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |\n'
+          if '| CF-CHG-20260907-242 |' not in s:
+              hdr='|---|---|---|---|---|\n'
+              s=s.replace(hdr,hdr+row,1)
+          p.write_text(s)
+          PY
+      - name: Remove one-time workflow and commit
+        shell: bash
+        run: |
+          rm .github/workflows/cf242-governance-sync.yml
+          git config user.name coursefinder-governance-bot
+          git config user.email coursefinder-governance-bot@users.noreply.github.com
+          git add project-runsheets/milestone-2/m2.4/m2.4.5/CURRENT-STATE.md project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md project-runsheets/milestone-2/m2.4/m2.4.5/FOLLOW-UPS.md change-control/REGISTER.md .github/workflows/cf242-governance-sync.yml
+          git commit -m 'CF-242 synchronize M2.4.5 accepted UI currentness'
+          git push origin HEAD:cf-242-m245-ui-release-closure-20260907
