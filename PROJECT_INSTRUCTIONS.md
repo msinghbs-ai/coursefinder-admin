@@ -1,7 +1,7 @@
 # CourseFinder Project Operating Instructions
 
 **Status:** AUTHORITATIVE CROSS-CHAT OPERATING ENTRY POINT  
-**Effective:** 26 August 2026  
+**Effective:** 7 September 2026  
 **Applies to:** Every new or existing CourseFinder implementation, ingestion, enrichment, Admin/PIM, Search/API, Zoho, security, UAT and governance chat/workstream.
 
 ## Purpose
@@ -16,6 +16,7 @@ Before selecting any versioned governance/design document, read:
 
 - `docs/README.md` — authoritative current-document router; do not infer “latest” from filename ordering.
 - `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` — standing Admin/PIM chat lifecycle, work-item, UI/UX, Settings, end-to-end wiring, UAT and handoff principles.
+- `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` — mandatory whenever the task is a bug, failed UAT, regression, runtime incident, large corrective change or recovery/troubleshooting continuation.
 
 ## Mandatory session start
 
@@ -31,10 +32,24 @@ Before making a material CourseFinder change, read/review the latest applicable 
 8. Latest accepted `docs/coursefinder-database-architecture-*.md`.
 9. Latest Admin/PIM design-decision document when UI/PIM/field semantics are involved.
 10. Relevant milestone/sub-milestone runsheets, UAT/source-qualification/design documents and overlapping Change Controls.
+11. For any bug, failed UAT, regression, runtime incident, troubleshooting or recovery work, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`.
 
 A chat should inspect implementation repositories and live Supabase state when the task depends on current deployed behaviour. Do not overwrite newer parallel work based on stale chat context.
 
 For M2 work, task-specific prompts may narrow scope but must not remove the standing M2 authority/security/operations contract or A1–A6 execution discipline. Full deployed acceptance is a nominated checkpoint gate, not the default feedback loop for every intermediate change.
+
+## Bug / troubleshooting / recovery gate
+
+A corrective chat must not start from chat memory alone. Before changing implementation it must reconcile:
+
+- the exact failing/passing CI/UAT run and intended suite routing;
+- current implementation repository head(s);
+- current deployed Supabase/runtime/configuration state;
+- current visible version/release authority;
+- owning Change Control and active milestone continuity files;
+- whether the failure is implementation, data, UAT-contract, deployment/currentness, environment/configuration, governance drift or mixed.
+
+Use the recovery sequence defined in `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`: evidence first, smallest safe fix, targeted validation, bounded integration where needed, then one nominated broader acceptance. Never weaken a correct authority/security/data rule merely to make a test pass. Never promote a browser-visible release while its required functional gate is red, cancelled or unrun.
 
 ## Change-control trigger
 
@@ -143,10 +158,14 @@ A material change is not complete until the relevant record contains:
 - rollback/reversion path;
 - final status and closure timestamp, or a clearly named blocker/handoff owner.
 
+For troubleshooting/recovery work, handover must additionally include defect classification/root cause, exact failed and passing run IDs, OPEN/CLOSED recovery gates, deployed/runtime state, and the exact next targeted action.
+
 Update the running-build/master-plan only when the programme status genuinely changes. Do not bump canonical architecture merely for a UI/read-contract change.
 
 ## Cross-chat operating expectation
 
 When opening a new CourseFinder chat, the opening prompt should tell it to read this file first. Existing chats should also re-read it whenever their work becomes material, overlaps another workstream, or changes scope.
+
+For a bug/troubleshooting/recovery continuation, the opening prompt must also explicitly require `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` and reconciliation of current repo/runtime/UAT truth before any fix.
 
 This file is intentionally concise enough to be read every session. Detailed rules belong in the referenced milestone/addenda/category/change/UAT/design documents.
