@@ -44,53 +44,7 @@ No forensic branch or failed UAT evidence is to be deleted or rewritten.
 
 Git comparison from `c9dbbfb...` to `fbf7cca...` reports **54 commits ahead / 0 behind**. All 54 commits are now **SUPERSEDED FOR REBUILD PURPOSES**. They remain available only as forensic/reference material and are not accepted as current M2.4.5 implementation.
 
-The superseded range starts with:
-
-- `0e1e1e4069945565d74f47aba2261e9cb1885a8d` — CF-228 deployed v2.15.71 verification update, which exposed the ranking URL/file semantic mismatch;
-
-and extends through:
-
-- `fbf7cca96d9f64d1d95db4ccc780399549ebde4d` — CF-239 bounded integration re-nomination.
-
-## Superseded feature/recovery groups
-
-The following work performed after the stable v2.15.71 baseline is not current and must be reconsidered one governed item at a time before any reintroduction:
-
-1. CF-228 post-release verification changes and ranking-currentness test adjustments.
-2. CF-229 through CF-234 ranking/Compare/QILT recovery and v2.15.72 promotion work.
-3. CF-230 ranking Layer 1 Evidence changes.
-4. CF-231 ranking edition/evidence-completeness changes.
-5. CF-232 role-safe Layer Status summary changes.
-6. CF-235 Layer 4 public-wrapper security hardening.
-7. CF-236 Scholarship/statistics RPC and search-path hardening.
-8. CF-238 bounded integration candidate and retained failure evidence.
-9. CF-239 Evidence/Layer 2 performance, helper ACL and index recovery work.
-10. Any associated H11 Provider-logo reproof or post-baseline navigation/test-contract adjustments that occurred inside the superseded range.
-
-This supersession does **not** declare those designs invalid. It declares that they no longer form part of the accepted baseline and must be requalified individually if needed.
-
-## Superseded changed surface
-
-The comparison identifies post-baseline changes across release/currentness, Compare/ranking UI, ranking acquisition functions, database migrations, UAT routing and performance recovery. Important affected files include:
-
-- `src/release-currentness-entry.js`;
-- `src/CompareRecovery.js`;
-- `src/RankingStatisticsRecovery.js`;
-- `src/RankingDatasetViewer.js`;
-- `src/ranking-layer1-evidence-ui.js`;
-- ranking publisher / QS / THE Edge Functions;
-- CF-231, CF-232, CF-235, CF-236 and CF-239 migrations;
-- Compare/ranking deployed UAT suites;
-- shared navigation UAT helper;
-- bounded integration/performance candidate markers.
-
-The full immutable diff remains reconstructable from the preserved forensic branch.
-
-## Source recovery action
-
-Pilot `main` was force-moved from `fbf7cca...` to exactly `c9dbbfb...` only after creating the forensic preservation branch.
-
-This reset intentionally restores source/UI behaviour and visible release **v2.15.71**. It does not by itself roll back the Supabase Pilot database.
+The superseded range starts with `0e1e1e4069945565d74f47aba2261e9cb1885a8d` and extends through `fbf7cca96d9f64d1d95db4ccc780399549ebde4d`.
 
 ## Database drift beyond v2.15.71
 
@@ -106,101 +60,112 @@ The current Pilot Supabase migration history contains the following migrations t
 
 Therefore the current database is not migration-parity-equivalent to v2.15.71 even though the restored UI currently passes targeted deployed UAT.
 
-## CF-239 thorough inspection
+## CF-231 inspection
 
-### Migration 1 — bounded runtime performance recovery
+`cf231_qs_inline_evidence_context` replaces only `public.svc_ranking_import_control_context(uuid)`.
 
-`cf_239_m245_bounded_runtime_performance_recovery` introduced:
+Observed properties:
+- remains `SECURITY DEFINER`;
+- fixed search path `pg_catalog, ranking, pipeline`;
+- EXECUTE denied to `public`, `anon`, and `authenticated`;
+- EXECUTE granted only to `service_role`;
+- adds retained inline QS Evidence payload lookup from `pipeline.evidence_artifacts.metadata->>'cf212_stage_1'` when `storage_path` uses `inline://`;
+- adds source-resolution logic preferring exact edition then multi-year family.
 
-- seven general supporting indexes covering Evidence chronology, Layer 2 provider attempts, Layer 3 interpretations, Jobs, and Scholarship mapping state/status;
-- new private helper `security.admin_evidence_page_default_fast(jsonb)`;
-- a replacement definition of `public.admin_read(text,jsonb)` routing default `evidence_page` requests through the new fast helper while preserving filtered/non-default Evidence requests through the prior `security.admin_evidence_page` path.
+Assessment: **LOW-RISK FUNCTIONAL CORRECTION / NOT PART OF BASELINE.** It does not expand browser authority. Because it is service-only and the restored UI already passes with it present, immediate rollback is not justified. Retain temporarily, but requalify separately if ranking acquisition is reintroduced.
 
-The helper is `SECURITY DEFINER`, enforces authenticated identity and minimum curator rank, and preserves the prior Evidence status/freshness/conflict/lineage/storage projection for the bounded default page. It changes execution strategy, not intended business semantics.
+## CF-232 inspection
 
-### Migration 2 — targeted performance recovery follow-up
+`cf_232_layer_status_summary_role_safe_layer3_count` replaces `security.admin_layer_status_summary()`.
 
-`cf_239_targeted_performance_recovery_followup` introduced:
+Observed properties:
+- remains `SECURITY DEFINER`;
+- requires authenticated identity and CourseFinder role rank >= 1;
+- removes an internal call to curator-only `security.layer3_evidence_candidates_impl(200)` which caused rank-1 users to receive HTTP 500;
+- directly counts the same eligible Layer 3 evidence population without weakening the curator-only detail helper;
+- no publication/data authority change.
 
-- authenticated/service-role EXECUTE on the new Evidence helper after the first deployed run exposed an HTTP 403 ACL-chain defect;
-- two additional indexes, including a first Layer 2 Evidence partial index using `(metadata->>'layer')='2'`;
-- new helper `security.admin_layer2_ops_overview_fast()` with `jit=off`;
-- a guarded rewrite of `public.admin_read` so only `layer2_ops_overview` routes through that helper while `layer2_ops_run_detail` remains on the original implementation.
+Assessment: **BENEFICIAL ROLE-SAFETY CORRECTION / RECOMMEND RETAIN.** Reverting would knowingly restore a rank-1 HTTP 500 defect. It should be treated as a candidate retained compatibility correction, not as accepted v2.15.71 baseline functionality.
 
-This migration is operationally significant because it changes the dispatcher/helper call chain and ACL surface even though the intended payload semantics remain unchanged.
+## CF-235 inspection
 
-### Migration 3 — exact-predicate index headroom
+`cf_235_layer4_public_wrapper_security_hardening` moves fifteen privileged Layer 4 implementations from exposed `public` into non-exposed `l4_api` and recreates same-signature public `SECURITY INVOKER` wrappers.
 
-`cf_239_layer2_overview_index_headroom` introduced three indexes only:
+Observed live runtime properties:
+- privileged implementations remain `SECURITY DEFINER` in `l4_api`;
+- public wrappers are `SECURITY INVOKER`;
+- `anon` EXECUTE is denied;
+- `authenticated` and `service_role` EXECUTE are allowed;
+- public RPC names/signatures are preserved;
+- no intended Layer 4 decision, publication, scope-rule or confirmation semantics changed.
 
-- exact `coalesce(metadata->>'layer','')='2'` Evidence overview index;
-- selected Layer 2 course-discovery URL/course index;
-- covering Layer 2 provider-attempt overview index.
+Assessment: **SECURITY HARDENING / STRONGLY RECOMMEND RETAIN.** Reverting would deliberately move privileged SECURITY DEFINER implementations back into exposed `public`, which is a security regression. This hardening should survive baseline recovery unless a targeted compatibility test proves otherwise.
 
-This migration does not alter data or function semantics.
+## CF-236 inspection
 
-### Current runtime confirmation
+`cf_236_preproduction_rpc_security_hardening` moves five Scholarship/statistics privileged implementations into non-exposed `admin_api`, recreates same-signature public `SECURITY INVOKER` wrappers, and fixes two Scholarship normalisation function search paths.
 
-Current Pilot runtime confirms:
+Observed live runtime properties:
+- privileged implementations remain `SECURITY DEFINER` in `admin_api`;
+- public wrappers are `SECURITY INVOKER`;
+- `anon` EXECUTE is denied;
+- `authenticated` and `service_role` EXECUTE are allowed;
+- public signatures remain stable;
+- `scholarship.normalise_first_party_url(text)` and `scholarship.normalise_title(text)` use fixed `pg_catalog` search paths.
 
-- `public.admin_read` remains `SECURITY INVOKER`, authenticated executable, anon denied;
-- `security.admin_evidence_page_default_fast` exists as `SECURITY DEFINER`, authenticated executable, anon denied;
-- `security.admin_layer2_ops_overview_fast` exists as `SECURITY INVOKER` with `jit=off`, authenticated executable, anon denied;
-- all twelve CF-239-created indexes are currently present.
+Assessment: **SECURITY HARDENING / STRONGLY RECOMMEND RETAIN.** Rolling this back would recreate public SECURITY DEFINER exposure and mutable-search-path warnings without restoring any necessary v2.15.71 UI behaviour.
 
-### Observed index use
+## CF-239 inspection and classification
 
-Current `pg_stat_user_indexes` shows that several CF-239 indexes are materially used, including:
+CF-239 introduced a new Evidence default fast helper, Layer 2 overview helper, dispatcher rewrites, ACL follow-up, JIT-off execution and twelve supporting indexes. Several indexes are materially used in current plans.
 
-- `evidence_artifacts_captured_nulls_last_idx`;
-- `evidence_artifacts_created_at_idx`;
-- `jobs_job_type_status_created_idx`;
-- `layer2_provider_attempts_created_at_idx`;
-- `evidence_artifacts_layer2_overview_coalesce_idx`;
-- `layer2_provider_attempts_overview_cover_idx`;
-- Scholarship mapping state/status indexes.
+Acceptance history:
+- CF-238 bounded integration failed before CF-239;
+- first CF-239 targeted recovery also failed;
+- later CF-239 targeted performance run passed but retained a 3022 ms first-attempt course detail measurement;
+- re-nominated bounded integration `34077935830` ultimately completed **FAILURE**.
 
-Other CF-239 indexes currently report zero scans, including the first non-coalesced Layer 2 Evidence partial index, `courses_provider_with_url_idx`, `layer2_course_discovery_selected_url_course_idx`, and `layer3_interpretations_created_at_idx`. Zero scan count alone is not authority to remove them; it is only evidence that they have not contributed to recorded plans since statistics reset/start.
+Assessment: **SUPERSEDED / NOT ACCEPTED AS A UNIT.** Do not use either CF-239 or the immediately pre-CF-239 checkpoint as a safe baseline. Its individual indexes/helpers may later be reintroduced only after exact profiling and isolated proof.
 
-## CF-239 acceptance history and safe-boundary decision
+## Current runtime security posture
 
-CF-239 was created because CF-238 bounded integration `34070394953` had already failed with Evidence latency, HTTP 500 statement timeouts and a stale navigation expectation.
+Fresh Supabase Security Advisor after restored v2.15.71 UI deployment and with CF-231/232/235/236/239 still live reports only INFO-level `rls_enabled_no_policy` notices across the existing private-by-default/RPC-mediated schema pattern. No WARN/ERROR security advisor findings are present.
 
-CF-239 first targeted proof `34076738567` also failed: Evidence returned HTTP 403 and Layer 2 overview remained over budget.
+The INFO notices must not be 'fixed' by introducing permissive RLS policies without a separate governed decision.
 
-The later targeted proof `34077761500` passed the intended performance suite, but retained a first-attempt `course_detail` measurement of `3022 ms` before retry success.
+## Retention/reversion recommendation
 
-Most importantly, the re-nominated bounded desktop/mobile integration run `34077935830` ultimately completed **FAILURE**.
+| Change | Classification | Recommendation |
+|---|---|---|
+| CF-231 | service-only ranking functional correction | RETAIN TEMPORARILY; requalify with ranking work |
+| CF-232 | role-safe Layer Status correction | RETAIN |
+| CF-235 | Layer 4 RPC security hardening | RETAIN |
+| CF-236 | Scholarship/statistics RPC security hardening | RETAIN |
+| CF-239 helper/dispatcher changes | failed recovery unit | REVERT/REBUILD FORWARD after isolated proof |
+| CF-239 indexes | mixed, several actively used | DO NOT BULK DROP; assess index-by-index during forward reversion |
 
-Therefore:
+## Safe boundary decision
 
-- **CF-239 is NOT an accepted stable baseline.**
-- **The runtime immediately before CF-239 is also NOT to be marked safe merely because it predates CF-239; CF-238 had already failed there.**
-- The only currently proven safe source/UI baseline is **v2.15.71 / `c9dbbfb...`**, with fresh Build `34085535964` PASS and deployed UAT `34085535954` PASS.
-- Database safe parity remains **OPEN** until the post-v2.15.71 migrations are individually reconciled.
+There is no trustworthy migration-version rollback point after v2.15.71 that should simply be labelled safe.
 
-### Marked checkpoints
+The accepted boundary is therefore **logical rather than a raw migration number**:
 
-**SAFE SOURCE/UI BASELINE:** `c9dbbfb0f1bdbe63c28d68a27077357797b2ae84` / v2.15.71.  
-**PRE-CF-239 RUNTIME CHECKPOINT:** retained for forensic comparison only — **NOT ACCEPTED / NOT SAFE**.  
-**CF-239 RUNTIME:** **SUPERSEDED / NOT ACCEPTED** despite targeted performance PASS because bounded integration later failed.  
+1. **Source/UI baseline:** v2.15.71 / `c9dbbfb...` — SAFE and freshly proven.
+2. **Retained compatible runtime hardening/corrections:** CF-231, CF-232, CF-235, CF-236 — retained provisionally for safety/security, not promoted as baseline features.
+3. **CF-239:** superseded and excluded from accepted baseline; remove its dispatcher/helper behaviour through explicit forward reconciliation rather than migration-history deletion.
+4. **CF-239 indexes:** retain until exact query-plan review proves which can be safely dropped.
 
-This classification prevents rollback work from accidentally promoting the pre-CF-239 state as an accepted runtime baseline.
+No destructive migration-history deletion is authorised. Any rollback must be an explicit forward reconciliation migration preserving canonical data and Evidence.
 
-## Runtime reconciliation boundary
+## Next governed action
 
-Source recovery is APPLIED and fresh UI proof is PASS. Database/runtime recovery remains **OPEN**.
+Prepare a forward CF-241 runtime reconciliation that:
 
-No Stage 0 database-parity PASS may be claimed until CF-231, CF-232, CF-235, CF-236 and CF-239 runtime deltas are explicitly retained or reverted with governed proof.
+- restores `public.admin_read('evidence_page',...)` and `layer2_ops_overview` to the pre-CF-239 governed implementations;
+- removes CF-239-only helper execution paths without touching canonical data;
+- preserves CF-231, CF-232, CF-235 and CF-236 security/compatibility corrections;
+- initially leaves CF-239 indexes in place, then tests planner usage and latency before considering index removals;
+- runs targeted Evidence + Layer 2 + core performance proof against restored v2.15.71 UI;
+- only after targeted PASS proceeds to bounded integration.
 
-No destructive migration-history deletion is authorised. Any database reconciliation must preserve canonical data and Evidence and use explicit forward reconciliation/reversion migrations where required.
-
-Production remains untouched and M2.5 remains paused.
-
-## Rebuild rule from this point
-
-The only accepted starting source is `c9dbbfb...` / v2.15.71. Later work may be reintroduced one material feature/change at a time using targeted → bounded integration → nominated acceptance discipline. A failed delta stops progression and is diagnosed in isolation.
-
-## Rollback / forensic recovery
-
-If the source reset itself must be reversed for investigation only, restore a temporary branch from `forensic/post-v2-15-71-scrapped-20260907`. Do not move `main` forward to that forensic head without a new explicit governed decision.
+Production remains untouched. M2.5 remains paused.
