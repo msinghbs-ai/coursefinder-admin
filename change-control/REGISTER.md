@@ -1,7 +1,7 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 5 September 2026
+**Effective:** 7 September 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
@@ -19,6 +19,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4.5:** ACTIVE under `CF-CHG-20260903-087`. H1 Administration IA/UI standardisation is IMPLEMENTED / TARGETED PASS under `CF-CHG-20260903-088` (build `33700864619`, deployed UAT `33700864824`). H2 Scraper Config/routing hardening is ACTIVE under CF-085/CF-087. H11-H13 Provider assets, ARWU/Diversity and ranking acquisition adapters are added under CF-091. Scholarship acquisition/reconciliation is hardened through CF-195: 263 canonical international Scholarships, 0 published, 0 active detail-ready candidates, 0 active acquisition jobs and 0 reconciliation-ready records at the latest Pilot verification. M2.4.4 remains CLOSED/PASS/FROZEN. No Production Supabase project exists.
 >
+> **M2.4.5 UI / RELEASE CURRENTNESS:** `CF-CHG-20260907-242` is CLOSED / PASS. Scholarship/Statistics/Rankings/Provider Compare UI improvements and the bounded read-contract reconciliation are accepted at Pilot v2.15.73 / `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded viewport `34093001623` PASS; final deployed currentness `34093765349` PASS. v2.15.72 remains superseded forensic history; CF-241 remains reserved for separate CF-239 runtime reconciliation. Production unchanged.
+>
 > **M2.5:** PAUSED AT P0 under `CF-CHG-20260901-049` until M2.4.5 closes. Platform foundation `CF-CHG-20260901-051` and CF-052 are IMPLEMENTED / TARGETED PASS. CF-053 is IMPLEMENTED / RUNTIME PASS and CF-054 is IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS, their earlier deployed UI block was caused by Worker v2.15.14 drift; user UAT now proves the Worker reached v2.15.19. Source has advanced to v2.15.21 under CF-061, so deployed currentness must be rechecked rather than treated as a persistent external-control-plane failure. CF-055 Evidence-lineage classification/duplicate prevention is IMPLEMENTED / TARGETED PASS; CF-056 Backup/PITR control-plane reconciliation is RECONCILED / PLATFORM PROOF PARTIAL with the executed restore gate still OPEN; CF-057 universal Layer 4 block enforcement is IMPLEMENTED / TARGETED PASS; CF-058 Platform maturity Administration surface is IMPLEMENTED / SOURCE+BUILD TARGETED PASS with deployed UI blocked by FU-015; CF-059 Evidence-lineage reconciliation/contact claim hardening is IMPLEMENTED / RUNTIME PASS with targeted CI pending. CF-060 Jobs workspace read-path restoration is IMPLEMENTED / SOURCE CI PENDING with deployed UAT pending. Raw Evidence lineage remains visible while the currently known unresolved integrity count is 0 / severity OK. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
 >
 > **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR. M2.4 is CLOSED/PASS.
@@ -31,6 +33,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
+| CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |
 | CF-CHG-20260820-001 | 30-admin-pim-ux | PIM field semantics, fee presentation and Admin Guide | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-001-pim-field-semantics-fees-admin-guide.md` |
 | CF-CHG-20260820-002 | 40-layer2-enrichment | UQ Course Facts coverage expansion | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260820-002-uq-course-facts-coverage-expansion.md` |
 | CF-CHG-20260820-003 | 40-layer2-enrichment | QUT Course Facts acquisition deferred | DEFERRED | `40-layer2-enrichment/CF-CHG-20260820-003-qut-course-facts-acquisition-deferred.md` |

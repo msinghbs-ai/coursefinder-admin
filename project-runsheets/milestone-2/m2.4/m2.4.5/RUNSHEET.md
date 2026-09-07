@@ -1,10 +1,20 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / H1 TARGETED PASS — H2 UI TARGETED PASS / PARSE.BOT AUTH BLOCKED — H11-H13 ADDED  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-242 UI + v2.15.73 CLOSED / PASS  
 **Opened:** 2026-09-03 10:28 AEST  
 **Change Control:** CF-CHG-20260903-087  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
 **Successor:** M2.5 Production Readiness — PAUSED AT P0
+
+
+## Latest accepted UI/release gate — CF-242
+
+- Scholarship Catalogue, Statistics & Rankings and Provider Compare UI improvements are CLOSED / PASS in Pilot/UAT.
+- Accepted visible release v2.15.73 at Pilot head `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.
+- DB read-contract migration `20260907064251_m245_ui_read_contract_reconciliation` is part of the accepted Pilot state.
+- Bounded viewport acceptance `34093001623` and final deployed currentness `34093765349` are PASS.
+- This does **not** close M2.4.5 as a whole. CF-241 runtime reconciliation and other open follow-ups remain separately governed.
+- Production remains untouched and M2.5 remains paused.
 
 ## Objective
 

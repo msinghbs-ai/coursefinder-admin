@@ -1,8 +1,27 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / H1 TARGETED PASS — H2 UI TARGETED PASS / PARSE.BOT AUTH BLOCKED  
-**Updated:** 2026-09-03 12:47 AEST  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-242 UI + v2.15.73 CLOSED / PASS  
+**Updated:** 2026-09-07 17:06 AEST  
 **Change Control:** CF-CHG-20260903-087
+
+## CF-242 accepted UI baseline and release currentness — 2026-09-07
+
+- **Visible Admin release:** v2.15.73.
+- **Accepted Pilot main head:** `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.
+- Functional UI acceptance head before release-only sync: `39dbf633d236c812cd5134ff263b993f6ac3e851`.
+- Governed Pilot read-contract reconciliation: `20260907064251_m245_ui_read_contract_reconciliation`.
+- Scholarship Provider filter is bounded/searchable and server-authoritative through `provider_id`; fluid list/grid behaviour and meaningful server ordering are accepted.
+- QILT/PRISMS fluid server-sorted datasets, QS/THE Open Dataset + Compare, and Provider Compare latest/history/sticky identity are accepted without changing source grain, Evidence, publication or Provider-equivalence semantics.
+- Targeted source contract `34092573017`: PASS. Build/browser smoke `34092486868`: PASS.
+- Bounded viewport gate `34093001623`: PASS at 1600×900 / 1366×768 / 900×820 / 390×844.
+- Functional deployed UAT `34093156194`: PASS.
+- Release-sync build/browser smoke `34093619913`: PASS.
+- Final merged-head build/browser smoke `34093765392`: PASS.
+- Final deployed v2.15.73 currentness UAT `34093765349`: PASS.
+- CF-242 is **CLOSED / PASS**. M2.4.5 remains ACTIVE for other recorded pre-production gates.
+- v2.15.72 remains superseded forensic history under CF-240. CF-241 remains reserved for separate forward CF-239 runtime reconciliation.
+- Production untouched; M2.5 not reopened.
+
 
 ## Entry baseline
 
