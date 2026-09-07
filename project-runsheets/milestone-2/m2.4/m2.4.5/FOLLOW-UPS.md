@@ -2,6 +2,7 @@
 
 | ID | Workstream | Item | Status | Next action |
 |---|---|---|---|---|
+| M245-FU-028 | UI improvements / CF-242 | Scholarship Provider filter; fluid/sortable Scholarship/QILT/PRISMS/QS/THE datasets; Provider Compare latest/history/sticky identity; v2.15.73 currentness | CLOSED / PASS | Accepted head `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded `34093001623` PASS; deployed currentness `34093765349` PASS. CF-241 remains separate; Production unchanged. |
 | M245-FU-001 | H1 | Admin menu/submenu/UI standardisation | CLOSED / TARGETED PASS | CF-088; build 33700864619 PASS; deployed UAT 33700864824 PASS |
 | M245-FU-002 | H2 | Scraper Config complete enable/disable/control surface | TARGETED PASS / PARSE.BOT AUTH BLOCKED | CF-089 UI/performance PASS; rotate valid Parse.bot API key then rerun connection probe |
 | M245-FU-003 | H2 | Scraper routing/Layer config UX | PARTIAL / UI TARGETED PASS | No duplicate routing writer; Parse.bot generated API qualification remains blocked behind valid API key |
