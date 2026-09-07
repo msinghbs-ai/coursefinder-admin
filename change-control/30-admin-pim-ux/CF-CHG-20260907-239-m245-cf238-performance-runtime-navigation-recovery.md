@@ -1,6 +1,6 @@
 # CF-CHG-20260907-239 — M2.4.5 CF-238 Performance, Runtime & Navigation Recovery
 
-**Status:** ACTIVE / TARGETED RECOVERY  
+**Status:** ACTIVE / BOUNDED INTEGRATION RE-NOMINATED  
 **Milestone:** M2.4.5  
 **Type:** RECOVERY / PERFORMANCE / RUNTIME / UAT CONTRACT RECONCILIATION  
 **Date:** 7 September 2026
@@ -23,7 +23,7 @@ Recovered evidence identified three bounded defects:
 - Preserve Evidence operational-status, conflict, freshness, extraction-state, lineage, storage and role semantics.
 - Preserve public `admin_read` signatures and role/rank authority.
 - Optimise the default Evidence page by bounding enrichment to the requested page before expensive lineage/conflict work, with the existing generic Evidence implementation retained as the fallback for filtered/non-default requests.
-- Add only supporting read indexes required by the existing 24-hour health/status projections; no data semantics change.
+- Add only supporting read indexes required by the existing health/status/read projections; no data semantics change.
 - Update the UAT navigation helper to the governed `Extraction Profiles` label. This is contract reconciliation, not weakening acceptance.
 
 ## Targeted recovery evidence — first CF-239 proof
@@ -37,7 +37,7 @@ Result: **2 PASS / 2 FAIL**.
 - FAIL — `evidence_page` returned HTTP `403` although its database work was fast. This proved an ACL call-chain defect, not a latency defect.
 - FAIL — `layer2_ops_overview` remained above the governed `3000 ms` ceiling: `4654 ms`, then `5235 ms` on retry.
 
-The failed run was not promoted and bounded integration was not re-nominated.
+The failed run was not promoted and bounded integration was not re-nominated from that result.
 
 ## Root-cause refinement
 
@@ -51,7 +51,7 @@ Lesson: an optimisation is not valid merely because the private SQL path is fast
 
 Profiling showed the accepted Layer 2 overview semantics were not the problem. Its large JSON projection repeatedly touched provider-attempt/run-item/evidence/course-discovery data and incurred material planning/JIT and buffer overhead. Disabling JIT materially reduced execution time but direct timing still sat too close to the `3000 ms` ceiling to provide deployed headroom.
 
-The final recovery therefore preserves the existing governed projection and adds exact-predicate/covering indexes for its real predicates instead of rewriting the response semantics or increasing the budget.
+The final recovery therefore preserves the existing governed projection and adds exact-predicate/covering indexes for its real predicates instead of rewriting response semantics or increasing the budget.
 
 A specific planner lesson was recorded: a logically similar partial-index predicate is not sufficient evidence that PostgreSQL can use it. The index predicate must be checked against the exact query form. In this incident, `metadata->>'layer'='2'` was not treated as an adequate substitute for the production predicate `coalesce(metadata->>'layer','')='2'` for recovery acceptance.
 
@@ -75,11 +75,42 @@ The final headroom migration adds only indexes matching existing read predicates
 
 No canonical data, Layer semantics, publication authority, role rank, API signature, payload budget or RPC budget was changed.
 
-A direct unauthenticated SQL attempt to execute `security.admin_layer2_ops_read(...)` after deployment correctly returned `42501 authentication required`. That guard is retained and is not bypassed for benchmarking; the deployed authenticated browser/RPC test remains the acceptance authority.
+A direct unauthenticated SQL attempt to execute `security.admin_layer2_ops_read(...)` after deployment correctly returned `42501 authentication required`. That guard is retained and is not bypassed for benchmarking; deployed authenticated browser/RPC testing remains the acceptance authority.
+
+Security Advisor was rerun after the final index migration. It reported informational `RLS enabled, no policy` notices across the existing private-by-default schema pattern; the index-only headroom migration did not add a new browser-exposed table/function or weaken an ACL boundary. Advisor remediation reference: https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy
+
+## Targeted recovery evidence — accepted CF-239 proof
+
+Deployed targeted run `34077761500`, job `101607120247`, against Pilot commit `f1c3e7c4099fa9206b22dc680f471cff41944788` completed **SUCCESS** with the intended permanent `performance-deployed.spec.mjs` suite.
+
+Retained measurements from the accepted artifact:
+
+- `providers_page` — `1269 ms`, HTTP 200.
+- `dashboard` — `401 ms` / `659 ms`, HTTP 200.
+- `courses_page` — `709 ms`, HTTP 200.
+- `catalogue_filter_page` — `477 ms`, HTTP 200.
+- `campuses_page` — `1029 ms`, HTTP 200.
+- `scholarships_page` — `2480 ms`, HTTP 200.
+- `evidence_page` — `622 ms`, HTTP 200.
+- `data_quality_overview` — `1018 ms`, HTTP 200.
+- `layer2_ops_overview` — `2085 ms`, HTTP 200.
+- `layer2_profiles` — `1488 ms`, HTTP 200.
+- responsive-width gate — PASS.
+- zero unexpected HTTP 5xx — PASS.
+
+The exact CRICOS/detail/paging/back test recorded one first-attempt `course_detail` measurement of `3022 ms`, 22 ms above the ceiling, then passed its governed retry at `2011 ms`. This transient is retained in evidence rather than hidden. It was not one of the CF-239 repaired paths, and the final workflow/commit status is SUCCESS. It must remain visible during bounded integration; a repeated or systematic >3000 ms result reopens the performance gate.
+
+## Bounded integration re-nomination
+
+After the exact targeted job completed SUCCESS, bounded desktop+mobile integration was re-nominated at Pilot commit `fbf7cca96d9f64d1d95db4ccc780399549ebde4d`.
+
+Deployed integration run: `34077935830` — **IN PROGRESS at last record update**.
+
+Both desktop and mobile must pass. No version/release promotion is authorised from the targeted PASS alone.
 
 ## Lessons learned / permanent prevention controls
 
-These lessons are now also embedded in the authoritative cross-chat Troubleshooting, Bug-Fix & Recovery Protocol so they apply to future CourseFinder recovery work:
+These lessons are now embedded in the authoritative cross-chat Troubleshooting, Bug-Fix & Recovery Protocol so they apply to future CourseFinder recovery work:
 
 1. Validate the full ACL call chain before routing an exposed invoker to a new private helper: intended authenticated EXECUTE, helper-level auth/rank enforcement, and explicit anon/public denial.
 2. Profile the exact production query and predicate before creating a performance index; confirm actual use with `EXPLAIN (ANALYZE, BUFFERS)` where the governed auth boundary permits it.
@@ -97,16 +128,16 @@ These lessons are now also embedded in the authoritative cross-chat Troubleshoot
 ## Recovery sequence
 
 1. Apply source-backed DB optimisation and indexes to Pilot. — **DONE**
-2. Re-measure affected paths against unchanged 3000 ms/zero-5xx contracts. — **TARGETED DEPLOYED PROOF REQUIRED**
-3. Run the affected targeted deployed UAT only. — **NEXT GATE**
-4. If targeted proof passes, re-nominate the bounded desktop+mobile integration gate.
+2. Re-measure affected paths against unchanged 3000 ms/zero-5xx contracts. — **DONE**
+3. Run the affected targeted deployed UAT only. — **PASS: 34077761500**
+4. Re-nominate bounded desktop+mobile integration gate. — **IN PROGRESS: 34077935830**
 5. Release/version-source reconciliation remains blocked until functional gates pass.
 
 ## Current gate state
 
-- CF-239 targeted performance/security gate: **OPEN** pending a fresh deployed authenticated performance run after migration `20260907024936`.
-- CF-238 bounded desktop+mobile integration: **OPEN / NOT RE-NOMINATED**.
-- Release/version synchronisation: **BLOCKED until functional gates pass**.
+- CF-239 targeted performance/security gate: **CLOSED at targeted desktop level** by run `34077761500`; transient 3022 ms course-detail first attempt retained for regression watch.
+- CF-238 bounded desktop+mobile integration: **OPEN / RUNNING** as run `34077935830`.
+- Release/version synchronisation: **BLOCKED until bounded functional gates pass**.
 - Production: **unchanged**.
 
 ## Rollback / reversion
