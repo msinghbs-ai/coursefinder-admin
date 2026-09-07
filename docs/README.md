@@ -1,9 +1,9 @@
 # CourseFinder Documentation — Current Document Index
 
 **Status:** AUTHORITATIVE CURRENT-DOCUMENT ROUTER  
-**Effective:** 3 September 2026 10:03 AEST  
-**Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`  
-**Change Control:** CF-CHG-20260903-086
+**Effective:** 7 September 2026  
+**Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`  
+**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch
 
 ## Rule
 
@@ -22,6 +22,7 @@ Do not infer the current document from the highest filename version or from chat
 | Operations Runbook | `docs/coursefinder-operations-runbook-v1.8.md` | CURRENT |
 | Data Operations Admin Guide | `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` | CURRENT |
 | Programme PIM Operating Principles | `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` | CURRENT |
+| Troubleshooting / Bug-Fix / Recovery Protocol | `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` | CURRENT |
 | University Ranking Data Design | `docs/coursefinder-university-ranking-data-design-v1.1.md` | CURRENT |
 
 ## Active milestone router
@@ -34,6 +35,8 @@ Do not infer the current document from the highest filename version or from chat
 - Active hardening authority: `change-control/00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md`.
 - Production-readiness authority retained: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`.
 - Change index: `change-control/REGISTER.md`.
+
+For any bug, regression, failed UAT, runtime incident, large corrective change or recovery continuation, the Troubleshooting / Bug-Fix / Recovery Protocol is mandatory in addition to the normal milestone authorities.
 
 ## Document family policy
 
