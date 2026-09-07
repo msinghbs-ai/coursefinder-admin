@@ -2,157 +2,112 @@
 
 Recommended chat name:
 
-`CF M2.4.5 — H11 Provider Assets & Rankings — 2026-09-03`
+`CF M2.4.5 — Recovery Closure, Remaining Gates & Pre-Production Hardening — 2026-09-07`
 
-Continue CourseFinder M2.4.5 from repository/runtime truth.
+Continue CourseFinder M2.4.5 from repository/runtime truth. Do not rely on the previous chat as the authoritative state.
 
-## Mandatory start
+## Mandatory start — no material work before reconciliation
 
 1. Read `PROJECT_INSTRUCTIONS.md`.
 2. Read `docs/README.md` as the authoritative current-document router.
-3. Read `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` and preserve CF-086.
-4. Read `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md`.
-5. Read CF-087 and CF-091.
-6. Read CF-083/A32, CF-090, CF-089 and CF-084 where they overlap.
-7. Read current M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/WORK-ITEM-LEDGER/MEETING-READINESS.
-8. Read `change-control/REGISTER.md`.
-9. Reconcile current Admin/Pilot heads, Pilot Supabase/runtime and targeted CI/UAT before modifying shared foundations.
+3. Read `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`.
+4. Read `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`.
+5. Read `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` and applicable M2 execution addenda, especially ranking/provider-asset/contact authorities where the next task overlaps.
+6. Read `change-control/README.md`, `change-control/REGISTER.md`, CF-087 and the owning/recent corrective Change Controls.
+7. Read current M2.4.5 `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md`, `WORK-ITEM-LEDGER.md` and `MEETING-READINESS.md`.
+8. Reconcile the current Pilot repository head, current deployed Supabase/runtime state and exact latest CI/UAT runs before changing shared foundations.
+9. Reconcile the current visible release/currentness authority and release record before any browser-visible fix.
+10. If any test is red, classify it as implementation, data, UAT-contract, deployment/currentness, environment/configuration, governance drift or mixed before changing code/test/schema.
 
-Preserve:
-- M2.4.4 CLOSED / PASS / FROZEN;
-- H1 CLOSED / TARGETED PASS;
-- CF-089 Scraper Config UI/performance TARGETED PASS;
-- Parse.bot live execution NOT qualified because current credential probe returned HTTP 401;
-- M2.5 PAUSED AT P0; do not create Production resources;
-- current DB Architecture/Admin-PIM documents selected through docs/README.md.
+## Standing troubleshooting / bug-fix guardrails
 
-## Immediate priority: H11 onward first
+For every bug, failed UAT, regression or large corrective fix:
 
-### H11 — Provider Logo Completeness & University Source Discovery
+- inspect exact failing evidence before changing implementation;
+- verify the workflow resolver selected the intended suite;
+- do not rerun repeatedly without a material fix or justified transient reason;
+- do not weaken a correct security/authority/data rule merely to obtain PASS;
+- change a UAT expectation only when repository/runtime evidence proves the old expectation stale or semantically invalid;
+- preserve source grain, canonical identity, Evidence and null/zero/suppressed semantics;
+- do not add canonical schema fields merely to mirror an Excel/CSV/API shape without first checking source-payload/indicator/attribute structures;
+- apply the smallest safe fix first;
+- use targeted validation → bounded integration → one nominated broader acceptance;
+- keep the feature gate OPEN until the exact intended deployed acceptance passes;
+- record exact failed/PASS run IDs, implementation refs, rollback and next action in repository continuity docs;
+- do not promote a browser-visible version while its required functional gate is red, cancelled or unrun.
 
-Start here.
+The authoritative detailed protocol is `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` and must be inherited by every future troubleshooting/recovery chat.
 
-1. Build a canonical in-scope Provider/university logo coverage matrix:
-   - expected Provider count;
-   - discovered candidate;
-   - acquired Evidence;
-   - approved primary;
-   - blocked;
-   - missing;
-   - source/freshness.
-2. Reconcile existing CF-083/A32 provider-asset tables, profiles, approved assets and blocked cases before creating anything new.
-3. Run a bounded first-party logo discovery/acquisition cohort.
-4. Prefer official university/provider SVG/PNG/brand/header assets.
-5. Use Hotcourses sitemap/navigation only to identify missing Providers/source entrypoints or reconcile gaps; do not treat Hotcourses as canonical logo authority.
-6. Preserve Evidence, hashes, source URLs, approval state and rollback.
-7. Mature the Admin/PIM logo coverage/read surface only where needed and keep shared UI/UX rules.
+## Recovery status at handoff
 
-### H12 — ARWU & University Diversity Statistics
+### CLOSED / proven
 
-After bounded H11 progress:
-1. Reconcile current QS/THE/ranking schema and CF-090 recovery.
-2. Add ARWU as an editioned ranking family beginning with 2025 and supporting multi-year history.
-3. Preserve exact/tied/banded/unranked semantics and Provider crosswalk/Evidence.
-4. Add University Diversity/HDI as a separate contextual dataset, not a QS/THE/ARWU score.
-5. Preserve year/edition, diversity rank, nationalities represented, international-student count, source and geography where available.
-6. Wire Statistics & Rankings, Provider and Compare surfaces through the accepted UI system.
-7. No Search/Website/Zoho admission without a separate consumer gate.
+- Ranking dataset recovery gate: CLOSED after exact CF-097 deployed recovery PASS.
+- Compare recovery functional gate: CLOSED after exact deployed run `34068759607` at commit `7c3022e72df0fcd6fcb0d312d106bb9349d3f6c2` passed all 3 CF-061 tests.
+- Provider Compare aligned QILT rows / PRISMS context: PASS.
+- Provider-first Course Compare: PASS.
+- Course detail QILT Provider context → Course Compare: PASS.
+- Role-safe Layer Status summary corrective migration applied and directly rechecked.
 
-### H13 — Ranking Acquisition Adapters
+### Release/currentness promotion now in progress
 
-Then:
-1. Make uploaded-file parser and governed API acquisition converge on one staging → validate → Provider reconcile → Apply contract.
-2. Support explicit edition/year and multi-year replay.
-3. Retain raw Evidence, request/source metadata, adapter/parser version, validation outcome and cost/latency/vendor telemetry.
-4. Proceed with file/parser implementation even if Parse.bot credentials remain invalid.
-5. For Parse.bot ranking acquisition use the established dataset-specific APIs from CF-092:
-   - QS scraper_id `e3ecc5de-f530-478a-b464-867d43099420`, endpoint `get_world_rankings`;
-   - ARWU reference scraper `0f6d2cb9-c7eb-4f31-9216-f7be578e9f96`, execution scraper_id `9a025ecd-9ccb-4cf6-a454-be52e290b946`, endpoint `get_arwu_rankings`, `API-Snapshot-Version: 10`;
-   - target 2015–2026 inclusive;
-   - keep key Vault-only;
-   - require successful authentication;
-   - do not generate replacement QS/ARWU scrapers;
-   - determine QS year/pagination semantics from the endpoint contract rather than inventing parameters;
-   - execute bounded one-request qualification before multi-year backfill;
-   - capture Evidence/cost/latency/completeness telemetry;
-   - fail closed on auth/schema drift/incomplete pagination/identity ambiguity.
-6. Never allow generic unqualified Parse.bot proxy execution.
+Functional acceptance passed before version promotion.
 
-## Parked work
+Promotion commits in `msinghbs-ai/Coursefinder-Pilot`:
 
-Do not resume H2 residual Parse.bot qualification as a standalone priority. It becomes a dependency only when H13 reaches the live Parse.bot API step.
+- `51c50d161705ab079b2d7204eb502826ecaf2597` — visible currentness authority promoted to v2.15.72.
+- `2551bc883c16c4f043145cb1961566c3c78bed64` — browser title promoted to v2.15.72.
+- `e205bc693c565f84f091de7745a613a09d00170a` — exact Compare deployed suite now requires v2.15.72 currentness.
+- `ee4ca0bc8a05c285123365e36a2311e4928c61e1` — v2.15.72 release record marked accepted with run `34068759607` evidence.
+- `8bc6960d05e5521ff6ae44ad0ee49e7c07ef80ff` — exact currentness/Compare proof rerun trigger.
 
-H3-H6 remain parked until H11-H13 have been materially advanced. H7-H10 remain continuous governance/telemetry/UAT/meeting obligations.
+**FIRST ACTION IN NEXT CHAT:** query workflows for head `8bc6960d05e5521ff6ae44ad0ee49e7c07ef80ff`. Do not create another rerun until those runs are inspected.
 
-## Testing
+Current promotion acceptance rule:
 
-Use static/build/schema → targeted contract → bounded integration → targeted browser UAT.
+- build/browser smoke must pass;
+- exact deployed CF-061 suite must pass 3/3 against visible v2.15.72;
+- no unexpected backend/server errors;
+- only then mark v2.15.72 currentness proof CLOSED.
 
-Do not run the full acceptance suite during intermediate work.
+Known technical debt: `src/mature-main.jsx` still contains bootstrap `UI_VERSION='2.15.71'`; `src/release-currentness-entry.js` is the deployed visible-currentness reconciler and overrides the rendered version. This duplication must be normalised later in a bounded refactor; do not hide or silently ignore it.
 
-## Before ending
+## Next recovery gates after v2.15.72 currentness proof
+
+Proceed feature-by-feature rather than running the old oversized integration matrix immediately:
+
+1. H5/H6 manual PIM candidate + publication controls recovery/targeted gate.
+2. Scholarship controls/runtime recovery gate.
+3. Layer 4 mass operations/scope-rule regression gate.
+4. Provider/Course logo surfaces regression gate.
+5. Jobs/operational workspace recovery gate where still unproven.
+6. Mobile/responsive nominated regression after targeted desktop gates are clean.
+7. One nominated broader M2.4.5 acceptance only after targeted/bounded gates are green.
+
+Do not infer acceptance merely because a feature exists in source or because a later version number is visible.
+
+## M2.4.5 programme boundaries to preserve
+
+- M2.4.4 remains CLOSED / PASS / FROZEN.
+- M2.4.5 remains ACTIVE / PRE-PRODUCTION HARDENING until its remaining gates close.
+- M2.5 remains PAUSED AT P0; do not create Production resources from this continuation.
+- Production remains a separate trust boundary.
+- Layer 1 identity/authority cannot be redefined by Layer 2/3/4 fixes.
+- QILT/PRISMS/ranking observations retain their governed source grain.
+- Search/Publication/Website/Zoho are derived consumers and require their own admission controls.
+- Evidence, role/rank/RLS/private Storage and secret boundaries are never bypassed for troubleshooting convenience.
+
+## New-chat pickup text
+
+Use this at the start of the continuation if needed:
+
+> Continue CourseFinder M2.4.5 from repository/runtime truth. Read `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`, Milestone 2 Standing Instructions/addenda, Change Control register/owning records, and the active M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT. First inspect build/deployed UAT for Pilot head `8bc6960d05e5521ff6ae44ad0ee49e7c07ef80ff`. Do not rely on chat memory, do not weaken governed semantics to make tests pass, use targeted → bounded → nominated acceptance, and keep release/version history synchronized only after functional gates pass.
+
+## Before ending the next chat
 
 - update owning Change Controls;
-- update all M2.4.5 continuity files;
-- record absolute date/time, commits, runtime/migration evidence and targeted UAT;
-- update Production migration inventory/telemetry for every material runtime/schema/Edge/Storage/config change;
-- update MEETING-READINESS;
-- return only Achieved, Failed/Blocked, Next and recommended continuation chat.
-
-
-## CF-093 immediate continuation — 2026-09-03 14:42 AEST
-
-The ranking URL/file parser is implemented and deployed.
-
-First operator actions in an authenticated Admin session:
-1. Administration → Sources & Imports → Register ranking publisher file.
-2. QS World University Rankings → 2026 → Parse.bot URL.
-3. Confirm `/scrapers/e3ecc5de-f530-478a-b464-867d43099420` → Parse import.
-4. Review parse/reconciliation result; Apply edition only if bounded result is acceptable.
-5. Repeat for ARWU → 2026 using `/scrapers/0f6d2cb9-c7eb-4f31-9216-f7be578e9f96`.
-6. Confirm both cards/history become data-backed.
-7. Record import IDs, Evidence IDs, mapped/unmapped counts and Jobs.
-
-Do not bypass the authenticated Admin operator boundary from management tooling.
-
-
-## CF-096 immediate continuation — 2026-09-03 16:13 AEST
-
-QS 2026 Parse.bot Evidence is validated. Before Apply:
-1. review unmatched `The University of Technology Sydney (UTS)`;
-2. review equivalent-name fan-out for `Victoria University`;
-3. confirm intended Provider mappings;
-4. Apply QS 2026 only after bounded reconciliation acceptance;
-5. repeat the same Parse.bot URL import/validation flow for ARWU 2026;
-6. record import/Evidence IDs, mapped/unmapped counts and any Layer 4 review work.
-
-Do not auto-apply or publish ranking editions.
-
-
-## CF-097 continuation — 2026-09-03 16:33 AEST
-
-Ranking workflow/history is restored and targeted PASS.
-
-Next ranking actions:
-1. Use publisher filter `THE` to review all retained editions.
-2. Apply validated THE 2024→2015 individually as required.
-3. Do not re-apply THE 2025/2026; they are already `needs_review`.
-4. Review QS 2026 reconciliation before any further apply/revision.
-5. Run ARWU 2026 through the corrected acquisition Job → Validate → Apply/Review workflow.
-6. For any new QS/ARWU run, confirm `ranking_import_acquire` appears in Jobs before accepting the attempt as valid workflow evidence.
-
-
-## CF-098 continuation — 2026-09-03 17:05 AEST
-
-Use file-first ranking ingestion from v2.15.54.
-
-Recommended next operator action:
-1. QS → 2027 → File upload.
-2. Select both `QS_2027_AU.txt` and `QS_2027_NZ.txt` together.
-3. Confirm detection shows 45 rows and Australia + New Zealand.
-4. Register/Parse & validate.
-5. Review AU/NZ mapping/reconciliation before Apply.
-6. Use the same file-first pattern for ARWU/THE country or global files.
-7. Use Parse.bot only where an authorised file is unavailable and the API call is justified.
-
-Do not create separate same-year country imports when they represent one edition; select them together so they become one governed bundle.
+- update M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/WORK-ITEM-LEDGER/NEXT-CHAT;
+- record exact commits, runtime/migration evidence and failed/PASS UAT run IDs;
+- keep release/version record synchronized where browser-visible behaviour changes;
+- record rollback/reversion path;
+- return concise Achieved / Failed or Blocked / Next / recommended continuation chat.
