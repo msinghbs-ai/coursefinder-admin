@@ -1,0 +1,24 @@
+name: cf243-governance-sync
+on:
+  push:
+    branches:
+      - cf-243-compare-ui-bugfix-closure-20260907
+permissions:
+  contents: write
+jobs:
+  sync:
+    if: github.actor != 'coursefinder-governance-bot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cf-243-compare-ui-bugfix-closure-20260907
+      - run: python .github/scripts/cf243_sync.py
+      - run: |
+          rm .github/workflows/cf243-governance-sync.yml
+          rm .github/scripts/cf243_sync.py
+          git config user.name coursefinder-governance-bot
+          git config user.email coursefinder-governance-bot@users.noreply.github.com
+          git add -A
+          git commit -m 'CF-243 synchronize Compare UI bugfix closure'
+          git push origin HEAD:cf-243-compare-ui-bugfix-closure-20260907
