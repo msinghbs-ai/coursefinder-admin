@@ -1,5 +1,16 @@
 # M2.4.5 NEXT CHAT
 
+## Latest accepted UI correction — CF-243
+
+- Pilot visible release is **v2.15.74** at `0475dc5dc88a7f3b568a5151e6fd8d94af411924`.
+- Provider Compare has independent QS/THE edition selectors with Multi-year per publisher.
+- Shared QILT/PRISMS snapshot/trend controls are removed; QILT keeps its year selector.
+- QILT/PRISMS University/Provider identity headers are sticky.
+- Final build/browser smoke `34097989443` PASS; deployed Cloudflare UAT/currentness `34097989441` PASS.
+- CF-241 remains reserved for separate CF-239 runtime reconciliation.
+- Production untouched; M2.5 remains paused.
+
+
 Recommended chat name:
 
 `CF M2.4.5 — v2.15.73 Accepted UI Baseline, CF-241 Runtime Reconciliation & Remaining Pre-Production Gates — 2026-09-07`

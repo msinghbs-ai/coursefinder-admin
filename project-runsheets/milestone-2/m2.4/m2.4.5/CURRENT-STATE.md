@@ -1,5 +1,19 @@
 # M2.4.5 CURRENT STATE
 
+## CF-243 Compare UI bugfix — CLOSED / PASS — 7 September 2026
+
+- Visible Pilot release: **v2.15.74**.
+- Pilot main: `0475dc5dc88a7f3b568a5151e6fd8d94af411924`.
+- QS and THE now have independent edition selectors in their own ranking sections, each including a Multi-year option.
+- Shared QILT/PRISMS Current snapshot / Multi-year trend controls are removed; QILT retains its explicit year selector.
+- University/Provider identity headers are explicitly sticky across QILT and PRISMS comparison scrolling.
+- Functional deployed UAT `34097458830`: PASS.
+- Final v2.15.74 build/browser smoke `34097989443`: PASS.
+- Final deployed currentness `34097989441`: PASS.
+- No DB, publication, Search, Website/Zoho or Production semantics changed.
+- CF-241 remains reserved for separate CF-239 forward runtime reconciliation.
+
+
 **Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-242 UI + v2.15.73 CLOSED / PASS  
 **Updated:** 2026-09-07 17:06 AEST  
 **Change Control:** CF-CHG-20260903-087
