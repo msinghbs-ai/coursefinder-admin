@@ -1,7 +1,7 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 7 September 2026
+**Effective:** 8 September 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
@@ -19,9 +19,11 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4.5:** ACTIVE under `CF-CHG-20260903-087`. H1 Administration IA/UI standardisation is IMPLEMENTED / TARGETED PASS under `CF-CHG-20260903-088` (build `33700864619`, deployed UAT `33700864824`). H2 Scraper Config/routing hardening is ACTIVE under CF-085/CF-087. H11-H13 Provider assets, ARWU/Diversity and ranking acquisition adapters are added under CF-091. Scholarship acquisition/reconciliation is hardened through CF-195: 263 canonical international Scholarships, 0 published, 0 active detail-ready candidates, 0 active acquisition jobs and 0 reconciliation-ready records at the latest Pilot verification. M2.4.4 remains CLOSED/PASS/FROZEN. No Production Supabase project exists.
 >
-> **M2.4.5 UI / RELEASE CURRENTNESS:** `CF-CHG-20260907-242` is CLOSED / PASS. Scholarship/Statistics/Rankings/Provider Compare UI improvements and the bounded read-contract reconciliation are accepted at Pilot v2.15.73 / `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded viewport `34093001623` PASS; final deployed currentness `34093765349` PASS. v2.15.72 remains superseded forensic history; CF-241 remains reserved for separate CF-239 runtime reconciliation. Production unchanged.
+> **M2.4.5 UI / RELEASE CURRENTNESS:** `CF-CHG-20260907-242` is CLOSED / PASS. Scholarship/Statistics/Rankings/Provider Compare UI improvements and the bounded read-contract reconciliation are accepted at Pilot v2.15.73 / `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded viewport `34093001623` PASS; final deployed currentness `34093765349` PASS. v2.15.72 remains superseded forensic history. Production unchanged.
 >
 > **M2.4.5 COMPARE UI BUGFIX:** `CF-CHG-20260907-243` is CLOSED / PASS. Independent QS/THE edition selectors (each with Multi-year), removal of the shared QILT/PRISMS snapshot/trend control, and sticky University/Provider identity headers are accepted at Pilot v2.15.74 / `0475dc5dc88a7f3b568a5151e6fd8d94af411924`; build/browser smoke `34097989443` PASS; deployed Cloudflare UAT/currentness `34097989441` PASS. No DB or Production change.
+>
+> **M2.4.5 ARCHITECTURAL HARDENING / CF-241:** `CF-CHG-20260908-244` is CLOSED / PASS. Four-phase tooling/typing/domain/PIM hardening and forward CF-241 runtime reconciliation are accepted at Pilot `4a927057e86935f8c5e101e434355da0b8f9bf7d`; exact-head guardrails `34223507733` PASS; post-merge build/browser smoke `34224432855` PASS; post-merge deployed UAT `34224432694` PASS. Governed Evidence and Layer 2 routes are restored, Evidence replay dependencies are represented in migration history, Course PIM/consumer boundaries are preserved and Production remains untouched. H11 Provider logo completeness/source discovery is the next recorded feature gate.
 >
 > **M2.5:** PAUSED AT P0 under `CF-CHG-20260901-049` until M2.4.5 closes. Platform foundation `CF-CHG-20260901-051` and CF-052 are IMPLEMENTED / TARGETED PASS. CF-053 is IMPLEMENTED / RUNTIME PASS and CF-054 is IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS, their earlier deployed UI block was caused by Worker v2.15.14 drift; user UAT now proves the Worker reached v2.15.19. Source has advanced to v2.15.21 under CF-061, so deployed currentness must be rechecked rather than treated as a persistent external-control-plane failure. CF-055 Evidence-lineage classification/duplicate prevention is IMPLEMENTED / TARGETED PASS; CF-056 Backup/PITR control-plane reconciliation is RECONCILED / PLATFORM PROOF PARTIAL with the executed restore gate still OPEN; CF-057 universal Layer 4 block enforcement is IMPLEMENTED / TARGETED PASS; CF-058 Platform maturity Administration surface is IMPLEMENTED / SOURCE+BUILD TARGETED PASS with deployed UI blocked by FU-015; CF-059 Evidence-lineage reconciliation/contact claim hardening is IMPLEMENTED / RUNTIME PASS with targeted CI pending. CF-060 Jobs workspace read-path restoration is IMPLEMENTED / SOURCE CI PENDING with deployed UAT pending. Raw Evidence lineage remains visible while the currently known unresolved integrity count is 0 / severity OK. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
 >
@@ -35,6 +37,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
+| CF-CHG-20260908-244 | 70-security-platform | M2.4.5 architectural hardening & CF-241 runtime reconciliation | CLOSED / PASS | `70-security-platform/CF-CHG-20260908-244-m245-architectural-hardening-cf241-runtime-reconciliation.md` |
 | CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |
 | CF-CHG-20260820-001 | 30-admin-pim-ux | PIM field semantics, fee presentation and Admin Guide | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-001-pim-field-semantics-fees-admin-guide.md` |
 | CF-CHG-20260820-002 | 40-layer2-enrichment | UQ Course Facts coverage expansion | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260820-002-uq-course-facts-coverage-expansion.md` |
