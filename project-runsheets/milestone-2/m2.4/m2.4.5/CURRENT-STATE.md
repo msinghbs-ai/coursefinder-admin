@@ -1,9 +1,28 @@
 # M2.4.5 CURRENT STATE
 
+## CF-244 architectural hardening + CF-241 runtime reconciliation — CLOSED / PASS — 8 September 2026
+
+- **Accepted Pilot main:** `4a927057e86935f8c5e101e434355da0b8f9bf7d`.
+- Four-phase architectural hardening is CLOSED / PASS under `CF-CHG-20260908-244`.
+- CF-241 forward reconciliation of retained CF-239 runtime changes is CLOSED / PASS.
+- Governed `evidence_page` and `layer2_ops_overview` dispatcher routes are restored; superseded fast helpers remain retained but are no longer selected by those routes.
+- Evidence lineage/entity-link replay dependencies and internal privilege hardening are represented in migration history.
+- Course PIM and Website/Zoho consumer boundaries remain preserved.
+- Exact-head Architectural Refactor Guardrails `34223507733`: PASS.
+- Post-merge Pilot Frontend Build `34224432855`: PASS.
+- Post-merge CourseFinder Deployed UAT `34224432694`: PASS.
+- H11 Provider Assets is already CLOSED / PASS under CF-101/102 with a governed **41 AU + 8 NZ** university cohort and **49/49 approved primary logos**.
+- **Next genuinely open feature gate: H12 ARWU & University Diversity Statistics**, followed by H13 bounded historical ranking backfill/replay.
+- Production untouched; M2.5 remains paused until M2.4.5 closes.
+
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 / CF-241 CLOSED / PASS  
+**Updated:** 2026-09-08 AEST  
+**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244
+
 ## CF-243 Compare UI bugfix — CLOSED / PASS — 7 September 2026
 
 - Visible Pilot release: **v2.15.74**.
-- Pilot main: `0475dc5dc88a7f3b568a5151e6fd8d94af411924`.
+- Pilot main at this historical checkpoint: `0475dc5dc88a7f3b568a5151e6fd8d94af411924`.
 - QS and THE now have independent edition selectors in their own ranking sections, each including a Multi-year option.
 - Shared QILT/PRISMS Current snapshot / Multi-year trend controls are removed; QILT retains its explicit year selector.
 - University/Provider identity headers are explicitly sticky across QILT and PRISMS comparison scrolling.
@@ -11,17 +30,12 @@
 - Final v2.15.74 build/browser smoke `34097989443`: PASS.
 - Final deployed currentness `34097989441`: PASS.
 - No DB, publication, Search, Website/Zoho or Production semantics changed.
-- CF-241 remains reserved for separate CF-239 forward runtime reconciliation.
-
-
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-242 UI + v2.15.73 CLOSED / PASS  
-**Updated:** 2026-09-07 17:06 AEST  
-**Change Control:** CF-CHG-20260903-087
+- At this 7 September checkpoint CF-241 was still reserved; that status is **superseded by the 8 September CF-244 closure above**.
 
 ## CF-242 accepted UI baseline and release currentness — 2026-09-07
 
 - **Visible Admin release:** v2.15.73.
-- **Accepted Pilot main head:** `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.
+- **Accepted Pilot main head at this historical checkpoint:** `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.
 - Functional UI acceptance head before release-only sync: `39dbf633d236c812cd5134ff263b993f6ac3e851`.
 - Governed Pilot read-contract reconciliation: `20260907064251_m245_ui_read_contract_reconciliation`.
 - Scholarship Provider filter is bounded/searchable and server-authoritative through `provider_id`; fluid list/grid behaviour and meaningful server ordering are accepted.
@@ -33,9 +47,8 @@
 - Final merged-head build/browser smoke `34093765392`: PASS.
 - Final deployed v2.15.73 currentness UAT `34093765349`: PASS.
 - CF-242 is **CLOSED / PASS**. M2.4.5 remains ACTIVE for other recorded pre-production gates.
-- v2.15.72 remains superseded forensic history under CF-240. CF-241 remains reserved for separate forward CF-239 runtime reconciliation.
+- v2.15.72 remains superseded forensic history under CF-240. At this checkpoint CF-241 was still reserved; that status is **superseded by CF-244 / CF-241 CLOSED/PASS above**.
 - Production untouched; M2.5 not reopened.
-
 
 ## Entry baseline
 
@@ -57,7 +70,6 @@ P6. Publication automation control plane, disabled by default.
 P7. Production migration inventory/telemetry update after each material change.  
 P8. Faster targeted UAT.  
 P9. Milestone meeting evidence/time-interaction ledger.
-
 
 ## H1/H2 execution state — 2026-09-03 10:45 AEST
 
@@ -96,7 +108,6 @@ P9. Milestone meeting evidence/time-interaction ledger.
 - Layer 2 workload defaults remain advanced scheduler/batch/wave controls, not scraper routing; the legacy route mode is read-only there.
 - Production remains unprovisioned; CF-089 portability delta is recorded in CF-084.
 
-
 ### CF-090 ranking import recovery
 
 User upload `THE_year2026.txt` is confirmed present as private ranking Evidence (3,966,028 bytes; SHA-256 `00fdcfa0a2d5067982c9b7631e5baa7dc64e683c0c0280a1a02730edb45112fa`). Registration succeeded; the subsequent Parse & validate control failed because `ranking-publisher-control` attempted PostgREST access to the intentionally unexposed private `ranking` schema. The control now uses service-only RPCs instead. QS/THE Statistics cards are no longer grey merely because accepted_editions=0; they remain actionable with Manage imports while Compare remains gated on accepted observations. Admin release **v2.15.47**. Targeted recovery UAT is active and will reuse the existing THE 2026 Evidence.
@@ -112,29 +123,26 @@ User upload `THE_year2026.txt` is confirmed present as private ranking Evidence 
 - CF-083/A32 repository cross-reference reconciliation is already complete. Current docs are v2.10.50 / v1.31, not v2.10.49 / v1.30.
 - No runtime/schema/Production change made by CF-091.
 
-
 ## Execution priority — 2026-09-03 12:59 AEST
 
-Immediate workstream order is now **H11 → H12 → H13**.
+Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102; active continuation now begins at H12.
 
-Parked without closure:
+Parked/continuous state at that checkpoint:
 - H2 residual Parse.bot authentication/qualification blocker;
 - H3 Scholarship PIM maturity;
 - H4 Scheduler/Jobs;
 - H5-H10 remaining/continuous hardening.
 
-Important dependency rule: the current Parse.bot HTTP 401 does **not** block H11, H12 or H13 uploaded-file/parser implementation. It blocks only live Parse.bot-generated API qualification/execution until the credential is corrected.
-
+Important later correction: the Parse.bot credential was subsequently fixed and established QS/ARWU APIs qualified HTTP 200 under H13; the earlier 401 is historical evidence, not the current blocker.
 
 ## CF-092 Parse.bot ranking API decision — 2026-09-03 12:59 AEST
 
-H13 live Parse.bot design is now dataset-specific rather than generated/generic:
+H13 live Parse.bot design is dataset-specific rather than generated/generic:
 - QS established `get_world_rankings` API;
 - ARWU established `get_arwu_rankings?year={YEAR}` API with `API-Snapshot-Version: 10`;
 - controlled target years 2015–2026.
 
-Current stored Parse.bot credential 401 remains the only live-call blocker. No replacement scraper is required or authorised.
-
+At this historical checkpoint the stored Parse.bot credential returned 401. That blocker was later cleared; no replacement scraper is required or authorised.
 
 ## H11 Provider Assets implementation — 2026-09-03 13:39 AEST
 
@@ -147,15 +155,13 @@ Current stored Parse.bot credential 401 remains the only live-call blocker. No r
 - Frontend Build run `33712087980` and Deployed UAT run `33712087970` started for head `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`; final conclusions pending at this timestamp.
 - Security Advisor: existing INFO-only posture; no new WARN/ERROR identified from H11 read surface.
 
-
 ## Parse.bot credential revalidation — 2026-09-03 13:48 AEST
 
 Fresh direct validation against both established CF-092 ranking APIs returned HTTP 401 `Invalid API key`:
 - QS `get_world_rankings`;
 - ARWU `get_arwu_rankings?year=2024` with snapshot v10.
 
-Endpoint reachability is proven. Current Vault credential validity remains the only live H13 Parse.bot blocker.
-
+Endpoint reachability was proven; this was later superseded by successful credential correction.
 
 ## H13 live qualification PASS — 2026-09-03 14:29 AEST
 
@@ -164,8 +170,7 @@ Parse.bot credential has been corrected and the established ranking adapters now
 - QS 2026: `edition_year=2026`, total 1,504, pagination contract confirmed.
 - ARWU 2026: `year=2026`, total 892, snapshot v10 accepted.
 
-H13 is no longer authentication-blocked. Next action is controlled 2015–2026 Evidence/staging/backfill implementation, with manual Apply preserved.
-
+H13 is no longer authentication-blocked. Remaining H13 work is controlled 2015–2026 Evidence/staging/backfill implementation, with manual Apply preserved.
 
 ## CF-093 ranking publisher URL/file import — 2026-09-03 14:42 AEST
 
@@ -181,7 +186,6 @@ Implemented and deployed:
 
 QS 2026 and ARWU 2026 live APIs are qualified (HTTP 200). The remaining creation of registered 2026 imports must run under an authenticated CourseFinder Admin session; management tooling does not bypass that operator JWT boundary.
 
-
 ## CF-094 ranking import UX correction — 2026-09-03 14:55 AEST
 
 - Recent imports now order by latest parse/apply activity, not original upload time.
@@ -190,7 +194,6 @@ QS 2026 and ARWU 2026 live APIs are qualified (HTTP 200). The remaining creation
 - Existing same-system/year registration now requires an inline **Continue with new revision** confirmation.
 - No popup operational workflow introduced.
 - Pilot v2.15.50; targeted deployed UAT run `33716795837` active.
-
 
 ## CF-095 release-currentness correction — 2026-09-03 15:57 AEST
 
@@ -205,7 +208,6 @@ Corrected:
 
 Final Pilot head `791573c4a26903ab3ed5cffe7ce8711af63efba8`.
 Deployed targeted UAT `33721019815`: PASS.
-
 
 ## CF-096 QS 2026 Parse.bot recovery — 2026-09-03 16:13 AEST
 
@@ -222,11 +224,9 @@ QS 2026 import `05716189-91c6-4bd1-a99a-c82104e1f409` is now **validated** from 
 
 Apply/publication remains manual. Release v2.15.52 records the correction.
 
-
 ### CF-096 final UAT evidence — 2026-09-03 16:16 AEST
 
 Final deployed targeted UAT `33722438639` PASS on Pilot `d9d1ab1be9dd5aca9f741f427cecc85e3907a39e`. The earlier workflow failure was a test-only negative-assertion defect after the banner had correctly disappeared; it did not invalidate the successful QS 2026 validation.
-
 
 ## CF-097 ranking workflow/history restoration — 2026-09-03 16:33 AEST
 
@@ -247,7 +247,6 @@ Existing THE data was never deleted:
 
 Admin v2.15.53.
 Final deployed targeted UAT `33723730026`: PASS.
-
 
 ## CF-098 file-first ranking parser — 2026-09-03 17:05 AEST
 
@@ -271,7 +270,6 @@ Runtime:
 Frontend build `33726246825` PASS.
 Deployed targeted UAT `33726246829` PASS.
 
-
 ## CF-099 ranking multi-file transport — 2026-09-03 18:31 AEST
 
 Mobile failure diagnosed from live Edge logs: preflight reached `ranking-publisher-import` (OPTIONS 204) but no POST arrived. AU+NZ files are ~70 KB combined, so not a size-limit failure.
@@ -279,7 +277,6 @@ Mobile failure diagnosed from live Edge logs: preflight reached `ranking-publish
 v2.15.55 bundles selected country/page files client-side into one JSON Evidence file before invoking the Edge Function. Backend CF-098 validation/parser workflow remains unchanged.
 
 Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was still running at record time.
-
 
 ## CF-100 multi-country same-edition strategy — 2026-09-03 18:58 AEST
 
@@ -291,7 +288,6 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - Country-native statistical datasets remain separate source-authority families unless a governed cross-country metric crosswalk exists.
 - Runtime/schema mutation is not required for this design decision; implementation/UAT should extend the CF-098/099 bundle flow with **Add country data** and same-edition replay assertions.
 
-
 ## CF-100 implementation — 2026-09-03 19:05 AEST
 
 - Pilot/Admin advanced to **v2.15.56** for same-edition country extension UX.
@@ -301,13 +297,11 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - Pilot migration applied successfully; security/performance checks show no new WARN/ERROR attributable to CF-100.
 - Frontend build compile PASS; workflow `33736846482` browser smoke and deployed targeted UAT `33736846609` are active at this checkpoint.
 
-
 ## Country expansion deferred — 2026-09-03 22:34 AEST
 
 - User explicitly deferred additional-country ranking/statistical expansion beyond the currently demonstrated AU/NZ scope.
 - CF-100 architecture and UI capability remain retained for later use, but CA/GB/US/IE or other country backfill is **not an M2.4.5 closure requirement**.
-- Immediate milestone focus returns to remaining AU/NZ/Admin/PIM hardening items: H11 Provider asset completeness, H12 ARWU/Diversity completion, then H3-H6 operational/PIM controls and the final M2.4.5 acceptance gate.
-
+- At this historical checkpoint the immediate milestone focus returned to H11, H12 and remaining hardening. H11 subsequently CLOSED/PASS under CF-101/102; active continuation is now H12.
 
 ## CF-101 H11 final completeness — 2026-09-04 06:25 AEST
 
@@ -326,7 +320,6 @@ Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was 
 - prior `33802121519` failed only because workflow routing selected stale CF-089 release-currentness UAT; routing precedence was corrected at Pilot `7aa9f77e67d7855ea74c80150d3a1eadddd45fa3`.
 
 **H11 status: CLOSED / PASS.**
-
 
 ## CF-102 Provider logo display + Hotcourses directory process — 2026-09-04 07:02 AEST
 
