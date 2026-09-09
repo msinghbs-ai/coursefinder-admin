@@ -66,3 +66,33 @@ The test uses the already-uploaded `THE_year2026.txt` Evidence, runs Parse & val
 - uploaded Evidence is reused in place;
 - no Search/Website/Zoho ranking publication authority changes;
 - QS direct publisher JSON APPLY remains governed separately; a QS card being actionable does not imply accepted QS observations.
+
+## Corrective follow-up — 9 September 2026
+
+User UAT on the recovered v2.15.74 baseline identified two QS-specific issues in Administration → Sources & Imports:
+
+1. valid source revisions for the same QS edition were rendered as separate workflow rows, causing editions such as 2024 to appear more than once;
+2. QS 2026 and 2027 remained in `needs_review` after historical parse attempts.
+
+### Runtime diagnosis
+
+The duplicate-year symptom was a read/presentation issue, not duplicate canonical ranking observations. `ranking.manual_imports` correctly retained multiple Evidence revisions for some editions, while `security.admin_ranking_imports_read` exposed every revision directly to the edition workflow.
+
+The 2026/2027 failures were traced to legacy inline Evidence retention rather than ranking-semantic parsing:
+- the retained 2026 inline payload is truncated and fails gzip checksum validation;
+- the retained 2027 import has no recoverable inline XLSX payload.
+
+Those source bytes are not reconstructed or manufactured.
+
+A second acquisition defect was also identified: `ranking-qs-url-import` had direct-static completeness contracts only through edition 2025. Even when the governed QS static-indicator endpoint was available, editions 2026 and 2027 could not satisfy `completeStatic` and were forced to the Parse.bot fallback path.
+
+### Corrective implementation
+
+- `security.admin_ranking_imports_read` now returns the latest visible revision per `(ranking system, edition year)` for the Administration workflow while retaining all underlying `ranking.manual_imports` rows and `logical_revision_count` for audit/provenance.
+- QS official static-indicator qualification now includes 2026 and 2027 using the governed current indicator set.
+- `ranking-qs-url-import` runtime worker advanced to internal version `v1.1.0`; JWT verification remains enabled.
+- No historical Evidence, import revisions, ranking observations, Search projection or consumer publication state was deleted or overwritten.
+
+### Recovery status
+
+The duplicate edition display correction is applied in the Pilot runtime. Existing damaged 2026/2027 legacy imports remain `needs_review` by design until a fresh governed Evidence revision is acquired from the qualified publisher URL path or the authorised publisher XLSX is re-uploaded. The corrective path must validate the fresh revision before APPLY.
