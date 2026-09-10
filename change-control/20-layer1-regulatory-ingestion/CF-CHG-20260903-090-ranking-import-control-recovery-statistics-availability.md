@@ -88,11 +88,49 @@ A second acquisition defect was also identified: `ranking-qs-url-import` had dir
 
 ### Corrective implementation
 
-- `security.admin_ranking_imports_read` now returns the latest visible revision per `(ranking system, edition year)` for the Administration workflow while retaining all underlying `ranking.manual_imports` rows and `logical_revision_count` for audit/provenance.
+- `security.admin_ranking_imports_read` now returns one visible revision per `(ranking system, edition year)` for the Administration workflow while retaining all underlying `ranking.manual_imports` rows for audit/provenance.
 - QS official static-indicator qualification now includes 2026 and 2027 using the governed current indicator set.
 - `ranking-qs-url-import` runtime worker advanced to internal version `v1.1.0`; JWT verification remains enabled.
 - No historical Evidence, import revisions, ranking observations, Search projection or consumer publication state was deleted or overwritten.
 
-### Recovery status
+## Recovery reconciliation — 10 September 2026
 
-The duplicate edition display correction is applied in the Pilot runtime. Existing damaged 2026/2027 legacy imports remain `needs_review` by design until a fresh governed Evidence revision is acquired from the qualified publisher URL path or the authorised publisher XLSX is re-uploaded. The corrective path must validate the fresh revision before APPLY.
+Repository/runtime review identified that Pilot PR #59 merged before its Codex review completed. The later review found three material defects in the one-row-per-edition read contract: source selection used mutable processing `updated_at`; detected country scope was taken only from the selected revision; and `logical_revision_count` omitted lifecycle-rejected/superseded revisions.
+
+The Pilot runtime has been corrected with `cf_ranking_import_history_codex_followup`. The function now:
+- selects the visible source revision by immutable `uploaded_at` capture order with ID tie-breaker;
+- aggregates detected scope across every retained source revision for the same system and edition;
+- counts every retained source revision, including lifecycle-rejected rows;
+- preserves the existing authentication, Pipeline Operator rank >= 4 and execute-grant boundaries.
+
+Pilot source-control reconciliation is isolated in PR #64 (`fix/qs-ranking-codex-followup-20260910`). RLS task #60 remains separate and unchanged.
+
+### QS 2026 recovery
+
+The authorised `2026 QS World University Rankings 1.3 (For qs.com).xlsx` was independently hash-verified against the governed Evidence record and exact publisher workbook before recovery. SHA-256: `be3499826108e7c43faca9c426f2e911083574b4ff58aaebc7a401b663157c5d`.
+
+The exact workbook was restored to private Evidence Storage and applied through `ranking-qs-official-etl`:
+- 1,504 ranking observations parsed/applied;
+- 15,040 indicator observations parsed/applied;
+- 195 provider mappings resolved;
+- 1,309 institutions remain unmapped;
+- low-confidence mappings: 0;
+- import status: `needs_review` / `awaiting_mapping` only because provider mapping review is still required.
+
+This is an applied data recovery, not a parsing failure. No publisher value was manufactured.
+
+### QS 2027 recovery
+
+The authorised `2027 QS World University Rankings 1.3 (For qs.com).xlsx` supplied for recovery is valid and exactly matches the governed Evidence hash `f4d09f8099d676f270afa4f83aa23a073e99f31c0cc4d61da4884a20d554d706` at 311,633 bytes. It contains 1,504 ranking rows and the expected 15,040 indicator cells.
+
+QS's currently discoverable public 2027 workbook is a different v1.1 revision, so it is not substituted for the governed v1.3 Evidence. The exact v1.3 binary still requires completion of the private Evidence transfer before ETL APPLY. No 2027 canonical ranking observations are claimed until that exact-byte gate passes.
+
+A purpose-built JWT-protected `ranking-qs-upload-recovery` helper verifies the fixed import ID, exact byte count and SHA-256 before Storage restore and invokes the existing official ETL. Temporary recovery helpers must be retired after recovery closure.
+
+### Remaining gate
+
+1. Complete exact-byte private Evidence transfer for QS 2027 and run official ETL APPLY.
+2. Verify 1,504 ranking observations and 15,040 indicator observations, with any remaining `needs_review` state attributable only to provider mapping.
+3. Retire temporary recovery Edge functions.
+4. Close PR #64 only after Codex/CI review is green and mirror the final runtime truth here.
+5. Keep the separate stale QS 2027 operator-warning UI correction coordinated with the current application release candidate rather than colliding with parallel release/version work.
