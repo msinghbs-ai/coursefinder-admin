@@ -60,18 +60,21 @@ Identity snapshots may retain internal email for audit continuity, but scheduler
 
 Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
 Pilot PR: `#67`  
-Current functional candidate head: `7c0a7be5d322c7539ade5bd07d5c18bc3161250e`  
+Current functional candidate head: `029a56480d72898f083e1d7d873df7237dceab4b`  
 Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
 
 Material implementation includes:
-- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display, request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, and load-owned busy/error state;
+- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display, request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, per-panel unavailable state, and load-owned busy/error state;
 - `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
 - `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
 - `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search and deleted/banned account-state correction; this applied migration remains immutable;
 - `supabase/migrations/20260910213556_cf_093_resolved_actor_search_semantics.sql` — repository reconciliation of the already-applied Pilot runtime correction that searches the resolved creator/owner display semantics;
-- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including Codex regression checks.
+- `supabase/migrations/20260910215546_cf_093_scheduler_entity_labels.sql` — canonical Provider/Course/Campus/Scholarship labels for entity-scoped scheduler policies;
+- `supabase/migrations/20260910221808_cf_093_literal_scheduler_search.sql` — Pilot-applied literal scheduler search correction for `%`, `_` and escape characters;
+- `supabase/migrations/20260911054000_cf_093_scheduler_search_finalizer.sql` — forward fresh-replay finalizer after the later CF-093 bridge definitions so clean migration replays preserve literal search, canonical entity labels and resolved actor semantics;
+- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including current Codex regression checks and reconciled migration paths.
 
-Pilot runtime migration truth includes `20260910194125 cf_093_scheduler_operator_attribution`, `20260910194149 cf_093_codex_review_fixes`, and `20260910213556 cf_093_resolved_actor_search_semantics`. The current deployed bridge definition matches the resolved actor-search behaviour. No duplicate later reconciliation migration remains in the candidate branch.
+Pilot runtime migration truth includes `20260910194125 cf_093_scheduler_operator_attribution`, `20260910194149 cf_093_codex_review_fixes`, `20260910213556 cf_093_resolved_actor_search_semantics`, `20260910215546 cf_093_scheduler_entity_labels` and `20260910221808 cf_093_literal_scheduler_search`. The live bridge already has the final literal/entity/actor semantics. The repository-only fresh-replay finalizer intentionally preserves reproducibility without rewriting already-applied Pilot migration history.
 
 ## Codex review reconciliation — 11 September 2026
 
@@ -82,16 +85,27 @@ Initial review findings corrected:
 3. **Deleted/disabled user state** — creator/owner state treats soft-deleted or currently banned users as former.
 4. **Stale scheduler search responses** — policy loads carry a monotonic request generation; stale responses cannot update policy/search data or busy/error state.
 
-Second Codex re-review findings on `e2f4e85fa33719882183366e6c6f8de9ee582eef` are also corrected:
+Second Codex re-review findings are corrected:
 
-5. **Post-submit busy race** — successful mutation no longer has an outer unconditional `setBusy(false)`; the sequenced policy load owns busy state, so a superseded post-submit load cannot re-enable actions while a newer search is still in flight.
-6. **Resolved owner/creator search** — query predicates use the same snapshot/live/former-user resolved display semantics projected to the UI, so searching a visible active owner/creator name returns the policy.
+5. **Post-submit busy race** — successful mutation no longer has an outer unconditional `setBusy(false)`; the sequenced policy load owns busy state.
+6. **Resolved owner/creator search** — query predicates use the same snapshot/live/former-user resolved display semantics projected to the UI.
 7. **Post-edit pagination validity** — post-mutation refresh resets to page 0; list loading also clamps/refetches if an offset is beyond the returned filtered total.
-8. **Policy-search isolation** — debounced/paged policy search executes only the scheduler list RPC. Overview, role context and recent Jobs are refreshed independently so unrelated panel failures cannot leave previous policy results actionable under a newer search string.
+8. **Policy-search isolation** — debounced/paged policy search executes only the scheduler list RPC. Overview, role context and recent Jobs refresh independently.
 
-The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, and stored email snapshots are not projected to the browser. Pilot runtime currently has 13 bounded Layer 1–3 policies; all are legacy/system-created at this point (`created_by`/owner null), so the UI correctly renders system/legacy attribution rather than inventing a human creator.
+Subsequent Codex review corrections are also implemented:
 
-Candidate CI on `7c0a7be5...`: Pilot Frontend Build `34534171514` PASS; Release History Contract `34534171521` PASS. Final Codex re-review on the exact candidate is pending before merge/deploy.
+9. **Entity-scoped labels** — Provider, Course, Campus and Scholarship policies resolve canonical business labels and are searchable by those labels.
+10. **Profile identity preservation** — when a policy carries both source and source profile, profile identity is primary and the technical target retains both profile and source IDs.
+11. **Literal search** — scheduler search escapes PostgreSQL LIKE metacharacters so `%` and `_` are operator literals rather than unintended wildcards.
+12. **Run-now follow-through** — successful run-on-demand refreshes the independent queue/Jobs/context panels rather than leaving stale queue state.
+13. **Panel failure truthfulness** — overview/context/Jobs failures are surfaced per panel rather than being rendered as false empty data.
+14. **Fresh migration replay ordering** — a forward finalizer after `20260911053600` restores the combined final bridge definition during clean repository replay without mutating Pilot-applied migration history.
+15. **Post-run query race** — policy reload starts before awaiting panel refresh; a later debounced search receives a newer generation and cannot be overwritten by the old captured query.
+16. **Focused UAT currentness** — the contract references the reconciled entity/literal/finalizer migration files and the current run-now sequencing.
+
+The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, and stored email snapshots are not projected to the browser. Layer 3 remains Evidence/profile/model-qualified and is not made generically runnable from Scheduled Tasks.
+
+Exact-head CI on `029a56480d72898f083e1d7d873df7237dceab4b`: Pilot Frontend Build `34540590328` PASS; Release History Contract `34540590332` PASS. Exact-head Codex re-review was requested in PR #67 comment `5626630031` and remains the current pre-merge gate. Do not merge/deploy or promote the visible release until that review has no actionable finding and the governed release/currentness sequence is completed.
 
 ## Acceptance target
 
