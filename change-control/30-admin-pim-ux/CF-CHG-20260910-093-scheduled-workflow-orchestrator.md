@@ -60,16 +60,27 @@ Identity snapshots may retain internal email for audit continuity, but scheduler
 
 Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
 Pilot PR: `#67`  
-Current implementation head at this update: `13730e1b1764ad2f6008fc1922e16393a6e1a8fb`  
+Current implementation head after Codex corrections: `66bfaa4351a0774545a546765a0f62757a0cec03`  
 Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
 
 Material implementation includes:
 - `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display;
 - `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
 - `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
-- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract.
+- `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search and deleted/banned account-state correction;
+- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including Codex regression checks.
 
-Codex review has been requested on Pilot PR #67 after the material implementation diff was established.
+## Codex review reconciliation — 11 September 2026
+
+Codex raised three P2 findings on Pilot PR #67. All three were accepted as valid and corrected with the smallest bounded delta:
+
+1. **Search before pagination** — moved task search into the rank-gated scheduler list RPC so filtering occurs before `LIMIT/OFFSET`; filtered totals now drive pagination.
+2. **Refresh queue distinguishability** — the UI now falls back to the exact technical bounded target when the queue read does not carry source/profile labels, preventing generic `Scheduled task` rows.
+3. **Deleted/disabled user state** — creator/owner state now treats soft-deleted users and currently banned users as former, matching existing account-state semantics (`deleted_at is null` and no current ban for active accounts).
+
+The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, and stored email snapshots are not projected to the browser.
+
+Codex re-review is required after CI confirms the correction head. Merge/deploy remains blocked until that review and targeted acceptance are green.
 
 ## Acceptance target
 
