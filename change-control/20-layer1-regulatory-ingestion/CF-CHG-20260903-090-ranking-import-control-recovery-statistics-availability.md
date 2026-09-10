@@ -137,3 +137,28 @@ A large inline-Evidence fallback transfer was tested but abandoned after chunk-i
 3. Retire temporary recovery Edge functions.
 4. Reconcile M2.4.5 RUNSHEET / CURRENT-STATE / FOLLOW-UPS / NEXT-CHAT with the final recovery result.
 5. Keep the separate stale QS 2027 operator-warning UI correction coordinated with the current application release candidate rather than colliding with parallel release/version work.
+
+## Bounded Layer 2 acquisition feasibility acceptance — 10 September 2026
+
+A bounded feasibility acceptance was run for using the existing Layer 2 browser-capable acquisition transport to acquire QS publisher ranking pages while preserving Layer 1 ranking authority.
+
+Acceptance evidence:
+- the current QS World University Rankings 2027 page is crawl/render accessible through an independent rendered web crawler and exposes the published date, ranking table shell, `More Indicators` control and `Download Excel Table` control;
+- the accessible QS ranking result surface exposes more than 1,500 universities and a structured Rank / University / Overall Score sequence;
+- a 27-row top-of-table control sample was compared against the authorised 2027 v1.3 workbook and matched institution, rank and overall score values for the sampled rows;
+- Pilot runtime has the `firecrawl` Layer 2 provider enabled as a `browser_api` route with JavaScript, anti-bot, HTML, JSON, markdown and screenshot capabilities, using the governed private bearer secret boundary;
+- Firecrawl's configured request template requests markdown, HTML and screenshot Evidence; `layer2-acquire-v2` retains source Evidence and explicitly marks `canonical_mutation_authorised:false`;
+- Layer 2 source profiles are evidence-first and governed by host allow-listing, robots policy, bounded concurrency/rate controls and service-authority RPCs.
+
+Acceptance result: **PASS — feasibility only**.
+
+This acceptance authorises a bounded implementation proof, not automatic canonical publication. QS ranking truth remains Layer 1 authoritative data. Layer 2 may be used only as acquisition transport to overcome direct-fetch/Cloudflare gating, with resulting Evidence handed into the existing Layer 1 QS parse/reconciliation boundary.
+
+Implementation acceptance gate:
+1. create a dedicated QS 2027 evidence-only acquisition profile for `topuniversities.com` with Firecrawl forced/first route, bounded to a small control sample;
+2. acquire the publisher ranking page and retain HTML/JSON/markdown plus screenshot Evidence;
+3. identify the rendered/structured response carrying rank and indicator values, including paginated/horizontally exposed indicators;
+4. compare the acquired control sample against the authorised v1.3 workbook; no mismatch, missing indicator or fabricated value is permitted;
+5. only after control-sample PASS, extend acquisition to the full edition and feed retained Evidence into Layer 1 ranking ETL rather than mutating canonical ranking data directly.
+
+The direct Layer 1 fetch route remains known Cloudflare-gated for this source; this feasibility PASS does not weaken the Evidence, identity, mapping or publication boundaries.
