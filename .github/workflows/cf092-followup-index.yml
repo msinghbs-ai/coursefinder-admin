@@ -9,7 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Add CF-092 follow-up closure row
-        run: python -c "from pathlib import Path; p=Path('project-runsheets/milestone-2/m2.4/m2.4.5/FOLLOW-UPS.md'); s=p.read_text(); row='| M245-FU-031 | H4 / CF-092 | Scheduled Tasks configuration, audited schedule editing and bounded Layer 1–2 run control | CLOSED / PASS | PR #66 → Pilot 9305eb3a004d12724ec26b6bab65e1d4b1ab2239; v2.15.76; preview 34468684736 PASS; post-merge build 34470101950 PASS; deployed UAT 34470101936 attempt 2 PASS after retained transient attempt-1 CF-102 failure. |\\n'; marker='|---|---|---|---|---|\\n'; p.write_text(s if 'M245-FU-031' in s else s.replace(marker,marker+row,1))"
+        run: |
+          python -c "from pathlib import Path; p=Path('project-runsheets/milestone-2/m2.4/m2.4.5/FOLLOW-UPS.md'); s=p.read_text(); row='| M245-FU-031 | H4 / CF-092 | Scheduled Tasks configuration, audited schedule editing and bounded Layer 1–2 run control | CLOSED / PASS | PR 66 to Pilot 9305eb3a004d12724ec26b6bab65e1d4b1ab2239; v2.15.76; preview 34468684736 PASS; post-merge build 34470101950 PASS; deployed UAT 34470101936 attempt 2 PASS after retained transient attempt-1 CF-102 failure. |\\n'; marker='|---|---|---|---|---|\\n'; p.write_text(s if 'M245-FU-031' in s else s.replace(marker,marker+row,1))"
       - name: Commit and remove helper
         run: |
           git config user.name 'github-actions[bot]'
