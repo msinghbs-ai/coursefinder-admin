@@ -1,6 +1,6 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** OPEN / DESIGN-TO-IMPLEMENTATION  
+**Status:** IMPLEMENTATION / TARGETED ACCEPTANCE ACTIVE  
 **Initiated:** 2026-09-10 21:44 AEST  
 **Origin:** Scheduled Tasks operator UX review  
 **Owner:** CourseFinder programme  
@@ -40,6 +40,37 @@ Human-readable business labels must be primary. Technical policy/source/profile 
 6. Browser reads/writes remain through governed RPC/control surfaces; no service-role or provider secrets are exposed.
 7. Existing v2.15.76 CF-092 scheduler acceptance remains the baseline; changes extend rather than bypass its policy/audit/idempotency semantics.
 
+## Operator experience additions — 11 September 2026
+
+The scheduler is also an operational catalogue, therefore CF-093 includes:
+
+- durable **Created By** attribution for schedules and durable actor display snapshots for schedule actions;
+- no destructive dependency on a live user-directory row: removed users retain historical attribution as a former user while the immutable actor UUID remains available for audit;
+- system/bootstrap/legacy schedules remain explicitly identified and are never assigned a fabricated person;
+- optional **Owner** presentation distinct from creator attribution so future operational ownership transfer can be added without rewriting creator history;
+- fast task search over dataset/source, country, target, owner/creator and technical ID;
+- user-selectable columns and column ordering, with reset to governed defaults;
+- personal UI layout state kept separate from scheduler execution policy;
+- sticky/frozen Actions for wide operational tables;
+- technical UUIDs visible as secondary support/audit information rather than primary task names.
+
+Identity snapshots may retain internal email for audit continuity, but scheduler browser list responses expose display attribution only. Account deletion/disablement must not make historical task or action records anonymous.
+
+## Implementation evidence
+
+Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
+Pilot PR: `#67`  
+Current implementation head at this update: `13730e1b1764ad2f6008fc1922e16393a6e1a8fb`  
+Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
+
+Material implementation includes:
+- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display;
+- `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
+- `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
+- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract.
+
+Codex review has been requested on Pilot PR #67 after the material implementation diff was established.
+
 ## Acceptance target
 
 - task-first human-readable Scheduled Tasks UI;
@@ -47,6 +78,8 @@ Human-readable business labels must be primary. Technical policy/source/profile 
 - explicit processing modes: automatic governed pipeline, acquisition only, reprocess governed Evidence where eligible;
 - run preview before consequential dispatch;
 - durable operator reason/audit;
+- durable creator attribution including former-user fallback;
+- task search and personal column visibility/order reset behaviour;
 - direct follow-through to resulting Job and Evidence;
 - scheduler/history tables show business workflow labels, scope and latest result rather than raw UUIDs;
 - UUIDs available under Technical details;
