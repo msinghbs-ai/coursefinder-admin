@@ -1,7 +1,7 @@
 # CF-CHG-20260910-092 — Scheduled Tasks configuration and run follow-through
 
 **Initiated:** 2026-09-10 12:49 AEST  
-**Updated:** 2026-09-10 20:10 AEST  
+**Updated:** 2026-09-10 20:17 AEST  
 **Milestone:** M2.4.5 — additive H4 reopening  
 **Origin:** M2.4.5 — Scheduled Job Config  
 **Owner:** CourseFinder Admin/PIM  
@@ -10,21 +10,13 @@
 
 ## Requested outcome
 
-Provide a first-class operational Scheduled Tasks workspace with:
-
-- operator-friendly column naming;
-- schedule editing;
-- safe Layer 1 / Layer 2 / Layer 3 Run on demand;
-- Jobs and Evidence cross-links;
-- readable latest queue/run outcomes;
-- UI/UX parity with the rest of the application;
-- targeted → bounded → nominated acceptance.
+Provide a first-class operational Scheduled Tasks workspace with operator-friendly naming, schedule editing, bounded Layer 1–3 Run on demand, Jobs/Evidence follow-through, readable queues/results and application UX parity.
 
 ## Navigation decision — 10 Sep 2026
 
-The governed scheduler workspace is now a primary **Data Operations → Scheduled Tasks** route, positioned immediately before **Evidence**.
+The governed scheduler workspace is now the primary **Data Operations → Scheduled Tasks** route immediately before **Evidence**.
 
-The duplicate Administration → Scheduling entry has been removed. The old hidden `Refresh & Scheduling` route and Administration scheduling render branch are also removed from the active shell. Scheduled Tasks reuses the same native React workspace and governed scheduler contracts; this is an IA move, not a second scheduler implementation.
+The duplicate Administration → Scheduling entry, Administration scheduling render branch and hidden `Refresh & Scheduling` route have been removed. Scheduled Tasks reuses the same native React workspace and governed scheduler contracts; this is an IA move, not a second scheduler implementation.
 
 Current Data Operations order:
 
@@ -42,95 +34,68 @@ H4 Scheduler & Jobs was previously CLOSED / PASS under `CF-CHG-20260905-209`. Th
 
 Generic historical Job retry/replay/reset remains prohibited. Run on demand must preserve existing Layer-specific scheduler, Evidence, authority, qualification, Search and publication boundaries.
 
-## Repository/runtime reconciliation
+## Repository reconciliation
 
-PR #65 — QS duplicate re-upload recovery — was merged into Pilot `main` as `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2` on 10 September 2026 and is part of the accepted baseline.
+PR #65 — QS duplicate re-upload recovery — is accepted Pilot baseline at `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2`.
 
-Scheduled Tasks work now continues in replacement PR **#66** on branch `feature/m245-scheduled-jobs-config-20260910`.
+Scheduled Tasks continues in PR **#66** on `feature/m245-scheduled-jobs-config-20260910`. The branch is reconciled onto PR #65 main and is **0 commits behind** that baseline.
 
-The branch has been reconciled onto PR #65 main. Latest comparison records:
+Current source candidate after navigation and acceptance-contract cleanup: `d1e08208198ebb18445ffbcc1791fbc360c51777`.
 
-- merge base: `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2`;
-- branch behind main: **0**;
-- current Scheduled Tasks candidate after nav/contract correction: `032b52dec72a1764f64931fa1aaacd74e1e6984a`;
-- PR #65 multipart upload, Evidence recovery migration and QS workbook regression contract are preserved;
-- Production remains untouched;
-- RLS remediation remains separately tracked.
+PR #65 multipart upload, private Evidence recovery and QS regression changes remain preserved. Production remains untouched and the separate RLS remediation remains out of scope.
 
 ## Current implementation
 
-The permanent implementation is the native React `ScheduledJobsWorkspace` surfaced as **Scheduled Tasks**.
+- Native `ScheduledJobsWorkspace` is surfaced only through the primary **Scheduled Tasks** page.
+- Temporary DOM-enhancer remains rejected/absent.
+- Proposed `public.scheduler_policy_control` remains absent and was never deployed.
+- Schedule edits and Run on demand reuse governed `public.refresh_policy_upsert_v2`.
+- Run on demand marks the same exact enabled bounded policy due now; normal scheduler dispatch remains authoritative.
+- Browser Job reads remain `api.jobs()` → `public.admin_read`.
+- Historical Jobs are never reset/replayed.
+- Layer 3 Evidence/profile/model qualification remains authoritative.
 
-The temporary DOM-enhancer approach remains rejected under A2 and is absent.
+## UI acceptance contract
 
-The earlier proposed `public.scheduler_policy_control` RPC is superseded, absent from source and was never successfully deployed to Pilot.
+Required Scheduled Tasks surface:
 
-CF-092 reuses the governed `public.refresh_policy_upsert_v2` mutation boundary:
+- Schedule Configuration: Layer, Country, Scheduled Target, Freshness Policy, Cadence, Next Run, Schedule Status, Actions;
+- Edit schedule with governance reason;
+- bounded Run on demand for eligible Layer 1–3 schedules;
+- Latest Refresh Queue;
+- Recent Job Runs;
+- canonical Layer, Jobs and Evidence links;
+- downstream Search signals unchanged.
 
-- **Edit schedule** updates the exact existing bounded policy with required governance reason;
-- **Run on demand** marks that same enabled bounded policy due now;
-- the normal scheduler creates/dispatches the refresh request;
-- historical Jobs are never reset/replayed.
+Navigation acceptance now explicitly verifies:
 
-Browser Job reads remain `api.jobs()` → `public.admin_read`. No direct browser read of `pipeline.jobs` is permitted.
-
-## Required UI outcome
-
-The Scheduled Tasks workspace contains:
-
-1. **Schedule Configuration** columns: Layer, Country, Scheduled Target, Freshness Policy, Cadence, Next Run, Schedule Status, Actions.
-2. **Edit schedule** for cadence, next-run and enabled state plus governance reason.
-3. **Run on demand** for eligible enabled Layer 1–3 bounded schedules.
-4. **Latest Refresh Queue** with trigger, target, status, queued/completed timestamps and reason/result.
-5. **Recent Job Runs** with Job/source, state, run mode, timing, result summary and canonical Jobs/Evidence follow-through.
-6. Layer 1 / Layer 2 / Layer 3 links to canonical workspaces.
-7. Existing downstream Search refresh signals retained unchanged.
-
-## Acceptance gates
-
-### Gate 1 — targeted source / build
-
-Run against the final source candidate:
-
-- frontend build;
-- CF-092 source contract;
-- primary-nav order and `#scheduled-tasks` routing;
-- Administration has no Scheduling tab/section/render branch;
-- no hidden `Refresh & Scheduling` route;
-- browser Jobs remain on `public.admin_read`;
-- `refresh_policy_upsert_v2` remains the accepted public SECURITY INVOKER → security SECURITY DEFINER bridge;
-- no `scheduler_policy_control` source or migration;
-- no generic Job reset/replay/delete semantics.
-
-### Gate 2 — bounded deployed UI
-
-Against the deployed PR #66 candidate:
-
-- Scheduled Tasks opens from primary nav;
-- it appears immediately before Evidence;
+- Scheduled Tasks appears before Evidence;
+- `#scheduled-tasks` route resolves and survives browser history;
 - Administration exposes no Scheduling tab;
-- friendly schedule columns render;
-- Edit schedule dialog opens and requires a governance reason;
-- Run on demand is bounded and role-gated;
-- Latest Refresh Queue and Recent Job Runs remain readable;
-- Jobs, Evidence and Layer links resolve;
-- focused PR #65 ranking upload/Open Dataset/Compare regression passes;
-- no browser/server errors.
+- no `Refresh & Scheduling` primary/hidden navigation remains;
+- the old deployed navigation UAT no longer instructs the browser to click the removed Scheduling tab.
 
-### Gate 3 — consequential-action proof
+## Acceptance evidence
 
-Use rollback-only/no-effective-change operator evidence. Prove insufficient-rank/anonymous mutation fails, and prove exact bounded schedule update/due-now behaviour without replaying historical Jobs or weakening authority/Evidence rules.
+On candidate `032b52dec72a1764f64931fa1aaacd74e1e6984a` before the final navigation-test maintenance commit:
 
-### Gate 4 — security/runtime reconciliation
+- Pilot Frontend Build run `34464602385`: **PASS**;
+- Release History Contract run `34464602333`: **PASS**.
 
-Compare Security Advisor with the recorded baseline. Existing RLS INFO findings remain separate. No unexplained new Critical/High finding may be accepted. Production remains untouched.
+Those passes prove build/release-history integrity of the same application implementation, but the later UAT-only commits invalidate that SHA as the final nominated acceptance candidate. Fresh CI is required on the latest PR #66 head before closure.
 
-### Gate 5 — release/final acceptance
+## Remaining gates
 
-After Gates 1–4 PASS, determine the next visible Admin release from current canonical release history, nominate one final SHA, run the full deployed acceptance matrix once, then merge PR #66 and close CF-092 only on PASS.
+1. Fresh frontend build and release-history CI on latest PR #66 head.
+2. Execute the CF-092 source contract; CI discovery alone is not execution evidence.
+3. Deployed PR preview acceptance for Scheduled Tasks plus canonical navigation.
+4. Focused PR #65 ranking/Open Dataset/Compare regression.
+5. Rollback-only/no-effective-change operator mutation proof for edit/due-now and negative rank/auth paths.
+6. Security Advisor delta check against the pre-CF-092 baseline; separate RLS inventory remains separate.
+7. Determine next visible release only after functional gates pass; nominate one final SHA and run final deployed acceptance matrix once.
 
 ## Current exact next gate
 
-**Complete targeted build/source contract on PR #66 head, then run bounded deployed Scheduled Tasks UI acceptance.**
+**Fresh CI on `d1e08208...`, followed by targeted CF-092 contract execution and bounded deployed Scheduled Tasks acceptance.**
 
 CF-092 remains **ACTIVE / NOT ACCEPTED** until these gates pass.
