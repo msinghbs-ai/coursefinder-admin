@@ -60,15 +60,18 @@ Identity snapshots may retain internal email for audit continuity, but scheduler
 
 Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
 Pilot PR: `#67`  
-Current implementation head after second Codex correction set: `b1a3c2b016156b2e60931d7bf6bf2f93439e0ee7`  
+Current functional candidate head: `7c0a7be5d322c7539ade5bd07d5c18bc3161250e`  
 Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
 
 Material implementation includes:
 - `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display, request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, and load-owned busy/error state;
 - `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
 - `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
-- `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search, deleted/banned account-state correction and resolved creator/owner-display search semantics;
+- `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search and deleted/banned account-state correction; this applied migration remains immutable;
+- `supabase/migrations/20260910213556_cf_093_resolved_actor_search_semantics.sql` — repository reconciliation of the already-applied Pilot runtime correction that searches the resolved creator/owner display semantics;
 - `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including Codex regression checks.
+
+Pilot runtime migration truth includes `20260910194125 cf_093_scheduler_operator_attribution`, `20260910194149 cf_093_codex_review_fixes`, and `20260910213556 cf_093_resolved_actor_search_semantics`. The current deployed bridge definition matches the resolved actor-search behaviour. No duplicate later reconciliation migration remains in the candidate branch.
 
 ## Codex review reconciliation — 11 September 2026
 
@@ -79,16 +82,16 @@ Initial review findings corrected:
 3. **Deleted/disabled user state** — creator/owner state treats soft-deleted or currently banned users as former.
 4. **Stale scheduler search responses** — policy loads carry a monotonic request generation; stale responses cannot update policy/search data or busy/error state.
 
-Second Codex re-review findings on `e2f4e85fa33719882183366e6c6f8de9ee582eef` are also accepted and corrected:
+Second Codex re-review findings on `e2f4e85fa33719882183366e6c6f8de9ee582eef` are also corrected:
 
 5. **Post-submit busy race** — successful mutation no longer has an outer unconditional `setBusy(false)`; the sequenced policy load owns busy state, so a superseded post-submit load cannot re-enable actions while a newer search is still in flight.
 6. **Resolved owner/creator search** — query predicates use the same snapshot/live/former-user resolved display semantics projected to the UI, so searching a visible active owner/creator name returns the policy.
 7. **Post-edit pagination validity** — post-mutation refresh resets to page 0; list loading also clamps/refetches if an offset is beyond the returned filtered total.
 8. **Policy-search isolation** — debounced/paged policy search executes only the scheduler list RPC. Overview, role context and recent Jobs are refreshed independently so unrelated panel failures cannot leave previous policy results actionable under a newer search string.
 
-The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, and stored email snapshots are not projected to the browser.
+The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, and stored email snapshots are not projected to the browser. Pilot runtime currently has 13 bounded Layer 1–3 policies; all are legacy/system-created at this point (`created_by`/owner null), so the UI correctly renders system/legacy attribution rather than inventing a human creator.
 
-Fresh CI and Codex re-review are required on `b1a3c2b...` before merge/deploy.
+Candidate CI on `7c0a7be5...`: Pilot Frontend Build `34534171514` PASS; Release History Contract `34534171521` PASS. Final Codex re-review on the exact candidate is pending before merge/deploy.
 
 ## Acceptance target
 
