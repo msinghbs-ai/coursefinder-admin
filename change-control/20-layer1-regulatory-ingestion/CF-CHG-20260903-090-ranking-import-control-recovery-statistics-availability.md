@@ -97,13 +97,14 @@ A second acquisition defect was also identified: `ranking-qs-url-import` had dir
 
 Repository/runtime review identified that Pilot PR #59 merged before its Codex review completed. The later review found three material defects in the one-row-per-edition read contract: source selection used mutable processing `updated_at`; detected country scope was taken only from the selected revision; and `logical_revision_count` omitted lifecycle-rejected/superseded revisions.
 
-The Pilot runtime has been corrected with `cf_ranking_import_history_codex_followup`. The function now:
+The Pilot runtime has been corrected with `cf_ranking_import_history_codex_followup` plus `cf_ranking_import_history_file_scope_followup`. The function now:
 - selects the visible source revision by immutable `uploaded_at` capture order with ID tie-breaker;
 - aggregates detected scope across every retained source revision for the same system and edition;
+- includes both `ranking_import_acquire` URL acquisition jobs and governed `layer1_ranking_etl` manual-file acquisition jobs when aggregating source scope;
 - counts every retained source revision, including lifecycle-rejected rows;
 - preserves the existing authentication, Pipeline Operator rank >= 4 and execute-grant boundaries.
 
-Pilot source-control reconciliation is isolated in PR #64 (`fix/qs-ranking-codex-followup-20260910`). RLS task #60 remains separate and unchanged.
+Pilot PR #64 was reviewed by Codex. Its initial review found a P1 omission of manual-file acquisition jobs from scope aggregation; that defect was corrected in commit `297309654cc9ef3a9039c40ff27b010088e2d85e`, the Pilot Frontend Build run `34435716416` passed, and the corrected SQL was already active in Pilot runtime. PR #64 then merged to main as `faca58121fc67829d0993b694d85fc90e6fd1d23`. RLS task #60 remains separate and unchanged.
 
 ### QS 2026 recovery
 
@@ -127,10 +128,12 @@ QS's currently discoverable public 2027 workbook is a different v1.1 revision, s
 
 A purpose-built JWT-protected `ranking-qs-upload-recovery` helper verifies the fixed import ID, exact byte count and SHA-256 before Storage restore and invokes the existing official ETL. Temporary recovery helpers must be retired after recovery closure.
 
+A large inline-Evidence fallback transfer was tested but abandoned after chunk-integrity verification detected corruption risk. The incomplete fallback payload was cleared; no corrupt partial XLSX payload is retained. Recovery remains blocked specifically on transporting the exact local v1.3 binary into the private Evidence bucket through an available authenticated binary-upload path.
+
 ### Remaining gate
 
 1. Complete exact-byte private Evidence transfer for QS 2027 and run official ETL APPLY.
 2. Verify 1,504 ranking observations and 15,040 indicator observations, with any remaining `needs_review` state attributable only to provider mapping.
 3. Retire temporary recovery Edge functions.
-4. Close PR #64 only after Codex/CI review is green and mirror the final runtime truth here.
+4. Reconcile M2.4.5 RUNSHEET / CURRENT-STATE / FOLLOW-UPS / NEXT-CHAT with the final recovery result.
 5. Keep the separate stale QS 2027 operator-warning UI correction coordinated with the current application release candidate rather than colliding with parallel release/version work.
