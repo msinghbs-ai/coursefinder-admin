@@ -1,22 +1,22 @@
 # CF-CHG-20260910-092 — Scheduled Tasks configuration and run follow-through
 
 **Initiated:** 2026-09-10 12:49 AEST  
-**Updated:** 2026-09-10 20:29 AEST  
+**Updated:** 2026-09-10 AEST  
 **Milestone:** M2.4.5 — additive H4 reopening  
 **Origin:** M2.4.5 — Scheduled Job Config  
 **Owner:** CourseFinder Admin/PIM  
 **Primary category:** Admin / PIM UX  
-**Status:** PILOT RUNTIME APPLIED / TARGETED ACCEPTANCE ACTIVE
+**Status:** PILOT RUNTIME APPLIED / FINAL ACCEPTANCE ACTIVE
 
 ## Requested outcome
 
-Provide a first-class operational Scheduled Tasks workspace with operator-friendly naming, schedule editing, bounded Layer 1–3 Run on demand, Jobs/Evidence follow-through, readable queues/results and application UX parity.
+Provide a first-class operational Scheduled Tasks workspace with operator-friendly naming, schedule editing, bounded run control, Jobs/Evidence follow-through, readable queues/results and application UX parity.
 
-## Navigation decision — 10 Sep 2026
+## Navigation decision
 
 The governed scheduler workspace is the primary **Data Operations → Scheduled Tasks** route immediately before **Evidence**.
 
-The duplicate Administration → Scheduling entry, Administration scheduling render branch and hidden `Refresh & Scheduling` route are removed. The visible workspace identifies itself as `Data Operations · Scheduled Tasks`; it no longer presents itself as an Administration scheduling surface.
+The duplicate Administration → Scheduling entry, Administration scheduling render branch and hidden `Refresh & Scheduling` route are removed. The visible workspace identifies itself as `Data Operations · Scheduled Tasks`.
 
 Current Data Operations order:
 
@@ -30,126 +30,109 @@ Current Data Operations order:
 
 ## Governance position
 
-H4 Scheduler & Jobs was previously CLOSED / PASS under `CF-CHG-20260905-209`. This is an authorised additive reopening and does not invalidate that rollback baseline.
+H4 Scheduler & Jobs was previously CLOSED / PASS under `CF-CHG-20260905-209`. CF-092 is an authorised additive enhancement and does not invalidate that rollback baseline.
 
 Generic historical Job retry/replay/reset remains prohibited. Layer-specific Evidence, qualification, identity, publication and Search controls remain authoritative.
 
-## Repository reconciliation
-
-PR #65 — QS duplicate re-upload recovery — is accepted Pilot baseline at `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2`.
-
-Scheduled Tasks continues in PR **#66** on `feature/m245-scheduled-jobs-config-20260910`. The branch is reconciled onto current main and remains 0 commits behind the PR #65 baseline.
-
-Current Pilot source head at this update: `90a4da06d277dd24f7bc333a2e4bba56e9d546e9`.
-
-PR #65 multipart upload, private Evidence recovery and QS regression changes remain preserved. Production remains untouched and the separate RLS remediation remains out of scope.
+PR #65 — QS duplicate re-upload recovery — is accepted Pilot baseline at `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2`. PR #66 is reconciled to that baseline and preserves its multipart upload/private Evidence/QS regression changes.
 
 ## Acceptance-review corrections
 
-Codex review of the earlier scheduler candidate identified consequential P1 issues that are valid and must not be bypassed:
+Review of the initial CF-092 candidate found valid defects. All were corrected rather than waived:
 
-1. PostgreSQL interval values represented as time-only hours (for example a seven-day cadence rendered as `168:00:00`) could be parsed as empty and then overwrite cadence.
-2. UTC ISO slicing into a `datetime-local` control could shift `next_due_at` by the operator timezone when saved.
-3. The inherited refresh-policy mutation validated a governance reason but did not persist the operator/reason in durable scheduler audit state.
+- PostgreSQL time-only interval representations could lose cadence;
+- UTC ISO slicing could shift `datetime-local` values by operator timezone;
+- governance reason/actor were not durably retained by the inherited policy mutation;
+- schedule edits could overwrite a concurrently advanced `next_due_at`;
+- governed Jobs-read failures could be misreported as empty history;
+- non-terminal Jobs could show `updated_at` as a completion time;
+- direct Layer 3 generic run requests lacked the Evidence/model-profile/revalidation context required for executable governed interpretation;
+- cadence bounds relied only on HTML attributes;
+- only the first overview page of policies was visible.
 
-The final source corrects these issues rather than accepting the earlier implementation.
+## Final scheduler architecture
 
-## Final scheduler action architecture
+The superseded generic `public.scheduler_policy_control` remains absent and was never deployed.
 
-The earlier proposed generic `public.scheduler_policy_control` remains absent and was never deployed.
+### Schedule reads
 
-The final implementation separates schedule maintenance from on-demand execution:
+`public.scheduler_policies_list_v1` is a SECURITY INVOKER browser-facing wrapper to a non-exposed rank-gated bridge. It returns paged bounded Layer 1–3 policies with an authoritative total so configuration does not silently disappear above the overview limit.
 
 ### Schedule edit
 
 `public.scheduler_policy_edit_v1` is a SECURITY INVOKER browser-facing wrapper to `security.scheduler_policy_edit_v1_browser_bridge`.
 
-The non-exposed bridge:
+The bridge:
 
 - requires `auth.uid()` and Pipeline Operator rank >= 4;
-- requires an exact existing Layer 1–3 bounded recurring policy;
-- rejects event-driven schedules and non-whole-day editing from this UI;
-- updates only cadence, next run, enabled state, Change Control and update time;
-- persists actor, governance reason, before state and after state to `pipeline.refresh_policy_action_events`.
+- accepts an exact existing bounded recurring Layer 1–3 policy;
+- requires cadence 1..3650 days and a non-null next-run instant;
+- requires the policy `updated_at` observed when the editor opened and rejects stale snapshots;
+- persists actor, governance reason, before/after state and CF-092 in `pipeline.refresh_policy_action_events`.
 
 ### Run on demand
 
 `public.scheduler_policy_run_now_v1` is a SECURITY INVOKER browser-facing wrapper to `security.scheduler_policy_run_now_v1_browser_bridge`.
 
-The non-exposed bridge:
+Direct run-on-demand is intentionally limited to **Layer 1–2** exact bounded enabled policies. It creates or reuses a `manual_governed` refresh request carrying `requested_by`, operator reason and CF-092 and records durable action audit. It does **not** modify cadence or `next_due_at`.
 
-- requires `auth.uid()` and Pipeline Operator rank >= 4;
-- accepts only an exact existing enabled Layer 1–3 bounded policy;
-- reuses an already queued/running request for the exact target rather than duplicating it;
-- otherwise creates a `manual_governed` refresh request carrying `requested_by`, operator reason and `CF-CHG-20260910-092`;
-- records the action and resulting request in durable scheduler audit;
-- does **not** change policy cadence or `next_due_at`.
+Layer 3 generic run-on-demand is not exposed from Scheduled Tasks. Layer 3 execution requires Evidence/profile/model/revalidation context and remains in its native governed Layer 3 workspace. This is a security/evidence-boundary correction, not a missing feature.
 
-This remains a bounded refresh request, not a generic historical Job replay/reset. Layer 3 execution still requires its existing Evidence/profile/model qualification and does not gain autonomous AI authority.
+## UI/UX state
 
-## UI corrections
-
-- PostgreSQL day/time interval strings are converted only when they represent an exact whole-day cadence; unsupported cadences are not silently rewritten.
-- Existing `next_due_at` is formatted into browser-local wall time before populating `datetime-local`, then converted back to an instant on save.
-- Run-on-demand copy explicitly states the recurring cadence/next run are unchanged.
-- Browser Job reads remain `api.jobs()` → `public.admin_read`; no browser `pipeline.jobs` read was introduced.
+- Scheduled Tasks is a native primary route before Evidence.
+- Administration has no scheduler tab/render/deep-link footprint.
+- Friendly schedule columns are retained: Layer, Country, Scheduled Target, Freshness Policy, Cadence, Next Run, Schedule Status, Actions.
+- Policy pagination is available.
+- Latest Refresh Queue, Recent Job Runs and downstream Search signals remain readable operational follow-through.
+- Jobs/Evidence/Layer deep-links remain available.
+- PostgreSQL interval parsing accepts exact whole-day representations including time-only hour forms.
+- `datetime-local` displays browser-local wall time and converts back to an instant on save.
+- governed Jobs-read errors surface as errors rather than empty history.
+- completion fallback is shown only for terminal jobs.
+- browser Job reads remain `api.jobs()` → `public.admin_read`.
 
 ## Pilot runtime application
 
-Migration `20260910202500_cf_092_scheduler_governed_actions.sql` has been applied to the **Pilot** Supabase project only.
+Pilot-only migrations applied:
+
+1. `20260910202500_cf_092_scheduler_governed_actions.sql`
+2. `20260910214500_cf_092_scheduler_acceptance_hardening.sql`
 
 Runtime verification confirms:
 
-- `public.scheduler_policy_edit_v1`: SECURITY INVOKER; execute grants only postgres/authenticated/service_role;
-- `public.scheduler_policy_run_now_v1`: SECURITY INVOKER; execute grants only postgres/authenticated/service_role;
-- both non-exposed `security.*_browser_bridge` functions are SECURITY DEFINER and independently auth/rank gated;
+- public scheduler list/edit/run wrappers are SECURITY INVOKER;
+- non-exposed `security.*_browser_bridge` helpers are SECURITY DEFINER and independently auth/rank gated;
 - PUBLIC/anon execution is absent;
-- `pipeline.refresh_policy_action_events` has RLS enabled, browser table grants revoked and an authenticated deny-all policy;
-- action-event count immediately after migration is **0**, proving migration itself did not mutate schedules or queue work.
+- `pipeline.refresh_policy_action_events` has RLS enabled, browser table grants revoked and authenticated deny-all policy;
+- Pilot currently exposes 13 bounded Layer 1–3 policies through the scheduler read contract;
+- no operator schedule edit or run-now was invoked merely for acceptance verification.
 
-Post-DDL Security Advisor remains exactly the recorded baseline: **191 INFO `rls_enabled_no_policy` findings, no new High/Critical finding**. The new scheduler audit table does not add a new advisor finding. Existing RLS remediation remains separate.
+Post-DDL Security Advisor remains the recorded baseline: **191 INFO `rls_enabled_no_policy` findings, no new High/Critical finding**. Separate RLS remediation remains out of scope. Production is untouched.
 
-## Acceptance contracts
+## Acceptance evidence to date
 
-Source and deployed contracts now require:
+- PR #66 source contract: PASS on preview acceptance.
+- Scheduled Tasks deployed preview UAT: PASS.
+- canonical navigation deployed preview UAT: PASS after stale Layer 2 labels/assertions were reconciled to the current accepted UI.
+- standard Release History Contract: PASS on the current functional candidate lineage.
+- standard Pilot Frontend Build: PASS on the current functional candidate lineage.
+- all previously raised Codex scheduler review threads were resolved only after the corresponding source/runtime fixes were present.
 
-- Scheduled Tasks before Evidence;
-- `#scheduled-tasks` canonical route;
-- no Administration Scheduling tab/render branch;
-- no hidden `Refresh & Scheduling` route;
-- friendly schedule columns;
-- Jobs/Evidence/Layer links;
-- dedicated audited edit/run-now RPCs;
-- no direct Jobs table reads;
-- no generic Job update/delete/truncate/replay;
-- run-now leaves recurring schedule unchanged;
-- public SECURITY INVOKER / non-exposed rank-gated bridge pattern;
-- durable actor/reason/Change-Control audit.
+A broad wildcard ranking regression was found to exceed the intended PR #65 regression boundary. PR #65 changed only `cf-090-qs-workbook-shape-contract.spec.mjs`; final regression is therefore bounded to that accepted contract rather than unrelated historical ranking suites.
 
-## Acceptance evidence
+## Remaining closure gates
 
-Earlier application candidate `032b52dec72a1764f64931fa1aaacd74e1e6984a` passed:
+1. Complete the bounded PR #65 QS workbook regression together with Scheduled Tasks source/deployed navigation acceptance on the latest functional candidate.
+2. Remove the temporary preview-acceptance workflow without leaving generated lockfile/tooling footprint.
+3. Synchronise `CHANGELOG.md` and visible PIM release history to the accepted browser-visible change.
+4. Re-run standard build/release-history and final deployed release-currentness/smoke on the nominated release candidate.
+5. Record exact final SHA/run IDs in this Change Control and M2.4.5 continuity.
 
-- Pilot Frontend Build `34464602385`;
-- Release History Contract `34464602333`.
+Consequential mutation proof is intentionally not manufactured against an operational schedule merely for acceptance. Server-side negative auth/rank, bounded-target, stale-version and Layer-3 refusal rules are represented in the applied runtime contracts and source tests. A live run-now requires an explicitly nominated governed target because it creates real pipeline work.
 
-Those are historical evidence only because later functional hardening changed the candidate.
+## Rollback
 
-A dedicated CF-092 source-acceptance workflow was queued on pre-release-metadata candidate `abe165c6a9b618198b7a91eaed4bdc1e22d6e619`; it must not be treated as the final candidate after subsequent source metadata commits. Fresh CI is required on the final nominated SHA.
+`CF-CHG-20260905-209` remains the accepted Scheduler & Jobs fallback. UI rollback removes the CF-092 Scheduled Tasks additions; runtime rollback must preserve existing refresh/job/evidence/action history and must not delete operational evidence.
 
-## Remaining gates
-
-1. Close the last Administration-description wording footprint in source and confirm no Scheduling tab/render/deep-link remains.
-2. Fresh frontend build + release-history CI on the resulting final source candidate.
-3. Execute the corrected CF-092 source contract on that final source candidate.
-4. Run deployed PR-preview Scheduled Tasks + canonical navigation UAT.
-5. Run focused PR #65 ranking/Open Dataset/Compare regression.
-6. Controlled no-effective-change schedule-edit proof plus negative auth/rank proof. Do not invoke run-on-demand merely to create live work unless a governed bounded test target is explicitly nominated.
-7. Resolve Codex P1 threads only after evidence is attached to the corrected head.
-8. Determine next visible PIM release from canonical history after functional gates pass; nominate one final SHA and run final deployed acceptance once.
-
-## Current exact next gate
-
-**Finish the last Administration copy cleanup, then run fresh targeted CI/source contract and bounded deployed UI acceptance on one final PR #66 SHA.**
-
-CF-092 remains **ACTIVE / NOT ACCEPTED** until these gates pass.
+CF-092 remains **ACTIVE / NOT YET CLOSED** until the final release candidate gates above pass.
