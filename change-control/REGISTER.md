@@ -37,6 +37,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
+| CF-CHG-20260910-092 | 30-admin-pim-ux | Scheduled Tasks configuration and governed run control | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260910-092-scheduled-jobs-config-controls.md` |
 | CF-CHG-20260908-244 | 70-security-platform | M2.4.5 architectural hardening & CF-241 runtime reconciliation | CLOSED / PASS | `70-security-platform/CF-CHG-20260908-244-m245-architectural-hardening-cf241-runtime-reconciliation.md` |
 | CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |
 | CF-CHG-20260820-001 | 30-admin-pim-ux | PIM field semantics, fee presentation and Admin Guide | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260820-001-pim-field-semantics-fees-admin-guide.md` |

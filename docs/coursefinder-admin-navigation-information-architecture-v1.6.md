@@ -1,9 +1,9 @@
 # CourseFinder Admin Navigation & Information Architecture v1.6
 
 **Status:** CURRENT — M2.4.5 ADMIN IA HARDENING  
-**Date:** 3 September 2026  
+**Date:** 10 September 2026  
 **Supersedes:** v1.5  
-**Related Change Controls:** `CF-CHG-20260826-040`, `CF-CHG-20260901-061`, `CF-CHG-20260902-063`, `CF-CHG-20260902-064`, `CF-CHG-20260902-080`, `CF-CHG-20260903-088`
+**Related Change Controls:** `CF-CHG-20260826-040`, `CF-CHG-20260901-061`, `CF-CHG-20260902-063`, `CF-CHG-20260902-064`, `CF-CHG-20260902-080`, `CF-CHG-20260903-088`, `CF-CHG-20260910-092`
 
 ## Principle
 
@@ -31,10 +31,11 @@ A15 contact acquisition remains Layer 2 Evidence-backed enrichment. A30 adds a m
 | 4 | Data Operations | Layer 2 — Enrichment | deterministic first-party acquisition/extraction |
 | 4 | Data Operations | Layer 3 — AI Interpretation | governed Evidence interpretation |
 | 4 | Data Operations | Layer 4 — Human Resolution | terminal human resolution |
+| 4 | Data Operations | **Scheduled Tasks** | governed recurring schedules, bounded operator run requests, queues and run follow-through |
 | 4 | Data Operations | Evidence | cross-layer provenance |
 | 4 | Data Operations | Jobs | run history and operational state |
 | 5 | Quality & Review | Completeness / reconciliation | coverage/readiness and unresolved decision work |
-| 6 | Administration | Administration | Sources & Imports, acquisition, scheduling, onboarding, PIM, users/roles, platform |
+| 6 | Administration | Administration | Sources & Imports, acquisition, onboarding, PIM, users/roles and platform configuration |
 | 7 | Help | Guides & Runbooks | maintained operator guidance |
 
 ## Provider Contacts rule
@@ -88,9 +89,9 @@ Canonical sections:
 - Overview — rank 4;
 - Sources & Imports — rank 4;
 - Layer 1 sources — rank 6;
-- Layer 2 sources — rank 4;
+- Extraction Profiles — rank 4;
 - Scraper Config — rank 4 read surface with higher-rank server-authorised writes;
-- Scheduling — rank 4 inside Administration;
+- Provider Assets — rank 4;
 - Onboarding — rank 4 inside Administration;
 - PIM configuration — rank 5;
 - Users & Roles — rank 6;
@@ -99,15 +100,30 @@ Canonical sections:
 
 Compatibility rules:
 - `#users-roles`, `#attributes` and `#settings` remain valid deep links but resolve into canonical Administration sections;
-- historic rank-3 Scheduling/Onboarding hidden routes remain because redirecting them into rank-4 Administration would alter permissions;
+- historic Onboarding compatibility remains only where its retained route does not alter permissions;
 - the hidden Sources operational registry remains separate because it is not equivalent to one configuration section;
-- Users & Roles no longer owns a separate full-screen Admin shell.
+- Users & Roles no longer owns a separate full-screen Admin shell;
+- **Scheduling is not an Administration section or hidden primary route.** `#scheduled-tasks` is the canonical scheduling route.
 
-No primary NAV label, Layer authority, Search/Publication authority or role rank changed under CF-088.
+## Scheduled Tasks IA refinement — CF-092
+
+Scheduled Tasks is a first-class **Data Operations** module immediately before Evidence. This placement reflects its operational role: operators configure recurring work, request eligible bounded work, and follow queue/Job/Evidence results in one place.
+
+The former Administration → Scheduling tab/render branch and hidden `Refresh & Scheduling` route are removed. No duplicate settings surface is retained.
+
+Authority rules:
+- schedule configuration is visible through a paged governed read, not a browser table query;
+- schedule edits require Pipeline Operator rank and use optimistic concurrency plus durable actor/reason/Change-Control audit;
+- direct **Run on demand** is allowed only for exact bounded Layer 1–2 policies and does not alter the recurring cadence or next-run timestamp;
+- Layer 3 direct generic run requests are not manufactured here because Layer 3 requires governed Evidence/profile/model context; operators use the native Layer 3 workspace for executable on-demand interpretation;
+- Jobs remain read through the governed `public.admin_read` path;
+- generic historical Job retry/replay/reset remains prohibited.
+
+No primary Layer authority, Search/Publication authority or role rank changes under CF-092.
 
 ## M2.4.5 H2 terminology refinement — CF-089
 
-Administration terminology now distinguishes two Layer 2 configuration responsibilities:
+Administration terminology distinguishes two Layer 2 configuration responsibilities:
 
 - **Scraper Config** — vendor/provider control plane: enabled state, credential status, endpoint, rate, concurrency, timeout, quota and profile route membership.
 - **Extraction Profiles** — advanced source-specific deterministic extraction configuration: what is acquired/extracted, source constraints, target entity, validation/qualification and version history.

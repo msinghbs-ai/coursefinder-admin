@@ -1,5 +1,18 @@
 # M2.4.5 CURRENT STATE
 
+## CF-092 Scheduled Tasks configuration — CLOSED / PASS — 10 September 2026
+
+- **Accepted Pilot main:** `9305eb3a004d12724ec26b6bab65e1d4b1ab2239` after PR #66.
+- **Visible Admin release:** v2.15.76.
+- Scheduled Tasks is the canonical Data Operations scheduler workspace immediately before Evidence; duplicate Administration Scheduling UI/route footprint is removed.
+- Exact bounded Layer 1–3 schedules can be edited with optimistic concurrency and durable operator/reason audit. Direct Run on demand is limited to executable Layer 1–2 schedules; Layer 3 remains Evidence/profile/model/revalidation governed.
+- CF-092 preview acceptance `34468684736` PASS; final pre-merge build `34469936532` PASS; release-history `34469936531` PASS.
+- Post-merge build `34470101950` PASS; Cloudflare Worker deployment PASS; deployed UAT `34470101936` attempt 2 PASS. Attempt 1 hit a transient legacy CF-102 `course_detail` HTTP 500; unchanged rerun passed and the exact read also succeeded in runtime verification.
+- Rollback-only security acceptance proved no-auth/rank-3 denial and rank-4 no-effective-change edit success with full rollback and zero residual audit rows.
+- Security Advisor remains at the known 191 INFO-only RLS baseline; separate RLS remediation remains out of scope. Production unchanged.
+- The 10 Sep admin-main roadmap parks generic dataset ETL / ARWU / Diversity fixtures for future work; stale continuity naming H12 as the immediate next gate is superseded. Near-term ranking continuation remains QS-focused unless newer repository/runtime truth changes it.
+
+
 ## CF-244 architectural hardening + CF-241 runtime reconciliation — CLOSED / PASS — 8 September 2026
 
 - **Accepted Pilot main:** `4a927057e86935f8c5e101e434355da0b8f9bf7d`.
