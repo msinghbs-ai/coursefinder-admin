@@ -60,28 +60,35 @@ Identity snapshots may retain internal email for audit continuity, but scheduler
 
 Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
 Pilot PR: `#67`  
-Current implementation head after Codex stale-search correction: branch head to be reconciled after CI  
+Current implementation head after second Codex correction set: `b1a3c2b016156b2e60931d7bf6bf2f93439e0ee7`  
 Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
 
 Material implementation includes:
-- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display, and request-generation sequencing so stale debounced loads cannot overwrite newer search state;
+- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display, request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, and load-owned busy/error state;
 - `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
 - `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
-- `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search and deleted/banned account-state correction;
-- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including Codex regression checks and stale-response sequencing assertions.
+- `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search, deleted/banned account-state correction and resolved creator/owner-display search semantics;
+- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including Codex regression checks.
 
 ## Codex review reconciliation — 11 September 2026
 
-Codex raised four P2 findings on Pilot PR #67. All four were accepted as valid and corrected with bounded deltas:
+Initial review findings corrected:
 
-1. **Search before pagination** — moved task search into the rank-gated scheduler list RPC so filtering occurs before `LIMIT/OFFSET`; filtered totals now drive pagination.
-2. **Refresh queue distinguishability** — the UI falls back to the exact technical bounded target when the queue read does not carry source/profile labels, preventing generic `Scheduled task` rows.
-3. **Deleted/disabled user state** — creator/owner state treats soft-deleted users and currently banned users as former, matching existing account-state semantics (`deleted_at is null` and no current ban for active accounts).
-4. **Stale scheduler search responses** — scheduler loads now carry a monotonically increasing request generation. Only the newest generation may update policy/search data or busy/error state, preventing a slower superseded request from replacing the operator's current search result set.
+1. **Search before pagination** — moved task search into the rank-gated scheduler list RPC so filtering occurs before `LIMIT/OFFSET`; filtered totals drive pagination.
+2. **Refresh queue distinguishability** — UI falls back to the exact technical bounded target when the queue read does not carry source/profile labels.
+3. **Deleted/disabled user state** — creator/owner state treats soft-deleted or currently banned users as former.
+4. **Stale scheduler search responses** — policy loads carry a monotonic request generation; stale responses cannot update policy/search data or busy/error state.
+
+Second Codex re-review findings on `e2f4e85fa33719882183366e6c6f8de9ee582eef` are also accepted and corrected:
+
+5. **Post-submit busy race** — successful mutation no longer has an outer unconditional `setBusy(false)`; the sequenced policy load owns busy state, so a superseded post-submit load cannot re-enable actions while a newer search is still in flight.
+6. **Resolved owner/creator search** — query predicates use the same snapshot/live/former-user resolved display semantics projected to the UI, so searching a visible active owner/creator name returns the policy.
+7. **Post-edit pagination validity** — post-mutation refresh resets to page 0; list loading also clamps/refetches if an offset is beyond the returned filtered total.
+8. **Policy-search isolation** — debounced/paged policy search executes only the scheduler list RPC. Overview, role context and recent Jobs are refreshed independently so unrelated panel failures cannot leave previous policy results actionable under a newer search string.
 
 The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, and stored email snapshots are not projected to the browser.
 
-Codex re-review is required after CI confirms the latest correction head. Merge/deploy remains blocked until that review and targeted acceptance are green.
+Fresh CI and Codex re-review are required on `b1a3c2b...` before merge/deploy.
 
 ## Acceptance target
 
