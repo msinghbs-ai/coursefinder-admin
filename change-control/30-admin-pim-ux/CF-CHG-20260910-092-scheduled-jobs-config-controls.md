@@ -1,157 +1,147 @@
-# CF-CHG-20260910-092 — Scheduled Jobs configuration, bounded on-demand execution and run follow-through
+# CF-CHG-20260910-092 — Scheduled Jobs configuration and run follow-through
 
 **Initiated:** 2026-09-10 12:49 AEST  
+**Updated:** 2026-09-10 19:56 AEST  
 **Milestone:** M2.4.5 — additive H4 reopening  
 **Origin:** M2.4.5 — Scheduled Job Config  
 **Owner:** CourseFinder Admin/PIM  
 **Primary category:** Admin / PIM UX  
-**Change class:** Browser-visible operational configuration + bounded privileged mutation  
-**Status:** APPLIED TO SOURCE / TARGETED ACCEPTANCE ACTIVE
+**Status:** SOURCE ACTIVE / REBASE-RECONCILIATION REQUIRED BEFORE ACCEPTANCE
 
-## Trigger / requested outcome
+## Requested outcome
 
-Revisit **Administration → Scheduling** so the operator-facing workspace has the same operational maturity and UX clarity as the rest of the Admin application:
+Improve **Administration → Scheduling** with:
 
-- meaningful column naming;
-- governed schedule editing;
-- a safe **Run on demand** action, especially for Layer 1 / Layer 2 / Layer 3;
-- cross-links to Jobs and Evidence;
-- readable latest refresh queue and recent run/result history;
-- UI/UX parity with canonical Administration modules;
-- acceptance through targeted → bounded integration → nominated acceptance.
+- operator-friendly column naming;
+- schedule editing;
+- safe Layer 1 / Layer 2 / Layer 3 Run on demand;
+- Jobs and Evidence cross-links;
+- readable latest queue/run outcomes;
+- UI/UX parity with the canonical Administration workspaces;
+- targeted → bounded → nominated acceptance.
 
-## Governance reconciliation
+## Governance position
 
-H4 Scheduler & Jobs was already CLOSED / PASS under `CF-CHG-20260905-209`. That closure deliberately did **not** add generic historical retry/replay/reset because adapter semantics differ and a generic control could duplicate ingestion or bypass governed safety boundaries.
+H4 Scheduler & Jobs was previously CLOSED / PASS under `CF-CHG-20260905-209`. This is an authorised additive reopening and does not invalidate that rollback baseline.
 
-This record is therefore an **additive H4 reopening**, authorised by the 10 September 2026 user request. It does not invalidate CF-209 and does not reopen unrelated H12/H13 ranking acceptance. The programme feature gate remains H12/H13 in parallel; this change owns only the Scheduling enhancement evidence.
+Generic historical Job retry/replay/reset remains prohibited. Run on demand must preserve the existing Layer-specific scheduler, Evidence, authority, qualification, Search and publication boundaries.
 
-## Accepted starting truth
+## Repository reconciliation after PR #65
 
-- Pilot `main` at task reconciliation: `0705195f4667f6562225b52de922f21c6df59aaf`.
-- Visible Admin release: **v2.15.75**.
-- Pilot package version: `0.1.2` before this source change.
-- Production remains untouched; M2.5 remains paused.
-- Existing scheduler uses bounded `pipeline.refresh_policies` and queues `pipeline.refresh_requests` for Layer 1–3.
-- Layer 1 and Layer 2 dispatchers already consume qualified queued refresh requests; Layer 3 retains its Evidence/profile/qualification constraints.
-- Browser Job reads remain through `public.admin_read` via `api.jobs()`.
-- Existing pending RLS/security task remains separate; this change must not opportunistically weaken or rewrite RLS/security to obtain a PASS.
+PR **#65 — Fix QS duplicate re-upload recovery for retained XLSX parsing** was merged on 10 September 2026, not merely closed.
 
-## Before
+New accepted Pilot `main`:
 
-Administration → Scheduling exposes the accepted CF-209 read-only operational surface:
+- merge SHA: `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2`;
+- PR #65 accepted head: `2f0623c4f48ee6150287caa152f240d6ed81e711`;
+- PR #65 preserves authenticated browser multipart upload, QS 2027 Evidence recovery and accepted QS 2027 parsing/application;
+- package version on merged `main` remains `0.1.2`;
+- RLS remediation remains separately tracked and is not part of CF-092.
 
-- Source/entity freshness policies;
-- columns `Layer / Country / Target / Class / Next due / State`;
-- Targeted refresh queue;
-- downstream Search refresh signals.
+Open Scheduled Jobs PR **#63** remains based on the earlier `0705195f4667f6562225b52de922f21c6df59aaf` baseline. Compare against current main reports:
 
-Operators can inspect scheduling state but cannot edit a schedule or queue an existing bounded policy on demand from this workspace. Job/Evidence follow-through is split across separate Operations pages.
+- status: **diverged**;
+- Scheduled Jobs branch: **19 commits ahead / 12 commits behind** current main;
+- therefore the old PR #63 candidate is no longer an acceptance candidate.
 
-## After / source implementation
+No prior CF-092 build/UAT result may be promoted to final PASS until the Scheduled Jobs work is reconciled onto `6935e23c...` and rerun.
 
-Pilot source branch: `feature/m245-scheduled-jobs-config-20260910`.
+## Current implementation decision
 
-Planned native Administration Scheduling surface:
+The permanent Scheduling implementation remains the native React workspace introduced on `feature/m245-scheduled-jobs-config-20260910`.
 
-1. **Schedule Configuration** with operator names:
-   - Layer;
-   - Country;
-   - Scheduled Target;
-   - Freshness Policy;
-   - Cadence;
-   - Next Run;
-   - Schedule Status;
-   - Actions.
-2. **Edit schedule** for cadence / next-run / enabled state, rank gated and reason required.
-3. **Run on demand** queues the same bounded target represented by the selected refresh policy. It is not a historical Job replay/reset.
-4. **Latest Refresh Queue** makes trigger, target, state, queued/completed timestamps and reason/result easy to follow.
-5. **Recent Job Runs** uses the governed Jobs read boundary and links to canonical Jobs and Evidence workspaces.
-6. Layer 1 / Layer 2 / Layer 3 contextual links remain inside canonical Administration rather than creating competing navigation.
-7. Search-refresh signals remain visible and unchanged.
+The temporary DOM-enhancer approach is rejected under A2 and must remain removed.
 
-## Security / authority invariants
+The earlier proposed `public.scheduler_policy_control` RPC is also superseded and must remain absent. It was never successfully deployed to Pilot.
 
-- No browser direct table reads are introduced for Jobs.
-- `scheduler_policy_control` is authenticated and requires Pipeline Operator rank (rank >= 4).
-- The mutation accepts only `edit_schedule` or `queue_now`.
-- On-demand execution is limited to Layer 1–3 and requires an exact existing bounded policy target.
-- A duplicate queued/running request for the same bounded target is returned rather than duplicated.
-- Every mutation requires a governance reason and records this Change Control.
-- No generic retry/replay/reset of a historical Job is introduced.
-- No implicit canonical publication, Search admission, Provider/Course identity rewrite, Evidence deletion or service-role exposure is introduced.
-- Layer 3 continues to obey its existing Evidence/profile/model qualification contracts.
-- Production is out of scope.
+CF-092 must reuse the already governed `public.refresh_policy_upsert_v2` mutation boundary:
 
-## Supabase/runtime reconciliation
+- **Edit schedule** updates the exact existing bounded policy with required governance reason;
+- **Run on demand** marks that same enabled bounded policy due now;
+- the normal scheduler then creates/dispatches the refresh request;
+- historical Jobs are never reset/replayed.
 
-Read-only Pilot inspection on 10 September 2026 confirmed:
+Browser Job reads continue through `api.jobs()` → `public.admin_read`. No direct browser read of `pipeline.jobs` is permitted.
 
-- Pilot project `coursefinder_Pilot` is ACTIVE_HEALTHY;
-- 13 Layer 1–3 refresh policies exist, of which 11 are enabled;
-- `public.admin_read` is SECURITY INVOKER in deployed runtime;
-- deployed `public.refresh_policy_upsert_v2` is also SECURITY INVOKER despite older migration history containing a later SECURITY DEFINER alteration.
+## Required UI outcome
 
-That historical/runtime drift is **not** repaired under this change. The new mutation must be independently rank gated and its grants/advisors verified. Pending RLS/security remediation remains separate.
+The accepted Scheduling workspace must contain:
 
-## Implementation references
+1. **Schedule Configuration** columns: Layer, Country, Scheduled Target, Freshness Policy, Cadence, Next Run, Schedule Status, Actions.
+2. **Edit schedule** with cadence, next-run and enabled state plus required governance reason.
+3. **Run on demand** for eligible enabled Layer 1–3 bounded schedules.
+4. **Latest Refresh Queue** with trigger, target, status, queued/completed timestamps and readable reason/result.
+5. **Recent Job Runs** with Job/source, state, run mode, start/completion, result summary and canonical Jobs/Evidence follow-through.
+6. Layer 1 / Layer 2 / Layer 3 contextual links to canonical workspaces.
+7. Existing Search refresh signals retained unchanged.
 
-Pilot source commits recorded so far:
+## Updated execution plan
 
-- `c47a1ec1644a333836cbfd9018a9c6460340dbf5` — bounded scheduler mutation migration;
-- `2ff6d18316a8c1544a5594ba28e201850cd27114` — native Scheduled Jobs React workspace;
-- `caeb380da7d1b686c4bf173da1140b2b55a25d07` — package `0.1.3` candidate;
-- `1be4c6fd03d53fd844f276b7aef81438607efac6` — package changelog candidate;
-- `9c80519cdb0a5cd3fcca3a997f2df87d075b7ccb` — source/security contract UAT;
-- `1290713265f23a4b6296591028792d580502b131` — read-only deployed UI UAT candidate.
+### Gate 0 — reconcile parallel baseline
 
-A temporary DOM-enhancer implementation was detected as non-compliant with A2 and removed before acceptance. Native React integration is the only acceptable candidate.
+1. Rebase/merge current Pilot `main` `6935e23c...` into the Scheduled Jobs branch or recreate the CF-092 patch cleanly from that main head.
+2. Preserve every PR #65 change, especially `src/lib/supabase.js`, ranking multipart upload behaviour, QS Evidence recovery migration/tests and current ranking lifecycle state.
+3. Resolve package/CHANGELOG changes from current main rather than carrying the stale `0.1.3` branch state blindly.
+4. Confirm diff contains only intended CF-092 Scheduled Jobs changes plus unavoidable reconciliation metadata.
 
-## Acceptance gates
+### Gate 1 — targeted source validation
 
-### Targeted source / security
+Run on the reconciled candidate SHA:
 
 - frontend build;
-- CF-092 source/security contract;
-- no direct browser Jobs table read;
-- rank/anonymous negative path for scheduler mutation;
-- exact bounded target / duplicate-active guard;
-- no generic Job replay/reset;
-- Security Advisor after DDL;
-- Performance Advisor disposition if new finding appears.
+- CF-092 source contract;
+- existing admin-navigation/deep-link contract;
+- browser data-access guard: no direct `supabase.from()` for Jobs/private pipeline tables;
+- verify `refresh_policy_upsert_v2` remains authenticated/rank gated through the accepted public → security bridge;
+- verify no `scheduler_policy_control` migration/RPC remains;
+- verify no generic Job retry/reset/replay control appears.
 
-### Bounded integration
+### Gate 2 — bounded integration
 
-- Administration → Scheduling via canonical navigation;
-- friendly Schedule Configuration columns;
-- Edit schedule dialog opens and requires reason;
-- Run on demand control visible only to authorised operator UI state and independently enforced server-side;
-- Latest Refresh Queue readable;
-- Recent Job Runs readable with Jobs/Evidence links;
-- Layer 1 / Layer 2 / Layer 3 links resolve to canonical workspaces;
+Against the deployed reconciled candidate:
+
+- Administration → Scheduling loads natively;
+- friendly columns render correctly;
+- Edit schedule opens and requires reason;
+- Run on demand appears only for eligible enabled Layer 1–3 policies;
+- queue and recent Job results remain readable;
+- Jobs, Evidence and Layer links resolve correctly;
+- PR #65 ranking upload/Open Dataset/Compare paths receive a focused regression check because `src/lib/supabase.js` changed on main while CF-092 was in flight;
 - no browser/server errors.
 
-### Consequential mutation validation
+### Gate 3 — consequential-action proof
 
-Use a rollback-only or no-effective-change authenticated operator test. Do not alter a live production-shaped cadence merely to demonstrate the control. Prove that an exact bounded policy can be edited/queued and that insufficient-rank/anonymous attempts fail.
+Use a rollback-only/no-effective-change operator test:
 
-### Full acceptance
+- capture an existing bounded policy;
+- prove unauthenticated/insufficient-rank mutation fails;
+- update/restore the same policy through `refresh_policy_upsert_v2`;
+- for Run on demand, mark only an eligible existing bounded policy due now and prove the normal scheduler creates/follows the request without historical Job replay;
+- verify Layer-specific authority/Evidence constraints remain intact.
 
-Run the nominated deployed acceptance matrix once against the final candidate SHA after targeted and bounded gates pass. A later source change invalidates the candidate.
+Do not weaken role/RLS/security controls and do not fabricate an unbounded test target.
 
-## Release/version
+### Gate 4 — security/runtime reconciliation
 
-Browser-visible behaviour requires a new visible release after functional acceptance. Do not publish the new visible version until the final accepted source/runtime candidate is known. Canonical `RELEASES` history must be updated; a temporary currentness overlay alone is not sufficient.
+- compare Security Advisor with the recorded pre-CF-092 baseline;
+- keep the existing RLS INFO inventory/pending security task separate;
+- no unexplained new Critical/High findings;
+- inspect public browser RPC grants and SECURITY DEFINER bridges relevant to the scheduler;
+- confirm Production remains untouched.
 
-## Rollback
+### Gate 5 — release and final acceptance
 
-- Revert the Pilot feature commits and restore the prior native `Refresh` Scheduling component.
-- Remove/revoke `public.scheduler_policy_control` if the DB migration has been deployed.
-- Existing `refresh_policies`, `refresh_requests`, Jobs and Evidence history must be retained; rollback must not delete operational history.
-- CF-209 accepted read-only scheduler/job behaviour is the fallback baseline.
+Only after Gates 0–4 PASS:
 
-## Current decision
+1. select the next visible Admin version from current main release history; do **not** assume `v2.15.76` until current release surfaces are reconciled;
+2. update package/CHANGELOG/canonical release history as required by current guardrails;
+3. nominate one final SHA;
+4. run one full deployed acceptance matrix;
+5. merge PR #63 (or its clean replacement) only after the candidate is green;
+6. update RUNSHEET / CURRENT-STATE / FOLLOW-UPS / NEXT-CHAT and close CF-092 as UAT PASS/CLOSED.
 
-**SOURCE IMPLEMENTATION ACTIVE / ACCEPTANCE NOT YET CLAIMED.**
+## Current exact next gate
 
-Do not close this record until native integration, CI/build, runtime DDL/security verification, bounded deployed UAT and release-currentness gates are complete.
+**Reconcile PR #63 onto merged PR #65 main SHA `6935e23cf65fc6348fbc6d1b5bdfd520e3f272f2`, then rerun targeted source/build validation.**
+
+Until that occurs, CF-092 remains **ACTIVE / NOT ACCEPTED** and no prior Scheduled Jobs CI result is final acceptance evidence.
