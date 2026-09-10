@@ -54,6 +54,7 @@ Still open:
 | PM-018 | Provider/Course manual block | Course publication blocked state exists; mature Provider/course operational block UX incomplete | M2.5/M4 | P0 |
 | PM-019 | Consumer caching/version invalidation | Zoho bundle/cache direction exists; generic version contract incomplete | M3 | P0 |
 | PM-020 | Production-load vs ingestion-load sizing | Pilot contention measured | M2.5 | P0 |
+| PM-021 | Generic dataset acquisition / parser / scheduled-job framework | research completed; current QS path remains source-specific and actively hardened; generic model intentionally not activated | Future architecture after production baseline | P2 |
 
 ## Implementation addenda
 
@@ -92,6 +93,24 @@ Make accepted test domains and environment-specific Production UAT traceable in 
 
 ### PM-A12 — Performance & Workload Isolation
 Keep hard gates, add workload profiles for normal API serving, scheduled refresh, major re-ingestion and concurrent Admin/UAT.
+
+### PM-A13 — Generic Dataset Acquisition, Discovery & ETL Framework — FUTURE / DEFERRED
+Do not implement during the current QS ranking hardening work. Future activation requires a separate architecture Change Control and current-state reconciliation.
+
+Research/design anchor: `docs/roadmap/coursefinder-generic-dataset-etl-roadmap-v1.0.md`.
+
+Target future capability:
+- metadata-driven dataset/source definitions;
+- common HTTP/API/browser/file/manual-upload acquisition feeding existing Evidence;
+- Layer 3 schema/parser discovery producing bounded configuration proposals only;
+- Layer 4 approval of ambiguous semantics/mappings;
+- versioned deterministic parser profiles;
+- common scheduled/on-demand/replay Job definitions;
+- family-specific authorised Apply adapters;
+- schema-drift detection/quarantine;
+- upgrade-safe customer PIM/parser/source/schedule configuration.
+
+Retrofit must be additive and compatibility-first: represent an existing accepted pipeline such as QS through the new metadata contract, prove replay parity and upgrade preservation, then migrate other sources selectively. ARWU and University Diversity Index may be used as future structurally different fixtures, but they are no longer current M2.4.5 acceptance gates.
 
 
 ## A17 — Course Skills, Career Pathways & Labour-Market Intelligence
