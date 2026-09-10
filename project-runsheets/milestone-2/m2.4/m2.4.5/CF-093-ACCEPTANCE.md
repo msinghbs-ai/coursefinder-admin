@@ -1,6 +1,6 @@
 # CF-093 Acceptance Plan
 
-**Status:** PLANNED
+**Status:** TARGETED ACCEPTANCE ACTIVE — CODEX RE-REVIEW PENDING
 
 Targeted acceptance sequence:
 
@@ -13,5 +13,20 @@ Targeted acceptance sequence:
 7. Jobs/Evidence lineage and result follow-through.
 8. Codex review on the implementation PR before merge when the code/schema diff is ready.
 9. One nominated deployed acceptance after merge/deploy.
+
+## 11 Sep 2026 current gate
+
+Latest Pilot head after the fourth Codex correction: `e2f4e85fa33719882183366e6c6f8de9ee582eef`.
+
+- Codex P2 search-before-pagination: corrected.
+- Codex P2 refresh-queue distinguishability: corrected.
+- Codex P2 deleted/banned account state: corrected.
+- Codex P2 stale scheduler search-response race: corrected using request-generation sequencing; superseded loads cannot mutate result, busy or error state.
+- Focused CF-093 regression contract updated for the stale-response guard.
+- Pilot Frontend Build `34531234046`: PASS (`build-and-smoke`, including local browser smoke).
+- Release History Contract `34531233874`: PASS.
+- Fresh Codex review requested against `e2f4e85fa33719882183366e6c6f8de9ee582eef`.
+
+**Merge/deploy gate:** HOLD until Codex returns on the corrected head with no new actionable findings, then reconcile release-currentness and run nominated deployed acceptance.
 
 Do not broaden to Production. M2.5 remains paused.
