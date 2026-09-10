@@ -2,10 +2,20 @@
 
 **Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 ARCHITECTURAL HARDENING + CF-241 CLOSED / PASS  
 **Opened:** 2026-09-03 10:28 AEST  
-**Updated:** 2026-09-08 AEST  
+**Updated:** 2026-09-10 AEST  
 **Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
 **Successor:** M2.5 Production Readiness — PAUSED AT P0
+
+## Latest additive H4 enhancement — CF-092 CLOSED / PASS — 10 September 2026
+
+- Prior CF-209 Scheduler/Jobs closure remains historical rollback baseline and is not overwritten.
+- Pilot PR #66 merged at `9305eb3a004d12724ec26b6bab65e1d4b1ab2239`; visible Admin release **v2.15.76**.
+- Scheduled Tasks is now a primary Data Operations route before Evidence with friendly schedule columns, paged policy visibility, audited editing, queue/Job results and Jobs/Evidence/Layer follow-through.
+- Direct run-on-demand is bounded to executable Layer 1–2 schedules; Layer 3 remains Evidence/profile/model-qualified.
+- Preview acceptance `34468684736` PASS; final-head build `34469936532` PASS; release-history `34469936531` PASS.
+- Post-merge build `34470101950` PASS and deployed UAT `34470101936` attempt 2 PASS after an attempt-1 transient legacy CF-102 `course_detail` HTTP 500 that did not reproduce.
+- Production unchanged; M2.4.5 remains ACTIVE for other current governed work.
 
 ## Latest accepted hardening/runtime gate — CF-244 / CF-241
 
