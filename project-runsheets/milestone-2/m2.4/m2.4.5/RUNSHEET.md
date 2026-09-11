@@ -14,7 +14,7 @@
 **Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 ARCHITECTURAL HARDENING + CF-241 CLOSED / PASS  
 **Opened:** 2026-09-03 10:28 AEST  
 **Updated:** 2026-09-11 AEST
-**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244  
+**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260910-093
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
 **Successor:** M2.5 Production Readiness — PAUSED AT P0
 
