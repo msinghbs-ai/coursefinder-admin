@@ -1,30 +1,29 @@
 # M2.4.5 NEXT CHAT
 
-## Current exact pickup — CF-093 Scheduled Workflow Orchestrator — 11 September 2026
+## Current exact pickup — CF-093 — 11 September 2026 11:32 AEST
 
-- Accepted Pilot `main` remains **`9305eb3a004d12724ec26b6bab65e1d4b1ab2239`** after PR #66 / CF-092.
-- Visible Admin release remains **v2.15.76**. Do not promote a newer visible release until CF-093 merge/deployed-currentness acceptance passes.
-- CF-092 Scheduled Tasks configuration remains **CLOSED / PASS** and is the accepted rollback baseline.
-- Active implementation is Pilot PR **#67**, branch `m245/scheduled-workflow-orchestrator-20260910`, exact current head **`029a56480d72898f083e1d7d873df7237dceab4b`**.
-- Exact-head CI is green: Pilot Frontend Build **`34540590328` PASS** and Release History Contract **`34540590332` PASS**.
-- Exact-head Codex re-review was requested in PR comment **`5626630031`** and is the immediate pre-merge gate. At the last reconciliation no Codex review newer than `407f63effb` had landed yet.
-- Latest corrections cover fresh-migration replay finalisation, post-run search-generation ordering and the focused CF-093 UAT contract. The earlier entity labels, profile identity, literal search, panel error truthfulness, queue refresh, actor attribution and stale-search protections remain in place.
-- Pilot runtime already has the equivalent final scheduler bridge semantics through migrations `20260910194125`, `20260910194149`, `20260910213556`, `20260910215546`, `20260910221808`. The repository adds `20260911054000_cf_093_scheduler_search_finalizer.sql` so a clean repository replay finishes with the same semantics without rewriting already-applied Pilot migration history.
-- The public scheduler wrapper remains `SECURITY INVOKER`; the private bridge is independently curator-rank-gated. Layer 3 remains Evidence/profile/model-qualified and is not made generically runnable from Scheduled Tasks.
-- Production is unchanged and M2.5 remains paused at P0.
+- Pilot PR **#67** is merged. Current accepted functional Pilot main for CF-093 is **`912572203e4f53ac081617b0ea567c9298cab84d`**.
+- CF-092 remains the rollback baseline; CF-093 extends it without changing the Layer authority chain.
+- Post-merge acceptance on `912572203...`:
+  - Release History Contract **`34550482710` PASS**;
+  - Pilot Frontend Build **`34550482729` PASS**;
+  - CourseFinder Deployed UAT **`34550482733` PASS**; targeted desktop governed validation passed and the mobile gate was intentionally skipped by validation-tier routing.
+- Pilot Supabase CF-093 runtime lineage ends at **`20260911001117 cf_093_scheduler_search_codex_final`**. Public scheduler list remains SECURITY INVOKER with a private curator-rank gate. No Production Supabase project exists.
+- The final Codex P1 about an environment already having repository-only `20260911054000` as a remote head was reconciled as non-actionable: no CourseFinder runtime has that state. No migration-history repair or `--include-all` bypass was introduced.
+- Accepted CF-093 operator-catalogue functionality: human task/dataset/target labels, creator/owner/former-user attribution, search-before-pagination, literal/raw/humanised search, personal column visibility/order, explicit panel errors, stale-request sequencing, canonical entity labels, profile identity, and immediate queue/Jobs follow-through after Run on demand.
+- **Important remaining scope:** current Run on demand still operates on an existing bounded `policy_id`. A true Country/State/Provider/University/entity target builder, processing-mode selector, run preview and new cross-layer orchestration construction are **not implemented** and must not be claimed as accepted.
+- Visible Admin release is still **v2.15.76** until the separate release-currentness gate passes.
+- Pilot PR **#68 — CF-093: publish v2.15.77 release currentness** is open on branch `release/cf093-v2.15.77-20260911`. It has staged the v2.15.77 current release entry and HTML title. Before merge it must also synchronise canonical retained release history, `mature-main.jsx` `UI_VERSION`, and the release-history contract without dropping v2.15.76 history. Codex review was requested in PR comment `5628027212`.
+- Production remains unchanged. M2.5 remains paused at P0.
 
-## Immediate next decision rule
+## Immediate next actions
 
-1. Check PR #67 Codex review for exact head `029a5648...` before creating another candidate.
-2. If Codex reports an actionable finding, apply the smallest safe correction under CF-093, run targeted exact-head CI/UAT and request exact-head re-review again.
-3. If Codex reports no actionable finding, reconcile/resolve applicable review threads, confirm exact-head CI remains green, then proceed through the governed merge and nominated deployed-currentness acceptance sequence.
-4. Only after merged/deployed PASS: reconcile visible release/version and Release Notes, run nominated deployed UAT/security checks, update CF-093 + REGISTER + RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT and close CF-093 if all acceptance targets are satisfied.
-5. Do not silently combine Layer 3. The UI may describe `L2 → conditional L3/L4`, but Layer 3 execution must retain separate governed Evidence/profile/model eligibility and lineage.
+1. Check PR #68 CI and Codex review first.
+2. Complete v2.15.77 canonical source/version synchronisation; do not accept a release overlay that leaves governed source/version history inconsistent.
+3. Run release-history + frontend build, merge PR #68 only when green, then verify Cloudflare/deployed currentness and nominated deployed UAT.
+4. Update CF-093, REGISTER, RUNSHEET, CURRENT-STATE, FOLLOW-UPS and NEXT-CHAT with exact release commit/run IDs.
+5. Keep CF-093 open (or explicitly create a successor Change Control) for the still-unimplemented target-builder/orchestration construction. Do not simulate unsupported scopes in the client.
 
 ## Governing documents
 
-Start from `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, Milestone 2 Standing Instructions, applicable A1–A20/A29/A30 addenda, current M2.4.5 continuity files, CF-087 and CF-093. Because CF-093 has been in corrective review, apply the current troubleshooting/bug-fix/recovery protocol to any further finding.
-
-## Superseded roadmap note
-
-Older continuity naming H12 ARWU/Diversity as the immediate next feature gate is superseded by newer repository/runtime truth. Generic dataset ETL/ARWU/Diversity remains parked unless separately re-authorised. CF-093 review/acceptance is the current exact gate.
+Start with `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, Milestone 2 Standing Instructions, applicable addenda, CF-087 and CF-093. Apply the troubleshooting/recovery protocol to any PR #68 CI/UAT regression rather than weakening release/security/authority contracts.
