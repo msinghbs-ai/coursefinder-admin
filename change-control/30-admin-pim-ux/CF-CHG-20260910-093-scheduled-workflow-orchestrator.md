@@ -20,27 +20,12 @@ Target operator model:
 
 Functional PR #67 and release-currentness PR #68 are accepted.
 
-Accepted results:
-
-- business-readable Scheduled Tasks labels and technical-ID disclosure;
-- server-side search before pagination;
-- durable creator/owner attribution including former-user semantics;
-- personal column visibility/order preferences;
-- audited edit of exact bounded recurring schedules;
-- exact bounded existing-policy Run on demand for Layer 1–2 without changing cadence/next-run;
-- Layer 3 remains Evidence/profile/model/revalidation governed;
-- Jobs/Evidence follow-through remains explicit.
+Accepted results include business-readable Scheduled Tasks labels, server-side search, durable creator/owner attribution, personal column preferences, audited bounded schedule edit, exact bounded Layer 1–2 Run on demand, Layer 3 Evidence/profile/model/revalidation governance and explicit Jobs/Evidence follow-through.
 
 Acceptance evidence for v2.15.77:
 
-- PR #67 merge `912572203e4f53ac081617b0ea567c9298cab84d`;
-- post-merge Release History `34550482710` PASS;
-- post-merge Frontend Build `34550482729` PASS;
-- post-merge Deployed UAT `34550482733` PASS;
-- PR #68 release merge `643eef810ab10ab9679ab6687ee549b0664c5691`;
-- Release History `34553234972` PASS;
-- Frontend Build `34553235073` PASS;
-- Deployed UAT `34553235214` PASS.
+- PR #67 merge `912572203e4f53ac081617b0ea567c9298cab84d`; post-merge Release History `34550482710`, Frontend Build `34550482729`, Deployed UAT `34550482733` — PASS.
+- PR #68 release merge `643eef810ab10ab9679ab6687ee549b0664c5691`; Release History `34553234972`, Frontend Build `34553235073`, Deployed UAT `34553235214` — PASS.
 
 ## Phase B — new governed target builder — ACTIVE
 
@@ -52,53 +37,45 @@ The existing Layer 2 Course Facts service boundary already provides server-autho
 
 ### Applied Pilot migration identities
 
-The following runtime identities are APPLIED and must remain immutable in repository history:
+The following runtime identities are APPLIED and immutable in repository history:
 
 1. `20260911021144 cf_093_scheduler_workflow_builder_slice` — initial AU Course Facts target-builder slice.
-2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix` — forward fix restoring authenticated EXECUTE on independently rank-gated private bridges while keeping anon denied.
-3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency` — server-enforced preview receipt, zero-work rejection, v1 run retirement and idempotent exact-target v2 dispatch.
-4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass` — dispatch-time dedupe, current-profile-version qualification guard and canonical country-scope enforcement.
-5. `20260911025332 cf_093_scheduler_workflow_codex_third_pass` — forward-only dispatch-time live-scope revalidation; no prior applied migration identity was retimestamped or rewritten.
+2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix` — authenticated EXECUTE restored on independently rank-gated private bridges; anon denied.
+3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency` — server preview receipt, zero-work rejection, v1 run retirement and exact-target v2 dispatch.
+4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass` — dispatch-time dedupe, current-profile-version qualification and canonical country scope.
+5. `20260911025332 cf_093_scheduler_workflow_codex_third_pass` — dispatch-time live-scope revalidation.
+6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass` — cross-operator exact-scope dispatch dedupe plus atomic empty-start rejection. The repository was aligned to the runtime-assigned immutable identity; no applied migration was retimestamped.
 
 ### Current executable capability
 
-- **Dataset:** Course Facts enrichment;
-- **Country:** AU only;
-- **Scope:** Country, State/Territory, University/Provider through existing server-authorised scope services;
-- **Processing mode:** Acquisition + deterministic Layer 2 only;
-- **Preview:** required server-side before consequential dispatch, actor-bound, exact-target/mode-bound and valid for 15 minutes;
-- **Profile qualification:** every scoped enabled/non-paused Course Facts profile must retain a valid current profile version at preview and again at dispatch; otherwise execution fails closed;
-- **Live runnable-scope revalidation:** dispatch recomputes the authoritative server preview after token validation. If profile pause/disable/membership changes leave no runnable work, dispatch fails closed and requires a new preview rather than consuming the token as a successful no-op;
-- **Executable-work guard:** zero queueable/discovery work returns non-executable and no runnable preview token;
-- **Country canonicalisation:** country scope rejects non-null target IDs so one AU-wide workload cannot be represented as multiple fake exact scopes;
-- **Run:** v2 exact-target dispatch requires the preview token and governance reason;
-- **Idempotency:** exact target dispatch is advisory-lock serialized; consumed-token replay and matching recent dispatch reuse are measured from actual `consumed_at` dispatch time, not preview creation time;
-- **Truthful Job semantics:** the completed record is the preview operation itself. Underlying Layer 2 batch/discovery records remain authoritative for processing status; the builder does not manufacture a completed enrichment Job;
-- **UI race safety:** preview and dispatch activity are now separate state machines. Scope/target edits clear only preview activity and are disabled while dispatch is in flight, so a completed older dispatch cannot erase or unlock a newer target;
-- **UI rank parity:** builder context resolves the same governed role rank used by Scheduled Tasks. Rank <4 is read-only and cannot preview or dispatch; server bridges remain independently rank-gated.
+- **Dataset:** Course Facts enrichment.
+- **Country:** AU only.
+- **Scope:** Country, State/Territory, University/Provider through existing server-authorised scope services.
+- **Processing mode:** Acquisition + deterministic Layer 2 only.
+- **Preview:** required server-side before consequential dispatch, actor-bound, exact-target/mode-bound and valid for 15 minutes.
+- **Profile qualification:** scoped enabled/non-paused Course Facts profiles must retain valid current versions at preview and dispatch.
+- **Live runnable-scope revalidation:** dispatch rechecks authoritative Layer 2 work before start.
+- **Atomic empty-start guard:** if runnable membership changes between the live preview and `start`, an empty `profiles` result raises within the same transaction so start-side effects roll back and the preview is not consumed as a successful no-op.
+- **Executable-work guard:** zero queueable/discovery work is non-executable.
+- **Country canonicalisation:** country scope rejects non-null target IDs.
+- **Run:** v2 exact-target dispatch requires preview token and governance reason.
+- **Idempotency:** the exact-target advisory lock serialises dispatch. Preview-token ownership remains actor-bound, but successful recent exact-scope dispatch reuse is operator-independent so two rank-4 operators cannot independently submit duplicate paid acquisition for the same target. The reuse window is measured from actual `consumed_at` time.
+- **Truthful Job semantics:** the completed record is the preview operation; underlying Layer 2 batch/discovery records remain authoritative for processing status.
+- **UI race safety:** preview and dispatch have separate state; target edits cannot unlock an active dispatch.
+- **UI rank parity:** rank <4 remains read-only; server bridges independently rank-gate execution.
 
 The old browser `scheduler_workflow_run_now_v1` path is revoked. Browser execution uses `scheduler_workflow_run_now_v2` only.
 
 ### Codex review reconciliation
 
-The first Codex review of PR #69 at `216c2854...` raised seven actionable findings; all were corrected using forward-only changes.
+- Review of `216c2854...`: seven actionable findings corrected forward-only.
+- Review of `fe69259a...`: five edge cases corrected by `20260911023721` plus UI state changes.
+- Review of `b3203c9a...`: three P2 findings corrected by dispatch/preview state separation, rank-4 UI parity and `20260911025332` live-scope revalidation.
+- Review of `1210a018db3451b31faafc14e0d0c4dfc69c9e12`: two new findings:
+  1. **P1 cross-operator duplicate paid acquisition** — the recent-dispatch predicate was still actor-scoped. Corrected in `20260911031554` by keeping preview-token ownership actor-bound but removing actor filtering from recent exact-scope successful-dispatch reuse.
+  2. **P2 pause/disable race after live preview** — a profile could become non-runnable between recheck and `start`. Corrected in `20260911031554` by validating the returned start `profiles` array inside the same transaction and raising on an empty result, which rolls back start-side effects.
 
-The exact-head re-review of `fe69259a540fcbce36d39c340d40d6fe9bd391dd` raised five additional edge cases; all were corrected at `b3203c9a4a4e44f79e79637d96b6e0f2ca408c59` using migration `20260911023721` and UI state corrections.
-
-The next exact-head Codex review of `b3203c9a4a4e44f79e79637d96b6e0f2ca408c59` raised three P2 findings:
-
-1. changing scope/target while a dispatch RPC was active could clear shared busy state and allow overlapping consequential actions;
-2. dispatch validated current profile-version quality but did not prove runnable work still existed after a profile was paused/disabled after preview;
-3. the independently injected target builder exposed enabled Preview UI to read-only rank-3 users although the server correctly denied it.
-
-Third-pass corrections:
-
-- Pilot UI separates `previewBusy` and `dispatchBusy`; consequential target/mode/reason edits are locked during dispatch, while preview invalidation clears preview state only;
-- Pilot runtime migration `20260911025332` recomputes the authoritative Layer 2 preview at dispatch and refuses a stale token when live queueable/discovery work is zero;
-- builder resolves governed `api.context()` rank, stays read-only below Pipeline Operator rank 4, and retains independent server-side rank enforcement;
-- unsupported generic L3/L4 orchestration, Evidence reprocessing, recurring country/state construction and implicit Search/Publication remain disabled.
-
-Current Pilot candidate after the third pass is `1210a018db3451b31faafc14e0d0c4dfc69c9e12`. Exact-head Release History `34556438054` and Frontend Build `34556438021` were started by this head and must pass before re-review/acceptance progression.
+Targeted CF-093 source tests now assert only one actor-bound `requested_by` predicate remains (the preview-token ownership check), and assert the atomic empty-start rejection. Current Pilot candidate after the test update is `aae269c3c69fe3203a78f7bf5416bcf9ca3c7227`; exact-head CI is the active gate before requesting final re-review.
 
 ### Explicitly unavailable
 
@@ -125,7 +102,7 @@ Current Pilot candidate after the third pass is `1210a018db3451b31faafc14e0d0c4d
 
 ## Active acceptance gate
 
-Do not merge PR #69 or bump visible release until the current exact-head CI, Codex re-review and targeted acceptance are green.
+Do not merge PR #69 or bump the visible release until current exact-head CI, exact-head Codex re-review and targeted acceptance are green.
 
 Required before merge:
 
@@ -133,14 +110,14 @@ Required before merge:
 2. repository/runtime migration history remains aligned;
 3. targeted source/browser acceptance remains green;
 4. negative anonymous/low-rank/unsupported mode and invalid/expired/mismatched preview paths pass;
-5. nominated AU Layer 2 preview -> dispatch proves Jobs/Evidence follow-through with no manufactured L3/Publication activity;
+5. nominated AU Layer 2 preview -> dispatch proves Jobs/Evidence follow-through and retry/dedupe without manufactured Layer 3/Layer 4/Search/Publication activity;
 6. only after functional acceptance, publish the next visible release;
 7. post-merge deployed UAT/security/currentness reconciliation.
 
 ## Rollback / recovery
 
-- Do not delete or rewrite applied migration identities `20260911021144`, `20260911021847`, `20260911022312`, `20260911023721` or `20260911025332`.
+- Do not delete, rewrite or retimestamp applied identities `20260911021144`, `20260911021847`, `20260911022312`, `20260911023721`, `20260911025332` or `20260911031554`.
 - UI target-builder changes can be reverted independently while retaining accepted v2.15.77 Phase A.
 - If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker/security contracts.
 
-CF-093 remains **OPEN** until the governed target-builder phase reaches its accepted boundary. Broader automatic cross-layer orchestration may remain a separately gated follow-up if it cannot be proven safely within M2.4.5.
+CF-093 remains **OPEN** until the governed target-builder phase reaches its accepted boundary. Broader generic cross-layer orchestration remains separately gated and is not claimed by this slice.
