@@ -1,40 +1,43 @@
 # CF-CHG-20260910-093 Acceptance
 
-**Status:** CLOSED / PASS — ACCEPTED TARGET-BUILDER BOUNDARY  
+**Status:** REOPENED — CORRECTIVE ACCEPTANCE ACTIVE  
 **Updated:** 11 Sep 2026
 
-## Accepted baseline
+## Historical accepted deployed baseline
 
-- Pilot functional target-builder PR **#69** merged as `85bc068d379ed3fc9231d167cf524e56419e80f9`.
-- Release-currentness PR **#70** merged as `cfc4702ba57a58ea31936dcabbd96fdd765194e2`.
-- Visible PIM Admin release: **v2.15.78**.
-- Post-merge Release History Contract `34579029903` — **PASS**.
-- Post-merge Pilot Frontend Build `34579029934` — **PASS**.
-- Post-merge CourseFinder Deployed UAT `34579029850` — **PASS**.
-- Codex review of the exact v2.15.78 release head `aa4fb9be7c0567b557092f52c218475fae9ba5a3` reported no major issues before merge.
+The earlier narrow target-builder slice was released as:
 
-## Accepted Phase A
+- Pilot functional target-builder PR **#69** merge `85bc068d379ed3fc9231d167cf524e56419e80f9`;
+- release-currentness PR **#70** merge / deployed Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`;
+- visible PIM Admin release **v2.15.78**;
+- Release History Contract `34579029903` — **PASS**;
+- Pilot Frontend Build `34579029934` — **PASS**;
+- CourseFinder Deployed UAT `34579029850` — **PASS**.
 
-Scheduled Tasks retains the accepted operator controls from v2.15.77: business-readable task/target labels, server-side search, durable creator/owner attribution, personal column preferences, audited bounded schedule edit, bounded Layer 1–2 Run on demand and explicit Jobs/Evidence follow-through. Layer 3 remains Evidence/profile/model/revalidation governed and Layer 4 remains audited human resolution.
+That historical acceptance is retained for audit, but **CF-CHG-20260910-093 is no longer CLOSED/PASS** because post-merge Codex review exposed additional runtime-contract defects. Forward-only corrective work is in Pilot PR **#71**.
 
-## Accepted Phase B — governed target builder
+## Current accepted authority boundary
 
-The accepted executable slice is deliberately narrow:
+The executable intent remains deliberately narrow:
 
-- **Dataset:** Course Facts enrichment.
-- **Country:** AU only.
-- **Scope:** Country, State/Territory or University/Provider through server-authorised Layer 2 scope services.
-- **Processing mode:** Acquisition + deterministic Layer 2 only.
-- **Preview:** mandatory server-side preview before consequential dispatch; actor-bound, exact-target/mode-bound and time-limited.
-- **Qualification:** current valid source-profile version, required deterministic Layer 2 execution policy and per-profile scope no larger than the existing 1,000-course downstream contract.
-- **Dispatch:** live runnable-scope revalidation, exact-target locking, cross-operator recent-dispatch reuse and atomic empty-start rejection.
-- **Follow-through:** underlying Layer 2 Jobs/Evidence remain authoritative for actual processing state.
+- AU Course Facts only;
+- Acquisition + deterministic Layer 2 only;
+- mandatory actor-bound server Preview and exact dispatch revalidation;
+- valid profile version, execution policy, bounded scope and runtime-usable acquisition route;
+- Layer 1 authority unchanged;
+- Layer 2 Jobs/Evidence remain processing truth;
+- Layer 3 remains Evidence/profile/model/revalidation governed;
+- Layer 4 remains audited human/exception resolution;
+- Search and Publication remain separate governed boundaries;
+- browser execution remains authenticated/rank-4 gated and private helpers remain protected.
 
-The browser `scheduler_workflow_run_now_v1` path remains retired; governed execution uses the accepted v2 path.
+Generic L3/L4 orchestration, generic Evidence reprocess, NZ Layer 2 enrichment, arbitrary Layer 1 construction, recurring country/state construction, unsupported recurring university construction and implicit Search/Publication remain disabled.
 
-## Runtime lineage
+Following the latest Codex P1, **generic discovery-backed Scheduled Tasks are also explicitly disabled/fail-closed** until a separate Preview-bound asynchronous worker payload/continuation contract is implemented and accepted. Queueable deterministic Layer 2 is the only generic Scheduled Tasks acquisition path that may remain executable.
 
-Applied Pilot migrations are immutable and include:
+## Immutable corrective runtime lineage
+
+Applied Pilot migrations are immutable. Relevant lineage now includes:
 
 1. `20260911021144 cf_093_scheduler_workflow_builder_slice`
 2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix`
@@ -44,44 +47,53 @@ Applied Pilot migrations are immutable and include:
 6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
 7. `20260911052952 cf_093_scheduler_execution_policy_qualification`
 8. `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`
+9. `20260911085724 cf_093_scheduler_postmerge_codex_finalizer`
+10. `20260911095142 cf_093_scheduler_exact_scope_codex_finalizer`
+11. `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer`
+12. `20260911103931 cf_093_scheduler_runtime_semantics_finalizer`
+13. `20260911105517 cf_093_scheduler_browser_bridge_and_scope_binding_finalizer`
+14. `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer`
+15. `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
 
-No applied migration was retimestamped or rewritten.
+No applied migration was retimestamped. PR #71 source briefly used stale filename `20260911111622` for the migration already applied to Pilot as `20260911111431`; source is now corrected to the immutable runtime identity and the stale alias removed.
 
-## Nominated functional acceptance
+## Latest Codex corrective acceptance
 
-The final consequential acceptance used a genuinely policy-qualified AU Course Facts scope rather than the known-ineligible RMIT UP/Nova candidates. The accepted UQ scope preview covered **382 courses**. Dispatch was accepted; same-token retry and a second fresh-preview dispatch reused the original recent dispatch rather than creating duplicate acquisition. The underlying Layer 2 batch progressed and produced governed Evidence. No generic Layer 3 interpretation, Layer 4 resolution, Search admission or Publication side effect was observed from the target-builder run.
+Codex reviewed PR #71 head `f280cc712071428c9ee28e811ae628a54f4d476b` and returned **1 P1 + 5 P2** findings covering Preview-unbound asynchronous discovery, discovery/active-batch no-op semantics, missing non-direct provider base-URL qualification, unsafe `{query}` URL expansion, ambiguous delimiter fingerprinting, and hexadecimal/legacy WHATWG IPv4 handling.
 
-Exact Pilot lineage retained for audit: primary preview/dispatch token `18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; second preview token `29df92d3-9071-4e6e-92db-0bc5b9daa111`, which records `deduplicated_against_preview=18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; governed University scope `e55396d2-869a-46ef-9d17-841c7eab1313`; UQ profile `c7976665-14f3-40ac-834b-a8ee1c8afc32`; profile version `9b3689b8-0d2a-4cde-a50f-b4fee4c06945`; Layer 2 start request `5727`. Representative downstream acquisition lineage from that profile/run window includes Job `3445bc7a-0495-4c96-9321-43e581c81742`, HTML Evidence `8738fcf9-a4e6-47ac-9880-a57e4405b42b`, and its extraction-input Evidence `1d06a4ff-52aa-4a68-8e89-b661c7903e1f`.
+Forward-only migration `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer` resolves the safe executable boundary by:
 
-Earlier RMIT UP and Nova findings remain useful negative evidence: a scope without the required deterministic Layer 2 execution policy must fail closed before paid discovery/acquisition rather than manufacturing a policy to make UAT pass.
+- making any scope requiring asynchronous discovery non-executable from generic Scheduled Tasks;
+- retaining queueable deterministic Layer 2 under exact Preview/run gates;
+- validating non-direct provider base URLs through the strict HTTPS gate;
+- hashing ordered structured JSON scope data rather than delimiter-concatenated text;
+- accepting numeric hosts only as four canonical decimal IPv4 octets.
 
-## Security and authority acceptance
+All six latest Codex threads were answered with runtime evidence and resolved. Exact-head Codex re-review was requested in PR #71 comment **`5633932810`** for candidate `f3622ff51654969fcd37961392b82449eb372218`.
 
-- Anonymous and low-rank execution remain denied.
-- Private helpers remain outside the browser-facing contract and browser execution remains through authenticated/rank-gated public wrappers.
-- Unsupported processing modes and unenforceable scopes remain unavailable/fail closed.
-- Layer 1 authority is unchanged.
-- Layer 3 Evidence/profile/model/revalidation rules are unchanged.
-- Layer 4 remains human/exception resolution.
-- Search and Publication remain separate governed boundaries.
-- The existing Security Advisor informational RLS baseline was not weakened to pass CF-CHG-20260910-093.
+## Current targeted evidence
 
-## UAT recovery reconciliation
+- Pilot exact candidate: **`f3622ff51654969fcd37961392b82449eb372218`**.
+- Pilot Frontend Build **`34595439211` — PASS**; job **`103250001746` — PASS**. Build, UAT-suite discovery and local browser smoke passed.
+- Parser acceptance: `1.2.3.8` accepted; `01.02.03.08`, `0x7f000001`, `0x7f.0.0.1`, `0x100000000` and port `65536` rejected; port `65535` accepted.
+- UQ scope remains **382 total / 156 queueable / 226 discovery**, with 0 execution-policy, oversize and route gaps. It now intentionally has 1 discovery gate gap and therefore cannot be run from generic Scheduled Tasks.
+- Queueable-only Nova Higher Education and Stamford scopes have no discovery gate gap but each currently lacks the required deterministic execution policy. No policy is being manufactured to force UAT green.
+- Security Advisor remains **191 INFO / 0 WARN / 0 ERROR**, the pre-existing informational RLS baseline.
 
-Exact failed workflow run: CourseFinder Deployed UAT `34575980681`, attempt 1. Its first CF-097 execution timed out because the ranking workflow test still asserted historical visible release `v2.15.74`; Playwright retry #1 in the same workflow then observed a transient `admin_read('dashboard')` HTTP 500. The release-currentness follow-up corrected only the stale version-currentness assertion to derive the expected version from the maintained release-currentness source. No server-error assertion, authority boundary or UAT guardrail was relaxed. The subsequent post-release-merge CourseFinder Deployed UAT `34579029850` passed.
+## Historical consequential evidence retained
 
-## Explicitly not authorised by this acceptance
+The earlier UQ acceptance that produced governed Layer 2 Evidence remains retained as historical evidence only: primary preview/dispatch token `18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; second preview token `29df92d3-9071-4e6e-92db-0bc5b9daa111`; University scope `e55396d2-869a-46ef-9d17-841c7eab1313`; UQ profile `c7976665-14f3-40ac-834b-a8ee1c8afc32`; profile version `9b3689b8-0d2a-4cde-a50f-b4fee4c06945`; Layer 2 start request `5727`; representative Job `3445bc7a-0495-4c96-9321-43e581c81742`; HTML Evidence `8738fcf9-a4e6-47ac-9880-a57e4405b42b`; extraction-input Evidence `1d06a4ff-52aa-4a68-8e89-b661c7903e1f`.
 
-- generic automatic L2 -> L3 -> L4 orchestration;
-- generic Layer 3 Evidence reprocessing;
-- arbitrary Layer 1 target construction;
-- NZ Layer 2 Course enrichment;
-- recurring country/state scope construction;
-- recurring university construction without a separately accepted enforceable contract;
-- implicit Search or Publication actions.
+This evidence cannot be used to claim the newly disabled generic discovery-backed async contract is implemented.
 
-These remain future governed work and must not be inferred from this CLOSED/PASS change.
+## Current closure gate
 
-## Closure gate
+CF-CHG-20260910-093 remains **REOPENED**. Do not merge corrective PR #71 or return this file to CLOSED/PASS until:
 
-CF-CHG-20260910-093 is **CLOSED / PASS** at the boundary above. Governance continuity points to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above. M2.4.5 remains ACTIVE overall and this executed closure does not advance M2.5 from its paused P0 gate.
+1. exact-head Codex re-review is clean, or any further actionable finding is corrected forward-only;
+2. required exact-head CI/source/runtime acceptance is green;
+3. a genuinely governed policy-qualified **queueable deterministic Layer 2** target completes required consequential acceptance without fabricating configuration for UAT;
+4. the accepted exact head is merged;
+5. post-merge deployed currentness/UAT is green.
+
+The broader orchestrator scope remains explicitly open. Preview-bound asynchronous discovery, generic L3/L4, Evidence reprocess and recurring country/state scope construction must not be inferred from this corrective slice.
