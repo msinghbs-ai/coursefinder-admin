@@ -13,7 +13,7 @@
 
 Pilot PR: **#69 — CF-093: add governed Scheduled Tasks target-builder slice**  
 Pilot branch: `m245/cf093-target-builder-20260911`  
-Current candidate: **`e1abc037c8c76b84639896177262470c7283df34`**  
+Current candidate: **`f01ef66437864db5b0d2f5a319ab7a80bb6f0073`**  
 Admin governance PR: **#34** on the matching branch.
 
 Applied Pilot runtime lineage is immutable:
@@ -25,56 +25,53 @@ Applied Pilot runtime lineage is immutable:
 - `20260911025332 cf_093_scheduler_workflow_codex_third_pass`
 - `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
 - `20260911052952 cf_093_scheduler_execution_policy_qualification`
+- `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`
 
 Current executable boundary remains deliberately narrow: AU Course Facts Layer 2 only; server-authorised Country/State/University targets; Acquisition + deterministic Layer 2 only; server preview receipt required. Generic L3/L4 orchestration, Evidence reprocess and recurring country/state scope construction remain disabled; Search/Publication remain separate.
 
 ## Latest Codex / acceptance state
 
-Codex exact-head review of `aae269c3c69fe3203a78f7bf5416bcf9ca3c7227` returned **no major issues**.
+Codex exact-head review of `e1abc037c8c76b84639896177262470c7283df34` identified two further defects:
 
-Required nominated acceptance was then executed against Pilot runtime:
+1. **P1 execution-policy coverage** — discovery-backed profiles were incorrectly exempted even though successful discovery auto-syncs into `layer2_run_batch_create`, so acquisition could spend resources before deterministic Layer 2 failed on a missing execution policy.
+2. **P2 downstream service limit** — Country/State/University scopes could contain more than 1,000 courses for one profile even though the existing downstream start/batch contracts reject arrays above 1,000.
 
-- RMIT University Pathways / RMIT UP (`30b81368-9003-4775-81af-60439fc3b109`) preview was executable for 3 courses, all discovery-backed.
-- Consequential dispatch succeeded with request `5726`.
-- Immediate same-token retry returned `idempotent_replay=true`.
-- A fresh preview/dispatch under a different rank-4 operator returned `existing_recent_dispatch=true` and deduplicated against the first preview receipt, proving cross-operator exact-scope dedupe.
-- Jobs recorded only `scheduler_workflow_preview` plus the underlying `layer2_discovery`; no manufactured generic Layer 3/Layer 4/Search/Publication job was created.
-- The resulting Layer 2 discovery job completed with `selected=0 / processed=0`, so RMIT UP did not by itself prove Evidence production.
+Smallest-safe forward correction is applied as immutable migration `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification` and represented at exact Pilot head `f01ef66437864db5b0d2f5a319ab7a80bb6f0073`:
 
-A second one-course queueable target, Nova Higher Education (`340f8a84-c04e-4a7c-ad43-1b37755b0018`), exposed a new fail-closed defect: preview reported executable, but dispatch failed in `layer2_run_batch_create` with **`execution policy missing`**.
+- every scoped Course Facts profile, including discovery-backed profiles, must have a `pipeline.layer2_execution_policies` row before preview can issue a token;
+- dispatch re-checks the same execution-policy qualification immediately before start;
+- preview computes per-profile scoped course counts and fails closed if any profile exceeds 1,000 courses;
+- dispatch re-checks the same 1,000-course bound;
+- helper functions remain private to the security boundary; authenticated browser execution still routes through the existing public wrappers and independent rank checks;
+- no prior applied migration was retimestamped or rewritten.
 
-Smallest-safe forward correction is now applied as immutable migration `20260911052952 cf_093_scheduler_execution_policy_qualification` and represented in repository history:
+Runtime truth after the correction:
 
-- fully queueable profiles (no discovery required) must have a `pipeline.layer2_execution_policies` row before preview can issue a token;
-- preview returns `missing_execution_policy_count` and a truthful block reason when the policy is absent;
-- dispatch re-checks the same policy qualification immediately before start;
-- discovery-backed profiles remain eligible because that execution path does not call `layer2_run_batch_create` and therefore does not require a run-batch policy;
-- helper function EXECUTE is revoked from browser roles; public browser wrappers and independent rank gates remain unchanged.
+- RMIT University Pathways / RMIT UP now reports **1 execution-policy gap**, so it is no longer allowed to spend discovery acquisition before deterministic Layer 2 would fail.
+- Nova Higher Education also reports **1 execution-policy gap**.
+- Current AU runtime has **0 oversized profiles**; maximum current scoped Course Facts profile size is **665 courses**. The >1,000 guard is still required because Country/State/University are supported scope types and must fail closed before a downstream service-limit failure.
+- Pilot Security Advisor remains **191 INFO / 0 WARN / 0 ERROR**, unchanged known `rls_enabled_no_policy` baseline.
 
-Runtime negative proof after the correction: Nova now returns `executable=false`, `preview_token=null`, `missing_execution_policy_count=1`; RMIT UP remains executable with `missing_execution_policy_count=0`.
+Exact-head CI for `f01ef664...`:
 
-Exact-head CI for `e1abc037...`:
+- Release History Contract `34572186142` — **PASS**.
+- Pilot Frontend Build `34572186144` — **PASS**.
 
-- Release History Contract `34566251054` — **PASS**;
-- Pilot Frontend Build `34566251196` — **PASS**.
-
-Pilot Security Advisor after the forward migration remains **191 INFO / 0 WARN / 0 ERROR**; this is the unchanged known `rls_enabled_no_policy` baseline.
-
-Exact-head Codex re-review requested in PR #69 comment `5629956836`; result remains pending at this continuity write.
+Both new Codex threads were replied to with runtime evidence and resolved. Fresh exact-head Codex re-review was requested in PR #69 comment **`5630709016`**.
 
 ## Remaining acceptance blocker
 
-No current AU Course Facts profile is both **fully queueable** and backed by a `pipeline.layer2_execution_policies` row. Therefore the required queueable preview -> batch dispatch -> Layer 2 Evidence follow-through cannot be proven without creating/changing operational execution-policy configuration. That configuration change is not being invented merely to satisfy UAT.
+Pilot currently has only two Course Facts execution-policy rows across the enabled profile inventory, and both nominated RMIT UP / Nova scopes lack one. Therefore a consequential target-builder run must remain blocked until the selected profile has a governed execution policy through the normal operational control plane. No execution policy is being manufactured purely to make UAT pass.
 
 ## Exact next gate
 
-1. Obtain clean exact-head Codex review for `e1abc037...`.
-2. Run targeted negative acceptance for unauthenticated/low-rank/unsupported mode/invalid or mismatched preview paths against the current runtime.
-3. Qualify/configure an existing queueable Course Facts profile with its governed Layer 2 execution policy through the normal admin/runtime control plane, then prove preview -> dispatch -> underlying Layer 2 Job/Evidence follow-through.
+1. Obtain clean exact-head Codex review for `f01ef664...`.
+2. Re-run/confirm targeted negative acceptance for unauthenticated/low-rank/unsupported mode/invalid or mismatched preview paths against the current runtime.
+3. Identify a Course Facts scope whose profile already has a valid governed execution policy, or configure one through the normal operational control plane, then prove preview -> dispatch -> Layer 2 Job/Evidence follow-through.
 4. Verify no generic Layer 3/Layer 4/Search/Publication side effect.
 5. Do not merge PR #69 until the above acceptance is green.
 6. Only after functional acceptance: mark PR #69 ready, merge, publish/reconcile the next visible release and run deployed UAT/security/currentness.
 
 ## Pickup text
 
-> Continue CourseFinder M2.4.5 from repository/runtime truth. Accepted main is `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77. CF-093 Phase B is active in Pilot PR #69 at `e1abc037c8c76b84639896177262470c7283df34`; Pilot runtime is applied through immutable forward migration `20260911052952 cf_093_scheduler_execution_policy_qualification`. Exact-head Release History `34566251054` and Frontend Build `34566251196` PASS; Security Advisor remains 191 INFO / 0 WARN / 0 ERROR. Codex re-review is pending. Nominated acceptance exposed and corrected the queueable-profile execution-policy gap, but there is currently no fully queueable AU Course Facts profile with an execution policy, so final Job/Evidence acceptance remains blocked until one is governed/configured. Keep generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication disabled.
+> Continue CourseFinder M2.4.5 from repository/runtime truth. Accepted main is `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77. CF-093 Phase B is active in Pilot PR #69 at `f01ef66437864db5b0d2f5a319ab7a80bb6f0073`; Pilot runtime is applied through immutable forward migration `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`. Exact-head Release History `34572186142` and Frontend Build `34572186144` PASS; Security Advisor remains 191 INFO / 0 WARN / 0 ERROR. Codex re-review is pending. Discovery-backed and queueable profiles now both require the deterministic Layer 2 execution policy before acquisition/dispatch, and scopes fail closed if one profile exceeds 1,000 courses. Keep generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication disabled.
