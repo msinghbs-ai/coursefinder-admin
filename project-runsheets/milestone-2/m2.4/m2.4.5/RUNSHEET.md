@@ -118,7 +118,7 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 - Hotcourses/IDP own branding/placeholders remain non-canonical and are excluded;
 - reopen only under a new defect/freshness/change record.
 
-### H12 — ARWU & University Diversity Statistics — ACTIVE NEXT
+### H12 — ARWU & University Diversity Statistics — PARKED / SUPERSEDED AS NEXT GATE
 - add/complete ARWU as a first-class editioned ranking system alongside QS/THE;
 - reconcile current CF-093–100 implementation before adding anything;
 - support bounded AU/NZ real-data proof and multi-year history without overwriting prior editions;
@@ -138,16 +138,16 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 - fail closed on auth failure, schema drift, missing edition or Provider identity ambiguity;
 - preserve manual Apply/acceptance before canonical ranking observations.
 
-## Gate order — reconciled 8 September 2026
+## Current gate order — reconciled 11 September 2026
 
-1. **H12 — ARWU & University Diversity Statistics — ACTIVE NEXT.**
-2. **H13 — bounded historical ranking acquisition/backfill/replay — QUEUED NEXT.**
-3. Close any remaining CF-090 ranking-import recovery dependency needed by H12/H13.
-4. H7 migration/telemetry reconciliation throughout.
+1. **Near-term ranking continuation is QS-focused.** Reconcile the current QS hardening/recovery state and any open QS Change Control against Pilot/runtime truth before selecting implementation work.
+2. **H12 ARWU / University Diversity generic dataset work is PARKED** by the 10 September roadmap decision and must not be resumed without a newer explicit governed change.
+3. **H13 generic historical ranking backfill/replay remains parked/conditional** except where a current QS-specific governed change explicitly requires bounded replay.
+4. H7 migration/telemetry reconciliation continues throughout.
 5. H8/H9 continuous intake/testing.
 6. H10 meeting pack continuously maintained.
 7. H14 external-consumer API key lifecycle remains separately OPEN/GOVERNED under CF-207.
-8. Final nominated M2.4.5 acceptance after remaining open gates are reconciled.
+8. Final nominated M2.4.5 acceptance only after the remaining current open gates are reconciled.
 9. Resume M2.5 P0 only after M2.4.5 closure.
 
 Closed workstreams must not be repeated without a new defect/change record: H1, H3, H4, H5, H6 and H11.

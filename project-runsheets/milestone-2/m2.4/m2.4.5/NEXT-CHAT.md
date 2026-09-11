@@ -64,8 +64,9 @@ The first post-functional-merge deployed UAT failure was traced to stale test cu
 
 1. Merge the reconciled Admin governance PR #34 only after its fresh exact-head Codex review is clean and all review findings are resolved.
 2. After merge, verify `docs/README.md` routing, Change Control register and M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS remain consistent with Pilot main `cfc4702...` / v2.15.78.
-3. Do not reopen CF-CHG-20260910-093 to add broader generic orchestration. Any additional dataset/layer/recurring-scope capability requires a new governed change or explicit reopening with executable server contracts.
-4. Continue M2.4.5 from the exact next open gate shown by the current router; keep M2.5 paused unless governance explicitly advances it.
+3. **Exact continuation gate: near-term Statistics & Rankings work remains QS-focused.** Reconcile current QS hardening/recovery Change Controls, Pilot commits, runtime observations and UAT before selecting the next QS action. The 10 September roadmap parks generic dataset ETL, ARWU and University Diversity fixtures; do not resume stale H12 merely because older continuity sections once named it next.
+4. Do not reopen CF-CHG-20260910-093 to add broader generic orchestration. Any additional dataset/layer/recurring-scope capability requires a new governed change or explicit reopening with executable server contracts.
+5. Keep M2.5 paused unless governance explicitly advances it.
 
 ## Pickup text
 

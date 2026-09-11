@@ -77,7 +77,7 @@ Post-release merge acceptance for Pilot main `cfc4702ba57a58ea31936dcabbd96fdd76
 
 ## UAT recovery reconciliation
 
-The first post-functional-merge deployed UAT failure was not accepted as a product pass. Investigation identified a stale CF-097 assertion expecting historical visible release `v2.15.74`; the retry also observed a transient dashboard 500. The release-currentness correction changed only the stale currentness assertion to derive the expected value from the maintained release-currentness source. It did not relax HTTP 5xx detection, identity/rank checks, data authority, or UAT security boundaries. The subsequent deployed UAT passed.
+The first post-functional-merge deployed UAT failure was not accepted as a product pass. Exact failed workflow run: CourseFinder Deployed UAT `34575980681`, attempt 1. Its first CF-097 execution timed out on the stale historical `v2.15.74` visible-release assertion; Playwright retry #1 in the same workflow then observed the transient `admin_read('dashboard')` HTTP 500. The release-currentness correction changed only the stale currentness assertion to derive the expected value from the maintained release-currentness source. It did not relax HTTP 5xx detection, identity/rank checks, data authority, or UAT security boundaries. The subsequent post-release-merge CourseFinder Deployed UAT `34579029850` passed.
 
 ## Preserved authority and security rules
 

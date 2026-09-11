@@ -38,7 +38,7 @@
 - Post-merge Pilot Frontend Build `34224432855`: PASS.
 - Post-merge CourseFinder Deployed UAT `34224432694`: PASS.
 - H11 Provider Assets is already CLOSED / PASS under CF-101/102 with a governed **41 AU + 8 NZ** university cohort and **49/49 approved primary logos**.
-- **Next genuinely open feature gate: H12 ARWU & University Diversity Statistics**, followed by H13 bounded historical ranking backfill/replay.
+- **Historical 8 September pointer (superseded):** H12 ARWU & University Diversity Statistics was then recorded next. The later 10 September roadmap parks generic dataset ETL / ARWU / Diversity work; near-term ranking continuation is QS-focused unless newer governed repository/runtime truth supersedes it.
 - Production untouched; M2.5 remains paused until M2.4.5 closes.
 
 **Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 / CF-241 CLOSED / PASS  
@@ -151,7 +151,7 @@ User upload `THE_year2026.txt` is confirmed present as private ranking Evidence 
 
 ## Execution priority — 2026-09-03 12:59 AEST
 
-Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102; active continuation now begins at H12.
+Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102. **This old H12 continuation pointer is superseded by the 10 September roadmap decision that parks generic ARWU/Diversity work; current near-term ranking continuation is QS-focused unless a newer governed change explicitly re-authorises H12.**
 
 Parked/continuous state at that checkpoint:
 - H2 residual Parse.bot authentication/qualification blocker;

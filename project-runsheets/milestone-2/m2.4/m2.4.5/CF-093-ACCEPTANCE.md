@@ -51,6 +51,8 @@ No applied migration was retimestamped or rewritten.
 
 The final consequential acceptance used a genuinely policy-qualified AU Course Facts scope rather than the known-ineligible RMIT UP/Nova candidates. The accepted UQ scope preview covered **382 courses**. Dispatch was accepted; same-token retry and a second fresh-preview dispatch reused the original recent dispatch rather than creating duplicate acquisition. The underlying Layer 2 batch progressed and produced governed Evidence. No generic Layer 3 interpretation, Layer 4 resolution, Search admission or Publication side effect was observed from the target-builder run.
 
+Exact Pilot lineage retained for audit: primary preview/dispatch token `18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; second preview token `29df92d3-9071-4e6e-92db-0bc5b9daa111`, which records `deduplicated_against_preview=18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; governed University scope `e55396d2-869a-46ef-9d17-841c7eab1313`; UQ profile `c7976665-14f3-40ac-834b-a8ee1c8afc32`; profile version `9b3689b8-0d2a-4cde-a50f-b4fee4c06945`; Layer 2 start request `5727`. Representative downstream acquisition lineage from that profile/run window includes Job `3445bc7a-0495-4c96-9321-43e581c81742`, HTML Evidence `8738fcf9-a4e6-47ac-9880-a57e4405b42b`, and its extraction-input Evidence `1d06a4ff-52aa-4a68-8e89-b661c7903e1f`.
+
 Earlier RMIT UP and Nova findings remain useful negative evidence: a scope without the required deterministic Layer 2 execution policy must fail closed before paid discovery/acquisition rather than manufacturing a policy to make UAT pass.
 
 ## Security and authority acceptance
@@ -82,4 +84,4 @@ These remain future governed work and must not be inferred from this CLOSED/PASS
 
 ## Closure gate
 
-CF-CHG-20260910-093 is accepted and may be closed at the boundary above. Governance continuity must point to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above. M2.4.5 remains ACTIVE overall and this closure does not advance M2.5 from its paused P0 gate.
+CF-CHG-20260910-093 is **CLOSED / PASS** at the boundary above. Governance continuity points to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above. M2.4.5 remains ACTIVE overall and this executed closure does not advance M2.5 from its paused P0 gate.
