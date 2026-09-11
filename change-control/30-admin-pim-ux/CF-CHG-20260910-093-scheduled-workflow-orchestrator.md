@@ -60,21 +60,23 @@ Identity snapshots may retain internal email for audit continuity, but scheduler
 
 Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
 Pilot PR: `#67`  
-Current corrective head: `bd5a27199f3b329143ee0d9e9828db27de66bc46`  
+Current corrective head: `780049340a1a282168acffbf429ae09a8cd82864`  
 Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
 
 Material implementation includes:
-- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, personal column visibility/order, technical-ID secondary display, policy and panel request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, per-panel unavailable state, and load-owned busy/error state;
+- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, hydrated per-user column visibility/order, technical-ID secondary display, independent policy/panel request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, per-panel unavailable state, and load-owned busy/error state;
 - `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
 - `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
 - `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search and deleted/banned account-state correction; this applied migration remains immutable;
-- `supabase/migrations/20260910213556_cf_093_resolved_actor_search_semantics.sql` — repository reconciliation of the already-applied Pilot runtime correction that searches the resolved creator/owner display semantics;
-- `supabase/migrations/20260910215546_cf_093_scheduler_entity_labels.sql` — canonical Provider/Course/Campus/Scholarship labels for entity-scoped scheduler policies;
-- `supabase/migrations/20260910221808_cf_093_literal_scheduler_search.sql` — Pilot-applied literal scheduler search correction for `%`, `_` and escape characters;
-- `supabase/migrations/20260911054000_cf_093_scheduler_search_finalizer.sql` — forward finalizer after later CF-093 bridge definitions so clean replays preserve literal search, canonical entity labels, resolved actor semantics and humanised dataset-domain search;
-- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract including current Codex regression checks and reconciled migration paths.
+- `supabase/migrations/20260910213556_cf_093_resolved_actor_search_semantics.sql` — exact Pilot-applied identity for resolved creator/owner search semantics;
+- `supabase/migrations/20260910215546_cf_093_scheduler_entity_labels.sql` — exact Pilot-applied identity for canonical Provider/Course/Campus/Scholarship scheduler labels;
+- `supabase/migrations/20260910221808_cf_093_literal_scheduler_search.sql` — exact Pilot-applied identity for literal `%`, `_` and escape handling;
+- `supabase/migrations/20260910232606_cf_093_scheduler_search_finalizer.sql` — restored exact Pilot-applied finalizer identity;
+- `supabase/migrations/20260911001117_cf_093_scheduler_search_codex_final.sql` — exact Pilot-applied latest Codex correction identity, preserving raw/humanised dataset-domain and former-user rendered-label search semantics;
+- `supabase/migrations/20260911054000_cf_093_scheduler_search_finalizer.sql` — later clean-replay finalizer that re-applies the final bridge semantics after older CF-093 function definitions;
+- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract covering current Codex regression cases and exact runtime migration identities.
 
-Pilot runtime migration truth includes `20260910194125 cf_093_scheduler_operator_attribution`, `20260910194149 cf_093_codex_review_fixes`, `20260910213556 cf_093_resolved_actor_search_semantics`, `20260910215546 cf_093_scheduler_entity_labels`, `20260910221808 cf_093_literal_scheduler_search`, and `20260910232606 cf_093_scheduler_search_finalizer`. The live bridge therefore matches the current literal/entity/actor/humanised-domain semantics without rewriting prior applied migration history.
+Pilot runtime migration truth includes `20260910194125 cf_093_scheduler_operator_attribution`, `20260910194149 cf_093_codex_review_fixes`, `20260910213556 cf_093_resolved_actor_search_semantics`, `20260910215546 cf_093_scheduler_entity_labels`, `20260910221808 cf_093_literal_scheduler_search`, `20260910232606 cf_093_scheduler_search_finalizer`, and `20260911001117 cf_093_scheduler_search_codex_final`. Repository history now carries each of those applied identities; no migration repair or `--include-all` bypass is used.
 
 ## Codex review reconciliation — 11 September 2026
 
@@ -96,14 +98,27 @@ Initial and subsequent review findings corrected:
 14. **Fresh migration replay ordering** — final bridge semantics are re-applied after the later CF-093 definitions.
 15. **Post-run query race** — post-run policy reload starts before panel refresh, allowing a later search generation to supersede it.
 16. **Focused UAT currentness** — regression contract references the reconciled migration files and current sequencing.
-17. **Overlapping panel refresh race** — independent overview/context/Jobs loads now use their own monotonic `panelGeneration`; only the newest completion can update data, actor context, Jobs or panel error state.
-18. **Humanised dataset-label search** — the server predicate applies the same underscore-to-space normalisation used by the UI, so a visible `Course Facts` label matches underlying `course_facts` profiles without weakening literal wildcard handling.
+17. **Overlapping panel refresh race** — independent overview/context/Jobs loads use `panelGeneration`; only the newest completion updates operational state.
+18. **Humanised dataset-label search** — visible `Course Facts` matches underlying `course_facts` profiles.
+19. **Applied finalizer migration identity** — repository now retains `20260910232606` exactly as recorded by Pilot, while a separate later finalizer handles clean-replay ordering.
+20. **Column preference hydration** — authenticated-user preferences hydrate before persistence, preventing the initial default render from erasing saved column order/visibility.
+21. **Former-user rendered-label search** — total/items predicates include `Former user — <display>` for deleted/banned creator and owner rows, matching the UI representation.
+22. **Raw dataset-domain search preservation** — raw `course_facts` and humanised `Course Facts` are separate searchable forms; literal wildcard semantics remain intact.
 
-Runtime verification after finding 18 confirmed three bounded profiles match the humanised `Course Facts` predicate while the former raw-space predicate matched zero. Security Advisor remains at the existing 191 INFO-only `rls_enabled_no_policy` baseline; no new WARN/ERROR was introduced by the CF-093 finalizer.
+Runtime verification after the latest correction confirmed three bounded matches for raw `course_facts` and three for humanised `Course Facts`. Security Advisor remains at the existing 191 INFO-only `rls_enabled_no_policy` baseline; no new WARN/ERROR was introduced.
 
 The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, stored email snapshots are not projected to the browser, and Layer 3 remains Evidence/profile/model-qualified rather than becoming generically runnable from Scheduled Tasks.
 
-Current pre-merge gate: exact-head Pilot Frontend Build and Release History Contract for `bd5a27199f3b329143ee0d9e9828db27de66bc46`, then fresh Codex re-review. Do not merge/deploy or promote the visible release until the exact-head review has no actionable finding and the governed release/currentness sequence completes.
+## Current acceptance state
+
+Exact current Pilot head `780049340a1a282168acffbf429ae09a8cd82864`:
+- Pilot Frontend Build `34545457889` — PASS.
+- Release History Contract `34545457887` — PASS.
+- Pilot runtime latest CF-093 migration `20260911001117 cf_093_scheduler_search_codex_final` — APPLIED.
+- Security Advisor — 191 INFO / 0 WARN / 0 ERROR, unchanged known baseline.
+- Fresh exact-head Codex re-review requested in PR #67 comment `5627311501`.
+
+Do not merge/deploy or promote the visible release until that exact-head Codex review has no actionable finding and the governed post-merge deployment/currentness sequence completes.
 
 ## Acceptance target
 
