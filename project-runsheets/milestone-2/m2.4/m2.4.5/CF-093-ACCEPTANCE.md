@@ -33,7 +33,7 @@ The executable intent remains deliberately narrow:
 
 Generic L3/L4 orchestration, generic Evidence reprocess, NZ Layer 2 enrichment, arbitrary Layer 1 construction, recurring country/state construction, unsupported recurring university construction and implicit Search/Publication remain disabled.
 
-Following the latest Codex P1, **generic discovery-backed Scheduled Tasks are also explicitly disabled/fail-closed** until a separate Preview-bound asynchronous worker payload/continuation contract is implemented and accepted. Queueable deterministic Layer 2 is the only generic Scheduled Tasks acquisition path that may remain executable.
+Generic discovery-backed Scheduled Tasks are explicitly disabled/fail-closed until a separate Preview-bound asynchronous worker payload/continuation contract is implemented and accepted. Queueable deterministic Layer 2 is the only generic Scheduled Tasks acquisition path that may remain executable.
 
 ## Immutable corrective runtime lineage
 
@@ -54,31 +54,31 @@ Applied Pilot migrations are immutable. Relevant lineage now includes:
 13. `20260911105517 cf_093_scheduler_browser_bridge_and_scope_binding_finalizer`
 14. `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer`
 15. `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
+16. `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`
 
-No applied migration was retimestamped. PR #71 source briefly used stale filename `20260911111622` for the migration already applied to Pilot as `20260911111431`; source is now corrected to the immutable runtime identity and the stale alias removed.
+No applied migration was retimestamped. Repository source is reconciled to immutable runtime identities `20260911111431` and `20260911120131`; stale pre-apply filename aliases were removed without changing migration semantics.
 
 ## Latest Codex corrective acceptance
 
-Codex reviewed PR #71 head `f280cc712071428c9ee28e811ae628a54f4d476b` and returned **1 P1 + 5 P2** findings covering Preview-unbound asynchronous discovery, discovery/active-batch no-op semantics, missing non-direct provider base-URL qualification, unsafe `{query}` URL expansion, ambiguous delimiter fingerprinting, and hexadecimal/legacy WHATWG IPv4 handling.
+Codex review of PR #71 head `f3622ff51654969fcd37961392b82449eb372218` returned three P2 findings: intentionally unsupported discovery was reported as a configuration defect, route qualification ignored a blocking malformed predecessor/fallback rule, and queueable allowlist parsing expanded `{query}` differently from the acquisition worker.
 
-Forward-only migration `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer` resolves the safe executable boundary by:
+Forward-only migration `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer` resolves those findings by:
 
-- making any scope requiring asynchronous discovery non-executable from generic Scheduled Tasks;
-- retaining queueable deterministic Layer 2 under exact Preview/run gates;
-- validating non-direct provider base URLs through the strict HTTPS gate;
-- hashing ordered structured JSON scope data rather than delimiter-concatenated text;
-- accepting numeric hosts only as four canonical decimal IPv4 octets.
+- exposing `unsupported_discovery_count` with an operator-truthful fail-closed reason;
+- evaluating deterministic provider routes in worker order and respecting blocking/fallback semantics;
+- parsing queueable allowlist references literally, matching `layer2-acquire-v2`.
 
-All six latest Codex threads were answered with runtime evidence and resolved. Exact-head Codex re-review was requested in PR #71 comment **`5633932810`** for candidate `f3622ff51654969fcd37961392b82449eb372218`.
+All three review threads were answered and resolved. Codex then reviewed exact corrective head **`00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`** and reported **“Didn't find any major issues”** in PR #71 comment **`5634309865`**. This closes the Codex-review portion of the corrective gate only; it does not waive consequential acceptance.
 
 ## Current targeted evidence
 
-- Pilot exact candidate: **`f3622ff51654969fcd37961392b82449eb372218`**.
-- Pilot Frontend Build **`34595439211` — PASS**; job **`103250001746` — PASS**. Build, UAT-suite discovery and local browser smoke passed.
-- Parser acceptance: `1.2.3.8` accepted; `01.02.03.08`, `0x7f000001`, `0x7f.0.0.1`, `0x100000000` and port `65536` rejected; port `65535` accepted.
-- UQ scope remains **382 total / 156 queueable / 226 discovery**, with 0 execution-policy, oversize and route gaps. It now intentionally has 1 discovery gate gap and therefore cannot be run from generic Scheduled Tasks.
-- Queueable-only Nova Higher Education and Stamford scopes have no discovery gate gap but each currently lacks the required deterministic execution policy. No policy is being manufactured to force UAT green.
+- Pilot exact candidate: **`00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`**.
+- Pilot Frontend Build **`34597632959` — PASS**.
+- Branch/commit Cloudflare preview deployment for `00c98f0c` — **PASS**.
 - Security Advisor remains **191 INFO / 0 WARN / 0 ERROR**, the pre-existing informational RLS baseline.
+- University of Queensland remains **382 total / 156 queueable / 226 discovery** and is intentionally non-executable from generic Scheduled Tasks because async discovery is fail-closed.
+- Runtime-wide University target inventory confirms the only fully queueable AU University scopes are Nova Higher Education and Stamford International College; each is **1 queueable / 0 discovery**, route gaps 0, URL gaps 0, oversize 0, but **execution-policy gap 1**.
+- No policy, source profile, route or runtime configuration has been manufactured merely to force UAT green.
 
 ## Historical consequential evidence retained
 
@@ -90,10 +90,12 @@ This evidence cannot be used to claim the newly disabled generic discovery-backe
 
 CF-CHG-20260910-093 remains **REOPENED**. Do not merge corrective PR #71 or return this file to CLOSED/PASS until:
 
-1. exact-head Codex re-review is clean, or any further actionable finding is corrected forward-only;
-2. required exact-head CI/source/runtime acceptance is green;
-3. a genuinely governed policy-qualified **queueable deterministic Layer 2** target completes required consequential acceptance without fabricating configuration for UAT;
+1. exact-head Codex review is clean — **PASS at `00c98f0cea...`**;
+2. required exact-head CI/source/runtime acceptance is green — **current targeted checks PASS**;
+3. a genuinely governed policy-qualified **queueable deterministic Layer 2** target completes required consequential acceptance without fabricating configuration for UAT — **BLOCKED by current runtime truth**;
 4. the accepted exact head is merged;
 5. post-merge deployed currentness/UAT is green.
+
+The current blocker is not a software-review or CI failure. The runtime contains no genuinely policy-qualified fully queueable University target: Nova and Stamford are fully queueable but each lacks the governed deterministic execution policy; UQ and all State scopes require unsupported asynchronous discovery. Do not weaken Preview/authority or create test-only policy/configuration to bypass this gate.
 
 The broader orchestrator scope remains explicitly open. Preview-bound asynchronous discovery, generic L3/L4, Evidence reprocess and recurring country/state scope construction must not be inferred from this corrective slice.
