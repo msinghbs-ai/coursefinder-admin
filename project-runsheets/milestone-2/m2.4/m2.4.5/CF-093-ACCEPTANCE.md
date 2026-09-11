@@ -1,7 +1,7 @@
 # CF-093 Acceptance Plan
 
-**Status:** OPERATOR-CATALOGUE FUNCTIONAL ACCEPTANCE PASS — RELEASE CURRENTNESS ACTIVE — TARGET BUILDER FOLLOW-UP OPEN  
-**Updated:** 11 Sep 2026 11:33 AEST
+**Status:** OPERATOR-CATALOGUE + v2.15.77 RELEASE CURRENTNESS ACCEPTED — TARGET BUILDER FOLLOW-UP OPEN  
+**Updated:** 11 Sep 2026 12:09 AEST
 
 ## Accepted functional gate
 
@@ -22,7 +22,7 @@ Post-merge main `912572203e4f53ac081617b0ea567c9298cab84d`:
 - deployed targeted desktop governed validation — PASS;
 - mobile gate — intentionally skipped by targeted validation-tier routing rather than failed.
 
-Pilot runtime migration lineage is reconciled through `20260911001117 cf_093_scheduler_search_codex_final`. Production is unchanged.
+Pilot runtime migration lineage remains reconciled through `20260911001117 cf_093_scheduler_search_codex_final`. No Production Supabase resource exists.
 
 ## Security / authority acceptance
 
@@ -35,28 +35,51 @@ Accepted boundaries remain:
 - Layer 3 remains Evidence/profile/model/revalidation governed;
 - schedule actions preserve cadence/next-run semantics unless the operator explicitly edits the schedule;
 - Search/Publication are not implied ingestion consequences;
-- no Production deployment or Production Supabase resource exists.
+- no Production Supabase resource exists.
 
 Security Advisor remains at the known 191 INFO / 0 WARN / 0 ERROR baseline.
 
-## Release-currentness gate
+## v2.15.77 release-currentness acceptance
 
-Visible release remains v2.15.76 until the final source/version synchronisation passes.
+Pilot PR #68 `CF-093: publish v2.15.77 release currentness` completed the source/version synchronisation without weakening the release-history gate.
 
-Pilot PR #68 — `CF-093: publish v2.15.77 release currentness` — is the current release gate. It must keep these surfaces consistent:
+Exact corrective head before merge: `2efcda307bc6fee5b8d626878468151d0b42989d`.
 
-1. `src/release-currentness-entry.js` current release;
-2. `src/pim-version-entry.js` canonical retained history with v2.15.76 retained;
-3. `src/mature-main.jsx` `UI_VERSION`;
-4. `index.html` title;
-5. maintained release-history contract;
-6. build/preview/deployed-currentness evidence.
+Synchronized surfaces:
 
-Initial PR #68 staging intentionally exposed the version mismatch to the existing release-history guard: Frontend Build passed while Release History Contract failed. That failure is correct and must be fixed by synchronising the source surfaces, not by weakening the contract. Codex review is requested on PR #68.
+1. `src/release-currentness-entry.js` = v2.15.77;
+2. `src/pim-version-entry.js` canonical release history = v2.15.77 current, while retaining v2.15.76 and v2.15.75;
+3. `src/mature-main.jsx` `UI_VERSION='2.15.77'`;
+4. `index.html` title = v2.15.77;
+5. maintained release-history contract updated for v2.15.77 currentness and retained prior history.
+
+Pre-merge release head evidence:
+
+- Release History Contract `34551291580` — PASS;
+- Pilot Frontend Build `34551291667` — PASS;
+- Codex P1 canonical-release finding was corrected;
+- exact-head Codex re-review result in PR comment `5628109418`: no major issues on reviewed commit `2efcda307b`.
+
+PR #68 merged to main on 11 Sep 2026 at merge commit:
+
+`643eef810ab10ab9679ab6687ee549b0664c5691`
+
+Post-merge acceptance on that exact main commit:
+
+- Release History Contract `34553234972` — PASS;
+- Pilot Frontend Build `34553235073` — PASS;
+- CourseFinder Deployed UAT `34553235214` — PASS;
+- deployed commit status `coursefinder/deployed-uat/targeted/chromium-desktop` — SUCCESS;
+- targeted desktop governed validation — PASS;
+- mobile gate — intentionally skipped by targeted validation-tier routing, not failed.
+
+Cloudflare branch-preview deployment of the exact release head `2efcda307b` was successful before merge. Main post-merge deployed UAT passed against `643eef810a`, confirming the deployed release-currentness path is accepted.
+
+Visible Pilot Admin release is now **v2.15.77**.
 
 ## Remaining non-accepted orchestration scope
 
-The following is not part of the accepted functional gate yet:
+The following is still not implemented and is not closed by the v2.15.77 release-currentness acceptance:
 
 - universal server-authorised Country/State/Provider/University/entity target builder;
 - construction of new bounded run/schedule policies from operator selections;
@@ -68,21 +91,7 @@ Current Run on demand still executes an existing bounded scheduler policy by `po
 
 ## Exact next gate
 
-1. Complete PR #68 canonical v2.15.77 synchronisation.
-2. Require green release-history and frontend CI.
-3. Merge only after required Codex/review findings are resolved.
-4. Run deployed currentness/UAT on the release head.
-5. Reconcile Change Control and continuity.
-6. Continue the target-builder/orchestration phase without claiming unsupported scopes.
-
-
-## 11 Sep 2026 release-currentness gate
-
-- Functional PR #67 merged: `912572203e4f53ac081617b0ea567c9298cab84d`.
-- Post-merge deployed UAT `34550482733`: PASS.
-- PR #68 exact release head: `2efcda307bc6fee5b8d626878468151d0b42989d`.
-- Release History Contract `34551291580`: PASS.
-- Pilot Frontend Build `34551291667`: PASS.
-- Codex P1 canonical-release synchronization finding corrected; exact-head re-review requested in comment `5628088682`.
-- Merge remains HOLD until exact-head Codex review is clean, followed by nominated deployed-currentness verification.
-- Separate target-builder / processing-mode / run-preview orchestrator scope remains OPEN and is not part of this release-currentness merge.
+1. Keep CF-093 open for the unimplemented target-builder/orchestration construction, or assign that work a successor Change ID explicitly.
+2. Reconcile RUNSHEET / CURRENT-STATE / FOLLOW-UPS / NEXT-CHAT to accepted Pilot main `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77.
+3. Inventory actual executable ingestion contracts before exposing Country/State/Provider/University/entity target construction or processing-mode choices.
+4. Do not simulate unsupported scopes client-side and do not weaken Layer 3/Evidence, Layer 4, Search/Publication, authority or UAT boundaries.
