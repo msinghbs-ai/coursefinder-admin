@@ -44,7 +44,8 @@ The following runtime identities are APPLIED and immutable in repository history
 3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency` — server preview receipt, zero-work rejection, v1 run retirement and exact-target v2 dispatch.
 4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass` — dispatch-time dedupe, current-profile-version qualification and canonical country scope.
 5. `20260911025332 cf_093_scheduler_workflow_codex_third_pass` — dispatch-time live-scope revalidation.
-6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass` — cross-operator exact-scope dispatch dedupe plus atomic empty-start rejection. The repository was aligned to the runtime-assigned immutable identity; no applied migration was retimestamped.
+6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass` — cross-operator exact-scope dispatch dedupe plus atomic empty-start rejection.
+7. `20260911052952 cf_093_scheduler_execution_policy_qualification` — fail-closed qualification for fully queueable profiles that lack the execution policy required by `layer2_run_batch_create`; preview and dispatch both re-check the boundary.
 
 ### Current executable capability
 
@@ -54,6 +55,7 @@ The following runtime identities are APPLIED and immutable in repository history
 - **Processing mode:** Acquisition + deterministic Layer 2 only.
 - **Preview:** required server-side before consequential dispatch, actor-bound, exact-target/mode-bound and valid for 15 minutes.
 - **Profile qualification:** scoped enabled/non-paused Course Facts profiles must retain valid current versions at preview and dispatch.
+- **Execution-policy qualification:** a fully queueable profile must have a Layer 2 execution policy before a preview token is issued; discovery-backed profiles remain eligible because their start path does not call `layer2_run_batch_create`.
 - **Live runnable-scope revalidation:** dispatch rechecks authoritative Layer 2 work before start.
 - **Atomic empty-start guard:** if runnable membership changes between the live preview and `start`, an empty `profiles` result raises within the same transaction so start-side effects roll back and the preview is not consumed as a successful no-op.
 - **Executable-work guard:** zero queueable/discovery work is non-executable.
@@ -71,11 +73,31 @@ The old browser `scheduler_workflow_run_now_v1` path is revoked. Browser executi
 - Review of `216c2854...`: seven actionable findings corrected forward-only.
 - Review of `fe69259a...`: five edge cases corrected by `20260911023721` plus UI state changes.
 - Review of `b3203c9a...`: three P2 findings corrected by dispatch/preview state separation, rank-4 UI parity and `20260911025332` live-scope revalidation.
-- Review of `1210a018db3451b31faafc14e0d0c4dfc69c9e12`: two new findings:
-  1. **P1 cross-operator duplicate paid acquisition** — the recent-dispatch predicate was still actor-scoped. Corrected in `20260911031554` by keeping preview-token ownership actor-bound but removing actor filtering from recent exact-scope successful-dispatch reuse.
-  2. **P2 pause/disable race after live preview** — a profile could become non-runnable between recheck and `start`. Corrected in `20260911031554` by validating the returned start `profiles` array inside the same transaction and raising on an empty result, which rolls back start-side effects.
+- Review of `1210a018db3451b31faafc14e0d0c4dfc69c9e12`: two findings corrected by `20260911031554` — cross-operator exact-scope paid-acquisition dedupe and atomic empty-start rejection.
+- Exact-head review of `aae269c3c69fe3203a78f7bf5416bcf9ca3c7227`: **no major issues**.
 
-Targeted CF-093 source tests now assert only one actor-bound `requested_by` predicate remains (the preview-token ownership check), and assert the atomic empty-start rejection. Current Pilot candidate after the test update is `aae269c3c69fe3203a78f7bf5416bcf9ca3c7227`; exact-head CI is the active gate before requesting final re-review.
+### Nominated acceptance findings — 11 Sep 2026
+
+Required runtime acceptance then materially advanced the gate:
+
+1. **RMIT University Pathways / RMIT UP** (`30b81368-9003-4775-81af-60439fc3b109`) previewed as 3 discovery-backed courses and dispatched successfully under preview receipt `e2be7de3-d9d7-4eff-b6b5-b8932e8b5f4a`, producing Layer 2 discovery request `5726`.
+2. Immediate same-token retry returned `idempotent_replay=true`.
+3. A second rank-4 operator obtained a fresh preview and dispatch; it returned `existing_recent_dispatch=true` and deduplicated against the first preview receipt, proving cross-operator exact-scope reuse.
+4. Resulting Jobs after the nominated run were limited to `scheduler_workflow_preview` and underlying `layer2_discovery`; no generic Layer 3/Layer 4/Search/Publication Job was manufactured.
+5. The RMIT discovery job completed with `selected=0 / processed=0`, so it did not by itself prove Evidence production.
+6. A second one-course queueable target, **Nova Higher Education** (`340f8a84-c04e-4a7c-ad43-1b37755b0018`), previewed as executable but dispatch failed with `execution policy missing` inside `layer2_run_batch_create`.
+
+This exposed a real qualification gap rather than a reason to weaken execution policy enforcement. The smallest-safe correction is migration `20260911052952 cf_093_scheduler_execution_policy_qualification`:
+
+- helper `security.scheduler_workflow_execution_policy_gap_count_v1` identifies fully queueable profiles that have no `pipeline.layer2_execution_policies` row;
+- helper EXECUTE is revoked from browser roles;
+- preview returns `missing_execution_policy_count` and no token when the gap exists;
+- dispatch re-checks the same qualification before start;
+- discovery-backed profiles remain executable because their existing governed path does not require run-batch execution policy.
+
+Post-correction runtime proof: Nova now returns `executable=false`, `preview_token=null`, `missing_execution_policy_count=1`; RMIT UP remains executable with `missing_execution_policy_count=0`.
+
+Current Pilot candidate is `e1abc037c8c76b84639896177262470c7283df34`. Exact-head Release History `34566251054` and Frontend Build `34566251196` are running at this governance write. Exact-head Codex re-review was requested in PR #69 comment `5629956836`.
 
 ### Explicitly unavailable
 
@@ -110,13 +132,14 @@ Required before merge:
 2. repository/runtime migration history remains aligned;
 3. targeted source/browser acceptance remains green;
 4. negative anonymous/low-rank/unsupported mode and invalid/expired/mismatched preview paths pass;
-5. nominated AU Layer 2 preview -> dispatch proves Jobs/Evidence follow-through and retry/dedupe without manufactured Layer 3/Layer 4/Search/Publication activity;
-6. only after functional acceptance, publish the next visible release;
-7. post-merge deployed UAT/security/currentness reconciliation.
+5. one queueable AU Layer 2 target with a valid execution policy proves preview -> dispatch -> Layer 2 Job/Evidence follow-through; the prior Nova target is now correctly blocked rather than allowed to fail inside `layer2_run_batch_create`;
+6. no generic Layer 3/Layer 4/Search/Publication activity is manufactured;
+7. only after functional acceptance, publish the next visible release;
+8. post-merge deployed UAT/security/currentness reconciliation.
 
 ## Rollback / recovery
 
-- Do not delete, rewrite or retimestamp applied identities `20260911021144`, `20260911021847`, `20260911022312`, `20260911023721`, `20260911025332` or `20260911031554`.
+- Do not delete, rewrite or retimestamp applied identities `20260911021144`, `20260911021847`, `20260911022312`, `20260911023721`, `20260911025332`, `20260911031554` or `20260911052952`.
 - UI target-builder changes can be reverted independently while retaining accepted v2.15.77 Phase A.
 - If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker/security contracts.
 
