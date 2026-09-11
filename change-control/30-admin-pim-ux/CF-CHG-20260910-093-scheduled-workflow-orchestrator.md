@@ -1,6 +1,6 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** REOPENED — POST-MERGE CODEX CORRECTIVE GATE ACTIVE  
+**Status:** REOPENED — CONSEQUENTIAL ACCEPTANCE BLOCKER ACTIVE  
 **Initiated:** 2026-09-10 AEST  
 **Reopened:** 2026-09-11 AEST  
 **Category:** 30-admin-pim-ux  
@@ -112,21 +112,25 @@ All three review threads were answered with remediation evidence and resolved. S
 - Pilot Frontend Build `34597632959` — **PASS**; build-and-smoke check `103257017648` — **PASS**.
 - Cloudflare Workers exact-head preview build `a5398593-1916-4224-8ac9-8d9f3165a1ab` / check `103257139984` — **PASS** for `00c98f0c`.
 - Runtime migration `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer` is applied after immutable `20260911114056` and `20260911111431`.
-- Nominated University of Queensland scope remains **382 courses / 156 queueable / 226 discovery** and is intentionally non-executable in generic Scheduled Tasks because discovery-backed execution is fail-closed.
-- Queueable-only Nova Higher Education and Stamford International College remain blocked by existing governed execution-policy gaps; no policy/configuration is being manufactured merely to force acceptance.
+- Exact-head Codex review of `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` reported **“Didn't find any major issues”** in PR #71 comment `5634309865`.
+- University of Queensland remains **382 courses / 156 queueable / 226 discovery** and is intentionally non-executable in generic Scheduled Tasks because discovery-backed execution is fail-closed.
+- Runtime-wide AU University inspection confirms the only fully queueable University scopes are Nova Higher Education and Stamford International College. Each is **1 queueable / 0 discovery**, route gaps 0, URL gaps 0, oversize 0, but **execution-policy gap 1**.
+- Current AU State scopes remain discovery-backed and contain policy gaps; there is no genuinely policy-qualified fully queueable consequential target available under current runtime truth.
+- No execution policy, source profile, route or runtime configuration is being manufactured merely to force acceptance.
 - Security Advisor remains the known **191 INFO / 0 WARN / 0 ERROR** baseline.
-- Fresh exact-head Codex review was requested in PR #71 comment `5634267079` for `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`; no exact-head review result is recorded yet.
 
 ## Corrective acceptance gate
 
 PR #71 is **draft/open and must not merge** until all of the following are true on one exact head:
 
-1. required CI checks pass;
-2. targeted CF-093 source/runtime acceptance passes;
-3. all current Codex threads are reconciled against runtime evidence;
-4. exact-head Codex re-review of `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` is clean or any additional actionable finding is corrected forward-only;
-5. required queueable deterministic Layer 2 consequential/nominated acceptance is clean on an actually governed policy-qualified target, or the lack of any such runtime target is explicitly reconciled as a fail-closed acceptance blocker without fabricating authority/configuration;
-6. post-merge deployed acceptance is green before CF-093 is returned to CLOSED/PASS.
+1. required CI checks pass — **PASS at `00c98f0cea...`**;
+2. targeted CF-CHG-20260910-093 source/runtime acceptance passes — **current targeted checks PASS**;
+3. all current Codex threads are reconciled against runtime evidence — **PASS**;
+4. exact-head Codex re-review is clean — **PASS at `00c98f0cea...` / comment `5634309865`**;
+5. required queueable deterministic Layer 2 consequential/nominated acceptance is clean on an actually governed policy-qualified target — **BLOCKED by current runtime truth**;
+6. post-merge deployed acceptance is green before CF-CHG-20260910-093 is returned to CLOSED/PASS.
+
+The remaining blocker is substantive runtime eligibility, not review or CI. Governance must not be altered merely to waive this gate, and runtime policy/configuration must not be fabricated for testing. If a genuinely governed operational reason later qualifies a fully queueable target, rerun Preview -> consequential dispatch -> Jobs/Evidence/no-side-effect acceptance on that target before merge.
 
 Discovery-backed generic acceptance is not a merge prerequisite while that capability is explicitly disabled; it cannot be claimed implemented until the separate Preview-bound asynchronous contract exists.
 
@@ -160,4 +164,4 @@ Discovery-backed generic acceptance is not a merge prerequisite while that capab
 - UI target-builder changes may be reverted independently; database corrections remain forward-only.
 - If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker, identity, Evidence or authority controls.
 
-CF-CHG-20260910-093 remains **REOPENED** until PR #71 completes exact-head Codex, CI, targeted acceptance and required deployed-UAT gates. The full orchestrator scope must not be closed while Preview-bound asynchronous discovery and the broader explicitly-disabled capabilities remain unimplemented.
+CF-CHG-20260910-093 remains **REOPENED** at the consequential-acceptance blocker. Exact-head Codex/CI/targeted corrective checks are clean, but PR #71 must remain unmerged until a genuinely governed policy-qualified fully queueable deterministic Layer 2 target can satisfy consequential acceptance. The full orchestrator scope must not be closed while Preview-bound asynchronous discovery and the broader explicitly-disabled capabilities remain unimplemented.
