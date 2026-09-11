@@ -48,6 +48,7 @@ Applied identities are immutable; no applied migration may be retimestamped, rew
 9. `20260911085724 cf_093_scheduler_postmerge_codex_finalizer`
 10. `20260911095142 cf_093_scheduler_exact_scope_codex_finalizer`
 11. `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer`
+12. `20260911103931 cf_093_scheduler_runtime_semantics_finalizer`
 
 ## Prior accepted deployed evidence
 
@@ -89,34 +90,35 @@ Pilot runtime migration `20260911095142 cf_093_scheduler_exact_scope_codex_final
 
 Runtime reconciliation then confirmed `public.layer2_provider_runtime_config` supplies `secret` from `vault.decrypted_secrets`. Because a non-null `vault_secret_id` alone is not equivalent to a usable decrypted credential, migration `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer` further tightens route qualification to require either `auth_scheme='none'` or a non-empty decrypted Vault secret, while continuing to exclude Parsebot from qualified discovery routes. This is also forward-only.
 
-## Current runtime evidence
+## Exact-head Codex review on `4b46e6d683...` and fifth forward pass
 
-After the two latest corrections:
+Codex reviewed corrective head `4b46e6d683db002df9155b8ac64cbecf32ede670` and returned **five additional P2 findings**:
 
-- AU authoritative scope snapshot: **21,093 courses**;
-- queueable now: **445**;
-- requiring discovery: **20,648**;
-- exact scope fingerprint: **`16c0defeb19917ad2695a5f27bab9c55`**;
-- runtime-usable acquisition route gaps: **0**;
-- worker-valid discovery configuration gaps at AU-wide scope: **97**.
+1. recompute the exact runnable-scope fingerprint after `start` to close a READ COMMITTED race;
+2. mirror the discovery worker's provider budget and unknown-cost gates;
+3. reject malformed HTTPS targets that JavaScript `new URL` rejects, including invalid ports;
+4. do not consume Preview when `start` only returns `already_running`, `nothing_queueable`, partial or otherwise incompatible work;
+5. validate every queueable source URL against the current profile's worker host allowlist before advertising the scope executable.
 
-The 97 discovery gaps mean AU-wide consequential dispatch must currently fail closed. This is expected governed behaviour; a narrower eligible target may still pass qualification.
+These are corrected forward-only in Pilot runtime migration `20260911103931 cf_093_scheduler_runtime_semantics_finalizer`, mirrored in PR #71. It does not retimestamp or rewrite any applied migration. The correction:
 
-Security Advisor after the new migrations remains the known baseline: **191 INFO / 0 WARN / 0 ERROR**. No new warning/error and no rank/ACL weakening were introduced.
+- adds private strict HTTPS/host validation and rejects ports above 65535;
+- validates non-null queueable source URLs against current profile `base_domain`, `discovery_url`, URL-pattern and discovery-host allowlists, including exact/subdomain semantics;
+- qualifies routes through governed runtime configuration and requires enabled/non-Parsebot route, decrypted credential when required, provider budget allowed, and known request cost for non-direct providers;
+- requires every dispatch result to be a real `started` or `discovery_started` result with expected identifiers/coverage before Preview consumption;
+- recomputes the full authoritative scope snapshot after `start` and compares its fingerprint/profile set with the approved Preview, raising inside the transaction so start-side effects roll back on drift.
 
-## Repository reconciliation
+The five review threads were answered with runtime evidence and resolved. A new exact-head Codex review was requested in PR #71 comment `5633260076` for head `25b51d435411c56c2c87172d4004ecafc61dd06d`.
 
-Corrective PR #71 now contains the immutable runtime migration identities and targeted UAT source coverage. Current exact head after the latest source/test reconciliation must be verified from PR truth before acceptance/merge.
+## Current runtime and exact-head evidence
 
-The targeted contract asserts:
-
-- exact course/source scope fingerprint binding across Preview -> dispatch;
-- prior-dispatch dedupe requires the same current profile set and fingerprint;
-- University options derive only from executable Layer 2 scope;
-- Parsebot and missing decrypted credentials do not qualify a route;
-- worker-selected discovery target must be HTTPS-valid;
-- AU Course Facts / acquisition-only / rank-4 controls remain in force;
-- generic L3/L4 and generic Evidence reprocessing remain disabled.
+- Pilot exact candidate: `25b51d435411c56c2c87172d4004ecafc61dd06d`.
+- Pilot Frontend Build `34590366728` — **PASS** on that exact head.
+- Nominated UQ authoritative scope remains **382 courses / 156 queueable / 226 discovery**, fingerprint `41d2ae8ec7ae1bc73554cf6551e2c40f`, with **0** execution-policy, oversize, route and URL/discovery gaps after the tightened predicates.
+- Strict parser proof: port **65535** accepted; **65536** and **99999** rejected.
+- Queueable allowlist proof: `study.uq.edu.au` accepted; `evil.example` and malformed `study.uq.edu.au:99999` rejected.
+- Private HTTPS/allowlist helpers are not executable by anon/authenticated; the private Run bridge remains service-role only and independently rank-gated.
+- Security Advisor remains the known **191 INFO / 0 WARN / 0 ERROR** baseline.
 
 ## Corrective acceptance gate
 
@@ -124,9 +126,10 @@ PR #71 is **draft/open and must not merge** until all of the following are true 
 
 1. required CI checks pass;
 2. targeted CF-093 source/runtime acceptance passes;
-3. the six latest Codex threads are reconciled against runtime evidence;
-4. an exact-head Codex re-review is clean or any additional actionable findings are corrected forward-only;
-5. post-merge deployed acceptance is green before CF-093 is returned to CLOSED/PASS.
+3. all current Codex threads are reconciled against runtime evidence;
+4. exact-head Codex re-review of `25b51d435411c56c2c87172d4004ecafc61dd06d` is clean or any additional actionable finding is corrected forward-only;
+5. required consequential/nominated acceptance is clean where governance calls for it;
+6. post-merge deployed acceptance is green before CF-093 is returned to CLOSED/PASS.
 
 ## Preserved authority and security rules
 
