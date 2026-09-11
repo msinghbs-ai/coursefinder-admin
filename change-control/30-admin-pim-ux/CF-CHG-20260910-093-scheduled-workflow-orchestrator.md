@@ -1,6 +1,6 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** ACTIVE / PARTIAL PASS — TARGET BUILDER PHASE  
+**Status:** ACTIVE / PARTIAL PASS — TARGET BUILDER CODEX ACCEPTANCE  
 **Initiated:** 2026-09-10 AEST  
 **Updated:** 2026-09-11 AEST  
 **Category:** 30-admin-pim-ux  
@@ -12,7 +12,7 @@
 
 Provide one task-first Scheduled Tasks control plane that can progressively build governed ingestion/enrichment work without collapsing CourseFinder layer authority. Human business labels remain primary; technical IDs remain audit/support detail.
 
-The target operator model is:
+Target operator model:
 
 `Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`
 
@@ -48,28 +48,57 @@ Acceptance evidence for v2.15.77:
 
 The existing generic `refresh_policy_upsert_v2` is **not** accepted as a universal target constructor. It checks that a bounded identifier exists but does not prove that a selected country/state/provider scope is qualified or enforced by the downstream worker. Exposing it generically would risk a UI scope claim that runtime dispatch does not honour.
 
-The existing Layer 2 Course Facts service boundary already provides server-authorised Country/State/University scope resolution, preview and execution. CF-093 therefore starts with that proven path instead of inventing a new browser-side scope model.
+The existing Layer 2 Course Facts service boundary already provides server-authorised Country/State/University scope resolution, preview and execution. CF-093 therefore starts with that proven path rather than manufacturing a browser-side scope model.
 
-### First executable slice
+### Applied Pilot migration identities
 
-Pilot runtime migration `20260911021144 cf_093_scheduler_workflow_builder_slice` is APPLIED and must remain immutable in migration history.
+The following runtime identities are APPLIED and must remain immutable in repository history:
 
-It adds narrow public SECURITY INVOKER wrappers with independently rank-gated private bridges for:
+1. `20260911021144 cf_093_scheduler_workflow_builder_slice` — initial AU Course Facts target-builder slice.
+2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix` — forward fix restoring authenticated EXECUTE on independently rank-gated private bridges while keeping anon denied.
+3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency` — server-enforced preview receipt, zero-work rejection, v1 run retirement and idempotent exact-target v2 dispatch.
 
-- `scheduler_workflow_scope_options_v1`;
-- `scheduler_workflow_preview_v1`;
-- `scheduler_workflow_run_now_v1`.
-
-Current executable capability:
+### Current executable capability
 
 - **Dataset:** Course Facts enrichment;
 - **Country:** AU only;
 - **Scope:** Country, State/Territory, University/Provider through existing server-authorised scope services;
 - **Processing mode:** Acquisition + deterministic Layer 2 only;
-- **Preview:** required before UI dispatch and shows course/provider/discovery/active-run impact;
-- **Audit/follow-through:** governance reason required and a governed Jobs dispatch record is produced.
+- **Preview:** required server-side before consequential dispatch, actor-bound, exact-target/mode-bound and valid for 15 minutes;
+- **Executable-work guard:** zero queueable/discovery work returns `executable=false` and cannot be dispatched;
+- **Run:** v2 exact-target dispatch requires the preview token and governance reason;
+- **Idempotency:** exact target dispatch is advisory-lock serialized; a consumed token replays its stored result and a matching recent dispatch is reused rather than starting paid acquisition again;
+- **Truthful Job semantics:** the completed record is the preview operation itself. Underlying Layer 2 batch/discovery records remain authoritative for processing status; the builder does not manufacture a completed enrichment Job;
+- **UI race safety:** scope/target changes invalidate preview state and request generations prevent stale option/preview responses from authorising another target.
 
-Explicitly unavailable in this slice:
+The old browser `scheduler_workflow_run_now_v1` path is revoked. Browser execution uses `scheduler_workflow_run_now_v2` only.
+
+### Codex review reconciliation
+
+The first Codex review of PR #69 at `216c2854...` raised seven actionable findings. All are addressed on the current candidate using forward-only corrections:
+
+1. **P1 private bridge ACL chain** — fixed by `20260911021847`; authenticated private bridge EXECUTE=true, anon=false.
+2. **P1 server preview enforcement** — fixed by `20260911022312`; same-actor exact-target server preview token required.
+3. **P1 stale target preview** — fixed in UI; target/scope changes clear and version the preview.
+4. **P2 misleading completed dispatch Job** — v1 run path retired; underlying work no longer represented as completed.
+5. **P2 unqualified/no-work target** — preview marks non-executable and server v2 refuses dispatch.
+6. **P1 retry/idempotency** — exact target advisory lock plus consumed/recent dispatch reuse.
+7. **P2 stale university search response** — option request generation allows only newest response to update state.
+
+The seven original review threads have been replied to with evidence and resolved. Fresh exact-head Codex review was requested for Pilot head `fe69259a540fcbce36d39c340d40d6fe9bd391dd` after exact-head CI passed.
+
+### Exact-head CI / security evidence
+
+At `fe69259a540fcbce36d39c340d40d6fe9bd391dd`:
+
+- Release History Contract `34554608690` — PASS.
+- Pilot Frontend Build/local browser smoke `34554608629` — PASS.
+- Runtime v1 public/private authenticated EXECUTE — false.
+- Runtime v2 public/private authenticated EXECUTE — true.
+- Runtime v2 public/private anon EXECUTE — false.
+- Security Advisor — **191 INFO / 0 WARN / 0 ERROR**, unchanged known `rls_enabled_no_policy` baseline.
+
+### Explicitly unavailable
 
 - NZ Layer 2 Course enrichment;
 - generic automatic L2 -> L3 -> L4 orchestration;
@@ -89,31 +118,26 @@ Explicitly unavailable in this slice:
 6. No browser service-role/provider secret/private Evidence exposure is allowed.
 7. Unsupported scope or processing mode must fail closed and remain visibly unavailable.
 8. Search/Publication remain separate downstream governed consequences.
-9. Applied migration identities are never retimestamped to satisfy repository ordering; corrections use forward migrations.
-
-## Security state
-
-Security Advisor after the Phase B migration remains **191 INFO / 0 WARN / 0 ERROR**, the same known `rls_enabled_no_policy` baseline. No new CF-093 warning/error was introduced.
+9. Applied migration identities are never retimestamped; corrections use forward migrations.
 
 ## Active acceptance gate
 
-Pilot PR #69 initially opened at head `216c2854f2e9d53df723e5c038aa0a064999cfc4`.
+Do not merge PR #69 or bump visible release while exact-head Codex re-review remains pending.
 
 Required before merge:
 
-1. repository/runtime migration identity alignment;
-2. source contract and browser/build acceptance;
-3. negative anonymous/low-rank/unsupported workflow/mode acceptance;
-4. preview-before-dispatch proof;
-5. nominated AU Layer 2 run showing Jobs/Evidence follow-through and no manufactured L3/Publication activity;
-6. Codex exact-head review with actionable findings resolved;
-7. visible release bump only after the functional candidate is accepted;
-8. post-merge deployed UAT/security/currentness reconciliation.
+1. exact-head Codex review has no actionable finding;
+2. repository/runtime migration history remains aligned;
+3. targeted source/browser acceptance remains green;
+4. negative anonymous/low-rank/unsupported mode and invalid/expired/mismatched preview paths pass;
+5. nominated AU Layer 2 preview -> dispatch proves Jobs/Evidence follow-through with no manufactured L3/Publication activity;
+6. only after functional acceptance, publish the next visible release;
+7. post-merge deployed UAT/security/currentness reconciliation.
 
 ## Rollback / recovery
 
-- Do not delete or rewrite `20260911021144`; any runtime correction is a new forward migration.
-- UI target-builder changes can be reverted independently while retaining the accepted v2.15.77 Phase A baseline.
+- Do not delete or rewrite applied migration identities `20260911021144`, `20260911021847` or `20260911022312`.
+- UI target-builder changes can be reverted independently while retaining accepted v2.15.77 Phase A.
 - If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker/security contracts.
 
 CF-093 remains **OPEN** until the governed target-builder phase reaches its accepted boundary. Broader automatic cross-layer orchestration may remain a separately gated follow-up if it cannot be proven safely within M2.4.5.
