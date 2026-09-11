@@ -1,13 +1,14 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** CLOSED / PASS — ACCEPTED BOUNDED TARGET-BUILDER SCOPE  
+**Status:** REOPENED — POST-MERGE CODEX CORRECTIVE GATE ACTIVE  
 **Initiated:** 2026-09-10 AEST  
-**Closed:** 2026-09-11 AEST  
+**Reopened:** 2026-09-11 AEST  
 **Category:** 30-admin-pim-ux  
 **Parent:** CF-CHG-20260910-092  
-**Accepted Pilot baseline:** `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible v2.15.78  
+**Deployed Pilot baseline before corrective gate:** `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible v2.15.78  
 **Functional merge:** PR #69 -> `85bc068d379ed3fc9231d167cf524e56419e80f9`  
-**Release merge:** PR #70 -> `cfc4702ba57a58ea31936dcabbd96fdd765194e2`
+**Release merge:** PR #70 -> `cfc4702ba57a58ea31936dcabbd96fdd765194e2`  
+**Corrective Pilot PR:** #71 (`m245/cf093-postmerge-codex-20260911`)
 
 ## Objective
 
@@ -17,38 +18,25 @@ Governed operator sequence:
 
 `Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`
 
-Preview is a required control boundary before consequential execution where the accepted workflow contract requires it.
+Preview remains a required server control boundary before consequential execution.
 
-## Accepted Phase A — operator controls
+## Accepted narrow authority boundary
 
-The accepted operator workspace includes:
-
-- business-readable task/target labels with UUIDs relegated to technical detail;
-- server-side task search;
-- durable creator/owner attribution with historical identity retained independently of live account presence;
-- personal column/view preferences separate from scheduler execution policy;
-- bounded schedule editing and exact bounded Layer 1–2 Run on demand;
-- explicit Job and Evidence follow-through;
-- Layer 3 remaining Evidence/profile/model/revalidation governed and Layer 4 remaining audited human resolution.
-
-## Accepted Phase B — new governed target builder
-
-The executable slice is intentionally narrow and server-enforced:
+The implemented slice remains deliberately narrow and server-enforced:
 
 - **Dataset:** Course Facts enrichment.
 - **Country:** AU only.
-- **Scope:** Country, State/Territory or University/Provider through existing server-authorised Layer 2 scope services.
+- **Scope:** Country, State/Territory or University/Provider through governed Layer 2 scope services.
 - **Processing mode:** Acquisition + deterministic Layer 2 only.
 - **Preview:** mandatory server-side preview, actor-bound, exact-target/mode-bound and time-limited.
-- **Profile qualification:** scoped enabled/non-paused profiles require a valid current version at preview and dispatch.
-- **Execution-policy qualification:** every scoped Course Facts profile requires the deterministic Layer 2 execution policy before acquisition or dispatch, including discovery-backed profiles.
-- **Scope-size qualification:** one scoped profile may not exceed the existing 1,000-course downstream contract.
-- **Dispatch revalidation:** live runnable scope is rechecked immediately before start.
-- **Atomic empty-start:** a target that becomes empty/unqualified between preview and start fails the same transaction rather than consuming the preview as a successful no-op.
-- **Idempotency:** exact-target advisory locking plus recent-dispatch reuse prevents duplicate paid acquisition across operators; reuse timing is based on actual dispatch consumption.
-- **Truthful Job semantics:** the preview/dispatch control record does not manufacture downstream completion; underlying Layer 2 batch/discovery Jobs and Evidence remain authoritative.
+- **Layer 1:** regulatory/publisher identity authority is unchanged.
+- **Layer 2:** deterministic source/Evidence acquisition only under qualified profile, execution policy and acquisition route.
+- **Layer 3:** remains separately Evidence/profile/model/revalidation governed; no generic scheduler execution.
+- **Layer 4:** remains audited human/exception resolution; no generic scheduler execution.
+- **Search/Publication:** remain separate downstream governed consequences and are not implicit effects of this builder.
+- **Recurring scopes:** country/state recurring construction remains disabled; university scheduling still requires a separately accepted enforceable contract.
 
-The old browser `scheduler_workflow_run_now_v1` path remains revoked. Browser execution uses the accepted v2 governed path.
+The old browser `scheduler_workflow_run_now_v1` path remains revoked. Browser execution uses the accepted v2 governed path with rank-4 server enforcement.
 
 ## Immutable Pilot runtime lineage
 
@@ -60,39 +48,74 @@ The old browser `scheduler_workflow_run_now_v1` path remains revoked. Browser ex
 6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
 7. `20260911052952 cf_093_scheduler_execution_policy_qualification`
 8. `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`
+9. `20260911085724 cf_093_scheduler_postmerge_codex_finalizer`
 
-Applied migration identities are immutable; no accepted migration was retimestamped or rewritten.
+Applied migration identities are immutable. No applied migration has been retimestamped, rewritten or replaced.
 
-## Review and acceptance evidence
+## Prior accepted evidence
 
-Codex review drove forward-only corrections for stale preview state, invalid scope identity, profile-version qualification, dispatch-time dedupe, cross-operator duplicate prevention, empty-start atomicity, execution-policy qualification and downstream scope-size enforcement. The exact v2.15.78 release head `aa4fb9be7c0567b557092f52c218475fae9ba5a3` received a final Codex review with no major issues before release merge.
+The v2.15.78 release was deployed after PR #69 and PR #70. Prior post-release checks were:
 
-The final consequential acceptance used a policy-qualified AU Course Facts UQ scope rather than known-ineligible RMIT UP/Nova profiles. Preview covered **382 courses**. Dispatch was accepted; same-token retry and a second fresh-preview dispatch reused the original recent dispatch rather than duplicating acquisition. The underlying Layer 2 batch progressed and produced governed Evidence. No generic Layer 3 interpretation, Layer 4 resolution, Search admission or Publication side effect was observed from the target-builder run.
+- Release History Contract `34579029903` — PASS;
+- Pilot Frontend Build `34579029934` — PASS;
+- CourseFinder Deployed UAT `34579029850` — PASS.
 
-Post-release merge acceptance for Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`:
+A policy-qualified UQ scope previously previewed 382 courses and produced governed Layer 2 Evidence without generic Layer 3, Layer 4, Search or Publication effects.
 
-- Release History Contract `34579029903` — **PASS**;
-- Pilot Frontend Build `34579029934` — **PASS**;
-- CourseFinder Deployed UAT `34579029850` — **PASS**.
+## Reopening trigger — exact-head Codex result received after PR #69 merge
 
-## UAT recovery reconciliation
+Codex submitted five additional P2 findings against PR #69 final reviewed head `f01ef66437864db5b0d2f5a319ab7a80bb6f0073` after the functional PR had already merged. Because those findings are material to dispatch correctness, the earlier CLOSED/PASS status is withdrawn pending corrective acceptance.
 
-The first post-functional-merge deployed UAT failure was not accepted as a product pass. Exact failed workflow run: CourseFinder Deployed UAT `34575980681`, attempt 1. Its first CF-097 execution timed out on the stale historical `v2.15.74` visible-release assertion; Playwright retry #1 in the same workflow then observed the transient `admin_read('dashboard')` HTTP 500. The release-currentness correction changed only the stale currentness assertion to derive the expected value from the maintained release-currentness source. It did not relax HTTP 5xx detection, identity/rank checks, data authority, or UAT security boundaries. The subsequent post-release-merge CourseFinder Deployed UAT `34579029850` passed.
+The findings were:
+
+1. deduplicated retries wrote a fresh `consumed_at`, allowing repeated retries to extend the 10-minute dedupe window indefinitely;
+2. a multi-profile scope could partially dispatch if one previewed profile disappeared between revalidation and `start`;
+3. preview did not require at least one enabled acquisition route backed by an enabled acquisition provider;
+4. discovery-backed work did not require a worker-compatible discovery URL/search target before token issuance;
+5. state options used a broader provider-state predicate than execution, whose authoritative state scope is course-campus based.
+
+## Forward-only corrective implementation
+
+Pilot runtime migration `20260911085724 cf_093_scheduler_postmerge_codex_finalizer` was applied as a new migration. Repository source is being reconciled in Pilot PR #71; no prior migration was retimestamped.
+
+The finalizer:
+
+- records `deduplicated_at` on reused previews and preserves the original real dispatch `consumed_at` for dedupe-window calculation;
+- stores the exact sorted preview profile-ID set and requires the live pre-dispatch profile set to remain identical;
+- compares the profile IDs returned by `start` with the pre-start live set and raises inside the same transaction on any partial-set change, rolling back start-side effects;
+- fails preview and dispatch closed when any scoped profile lacks an enabled acquisition route backed by an enabled provider;
+- fails preview and dispatch closed when work requiring discovery lacks `discovery_url`, `discovery_strategy.catalogue_url`, or a qualified `first_party_search` `search_url_template`;
+- builds state options from the same `public.layer2_scope_courses(...,'state',...)` predicate used by preview/start, eliminating selector/execution scope drift;
+- retains AU-only, rank-4, acquisition-only and preview-before-dispatch gates.
+
+Security Advisor after the forward migration remains at the known baseline: **191 INFO / 0 WARN / 0 ERROR**. No ACL/rank weakening was introduced.
+
+## Corrective acceptance gate
+
+Current Pilot corrective branch exact head after migration + targeted UAT source coverage: `a24f36b3e701391ab509c8c86c3820e02e234c9a`.
+
+Pilot PR #71 is **draft/open and must not merge** until:
+
+1. exact-head CI required checks pass;
+2. exact-head Codex re-review is clean or all new actionable findings are forward-corrected;
+3. targeted runtime/source acceptance confirms the five post-merge findings are closed;
+4. any required deployed UAT after merge is green.
+
+Codex exact-head review was requested on PR #71 in comment `5632068158`.
 
 ## Preserved authority and security rules
 
 1. Layer 1 regulatory/publisher identity authority is unchanged.
-2. Layer 2 remains deterministic source/Evidence acquisition under qualified source profiles and execution policy.
+2. Layer 2 remains deterministic source/Evidence acquisition under qualified source profiles, execution policy and enabled acquisition route.
 3. Layer 3 can execute only through accepted Evidence/profile/model/revalidation controls.
 4. Layer 4 remains audited human/exception resolution.
-5. Scholarship Provider ownership never manufactures Course eligibility.
-6. Browser execution uses authenticated/rank-gated public contracts; private helpers remain separately protected.
-7. No service-role/provider secret/private Evidence is exposed to browser code.
-8. Unsupported scope or processing mode fails closed and remains unavailable.
-9. Search/Publication remain separate downstream governed consequences.
-10. Security/UAT rules are not weakened to make tests pass.
+5. Browser execution remains authenticated and rank-gated; private helpers remain separately protected.
+6. No service-role/provider secret/private Evidence is exposed to browser code.
+7. Unsupported scope or processing mode fails closed.
+8. Search/Publication remain separate downstream governed consequences.
+9. Security/UAT rules are not weakened to make tests pass.
 
-## Explicitly outside this CLOSED/PASS boundary
+## Explicitly outside this boundary
 
 - NZ Layer 2 Course enrichment;
 - generic automatic L2 -> L3 -> L4 orchestration;
@@ -102,12 +125,10 @@ The first post-functional-merge deployed UAT failure was not accepted as a produ
 - university recurring target construction without a separately accepted enforceable contract;
 - implicit Search or Publication actions.
 
-These items require a future governed change or explicit reopening backed by executable server contracts. They are not implied by closure of CF-CHG-20260910-093.
-
 ## Rollback / recovery
 
 - Do not delete, rewrite or retimestamp any applied CF-CHG-20260910-093 migration identity.
-- UI target-builder changes may be reverted independently if required, while retaining immutable runtime migration history and using forward corrections for database changes.
-- If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker, identity, evidence or authority controls.
+- UI target-builder changes may be reverted independently; database corrections remain forward-only.
+- If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker, identity, Evidence or authority controls.
 
-CF-CHG-20260910-093 is **CLOSED / PASS** at the boundary above.
+CF-CHG-20260910-093 remains **REOPENED** until PR #71 completes its exact-head Codex/CI/targeted/deployed acceptance sequence.
