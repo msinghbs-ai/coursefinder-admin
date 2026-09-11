@@ -1,348 +1,99 @@
 # M2.4.5 CURRENT STATE
 
-## CF-092 Scheduled Tasks configuration — CLOSED / PASS — 10 September 2026
-
-- **Accepted Pilot main:** `9305eb3a004d12724ec26b6bab65e1d4b1ab2239` after PR #66.
-- **Visible Admin release:** v2.15.76.
-- Scheduled Tasks is the canonical Data Operations scheduler workspace immediately before Evidence; duplicate Administration Scheduling UI/route footprint is removed.
-- Exact bounded Layer 1–3 schedules can be edited with optimistic concurrency and durable operator/reason audit. Direct Run on demand is limited to executable Layer 1–2 schedules; Layer 3 remains Evidence/profile/model/revalidation governed.
-- CF-092 preview acceptance `34468684736` PASS; final pre-merge build `34469936532` PASS; release-history `34469936531` PASS.
-- Post-merge build `34470101950` PASS; Cloudflare Worker deployment PASS; deployed UAT `34470101936` attempt 2 PASS. Attempt 1 hit a transient legacy CF-102 `course_detail` HTTP 500; unchanged rerun passed and the exact read also succeeded in runtime verification.
-- Rollback-only security acceptance proved no-auth/rank-3 denial and rank-4 no-effective-change edit success with full rollback and zero residual audit rows.
-- Security Advisor remains at the known 191 INFO-only RLS baseline; separate RLS remediation remains out of scope. Production unchanged.
-- The 10 Sep admin-main roadmap parks generic dataset ETL / ARWU / Diversity fixtures for future work; stale continuity naming H12 as the immediate next gate is superseded. Near-term ranking continuation remains QS-focused unless newer repository/runtime truth changes it.
-
-
-## CF-244 architectural hardening + CF-241 runtime reconciliation — CLOSED / PASS — 8 September 2026
-
-- **Accepted Pilot main:** `4a927057e86935f8c5e101e434355da0b8f9bf7d`.
-- Four-phase architectural hardening is CLOSED / PASS under `CF-CHG-20260908-244`.
-- CF-241 forward reconciliation of retained CF-239 runtime changes is CLOSED / PASS.
-- Governed `evidence_page` and `layer2_ops_overview` dispatcher routes are restored; superseded fast helpers remain retained but are no longer selected by those routes.
-- Evidence lineage/entity-link replay dependencies and internal privilege hardening are represented in migration history.
-- Course PIM and Website/Zoho consumer boundaries remain preserved.
-- Exact-head Architectural Refactor Guardrails `34223507733`: PASS.
-- Post-merge Pilot Frontend Build `34224432855`: PASS.
-- Post-merge CourseFinder Deployed UAT `34224432694`: PASS.
-- H11 Provider Assets is already CLOSED / PASS under CF-101/102 with a governed **41 AU + 8 NZ** university cohort and **49/49 approved primary logos**.
-- **Next genuinely open feature gate: H12 ARWU & University Diversity Statistics**, followed by H13 bounded historical ranking backfill/replay.
-- Production untouched; M2.5 remains paused until M2.4.5 closes.
-
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 / CF-241 CLOSED / PASS  
-**Updated:** 2026-09-08 AEST  
-**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244
-
-## CF-243 Compare UI bugfix — CLOSED / PASS — 7 September 2026
-
-- Visible Pilot release: **v2.15.74**.
-- Pilot main at this historical checkpoint: `0475dc5dc88a7f3b568a5151e6fd8d94af411924`.
-- QS and THE now have independent edition selectors in their own ranking sections, each including a Multi-year option.
-- Shared QILT/PRISMS Current snapshot / Multi-year trend controls are removed; QILT retains its explicit year selector.
-- University/Provider identity headers are explicitly sticky across QILT and PRISMS comparison scrolling.
-- Functional deployed UAT `34097458830`: PASS.
-- Final v2.15.74 build/browser smoke `34097989443`: PASS.
-- Final deployed currentness `34097989441`: PASS.
-- No DB, publication, Search, Website/Zoho or Production semantics changed.
-- At this 7 September checkpoint CF-241 was still reserved; that status is **superseded by the 8 September CF-244 closure above**.
-
-## CF-242 accepted UI baseline and release currentness — 2026-09-07
-
-- **Visible Admin release:** v2.15.73.
-- **Accepted Pilot main head at this historical checkpoint:** `82e1f13cd37508bec314bfbf882ecdcb4a89183c`.
-- Functional UI acceptance head before release-only sync: `39dbf633d236c812cd5134ff263b993f6ac3e851`.
-- Governed Pilot read-contract reconciliation: `20260907064251_m245_ui_read_contract_reconciliation`.
-- Scholarship Provider filter is bounded/searchable and server-authoritative through `provider_id`; fluid list/grid behaviour and meaningful server ordering are accepted.
-- QILT/PRISMS fluid server-sorted datasets, QS/THE Open Dataset + Compare, and Provider Compare latest/history/sticky identity are accepted without changing source grain, Evidence, publication or Provider-equivalence semantics.
-- Targeted source contract `34092573017`: PASS. Build/browser smoke `34092486868`: PASS.
-- Bounded viewport gate `34093001623`: PASS at 1600×900 / 1366×768 / 900×820 / 390×844.
-- Functional deployed UAT `34093156194`: PASS.
-- Release-sync build/browser smoke `34093619913`: PASS.
-- Final merged-head build/browser smoke `34093765392`: PASS.
-- Final deployed v2.15.73 currentness UAT `34093765349`: PASS.
-- CF-242 is **CLOSED / PASS**. M2.4.5 remains ACTIVE for other recorded pre-production gates.
-- v2.15.72 remains superseded forensic history under CF-240. At this checkpoint CF-241 was still reserved; that status is **superseded by CF-244 / CF-241 CLOSED/PASS above**.
-- Production untouched; M2.5 not reopened.
-
-## Entry baseline
-
-- M2.4.4 remains CLOSED / PASS / FROZEN.
-- M2.5 Production readiness was reconciled at 2026-09-03 10:13 AEST and remains blocked at P0 because no Production Supabase project exists and Production organisation/region/name/cost are unconfirmed.
-- M2.4.5 is inserted to complete Pilot/Admin/PIM hardening before P0 resumes.
-- Pilot repo head at intake: `ce8ab734a1d4bb4743b09b09f3ae45a47bb9d7dc`.
-- Admin repo pre-M2.4.5 head: `3dec3218abceca6ec7139c6fa931d931fd9be805`.
-- targeted deployed UAT on Pilot head: SUCCESS, run `33696909480`.
-
-## Initial priorities
-
-P1. Admin IA/UI simplification and duplicate-setting audit.  
-P2. Scraper Config enable/disable + effective routing consolidation.  
-P3. Scholarship PIM grid/filter/order maturity.  
-P4. Scheduler/Jobs operational review.  
-P5. Manual PIM record pattern.  
-P6. Publication automation control plane, disabled by default.  
-P7. Production migration inventory/telemetry update after each material change.  
-P8. Faster targeted UAT.  
-P9. Milestone meeting evidence/time-interaction ledger.
-
-## H1/H2 execution state — 2026-09-03 10:45 AEST
-
-- Pilot source advanced to H1/H2 lineage ending `87eba42de1e03c9761b927f2cb59a793cd10215f` before final workflow routing.
-- Visible Admin release: **v2.15.45**.
-- H1 implemented under CF-088. Administration labels/ranks/breadcrumbs/cards share one metadata model. Users & Roles is embedded in Administration; legacy `#users-roles`, `#attributes` and `#settings` resolve to canonical sections.
-- Historic rank-3 Scheduling/Onboarding hidden routes remain because central Administration is rank 4; redirecting them would alter permissions.
-- H2 runtime inventory: Direct HTTP, Scrape.do, ScraperAPI, Firecrawl and ZenRows enabled; Parse.bot and Custom gateway disabled. Firecrawl records 5,000 monthly units / 250 reserve / 30 requests-min / concurrency 5 / 90s timeout.
-- Production migration manifest: all tracked components source-ready; all target states pending. No Production project exists.
-- Pilot roles remain viewer 1, counsellor 2, curator 3, pipeline_operator 4, PIM Operator 5, Platform Admin 6.
-- H1 targeted validation PASS: Frontend Build `33700864619`; Deployed UAT `33700864824`. No full acceptance run requested.
-
-## H2 corrective implementation — 2026-09-03 11:39 AEST
-
-- User-enabled Parse.bot is now confirmed in runtime: enabled, Vault credential configured, base `https://api.parse.bot`, `X-API-Key`, priority 25, rate 30/min, concurrency 10, timeout 90s.
-- Official Parse API contract requires dispatch/build then generated scraper endpoint execution; the prior generic-proxy assumption was invalid.
-- CF-089 prevents Parse.bot from being called as a generic URL proxy until a generated API route is qualified.
-- A live server-side Parse.bot connection probe was added and targeted deployed UAT is executing it.
-- Scraper Config no longer eagerly reads the complete Layer 2 source-profile inventory. Profile routing is lazy and bounded to 10 searched matches.
-- Scraper Config embedded header/Refresh/typography aligned to canonical Administration.
-- `Layer 2 sources` relabelled **Extraction Profiles**; it remains the advanced source-specific extraction-rule/version/qualification workspace.
-- Layer 2 policy is reduced to **workload defaults** behind progressive disclosure; its legacy route mode is read-only in Admin so it no longer acts as a parallel routing writer.
-- Pilot runtime migrations CF-089 applied; Edge versions: provider-control v2, acquire-v2 v11, scope-discover-scheduled v21.
-- No Production project/resource created; Production migration target states remain pending.
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 LARGE-UNIVERSITY ACCEPTANCE BLOCKED  
+**Reconciled:** 2026-09-12 AEST  
+**Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
+**Visible accepted release:** v2.15.78  
+**Pilot Supabase:** `fxcwkweaxjtknorudmwp`  
+**Production:** not provisioned; M2.5 remains PAUSED at P0
 
-## CF-089 targeted closure — 2026-09-03 11:50 AEST
+## Active implementation candidate
 
-- Accepted Pilot head: `b6f75ffccf93981522a5c077100deeac87f7022a`.
-- Deployed targeted UAT `33705175873`: PASS.
-- Frontend build job in `33705175916`: PASS.
-- Parse.bot real authenticated diagnostic: HTTP 401 / `authentication_failed`.
-- Interpretation: CourseFinder can reach the official Parse API, but the currently stored Vault key is not accepted. Parse.bot stays enabled as configured by the user but is explicitly **not execution-qualified** and is excluded from generic proxy execution.
-- Scraper Config performance issue is corrected: 7-provider registry loads first; 1,883 extraction profiles / 12,207 route mappings are no longer eagerly loaded. Profile routing is opened on demand and search is capped at 10 results.
-- Scraper Config header/Refresh/typography and workload input layout now use canonical Administration patterns.
-- Layer 2 Sources is now presented as **Extraction Profiles** to describe its actual purpose: versioned non-secret source-specific extraction rules and qualification state.
-- Layer 2 workload defaults remain advanced scheduler/batch/wave controls, not scraper routing; the legacy route mode is read-only there.
-- Production remains unprovisioned; CF-089 portability delta is recorded in CF-084.
+- Pilot PR #72: `CF-093: complete Preview-bound async Layer 2 discovery`.
+- Branch: `m245/cf093-async-discovery-20260912`.
+- Exact head: `692ba7ef93e19d833963d96dab2558b340eaea17`.
+- Base main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
+- PR state: OPEN / DRAFT / mergeable.
+- Pilot Frontend Build `34657854675`: PASS.
+- Cloudflare exact-head branch/commit preview: deployed successfully.
+- Fresh Codex review for PR #72 exact head: no result present; merge gate remains pending.
 
-### CF-090 ranking import recovery
+## Pilot migration/runtime reconciliation
 
-User upload `THE_year2026.txt` is confirmed present as private ranking Evidence (3,966,028 bytes; SHA-256 `00fdcfa0a2d5067982c9b7631e5baa7dc64e683c0c0280a1a02730edb45112fa`). Registration succeeded; the subsequent Parse & validate control failed because `ranking-publisher-control` attempted PostgREST access to the intentionally unexposed private `ranking` schema. The control now uses service-only RPCs instead. QS/THE Statistics cards are no longer grey merely because accepted_editions=0; they remain actionable with Manage imports while Compare remains gated on accepted observations. Admin release **v2.15.47**. Targeted recovery UAT is active and will reuse the existing THE 2026 Evidence.
+Pilot runtime already contains the PR #72 async-discovery capability under immutable applied migration identities:
 
-## CF-091 addenda — 2026-09-03 12:47 AEST
+- `20260911231544` `cf_093_scheduler_preview_bound_async_discovery`
+- `20260911231600` `cf_093_scheduler_async_binding_found_state_fix`
+- `20260911231845` `cf_093_scheduler_async_binding_cancel_failclosed`
+- `20260911232205` `cf_093_scheduler_retry_context_and_token_chain`
+- `20260911232239` `cf_093_scheduler_bound_discovery_context_retry`
 
-- H11-H13 added to M2.4.5 for Provider logo completeness/source discovery, ARWU + University Diversity statistics, and ranking parser/API/Parse.bot acquisition.
-- Hotcourses rankings hub currently exposes THE, QS, ARWU and Hotcourses Diversity Index; Hotcourses HDI presents diversity rank, represented nationalities, international-student counts and source attribution.
-- Existing A31/A32 source-authority rule remains: Hotcourses/commercial aggregators are reconciliation/discovery by default unless explicit reuse authority is approved.
-- Initial ARWU target is 2025 with multi-year edition retention.
-- Diversity Index is to remain a separate contextual dataset rather than being flattened into QS/THE/ARWU ranking semantics.
-- API/Parse.bot ranking fetch must converge with uploaded-file parsing into the same staging/validate/apply gate; credentials remain Vault-only.
-- CF-083/A32 repository cross-reference reconciliation is already complete. Current docs are v2.10.50 / v1.31, not v2.10.49 / v1.30.
-- No runtime/schema/Production change made by CF-091.
+PR #72 source currently uses `20260912010000`–`20260912010400` filenames for those logical changes. Runtime history must not be rewritten or retimestamped. Repository migration identity/currentness must be reconciled before merge.
 
-## Execution priority — 2026-09-03 12:59 AEST
+## UQ 382-course consequential acceptance — FAILED CLOSED
 
-Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102; active continuation now begins at H12.
+Fresh governed Preview token: `df7affe7-8d65-4527-a834-e8ac879afb06`.
 
-Parked/continuous state at that checkpoint:
-- H2 residual Parse.bot authentication/qualification blocker;
-- H3 Scholarship PIM maturity;
-- H4 Scheduler/Jobs;
-- H5-H10 remaining/continuous hardening.
+Preview proved:
 
-Important later correction: the Parse.bot credential was subsequently fixed and established QS/ARWU APIs qualified HTTP 200 under H13; the earlier 401 is historical evidence, not the current blocker.
+- 382 scoped Courses;
+- 156 queueable;
+- 226 discovery;
+- executable=true;
+- zero invalid-profile, execution-policy, route, oversize, unsupported-discovery or discovery-config gaps;
+- scope fingerprint `a048e79d19df8ceeb954f89aa3c5f9d7`.
 
-## CF-092 Parse.bot ranking API decision — 2026-09-03 12:59 AEST
+A fresh Run now was dispatched after the 10-minute recent-dispatch window had cleared. This was not a deduplicated replay.
 
-H13 live Parse.bot design is dataset-specific rather than generated/generic:
-- QS established `get_world_rankings` API;
-- ARWU established `get_arwu_rankings?year={YEAR}` API with `API-Snapshot-Version: 10`;
-- controlled target years 2015–2026.
+The forward retry hardening worked: all 226 discovery Courses were retried despite historical unsuccessful dispositions, with history retained. Final latest post-binding disposition by Course:
 
-At this historical checkpoint the stored Parse.bot credential returned 401. That blocker was later cleared; no replacement scraper is required or authorised.
+| Disposition | Courses |
+|---|---:|
+| current_page_not_found | 115 |
+| identity_mismatch | 79 |
+| ambiguous | 27 |
+| likely_match / selected current URL | 5 |
+| **Total** | **226** |
 
-## H11 Provider Assets implementation — 2026-09-03 13:39 AEST
+Seven bounded `layer2_discovery` Jobs processed the retry set. pg_net requests `5753`–`5758` returned HTTP 200; terminal request `5759` returned HTTP 500:
 
-- H11 governed Provider logo coverage/read contract is deployed to Pilot runtime and committed as migration `20260903213000_cf_091_h11_provider_asset_coverage.sql`.
-- Administration v2.15.48 adds **Provider Assets** with expected/discovered/acquired/approved/blocked/missing coverage, country/state filters and Provider/Evidence drill-through.
-- Provider detail now receives `provider_asset_context` from the governed `admin_read` boundary.
-- AU broad active-Provider baseline: 1,546 expected / 7 discovered / 7 acquired / 2 approved / 1 blocked / 1,539 missing / 4 needs review.
-- This is intentionally **not** described as university-only coverage because Provider Type is unpopulated across the current catalogue; final H11 university denominator needs an explicit governed scope/type crosswalk.
-- Source commits: `53ea54af4fcbc941248fe506bd4360f07ce9f3f4`, `11405c9d27fb61b74aca3857a71f6fb8cf45e5fb`, `bfadc963b49b59e255c270c7ed8126b4bf040275`, `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`.
-- Frontend Build run `33712087980` and Deployed UAT run `33712087970` started for head `f81a6af5072f67d2f1feb71df58e50f6b6c3fd36`; final conclusions pending at this timestamp.
-- Security Advisor: existing INFO-only posture; no new WARN/ERROR identified from H11 read surface.
+`layer2_scope_profile_batch_service: scheduler async discovery did not produce a current selected URL for every preview-bound discovery course`
 
-## Parse.bot credential revalidation — 2026-09-03 13:48 AEST
+No deterministic Layer 2 batch handoff occurred. The binding remains fail-closed with no `handoff_started_at`. There is no public/security scheduler-cancel RPC, so no direct table mutation was used to force cancellation.
 
-Fresh direct validation against both established CF-092 ranking APIs returned HTTP 401 `Invalid API key`:
-- QS `get_world_rankings`;
-- ARWU `get_arwu_rankings?year=2024` with snapshot v10.
+### Defect classification
 
-Endpoint reachability was proven; this was later superseded by successful credential correction.
+The former zero-progress condition caused by treating historical unsuccessful dispositions as permanently attempted is corrected. The new consequential run exposes a separate UQ source-profile/discovery/identity qualification problem. The accepted security/identity rule is not to be weakened to convert ambiguous/mismatched candidates into selected URLs.
 
-## H13 live qualification PASS — 2026-09-03 14:29 AEST
+## RMIT and Layer 3
 
-Parse.bot credential has been corrected and the established ranking adapters now return HTTP 200.
+- RMIT 500-course acceptance: **NOT RUN** because UQ did not pass.
+- Generic scheduler Layer 3 remains disabled.
+- Existing pilot-qualified Course Layer 3 profile `openrouter-free-router-v1` remains limited to its governed task classes and benchmark/revalidation contract; live-provider UAT is still a separate gate.
+- No Layer 3 invocation was made from the failed UQ scheduler run.
 
-- QS 2026: `edition_year=2026`, total 1,504, pagination contract confirmed.
-- ARWU 2026: `year=2026`, total 892, snapshot v10 accepted.
+## Next AU qualification wave
 
-H13 is no longer authentication-blocked. Remaining H13 work is controlled 2015–2026 Evidence/staging/backfill implementation, with manual Apply preserved.
+After UQ and RMIT pass, prepare normal qualification in this order without fabricated config:
 
-## CF-093 ranking publisher URL/file import — 2026-09-03 14:42 AEST
+1. Monash University
+2. The University of Melbourne
+3. Australian National University
+4. University of Technology Sydney
+5. The University of Western Australia
+6. The University of Sydney
+7. UNSW Sydney
 
-Implemented and deployed:
-- ARWU first-class ranking system;
-- Admin ranking import method selector: Parse.bot URL or file upload;
-- QS/ARWU approved Parse.bot scraper reference fields with edition year;
-- governed URL importer retains complete API response as private Evidence;
-- parser v1.5.0 supports Parse.bot QS/ARWU JSON plus existing THE/file formats;
-- exact import-id parsing avoids QS direct-source override;
-- v2.15.49 UI;
-- targeted deployed UAT run `33715985168` PASS.
+## Exact next gate
 
-QS 2026 and ARWU 2026 live APIs are qualified (HTTP 200). The remaining creation of registered 2026 imports must run under an authenticated CourseFinder Admin session; management tooling does not bypass that operator JWT boundary.
+1. Reconcile PR #72 repository migration identities with immutable applied Pilot history.
+2. Use retained UQ discovery Jobs/Evidence and official first-party examples to qualify/correct the UQ discovery/search and identity-confirmation contract.
+3. Preserve exact Preview binding, historical retry, CRICOS/detail verification and fail-closed all-discovery-current semantics.
+4. When the failed binding is no longer active under the governed contract, run a new UQ 382-course Preview and consequential acceptance.
+5. Only on UQ PASS: same-token replay + fresh-preview dedupe, then RMIT 500-course proof.
+6. Only after clean Layer 2 proof: bounded Layer 3 acceptance through the existing profile/model/revalidation contract.
+7. Require exact-head Codex + CI/UAT/runtime acceptance before merge/deploy.
 
-## CF-094 ranking import UX correction — 2026-09-03 14:55 AEST
+## Standing boundaries
 
-- Recent imports now order by latest parse/apply activity, not original upload time.
-- Successful parse disables the same system/year action until system/year changes.
-- Prior success message clears on system/year change.
-- Existing same-system/year registration now requires an inline **Continue with new revision** confirmation.
-- No popup operational workflow introduced.
-- Pilot v2.15.50; targeted deployed UAT run `33716795837` active.
-
-## CF-095 release-currentness correction — 2026-09-03 15:57 AEST
-
-User screenshot exposed release/version drift and unreadable QS Parse.bot failure.
-
-Corrected:
-- Admin/release/document title synchronised to v2.15.51;
-- QS Parse.bot defaults to 2026;
-- QS 2027 URL mode is explicitly warned/disabled because the current Parse.bot extraction returns `extraction_failed`;
-- nested Parse.bot error messages no longer render as `[object Object]`;
-- dedicated deployed release-currentness UAT added.
-
-Final Pilot head `791573c4a26903ab3ed5cffe7ce8711af63efba8`.
-Deployed targeted UAT `33721019815`: PASS.
-
-## CF-096 QS 2026 Parse.bot recovery — 2026-09-03 16:13 AEST
-
-Root cause fixed: exact-import service context omitted private `storage_path`, so the parser could not download already-registered Evidence.
-
-QS 2026 import `05716189-91c6-4bd1-a99a-c82104e1f409` is now **validated** from retained Parse.bot Evidence:
-- 1,503 candidate observations;
-- 15,030 indicator cells;
-- 0 unknown rank semantics;
-- AU rows 36;
-- mapped unique AU Providers 35 / 36 = 97.22%;
-- unmatched: The University of Technology Sydney (UTS);
-- Victoria University retained as equivalent-name fan-out review work.
-
-Apply/publication remains manual. Release v2.15.52 records the correction.
-
-### CF-096 final UAT evidence — 2026-09-03 16:16 AEST
-
-Final deployed targeted UAT `33722438639` PASS on Pilot `d9d1ab1be9dd5aca9f741f427cecc85e3907a39e`. The earlier workflow failure was a test-only negative-assertion defect after the banner had correctly disappeared; it did not invalidate the successful QS 2026 validation.
-
-## CF-097 ranking workflow/history restoration — 2026-09-03 16:33 AEST
-
-User screenshot exposed that ranking history was truncated to eight rows and acquisition had no visible Job stage.
-
-Corrected:
-- full ranking history restored (up to 100 rows) with All/QS/THE/ARWU filter;
-- Parse.bot URL and file acquisition now create `ranking_import_acquire` Jobs;
-- each import row shows latest linked Job and Job count;
-- Uploaded → Parse & validate;
-- Validated → Apply edition;
-- Needs review → Review edition;
-- Applied → View module.
-
-Existing THE data was never deleted:
-- THE 2026/2025 = needs_review (already applied);
-- THE 2024–2015 = validated and available for Apply.
-
-Admin v2.15.53.
-Final deployed targeted UAT `33723730026`: PASS.
-
-## CF-098 file-first ranking parser — 2026-09-03 17:05 AEST
-
-Ranking ingestion now defaults to authorised file Evidence rather than metered Parse.bot acquisition.
-
-Supported QS/THE/ARWU file patterns:
-- country-scoped JSON/TXT;
-- one global JSON/TXT;
-- multiple country/page JSON/TXT files selected together;
-- direct payload arrays / responses / pages;
-- CSV/XLSX single file;
-- existing THE native and Parse.bot Evidence.
-
-User-provided QS 2027 AU (37 rows) + NZ (8 rows) shapes are accepted as one 45-row multi-file bundle.
-
-Runtime:
-- ranking-publisher-import v6;
-- ranking-layer1-etl v9 / parser v1.6.0;
-- Admin v2.15.54.
-
-Frontend build `33726246825` PASS.
-Deployed targeted UAT `33726246829` PASS.
-
-## CF-099 ranking multi-file transport — 2026-09-03 18:31 AEST
-
-Mobile failure diagnosed from live Edge logs: preflight reached `ranking-publisher-import` (OPTIONS 204) but no POST arrived. AU+NZ files are ~70 KB combined, so not a size-limit failure.
-
-v2.15.55 bundles selected country/page files client-side into one JSON Evidence file before invoking the Edge Function. Backend CF-098 validation/parser workflow remains unchanged.
-
-Deployed UAT `33733582425` PASS. Final frontend build on the same candidate was still running at record time.
-
-## CF-100 multi-country same-edition strategy — 2026-09-03 18:58 AEST
-
-- Global ranking edition identity is now formally `system + edition/year`; country is observation/reconciliation scope.
-- AU/NZ can be loaded first for a year and CA/GB/US/IE added later without creating duplicate year editions.
-- Later-country Evidence extends the existing edition, preserves prior-country observations and remains independently fingerprinted/versioned.
-- Country-safe mapping is mandatory; exact-name reconciliation is constrained within country.
-- Edition completeness becomes per-country scope: Partial / Country-complete / Global-complete.
-- Country-native statistical datasets remain separate source-authority families unless a governed cross-country metric crosswalk exists.
-- Runtime/schema mutation is not required for this design decision; implementation/UAT should extend the CF-098/099 bundle flow with **Add country data** and same-edition replay assertions.
-
-## CF-100 implementation — 2026-09-03 19:05 AEST
-
-- Pilot/Admin advanced to **v2.15.56** for same-edition country extension UX.
-- Secured `ranking_imports` read now returns detected country scope and logical source revision count.
-- A new-country file for an existing system/year is presented as **Add country data & parse**; overlapping/mixed country scope remains an explicit source-revision warning.
-- Country scope is displayed in ranking import history; Apply stays manual.
-- Pilot migration applied successfully; security/performance checks show no new WARN/ERROR attributable to CF-100.
-- Frontend build compile PASS; workflow `33736846482` browser smoke and deployed targeted UAT `33736846609` are active at this checkpoint.
-
-## Country expansion deferred — 2026-09-03 22:34 AEST
-
-- User explicitly deferred additional-country ranking/statistical expansion beyond the currently demonstrated AU/NZ scope.
-- CF-100 architecture and UI capability remain retained for later use, but CA/GB/US/IE or other country backfill is **not an M2.4.5 closure requirement**.
-- At this historical checkpoint the immediate milestone focus returned to H11, H12 and remaining hardening. H11 subsequently CLOSED/PASS under CF-101/102; active continuation is now H12.
-
-## CF-101 H11 final completeness — 2026-09-04 06:25 AEST
-
-- H11 university cohort is now a governed 49-Provider AU/NZ scope: **41 AU + 8 NZ**.
-- Live Pilot acceptance: **49/49 approved primary logos**, 0 remaining, 0 missing Storage/hash/MIME, 0 duplicate approved primaries, 0 accepted known Hotcourses/IDP false positives.
-- Hotcourses is retained as Provider crosswalk/provenance/fallback transport where operator-approved; the canonical owner remains the university Provider.
-- Known Hotcourses/IDP own-brand logos, placeholders, flags and course-subject imagery are explicitly rejected.
-- Exact first-party CDN logos blocked by HTTP 403 can use controlled raw-byte fallback through configured Scrape.do/ScraperAPI/ZenRows routes without lowering the 0.90 promotion threshold.
-- QUT official international-logo ZIP is supported; accepted member: `QUT International Logo - International.png`.
-- Runtime workers: `layer2-acquire-v2` v13; `layer2-provider-asset-promote` deployed Edge v6 / worker v4.1; modern `layer2-provider-page-fanout` retained.
-- Post-change advisors: no CF-101 WARN/ERROR identified; existing INFO-only RLS-no-policy and unindexed-FK advisories remain.
-- Permanent browser acceptance was updated to the accepted university scope at Pilot `9f65736f0d7b83f613f55b4eb8bd707d446798a9`; targeted routing `94d10f5eecada99c9a603d5708559c5e92297e68`.
-- Final targeted verification:
-- Frontend Build `33802561372`: PASS;
-- Deployed H11 UAT `33802561541`: PASS;
-- prior `33802121519` failed only because workflow routing selected stale CF-089 release-currentness UAT; routing precedence was corrected at Pilot `7aa9f77e67d7855ea74c80150d3a1eadddd45fa3`.
-
-**H11 status: CLOSED / PASS.**
-
-## CF-102 Provider logo display + Hotcourses directory process — 2026-09-04 07:02 AEST
-
-- Admin release **v2.15.57** projects the approved primary university logo into the Provider detail header, Course detail Provider brand strip, Provider/Course comparison cards and selected Provider context.
-- Provider asset Storage remains private. Browser rendering uses authenticated `provider-asset-access` and 10-minute signed URLs; no service-role credential or public bucket was introduced.
-- Hotcourses AU/NZ university-directory pages are now repeatable Layer 2 **Provider Asset** reconciliation profiles rather than a one-off H11 scrape.
-- Initial Direct HTTP acquisition retained private Evidence at zero paid-vendor cost:
-  - AU Evidence `9871c365-5cd5-4be2-8d40-e0623e819f13`;
-  - NZ Evidence `6f3821e6-5644-4638-8e0b-291c6ad7992f`.
-- Parser result: AU 12/12 cards country-safe matched; NZ 10/12 matched; Ara Institute of Canterbury Limited and Massey University College remain intentionally unmatched; all 24 cards exposed institution image URLs.
-- Existing ranked university primary coverage remains **49/49**. No new review candidate was created because CF-102 never replaces an approved primary.
-- Security: 175 INFO / 0 WARN / 0 ERROR. Performance: 203 INFO / 0 WARN / 0 ERROR.
-- Targeted Frontend Build `33805770000`: PASS. Deployed UAT `33805769747`: PASS. **CF-102 is CLOSED / PASS.**
+M2.4.4 remains CLOSED/PASS/FROZEN. Layer 1 authority, deterministic Layer 2 Evidence truth, Layer 3 revalidation governance, Layer 4 human resolution and Search/Publication separation remain unchanged. No Production Supabase project exists.
