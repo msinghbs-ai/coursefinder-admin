@@ -68,7 +68,7 @@ Earlier RMIT UP and Nova findings remain useful negative evidence: a scope witho
 
 ## UAT recovery reconciliation
 
-The first post-functional-merge deployed UAT run failed because the ranking workflow test still asserted historical visible release `v2.15.74`; its retry also observed a transient `admin_read('dashboard')` 500. The release-currentness follow-up corrected only the stale version-currentness assertion to derive the expected version from the maintained release-currentness source. No server-error assertion, authority boundary or UAT guardrail was relaxed. The subsequent post-merge deployed UAT for `cfc4702...` passed.
+Exact failed workflow run: CourseFinder Deployed UAT `34575980681`, attempt 1. Its first CF-097 execution timed out because the ranking workflow test still asserted historical visible release `v2.15.74`; Playwright retry #1 in the same workflow then observed a transient `admin_read('dashboard')` HTTP 500. The release-currentness follow-up corrected only the stale version-currentness assertion to derive the expected version from the maintained release-currentness source. No server-error assertion, authority boundary or UAT guardrail was relaxed. The subsequent post-release-merge CourseFinder Deployed UAT `34579029850` passed.
 
 ## Explicitly not authorised by this acceptance
 
