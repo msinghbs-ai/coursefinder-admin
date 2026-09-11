@@ -57,6 +57,7 @@ The following runtime identities are APPLIED and must remain immutable in reposi
 1. `20260911021144 cf_093_scheduler_workflow_builder_slice` — initial AU Course Facts target-builder slice.
 2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix` — forward fix restoring authenticated EXECUTE on independently rank-gated private bridges while keeping anon denied.
 3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency` — server-enforced preview receipt, zero-work rejection, v1 run retirement and idempotent exact-target v2 dispatch.
+4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass` — dispatch-time dedupe, current-profile-version qualification guard and canonical country-scope enforcement.
 
 ### Current executable capability
 
@@ -65,38 +66,42 @@ The following runtime identities are APPLIED and must remain immutable in reposi
 - **Scope:** Country, State/Territory, University/Provider through existing server-authorised scope services;
 - **Processing mode:** Acquisition + deterministic Layer 2 only;
 - **Preview:** required server-side before consequential dispatch, actor-bound, exact-target/mode-bound and valid for 15 minutes;
-- **Executable-work guard:** zero queueable/discovery work returns `executable=false` and cannot be dispatched;
+- **Profile qualification:** every scoped enabled/non-paused Course Facts profile must retain a valid current profile version at preview and again at dispatch; otherwise execution fails closed;
+- **Executable-work guard:** zero queueable/discovery work returns non-executable and no runnable preview token;
+- **Country canonicalisation:** country scope rejects non-null target IDs so one AU-wide workload cannot be represented as multiple fake exact scopes;
 - **Run:** v2 exact-target dispatch requires the preview token and governance reason;
-- **Idempotency:** exact target dispatch is advisory-lock serialized; a consumed token replays its stored result and a matching recent dispatch is reused rather than starting paid acquisition again;
+- **Idempotency:** exact target dispatch is advisory-lock serialized; consumed-token replay and matching recent dispatch reuse are measured from actual `consumed_at` dispatch time, not preview creation time;
 - **Truthful Job semantics:** the completed record is the preview operation itself. Underlying Layer 2 batch/discovery records remain authoritative for processing status; the builder does not manufacture a completed enrichment Job;
-- **UI race safety:** scope/target changes invalidate preview state and request generations prevent stale option/preview responses from authorising another target.
+- **UI race safety:** scope/target changes invalidate preview state and clear busy state; request generations prevent stale option/preview responses from authorising another target; editing university search clears any selected provider so a hidden UUID cannot remain runnable.
 
 The old browser `scheduler_workflow_run_now_v1` path is revoked. Browser execution uses `scheduler_workflow_run_now_v2` only.
 
 ### Codex review reconciliation
 
-The first Codex review of PR #69 at `216c2854...` raised seven actionable findings. All are addressed on the current candidate using forward-only corrections:
+The first Codex review of PR #69 at `216c2854...` raised seven actionable findings; all were corrected using forward-only changes.
 
-1. **P1 private bridge ACL chain** — fixed by `20260911021847`; authenticated private bridge EXECUTE=true, anon=false.
-2. **P1 server preview enforcement** — fixed by `20260911022312`; same-actor exact-target server preview token required.
-3. **P1 stale target preview** — fixed in UI; target/scope changes clear and version the preview.
-4. **P2 misleading completed dispatch Job** — v1 run path retired; underlying work no longer represented as completed.
-5. **P2 unqualified/no-work target** — preview marks non-executable and server v2 refuses dispatch.
-6. **P1 retry/idempotency** — exact target advisory lock plus consumed/recent dispatch reuse.
-7. **P2 stale university search response** — option request generation allows only newest response to update state.
+The exact-head re-review of `fe69259a540fcbce36d39c340d40d6fe9bd391dd` found five further edge cases:
 
-The seven original review threads have been replied to with evidence and resolved. Fresh exact-head Codex review was requested for Pilot head `fe69259a540fcbce36d39c340d40d6fe9bd391dd` after exact-head CI passed.
+1. **P1 dispatch dedupe window** used preview creation time rather than actual dispatch time.
+2. **P2 in-flight preview invalidation** could leave UI `busy=true` after the stale response was ignored.
+3. **P2 runnable profile qualification** was not re-checking the valid current profile version used by runtime execution.
+4. **P2 university search change** could leave a hidden selected Provider UUID runnable after the result list changed.
+5. **P1 country scope canonicalisation** allowed arbitrary scope IDs to distinguish the same AU-wide workload and bypass dedupe.
 
-### Exact-head CI / security evidence
+All five are corrected at current Pilot candidate `b3203c9a4a4e44f79e79637d96b6e0f2ca408c59`; their review threads have remediation evidence and are resolved. A fresh exact-head Codex review is requested against that candidate.
 
-At `fe69259a540fcbce36d39c340d40d6fe9bd391dd`:
+### Exact-head CI / runtime / security evidence
 
-- Release History Contract `34554608690` — PASS.
-- Pilot Frontend Build/local browser smoke `34554608629` — PASS.
-- Runtime v1 public/private authenticated EXECUTE — false.
-- Runtime v2 public/private authenticated EXECUTE — true.
-- Runtime v2 public/private anon EXECUTE — false.
-- Security Advisor — **191 INFO / 0 WARN / 0 ERROR**, unchanged known `rls_enabled_no_policy` baseline.
+At `b3203c9a4a4e44f79e79637d96b6e0f2ca408c59`:
+
+- Release History Contract `34555446950` — PASS.
+- Pilot Frontend Build/local browser smoke `34555446880` — PASS.
+- Pilot runtime migration lineage includes `20260911023721 cf_093_scheduler_workflow_codex_second_pass`.
+- Country scope with an arbitrary non-null scope ID fails closed with `22023 country scope must not include a scope id`.
+- Current enabled/non-paused Course Facts profiles have no invalid current profile version at the checked runtime state; preview and dispatch now independently re-check this invariant.
+- v2 recent-dispatch lookup uses stored `consumed_at`.
+- Previously proven browser ACL remains: v1 execution unavailable; v2 authenticated public/private execution available; v2 anonymous execution denied.
+- Last Security Advisor check remains the known **191 INFO / 0 WARN / 0 ERROR** baseline; no CF-093 warning/error regression has been introduced.
 
 ### Explicitly unavailable
 
@@ -136,7 +141,7 @@ Required before merge:
 
 ## Rollback / recovery
 
-- Do not delete or rewrite applied migration identities `20260911021144`, `20260911021847` or `20260911022312`.
+- Do not delete or rewrite applied migration identities `20260911021144`, `20260911021847`, `20260911022312` or `20260911023721`.
 - UI target-builder changes can be reverted independently while retaining accepted v2.15.77 Phase A.
 - If a scope cannot be proven server-enforceable, disable/remove it rather than weakening worker/security contracts.
 
