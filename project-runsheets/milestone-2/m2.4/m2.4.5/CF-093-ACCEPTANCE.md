@@ -1,92 +1,85 @@
-# CF-093 Acceptance Plan
+# CF-CHG-20260910-093 Acceptance
 
-**Status:** PHASE A PASS / PHASE B TARGET BUILDER ACTIVE  
+**Status:** CLOSED / PASS — ACCEPTED TARGET-BUILDER BOUNDARY  
 **Updated:** 11 Sep 2026
 
-## Accepted Phase A — Scheduled Tasks operator catalogue
+## Accepted baseline
 
-Accepted Pilot main is `643eef810ab10ab9679ab6687ee549b0664c5691` after functional PR #67 and release-currentness PR #68. Visible Admin release remains **v2.15.77**.
+- Pilot functional target-builder PR **#69** merged as `85bc068d379ed3fc9231d167cf524e56419e80f9`.
+- Release-currentness PR **#70** merged as `cfc4702ba57a58ea31936dcabbd96fdd765194e2`.
+- Visible PIM Admin release: **v2.15.78**.
+- Post-merge Release History Contract `34579029903` — **PASS**.
+- Post-merge Pilot Frontend Build `34579029934` — **PASS**.
+- Post-merge CourseFinder Deployed UAT `34579029850` — **PASS**.
+- Codex review of the exact v2.15.78 release head `aa4fb9be7c0567b557092f52c218475fae9ba5a3` reported no major issues before merge.
 
-Phase A acceptance remains unchanged: PR #67 post-merge Release History `34550482710`, Frontend Build `34550482729`, Deployed UAT `34550482733`; PR #68 post-merge Release History `34553234972`, Frontend Build `34553235073`, Deployed UAT `34553235214` — all PASS. Production remains unchanged and no Production Supabase project exists.
+## Accepted Phase A
 
-## Phase B — target builder/orchestration
+Scheduled Tasks retains the accepted operator controls from v2.15.77: business-readable task/target labels, server-side search, durable creator/owner attribution, personal column preferences, audited bounded schedule edit, bounded Layer 1–2 Run on demand and explicit Jobs/Evidence follow-through. Layer 3 remains Evidence/profile/model/revalidation governed and Layer 4 remains audited human resolution.
 
-Pilot branch: `m245/cf093-target-builder-20260911`  
-Pilot PR: **#69**  
-Base: accepted v2.15.77 main `643eef810ab10ab9679ab6687ee549b0664c5691`.
+## Accepted Phase B — governed target builder
 
-The generic `refresh_policy_upsert_v2` remains unsuitable as a universal scope constructor because it does not prove downstream enforcement of country/state/provider selections. The Phase B slice therefore uses the existing server-authorised Layer 2 Course Facts scope services only.
+The accepted executable slice is deliberately narrow:
 
-### Applied Pilot runtime lineage
+- **Dataset:** Course Facts enrichment.
+- **Country:** AU only.
+- **Scope:** Country, State/Territory or University/Provider through server-authorised Layer 2 scope services.
+- **Processing mode:** Acquisition + deterministic Layer 2 only.
+- **Preview:** mandatory server-side preview before consequential dispatch; actor-bound, exact-target/mode-bound and time-limited.
+- **Qualification:** current valid source-profile version, required deterministic Layer 2 execution policy and per-profile scope no larger than the existing 1,000-course downstream contract.
+- **Dispatch:** live runnable-scope revalidation, exact-target locking, cross-operator recent-dispatch reuse and atomic empty-start rejection.
+- **Follow-through:** underlying Layer 2 Jobs/Evidence remain authoritative for actual processing state.
 
-1. `20260911021144 cf_093_scheduler_workflow_builder_slice` — initial AU Course Facts builder.
-2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix` — authenticated private-bridge EXECUTE restored while anon remains denied.
-3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency` — server preview token, v1 run retirement, exact-target locking/dedupe and truthful preview receipt semantics.
-4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass` — post-dispatch dedupe timing, valid-current-profile enforcement and canonical country-scope guard.
+The browser `scheduler_workflow_run_now_v1` path remains retired; governed execution uses the accepted v2 path.
 
-Applied migration identities are immutable; any further correction must be forward-only.
+## Runtime lineage
 
-### Current executable boundary
+Applied Pilot migrations are immutable and include:
 
-- AU only.
-- Course Facts enrichment only.
-- Country / State-Territory / University-Provider server-authorised scopes.
-- Processing mode: **Acquisition + deterministic Layer 2** only.
-- Same-actor exact-target server preview required and valid up to 15 minutes.
-- No runnable token when scoped current Layer 2 profile versions are absent/invalid or no executable work exists.
-- Dispatch re-checks profile validity before execution.
-- Country scope rejects a non-null scope ID.
-- Exact-target duplicate protection uses actual `consumed_at` dispatch time.
-- Scope/target/search changes invalidate browser preview state; stale option/preview responses cannot authorise another target.
-- Generic L3/L4 orchestration, Evidence reprocess and recurring scope construction remain unavailable.
-- Search/Publication remain downstream governed consequences only.
+1. `20260911021144 cf_093_scheduler_workflow_builder_slice`
+2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix`
+3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency`
+4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass`
+5. `20260911025332 cf_093_scheduler_workflow_codex_third_pass`
+6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
+7. `20260911052952 cf_093_scheduler_execution_policy_qualification`
+8. `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`
 
-### Codex history
+No applied migration was retimestamped or rewritten.
 
-Initial review of `216c2854...` produced seven actionable findings, all corrected and resolved.
+## Nominated functional acceptance
 
-Re-review of `fe69259a540fcbce36d39c340d40d6fe9bd391dd` produced five further findings:
+The final consequential acceptance used a genuinely policy-qualified AU Course Facts scope rather than the known-ineligible RMIT UP/Nova candidates. The accepted UQ scope preview covered **382 courses**. Dispatch was accepted; same-token retry and a second fresh-preview dispatch reused the original recent dispatch rather than creating duplicate acquisition. The underlying Layer 2 batch progressed and produced governed Evidence. No generic Layer 3 interpretation, Layer 4 resolution, Search admission or Publication side effect was observed from the target-builder run.
 
-1. P1 dedupe window based on preview creation rather than dispatch time;
-2. P2 stale preview invalidation could leave `busy` stuck;
-3. P2 executable check did not require a valid current Layer 2 profile version;
-4. P2 changing university search could leave a hidden selected Provider UUID runnable;
-5. P1 arbitrary country scope IDs could distinguish the same AU-wide workload and bypass dedupe.
+Earlier RMIT UP and Nova findings remain useful negative evidence: a scope without the required deterministic Layer 2 execution policy must fail closed before paid discovery/acquisition rather than manufacturing a policy to make UAT pass.
 
-All five are corrected at current Pilot candidate **`b3203c9a4a4e44f79e79637d96b6e0f2ca408c59`** and their review threads are resolved. A fresh exact-head Codex review is requested and remains the active merge blocker until it reports no new actionable finding.
+## Security and authority acceptance
 
-### Exact-head evidence at `b3203c9a...`
+- Anonymous and low-rank execution remain denied.
+- Private helpers remain outside the browser-facing contract and browser execution remains through authenticated/rank-gated public wrappers.
+- Unsupported processing modes and unenforceable scopes remain unavailable/fail closed.
+- Layer 1 authority is unchanged.
+- Layer 3 Evidence/profile/model/revalidation rules are unchanged.
+- Layer 4 remains human/exception resolution.
+- Search and Publication remain separate governed boundaries.
+- The existing Security Advisor informational RLS baseline was not weakened to pass CF-CHG-20260910-093.
 
-- Release History Contract `34555446950` — PASS.
-- Pilot Frontend Build/local browser smoke `34555446880` — PASS.
-- Cloudflare PR preview deployment for `b3203c9a...` — PASS.
-- Runtime migration history contains `20260911023721`.
-- Runtime negative proof: country scope plus arbitrary UUID returns `22023 country scope must not include a scope id`.
-- Current enabled/non-paused Course Facts runtime cohort has no invalid current profile version at the checked state.
-- Runtime v2 definition uses `consumed_at` for recent-dispatch dedupe.
-- Security remains at the previously checked **191 INFO / 0 WARN / 0 ERROR** baseline with no known CF-093 warning/error regression.
+## UAT recovery reconciliation
 
-## Nominated bounded functional acceptance target
+The first post-functional-merge deployed UAT run failed because the ranking workflow test still asserted historical visible release `v2.15.74`; its retry also observed a transient `admin_read('dashboard')` 500. The release-currentness follow-up corrected only the stale version-currentness assertion to derive the expected version from the maintained release-currentness source. No server-error assertion, authority boundary or UAT guardrail was relaxed. The subsequent post-merge deployed UAT for `cfc4702...` passed.
 
-Use **RMIT University Pathways, RMIT UP** (`30b81368-9003-4775-81af-60439fc3b109`) only after exact-head Codex is clean. It has three governed catalogue Courses at the recorded runtime state and is materially safer for the nominated preview -> dispatch acceptance than the 500-Course RMIT University scope.
+## Explicitly not authorised by this acceptance
 
-Required proof:
+- generic automatic L2 -> L3 -> L4 orchestration;
+- generic Layer 3 Evidence reprocessing;
+- arbitrary Layer 1 target construction;
+- NZ Layer 2 Course enrichment;
+- recurring country/state scope construction;
+- recurring university construction without a separately accepted enforceable contract;
+- implicit Search or Publication actions.
 
-1. fresh server preview token for the exact University target;
-2. preview remains executable and profile-qualified;
-3. one governed v2 dispatch with an explicit acceptance reason;
-4. immediate retry/double-submit reuses the same recent dispatch rather than creating paid duplicate acquisition;
-5. Jobs/Evidence follow-through reflects underlying Layer 2 truth rather than manufactured completion;
-6. no generic Layer 3, Layer 4, Search or Publication side effect;
-7. retain exact request/job/evidence identifiers as acceptance evidence.
+These remain future governed work and must not be inferred from this CLOSED/PASS change.
 
-## Exact next gate
+## Closure gate
 
-1. Obtain clean Codex review of `b3203c9a4a4e44f79e79637d96b6e0f2ca408c59`.
-2. Execute the nominated three-Course RMIT UP preview -> v2 dispatch -> idempotency/follow-through proof.
-3. Re-run targeted security/authority checks if the nominated run exposes any new runtime path.
-4. If clean, mark PR #69 ready and merge without changing visible release yet unless the release contract requires promotion in the same governed batch.
-5. Publish the next visible release only after the functional Phase B gate passes; then run deployed UAT/currentness/security reconciliation.
-6. Reconcile Change Control, REGISTER, RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT.
-
-Do not merge or bump the visible release while exact-head Codex or nominated runtime acceptance remains open.
+CF-CHG-20260910-093 is accepted and may be closed at the boundary above. Governance continuity must point to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above.
