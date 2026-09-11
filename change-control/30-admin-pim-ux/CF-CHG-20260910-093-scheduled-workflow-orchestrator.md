@@ -1,93 +1,143 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** ACTIVE — FRESH CODEX RE-REVIEW PENDING  
+**Status:** REOPENED — SOURCE/RUNTIME RECONCILIATION PASS; CONSEQUENTIAL ACCEPTANCE BLOCKER ACTIVE  
 **Initiated:** 2026-09-10 AEST  
+**Reopened:** 2026-09-11 AEST  
+**Reconciled:** 2026-09-12 AEST  
 **Category:** 30-admin-pim-ux  
 **Parent:** CF-CHG-20260910-092  
-**Pilot PR:** #67 (`m245/scheduled-workflow-orchestrator-20260910`)
+**Visible Pilot release:** v2.15.78  
+**Functional merge:** PR #69 -> `85bc068d379ed3fc9231d167cf524e56419e80f9`  
+**Release merge:** PR #70 -> `cfc4702ba57a58ea31936dcabbd96fdd765194e2`  
+**Corrective source/runtime reconciliation merge:** PR #71 -> `63c7107cfce2d8f607fc378af4881d0ba28ca879`
 
-## Objective
+## Objective and accepted narrow boundary
 
-Extend the accepted CF-092 Scheduled Tasks workspace with task-first operator labels, server-side search, durable creator/owner attribution, per-user column preferences and bounded run/schedule follow-through without changing the authority/security model.
+Provide a task-first Scheduled Tasks control plane without collapsing CourseFinder layer authority. The governed sequence remains:
 
-## Preserved authority and security boundaries
+`Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`
 
-- Browser scheduler reads/actions remain on governed public/rank-gated RPC contracts.
-- SECURITY INVOKER browser wrappers and private SECURITY DEFINER bridges remain independently rank-gated.
-- Layer 3 remains Evidence/profile/model/revalidation governed.
-- Layer 4 remains explicit human-resolution work.
-- Search/Publication admission is not an implicit result of ingestion or run-on-demand.
-- No service-role key, provider credential or private Evidence is exposed to browser code.
+The executable slice is deliberately narrow and server-enforced:
 
-## Codex corrective pass — 11 Sep 2026
+- Dataset: AU Course Facts enrichment only.
+- Scope: server-authorised Country / State-Territory / University-Provider selections, executable only when all qualification gates pass.
+- Processing: Acquisition + deterministic Layer 2 only.
+- Preview: mandatory, actor-bound, exact-target/mode-bound and time-limited.
+- Browser execution: authenticated rank-4 only; private helpers remain protected.
+- Layer 1 identity/authority unchanged.
+- Layer 2 remains deterministic source/Evidence acquisition under qualified profile, policy and runtime-usable route.
+- Layer 3 remains Evidence/profile/model/revalidation governed and is not a generic scheduler action.
+- Layer 4 remains audited human/exception resolution and is not a generic scheduler action.
+- Search/Publication remain separate downstream governed consequences.
+- Country/state recurring construction remains disabled; university recurrence requires a separately accepted enforceable contract.
+- Generic discovery-backed dispatch remains disabled/fail-closed until a Preview-bound asynchronous payload/continuation contract is implemented and accepted.
 
-Codex review of Pilot head `cf9bd3cc9019cde321f215875c8ba99a33e2748c` produced five actionable findings:
+The old browser `scheduler_workflow_run_now_v1` path remains revoked.
 
-1. P1 migration-ordering concern for `20260910213556_cf_093_resolved_actor_search_semantics.sql`.
-2. P2 scheduler search must treat `%` and `_` literally.
-3. P2 profile-scoped policies must preserve profile identity when `source_id` is also populated.
-4. P2 successful run-on-demand must immediately refresh the queue/recent Jobs panels.
-5. P2 independent supporting-panel failures must be surfaced rather than silently rendered as empty/stale.
+## Immutable Pilot runtime lineage
 
-## Repository/runtime reconciliation
+Applied identities are immutable; none may be rewritten or retimestamped:
 
-Live Pilot Supabase migration history was checked before deployment action. It already records:
+1. `20260911021144 cf_093_scheduler_workflow_builder_slice`
+2. `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix`
+3. `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency`
+4. `20260911023721 cf_093_scheduler_workflow_codex_second_pass`
+5. `20260911025332 cf_093_scheduler_workflow_codex_third_pass`
+6. `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
+7. `20260911052952 cf_093_scheduler_execution_policy_qualification`
+8. `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`
+9. `20260911085724 cf_093_scheduler_postmerge_codex_finalizer`
+10. `20260911095142 cf_093_scheduler_exact_scope_codex_finalizer`
+11. `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer`
+12. `20260911103931 cf_093_scheduler_runtime_semantics_finalizer`
+13. `20260911105517 cf_093_scheduler_browser_bridge_and_scope_binding_finalizer`
+14. `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer`
+15. `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
+16. `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`
 
-- `20260910213556` — `cf_093_resolved_actor_search_semantics`
-- `20260910215546` — `cf_093_scheduler_entity_labels`
+Repository source now carries the exact applied identities. Earlier pre-apply timestamp aliases were removed without changing runtime history.
 
-Accordingly, the Codex P1 recommendation was reconciled against runtime truth rather than applied literally. Removing or retimestamping either already-applied migration would create remote/local history drift. The branch retains those canonical applied identities. A duplicate later entity-label migration was removed.
+## Corrective history and Codex gate
 
-The forward literal-search correction was applied to Pilot through the governed Supabase migration service and recorded by runtime as:
+Post-merge Codex reviews exposed defects in dedupe exactness, route/credential qualification, discovery-target selection, preview atomicity, worker budget/cost parity, URL/host parsing, post-start scope validation, browser/private bridge ACLs, discovery query binding, asynchronous Preview binding, operator reason semantics and worker-order route fallback semantics.
 
-- `20260910221808` — `cf_093_literal_scheduler_search`
+Corrections were applied forward-only. The final runtime/source migration `20260911120131` ensures:
 
-The repository migration filename was reconciled to that exact applied runtime identity. No `--include-all` bypass is used.
+- discovery-backed scopes report a truthful unsupported-discovery reason;
+- deterministic provider-route qualification follows worker order/blocking/fallback semantics;
+- queueable URL allowlist references are parsed literally like `layer2-acquire-v2`.
 
-## Current implementation evidence
+Exact corrective head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` passed Pilot Frontend Build `34597632959`, Cloudflare preview, and exact-head Codex review; Codex comment `5634309865` reported **“Didn't find any major issues.”**
 
-Key corrective commits:
+## Source/runtime reconciliation — PASS
 
-- `564083b2cfb9e1b70b1c8420a6794c557bbb2ee2` — profile identity, panel error states, independent panel loading and post-run panel refresh.
-- `07ff6f82c1e136b8dd7283564a44d8d52084ee3a` — remove duplicate applied entity-label migration from branch history.
-- `8062ed9a862989fa06b9bcabd5d6cf619b7e889a` — release-history reconciliation for the Codex corrections.
-- `407f63effb255c9214638c61cf7df4645b2fc0dd` — current corrective head; repository migration identity reconciled to Pilot runtime `20260910221808`.
+Pilot runtime already contained all eight post-merge forward corrective migrations through `20260911120131`, while Pilot `main` lacked those exact migration source files and two maintained CF-CHG-20260910-093 UAT contracts. Under the recovery protocol, leaving that state unmerged would preserve repository/runtime drift and weaken clean replay/recovery truth.
 
-## Targeted acceptance evidence
+PR #71 therefore merged exact clean head `00c98f0cea...` to Pilot `main` as **`63c7107cfce2d8f607fc378af4881d0ba28ca879`** solely for source/runtime reconciliation. PR #71 contained no browser UI source change and introduced no runtime authority beyond what was already applied.
 
-Current Pilot candidate head: `407f63effb255c9214638c61cf7df4645b2fc0dd`.
+Post-merge evidence:
 
-- Pilot Frontend Build run `34536800843` — PASS; build, UAT suite discovery, local browser smoke and smoke-evidence upload all passed.
-- Release History Contract run `34536800985` — PASS.
-- Live scheduler literal-search proof after runtime migration: `%` returned 0 rows; `_` returned 3 rows versus 13 unfiltered rows, proving wildcard input no longer expands to all policies. Normal search `AU` returned 11 rows.
-- Live policy projection returned three policies carrying both `source_profile_id` and `source_id`, with profile keys preserved alongside source identity.
-- Security Advisor rerun after migration: no new CF-093 warning/error regression; existing project-wide `rls_enabled_no_policy` findings remain informational and pre-existing in scope.
-- `src/lib/supabase.js` confirms the Recent Jobs panel continues through the governed `admin_read('jobs')` browser boundary and throws read errors to the caller, allowing CF-093 panel-specific failure state to surface them.
+- Pilot Frontend Build `34655200676` — **PASS**.
+- CourseFinder Deployed UAT `34655200754` — **PASS**; targeted desktop governed validation passed, mobile gate intentionally skipped by targeted-tier routing.
+- Cloudflare Workers build `50ce255a-8c17-4319-a649-ef2113178254` — **PASS**.
+- Cloudflare Worker version `529075ea-affa-4a5e-951a-15e53689c8e2`.
+- Commit status `coursefinder/deployed-uat/targeted/chromium-desktop` — **success**.
+- Visible release remains v2.15.78 because no browser UI source changed in PR #71.
+- Security Advisor remains the known **191 INFO / 0 WARN / 0 ERROR** baseline.
 
-## Acceptance sequence
+This reconciliation PASS is not feature closure and does not waive consequential acceptance.
 
-Completed:
+## Current runtime consequential-target truth
 
-1. Repository/runtime migration identity reconciliation.
-2. Forward Pilot runtime correction only.
-3. Focused runtime search/profile projection proof.
-4. Pilot Frontend Build + local browser smoke PASS.
-5. Release History Contract PASS.
-6. Security Advisor check with no new CF-093 warning/error regression.
-7. CHANGELOG/release metadata reconciliation.
+No legitimate final acceptance target currently exists:
 
-Pending before merge:
+- RMIT University: **500 total / 261 queueable / 239 discovery**; has a governed execution policy but remains discovery-backed and therefore intentionally fail-closed in generic Scheduled Tasks.
+- University of Queensland: **382 / 156 / 226**; has a governed execution policy but remains discovery-backed and intentionally fail-closed.
+- Nova Higher Education: **1 queueable / 0 discovery**, route/oversize gaps 0, but **execution-policy gap 1**; profile is qualification-only under earlier source-qualification governance.
+- Stamford International College: **1 queueable / 0 discovery**, route/oversize gaps 0, but **execution-policy gap 1**; profile is qualification-only under earlier source-qualification governance.
+- Every inspected AU State/Territory scope remains discovery-backed and contains execution-policy gaps.
 
-8. Fresh Codex re-review of exact head `407f63effb255c9214638c61cf7df4645b2fc0dd` with no new actionable findings.
-9. Merge PR #67 only after the re-review gate is clean.
-10. Post-merge deployment and nominated deployed acceptance/currentness verification.
+No execution policy, source profile, route or runtime configuration may be manufactured merely to force acceptance green.
 
-## Rollback
+## Historical consequential evidence retained
 
-- UI changes can be reverted independently to the previous accepted PR head without altering accepted CF-092 runtime semantics.
-- Do not delete or rewrite migration-history entries already applied to Pilot.
-- Forward function corrections must be reverted through a new forward migration if required.
+Earlier UQ execution evidence remains audit evidence only: preview/dispatch token `18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; second preview `29df92d3-9071-4e6e-92db-0bc5b9daa111`; UQ scope `e55396d2-869a-46ef-9d17-841c7eab1313`; profile `c7976665-14f3-40ac-834b-a8ee1c8afc32`; profile version `9b3689b8-0d2a-4cde-a50f-b4fee4c06945`; Layer 2 request `5727`; representative Job `3445bc7a-0495-4c96-9321-43e581c81742`; HTML Evidence `8738fcf9-a4e6-47ac-9880-a57e4405b42b`; extraction-input Evidence `1d06a4ff-52aa-4a68-8e89-b661c7903e1f`.
 
-## Remaining gate
+This does not prove the now-disabled generic async discovery contract.
 
-**BLOCKER:** fresh Codex re-review for exact head `407f63effb255c9214638c61cf7df4645b2fc0dd` has been requested but no result is present yet. PR #67 must remain unmerged and production deployment must not proceed until that gate is clean.
+## Current acceptance/closure gate
+
+The following are PASS:
+
+1. exact-head Codex review;
+2. exact-head targeted CI/source/runtime validation;
+3. repository/runtime reconciliation merge;
+4. post-merge Frontend Build;
+5. post-merge deployed UAT;
+6. post-merge Cloudflare deployment/currentness.
+
+The only remaining closure gate is:
+
+7. **Preview → dispatch → dedupe/Jobs/Evidence consequential acceptance on a genuinely governed policy-qualified fully queueable deterministic Layer 2 target — BLOCKED BY CURRENT RUNTIME TRUTH.**
+
+CF-CHG-20260910-093 remains **REOPENED** until item 7 is legitimately satisfied or a separately governed substantive design decision replaces that requirement. This blocker does not authorise fabricated configuration, weaker Preview binding, weaker authority, weaker role/ACL controls or reduced Evidence semantics.
+
+## Explicitly outside this Change Control boundary / still open
+
+- NZ Layer 2 Course enrichment;
+- generic automatic L2 → L3 → L4 orchestration;
+- generic Layer 3 Evidence reprocessing;
+- arbitrary Layer 1 target construction;
+- country/state recurring target construction;
+- university recurring target construction without a separately accepted enforceable contract;
+- generic discovery-backed Scheduled Tasks until Preview-bound asynchronous payload/continuation verification is implemented;
+- implicit Search or Publication actions.
+
+## Rollback / recovery
+
+- Never delete, rewrite or retimestamp applied CF-CHG-20260910-093 migration identities.
+- Database corrections remain forward-only.
+- If a scope cannot be proven server-enforceable, keep it disabled rather than weakening worker, identity, Evidence or authority controls.
+- PR #71 source reconciliation can be reverted at repository level only if necessary for source recovery; already-applied runtime migrations must not be removed by history rewrite.
+
+**Current outcome:** source/runtime reconciliation is **PASS** at Pilot `63c7107c...`; the Change Control itself remains **REOPENED** solely for consequential acceptance on a legitimate deterministic Layer 2 target.

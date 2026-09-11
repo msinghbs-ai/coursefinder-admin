@@ -1,9 +1,23 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 ARCHITECTURAL HARDENING + CF-241 CLOSED / PASS  
+## Current H4 corrective gate — CF-CHG-20260910-093 REOPENED / SOURCE-RUNTIME RECONCILED — 12 September 2026
+
+- Pilot corrective PR #71 merged exact clean head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` to `main` as **`63c7107cfce2d8f607fc378af4881d0ba28ca879`** solely to reconcile repository source with already-applied Pilot runtime migrations; visible release remains **v2.15.78** because PR #71 contained no browser UI source change.
+- Latest immutable Pilot runtime/source migration is `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`; repository source and deployed runtime lineage are now aligned.
+- Pre-merge exact-head Frontend Build `34597632959` PASS and Codex review clean in comment `5634309865`.
+- Post-merge Frontend Build `34655200676` PASS; CourseFinder Deployed UAT `34655200754` PASS; Cloudflare Workers build `50ce255a-8c17-4319-a649-ef2113178254` PASS / Worker version `529075ea-affa-4a5e-951a-15e53689c8e2`.
+- Universal governed sequence remains `Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`; Preview cannot be bypassed where required by the execution contract.
+- Current executable intent remains AU Course Facts only, server-authorised Country/State-Territory/University-Provider scopes, Acquisition + deterministic Layer 2 only, authenticated rank-4 execution.
+- Generic asynchronous discovery is fail-closed; generic L3/L4, Evidence reprocess, NZ Layer 2, recurring country/state, unsupported recurring university and implicit Search/Publication remain disabled.
+- Security Advisor remains the known 191 INFO / 0 WARN / 0 ERROR baseline.
+- **CF-CHG-20260910-093 remains REOPENED.** Remaining closure blocker is consequential acceptance: RMIT/UQ have governed execution policies but are discovery-backed; Nova Higher Education and Stamford International College are fully queueable but are qualification-only profiles with execution-policy gap 1. Every inspected AU State/Territory scope remains discovery-backed with policy gaps. Do not manufacture policy/configuration or weaken authority merely to make UAT pass.
+- Production remains unchanged; M2.5 stays paused at P0.
+
+
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-CHG-20260910-093 REOPENED / CONSEQUENTIAL ACCEPTANCE BLOCKED  
 **Opened:** 2026-09-03 10:28 AEST  
-**Updated:** 2026-09-10 AEST  
-**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244  
+**Updated:** 2026-09-12 AEST
+**Change Control:** CF-CHG-20260903-087; active corrective gate CF-CHG-20260910-093
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
 **Successor:** M2.5 Production Readiness — PAUSED AT P0
 
@@ -107,7 +121,7 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 - Hotcourses/IDP own branding/placeholders remain non-canonical and are excluded;
 - reopen only under a new defect/freshness/change record.
 
-### H12 — ARWU & University Diversity Statistics — ACTIVE NEXT
+### H12 — ARWU & University Diversity Statistics — PARKED / SUPERSEDED AS NEXT GATE
 - add/complete ARWU as a first-class editioned ranking system alongside QS/THE;
 - reconcile current CF-093–100 implementation before adding anything;
 - support bounded AU/NZ real-data proof and multi-year history without overwriting prior editions;
@@ -127,19 +141,21 @@ Finish Pilot/Admin/PIM operational maturity before Production provisioning. M2.4
 - fail closed on auth failure, schema drift, missing edition or Provider identity ambiguity;
 - preserve manual Apply/acceptance before canonical ranking observations.
 
-## Gate order — reconciled 8 September 2026
+## Current gate order — reconciled 12 September 2026
 
-1. **H12 — ARWU & University Diversity Statistics — ACTIVE NEXT.**
-2. **H13 — bounded historical ranking acquisition/backfill/replay — QUEUED NEXT.**
-3. Close any remaining CF-090 ranking-import recovery dependency needed by H12/H13.
-4. H7 migration/telemetry reconciliation throughout.
-5. H8/H9 continuous intake/testing.
-6. H10 meeting pack continuously maintained.
-7. H14 external-consumer API key lifecycle remains separately OPEN/GOVERNED under CF-207.
-8. Final nominated M2.4.5 acceptance after remaining open gates are reconciled.
-9. Resume M2.5 P0 only after M2.4.5 closure.
+1. **CF-CHG-20260910-093 repository/runtime reconciliation is PASS.** PR #71 merged as `63c7107cfce2d8f607fc378af4881d0ba28ca879`; post-merge Frontend Build `34655200676`, deployed UAT `34655200754`, and Cloudflare Worker build `50ce255a-8c17-4319-a649-ef2113178254` all PASS.
+2. **CF-CHG-20260910-093 consequential acceptance remains the current blocking closure gate.** Wait for a genuinely governed policy-qualified fully queueable deterministic Layer 2 target produced by a legitimate operational lifecycle; do not manufacture configuration merely to obtain acceptance.
+3. **Near-term ranking continuation remains QS-focused after CF-CHG-20260910-093 closes.** Reconcile the current QS hardening/recovery state and any open QS Change Control against Pilot/runtime truth before selecting implementation work.
+4. **H12 ARWU / University Diversity generic dataset work is PARKED** by the 10 September roadmap decision and must not be resumed without a newer explicit governed change.
+5. **H13 generic historical ranking backfill/replay remains parked/conditional** except where a current QS-specific governed change explicitly requires bounded replay.
+6. H7 migration/telemetry reconciliation continues throughout.
+7. H8/H9 continuous intake/testing.
+8. H10 meeting pack continuously maintained.
+9. H14 external-consumer API key lifecycle remains separately OPEN/GOVERNED under CF-207.
+10. Final nominated M2.4.5 acceptance only after the remaining current open gates are reconciled.
+11. Resume M2.5 P0 only after M2.4.5 closure.
 
-Closed workstreams must not be repeated without a new defect/change record: H1, H3, H4, H5, H6 and H11.
+Closed workstreams must not be repeated without a new defect/change record: H1, H3, H5, H6 and H11. H4 base Scheduler/Jobs is historically accepted, but CF-CHG-20260910-093 remains reopened for consequential target-builder acceptance.
 
 ## 2026-09-03 10:45 AEST execution update
 

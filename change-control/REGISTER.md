@@ -1,12 +1,14 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 8 September 2026
+**Effective:** 11 September 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
 ## Current gate summary
 
+> **M2.4.5 SCHEDULED TASKS TARGET BUILDER:** `CF-CHG-20260910-093` is CLOSED / PASS at Pilot `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible v2.15.78. Accepted boundary is AU Course Facts, server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview and Acquisition + deterministic Layer 2 only. Post-merge Release History `34579029903`, Frontend Build `34579029934`, and Deployed UAT `34579029850` PASS. Broader generic L3/L4 orchestration, Evidence reprocess and unsupported recurring-scope construction remain separately gated; Production unchanged and M2.5 remains paused.
+>
 > **M1:** CLOSED / PASS / FROZEN under `CF-CHG-20260823-028`.
 >
 > **M2.1-L2-PLATFORM:** `CF-CHG-20260823-029` is CLOSED / PASS.
@@ -37,6 +39,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
+| CF-CHG-20260910-093 | 30-admin-pim-ux | Scheduled Tasks governed workflow orchestrator and bounded AU Course Facts target builder | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md` |
 | CF-CHG-20260910-092 | 30-admin-pim-ux | Scheduled Tasks configuration and governed run control | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260910-092-scheduled-jobs-config-controls.md` |
 | CF-CHG-20260908-244 | 70-security-platform | M2.4.5 architectural hardening & CF-241 runtime reconciliation | CLOSED / PASS | `70-security-platform/CF-CHG-20260908-244-m245-architectural-hardening-cf241-runtime-reconciliation.md` |
 | CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |

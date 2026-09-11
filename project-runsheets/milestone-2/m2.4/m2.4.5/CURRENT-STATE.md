@@ -1,5 +1,22 @@
 # M2.4.5 CURRENT STATE
 
+## CF-CHG-20260910-093 Scheduled Tasks target builder — REOPENED / SOURCE-RUNTIME RECONCILED / CONSEQUENTIAL ACCEPTANCE BLOCKED — 12 September 2026
+
+- **Current Pilot `main`:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`, source/runtime reconciliation merge of corrective PR #71 exact head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`.
+- **Visible PIM Admin release remains:** v2.15.78; PR #71 contained no browser UI source change and therefore did not require a release bump.
+- PR #71 merged only the eight already-applied forward migration source files through `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer` plus two maintained CF-CHG-20260910-093 UAT contracts. No new runtime authority was introduced by the merge.
+- Pre-merge exact-head Pilot Frontend Build `34597632959` PASS and Codex comment `5634309865` reported no major issues.
+- Post-merge Pilot Frontend Build `34655200676` — **PASS**.
+- Post-merge CourseFinder Deployed UAT `34655200754` — **PASS**; targeted desktop governed validation passed and the mobile gate was intentionally skipped by targeted-tier routing.
+- Cloudflare Workers build for `63c7107c...` — **PASS**, build `50ce255a-8c17-4319-a649-ef2113178254`, Worker version `529075ea-affa-4a5e-951a-15e53689c8e2`.
+- Latest immutable Pilot runtime/source migration remains `20260911120131`; repository source and deployed runtime migration lineage are now reconciled.
+- Builder authority remains AU Course Facts only: server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview, Acquisition + deterministic Layer 2 only, authenticated rank-4 execution.
+- Generic async discovery remains fail-closed; generic L3/L4, Evidence reprocess, NZ Layer 2 Course enrichment, recurring country/state, unsupported recurring university and implicit Search/Publication remain disabled.
+- Security Advisor remains the known 191 INFO / 0 WARN / 0 ERROR baseline.
+- **CF-CHG-20260910-093 remains REOPENED.** The remaining closure blocker is consequential acceptance on a genuinely governed policy-qualified fully queueable deterministic Layer 2 target. RMIT and UQ have execution policies but are discovery-backed; Nova Higher Education and Stamford International College are fully queueable but qualification-only profiles with execution-policy gaps and must not be promoted merely for UAT. No policy/configuration will be manufactured and no authority/UAT boundary weakened merely to force a pass.
+- Production unchanged; M2.5 remains paused at P0.
+
+
 ## CF-092 Scheduled Tasks configuration — CLOSED / PASS — 10 September 2026
 
 - **Accepted Pilot main:** `9305eb3a004d12724ec26b6bab65e1d4b1ab2239` after PR #66.
@@ -25,12 +42,12 @@
 - Post-merge Pilot Frontend Build `34224432855`: PASS.
 - Post-merge CourseFinder Deployed UAT `34224432694`: PASS.
 - H11 Provider Assets is already CLOSED / PASS under CF-101/102 with a governed **41 AU + 8 NZ** university cohort and **49/49 approved primary logos**.
-- **Next genuinely open feature gate: H12 ARWU & University Diversity Statistics**, followed by H13 bounded historical ranking backfill/replay.
+- **Historical 8 September pointer (superseded):** H12 ARWU & University Diversity Statistics was then recorded next. The later 10 September roadmap parks generic dataset ETL / ARWU / Diversity work; near-term ranking continuation is QS-focused unless newer governed repository/runtime truth supersedes it.
 - Production untouched; M2.5 remains paused until M2.4.5 closes.
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 / CF-241 CLOSED / PASS  
-**Updated:** 2026-09-08 AEST  
-**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-CHG-20260910-093 REOPENED / CONSEQUENTIAL ACCEPTANCE BLOCKED  
+**Updated:** 2026-09-12 AEST  
+**Change Control:** CF-CHG-20260903-087; active corrective gate CF-CHG-20260910-093
 
 ## CF-243 Compare UI bugfix — CLOSED / PASS — 7 September 2026
 
@@ -134,11 +151,11 @@ User upload `THE_year2026.txt` is confirmed present as private ranking Evidence 
 - Diversity Index is to remain a separate contextual dataset rather than being flattened into QS/THE/ARWU ranking semantics.
 - API/Parse.bot ranking fetch must converge with uploaded-file parsing into the same staging/validate/apply gate; credentials remain Vault-only.
 - CF-083/A32 repository cross-reference reconciliation is already complete. Current docs are v2.10.50 / v1.31, not v2.10.49 / v1.30.
-- No runtime/schema/Production change made by CF-091.
+- No runtime/schema/Production mutation is authorised by CF-091 planning.
 
 ## Execution priority — 2026-09-03 12:59 AEST
 
-Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102; active continuation now begins at H12.
+Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102. **This old H12 continuation pointer is superseded by the 10 September roadmap decision that parks generic ARWU/Diversity work; current near-term ranking continuation is QS-focused unless a newer governed change explicitly re-authorises H12.**
 
 Parked/continuous state at that checkpoint:
 - H2 residual Parse.bot authentication/qualification blocker;
