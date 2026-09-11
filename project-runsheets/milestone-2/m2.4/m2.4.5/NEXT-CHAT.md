@@ -13,7 +13,7 @@
 
 Pilot PR: **#69 — CF-093: add governed Scheduled Tasks target-builder slice**  
 Pilot branch: `m245/cf093-target-builder-20260911`  
-Current candidate: **`aae269c3c69fe3203a78f7bf5416bcf9ca3c7227`**  
+Current candidate: **`e1abc037c8c76b84639896177262470c7283df34`**  
 Admin governance PR: **#34** on the matching branch.
 
 Applied Pilot runtime lineage is immutable:
@@ -24,37 +24,52 @@ Applied Pilot runtime lineage is immutable:
 - `20260911023721 cf_093_scheduler_workflow_codex_second_pass`
 - `20260911025332 cf_093_scheduler_workflow_codex_third_pass`
 - `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
+- `20260911052952 cf_093_scheduler_execution_policy_qualification`
 
 Current executable boundary remains deliberately narrow: AU Course Facts Layer 2 only; server-authorised Country/State/University targets; Acquisition + deterministic Layer 2 only; server preview receipt required. Generic L3/L4 orchestration, Evidence reprocess and recurring country/state scope construction remain disabled; Search/Publication remain separate.
 
 ## Latest Codex / acceptance state
 
-Exact-head Codex review of `1210a018db...` returned two additional findings:
+Codex exact-head review of `aae269c3c69fe3203a78f7bf5416bcf9ca3c7227` returned **no major issues**.
 
-1. **P1:** recent exact-scope dedupe was still filtered by operator, so two rank-4 operators could submit duplicate paid acquisition for the same discovery-bearing target;
-2. **P2:** profile pause/disable could still race between the live preview statement and the later start statement, allowing a successful-looking empty `scope_started` result.
+Required nominated acceptance was then executed against Pilot runtime:
 
-Smallest-safe forward correction:
+- RMIT University Pathways / RMIT UP (`30b81368-9003-4775-81af-60439fc3b109`) preview was executable for 3 courses, all discovery-backed.
+- Consequential dispatch succeeded with request `5726`.
+- Immediate same-token retry returned `idempotent_replay=true`.
+- A fresh preview/dispatch under a different rank-4 operator returned `existing_recent_dispatch=true` and deduplicated against the first preview receipt, proving cross-operator exact-scope dedupe.
+- Jobs recorded only `scheduler_workflow_preview` plus the underlying `layer2_discovery`; no manufactured generic Layer 3/Layer 4/Search/Publication job was created.
+- The resulting Layer 2 discovery job completed with `selected=0 / processed=0`, so RMIT UP did not by itself prove Evidence production.
 
-- Pilot runtime migration `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass` is applied and represented by the same immutable repository identity;
-- preview-token ownership remains actor-bound, but recent successful exact-scope dispatch reuse is now operator-independent under the existing exact-scope advisory lock;
-- after `layer2_operator_scope_service(...,'start',...)`, the wrapper requires a non-empty `profiles` array inside the same transaction. An empty start raises, rolling back start-side effects instead of consuming the preview token as successful work;
-- targeted CF-093 tests prove only the preview-token lookup remains actor-scoped and assert the atomic empty-start rejection;
-- no Layer 1 authority, Layer 2 deterministic Evidence acquisition, Layer 3 Evidence/profile/model governance, Layer 4 human resolution, Search/Publication separation, rank/ACL boundary or unsupported-mode restriction was weakened.
+A second one-course queueable target, Nova Higher Education (`340f8a84-c04e-4a7c-ad43-1b37755b0018`), exposed a new fail-closed defect: preview reported executable, but dispatch failed in `layer2_run_batch_create` with **`execution policy missing`**.
 
-Exact-head CI for `aae269c3...`:
+Smallest-safe forward correction is now applied as immutable migration `20260911052952 cf_093_scheduler_execution_policy_qualification` and represented in repository history:
 
-- Release History Contract `34557840920` — running at this continuity write;
-- Pilot Frontend Build `34557840961` — queued at this continuity write.
+- fully queueable profiles (no discovery required) must have a `pipeline.layer2_execution_policies` row before preview can issue a token;
+- preview returns `missing_execution_policy_count` and a truthful block reason when the policy is absent;
+- dispatch re-checks the same policy qualification immediately before start;
+- discovery-backed profiles remain eligible because that execution path does not call `layer2_run_batch_create` and therefore does not require a run-batch policy;
+- helper function EXECUTE is revoked from browser roles; public browser wrappers and independent rank gates remain unchanged.
+
+Runtime negative proof after the correction: Nova now returns `executable=false`, `preview_token=null`, `missing_execution_policy_count=1`; RMIT UP remains executable with `missing_execution_policy_count=0`.
+
+Exact-head CI for `e1abc037...`:
+
+- Release History Contract `34566251054` — in progress at this continuity write;
+- Pilot Frontend Build `34566251196` — in progress at this continuity write.
+
+Exact-head Codex re-review requested in PR #69 comment `5629956836`.
 
 ## Exact next gate
 
-1. Confirm `34557840920` and `34557840961` PASS on exact head `aae269c3...`.
-2. Reply/resolve the two latest Codex threads with the fourth-pass evidence and request exact-head Codex re-review.
-3. Do not merge until that exact-head review is clean.
-4. Then execute the nominated bounded **RMIT University Pathways, RMIT UP** (`30b81368-9003-4775-81af-60439fc3b109`) acceptance: preview -> v2 dispatch -> immediate retry/dedupe -> Jobs/Evidence follow-through; verify no manufactured Layer 3/Layer 4/Search/Publication consequence.
-5. Only after functional acceptance: mark PR #69 ready, merge, publish/reconcile the next visible release and run deployed UAT/security/currentness.
+1. Confirm `34566251054` and `34566251196` PASS on `e1abc037...`.
+2. Obtain clean exact-head Codex review for `e1abc037...`.
+3. Run targeted negative acceptance for unauthenticated/low-rank/unsupported mode/invalid or mismatched preview paths against the current runtime.
+4. Select a **queueable target that also has a valid execution policy** and prove preview -> dispatch -> underlying Layer 2 Job/Evidence follow-through; the earlier Nova target is now correctly blocked because its required policy is missing.
+5. Verify no generic Layer 3/Layer 4/Search/Publication side effect.
+6. Do not merge PR #69 until the above acceptance is green.
+7. Only after functional acceptance: mark PR #69 ready, merge, publish/reconcile the next visible release and run deployed UAT/security/currentness.
 
 ## Pickup text
 
-> Continue CourseFinder M2.4.5 from repository/runtime truth. Accepted main is `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77. CF-093 Phase B is active in Pilot PR #69 at `aae269c3c69fe3203a78f7bf5416bcf9ca3c7227`; Pilot runtime is applied through immutable forward migration `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`. The latest Codex P1/P2 findings were corrected by operator-independent exact-scope dispatch dedupe and same-transaction rejection of an empty start result. Check exact-head CI, obtain clean Codex re-review, then run nominated RMIT UP bounded acceptance. Keep generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication disabled.
+> Continue CourseFinder M2.4.5 from repository/runtime truth. Accepted main is `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77. CF-093 Phase B is active in Pilot PR #69 at `e1abc037c8c76b84639896177262470c7283df34`; Pilot runtime is applied through immutable forward migration `20260911052952 cf_093_scheduler_execution_policy_qualification`. Codex was clean on the prior exact head, but nominated acceptance exposed a queueable-profile execution-policy gap. That is now fail-closed at preview and dispatch. Check exact-head CI/Codex, then prove a queueable target with a valid execution policy through Layer 2 Job/Evidence follow-through before merge. Keep generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication disabled.
