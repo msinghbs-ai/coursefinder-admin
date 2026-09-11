@@ -1,0 +1,86 @@
+name: CF-CHG-20260910-093 One-Off Continuity Sync
+
+on:
+  push:
+    branches:
+      - m245/cf093-target-builder-20260911
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: m245/cf093-target-builder-20260911
+          fetch-depth: 0
+      - name: Reconcile current governance continuity
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          pilot='cfc4702ba57a58ea31936dcabbd96fdd765194e2'
+          functional='85bc068d379ed3fc9231d167cf524e56419e80f9'
+
+          def read(p): return Path(p).read_text()
+          def write(p,s): Path(p).write_text(s)
+          def require(cond,msg):
+              if not cond: raise SystemExit(msg)
+
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/CURRENT-STATE.md'
+          s=read(p)
+          heading='# M2.4.5 CURRENT STATE\n'
+          require(s.startswith(heading),'CURRENT-STATE heading mismatch')
+          marker='## CF-CHG-20260910-093 Scheduled Tasks target builder — CLOSED / PASS — 11 September 2026'
+          if marker not in s:
+              block=f'''\n## CF-CHG-20260910-093 Scheduled Tasks target builder — CLOSED / PASS — 11 September 2026\n\n- **Accepted Pilot main:** `{pilot}` after functional PR #69 (`{functional}`) and v2.15.78 release-currentness PR #70.\n- **Visible PIM Admin release:** v2.15.78.\n- Accepted builder boundary is AU Course Facts only: server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview, Acquisition + deterministic Layer 2 only.\n- Preview/dispatch fail closed unless scoped profiles retain valid current versions, deterministic Layer 2 execution policies and no profile exceeds the existing 1,000-course downstream contract.\n- Dispatch revalidates live runnable scope and uses exact-scope locking/recent-dispatch reuse to prevent duplicate paid acquisition across operators.\n- Final policy-qualified UQ acceptance preview covered 382 courses; dispatch succeeded, repeat dispatch reused the original recent dispatch, governed Layer 2 Evidence was produced, and no generic Layer 3/Layer 4/Search/Publication side effect was observed.\n- Post-merge Release History `34579029903`, Pilot Frontend Build `34579029934`, and CourseFinder Deployed UAT `34579029850` — PASS.\n- Generic L2->L3->L4 orchestration, generic Evidence reprocess, arbitrary L1 construction, NZ L2 Course enrichment and unsupported recurring-scope construction remain unavailable.\n- Production unchanged; M2.5 remains paused at P0.\n\n'''
+              s=s.replace(heading,heading+block,1)
+              write(p,s)
+
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md'
+          s=read(p)
+          title='# M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness\n'
+          require(s.startswith(title),'RUNSHEET heading mismatch')
+          marker='## Latest accepted H4 enhancement — CF-CHG-20260910-093 CLOSED / PASS — 11 September 2026'
+          if marker not in s:
+              block=f'''\n## Latest accepted H4 enhancement — CF-CHG-20260910-093 CLOSED / PASS — 11 September 2026\n\n- Scheduled Tasks Phase A operator maturity plus the bounded Phase B target builder are accepted at Pilot `{pilot}` / visible v2.15.78.\n- Universal governed sequence is `Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`; Preview cannot be bypassed where required by the accepted execution contract.\n- Current executable target-builder slice is AU Course Facts only, server-authorised Country/State-Territory/University-Provider, Acquisition + deterministic Layer 2 only.\n- Profile-version, deterministic execution-policy and <=1,000-course/profile checks fail closed at preview and dispatch; live scope is revalidated at dispatch.\n- Final UQ acceptance covered 382 courses, deduplicated repeat dispatch and produced governed Layer 2 Evidence without generic L3/L4/Search/Publication effects.\n- Post-merge Release History `34579029903`, Frontend Build `34579029934`, and Deployed UAT `34579029850` all PASS.\n- Broader generic orchestration and unsupported recurring construction are not authorised by this closure. Production remains unchanged; M2.5 stays paused.\n\n'''
+              s=s.replace(title,title+block,1)
+              s=s.replace('**Updated:** 2026-09-10 AEST','**Updated:** 2026-09-11 AEST',1)
+              write(p,s)
+
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/FOLLOW-UPS.md'
+          s=read(p)
+          row=f'| M245-FU-032 | H4 / CF-CHG-20260910-093 | Scheduled Tasks operator maturity + governed AU Course Facts target builder | CLOSED / PASS | Pilot `{pilot}` / v2.15.78; functional PR #69 + release PR #70; UQ 382-course preview/dispatch Evidence acceptance; post-merge Release History `34579029903`, Frontend Build `34579029934`, Deployed UAT `34579029850` PASS. Broader generic orchestration remains separately gated. |\n'
+          if 'M245-FU-032 | H4 / CF-CHG-20260910-093' not in s:
+              table='|---|---|---|---|---|\n'
+              require(table in s,'FOLLOW-UPS table header missing')
+              s=s.replace(table,table+row,1)
+              write(p,s)
+
+          p='change-control/REGISTER.md'
+          s=read(p)
+          s=s.replace('**Effective:** 8 September 2026','**Effective:** 11 September 2026',1)
+          summary='> **M2.4.5 SCHEDULED TASKS TARGET BUILDER:** `CF-CHG-20260910-093` is CLOSED / PASS at Pilot `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible v2.15.78. Accepted boundary is AU Course Facts, server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview and Acquisition + deterministic Layer 2 only. Post-merge Release History `34579029903`, Frontend Build `34579029934`, and Deployed UAT `34579029850` PASS. Broader generic L3/L4 orchestration, Evidence reprocess and unsupported recurring-scope construction remain separately gated; Production unchanged and M2.5 remains paused.\n>\n'
+          if 'M2.4.5 SCHEDULED TASKS TARGET BUILDER' not in s:
+              anchor='## Current gate summary\n\n'
+              require(anchor in s,'REGISTER current-gate heading missing')
+              s=s.replace(anchor,anchor+summary,1)
+          row='| CF-CHG-20260910-093 | 30-admin-pim-ux | Scheduled Tasks governed workflow orchestrator and bounded AU Course Facts target builder | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md` |\n'
+          if '| CF-CHG-20260910-093 |' not in s:
+              table='|---|---|---|---|---|\n'
+              require(table in s,'REGISTER table header missing')
+              s=s.replace(table,table+row,1)
+          write(p,s)
+          PY
+
+          rm .github/workflows/cf-chg-20260910-093-continuity-sync-once.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add change-control/REGISTER.md project-runsheets/milestone-2/m2.4/m2.4.5/CURRENT-STATE.md project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md project-runsheets/milestone-2/m2.4/m2.4.5/FOLLOW-UPS.md .github/workflows/cf-chg-20260910-093-continuity-sync-once.yml
+          git diff --cached --check
+          git commit -m 'CF-CHG-20260910-093 reconcile continuity and register'
+          git push origin HEAD:m245/cf093-target-builder-20260911
