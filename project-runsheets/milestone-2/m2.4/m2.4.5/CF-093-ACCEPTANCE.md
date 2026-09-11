@@ -82,4 +82,4 @@ These remain future governed work and must not be inferred from this CLOSED/PASS
 
 ## Closure gate
 
-CF-CHG-20260910-093 is accepted and may be closed at the boundary above. Governance continuity must point to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above.
+CF-CHG-20260910-093 is accepted and may be closed at the boundary above. Governance continuity must point to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above. M2.4.5 remains ACTIVE overall and this closure does not advance M2.5 from its paused P0 gate.
