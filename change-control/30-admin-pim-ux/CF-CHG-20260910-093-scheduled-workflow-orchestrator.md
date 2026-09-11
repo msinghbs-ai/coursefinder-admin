@@ -97,7 +97,14 @@ This exposed a real qualification gap rather than a reason to weaken execution p
 
 Post-correction runtime proof: Nova now returns `executable=false`, `preview_token=null`, `missing_execution_policy_count=1`; RMIT UP remains executable with `missing_execution_policy_count=0`.
 
-Current Pilot candidate is `e1abc037c8c76b84639896177262470c7283df34`. Exact-head Release History `34566251054` and Frontend Build `34566251196` are running at this governance write. Exact-head Codex re-review was requested in PR #69 comment `5629956836`.
+Current Pilot candidate is `e1abc037c8c76b84639896177262470c7283df34`.
+
+- Release History Contract `34566251054` — **PASS**.
+- Pilot Frontend Build `34566251196` — **PASS**.
+- Pilot Security Advisor after the new forward migration — **191 INFO / 0 WARN / 0 ERROR**, unchanged known `rls_enabled_no_policy` baseline.
+- Exact-head Codex re-review requested in PR #69 comment `5629956836`; result pending at this governance write.
+
+Runtime inventory also confirms there is currently **no AU Course Facts profile that is both fully queueable and backed by a `pipeline.layer2_execution_policies` row**. Final queueable Job/Evidence acceptance therefore cannot be completed without first governing/configuring an execution policy through the normal operational control plane. No policy is being manufactured purely to make UAT pass.
 
 ### Explicitly unavailable
 
@@ -124,7 +131,7 @@ Current Pilot candidate is `e1abc037c8c76b84639896177262470c7283df34`. Exact-hea
 
 ## Active acceptance gate
 
-Do not merge PR #69 or bump the visible release until current exact-head CI, exact-head Codex re-review and targeted acceptance are green.
+Do not merge PR #69 or bump the visible release until current exact-head Codex re-review and targeted acceptance are green.
 
 Required before merge:
 
