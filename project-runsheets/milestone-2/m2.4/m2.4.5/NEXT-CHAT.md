@@ -55,21 +55,26 @@ Runtime negative proof after the correction: Nova now returns `executable=false`
 
 Exact-head CI for `e1abc037...`:
 
-- Release History Contract `34566251054` — in progress at this continuity write;
-- Pilot Frontend Build `34566251196` — in progress at this continuity write.
+- Release History Contract `34566251054` — **PASS**;
+- Pilot Frontend Build `34566251196` — **PASS**.
 
-Exact-head Codex re-review requested in PR #69 comment `5629956836`.
+Pilot Security Advisor after the forward migration remains **191 INFO / 0 WARN / 0 ERROR**; this is the unchanged known `rls_enabled_no_policy` baseline.
+
+Exact-head Codex re-review requested in PR #69 comment `5629956836`; result remains pending at this continuity write.
+
+## Remaining acceptance blocker
+
+No current AU Course Facts profile is both **fully queueable** and backed by a `pipeline.layer2_execution_policies` row. Therefore the required queueable preview -> batch dispatch -> Layer 2 Evidence follow-through cannot be proven without creating/changing operational execution-policy configuration. That configuration change is not being invented merely to satisfy UAT.
 
 ## Exact next gate
 
-1. Confirm `34566251054` and `34566251196` PASS on `e1abc037...`.
-2. Obtain clean exact-head Codex review for `e1abc037...`.
-3. Run targeted negative acceptance for unauthenticated/low-rank/unsupported mode/invalid or mismatched preview paths against the current runtime.
-4. Select a **queueable target that also has a valid execution policy** and prove preview -> dispatch -> underlying Layer 2 Job/Evidence follow-through; the earlier Nova target is now correctly blocked because its required policy is missing.
-5. Verify no generic Layer 3/Layer 4/Search/Publication side effect.
-6. Do not merge PR #69 until the above acceptance is green.
-7. Only after functional acceptance: mark PR #69 ready, merge, publish/reconcile the next visible release and run deployed UAT/security/currentness.
+1. Obtain clean exact-head Codex review for `e1abc037...`.
+2. Run targeted negative acceptance for unauthenticated/low-rank/unsupported mode/invalid or mismatched preview paths against the current runtime.
+3. Qualify/configure an existing queueable Course Facts profile with its governed Layer 2 execution policy through the normal admin/runtime control plane, then prove preview -> dispatch -> underlying Layer 2 Job/Evidence follow-through.
+4. Verify no generic Layer 3/Layer 4/Search/Publication side effect.
+5. Do not merge PR #69 until the above acceptance is green.
+6. Only after functional acceptance: mark PR #69 ready, merge, publish/reconcile the next visible release and run deployed UAT/security/currentness.
 
 ## Pickup text
 
-> Continue CourseFinder M2.4.5 from repository/runtime truth. Accepted main is `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77. CF-093 Phase B is active in Pilot PR #69 at `e1abc037c8c76b84639896177262470c7283df34`; Pilot runtime is applied through immutable forward migration `20260911052952 cf_093_scheduler_execution_policy_qualification`. Codex was clean on the prior exact head, but nominated acceptance exposed a queueable-profile execution-policy gap. That is now fail-closed at preview and dispatch. Check exact-head CI/Codex, then prove a queueable target with a valid execution policy through Layer 2 Job/Evidence follow-through before merge. Keep generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication disabled.
+> Continue CourseFinder M2.4.5 from repository/runtime truth. Accepted main is `643eef810ab10ab9679ab6687ee549b0664c5691`, visible v2.15.77. CF-093 Phase B is active in Pilot PR #69 at `e1abc037c8c76b84639896177262470c7283df34`; Pilot runtime is applied through immutable forward migration `20260911052952 cf_093_scheduler_execution_policy_qualification`. Exact-head Release History `34566251054` and Frontend Build `34566251196` PASS; Security Advisor remains 191 INFO / 0 WARN / 0 ERROR. Codex re-review is pending. Nominated acceptance exposed and corrected the queueable-profile execution-policy gap, but there is currently no fully queueable AU Course Facts profile with an execution policy, so final Job/Evidence acceptance remains blocked until one is governed/configured. Keep generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication disabled.
