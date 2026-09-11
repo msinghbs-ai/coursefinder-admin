@@ -1,0 +1,36 @@
+name: CF-CHG-20260910-093 One-Off Runsheet Fix
+
+on:
+  push:
+    branches: [m245/cf093-target-builder-20260911]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: m245/cf093-target-builder-20260911
+          fetch-depth: 0
+      - name: Align current runsheet closure pointer
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path('project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md')
+          s=p.read_text()
+          old='**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244  '
+          new='**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260910-093'
+          if old not in s:
+              raise SystemExit('expected RUNSHEET closure pointer missing')
+          p.write_text(s.replace(old,new,1))
+          PY
+          rm .github/workflows/cf-chg-20260910-093-runsheet-fix-once.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md .github/workflows/cf-chg-20260910-093-runsheet-fix-once.yml
+          git diff --cached --check
+          git commit -m 'CF-CHG-20260910-093 align runsheet closure pointer'
+          git push origin HEAD:m245/cf093-target-builder-20260911
