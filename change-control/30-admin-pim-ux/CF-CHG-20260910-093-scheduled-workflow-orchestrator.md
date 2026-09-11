@@ -9,7 +9,7 @@
 **Functional merge:** PR #69 -> `85bc068d379ed3fc9231d167cf524e56419e80f9`  
 **Release merge:** PR #70 -> `cfc4702ba57a58ea31936dcabbd96fdd765194e2`  
 **Corrective Pilot PR:** #71 (`m245/cf093-postmerge-codex-20260911`)  
-**Current corrective head:** `f3622ff51654969fcd37961392b82449eb372218`
+**Current corrective head:** `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`
 
 ## Objective and accepted narrow boundary
 
@@ -54,8 +54,13 @@ Applied identities are immutable; no applied migration may be retimestamped, rew
 13. `20260911105517 cf_093_scheduler_browser_bridge_and_scope_binding_finalizer`
 14. `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer`
 15. `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
+16. `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`
 
-Migration-history reconciliation on 11 September 2026: Pilot runtime had already applied `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer`, while PR #71 source temporarily carried the same migration under stale filename `20260911111622`. Source was corrected to the immutable applied identity `20260911111431` and the stale alias removed. The runtime identity was not retimestamped or rewritten.
+Migration-history reconciliation on 11 September 2026:
+
+- Pilot runtime had already applied `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer` while PR #71 source temporarily carried stale filename `20260911111622`; source was corrected to immutable runtime identity `20260911111431` and the stale alias removed.
+- Pilot runtime subsequently recorded `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`. The branch now carries that exact applied identity; the pre-apply source alias `20260911115830` was removed without changing migration semantics.
+- No applied migration was retimestamped or rewritten.
 
 ## Prior accepted deployed evidence
 
@@ -79,54 +84,38 @@ Codex then returned six actionable findings, including exact course/source scope
 
 ### Runtime semantics pass — `20260911103931`
 
-Codex then returned five P2 findings requiring post-start fingerprint validation, worker budget/cost parity, stricter URL parsing, rejection of no-op/partial starts and queueable source host allowlisting. The correction:
-
-- adds private strict HTTPS/host validation and rejects invalid ports;
-- validates queueable source URLs against current profile acquisition host allowlists;
-- qualifies routes through governed runtime configuration with enabled/non-Parsebot, credential, budget and cost gates;
-- requires every dispatch result to represent real exact work before Preview consumption;
-- recomputes the authoritative scope snapshot after `start` and raises in-transaction on drift.
+Codex then returned five P2 findings requiring post-start fingerprint validation, worker budget/cost parity, stricter URL parsing, rejection of no-op/partial starts and queueable source host allowlisting. The correction adds strict HTTPS/host validation, worker-aligned route qualification, exact dispatch-result checks, current-profile queueable URL allowlisting, and post-start scope-fingerprint revalidation inside the same transaction.
 
 ### Browser/query-binding pass — `20260911105517` / `20260911111431`
 
-The browser bridge remained authenticated/rank-4 gated while private helpers retained closed ACLs. Scope fingerprinting was expanded to bind current profile version and discovery query-driving course identity fields. Initial numeric-host parsing was tightened to canonical decimal IPv4 forms. The applied migration identity is `20260911111431`; source now matches that identity exactly.
+The browser bridge remains authenticated/rank-4 gated while private helpers retain closed ACLs. Scope fingerprinting binds current profile version and discovery query-driving course identity fields. Numeric-host parsing is fail-closed to canonical decimal IPv4 forms. Source matches applied identity `20260911111431` exactly.
 
-## Latest exact-head Codex findings on `f280cc712...`
+### Discovery fail-closed pass — `20260911114056`
 
-Codex reviewed PR #71 exact head `f280cc712071428c9ee28e811ae628a54f4d476b` on 11 September 2026 and returned **six actionable findings: one P1 and five P2**:
+Codex review found a P1 asynchronous Preview-binding defect plus five P2 runtime-parity defects. The smallest safe correction reduced authority rather than weakening Preview semantics: generic discovery-backed Scheduled Tasks now fail closed before a Preview token is issued; deterministic queueable Layer 2 remains eligible. The same migration validates non-direct provider base URLs, uses structured JSON scope hashing, and rejects legacy/hex numeric IPv4 representations.
 
-1. **P1 — asynchronous discovery Preview binding:** the nonce payload carried profile/course IDs only while the worker resolved live profile configuration and course query fields later, so an asynchronous request/continuation could fetch inputs not represented by the consumed Preview.
-2. **P2 — active batch before discovery:** a discovery-backed profile could be accepted as started while later deterministic auto-sync returned `already_running`/no-op.
-3. **P2 — provider base URL:** non-direct acquisition routes could qualify despite missing/malformed provider `base_url`, then fail asynchronously.
-4. **P2 — expanded discovery URL:** dummy `{query}` replacement did not prove the actual worker-expanded URL was valid when `{query}` appeared in unsafe URL components.
-5. **P2 — fingerprint encoding:** delimiter-concatenated arbitrary text permitted theoretical serialization collisions.
-6. **P2 — hexadecimal WHATWG IPv4:** hex/legacy numeric host spellings could bypass the canonical decimal guard or diverge from JavaScript `new URL()` handling.
+The separate capability to carry Preview-bound profile version, course inputs and expanded discovery targets through the async worker payload and every continuation remains **unimplemented** and is a prerequisite to re-enabling discovery-backed generic Scheduled Tasks.
 
-## Forward-only fail-closed correction — `20260911114056`
+### Operator-truth / route-chain finalizer — `20260911120131`
 
-The smallest safe correction was to reduce authority rather than retrofit an unproven asynchronous contract inside the review loop. Pilot runtime migration `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer` was applied forward-only and mirrored in PR #71. It:
+Codex exact-head review of `f3622ff516...` returned three additional P2 findings. Runtime/source migration `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer` corrects them forward-only:
 
-- makes every generic Scheduled Tasks scope containing discovery-backed work (`source_url is null`) fail closed before a Preview token can be issued;
-- relies on the run bridge's existing qualification recheck so generic discovery cannot be queued after an earlier Preview either;
-- leaves queueable deterministic Layer 2 available under the exact Preview/run contract;
-- validates non-direct provider `base_url` through the strict HTTPS helper in addition to existing enabled, non-Parsebot, credential, budget and cost rules;
-- replaces delimiter-concatenated scope fingerprint serialization with an ordered structured JSON array hash binding profile/version/course/source/discovery/query-driving fields;
-- rejects numeric/hex-like WHATWG IPv4 forms unless the host is exactly four canonical decimal octets;
-- preserves all prior ACL/rank gates and does not add any Layer 3, Layer 4, Search or Publication consequence.
+1. discovery-backed scopes expose a distinct `unsupported_discovery_count` and truthful operator block reason rather than reporting a false configuration fault;
+2. deterministic provider-route qualification evaluates worker route order and blocking/fallback semantics instead of accepting any later existentially usable route;
+3. queueable URL allowlist references are parsed literally, matching `layer2-acquire-v2`, with no scheduler-only `{query}` substitution.
 
-The separate capability to carry Preview-bound profile version, course inputs and expanded discovery targets through the nonce payload and every continuation remains **unimplemented** and is a prerequisite to re-enabling discovery-backed generic Scheduled Tasks. This is an explicit CF-093 follow-up; the orchestrator is not considered complete because of this missing capability.
-
-All six latest review threads were answered with forward-fix/runtime evidence and resolved. Exact-head Codex re-review was requested in PR #71 comment `5633932810` against `f3622ff51654969fcd37961392b82449eb372218`.
+All three review threads were answered with remediation evidence and resolved. Source was reconciled to the immutable applied runtime identity `20260911120131`; the stale pre-apply alias `20260911115830` is absent.
 
 ## Current runtime and exact-head evidence
 
-- Pilot exact candidate: `f3622ff51654969fcd37961392b82449eb372218`.
-- Pilot Frontend Build `34595439211` — **PASS**; job `103250001746` — **PASS**. Build, UAT suite discovery and local browser smoke passed on that exact head.
-- Runtime migration `20260911114056` is applied after immutable `20260911111431`.
-- Strict parser proof: canonical `1.2.3.8` accepted; `01.02.03.08`, `0x7f000001`, `0x7f.0.0.1`, `0x100000000` and port `65536` rejected; port `65535` accepted.
-- Nominated University of Queensland scope: **382 courses / 156 queueable / 226 discovery**, **0** execution-policy gaps, **0** oversize gaps and **0** route gaps; it now intentionally has **1 discovery gate gap** and is not executable from generic Scheduled Tasks until async Preview binding is implemented.
-- Queueable-only Nova Higher Education and Stamford International College scopes are discovery-gap-free but currently each has an existing execution-policy gap. No policy was manufactured merely to make acceptance pass.
+- Pilot exact candidate: `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`.
+- Pilot Frontend Build `34597632959` — **PASS**; build-and-smoke check `103257017648` — **PASS**.
+- Cloudflare Workers exact-head preview build `a5398593-1916-4224-8ac9-8d9f3165a1ab` / check `103257139984` — **PASS** for `00c98f0c`.
+- Runtime migration `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer` is applied after immutable `20260911114056` and `20260911111431`.
+- Nominated University of Queensland scope remains **382 courses / 156 queueable / 226 discovery** and is intentionally non-executable in generic Scheduled Tasks because discovery-backed execution is fail-closed.
+- Queueable-only Nova Higher Education and Stamford International College remain blocked by existing governed execution-policy gaps; no policy/configuration is being manufactured merely to force acceptance.
 - Security Advisor remains the known **191 INFO / 0 WARN / 0 ERROR** baseline.
+- Fresh exact-head Codex review was requested in PR #71 comment `5634267079` for `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`; no exact-head review result is recorded yet.
 
 ## Corrective acceptance gate
 
@@ -135,8 +124,8 @@ PR #71 is **draft/open and must not merge** until all of the following are true 
 1. required CI checks pass;
 2. targeted CF-093 source/runtime acceptance passes;
 3. all current Codex threads are reconciled against runtime evidence;
-4. exact-head Codex re-review of `f3622ff51654969fcd37961392b82449eb372218` is clean or any additional actionable finding is corrected forward-only;
-5. required queueable deterministic Layer 2 consequential/nominated acceptance is clean on an actually governed policy-qualified target;
+4. exact-head Codex re-review of `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` is clean or any additional actionable finding is corrected forward-only;
+5. required queueable deterministic Layer 2 consequential/nominated acceptance is clean on an actually governed policy-qualified target, or the lack of any such runtime target is explicitly reconciled as a fail-closed acceptance blocker without fabricating authority/configuration;
 6. post-merge deployed acceptance is green before CF-093 is returned to CLOSED/PASS.
 
 Discovery-backed generic acceptance is not a merge prerequisite while that capability is explicitly disabled; it cannot be claimed implemented until the separate Preview-bound asynchronous contract exists.
