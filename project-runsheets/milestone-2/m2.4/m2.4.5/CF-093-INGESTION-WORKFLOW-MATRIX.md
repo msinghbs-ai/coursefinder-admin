@@ -1,6 +1,6 @@
-# CF-093 — Ingestion workflow orchestration matrix
+# CF-CHG-20260910-093 — Ingestion workflow orchestration matrix
 
-**Status:** ACTIVE IMPLEMENTATION AUTHORITY  
+**Status:** ACCEPTED IMPLEMENTATION AUTHORITY FOR CURRENT BOUNDARY  
 **Change Control:** CF-CHG-20260910-093  
 **Updated:** 11 September 2026
 
@@ -24,7 +24,9 @@
 
 ## Universal operator target model
 
-`Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Run now / Schedule`
+`Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`
+
+**Preview is part of the universal governed sequence.** A consequential Run now or Schedule control must not bypass the applicable server-authorised preview/qualification boundary.
 
 Processing modes are governed capabilities, not client-side switches:
 
@@ -34,27 +36,29 @@ Processing modes are governed capabilities, not client-side switches:
 
 Search and Publication remain downstream governed consequences, never selectable ingestion layers.
 
-## Current executable slice
+## Accepted executable slice
 
-As of Pilot runtime migration `20260911021144 cf_093_scheduler_workflow_builder_slice`, Scheduled Tasks may build and preview only **AU Layer 2 Course Facts** targets using the existing server-authorised Layer 2 scope services:
+At accepted Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible **v2.15.78**, Scheduled Tasks can build, preview and dispatch only **AU Layer 2 Course Facts** targets through the existing server-authorised Layer 2 scope services:
 
 - Country = AU;
-- Scope = Country, State/Territory, or University/Provider;
+- Scope = Country, State/Territory or University/Provider;
 - Run mode = **Acquisition + deterministic Layer 2** only;
-- preview returns catalogue, queueable, discovery-needed and active-run counts;
-- execution delegates to the existing governed `layer2_operator_scope_service` rather than manufacturing browser-side targets;
-- a durable dispatch record is written to governed Jobs.
+- server preview is mandatory before consequential dispatch;
+- profile version, deterministic Layer 2 execution policy and current scope size are revalidated server-side;
+- one profile may not exceed the existing 1,000-course downstream service contract;
+- exact-target dispatch is serialised/deduplicated and recent successful work is reused across operators;
+- execution delegates to governed Layer 2 service contracts rather than manufacturing browser-side targets;
+- underlying Layer 2 Jobs/Evidence remain authoritative for processing state.
 
-Not yet executable from this builder:
+## Not executable from this builder
 
 - NZ Layer 2 Course enrichment;
 - automatic generic L2 -> L3 -> L4 orchestration;
 - generic Layer 3 Evidence reprocessing;
 - arbitrary L1 dataset construction;
 - country/state recurring schedule creation;
+- university recurring schedule creation without a separately accepted enforceable resolver/constructor;
 - any scope the worker cannot enforce server-side.
-
-University recurring scheduling is only **potentially eligible** after a verified single-profile mapping. It is not enabled by the current UI/runtime slice.
 
 ## Implementation boundary
 
