@@ -1,143 +1,155 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** IMPLEMENTATION / TARGETED ACCEPTANCE ACTIVE  
+**Status:** IMPLEMENTED / OPERATOR-CATALOGUE ACCEPTED — ORCHESTRATOR TARGET BUILDER FOLLOW-UP OPEN  
 **Initiated:** 2026-09-10 21:44 AEST  
+**Updated:** 2026-09-11 11:31 AEST  
 **Origin:** Scheduled Tasks operator UX review  
 **Owner:** CourseFinder programme  
 **Primary category:** 30-admin-pim-ux  
-**Related categories:** 20-layer1-regulatory-ingestion, 40-layer2-enrichment, 80-uat-release-operations
+**Related categories:** 20-layer1-regulatory-ingestion, 40-layer2-enrichment, 70-security-platform, 80-uat-release-operations
 
-## Problem
+## Baseline and authority
 
-The accepted v2.15.76 Scheduled Tasks surface exposes bounded policies using raw source/profile UUID targets. Operators cannot reliably determine which dataset or business workflow a schedule represents, and on-demand execution can only replay an existing bounded policy rather than present a task-first target builder.
+CF-093 extends the accepted CF-092 / v2.15.76 scheduler baseline. It does not replace scheduler policy/audit/idempotency semantics and does not create a generic Layer 3 execution bypass.
 
-## Requested outcome
+Authority remains:
 
-Add one governed task-first workflow-orchestration experience that can be reused across Layer 1 authoritative/statistical ingestion, Layer 2 deterministic enrichment, conditional Layer 3 Evidence interpretation and Layer 4 exception routing without weakening layer authority boundaries.
+`Layer 1 authoritative/reference -> Layer 2 deterministic enrichment -> Layer 3 governed Evidence interpretation -> Layer 4 human exception resolution -> governed consumer/publication boundary`.
 
-The operator model is:
+Search/Publication remain downstream consequences rather than ingestion stages. Scholarship Provider ownership alone never creates Course eligibility.
 
-`Job / Dataset -> Country -> Scope -> Target -> Processing mode -> Run now or Schedule`
+## Requested operator model
 
-Human-readable business labels must be primary. Technical policy/source/profile IDs remain available only under progressive-disclosure technical details.
+The target end state remains:
 
-## Initial governed workflow catalogue
+`Job / Dataset -> Country -> Scope -> Target -> Processing mode -> Run now or Schedule`.
 
-- Layer 1 regulatory/reference: AU CRICOS, NZQA, QILT, PRISMS, QS, THE and future qualified ranking/reference datasets.
-- Layer 2 deterministic enrichment: Course facts/URLs/fees/intakes/requirements, Scholarships, Provider Assets and supporting Evidence acquisition.
-- Combined L2 -> conditional L3: Course fields requiring Evidence interpretation, Provider international contacts and other profile-qualified interpretation work.
-- L2 -> conditional L3 -> L4 exceptions: ambiguous contacts, eligibility/scope or other unresolved governed interpretations.
-- L1 -> conditional L4: ambiguous Provider mapping for publisher ranking/reference datasets.
-- Search/Publication remain downstream consequences and are not ingestion stages.
+CF-093 has now delivered the reusable **Scheduled Tasks operator catalogue/read-control layer** on top of existing bounded policies. The separate arbitrary scope/target construction/orchestration portion is not yet implemented and must not be claimed as accepted functionality.
 
-## Authority / safety rules
+## Accepted implementation — Pilot
 
-1. Layer 1 identity/authority cannot be redefined by L2/L3/L4 shortcuts.
-2. Layer 3 may run only against governed Evidence/profile/model/revalidation contracts.
-3. Layer 4 is exception/human resolution and must preserve source/Evidence/history.
-4. Scholarship Provider ownership alone must not manufacture Course eligibility.
-5. On-demand execution must not silently alter recurring cadence/next-run state.
-6. Browser reads/writes remain through governed RPC/control surfaces; no service-role or provider secrets are exposed.
-7. Existing v2.15.76 CF-092 scheduler acceptance remains the baseline; changes extend rather than bypass its policy/audit/idempotency semantics.
+Pilot implementation PR **#67** merged to `main` at:
 
-## Operator experience additions — 11 September 2026
+- merge commit: `912572203e4f53ac081617b0ea567c9298cab84d`;
+- functional candidate reviewed before merge: `780049340a1a282168acffbf429ae09a8cd82864`;
+- package candidate: `0.1.4`.
 
-The scheduler is also an operational catalogue, therefore CF-093 includes:
+Accepted operator-catalogue behaviour includes:
 
-- durable **Created By** attribution for schedules and durable actor display snapshots for schedule actions;
-- no destructive dependency on a live user-directory row: removed users retain historical attribution as a former user while the immutable actor UUID remains available for audit;
-- system/bootstrap/legacy schedules remain explicitly identified and are never assigned a fabricated person;
-- optional **Owner** presentation distinct from creator attribution so future operational ownership transfer can be added without rewriting creator history;
-- fast task search over dataset/source, country, target, owner/creator and technical ID;
-- user-selectable columns and column ordering, with reset to governed defaults;
-- personal UI layout state kept separate from scheduler execution policy;
-- sticky/frozen Actions for wide operational tables;
-- technical UUIDs visible as secondary support/audit information rather than primary task names.
+- human-readable task/dataset/target labels with technical IDs retained as secondary audit detail;
+- source-profile identity retained when both source and profile IDs exist;
+- Provider/Course/Campus/Scholarship entity targets resolved to governed business labels where available;
+- search across dataset, country, target, creator, owner and technical identifiers before pagination;
+- literal `%`, `_` and escape-safe search semantics;
+- raw and humanised dataset search such as `course_facts` and `Course Facts`;
+- durable Created By attribution and optional Owner presentation;
+- deleted/currently banned users shown as former users without destroying immutable audit identity;
+- system/bootstrap/legacy policies explicitly non-human;
+- per-user browser-local column visibility/order with hydration-before-persistence and Reset view;
+- sticky Actions and direct Jobs/Evidence follow-through;
+- explicit per-panel unavailable/error states instead of false empty operational state;
+- sequenced policy and supporting-panel loads so stale responses cannot overwrite newer operator state;
+- post-edit page reset/clamp and post-run queue/Jobs refresh;
+- direct Run on demand still limited to executable bounded Layer 1–2 policies;
+- Layer 3 remains Evidence/profile/model/revalidation governed.
 
-Identity snapshots may retain internal email for audit continuity, but scheduler browser list responses expose display attribution only. Account deletion/disablement must not make historical task or action records anonymous.
+Browser list reads do not project retained internal email snapshots.
 
-## Implementation evidence
+## Database/runtime evidence
 
-Pilot branch: `m245/scheduled-workflow-orchestrator-20260910`  
-Pilot PR: `#67`  
-Current corrective head: `780049340a1a282168acffbf429ae09a8cd82864`  
-Package candidate: `0.1.4`; visible Admin release remains v2.15.76 until release-currentness acceptance is complete.
+Pilot Supabase project: `fxcwkweaxjtknorudmwp`.
 
-Material implementation includes:
-- `src/ScheduledJobsWorkspace.jsx` — search, business-readable task/source labels, Created By/Owner presentation, hydrated per-user column visibility/order, technical-ID secondary display, independent policy/panel request-generation sequencing, policy-search isolation from unrelated panels, post-edit page reset/clamp, per-panel unavailable state, and load-owned busy/error state;
-- `src/scheduled-jobs-config.css` — operator toolbar, column chooser and sticky Actions treatment;
-- `supabase/migrations/20260911052000_cf_093_scheduler_operator_attribution.sql` — creator/action snapshots and enriched rank-gated schedule read projection;
-- `supabase/migrations/20260911053600_cf_093_codex_review_fixes.sql` — query-before-pagination search and deleted/banned account-state correction; this applied migration remains immutable;
-- `supabase/migrations/20260910213556_cf_093_resolved_actor_search_semantics.sql` — exact Pilot-applied identity for resolved creator/owner search semantics;
-- `supabase/migrations/20260910215546_cf_093_scheduler_entity_labels.sql` — exact Pilot-applied identity for canonical Provider/Course/Campus/Scholarship scheduler labels;
-- `supabase/migrations/20260910221808_cf_093_literal_scheduler_search.sql` — exact Pilot-applied identity for literal `%`, `_` and escape handling;
-- `supabase/migrations/20260910232606_cf_093_scheduler_search_finalizer.sql` — restored exact Pilot-applied finalizer identity;
-- `supabase/migrations/20260911001117_cf_093_scheduler_search_codex_final.sql` — exact Pilot-applied latest Codex correction identity, preserving raw/humanised dataset-domain and former-user rendered-label search semantics;
-- `supabase/migrations/20260911054000_cf_093_scheduler_search_finalizer.sql` — later clean-replay finalizer that re-applies the final bridge semantics after older CF-093 function definitions;
-- `tests/uat/cf-093-scheduled-workflow-operator-contract.spec.mjs` — additive source/security/operator UX contract covering current Codex regression cases and exact runtime migration identities.
+Applied CF-093 migration lineage currently ends at:
 
-Pilot runtime migration truth includes `20260910194125 cf_093_scheduler_operator_attribution`, `20260910194149 cf_093_codex_review_fixes`, `20260910213556 cf_093_resolved_actor_search_semantics`, `20260910215546 cf_093_scheduler_entity_labels`, `20260910221808 cf_093_literal_scheduler_search`, `20260910232606 cf_093_scheduler_search_finalizer`, and `20260911001117 cf_093_scheduler_search_codex_final`. Repository history now carries each of those applied identities; no migration repair or `--include-all` bypass is used.
+- `20260910194125 cf_093_scheduler_operator_attribution`;
+- `20260910194149 cf_093_codex_review_fixes`;
+- `20260910213556 cf_093_resolved_actor_search_semantics`;
+- `20260910215546 cf_093_scheduler_entity_labels`;
+- `20260910221808 cf_093_literal_scheduler_search`;
+- `20260910232606 cf_093_scheduler_search_finalizer`;
+- `20260911001117 cf_093_scheduler_search_codex_final`.
 
-## Codex review reconciliation — 11 September 2026
+The public scheduler list wrapper remains `SECURITY INVOKER`; its private security bridge independently requires curator-or-higher rank. Production Supabase does not exist and no Production state was changed.
 
-Initial and subsequent review findings corrected:
+The final Codex P1 concerning a hypothetical environment where repository-only migration `20260911054000` had already become the remote head was reconciled against actual runtime truth and closed as non-actionable: Pilot has `20260911001117` as its latest CF-093 runtime identity, `coursefinder-demo` is still on older 20260810 lineage, and there is no Production Supabase project. No migration-history repair or `--include-all` bypass was introduced.
 
-1. **Search before pagination** — query filtering and filtered totals occur before `LIMIT/OFFSET`.
-2. **Refresh queue distinguishability** — queue rows retain an exact technical bounded target when labels are absent.
-3. **Deleted/disabled user state** — soft-deleted/currently banned accounts display as former users.
-4. **Stale scheduler search responses** — policy reads use monotonically increasing request generations.
-5. **Post-submit busy race** — sequenced policy loading owns busy state after mutation.
-6. **Resolved owner/creator search** — visible resolved attribution is searchable.
-7. **Post-edit pagination validity** — mutation refresh resets/clamps paging.
-8. **Policy-search isolation** — supporting panel failures cannot preserve stale policy results.
-9. **Entity-scoped labels** — Provider/Course/Campus/Scholarship schedules resolve canonical business labels.
-10. **Profile identity preservation** — profile identity remains primary when both source/profile IDs exist.
-11. **Literal search** — `%`, `_` and escape characters are treated as operator literals.
-12. **Run-now follow-through** — successful run-on-demand refreshes queue/Jobs/context panels.
-13. **Panel failure truthfulness** — overview/context/Jobs failures remain explicit per-panel states.
-14. **Fresh migration replay ordering** — final bridge semantics are re-applied after the later CF-093 definitions.
-15. **Post-run query race** — post-run policy reload starts before panel refresh, allowing a later search generation to supersede it.
-16. **Focused UAT currentness** — regression contract references the reconciled migration files and current sequencing.
-17. **Overlapping panel refresh race** — independent overview/context/Jobs loads use `panelGeneration`; only the newest completion updates operational state.
-18. **Humanised dataset-label search** — visible `Course Facts` matches underlying `course_facts` profiles.
-19. **Applied finalizer migration identity** — repository now retains `20260910232606` exactly as recorded by Pilot, while a separate later finalizer handles clean-replay ordering.
-20. **Column preference hydration** — authenticated-user preferences hydrate before persistence, preventing the initial default render from erasing saved column order/visibility.
-21. **Former-user rendered-label search** — total/items predicates include `Former user — <display>` for deleted/banned creator and owner rows, matching the UI representation.
-22. **Raw dataset-domain search preservation** — raw `course_facts` and humanised `Course Facts` are separate searchable forms; literal wildcard semantics remain intact.
+## Codex correction record
 
-Runtime verification after the latest correction confirmed three bounded matches for raw `course_facts` and three for humanised `Course Facts`. Security Advisor remains at the existing 191 INFO-only `rls_enabled_no_policy` baseline; no new WARN/ERROR was introduced.
+Material Codex findings corrected during implementation include:
 
-The public scheduler list wrapper remains `SECURITY INVOKER`, the private bridge independently rank-gates curator access, stored email snapshots are not projected to the browser, and Layer 3 remains Evidence/profile/model-qualified rather than becoming generically runnable from Scheduled Tasks.
+1. search before pagination and filtered totals;
+2. distinguishable refresh-queue targets;
+3. deleted/banned actor classification;
+4. canonical entity labels;
+5. stale policy-search sequencing;
+6. post-submit busy-state race;
+7. resolved owner/creator search;
+8. post-edit page validity;
+9. isolation of policy search from supporting reads;
+10. source-profile identity preservation;
+11. literal search handling;
+12. immediate queue/Jobs follow-through after Run on demand;
+13. truthful supporting-panel error state;
+14. clean migration replay finalisation;
+15. post-run search-generation race;
+16. focused UAT migration/currentness references;
+17. overlapping panel refresh sequencing;
+18. humanised plus raw dataset-domain search;
+19. exact applied migration identity retention;
+20. personal-column hydration before persistence;
+21. former-user rendered-label search semantics.
 
-## Current acceptance state
+## Acceptance evidence
 
-Exact current Pilot head `780049340a1a282168acffbf429ae09a8cd82864`:
-- Pilot Frontend Build `34545457889` — PASS.
-- Release History Contract `34545457887` — PASS.
-- Pilot runtime latest CF-093 migration `20260911001117 cf_093_scheduler_search_codex_final` — APPLIED.
-- Security Advisor — 191 INFO / 0 WARN / 0 ERROR, unchanged known baseline.
-- Fresh exact-head Codex re-review requested in PR #67 comment `5627311501`.
+Exact pre-merge candidate `780049340a1a282168acffbf429ae09a8cd82864`:
 
-Do not merge/deploy or promote the visible release until that exact-head Codex review has no actionable finding and the governed post-merge deployment/currentness sequence completes.
+- Pilot Frontend Build `34545457889` — PASS;
+- Release History Contract `34545457887` — PASS;
+- Cloudflare candidate deployment — PASS.
 
-## Acceptance target
+Post-merge main `912572203e4f53ac081617b0ea567c9298cab84d`:
 
-- task-first human-readable Scheduled Tasks UI;
-- universal scope/target builder using only server-authorised options;
-- explicit processing modes: automatic governed pipeline, acquisition only, reprocess governed Evidence where eligible;
-- run preview before consequential dispatch;
-- durable operator reason/audit;
-- durable creator attribution including former-user fallback;
-- task search and personal column visibility/order reset behaviour;
-- stale/debounced policy or supporting-panel responses cannot replace newer operational state;
-- direct follow-through to resulting Job and Evidence;
-- scheduler/history tables show business workflow labels, scope and latest result rather than raw UUIDs;
-- UUIDs available under Technical details;
-- negative/rank/browser security paths preserved;
-- targeted contract/build/UAT then nominated deployed acceptance;
-- visible release/version and CHANGELOG updated for browser-facing behaviour;
-- RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT reconciled before closure.
+- Release History Contract `34550482710` — PASS;
+- Pilot Frontend Build `34550482729` — PASS;
+- CourseFinder Deployed UAT `34550482733` — PASS; desktop governed validation PASS, mobile gate correctly skipped by targeted-tier routing.
 
-## Implementation note
+Security Advisor remains at the pre-existing **191 INFO / 0 WARN / 0 ERROR** baseline; no CF-093 security regression was introduced.
 
-Implementation must first inventory currently executable runtime source/profile/policy contracts. Do not expose a workflow option merely because a future design exists. Unsupported country/state/provider granularity must be disabled or clearly marked unavailable rather than simulated client-side.
+## Visible release currentness
+
+The functional merge is accepted, but visible release synchronisation is intentionally a separate final step rather than being hidden inside the implementation merge.
+
+Pilot PR **#68 — `CF-093: publish v2.15.77 release currentness`** is the current release gate. It must synchronise:
+
+- `src/release-currentness-entry.js`;
+- `src/pim-version-entry.js` retained release history;
+- `src/mature-main.jsx` `UI_VERSION`;
+- `index.html` title;
+- maintained release-history contract;
+- resulting build/deployed currentness evidence.
+
+Until PR #68 passes and merges, **v2.15.76 remains the accepted visible release** even though CF-093 functional code is deployed on Pilot main.
+
+## Explicit remaining scope
+
+The following original CF-093 outcome is **not yet implemented** and remains open rather than being inferred from the improved policy catalogue:
+
+- universal server-authorised scope/target builder;
+- creation of a new bounded schedule/run from Country/State/Provider/University/entity selections where the underlying worker actually supports that scope;
+- explicit processing-mode selection such as Automatic governed pipeline / Acquisition only / Reprocess governed Evidence;
+- consequential run preview before constructing a new bounded dispatch;
+- cross-layer orchestrator that can progress L2 -> conditional L3 -> L4 exception routing while retaining distinct Jobs/Evidence/authority boundaries.
+
+Current Run on demand still executes an **existing bounded scheduler policy by policy ID**. Unsupported state/provider/entity scopes must not be simulated client-side.
+
+Before implementing this remaining phase, inventory each ingestion worker/source/profile request schema and expose only server-enforceable bounds. Scholarship, Course enrichment, Contacts, Assets, regulatory/statistical datasets and rankings retain their dataset-specific authority rules.
+
+## Closure decision
+
+CF-093 is therefore **not CLOSED as a full orchestrator**. The operator-catalogue enhancement is accepted on Pilot; the remaining target-builder/orchestration construction is a durable follow-up under this Change Control unless governance assigns it a successor Change ID.
+
+Exact next gate:
+
+1. complete PR #68 v2.15.77 source/release currentness and deployed acceptance;
+2. reconcile RUNSHEET / CURRENT-STATE / FOLLOW-UPS / NEXT-CHAT with the accepted operator-catalogue state;
+3. then design the remaining target builder from actual executable ingestion contracts, not from UI assumptions.
