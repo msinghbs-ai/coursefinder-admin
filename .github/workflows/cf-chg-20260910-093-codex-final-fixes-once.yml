@@ -1,0 +1,82 @@
+name: CF-CHG-20260910-093 Final Codex Governance Fixes
+
+on:
+  push:
+    branches: [m245/cf093-target-builder-20260911]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: m245/cf093-target-builder-20260911
+          fetch-depth: 0
+      - name: Apply exact continuity corrections
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          def replace(path, old, new):
+              p=Path(path); s=p.read_text()
+              if old not in s: raise SystemExit(f'{path}: expected text not found: {old[:80]}')
+              p.write_text(s.replace(old,new,1))
+
+          # 1) Acceptance: executed closure + auditable lineage.
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/CF-093-ACCEPTANCE.md'
+          s=Path(p).read_text()
+          old="The final consequential acceptance used a genuinely policy-qualified AU Course Facts scope rather than the known-ineligible RMIT UP/Nova candidates. The accepted UQ scope preview covered **382 courses**. Dispatch was accepted; same-token retry and a second fresh-preview dispatch reused the original recent dispatch rather than creating duplicate acquisition. The underlying Layer 2 batch progressed and produced governed Evidence. No generic Layer 3 interpretation, Layer 4 resolution, Search admission or Publication side effect was observed from the target-builder run."
+          new=old+"\n\nExact Pilot lineage retained for audit: primary preview/dispatch token `18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; second preview token `29df92d3-9071-4e6e-92db-0bc5b9daa111`, which records `deduplicated_against_preview=18a3784a-1e2d-4c73-9d91-0b3ea04f7b30`; governed University scope `e55396d2-869a-46ef-9d17-841c7eab1313`; UQ profile `c7976665-14f3-40ac-834b-a8ee1c8afc32`; profile version `9b3689b8-0d2a-4cde-a50f-b4fee4c06945`; Layer 2 start request `5727`. Representative downstream acquisition lineage from that profile/run window includes Job `3445bc7a-0495-4c96-9321-43e581c81742`, HTML Evidence `8738fcf9-a4e6-47ac-9880-a57e4405b42b`, and its extraction-input Evidence `1d06a4ff-52aa-4a68-8e89-b661c7903e1f`."
+          if old not in s: raise SystemExit('acceptance narrative not found')
+          s=s.replace(old,new,1)
+          old2="CF-CHG-20260910-093 is accepted and may be closed at the boundary above. Governance continuity must point to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above. M2.4.5 remains ACTIVE overall and this closure does not advance M2.5 from its paused P0 gate."
+          new2="CF-CHG-20260910-093 is **CLOSED / PASS** at the boundary above. Governance continuity points to Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78, and the three green post-merge gates listed above. M2.4.5 remains ACTIVE overall and this executed closure does not advance M2.5 from its paused P0 gate."
+          if old2 not in s: raise SystemExit('acceptance closure sentence not found')
+          Path(p).write_text(s.replace(old2,new2,1))
+
+          # 2) Change Control recovery: preserve exact failed/pass run identifiers.
+          p='change-control/30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md'
+          s=Path(p).read_text()
+          old="The first post-functional-merge deployed UAT failure was not accepted as a product pass. Investigation identified a stale CF-097 assertion expecting historical visible release `v2.15.74`; the retry also observed a transient dashboard 500. The release-currentness correction changed only the stale currentness assertion to derive the expected value from the maintained release-currentness source. It did not relax HTTP 5xx detection, identity/rank checks, data authority, or UAT security boundaries. The subsequent deployed UAT passed."
+          new="The first post-functional-merge deployed UAT failure was not accepted as a product pass. Exact failed workflow run: CourseFinder Deployed UAT `34575980681`, attempt 1. Its first CF-097 execution timed out on the stale historical `v2.15.74` visible-release assertion; Playwright retry #1 in the same workflow then observed the transient `admin_read('dashboard')` HTTP 500. The release-currentness correction changed only the stale currentness assertion to derive the expected value from the maintained release-currentness source. It did not relax HTTP 5xx detection, identity/rank checks, data authority, or UAT security boundaries. The subsequent post-release-merge CourseFinder Deployed UAT `34579029850` passed."
+          if old not in s: raise SystemExit('CC UAT recovery paragraph not found')
+          Path(p).write_text(s.replace(old,new,1))
+
+          # 3) CURRENT-STATE: remove stale H12-as-next contradictions while retaining history.
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/CURRENT-STATE.md'
+          s=Path(p).read_text()
+          s=s.replace('- **Next genuinely open feature gate: H12 ARWU & University Diversity Statistics**, followed by H13 bounded historical ranking backfill/replay.', '- **Historical 8 September pointer (superseded):** H12 ARWU & University Diversity Statistics was then recorded next. The later 10 September roadmap parks generic dataset ETL / ARWU / Diversity work; near-term ranking continuation is QS-focused unless newer governed repository/runtime truth supersedes it.',1)
+          s=s.replace('Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102; active continuation now begins at H12.', 'Historical order was **H11 → H12 → H13**. H11 later closed under CF-101/102. **This old H12 continuation pointer is superseded by the 10 September roadmap decision that parks generic ARWU/Diversity work; current near-term ranking continuation is QS-focused unless a newer governed change explicitly re-authorises H12.**',1)
+          Path(p).write_text(s)
+
+          # 4) RUNSHEET: explicitly supersede H12 ACTIVE NEXT and reconcile gate order.
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md'
+          s=Path(p).read_text()
+          old="### H12 — ARWU & University Diversity Statistics — ACTIVE NEXT"
+          new="### H12 — ARWU & University Diversity Statistics — PARKED / SUPERSEDED AS NEXT GATE"
+          if old not in s: raise SystemExit('RUNSHEET H12 heading not found')
+          s=s.replace(old,new,1)
+          old_order="## Gate order — reconciled 8 September 2026\n\n1. **H12 — ARWU & University Diversity Statistics — ACTIVE NEXT.**\n2. **H13 — bounded historical ranking acquisition/backfill/replay — QUEUED NEXT.**\n3. Close any remaining CF-090 ranking-import recovery dependency needed by H12/H13.\n4. H7 migration/telemetry reconciliation throughout.\n5. H8/H9 continuous intake/testing.\n6. H10 meeting pack continuously maintained.\n7. H14 external-consumer API key lifecycle remains separately OPEN/GOVERNED under CF-207.\n8. Final nominated M2.4.5 acceptance after remaining open gates are reconciled.\n9. Resume M2.5 P0 only after M2.4.5 closure."
+          new_order="## Current gate order — reconciled 11 September 2026\n\n1. **Near-term ranking continuation is QS-focused.** Reconcile the current QS hardening/recovery state and any open QS Change Control against Pilot/runtime truth before selecting implementation work.\n2. **H12 ARWU / University Diversity generic dataset work is PARKED** by the 10 September roadmap decision and must not be resumed without a newer explicit governed change.\n3. **H13 generic historical ranking backfill/replay remains parked/conditional** except where a current QS-specific governed change explicitly requires bounded replay.\n4. H7 migration/telemetry reconciliation continues throughout.\n5. H8/H9 continuous intake/testing.\n6. H10 meeting pack continuously maintained.\n7. H14 external-consumer API key lifecycle remains separately OPEN/GOVERNED under CF-207.\n8. Final nominated M2.4.5 acceptance only after the remaining current open gates are reconciled.\n9. Resume M2.5 P0 only after M2.4.5 closure."
+          if old_order not in s: raise SystemExit('RUNSHEET old gate order block not found')
+          Path(p).write_text(s.replace(old_order,new_order,1))
+
+          # 5) NEXT-CHAT: make exact continuation gate explicit instead of delegating to router alone.
+          p='project-runsheets/milestone-2/m2.4/m2.4.5/NEXT-CHAT.md'
+          s=Path(p).read_text()
+          old="1. Merge the reconciled Admin governance PR #34 only after its fresh exact-head Codex review is clean and all review findings are resolved.\n2. After merge, verify `docs/README.md` routing, Change Control register and M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS remain consistent with Pilot main `cfc4702...` / v2.15.78.\n3. Do not reopen CF-CHG-20260910-093 to add broader generic orchestration. Any additional dataset/layer/recurring-scope capability requires a new governed change or explicit reopening with executable server contracts.\n4. Continue M2.4.5 from the exact next open gate shown by the current router; keep M2.5 paused unless governance explicitly advances it."
+          new="1. Merge the reconciled Admin governance PR #34 only after its fresh exact-head Codex review is clean and all review findings are resolved.\n2. After merge, verify `docs/README.md` routing, Change Control register and M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS remain consistent with Pilot main `cfc4702...` / v2.15.78.\n3. **Exact continuation gate: near-term Statistics & Rankings work remains QS-focused.** Reconcile current QS hardening/recovery Change Controls, Pilot commits, runtime observations and UAT before selecting the next QS action. The 10 September roadmap parks generic dataset ETL, ARWU and University Diversity fixtures; do not resume stale H12 merely because older continuity sections once named it next.\n4. Do not reopen CF-CHG-20260910-093 to add broader generic orchestration. Any additional dataset/layer/recurring-scope capability requires a new governed change or explicit reopening with executable server contracts.\n5. Keep M2.5 paused unless governance explicitly advances it."
+          if old not in s: raise SystemExit('NEXT-CHAT next-gate block not found')
+          Path(p).write_text(s.replace(old,new,1))
+          PY
+
+          rm .github/workflows/cf-chg-20260910-093-codex-final-fixes-once.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add change-control/30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md project-runsheets/milestone-2/m2.4/m2.4.5/CF-093-ACCEPTANCE.md project-runsheets/milestone-2/m2.4/m2.4.5/CURRENT-STATE.md project-runsheets/milestone-2/m2.4/m2.4.5/RUNSHEET.md project-runsheets/milestone-2/m2.4/m2.4.5/NEXT-CHAT.md .github/workflows/cf-chg-20260910-093-codex-final-fixes-once.yml
+          git diff --cached --check
+          git commit -m 'CF-CHG-20260910-093 address final Codex governance findings'
+          git push origin HEAD:m245/cf093-target-builder-20260911
