@@ -49,7 +49,7 @@ jobs:
           if marker not in s:
               block=f'''\n## Latest accepted H4 enhancement — CF-CHG-20260910-093 CLOSED / PASS — 11 September 2026\n\n- Scheduled Tasks Phase A operator maturity plus the bounded Phase B target builder are accepted at Pilot `{pilot}` / visible v2.15.78.\n- Universal governed sequence is `Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`; Preview cannot be bypassed where required by the accepted execution contract.\n- Current executable target-builder slice is AU Course Facts only, server-authorised Country/State-Territory/University-Provider, Acquisition + deterministic Layer 2 only.\n- Profile-version, deterministic execution-policy and <=1,000-course/profile checks fail closed at preview and dispatch; live scope is revalidated at dispatch.\n- Final UQ acceptance covered 382 courses, deduplicated repeat dispatch and produced governed Layer 2 Evidence without generic L3/L4/Search/Publication effects.\n- Post-merge Release History `34579029903`, Frontend Build `34579029934`, and Deployed UAT `34579029850` all PASS.\n- Broader generic orchestration and unsupported recurring construction are not authorised by this closure. Production remains unchanged; M2.5 stays paused.\n\n'''
               s=s.replace(title,title+block,1)
-              s=s.replace('**Updated:** 2026-09-10 AEST','**Updated:** 2026-09-11 AEST',1)
+              s=s.replace('**Updated:** 2026-09-10 AEST  \n','**Updated:** 2026-09-11 AEST\n',1)
               write(p,s)
 
           p='project-runsheets/milestone-2/m2.4/m2.4.5/FOLLOW-UPS.md'
