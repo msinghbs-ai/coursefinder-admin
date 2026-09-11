@@ -1,73 +1,65 @@
 # M2.4.5 NEXT CHAT
 
-## Accepted active baseline — 11 September 2026
+## Active baseline — 11 September 2026
 
-- Accepted Pilot `main`: **`cfc4702ba57a58ea31936dcabbd96fdd765194e2`**.
-- Visible PIM Admin release: **v2.15.78**.
-- CF-092 remains **CLOSED / PASS**.
-- **CF-CHG-20260910-093 is CLOSED / PASS at the accepted AU Course Facts target-builder boundary.**
-- Functional target-builder PR #69 merged as `85bc068d379ed3fc9231d167cf524e56419e80f9`.
-- v2.15.78 release-currentness PR #70 merged as `cfc4702ba57a58ea31936dcabbd96fdd765194e2`.
-- Post-merge Release History Contract `34579029903` — **PASS**.
-- Post-merge Pilot Frontend Build `34579029934` — **PASS**.
-- Post-merge CourseFinder Deployed UAT `34579029850` — **PASS**.
-- Production remains unchanged; no Production Supabase project exists; M2.5 remains paused at P0 unless the current router says otherwise.
+- Accepted deployed Pilot `main`: **`cfc4702ba57a58ea31936dcabbd96fdd765194e2`**, visible **v2.15.78**.
+- Functional target-builder PR #69 merged as **`85bc068d379ed3fc9231d167cf524e56419e80f9`**.
+- Release-currentness PR #70 merged as **`cfc4702ba57a58ea31936dcabbd96fdd765194e2`**.
+- **CF-CHG-20260910-093 is REOPENED. Do not describe it as CLOSED/PASS while the post-merge corrective gate is active.**
+- Corrective Pilot PR #71 (`m245/cf093-postmerge-codex-20260911`) remains draft/open and unmerged.
+- Production is unchanged; M2.5 remains paused unless governance explicitly advances it.
 
-## Accepted CF-CHG-20260910-093 boundary
+## Preserved CF-093 authority boundary
 
-Scheduled Tasks now has the accepted Phase A operator controls plus the bounded Phase B target-builder slice.
+The Scheduled Tasks builder remains deliberately narrow:
 
-Phase A includes business-readable labels, server-side search, durable creator/owner attribution, personal column preferences, bounded schedule edit, bounded Layer 1–2 Run on demand and Jobs/Evidence follow-through.
-
-Phase B accepts only:
-
-- AU Course Facts Layer 2;
-- server-authorised Country / State-Territory / University-Provider targets;
+- AU Course Facts Layer 2 only;
+- server-authorised Country / State-Territory / University-Provider scopes;
 - Acquisition + deterministic Layer 2 only;
 - mandatory server preview before consequential dispatch;
-- valid current profile version, deterministic Layer 2 execution policy and <=1,000 courses per scoped profile;
-- dispatch-time live-scope revalidation, cross-operator exact-scope dedupe/reuse and atomic empty-start rejection;
-- underlying Layer 2 Jobs/Evidence as authoritative processing truth.
+- valid current profile version, deterministic execution policy, runtime-usable acquisition route and bounded profile size;
+- underlying Layer 2 Jobs/Evidence remain authoritative processing truth;
+- Layer 1 authority is unchanged;
+- Layer 3 remains Evidence/profile/model/revalidation governed and is not generically dispatched;
+- Layer 4 remains human/exception resolution and is not generically dispatched;
+- Search and Publication remain separately governed downstream actions.
 
-Applied Pilot runtime lineage is immutable through:
+Still disabled: generic L2 -> L3 -> L4 orchestration, generic Evidence reprocess, NZ Layer 2 Course enrichment, arbitrary Layer 1 construction, recurring country/state construction, unsupported recurring university construction, and implicit Search/Publication.
 
-- `20260911021144 cf_093_scheduler_workflow_builder_slice`
-- `20260911021847 cf_093_scheduler_workflow_bridge_acl_fix`
-- `20260911022312 cf_093_scheduler_workflow_preview_token_idempotency`
-- `20260911023721 cf_093_scheduler_workflow_codex_second_pass`
-- `20260911025332 cf_093_scheduler_workflow_codex_third_pass`
-- `20260911031554 cf_093_scheduler_workflow_codex_fourth_pass`
-- `20260911052952 cf_093_scheduler_execution_policy_qualification`
-- `20260911065626 cf_093_scheduler_policy_and_scope_limit_qualification`
+## Current immutable Pilot runtime lineage
 
-## Final acceptance evidence
+Applied identities must not be retimestamped or rewritten. Latest relevant forward migrations are:
 
-The final consequential acceptance used a policy-qualified AU Course Facts UQ scope, not the known-ineligible RMIT UP/Nova candidates. Preview covered **382 courses**. One governed dispatch was accepted; a same-token retry and a second fresh-preview dispatch reused the original recent dispatch rather than creating duplicate paid acquisition. The underlying Layer 2 batch progressed and produced governed Evidence. No generic Layer 3 interpretation, Layer 4 resolution, Search admission or Publication side effect was observed from the builder run.
+- `20260911085724 cf_093_scheduler_postmerge_codex_finalizer`
+- `20260911095142 cf_093_scheduler_exact_scope_codex_finalizer`
+- `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer`
 
-RMIT UP and Nova remain valid negative examples: missing deterministic Layer 2 execution policy must fail closed before acquisition rather than having policy manufactured for UAT.
+The `20260911095142` correction responds to six exact-head Codex findings on PR #71 reviewed head `a24f36b3e701391ab509c8c86c3820e02e234c9a`:
 
-## UAT recovery reconciliation
+1. bind recent-dispatch dedupe to the current profile set;
+2. require worker-usable acquisition routes;
+3. validate the actual worker-selected discovery target as HTTPS;
+4. expose University options only from executable Layer 2 scope;
+5. construct preview counts and profile identity from one scope snapshot and reject construction-time drift;
+6. bind dispatch to the exact runnable course/source-URL scope fingerprint approved by Preview.
 
-The first post-functional-merge deployed UAT failure was traced to stale test currentness: CF-097 still asserted historical `v2.15.74`, and its retry also observed a transient dashboard 500. The v2.15.78 release follow-up changed only the stale release-currentness assertion to derive the expected value from the maintained currentness source. Server-error detection and authority/security rules were not relaxed. Post-merge deployed UAT `34579029850` passed.
+Runtime reconciliation then confirmed the discovery worker uses the decrypted Vault secret, not only `vault_secret_id`; `20260911095420` therefore forward-tightens route qualification to require a non-empty decrypted credential for authenticated providers and keeps Parsebot excluded from the qualified route set.
 
-## Still not authorised
+## Runtime truth / acceptance so far
 
-- generic automatic L2 -> L3 -> L4 orchestration;
-- generic Layer 3 Evidence reprocess;
-- arbitrary Layer 1 target construction;
-- NZ Layer 2 Course enrichment;
-- recurring country/state target construction;
-- recurring university target construction without a separately accepted enforceable contract;
-- implicit Search or Publication actions.
+- AU exact-scope snapshot currently reports **21,093 scoped courses**, **445 queueable**, **20,648 requiring discovery**, fingerprint **`16c0defeb19917ad2695a5f27bab9c55`**.
+- Runtime-usable acquisition route gaps: **0**.
+- Worker-valid discovery configuration gaps at AU-wide scope: **97**; therefore AU-wide dispatch correctly fails closed until those profiles are qualified or a narrower eligible target is selected.
+- Security Advisor after the corrections remains the known **191 INFO / 0 WARN / 0 ERROR** baseline.
 
 ## Exact next gate
 
-1. Merge the reconciled Admin governance PR #34 only after its fresh exact-head Codex review is clean and all review findings are resolved.
-2. After merge, verify `docs/README.md` routing, Change Control register and M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS remain consistent with Pilot main `cfc4702...` / v2.15.78.
-3. **Exact continuation gate: near-term Statistics & Rankings work remains QS-focused.** Reconcile current QS hardening/recovery Change Controls, Pilot commits, runtime observations and UAT before selecting the next QS action. The 10 September roadmap parks generic dataset ETL, ARWU and University Diversity fixtures; do not resume stale H12 merely because older continuity sections once named it next.
-4. Do not reopen CF-CHG-20260910-093 to add broader generic orchestration. Any additional dataset/layer/recurring-scope capability requires a new governed change or explicit reopening with executable server contracts.
-5. Keep M2.5 paused unless governance explicitly advances it.
+1. Treat Pilot PR #71 current head and CI/Codex result as authoritative; do not merge while exact-head review/checks are pending or red.
+2. Run the targeted CF-093 exact-scope acceptance, including the new source contract test and required existing builder tests.
+3. Resolve all six latest Codex threads only with forward-migration/runtime evidence, then request exact-head Codex re-review after the material corrections.
+4. Merge PR #71 only after exact-head CI, required targeted acceptance and Codex are clean; then run required deployed-currentness/UAT before CF-093 can return to CLOSED/PASS.
+5. Keep the broader orchestrator capability explicitly open/outside this boundary; do not infer generic L3/L4, Evidence reprocess or recurring-scope support from this builder slice.
 
 ## Pickup text
 
-> Continue CourseFinder from repository/runtime truth. Accepted Pilot main is `cfc4702ba57a58ea31936dcabbd96fdd765194e2`, visible v2.15.78. CF-CHG-20260910-093 is CLOSED/PASS at the bounded AU Course Facts Scheduled Tasks target-builder boundary. Post-merge Release History `34579029903`, Frontend Build `34579029934` and Deployed UAT `34579029850` all PASS. Preserve mandatory Preview before consequential dispatch, execution-policy/profile/scope qualification, exact-scope dedupe and Layer 2 Jobs/Evidence truth. Generic L3/L4 orchestration, Evidence reprocess, unsupported recurring scope construction and implicit Search/Publication remain unavailable. Reconcile Admin PR #34, router and continuity before selecting the next open M2.4.5 gate.
+> Continue CF-093 from repository/runtime truth. Deployed Pilot main remains `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / v2.15.78, but CF-CHG-20260910-093 is REOPENED because post-merge Codex corrections are still under acceptance in Pilot PR #71. Latest immutable runtime migrations are `20260911095142 cf_093_scheduler_exact_scope_codex_finalizer` and `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer`. Preserve AU Course Facts / acquisition + deterministic Layer 2 only, mandatory exact preview, profile/policy/route qualification, course/source scope fingerprint binding, rank/ACL controls, and Layer 2 Jobs/Evidence truth. Generic L3/L4, Evidence reprocess, recurring country/state construction and implicit Search/Publication remain disabled. Do not merge PR #71 until exact-head CI/UAT and Codex are clean.
