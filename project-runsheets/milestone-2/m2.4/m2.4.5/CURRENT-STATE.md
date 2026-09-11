@@ -1,15 +1,15 @@
 # M2.4.5 CURRENT STATE
 
-## CF-CHG-20260910-093 Scheduled Tasks target builder — CLOSED / PASS — 11 September 2026
+## CF-CHG-20260910-093 Scheduled Tasks target builder — REOPENED / CORRECTIVE GATE — 11 September 2026
 
-- **Accepted Pilot main:** `cfc4702ba57a58ea31936dcabbd96fdd765194e2` after functional PR #69 (`85bc068d379ed3fc9231d167cf524e56419e80f9`) and v2.15.78 release-currentness PR #70.
-- **Visible PIM Admin release:** v2.15.78.
-- Accepted builder boundary is AU Course Facts only: server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview, Acquisition + deterministic Layer 2 only.
-- Preview/dispatch fail closed unless scoped profiles retain valid current versions, deterministic Layer 2 execution policies and no profile exceeds the existing 1,000-course downstream contract.
-- Dispatch revalidates live runnable scope and uses exact-scope locking/recent-dispatch reuse to prevent duplicate paid acquisition across operators.
-- Final policy-qualified UQ acceptance preview covered 382 courses; dispatch succeeded, repeat dispatch reused the original recent dispatch, governed Layer 2 Evidence was produced, and no generic Layer 3/Layer 4/Search/Publication side effect was observed.
-- Post-merge Release History `34579029903`, Pilot Frontend Build `34579029934`, and CourseFinder Deployed UAT `34579029850` — PASS.
-- Generic L2->L3->L4 orchestration, generic Evidence reprocess, arbitrary L1 construction, NZ L2 Course enrichment and unsupported recurring-scope construction remain unavailable.
+- **Accepted deployed Pilot main remains:** `cfc4702ba57a58ea31936dcabbd96fdd765194e2` after functional PR #69 (`85bc068d379ed3fc9231d167cf524e56419e80f9`) and v2.15.78 release-currentness PR #70.
+- **Visible PIM Admin release remains:** v2.15.78.
+- Corrective Pilot PR #71 exact head is `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`; Frontend Build `34597632959` PASS; exact-head Codex review is clean in comment `5634309865`.
+- Latest immutable Pilot runtime/source migration is `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`; source/runtime migration identities are aligned.
+- Current builder authority remains AU Course Facts only: server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview, Acquisition + deterministic Layer 2 only, authenticated rank-4 execution.
+- Generic async discovery is fail-closed; generic L3/L4, Evidence reprocess, NZ Layer 2 Course enrichment, recurring country/state, unsupported recurring university and implicit Search/Publication remain disabled.
+- Security Advisor remains the known 191 INFO / 0 WARN / 0 ERROR baseline.
+- Remaining closure blocker is consequential acceptance. Runtime-wide AU University inspection confirms only Nova Higher Education and Stamford International College are fully queueable, but each has execution-policy gap 1. UQ and current State scopes require unsupported async discovery. No policy/configuration will be manufactured and no authority/UAT boundary weakened merely to force a pass.
 - Production unchanged; M2.5 remains paused at P0.
 
 
@@ -41,9 +41,9 @@
 - **Historical 8 September pointer (superseded):** H12 ARWU & University Diversity Statistics was then recorded next. The later 10 September roadmap parks generic dataset ETL / ARWU / Diversity work; near-term ranking continuation is QS-focused unless newer governed repository/runtime truth supersedes it.
 - Production untouched; M2.5 remains paused until M2.4.5 closes.
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 / CF-241 CLOSED / PASS  
-**Updated:** 2026-09-08 AEST  
-**Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-CHG-20260910-093 REOPENED / CORRECTIVE GATE  
+**Updated:** 2026-09-11 AEST  
+**Change Control:** CF-CHG-20260903-087; active corrective gate CF-CHG-20260910-093
 
 ## CF-243 Compare UI bugfix — CLOSED / PASS — 7 September 2026
 
