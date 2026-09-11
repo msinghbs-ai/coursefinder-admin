@@ -1,5 +1,18 @@
 # M2.4.5 CURRENT STATE
 
+## CF-CHG-20260910-093 Scheduled Tasks target builder — CLOSED / PASS — 11 September 2026
+
+- **Accepted Pilot main:** `cfc4702ba57a58ea31936dcabbd96fdd765194e2` after functional PR #69 (`85bc068d379ed3fc9231d167cf524e56419e80f9`) and v2.15.78 release-currentness PR #70.
+- **Visible PIM Admin release:** v2.15.78.
+- Accepted builder boundary is AU Course Facts only: server-authorised Country/State-Territory/University-Provider scopes, mandatory Preview, Acquisition + deterministic Layer 2 only.
+- Preview/dispatch fail closed unless scoped profiles retain valid current versions, deterministic Layer 2 execution policies and no profile exceeds the existing 1,000-course downstream contract.
+- Dispatch revalidates live runnable scope and uses exact-scope locking/recent-dispatch reuse to prevent duplicate paid acquisition across operators.
+- Final policy-qualified UQ acceptance preview covered 382 courses; dispatch succeeded, repeat dispatch reused the original recent dispatch, governed Layer 2 Evidence was produced, and no generic Layer 3/Layer 4/Search/Publication side effect was observed.
+- Post-merge Release History `34579029903`, Pilot Frontend Build `34579029934`, and CourseFinder Deployed UAT `34579029850` — PASS.
+- Generic L2->L3->L4 orchestration, generic Evidence reprocess, arbitrary L1 construction, NZ L2 Course enrichment and unsupported recurring-scope construction remain unavailable.
+- Production unchanged; M2.5 remains paused at P0.
+
+
 ## CF-092 Scheduled Tasks configuration — CLOSED / PASS — 10 September 2026
 
 - **Accepted Pilot main:** `9305eb3a004d12724ec26b6bab65e1d4b1ab2239` after PR #66.

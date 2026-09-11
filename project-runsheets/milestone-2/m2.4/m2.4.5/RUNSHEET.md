@@ -1,8 +1,19 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
+## Latest accepted H4 enhancement — CF-CHG-20260910-093 CLOSED / PASS — 11 September 2026
+
+- Scheduled Tasks Phase A operator maturity plus the bounded Phase B target builder are accepted at Pilot `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible v2.15.78.
+- Universal governed sequence is `Job / Dataset -> Country -> Scope Type -> Target -> Processing Mode -> Preview -> Run now / Schedule`; Preview cannot be bypassed where required by the accepted execution contract.
+- Current executable target-builder slice is AU Course Facts only, server-authorised Country/State-Territory/University-Provider, Acquisition + deterministic Layer 2 only.
+- Profile-version, deterministic execution-policy and <=1,000-course/profile checks fail closed at preview and dispatch; live scope is revalidated at dispatch.
+- Final UQ acceptance covered 382 courses, deduplicated repeat dispatch and produced governed Layer 2 Evidence without generic L3/L4/Search/Publication effects.
+- Post-merge Release History `34579029903`, Frontend Build `34579029934`, and Deployed UAT `34579029850` all PASS.
+- Broader generic orchestration and unsupported recurring construction are not authorised by this closure. Production remains unchanged; M2.5 stays paused.
+
+
 **Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-244 ARCHITECTURAL HARDENING + CF-241 CLOSED / PASS  
 **Opened:** 2026-09-03 10:28 AEST  
-**Updated:** 2026-09-10 AEST  
+**Updated:** 2026-09-11 AEST
 **Change Control:** CF-CHG-20260903-087; latest closure CF-CHG-20260908-244  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
 **Successor:** M2.5 Production Readiness — PAUSED AT P0
