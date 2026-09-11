@@ -2,7 +2,7 @@
 
 **Status:** IMPLEMENTED / OPERATOR-CATALOGUE ACCEPTED — ORCHESTRATOR TARGET BUILDER FOLLOW-UP OPEN  
 **Initiated:** 2026-09-10 21:44 AEST  
-**Updated:** 2026-09-11 11:31 AEST  
+**Updated:** 2026-09-11 11:37 AEST
 **Origin:** Scheduled Tasks operator UX review  
 **Owner:** CourseFinder programme  
 **Primary category:** 30-admin-pim-ux  
@@ -128,7 +128,7 @@ Pilot PR **#68 — `CF-093: publish v2.15.77 release currentness`** is the curre
 - maintained release-history contract;
 - resulting build/deployed currentness evidence.
 
-Until PR #68 passes and merges, **v2.15.76 remains the accepted visible release** even though CF-093 functional code is deployed on Pilot main.
+PR #68 exact corrective head `2efcda307bc6fee5b8d626878468151d0b42989d` now has canonical v2.15.77 synchronised across `src/release-currentness-entry.js`, `src/pim-version-entry.js`, `src/mature-main.jsx`, `index.html` and the maintained release-history contract while retaining v2.15.76/v2.15.75 history. Release History Contract `34551291580` PASS and Pilot Frontend Build `34551291667` PASS. Codex P1 release-metadata finding on reviewed head `26eaffd1cf` was corrected and resolved; exact-head Codex re-review was requested in PR comment `5628088682`. **Do not merge PR #68 until that exact-head review is clean.** Until merge/deployed-currentness acceptance completes, v2.15.76 remains the accepted visible main release.
 
 ## Explicit remaining scope
 

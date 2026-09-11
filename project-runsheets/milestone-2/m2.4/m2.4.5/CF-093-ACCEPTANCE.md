@@ -74,3 +74,15 @@ Current Run on demand still executes an existing bounded scheduler policy by `po
 4. Run deployed currentness/UAT on the release head.
 5. Reconcile Change Control and continuity.
 6. Continue the target-builder/orchestration phase without claiming unsupported scopes.
+
+
+## 11 Sep 2026 release-currentness gate
+
+- Functional PR #67 merged: `912572203e4f53ac081617b0ea567c9298cab84d`.
+- Post-merge deployed UAT `34550482733`: PASS.
+- PR #68 exact release head: `2efcda307bc6fee5b8d626878468151d0b42989d`.
+- Release History Contract `34551291580`: PASS.
+- Pilot Frontend Build `34551291667`: PASS.
+- Codex P1 canonical-release synchronization finding corrected; exact-head re-review requested in comment `5628088682`.
+- Merge remains HOLD until exact-head Codex review is clean, followed by nominated deployed-currentness verification.
+- Separate target-builder / processing-mode / run-preview orchestrator scope remains OPEN and is not part of this release-currentness merge.
