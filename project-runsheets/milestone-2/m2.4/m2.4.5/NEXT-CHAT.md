@@ -1,14 +1,15 @@
 # M2.4.5 NEXT CHAT
 
-## Active baseline — 11 September 2026
+## Active baseline — 12 September 2026
 
 - Accepted deployed Pilot `main`: **`cfc4702ba57a58ea31936dcabbd96fdd765194e2`**, visible **v2.15.78**.
 - Functional target-builder PR #69 merged as **`85bc068d379ed3fc9231d167cf524e56419e80f9`**; release-currentness PR #70 merged as `cfc4702...`.
-- **CF-CHG-20260910-093 is REOPENED.** Do not describe it as CLOSED/PASS while the post-merge corrective gate is active.
-- Corrective Pilot PR #71 (`m245/cf093-postmerge-codex-20260911`) remains **draft/open and unmerged**.
-- Current exact corrective head: **`00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`**.
+- **CF-CHG-20260910-093 is REOPENED.** Do not describe it as CLOSED/PASS while consequential acceptance remains blocked.
+- Corrective Pilot PR #71 (`m245/cf093-postmerge-codex-20260911`) exact head: **`00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`**.
 - Exact-head Pilot Frontend Build **`34597632959` — PASS**.
 - Exact-head Codex review: **CLEAN / no major issues**, PR #71 comment **`5634309865`**.
+- PR #71 changed-file inventory is eight already-applied forward migration source files plus two maintained CF-CHG-20260910-093 UAT contract files; no browser UI source change.
+- **Repository/runtime reconciliation merge is now authorised** for PR #71 exact clean head. This does not close CF-CHG-20260910-093 and does not waive consequential acceptance.
 - Production is unchanged; M2.5 remains paused at P0.
 
 ## Preserved CF-CHG-20260910-093 authority boundary
@@ -42,38 +43,41 @@ Applied identities must not be retimestamped or rewritten. Latest CF-CHG-2026091
 - `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
 - **`20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`**
 
-Repository source is reconciled to the actual applied `20260911120131` identity. The pre-apply source alias `20260911115830` was removed without changing migration semantics, and the maintained CF-CHG-20260910-093 UAT contract references the immutable runtime identity.
+Repository branch source matches the actual applied identities. Stale pre-apply filename aliases were removed without rewriting runtime history.
 
-## Latest correction and evidence
+## Current runtime eligibility truth
 
-Codex review of `f3622ff516...` returned three P2 findings. They are corrected forward-only in runtime/source migration `20260911120131`:
-
-1. discovery-backed scopes expose a distinct truthful `unsupported_discovery_count` and operator block reason rather than a false configuration diagnosis;
-2. deterministic provider-route qualification respects worker route order and blocking/fallback semantics;
-3. queueable URL allowlist references are parsed literally, matching `layer2-acquire-v2`, without scheduler-only `{query}` substitution.
-
-All three review threads were answered and resolved. Codex reviewed exact head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` and reported **“Didn't find any major issues”** in comment `5634309865`. Exact-head build `34597632959` passed. Security Advisor remains the known **191 INFO / 0 WARN / 0 ERROR** RLS-no-policy inventory; no new CF-CHG-20260910-093 warning/error was introduced.
-
-Runtime target inventory is intentionally not manipulated for acceptance:
-
-- University of Queensland: **382 courses / 156 queueable / 226 discovery** — discovery-backed and therefore intentionally non-executable in generic Scheduled Tasks.
-- Nova Higher Education: **1 queueable / 0 discovery**, route gaps 0, URL gaps 0, oversize 0, but **execution-policy gap 1**.
-- Stamford International College: **1 queueable / 0 discovery**, route gaps 0, URL gaps 0, oversize 0, but **execution-policy gap 1**.
-- Runtime-wide AU University inspection confirms Nova and Stamford are the only fully queueable University scopes currently available.
-- No currently identified AU State scope is fully queueable; State scopes remain discovery-backed and contain policy gaps.
+- University of Queensland: **382 courses / 156 queueable / 226 discovery** — discovery-backed and intentionally non-executable in generic Scheduled Tasks.
+- RMIT University: **500 courses / 261 queueable / 239 discovery** — discovery-backed and intentionally non-executable in generic Scheduled Tasks.
+- RMIT and UQ are the only enabled AU Course Facts profiles with existing deterministic execution policies.
+- Nova Higher Education: **1 queueable / 0 discovery**, route gaps 0, oversize 0, but **execution-policy gap 1**.
+- Stamford International College: **1 queueable / 0 discovery**, route gaps 0, oversize 0, but **execution-policy gap 1**.
+- Nova and Stamford are qualification-only profiles under earlier source-qualification governance; do not create execution policies merely for UAT.
+- Every inspected AU State/Territory scope remains discovery-backed and contains execution-policy gaps.
 
 Do **not** manufacture an execution policy, source profile, route or runtime configuration merely to force a consequential acceptance pass.
 
+## Source/runtime reconciliation decision
+
+Pilot runtime already contains all eight forward corrective migrations through `20260911120131`, while Pilot `main` still lacks their source files. Under the recovery protocol, leaving PR #71 unmerged would preserve source/runtime drift and weaken clean replay/recovery.
+
+Therefore PR #71 may merge exact head `00c98f0cea...` **for repository/runtime reconciliation only**. This merge:
+
+- does not add new runtime authority beyond what is already deployed;
+- does not change browser UI source and does not itself require a visible release bump;
+- does not close the Change Control;
+- does not waive the requirement for a genuinely governed policy-qualified fully queueable deterministic Layer 2 consequential acceptance target;
+- must be followed by main CI and deployed UAT/currentness verification.
+
 ## Exact next gate
 
-1. Codex exact-head review is clean and exact-head CI/source/runtime checks are green.
-2. The remaining gate is a genuinely governed, policy-qualified, fully queueable deterministic Layer 2 consequential acceptance target.
-3. Current runtime truth provides no such target. Do not weaken or fabricate authority to create one.
-4. PR #71 therefore remains draft/open and must not merge until that consequential acceptance requirement is legitimately satisfied under existing governance, or governance is changed for a substantive operational reason rather than to make the test pass.
-5. After any future merge, verify main CI, Cloudflare/deployed currentness and deployed UAT before returning CF-CHG-20260910-093 to CLOSED/PASS.
-6. Reconcile CURRENT-STATE, RUNSHEET, FOLLOW-UPS and the Change Control so older CLOSED/PASS text cannot override this reopened state; then obtain final Admin PR #34 Codex review and merge governance only when accurate.
-7. Once CF-CHG-20260910-093 is truly closed, resume the **QS-focused** M2.4.5 continuation; stale ARWU/Diversity immediate-next pointers remain superseded.
+1. Mark Pilot PR #71 ready and merge only exact head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` as source/runtime reconciliation.
+2. Verify post-merge Pilot main CI, Cloudflare deployment/currentness and CourseFinder Deployed UAT. Record exact merge SHA and run IDs.
+3. Keep CF-CHG-20260910-093 **REOPENED** after the merge.
+4. Consequential acceptance remains blocked until a legitimate operational lifecycle produces a policy-qualified fully queueable deterministic Layer 2 target; do not create one solely for UAT.
+5. Reconcile CURRENT-STATE, RUNSHEET, FOLLOW-UPS and Change Control after the merge, then obtain a fresh exact-head Admin PR #34 Codex review and merge governance if accurate.
+6. Once CF-CHG-20260910-093 is truly closed, resume the **QS-focused** M2.4.5 continuation; stale ARWU/Diversity immediate-next pointers remain superseded.
 
 ## Pickup text
 
-> Continue CF-CHG-20260910-093 from repository/runtime truth. Deployed Pilot main remains `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / v2.15.78. The Change Control is REOPENED and corrective Pilot PR #71 is draft/open at exact head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575`. Latest immutable Pilot migration is `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`; source and runtime identities are aligned. Pilot Frontend Build `34597632959` PASS; Codex exact-head review is clean in comment `5634309865`; Security Advisor remains 191 INFO / 0 WARN / 0 ERROR. Generic async discovery remains fail-closed. Runtime-wide University inspection confirms the only fully queueable targets are Nova and Stamford, and each lacks the governed execution policy. Do not manufacture policy/config for UAT. Preserve Layer 1 authority, deterministic Layer 2 Evidence truth, Layer 3 profile/model governance, Layer 4 human resolution, Search/Publication separation and rank/ACL boundaries. Do not merge until the governed consequential acceptance gate is genuinely satisfiable and passes.
+> Continue CF-CHG-20260910-093 from repository/runtime truth. Deployed Pilot main before source reconciliation is `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / v2.15.78. Corrective PR #71 exact head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` has Pilot Frontend Build `34597632959` PASS and clean Codex comment `5634309865`. Runtime already contains all eight PR #71 migrations through immutable `20260911120131`; PR #71 changes only those migration source files plus two UAT contract files. Governance now authorises merging PR #71 solely to eliminate repository/runtime drift. Do not mark CF-CHG-20260910-093 CLOSED/PASS after merge: consequential acceptance remains blocked because RMIT/UQ are discovery-backed while Nova/Stamford are qualification-only and lack execution policies. Preserve Layer authority, Evidence, rank/ACL and fail-closed async discovery. After merge verify main CI, Cloudflare/deployed currentness and deployed UAT, then reconcile continuity/Admin PR #34.
