@@ -1,7 +1,7 @@
 # CF-CHG-20260910-093 Acceptance
 
-**Status:** REOPENED — CORRECTIVE ACCEPTANCE ACTIVE  
-**Updated:** 11 Sep 2026
+**Status:** REOPENED — SOURCE/RUNTIME RECONCILIATION MERGE AUTHORISED; CONSEQUENTIAL ACCEPTANCE STILL BLOCKED  
+**Updated:** 12 Sep 2026
 
 ## Historical accepted deployed baseline
 
@@ -78,6 +78,8 @@ All three review threads were answered and resolved. Codex then reviewed exact c
 - Security Advisor remains **191 INFO / 0 WARN / 0 ERROR**, the pre-existing informational RLS baseline.
 - University of Queensland remains **382 total / 156 queueable / 226 discovery** and is intentionally non-executable from generic Scheduled Tasks because async discovery is fail-closed.
 - Runtime-wide University target inventory confirms the only fully queueable AU University scopes are Nova Higher Education and Stamford International College; each is **1 queueable / 0 discovery**, route gaps 0, URL gaps 0, oversize 0, but **execution-policy gap 1**.
+- RMIT University and UQ are the only enabled AU Course Facts profiles with existing deterministic execution policies; both remain discovery-backed (RMIT 500 total / 261 queueable / 239 discovery; UQ 382 / 156 / 226).
+- Every AU State/Territory scope inspected remains discovery-backed and contains execution-policy gaps.
 - No policy, source profile, route or runtime configuration has been manufactured merely to force UAT green.
 
 ## Historical consequential evidence retained
@@ -86,16 +88,31 @@ The earlier UQ acceptance that produced governed Layer 2 Evidence remains retain
 
 This evidence cannot be used to claim the newly disabled generic discovery-backed async contract is implemented.
 
+## Source/runtime drift reconciliation decision — 12 Sep 2026
+
+Pilot runtime already contains all eight PR #71 forward corrective migrations through immutable `20260911120131`, while Pilot `main` still lacks those migration source files and the maintained corrective UAT contracts. Leaving the exact-head clean PR unmerged would preserve a **repository/runtime drift defect** and weaken clean-replay/recovery truth.
+
+Therefore the merge gate is separated from the **feature closure** gate:
+
+- PR #71 **may merge exact clean head `00c98f0cea...` solely to reconcile repository source with already-applied Pilot runtime and retained UAT contracts**;
+- this merge does **not** authorise any new runtime policy, source profile, route, discovery capability, Layer 3/4 automation, Search or Publication effect;
+- PR #71 contains only the eight forward migration source files plus two maintained UAT contract files; it contains no browser UI source change, so this source-reconciliation merge does not itself require a visible release bump;
+- after merge, main CI and deployed UAT/currentness must be checked; any regression keeps the recovery gate open;
+- **CF-CHG-20260910-093 remains REOPENED** after the source reconciliation merge until a genuinely governed policy-qualified fully queueable deterministic Layer 2 target completes consequential Preview → dispatch → dedupe/Jobs/Evidence acceptance, or a separately governed substantive design change replaces that requirement.
+
+This is not a waiver to make a test pass. It is a recovery correction required by the standing rule that repository source and deployed runtime truth must reconcile.
+
 ## Current closure gate
 
-CF-CHG-20260910-093 remains **REOPENED**. Do not merge corrective PR #71 or return this file to CLOSED/PASS until:
+CF-CHG-20260910-093 remains **REOPENED**. The current decision rules are:
 
 1. exact-head Codex review is clean — **PASS at `00c98f0cea...`**;
 2. required exact-head CI/source/runtime acceptance is green — **current targeted checks PASS**;
-3. a genuinely governed policy-qualified **queueable deterministic Layer 2** target completes required consequential acceptance without fabricating configuration for UAT — **BLOCKED by current runtime truth**;
-4. the accepted exact head is merged;
-5. post-merge deployed currentness/UAT is green.
+3. merge PR #71 exact accepted head to eliminate repository/runtime drift — **AUTHORISED FOR SOURCE RECONCILIATION ONLY**;
+4. verify post-merge main CI and deployed UAT/currentness — **PENDING**;
+5. required queueable deterministic Layer 2 consequential/nominated acceptance on an actually governed policy-qualified target — **BLOCKED by current runtime truth**;
+6. only after the consequential acceptance and post-merge gates are green may CF-CHG-20260910-093 return to CLOSED/PASS.
 
-The current blocker is not a software-review or CI failure. The runtime contains no genuinely policy-qualified fully queueable University target: Nova and Stamford are fully queueable but each lacks the governed deterministic execution policy; UQ and all State scopes require unsupported asynchronous discovery. Do not weaken Preview/authority or create test-only policy/configuration to bypass this gate.
+The current feature-closure blocker is substantive runtime eligibility, not review or CI. Governance must not be altered merely to waive consequential acceptance, and runtime policy/configuration must not be fabricated for testing.
 
 The broader orchestrator scope remains explicitly open. Preview-bound asynchronous discovery, generic L3/L4, Evidence reprocess and recurring country/state scope construction must not be inferred from this corrective slice.
