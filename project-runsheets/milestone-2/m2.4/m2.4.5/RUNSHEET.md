@@ -10,8 +10,9 @@
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
-- Active candidate: PR #72 / `m245/cf093-async-discovery-20260912` / head `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
-- Exact-head Pilot Frontend Build `34688257411`: PASS.
+- Active candidate: PR #72 / `m245/cf093-async-discovery-20260912` / head `edb115cca6f6a94957ff6a99aac12a6b235713aa`.
+- Exact-head CF-093 Targeted Recovery `34690128803`: PASS.
+- Exact-head Pilot Frontend Build `34690128811`: PASS.
 - Cloudflare exact-head preview: PASS/deployed.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 - Worker: Edge v27 / v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
@@ -28,10 +29,16 @@
 - [x] All-batch reusable requirement for dedupe.
 - [x] Set-based multi-profile cancellation.
 - [x] Terminal-only Preview non-executable.
-- [x] Legacy `current_page_not_found` freshness invalidated by forward migration `20260912101339`.
+- [x] Legacy `current_page_not_found` freshness invalidated by forward migration `20260912101339` unless later explicitly qualified.
 - [x] Forward migration `20260912100539` applied + checked in.
-- [x] Exact-head Frontend Build `34688257411` PASS and Cloudflare preview PASS.
-- [ ] Fresh exact-head Codex review of `013b2878...`.
+- [x] Exact-head targeted recovery `34690128803` PASS.
+- [x] Exact-head Frontend Build `34690128811` PASS and Cloudflare preview PASS.
+- [ ] Fresh exact-head Codex technical outcome for `edb115cc...`; request comment `5645499063` is pending.
+
+Targeted CI history retained as diagnostic evidence:
+- `34689908598`: 13 pass / 4 stale-assertion failures;
+- `34690059287`: 16 pass / 1 stale cancellation-key assertion failure;
+- `34690128803`: PASS after assertions were aligned to the current immutable + forward-hardened contract.
 
 ## Gate B — repository reconstruction / migration currentness
 
@@ -39,11 +46,11 @@
 - [x] Preserved `20260912005948` unchanged/unretimestamped.
 - [x] Added retroactive idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql` ordered before `005948`.
 - [x] Read-only simulation against actual UQ v1 seed: validation PASS and distinct candidate configuration hash.
-- [x] Added reconstruction ordering/regression UAT.
+- [x] Added reconstruction ordering/regression UAT and included it in exact-head targeted PASS.
 - [ ] From authorised Supabase CLI: `supabase migration repair 20260912005000 --status applied --linked`.
 - [ ] Verify `supabase migration list` local/remote parity.
 - [ ] Prove fresh reconstruction / `supabase db reset` succeeds through CF-093 chain.
-- [ ] Keep direct SQL mutation of `supabase_migrations.schema_migrations` prohibited.
+- [x] Keep direct SQL mutation of `supabase_migrations.schema_migrations` prohibited.
 
 ## Gate C — UQ corrective discovery
 
@@ -56,7 +63,7 @@ Current hardened snapshot:
 - 77 retained terminal negatives;
 - fingerprint `2661fefb086294a948862eac08f0c297`.
 
-- [ ] Normal authenticated Preview/run for reopened UQ discovery only.
+- [ ] Normal authenticated Preview/run for reopened UQ discovery only, after Gate B closes.
 - [ ] Reconcile changed/newly selected actionable work through deterministic L2 only.
 - [ ] Prove exact-token/fingerprint/dedupe and side-effect boundaries.
 
@@ -71,7 +78,7 @@ Current hardened snapshot:
 - 210 retained terminal negatives;
 - fingerprint `cd360b3d2b6ba4ba8c2a5a9442cc761a`.
 
-- [ ] Normal authenticated Preview/run for reopened RMIT discovery only.
+- [ ] Normal authenticated Preview/run for reopened RMIT discovery only, after Gate B closes.
 - [ ] Reconcile changed/newly selected actionable work through deterministic L2 only.
 - [ ] Prove exact-token/fingerprint/dedupe and side-effect boundaries.
 
@@ -81,8 +88,9 @@ Paused while Gates A–D remain open.
 
 - [x] Qualified JWT-protected Course Layer 3 contract inspected.
 - [x] Historical cohort at inspection: 53 `layer3_required` text/html Evidence items, 0 interpretations.
+- [ ] Recalculate eligible Layer 3 cohort after corrective discovery/L2 closes.
 - [ ] Resume one-call bounded authenticated live-provider acceptance only after CF-093 recovery is clean.
-- [ ] Generic scheduler Layer 3 remains disabled.
+- [x] Generic scheduler Layer 3 remains disabled.
 
 ## Gate F — final PR acceptance
 
@@ -104,4 +112,4 @@ Paused while Gates A–D remain open.
 
 ## Exact next action
 
-Request exact-head Codex review for `013b2878...`, then complete the authorised official Supabase migration-history repair + migration-list/reconstruction proof. Only then run the reopened UQ 54 + RMIT 27 discovery scope through the normal authenticated scheduler. Layer 3 remains paused.
+Complete the authorised official Supabase migration-history repair for `20260912005000`, prove local/remote migration parity and fresh reconstruction/reset, while awaiting the exact-head Codex outcome. Only after those gates close may the reopened UQ 54 + RMIT 27 discovery scope run through the normal authenticated scheduler. Layer 3 remains paused.
