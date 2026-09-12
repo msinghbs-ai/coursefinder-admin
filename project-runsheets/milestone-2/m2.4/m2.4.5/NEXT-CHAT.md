@@ -8,14 +8,18 @@
 - Visible accepted release: v2.15.78.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 - Active change: `CF-CHG-20260910-093`.
-- PR #72: OPEN / DRAFT / mergeable but governance-blocked, exact head `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
-- Exact-head Frontend Build `34688257411`: PASS.
+- PR #72: OPEN / DRAFT / mergeable but governance-blocked, exact head `edb115cca6f6a94957ff6a99aac12a6b235713aa`.
+- Exact-head CF-093 Targeted Recovery `34690128803`: PASS.
+- Exact-head Frontend Build `34690128811`: PASS.
 - Exact-head Cloudflare preview: PASS/deployed.
+- Fresh exact-head Codex request comment `5645499063`: pending; no new technical review submission yet.
 - `layer2-scope-discover-scheduled`: Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
 
 ## Codex recovery
 
-Codex returned nine actionable findings. Eight are forward-fixed and threads resolved. Runtime migrations `20260912100539` and `20260912101339` are applied and checked in. Worker v1.3.9 enforces exact Preview token, identity revalidation before Evidence writes, fail-transient unqualified 200/no-link pages, corrected regex boundaries and token-aware continuation/handoff. Dedupe/cancel/terminal-only Preview defects are forward-fixed.
+Codex returned nine actionable findings on predecessor `a7283139...`. Eight are forward-fixed and their earlier threads resolved. Runtime migrations `20260912100539` and `20260912101339` are applied and checked in. Worker v1.3.9 enforces exact Preview token, identity revalidation before Evidence writes, fail-transient unqualified 200/no-link pages, corrected regex boundaries and token-aware continuation/handoff. Dedupe/cancel/terminal-only Preview defects are forward-fixed.
+
+Dedicated targeted CI was added. Initial runs `34689908598` and `34690059287` exposed only stale CF-093 assertions; those tests were aligned with the current immutable + forward-hardened contract. Exact-head run `34690128803` passes the full targeted recovery set.
 
 ## Reconstruction P1 — source remedy prepared / history sync pending
 
@@ -23,9 +27,9 @@ Immutable applied `20260912005948_cf_093_uq_native_program_discovery_profile.sql
 
 Do not edit/retimestamp `005948`.
 
-PR #72 contains retroactive idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`. It runs before `005948` on fresh reconstruction, adds only `discovery_strategy={"type":"first_party_search"}` through normal profile-version governance, and has regression coverage. Read-only simulation against actual UQ v1 proved validation PASS and a distinct hash.
+PR #72 contains retroactive idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`. It runs before `005948` on fresh reconstruction, adds only `discovery_strategy={"type":"first_party_search"}` through normal profile-version governance, and has regression coverage included in the exact-head targeted PASS. Read-only simulation against actual UQ v1 proved validation PASS and a distinct hash.
 
-Pilot already has the resulting strategy semantics. Remaining authorised history step:
+Pilot already has the resulting strategy semantics. Runtime history contains `005948`, `100539` and `101339`, but not retroactive `005000`. Remaining authorised history step:
 
 `supabase migration repair 20260912005000 --status applied --linked`
 
@@ -44,18 +48,18 @@ No corrective discovery has been dispatched. Historical deterministic batches re
 
 ## Layer 3
 
-Qualified JWT-protected contract remains available but live acceptance is paused behind CF-093 recovery. Generic scheduler Layer 3 remains prohibited.
+Qualified JWT-protected contract remains available but live acceptance is paused behind CF-093 recovery. The historical 53-item L3-required cohort predates reopened discovery and must be recalculated later. Generic scheduler Layer 3 remains prohibited.
 
 ## Exact next actions
 
-1. Request/review fresh Codex on exact head `013b2878...`.
-2. Perform authorised official Supabase `migration repair 20260912005000 --status applied --linked`, then migration-list parity and fresh reconstruction proof.
+1. Perform authorised official Supabase `migration repair 20260912005000 --status applied --linked`, then migration-list parity and fresh reconstruction proof.
+2. Check fresh Codex result for exact head `edb115cc...`; silence/old review is not approval.
 3. Through normal authenticated scheduler, rediscover only UQ 54 + RMIT 27 reopened Courses.
 4. Reconcile only newly selected/changed deterministic L2 work; prove exact-token/fingerprint/dedupe/cancel and zero generic L3/Layer4 auto-approval/Search/Publication effects.
-5. Resume bounded authenticated Layer 3 only after CF-093 recovery gates close.
+5. Recalculate the Layer 3 eligible cohort and resume bounded authenticated Layer 3 only after CF-093 recovery gates close.
 6. Merge/release remains prohibited until final Codex + exact-head CI/UAT/runtime + migration reconstruction + governance acceptance are clean.
 7. After CF-093 closes: Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW through normal qualification only.
 
 ## Pickup text
 
-> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main is `63c7107cfce2d8f607fc378af4881d0ba28ca879`, release v2.15.78. PR #72 is draft/open at exact head `013b2878ce748c1a7196c74cb467ac55f5858cd6`; Frontend Build `34688257411` and Cloudflare preview PASS. Codex returned nine findings; eight are forward-fixed. Migrations `20260912100539` and `20260912101339` are applied; worker v1.3.9 is Edge v27. Retroactive reconstruction bootstrap `20260912005000` now precedes immutable applied UQ migration `20260912005948`; simulation validates bootstrap+005948, but official `supabase migration repair 20260912005000 --status applied --linked` plus migration-list/reset proof remains required and must not be emulated via direct history SQL. Discovery acceptance is reopened: UQ 54 + RMIT 27 need corrective authenticated rediscovery. Layer 3 remains paused. Do not merge/release while any gate remains.
+> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main is `63c7107cfce2d8f607fc378af4881d0ba28ca879`, release v2.15.78. PR #72 is draft/open at exact head `edb115cca6f6a94957ff6a99aac12a6b235713aa`; CF-093 Targeted Recovery `34690128803`, Frontend Build `34690128811` and Cloudflare exact-head preview PASS. Fresh Codex request is comment `5645499063`, with no new exact-head technical outcome yet. Migrations `20260912100539` and `20260912101339` are applied; worker v1.3.9 is Edge v27. Retroactive reconstruction bootstrap `20260912005000` now precedes immutable applied UQ migration `20260912005948`; simulation and targeted UAT validate source ordering, but official `supabase migration repair 20260912005000 --status applied --linked` plus migration-list/reset proof remains required and must not be emulated via direct history SQL. Discovery acceptance is reopened: UQ 54 + RMIT 27 need corrective authenticated rediscovery. Layer 3 remains paused. Do not merge/release while any gate remains.
