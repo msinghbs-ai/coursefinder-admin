@@ -29,7 +29,7 @@ They enforce exact Preview-token propagation, identity fingerprint revalidation 
 
 Applied migration `20260912005948_cf_093_uq_native_program_discovery_profile.sql` is immutable but cannot replay from repository foundation because UQ v1 has no `discovery_strategy`. Missing intermediate JSON path leaves the config unchanged and collides with `UNIQUE(profile_id,configuration_hash)`.
 
-PR #72 now includes earlier idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`, which creates only the missing `first_party_search` strategy object before `005948`. Read-only simulation against actual UQ v1 proved validation PASS and distinct candidate hash (`1cb8d860cce8d907de5c326975fabfe11865861a3b5c75dee0ac4a54f91145e8` vs v1 `77dda7fa33501c67a046dff1e5385554a419853c64f12f5b56e1c23a63da0d72`).
+PR #72 includes earlier idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`, which creates only the missing `first_party_search` strategy object before `005948`. Read-only simulation against actual UQ v1 proved validation PASS and distinct candidate hash (`1cb8d860cce8d907de5c326975fabfe11865861a3b5c75dee0ac4a54f91145e8` vs v1 `77dda7fa33501c67a046dff1e5385554a419853c64f12f5b56e1c23a63da0d72`).
 
 Pilot already has the resulting schema semantics. Official Supabase history tracking must therefore be synchronised via:
 
