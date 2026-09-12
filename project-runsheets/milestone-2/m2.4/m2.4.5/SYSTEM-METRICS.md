@@ -28,103 +28,159 @@ Metrics are evidence, not acceptance criteria unless a Change Control explicitly
 | Platform | Edge deployment version/hash, Cloudflare preview/deploy state, relevant database migration IDs |
 | Safety | canonical mutation, Search/Publication and generic Layer3 effects explicitly checked |
 
-## CF-093 — UQ 382-course acceptance snapshot — 12 Sep 2026
-
-### Repository / tooling
+## Current repository / CI snapshot — 12 Sep 2026
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
+- Visible accepted release: v2.15.78.
 - Active PR #72 branch: `m245/cf093-async-discovery-20260912`.
-- Exact PR head after v1.3.8 regression coverage: `9d70be7ba377b078d78644a69b13f3451bb2d7b2`.
-- Exact-head Pilot Frontend Build: GitHub Actions run `34666904950` — PASS.
-- Visible accepted release remains v2.15.78; PR unmerged.
-- `layer2-scope-discover-scheduled`: Supabase Edge Function v26, worker `layer2-scope-discover-scheduled-v1.3.8`, deployment SHA `fad7e2e1cf7935f49cf55365aa8a3d6b3d9906b4bd78d9ae1e0ae2dca2e51204`.
-- `layer2-batch-runner`: deployed Edge Function v8 during this acceptance.
-- UQ qualified source-profile version: `3d70516d-95d5-49e6-b33e-e61bacfec275`.
-- Security boundary retained: scheduled discovery Edge Function remains `verify_jwt=false` only under the existing one-time nonce/service-RPC contract; no browser/public privilege broadening was introduced.
+- Exact PR head: `a7283139a9e6088933be68fa69f75d2e9eb71fbe`.
+- Exact-head Pilot Frontend Build: GitHub Actions `34681032426` — PASS.
+- Exact-head Cloudflare commit/branch preview: PASS/deployed.
+- Exact-head Codex review: unavailable because the account has reached its code-review usage limit; this is a tool-quota blocker, not a review outcome.
+- Intermediate head `eec6fbbfe04709d81150825fe70e31eb3cc8f7f9` / run `34677940824`: FAILED at UAT suite discovery because CF-093 freshness UAT referenced nonexistent migration alias `20260912032000...`; corrected at `a7283139...` to applied `20260912031356...`.
 
-### Preview / binding
+## CF-093 — UQ 382-course acceptance snapshot
 
-- Preview token: `6fe9b130-c821-4da2-916f-ffea8126cc93`.
-- Actor: `63ba56cb-48d4-4169-98c2-7c4d1f72925b`.
-- Scope fingerprint: `a6a9fb25457d93de4146ebd808ac0695`.
-- Catalogue scope: 382 Courses.
-- Initial current-profile queueable: 6.
-- Initial current-profile discovery-required: 376.
-- Binding activated: `2026-09-12 01:13:22.564082Z`.
-- Binding moved to `handoff_started`: `2026-09-12 02:20:20.718361Z`.
-- Execution expiry: `2026-09-12 07:13:22.564082Z`.
+### Runtime/tooling
 
-### Discovery outcomes
+- `layer2-scope-discover-scheduled`: Edge Function v26; worker `layer2-scope-discover-scheduled-v1.3.8` during accepted run.
+- `layer2-batch-runner`: Edge Function v8 during accepted run.
+- UQ source-profile version: `3d70516d-95d5-49e6-b33e-e61bacfec275`.
+- Security boundary retained: scheduled discovery remained under the existing one-time nonce/service-RPC contract; no browser/public privilege broadening.
 
-First-pass v1.3.7 terminal request `5838` failed closed with 42 courses still transient/unattempted. A governed targeted retry under the same active binding used requests `5839`–`5846`; all completed under v1.3.7 and reproduced the zero-result classification defect without mutating authority.
+### Corrected discovery / handoff
 
-After worker v1.3.8 deployment, exactly the remaining 42 IDs were redispatched under request `5847`, followed by continuations `5848`–`5854`.
+Initial v1.3.7 acceptance exposed a zero-result terminal-classification defect. Worker v1.3.8 corrected first-party usable empty search results to governed `current_page_not_found` Evidence without fabricating a URL. Targeted requests `5847`–`5854` closed the remaining 42 unresolved courses with zero worker failures.
 
-- v1.3.8 retry set: 42 Courses.
-- v1.3.8 worker invocations: 8.
-- First corrected request: `5847` at `2026-09-12 02:11:57.665321Z`.
-- Terminal corrected request: `5854` at `2026-09-12 02:19:42.452916Z`.
-- Approximate elapsed corrected retry window: 7m 45s.
-- Observed corrected retry throughput: approximately 5.4 Courses/minute. This includes ordered fallback exhaustion for zero-result records and is not a performance SLA.
-- Corrected retry failures: 0.
-- Remaining transient/unattempted after corrected chain: 0.
-
-Final 376-course discovery result under the bound Preview:
+Final original bound-discovery set:
 
 | Outcome | Courses |
 |---|---:|
 | CRICOS-verified selected current URL | 245 |
-| Terminal negative | 131 |
+| Governed terminal negative | 131 |
 | **Total** | **376** |
 
-Terminal negatives are governed Evidence outcomes (`current_page_not_found`, `ambiguous`, or `identity_mismatch`) and do not manufacture a canonical URL.
+The corrected fresh-preview contract then represented the 382-course scope as 251 executable + 131 fresh terminal negatives, with zero rediscovery of those negatives.
 
-### Deterministic Layer 2 handoff
+### Corrected deterministic rerun / replay
 
-- Batch: `eee74644-9b2e-45b8-b0f7-20c4e5c587d4`.
-- Batch profile version: `3d70516d-95d-49e6-b33e-e61bacfec275`.
-- Requested UQ scope: 382.
-- Deterministic L2 target count: 251 = 6 previously queueable + 245 newly CRICOS-verified selections.
-- Terminal-negative courses excluded from deterministic L2 target: 131.
-- Handoff dispatch pg_net request: `5855`.
-- Batch created: `2026-09-12 02:20:20.718361Z`.
-- Batch last updated/terminalised: `2026-09-12 02:33:58.420717Z`.
-- Approximate elapsed batch window: 13m 38s.
-- Observed processing throughput: approximately 18.4 target items/minute. This is an observed acceptance-run figure, not a contractual capacity threshold.
+- Preview token: `feddbf8a-482b-4826-889a-fcfb315ec861`.
+- Exact scope fingerprint: `66c66f1d04bbc289e3cec1f7cd7faf3d`.
+- Batch: `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`.
+- Dispatch request: `5882`.
+- Target count: 251.
+- Policy-derived dedupe horizon: 30 minutes.
+- Same-token replay: PASS, `idempotent_replay=true`, no duplicate batch.
+- Batch elapsed: approximately 14m13.5s.
+- Terminal: 248 `resolved_l2` + 3 `layer3_required`; no failures/outstanding items.
+- Vendor units: 251.
+- Recorded vendor cost: USD 0.
+- Evidence records observed for the rerun: 502.
+- Resolved-item mean response: approximately 675.2ms.
+- Resolved-item mean extraction: approximately 1503.7ms.
+- 3 L3-required items mean response: approximately 242.3ms; mean extraction approximately 1449.7ms.
 
-Terminal batch disposition:
+A pre-correction fresh-preview dedupe attempt created duplicate batch `f4436f47...`; it was governed-cancelled with zero processed items. Completion-anchored dedupe was then corrected and the fresh-preview proof reused `5b2bac73...` with `existing_recent_dispatch=true`; no third execution was created.
+
+Safety checks: no generic Layer 3 interpretations/jobs, Search refresh signals, Layer 4 publication decisions, publication events or publication approvals from the scheduler/L2 path.
+
+## CF-093 — RMIT 500-course acceptance snapshot
+
+### Preview / binding
+
+- Profile: `726918ee-10e9-41e3-9a2a-5dace20af754`.
+- Profile version: `409b0f7c-4e04-4a33-8f4d-e173fc3f9c40`.
+- Preview token: `c3e73796-d2d3-486e-b3a4-83afc54b806d`.
+- Actor: `63ba56cb-48d4-4169-98c2-7c4d1f72925b`.
+- University scope ID: `8e1adb6c-e069-43db-9584-bd054255e702`.
+- Scope fingerprint: `14ff4e15dd39bc46f785f4e03ca3b3dc`.
+- Catalogue scope: 500 Courses.
+- Initial queueable: 261.
+- Preview-bound discovery: 239.
+- Invalid-profile / execution-policy / acquisition-route / oversize / discovery-config gaps: 0.
+- Binding activated: `2026-09-12 03:56:02.406678Z`.
+- Execution expiry: `2026-09-12 09:56:02.406678Z`.
+- Initial discovery request: `5909`.
+- Processing mode: `acquisition_only`.
+- Existing execution policy remained `max_concurrency=1`; it was not changed mid-acceptance.
+
+### Discovery
+
+The serial governed discovery chain used the existing RMIT route and was materially slower than UQ. Terminal request `5965` failed closed because 15 courses remained transient/unattempted: 10 had no current attempt and 5 retained transient `candidate` state. No threshold or identity rule was relaxed.
+
+A bounded retry redispatched exactly those 15 under the same active binding as request `5966`:
+
+- processed: 15;
+- selected: 0;
+- failed: 0;
+- remaining: 0;
+- continuation: none;
+- all 15 ended an allowed terminal-negative status.
+
+Final 239-course discovery:
+
+| Outcome | Courses |
+|---|---:|
+| CRICOS-verified selected current URL | 2 |
+| Governed terminal negative | 237 |
+| **Total** | **239** |
+
+- Discovery wall clock from binding activation to handoff: approximately 6895s / 1h54m55s.
+- Observed discovery throughput: approximately 2.08 Courses/minute.
+- This figure reflects serial source acquisition/fallback behaviour and is not an SLA.
+
+### Deterministic Layer 2
+
+- Batch: `c8a33237-d2b5-47c3-a02b-2676cb6b820f`.
+- Handoff request: `5967`.
+- Batch target: 263 = 261 prior queueable + 2 newly selected.
+- Requested scope: 500.
+- Terminal negatives excluded from L2 target: 237.
+- Batch created: `2026-09-12 05:50:57.510697Z`.
+- Batch completed: `2026-09-12 06:11:31.218367Z`.
+- Elapsed: approximately 1234s / 20m34s.
+- Observed throughput: approximately 12.79 items/minute.
+- Batch terminal state: `partial`.
 
 | L2 item status | Count |
 |---|---:|
-| `resolved_l2` | 248 |
-| `layer3_required` | 3 |
-| **Total** | **251** |
+| `resolved_l2` | 213 |
+| `layer3_required` | 50 |
+| **Total** | **263** |
 
-Batch status is `partial` because 3 items require the separately governed Layer 3 path. No generic scheduler Layer 3 invocation is authorised by this status.
+Acquisition telemetry across the 263 L2 items:
 
-### Tooling / telemetry observations
+| Metric | Observed |
+|---|---:|
+| Vendor units | 263 |
+| Recorded vendor cost | USD 0 |
+| Mean response latency | 1647.0 ms |
+| p50 response latency | 1621 ms |
+| p95 response latency | 1884.2 ms |
+| Mean extraction latency | 1730.6 ms |
+| p50 extraction latency | 1672 ms |
+| p95 extraction latency | 2114.6 ms |
 
-- Ordered provider-route execution remained in force.
-- Direct HTTP was observed as the successful acquisition provider for sampled deterministic L2 items.
-- Runtime result payloads expose per-item response/extraction timing and provider-attempt metrics; future comparative snapshots should aggregate these rather than rely only on batch wall-clock duration.
-- Provider runtime supports `vendor_units`, `vendor_units_basis` and `estimated_request_cost_usd`; record these when populated. Do not infer cost where provider configuration reports no value.
-- Layer 3 model/token/cost statistics are not recorded for this scheduler run because generic Layer 3 was not invoked.
-- Search/Publication effects remain outside this acceptance path and must be checked separately before acceptance closure.
+### Safety / boundary evidence
 
-## Comparative baseline use
+- 263 succeeded `layer2_acquisition_v2` jobs during the deterministic run.
+- No generic Layer 3 job type was created by the scheduler/L2 path.
+- Search refresh signals during the deterministic batch window: 0.
+- Runtime async handoff explicitly recorded `canonical_mutation_authorised=false`.
+- Runtime async handoff explicitly recorded `search_publication_authorised=false`.
+- `layer3_required` is a deterministic L2 terminal disposition only; it does not prove or authorise Layer 3 execution.
 
-Use the UQ snapshot as the first large-university baseline for the forthcoming RMIT 500-course run and subsequent qualification wave. Compare at minimum:
+### Replay/dedupe evidence limitation
 
-- discovery-required percentage;
-- selected vs terminal-negative percentage;
-- discovery invocations and elapsed time;
-- deterministic L2 target and terminal split;
-- L2 elapsed time and items/minute;
-- provider-route mix and fallback frequency;
-- response/extraction latency distribution when queryable;
-- vendor units / estimated acquisition cost when populated;
-- Layer3-required percentage;
-- Evidence volume/screenshot coverage;
-- CI/UAT/tool versions tied to the run.
+RMIT same-token/fresh-preview live replay was not executed before the 30-minute completion-anchored recent-dispatch window elapsed. Do not create another 500-course batch solely to recreate that expired timing proof. The accepted UQ run provides live same-token and fresh-preview dedupe evidence for the same corrected scheduler contract, and targeted CF-093 UAT covers applied terminal-negative/completion-dedupe migration identities. Repeat the RMIT-style replay proof naturally on a future governed execution if it falls within the live window.
 
-Do not compare runs as equivalent unless source profile, provider route, worker version and scope characteristics are recorded.
+## Comparative observations: UQ vs RMIT
+
+- RMIT discovery was substantially slower and selected a much smaller fraction of discovery-required Courses than UQ. Treat this as source/profile/tooling behaviour requiring future qualification evidence, not grounds to weaken identity rules.
+- RMIT deterministic L2 throughput (~12.79 items/min) was lower than the earlier UQ accepted run (~18.4 items/min) and the corrected UQ rerun. These are observed acceptance figures, not capacity commitments.
+- RMIT produced 50/263 (~19.0%) `layer3_required`, materially above UQ's 3/251 (~1.2%). The next Layer 3 gate should inspect whether this reflects source content structure, field coverage, profile semantics or expected deterministic fall-out before broadening AI use.
+- Both runs preserved Search/Publication separation and did not trigger generic Layer 3.
+
+## Next metrics capture
+
+For the bounded Layer 3 gate, capture eligible Evidence count, exact profile/model/provider/revalidation version, calls, success/failure disposition, tokens, recorded cost, response latency, evidence consequences and zero unauthorized publication/Search effects. Do not infer token/cost values that the runtime does not expose.
