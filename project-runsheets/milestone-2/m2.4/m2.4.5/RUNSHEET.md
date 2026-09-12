@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX RECOVERY; DISCOVERY ACCEPTANCE REOPENED  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX RECOVERY / RECONSTRUCTION SYNC PENDING  
 **Opened:** 2026-09-03 10:28 AEST  
 **Reconciled:** 2026-09-12 AEST  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
@@ -10,90 +10,98 @@
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
-- Active candidate: Pilot PR #72, branch `m245/cf093-async-discovery-20260912`, head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`.
-- Exact-head Pilot Frontend Build `34687938846`: PASS.
+- Active candidate: PR #72 / `m245/cf093-async-discovery-20260912` / head `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
+- Exact-head Pilot Frontend Build `34688257411`: PASS.
 - Cloudflare exact-head preview: PASS/deployed.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- `layer2-scope-discover-scheduled`: Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
+- Worker: Edge v27 / v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
 - Production Supabase: not provisioned.
-- PR remains draft/open; merge prohibited while P1 reconstruction blocker remains.
+- PR remains draft/open; merge prohibited until all gates below close.
 
-## Gate A — Codex recovery and repository/runtime reconciliation
+## Gate A — Codex recovery / runtime hardening
 
-- [x] Reconcile immutable runtime migrations through `20260912100539` and `20260912101339` into PR source.
-- [x] Bind Preview-bound discovery context, continuation and handoff to the exact Preview token.
-- [x] Revalidate profile/course identity fingerprint before new discovery Evidence writes.
-- [x] Make multi-profile cancellation set-based.
-- [x] Include async handoff batch IDs in completion-anchored dedupe.
-- [x] Reject dedupe reuse when any referenced batch is cancelled/missing/non-terminal.
-- [x] Make terminal-only scopes non-executable at Preview.
-- [x] Correct course-code regex boundary and stale worker-version UAT.
-- [x] Make unqualified first-party 200/no-link search results transient; do not fabricate zero-result markers.
-- [x] Invalidate legacy `current_page_not_found` freshness suppression through forward migration `20260912101339`.
-- [x] Exact-head Frontend Build `34687938846` PASS and Cloudflare preview PASS.
-- [ ] Resolve historical reconstruction P1 without rewriting/retimestamping applied `20260912005948` or mutating migration history ad hoc.
-- [ ] Obtain fresh Codex review on corrected exact head after reconstruction remedy.
+- [x] Exact Preview-token bound async discovery context/continuation/handoff.
+- [x] Identity fingerprint revalidation before discovery Evidence writes.
+- [x] No unqualified first-party HTTP-200/no-link terminal zero result.
+- [x] Regex word-boundary correction.
+- [x] Async handoff batch completion anchoring.
+- [x] All-batch reusable requirement for dedupe.
+- [x] Set-based multi-profile cancellation.
+- [x] Terminal-only Preview non-executable.
+- [x] Legacy `current_page_not_found` freshness invalidated by forward migration `20260912101339`.
+- [x] Forward migration `20260912100539` applied + checked in.
+- [x] Exact-head Frontend Build `34688257411` PASS and Cloudflare preview PASS.
+- [ ] Fresh exact-head Codex review of `013b2878...`.
 
-## Gate B — UQ 382-course acceptance
+## Gate B — repository reconstruction / migration currentness
 
-Historical deterministic evidence retained:
-- corrected batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 248 `resolved_l2` + 3 `layer3_required`;
-- same-token replay and corrected completion-dedupe were previously proven;
-- no generic Layer 3/Search/Publication side effects were observed.
+- [x] Confirmed reconstruction failure mechanism in immutable applied `20260912005948`: missing `discovery_strategy` intermediate object → unchanged config hash → unique violation.
+- [x] Preserved `20260912005948` unchanged/unretimestamped.
+- [x] Added retroactive idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql` ordered before `005948`.
+- [x] Read-only simulation against actual UQ v1 seed: validation PASS and distinct candidate configuration hash.
+- [x] Added reconstruction ordering/regression UAT.
+- [ ] From authorised Supabase CLI: `supabase migration repair 20260912005000 --status applied --linked`.
+- [ ] Verify `supabase migration list` local/remote parity.
+- [ ] Prove fresh reconstruction / `supabase db reset` succeeds through CF-093 chain.
+- [ ] Keep direct SQL mutation of `supabase_migrations.schema_migrations` prohibited.
 
-**Discovery acceptance reopened after Codex zero-result finding.** Current hardened snapshot:
+## Gate C — UQ corrective discovery
+
+Historical deterministic batch retained as evidence: `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 248 `resolved_l2` + 3 `layer3_required`.
+
+Current hardened snapshot:
 - 382 scoped;
 - 251 queueable;
-- 54 require rediscovery;
-- 77 retained governed terminal negatives.
+- **54 reopened discovery**;
+- 77 retained terminal negatives;
+- fingerprint `2661fefb086294a948862eac08f0c297`.
 
-- [ ] Run bounded authenticated rediscovery for the 54 reopened Courses only.
-- [ ] Reconcile any newly selected/changed actionable work through deterministic L2.
-- [ ] Re-prove side-effect boundaries.
+- [ ] Normal authenticated Preview/run for reopened UQ discovery only.
+- [ ] Reconcile changed/newly selected actionable work through deterministic L2 only.
+- [ ] Prove exact-token/fingerprint/dedupe and side-effect boundaries.
 
-## Gate C — RMIT 500-course acceptance
+## Gate D — RMIT corrective discovery
 
-Historical deterministic evidence retained:
-- batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 213 `resolved_l2` + 50 `layer3_required`;
-- 263 succeeded L2 acquisition jobs; no Search refresh signals; canonical/Search authority false.
+Historical deterministic batch retained as evidence: `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 213 `resolved_l2` + 50 `layer3_required`.
 
-**Discovery acceptance reopened after Codex zero-result finding.** Current hardened snapshot:
+Current hardened snapshot:
 - 500 scoped;
 - 263 queueable;
-- 27 require rediscovery;
-- 210 retained governed terminal negatives.
+- **27 reopened discovery**;
+- 210 retained terminal negatives;
+- fingerprint `cd360b3d2b6ba4ba8c2a5a9442cc761a`.
 
-- [ ] Run bounded authenticated rediscovery for the 27 reopened Courses only.
-- [ ] Reconcile any newly selected/changed actionable work through deterministic L2.
-- [ ] Re-prove side-effect boundaries.
+- [ ] Normal authenticated Preview/run for reopened RMIT discovery only.
+- [ ] Reconcile changed/newly selected actionable work through deterministic L2 only.
+- [ ] Prove exact-token/fingerprint/dedupe and side-effect boundaries.
 
-## Gate D — bounded Layer 3 assessment
+## Gate E — bounded Layer 3
 
-Paused while CF-093 Codex/reconstruction/discovery recovery remains open.
+Paused while Gates A–D remain open.
 
-- [x] Existing qualified Course Layer 3 contract inspected.
-- [x] 53 historical UQ/RMIT `layer3_required` Evidence items identified with retained text/html Evidence and zero existing interpretations at inspection time.
-- [ ] Resume bounded authenticated live-provider acceptance only after Gate A–C are clean.
-- [ ] Do not enable generic scheduler Layer 3.
-- [ ] Preserve Layer 4 and Search/Publication separation.
+- [x] Qualified JWT-protected Course Layer 3 contract inspected.
+- [x] Historical cohort at inspection: 53 `layer3_required` text/html Evidence items, 0 interpretations.
+- [ ] Resume one-call bounded authenticated live-provider acceptance only after CF-093 recovery is clean.
+- [ ] Generic scheduler Layer 3 remains disabled.
 
-## Gate E — final PR acceptance
+## Gate F — final PR acceptance
 
-- [ ] Reconstruction P1 resolved through governed repository strategy.
-- [ ] Fresh Codex review on final exact PR head with no unresolved P1/P2 findings.
-- [ ] Exact-head CI/UAT/runtime clean after final corrections.
-- [ ] Update PR #72 final acceptance summary.
+- [ ] All Codex P1/P2 findings closed on final exact head.
+- [ ] Migration history/reconstruction proof clean.
+- [ ] Corrective UQ/RMIT discovery + changed deterministic L2 clean.
+- [ ] Exact-head CI/UAT/runtime clean.
+- [ ] Final PR acceptance summary reconciled.
 - [ ] Merge only after all required gates are clean; no visible release bump before acceptance.
 
 ## Continuous M2.4.5 gates
 
-- H7 production migration/telemetry inventory remains active; Production target states remain pending.
+- H7 production migration/telemetry inventory remains active; Production target states pending.
 - H8 bugs/addenda/features remain Change-Controlled.
-- H9 targeted validation precedes bounded integration; one broader nominated acceptance only when warranted.
+- H9 targeted validation precedes bounded integration.
 - H10 meeting/status evidence remains maintained.
 - QS ranking recovery remains independent.
 - H14 external-consumer API-key lifecycle remains separately governed.
 
 ## Exact next action
 
-Resolve the repository reconstruction P1 without altering immutable applied history, then obtain fresh Codex review. After that, use the normal authenticated scheduler surface to rediscover only the reopened 54 UQ + 27 RMIT Courses and reconcile changed actionable work. Layer 3 remains paused until those gates are clean.
+Request exact-head Codex review for `013b2878...`, then complete the authorised official Supabase migration-history repair + migration-list/reconstruction proof. Only then run the reopened UQ 54 + RMIT 27 discovery scope through the normal authenticated scheduler. Layer 3 remains paused.
