@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 LARGE-UNIVERSITY L2 PASS; AUTHENTICATED L3/CODEX GATES OPEN  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX RECOVERY; DISCOVERY ACCEPTANCE REOPENED  
 **Opened:** 2026-09-03 10:28 AEST  
 **Reconciled:** 2026-09-12 AEST  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
@@ -10,62 +10,80 @@
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
-- Active candidate: Pilot PR #72, branch `m245/cf093-async-discovery-20260912`, head `a7283139a9e6088933be68fa69f75d2e9eb71fbe`.
-- Exact-head Pilot Frontend Build `34681032426`: PASS.
+- Active candidate: Pilot PR #72, branch `m245/cf093-async-discovery-20260912`, head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`.
+- Exact-head Pilot Frontend Build `34687938846`: PASS.
 - Cloudflare exact-head preview: PASS/deployed.
-- Codex exact-head review: blocked by code-review usage quota; no technical review outcome present.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
+- `layer2-scope-discover-scheduled`: Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
 - Production Supabase: not provisioned.
+- PR remains draft/open; merge prohibited while P1 reconstruction blocker remains.
 
-## CF-093 large-university acceptance sequence
+## Gate A — Codex recovery and repository/runtime reconciliation
 
-### Gate A — repository/runtime reconciliation
+- [x] Reconcile immutable runtime migrations through `20260912100539` and `20260912101339` into PR source.
+- [x] Bind Preview-bound discovery context, continuation and handoff to the exact Preview token.
+- [x] Revalidate profile/course identity fingerprint before new discovery Evidence writes.
+- [x] Make multi-profile cancellation set-based.
+- [x] Include async handoff batch IDs in completion-anchored dedupe.
+- [x] Reject dedupe reuse when any referenced batch is cancelled/missing/non-terminal.
+- [x] Make terminal-only scopes non-executable at Preview.
+- [x] Correct course-code regex boundary and stale worker-version UAT.
+- [x] Make unqualified first-party 200/no-link search results transient; do not fabricate zero-result markers.
+- [x] Invalidate legacy `current_page_not_found` freshness suppression through forward migration `20260912101339`.
+- [x] Exact-head Frontend Build `34687938846` PASS and Cloudflare preview PASS.
+- [ ] Resolve historical reconstruction P1 without rewriting/retimestamping applied `20260912005948` or mutating migration history ad hoc.
+- [ ] Obtain fresh Codex review on corrected exact head after reconstruction remedy.
 
-- [x] Reconcile Pilot main, PR #72, CI and Cloudflare preview.
-- [x] Reconcile forward migration source with immutable Pilot runtime history; no applied migration rewritten/retimestamped.
-- [x] Correct freshness UAT migration identity to applied `20260912031356`; exact-head CI PASS.
-- [ ] Obtain exact-head Codex review when review quota permits.
+## Gate B — UQ 382-course acceptance
 
-### Gate B — UQ 382-course proof
+Historical deterministic evidence retained:
+- corrected batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 248 `resolved_l2` + 3 `layer3_required`;
+- same-token replay and corrected completion-dedupe were previously proven;
+- no generic Layer 3/Search/Publication side effects were observed.
 
-- [x] Preview-bound discovery completed with 245 selected current URLs + 131 governed terminal negatives; 0 transient/unattempted.
-- [x] Corrected executable scope 251 + 131 fresh terminal negatives; no unnecessary rediscovery.
-- [x] Corrected rerun batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`.
-- [x] Same-token replay PASS.
-- [x] Completion-anchored fresh-Preview dedupe PASS after governed cancellation of a zero-processed pre-correction duplicate.
-- [x] No generic Layer 3 or Search/Publication side effect.
+**Discovery acceptance reopened after Codex zero-result finding.** Current hardened snapshot:
+- 382 scoped;
+- 251 queueable;
+- 54 require rediscovery;
+- 77 retained governed terminal negatives.
 
-### Gate C — RMIT 500-course proof
+- [ ] Run bounded authenticated rediscovery for the 54 reopened Courses only.
+- [ ] Reconcile any newly selected/changed actionable work through deterministic L2.
+- [ ] Re-prove side-effect boundaries.
 
-- [x] Fresh Preview `c3e73796-d2d3-486e-b3a4-83afc54b806d`: 500 total / 261 queueable / 239 discovery; executable with zero qualification gaps.
-- [x] Initial discovery chain failed closed at request `5965` with 15 transient/unattempted records.
-- [x] Bounded exact-binding retry `5966` processed only those 15 with 0 failures and no threshold/profile relaxation.
-- [x] Final discovery: 2 selected current URLs + 237 governed terminal negatives; 0 transient/unattempted.
-- [x] Deterministic batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`; 0 failed/queued/acquiring.
-- [x] No generic Layer 3 jobs; zero Search refresh signals; canonical/Search authority explicitly false.
-- [x] RMIT replay/dedupe timing limitation classified: live 30-minute window elapsed; do not launch a duplicate 500-course run solely to recreate it. UQ provides live proof for the same corrected contract; repeat naturally on a future governed run.
+## Gate C — RMIT 500-course acceptance
 
-### Gate D — bounded Layer 3 assessment
+Historical deterministic evidence retained:
+- batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 213 `resolved_l2` + 50 `layer3_required`;
+- 263 succeeded L2 acquisition jobs; no Search refresh signals; canonical/Search authority false.
 
-- [x] Reconcile owning `CF-CHG-20260825-038`: CLOSED/PASS Layer 3 execution boundary and pinned real-provider benchmark.
-- [x] Runtime profile `openrouter-free-router-v1` confirmed enabled/unpaused and Pilot environment `pilot_qualified`; benchmark `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` PASS.
-- [x] Identify eligible UQ/RMIT set: 53 `layer3_required` items, 53 current Evidence artifacts, 0 existing interpretations.
-- [x] Confirm `layer3-interpret` v9 is ACTIVE and `verify_jwt=true`; it validates the user token before reservation.
-- [ ] Perform a deliberately bounded live-provider acceptance using an authorised authenticated user/session surface. Do not invoke through service-role SQL or bypass user JWT merely to obtain a PASS.
-- [ ] Record Layer 3 calls/tokens/cost/latency/validator disposition and Evidence lineage in `SYSTEM-METRICS.md`.
-- [ ] Reconcile stale runtime `pending-live-provider-uat` metadata through a governed forward change; do not directly mutate privileged state.
-- [ ] Keep generic scheduler Layer 3 disabled; preserve Layer 4 and Search/Publication separation.
+**Discovery acceptance reopened after Codex zero-result finding.** Current hardened snapshot:
+- 500 scoped;
+- 263 queueable;
+- 27 require rediscovery;
+- 210 retained governed terminal negatives.
 
-### Gate E — final PR acceptance
+- [ ] Run bounded authenticated rediscovery for the 27 reopened Courses only.
+- [ ] Reconcile any newly selected/changed actionable work through deterministic L2.
+- [ ] Re-prove side-effect boundaries.
 
-- [x] Update PR #72 acceptance description to UQ/RMIT/current migration truth.
-- [ ] Exact-head Codex review when quota permits.
-- [ ] Reconfirm exact-head CI/UAT/runtime after any review-driven or Layer 3 metadata change.
+## Gate D — bounded Layer 3 assessment
+
+Paused while CF-093 Codex/reconstruction/discovery recovery remains open.
+
+- [x] Existing qualified Course Layer 3 contract inspected.
+- [x] 53 historical UQ/RMIT `layer3_required` Evidence items identified with retained text/html Evidence and zero existing interpretations at inspection time.
+- [ ] Resume bounded authenticated live-provider acceptance only after Gate A–C are clean.
+- [ ] Do not enable generic scheduler Layer 3.
+- [ ] Preserve Layer 4 and Search/Publication separation.
+
+## Gate E — final PR acceptance
+
+- [ ] Reconstruction P1 resolved through governed repository strategy.
+- [ ] Fresh Codex review on final exact PR head with no unresolved P1/P2 findings.
+- [ ] Exact-head CI/UAT/runtime clean after final corrections.
+- [ ] Update PR #72 final acceptance summary.
 - [ ] Merge only after all required gates are clean; no visible release bump before acceptance.
-
-### Gate F — next AU qualification wave
-
-Normal qualification only: Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW. Do not manufacture missing policy/profile/configuration.
 
 ## Continuous M2.4.5 gates
 
@@ -78,4 +96,4 @@ Normal qualification only: Monash → Melbourne → ANU → UTS → UWA → Sydn
 
 ## Exact next action
 
-Use an authorised authenticated Layer 3 user/session surface for a deliberately bounded live-provider acceptance against the 53 eligible UQ/RMIT Evidence items. Do not bypass JWT/user identity. Record metrics and reconcile stale Layer 3 UAT metadata through forward governance. Obtain exact-head Codex review when quota permits; PR #72 remains draft/unmerged and M2.5 remains paused.
+Resolve the repository reconstruction P1 without altering immutable applied history, then obtain fresh Codex review. After that, use the normal authenticated scheduler surface to rediscover only the reopened 54 UQ + 27 RMIT Courses and reconcile changed actionable work. Layer 3 remains paused until those gates are clean.
