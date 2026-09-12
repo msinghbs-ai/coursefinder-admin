@@ -2,7 +2,7 @@
 
 **Status:** ACCEPTED IMPLEMENTATION AUTHORITY FOR CURRENT BOUNDARY  
 **Change Control:** CF-CHG-20260910-093  
-**Updated:** 11 September 2026
+**Updated:** 12 September 2026
 
 | Workflow | Operator scope | L1 | L2 | L3 | L4 | Default orchestration |
 |---|---|---:|---:|---:|---:|---|
@@ -38,10 +38,11 @@ Search and Publication remain downstream governed consequences, never selectable
 
 ## Accepted executable slice
 
-At accepted Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible **v2.15.78**, Scheduled Tasks can build, preview and dispatch only **AU Layer 2 Course Facts** targets through the existing server-authorised Layer 2 scope services:
+At reconciled Pilot main `63c7107cfce2d8f607fc378af4881d0ba28ca879` / visible **v2.15.78**, Scheduled Tasks may preview and dispatch only **AU Layer 2 Course Facts** targets whose entire authoritative scope is policy-qualified, fully queueable and deterministic under the existing server-authorised Layer 2 services:
 
 - Country = AU;
-- Scope = Country, State/Territory or University/Provider;
+- Scope selector may be Country, State/Territory or University/Provider, but a selected scope is executable only when every included course is queueable and all qualification gates pass;
+- any scope containing discovery-backed work fails closed before Preview; generic async-discovery execution remains unsupported until a separately accepted Preview-bound async worker/continuation contract exists;
 - Run mode = **Acquisition + deterministic Layer 2** only;
 - server preview is mandatory before consequential dispatch;
 - profile version, deterministic Layer 2 execution policy and current scope size are revalidated server-side;
@@ -50,8 +51,11 @@ At accepted Pilot main `cfc4702ba57a58ea31936dcabbd96fdd765194e2` / visible **v2
 - execution delegates to governed Layer 2 service contracts rather than manufacturing browser-side targets;
 - underlying Layer 2 Jobs/Evidence remain authoritative for processing state.
 
+Current runtime truth leaves `CF-CHG-20260910-093` **REOPENED / CONSEQUENTIAL ACCEPTANCE BLOCKED**: RMIT and UQ are discovery-backed; Nova Higher Education and Stamford International College are fully queueable but retain execution-policy gaps. Do not create policy/profile/route/runtime configuration merely to force acceptance.
+
 ## Not executable from this builder
 
+- any target containing discovery-backed work;
 - NZ Layer 2 Course enrichment;
 - automatic generic L2 -> L3 -> L4 orchestration;
 - generic Layer 3 Evidence reprocessing;
