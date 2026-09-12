@@ -8,42 +8,41 @@
 - Visible accepted release: v2.15.78.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 - Active change: `CF-CHG-20260910-093`.
-- PR #72: OPEN / DRAFT / mergeable but governance-blocked, head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`.
-- Exact-head Frontend Build `34687938846`: PASS.
-- Exact-head Cloudflare preview: PASS/deployed.
+- PR #72: OPEN / DRAFT / mergeable but governance-blocked, current head `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
+- Last proven corrective head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`: Frontend Build `34687938846` PASS and Cloudflare preview PASS.
+- Current head adds only the reconstruction bootstrap + its regression test; obtain exact-head CI/Cloudflare/Codex before acceptance.
 - `layer2-scope-discover-scheduled`: Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
 
-## Codex result and recovery
+## Codex recovery
 
-Codex returned nine actionable findings on predecessor head `a7283139...`. Eight now have forward fixes and their review threads are resolved:
-
-- exact Preview token through bound discovery context/continuation/handoff;
-- identity fingerprint revalidation before Evidence writes;
-- no unqualified HTTP-200/no-link terminal zero result;
-- escaped course-code regex word boundaries;
-- async handoff batch recording for completion dedupe;
-- all referenced batches must be reusable for dedupe;
-- set-based multi-profile cancellation;
-- terminal-only Preview blocking + stale worker-version UAT correction.
-
-Forward runtime migrations:
+Codex returned nine actionable findings. Eight are forward-fixed and threads resolved. Forward runtime migrations applied and checked in:
 
 - `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`;
 - `20260912101339_cf_093_terminal_negative_basis_hardening`.
 
-No applied migration was rewritten or retimestamped.
+Worker v1.3.9 now requires exact Preview token on Preview-bound async discovery, revalidates binding identity before Evidence writes, fails unqualified 200/no-link pages transient, uses corrected regex boundaries, and uses token-aware continuation/handoff services. Dedupe/cancel/terminal-only Preview SQL defects are forward-fixed.
 
-## Open P1 — repository reconstruction
+## Historical reconstruction P1 — proposed governed remedy
 
-One Codex P1 remains intentionally unresolved: applied migration `20260912005948_cf_093_uq_native_program_discovery_profile.sql` assumes `discovery_strategy` already exists. Repository foundation `20260823102443` seeds UQ without that object. PostgreSQL nested `jsonb_set` therefore leaves the configuration unchanged and the migration attempts to reinsert the existing configuration hash; runtime schema has `unique(profile_id,configuration_hash)`, so fresh reconstruction aborts.
+Applied migration `20260912005948_cf_093_uq_native_program_discovery_profile.sql` cannot replay from the repository foundation because the UQ v1 seed has no `discovery_strategy`; nested `jsonb_set` cannot create missing intermediate path elements and the unchanged configuration hash violates `unique(profile_id,configuration_hash)`.
 
-Do **not** edit/retimestamp `20260912005948` and do not mutate `supabase_migrations.schema_migrations` ad hoc. Establish a governed reconstruction/baseline solution before merge.
+Do **not** edit or retimestamp `20260912005948`.
+
+PR #72 now contains a deliberately earlier, idempotent bootstrap:
+
+`20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`
+
+It runs before immutable `005948` on fresh reconstruction and creates only the missing `discovery_strategy` object with `type=first_party_search` through normal version governance. A runtime simulation using the actual UQ v1 seed proved that bootstrap + immutable `005948` produces a valid config and a distinct configuration hash.
+
+Pilot already has the resulting qualified discovery strategy through its applied history, so this retroactive bootstrap must **not** be executed by direct history-table SQL. The remaining authorised remote-history action is the official Supabase CLI operation:
+
+`supabase migration repair 20260912005000 --status applied --linked`
+
+This official command updates migration tracking only; it does not run the migration SQL. The current connector does not expose `migration repair`, so that one history-sync action remains pending. Do not emulate it with direct INSERT/DELETE against `supabase_migrations.schema_migrations`.
 
 ## Discovery acceptance reopened
 
-Codex showed the earlier worker could classify a first-party HTTP 200 page with no required-prefix link as terminal `current_page_not_found` without an explicit qualified zero-result marker. Worker v1.3.9 now fails that case transient unless the profile defines a matching `discovery_strategy.zero_result_markers`. UQ/RMIT currently define none; do not invent markers.
-
-Migration `20260912101339` prevents legacy `current_page_not_found` rows from suppressing rediscovery. Current hardened snapshots:
+Migration `20260912101339` prevents legacy `current_page_not_found` from suppressing rediscovery. Current hardened snapshots:
 
 | Cohort | Scoped | Queueable | Reopened discovery | Retained terminal negatives |
 |---|---:|---:|---:|---:|
@@ -53,29 +52,26 @@ Migration `20260912101339` prevents legacy `current_page_not_found` rows from su
 UQ fingerprint: `2661fefb086294a948862eac08f0c297`.  
 RMIT fingerprint: `cd360b3d2b6ba4ba8c2a5a9442cc761a`.
 
-Historical deterministic executions remain evidence, not current discovery acceptance:
+No corrective discovery run has been dispatched. Historical deterministic batches remain evidence only:
 
 - UQ `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`.
 - RMIT `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`.
 
-No corrective UQ/RMIT run has been dispatched yet. Do not rerun the entire 382/500 scope unnecessarily; after reconstruction P1 is resolved, use the normal authenticated scheduler surface and rediscover only the reopened 54 + 27 Courses.
-
 ## Layer 3
 
-Previously inspected Course Layer 3 contract remains qualified and JWT-protected, with 53 historical UQ/RMIT `layer3_required` Evidence items and no interpretation at inspection time. **Layer 3 acceptance is paused behind CF-093 recovery.** Generic scheduler Layer 3 remains prohibited.
+Previously inspected Layer 3 contract remains qualified/JWT-protected. Live acceptance is paused behind CF-093 reconstruction + reopened discovery. Generic scheduler Layer 3 remains prohibited.
 
 ## Exact next actions
 
-1. Resolve the repository reconstruction P1 through a governed baseline/reconstruction strategy without changing immutable applied history.
-2. Request/review fresh Codex on the final corrective head; leave the reconstruction thread open until genuinely fixed.
-3. Run authenticated corrective rediscovery for **UQ 54 + RMIT 27 only**.
-4. Reconcile newly selected/changed actionable work through deterministic L2 and verify exact-token/fingerprint/dedupe/cancel semantics naturally.
-5. Prove no generic Layer 3, Layer 4 auto-approval, Search or Publication side effects.
-6. Update metrics and governance from actual outcomes.
-7. Resume bounded authenticated Layer 3 only after CF-093 discovery/reconstruction gates are clean.
-8. Merge/release remains prohibited until final Codex + exact-head CI/UAT/runtime + governance acceptance are all clean.
-9. After CF-093 closes: Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW through normal qualification only.
+1. Verify exact-head CI/Cloudflare for `013b2878...`.
+2. Ask Codex to review the retroactive bootstrap design and all current corrections; keep merge blocked until review is clean.
+3. Perform official `supabase migration repair 20260912005000 --status applied --linked` from an authorised CLI session; do not use direct SQL to fake it.
+4. Confirm `supabase migration list` shows local/remote aligned and perform a fresh `supabase db reset`/reconstruction proof where available.
+5. Through normal authenticated scheduler, rediscover only UQ 54 + RMIT 27 reopened Courses, then reconcile only newly selected/changed deterministic L2 work.
+6. Prove no generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
+7. Resume bounded authenticated Layer 3 only after CF-093 recovery gates close.
+8. Merge/release remains prohibited until final Codex + exact-head CI/UAT/runtime + migration reconstruction + governance acceptance are clean.
 
 ## Pickup text
 
-> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main remains `63c7107cfce2d8f607fc378af4881d0ba28ca879`, visible release v2.15.78. PR #72 is draft/open at `c5226c2bcadd7ee7102935088130262ca2a3a2a2`; Frontend Build `34687938846` and Cloudflare preview PASS. Codex returned nine findings; eight are forward-fixed and threads resolved. Forward migrations `20260912100539` and `20260912101339` are applied; worker v1.3.9 is Edge v27. One P1 remains: applied UQ migration `20260912005948` cannot replay from repository foundation because `discovery_strategy` is absent; do not rewrite/retimestamp it or mutate migration history ad hoc. Discovery acceptance is reopened: UQ 54 and RMIT 27 Courses require corrective rediscovery; 77/210 stronger negatives remain terminal. Resolve reconstruction first, then run only the reopened scopes through normal authenticated scheduler, reconcile deterministic L2 changes, and only then resume Layer 3. Do not merge/release while any P1 remains.
+> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main remains `63c7107cfce2d8f607fc378af4881d0ba28ca879`, release v2.15.78. PR #72 is draft/open at `013b2878ce748c1a7196c74cb467ac55f5858cd6`. Codex returned nine findings; eight are forward-fixed. Runtime migrations `20260912100539` and `20260912101339` are applied; worker v1.3.9 is Edge v27. A retroactive idempotent reconstruction bootstrap `20260912005000` now precedes immutable applied UQ migration `20260912005948`; simulation against the UQ v1 seed validates bootstrap+005948. Pilot already has the resulting schema semantics, but official Supabase `migration repair 20260912005000 --status applied --linked` remains required and must not be emulated with direct migration-history SQL. Discovery acceptance is reopened: UQ 54 + RMIT 27 need corrective authenticated rediscovery; 77/210 stronger negatives remain terminal. Verify exact-head CI/Codex, complete official migration-history sync/reconstruction proof, then run only reopened discovery scopes. Layer 3 remains paused; do not merge/release while any P1/gate remains.
