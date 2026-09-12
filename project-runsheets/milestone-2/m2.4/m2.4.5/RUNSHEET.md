@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 LARGE-UNIVERSITY ACCEPTANCE BLOCKED  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 LARGE-UNIVERSITY L2 PASS; REVIEW/L3 GATES OPEN  
 **Opened:** 2026-09-03 10:28 AEST  
 **Reconciled:** 2026-09-12 AEST  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
@@ -10,9 +10,9 @@
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
-- Active candidate: Pilot PR #72, branch `m245/cf093-async-discovery-20260912`, head `692ba7ef93e19d833963d96dab2558b340eaea17`.
-- Exact-head Pilot Frontend Build `34657854675`: PASS.
-- Cloudflare PR preview: PASS/deployed.
+- Active candidate: Pilot PR #72, branch `m245/cf093-async-discovery-20260912`, head `81a8ae3b24063970d5571b6d8bb177b9c6c7e07a`.
+- Exact-head Pilot Frontend Build `34672122160`: PASS.
+- Cloudflare exact-head preview: PASS/deployed.
 - Codex exact-head review: pending/no result present.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 - Production Supabase: not provisioned.
@@ -22,58 +22,47 @@
 ### Gate A — repository/runtime reconciliation
 
 - [x] Reconcile Pilot main, PR #72, CI and Cloudflare preview.
-- [x] Reconcile Pilot runtime migration history.
-- [ ] Reconcile PR #72 source migration identities with immutable runtime-applied identities; do not rewrite/retimestamp applied migrations.
-- [ ] Obtain fresh Codex review on the final exact PR head.
+- [x] Reconcile forward migration source with immutable Pilot runtime history; no applied migration rewritten/retimestamped.
+- [x] Add targeted terminal-negative/dedupe regression coverage and restore missing forward migration source; exact-head CI PASS.
+- [ ] Obtain fresh Codex review on final exact PR head.
 
 ### Gate B — UQ 382-course proof
 
-- [x] Wait for recent-dispatch dedupe window to clear.
-- [x] Fresh Preview: 382 total / 156 queueable / 226 discovery; executable; zero profile/policy/route/oversize/discovery-config gaps.
-- [x] Fresh Run now dispatched under CF-093 governance; not deduplicated.
-- [x] Historical unsuccessful discovery dispositions proved retryable while preserving history.
-- [x] All 226 discovery Courses retried through seven bounded Layer 2 discovery Jobs.
-- [ ] Deterministic Layer 2 handoff: **BLOCKED**.
-- [ ] Same-token successful replay: not applicable until a successful handoff exists.
-- [ ] Fresh-preview recent-dispatch dedupe after successful handoff: not applicable until a successful handoff exists.
+- [x] Fresh governed Preview/binding.
+- [x] Discovery completed with 245 selected current URLs + 131 governed terminal negatives; 0 transient/unattempted.
+- [x] Deterministic L2 batch `eee74644-9b2e-45b8-b0f7-20c4e5c587d4`: 248 `resolved_l2` + 3 `layer3_required`.
+- [x] Same-token replay proved idempotent.
+- [x] Fresh-Preview dedupe defect identified, unintended duplicate cancelled with 0 processed items, forward completion-anchored correction applied and retested PASS.
+- [x] No generic Layer 3 or Search/Publication side effect accepted.
 
-Terminal UQ disposition: 115 current_page_not_found, 79 identity_mismatch, 27 ambiguous, 5 likely_match/selected. Final pg_net request `5759` returned HTTP 500 with the governed all-discovery-current fail-closed error.
+### Gate C — RMIT 500-course proof
 
-### Gate C — UQ discovery qualification recovery
+- [x] Fresh Preview token `c3e73796-d2d3-486e-b3a4-83afc54b806d`: 500 total / 261 queueable / 239 discovery; executable with zero qualification gaps.
+- [x] Initial discovery chain remained fail-closed; terminal request `5965` identified 15 transient/unattempted records.
+- [x] Bounded exact-binding retry request `5966` processed only those 15 with 0 failures.
+- [x] Final discovery: 2 selected current URLs + 237 governed terminal negatives; 0 transient/unattempted.
+- [x] Deterministic L2 batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: target 263; terminal 213 `resolved_l2` + 50 `layer3_required`; no failed/queued/acquiring items.
+- [x] No generic Layer 3 jobs; no Search refresh signals; handoff explicitly denied canonical mutation and Search/Publication authority.
+- [ ] Same-token replay through authenticated scheduler surface.
+- [ ] Fresh-Preview recent-dispatch dedupe through authenticated scheduler surface.
 
-- [ ] Inspect retained UQ discovery Jobs/Evidence and official first-party examples.
-- [ ] Qualify/correct the existing UQ discovery/search and identity-confirmation profile/algorithm without fabricating routes, profiles, policies or URLs.
-- [ ] Preserve exact CRICOS/detail identity proof and fail-closed semantics.
-- [ ] Re-run targeted retry/binding regression.
-- [ ] Run a fresh UQ 382-course consequential acceptance after the failed binding is no longer active under the governed contract.
+### Gate D — bounded Layer 3 assessment
 
-### Gate D — RMIT 500-course proof
-
-- [ ] **GATED BY UQ PASS.** Do not run before Gate C passes.
-- [ ] Preview 500 total / expected 261 queueable / 239 discovery subject to fresh runtime truth.
-- [ ] Run now → discovery continuations → deterministic Layer 2 → Jobs/Evidence.
-- [ ] Same-token replay and fresh-preview dedupe.
-
-### Gate E — Layer 3 bounded assessment
-
-- [ ] Inspect accepted Layer 2 Evidence after successful large-university proof.
-- [ ] Use only existing Layer 3 profile/model/revalidation contracts for eligible Evidence.
+- [ ] Inspect eligible UQ/RMIT `layer3_required` Evidence and existing qualified Course Layer 3 profile/model/revalidation state.
+- [ ] Run bounded Layer 3 acceptance only through that existing governed contract.
 - [ ] Do not enable generic scheduler Layer 3.
 - [ ] Preserve Layer 4 and Search/Publication separation.
 
+### Gate E — final PR acceptance
+
+- [ ] Fresh Codex review on final exact PR head.
+- [ ] Reconfirm exact-head CI/UAT/runtime after any review-driven change.
+- [ ] Update PR #72 final acceptance summary.
+- [ ] Merge only after all required gates are clean; no visible release bump before acceptance.
+
 ### Gate F — next AU qualification wave
 
-Normal profile/policy/config qualification only, in this order:
-
-1. Monash University
-2. The University of Melbourne
-3. Australian National University
-4. University of Technology Sydney
-5. The University of Western Australia
-6. The University of Sydney
-7. UNSW Sydney
-
-No cohort membership is authority to manufacture missing execution policy, source profile or discovery config.
+Normal qualification only: Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW. Do not manufacture missing policy/profile/configuration.
 
 ## Continuous M2.4.5 gates
 
@@ -81,9 +70,9 @@ No cohort membership is authority to manufacture missing execution policy, sourc
 - H8 bugs/addenda/features remain Change-Controlled.
 - H9 targeted validation precedes bounded integration; one broader nominated acceptance only when warranted.
 - H10 meeting/status evidence remains maintained.
-- QS-focused ranking recovery remains an independent active workstream; generic ARWU/Diversity ETL remains deferred roadmap work unless re-authorised.
+- QS ranking recovery remains independent.
 - H14 external-consumer API-key lifecycle remains separately governed.
 
 ## Exact next action
 
-Resolve the UQ discovery qualification blocker from retained Evidence, while also reconciling PR #72 migration source identities. Do not run RMIT, generic Layer 3, merge PR #72, deploy a new accepted release, or reopen M2.5 until the relevant gates are clean.
+Complete RMIT authenticated replay/dedupe proof if an authorised browser/session surface is available, then perform bounded Layer 3 acceptance using only the existing qualified Evidence/profile/model/revalidation contract. Obtain exact-head Codex review before merge. M2.5 remains paused.
