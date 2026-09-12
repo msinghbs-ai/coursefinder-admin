@@ -1,136 +1,105 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** ACTIVE — LARGE-UNIVERSITY L2 ACCEPTANCE PASS / AUTHENTICATED L3 + CODEX GATES PENDING  
+**Status:** ACTIVE — CODEX RECOVERY / DISCOVERY ACCEPTANCE REOPENED / MERGE BLOCKED  
 **Initiated:** 2026-09-10 AEST  
 **Reconciled:** 2026-09-12 AEST  
 **Category:** 30-admin-pim-ux  
 **Parent:** CF-CHG-20260910-092  
 **Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
 **Active Pilot PR:** #72 (`m245/cf093-async-discovery-20260912`)  
-**PR head:** `a7283139a9e6088933be68fa69f75d2e9eb71fbe`  
+**Candidate head:** `c5226c2bcadd7ee7102935088130262ca2a3a2a2`  
 **Visible accepted release:** v2.15.78
 
 ## Objective
 
 Complete the bounded Scheduled Tasks run-on-demand contract for large AU Course Facts scopes without weakening Layer 1 authority, deterministic Layer 2 Evidence truth, Layer 3 Evidence/profile/model/revalidation governance, Layer 4 human resolution, Search/Publication separation or rank/ACL boundaries.
 
-## Preserved authority and security boundaries
+## Current decision
+
+The earlier UQ/RMIT deterministic Layer 2 batch evidence remains valid evidence of what executed, but **large-university discovery acceptance is reopened** after exact-head Codex review identified fail-closed/correlation defects and an unsafe terminal zero-result assumption. Layer 3 acceptance is paused until CF-093 discovery/reconstruction blockers close. PR #72 must not merge and no visible release may be advanced.
+
+## Codex review — 12 Sep 2026
+
+Codex returned nine actionable findings on the prior exact head: three P1 authority/reconstruction defects and six P2 correctness/recovery defects.
+
+Forward corrections now address eight findings:
+
+1. exact Preview token is mandatory through Preview-bound discovery context, continuation and deterministic handoff;
+2. bound profile/course identity fingerprint is revalidated before any new discovery Evidence write;
+3. first-party HTTP 200/no required-prefix-link is transient unless an explicit profile-qualified zero-result marker is observed;
+4. course-code regex word boundaries use an escaped `String.raw` contract;
+5. async handoff batch IDs are persisted into Preview job result so completion-anchored dedupe includes discovery-backed batches;
+6. dedupe reuse requires every referenced batch to exist and be completed/partial; cancelled/missing siblings fail closed;
+7. operator cancellation is set-based across all bindings for a multi-profile Preview;
+8. terminal-only scopes are non-executable at Preview; stale worker-version UAT was updated.
+
+The historical UQ migration reconstruction P1 remains OPEN: `20260912005948_cf_093_uq_native_program_discovery_profile.sql` performs nested `jsonb_set` against a repository-seeded UQ configuration that has no `discovery_strategy` object. On fresh reconstruction the update is ineffective and the subsequent version insert reuses the current configuration hash, violating `unique(profile_id, configuration_hash)`. This migration is already applied in Pilot and **must not be rewritten or retimestamped**. No ad-hoc mutation of `supabase_migrations.schema_migrations` is authorised. A governed reconstruction/baseline remedy is required before merge.
+
+## Forward Pilot corrections
+
+### Migration `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`
+
+Applied forward-only to Pilot and checked into PR #72. It adds exact-token service wrappers, identity revalidation, async handoff batch recording, all-batch completion dedupe, set-based cancellation and terminal-only Preview blocking.
+
+### Worker v1.3.9 / Edge v27
+
+`layer2-scope-discover-scheduled` deployed as Edge v27, worker `layer2-scope-discover-scheduled-v1.3.9`, runtime SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
+
+The existing one-time nonce/service authentication model is unchanged (`verify_jwt=false` remains the already-governed custom-auth boundary). Preview-bound executions require `scheduler_preview_token`; missing token fails closed. Worker uses only exact-token context/continuation/handoff services for scheduler-bound discovery.
+
+A first-party search page with no required-prefix links is no longer terminal solely because it returned HTTP 200. It requires an explicit configured `discovery_strategy.zero_result_markers` match. Current UQ/RMIT profiles do not define such markers, so no marker was fabricated.
+
+### Migration `20260912101339_cf_093_terminal_negative_basis_hardening`
+
+Applied forward-only and checked into PR #72. Legacy `current_page_not_found` rows no longer suppress rediscovery. `ambiguous` and `identity_mismatch` remain recognised terminal negatives. A future `current_page_not_found` may only become freshness-eligible after a future worker contract records explicit terminal basis; the current v1.3.9 worker does not grant that freshness.
+
+## Reopened UQ/RMIT scope
+
+After terminal-basis hardening, current runtime snapshots are:
+
+| Cohort | Scoped | Queueable | Reopened discovery | Retained governed terminal negatives |
+|---|---:|---:|---:|---:|
+| UQ | 382 | 251 | 54 | 77 |
+| RMIT | 500 | 263 | 27 | 210 |
+
+Thus only **81 Courses** are reopened (54 UQ + 27 RMIT); the stronger existing `ambiguous`/`identity_mismatch` outcomes remain terminal. No new UQ/RMIT execution has been dispatched from this corrective step.
+
+Previous deterministic batch evidence remains retained:
+
+- UQ batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`.
+- RMIT batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`.
+
+These are historical execution outcomes, not current discovery acceptance after the zero-result correction.
+
+## Current repository / deployment evidence
+
+- Candidate head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`.
+- Pilot Frontend Build `34687938846`: PASS.
+- Cloudflare exact-head preview: deployment successful.
+- PR remains draft/open/mergeable but **governance-blocked from merge**.
+- Eight corrected Codex threads resolved; historical migration reconstruction P1 remains open.
+- Accepted main/release remain unchanged.
+
+## Authority boundaries retained
 
 - Browser scheduler reads/actions remain rank-gated governed RPCs.
 - Layer 1 identity/source authority remains unchanged.
-- Layer 2 discovery/acquisition is deterministic and Evidence-preserving.
-- Terminal discovery negatives are accepted only as `current_page_not_found`, `ambiguous` or `identity_mismatch`; no URL is manufactured.
-- `layer3_required` is an L2 terminal disposition only; generic scheduler Layer 3 remains prohibited.
-- Layer 3 live interpretation remains JWT/user-identity protected through the accepted `layer3-interpret` Edge contract.
-- Search/Publication remains a separate governed boundary.
-- No execution policy, source profile, route or identity threshold was fabricated/relaxed for acceptance.
-- Applied migration history was not rewritten or retimestamped.
+- Layer 2 discovery/acquisition remains deterministic and Evidence-preserving.
+- No URL/profile/route/zero-result marker was manufactured.
+- `layer3_required` remains an L2 disposition only; generic scheduler Layer 3 remains prohibited.
+- Search/Publication remains separately governed.
+- No applied migration was rewritten or retimestamped.
 
-## Repository / CI / deployment truth
+## Exact next gates
 
-PR #72 remains OPEN / DRAFT / mergeable against accepted main `63c7107...`.
-
-- Exact PR head: `a7283139a9e6088933be68fa69f75d2e9eb71fbe`.
-- Exact-head Pilot Frontend Build `34681032426`: **PASS**.
-- Cloudflare exact-head branch/commit preview: **deployment successful**.
-- Intermediate head `eec6fbbf...` / run `34677940824` failed because CF-093 freshness UAT referenced nonexistent migration alias `20260912032000...`; exact-head correction now references applied `20260912031356...` and passes.
-- Codex exact-head review remains unresolved. A fresh review request was posted at `2026-09-12 09:26:27Z` as PR comment `5645005516`; no review submission or quota response had appeared at reconciliation time. Earlier exact-head attempts were rejected only because the account had reached its code-review usage limit. Merge remains blocked until an actual review result is present.
-- Visible accepted release remains v2.15.78; no Production deployment.
-
-PR source now retains immutable applied migration identities, including `20260912035500_cf_093_scheduler_completion_anchored_dedupe`; no applied runtime history was rewritten or retimestamped.
-
-## UQ 382-course acceptance — PASS
-
-Corrected governed scope: 251 executable deterministic Layer 2 targets + 131 fresh terminal negatives.
-
-Final original bound discovery history: 245 CRICOS-verified selected current URLs + 131 governed terminal negatives, with 0 transient/unattempted outcomes.
-
-Corrected rerun batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` terminalised with:
-
-- 248 `resolved_l2`;
-- 3 `layer3_required`;
-- 0 failed/outstanding;
-- same-token replay PASS (`idempotent_replay=true`);
-- fresh-Preview completion-anchored dedupe PASS.
-
-A pre-correction duplicate UQ batch was cancelled through the governed lifecycle with 0 processed items and no Evidence/canonical consequence. No generic Layer 3 or Search/Publication side effect was produced.
-
-## RMIT 500-course acceptance — L2 PASS
-
-Fresh Preview token: `c3e73796-d2d3-486e-b3a4-83afc54b806d`.
-
-Preview:
-
-- scope: 500 Courses;
-- queueable: 261;
-- Preview-bound discovery: 239;
-- executable: true;
-- profile/policy/route/oversize/discovery-config gaps: 0;
-- scope fingerprint: `14ff4e15dd39bc46f785f4e03ca3b3dc`.
-
-Discovery initially terminated fail-closed on pg_net request `5965` with 15 courses still transient/unattempted. The accepted active-binding retry contract redispatched exactly those 15 under request `5966`; no source profile, threshold or identity rule changed.
-
-Final discovery:
-
-| Discovery outcome | Courses |
-|---|---:|
-| CRICOS-verified selected current URL | 2 |
-| Governed terminal negative | 237 |
-| Transient / unattempted | 0 |
-| **Total** | **239** |
-
-Deterministic batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f` targeted 263 = 261 prior queueable + 2 selected discovery URLs and terminalised at `2026-09-12 06:11:31.218367Z`:
-
-| L2 item status | Count |
-|---|---:|
-| `resolved_l2` | 213 |
-| `layer3_required` | 50 |
-| **Total** | **263** |
-
-There were 263 succeeded `layer2_acquisition_v2` jobs, no generic Layer 3 jobs and zero Search refresh signals in the deterministic batch window. Handoff metadata explicitly records `canonical_mutation_authorised=false` and `search_publication_authorised=false`.
-
-RMIT live replay/dedupe was not executed before its 30-minute completion-anchored window elapsed. Do not launch another 500-course run solely to recreate an expired timing proof. The corrected UQ acceptance provides live same-token and fresh-Preview dedupe evidence for this scheduler contract, and PR #72 carries targeted completion-dedupe UAT. Repeat naturally on a future governed run if it falls inside the live window.
-
-## Layer 3 gate — qualified contract confirmed, authenticated execution pending
-
-Owning Change Control `CF-CHG-20260825-038` is CLOSED/PASS and explicitly accepted the Layer 3 execution boundary and pinned real-provider benchmark.
-
-Current runtime profile `openrouter-free-router-v1`:
-
-- profile id `0b02920e-a021-48f5-ba47-75082fdcce13`;
-- aggregator OpenRouter;
-- pinned model `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
-- enabled=true, paused=false;
-- Pilot environment gate `pilot_qualified`, enabled=true;
-- quality benchmark `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407`: PASS, 5/5 provider semantic cases + 13/13 controls, 5 calls, 315 input / 462 output tokens, observed cost USD 0, max latency 2811ms;
-- rate limits 20 requests/minute and 50 requests/day; retry ceiling 1; timeout 30s; cost ceiling USD 0;
-- allowed task classes: `course_description`, `official_course_url`, `delivery_mode`, `duration`.
-
-The environment/profile `uat_ref` value `pending-live-provider-uat` is stale relative to the CLOSED/PASS owning Change Control and accepted benchmark. It should be reconciled as metadata through governed forward change; it is not an operational execution blocker because the current Pilot environment is already `pilot_qualified`, enabled and unpaused. It is not authority to weaken the current accepted profile or bypass authentication.
-
-The accepted UQ/RMIT L2 batches contain exactly 53 `layer3_required` items: 3 UQ + 50 RMIT. Runtime lineage audit confirmed **all 53** have eligible retained `text/html` Evidence selected through the same successful `layer2_provider_attempts` raw/html Evidence path used by `security.layer3_evidence_candidates_impl`; no candidate is blocked by missing storage, missing hash, rejected/invalid review state or unsupported MIME. No existing Layer 3 interpretations are present for this 53-item cohort.
-
-The normal Admin/PIM UI already invokes the governed path correctly: authenticated Supabase session → `supabase.functions.invoke('layer3-interpret')` → JWT-protected Edge function → `auth.getUser()` → `layer3_reserve_interpretation_service`. The checked-in deployed UAT harness also signs in as a normal repository-secret-backed UAT user (`COURSEFINDER_UAT_EMAIL` / `COURSEFINDER_UAT_PASSWORD`) and verifies the Layer 3 queue/model surface, but intentionally stops before an external model call.
-
-Runtime Edge `layer3-interpret` v9 is ACTIVE with `verify_jwt=true` and validates the caller token through `auth.getUser()` before reserving work. PostgreSQL currently has active Auth sessions, but session rows do not expose a reusable user access token. The repository/database connector session does not expose a legitimate browser user JWT or GitHub Actions secret value. Therefore no live interpretation was invoked through service-role SQL, minted credentials, direct privileged calls or secret extraction merely to obtain a PASS.
-
-## Remaining acceptance gates
-
-1. Perform a deliberately bounded Layer 3 live-provider acceptance through the normal authenticated Admin/PIM user surface against eligible UQ/RMIT Evidence; preserve existing profile/model/revalidation/rate/cost controls.
-2. Record calls, tokens, cost, latency, validator disposition and Evidence lineage in `SYSTEM-METRICS.md`.
-3. Confirm no unauthorized Layer 1 mutation, automatic Layer 4 approval or Search/Publication side effect.
-4. Reconcile the stale `pending-live-provider-uat` metadata only through an appropriate governed forward change; do not directly mutate privileged runtime state as a shortcut.
-5. Obtain exact-head Codex review and retain exact-head CI/UAT/runtime green before merge.
-6. Only after those gates are clean may PR #72 be merged or a new accepted visible release be considered.
+1. Obtain fresh Codex review on the corrected exact head, specifically including the still-open reconstruction P1.
+2. Establish a governed repository reconstruction/baseline remedy that does not rewrite/retimestamp `20260912005948` or mutate migration history ad hoc.
+3. Through the normal authenticated scheduler surface, run a bounded rediscovery acceptance for the reopened 54 UQ and 27 RMIT Courses; do not recreate whole-university work unnecessarily.
+4. Recompute deterministic handoff only for newly selected/changed actionable work; preserve prior Evidence and idempotency.
+5. Reconfirm no generic Layer 3/Search/Publication side effects.
+6. Only after CF-093 is clean may the bounded authenticated Layer 3 acceptance resume.
+7. Merge/release remains prohibited until all P1s, exact-head CI/UAT/runtime, and Codex acceptance are clean.
 
 ## Next AU qualification wave
 
-After CF-093 closes, qualify through normal source-profile / execution-policy / discovery-config governance: Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW. Cohort membership is not authority to manufacture missing configuration.
-
-## Rollback / recovery
-
-- Retain all failed/retry Evidence and immutable migration history.
-- Any further runtime correction must be a new forward migration.
-- PR #72 remains unmerged and draft.
-- Accepted Pilot main and visible release remain unchanged.
-- M2.5 remains paused; no Production Supabase project exists.
+Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW remains deferred until CF-093 closes. Cohort membership is not authority to manufacture configuration.
