@@ -138,6 +138,6 @@ CF-CHG-20260910-093 remains **REOPENED** until item 7 is legitimately satisfied 
 - Never delete, rewrite or retimestamp applied CF-CHG-20260910-093 migration identities.
 - Database corrections remain forward-only.
 - If a scope cannot be proven server-enforceable, keep it disabled rather than weakening worker, identity, Evidence or authority controls.
-- PR #71 source reconciliation can be reverted at repository level only if necessary for source recovery; already-applied runtime migrations must not be removed by history rewrite.
+- Applied PR #71 migration source files are immutable repository recovery history and must remain present. A semantic rollback must be implemented by a new forward-only migration and matching source/governance update; do not revert/remove the applied migration source files or rewrite runtime history.
 
 **Current outcome:** source/runtime reconciliation is **PASS** at Pilot `63c7107c...`; the Change Control itself remains **REOPENED** solely for consequential acceptance on a legitimate deterministic Layer 2 target.
