@@ -1,6 +1,6 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX RECOVERY / ACCEPTANCE BLOCKED  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 EXACT-HEAD CODEX REVIEW PENDING  
 **Reconciled:** 2026-09-13 AEST  
 **Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
 **Visible accepted release:** v2.15.78  
@@ -10,64 +10,51 @@
 ## Active candidate
 
 - PR #72 / branch `m245/cf093-async-discovery-20260912`.
-- Exact head `1a2caf375b394e7723543642996e4dadfa52e3fe`.
+- Exact head `a035714aa5bd9b4d88ae47a59c877b3514a1f287`.
 - PR OPEN / DRAFT / mergeable but governance-blocked.
-- Exact-head CF-093 Targeted Recovery `34693956788`: PASS.
-- Exact-head Pilot Frontend Build `34693956789`: PASS.
-- Exact-head CF-093 Fresh Reconstruction `34693956761`: PASS for the limited UQ bootstrap fixture only; it does **not** replay the complete CF-093 migration chain.
-- Cloudflare exact-head preview: PASS/deployed at `1a2caf37`.
-- Exact-head Codex review returned further actionable P1/P2 findings; merge remains prohibited.
+- CF-093 Targeted Recovery `34726688848`: **PASS**.
+- CF-093 Fresh Reconstruction `34726688865`: **PASS**; complete ordered PR-added CF-093 migration chain replayed on a fresh reconstructed accepted-main dependency baseline.
+- Pilot Frontend Build `34726688863`: **PASS**.
+- Cloudflare exact-head preview: **PASS/deployed at `a035714a`**.
+- Fresh exact-head Codex review requested in PR comment `5649524865`; no exact-head technical review has yet been submitted. Silence is not approval.
 
-## Runtime migration-history state
+## Runtime hardening
 
-Pilot migration tracking now contains:
+Pilot contains forward migration `20260912232827_cf_093_preview_provenance_terminal_dedupe_hardening`. Applied predecessor migrations remain immutable.
 
-- `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap`;
-- `20260912005948_cf_093_uq_native_program_discovery_profile`;
-- `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`;
-- `20260912101339_cf_093_terminal_negative_basis_hardening`.
+The deployed discovery worker is `layer2-scope-discover-scheduled-v1.3.10`, Edge version 29, SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`. It preserves the existing custom nonce/auth boundary and adds post-network/pre-Evidence bound-identity revalidation, exact Preview-token metadata/provenance, original + prefix-stripped exact title matching, qualified terminal-basis metadata and preservation of `discovery_zero_results` telemetry.
 
-This closes the earlier observed runtime-history absence of `20260912005000`. The exact mechanism used to repair tracking is not inferred from the database row alone. Direct ad-hoc history mutation remains prohibited.
+The forward migration closes the previously identified exact-token provenance, missing/cancelled binding fall-through, async completion dedupe, terminal-only/mixed-profile accounting and cancellation-audit replay defects. Exact-head targeted tests and full-chain reconstruction are green; fresh Codex review remains the independent review gate.
 
-## Current Codex blockers
+## Security / authority
 
-Exact-head review on `1a2caf...` identified additional unresolved defects. The important classes are:
-
-- Preview-bound discovery outcomes are not yet proven to be correlated to the exact `scheduler_preview_token` through provider-attempt/job provenance.
-- Binding identity is checked before network acquisition, but not yet atomically/reliably revalidated immediately before Evidence/candidate writes.
-- Bound handoff can fall through to an unbound path when the exact binding is absent/cancelled.
-- Completion dedupe can still suppress recovery when an async profile never produced a reusable handoff batch.
-- Terminal-only completion/mixed-profile accounting still has fail-closed gaps.
-- Qualified `current_page_not_found` terminal basis is not aligned with the worker metadata/version contract.
-- Exact canonical-title matching must retain both original and prefix-stripped titles.
-- Qualified zero-result provider-attempt telemetry can be overwritten by a later generic success finish.
-- Acceptance workflow still has exact-head evidence defects: response status path, exact Cloudflare SHA proof and trigger coverage.
-- Fresh reconstruction workflow currently proves only the UQ bootstrap + immutable `005948`, not the complete ordered CF-093 chain.
-- Operator-cancel replay can overwrite the first cancellation audit.
-
-No workaround may weaken identity, authority, Evidence, migration immutability or fail-closed behaviour.
+- Layer 1 identity/regulatory authority unchanged.
+- Layer 2 remains deterministic, Evidence-preserving and fail-closed.
+- Generic scheduler Layer 3/4 remains disabled.
+- `layer3_required` remains an L2 disposition only.
+- Search/Publication remains separately governed.
+- No source URL, route, profile, zero-result marker, identity or Evidence may be manufactured for acceptance.
+- Supabase Security Advisor after hardening reported no new critical CF-093 regression; existing informational RLS-with-no-policy inventory remains separately governed.
 
 ## Discovery acceptance
 
-Earlier UQ/RMIT deterministic outcomes remain historical evidence only while CF-093 is reopened:
+Historical UQ/RMIT deterministic outcomes remain evidence only:
 
-- UQ `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`.
-- RMIT `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`.
+- UQ batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`.
+- RMIT batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`.
 
-Previous hardened snapshots recorded UQ 54 and RMIT 27 as needing corrective rediscovery. Do **not** dispatch corrective rediscovery until the current exact-head P1/P2 authority/correlation defects are forward-fixed and revalidated, because a new run would not constitute governed acceptance evidence.
+Previous hardened snapshots recorded UQ 54 and RMIT 27 requiring corrective rediscovery. No corrective rediscovery has been dispatched after the current hardening. Do not dispatch until the exact-head Codex review is reconciled and all exact-head gates remain green.
 
 ## Layer 3
 
-Qualified JWT-protected Layer 3 remains separately governed. Live Layer 3 acceptance is paused behind CF-093. Generic scheduler Layer 3 remains prohibited and historical `layer3_required` counts do not authorise execution.
+Qualified JWT-protected Layer 3 remains separately governed and paused behind CF-093. Generic scheduler Layer 3 remains prohibited. Recalculate any eligible Layer 3 cohort only after corrective deterministic Layer 2 acceptance closes.
 
 ## Exact next gate
 
-1. Implement the current unresolved Codex findings using smallest safe forward-only changes; do not rewrite or retimestamp applied migrations.
-2. Extend fresh reconstruction to replay the complete ordered CF-093 migration chain against an appropriate reconstructed baseline.
-3. Fix authenticated acceptance evidence so it proves exact workflow response shape, exact Cloudflare commit SHA and relevant exact-head triggering.
-4. Deploy/apply only required forward changes, then obtain exact-head targeted CI, full-chain reconstruction, frontend build and fresh Codex review PASS.
-5. Only then re-Preview and run bounded UQ/RMIT corrective discovery through the normal authenticated scheduler and prove exact-token/fingerprint/dedupe/side-effect boundaries.
-6. Recalculate any eligible Layer 3 cohort only after deterministic Layer 2 acceptance closes.
-7. Merge/release remains prohibited until every P1/P2 and runtime/governance gate is clean.
+1. Reconcile fresh Codex review for exact head `a035714...`; forward-fix any reproducible P1/P2 only, using new forward migrations where deployed DB semantics change.
+2. Re-run Targeted Recovery, complete CF-093 reconstruction, Frontend Build and exact Cloudflare deployment after any change.
+3. Once exact-head review/runtime/CI is clean, obtain new authenticated UQ/RMIT Previews and run only the currently actionable corrective discovery scopes.
+4. Reconcile only newly selected/changed deterministic Layer 2 work and prove zero generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
+5. Merge/release only after all governed gates close.
 
 M2.4.4 remains CLOSED/PASS/FROZEN and M2.5 remains paused.
