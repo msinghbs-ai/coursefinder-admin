@@ -7,7 +7,7 @@
 **Parent:** CF-CHG-20260910-092  
 **Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
 **Active Pilot PR:** #72 (`m245/cf093-async-discovery-20260912`)  
-**Candidate head:** `013b2878ce748c1a7196c74cb467ac55f5858cd6`  
+**Candidate head:** `edb115cca6f6a94957ff6a99aac12a6b235713aa`  
 **Visible accepted release:** v2.15.78
 
 ## Objective
@@ -16,27 +16,39 @@ Complete the bounded Scheduled Tasks run-on-demand contract for large AU Course 
 
 ## Current decision
 
-Earlier UQ/RMIT deterministic Layer 2 batch evidence remains retained, but large-university **discovery acceptance is reopened** after exact-head Codex identified authority/correlation and terminal-zero-result defects. Layer 3 acceptance is paused. PR #72 must not merge and no visible release may advance until reconstruction, corrective discovery, final Codex and exact-head gates close.
+Earlier UQ/RMIT deterministic Layer 2 batch evidence remains retained, but large-university **discovery acceptance is reopened** after Codex identified authority/correlation and terminal-zero-result defects. Layer 3 acceptance is paused. PR #72 must not merge and no visible release may advance until reconstruction-history parity, corrective discovery, final Codex and exact-head gates close.
 
 ## Codex review and forward corrections
 
-Codex returned nine actionable findings on predecessor head `a7283139...`. Eight findings are forward-corrected and their review threads are resolved:
+Codex returned nine actionable findings on predecessor head `a7283139...`. Eight findings are forward-corrected and their earlier review threads are resolved:
 
 1. exact Preview token required through Preview-bound discovery context, continuation and deterministic handoff;
 2. bound profile/course identity fingerprint revalidated before any new discovery Evidence write;
 3. HTTP 200/no required-prefix-link is transient unless an explicit profile-qualified zero-result marker matches;
-4. course-code regex uses escaped `String.raw` word boundaries;
-5. async handoff batch IDs persisted into Preview job result for completion-anchored dedupe;
+4. course-code regex uses escaped word boundaries;
+5. async handoff batch IDs are included in completion-anchored dedupe;
 6. dedupe requires every referenced batch to be reusable; cancelled/missing siblings fail closed;
 7. cancellation is set-based across all bindings for a multi-profile Preview;
-8. terminal-only scopes are non-executable at Preview and stale worker-version UAT is corrected.
+8. terminal-only scopes are non-executable at Preview and stale CF-093 assertions are reconciled to the current governed contract.
 
 Forward Pilot migrations:
 
 - `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening` — applied and checked in;
 - `20260912101339_cf_093_terminal_negative_basis_hardening` — applied and checked in.
 
-`layer2-scope-discover-scheduled` is Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`. Existing nonce/service authentication remains unchanged. Current UQ/RMIT profiles have no zero-result markers; none was fabricated.
+`layer2-scope-discover-scheduled` is Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`. Existing nonce/service authentication remains unchanged. Current UQ/RMIT profiles have no qualified zero-result markers; none was fabricated.
+
+## Targeted recovery CI
+
+A dedicated PR-only `CF-093 Targeted Recovery` workflow now runs the seven CF-093 recovery files covering exact-token propagation, pre-Evidence identity validation, zero-result fail-closed semantics, terminal freshness/dedupe, async binding/handoff/cancel behaviour and UQ reconstruction ordering.
+
+- Initial run `34689908598`: FAILED — 13 passed / 4 failed; failures were stale branch assertions against v1.3.8/pre-hardening strings, not a new runtime defect.
+- Follow-up run `34690059287`: FAILED — 16 passed / 1 failed; the remaining assertion expected an obsolete cancellation JSON key instead of the persisted `async_binding_cancellation_reason` contract.
+- Exact-head run `34690128803` on `edb115cca6f6a94957ff6a99aac12a6b235713aa`: **PASS**.
+- Exact-head Pilot Frontend Build `34690128811`: **PASS**.
+- Exact-head Cloudflare preview: **PASS/deployed**.
+
+These test corrections did not change production runtime logic or rewrite any applied migration.
 
 ## Reconstruction P1 — source fix prepared, official history sync pending
 
@@ -44,7 +56,7 @@ Codex correctly identified that already-applied `20260912005948_cf_093_uq_native
 
 The applied migration itself remains immutable and was not edited or retimestamped.
 
-PR #72 now contains an earlier, idempotent reconstruction bootstrap:
+PR #72 contains the earlier, idempotent reconstruction bootstrap:
 
 `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`
 
@@ -54,7 +66,7 @@ On a fresh replay it runs before immutable `005948`, adds only `discovery_strate
 - resulting config validation PASS;
 - candidate hash `1cb8d860cce8d907de5c326975fabfe11865861a3b5c75dee0ac4a54f91145e8`, distinct from v1.
 
-Pilot already has the resulting discovery-strategy semantics through existing applied history. The retroactive bootstrap therefore requires the **official Supabase migration-history repair**, not direct SQL:
+Pilot already has the resulting discovery-strategy semantics through existing applied history. Runtime migration tracking contains `20260912005948`, `20260912100539`, `20260912101339`, but not retroactive `20260912005000`. The retroactive bootstrap therefore requires the **official Supabase migration-history repair**, not direct SQL:
 
 `supabase migration repair 20260912005000 --status applied --linked`
 
@@ -74,13 +86,16 @@ No corrective discovery run has yet been dispatched. Historical deterministic ou
 - UQ `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`;
 - RMIT `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`.
 
+Those historical Layer 3 dispositions do not authorise Layer 3 while discovery acceptance is reopened.
+
 ## Current repository / deployment evidence
 
-- Exact candidate head `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
-- Pilot Frontend Build `34688257411`: PASS.
+- Exact candidate head `edb115cca6f6a94957ff6a99aac12a6b235713aa`.
+- CF-093 Targeted Recovery `34690128803`: PASS.
+- Pilot Frontend Build `34690128811`: PASS.
 - Cloudflare exact-head preview: PASS/deployed.
+- Fresh Codex request: PR comment `5645499063`; no new exact-head technical review outcome is present yet.
 - PR remains OPEN / DRAFT / mergeable but governance-blocked.
-- Eight corrected Codex review threads are resolved; reconstruction/history-sync gate remains open pending fresh review + CLI repair/reconstruction proof.
 - Accepted main/release unchanged.
 
 ## Authority boundaries retained
@@ -95,10 +110,10 @@ No corrective discovery run has yet been dispatched. Historical deterministic ou
 
 ## Exact next gates
 
-1. Obtain fresh Codex review of exact head `013b2878...`, specifically the retroactive bootstrap and forward async/terminal corrections.
-2. From an authorised Supabase CLI session, execute official `supabase migration repair 20260912005000 --status applied --linked`; then prove local/remote `migration list` parity and fresh reconstruction/reset.
-3. Through normal authenticated scheduler, rediscover only 54 UQ + 27 RMIT reopened Courses.
-4. Reconcile deterministic Layer 2 only for newly selected/changed actionable work and prove exact-token/fingerprint/dedupe/cancel behavior naturally.
+1. From an authorised Supabase CLI session, execute official `supabase migration repair 20260912005000 --status applied --linked`; then prove local/remote `migration list` parity and fresh reconstruction/reset.
+2. Obtain a fresh Codex outcome for exact head `edb115cc...`; review request `5645499063` is pending and silence is not approval.
+3. Through the normal authenticated scheduler, rediscover only 54 UQ + 27 RMIT reopened Courses.
+4. Reconcile deterministic Layer 2 only for newly selected/changed actionable work and prove exact-token/fingerprint/dedupe/cancel behaviour naturally.
 5. Prove zero generic Layer 3, Layer 4 auto-approval, Search or Publication side effects.
 6. Resume bounded authenticated Layer 3 only after CF-093 recovery gates close.
 7. Merge/release remains prohibited until all P1s, final Codex, exact-head CI/UAT/runtime and governance gates are clean.
