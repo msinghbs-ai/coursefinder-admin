@@ -9,144 +9,108 @@
 
 Record observed values only for consequential ingestion, discovery, enrichment, scheduler, UAT and recovery work. Preserve repository/runtime identity, scope, request/batch identifiers, elapsed time, dispositions, tooling/provider usage, CI/UAT evidence, Evidence counts and safety side effects. Metrics are evidence, not acceptance thresholds unless a Change Control explicitly promotes them.
 
-## Current repository / CI / runtime snapshot — 12 Sep 2026
+## Current repository / runtime snapshot — 12 Sep 2026
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
 - PR #72 branch: `m245/cf093-async-discovery-20260912`.
-- Corrective exact head: `c5226c2bcadd7ee7102935088130262ca2a3a2a2`.
-- Exact-head Pilot Frontend Build `34687938846`: **PASS**.
-- Exact-head Cloudflare preview: **PASS/deployed**.
-- Pilot worker `layer2-scope-discover-scheduled`: Edge v27 / `layer2-scope-discover-scheduled-v1.3.9` / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
-- Forward migration `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`: applied + checked in.
-- Forward migration `20260912101339_cf_093_terminal_negative_basis_hardening`: applied + checked in.
-- Codex predecessor-head review: nine actionable findings. Eight corrected threads resolved; one P1 repository-reconstruction thread remains open.
+- Current candidate head: `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
+- Last proven corrective head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`: Frontend Build `34687938846` PASS; Cloudflare preview PASS.
+- Current head adds only reconstruction bootstrap `20260912005000` plus its regression test; exact-head CI/Cloudflare/Codex still required.
+- Pilot worker: Edge v27 / `layer2-scope-discover-scheduled-v1.3.9` / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
+- Forward Pilot migration `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`: applied + checked in.
+- Forward Pilot migration `20260912101339_cf_093_terminal_negative_basis_hardening`: applied + checked in.
+- Codex review returned nine actionable findings; eight corrected threads resolved.
 - PR remains draft/unmerged. Accepted main/release unchanged.
 
-## Codex recovery metrics / safety changes
+## Codex recovery safety evidence
 
-### Exact Preview-token / identity correction
+### Exact Preview-token / identity
 
-Observed prior defect: Preview-bound worker payload carried `scheduler_preview_token`, but v1.3.8 used tokenless discovery context, continuation dispatch and final handoff. A late continuation could attach to a newer active binding for the same actor/profile/scope. The context also did not compare the bound identity fingerprint before new Evidence writes.
+Current v1.3.9 + `20260912100539` requires exact `preview_token + actor + profile`, an active/unexpired binding, requested discovery IDs inside the bound set, and revalidation of profile version, identity fingerprint, queueable fingerprint and bound ID validity before discovery Evidence processing. Preview-bound continuation and handoff reuse the same exact token. Async handoff batch IDs are recorded for dedupe.
 
-Current v1.3.9 / migration `20260912100539`:
+Dedupe returns a completion anchor only when every referenced direct/async batch exists and is `completed` or `partial`; cancelled/missing/non-terminal siblings fail closed. Multi-profile cancellation is set-based. Terminal-only Preview scopes are non-executable.
 
-- exact `preview_token + actor + profile` binding required;
-- bound status must be active and execution lease unexpired;
-- requested discovery IDs must be a subset of bound discovery IDs;
-- profile version, identity fingerprint, queueable fingerprint, all-ID validity and discovery-subset validity are recomputed before discovery Evidence processing;
-- continuation and final deterministic handoff receive the exact Preview token through transaction-local governed context;
-- async handoff batch IDs are recorded in Preview job result;
-- dedupe reuse requires every referenced batch to exist and be `completed`/`partial` with completion timestamp;
-- cancelled/missing/non-terminal sibling batch causes dedupe to fail closed;
-- cancellation is set-based across all bindings for the Preview/actor;
-- Preview with zero actionable queueable+discovery work is non-executable.
+No browser/public privilege was broadened. Worker custom authentication remains the existing one-time nonce + service-RPC model.
 
-No browser/public privilege was broadened. Existing worker custom authentication remains one-time nonce + service RPC; `verify_jwt=false` is unchanged from the accepted worker boundary.
+### Terminal-negative authority
 
-### Terminal-negative authority correction
+v1.3.9 no longer interprets HTTP 200/no required-prefix link as a terminal zero-result unless `discovery_strategy.zero_result_markers` is explicitly configured and matched. UQ/RMIT currently have zero such markers; none was manufactured.
 
-Codex identified that v1.3.8 could convert any first-party HTTP 200 page with no required-prefix links into a terminal `current_page_not_found`, including challenge/consent/changed-markup pages.
+`20260912101339` removes legacy/current v1.3.9 `current_page_not_found` from freshness suppression. `ambiguous` and `identity_mismatch` remain freshness-eligible terminal negatives. Future `current_page_not_found` freshness is reserved for a future explicit terminal-basis contract.
 
-Current v1.3.9 behavior:
+## Reopened scope snapshot
 
-- HTTP 200/no required-prefix link is transient unless profile `discovery_strategy.zero_result_markers` exists and the first-party page explicitly contains a qualified marker;
-- UQ/RMIT currently have **0 configured zero-result markers**; none was invented;
-- course-code anchor matching uses escaped `String.raw` word boundaries.
-
-Migration `20260912101339` removes legacy/current v1.3.9 `current_page_not_found` rows from freshness suppression. `ambiguous` and `identity_mismatch` remain accepted freshness-eligible terminal evidence. Future `current_page_not_found` freshness is intentionally reserved for a future explicit terminal-basis worker contract; current v1.3.9 does not grant it.
-
-## Reopened scope snapshot after hardening
-
-| Cohort | Scoped | Queueable | Reopened discovery | Retained terminal negatives | Current fingerprint |
+| Cohort | Scoped | Queueable | Reopened discovery | Retained terminal negatives | Fingerprint |
 |---|---:|---:|---:|---:|---|
 | UQ | 382 | 251 | **54** | 77 | `2661fefb086294a948862eac08f0c297` |
 | RMIT | 500 | 263 | **27** | 210 | `cd360b3d2b6ba4ba8c2a5a9442cc761a` |
 | **Total** | **882** | **514** | **81** | **287** | — |
 
-No corrective UQ/RMIT dispatch was issued during this hardening step.
+No corrective UQ/RMIT dispatch has been issued after the hardening.
 
-## Historical UQ execution metrics — retained evidence, discovery acceptance superseded
+## Historical UQ deterministic metrics — retained execution evidence
 
-Worker during earlier consequential run: Edge v26 / v1.3.8. UQ profile version `3d70516d-95d5-49e6-b33e-e61bacfec275`.
-
-Earlier discovery evidence recorded 245 CRICOS-verified selected current URLs + 131 then-classified terminal negatives. After current terminal-basis hardening, only 77 negatives remain freshness-authoritative and 54 Courses reopen for rediscovery.
-
-Historical deterministic rerun:
-
-- Preview token `feddbf8a-482b-4826-889a-fcfb315ec861`.
+- Profile version `3d70516d-95d-49e6-b33e-e61bacfec275`.
+- Preview `feddbf8a-482b-4826-889a-fcfb315ec861`.
 - Historical fingerprint `66c66f1d04bbc289e3cec1f7cd7faf3d`.
-- Batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`.
-- Dispatch `5882`.
-- Target 251.
+- Batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`; dispatch `5882`; target 251.
 - Elapsed ~14m13.5s.
-- Terminal: 248 `resolved_l2` + 3 `layer3_required`.
-- Vendor units 251; recorded vendor cost USD 0.
-- Evidence records observed 502.
-- Resolved mean response ~675.2ms; mean extraction ~1503.7ms.
-- L3-required mean response ~242.3ms; mean extraction ~1449.7ms.
-- Same-token replay historically PASS; completion-anchored fresh Preview dedupe historically PASS after one governed-cancelled duplicate with 0 processed items.
+- 248 `resolved_l2` + 3 `layer3_required`.
+- Vendor units 251; recorded cost USD 0; Evidence records observed 502.
+- Resolved mean response ~675.2ms; extraction ~1503.7ms.
+- L3-required mean response ~242.3ms; extraction ~1449.7ms.
+- Historical same-token replay and completion-dedupe proofs passed; one pre-correction duplicate was governed-cancelled with 0 processed items.
 - No generic Layer 3/Search/Publication side effects observed.
 
-These deterministic results remain historical execution evidence. They do not close the currently reopened 54-course discovery gate.
+Earlier discovery recorded 245 selected + 131 then-terminal negatives. Current hardening supersedes terminal acceptance: 54 reopen, 77 remain terminal.
 
-## Historical RMIT execution metrics — retained evidence, discovery acceptance superseded
+## Historical RMIT deterministic metrics — retained execution evidence
 
-Profile `726918ee-10e9-41e3-9a2a-5dace20af754`; version `409b0f7c-4e04-4a33-8f4d-e173fc3f9c40`.
+- Profile `726918ee-10e9-41e3-9a2a-5dace20af754`; version `409b0f7c-4e04-4a33-8f4d-e173fc3f9c40`.
+- Historical Preview `c3e73796-d2d3-486e-b3a4-83afc54b806d`.
+- Earlier discovery: 2 selected + 237 then-terminal negatives; current hardening leaves 27 reopened + 210 terminal.
+- Discovery elapsed ~6895s / 1h54m55s; ~2.08 Courses/min under unchanged `max_concurrency=1`.
+- Batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`; handoff request `5967`; target 263.
+- Created `2026-09-12 05:50:57.510697Z`; completed `2026-09-12 06:11:31.218367Z`; elapsed ~1234s / 20m34s; ~12.79 items/min.
+- 213 `resolved_l2` + 50 `layer3_required`.
+- Vendor units 263; recorded cost USD 0.
+- Response mean 1647.0ms / p50 1621ms / p95 1884.2ms.
+- Extraction mean 1730.6ms / p50 1672ms / p95 2114.6ms.
+- 263 succeeded L2 jobs; zero Search refresh signals; no generic Layer 3 jobs; canonical/Search authority false.
 
-Earlier Preview `c3e73796-d2d3-486e-b3a4-83afc54b806d`: 500 scoped / 261 queueable / 239 discovery. Earlier discovery recorded 2 selected + 237 then-classified terminal negatives. After current terminal-basis hardening, 210 remain freshness-authoritative and 27 Courses reopen.
+## Repository reconstruction P1 evidence
 
-Historical discovery timing:
+Foundation `20260823102443_m2_1_layer2_platform_foundation.sql` seeds UQ v1 without `discovery_strategy`. Applied `20260912005948_cf_093_uq_native_program_discovery_profile.sql` uses nested `jsonb_set`; missing intermediate object means unchanged config, then duplicate configuration hash under `UNIQUE(profile_id,configuration_hash)` on fresh replay.
 
-- binding activated `2026-09-12 03:56:02.406678Z`;
-- handoff after ~6895s / 1h54m55s;
-- observed throughput ~2.08 Courses/minute;
-- existing policy `max_concurrency=1` was not changed.
+A read-only runtime simulation used the actual UQ v1 configuration and proposed bootstrap semantics:
 
-Historical deterministic batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`:
+- v1 config hash: `77dda7fa33501c67a046dff1e5385554a419853c64f12f5b56e1c23a63da0d72`;
+- bootstrap adds only `discovery_strategy={"type":"first_party_search"}` when absent;
+- immutable `005948` then adds its search URL template, `canonical_title_normalized` query field and `/study-options/programs/` prefix;
+- resulting config validates **PASS** under `security.layer2_validate_profile_config`;
+- resulting candidate hash: `1cb8d860cce8d907de5c326975fabfe11865861a3b5c75dee0ac4a54f91145e8`, distinct from v1.
 
-- handoff request `5967`;
-- target 263;
-- created `2026-09-12 05:50:57.510697Z`;
-- completed `2026-09-12 06:11:31.218367Z`;
-- elapsed ~1234s / 20m34s;
-- throughput ~12.79 items/minute;
-- 213 `resolved_l2` + 50 `layer3_required`;
-- vendor units 263; recorded cost USD 0;
-- response mean 1647.0ms / p50 1621ms / p95 1884.2ms;
-- extraction mean 1730.6ms / p50 1672ms / p95 2114.6ms;
-- 263 succeeded `layer2_acquisition_v2` jobs;
-- zero Search refresh signals;
-- no generic Layer 3 jobs;
-- canonical mutation and Search/Publication authority false.
+PR #72 now includes retroactive idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql` plus regression test. The bootstrap is ordered before immutable `005948` and uses normal profile-version governance.
 
-These deterministic results remain historical execution evidence. They do not close the currently reopened 27-course discovery gate.
+Pilot already has the resulting qualified discovery strategy. Therefore the remaining remote-history operation is the official Supabase CLI tracking repair:
 
-## Open P1 — repository reconstruction evidence
+`supabase migration repair 20260912005000 --status applied --linked`
 
-Repository foundation migration `20260823102443_m2_1_layer2_platform_foundation.sql` seeds UQ configuration without `discovery_strategy`. Applied migration `20260912005948_cf_093_uq_native_program_discovery_profile.sql` uses nested `jsonb_set` directly on `{discovery_strategy,...}` paths. PostgreSQL does not create a missing intermediate object, leaving the seed configuration unchanged. Runtime schema confirms `pipeline.layer2_source_profile_versions` has `UNIQUE (profile_id, configuration_hash)`, so a fresh repository replay attempts to insert the unchanged hash and aborts.
+The connected Supabase tool does not expose migration repair. **No direct SQL INSERT/DELETE against `supabase_migrations.schema_migrations` was performed.** Exact CLI history repair + `supabase migration list` alignment + fresh reconstruction proof remain pending before this P1 can close.
 
-This is a repository-reconstruction P1, not a current Pilot runtime outage. `20260912005948` is already applied and must not be edited/retimestamped. No ad-hoc migration-history mutation is authorised. Metric/state: **1 unresolved P1**, merge blocked.
+Official Supabase guidance notes that migration repair changes tracking only and does not execute migration SQL; this is the appropriate mechanism when schema effect already exists but migration history is missing. A full squash is not selected because Supabase squash omits DML and CourseFinder migrations contain governed seed/data operations.
 
 ## Layer 3 readiness — PAUSED
 
-Previously inspected runtime contract remains:
-
-- profile `openrouter-free-router-v1`, id `0b02920e-a021-48f5-ba47-75082fdcce13`;
-- OpenRouter pinned `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`;
-- enabled/unpaused, Pilot `pilot_qualified`;
-- benchmark `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407`: 5/5 provider semantic + 13/13 controls, 5 calls, 315 input / 462 output tokens, USD 0 observed cost, max latency 2811ms;
-- 20 RPM / 50 day / retry 1 / timeout 30s / USD0 ceiling;
-- `layer3-interpret` v9 ACTIVE, `verify_jwt=true`, validates `auth.getUser()`;
-- historical UQ/RMIT cohort at inspection: 53 `layer3_required` items with 53 retained `text/html` Evidence and 0 interpretations.
-
-Layer 3 live acceptance is paused behind CF-093 reconstruction and reopened discovery. No live-provider metrics were manufactured.
+Previously inspected runtime contract remains qualified/JWT-protected. Historical cohort at inspection: 53 `layer3_required` items with 53 retained `text/html` Evidence, 0 interpretations. `layer3-interpret` v9 remains `verify_jwt=true` and caller-validated. Live Layer 3 acceptance is paused behind CF-093 reconstruction + reopened discovery.
 
 ## Next metrics capture
 
-1. Reconstruction/baseline remedy identity and proof without editing applied migration history.
-2. Fresh exact-head Codex outcome.
-3. Corrective authenticated rediscovery: UQ 54 + RMIT 27 only — attempted, selected, terminal/transient, requests, latency/tooling and exact Preview token/fingerprint evidence.
-4. Deterministic L2 only for newly selected/changed actionable work.
-5. Explicit zero generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
-6. Only after CF-093 recovery: bounded authenticated Layer 3 calls/tokens/cost/latency/validator/Evidence lineage.
+1. Exact-head CI/Cloudflare/Codex for `013b2878...`.
+2. Official migration repair result and local/remote migration-list parity.
+3. Fresh reconstruction/reset proof.
+4. Authenticated corrective rediscovery metrics for UQ 54 + RMIT 27 only.
+5. Deterministic L2 only for newly selected/changed actionable work.
+6. Explicit zero unauthorized Layer 3/Layer 4 auto-approval/Search/Publication side effects.
+7. Only after CF-093 recovery: bounded authenticated Layer 3 calls/tokens/cost/latency/validator/Evidence lineage.
