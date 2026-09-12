@@ -1,90 +1,69 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX RECOVERY / DISCOVERY ACCEPTANCE REOPENED  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX RECOVERY / RECONSTRUCTION HISTORY SYNC PENDING  
 **Reconciled:** 2026-09-12 AEST  
 **Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
 **Visible accepted release:** v2.15.78  
 **Pilot Supabase:** `fxcwkweaxjtknorudmwp`  
 **Production:** not provisioned; M2.5 remains PAUSED at P0
 
-## Active implementation candidate
+## Active candidate
 
-- Pilot PR #72: `CF-093: complete Preview-bound async Layer 2 discovery`.
-- Branch: `m245/cf093-async-discovery-20260912`.
-- Exact head: `c5226c2bcadd7ee7102935088130262ca2a3a2a2`.
-- Base main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
-- PR state: OPEN / DRAFT / mergeable but governance-blocked.
-- Exact-head Pilot Frontend Build `34687938846`: PASS.
-- Cloudflare exact-head commit/branch preview: PASS/deployed.
-- Codex returned nine actionable findings on the predecessor head; eight are forward-corrected and review threads resolved. One P1 repository-reconstruction blocker remains open.
+- PR #72 / branch `m245/cf093-async-discovery-20260912`.
+- Exact head `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
+- PR OPEN / DRAFT / mergeable but governance-blocked.
+- Exact-head Frontend Build `34688257411`: PASS.
+- Cloudflare exact-head preview: PASS/deployed.
+- Worker Edge v27 / v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
 
-## Runtime corrective state
+## Codex recovery
 
-Forward migration `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening` is applied and checked in. It:
+Nine actionable findings were returned. Eight have forward fixes and resolved review threads. Applied/checked-in runtime corrections:
 
-- requires the exact Preview token throughout Preview-bound discovery context, continuation and handoff;
-- revalidates bound profile/course identity before discovery Evidence writes;
-- records async handoff batch IDs for completion-anchored dedupe;
-- requires all referenced batches to be reusable before dedupe;
-- makes cancellation set-based for multi-profile previews;
-- rejects terminal-only scopes at Preview.
+- `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`;
+- `20260912101339_cf_093_terminal_negative_basis_hardening`.
 
-`layer2-scope-discover-scheduled` is deployed as Edge v27 / worker v1.3.9 / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`. The existing one-time nonce/service authentication model remains unchanged. Preview-bound calls require `scheduler_preview_token`; missing or mismatched token fails closed. First-party HTTP 200 pages with no required-prefix links no longer become terminal negatives without an explicit profile-qualified zero-result marker. Current UQ/RMIT profiles have no such marker and none was fabricated.
+They enforce exact Preview-token propagation, identity fingerprint revalidation before Evidence writes, async batch-aware all-batch dedupe, set-based cancellation, terminal-only Preview rejection and hardened terminal-negative freshness. Worker v1.3.9 fails first-party HTTP 200/no-link pages transient unless a configured zero-result marker matches; UQ/RMIT have no such markers.
 
-Forward migration `20260912101339_cf_093_terminal_negative_basis_hardening` invalidates legacy `current_page_not_found` freshness suppression. `ambiguous` and `identity_mismatch` remain accepted terminal negatives. Current v1.3.9 `current_page_not_found` rows are not freshness-authoritative.
+## Reconstruction P1 — bootstrap prepared, history sync pending
 
-## UQ 382-course state — discovery acceptance REOPENED
+Applied migration `20260912005948_cf_093_uq_native_program_discovery_profile.sql` is immutable but cannot replay from repository foundation because UQ v1 has no `discovery_strategy`. Missing intermediate JSON path leaves the config unchanged and collides with `UNIQUE(profile_id,configuration_hash)`.
 
-Historical deterministic execution evidence remains retained:
+PR #72 now includes earlier idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`, which creates only the missing `first_party_search` strategy object before `005948`. Read-only simulation against actual UQ v1 proved validation PASS and distinct candidate hash (`1cb8d860cce8d907de5c326975fabfe11865861a3b5c75dee0ac4a54f91145e8` vs v1 `77dda7fa33501c67a046dff1e5385554a419853c64f12f5b56e1c23a63da0d72`).
 
-- batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 248 `resolved_l2` + 3 `layer3_required`;
-- previous same-token replay and completion-dedupe proofs remain historical evidence;
-- no generic Layer 3/Search/Publication side effects were observed.
+Pilot already has the resulting schema semantics. Official Supabase history tracking must therefore be synchronised via:
 
-After terminal-basis hardening, the current UQ snapshot is:
+`supabase migration repair 20260912005000 --status applied --linked`
 
-- 382 scoped;
-- 251 queueable;
-- **54 require rediscovery**;
-- 77 retained governed terminal negatives;
-- scope fingerprint `2661fefb086294a948862eac08f0c297`.
+The connected tool does not expose that CLI action. No direct modification of `supabase_migrations.schema_migrations` has been made or authorised. Migration-list parity and fresh reconstruction/reset proof remain required before this P1 closes.
 
-The previous statement “131 terminal negatives accepted” is superseded. Only stronger terminal evidence remains fresh under current rules. No corrective UQ rediscovery has yet been dispatched.
+## Discovery acceptance reopened
 
-## RMIT 500-course state — discovery acceptance REOPENED
+Current hardened snapshots:
 
-Historical deterministic execution evidence remains retained:
+| Cohort | Scoped | Queueable | Reopened discovery | Retained terminal negatives |
+|---|---:|---:|---:|---:|
+| UQ | 382 | 251 | 54 | 77 |
+| RMIT | 500 | 263 | 27 | 210 |
 
-- batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 213 `resolved_l2` + 50 `layer3_required`;
-- 263 succeeded L2 jobs; zero Search refresh signals; canonical/Search authority false during that historical run.
+Historical deterministic outcomes remain evidence only:
 
-After terminal-basis hardening, the current RMIT snapshot is:
+- UQ `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 `resolved_l2` + 3 `layer3_required`.
+- RMIT `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 `resolved_l2` + 50 `layer3_required`.
 
-- 500 scoped;
-- 263 queueable;
-- **27 require rediscovery**;
-- 210 retained governed terminal negatives;
-- scope fingerprint `cd360b3d2b6ba4ba8c2a5a9442cc761a`.
+No corrective rediscovery has been dispatched yet.
 
-No corrective RMIT rediscovery has yet been dispatched.
+## Layer 3
 
-## Open P1 — repository migration reconstruction
-
-`20260912005948_cf_093_uq_native_program_discovery_profile.sql` is already applied in Pilot but is not safely replayable from repository genesis. The Layer 2 foundation seed creates UQ without `discovery_strategy`; nested `jsonb_set` in `20260912005948` therefore leaves configuration unchanged, and inserting the resulting version reuses the configuration hash. Runtime confirms `layer2_source_profile_versions` enforces `unique(profile_id, configuration_hash)`, so a fresh replay aborts.
-
-This historical applied migration must not be edited or retimestamped. No direct repair of `supabase_migrations.schema_migrations` is authorised. A governed reconstruction/baseline strategy is required before PR #72 may merge.
-
-## Layer 3 state — PAUSED behind CF-093 recovery
-
-The previously inspected Layer 3 contract remains qualified, JWT-protected and separate from scheduler execution, but its bounded live-provider gate is paused until the CF-093 reconstruction and reopened discovery gates are clean. Generic scheduler Layer 3 remains prohibited.
+Previously inspected JWT-protected Layer 3 contract remains qualified. Live acceptance is paused behind CF-093 reconstruction and reopened discovery. Generic scheduler Layer 3 remains prohibited.
 
 ## Exact next gate
 
-1. Resolve the historical repository-reconstruction P1 through a governed baseline/reconstruction approach without modifying applied migration history.
-2. Obtain fresh Codex review on the corrected exact head.
-3. Through the normal authenticated scheduler surface, rediscover only the reopened 54 UQ + 27 RMIT Courses.
-4. Re-run deterministic Layer 2 only for newly selected/changed actionable work and prove side-effect boundaries.
-5. Resume bounded authenticated Layer 3 only after CF-093 closes its discovery/reconstruction gates.
-6. Merge/release remains prohibited until final exact-head Codex, CI/UAT/runtime and governance gates are clean.
+1. Fresh Codex review on `013b2878...`.
+2. Authorised official Supabase migration repair for `20260912005000`, then `migration list` parity + fresh reconstruction/reset proof.
+3. Authenticated scheduler rediscovery of UQ 54 + RMIT 27 only.
+4. Deterministic L2 only for newly selected/changed actionable work; prove no generic L3/Layer4 auto-approval/Search/Publication side effects.
+5. Resume bounded authenticated Layer 3 only after CF-093 recovery gates close.
+6. Merge/release remains prohibited until all final gates are clean.
 
 M2.4.4 remains CLOSED/PASS/FROZEN and M2.5 remains paused.
