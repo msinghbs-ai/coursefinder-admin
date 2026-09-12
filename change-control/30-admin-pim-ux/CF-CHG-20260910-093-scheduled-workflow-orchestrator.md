@@ -34,7 +34,7 @@ PR #72 remains OPEN / DRAFT / mergeable against accepted main `63c7107...`.
 - Exact-head Pilot Frontend Build `34681032426`: **PASS**.
 - Cloudflare exact-head branch/commit preview: **deployment successful**.
 - Intermediate head `eec6fbbf...` / run `34677940824` failed because CF-093 freshness UAT referenced nonexistent migration alias `20260912032000...`; exact-head correction now references applied `20260912031356...` and passes.
-- Codex exact-head review is **blocked by the account code-review usage limit**. This is not approval or a technical review finding; merge remains blocked on the governed review gate.
+- Codex exact-head review remains unresolved. A fresh review request was posted at `2026-09-12 09:26:27Z` as PR comment `5645005516`; no review submission or quota response had appeared at reconciliation time. Earlier exact-head attempts were rejected only because the account had reached its code-review usage limit. Merge remains blocked until an actual review result is present.
 - Visible accepted release remains v2.15.78; no Production deployment.
 
 PR source now retains immutable applied migration identities, including `20260912035500_cf_093_scheduler_completion_anchored_dedupe`; no applied runtime history was rewritten or retimestamped.
@@ -106,19 +106,21 @@ Current runtime profile `openrouter-free-router-v1`:
 - rate limits 20 requests/minute and 50 requests/day; retry ceiling 1; timeout 30s; cost ceiling USD 0;
 - allowed task classes: `course_description`, `official_course_url`, `delivery_mode`, `duration`.
 
-The environment/profile `uat_ref` value `pending-live-provider-uat` is stale relative to the CLOSED/PASS owning Change Control and accepted benchmark. It should be reconciled as metadata through governed forward change; it is not authority to weaken the current accepted profile or bypass authentication.
+The environment/profile `uat_ref` value `pending-live-provider-uat` is stale relative to the CLOSED/PASS owning Change Control and accepted benchmark. It should be reconciled as metadata through governed forward change; it is not an operational execution blocker because the current Pilot environment is already `pilot_qualified`, enabled and unpaused. It is not authority to weaken the current accepted profile or bypass authentication.
 
-The accepted UQ/RMIT L2 batches contain exactly 53 `layer3_required` items. All 53 have a current Evidence artifact and none has an existing Layer 3 interpretation.
+The accepted UQ/RMIT L2 batches contain exactly 53 `layer3_required` items: 3 UQ + 50 RMIT. Runtime lineage audit confirmed **all 53** have eligible retained `text/html` Evidence selected through the same successful `layer2_provider_attempts` raw/html Evidence path used by `security.layer3_evidence_candidates_impl`; no candidate is blocked by missing storage, missing hash, rejected/invalid review state or unsupported MIME. No existing Layer 3 interpretations are present for this 53-item cohort.
 
-Runtime Edge `layer3-interpret` v9 is ACTIVE with `verify_jwt=true` and validates the caller token through `auth.getUser()` before `layer3_reserve_interpretation_service`. The current repository/database connector session does not expose a legitimate browser user JWT. Therefore no live interpretation was invoked through service-role SQL or another identity bypass merely to obtain a PASS.
+The normal Admin/PIM UI already invokes the governed path correctly: authenticated Supabase session → `supabase.functions.invoke('layer3-interpret')` → JWT-protected Edge function → `auth.getUser()` → `layer3_reserve_interpretation_service`. The checked-in deployed UAT harness also signs in as a normal repository-secret-backed UAT user (`COURSEFINDER_UAT_EMAIL` / `COURSEFINDER_UAT_PASSWORD`) and verifies the Layer 3 queue/model surface, but intentionally stops before an external model call.
+
+Runtime Edge `layer3-interpret` v9 is ACTIVE with `verify_jwt=true` and validates the caller token through `auth.getUser()` before reserving work. PostgreSQL currently has active Auth sessions, but session rows do not expose a reusable user access token. The repository/database connector session does not expose a legitimate browser user JWT or GitHub Actions secret value. Therefore no live interpretation was invoked through service-role SQL, minted credentials, direct privileged calls or secret extraction merely to obtain a PASS.
 
 ## Remaining acceptance gates
 
-1. Perform a deliberately bounded Layer 3 live-provider acceptance through the authenticated `layer3-interpret` user surface against eligible UQ/RMIT Evidence; preserve existing profile/model/revalidation/rate/cost controls.
+1. Perform a deliberately bounded Layer 3 live-provider acceptance through the normal authenticated Admin/PIM user surface against eligible UQ/RMIT Evidence; preserve existing profile/model/revalidation/rate/cost controls.
 2. Record calls, tokens, cost, latency, validator disposition and Evidence lineage in `SYSTEM-METRICS.md`.
-3. Keep generic scheduler Layer 3 disabled and preserve Layer 4/Search/Publication separation.
+3. Confirm no unauthorized Layer 1 mutation, automatic Layer 4 approval or Search/Publication side effect.
 4. Reconcile the stale `pending-live-provider-uat` metadata only through an appropriate governed forward change; do not directly mutate privileged runtime state as a shortcut.
-5. Obtain exact-head Codex review when code-review quota permits and retain exact-head CI/UAT/runtime green before merge.
+5. Obtain exact-head Codex review and retain exact-head CI/UAT/runtime green before merge.
 6. Only after those gates are clean may PR #72 be merged or a new accepted visible release be considered.
 
 ## Next AU qualification wave
