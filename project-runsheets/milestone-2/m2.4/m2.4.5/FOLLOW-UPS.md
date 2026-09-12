@@ -19,7 +19,7 @@
 | M245-FU-011 | H10 | Milestone meeting preparation | ACTIVE | Maintain achieved/failed/next, timeline, commits, UAT, runtime metrics |
 | M245-FU-012 | H10 | Interaction/time evidence | ACTIVE | Record session timestamps; user-confirm billable hours separately |
 
-| M245-FU-090 | Ranking import recovery | Complete QS ranking recovery through corrected file Evidence/Parse/validate boundary, apply only after successful parser/reconciliation gate, then prove Statistics/Compare latest-edition behaviour | ACTIVE / TARGETED UAT | CF-090; current ranking hardening scope is QS only |
+| M245-FU-090 | Ranking import recovery | Complete QS ranking recovery through corrected file Evidence/Parse/validate boundary, apply only after successful parser/reconciliation gate, then prove Statistics/Compare latest-edition behaviour | BLOCKED BEHIND CF-CHG-20260910-093 | Resume only after CF-CHG-20260910-093 is genuinely CLOSED/PASS; current ranking hardening scope remains QS only. |
 
 | M245-FU-013 | H11 | Provider logo completeness & source discovery | CLOSED / PASS / CF-101 + CF-102 | Governed AU/NZ university cohort is 41 AU + 8 NZ with 49/49 approved primary logos. Provider/Course/Compare visual consumption and authenticated private-asset access accepted; reopen only for a new defect/freshness requirement. |
 | M245-FU-014 | H12 | ARWU ranking integration | DEFERRED / FUTURE ROADMAP | Removed from current M2.4.5 acceptance sequence. Revisit only under a future architecture Change Control after QS is stable; use as a generic ETL retrofit fixture if still appropriate. See `docs/roadmap/coursefinder-generic-dataset-etl-roadmap-v1.0.md`. |
@@ -27,11 +27,12 @@
 | M245-FU-016 | H13 | Ranking parser + API/Parse.bot dual acquisition | PARTIAL / QS-ONLY CURRENT | Retain the already accepted file/API foundations, but do not generalise parser generation or source onboarding during QS recovery. Broader generic acquisition/parser/scheduling is parked under PM-A13 roadmap. |
 | M245-FU-030 | Future architecture | Generic dataset acquisition, parser discovery, mapping, upgrade-safe customisation and scheduled/on-demand job framework | DEFERRED / ROADMAP | Research/findings and retrofit gates recorded in `docs/roadmap/coursefinder-generic-dataset-etl-roadmap-v1.0.md` and PM-A13. No current DB/Edge/PIM refactor authorised. |
 
-## Priority reconciliation — 10 September 2026
+## Priority reconciliation — 12 September 2026
 
 | Priority | Workstream | Immediate action | Status |
 |---|---|---|---|
-| 1 | QS ranking / CF-090 | Complete reliable QS file Evidence → parse/validate → reconcile → apply → latest-edition display, retaining all authorised QS indicator/source fields while displaying governed headline ranking fields | ACTIVE NEXT |
+| 1 | CF-CHG-20260910-093 consequential acceptance | Keep the reopened scheduler gate explicit until a genuinely governed policy-qualified fully queueable deterministic Layer 2 target exists; then run bounded Preview → dispatch → dedupe/Jobs/Evidence acceptance. Do not fabricate policy/profile/route/runtime configuration. | ACTIVE BLOCKER |
+| 2 | QS ranking / CF-090 | After CF-CHG-20260910-093 closes, complete reliable QS file Evidence → parse/validate → reconcile → apply → latest-edition display, retaining all authorised QS indicator/source fields while displaying governed headline ranking fields | BLOCKED / NEXT AFTER CF-093 |
 | Deferred | ARWU | Do not implement now; retain as future generic ETL architecture fixture | FUTURE ROADMAP |
 | Deferred | Diversity Index | Do not implement now; retain as future generic ETL/statistics semantic fixture | FUTURE ROADMAP |
 | Deferred | Generic ETL | Metadata-driven source/parser/job framework, upgrade-safe PIM/config ownership and common URL/API/browser/file pipeline | PM-A13 / FUTURE ARCHITECTURE |
