@@ -11,6 +11,7 @@
 - Cloudflare Workers build **`50ce255a-8c17-4319-a649-ef2113178254` — PASS**, Worker version **`529075ea-affa-4a5e-951a-15e53689c8e2`**.
 - Pre-merge exact-head Codex review was clean in PR #71 comment `5634309865`.
 - **CF-CHG-20260910-093 remains REOPENED.** Source/runtime reconciliation is PASS; consequential acceptance remains blocked.
+- Admin PR #34 is the active governance reconciliation branch `m245/cf093-target-builder-20260911`. The exact review head must always be taken from PR metadata immediately before requesting/accepting Codex review; the latest material governance parent before this continuity update is `62294b1e50b59086b0b0bdf4e815ce211b4a1cd9`.
 - Production is unchanged; M2.5 remains paused at P0.
 
 ## Preserved authority boundary
@@ -42,7 +43,7 @@ Latest corrective identities remain:
 - `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
 - `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`
 
-Pilot `main` now carries the exact source for these already-applied runtime migrations. Never rewrite or retimestamp them.
+Pilot `main` now carries the exact source for these already-applied runtime migrations. Never rewrite, remove or retimestamp them; semantic rollback must use a new forward-only migration.
 
 ## Current consequential-target truth
 
@@ -56,12 +57,13 @@ Do not manufacture an execution policy, source profile, route or runtime configu
 
 ## Exact next gate
 
-1. Finalise Admin PR #34 governance to record Pilot merge `63c7107c...`, Frontend Build `34655200676`, Deployed UAT `34655200754`, Cloudflare build `50ce255a-8c17-4319-a649-ef2113178254`, and v2.15.78 unchanged.
-2. Request a fresh exact-head Codex review on the final Admin PR #34 head because the governance branch changed after the prior clean review.
-3. Merge Admin PR #34 only when exact-head Codex and current Admin CI/Cloudflare checks are clean. That merge is governance reconciliation only; it must keep CF-CHG-20260910-093 REOPENED.
-4. Keep consequential acceptance blocked until a legitimate operational lifecycle produces a policy-qualified fully queueable deterministic Layer 2 target; then run Preview → dispatch → duplicate/retry → Jobs/Evidence/no-unintended-side-effect acceptance.
-5. Once CF-CHG-20260910-093 is genuinely CLOSED/PASS, resume the **QS-focused** M2.4.5 continuation. H12 ARWU/Diversity immediate-next pointers remain superseded/parked.
+1. Finalise Admin PR #34 governance so the authoritative Register, workflow matrix, FOLLOW-UPS, RUNSHEET and Change Control all agree that CF-CHG-20260910-093 is REOPENED with only fully queueable deterministic Layer 2 eligible for Scheduled Tasks execution.
+2. Read the exact Admin PR #34 `head_sha` from GitHub immediately before review and record that SHA in the review request/comment; never rely on an older continuity SHA after another governance commit.
+3. Request a fresh exact-head Codex review on that final Admin PR #34 head.
+4. Merge Admin PR #34 only when exact-head Codex and current Admin CI/Cloudflare checks are clean. That merge is governance reconciliation only; it must keep CF-CHG-20260910-093 REOPENED.
+5. Keep consequential acceptance blocked until a legitimate operational lifecycle produces a policy-qualified fully queueable deterministic Layer 2 target; then run Preview → dispatch → duplicate/retry → Jobs/Evidence/no-unintended-side-effect acceptance.
+6. Once CF-CHG-20260910-093 is genuinely CLOSED/PASS, resume the **QS-focused** M2.4.5 continuation. H12 ARWU/Diversity immediate-next pointers remain superseded/parked.
 
 ## Pickup text
 
-> Continue CF-CHG-20260910-093 from repository/runtime truth. Pilot main is `63c7107cfce2d8f607fc378af4881d0ba28ca879`, visible v2.15.78. Corrective PR #71 source/runtime reconciliation is PASS: Frontend Build `34655200676`, Deployed UAT `34655200754`, Cloudflare build `50ce255a-8c17-4319-a649-ef2113178254`, Worker version `529075ea-affa-4a5e-951a-15e53689c8e2`. Runtime/source lineage is aligned through immutable `20260911120131`. CF-CHG-20260910-093 remains REOPENED solely because no legitimate policy-qualified fully queueable deterministic Layer 2 target currently exists for consequential Preview→dispatch→Jobs/Evidence acceptance. RMIT/UQ are discovery-backed; Nova/Stamford are qualification-only and lack execution policies. Do not fabricate configuration. Finalise Admin PR #34, request exact-head Codex review, merge governance only if clean, and preserve the blocker/authority boundaries.
+> Continue CF-CHG-20260910-093 from repository/runtime truth. Read `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, the current M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT and the troubleshooting/recovery protocol before action. Pilot main is `63c7107cfce2d8f607fc378af4881d0ba28ca879`, visible v2.15.78. Corrective PR #71 source/runtime reconciliation is PASS: Frontend Build `34655200676`, Deployed UAT `34655200754`, Cloudflare build `50ce255a-8c17-4319-a649-ef2113178254`, Worker version `529075ea-affa-4a5e-951a-15e53689c8e2`. Runtime/source lineage is aligned through immutable `20260911120131`. CF-CHG-20260910-093 remains REOPENED solely because no legitimate policy-qualified fully queueable deterministic Layer 2 target currently exists for consequential Preview→dispatch→Jobs/Evidence acceptance. RMIT/UQ are discovery-backed; Nova/Stamford are qualification-only and lack execution policies. Do not fabricate configuration. Finalise Admin PR #34, read its current exact `head_sha` from GitHub, request exact-head Codex review, merge governance only if clean, and preserve the blocker/authority boundaries. Update continuity and append exact execution evidence before handoff.
