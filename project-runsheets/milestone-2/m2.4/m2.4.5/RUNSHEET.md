@@ -173,7 +173,7 @@ Closed workstreams must not be repeated without a new defect/change record: H1, 
 
 ## Historical priority note — 2026-09-03 12:59 AEST
 
-User-directed execution order was H11 → H12 → H13. H11 has since completed under CF-101/102. The active continuation therefore begins at H12 rather than repeating H11.
+Historical only / superseded. User-directed execution order at that time was H11 → H12 → H13. H11 later completed under CF-101/102. The former statement that continuation began at H12 is no longer active authority; current continuation is governed by the 12 September gate order above, with CF-CHG-20260910-093 consequential acceptance first and QS next only after closure.
 
 ## 2026-09-03 12:59 AEST — H13 established Parse.bot API contract
 
@@ -187,3 +187,15 @@ H13 uses user-supplied established APIs:
 Do not generate replacement QS/ARWU scrapers. Both established APIs must converge with uploaded Evidence parsing through the same staging/validate/reconcile/dry-run/manual-Apply contract.
 
 QS exact year/pagination parameter semantics must be verified from the established endpoint response/metadata before implementing any remaining 2015–2026 loop; do not invent parameter names.
+
+## 2026-09-12 13:49 AEST — CF-CHG-20260910-093 governance reconciliation execution
+
+**Intent:** reconcile Admin PR #34 with Pilot PR #71/main runtime truth after exact-head Codex identified governance inconsistencies; make no Pilot schema/runtime/configuration changes.
+
+**Starting state:** Pilot PR #71 already merged exact clean head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` as `63c7107cfce2d8f607fc378af4881d0ba28ca879`; Frontend Build `34655200676`, Deployed UAT `34655200754` and Cloudflare Workers build `50ce255a-8c17-4319-a649-ef2113178254` were PASS. CF-CHG-20260910-093 remained reopened because no legitimate policy-qualified fully queueable deterministic Layer 2 target existed.
+
+**Actions:** retained immutable migration/source lineage through `20260911120131`; corrected the workflow matrix to make discovery-containing scopes fail closed and only fully queueable deterministic Layer 2 executable; moved QS continuation behind CF-CHG-20260910-093 closure; strengthened rollback wording so applied migration source cannot be removed/reverted and any semantic rollback is forward-only; hardened NEXT-CHAT exact-head/recovery pickup instructions. No execution policy, source profile, route or runtime configuration was created.
+
+**Outcome:** governance reconciliation materially advanced; CF-CHG-20260910-093 remains **REOPENED / CONSEQUENTIAL ACCEPTANCE BLOCKED**. Layer 1 authority, deterministic Layer 2 Evidence truth, Layer 3 Evidence/profile/model/revalidation governance, Layer 4 human resolution, Search/Publication separation and rank/ACL boundaries remain unchanged. Generic async discovery remains fail-closed.
+
+**Follow-up:** authoritative Register must state the same reopened blocker; after all governance files are reconciled, read Admin PR #34 exact `head_sha`, run current Admin CI, request exact-head Codex re-review, and merge governance only if clean. Consequential acceptance remains deferred until a legitimate target appears through normal operational lifecycle.
