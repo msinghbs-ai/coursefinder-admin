@@ -36,7 +36,7 @@ Metrics are evidence, not acceptance criteria unless a Change Control explicitly
 - Exact PR head: `a7283139a9e6088933be68fa69f75d2e9eb71fbe`.
 - Exact-head Pilot Frontend Build: GitHub Actions `34681032426` — PASS.
 - Exact-head Cloudflare commit/branch preview: PASS/deployed.
-- Exact-head Codex review: unavailable because the account has reached its code-review usage limit; this is a tool-quota blocker, not a review outcome.
+- Exact-head Codex review: unresolved. Fresh review request PR comment `5645005516` was posted at `2026-09-12 09:26:27Z`; no review submission or new quota response had appeared at reconciliation time. Earlier exact-head attempts were rejected only by account code-review usage quota.
 - Intermediate head `eec6fbbfe04709d81150825fe70e31eb3cc8f7f9` / run `34677940824`: FAILED at UAT suite discovery because CF-093 freshness UAT referenced nonexistent migration alias `20260912032000...`; corrected at `a7283139...` to applied `20260912031356...`.
 
 ## CF-093 — UQ 382-course acceptance snapshot
@@ -45,7 +45,7 @@ Metrics are evidence, not acceptance criteria unless a Change Control explicitly
 
 - `layer2-scope-discover-scheduled`: Edge Function v26; worker `layer2-scope-discover-scheduled-v1.3.8` during accepted run.
 - `layer2-batch-runner`: Edge Function v8 during accepted run.
-- UQ source-profile version: `3d70516d-95d-49e6-b33e-e61bacfec275`.
+- UQ source-profile version: `3d70516d-95d5-49e6-b33e-e61bacfec275`.
 - Security boundary retained: scheduled discovery remained under the existing one-time nonce/service-RPC contract; no browser/public privilege broadening.
 
 ### Corrected discovery / handoff
@@ -181,6 +181,37 @@ RMIT same-token/fresh-preview live replay was not executed before the 30-minute 
 - RMIT produced 50/263 (~19.0%) `layer3_required`, materially above UQ's 3/251 (~1.2%). The next Layer 3 gate should inspect whether this reflects source content structure, field coverage, profile semantics or expected deterministic fall-out before broadening AI use.
 - Both runs preserved Search/Publication separation and did not trigger generic Layer 3.
 
+## Layer 3 readiness audit — 12 Sep 2026
+
+### Qualified runtime contract
+
+- Profile: `openrouter-free-router-v1` / id `0b02920e-a021-48f5-ba47-75082fdcce13`.
+- Provider/model: OpenRouter / `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free`.
+- Profile state: enabled=true, paused=false.
+- Pilot environment: `pilot_qualified`, enabled=true.
+- Benchmark: `a8e4b6c8-8a7b-45b4-a8df-c5a3bb4e8407` PASS; 5/5 provider semantic + 13/13 controls; 5 external calls; 315 input / 462 output tokens; USD 0; maximum latency 2811ms.
+- Limits: 20 requests/minute; 50/day; retry ceiling 1; timeout 30s; cost ceiling USD 0.
+- Edge: `layer3-interpret` v9, ACTIVE, `verify_jwt=true`; caller is revalidated using `auth.getUser()` before reservation.
+- Runtime `uat_ref=pending-live-provider-uat` remains stale descriptive metadata relative to owning CF-038 CLOSED/PASS; `qualification_state=pilot_qualified` is the current executable gate.
+
+### Eligible UQ/RMIT Evidence cohort
+
+| Cohort | L2 `layer3_required` | Eligible retained Evidence | MIME |
+|---|---:|---:|---|
+| UQ | 3 | 3 | `text/html` |
+| RMIT | 50 | 50 | `text/html` |
+| **Total** | **53** | **53** | **53 × text/html** |
+
+Evidence readiness was checked through the same lineage as `security.layer3_evidence_candidates_impl`: succeeded `layer2_provider_attempts` → raw/html Evidence with retained storage object, content hash, current validity, non-rejected review state and supported text MIME. Existing interpretations for this 53-item cohort: 0.
+
+### Authenticated execution path
+
+- Normal Admin/PIM Layer 3 UI: signed-in Supabase session → `supabase.functions.invoke('layer3-interpret')` with Evidence/entity/task/profile → JWT-protected Edge → `auth.getUser()` → governed reservation.
+- Existing deployed UAT harness signs in using repository Actions secrets `COURSEFINDER_UAT_EMAIL` / `COURSEFINDER_UAT_PASSWORD` and validates the Layer 3 model/Evidence queue. Secrets are not exposed to source or this connector session.
+- Existing deployed UAT intentionally stops before clicking `Run eligible interpretation`; therefore it proves authenticated UI readiness, not a current live-provider interpretation.
+- PostgreSQL active-session presence was observed, but session rows do not expose a reusable user access token. No JWT was minted, extracted or simulated through privileged service access.
+- Live-provider metrics for this 53-item cohort remain **not yet observed**. Do not invent calls/tokens/cost/latency until an authenticated bounded run occurs.
+
 ## Next metrics capture
 
-For the bounded Layer 3 gate, capture eligible Evidence count, exact profile/model/provider/revalidation version, calls, success/failure disposition, tokens, recorded cost, response latency, evidence consequences and zero unauthorized publication/Search effects. Do not infer token/cost values that the runtime does not expose.
+For the bounded Layer 3 gate, capture eligible Evidence ID/entity/task/profile, interpretation status, external calls, input/output tokens, recorded cost, call latency, validator disposition, Evidence lineage and zero unauthorized Layer 1/Layer 4/Search/Publication effects. Do not infer token/cost values that the runtime does not expose.
