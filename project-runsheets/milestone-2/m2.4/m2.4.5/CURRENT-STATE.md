@@ -102,7 +102,7 @@ No cohort membership authorises fabricated execution policy, profile, route or d
 
 ## Exact next gate
 
-1. Reconcile the remaining CF-093 continuity/metrics and PR description to current runtime truth.
+1. Reconcile PR #72 description and remaining CF-093 governance/metrics to current runtime truth.
 2. Inspect existing Course Layer 3 profile/provider/model/revalidation/live-provider qualification and the 53 eligible UQ/RMIT L2 dispositions.
 3. Run only a bounded Layer 3 acceptance if the existing contract is currently qualified; do not enable generic scheduler L3.
 4. Obtain exact-head Codex review when usage capacity permits. Current blocker is tool quota, not a review finding.
