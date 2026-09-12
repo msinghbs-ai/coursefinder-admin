@@ -45,7 +45,7 @@ Metrics are evidence, not acceptance criteria unless a Change Control explicitly
 
 - `layer2-scope-discover-scheduled`: Edge Function v26; worker `layer2-scope-discover-scheduled-v1.3.8` during accepted run.
 - `layer2-batch-runner`: Edge Function v8 during accepted run.
-- UQ source-profile version: `3d70516d-95d5-49e6-b33e-e61bacfec275`.
+- UQ source-profile version: `3d70516d-95d-49e6-b33e-e61bacfec275`.
 - Security boundary retained: scheduled discovery remained under the existing one-time nonce/service-RPC contract; no browser/public privilege broadening.
 
 ### Corrected discovery / handoff
