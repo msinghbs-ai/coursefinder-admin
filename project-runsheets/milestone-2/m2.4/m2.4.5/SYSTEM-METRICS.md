@@ -14,14 +14,29 @@ Record observed values only for consequential ingestion, discovery, enrichment, 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
 - PR #72 branch: `m245/cf093-async-discovery-20260912`.
-- Current candidate head: `013b2878ce748c1a7196c74cb467ac55f5858cd6`.
-- Last proven corrective head `c5226c2bcadd7ee7102935088130262ca2a3a2a2`: Frontend Build `34687938846` PASS; Cloudflare preview PASS.
-- Current head adds only reconstruction bootstrap `20260912005000` plus its regression test; exact-head CI/Cloudflare/Codex still required.
+- Current candidate head: `edb115cca6f6a94957ff6a99aac12a6b235713aa`.
+- Exact-head CF-093 Targeted Recovery `34690128803`: PASS.
+- Exact-head Pilot Frontend Build `34690128811`: PASS.
+- Exact-head Cloudflare commit/branch preview: PASS/deployed.
+- Fresh exact-head Codex request comment: `5645499063`; no new technical review submission observed at reconciliation.
 - Pilot worker: Edge v27 / `layer2-scope-discover-scheduled-v1.3.9` / SHA `15c958609f6f6787a4de2e449d15e3e3e9718480da4c8599743c0da92a3d4ef2`.
 - Forward Pilot migration `20260912100539_cf_093_codex_async_token_identity_dedupe_hardening`: applied + checked in.
 - Forward Pilot migration `20260912101339_cf_093_terminal_negative_basis_hardening`: applied + checked in.
-- Codex review returned nine actionable findings; eight corrected threads resolved.
+- Retroactive source-only reconstruction bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql`: checked in; Pilot history repair still pending.
+- Runtime history observed: `20260912005948`, `20260912100539`, `20260912101339` present; `20260912005000` absent.
 - PR remains draft/unmerged. Accepted main/release unchanged.
+
+## CF-093 targeted recovery CI
+
+Dedicated PR workflow `CF-093 Targeted Recovery` executes the seven current CF-093 contract files.
+
+| Run | Candidate | Result | Observed detail |
+|---|---|---|---|
+| `34689908598` | earlier recovery head | FAIL | 13 pass / 4 fail — stale v1.3.8/pre-hardening assertions |
+| `34690059287` | `121bbd28...` | FAIL | 16 pass / 1 fail — obsolete cancellation reason key assertion |
+| `34690128803` | `edb115cc...` | **PASS** | full targeted recovery set clean |
+
+The test-alignment commits changed assertions only; they did not modify deployed worker logic or applied migration SQL.
 
 ## Codex recovery safety evidence
 
@@ -29,7 +44,7 @@ Record observed values only for consequential ingestion, discovery, enrichment, 
 
 Current v1.3.9 + `20260912100539` requires exact `preview_token + actor + profile`, an active/unexpired binding, requested discovery IDs inside the bound set, and revalidation of profile version, identity fingerprint, queueable fingerprint and bound ID validity before discovery Evidence processing. Preview-bound continuation and handoff reuse the same exact token. Async handoff batch IDs are recorded for dedupe.
 
-Dedupe returns a completion anchor only when every referenced direct/async batch exists and is `completed` or `partial`; cancelled/missing/non-terminal siblings fail closed. Multi-profile cancellation is set-based. Terminal-only Preview scopes are non-executable.
+Dedupe returns a completion anchor only when every referenced direct/async batch exists and is reusable; cancelled/missing/non-terminal siblings fail closed. Multi-profile cancellation is set-based. Terminal-only Preview scopes are non-executable.
 
 No browser/public privilege was broadened. Worker custom authentication remains the existing one-time nonce + service-RPC model.
 
@@ -37,7 +52,7 @@ No browser/public privilege was broadened. Worker custom authentication remains 
 
 v1.3.9 no longer interprets HTTP 200/no required-prefix link as a terminal zero-result unless `discovery_strategy.zero_result_markers` is explicitly configured and matched. UQ/RMIT currently have zero such markers; none was manufactured.
 
-`20260912101339` removes legacy/current v1.3.9 `current_page_not_found` from freshness suppression. `ambiguous` and `identity_mismatch` remain freshness-eligible terminal negatives. Future `current_page_not_found` freshness is reserved for a future explicit terminal-basis contract.
+`20260912101339` removes legacy/current v1.3.9 `current_page_not_found` from freshness suppression unless a later explicit qualified basis exists. `ambiguous` and `identity_mismatch` remain freshness-eligible terminal negatives.
 
 ## Reopened scope snapshot
 
@@ -91,7 +106,7 @@ A read-only runtime simulation used the actual UQ v1 configuration and proposed 
 - resulting config validates **PASS** under `security.layer2_validate_profile_config`;
 - resulting candidate hash: `1cb8d860cce8d907de5c326975fabfe11865861a3b5c75dee0ac4a54f91145e8`, distinct from v1.
 
-PR #72 now includes retroactive idempotent bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql` plus regression test. The bootstrap is ordered before immutable `005948` and uses normal profile-version governance.
+Exact-head targeted CI includes the bootstrap ordering/regression test and passes.
 
 Pilot already has the resulting qualified discovery strategy. Therefore the remaining remote-history operation is the official Supabase CLI tracking repair:
 
@@ -99,18 +114,16 @@ Pilot already has the resulting qualified discovery strategy. Therefore the rema
 
 The connected Supabase tool does not expose migration repair. **No direct SQL INSERT/DELETE against `supabase_migrations.schema_migrations` was performed.** Exact CLI history repair + `supabase migration list` alignment + fresh reconstruction proof remain pending before this P1 can close.
 
-Official Supabase guidance notes that migration repair changes tracking only and does not execute migration SQL; this is the appropriate mechanism when schema effect already exists but migration history is missing. A full squash is not selected because Supabase squash omits DML and CourseFinder migrations contain governed seed/data operations.
-
 ## Layer 3 readiness — PAUSED
 
-Previously inspected runtime contract remains qualified/JWT-protected. Historical cohort at inspection: 53 `layer3_required` items with 53 retained `text/html` Evidence, 0 interpretations. `layer3-interpret` v9 remains `verify_jwt=true` and caller-validated. Live Layer 3 acceptance is paused behind CF-093 reconstruction + reopened discovery.
+Previously inspected runtime contract remains qualified/JWT-protected. Historical cohort at inspection: 53 `layer3_required` items with 53 retained `text/html` Evidence, 0 interpretations. `layer3-interpret` v9 remains `verify_jwt=true` and caller-validated. This cohort predates reopened discovery and must be recalculated after corrective L2. Live Layer 3 acceptance is paused behind CF-093 reconstruction + reopened discovery.
 
 ## Next metrics capture
 
-1. Exact-head CI/Cloudflare/Codex for `013b2878...`.
-2. Official migration repair result and local/remote migration-list parity.
-3. Fresh reconstruction/reset proof.
+1. Official migration repair result and local/remote migration-list parity.
+2. Fresh reconstruction/reset proof.
+3. Fresh exact-head Codex outcome for `edb115cc...`.
 4. Authenticated corrective rediscovery metrics for UQ 54 + RMIT 27 only.
 5. Deterministic L2 only for newly selected/changed actionable work.
 6. Explicit zero unauthorized Layer 3/Layer 4 auto-approval/Search/Publication side effects.
-7. Only after CF-093 recovery: bounded authenticated Layer 3 calls/tokens/cost/latency/validator/Evidence lineage.
+7. Only after CF-093 recovery: recalculated bounded authenticated Layer 3 calls/tokens/cost/latency/validator/Evidence lineage.
