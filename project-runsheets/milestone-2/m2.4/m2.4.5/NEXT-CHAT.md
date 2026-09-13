@@ -1,69 +1,89 @@
 # M2.4.5 NEXT CHAT
 
-## Active baseline — 12 September 2026
+## Active baseline — 13 September 2026
 
-- Current Pilot `main`: **`63c7107cfce2d8f607fc378af4881d0ba28ca879`**.
-- Visible PIM Admin release remains **v2.15.78**; no browser UI source changed in the corrective reconciliation merge.
-- Functional target-builder PR #69 merged as `85bc068d379ed3fc9231d167cf524e56419e80f9`; release-currentness PR #70 merged as `cfc4702ba57a58ea31936dcabbd96fdd765194e2`.
-- Corrective PR #71 exact clean head `00c98f0cea22e8ef2d8f12adb16a1e6cc5e3f575` merged to Pilot `main` as `63c7107c...` solely to reconcile repository source with already-applied Pilot runtime migrations and maintained UAT contracts.
-- Post-merge Pilot Frontend Build **`34655200676` — PASS**.
-- Post-merge CourseFinder Deployed UAT **`34655200754` — PASS**; targeted desktop governed validation passed and the mobile gate was intentionally skipped by targeted-tier routing.
-- Cloudflare Workers build **`50ce255a-8c17-4319-a649-ef2113178254` — PASS**, Worker version **`529075ea-affa-4a5e-951a-15e53689c8e2`**.
-- Pre-merge exact-head Codex review was clean in PR #71 comment `5634309865`.
-- **CF-CHG-20260910-093 remains REOPENED.** Source/runtime reconciliation is PASS; consequential acceptance remains blocked.
-- Admin PR #34 is the active governance reconciliation branch `m245/cf093-target-builder-20260911`. The exact review head must always be taken from PR metadata immediately before requesting/accepting Codex review; the latest material governance parent before this continuity update is `62294b1e50b59086b0b0bdf4e815ce211b4a1cd9`.
-- Production is unchanged; M2.5 remains paused at P0.
+- Milestone: **M2.4.5 — Pre-Production Hardening**. M2.5 remains paused; Production is unchanged.
+- Accepted visible PIM Admin release remains **v2.15.78**.
+- Merged Pilot PR #72 remains immutable CF-093 implementation history.
+- Active Pilot runtime-operations PR: **#79**, branch `m245/cf093-runtime-ops-efficiency-20260913`, exact current head **`3d6b6a90893cf12a7fef9346dcacd24d2ddd2e8f`**.
+- Canonical Pilot tracker: issue #74.
+- Active Admin governance PR: **#36**, branch `m245/cf093-runtime-ops-followon-20260913`. PR #34 is superseded/closed without merge and its carried-forward work must not be lost.
+- Admin governance tracker: issue #35.
+- `CF-CHG-20260910-093` remains **REOPENED**. Runtime-efficiency work does not close consequential acceptance.
+- Codex remains deferred assurance only. Gitar is the active reviewer.
 
-## Preserved authority boundary
+## Pilot PR #79 accepted candidate state
 
-- AU Course Facts Layer 2 only.
-- Server-authorised Country / State-Territory / University-Provider scopes only.
-- Acquisition + deterministic Layer 2 only.
-- Mandatory actor-bound server Preview before consequential dispatch.
-- Authenticated rank-4 execution only; private helpers remain protected.
-- Valid profile version, deterministic execution policy, bounded scope, worker-compatible route/credential/budget/cost and URL allowlist checks.
-- Exact Preview fingerprint and dispatch revalidation before/after start.
-- Layer 1 authority unchanged.
-- Layer 3 remains Evidence/profile/model/revalidation governed.
-- Layer 4 remains audited human/exception resolution.
-- Search and Publication remain separately governed downstream actions.
+Exact head `3d6b6a90893cf12a7fef9346dcacd24d2ddd2e8f` contains:
 
-Generic async discovery-backed Scheduled Tasks remain fail-closed until a separately accepted Preview-bound async worker/continuation contract exists. Generic L3/L4 orchestration, Evidence reprocess, NZ Layer 2 Course enrichment, recurring country/state construction, unsupported recurring university construction and implicit Search/Publication remain disabled.
+1. read-only Scheduled Tasks **Runtime Health** UI;
+2. truthful queue-wait/execution/total-duration calculation with missing values shown as `Unavailable`;
+3. explicit visibility of terminal Jobs missing completion timestamps;
+4. Jobs/Evidence follow-through while preserving existing search, personalised columns/order, owner/creator, schedule edit, Run on Demand and Layer navigation;
+5. targeted Runtime Health contract coverage;
+6. forward-only migration source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql` plus targeted contract test.
 
-## Immutable Pilot runtime/source lineage
+Exact-head checks:
 
-Latest corrective identities remain:
+- CF-093 Fresh Reconstruction run `34750872835` — **PASS**.
+- CF-093 Targeted Recovery run `34750872803` — **PASS**.
+- Pilot Frontend Build run `34750872795` — **PASS**.
+- Cloudflare exact-head preview — **PASS**.
+- Gitar exact-head response — **Approved / no issues**.
 
-- `20260911085724 cf_093_scheduler_postmerge_codex_finalizer`
-- `20260911095142 cf_093_scheduler_exact_scope_codex_finalizer`
-- `20260911095420 cf_093_scheduler_runtime_route_credential_finalizer`
-- `20260911103931 cf_093_scheduler_runtime_semantics_finalizer`
-- `20260911105517 cf_093_scheduler_browser_bridge_and_scope_binding_finalizer`
-- `20260911111431 cf_093_scheduler_query_binding_and_ipv4_finalizer`
-- `20260911114056 cf_093_scheduler_discovery_failclosed_and_runtime_parser_finalizer`
-- `20260911120131 cf_093_scheduler_operator_reason_and_route_chain_finalizer`
+## Deployed Pilot runtime correction
 
-Pilot `main` now carries the exact source for these already-applied runtime migrations. Never rewrite, remove or retimestamp them; semantic rollback must use a new forward-only migration.
+Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 
-## Current consequential-target truth
+- Deployed migration ledger identity: **`20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`**.
+- Repository migration filename remains **`20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`**. Preserve both identities; do not rename, retimestamp, delete or rewrite applied history.
+- Live trigger `pipeline.layer2_discovery_terminal_timestamp_v1` stamps `completed_at=clock_timestamp()` only when a `layer2_discovery` Job enters a terminal state without an existing completion timestamp.
+- Historical completed discovery rows remain unmodified. Their missing completion times remain unknown.
+- Rollback-only proof created a synthetic terminal discovery Job inside one transaction, verified a real completion timestamp and measurable `2.009 s` duration, then rolled back. No ingestion, Evidence or canonical mutation occurred.
+- Reversion, if required, must be a new forward-only migration that removes the trigger/function.
 
-- RMIT University: **500 total / 261 queueable / 239 discovery**; governed execution policy exists, but generic async discovery is fail-closed.
-- University of Queensland: **382 / 156 / 226**; governed execution policy exists, but generic async discovery is fail-closed.
-- Nova Higher Education: **1 queueable / 0 discovery**, execution-policy gap 1; qualification-only profile.
-- Stamford International College: **1 queueable / 0 discovery**, execution-policy gap 1; qualification-only profile.
-- Every inspected AU State/Territory scope remains discovery-backed and contains execution-policy gaps.
+## Runtime performance baseline
 
-Do not manufacture an execution policy, source profile, route or runtime configuration merely to force consequential acceptance.
+Initial direct runtime evidence:
 
-## Exact next gate
+- Deterministic `layer2_acquisition_v2` successes: 773 Jobs; average queue `0.049 s`; average execution `1.44 s`; median `1.06 s`.
+- Before correction, 111 `layer2_discovery` Jobs were terminal `completed` but all 111 lacked `completed_at`, so completed-run duration was not trustworthy.
+- Three-day failed-discovery baseline: 25 Jobs / 111 processed / `1244.86 s` measurable execution / weighted throughput **`5.35 records/min`**.
+- Queue scheduling is not the primary bottleneck; discovery/provider acquisition is.
 
-1. Finalise Admin PR #34 governance so the authoritative Register, workflow matrix, FOLLOW-UPS, RUNSHEET and Change Control all agree that CF-CHG-20260910-093 is REOPENED with only fully queueable deterministic Layer 2 eligible for Scheduled Tasks execution.
-2. Read the exact Admin PR #34 `head_sha` from GitHub immediately before review and record that SHA in the review request/comment; never rely on an older continuity SHA after another governance commit.
-3. Request a fresh exact-head Codex review on that final Admin PR #34 head.
-4. Merge Admin PR #34 only when exact-head Codex and current Admin CI/Cloudflare checks are clean. That merge is governance reconciliation only; it must keep CF-CHG-20260910-093 REOPENED.
-5. Keep consequential acceptance blocked until a legitimate operational lifecycle produces a policy-qualified fully queueable deterministic Layer 2 target; then run Preview → dispatch → duplicate/retry → Jobs/Evidence/no-unintended-side-effect acceptance.
-6. Once CF-CHG-20260910-093 is genuinely CLOSED/PASS, resume the **QS-focused** M2.4.5 continuation. H12 ARWU/Diversity immediate-next pointers remain superseded/parked.
+UQ profile `au-uq-course-catalogue` provider evidence over the measured three-day window:
 
-## Pickup text
+- direct-http: 912 successful attempts, ~`1047.8 ms` average;
+- Firecrawl extraction failure: 201, ~`2293.7 ms` average;
+- scrape-do extraction failure: 149, ~`4175.5 ms` average;
+- ZenRows extraction failure: 141, ~`5621.9 ms` average;
+- scrape-do HTTP 401: 50 attempts, ~`236.9 ms` average;
+- ScraperAPI is configured later in the chain but relevant runtime attempts report credential unavailable.
 
-> Continue CF-CHG-20260910-093 from repository/runtime truth. Read `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, the current M2.4.5 RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT and the troubleshooting/recovery protocol before action. Pilot main is `63c7107cfce2d8f607fc378af4881d0ba28ca879`, visible v2.15.78. Corrective PR #71 source/runtime reconciliation is PASS: Frontend Build `34655200676`, Deployed UAT `34655200754`, Cloudflare build `50ce255a-8c17-4319-a649-ef2113178254`, Worker version `529075ea-affa-4a5e-951a-15e53689c8e2`. Runtime/source lineage is aligned through immutable `20260911120131`. CF-CHG-20260910-093 remains REOPENED solely because no legitimate policy-qualified fully queueable deterministic Layer 2 target currently exists for consequential Preview→dispatch→Jobs/Evidence acceptance. RMIT/UQ are discovery-backed; Nova/Stamford are qualification-only and lack execution policies. Do not fabricate configuration. Finalise Admin PR #34, read its current exact `head_sha` from GitHub, request exact-head Codex review, merge governance only if clean, and preserve the blocker/authority boundaries. Update continuity and append exact execution evidence before handoff.
+Do **not** add 401 to fallback merely to improve throughput. It is an authentication/provider-health failure and remains fail-closed until corrected through the governed provider/secret lifecycle.
+
+## Preserved authority/security boundary
+
+- Layer 1 authority and identity remain unchanged.
+- Layer 2 acquisition remains deterministic/Evidence-preserving and policy/profile/route qualified.
+- Mandatory actor-bound Preview/dispatch contracts remain unchanged where applicable.
+- Layer 3 remains Evidence/profile/model/revalidation governed; no generic L3 automation.
+- Layer 4 remains human-resolution authority; no generic L4 automation.
+- Search and Publication remain separately governed; no implicit publication.
+- rank/ACL/RLS/private-helper/service-role boundaries remain intact.
+- provider secrets must remain server/Vault-side and must not appear in Admin/browser output.
+- applied migration history is immutable and forward-only.
+
+## Exact next operational gate
+
+1. Observe the next **legitimate/natural** `layer2_discovery` terminal Job and confirm it now carries a real `completed_at`. Do not dispatch consequential work solely to make this proof green.
+2. Extend the governed rank-4 Jobs read contract only if necessary to expose trustworthy `processed`, selected/accepted/failed, throughput, failure class, retry exhaustion/dedupe and Evidence-yield metrics. Preserve secret/private Evidence boundaries and distinguish unavailable from zero.
+3. Surface provider-health/failure classes operationally so an operator can distinguish route extraction failure from authentication/credential failure.
+4. Remediate scrape-do/ScraperAPI provider health through the governed credential/provider lifecycle; do not weaken 401/fallback semantics.
+5. Collect enough post-correction discovery history for a genuine **Before → Change → After → Result** comparison.
+6. Only after that evidence exists consider batch/chunk size, concurrency, retry bounds/fairness, dedupe or provider-route efficiency changes.
+7. Keep CF-CHG-20260910-093 closure separate and perform consequential acceptance only on a legitimate current policy-qualified target.
+
+## Immediate recovery pickup
+
+> Continue CourseFinder M2.4.5 from repository/runtime truth. Read `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, M2 Standing Instructions/addenda, the troubleshooting protocol, current RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT, CF-093 runtime-ops follow-on and overlapping Change Controls. Pilot PR #79 current exact head is `3d6b6a90893cf12a7fef9346dcacd24d2ddd2e8f`; exact-head Fresh Reconstruction `34750872835`, Targeted Recovery `34750872803`, Frontend Build `34750872795`, Cloudflare preview and Gitar are green. Pilot runtime has forward-only deployed migration `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source is `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`. Preserve both identities and all historical migrations. The telemetry defect is corrected and rollback-only proof passed; historical missing timestamps were not backfilled. Discovery/provider acquisition is the active bottleneck, with 50 measured scrape-do 401 failures and materially slower fallback providers. Do not weaken 401/fallback/security rules. First verify a natural post-migration discovery terminal timestamp, then expand the governed read surface for trustworthy counts/throughput and address provider health before tuning concurrency or batch size. CF-CHG-20260910-093 remains reopened and M2.5 remains paused.
