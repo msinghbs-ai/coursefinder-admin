@@ -1,6 +1,6 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** ACTIVE — EXACT-HEAD TECHNICAL GATES CLEAN / CODEX ENVIRONMENT + CONSEQUENT ACCEPTANCE PENDING  
+**Status:** ACTIVE — EXACT-HEAD REVIEW + DEPLOYED CURRENTNESS CLEAN / UQ ACCEPTANCE DISPATCH PENDING  
 **Initiated:** 2026-09-10 AEST  
 **Reconciled:** 2026-09-13 AEST  
 **Category:** 30-admin-pim-ux  
@@ -16,18 +16,20 @@ Complete the bounded Scheduled Tasks run-on-demand contract for large AU Course 
 
 ## Current decision
 
-PR #72 remains OPEN / DRAFT / UNMERGED. The current exact head is technically clean across Targeted Recovery, full Fresh Reconstruction, Frontend Build/local browser smoke and Cloudflare currentness. Pilot runtime/source migration identity is reconciled to immutable applied migrations `20260913063252` and `20260913063321`; all previously actionable inline review threads are resolved. Consequential acceptance remains blocked because the required fresh exact-head Codex verdict has not returned: the Codex connector reports that a repository environment must be created. Worker redeployment, UQ/RMIT acceptance, Layer 3, merge and release remain paused rather than bypassing that governance gate.
+PR #72 remains OPEN / DRAFT / UNMERGED. Exact-head technical gates are clean and Codex submitted a current-head review against `4e67e322...` on 2026-09-13 with no new actionable findings. Pilot worker deployed-currentness is now clean: `layer2-scope-discover-scheduled-v1.3.10` is Edge v30, SHA `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`, with `verify_jwt=false` and the existing custom one-time nonce boundary preserved.
+
+Consequential acceptance is now blocked only by starting a **new** maintained `CF-093 UQ Corrective Acceptance` `workflow_dispatch`. The connected GitHub toolset exposes workflow reads/reruns but no new dispatch action; direct SQL/RPC is not an acceptable substitute.
 
 ## Current exact-head evidence
 
 - Candidate head `4e67e32289235a88297502e90c8181f25639f300`.
-- CF-093 Targeted Recovery `34743276597`: **PASS**, including bound identity-freshness and handoff queueable-provenance regressions.
-- CF-093 Fresh Reconstruction `34743276592`: **PASS**, replaying the complete CF-093 chain through authoritative applied runtime identities `20260913063252` and `20260913063321`.
-- Pilot Frontend Build `34743276603`: **PASS**, including local browser smoke and evidence upload.
+- CF-093 Targeted Recovery `34743276597`: **PASS**.
+- CF-093 Fresh Reconstruction `34743276592`: **PASS**, through authoritative applied migrations `20260913063252` and `20260913063321`.
+- Pilot Frontend Build `34743276603`: **PASS**, including local browser smoke/evidence.
 - Cloudflare preview: **PASS / deployed at `4e67e322`**.
-- All previously actionable inline Codex P1/P2 threads are resolved against current source/runtime/CI evidence.
-- Fresh exact-head Codex review requested in PR comment `5651716801`; **verdict unavailable because the Codex repo-environment prerequisite is not satisfied**.
-- PR remains draft/unmerged; accepted main and visible release are unchanged.
+- Codex review submission against reviewed commit `4e67e32289`: **CLEAN / no new findings**.
+- All previous actionable inline P1/P2 threads: **RESOLVED**.
+- Pilot discovery worker: **Edge v30 deployed-current**, SHA `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`, `verify_jwt=false`.
 
 ## Reconciled forward hardening
 
@@ -36,13 +38,9 @@ Authoritative applied Pilot migrations:
 - `20260913063252_cf_093_bound_resolution_identity_freshness_reconcile.sql` — exact Preview-token provenance for resolved candidates and Layer 1 identity-aware terminal freshness.
 - `20260913063321_cf_093_bound_handoff_queueable_provenance_reconcile.sql` — exact-token provenance for discovery-subset outcomes while retaining pre-existing queueable URLs already protected by the binding queueable fingerprint.
 
-Temporary source-only aliases `20260913062000...` and `20260913064500...` were removed after runtime reconciliation. No applied migration was rewritten, removed, renamed or retimestamped.
+Repository worker hardening retains unresolved `failed`/nonterminal `candidate` outcomes in bounded continuation and aborts exact-binding identity drift before candidate writes while preserving bounded recovery for genuine provider/network verification failure.
 
-Repository worker hardening additionally retains unresolved `failed`/nonterminal `candidate` outcomes in bounded continuation and aborts exact-binding identity drift before candidate writes while preserving bounded recovery for genuine provider/network verification failure.
-
-## Pilot worker currentness
-
-Pilot still runs `layer2-scope-discover-scheduled-v1.3.10`, Edge v29, SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`, with `verify_jwt=false` and the existing custom one-time nonce boundary. Edge29 predates the latest repository worker fixes and is intentionally not redeployed until the required fresh exact-head Codex verdict is available.
+No applied migration was rewritten, removed, renamed or retimestamped. Temporary source-only aliases `20260913062000...` and `20260913064500...` remain removed.
 
 ## Authority boundaries retained
 
@@ -58,12 +56,10 @@ Pilot still runs `layer2-scope-discover-scheduled-v1.3.10`, Edge v29, SHA `665c5
 
 ## Exact remaining gates
 
-1. Satisfy the Codex repository-environment prerequisite and obtain a clean exact-head review of `4e67e322...`.
-2. Deploy the exact repository discovery worker to Pilot with `verify_jwt=false`; verify deployed source/SHA and custom nonce boundary.
-3. Start a **new** `CF-093 UQ Corrective Acceptance` `workflow_dispatch` on that reviewed/deployed exact head. The currently connected GitHub toolset exposes workflow reads/reruns but no new workflow-dispatch operation, so this may require an authorised GitHub UI/API dispatch; do not substitute direct SQL/RPC execution.
-4. Reconcile new deterministic UQ Layer 2 evidence and prove zero generic L3/L4/Search/Publication side effects.
-5. Run bounded RMIT corrective acceptance only after UQ is clean.
-6. Recalculate Layer 3 eligibility only after deterministic Layer 2 acceptance closes.
-7. Merge/release only after every runtime, UAT, security/authority and governance gate is clean, then verify main CI/deployment/deployed UAT before closure.
+1. Start a **new** `CF-093 UQ Corrective Acceptance` `workflow_dispatch` on reviewed/deployed head `4e67e322...` using the maintained GitHub workflow or equivalent normal authenticated Admin/PIM scheduler path. Do not rerun an older SHA and do not use direct SQL/RPC.
+2. Reconcile new deterministic UQ Layer 2 evidence and prove exact-token/fingerprint/dedupe/cancel behaviour plus zero generic L3/L4/Search/Publication side effects.
+3. Run bounded RMIT corrective acceptance only after UQ is clean.
+4. Recalculate Layer 3 eligibility only after deterministic Layer 2 acceptance closes.
+5. Merge/release only after every runtime, UAT, security/authority and governance gate is clean, then verify main CI/deployment/deployed UAT before closure.
 
 Historical UQ/RMIT batches remain forensic evidence only. Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW remains deferred until CF-093 closes.
