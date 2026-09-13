@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 EXACT-HEAD CODEX RECOVERY  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 EXACT-HEAD CODEX REVIEW PENDING  
 **Opened:** 2026-09-03 10:28 AEST  
 **Reconciled:** 2026-09-13 AEST  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
@@ -10,102 +10,85 @@
 
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
-- Active candidate: PR #72 / `m245/cf093-async-discovery-20260912` / exact head `1a2caf375b394e7723543642996e4dadfa52e3fe`.
-- CF-093 Targeted Recovery `34693956788`: PASS.
-- Pilot Frontend Build `34693956789`: PASS.
-- CF-093 Fresh Reconstruction `34693956761`: PASS only for the limited UQ bootstrap fixture; complete CF-093 replay remains open.
-- Cloudflare exact-head preview: PASS/deployed at `1a2caf37`.
-- Pilot Supabase: `fxcwkweaxjtknorudmwp`.
+- Active candidate: PR #72 / `m245/cf093-async-discovery-20260912` / exact head `a035714aa5bd9b4d88ae47a59c877b3514a1f287`.
+- CF-093 Targeted Recovery `34726688848`: PASS.
+- CF-093 Fresh Reconstruction `34726688865`: PASS — complete ordered PR-added CF-093 migration chain.
+- Pilot Frontend Build `34726688863`: PASS.
+- Cloudflare exact-head preview: PASS/deployed at `a035714a`.
+- Discovery worker: v1.3.10 / Edge v29 / SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`.
+- Fresh exact-head Codex request: comment `5649524865`; review pending.
 - Production Supabase: not provisioned.
-- PR remains draft/open; merge prohibited until all gates below close.
 
-## Gate A — exact-head Codex recovery
+## Gate A — exact-head recovery
 
-Earlier forward hardening remains retained, but fresh Codex review on `1a2caf...` reopened additional P1/P2 work.
-
-- [x] Runtime/source bootstrap tracking row `20260912005000` now present in Pilot history.
-- [x] Forward migrations `20260912100539` and `20260912101339` remain applied/checked in.
-- [x] Exact-head targeted recovery `34693956788` PASS.
-- [x] Exact-head Frontend Build `34693956789` PASS.
+- [x] Exact Preview-token provenance bound through provider attempt/job lineage.
+- [x] Post-network/pre-Evidence bound-identity revalidation implemented.
+- [x] Missing/cancelled exact Preview binding fails closed; no unbound fallback.
+- [x] Async completion dedupe requires reusable handoff/terminal completion for every `discovery_started` profile.
+- [x] Terminal-only and mixed actionable/terminal accounting implemented.
+- [x] Qualified terminal-basis metadata aligned to worker v1.3.10 contract.
+- [x] Exact title matching preserves original and prefix-stripped titles.
+- [x] Qualified zero-result provider-attempt telemetry is not overwritten as generic success.
+- [x] First cancellation timestamp/reason preserved on idempotent replay.
+- [x] Forward migration `20260912232827_cf_093_preview_provenance_terminal_dedupe_hardening` applied and checked in.
+- [x] Worker v1.3.10 deployed under existing custom auth boundary.
+- [x] Exact-head Targeted Recovery PASS.
+- [x] Exact-head Frontend Build PASS.
 - [x] Exact-head Cloudflare preview deployed.
-- [ ] Bind every accepted selected/terminal discovery outcome to exact Preview-token provenance through provider attempt/job.
-- [ ] Revalidate exact binding identity immediately before Evidence/candidate writes after network acquisition.
-- [ ] Reject bound handoff if its exact binding is absent/cancelled; no unbound fallback.
-- [ ] Require every `discovery_started` profile to have a reusable handoff outcome before completion dedupe can suppress recovery.
-- [ ] Correct terminal-only and mixed-profile completion accounting.
-- [ ] Align qualified terminal-negative metadata/version checks with the deployed worker contract.
-- [ ] Preserve exact canonical-title matches against both original and prefix-stripped titles.
-- [ ] Preserve qualified zero-result provider-attempt telemetry without overwriting it as generic success.
-- [ ] Preserve the first cancellation audit on idempotent replay.
-- [ ] Obtain a fresh Codex review with no remaining actionable P1/P2 defects.
+- [ ] Fresh exact-head Codex review has no remaining actionable P1/P2 defects.
 
-## Gate B — repository reconstruction / migration currentness
+## Gate B — reconstruction / migration currentness
 
-- [x] Immutable `20260912005948` remains unchanged/unretimestamped.
-- [x] Bootstrap `20260912005000_cf_093_uq_discovery_strategy_reconstruction_bootstrap.sql` exists before `005948`.
-- [x] Pilot migration history now records `005000`, `005948`, `100539`, `101339`.
-- [x] Limited UQ bootstrap fixture replay `34693956761` PASS.
-- [ ] Replace/extend the limited fixture so the complete ordered CF-093 chain is replayed against an appropriate reconstructed baseline.
-- [ ] Prove no syntax/dependency/function-replacement failure across the full CF-093 migration sequence.
-- [x] Keep direct ad-hoc modification of `supabase_migrations.schema_migrations` prohibited.
+- [x] Applied migrations remain immutable; no predecessor rewrite/retimestamp.
+- [x] UQ bootstrap `20260912005000` precedes immutable `005948` in repository/runtime history.
+- [x] Full reconstruction workflow replays all PR-added CF-093 migrations from `20260911231544` through `20260912232827` in order.
+- [x] Exact-head full-chain reconstruction `34726688865` PASS.
+- [x] Direct ad-hoc modification of `supabase_migrations.schema_migrations` remains prohibited.
 
 ## Gate C — authenticated acceptance evidence
 
-- [ ] Assert the browser bridge status from `dispatch.result.status`, not the outer object.
-- [ ] Prove the Cloudflare preview is serving the exact `GITHUB_SHA`, not merely HTTP 200.
-- [ ] Ensure acceptance triggers on every relevant implementation exact head, not only workflow-file changes.
-- [ ] Re-run consequential authenticated acceptance only after Gates A–B are clean.
+- [x] Consequential workflow contract uses nested `dispatch.result.status`.
+- [x] Exact-head Cloudflare deployment evidence identifies commit `a035714a`.
+- [x] Relevant implementation changes trigger the maintained CI/reconstruction gates.
+- [ ] Run consequential authenticated corrective acceptance only after fresh exact-head Codex review is clean.
 
 ## Gate D — UQ corrective discovery
 
-Historical deterministic batch retained as evidence: `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 248 `resolved_l2` + 3 `layer3_required`.
+Historical batch retained as evidence: `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 248 `resolved_l2` + 3 `layer3_required`.
+Previous hardened snapshot: 382 scoped / 251 queueable / 54 reopened discovery / 77 retained terminal negatives.
 
-Previous hardened snapshot recorded 382 scoped / 251 queueable / 54 reopened discovery / 77 retained terminal negatives.
-
-- [ ] Do not dispatch while current exact-head correlation/authority defects remain open.
-- [ ] After Gates A–C close, obtain a new authenticated Preview and run only the currently actionable corrective UQ discovery scope.
-- [ ] Reconcile changed/newly selected actionable work through deterministic L2 only.
+- [x] No corrective dispatch issued while recovery gates were open.
+- [ ] After Gate A closes, obtain a new authenticated Preview and run only the currently actionable UQ corrective discovery scope.
+- [ ] Reconcile newly selected/changed work through deterministic L2 only.
 - [ ] Prove exact-token/fingerprint/dedupe and zero generic Layer3/Layer4/Search/Publication side effects.
 
 ## Gate E — RMIT corrective discovery
 
-Historical deterministic batch retained as evidence: `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 213 `resolved_l2` + 50 `layer3_required`.
+Historical batch retained as evidence: `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 213 `resolved_l2` + 50 `layer3_required`.
+Previous hardened snapshot: 500 scoped / 263 queueable / 27 reopened discovery / 210 retained terminal negatives.
 
-Previous hardened snapshot recorded 500 scoped / 263 queueable / 27 reopened discovery / 210 retained terminal negatives.
-
-- [ ] Do not dispatch while current exact-head correlation/authority defects remain open.
-- [ ] After Gates A–C close, obtain a new authenticated Preview and run only the currently actionable corrective RMIT discovery scope.
-- [ ] Reconcile changed/newly selected actionable work through deterministic L2 only.
+- [x] No corrective dispatch issued while recovery gates were open.
+- [ ] After Gate A closes, obtain a new authenticated Preview and run only the currently actionable RMIT corrective discovery scope.
+- [ ] Reconcile newly selected/changed work through deterministic L2 only.
 - [ ] Prove exact-token/fingerprint/dedupe and zero generic Layer3/Layer4/Search/Publication side effects.
 
 ## Gate F — bounded Layer 3
 
-Paused while CF-093 remains open.
-
-- [x] Qualified JWT-protected Course Layer 3 contract previously inspected.
-- [ ] Recalculate eligible Layer 3 cohort only after corrective discovery/L2 acceptance closes.
-- [ ] Resume bounded authenticated Layer 3 only if still required after CF-093 closes.
+- [x] Qualified JWT-protected Course Layer 3 contract remains separate.
 - [x] Generic scheduler Layer 3 remains disabled.
+- [ ] Recalculate eligible Layer 3 cohort only after corrective discovery/L2 acceptance closes.
+- [ ] Resume bounded authenticated Layer 3 only if still required and qualified.
 
 ## Gate G — final PR acceptance
 
-- [ ] All exact-head Codex P1/P2 findings closed.
-- [ ] Full migration-chain reconstruction proof clean.
-- [ ] Correct authenticated acceptance evidence clean.
+- [ ] Fresh exact-head Codex P1/P2 gate clean.
+- [x] Full migration-chain reconstruction clean.
+- [x] Exact-head Targeted Recovery / Frontend Build / Cloudflare currentness clean at `a035714...`.
 - [ ] Corrective UQ/RMIT discovery + changed deterministic L2 clean.
-- [ ] Exact-head CI/UAT/runtime clean.
-- [ ] Governance continuity and PR summary reconciled.
-- [ ] Merge only after all required gates are clean; no visible release bump before acceptance.
-
-## Continuous M2.4.5 gates
-
-- H7 production migration/telemetry inventory remains active; Production target states pending.
-- H8 bugs/addenda/features remain Change-Controlled.
-- H9 targeted validation precedes bounded integration.
-- H10 meeting/status evidence remains maintained.
-- QS ranking recovery remains independent.
-- H14 external-consumer API-key lifecycle remains separately governed.
+- [ ] Final security/authority/UAT/runtime clean.
+- [ ] Governance continuity reconciled after consequential acceptance.
+- [ ] Merge/release only after all required gates are clean.
 
 ## Exact next action
 
-Address the current exact-head Codex findings with the smallest forward-only corrections, extend reconstruction to the complete CF-093 chain, and correct exact-head authenticated acceptance evidence. Do not start another UQ/RMIT corrective run until those gates are green. Layer 3 remains paused.
+Keep checking the exact-head Codex request `5649524865`. Forward-fix any reproducible finding without weakening authority/security. Do not start UQ/RMIT corrective discovery, Layer 3, merge or release until the exact-head Codex gate is clean.
