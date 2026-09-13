@@ -7,10 +7,11 @@
 - Active Change Control: **CF-CHG-20260910-093 — REOPENED for final governance/runtime-ops release follow-on**.
 - Visible accepted release remains **v2.15.78**.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- Current Pilot main: **`cb31abe21ffe9a041cacd5f975a0e4af5248daa5`**.
+- Current Pilot main: **`7cf5cc72296ca82e6e026606a61f449ede4ead45`** after merged PR #84.
 - PR #82 merged Firecrawl -> ZenRows exhaustion/Layer 3+4 parking.
 - PR #83 merged bounded six-university batch enablement.
-- Pilot PR #79 remains open and mergeable for browser-visible Runtime Health / efficiency, but still needs release-currentness/version reconciliation before merge.
+- PR #84 merged the Layer 2 runner transport-budget recovery.
+- Pilot PR #79 remains open for browser-visible Runtime Health / efficiency and still needs release-currentness/version reconciliation before merge.
 - Admin PR #37 remains the authoritative governance reconciliation vehicle.
 
 ## Six-university discovery — TERMINAL
@@ -30,74 +31,66 @@ All six Preview-bound discovery bindings are `handoff_started` with **1,676 / 1,
 
 Flinders worker-result totals include one repeated continuation event; the acceptance denominator is the 461 distinct courses.
 
-Current provider-attempt reconciliation for these exact Preview tokens:
+Provider-attempt baseline for the exact Preview tokens:
 
 - Firecrawl attempts: **1,697** total;
 - succeeded: **1,688**;
 - failed: **1**;
-- running: **0**;
 - raw/html/screenshot Evidence references: **1,696 / 1,696 / 1,696**;
-- ZenRows attempts: **0** for this six-university wave.
+- ZenRows attempts: **0** for this six-university discovery wave.
 
-The difference between 1,697 attempts and 1,688 `succeeded` + 1 `failed` is retained as provider-attempt state accounting; do not coerce unclassified/other statuses into success. Firecrawl handled the discovery wave without invoking ZenRows, but this does not remove the governed fallback.
+Monthly provider ledger at terminal discovery:
 
-## Provider budget / Evidence
-
-Current monthly provider ledger:
-
-- Firecrawl: **6,374 / 11,000** attempts/units recorded; **4,626 nominal units remain**, or **4,376 usable units before the configured 250-unit stop reserve**.
+- Firecrawl: **6,374 / 11,000** units recorded; **4,376 usable units remained before the configured 250-unit stop reserve**.
 - ZenRows: **188** recorded monthly attempts/units.
 - No silent paid fallback is authorised.
 
-Evidence remains fail-closed and no canonical/Search/Publication authority changed. Successful HTTP acquisition is not equivalent to identity resolution.
-
 Flinders remains the strongest identity-quality signal: **176 identity mismatches + 38 ambiguous + 10 selected**. Do not relax matching rules to improve yield.
 
-## Deterministic Layer 2 handoff — MATERIAL BLOCKER
-
-Discovery is complete, but the RMIT deterministic Layer 2 batch remains stalled and is the active runtime blocker.
+## RMIT deterministic Layer 2 recovery — ROOT CAUSE FIXED / CONTINUATION PROVEN
 
 RMIT batch: `74b4b16f-20f0-4b61-a9e0-632d824f001a`.
 
-Current state remains:
+The hourly metrics monitor correctly identified that discovery was terminal but the deterministic Layer 2 handoff had stalled at **253 queued + 1 acquiring + 9 `layer3_required`**.
 
-- batch status: `running`;
-- 263 total items;
-- **253 queued**;
-- **1 acquiring**;
-- **9 `layer3_required`**;
-- 0 completed/accepted;
-- 0 failed/rejected;
-- last item activity: **2026-09-13 12:18:28 UTC**.
+Recovery evidence:
 
-No forward progress has occurred since the prior snapshot. This is not authority to redispatch, change retries/routes/credentials, weaken identity/Evidence controls, or mutate canonical/Search/Publication state. Treat it as a runtime-operations/dispatcher investigation gate.
+1. Original batch dispatch request **6031** timed out at the pg_net 120-second ceiling during DNS resolution and never established the HTTP request.
+2. Existing stale-item recovery plus same-batch dispatch was used; no duplicate batch was created.
+3. Recovery request **6166** reached the Edge runner, processed five more items, but then hit the same 120-second transport ceiling during HTTP request/response before reconciliation/continuation. Runtime moved to **248 queued + 1 acquiring + 14 `layer3_required`**.
+4. Root cause: batch policy snapshot had `batch_size=10` and no `route_mode`; the runner therefore attempted up to ten sequential deterministic acquisitions/extractions inside one pg_net request. At observed per-item latency that could exceed the 120-second caller budget before self-continuation was scheduled.
+5. Pilot PR #84 exact head `428fcde277918061f5e8051eea3b869912eed883` changed only the runner transport chunk and its existing UAT source contract: ordinary chunks max **4**, `scraper_first` remains max **2**. Provider routing, retries, identity, Evidence, Layer 3 authority and Search/Publication boundaries are unchanged.
+6. PR #84 validation: Pilot Frontend Build `34781567078` PASS; Cloudflare exact-head preview PASS; Gitar exact-head review APPROVED with no findings.
+7. Pilot `layer2-batch-runner` version **10** was deployed as the controlled recovery candidate.
+8. Same RMIT batch was recovered and dispatched once as request **6167**. It returned **HTTP 200**, `timed_out=false`, `wave_size=4`, `processed_now=4`, summary `running`, and created its own continuation request **6168**.
+9. This proves the defect boundary that previously failed: a bounded wave now completes within the pg_net transport budget and reaches deterministic reconcile/self-continuation.
+10. PR #84 merged to Pilot main as **`7cf5cc72296ca82e6e026606a61f449ede4ead45`**.
 
-Other deterministic Layer 2 results:
+Do not create another RMIT batch. Continue observing the existing batch/continuation chain. If a stale item reappears, use the existing stale recovery and same-batch dispatch contract only after confirming no active request is in flight.
+
+Other deterministic Layer 2 results remain:
 
 - Curtin: one selected URL -> partial batch with one `layer3_required` item.
 - Flinders: ten selected URLs -> partial batch with nine `layer3_required` and one blocked item.
 - Griffith, La Trobe and QUT: terminal-only discovery handoff; no synthetic Layer 2 work created.
-- No new `official_course_url` Layer 4 review items were created after this six-university batch start; do not manufacture parking rows for already-accounted terminal-negative outcomes.
 
-## Material CI/runtime finding — deployed UAT failure
+## Separate runtime blocker — deployed UAT `admin_read` 500s
 
-Current Pilot main `cb31abe21ffe9a041cacd5f975a0e4af5248daa5` has a failed status for `coursefinder/deployed-uat/targeted/chromium-desktop` from workflow run **34756359424**.
+Pilot main had failed targeted deployed UAT workflow **34756359424** before PR #84. Worker reachability and authentication/preflight succeeded, but Supabase RPC `admin_read` intermittently returned HTTP 500 for operations including `layer_status_summary` and `dashboard`.
 
-The Worker was reachable and authentication/preflight succeeded. The targeted Layer 1 suite failure was caused by repeated **HTTP 500** responses from Pilot Supabase RPC `admin_read`, specifically operations including `layer_status_summary` and `dashboard`.
+Observed acceptance result:
 
-Observed test outcome:
-
-- NZQA authority/count validation: failed after retry because `admin_read` returned 500;
-- CRICOS authority/count validation: flaky, passed retry after earlier 500s;
+- NZQA authority/count: failed after retry because `admin_read` returned 500;
+- CRICOS authority/count: flaky, passed retry after earlier 500s;
 - QILT/PRISMS runnable-source validation: flaky, passed retry after earlier 500s;
 - anonymous access contract passed;
-- overall desktop targeted UAT: **FAIL**.
+- overall targeted desktop UAT: FAIL.
 
-Treat this as a separate runtime/read-path reliability blocker until reconciled. It is not evidence to weaken UAT assertions, ACLs, role boundaries or source validation.
+Treat this as a separate read-path reliability issue. Diagnose with read-only evidence first. Do not weaken UAT assertions, ACLs, rank boundaries or source-validation rules.
 
 ## Current acquisition policy
 
-For this cohort:
+For the CF-093 university cohort:
 
 1. Firecrawl — enabled, priority 10.
 2. ZenRows — enabled, priority 20.
@@ -116,17 +109,17 @@ Preserve repo/runtime identities separately:
 - runtime `20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`; repo `20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`;
 - runtime `20260913121052 cf_093_large_university_batch_enablement`; repo `20260913121500_cf_093_large_university_batch_enablement.sql`.
 
-Never rewrite applied migration history.
+PR #84 is Edge/runtime code only; it did not add or rewrite a database migration.
 
 ## Exact next gate
 
-1. Diagnose the **stalled RMIT deterministic Layer 2 dispatcher/batch** from runtime truth; do not create a duplicate dispatch.
-2. Diagnose Pilot `admin_read` 500s for `dashboard` / `layer_status_summary` using read-only evidence first and preserve fail-closed UAT.
-3. Preserve the 1,676-course terminal discovery metrics as the current scale baseline.
-4. Keep Firecrawl/ZenRows budget and stop reserve enforced.
-5. Finish Admin PR #37 exact-head review and merge only if clean.
+1. Verify RMIT continuation **6168 and successors** continue completing as HTTP 200 with bounded `wave_size=4` and that the existing batch makes sustained forward progress without duplicate dispatch.
+2. Run/reconcile post-merge Pilot checks for main `7cf5cc72296ca82e6e026606a61f449ede4ead45`.
+3. Diagnose the separate `admin_read` HTTP 500 reliability issue for `dashboard` / `layer_status_summary` using read-only evidence first and preserve fail-closed UAT.
+4. Preserve the **1,676-course terminal discovery baseline** and continue collecting throughput/provider/Evidence metrics.
+5. Finish Admin PR #37 exact-head review and merge only when current governance truth is clean.
 6. Reconcile PR #79 release-currentness/version and exact-head validation before merge.
-7. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when either the RMIT runtime blocker or deployed-UAT read-path blocker materially changes.
+7. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when the RMIT recovery reaches a material terminal state or the `admin_read` blocker changes.
 8. Keep M2.5 paused unless separately authorised.
 
 ## Authority/security boundary
