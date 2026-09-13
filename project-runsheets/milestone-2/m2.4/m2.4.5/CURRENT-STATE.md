@@ -1,6 +1,6 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CODEX CLEAN / CORRECTIVE ACCEPTANCE READY  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CORRECTIVE ACCEPTANCE RETRY PENDING  
 **Reconciled:** 2026-09-13 AEST  
 **Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
 **Visible accepted release:** v2.15.78  
@@ -10,22 +10,28 @@
 ## Active candidate
 
 - PR #72 / branch `m245/cf093-async-discovery-20260912`.
-- Exact head `a035714aa5bd9b4d88ae47a59c877b3514a1f287`.
+- Exact head `4cb8da49d7f1c79c6caaad893c1c7361394c4d65`.
 - PR OPEN / DRAFT / mergeable but governance-blocked by consequential acceptance.
-- CF-093 Targeted Recovery `34726688848`: **PASS**.
-- CF-093 Fresh Reconstruction `34726688865`: **PASS**; complete ordered PR-added CF-093 migration chain replayed on a fresh reconstructed accepted-main dependency baseline.
-- Pilot Frontend Build `34726688863`: **PASS**.
-- Cloudflare exact-head preview: **PASS/deployed at `a035714a`**.
-- Exact-head Codex review: **CLEAN** — comment `5649541094`, reviewed commit `a035714aa5`, no major issues found.
-- All previously open inline Codex P1/P2 threads have been reconciled and resolved against the forward-only hardening now present in this head.
+- CF-093 Targeted Recovery `34729795052`: **PASS**.
+- CF-093 Fresh Reconstruction `34729795080`: **PASS**; complete ordered PR-added CF-093 migration chain replayed on a fresh reconstructed accepted-main dependency baseline.
+- Pilot Frontend Build `34729795073`: **PASS**.
+- Cloudflare exact-head preview: **PASS/deployed at `4cb8da49`**.
+- Previous exact-head Codex reviews on `a035714aa5` were clean twice (`5649541094`, `5649656150`).
+- Fresh Codex review requested for `4cb8da49...` in PR comment `5649862311`; pending at reconciliation.
+
+## Acceptance workflow recovery
+
+The first manually dispatched `CF-093 UQ Corrective Acceptance` attempt failed in the Playwright dispatch step after approximately 30 seconds. Credential preflight, checkout, dependency install, one-shot test creation and evidence upload all completed. Pilot runtime inspection shows **no new UQ async binding/activation was created by that failed attempt**, so no corrective discovery was dispatched and no consequential runtime mutation from the attempted acceptance run is being treated as accepted evidence.
+
+The maintained one-shot test had no explicit test-level timeout, so Playwright's default 30-second test timeout could terminate the complete governed sequence (login + shell readiness + Scheduled Tasks navigation + provider search + Preview + Run Now) before its individual bounded waits could complete. The smallest acceptance-only correction was committed at `4cb8da49...`: `test.setTimeout(120_000)` in `.github/workflows/cf093-uq-corrective-acceptance.yml`.
+
+No runtime SQL, worker logic, migration identity, authority boundary, ACL/rank rule, Layer 3/4/Search/Publication contract or accepted release changed.
 
 ## Runtime hardening
 
 Pilot contains forward migration `20260912232827_cf_093_preview_provenance_terminal_dedupe_hardening`. Applied predecessor migrations remain immutable.
 
-The deployed discovery worker is `layer2-scope-discover-scheduled-v1.3.10`, Edge version 29, SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`. It preserves the existing custom nonce/auth boundary and adds post-network/pre-Evidence bound-identity revalidation, exact Preview-token metadata/provenance, original + prefix-stripped exact title matching, qualified terminal-basis metadata and preservation of `discovery_zero_results` telemetry.
-
-The forward migration closes the exact-token provenance, missing/cancelled binding fall-through, async completion dedupe, terminal-only/mixed-profile accounting and cancellation-audit replay defects. Exact-head targeted tests, full-chain reconstruction, Cloudflare currentness and Codex review are now clean.
+The deployed discovery worker remains `layer2-scope-discover-scheduled-v1.3.10`, Edge version 29, SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`. Existing custom nonce/auth remains unchanged. Exact Preview provenance, post-network/pre-Evidence identity revalidation, fail-closed binding, completion-aware dedupe, terminal-only/mixed accounting, title matching, qualified terminal basis and zero-result telemetry hardening remain unchanged.
 
 ## Security / authority
 
@@ -35,7 +41,7 @@ The forward migration closes the exact-token provenance, missing/cancelled bindi
 - `layer3_required` remains an L2 disposition only.
 - Search/Publication remains separately governed.
 - No source URL, route, profile, zero-result marker, identity or Evidence may be manufactured for acceptance.
-- Supabase Security Advisor after hardening reported no new critical CF-093 regression; existing informational RLS-with-no-policy inventory remains separately governed.
+- The failed UQ acceptance attempt produced no new UQ binding/dispatch in Pilot runtime.
 
 ## Discovery acceptance
 
@@ -46,19 +52,17 @@ Historical UQ/RMIT deterministic outcomes remain evidence only:
 
 Previous hardened snapshots recorded UQ 54 and RMIT 27 requiring corrective rediscovery. No corrective rediscovery has been dispatched after the current hardening.
 
-The recovery/Codex gate is now clean. The next consequential gate must run through the normal authenticated Admin/PIM scheduler acceptance path. Direct database execution is not an acceptable substitute because it would bypass the governed browser/authenticated contract.
-
 ## Layer 3
 
 Qualified JWT-protected Layer 3 remains separately governed and paused behind CF-093. Generic scheduler Layer 3 remains prohibited. Recalculate any eligible Layer 3 cohort only after corrective deterministic Layer 2 acceptance closes.
 
 ## Exact next gate
 
-1. Dispatch the maintained `CF-093 UQ Corrective Acceptance` workflow for exact head `a035714...`, or use the equivalent normal authenticated Admin/PIM scheduler path, and capture governed Preview/dispatch evidence.
-2. Reconcile only newly selected/changed deterministic UQ Layer 2 work and prove exact-token/fingerprint/dedupe plus zero generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
-3. Repeat bounded corrective acceptance for RMIT only after UQ is clean.
-4. Recalculate Layer 3 eligibility only after deterministic Layer 2 acceptance closes.
-5. If acceptance exposes a reproducible defect, forward-fix it, rerun exact-head CI/reconstruction/Cloudflare/Codex, then resume acceptance.
+1. Reconcile fresh Codex review for exact head `4cb8da49...`.
+2. Re-dispatch `CF-093 UQ Corrective Acceptance` as a **new workflow_dispatch on the current branch head**; do not use Re-run on the failed older-head attempt because that would execute its original SHA.
+3. Capture fresh authenticated Preview/Run Now evidence, then follow UQ discovery to terminal.
+4. Reconcile only newly selected/changed deterministic UQ L2 work and prove exact-token/fingerprint/dedupe plus zero generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
+5. Repeat bounded corrective acceptance for RMIT only after UQ is clean.
 6. Merge/release only after all governed gates close.
 
 M2.4.4 remains CLOSED/PASS/FROZEN and M2.5 remains paused.
