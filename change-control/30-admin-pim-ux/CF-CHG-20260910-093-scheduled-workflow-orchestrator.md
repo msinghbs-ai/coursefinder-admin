@@ -1,110 +1,108 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** REOPENED — IMPLEMENTATION MERGED; REPLACEMENT CONSEQUENTIAL ACCEPTANCE / RUNTIME-OPS HARDENING ACTIVE  
+**Status:** REOPENED — CORE ACCEPTANCE BOUNDARY SATISFIED; RUNTIME-OPS / RELEASE FOLLOW-ON ACTIVE  
 **Initiated:** 2026-09-10 AEST  
 **Reconciled:** 2026-09-13 AEST  
 **Category:** 30-admin-pim-ux  
 **Parent:** CF-CHG-20260910-092  
 **Visible accepted release:** v2.15.78  
-**Accepted Pilot main before follow-on:** `9b450f9ebb48de70bdcdd409f24909ba39cc3a85`
+**Current Pilot main:** `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`
 
 ## Objective
 
 Provide a governed Scheduled Tasks control plane for AU Course Facts while preserving CourseFinder authority boundaries: Layer 1 identity/regulatory authority, deterministic Evidence-preserving Layer 2, governed Layer 3 interpretation, Layer 4 human resolution, and separate Search/Publication admission.
 
-## Current repository/runtime truth
+## Accepted implementation path
 
-PR #72 (`CF-093: complete Preview-bound async Layer 2 discovery`) is **MERGED**. Merge commit is `652c47326a99f3ce10f5b7479af30c4bed6d7391`; Pilot `main` then advanced to `9b450f9ebb48de70bdcdd409f24909ba39cc3a85` to initiate replacement UQ acceptance.
+PR #72 merged the Preview-bound async Layer 2 authority contract. PR #80 repaired deployed-main acceptance triggering. PR #81 reconciled the UQ acceptance contract to governed scope invariants. PR #82 (`CF-093: Firecrawl/ZenRows discovery and Layer 3/4 parking`) merged to Pilot main as `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`.
 
-PR #72 retained the explicit narrow async-discovery authority contract:
+The accepted authority contract remains:
 
 - same-actor Preview before consequential dispatch;
 - exact Preview token/fingerprint/binding/identity provenance;
-- policy/profile/route/URL/credential/budget qualification;
+- bounded profile/policy/route/credential/budget qualification;
 - deterministic Layer 2 and Evidence truth;
-- generic async discovery remains fail-closed outside the explicitly Preview-bound governed continuation;
-- no generic scheduler Layer 3/Layer 4 automation;
+- no generic scheduler Layer 3 auto-approval;
+- Layer 4 retains human authority for unresolved outcomes;
 - no implicit Search/Publication consequence.
 
-Applied Pilot migration history remains immutable and forward-only through `20260913082845 cf_093_final_review_authority_retry_reconcile` plus the runtime-operations migrations listed below. No applied migration may be renamed, retimestamped, removed or rewritten.
+## Scraper / escalation boundary
+
+CourseFinder does **not** require website-specific scraper perfection before work can progress.
+
+For the governed UQ discovery path the active route is now:
+
+1. Firecrawl — priority 10;
+2. ZenRows — priority 20.
+
+Direct HTTP, scrape.do and ScraperAPI are disabled for this UQ path and retained only as inactive historical configuration at priorities 110/120/130.
+
+If a Preview-bound course remains unresolved after its governed retry limit:
+
+- successful selected discovery candidates are excluded from escalation;
+- unresolved courses are parked as blocked Layer 3 refresh work;
+- Layer 3 remains Evidence-gated and is not called with fabricated Evidence;
+- the same unresolved courses are surfaced as pending Layer 4 `official_course_url` review items;
+- `canonical_mutation_authorised=false` is retained;
+- the async binding moves from `active` to `handoff_started` so scraper exhaustion is not left as an active scheduler blocker.
+
+This is the intended architecture boundary: acquisition failure becomes governed enrichment/human-review work, not an instruction to keep engineering around each institution's website mechanics.
+
+## Deployed runtime identity and proof
+
+Repository migration:
+
+- `20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`
+
+Pilot runtime ledger:
+
+- `20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`
+
+Preserve both identities independently; do not rename, retimestamp or rewrite applied migration history.
+
+Live UQ runtime proof after deployment:
+
+- Firecrawl enabled priority 10;
+- ZenRows enabled priority 20;
+- Direct HTTP disabled priority 110;
+- scrape.do disabled priority 120;
+- ScraperAPI disabled priority 130;
+- exhausted Preview token `b0eb7e77-d31a-4cb7-b187-8226445a1b7c` moved to `handoff_started` without another scraper run;
+- **42** unresolved courses parked as blocked Layer 3 refresh requests;
+- all **42** Layer 3 requests have `evidence_id = null` and therefore cannot bypass the Layer 3 Evidence gate;
+- **42** pending Layer 4 review items created for `official_course_url`;
+- all **42** explicitly retain `canonical_mutation_authorised=false`.
+
+The migration was proven rollback-only before deployment against the existing exhausted UQ binding. Gitar identified one resolved-course escalation edge case; it was corrected by reusing the established selected-discovery-candidate rule. The review thread is resolved. Exact-head PR #82 Fresh Reconstruction, Targeted Recovery, Frontend Build and Cloudflare preview passed before merge.
+
+## Acceptance evidence
+
+Deployed-main workflow `34753552186` proved authenticated Preview -> Run Now initiation. UQ scope remained internally reconciled at 382 scoped = 251 queueable + 42 discovery + 89 fresh terminal-negative.
+
+The earlier discovery run also proved the terminal timestamp correction with genuine runtime jobs and exact per-course retry exhaustion. Those failures are now treated as bounded escalation evidence rather than an obligation to perfect scrape.do or institution-specific mechanics.
+
+Post-merge Pilot main `ac0e1ca...` Frontend Build run `34755718375` passed. Deployed UAT run `34755717852` is the post-merge currentness gate and must be recorded at its final conclusion.
 
 ## Runtime-operations follow-on
 
-Pilot PR #79 (`CF-093 follow-on: Scheduled Tasks runtime operations and efficiency`) is open on branch `m245/cf093-runtime-ops-efficiency-20260913`.
+Pilot PR #79 remains open for browser-visible Runtime Health / efficiency work. Its already-deployed read-only observability migrations remain valid, but the UI change still requires release-currentness/version reconciliation before merge. Visible accepted release therefore remains v2.15.78 until that governed release gate changes.
 
-Current reviewed/runtime work includes:
+## Remaining closure gates
 
-- read-only Scheduled Tasks Runtime Health;
-- truthful queue wait, execution and total duration with missing values left unavailable;
-- forward-only `layer2_discovery` terminal timestamp correction;
-- governed rank-4 `jobs_runtime` metrics read;
-- processed/failed counts and throughput only where runtime data supports them;
-- Evidence produced and verified kept separate rather than manufacturing an acceptance/yield metric;
-- recorded retry exhaustion/dedupe and sanitised failure classes where present;
-- no raw payload/result/error text, URLs, storage paths or secrets exposed to the browser.
+CF-CHG-20260910-093 remains REOPENED only for final reconciliation, not for further website-specific scraper engineering.
 
-Deployed Pilot runtime identities:
-
-- `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability` — repository source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`;
-- `20260913102217 cf_093_scheduled_runtime_metrics_read` — repository source `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`.
-
-The differing repository filename/deployment ledger timestamps are retained as separate immutable identities; do not rewrite either history.
-
-Runtime ACL proof confirms authenticated rank-4 access succeeds, authenticated rank-3 is rejected with `42501 pipeline_operator role required`, and `anon/public` cannot execute the private metrics helper. The deployed recent-50 metrics wrapper measured about `21.4 ms` execution in the bounded proof.
-
-## Provider/runtime evidence
-
-Queue scheduling is not the primary observed bottleneck. Discovery/provider acquisition is.
-
-Measured UQ provider-path evidence includes fast direct HTTP successes plus materially slower Firecrawl/scrape-do/ZenRows fallback paths. Fifty scrape-do HTTP 401 failures were observed in the measured window. ScraperAPI also has credential-unavailable evidence on relevant fallback attempts.
-
-A provider 401 remains an authentication/provider-health failure. It must not be added to fallback semantics merely to improve throughput. Provider/credential remediation must use the governed provider/secret lifecycle without exposing secrets or weakening fail-closed behaviour.
-
-No legitimate natural `layer2_discovery` job has yet occurred after deployment of the terminal timestamp correction, so post-change successful discovery throughput remains **not yet observed**. Do not manufacture a run to create performance evidence.
-
-## Replacement consequential acceptance recovery
-
-After PR #72 merged, Pilot `main` added `CF-093 UQ Acceptance Dispatcher`. Workflow run `34749286102` on exact main `9b450f9e...` remains queued after three attempts with **zero jobs materialised**. It is acceptance-infrastructure evidence only and is not a PASS.
-
-The dispatcher also delegated to a corrective acceptance workflow that still targeted the old PR #72 branch-preview URL, which would not prove deployed-main currentness.
-
-Pilot PR #80 (`CF-093: repair exact-main UQ acceptance trigger`) therefore owns the smallest-safe UAT recovery:
-
-- direct acceptance trigger on merge to `main`;
-- browser target `https://coursefinder-pilot.techm.workers.dev`;
-- exact workflow SHA checkout;
-- normal authenticated Admin/PIM Preview -> Run Now path;
-- evidence artifact retention;
-- no DB/runtime authority, routing, retry, Layer 3/4, Search or Publication semantic change.
-
-PR #80 must pass its review/CI gate before merge. After merge, the resulting direct deployed-main UQ acceptance run becomes the authoritative replacement closure evidence.
-
-## Release-currentness gate for PR #79
-
-PR #79 contains browser-visible Runtime Health UI. The branch currently retains package `0.1.5` / visible v2.15.78 metadata. `PROJECT_INSTRUCTIONS.md` requires browser-visible changes to correlate to the visible UI version. Therefore PR #79 is **not merge-ready** until release-currentness metadata is reconciled and the resulting exact head is revalidated/reviewed.
-
-Do not promote a new visible release merely because the runtime migrations are already deployed; the version bump belongs to the accepted browser-visible merge.
-
-## Current closure gates
-
-CF-CHG-20260910-093 remains **REOPENED**. The following are required before CLOSED/PASS:
-
-1. PR #80 exact-head CI/review clean and merge of the direct deployed-main acceptance trigger.
-2. New deployed-main UQ Preview -> dispatch -> Preview-bound discovery continuation -> deterministic Layer 2 -> Jobs/Evidence proof.
-3. Same-token replay/dedupe/cancel/authority validation and proof of zero generic Layer 3/Layer 4 auto-approval and zero implicit Search/Publication side effects.
-4. Bounded RMIT proof only if UQ is clean and still required by the current acceptance contract.
-5. PR #79 release-currentness reconciliation, exact-head validation/review and merge only when its browser-visible gate is clean.
-6. Observe legitimate post-fix discovery executions before making throughput/concurrency/batch/retry optimisation claims.
-7. Reconcile Admin continuity and Change Control to the final merged/deployed truth.
-
-Codex remains deferred assurance where usage is unavailable and must not be represented as completed. Gitar remains the active exact-head reviewer for current material follow-on heads.
+1. Confirm post-merge deployed UAT for `ac0e1ca...` is green.
+2. Treat Layer 3/4 parking as the authorised terminal outcome for unresolved bounded scraper acquisition; do not reopen provider-specific perfection work unless separately governed.
+3. Reconcile PR #79 release-currentness/version and exact-head validation before its merge.
+4. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT to the merged/deployed boundary.
+5. Close CF-093 when the above governance/release-currentness follow-on is complete; M2.5 remains paused unless separately reopened.
 
 ## Rollback / recovery
 
 - Never rewrite applied migration history.
 - Database rollback is forward-only through a new migration.
-- If a scope or continuation cannot be proven server-enforceable, keep it disabled/fail-closed.
-- Do not fabricate policy/profile/route/URL/credential/Evidence configuration for acceptance.
-- UAT infrastructure corrections must not weaken the authority/data contract they are meant to prove.
+- Never fabricate Evidence, identity mappings, provider credentials or canonical values to obtain a PASS.
+- Never bypass Layer 3 Evidence gating or Layer 4 human authority.
+- Scraper exhaustion is an escalation outcome, not permission for implicit canonical/Search/Publication mutation.
 
-**Current outcome:** implementation and source/runtime reconciliation are merged; CF-093 remains reopened for genuine deployed-main consequential acceptance and completion of the governed runtime-operations/release-currentness follow-on.
+**Current outcome:** Scheduled Tasks Preview/dispatch authority is proven; Firecrawl -> ZenRows is the bounded UQ scraper route; unresolved scraper outcomes now park safely into Layer 3 and Layer 4 instead of blocking progress on institution-specific website mechanics.
