@@ -1,6 +1,6 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** ACTIVE — EXACT-HEAD CODEX REVIEW PENDING / CORRECTIVE ACCEPTANCE PAUSED  
+**Status:** ACTIVE — CODEX CLEAN / CORRECTIVE ACCEPTANCE PENDING  
 **Initiated:** 2026-09-10 AEST  
 **Reconciled:** 2026-09-13 AEST  
 **Category:** 30-admin-pim-ux  
@@ -16,7 +16,7 @@ Complete the bounded Scheduled Tasks run-on-demand contract for large AU Course 
 
 ## Current decision
 
-PR #72 remains OPEN / DRAFT / mergeable but governance-blocked. The previously identified exact-token/provenance/write-time-identity/dedupe/terminal-accounting defects now have forward fixes and exact-head CI/reconstruction is green. Fresh Codex review of the current exact head remains the next independent gate. Corrective UQ/RMIT discovery, Layer 3, merge and release remain paused until that review is reconciled.
+PR #72 remains OPEN / DRAFT / mergeable but governance-blocked by consequential acceptance. The previously identified exact-token/provenance/write-time-identity/dedupe/terminal-accounting defects have forward fixes, exact-head CI/reconstruction/Cloudflare currentness is green, and exact-head Codex review is now clean. Corrective UQ/RMIT discovery is the next governed gate. Layer 3, merge and release remain paused until deterministic corrective acceptance closes.
 
 ## Current exact-head evidence
 
@@ -25,7 +25,8 @@ PR #72 remains OPEN / DRAFT / mergeable but governance-blocked. The previously i
 - CF-093 Fresh Reconstruction `34726688865`: **PASS** — complete ordered PR-added CF-093 migration chain replay on a fresh reconstructed accepted-main dependency baseline.
 - Pilot Frontend Build `34726688863`: **PASS**.
 - Cloudflare preview: **PASS/deployed at `a035714a`**.
-- Fresh exact-head Codex request: PR comment `5649524865`; no exact-head technical review submission observed at reconciliation. Silence is not approval.
+- Exact-head Codex review: **CLEAN** — PR comment `5649541094`, reviewed commit `a035714aa5`, no major issues found.
+- Previously open inline Codex P1/P2 threads have been reconciled and resolved against the current forward hardening.
 
 ## Forward runtime hardening
 
@@ -52,7 +53,7 @@ Worker v1.3.10 revalidates the bound identity after network acquisition and befo
 
 ## Reconstruction / migration currentness
 
-Applied migrations remain immutable. The UQ reconstruction bootstrap `20260912005000` precedes immutable `20260912005948` in source/runtime history. The maintained reconstruction workflow now replays every PR-added CF-093 migration from `20260911231544` through `20260912232827` in order; exact-head run `34726688865` passed.
+Applied migrations remain immutable. The UQ reconstruction bootstrap `20260912005000` precedes immutable `20260912005948` in source/runtime history. The maintained reconstruction workflow replays every PR-added CF-093 migration from `20260911231544` through `20260912232827` in order; exact-head run `34726688865` passed.
 
 This proof is specifically the complete CF-093 PR migration chain against a reconstructed accepted-main dependency baseline. It does not assert that unrelated historical operational-data migrations are independently reconstructable, and no unrelated identity/source data is fabricated to make the proof pass.
 
@@ -80,16 +81,16 @@ Previous hardened snapshots:
 | UQ | 382 | 251 | 54 | 77 |
 | RMIT | 500 | 263 | 27 | 210 |
 
-No corrective UQ/RMIT rediscovery has been dispatched after the current hardening. The next accepted counts must come from new authenticated Previews after the exact-head Codex gate closes.
+No corrective UQ/RMIT rediscovery has been dispatched after the current hardening. The next accepted counts must come from new authenticated Previews.
 
 ## Exact next gates
 
-1. Reconcile fresh Codex review for exact head `a035714...`; forward-fix any reproducible P1/P2 with the smallest safe change only.
-2. After any change, rerun exact-head Targeted Recovery, complete CF-093 reconstruction, Frontend Build and Cloudflare currentness; request another exact-head Codex review.
-3. When Codex/CI/runtime are clean, run new authenticated UQ/RMIT Previews and only the currently actionable corrective discovery scopes.
-4. Reconcile only newly selected/changed deterministic Layer 2 work and prove exact-token/fingerprint/dedupe/cancel behaviour plus zero generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
-5. Recalculate Layer 3 eligibility only after deterministic Layer 2 acceptance closes.
-6. Merge/release remains prohibited until every runtime, UAT, security/authority, Codex and governance gate is clean.
+1. Dispatch the maintained `CF-093 UQ Corrective Acceptance` workflow for exact head `a035714...`, or use the equivalent normal authenticated Admin/PIM scheduler path; direct database execution is not an acceptable substitute.
+2. Reconcile only newly selected/changed deterministic UQ Layer 2 work and prove exact-token/fingerprint/dedupe/cancel behaviour plus zero generic Layer 3/Layer 4 auto-approval/Search/Publication side effects.
+3. Run bounded RMIT corrective acceptance only after UQ is clean.
+4. Recalculate Layer 3 eligibility only after deterministic Layer 2 acceptance closes.
+5. If acceptance exposes a reproducible defect, forward-fix it with the smallest safe change, rerun exact-head Targeted Recovery, reconstruction, Frontend Build, Cloudflare currentness and Codex, then resume acceptance.
+6. Merge/release remains prohibited until every runtime, UAT, security/authority and governance gate is clean.
 
 ## Next AU qualification wave
 
