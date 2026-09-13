@@ -2,88 +2,100 @@
 
 ## Active baseline — 13 September 2026
 
-- Milestone: **M2.4.5 — Pre-Production Hardening**. M2.5 remains paused; Production is unchanged.
+- Milestone: **M2.4.5 — Pre-Production Hardening**. M2.5 remains paused; Production unchanged.
 - Accepted visible PIM Admin release remains **v2.15.78**.
-- Merged Pilot PR #72 remains immutable CF-093 implementation history.
-- Active Pilot runtime-operations PR: **#79**, branch `m245/cf093-runtime-ops-efficiency-20260913`, exact current head **`3d6b6a90893cf12a7fef9346dcacd24d2ddd2e8f`**.
-- Canonical Pilot tracker: issue #74.
-- Active Admin governance PR: **#36**, branch `m245/cf093-runtime-ops-followon-20260913`. PR #34 is superseded/closed without merge and its carried-forward work must not be lost.
-- Admin governance tracker: issue #35.
-- `CF-CHG-20260910-093` remains **REOPENED**. Runtime-efficiency work does not close consequential acceptance.
-- Codex remains deferred assurance only. Gitar is the active reviewer.
+- Pilot PR #72 remains immutable merged CF-093 implementation history.
+- Active Pilot PR: **#79**, branch `m245/cf093-runtime-ops-efficiency-20260913`, exact head **`849f6f50e810bd77a6b3e02ef765df9c43f541db`**.
+- Pilot tracker: issue #74.
+- Active Admin governance PR: **#36**, branch `m245/cf093-runtime-ops-followon-20260913`; PR #34 remains superseded/closed without merge.
+- Admin tracker: issue #35.
+- `CF-CHG-20260910-093` remains **REOPENED**; runtime operations do not close consequential acceptance.
+- Codex remains deferred assurance only. Gitar is active reviewer.
 
-## Pilot PR #79 accepted candidate state
+## Pilot #79 exact-head state
 
-Exact head `3d6b6a90893cf12a7fef9346dcacd24d2ddd2e8f` contains:
+Head `849f6f50e810bd77a6b3e02ef765df9c43f541db`:
 
-1. read-only Scheduled Tasks **Runtime Health** UI;
-2. truthful queue-wait/execution/total-duration calculation with missing values shown as `Unavailable`;
-3. explicit visibility of terminal Jobs missing completion timestamps;
-4. Jobs/Evidence follow-through while preserving existing search, personalised columns/order, owner/creator, schedule edit, Run on Demand and Layer navigation;
-5. targeted Runtime Health contract coverage;
-6. forward-only migration source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql` plus targeted contract test.
+- Fresh Reconstruction `34751520430` — PASS.
+- Targeted Recovery `34751520442` — PASS.
+- Frontend Build `34751520437` — PASS.
+- Cloudflare preview — PASS.
+- Gitar prior findings resolved; all current inline review threads resolved.
 
-Exact-head checks:
+Implemented candidate UI:
 
-- CF-093 Fresh Reconstruction run `34750872835` — **PASS**.
-- CF-093 Targeted Recovery run `34750872803` — **PASS**.
-- Pilot Frontend Build run `34750872795` — **PASS**.
-- Cloudflare exact-head preview — **PASS**.
-- Gitar exact-head response — **Approved / no issues**.
+- Scheduled Tasks Runtime Health;
+- trustworthy queue/execution timing with `Unavailable` for absent data;
+- processed/failed work and weighted throughput when measurable;
+- Evidence produced and verified Evidence separately;
+- retry exhaustion/dedupe only when explicitly recorded;
+- sanitised failure classes;
+- Jobs/Evidence follow-through;
+- generic Jobs error and governed runtime-read error are separate states.
 
-## Deployed Pilot runtime correction
+## Pilot Supabase runtime
 
-Pilot Supabase: `fxcwkweaxjtknorudmwp`.
+Project: `fxcwkweaxjtknorudmwp`.
 
-- Deployed migration ledger identity: **`20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`**.
-- Repository migration filename remains **`20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`**. Preserve both identities; do not rename, retimestamp, delete or rewrite applied history.
-- Live trigger `pipeline.layer2_discovery_terminal_timestamp_v1` stamps `completed_at=clock_timestamp()` only when a `layer2_discovery` Job enters a terminal state without an existing completion timestamp.
-- Historical completed discovery rows remain unmodified. Their missing completion times remain unknown.
-- Rollback-only proof created a synthetic terminal discovery Job inside one transaction, verified a real completion timestamp and measurable `2.009 s` duration, then rolled back. No ingestion, Evidence or canonical mutation occurred.
-- Reversion, if required, must be a new forward-only migration that removes the trigger/function.
+Two forward-only runtime-operations migrations are deployed:
 
-## Runtime performance baseline
+1. Runtime ledger `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`.
+2. Runtime ledger `20260913102217 cf_093_scheduled_runtime_metrics_read`; repository source `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`.
 
-Initial direct runtime evidence:
+Preserve source and runtime identities exactly. Never rename, retimestamp, delete or rewrite applied history.
 
-- Deterministic `layer2_acquisition_v2` successes: 773 Jobs; average queue `0.049 s`; average execution `1.44 s`; median `1.06 s`.
-- Before correction, 111 `layer2_discovery` Jobs were terminal `completed` but all 111 lacked `completed_at`, so completed-run duration was not trustworthy.
-- Three-day failed-discovery baseline: 25 Jobs / 111 processed / `1244.86 s` measurable execution / weighted throughput **`5.35 records/min`**.
-- Queue scheduling is not the primary bottleneck; discovery/provider acquisition is.
+Terminal-timestamp trigger:
 
-UQ profile `au-uq-course-catalogue` provider evidence over the measured three-day window:
+- only stamps `completed_at` when a `layer2_discovery` Job enters a terminal state with no timestamp;
+- historical missing completion timestamps were not backfilled;
+- rollback-only synthetic proof measured `2.009 s` and rolled back;
+- no natural discovery Job had run after deployment at last check, so natural post-fix throughput is **not yet observed**.
 
-- direct-http: 912 successful attempts, ~`1047.8 ms` average;
-- Firecrawl extraction failure: 201, ~`2293.7 ms` average;
-- scrape-do extraction failure: 149, ~`4175.5 ms` average;
-- ZenRows extraction failure: 141, ~`5621.9 ms` average;
-- scrape-do HTTP 401: 50 attempts, ~`236.9 ms` average;
-- ScraperAPI is configured later in the chain but relevant runtime attempts report credential unavailable.
+Governed runtime metrics contract:
 
-Do **not** add 401 to fallback merely to improve throughput. It is an authentication/provider-health failure and remains fail-closed until corrected through the governed provider/secret lifecycle.
+- `public.admin_read('jobs_runtime', ...)` → rank-checked private helper;
+- authenticated helper EXECUTE = yes; anon/public = no;
+- rank-4 authenticated proof succeeds;
+- rank-3 curator proof fails closed with `42501`;
+- malformed `limit='abc'` defaults to 50;
+- unsafe raw keys (`payload`, `result`, `error_text`, source URL, storage path) are not returned;
+- recent-50 deployed wrapper measured about **21.4 ms execution** in bounded proof.
 
-## Preserved authority/security boundary
+## Performance evidence
 
-- Layer 1 authority and identity remain unchanged.
-- Layer 2 acquisition remains deterministic/Evidence-preserving and policy/profile/route qualified.
-- Mandatory actor-bound Preview/dispatch contracts remain unchanged where applicable.
-- Layer 3 remains Evidence/profile/model/revalidation governed; no generic L3 automation.
-- Layer 4 remains human-resolution authority; no generic L4 automation.
-- Search and Publication remain separately governed; no implicit publication.
-- rank/ACL/RLS/private-helper/service-role boundaries remain intact.
-- provider secrets must remain server/Vault-side and must not appear in Admin/browser output.
-- applied migration history is immutable and forward-only.
+Deterministic Layer 2 remains fast: 773 successful `layer2_acquisition_v2` Jobs in initial sample, average queue `0.049 s`, average execution `1.44 s`, median `1.06 s`.
 
-## Exact next operational gate
+Discovery remains the bottleneck. Failed-discovery three-day baseline: 25 Jobs / 111 processed / `1244.86 s` measurable execution / weighted throughput **5.35 records/min**.
 
-1. Observe the next **legitimate/natural** `layer2_discovery` terminal Job and confirm it now carries a real `completed_at`. Do not dispatch consequential work solely to make this proof green.
-2. Extend the governed rank-4 Jobs read contract only if necessary to expose trustworthy `processed`, selected/accepted/failed, throughput, failure class, retry exhaustion/dedupe and Evidence-yield metrics. Preserve secret/private Evidence boundaries and distinguish unavailable from zero.
-3. Surface provider-health/failure classes operationally so an operator can distinguish route extraction failure from authentication/credential failure.
-4. Remediate scrape-do/ScraperAPI provider health through the governed credential/provider lifecycle; do not weaken 401/fallback semantics.
-5. Collect enough post-correction discovery history for a genuine **Before → Change → After → Result** comparison.
-6. Only after that evidence exists consider batch/chunk size, concurrency, retry bounds/fairness, dedupe or provider-route efficiency changes.
-7. Keep CF-CHG-20260910-093 closure separate and perform consequential acceptance only on a legitimate current policy-qualified target.
+UQ provider evidence:
 
-## Immediate recovery pickup
+- direct-http 912 success, ~1047.8 ms average;
+- Firecrawl extraction failures ~2293.7 ms;
+- scrape-do extraction failures ~4175.5 ms;
+- ZenRows extraction failures ~5621.9 ms;
+- scrape-do HTTP 401: 50 attempts, ~236.9 ms;
+- ScraperAPI relevant fallbacks report credential unavailable.
 
-> Continue CourseFinder M2.4.5 from repository/runtime truth. Read `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, M2 Standing Instructions/addenda, the troubleshooting protocol, current RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT, CF-093 runtime-ops follow-on and overlapping Change Controls. Pilot PR #79 current exact head is `3d6b6a90893cf12a7fef9346dcacd24d2ddd2e8f`; exact-head Fresh Reconstruction `34750872835`, Targeted Recovery `34750872803`, Frontend Build `34750872795`, Cloudflare preview and Gitar are green. Pilot runtime has forward-only deployed migration `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source is `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`. Preserve both identities and all historical migrations. The telemetry defect is corrected and rollback-only proof passed; historical missing timestamps were not backfilled. Discovery/provider acquisition is the active bottleneck, with 50 measured scrape-do 401 failures and materially slower fallback providers. Do not weaken 401/fallback/security rules. First verify a natural post-migration discovery terminal timestamp, then expand the governed read surface for trustworthy counts/throughput and address provider health before tuning concurrency or batch size. CF-CHG-20260910-093 remains reopened and M2.5 remains paused.
+Do not add 401 to fallback. Treat it as authentication/provider-health and remediate through governed provider/secret lifecycle.
+
+Read-contract optimisation already measured:
+
+- Before: wide `j.*` equivalent recent-50 plan, ~1477-byte rows, planning ~146.8 ms, execution ~112.5 ms.
+- Change: narrow required projection before Evidence joins.
+- After: ~60-byte rows, planning ~5.0 ms, execution ~2.6 ms.
+- Cache warmth may contribute; do not attribute the complete delta solely to projection width.
+
+No concurrency, batch/chunk-size or retry-policy tuning has been made.
+
+## Exact next gate
+
+1. Observe the next **natural legitimate** `layer2_discovery` terminal Job and confirm real `completed_at` plus derived throughput. Do not dispatch work solely to prove the metric.
+2. Accumulate comparable discovery history via `jobs_runtime`.
+3. Remediate scrape-do/ScraperAPI provider health through governed credential lifecycle; keep 401 fail-closed.
+4. Compare discovery Before → Change → After → Result once enough post-correction history exists.
+5. Only then tune batch/chunk size, concurrency, retry fairness/bounds, dedupe or provider routing if measurements support it.
+6. Keep CF-CHG-20260910-093 closure separate; consequential acceptance still requires a legitimate current-main policy-qualified target and deployed-currentness/UAT evidence.
+
+## Recovery pickup
+
+> Continue M2.4.5 from repository/runtime truth. Read PROJECT_INSTRUCTIONS.md, docs/README.md router, M2.4.5 Standing Instructions/addenda, troubleshooting protocol, current RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT and `CF-093-RUNTIME-OPS-FOLLOW-ON.md`. Pilot PR #79 head is `849f6f50e810bd77a6b3e02ef765df9c43f541db`; Fresh Reconstruction `34751520430`, Targeted Recovery `34751520442`, Frontend Build `34751520437`, Cloudflare and current Gitar threads are green/resolved. Pilot has deployed telemetry migration `20260913100615` and runtime-metrics migration `20260913102217`; preserve repository filenames `20260913101000...` and `20260913102500...` separately. The `jobs_runtime` rank-4 contract is deployed and ACL-proven. No natural post-telemetry-fix discovery run exists yet. Discovery/provider acquisition remains the bottleneck; do not weaken 401/fallback/security semantics. First collect natural post-fix discovery evidence and remediate provider health, then tune only from measured Before → Change → After results. CF-CHG-20260910-093 remains reopened and M2.5 remains paused.
