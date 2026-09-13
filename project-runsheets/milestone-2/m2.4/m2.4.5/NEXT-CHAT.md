@@ -1,40 +1,65 @@
 # M2.4.5 NEXT CHAT
 
-## Current pickup — 13 September 2026
+## Active baseline — 13 September 2026
 
-- Milestone: **M2.4.5 ACTIVE / PRE-PRODUCTION HARDENING — CF-093 REVIEWED + DEPLOYED / UQ ACCEPTANCE DISPATCH PENDING**.
-- M2.5 remains PAUSED at P0; no Production Supabase exists.
-- Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
-- Visible accepted release: v2.15.78.
+- Milestone: **M2.4.5 — Pre-Production Hardening**. M2.5 remains paused; no Production Supabase project exists.
+- Active Change Control: **CF-CHG-20260910-093 — REOPENED**.
+- Visible accepted release remains **v2.15.78**.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- Active change: `CF-CHG-20260910-093`.
-- PR #72: OPEN / DRAFT / UNMERGED, exact head `4e67e32289235a88297502e90c8181f25639f300`.
-- Targeted Recovery `34743276597`: PASS.
-- Fresh Reconstruction `34743276592`: PASS through authoritative applied migrations `20260913063252` and `20260913063321`.
-- Frontend Build `34743276603`: PASS including local browser smoke/evidence.
-- Cloudflare exact-head preview: PASS/deployed at `4e67e322`.
-- Codex reviewed commit `4e67e32289`: CLEAN / no new actionable findings.
-- All previously actionable inline review threads are resolved.
-- Pilot discovery worker is deployed-current: `layer2-scope-discover-scheduled-v1.3.10`, Edge v30, SHA `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`, `verify_jwt=false`, one-time nonce/custom auth boundary preserved.
+- PR #72 is **MERGED** as `652c47326a99f3ce10f5b7479af30c4bed6d7391`.
+- Pilot `main` is `9b450f9ebb48de70bdcdd409f24909ba39cc3a85` before the current follow-on PRs.
+- Pilot PR #79: Scheduled Tasks runtime operations/efficiency, current known head `849f6f50e810bd77a6b3e02ef765df9c43f541db`; browser-visible Runtime Health means release-currentness/version reconciliation is required before merge.
+- Pilot PR #80: `CF-093: repair exact-main UQ acceptance trigger`, initial exact head `f0633d2737f439e6cd72816fadb5f3979e34141b`.
+- Admin PR #36 is superseded as a merge candidate: it is 70 commits ahead / 79 behind current Admin main with merge base `401a107d...` and contains stale governance assertions.
+- Clean Admin reconciliation branch: `m245/cf093-runtime-ops-governance-reconcile-20260913`, based directly on current Admin main `900780deedd34b7461bfe71cfba8f477116c1f74`.
 
-## Runtime / repository truth
+## Deployed runtime-operations state
 
-- Applied/runtime migration identities are `20260913063252_cf_093_bound_resolution_identity_freshness_reconcile` and `20260913063321_cf_093_bound_handoff_queueable_provenance_reconcile`.
-- Repository and Fresh Reconstruction use those exact identities; temporary aliases `062000`/`064500` remain removed.
-- Reviewed worker source now matches Pilot deployed v30 and contains bounded continuation + fail-closed candidate-detail identity-drift handling.
+Pilot runtime carries the forward-only observability changes:
 
-## Authority boundaries
+- `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`.
+- `20260913102217 cf_093_scheduled_runtime_metrics_read`; repository source `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`.
 
-Layer 1 authority, deterministic/Evidence-preserving Layer 2, separate governed Layer 3/4/Search/Publication, rank/ACL/private-helper boundaries and fail-closed Preview provenance remain unchanged. No direct SQL/RPC substitute is authorised for consequential acceptance.
+Preserve deployment-ledger and repository-source identities separately; do not rewrite migration history.
 
-## Exact next actions
+The discovery terminal-timestamp trigger has rollback-only proof. Historical missing timestamps were not backfilled. No natural `layer2_discovery` job has yet occurred after the correction, so successful post-change discovery throughput remains **not yet observed**.
 
-1. Dispatch a **new** `CF-093 UQ Corrective Acceptance` `workflow_dispatch` against exact head `4e67e322...`. The current GitHub connector exposes workflow reads/reruns but no new dispatch operation; use authorised GitHub UI/API dispatch or equivalent normal authenticated Admin/PIM scheduler path. Do not rerun an older SHA or use direct database execution.
-2. Reconcile new deterministic UQ L2 evidence and explicitly prove exact-token/fingerprint/dedupe/cancel behaviour plus zero generic Layer3/Layer4/Search/Publication side effects.
-3. Run RMIT only after UQ clean.
-4. Recalculate eligible Layer 3 cohort only after deterministic L2 acceptance closes.
-5. Merge/release only after every governed gate is clean, followed by main CI, Cloudflare/deployed currentness and deployed UAT verification.
+The governed `jobs_runtime` read is rank-4, denies anon/public helper execution, rejects rank-3, does not expose raw payload/result/error text/URLs/storage paths/secrets, and measured about `21.4 ms` execution for the bounded recent-50 runtime proof.
 
-## Pickup text
+## Runtime bottleneck evidence
 
-> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main remains `63c7107cfce2d8f607fc378af4881d0ba28ca879`, release v2.15.78. PR #72 is draft/open at exact head `4e67e32289235a88297502e90c8181f25639f300`. Exact-head Targeted Recovery `34743276597`, Fresh Reconstruction `34743276592`, Frontend Build `34743276603`, Cloudflare deployment and Codex review of commit `4e67e32289` are clean. Runtime/source migrations are reconciled to applied `20260913063252` and `20260913063321`. Pilot worker is deployed-current as Edge30 / SHA `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`, preserving `verify_jwt=false` and the one-time nonce boundary. The sole next gate is a NEW `CF-093 UQ Corrective Acceptance` workflow_dispatch on this reviewed/deployed head; connected GitHub tooling cannot start a new dispatch, so use authorised GitHub UI/API or equivalent normal authenticated Admin/PIM path. RMIT, Layer 3, merge and release remain paused until consequential acceptance closes.
+Queue wait is not the primary observed bottleneck. Discovery/provider acquisition remains the active efficiency issue.
+
+Measured UQ evidence includes 50 scrape-do HTTP 401 failures and materially slower fallback-provider paths. ScraperAPI also reports credential-unavailable evidence for relevant fallback attempts. Do **not** add 401 as a fallback condition merely to improve throughput. Remediate provider authentication/health through the governed provider/secret lifecycle.
+
+## Consequential acceptance recovery
+
+After PR #72 merged, exact main `9b450f9e...` attempted replacement UQ acceptance through `CF-093 UQ Acceptance Dispatcher` run `34749286102`. Its latest attempt remains **queued with zero jobs materialised after three attempts** and is not acceptance evidence.
+
+The delegated UQ workflow also targeted the old PR #72 branch-preview URL, so even a successful dispatcher would not have proved deployed-main currentness.
+
+PR #80 corrects only that UAT infrastructure:
+
+- direct UQ acceptance trigger when the maintained workflow change lands on `main`;
+- deployed-main browser target `https://coursefinder-pilot.techm.workers.dev`;
+- exact workflow SHA checkout;
+- authenticated Admin/PIM Preview -> Run Now path;
+- evidence artifact retention;
+- no database/runtime authority, discovery route, retry/fallback, Layer 3/4, Search or Publication semantic change.
+
+## Exact next gate
+
+1. Complete PR #80 CI/review. Merge only if exact-head checks are clean.
+2. Use the resulting direct deployed-main UQ acceptance run as the replacement authoritative consequential proof.
+3. Validate exact Preview token/fingerprint/binding/dedupe/cancel semantics, deterministic Layer 2 Jobs/Evidence, and zero generic L3/L4/Search/Publication side effects.
+4. Run RMIT only if UQ is clean and the current acceptance contract still requires it.
+5. Reconcile PR #79 browser-visible release metadata/version, rerun exact-head CI/review, then merge only if clean.
+6. Observe natural post-fix discovery history before making any throughput/concurrency/batch/retry tuning claim.
+7. Resolve governed provider authentication/health before considering higher concurrency.
+8. Keep CF-CHG-20260910-093 reopened until genuine consequential acceptance and final governance reconciliation complete.
+
+## Authority/security boundary
+
+Preserve Layer 1 authority, deterministic Evidence-preserving Layer 2, exact Preview-bound async continuation only where explicitly governed, Layer 3 Evidence/profile/model/revalidation governance, Layer 4 human authority, Search/Publication separation, rank/ACL/private-helper/service-role boundaries and immutable forward-only migration history. Missing telemetry remains unknown, never zero by assumption.
+
+Codex remains deferred assurance where usage is unavailable and must not be represented as completed. Gitar is the active exact-head reviewer for current material follow-on heads.
