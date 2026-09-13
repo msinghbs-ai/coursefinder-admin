@@ -1,9 +1,9 @@
 # CourseFinder Documentation — Current Document Index
 
 **Status:** AUTHORITATIVE CURRENT-DOCUMENT ROUTER  
-**Effective:** 7 September 2026  
-**Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`  
-**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch
+**Effective:** 14 September 2026  
+**Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`, `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md`  
+**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch; CF-CHG-20260910-093 release/runtime follow-on
 
 ## Rule
 
@@ -23,6 +23,7 @@ Do not infer the current document from the highest filename version or from chat
 | Data Operations Admin Guide | `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` | CURRENT |
 | Programme PIM Operating Principles | `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md` | CURRENT |
 | Troubleshooting / Bug-Fix / Recovery Protocol | `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` | CURRENT |
+| Release / Version Control & Recovery | `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md` | CURRENT |
 | University Ranking Data Design | `docs/coursefinder-university-ranking-data-design-v1.1.md` | CURRENT |
 
 ## Active milestone router
@@ -33,10 +34,13 @@ Do not infer the current document from the highest filename version or from chat
 - M2.5: PAUSED / READINESS AT P0 until M2.4.5 closes.
 - Active continuity: `project-runsheets/milestone-2/m2.4/m2.4.5/`.
 - Active hardening authority: `change-control/00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md`.
+- Active Scheduled Tasks/runtime/release follow-on: `change-control/30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md`.
 - Production-readiness authority retained: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`.
 - Change index: `change-control/REGISTER.md`.
 
 For any bug, regression, failed UAT, runtime incident, large corrective change or recovery continuation, the Troubleshooting / Bug-Fix / Recovery Protocol is mandatory in addition to the normal milestone authorities.
+
+For any visible-release version conflict, release promotion, rollback or currentness defect, the Release / Version Control & Recovery document is mandatory. Candidate version authority must come from the Pilot release manifest and must pass the automated release contract before build/promotion.
 
 ## Document family policy
 
