@@ -2,51 +2,40 @@
 
 ## Current pickup — 13 September 2026
 
-- Milestone: **M2.4.5 ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CORRECTIVE ACCEPTANCE**.
+- Milestone: **M2.4.5 ACTIVE / PRE-PRODUCTION HARDENING — CF-093 TECHNICAL GATES CLEAN / EXTERNAL REVIEW + ACCEPTANCE BLOCKED**.
 - M2.5 remains PAUSED at P0; no Production Supabase exists.
 - Accepted Pilot main: `63c7107cfce2d8f607fc378af4881d0ba28ca879`.
 - Visible accepted release: v2.15.78.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 - Active change: `CF-CHG-20260910-093`.
-- PR #72: OPEN / DRAFT / mergeable but governance-blocked, exact head `a035714aa5bd9b4d88ae47a59c877b3514a1f287`.
-- CF-093 Targeted Recovery `34726688848`: PASS.
-- CF-093 Fresh Reconstruction `34726688865`: PASS — complete ordered PR-added CF-093 migration-chain replay on a fresh reconstructed accepted-main dependency baseline.
-- Pilot Frontend Build `34726688863`: PASS.
-- Cloudflare exact-head preview: PASS/deployed at `a035714a`.
-- Exact-head Codex review comment `5649541094`: CLEAN / no major issues, reviewed commit `a035714aa5`.
-- All prior inline Codex P1/P2 threads are resolved against the current forward hardening.
+- PR #72: OPEN / DRAFT / UNMERGED, exact head `4e67e32289235a88297502e90c8181f25639f300`.
+- Targeted Recovery `34743276597`: PASS.
+- Fresh Reconstruction `34743276592`: PASS through authoritative applied migrations `20260913063252` and `20260913063321`.
+- Frontend Build `34743276603`: PASS including local browser smoke/evidence.
+- Cloudflare exact-head preview: PASS/deployed at `4e67e322`.
+- All previously actionable inline review threads are resolved.
+- Fresh exact-head Codex review was requested in PR comment `5651716801`, but no verdict has returned because the connector reports that a repository environment must be created.
 
-## Runtime hardening
+## Runtime / repository truth
 
-- Forward migration `20260912232827_cf_093_preview_provenance_terminal_dedupe_hardening` is applied and checked in.
-- Worker `layer2-scope-discover-scheduled-v1.3.10` is deployed as Edge v29, SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`.
-- Existing custom nonce/auth boundary is unchanged.
-- Exact Preview provenance, post-network/pre-Evidence identity revalidation, fail-closed missing/cancelled binding handling, completion-aware async dedupe, terminal-only/mixed accounting, qualified terminal basis, original + stripped-title exact matching, zero-result telemetry preservation and cancellation audit preservation have forward fixes and clean exact-head Codex review.
+- Applied/runtime migration identities are `20260913063252_cf_093_bound_resolution_identity_freshness_reconcile` and `20260913063321_cf_093_bound_handoff_queueable_provenance_reconcile`.
+- Repository and Fresh Reconstruction use those exact identities; temporary aliases `062000`/`064500` are removed.
+- Repository worker v1.3.10 contains bounded continuation and fail-closed detail identity-drift corrections.
+- Pilot Edge remains v29 / SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`, `verify_jwt=false`, under the existing custom one-time nonce boundary. It predates the latest repo worker fixes and must not be redeployed until fresh exact-head Codex is clean.
 
-## Discovery acceptance
+## Authority boundaries
 
-Historical evidence only:
-
-- UQ batch `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f`: 248 resolved + 3 `layer3_required`.
-- RMIT batch `c8a33237-d2b5-47c3-a02b-2676cb6b820f`: 213 resolved + 50 `layer3_required`.
-
-Previous hardened snapshots showed UQ 54 and RMIT 27 requiring corrective rediscovery. **No corrective rediscovery has been dispatched after the current hardening.** The code/reconstruction/Codex gate is now clean, so consequential acceptance is the next gate.
-
-The maintained `CF-093 UQ Corrective Acceptance` workflow uses the normal authenticated Admin/PIM scheduler path. The currently connected GitHub toolset does not expose workflow-dispatch, so do not replace this with direct database execution or an ungoverned RPC call merely to advance the gate.
-
-## Layer 3
-
-Qualified JWT-protected Layer 3 remains separately governed and paused behind CF-093. Generic scheduler Layer 3 remains prohibited. Historical `layer3_required` counts do not authorise execution.
+Layer 1 authority, deterministic/Evidence-preserving Layer 2, separate governed Layer 3/4/Search/Publication, rank/ACL/private-helper boundaries and fail-closed Preview provenance remain unchanged. No direct SQL/RPC substitute is authorised for consequential acceptance.
 
 ## Exact next actions
 
-1. Dispatch the maintained UQ corrective acceptance workflow against exact head `a035714...`, or run the equivalent normal authenticated Admin/PIM scheduler path, and capture new Preview/dispatch evidence.
-2. Reconcile only newly selected/changed deterministic UQ Layer 2 work and explicitly prove zero generic Layer3/Layer4 auto-approval/Search/Publication side effects.
-3. Run bounded RMIT corrective acceptance only after UQ is clean.
-4. Recalculate any eligible Layer 3 cohort only after deterministic L2 acceptance closes.
-5. If acceptance exposes a reproducible defect, implement the smallest safe forward-only correction; never rewrite an applied migration. Then rerun Targeted Recovery, full reconstruction, Frontend Build, Cloudflare currentness and fresh exact-head Codex review before resuming acceptance.
-6. Merge/release only after every governed gate is clean.
+1. Satisfy the Codex repo-environment prerequisite and obtain a clean exact-head verdict for `4e67e322...`.
+2. Deploy the exact repository `layer2-scope-discover-scheduled` worker to Pilot with `verify_jwt=false`; verify deployed source/SHA and one-time nonce boundary.
+3. Dispatch a **new** `CF-093 UQ Corrective Acceptance` workflow on the reviewed/deployed exact head. The connected GitHub toolset currently exposes reads/reruns but no new workflow-dispatch operation, so use authorised GitHub UI/API dispatch if still unavailable; do not rerun an older SHA or use direct database execution.
+4. Reconcile new deterministic UQ L2 evidence and prove zero generic Layer3/Layer4/Search/Publication side effects.
+5. Run RMIT only after UQ clean; Layer 3 only after deterministic L2 closes.
+6. Merge/release only after every governed gate is clean, followed by main CI, Cloudflare/deployed currentness and deployed UAT verification.
 
 ## Pickup text
 
-> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main is `63c7107cfce2d8f607fc378af4881d0ba28ca879`, release v2.15.78. PR #72 remains draft/open at exact head `a035714aa5bd9b4d88ae47a59c877b3514a1f287`. Exact-head Targeted Recovery `34726688848`, full ordered CF-093 reconstruction `34726688865`, Frontend Build `34726688863`, Cloudflare preview at `a035714a`, and Codex review comment `5649541094` are clean. Forward migration `20260912232827` and worker v1.3.10 / Edge29 / SHA `665c56...` contain the current hardening. No UQ/RMIT corrective rediscovery has been dispatched after hardening. Next gate is authenticated UQ corrective acceptance through the maintained scheduler workflow/path, then deterministic UQ reconciliation, then RMIT. Layer 3, merge and release remain paused.
+> Continue CF M2.4.5 / CF-CHG-20260910-093 from repository/runtime truth. Accepted Pilot main remains `63c7107cfce2d8f607fc378af4881d0ba28ca879`, release v2.15.78. PR #72 is draft/open at exact head `4e67e32289235a88297502e90c8181f25639f300`. Exact-head Targeted Recovery `34743276597`, Fresh Reconstruction `34743276592`, Frontend Build `34743276603`, and Cloudflare deployment are PASS. Runtime/source migrations are reconciled to applied `20260913063252` and `20260913063321`; all previous inline review findings are resolved. The only pre-deployment blocker is the required fresh Codex exact-head verdict, currently unavailable because Codex reports a repo-environment prerequisite. Pilot Edge v29 remains intentionally stale relative to the latest repo worker fixes and must be redeployed only after Codex clean, preserving `verify_jwt=false` and the custom nonce boundary. Then dispatch NEW UQ corrective acceptance; RMIT, Layer 3, merge and release remain paused until consequential acceptance closes.
