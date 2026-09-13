@@ -2,89 +2,88 @@
 
 ## Active baseline — 13 September 2026
 
-- Milestone: **M2.4.5 — Pre-Production Hardening**. M2.5 remains paused; no Production Supabase project exists.
-- Active Change Control: **CF-CHG-20260910-093 — REOPENED**.
+- Milestone: **M2.4.5 — Pre-Production Hardening**.
+- M2.5 remains paused; no Production Supabase project exists.
+- Active Change Control: **CF-CHG-20260910-093 — REOPENED for final governance/runtime-ops release follow-on, not scraper perfection**.
 - Visible accepted release remains **v2.15.78**.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- PR #72 merged as `652c47326a99f3ce10f5b7479af30c4bed6d7391`.
-- PR #80 merged as `84cab275d36ff7709945ce4e7d241bd03844258e`, repairing direct deployed-main UQ acceptance.
-- PR #81 merged as `90f97a9ba2cbaee3eabb29506c457a6cee870427`, replacing stale UQ discovery-count literals with governed scope invariants.
-- Pilot PR #79 remains open at the runtime-operations/efficiency follow-on; its browser-visible Runtime Health still requires release-currentness/version reconciliation before merge.
-- Admin PR #36 is closed unmerged/superseded because its inherited history diverged from current main and contained stale governance assertions.
-- Clean Admin PR #37 is the current-main governance reconciliation branch.
+- Current Pilot main: **`ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`**.
+- PR #82 is merged: Firecrawl -> ZenRows bounded UQ discovery with Layer 3/4 parking for unresolved exhaustion.
+- Pilot PR #79 remains open for browser-visible Runtime Health / efficiency and needs release-currentness/version reconciliation before merge.
+- Clean Admin PR #37 remains the authoritative current-main governance reconciliation vehicle; superseded Admin #36 stays closed unmerged.
 
-## Deployed runtime-operations state
+## Current UQ acquisition policy
 
-Pilot runtime carries:
+For the UQ Course Facts discovery profile, the live provider order is now:
 
-- `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`.
-- `20260913102217 cf_093_scheduled_runtime_metrics_read`; repository source `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`.
+1. **Firecrawl** — enabled, priority 10.
+2. **ZenRows** — enabled, priority 20.
 
-Preserve runtime-ledger and repository-source identities separately; do not rewrite migration history.
+Direct HTTP, scrape.do and ScraperAPI are disabled for this path at priorities 110/120/130.
 
-`jobs_runtime` remains rank-4 only, rejects rank-3, denies anon/public helper execution, and does not expose raw payload/result/error text/URLs/storage paths/secrets. The deployed recent-50 wrapper proof measured about `21.4 ms`.
+Do not spend CF-093 work on perfecting each institution's gatekeeper/search mechanism. Provider-specific recovery requires a separate governed reason if ever needed.
 
-## Corrected deployed-main UQ acceptance
+## Exhaustion / Layer 3 / Layer 4 boundary
 
-Authoritative workflow: **`34753552186`** on exact Pilot main `90f97a9b...`.
+When a Preview-bound discovery course exhausts its bounded retry policy:
 
-The workflow is **PASS for deployed-main authenticated Preview -> Run Now initiation**. It proves the repaired UAT path and the governed browser contract, but it is not end-to-end Layer 2 acceptance closure.
+- courses already resolved by a selected post-activation discovery candidate are excluded;
+- unresolved courses are parked as blocked Layer 3 refresh requests;
+- parked Layer 3 requests have no fabricated Evidence and cannot bypass the Evidence gate;
+- the same unresolved courses are surfaced as pending Layer 4 `official_course_url` review items;
+- Layer 4 state explicitly records `canonical_mutation_authorised=false`;
+- the async binding moves to `handoff_started`.
 
-Current UQ scope:
+This is now the governed terminal/escalation outcome for scraper exhaustion. It is not a reason to hold the milestone open for website-specific scraper engineering.
 
-- catalogue/scoped: **382**;
-- queueable: **251**;
-- actionable discovery: **42**;
-- fresh terminal-negative: **89**;
-- invariant: `251 + 42 + 89 = 382`;
-- Preview-bound async discovery: true.
+## Runtime identities
 
-Preview token/job: `b0eb7e77-d31a-4cb7-b187-8226445a1b7c`.
+Preserve all repo/runtime identities separately:
 
-Binding evidence:
+- runtime `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repo `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`;
+- runtime `20260913102217 cf_093_scheduled_runtime_metrics_read`; repo `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`;
+- runtime **`20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`**; repo **`20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`**.
 
-- 382 sync IDs;
-- 42 discovery IDs;
-- identity fingerprint `ac308149eae5c818f8939566f39431ec`;
-- queueable fingerprint `55df05826882ef427632b510bae5d7ec`.
+Never rewrite applied migration history.
 
-## First genuine post-fix discovery telemetry
+## Live UQ parking proof
 
-The UQ dispatch generated four bounded discovery worker jobs. Every terminal job now has a real `completed_at`, proving the observability correction in real consequential traffic:
+Preview token: `b0eb7e77-d31a-4cb7-b187-8226445a1b7c`.
 
-- `b0dc9508-...`: 33 processed / 33 failed / ~60.61 s;
-- `b1412cd6-...`: 41 / 41 / ~60.56 s;
-- `3ef59638-...`: 42 / 42 / ~56.01 s;
-- `2ae49a3b-...`: 10 / 10 / ~14.53 s.
+The already-exhausted binding was reconciled after migration with a no-op terminal Job update; no new scrape run was generated.
 
-Exact-token reconciliation proves all **42 courses received exactly 3 attempts**, matching governed retry `max_attempts=3`. The extra worker jobs are fairness/chunk continuation, not extra attempts per course.
+Live result:
 
-No deterministic Layer 2 handoff occurred. The binding remained in operator-review/recovery state with no handoff started at the last check.
+- binding: `handoff_started`;
+- Layer 3 parked: **42**;
+- Layer 3 blocked/no Evidence: **42**;
+- Layer 4 pending: **42**;
+- canonical mutation unauthorised: **42/42**.
 
-## Active blocker — provider / first-party discovery health
+## Validation
 
-All UQ discovery courses ultimately failed. Current chain evidence:
+PR #82 final exact head `1eb6f159bc351d5b1b6234450625aa03d6b943c1`:
 
-- direct-http: HTTP 200 but no recognised qualified program link;
-- Firecrawl: HTTP 200 but still no recognised qualified program link;
-- scrape-do: HTTP 401, route correctly stops because 401 is not an authorised fallback;
-- ScraperAPI: enabled but has no governed Vault secret reference.
+- Fresh Reconstruction `34755602814`: PASS;
+- Targeted Recovery `34755602820`: PASS;
+- Frontend Build `34755602823`: PASS;
+- Cloudflare preview: PASS;
+- Gitar: Approved after resolved-course guard finding was fixed and marked resolved.
 
-Scrape-do had **224 successful 2xx responses through 07:45:50 UTC on 13 Sep 2026**, then switched to 401 at **07:46:03 UTC** with no provider-config or Vault-secret update at that boundary. Treat this as provider credential/account-health, not an adapter-format regression. Do not expose/manufacture credentials and do not add 401 to fallback merely to pass UAT.
+Post-merge Pilot main:
 
-Public UQ evidence confirms some current official program pages still exist, but several failed records are historical/exit-award structures. Nearest-title matching is therefore unsafe. The current UQ first-party profile has no qualified `zero_result_markers`; do not add markers or parser shortcuts until the current UQ search response shape is directly evidenced and identity-safe.
+- Frontend Build `34755718375`: PASS;
+- Deployed UAT `34755717852`: check/record final conclusion before changing the gate.
 
 ## Exact next gate
 
-1. Keep CF-CHG-20260910-093 **REOPENED**: Preview/dispatch passes, downstream discovery/handoff does not.
-2. Remediate scrape-do account/credential health through the governed provider/secret lifecycle **or** separately prove an identity-safe first-party UQ discovery/zero-result correction.
-3. After recovery, rerun exact-main UQ Preview -> discovery -> deterministic Layer 2 -> Jobs/Evidence acceptance. Closure requires successful handoff or an authorised terminal outcome, not merely workflow PASS.
-4. Do not use RMIT to conceal the unresolved UQ provider-health defect unless the current acceptance contract explicitly permits a replacement target.
-5. Reconcile PR #79 browser-visible release metadata/version, then rerun exact-head CI/Gitar before merge.
-6. Update REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when the active blocker materially changes.
+1. Confirm Deployed UAT `34755717852` on exact main `ac0e1ca...`.
+2. Finish Admin PR #37 reconciliation and merge only after its exact-head review/mergeability are clean.
+3. Reconcile PR #79 release-currentness/version, rerun exact-head CI/Gitar and merge only if clean.
+4. Update REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when those material states change.
+5. Close CF-093 after the remaining governance/runtime-ops release follow-on is accepted; do **not** reopen scraper-specific website perfection as a closure gate.
+6. Keep M2.5 paused unless separately authorised.
 
 ## Authority/security boundary
 
-Preserve Layer 1 authority, deterministic Evidence-preserving Layer 2, exact Preview-bound async continuation only where explicitly governed, Layer 3 Evidence/profile/model/revalidation governance, Layer 4 human authority, Search/Publication separation, rank/ACL/private-helper/service-role boundaries and immutable forward-only migration history. Missing telemetry remains unknown, never zero by assumption.
-
-Codex remains deferred assurance where unavailable and must not be represented as completed. Gitar remains the active exact-head reviewer for material follow-on heads.
+Preserve Layer 1 identity/regulatory authority, deterministic Layer 2 Evidence truth, Layer 3 Evidence/profile/model gating, Layer 4 human authority, Search/Publication separation, rank/ACL/RLS/private-helper/service-role boundaries and immutable forward-only migration history. Unresolved acquisition is parked for governed review; it is never silently promoted into canonical truth.
