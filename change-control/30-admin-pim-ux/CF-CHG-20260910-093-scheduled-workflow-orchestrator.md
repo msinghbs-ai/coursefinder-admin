@@ -1,12 +1,12 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** REOPENED — CORE ACCEPTANCE BOUNDARY SATISFIED; RUNTIME-OPS / RELEASE FOLLOW-ON ACTIVE  
+**Status:** REOPENED — CORE ACCEPTANCE BOUNDARY SATISFIED; LARGE-BATCH RUNTIME VALIDATION / RELEASE FOLLOW-ON ACTIVE  
 **Initiated:** 2026-09-10 AEST  
 **Reconciled:** 2026-09-13 AEST  
 **Category:** 30-admin-pim-ux  
 **Parent:** CF-CHG-20260910-092  
 **Visible accepted release:** v2.15.78  
-**Current Pilot main:** `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`
+**Current Pilot main:** `cb31abe21ffe9a041cacd5f975a0e4af5248daa5`
 
 ## Objective
 
@@ -14,7 +14,7 @@ Provide a governed Scheduled Tasks control plane for AU Course Facts while prese
 
 ## Accepted implementation path
 
-PR #72 merged the Preview-bound async Layer 2 authority contract. PR #80 repaired deployed-main acceptance triggering. PR #81 reconciled the UQ acceptance contract to governed scope invariants. PR #82 (`CF-093: Firecrawl/ZenRows discovery and Layer 3/4 parking`) merged to Pilot main as `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`.
+PR #72 merged the Preview-bound async Layer 2 authority contract. PR #80 repaired deployed-main acceptance triggering. PR #81 reconciled UQ acceptance to governed scope invariants. PR #82 merged Firecrawl -> ZenRows exhaustion/Layer 3+4 parking. PR #83 merged the bounded six-university scale-out as `cb31abe21ffe9a041cacd5f975a0e4af5248daa5`.
 
 The accepted authority contract remains:
 
@@ -30,12 +30,12 @@ The accepted authority contract remains:
 
 CourseFinder does **not** require website-specific scraper perfection before work can progress.
 
-For the governed UQ discovery path the active route is now:
+For the active governed university cohort the acquisition route is:
 
 1. Firecrawl — priority 10;
 2. ZenRows — priority 20.
 
-Direct HTTP, scrape.do and ScraperAPI are disabled for this UQ path and retained only as inactive historical configuration at priorities 110/120/130.
+Direct HTTP, scrape.do and ScraperAPI are disabled for this cohort at priorities 110/120/130.
 
 If a Preview-bound course remains unresolved after its governed retry limit:
 
@@ -48,45 +48,64 @@ If a Preview-bound course remains unresolved after its governed retry limit:
 
 This is the intended architecture boundary: acquisition failure becomes governed enrichment/human-review work, not an instruction to keep engineering around each institution's website mechanics.
 
-## Deployed runtime identity and proof
+## Deployed runtime identities
 
-Repository migration:
+Preserve repository/runtime identities independently:
 
-- `20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`
+- repo `20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`; runtime `20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`;
+- repo `20260913121500_cf_093_large_university_batch_enablement.sql`; runtime `20260913121052 cf_093_large_university_batch_enablement`.
 
-Pilot runtime ledger:
+Do not rename, retimestamp or rewrite applied migration history.
 
-- `20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`
+## Live UQ parking proof
 
-Preserve both identities independently; do not rename, retimestamp or rewrite applied migration history.
+Earlier UQ exhausted Preview token `b0eb7e77-d31a-4cb7-b187-8226445a1b7c` moved to `handoff_started` without another scrape run. Live result remains:
 
-Live UQ runtime proof after deployment:
+- 42 unresolved courses parked as blocked Layer 3 refresh requests;
+- 42/42 Layer 3 rows have no fabricated Evidence;
+- 42 pending Layer 4 `official_course_url` review items;
+- 42/42 retain `canonical_mutation_authorised=false`.
 
-- Firecrawl enabled priority 10;
-- ZenRows enabled priority 20;
-- Direct HTTP disabled priority 110;
-- scrape.do disabled priority 120;
-- ScraperAPI disabled priority 130;
-- exhausted Preview token `b0eb7e77-d31a-4cb7-b187-8226445a1b7c` moved to `handoff_started` without another scraper run;
-- **42** unresolved courses parked as blocked Layer 3 refresh requests;
-- all **42** Layer 3 requests have `evidence_id = null` and therefore cannot bypass the Layer 3 Evidence gate;
-- **42** pending Layer 4 review items created for `official_course_url`;
-- all **42** explicitly retain `canonical_mutation_authorised=false`.
+## Six-university large-batch validation
 
-The migration was proven rollback-only before deployment against the existing exhausted UQ binding. Gitar identified one resolved-course escalation edge case; it was corrected by reusing the established selected-discovery-candidate rule. The review thread is resolved.
+PR #83 enabled a bounded cohort using the same accepted deterministic execution-policy shape and Firecrawl -> ZenRows route. Rollback-only proof first confirmed all scopes were executable. Exact-head Fresh Reconstruction, Targeted Recovery, Frontend Build and Cloudflare preview passed before merge.
+
+Live acquisition-only dispatches:
+
+| University | Preview token | Discovery scope | Dispatch request |
+|---|---|---:|---:|
+| RMIT | `7d445b99-b545-4987-99f2-df5c1bbc2211` | 27 | 6015 |
+| Curtin | `c2e70f76-c5ac-45f7-b99b-c8af38fa3ae1` | 356 | 6016 |
+| Flinders | `40d7e691-4d49-4448-aabd-c4238c690db6` | 461 | 6017 |
+| Griffith | `3de32f03-e5d9-4b26-a7ee-61f7241eefad` | 294 | 6018 |
+| La Trobe | `8823638e-df65-4e7e-9518-2190130bf203` | 244 | 6020 |
+| Queensland University of Technology | `cb84a25c-a52d-420b-91bd-071d034444f7` | 294 | 6021 |
+
+Total Preview-bound discovery scope: **1,676 courses**.
+
+Initial runtime evidence:
+
+- Firecrawl monthly usage before this wave: 4,656 of 11,000 governed units; 250-unit stop reserve remains enforced;
+- first measured wave sample: 50 Firecrawl attempts, 50 HTTP-successful attempts;
+- RMIT first worker chunk completed 5 processed / 0 failed;
+- Curtin, Flinders, Griffith and RMIT continuation were actively running at first reconciliation;
+- La Trobe and QUT bindings were active and queued behind bounded continuation/concurrency;
+- no duplicate dispatch is authorised while these exact Preview bindings remain active.
+
+Terminal reconciliation must be by Preview token. Successful deterministic discovery/handoff may proceed through Layer 2; unresolved exhaustion must park into Layer 3/4 rather than trigger institution-specific scraper engineering.
 
 ## Acceptance / validation evidence
 
-Deployed-main workflow `34753552186` proved authenticated Preview -> Run Now initiation. UQ scope remained internally reconciled at 382 scoped = 251 queueable + 42 discovery + 89 fresh terminal-negative.
+Earlier post-PR #82 exact Pilot main passed Frontend Build `34755718375` and Deployed UAT `34755717852`.
 
-PR #82 final exact head `1eb6f159bc351d5b1b6234450625aa03d6b943c1` passed Fresh Reconstruction `34755602814`, Targeted Recovery `34755602820`, Frontend Build `34755602823`, Cloudflare preview and Gitar review.
+PR #83 exact head `c437ef6caa495b3ffc122a9d3e6d9174745d44de` passed:
 
-Post-merge exact Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d` passed:
+- CF-093 Fresh Reconstruction `34756285717`;
+- CF-093 Targeted Recovery `34756285696`;
+- Pilot Frontend Build `34756285691`;
+- Cloudflare exact-head preview.
 
-- Frontend Build `34755718375`;
-- Deployed UAT `34755717852`.
-
-The earlier scraper failures remain useful bounded-acquisition evidence but are no longer a reason to keep CF-093 open for provider/site-specific engineering. They now terminate into the governed Layer 3/4 parking path.
+Gitar exact-head review was requested; no inline finding was present at merge. Final standalone Gitar response should be recorded when available and must not be retroactively claimed if absent.
 
 ## Runtime-operations follow-on
 
@@ -94,13 +113,15 @@ Pilot PR #79 remains open for browser-visible Runtime Health / efficiency work. 
 
 ## Remaining closure gates
 
-CF-CHG-20260910-093 remains REOPENED only for final governance/release reconciliation, not for further website-specific scraper engineering.
+CF-CHG-20260910-093 remains REOPENED for large-batch terminal reconciliation plus final governance/release reconciliation, not for website-specific scraper engineering.
 
-1. Finish Admin PR #37 exact-head review and merge from current-main governance truth.
-2. Reconcile PR #79 release-currentness/version and exact-head validation before its merge.
-3. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT to the merged/deployed boundary.
-4. Close CF-093 when the remaining governance/runtime-ops release follow-on is accepted; do **not** reopen scraper-specific perfection as a closure gate.
-5. M2.5 remains paused unless separately reopened.
+1. Reconcile all six active Preview tokens to terminal Jobs/Evidence/handoff/Layer 3+4 outcomes without duplicate dispatch.
+2. Record Firecrawl/ZenRows usage and throughput for the larger wave while enforcing budget/reserve.
+3. Finish Admin PR #37 exact-head review and merge from current-main governance truth.
+4. Reconcile PR #79 release-currentness/version and exact-head validation before merge.
+5. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT to the final merged/deployed boundary.
+6. Close CF-093 when the remaining runtime/governance release follow-on is accepted; do **not** reopen scraper-specific perfection as a closure gate.
+7. M2.5 remains paused unless separately reopened.
 
 ## Rollback / recovery
 
@@ -110,4 +131,4 @@ CF-CHG-20260910-093 remains REOPENED only for final governance/release reconcili
 - Never bypass Layer 3 Evidence gating or Layer 4 human authority.
 - Scraper exhaustion is an escalation outcome, not permission for implicit canonical/Search/Publication mutation.
 
-**Current outcome:** Scheduled Tasks Preview/dispatch authority is proven; Firecrawl -> ZenRows is the bounded UQ scraper route; unresolved scraper outcomes park safely into Layer 3 and Layer 4; exact-main post-merge build and deployed UAT pass. Remaining work is governance/runtime-ops release reconciliation, not institution-specific scraper perfection.
+**Current outcome:** Scheduled Tasks Preview/dispatch authority is proven and has now been scaled to a six-university, 1,676-course discovery wave using Firecrawl -> ZenRows. The large batch is active; unresolved terminal outcomes are governed Layer 3/4 work, not a scraper-perfection blocker.
