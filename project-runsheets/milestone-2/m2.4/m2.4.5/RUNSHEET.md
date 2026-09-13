@@ -1,6 +1,6 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 EXACT-HEAD CODEX REVIEW PENDING  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CORRECTIVE ACCEPTANCE  
 **Opened:** 2026-09-03 10:28 AEST  
 **Reconciled:** 2026-09-13 AEST  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
@@ -16,7 +16,7 @@
 - Pilot Frontend Build `34726688863`: PASS.
 - Cloudflare exact-head preview: PASS/deployed at `a035714a`.
 - Discovery worker: v1.3.10 / Edge v29 / SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`.
-- Fresh exact-head Codex request: comment `5649524865`; review pending.
+- Exact-head Codex review comment `5649541094`: CLEAN / no major issues on reviewed commit `a035714aa5`.
 - Production Supabase: not provisioned.
 
 ## Gate A — exact-head recovery
@@ -35,7 +35,7 @@
 - [x] Exact-head Targeted Recovery PASS.
 - [x] Exact-head Frontend Build PASS.
 - [x] Exact-head Cloudflare preview deployed.
-- [ ] Fresh exact-head Codex review has no remaining actionable P1/P2 defects.
+- [x] Exact-head Codex review clean; all prior P1/P2 inline threads reconciled/resolved.
 
 ## Gate B — reconstruction / migration currentness
 
@@ -49,8 +49,8 @@
 
 - [x] Consequential workflow contract uses nested `dispatch.result.status`.
 - [x] Exact-head Cloudflare deployment evidence identifies commit `a035714a`.
-- [x] Relevant implementation changes trigger the maintained CI/reconstruction gates.
-- [ ] Run consequential authenticated corrective acceptance only after fresh exact-head Codex review is clean.
+- [x] Code/reconstruction/Codex recovery gates are clean.
+- [ ] Run consequential authenticated corrective acceptance through the maintained workflow or equivalent normal authenticated Admin/PIM path.
 
 ## Gate D — UQ corrective discovery
 
@@ -58,7 +58,7 @@ Historical batch retained as evidence: `5b2bac73-0cd4-4a7f-9487-2baf3ab1443f` = 
 Previous hardened snapshot: 382 scoped / 251 queueable / 54 reopened discovery / 77 retained terminal negatives.
 
 - [x] No corrective dispatch issued while recovery gates were open.
-- [ ] After Gate A closes, obtain a new authenticated Preview and run only the currently actionable UQ corrective discovery scope.
+- [ ] Obtain a new authenticated Preview and run only the currently actionable UQ corrective discovery scope.
 - [ ] Reconcile newly selected/changed work through deterministic L2 only.
 - [ ] Prove exact-token/fingerprint/dedupe and zero generic Layer3/Layer4/Search/Publication side effects.
 
@@ -68,7 +68,7 @@ Historical batch retained as evidence: `c8a33237-d2b5-47c3-a02b-2676cb6b820f` = 
 Previous hardened snapshot: 500 scoped / 263 queueable / 27 reopened discovery / 210 retained terminal negatives.
 
 - [x] No corrective dispatch issued while recovery gates were open.
-- [ ] After Gate A closes, obtain a new authenticated Preview and run only the currently actionable RMIT corrective discovery scope.
+- [ ] After UQ is clean, obtain a new authenticated Preview and run only the currently actionable RMIT corrective discovery scope.
 - [ ] Reconcile newly selected/changed work through deterministic L2 only.
 - [ ] Prove exact-token/fingerprint/dedupe and zero generic Layer3/Layer4/Search/Publication side effects.
 
@@ -81,7 +81,7 @@ Previous hardened snapshot: 500 scoped / 263 queueable / 27 reopened discovery /
 
 ## Gate G — final PR acceptance
 
-- [ ] Fresh exact-head Codex P1/P2 gate clean.
+- [x] Exact-head Codex P1/P2 gate clean.
 - [x] Full migration-chain reconstruction clean.
 - [x] Exact-head Targeted Recovery / Frontend Build / Cloudflare currentness clean at `a035714...`.
 - [ ] Corrective UQ/RMIT discovery + changed deterministic L2 clean.
@@ -91,4 +91,4 @@ Previous hardened snapshot: 500 scoped / 263 queueable / 27 reopened discovery /
 
 ## Exact next action
 
-Keep checking the exact-head Codex request `5649524865`. Forward-fix any reproducible finding without weakening authority/security. Do not start UQ/RMIT corrective discovery, Layer 3, merge or release until the exact-head Codex gate is clean.
+Run the existing authenticated UQ corrective acceptance against exact head `a035714...`. Do not bypass the maintained browser/authenticated scheduler path with direct database execution. Reconcile UQ before RMIT; keep Layer 3, merge and release paused until deterministic acceptance closes.
