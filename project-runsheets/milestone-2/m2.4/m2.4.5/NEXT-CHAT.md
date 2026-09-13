@@ -6,60 +6,85 @@
 - Active Change Control: **CF-CHG-20260910-093 — REOPENED**.
 - Visible accepted release remains **v2.15.78**.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- PR #72 is **MERGED** as `652c47326a99f3ce10f5b7479af30c4bed6d7391`.
-- Pilot `main` is `9b450f9ebb48de70bdcdd409f24909ba39cc3a85` before the current follow-on PRs.
-- Pilot PR #79: Scheduled Tasks runtime operations/efficiency, current known head `849f6f50e810bd77a6b3e02ef765df9c43f541db`; browser-visible Runtime Health means release-currentness/version reconciliation is required before merge.
-- Pilot PR #80: `CF-093: repair exact-main UQ acceptance trigger`, initial exact head `f0633d2737f439e6cd72816fadb5f3979e34141b`.
-- Admin PR #36 is superseded as a merge candidate: it is 70 commits ahead / 79 behind current Admin main with merge base `401a107d...` and contains stale governance assertions.
-- Clean Admin reconciliation branch: `m245/cf093-runtime-ops-governance-reconcile-20260913`, based directly on current Admin main `900780deedd34b7461bfe71cfba8f477116c1f74`.
+- PR #72 merged as `652c47326a99f3ce10f5b7479af30c4bed6d7391`.
+- PR #80 merged as `84cab275d36ff7709945ce4e7d241bd03844258e`, repairing direct deployed-main UQ acceptance.
+- PR #81 merged as `90f97a9ba2cbaee3eabb29506c457a6cee870427`, replacing stale UQ discovery-count literals with governed scope invariants.
+- Pilot PR #79 remains open at the runtime-operations/efficiency follow-on; its browser-visible Runtime Health still requires release-currentness/version reconciliation before merge.
+- Admin PR #36 is closed unmerged/superseded because its inherited history diverged from current main and contained stale governance assertions.
+- Clean Admin PR #37 is the current-main governance reconciliation branch.
 
 ## Deployed runtime-operations state
 
-Pilot runtime carries the forward-only observability changes:
+Pilot runtime carries:
 
 - `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`.
 - `20260913102217 cf_093_scheduled_runtime_metrics_read`; repository source `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`.
 
-Preserve deployment-ledger and repository-source identities separately; do not rewrite migration history.
+Preserve runtime-ledger and repository-source identities separately; do not rewrite migration history.
 
-The discovery terminal-timestamp trigger has rollback-only proof. Historical missing timestamps were not backfilled. No natural `layer2_discovery` job has yet occurred after the correction, so successful post-change discovery throughput remains **not yet observed**.
+`jobs_runtime` remains rank-4 only, rejects rank-3, denies anon/public helper execution, and does not expose raw payload/result/error text/URLs/storage paths/secrets. The deployed recent-50 wrapper proof measured about `21.4 ms`.
 
-The governed `jobs_runtime` read is rank-4, denies anon/public helper execution, rejects rank-3, does not expose raw payload/result/error text/URLs/storage paths/secrets, and measured about `21.4 ms` execution for the bounded recent-50 runtime proof.
+## Corrected deployed-main UQ acceptance
 
-## Runtime bottleneck evidence
+Authoritative workflow: **`34753552186`** on exact Pilot main `90f97a9b...`.
 
-Queue wait is not the primary observed bottleneck. Discovery/provider acquisition remains the active efficiency issue.
+The workflow is **PASS for deployed-main authenticated Preview -> Run Now initiation**. It proves the repaired UAT path and the governed browser contract, but it is not end-to-end Layer 2 acceptance closure.
 
-Measured UQ evidence includes 50 scrape-do HTTP 401 failures and materially slower fallback-provider paths. ScraperAPI also reports credential-unavailable evidence for relevant fallback attempts. Do **not** add 401 as a fallback condition merely to improve throughput. Remediate provider authentication/health through the governed provider/secret lifecycle.
+Current UQ scope:
 
-## Consequential acceptance recovery
+- catalogue/scoped: **382**;
+- queueable: **251**;
+- actionable discovery: **42**;
+- fresh terminal-negative: **89**;
+- invariant: `251 + 42 + 89 = 382`;
+- Preview-bound async discovery: true.
 
-After PR #72 merged, exact main `9b450f9e...` attempted replacement UQ acceptance through `CF-093 UQ Acceptance Dispatcher` run `34749286102`. Its latest attempt remains **queued with zero jobs materialised after three attempts** and is not acceptance evidence.
+Preview token/job: `b0eb7e77-d31a-4cb7-b187-8226445a1b7c`.
 
-The delegated UQ workflow also targeted the old PR #72 branch-preview URL, so even a successful dispatcher would not have proved deployed-main currentness.
+Binding evidence:
 
-PR #80 corrects only that UAT infrastructure:
+- 382 sync IDs;
+- 42 discovery IDs;
+- identity fingerprint `ac308149eae5c818f8939566f39431ec`;
+- queueable fingerprint `55df05826882ef427632b510bae5d7ec`.
 
-- direct UQ acceptance trigger when the maintained workflow change lands on `main`;
-- deployed-main browser target `https://coursefinder-pilot.techm.workers.dev`;
-- exact workflow SHA checkout;
-- authenticated Admin/PIM Preview -> Run Now path;
-- evidence artifact retention;
-- no database/runtime authority, discovery route, retry/fallback, Layer 3/4, Search or Publication semantic change.
+## First genuine post-fix discovery telemetry
+
+The UQ dispatch generated four bounded discovery worker jobs. Every terminal job now has a real `completed_at`, proving the observability correction in real consequential traffic:
+
+- `b0dc9508-...`: 33 processed / 33 failed / ~60.61 s;
+- `b1412cd6-...`: 41 / 41 / ~60.56 s;
+- `3ef59638-...`: 42 / 42 / ~56.01 s;
+- `2ae49a3b-...`: 10 / 10 / ~14.53 s.
+
+Exact-token reconciliation proves all **42 courses received exactly 3 attempts**, matching governed retry `max_attempts=3`. The extra worker jobs are fairness/chunk continuation, not extra attempts per course.
+
+No deterministic Layer 2 handoff occurred. The binding remained in operator-review/recovery state with no handoff started at the last check.
+
+## Active blocker — provider / first-party discovery health
+
+All UQ discovery courses ultimately failed. Current chain evidence:
+
+- direct-http: HTTP 200 but no recognised qualified program link;
+- Firecrawl: HTTP 200 but still no recognised qualified program link;
+- scrape-do: HTTP 401, route correctly stops because 401 is not an authorised fallback;
+- ScraperAPI: enabled but has no governed Vault secret reference.
+
+Scrape-do had **224 successful 2xx responses through 07:45:50 UTC on 13 Sep 2026**, then switched to 401 at **07:46:03 UTC** with no provider-config or Vault-secret update at that boundary. Treat this as provider credential/account-health, not an adapter-format regression. Do not expose/manufacture credentials and do not add 401 to fallback merely to pass UAT.
+
+Public UQ evidence confirms some current official program pages still exist, but several failed records are historical/exit-award structures. Nearest-title matching is therefore unsafe. The current UQ first-party profile has no qualified `zero_result_markers`; do not add markers or parser shortcuts until the current UQ search response shape is directly evidenced and identity-safe.
 
 ## Exact next gate
 
-1. Complete PR #80 CI/review. Merge only if exact-head checks are clean.
-2. Use the resulting direct deployed-main UQ acceptance run as the replacement authoritative consequential proof.
-3. Validate exact Preview token/fingerprint/binding/dedupe/cancel semantics, deterministic Layer 2 Jobs/Evidence, and zero generic L3/L4/Search/Publication side effects.
-4. Run RMIT only if UQ is clean and the current acceptance contract still requires it.
-5. Reconcile PR #79 browser-visible release metadata/version, rerun exact-head CI/review, then merge only if clean.
-6. Observe natural post-fix discovery history before making any throughput/concurrency/batch/retry tuning claim.
-7. Resolve governed provider authentication/health before considering higher concurrency.
-8. Keep CF-CHG-20260910-093 reopened until genuine consequential acceptance and final governance reconciliation complete.
+1. Keep CF-CHG-20260910-093 **REOPENED**: Preview/dispatch passes, downstream discovery/handoff does not.
+2. Remediate scrape-do account/credential health through the governed provider/secret lifecycle **or** separately prove an identity-safe first-party UQ discovery/zero-result correction.
+3. After recovery, rerun exact-main UQ Preview -> discovery -> deterministic Layer 2 -> Jobs/Evidence acceptance. Closure requires successful handoff or an authorised terminal outcome, not merely workflow PASS.
+4. Do not use RMIT to conceal the unresolved UQ provider-health defect unless the current acceptance contract explicitly permits a replacement target.
+5. Reconcile PR #79 browser-visible release metadata/version, then rerun exact-head CI/Gitar before merge.
+6. Update REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when the active blocker materially changes.
 
 ## Authority/security boundary
 
 Preserve Layer 1 authority, deterministic Evidence-preserving Layer 2, exact Preview-bound async continuation only where explicitly governed, Layer 3 Evidence/profile/model/revalidation governance, Layer 4 human authority, Search/Publication separation, rank/ACL/private-helper/service-role boundaries and immutable forward-only migration history. Missing telemetry remains unknown, never zero by assumption.
 
-Codex remains deferred assurance where usage is unavailable and must not be represented as completed. Gitar is the active exact-head reviewer for current material follow-on heads.
+Codex remains deferred assurance where unavailable and must not be represented as completed. Gitar remains the active exact-head reviewer for material follow-on heads.
