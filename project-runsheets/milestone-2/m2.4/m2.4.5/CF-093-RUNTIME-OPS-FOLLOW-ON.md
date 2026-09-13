@@ -78,8 +78,10 @@ Final PR #82 exact head before merge: `1eb6f159bc351d5b1b6234450625aa03d6b943c1`
 - Cloudflare exact-head preview: PASS.
 - Gitar: Approved after one resolved-course escalation finding was fixed; review thread resolved.
 
-Post-merge Pilot main `ac0e1ca...` Frontend Build `34755718375`: PASS.
-Post-merge Deployed UAT `34755717852` was still in progress at the last recorded check and remains the immediate currentness confirmation.
+Post-merge Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`:
+
+- Frontend Build `34755718375`: **PASS**.
+- Deployed UAT `34755717852`: **PASS**.
 
 ## Authority boundary
 
@@ -89,8 +91,8 @@ No Search or Publication admission is created. No Layer 1 authority changes. No 
 
 ## Exact next actions
 
-1. Confirm post-merge deployed UAT `34755717852` conclusion for exact main `ac0e1ca...`.
+1. Finish Admin PR #37 exact-head review/merge from current-main governance truth.
 2. Stop treating scrape.do/provider-specific website mechanics as CF-093 acceptance blockers; unresolved cases now belong to Layer 3/4 queues.
 3. Reconcile PR #79 release-currentness/version and rerun exact-head checks/review before merge.
-4. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT to this boundary, then close CF-093 when the remaining governance/release follow-on is complete.
+4. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS to this boundary, then close CF-093 when the remaining governance/release follow-on is complete.
 5. Keep M2.5 paused unless separately authorised.
