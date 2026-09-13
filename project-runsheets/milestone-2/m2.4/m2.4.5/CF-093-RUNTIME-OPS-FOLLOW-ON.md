@@ -9,6 +9,7 @@
 - PR #80 merged deployed-main acceptance-trigger recovery.
 - PR #81 merged UQ acceptance-count/invariant reconciliation.
 - PR #82 merged as Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`, implementing Firecrawl -> ZenRows bounded discovery and Layer 3/4 parking for unresolved exhaustion.
+- PR #83 merged as Pilot main `cb31abe21ffe9a041cacd5f975a0e4af5248daa5`, enabling the bounded six-university AU batch cohort.
 - PR #79 remains the separate browser-visible Runtime Health / efficiency candidate and still requires release-currentness/version reconciliation before merge.
 - Visible accepted release remains v2.15.78.
 
@@ -17,6 +18,7 @@
 1. Runtime ledger `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repository source `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`.
 2. Runtime ledger `20260913102217 cf_093_scheduled_runtime_metrics_read`; repository source `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`.
 3. Runtime ledger `20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`; repository source `20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`.
+4. Runtime ledger `20260913121052 cf_093_large_university_batch_enablement`; repository source `20260913121500_cf_093_large_university_batch_enablement.sql`.
 
 Preserve runtime-ledger and repository identities separately. Applied migration history is immutable.
 
@@ -26,11 +28,50 @@ The terminal timestamp correction is proven in genuine UQ consequential traffic.
 
 The rank-4 `jobs_runtime` read remains fail-closed for lower ranks/anon/public and does not expose raw payload/result/error text, URLs, Storage paths or secrets. The bounded recent-50 deployed wrapper proof measured about 21.4 ms.
 
+## Six-university batch metrics
+
+Active cohort: RMIT, Curtin, Flinders, Griffith, La Trobe and QUT. Total Preview-bound discovery scope: **1,676 courses**.
+
+Latest captured worker metrics during the active wave:
+
+| University | Discovery scope | Jobs | Terminal jobs | Running jobs | Processed | Failed | Avg queue sec | Avg terminal execution sec |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| RMIT | 27 | 3 | 3 | 0 | 27 | 0 | 0.37 | 50.72 |
+| Curtin | 356 | 5 | 4 | 1 | 64 | 0 | 0.31 | 62.03 |
+| Flinders | 461 | 5 | 4 | 1 | 39 | 0 | 0.22 | 63.06 |
+| Griffith | 294 | 5 | 4 | 1 | 49 | 0 | 0.21 | 61.20 |
+| La Trobe | 244 | 4 | 3 | 1 | 39 | 0 | 0.16 | 63.94 |
+| QUT | 294 | 4 | 3 | 1 | 41 | 0 | 0.16 | 61.86 |
+
+At this snapshot **259 course items had been processed with 0 job-level failures**. RMIT completed its full 27-course discovery scope and moved to `handoff_started`; the other five bindings remained active under bounded continuation.
+
+Provider/Evidence snapshot:
+
+| University | Firecrawl attempts | ZenRows attempts | Successful attempts | Failed attempts | Running attempts | Candidate courses | Selected | Not found | Ambiguous | Identity mismatch | Raw Evidence | HTML Evidence | Screenshot Evidence |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| RMIT | 27 | 0 | 27 | 0 | 0 | 27 | 0 | 26 | 1 | 0 | 27 | 27 | 27 |
+| Curtin | 87 | 0 | 86 | 0 | 1 | 85 | 1 | 83 | 1 | 0 | 86 | 86 | 86 |
+| Flinders | 54 | 0 | 53 | 0 | 1 | 52 | 1 | 27 | 3 | 21 | 53 | 53 | 53 |
+| Griffith | 64 | 0 | 63 | 0 | 1 | 63 | 0 | 63 | 0 | 0 | 63 | 63 | 63 |
+| La Trobe | 55 | 0 | 54 | 0 | 1 | 54 | 0 | 54 | 0 | 0 | 54 | 54 | 54 |
+| QUT | 59 | 0 | 58 | 0 | 1 | 58 | 0 | 58 | 0 | 0 | 58 | 58 | 58 |
+
+Observations from the snapshot:
+
+- Firecrawl is carrying the entire active workload; **ZenRows fallback has not yet been invoked**.
+- Provider HTTP/acquisition execution is healthy; no failed provider attempt was recorded in this snapshot.
+- Evidence generation is keeping pace with completed provider attempts, including raw, HTML and screenshot Evidence.
+- The dominant outcome is a governed negative discovery result rather than transport failure. This is expected to flow to the existing Layer 3/4 parking boundary when retries are exhausted.
+- Flinders is the main identity-quality signal to watch: 21 courses had reached `identity_mismatch` at this snapshot. Do not loosen identity confirmation to improve the success rate.
+- Queue delay is negligible relative to ~51–64 second chunk execution, so scraper/site processing rather than queue contention is the current throughput limiter.
+
+Continue collecting provider usage, throughput, Evidence production, selected/terminal-negative/ambiguous/identity-mismatch rates, fallback use and Layer 3/4 parking counts. Do not create duplicate dispatches while bindings remain active.
+
 ## Accepted acquisition boundary
 
 Website-specific scraper perfection is no longer an acceptance objective for this path.
 
-Current live UQ route:
+Current active cohort route:
 
 | Priority | Provider | Enabled |
 |---:|---|---|
@@ -78,10 +119,9 @@ Final PR #82 exact head before merge: `1eb6f159bc351d5b1b6234450625aa03d6b943c1`
 - Cloudflare exact-head preview: PASS.
 - Gitar: Approved after one resolved-course escalation finding was fixed; review thread resolved.
 
-Post-merge Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`:
+Post-merge Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d` passed Frontend Build `34755718375` and Deployed UAT `34755717852`.
 
-- Frontend Build `34755718375`: **PASS**.
-- Deployed UAT `34755717852`: **PASS**.
+PR #83 exact head `c437ef6caa495b3ffc122a9d3e6d9174745d44de` passed Fresh Reconstruction `34756285717`, Targeted Recovery `34756285696`, Pilot Frontend Build `34756285691` and Cloudflare preview before merge.
 
 ## Authority boundary
 
@@ -91,8 +131,9 @@ No Search or Publication admission is created. No Layer 1 authority changes. No 
 
 ## Exact next actions
 
-1. Finish Admin PR #37 exact-head review/merge from current-main governance truth.
-2. Stop treating scrape.do/provider-specific website mechanics as CF-093 acceptance blockers; unresolved cases now belong to Layer 3/4 queues.
-3. Reconcile PR #79 release-currentness/version and rerun exact-head checks/review before merge.
-4. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS to this boundary, then close CF-093 when the remaining governance/release follow-on is complete.
-5. Keep M2.5 paused unless separately authorised.
+1. Continue reconciling all six Preview tokens to terminal Jobs/Evidence/handoff/Layer 3+4 outcomes and preserve provider/tooling metrics.
+2. Keep Firecrawl/ZenRows budget and reserve controls enforced; do not treat successful HTTP retrieval as successful identity resolution.
+3. Finish Admin PR #37 exact-head review/merge from current-main governance truth.
+4. Reconcile PR #79 release-currentness/version and rerun exact-head checks/review before merge.
+5. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS to the terminal batch boundary, then close CF-093 when the remaining governance/release follow-on is complete.
+6. Keep M2.5 paused unless separately authorised.
