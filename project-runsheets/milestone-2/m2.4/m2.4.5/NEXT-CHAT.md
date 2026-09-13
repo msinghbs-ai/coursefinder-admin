@@ -70,19 +70,18 @@ PR #82 final exact head `1eb6f159bc351d5b1b6234450625aa03d6b943c1`:
 - Cloudflare preview: PASS;
 - Gitar: Approved after resolved-course guard finding was fixed and marked resolved.
 
-Post-merge Pilot main:
+Post-merge Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d`:
 
-- Frontend Build `34755718375`: PASS;
-- Deployed UAT `34755717852`: check/record final conclusion before changing the gate.
+- Frontend Build `34755718375`: **PASS**;
+- Deployed UAT `34755717852`: **PASS**.
 
 ## Exact next gate
 
-1. Confirm Deployed UAT `34755717852` on exact main `ac0e1ca...`.
-2. Finish Admin PR #37 reconciliation and merge only after its exact-head review/mergeability are clean.
-3. Reconcile PR #79 release-currentness/version, rerun exact-head CI/Gitar and merge only if clean.
-4. Update REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when those material states change.
-5. Close CF-093 after the remaining governance/runtime-ops release follow-on is accepted; do **not** reopen scraper-specific website perfection as a closure gate.
-6. Keep M2.5 paused unless separately authorised.
+1. Finish Admin PR #37 exact-head Gitar review and merge only if clean.
+2. Reconcile PR #79 release-currentness/version, rerun exact-head CI/Gitar and merge only if clean.
+3. Update REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when those material states change.
+4. Close CF-093 after the remaining governance/runtime-ops release follow-on is accepted; do **not** reopen scraper-specific website perfection as a closure gate.
+5. Keep M2.5 paused unless separately authorised.
 
 ## Authority/security boundary
 
