@@ -20,10 +20,9 @@ Record observed values only for consequential ingestion, discovery, enrichment, 
 - Exact-head CF-093 Fresh Reconstruction `34726688865`: **PASS** — all PR-added CF-093 migrations replayed in order on fresh reconstructed dependency baseline.
 - Exact-head Pilot Frontend Build `34726688863`: **PASS**.
 - Exact-head Cloudflare preview: **PASS/deployed at `a035714a`**.
-- Fresh exact-head Codex request: comment `5649524865`; technical review still pending at reconciliation.
+- Exact-head Codex review: **CLEAN** — comment `5649541094`, reviewed commit `a035714aa5`, no major issues found.
 - Worker: Edge v29 / `layer2-scope-discover-scheduled-v1.3.10` / SHA `665c56ade30fa89b517255bb023c8ce1a15f88df3935845baeeba17cca21c051`.
 - Forward migration `20260912232827_cf_093_preview_provenance_terminal_dedupe_hardening`: applied + checked in.
-- Temporary one-shot migration/deployment/source-alignment workflows removed after use.
 - PR remains draft/unmerged; accepted main/release unchanged.
 
 ## Exact-head hardening evidence
@@ -88,10 +87,9 @@ Layer 3 remains separately governed/JWT-protected. Historical `layer3_required` 
 
 ## Next metrics capture
 
-1. Fresh exact-head Codex result for `a035714...`.
-2. If code changes, replacement exact-head Targeted Recovery / Reconstruction / Frontend / Cloudflare evidence.
-3. Fresh authenticated UQ and RMIT Preview counts.
-4. Corrective rediscovery metrics for currently actionable scope only.
-5. Deterministic L2 reconciliation for newly selected/changed work only.
-6. Explicit zero unauthorised Layer3/Layer4/Search/Publication side effects.
-7. Only after CF-093 closes: recalculated bounded Layer3 calls/tokens/cost/latency/validator/Evidence lineage.
+1. Fresh authenticated UQ Preview and corrective dispatch identifiers/counts on exact head `a035714...`.
+2. UQ corrective discovery elapsed time, selected/terminal outcomes and any changed deterministic L2 batch identifiers.
+3. Explicit exact-token/fingerprint/dedupe/cancellation evidence and zero unauthorised Layer3/Layer4/Search/Publication side effects.
+4. Fresh authenticated RMIT Preview/corrective metrics only after UQ is clean.
+5. If code changes are required, replacement exact-head Targeted Recovery / Reconstruction / Frontend / Cloudflare / Codex evidence.
+6. Only after CF-093 closes: recalculated bounded Layer3 calls/tokens/cost/latency/validator/Evidence lineage.
