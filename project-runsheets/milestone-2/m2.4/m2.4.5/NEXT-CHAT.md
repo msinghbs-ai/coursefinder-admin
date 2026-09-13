@@ -4,124 +4,100 @@
 
 - Milestone: **M2.4.5 — Pre-Production Hardening**.
 - M2.5 remains paused; no Production Supabase project exists.
-- Active Change Control: **CF-CHG-20260910-093 — REOPENED for final governance/runtime-ops release follow-on**.
-- Visible accepted release remains **v2.15.78**.
+- Active Change Control: **CF-CHG-20260910-093 — REOPENED for final runtime/governance/release follow-on**.
+- Visible accepted release remains **v2.15.78** until candidate v2.15.79 passes merge + deployed-currentness/UAT.
+- Accepted/recovery Pilot main: **`7cf5cc72296ca82e6e026606a61f449ede4ead45`**.
+- Accepted package baseline: **0.1.5**.
+- Candidate PR #85: **v2.15.79 / package 0.1.6** on `m245/cf093-admin-dispatcher-tuning-20260914`.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- Current Pilot main: **`7cf5cc72296ca82e6e026606a61f449ede4ead45`** after merged PR #84.
-- PR #82 merged Firecrawl -> ZenRows exhaustion/Layer 3+4 parking.
-- PR #83 merged bounded six-university batch enablement.
-- PR #84 merged the Layer 2 runner transport-budget recovery.
-- Pilot PR #79 remains open for browser-visible Runtime Health / efficiency and still needs release-currentness/version reconciliation before merge.
-- Admin PR #37 remains the authoritative governance reconciliation vehicle.
+- Admin PR #37 remains the governance reconciliation vehicle.
 
-## Six-university discovery — TERMINAL
+## Release/version governance correction
 
-Cohort: RMIT, Curtin, Flinders, Griffith, La Trobe and QUT.
+The PR #85 release-currentness failure was classified as a governance/implementation-model defect: browser release identity had been independently repeated across the shell, retained release history, currentness overlay, HTML title, package metadata and hard-coded tests.
 
-All six Preview-bound discovery bindings are `handoff_started` with **1,676 / 1,676 distinct discovery courses accounted for (100%)** and no discovery-job failures.
+The corrected model is now governed by `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md`, selected as CURRENT by `docs/README.md`.
 
-| University | Scope | Selected | Not found | Ambiguous | Identity mismatch | Discovery jobs | Avg queue sec | Avg execution sec |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| RMIT | 27 | 0 | 26 | 1 | 0 | 3 | 0.37 | 50.72 |
-| Curtin | 356 | 1 | 350 | 3 | 2 | 21 | 0.22 | 62.09 |
-| Flinders | 461 | 10 | 237 | 38 | 176 | 47 | 0.16 | 62.77 |
-| Griffith | 294 | 0 | 292 | 1 | 1 | 25 | 0.19 | 61.09 |
-| La Trobe | 244 | 0 | 243 | 0 | 1 | 19 | 0.22 | 61.50 |
-| QUT | 294 | 0 | 294 | 0 | 0 | 22 | 0.18 | 61.20 |
+Pilot release contract:
 
-Flinders worker-result totals include one repeated continuation event; the acceptance denominator is the 461 distinct courses.
+- `src/release-manifest.js` is the **single candidate release authority**;
+- current candidate: **v2.15.79 / package 0.1.6**;
+- `PREVIOUS_ACCEPTED_RELEASE` explicitly records **v2.15.78 / package 0.1.5 / Pilot `7cf5cc72296ca82e6e026606a61f449ede4ead45`**;
+- `src/release-currentness-entry.js` imports the manifest and renders candidate title/pill/release note;
+- `index.html` is version-neutral at bootstrap;
+- `src/mature-main.jsx` and `src/pim-version-entry.js` remain the last accepted v2.15.78 fallback/history until v2.15.79 is accepted;
+- `scripts/verify-release-contract.mjs` fails any manifest/package/changelog/recovery-baseline drift;
+- `npm run release:verify` runs before `dev`, before `build` and in Release History Contract CI;
+- deployed release-notes UAT now derives its expected version/title from the manifest rather than a hard-coded historical release;
+- legacy source contracts that assumed `shell literal == current release` have been moved to the accepted-fallback/candidate-manifest model.
 
-Provider-attempt baseline for the exact Preview tokens:
+Do **not** promote v2.15.79 into retained accepted history until it has merged, deployed and passed the nominated deployed-currentness/UAT gate.
 
-- Firecrawl attempts: **1,697** total;
-- succeeded: **1,688**;
-- failed: **1**;
-- raw/html/screenshot Evidence references: **1,696 / 1,696 / 1,696**;
-- ZenRows attempts: **0** for this six-university discovery wave.
+## v2.15.78 recovery point
 
-Monthly provider ledger at terminal discovery:
+If browser/application recovery is required, use the governed recovery document and verify all identifiers before restoring:
 
-- Firecrawl: **6,374 / 11,000** units recorded; **4,376 usable units remained before the configured 250-unit stop reserve**.
-- ZenRows: **188** recorded monthly attempts/units.
-- No silent paid fallback is authorised.
+| Item | Recovery value |
+|---|---|
+| Visible release | v2.15.78 |
+| Package | 0.1.5 |
+| Accepted Pilot source | `7cf5cc72296ca82e6e026606a61f449ede4ead45` |
+| Release title | Governed Scheduled Tasks target builder |
 
-Flinders remains the strongest identity-quality signal: **176 identity mismatches + 38 ambiguous + 10 selected**. Do not relax matching rules to improve yield.
+Application rollback does **not** authorise rewriting/rolling back applied Supabase migrations. Database/runtime compatibility remains a separate forward-only recovery concern.
 
-## RMIT deterministic Layer 2 recovery — ROOT CAUSE FIXED / CONTINUATION PROVEN
+## PR #85 — dispatcher tuning and run metrics
 
-RMIT batch: `74b4b16f-20f0-4b61-a9e0-632d824f001a`.
+PR #85 adds Administration → Scraper Config dispatcher tuning and comparable run metrics while preserving provider/security/authority boundaries.
 
-The hourly metrics monitor correctly identified that discovery was terminal but the deterministic Layer 2 handoff had stalled at **253 queued + 1 acquiring + 9 `layer3_required`**.
+Runtime/backend proof already established:
 
-Recovery evidence:
+- rank-4 sanitized metrics read allowed; lower rank/anonymous denied;
+- rank-5+ tuning only;
+- governance reason mandatory at Edge and DB boundary;
+- audit records actual changed fields, actor, before/after and reason;
+- provider credentials/routing remain separate controls;
+- existing running batches retain immutable policy snapshots;
+- ordinary transport cap 4, scraper-first cap 2, pg_net ceiling 120 seconds remain enforced;
+- tuning metrics read improved from about 1.40 s with temp spill to about 256 ms without temp spill;
+- no identity/Evidence/Layer 3/Layer 4/Search/Publication boundary was weakened.
 
-1. Original batch dispatch request **6031** timed out at the pg_net 120-second ceiling during DNS resolution and never established the HTTP request.
-2. Existing stale-item recovery plus same-batch dispatch was used; no duplicate batch was created.
-3. Recovery request **6166** reached the Edge runner, processed five more items, but then hit the same 120-second transport ceiling during HTTP request/response before reconciliation/continuation. Runtime moved to **248 queued + 1 acquiring + 14 `layer3_required`**.
-4. Root cause: batch policy snapshot had `batch_size=10` and no `route_mode`; the runner therefore attempted up to ten sequential deterministic acquisitions/extractions inside one pg_net request. At observed per-item latency that could exceed the 120-second caller budget before self-continuation was scheduled.
-5. Pilot PR #84 exact head `428fcde277918061f5e8051eea3b869912eed883` changed only the runner transport chunk and its existing UAT source contract: ordinary chunks max **4**, `scraper_first` remains max **2**. Provider routing, retries, identity, Evidence, Layer 3 authority and Search/Publication boundaries are unchanged.
-6. PR #84 validation: Pilot Frontend Build `34781567078` PASS; Cloudflare exact-head preview PASS; Gitar exact-head review APPROVED with no findings.
-7. Pilot `layer2-batch-runner` version **10** was deployed as the controlled recovery candidate.
-8. Same RMIT batch was recovered and dispatched once as request **6167**. It returned **HTTP 200**, `timed_out=false`, `wave_size=4`, `processed_now=4`, summary `running`, and created its own continuation request **6168**.
-9. This proves the defect boundary that previously failed: a bounded wave now completes within the pg_net transport budget and reaches deterministic reconcile/self-continuation.
-10. PR #84 merged to Pilot main as **`7cf5cc72296ca82e6e026606a61f449ede4ead45`**.
+Latest exact-head release-recovery checks at `6dbcd01b06480bcaf72886c196970dbd4fc334b5` were all PASS:
 
-Do not create another RMIT batch. Continue observing the existing batch/continuation chain. If a stale item reappears, use the existing stale recovery and same-batch dispatch contract only after confirming no active request is in flight.
+- CF-093 Fresh Reconstruction `34787548064`;
+- Release History Contract `34787548085`;
+- CF-093 Targeted Recovery `34787548061`;
+- Pilot Frontend Build `34787548078`;
+- Cloudflare exact-head preview PASS.
 
-Other deterministic Layer 2 results remain:
+Further legacy-test cleanup advanced PR #85 after that head; always re-read the current PR head/checks before merge.
 
-- Curtin: one selected URL -> partial batch with one `layer3_required` item.
-- Flinders: ten selected URLs -> partial batch with nine `layer3_required` and one blocked item.
-- Griffith, La Trobe and QUT: terminal-only discovery handoff; no synthetic Layer 2 work created.
+## Six-university discovery baseline
 
-## Separate runtime blocker — deployed UAT `admin_read` 500s
+Six-university Preview-bound discovery is terminal at **1,676 / 1,676 distinct courses accounted for**. Firecrawl completed the discovery wave; ZenRows fallback was not invoked. Do not relax identity matching to improve yield.
 
-Pilot main had failed targeted deployed UAT workflow **34756359424** before PR #84. Worker reachability and authentication/preflight succeeded, but Supabase RPC `admin_read` intermittently returned HTTP 500 for operations including `layer_status_summary` and `dashboard`.
+Key identity-quality signal remains Flinders: 10 selected, 237 not found, 38 ambiguous and 176 identity mismatches across a 461-course scope.
 
-Observed acceptance result:
+## RMIT deterministic Layer 2 recovery
 
-- NZQA authority/count: failed after retry because `admin_read` returned 500;
-- CRICOS authority/count: flaky, passed retry after earlier 500s;
-- QILT/PRISMS runnable-source validation: flaky, passed retry after earlier 500s;
-- anonymous access contract passed;
-- overall targeted desktop UAT: FAIL.
+RMIT batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` exposed the 120-second transport-budget defect. PR #84 bounded ordinary runner waves to four items. Same-batch requests 6167 and 6168 both returned HTTP 200, processed four items and self-generated continuations. Continue the same batch only; do not create a duplicate batch.
 
-Treat this as a separate read-path reliability issue. Diagnose with read-only evidence first. Do not weaken UAT assertions, ACLs, rank boundaries or source-validation rules.
+Hourly metrics automation remains enabled and should continue collecting meaningful dispatcher/provider/Evidence/policy measurements without auto-changing configuration.
 
-## Current acquisition policy
+## Separate read-path reliability follow-up
 
-For the CF-093 university cohort:
-
-1. Firecrawl — enabled, priority 10.
-2. ZenRows — enabled, priority 20.
-3. Direct HTTP — disabled.
-4. scrape.do — disabled.
-5. ScraperAPI — disabled.
-
-Preserve these governed routes. Do not tune provider order merely to improve observed metrics.
-
-## Runtime identities
-
-Preserve repo/runtime identities separately:
-
-- runtime `20260913100615 cf_093_layer2_discovery_terminal_timestamp_observability`; repo `20260913101000_cf_093_layer2_discovery_terminal_timestamp_observability.sql`;
-- runtime `20260913102217 cf_093_scheduled_runtime_metrics_read`; repo `20260913102500_cf_093_scheduled_runtime_metrics_read.sql`;
-- runtime `20260913115513 cf_093_firecrawl_zenrows_exhaustion_parking`; repo `20260913113000_cf_093_firecrawl_zenrows_exhaustion_parking.sql`;
-- runtime `20260913121052 cf_093_large_university_batch_enablement`; repo `20260913121500_cf_093_large_university_batch_enablement.sql`.
-
-PR #84 is Edge/runtime code only; it did not add or rewrite a database migration.
+Earlier deployed UAT `34756359424` saw intermittent `admin_read` HTTP 500 responses under large concurrent load. Read-only profiling later showed `admin_dashboard_maturity()` about 107 ms and `admin_layer_status_summary()` about 233 ms in isolation. Keep this as a reliability follow-up until deployed UAT proves it clear; do not weaken read/security contracts.
 
 ## Exact next gate
 
-1. Verify RMIT continuation **6168 and successors** continue completing as HTTP 200 with bounded `wave_size=4` and that the existing batch makes sustained forward progress without duplicate dispatch.
-2. Run/reconcile post-merge Pilot checks for main `7cf5cc72296ca82e6e026606a61f449ede4ead45`.
-3. Diagnose the separate `admin_read` HTTP 500 reliability issue for `dashboard` / `layer_status_summary` using read-only evidence first and preserve fail-closed UAT.
-4. Preserve the **1,676-course terminal discovery baseline** and continue collecting throughput/provider/Evidence metrics.
-5. Finish Admin PR #37 exact-head review and merge only when current governance truth is clean.
-6. Reconcile PR #79 release-currentness/version and exact-head validation before merge.
-7. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS when the RMIT recovery reaches a material terminal state or the `admin_read` blocker changes.
-8. Keep M2.5 paused unless separately authorised.
+1. Re-read current PR #85 head, exact-head CI, Cloudflare preview and Gitar result after the release-contract/legacy-test cleanup.
+2. If all required exact-head checks are green, merge PR #85.
+3. Verify post-merge main build/Cloudflare and run nominated deployed release-currentness/release-notes + functional UAT.
+4. Only after deployed acceptance: declare **v2.15.79 accepted**, promote it into retained release history, and make it the previous-accepted baseline before opening any v2.15.80 candidate.
+5. Merge Admin PR #37 only after its exact-head governance review confirms the new release/version governance and final Pilot truth.
+6. Reconcile CURRENT-STATE/RUNSHEET/FOLLOW-UPS/REGISTER when v2.15.79 acceptance and CF-093 closure state genuinely change.
+7. Keep M2.5 paused unless separately authorised.
 
 ## Authority/security boundary
 
-Preserve Layer 1 identity/regulatory authority, deterministic Layer 2 Evidence truth, Layer 3 Evidence/profile/model gating, Layer 4 human authority, Search/Publication separation, rank/ACL/RLS/private-helper/service-role boundaries and immutable forward-only migration history. Unresolved acquisition is never silently promoted into canonical truth.
+Preserve Layer 1 identity/regulatory authority, deterministic Layer 2 Evidence truth, Layer 3 Evidence/profile/model gating, Layer 4 human authority, Search/Publication separation, rank/ACL/RLS/private-helper/service-role boundaries and immutable forward-only migration history. Release recovery must never be used to rewrite migration history or bypass runtime authority controls.
