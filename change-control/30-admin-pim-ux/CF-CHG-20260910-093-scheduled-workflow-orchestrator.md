@@ -73,15 +73,20 @@ Live UQ runtime proof after deployment:
 - **42** pending Layer 4 review items created for `official_course_url`;
 - all **42** explicitly retain `canonical_mutation_authorised=false`.
 
-The migration was proven rollback-only before deployment against the existing exhausted UQ binding. Gitar identified one resolved-course escalation edge case; it was corrected by reusing the established selected-discovery-candidate rule. The review thread is resolved. Exact-head PR #82 Fresh Reconstruction, Targeted Recovery, Frontend Build and Cloudflare preview passed before merge.
+The migration was proven rollback-only before deployment against the existing exhausted UQ binding. Gitar identified one resolved-course escalation edge case; it was corrected by reusing the established selected-discovery-candidate rule. The review thread is resolved.
 
-## Acceptance evidence
+## Acceptance / validation evidence
 
 Deployed-main workflow `34753552186` proved authenticated Preview -> Run Now initiation. UQ scope remained internally reconciled at 382 scoped = 251 queueable + 42 discovery + 89 fresh terminal-negative.
 
-The earlier discovery run also proved the terminal timestamp correction with genuine runtime jobs and exact per-course retry exhaustion. Those failures are now treated as bounded escalation evidence rather than an obligation to perfect scrape.do or institution-specific mechanics.
+PR #82 final exact head `1eb6f159bc351d5b1b6234450625aa03d6b943c1` passed Fresh Reconstruction `34755602814`, Targeted Recovery `34755602820`, Frontend Build `34755602823`, Cloudflare preview and Gitar review.
 
-Post-merge Pilot main `ac0e1ca...` Frontend Build run `34755718375` passed. Deployed UAT run `34755717852` is the post-merge currentness gate and must be recorded at its final conclusion.
+Post-merge exact Pilot main `ac0e1ca3100397abfb5fa13e77d5be6c12d6d27d` passed:
+
+- Frontend Build `34755718375`;
+- Deployed UAT `34755717852`.
+
+The earlier scraper failures remain useful bounded-acquisition evidence but are no longer a reason to keep CF-093 open for provider/site-specific engineering. They now terminate into the governed Layer 3/4 parking path.
 
 ## Runtime-operations follow-on
 
@@ -89,13 +94,13 @@ Pilot PR #79 remains open for browser-visible Runtime Health / efficiency work. 
 
 ## Remaining closure gates
 
-CF-CHG-20260910-093 remains REOPENED only for final reconciliation, not for further website-specific scraper engineering.
+CF-CHG-20260910-093 remains REOPENED only for final governance/release reconciliation, not for further website-specific scraper engineering.
 
-1. Confirm post-merge deployed UAT for `ac0e1ca...` is green.
-2. Treat Layer 3/4 parking as the authorised terminal outcome for unresolved bounded scraper acquisition; do not reopen provider-specific perfection work unless separately governed.
-3. Reconcile PR #79 release-currentness/version and exact-head validation before its merge.
-4. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT to the merged/deployed boundary.
-5. Close CF-093 when the above governance/release-currentness follow-on is complete; M2.5 remains paused unless separately reopened.
+1. Finish Admin PR #37 exact-head review and merge from current-main governance truth.
+2. Reconcile PR #79 release-currentness/version and exact-head validation before its merge.
+3. Reconcile REGISTER/RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT to the merged/deployed boundary.
+4. Close CF-093 when the remaining governance/runtime-ops release follow-on is accepted; do **not** reopen scraper-specific perfection as a closure gate.
+5. M2.5 remains paused unless separately reopened.
 
 ## Rollback / recovery
 
@@ -105,4 +110,4 @@ CF-CHG-20260910-093 remains REOPENED only for final reconciliation, not for furt
 - Never bypass Layer 3 Evidence gating or Layer 4 human authority.
 - Scraper exhaustion is an escalation outcome, not permission for implicit canonical/Search/Publication mutation.
 
-**Current outcome:** Scheduled Tasks Preview/dispatch authority is proven; Firecrawl -> ZenRows is the bounded UQ scraper route; unresolved scraper outcomes now park safely into Layer 3 and Layer 4 instead of blocking progress on institution-specific website mechanics.
+**Current outcome:** Scheduled Tasks Preview/dispatch authority is proven; Firecrawl -> ZenRows is the bounded UQ scraper route; unresolved scraper outcomes park safely into Layer 3 and Layer 4; exact-main post-merge build and deployed UAT pass. Remaining work is governance/runtime-ops release reconciliation, not institution-specific scraper perfection.
