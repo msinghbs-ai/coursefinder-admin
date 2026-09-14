@@ -1,7 +1,7 @@
 # CourseFinder Change Control Register
 
 **Status:** AUTHORITATIVE INDEX  
-**Effective:** 8 September 2026
+**Effective:** 15 September 2026
 
 This file indexes material CourseFinder changes. Detailed records live in category folders under `/change-control/`.
 
@@ -18,6 +18,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 > **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS.
 >
 > **M2.4.5:** ACTIVE under `CF-CHG-20260903-087`. H1 Administration IA/UI standardisation is IMPLEMENTED / TARGETED PASS under `CF-CHG-20260903-088` (build `33700864619`, deployed UAT `33700864824`). H2 Scraper Config/routing hardening is ACTIVE under CF-085/CF-087. H11-H13 Provider assets, ARWU/Diversity and ranking acquisition adapters are added under CF-091. Scholarship acquisition/reconciliation is hardened through CF-195: 263 canonical international Scholarships, 0 published, 0 active detail-ready candidates, 0 active acquisition jobs and 0 reconciliation-ready records at the latest Pilot verification. M2.4.4 remains CLOSED/PASS/FROZEN. No Production Supabase project exists.
+>
+> **M2.4.5 ENRICHMENT OPERATIONS / CF-245:** `CF-CHG-20260915-245` is OPEN / IMPLEMENTATION IN PROGRESS. Gates A–E are materially progressed: common Layer 2 operational telemetry and AU/NZ backlog classification are live in Pilot; qualified RMIT official-course-URL admission produced 262 decisions (260 canonical changes, 2 unchanged); governed Search coverage is currently 421 official URLs, 161 intakes, 161 English-requirement courses and 161 provider-current-tuition courses. Pilot PR #91 is open from `cf-245-enrichment-ops@2feb5be5d9bf39f0d677a323bafd30c7f8da1026`; Gate F Admin Enrichment Operations reporting and fresh-period acceptance remain open. CF-093 remains CLOSED / PASS / historical only. Scheduler/provider frequency/concurrency was not increased.
 >
 > **M2.4.5 UI / RELEASE CURRENTNESS:** `CF-CHG-20260907-242` is CLOSED / PASS. Scholarship/Statistics/Rankings/Provider Compare UI improvements and the bounded read-contract reconciliation are accepted at Pilot v2.15.73 / `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded viewport `34093001623` PASS; final deployed currentness `34093765349` PASS. v2.15.72 remains superseded forensic history. Production unchanged.
 >
@@ -37,6 +39,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
+| CF-CHG-20260915-245 | 40-layer2-enrichment | M2.4.5 Enrichment Operations, Metrics & Coverage Expansion | OPEN / IMPLEMENTATION IN PROGRESS — GATES A–E PARTIAL PASS | `40-layer2-enrichment/CF-CHG-20260915-245-m245-enrichment-operations-metrics-coverage-expansion.md` |
 | CF-CHG-20260910-092 | 30-admin-pim-ux | Scheduled Tasks configuration and governed run control | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260910-092-scheduled-jobs-config-controls.md` |
 | CF-CHG-20260908-244 | 70-security-platform | M2.4.5 architectural hardening & CF-241 runtime reconciliation | CLOSED / PASS | `70-security-platform/CF-CHG-20260908-244-m245-architectural-hardening-cf241-runtime-reconciliation.md` |
 | CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |
