@@ -3,7 +3,7 @@
 **Status:** AUTHORITATIVE CURRENT-DOCUMENT ROUTER  
 **Effective:** 14 September 2026  
 **Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`, `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md`  
-**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch; CF-CHG-20260910-093 release/runtime follow-on
+**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch; CF-CHG-20260910-093 CLOSED/PASS historical Scheduled Tasks baseline
 
 ## Rule
 
@@ -34,7 +34,7 @@ Do not infer the current document from the highest filename version or from chat
 - M2.5: PAUSED / READINESS AT P0 until M2.4.5 closes.
 - Active continuity: `project-runsheets/milestone-2/m2.4/m2.4.5/`.
 - Active hardening authority: `change-control/00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md`.
-- Active Scheduled Tasks/runtime/release follow-on: `change-control/30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md`.
+- **CF-093 is CLOSED / PASS and historical only:** `change-control/30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md`. Future country/source onboarding or defects must use a new Change Control ID and may reference CF-093 only as historical evidence.
 - Production-readiness authority retained: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`.
 - Change index: `change-control/REGISTER.md`.
 
