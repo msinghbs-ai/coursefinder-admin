@@ -1,15 +1,14 @@
 # CF-CHG-20260915-245 — M2.4.5 Enrichment Operations, Metrics & Coverage Expansion
 
-**Status:** OPEN / IMPLEMENTATION IN PROGRESS — GATES A–E PARTIAL PASS; GATE F NEXT  
+**Status:** OPEN / IMPLEMENTATION IN PROGRESS — GATES A–F IMPLEMENTED/PARTIAL PASS; DEPLOYED UAT RECOVERY ACTIVE  
 **Milestone:** M2.4.5 — Pre-Production Hardening  
 **Opened:** 15 September 2026 AEST  
-**Reconciled:** 15 September 2026 08:22 AEST  
+**Reconciled:** 15 September 2026  
 **Primary category:** 40-layer2-enrichment  
 **Related surfaces:** 30-admin-pim-ux, 50-search-api-consumers, 70-security-platform, 80-uat-release-operations  
 **Historical baseline:** CF-CHG-20260910-093 CLOSED / PASS; do not reopen  
-**Accepted Pilot baseline:** `7196c5d2fade8830ec371c663b008e8a47e01f74` / v2.15.79 / package 0.1.6  
-**Active Pilot branch:** `cf-245-enrichment-ops` @ `2feb5be5d9bf39f0d677a323bafd30c7f8da1026`  
-**Pilot PR:** #91 — OPEN / mergeable; checks/review required before merge  
+**Current Pilot main:** `f707e2d4b7221a185dcafb6ec2095ec4a94ad841`  
+**Merged implementation:** PR #91 and PR #92  
 **Pilot Supabase:** `fxcwkweaxjtknorudmwp`  
 **Production:** not provisioned; M2.5 remains PAUSED at P0
 
@@ -34,27 +33,11 @@ This Change Control preserves:
 9. No synthetic facts and no flattening of source-null, zero, suppressed, not-applicable and not-yet-enriched states.
 10. CF-093 remains historical and closed.
 
-## Opening planning baseline
-
-Planning-time inspection showed healthy scheduler/cron infrastructure, successful acquisition/Evidence activity, zero reported canonical mutation, narrow refresh/execution coverage and website-visible course-fact enrichment of only 10 courses per principal enrichment field.
-
-The planning note that the recent acquisition execution path produced no `layer2_run_items` rows was subsequently corrected by Gate A: managed-run items were pre-created and later lifecycle-updated, so a created-at-only inspection missed them.
-
-Planning website/Search baseline:
-
-- Search courses: 33,105;
-- regulatory tuition: 26,457;
-- intake coverage: 10;
-- English requirement coverage: 10;
-- official course links: 10;
-- provider-current tuition: 10;
-- website-admitted scholarships: 0.
-
 ## Gate A — existing workload explanation
 
-### Result: PARTIAL PASS / HISTORICAL COHORT QUANTIFIED
+### Result: PASS FOR HISTORICAL COHORT
 
-The complete 263-item RMIT managed batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` now reconciles:
+The complete 263-item RMIT managed batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` reconciles:
 
 - 263 fetched/extracted items;
 - 789 Evidence artifacts = 263 acquisition + 263 screenshot + 263 normalised extraction Evidence;
@@ -71,36 +54,29 @@ This is an admission-granularity/demand-generation problem. Scheduler frequency/
 
 ## Gate B — common telemetry wiring
 
-### Result: PARTIAL PASS
+### Result: PASS / MERGED
 
-Applied to Pilot and committed on PR #91:
+Merged via PR #91 and reconciled to Pilot runtime:
 
-- `20260915072000_cf_245_enrichment_operational_ledger_v1.sql`.
-
-Runtime surfaces include:
-
+- `20260915072000_cf_245_enrichment_operational_ledger_v1.sql`;
 - `pipeline.layer2_enrichment_operational_ledger_v1`;
 - `pipeline.layer2_enrichment_hourly_v1`.
 
-The common ledger correlates governed run items, batches, Jobs, provider attempts, Evidence, normalised source records and Search state. It records/derives fields targeted/resolved, unresolved domains, stop reason, Evidence counts, response/extraction latency, retries, vendor units/cost, queue/execution timing and course/provider/country/profile dimensions where available.
+The ledger correlates governed run items, batches, Jobs, provider attempts, Evidence, normalised source records and Search state. It records/derives fields targeted/resolved, unresolved domains, stop reason, Evidence counts, response/extraction latency, retries, vendor units/cost, queue/execution timing and course/provider/country/profile dimensions where available.
 
-Security posture remains service-role/private; the observability objects do not confer canonical/Search/Publication mutation authority.
-
-A fresh CF-245 governed execution is still required after repository reconciliation to prove the same telemetry contract on new work rather than only historical replay.
+Security posture remains service-role/private; observability does not confer canonical/Search/Publication mutation authority.
 
 ## Gate C — AU/NZ backlog classification
 
 ### Result: PASS FOR CURRENT RUNTIME CLASSIFICATION
 
-Applied to Pilot and committed on PR #91:
+Merged via PR #91:
 
 - `20260915074500_cf_245_enrichment_reports_backlog_v1.sql`.
 
-Current core course-fact backlog classification:
-
 ### Australia
 
-- 516 missing courses are currently queueable under existing URL/profile/execution-policy scope;
+- 516 missing courses currently queueable under existing URL/profile/execution-policy scope;
 - 2,005 require governed course-URL discovery;
 - 28 have a usable URL/profile but no enabled execution policy;
 - 18,534 await both discovery and execution-policy qualification;
@@ -118,36 +94,26 @@ Scholarships remain a separate qualified scholarship-source/admission path. No s
 
 ### Result: PARTIAL PASS — QUALIFIED RMIT URL FIELD ONLY
 
-Applied to Pilot and committed on PR #91:
+Merged via PR #91:
 
 - `20260915082000_cf_245_field_admission_bounded_url_v1.sql`.
 
-The bounded replay admitted only `official_course_url`, requiring:
+The bounded replay admitted only `official_course_url`, requiring exact AU CRICOS provider/course resolution, identity match, regulatory code observed in Evidence, candidate URL equal to captured Evidence URL, qualified source admission, approved Search source gate and no Layer 4 operational block.
 
-- exact AU CRICOS provider/course resolution;
-- identity match;
-- regulatory code observed in Evidence;
-- candidate URL equal to the captured Evidence URL;
-- an already-qualified source admitting `official_course_url`;
-- an approved Search source gate;
-- no Layer 4 operational block.
-
-Current field-admission ledger:
+Field-admission outcome:
 
 - 262 official-URL decisions;
 - 260 admitted canonical changes;
 - 2 unchanged/idempotent outcomes;
 - one additional candidate remained unadmitted because the regulatory code was not observed.
 
-No generic tuition, intake, English or description auto-approval was introduced. Observed candidate-quality issues include ambiguous/equal-rank fees, low-confidence international-fee candidates and implausible English-score candidates; those domains remain gated.
+No generic tuition, intake, English or description auto-approval was introduced.
 
 ## Gate E — Search/publication reconciliation
 
-### Result: PARTIAL PASS
+### Result: PASS FOR BOUNDED URL PUBLICATION
 
-Search/Publication remains separate from acquisition and canonical/source-backed admission.
-
-After bounded URL admission, `search.refresh_course_enrichment_v1(false)` was used before each apply. The final preview contained exactly 37 changed Search rows and raised official-course-URL coverage to 421 without changing intake, English, provider-tuition or scholarship coverage. The final projection was then applied.
+The final governed Search preview contained exactly 37 changed rows and raised official-course-URL coverage to 421 without collateral intake, English, provider-current-tuition or scholarship changes. The projection was applied.
 
 Verified current Search/consumer coverage:
 
@@ -159,58 +125,94 @@ Verified current Search/consumer coverage:
 - provider-current tuition: **161**;
 - website-admitted scholarships: **0**.
 
-Relative to the planning baseline, runtime outcome movement is +151 intake courses, +151 English courses, +411 official links and +151 provider-current-tuition courses. Causal attribution must use admission/source/publication records rather than assuming every observed delta was produced by the current acquisition replay.
-
 ## Gate F — Enrichment Operations Admin reporting
 
-### Status: NEXT IMPLEMENTATION GATE
+### Result: IMPLEMENTED / MERGED; DEPLOYED ACCEPTANCE STILL OPEN
 
-Scheduled Tasks remains scheduler configuration/health. Build an outcome-focused Enrichment Operations surface that answers without direct SQL:
+PR #92 merged to Pilot `main` as `f707e2d4b7221a185dcafb6ec2095ec4a94ad841`.
 
-- backlog / due / queued / processing / Evidence / admitted / published / failed;
-- field coverage start, +hour, +day, current, percentage and remaining gap;
-- hourly throughput;
-- provider/source yield and latency;
-- admission/rejection/block reasons;
-- retries, 429/5xx/runtime failures;
-- vendor units/cost and cost per useful admitted fact;
-- drill-down to Jobs and Evidence.
+Implemented:
 
-The Admin surface must consume governed read contracts; it must not expose private helper tables or create a new mutation-authority path.
+- hourly AU/NZ coverage snapshot ledger;
+- rank-gated `admin_read('enrichment_operations')` bundle;
+- outcome-focused Enrichment Operations reporting inside the existing Layer 2 workspace;
+- coverage/backlog, hourly funnel, stop reasons, provider yield/latency, admissions, cost/units/errors and Jobs/Evidence drill-down;
+- no change to Scheduled Tasks semantics, scheduler frequency/concurrency, provider routing, budgets or mutation authority.
+
+Security targeted verification:
+
+- rank-4 `pipeline_operator` read: PASS;
+- rank-3 `curator` negative path: PASS (`pipeline_operator role required`);
+- authenticated/anon direct SELECT on coverage snapshot table: denied;
+- snapshot schedule: hourly at minute 7;
+- Supabase Security Advisor introduced no new WARN/ERROR finding for CF-245; the new table follows the existing intentional RLS-enabled/no-policy/private-read pattern.
+
+PR #92 final candidate CI `34905465257`: PASS. Post-merge Pilot Frontend Build `34905600072`: PASS.
+
+## Fresh bounded measurement cohort
+
+Fresh RMIT batch: `797da1cb-0689-4dc6-80e3-6dcf38792950`.
+
+Outcome:
+
+- 5 / 5 processed;
+- all 5 fetched and extracted successfully;
+- 15 correlated Evidence artifacts in the operational ledger;
+- 20 fields targeted;
+- 11 fields resolved deterministically;
+- 0 retries;
+- 0 acquisition/runtime blockers;
+- 5 vendor units;
+- recorded request cash cost USD 0;
+- all 5 ended `layer3_required` with stop reason `layer3_unresolved_target_fields`;
+- observed p50 response about 2.9 s and p95 response about 3.8 s;
+- observed p50 extraction about 2.0 s and p95 extraction about 2.15 s.
+
+The fresh cohort confirms the historical diagnosis: acquisition capacity is healthy; the current limiter is unresolved field/admission granularity and subsequent Layer 3 handling, not scheduler tick frequency or concurrency.
+
+No scheduler/provider tuning is justified by this cohort.
+
+## Deployed UAT recovery finding
+
+Post-merge deployed UAT run `34905600101` failed on desktop. This does **not** currently demonstrate a CF-245 functional/security failure.
+
+The deployed-UAT router selected the older permanent suite `tests/uat/m2-5-layer2-finalizer-fairness-deployed.spec.mjs` because `src/layer2-operations-entry.jsx` matched its generic route. The failing assertion expected `[data-l2-latest-terminal="true"]` in the Layer 2 Operations workspace and did not find it. The source-contract portion of that suite passed.
+
+Classification: **UAT routing/currentness recovery required**. Do not weaken the older fairness contract or CF-245 authority boundaries merely to make the run green.
+
+Required recovery:
+
+1. add/select a dedicated deployed CF-245 Enrichment Operations test path;
+2. reconcile the current deployed Worker/UI with Pilot `main` `f707e2d4...`;
+3. rerun targeted deployed desktop UAT;
+4. if a genuine CF-245 UI/runtime defect appears, fix it under the governed troubleshooting protocol;
+5. only after targeted deployed UAT is green may Gate F be accepted as fully deployed.
 
 ## Gate G — evidence-led tuning
 
-### Status: BLOCKED UNTIL COMPARABLE FRESH PERIODS
+### Status: NOT AUTHORISED YET
 
-No scheduler frequency, concurrency, paid-attempt ceiling, provider rate, routing or credential change has been made under CF-245 to date.
+No scheduler frequency, concurrency, paid-attempt ceiling, provider rate, routing or credential change has been made under CF-245.
 
-Tuning must use comparable before/after measurements for useful admitted facts per 100 acquisitions, courses improved, p50/p95 latency, error/retry rates, cost/yield, Evidence/storage growth, publication delta and backlog reduction velocity. Material behavioural tuning must create the governed tuning audit trail with CF-245 reference.
+The 5-course fresh cohort shows no acquisition pressure signal: no retries, no acquisition blockers and sub-4-second p95 response. The useful-field/admission bottleneck must be addressed before considering throughput tuning.
 
 ## Gate H — acceptance
 
 CF-245 is not ready to close. Remaining acceptance includes:
 
-- PR #91 review/CI and repository/runtime migration reconciliation;
-- fresh bounded governed Layer 2 execution proving the telemetry chain on new work;
-- Gate F Admin outcome reporting and drill-down;
-- representative bounded AU/NZ execution where source qualification permits;
-- hourly and daily reports with publication attribution;
-- targeted/bounded DB/security/browser UAT and deployed-runtime reconciliation;
-- steady-state evidence sufficient for any tuning/ETA statement;
+- deployed CF-245 Enrichment Operations UAT route/currentness recovery and green targeted run;
+- at least one real subsequent hourly snapshot so +hour velocity is based on genuine history rather than fabricated baseline;
+- daily report/publication attribution after sufficient elapsed runtime;
+- bounded AU expansion beyond the first qualified RMIT slice where qualification permits;
+- NZ remains blocked pending source/profile/discovery/policy qualification;
+- applicable targeted/bounded security/browser acceptance green;
 - RUNSHEET, CURRENT-STATE, FOLLOW-UPS and NEXT-CHAT current at closure.
-
-## Current implementation references
-
-- Pilot branch: `cf-245-enrichment-ops`.
-- Branch head: `2feb5be5d9bf39f0d677a323bafd30c7f8da1026`.
-- PR: #91.
-- Last observed PR frontend build: `34904038556` — in progress when recorded; recheck before merge.
-- Admin continuity reconciled 15 September 2026 AEST.
 
 ## Exact next action
 
-1. Complete PR #91 targeted review/CI; merge only after green evidence and runtime/repository migration equivalence.
-2. Implement Gate F Enrichment Operations governed read/UI surface.
-3. Run a fresh bounded governed enrichment cohort and reconcile acquisition → Evidence → extraction → field admission/fall-out → Search/publication within one report window.
-4. Continue bounded AU expansion only from qualified scope; keep NZ blocked pending source/profile/discovery/policy qualification.
-5. Do not tune scheduler/provider limits until comparable fresh-period evidence justifies a governed tuning event.
+1. Repair deployed-UAT suite routing so CF-245 changes select a dedicated Enrichment Operations deployed test instead of the older finalizer-fairness suite.
+2. Verify deployed Worker/UI currentness against Pilot `main` `f707e2d4b7221a185dcafb6ec2095ec4a94ad841`.
+3. Run targeted deployed desktop UAT and close only the actual defect, if any.
+4. Allow hourly coverage snapshots to accumulate and verify real +hour coverage/throughput delta.
+5. Continue bounded AU qualification/coverage work; keep NZ blocked until qualification exists.
+6. Do not tune scheduler frequency/concurrency/provider ceilings from idle ticks or the current 5-course sample.
