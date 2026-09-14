@@ -1,12 +1,15 @@
 # CF-CHG-20260915-245 — M2.4.5 Enrichment Operations, Metrics & Coverage Expansion
 
-**Status:** OPEN / PLAN ACCEPTED — IMPLEMENTATION PENDING  
+**Status:** OPEN / IMPLEMENTATION IN PROGRESS — GATES A–E PARTIAL PASS; GATE F NEXT  
 **Milestone:** M2.4.5 — Pre-Production Hardening  
 **Opened:** 15 September 2026 AEST  
+**Reconciled:** 15 September 2026 08:22 AEST  
 **Primary category:** 40-layer2-enrichment  
 **Related surfaces:** 30-admin-pim-ux, 50-search-api-consumers, 70-security-platform, 80-uat-release-operations  
 **Historical baseline:** CF-CHG-20260910-093 CLOSED / PASS; do not reopen  
 **Accepted Pilot baseline:** `7196c5d2fade8830ec371c663b008e8a47e01f74` / v2.15.79 / package 0.1.6  
+**Active Pilot branch:** `cf-245-enrichment-ops` @ `2feb5be5d9bf39f0d677a323bafd30c7f8da1026`  
+**Pilot PR:** #91 — OPEN / mergeable; checks/review required before merge  
 **Pilot Supabase:** `fxcwkweaxjtknorudmwp`  
 **Production:** not provisioned; M2.5 remains PAUSED at P0
 
@@ -16,36 +19,9 @@ Make CourseFinder enrichment operationally measurable and progressively expand g
 
 The scheduler must report not only whether timers fired, but whether real work was eligible, queued, acquired, extracted, admitted and published, with field-level coverage growth and failure/admission reasons visible by hour and day.
 
-## Reconciled findings at opening
+## Authority boundaries
 
-Live Pilot inspection on 15 September 2026 showed:
-
-- scheduler/cron infrastructure healthy and repeatedly executing;
-- 245 successful `layer2_acquisition_v2` / `course_facts` jobs in the prior 24 hours;
-- all 245 reported changed content and Evidence creation;
-- all 245 created screenshot Evidence;
-- zero of those 245 reported `canonical_mutation_authorised = true`;
-- no `layer2_run_items` rows were produced for that execution path during the same period;
-- 3,059 Layer 2 source profiles exist, including approximately 933 active course-facts website profiles, 955 scholarship-catalogue profiles, 955 provider-asset website profiles and 210 scholarship website profiles;
-- refresh-policy coverage remains narrow: 10 Layer 2 refresh policies, 8 enabled, with zero due at the inspected moment and policy coverage effectively AU-only;
-- 50 Layer 2 execution policies exist and are enabled; at inspection one was due;
-- scheduler frequency is already high enough that increasing cron frequency is not the first tuning action.
-
-Website-visible coverage baseline supplied/reconciled for this workstream:
-
-- Search courses: 33,105;
-- regulatory tuition: 26,457;
-- intake coverage: 10;
-- English requirement coverage: 10;
-- official course links: 10;
-- provider-current tuition: 10;
-- website-admitted scholarships: 0.
-
-The material bottleneck is therefore not scheduler liveness. It is incomplete demand generation plus insufficient end-to-end telemetry and an acquisition → extraction/admission/publication gap.
-
-## Standing authority boundaries
-
-This Change Control must preserve:
+This Change Control preserves:
 
 1. Layer 1 identity/regulatory authority unchanged.
 2. Deterministic Layer 2 Evidence-preserving behaviour.
@@ -58,205 +34,183 @@ This Change Control must preserve:
 9. No synthetic facts and no flattening of source-null, zero, suppressed, not-applicable and not-yet-enriched states.
 10. CF-093 remains historical and closed.
 
-## Work plan
+## Opening planning baseline
 
-### Gate A — Measurement contract and baseline
+Planning-time inspection showed healthy scheduler/cron infrastructure, successful acquisition/Evidence activity, zero reported canonical mutation, narrow refresh/execution coverage and website-visible course-fact enrichment of only 10 courses per principal enrichment field.
 
-Build one operational measurement contract covering the full enrichment funnel:
+The planning note that the recent acquisition execution path produced no `layer2_run_items` rows was subsequently corrected by Gate A: managed-run items were pre-created and later lifecycle-updated, so a created-at-only inspection missed them.
 
-`missing/stale/due → eligible → queued → started → acquired → extracted → admitted/unchanged/rejected → Layer 3 escalation → Layer 4 review → Search/Publication admitted`.
+Planning website/Search baseline:
 
-Required hourly and daily dimensions:
+- Search courses: 33,105;
+- regulatory tuition: 26,457;
+- intake coverage: 10;
+- English requirement coverage: 10;
+- official course links: 10;
+- provider-current tuition: 10;
+- website-admitted scholarships: 0.
 
-- country;
-- state/subdivision where relevant;
-- provider/university;
-- course/entity;
-- source profile/version;
-- acquisition provider/route;
-- workflow/job type;
-- field/domain.
+## Gate A — existing workload explanation
 
-Required metrics:
+### Result: PARTIAL PASS / HISTORICAL COHORT QUANTIFIED
 
-- backlog/missing/stale/due/queueable/excluded;
-- queue wait and execution latency;
-- started/succeeded/failed/retried/terminal counts;
-- provider response and extraction p50/p95;
-- Evidence and screenshot-Evidence counts/bytes;
-- fields targeted/resolved/admitted/unchanged/rejected;
-- admission/rejection/block reason;
-- Layer 3 escalations and Layer 4 referrals;
-- HTTP 429/5xx/error rates;
-- provider/vendor units and cost;
-- courses/entities improved;
-- Search/website publication delta;
-- starting coverage, additions, ending coverage and remaining gap per governed field.
+The complete 263-item RMIT managed batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` now reconciles:
 
-Acceptance: a one-hour and one-day report can explain where every material unit of work stopped or progressed.
+- 263 fetched/extracted items;
+- 789 Evidence artifacts = 263 acquisition + 263 screenshot + 263 normalised extraction Evidence;
+- 1,307 targeted fields;
+- 935 deterministic candidate fields resolved;
+- 263 original Layer 3 escalations;
+- zero original field admissions;
+- zero HTTP 429 / zero HTTP 5xx inside the reconciled batch;
+- 263 recorded vendor units / recorded cash cost USD 0.
 
-### Gate B — Telemetry wiring
+The dominant cause of `canonical_mutation_authorised=false` was not scheduler liveness or fetch failure. The extraction/run-item path escalated the whole item to Layer 3 whenever any targeted domain remained unresolved. Description remained unresolved across the cohort; tuition, intake and English introduced additional overlapping fall-out. Identity mismatch was not the dominant stop cause.
 
-Reconcile all active Layer 2 acquisition paths to a common execution ledger. Either populate governed `layer2_run_batches` / `layer2_run_items` consistently or introduce an explicitly governed equivalent without duplicating semantic ownership.
+This is an admission-granularity/demand-generation problem. Scheduler frequency/concurrency was intentionally not increased.
 
-The existing item-level measurements (`fields_targeted`, `fields_resolved`, Evidence count, vendor units/cost, retry/failure/outcome, response/extraction time, Evidence bytes) must be populated by the real scheduled execution path.
+## Gate B — common telemetry wiring
 
-Expose `canonical_mutation_authorised=false` reason codes. At minimum distinguish:
+### Result: PARTIAL PASS
 
-- capture-only;
-- extraction not invoked;
-- no eligible target field;
-- identity mismatch;
-- unchanged source/fact;
-- confidence/authority gate;
-- Preview/binding restriction;
-- Layer 3 required;
-- Layer 4 required;
-- publication not eligible;
-- runtime/provider/budget/credential blocker.
+Applied to Pilot and committed on PR #91:
 
-Acceptance: the current class of “245 acquisitions, 245 Evidence, zero canonical mutations” can be decomposed into explicit, countable causes.
+- `20260915072000_cf_245_enrichment_operational_ledger_v1.sql`.
 
-### Gate C — Demand/backlog generation
+Runtime surfaces include:
 
-Create governed enrichment demand from actual missing/stale coverage rather than relying only on sparse refresh policies.
+- `pipeline.layer2_enrichment_operational_ledger_v1`;
+- `pipeline.layer2_enrichment_hourly_v1`.
 
-For AU and NZ, calculate per-field backlog for at least:
+The common ledger correlates governed run items, batches, Jobs, provider attempts, Evidence, normalised source records and Search state. It records/derives fields targeted/resolved, unresolved domains, stop reason, Evidence counts, response/extraction latency, retries, vendor units/cost, queue/execution timing and course/provider/country/profile dimensions where available.
 
-- official course URL;
-- intake availability;
-- English requirements;
-- provider-current international tuition;
-- scholarships where eligible;
-- other already-governed Layer 2 facts as applicable.
+Security posture remains service-role/private; the observability objects do not confer canonical/Search/Publication mutation authority.
 
-Demand generation must respect source/profile availability, country/source qualification, freshness policy, identity and Evidence rules. Missing source support is reported as a coverage blocker, not manufactured as data.
+A fresh CF-245 governed execution is still required after repository reconciliation to prove the same telemetry contract on new work rather than only historical replay.
 
-Acceptance: every missing/stale fact is classified as queueable, blocked-with-reason, not-applicable or awaiting source/profile qualification.
+## Gate C — AU/NZ backlog classification
 
-### Gate D — AU/NZ operational coverage expansion
+### Result: PASS FOR CURRENT RUNTIME CLASSIFICATION
 
-Expand refresh/work policies from pilot-sized coverage to governed AU/NZ country/provider/course cohorts in bounded waves.
+Applied to Pilot and committed on PR #91:
 
-Use country → state/subdivision → provider → course scoping. Preserve rate limits, provider budgets, credentials and route policy. Start with representative bounded cohorts, prove telemetry, then expand.
+- `20260915074500_cf_245_enrichment_reports_backlog_v1.sql`.
 
-NZ source limitations or provider-specific exceptions must remain explicit; do not treat AU routing assumptions as universal.
+Current core course-fact backlog classification:
 
-Acceptance: recurring work queues exist for approved AU/NZ cohorts and produce measurable coverage movement rather than green no-op ticks.
+### Australia
 
-### Gate E — Enrichment admission and publication reconciliation
+- 516 missing courses are currently queueable under existing URL/profile/execution-policy scope;
+- 2,005 require governed course-URL discovery;
+- 28 have a usable URL/profile but no enabled execution policy;
+- 18,534 await both discovery and execution-policy qualification;
+- 5,555 are outside the currently qualified course-fact profile scope.
 
-Trace acquired Evidence through deterministic extraction and governed admission. Verify that accepted Layer 2 facts reach the intended canonical/source-backed fact stores and only then the Search/publication admission boundary.
+### New Zealand
 
-Track independently:
+- 0 currently queueable;
+- 1,087 are in current course-fact scope but require discovery/policy qualification;
+- 5,370 have no qualified course-fact profile scope.
 
-- acquired Evidence;
-- extracted candidate facts;
-- canonical/source-backed admitted facts;
-- Search-admitted facts;
-- website/API-visible fields.
+Scholarships remain a separate qualified scholarship-source/admission path. No scholarship values are manufactured from course-fact acquisition.
 
-Acceptance: coverage deltas can be reconciled from source Evidence to consumer-visible output without bypassing Layer 3/4/publication authority.
+## Gate D — bounded coverage expansion
 
-### Gate F — Admin operational reporting
+### Result: PARTIAL PASS — QUALIFIED RMIT URL FIELD ONLY
 
-Provide an Admin Enrichment Operations view or equivalent governed report with:
+Applied to Pilot and committed on PR #91:
 
-1. current backlog / due / queued / processing / Evidence / admitted / published / failed;
-2. field coverage table showing start, +hour/+day, current, percentage and remaining gap;
-3. hourly throughput trend;
-4. provider/source yield and latency;
-5. admission/rejection/blocker reasons;
-6. retries, 429/5xx/runtime errors;
-7. cost/vendor-unit efficiency;
-8. drill-down to jobs and Evidence.
+- `20260915082000_cf_245_field_admission_bounded_url_v1.sql`.
 
-Scheduled Tasks remains scheduler configuration/health. Enrichment Operations reports business/data outcome; do not conflate the two.
+The bounded replay admitted only `official_course_url`, requiring:
 
-Acceptance: an administrator can answer “what enriched this hour/day, where did it stop, what changed on the website, and why?” without direct SQL.
+- exact AU CRICOS provider/course resolution;
+- identity match;
+- regulatory code observed in Evidence;
+- candidate URL equal to the captured Evidence URL;
+- an already-qualified source admitting `official_course_url`;
+- an approved Search source gate;
+- no Layer 4 operational block.
 
-### Gate G — Evidence-led tuning
+Current field-admission ledger:
 
-Do not tune simply because timers are idle. Tune only after comparable governed observations exist.
+- 262 official-URL decisions;
+- 260 admitted canonical changes;
+- 2 unchanged/idempotent outcomes;
+- one additional candidate remained unadmitted because the regulatory code was not observed.
 
-Prioritised levers:
+No generic tuition, intake, English or description auto-approval was introduced. Observed candidate-quality issues include ambiguous/equal-rank fees, low-confidence international-fee candidates and implausible English-score candidates; those domains remain gated.
 
-1. demand/backlog eligibility;
-2. profile/source routing quality;
-3. batch/wave size;
-4. max concurrency;
-5. retry/backoff/stale thresholds;
-6. provider routing strategy;
-7. paid-attempt/vendor-unit/cost ceilings;
-8. Layer 3 handoff rules only within separately accepted governance.
+## Gate E — Search/publication reconciliation
 
-Measure before/after using:
+### Result: PARTIAL PASS
 
-- useful facts admitted per 100 acquisitions;
-- courses improved per hour/day;
-- p50/p95 latency;
-- error/retry rate;
-- cost per admitted useful fact;
-- Evidence bytes/storage growth;
-- publication delta;
-- remaining backlog velocity.
+Search/Publication remains separate from acquisition and canonical/source-backed admission.
 
-All behavioural tuning must create `layer2_tuning_events` or equivalent governed audit evidence with reason, before/after policy and Change Control reference.
+After bounded URL admission, `search.refresh_course_enrichment_v1(false)` was used before each apply. The final preview contained exactly 37 changed Search rows and raised official-course-URL coverage to 421 without changing intake, English, provider-tuition or scholarship coverage. The final projection was then applied.
 
-### Gate H — Acceptance and steady-state reporting
+Verified current Search/consumer coverage:
 
-Run bounded representative AU/NZ workloads and produce at least:
+- Search courses: **33,105**;
+- regulatory tuition: **26,457**;
+- intake coverage: **161**;
+- English requirement coverage: **161**;
+- official course links: **421**;
+- provider-current tuition: **161**;
+- website-admitted scholarships: **0**.
 
-- hourly operational report;
-- daily coverage report;
-- field-level enrichment funnel;
-- provider/source performance report;
-- cost/yield report;
-- blocker/failure report;
-- security/authority verification;
-- rollback/reversion evidence for material changes.
+Relative to the planning baseline, runtime outcome movement is +151 intake courses, +151 English courses, +411 official links and +151 provider-current-tuition courses. Causal attribution must use admission/source/publication records rather than assuming every observed delta was produced by the current acquisition replay.
 
-Do not claim full AU/NZ population until coverage counts and consumer-visible results prove it.
+## Gate F — Enrichment Operations Admin reporting
 
-## Initial report contract
+### Status: NEXT IMPLEMENTATION GATE
 
-Hourly report should include:
+Scheduled Tasks remains scheduler configuration/health. Build an outcome-focused Enrichment Operations surface that answers without direct SQL:
 
-- eligible, queued, fetched, fetch failures;
-- Evidence created;
-- extraction attempted;
-- official URLs/intakes/English/current tuition/scholarships found;
-- facts admitted/unchanged/rejected;
-- Layer 3/Layer 4 counts;
-- courses improved;
-- website-visible deltas by field;
-- cost/units;
-- p50/p95 latency;
-- 429/5xx/other errors.
+- backlog / due / queued / processing / Evidence / admitted / published / failed;
+- field coverage start, +hour, +day, current, percentage and remaining gap;
+- hourly throughput;
+- provider/source yield and latency;
+- admission/rejection/block reasons;
+- retries, 429/5xx/runtime failures;
+- vendor units/cost and cost per useful admitted fact;
+- drill-down to Jobs and Evidence.
 
-Daily report should add:
+The Admin surface must consume governed read contracts; it must not expose private helper tables or create a new mutation-authority path.
 
-`starting coverage → added today → ending coverage → coverage % → remaining gap → blocked/not-queueable → recent velocity`.
+## Gate G — evidence-led tuning
 
-ETA may only be shown after representative multi-period throughput exists; it must be clearly derived, not invented.
+### Status: BLOCKED UNTIL COMPARABLE FRESH PERIODS
 
-## Exact first implementation action
+No scheduler frequency, concurrency, paid-attempt ceiling, provider rate, routing or credential change has been made under CF-245 to date.
 
-1. Reconcile the 245 successful recent `layer2_acquisition_v2/course_facts` jobs against provider attempts, Evidence, extraction/candidate/admission stores and Search/publication outputs.
-2. Identify and count the exact causes of `canonical_mutation_authorised=false`.
-3. Wire that execution path into the common item/batch telemetry contract.
-4. Produce the first real hourly funnel report before changing dispatcher concurrency/frequency.
+Tuning must use comparable before/after measurements for useful admitted facts per 100 acquisitions, courses improved, p50/p95 latency, error/retry rates, cost/yield, Evidence/storage growth, publication delta and backlog reduction velocity. Material behavioural tuning must create the governed tuning audit trail with CF-245 reference.
 
-## Completion criteria
+## Gate H — acceptance
 
-This Change Control can close only when:
+CF-245 is not ready to close. Remaining acceptance includes:
 
-- scheduler health and enrichment outcome are separately observable;
-- real active execution paths produce field-level telemetry;
-- AU/NZ missing/stale demand is classified and queueable where valid;
-- bounded AU/NZ enrichment demonstrates measurable coverage growth;
-- admission/publication deltas reconcile to Evidence;
-- Admin can see meaningful hourly/daily reports;
-- tuning is evidence-led and audited;
-- applicable CI/UAT/security gates are green;
-- RUNSHEET, CURRENT-STATE, FOLLOW-UPS and NEXT-CHAT are reconciled.
+- PR #91 review/CI and repository/runtime migration reconciliation;
+- fresh bounded governed Layer 2 execution proving the telemetry chain on new work;
+- Gate F Admin outcome reporting and drill-down;
+- representative bounded AU/NZ execution where source qualification permits;
+- hourly and daily reports with publication attribution;
+- targeted/bounded DB/security/browser UAT and deployed-runtime reconciliation;
+- steady-state evidence sufficient for any tuning/ETA statement;
+- RUNSHEET, CURRENT-STATE, FOLLOW-UPS and NEXT-CHAT current at closure.
+
+## Current implementation references
+
+- Pilot branch: `cf-245-enrichment-ops`.
+- Branch head: `2feb5be5d9bf39f0d677a323bafd30c7f8da1026`.
+- PR: #91.
+- Last observed PR frontend build: `34904038556` — in progress when recorded; recheck before merge.
+- Admin continuity reconciled 15 September 2026 AEST.
+
+## Exact next action
+
+1. Complete PR #91 targeted review/CI; merge only after green evidence and runtime/repository migration equivalence.
+2. Implement Gate F Enrichment Operations governed read/UI surface.
+3. Run a fresh bounded governed enrichment cohort and reconcile acquisition → Evidence → extraction → field admission/fall-out → Search/publication within one report window.
+4. Continue bounded AU expansion only from qualified scope; keep NZ blocked pending source/profile/discovery/policy qualification.
+5. Do not tune scheduler/provider limits until comparable fresh-period evidence justifies a governed tuning event.
