@@ -1,56 +1,54 @@
 # M2.4.5 CURRENT STATE
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 REVIEWED + DEPLOYED / UQ ACCEPTANCE DISPATCH PENDING  
-**Reconciled:** 2026-09-13 AEST  
-**Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
-**Visible accepted release:** v2.15.78  
+**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CLOSED / PASS; OPERATIONS + METRICS CONTINUE  
+**Reconciled:** 2026-09-14 AEST  
+**Accepted Pilot main:** `7196c5d2fade8830ec371c663b008e8a47e01f74`  
+**Visible accepted release:** v2.15.79 / package 0.1.6  
 **Pilot Supabase:** `fxcwkweaxjtknorudmwp`  
 **Production:** not provisioned; M2.5 remains PAUSED at P0
 
-## Active candidate
+## CF-093 final disposition
 
-- PR #72 / `m245/cf093-async-discovery-20260912` / exact head `4e67e32289235a88297502e90c8181f25639f300`.
-- PR OPEN / DRAFT / UNMERGED; accepted main/release unchanged.
-- Targeted Recovery `34743276597`: **PASS**.
-- Fresh Reconstruction `34743276592`: **PASS**, through applied `20260913063252` and `20260913063321`.
-- Frontend Build `34743276603`: **PASS**, including local browser smoke/evidence.
-- Cloudflare exact-head preview: **PASS/deployed at `4e67e322`**.
-- Codex current-head review submission for reviewed commit `4e67e32289`: **CLEAN / no new actionable findings**.
-- All previously actionable inline review threads: **RESOLVED**.
+`CF-CHG-20260910-093` is **CLOSED / PASS** and is now historical evidence only. It must not be reopened for Canada, another country, another provider cohort, routine onboarding, operational tuning or a future defect. Any such work receives a new Change Control ID and may reference CF-093 as prior architecture/acceptance evidence.
 
-## Repository/runtime currentness
+Accepted implementation/recovery evidence includes:
 
-Pilot migration history and repository source remain reconciled to immutable applied migrations:
+- Pilot PR #72 through PR #90 implementation/recovery path completed;
+- v2.15.79 promoted as accepted/recovery release;
+- six-university Preview-bound discovery terminal at **1,676 / 1,676 distinct courses accounted for**;
+- RMIT deterministic Layer 2 batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` terminal `partial` at **263 / 263 processed**;
+- deployed UAT run `34819914624` recovered from the initial NZQA HTTP 500 without weakening the test: replacement job `103960817860` **PASS**;
+- current commit status `coursefinder/deployed-uat/targeted/chromium-desktop = success`.
 
-- `20260913063252_cf_093_bound_resolution_identity_freshness_reconcile`
-- `20260913063321_cf_093_bound_handoff_queueable_provenance_reconcile`
-
-Temporary source-only aliases remain removed. Applied migration identity was not rewritten/renamed/retimestamped.
-
-Pilot discovery worker is now deployed-current with the reviewed repository source:
-
-- worker: `layer2-scope-discover-scheduled-v1.3.10`
-- Edge version: **30**
-- SHA: `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`
-- `verify_jwt=false`
-- existing one-time nonce/custom auth boundary preserved.
-
-## Security / authority
+## Accepted authority baseline
 
 - Layer 1 identity/regulatory authority unchanged.
 - Layer 2 deterministic, Evidence-preserving, Preview-bound and fail-closed.
-- Failed/nonterminal candidate outcomes remain recoverable; only governed resolved outcomes are consumed.
-- Bound selected outcomes require exact Preview-token provenance.
-- Terminal freshness is invalidated by Layer 1 identity change.
-- Mixed handoff retains pre-existing queueable URLs already covered by the binding fingerprint.
-- Generic scheduler Layer 3/4 remains disabled; Search/Publication remains separate.
-- No consequential UQ/RMIT run has yet been dispatched after Edge v30 deployment.
+- Exact Preview token/fingerprint/binding/identity provenance retained.
+- Layer 3 remains separately governed; generic scheduler auto-approval remains prohibited.
+- Layer 4 human authority remains separate.
+- Search/Publication remains separately governed.
+- Rank/ACL/RLS/private-helper/service-role boundaries retained.
+- Applied migration history remains immutable and forward-only.
+
+## Current operational focus
+
+Continue evidence-led M2.4.5 operations and metrics outside CF-093 closure. Track real governed workloads for:
+
+- throughput and queue/execution latency;
+- provider response and extraction p50/p95;
+- retries and terminal outcomes;
+- Evidence counts and field-resolution yield;
+- provider unit/budget consumption;
+- HTTP 429/5xx/error rates;
+- recurrence of NZQA/`admin_read` runtime errors.
+
+Hold dispatcher/provider settings steady until comparable governed evidence supports a change. No synthetic production-like load is required merely to populate metrics.
 
 ## Exact next gate
 
-1. Start a **new** `CF-093 UQ Corrective Acceptance` `workflow_dispatch` on reviewed/deployed head `4e67e322...`. The current GitHub connector exposes workflow reads/reruns but no new dispatch action; use authorised GitHub UI/API dispatch or equivalent normal authenticated Admin/PIM scheduler path, not direct DB/RPC execution.
-2. Reconcile deterministic UQ L2 changes and prove exact-token/fingerprint/dedupe/cancel plus zero generic L3/L4/Search/Publication side effects.
-3. RMIT only after UQ clean; Layer 3 only after deterministic L2 closes.
-4. Merge/release only after all governed gates close, followed by main CI/deployment/deployed-UAT verification.
+1. Continue M2.4.5 operational monitoring from the accepted v2.15.79 baseline.
+2. Route Canada, future country/source onboarding, provider cohort expansion, operational tuning that changes behaviour, or future defects through a **new Change Control ID**.
+3. Keep M2.5 paused unless separately authorised.
 
-M2.4.4 remains CLOSED/PASS/FROZEN and M2.5 remains paused.
+M2.4.4 remains CLOSED/PASS/FROZEN.
