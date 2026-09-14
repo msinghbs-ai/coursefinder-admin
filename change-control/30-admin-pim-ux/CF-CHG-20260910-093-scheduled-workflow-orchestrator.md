@@ -1,65 +1,113 @@
 # CF-CHG-20260910-093 — Scheduled Workflow Orchestrator
 
-**Status:** ACTIVE — EXACT-HEAD REVIEW + DEPLOYED CURRENTNESS CLEAN / UQ ACCEPTANCE DISPATCH PENDING  
+**Status:** REOPENED — IMPLEMENTATION/RELEASE ACCEPTED; FINAL GOVERNANCE + OPERATIONS CLOSURE ACTIVE  
 **Initiated:** 2026-09-10 AEST  
-**Reconciled:** 2026-09-13 AEST  
+**Reconciled:** 2026-09-14 AEST  
 **Category:** 30-admin-pim-ux  
 **Parent:** CF-CHG-20260910-092  
-**Accepted Pilot main:** `63c7107cfce2d8f607fc378af4881d0ba28ca879`  
-**Active Pilot PR:** #72 (`m245/cf093-async-discovery-20260912`)  
-**Candidate head:** `4e67e32289235a88297502e90c8181f25639f300`  
-**Visible accepted release:** v2.15.78
+**Visible accepted/recovery release:** v2.15.79 / package 0.1.6  
+**Current Pilot main:** `7196c5d2fade8830ec371c663b008e8a47e01f74`  
+**Pilot Supabase:** `fxcwkweaxjtknorudmwp`
 
 ## Objective
 
-Complete the bounded Scheduled Tasks run-on-demand contract for large AU Course Facts scopes without weakening Layer 1 authority, deterministic Layer 2 Evidence truth, Layer 3 Evidence/profile/model/revalidation governance, Layer 4 human resolution, Search/Publication separation or rank/ACL boundaries.
+Provide a governed Scheduled Tasks control plane for AU Course Facts and related operational workflows while preserving CourseFinder authority boundaries: Layer 1 identity/regulatory authority, deterministic Evidence-preserving Layer 2, governed Layer 3 interpretation, Layer 4 human resolution, separate Search/Publication admission, rank/ACL/RLS boundaries and immutable forward-only migration history.
 
-## Current decision
+## Accepted implementation path
 
-PR #72 remains OPEN / DRAFT / UNMERGED. Exact-head technical gates are clean and Codex submitted a current-head review against `4e67e322...` on 2026-09-13 with no new actionable findings. Pilot worker deployed-currentness is now clean: `layer2-scope-discover-scheduled-v1.3.10` is Edge v30, SHA `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`, with `verify_jwt=false` and the existing custom one-time nonce boundary preserved.
+The implementation advanced beyond the earlier PR #72 candidate state and is now incorporated into accepted Pilot main.
 
-Consequential acceptance is now blocked only by starting a **new** maintained `CF-093 UQ Corrective Acceptance` `workflow_dispatch`. The connected GitHub toolset exposes workflow reads/reruns but no new dispatch action; direct SQL/RPC is not an acceptable substitute.
+Material path retained as evidence:
 
-## Current exact-head evidence
+- PR #72 merged the Preview-bound async Layer 2 authority contract.
+- PR #80 repaired deployed-main acceptance triggering.
+- PR #81 reconciled UQ acceptance to governed scope invariants.
+- PR #82 merged Firecrawl -> ZenRows exhaustion/Layer 3+4 parking.
+- PR #83 merged the bounded six-university scale-out.
+- PR #84 bounded deterministic Layer 2 transport waves to fit the transport budget.
+- PR #85 added Administration → Scraper Config dispatcher tuning and comparable runtime metrics while retaining existing authority/security boundaries.
+- PRs #86–#89 corrected stale deployed-UAT/release-currentness contracts without weakening application/runtime authority.
+- PR #90 promoted **v2.15.79** to the accepted recovery baseline.
 
-- Candidate head `4e67e32289235a88297502e90c8181f25639f300`.
-- CF-093 Targeted Recovery `34743276597`: **PASS**.
-- CF-093 Fresh Reconstruction `34743276592`: **PASS**, through authoritative applied migrations `20260913063252` and `20260913063321`.
-- Pilot Frontend Build `34743276603`: **PASS**, including local browser smoke/evidence.
-- Cloudflare preview: **PASS / deployed at `4e67e322`**.
-- Codex review submission against reviewed commit `4e67e32289`: **CLEAN / no new findings**.
-- All previous actionable inline P1/P2 threads: **RESOLVED**.
-- Pilot discovery worker: **Edge v30 deployed-current**, SHA `a1037f04b5ea2a0d5300a900148b725632123b57c349308e8437a7995951560e`, `verify_jwt=false`.
+The accepted authority contract remains:
 
-## Reconciled forward hardening
+- same-actor Preview before consequential dispatch;
+- exact Preview token/fingerprint/binding/identity provenance;
+- bounded profile/policy/route/credential/budget qualification;
+- deterministic Layer 2 and Evidence truth;
+- no generic scheduler Layer 3 auto-approval;
+- Layer 4 retains human authority for unresolved outcomes;
+- no implicit Search/Publication consequence;
+- no fabricated source/profile/route/Evidence/identity values to obtain acceptance.
 
-Authoritative applied Pilot migrations:
+## Runtime / scale evidence
 
-- `20260913063252_cf_093_bound_resolution_identity_freshness_reconcile.sql` — exact Preview-token provenance for resolved candidates and Layer 1 identity-aware terminal freshness.
-- `20260913063321_cf_093_bound_handoff_queueable_provenance_reconcile.sql` — exact-token provenance for discovery-subset outcomes while retaining pre-existing queueable URLs already protected by the binding queueable fingerprint.
+Six-university Preview-bound discovery is terminal at **1,676 / 1,676 distinct courses accounted for**. Firecrawl completed the governed discovery wave; ZenRows fallback was not required for that wave. Identity-quality outcomes remain evidence and must not be relaxed merely to improve yield.
 
-Repository worker hardening retains unresolved `failed`/nonterminal `candidate` outcomes in bounded continuation and aborts exact-binding identity drift before candidate writes while preserving bounded recovery for genuine provider/network verification failure.
+RMIT deterministic Layer 2 batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` reached terminal `partial` at **263 / 263 processed**. The transport-budget recovery preserved the same batch and introduced an ordinary wave cap of 4 while retaining scraper-first cap 2.
 
-No applied migration was rewritten, removed, renamed or retimestamped. Temporary source-only aliases `20260913062000...` and `20260913064500...` remain removed.
+Accepted dispatcher/runtime controls include:
 
-## Authority boundaries retained
+- ordinary transport wave cap **4**;
+- scraper-first cap **2**;
+- pg_net request ceiling **120 seconds**;
+- rank-4 sanitized metrics read; lower-rank/anonymous access denied;
+- rank-5+ governed tuning only;
+- mandatory governance reason at control boundary;
+- audit trail records actor, actual changed fields and before/after policy;
+- in-flight `policy_snapshot` is immutable;
+- provider credentials/routing remain separate controls;
+- monitoring does not auto-change dispatcher/provider settings.
+
+Comparable RMIT telemetry recorded before release acceptance showed active throughput about **2.68 items/min**, Firecrawl current-profile average attempt about **14.64 s**, extraction about **1.94 s**, and zero HTTP 429s. Current evidence identifies provider/source latency as the primary efficiency constraint; no concurrency increase is justified without newer comparable evidence.
+
+## Release / recovery state
+
+Pilot PR #90 completed the governed release lifecycle for **v2.15.79 / package 0.1.6**. Current Pilot main is `7196c5d2fade8830ec371c663b008e8a47e01f74`.
+
+v2.15.79 is now the accepted/recovery release. v2.15.78 remains immutable retained history but is no longer the active recovery authority.
+
+Release identity is governed by the maintained release-version-control model and must not be duplicated or manually promoted outside that contract.
+
+## Deployed UAT recovery — 14 September 2026
+
+Targeted deployed UAT run **`34819914624`** on current main initially failed because the real NZQA authority/count validation received HTTP 500 from `layer1-operations-control`. CRICOS and the remaining Layer 1 deployed checks passed.
+
+The failed job `103900330312` was re-run as job `103960817860` without weakening the test, ACL or authority contract. The replacement attempt completed **SUCCESS** and current commit status is:
+
+- `coursefinder/deployed-uat/targeted/chromium-desktop = success`
+
+The initial NZQA HTTP 500 remains retained as transient runtime evidence and must be monitored for recurrence; it is not erased from recovery history.
+
+## Security / authority boundaries retained
 
 - Layer 1 identity/source authority unchanged.
-- Layer 2 deterministic Evidence truth preserved and fail-closed.
-- Exact Preview token/fingerprint/binding provenance remains required.
-- `layer3_required` is an L2 disposition only; generic scheduler Layer 3 remains prohibited.
-- Layer 4 human resolution remains separate.
+- Layer 2 deterministic Evidence truth remains fail-closed.
+- Layer 3 remains separately Evidence/profile/model/revalidation governed.
+- Layer 4 human authority remains separate.
 - Search/Publication remains separately governed.
-- Rank/ACL/private-helper/service-role boundaries remain unchanged.
-- No URL/profile/route/zero-result marker/identity/Evidence or migration-history row may be manufactured for acceptance.
-- Direct ad-hoc database execution is not an acceptable substitute for authenticated UQ acceptance.
+- Rank/ACL/RLS/private-helper/service-role boundaries remain unchanged.
+- Applied migrations remain immutable and forward-only.
+- Release recovery must never be used to rewrite migration history.
+- No direct ad-hoc SQL/RPC execution substitutes for governed operator acceptance.
 
-## Exact remaining gates
+## Remaining closure gates
 
-1. Start a **new** `CF-093 UQ Corrective Acceptance` `workflow_dispatch` on reviewed/deployed head `4e67e322...` using the maintained GitHub workflow or equivalent normal authenticated Admin/PIM scheduler path. Do not rerun an older SHA and do not use direct SQL/RPC.
-2. Reconcile new deterministic UQ Layer 2 evidence and prove exact-token/fingerprint/dedupe/cancel behaviour plus zero generic L3/L4/Search/Publication side effects.
-3. Run bounded RMIT corrective acceptance only after UQ is clean.
-4. Recalculate Layer 3 eligibility only after deterministic Layer 2 acceptance closes.
-5. Merge/release only after every runtime, UAT, security/authority and governance gate is clean, then verify main CI/deployment/deployed UAT before closure.
+CF-CHG-20260910-093 remains REOPENED only for final governance/operations reconciliation. Do not infer CLOSED/PASS solely from the v2.15.79 promotion.
 
-Historical UQ/RMIT batches remain forensic evidence only. Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW remains deferred until CF-093 closes.
+1. Reconcile Admin PR #37 and authoritative continuity to Pilot main `7196c5d...`, accepted v2.15.79 and deployed UAT recovery run `34819914624` attempt 2 PASS.
+2. Reconcile `REGISTER.md`, `RUNSHEET.md`, `CURRENT-STATE.md`, `FOLLOW-UPS.md`, `NEXT-CHAT.md` and `SYSTEM-METRICS.md` where stale.
+3. Continue evidence-led monitoring on real governed workloads: throughput, queue wait/execution, provider response p50/p95, extraction p50/p95, retries, Evidence counts, field-resolution yield, provider budget, HTTP 429/5xx, terminal outcomes and recurrence of `admin_read`/NZQA 5xx.
+4. Hold dispatcher/provider settings steady until another legitimately comparable governed run supports a change.
+5. Close CF-093 only after governance/continuity state matches accepted implementation/runtime truth and no unresolved mandatory gate remains.
+6. M2.5 remains paused unless separately authorised.
+
+## Rollback / recovery
+
+- Never rewrite applied migration history.
+- Database rollback is forward-only through a new migration.
+- Never fabricate Evidence, identity mappings, provider credentials or canonical values to obtain a PASS.
+- Never bypass Layer 3 Evidence gating or Layer 4 human authority.
+- Scraper exhaustion is an escalation outcome, not permission for implicit canonical/Search/Publication mutation.
+
+**Current outcome:** accepted Pilot release is v2.15.79 at `7196c5d...`; the immediate deployed-UAT red status has been recovered to green on run `34819914624`. Remaining work is authoritative governance/continuity closure plus ongoing evidence-led operational monitoring.
