@@ -16,15 +16,18 @@
 | M245-FU-060 | CF-093 / worker deployment | Reviewed/deployed worker currentness | **CLOSED / ACCEPTED** | Future worker changes require their own Change Control where material. |
 | M245-FU-053 | CF-093 / UQ workflow | Historical workflow-dispatch blocker | **CLOSED / NO LONGER ACTIVE** | Do not revive this blocker or CF-093. |
 | M245-FU-035 | Layer 3 | Separate governed Layer 3 | **SEPARATE WORKSTREAM** | Route future Layer 3 work under its own active/new Change Control. |
-| M245-FU-036 | AU qualification wave | Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW | **AVAILABLE FOR SEPARATE GOVERNED WORK** | Fold relevant AU coverage work into CF-245 only where it serves the approved operational-enrichment plan; otherwise retain separate scope. |
-| M245-FU-061 | Runtime operations | Metrics and performance monitoring | **ACTIVE / OWNED BY CF-245** | Implement common hourly/daily enrichment funnel reporting with field-level coverage, latency, Evidence, failures and cost/yield. |
-| M245-FU-063 | CF-245 telemetry | 245 successful acquisitions produced no item-level telemetry and zero canonical mutation authorisation | **ACTIVE / PRIORITY 1** | Reconcile the 245 jobs across attempts, Evidence, extraction/candidate/admission and publication stores; count exact stop reasons. |
-| M245-FU-064 | CF-245 admission | `canonical_mutation_authorised=false` reason visibility | **ACTIVE** | Add/derive governed reason codes and counts for capture-only, no extraction, no eligible field, unchanged, identity/authority/Preview gate, L3/L4 requirement, publication ineligibility and runtime/provider blockers. |
-| M245-FU-065 | CF-245 demand | AU/NZ missing/stale enrichment backlog | **ACTIVE** | Classify missing/stale official URL, intake, English, provider-current tuition and scholarship coverage as queueable, blocked, not-applicable or awaiting qualification. |
-| M245-FU-066 | CF-245 coverage | Pilot-sized refresh-policy footprint | **ACTIVE** | Expand bounded AU/NZ refresh/work policies only after telemetry proves the path; retain country/source qualification and provider guardrails. |
-| M245-FU-067 | CF-245 publication | Evidence-to-consumer reconciliation | **ACTIVE** | Trace Evidence → extracted candidate → admitted fact → Search/publication → website/API-visible field and measure deltas. |
-| M245-FU-068 | CF-245 Admin reporting | Enrichment Operations report/dashboard | **PLANNED** | Keep Scheduled Tasks for scheduler health/config; add outcome-focused backlog, throughput, field coverage, yield, blocker/error and cost reporting with job/Evidence drill-down. |
-| M245-FU-069 | CF-245 tuning | Evidence-led dispatcher/provider tuning | **BLOCKED UNTIL METRICS** | Do not change frequency/concurrency first; tune batch/wave/concurrency/routing/retries/cost ceilings only from comparable before/after evidence and audited tuning events. |
+| M245-FU-036 | AU qualification wave | Monash → Melbourne → ANU → UTS → UWA → Sydney → UNSW | **AVAILABLE FOR SEPARATE GOVERNED WORK** | Fold relevant AU coverage work into CF-245 only where it serves approved operational-enrichment scope. |
+| M245-FU-061 | Runtime operations | Metrics and performance monitoring | **ACTIVE / PARTIAL PASS** | Common ledger/hourly reporting exists; prove it on a fresh CF-245 governed execution and add daily publication/coverage attribution. |
+| M245-FU-063 | CF-245 telemetry | Recent successful acquisitions appeared to have no item telemetry and zero canonical mutation authorisation | **RECONCILED / PASS FOR HISTORICAL COHORT** | Pre-created run items were hidden by created-at-only inspection; preserve lifecycle timestamp reporting and validate on a fresh run. |
+| M245-FU-064 | CF-245 admission | `canonical_mutation_authorised=false` reason visibility | **PARTIAL PASS** | Historical stop reasons are measurable. Add field-level admission/publication attribution for fresh runs and retain unresolved-domain reason granularity. |
+| M245-FU-065 | CF-245 demand | AU/NZ missing/stale enrichment backlog | **PASS / LIVE CLASSIFICATION** | AU: 516 queueable, 2,005 discovery-blocked, 28 policy-blocked, 18,534 discovery+policy, 5,555 outside qualified scope. NZ: 0 queueable; 1,087 discovery/policy; 5,370 outside qualified scope. Keep refreshed from runtime. |
+| M245-FU-066 | CF-245 coverage | Pilot-sized refresh-policy footprint | **ACTIVE** | Expand only bounded qualified AU cohorts after PR/runtime reconciliation; NZ remains blocked pending source/profile/discovery/policy qualification. |
+| M245-FU-067 | CF-245 publication | Evidence-to-consumer reconciliation | **PARTIAL PASS** | Search projection now verified at 421 official URLs, 161 intake, 161 English, 161 provider tuition. Add explicit per-run publication-delta attribution. |
+| M245-FU-068 | CF-245 Admin reporting | Enrichment Operations report/dashboard | **ACTIVE / NEXT IMPLEMENTATION GATE** | Build outcome-focused Enrichment Operations view using ledger/backlog/admission/publication data, with Jobs/Evidence drill-down. |
+| M245-FU-069 | CF-245 tuning | Evidence-led dispatcher/provider tuning | **BLOCKED UNTIL COMPARABLE FRESH METRICS** | Do not change frequency/concurrency/routing/retries/cost ceilings until fresh before/after evidence exists. |
+| M245-FU-070 | CF-245 bounded URL admission | Qualified RMIT official course URL replay | **PASS / BOUNDED** | 262 decisions = 260 admitted + 2 unchanged; one extra candidate correctly remained unadmitted because regulatory code was not observed. Extend only through separately qualified cohorts. |
+| M245-FU-071 | CF-245 repository/runtime reconciliation | Runtime migrations ahead of Pilot main | **ACTIVE / PR #91** | Complete review/CI for `cf-245-enrichment-ops@2feb5be5...`, merge only when green, then recheck migration/runtime currentness. |
+| M245-FU-072 | CF-245 Search currentness | Final official URL projection after bounded replay | **PASS** | Governed Search refresh applied; verified official URL coverage 421 with no collateral field delta in final 37-row projection. |
 | M245-FU-062 | Country/source expansion | Canada and future countries/sources | **FUTURE / NEW CHANGE CONTROL REQUIRED** | Do not mix Canada/future-country onboarding into CF-245 AU/NZ operational completion unless separately approved. |
 | M245-FU-008 | H7 | Production migration data/telemetry freshness | ACTIVE | Production remains unprovisioned. |
 | M245-FU-009 | H8 | Further Addenda/Bugs/Features | ACTIVE | Route material items through Change Control. |
@@ -35,8 +38,8 @@
 ## Current priority — 15 September 2026
 
 1. CF-093 remains CLOSED / PASS / historical only.
-2. Execute CF-245 Gate A/B first: make real enrichment outcome measurable before tuning scheduler frequency/concurrency.
-3. Explain the recent 245-acquisition / 245-Evidence / zero-canonical-mutation pattern with exact reason counts.
-4. Generate governed AU/NZ missing/stale demand and expand bounded coverage only after telemetry is trustworthy.
-5. Reconcile consumer-visible coverage from Evidence to publication.
+2. Complete PR #91 CI/review and reconcile the three already-applied CF-245 migrations into accepted Pilot history.
+3. Implement Gate F Enrichment Operations Admin reporting; keep Scheduled Tasks focused on scheduler health/configuration.
+4. Run one fresh bounded governed enrichment cohort and prove end-to-end telemetry and publication attribution.
+5. Continue bounded AU coverage expansion only from qualified scope; do not enable NZ or tune scheduler/provider limits from idle ticks.
 6. Keep M2.5 paused and Production unprovisioned.
