@@ -1,53 +1,70 @@
 # M2.4.5 NEXT CHAT
 
-## Active baseline — 14 September 2026 AEST
+## Active baseline — 15 September 2026 AEST
 
 - Milestone: **M2.4.5 — Pre-Production Hardening**.
 - M2.5 remains paused; no Production Supabase project exists.
 - `CF-CHG-20260910-093` is **CLOSED / PASS / HISTORICAL ONLY**.
+- Active operational-enrichment workstream: **`CF-CHG-20260915-245`**.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- Current Pilot main: **`7196c5d2fade8830ec371c663b008e8a47e01f74`**.
+- Accepted Pilot main before CF-245 implementation: **`7196c5d2fade8830ec371c663b008e8a47e01f74`**.
 - Visible accepted/recovery release: **v2.15.79 / package 0.1.6**.
-- Deployed UAT run `34819914624` recovered to PASS through replacement job `103960817860`; current targeted desktop commit status is green.
 
-## Permanent CF-093 boundary
+## CF-245 objective
 
-Do not reopen CF-093 for Canada, another country, another provider cohort, normal onboarding, operational tuning or a future defect. Create a new Change Control ID for future material work and reference CF-093 only as closed historical architecture/acceptance evidence where useful.
+Make real enrichment measurable and expand governed AU/NZ coverage. Separate scheduler liveness from data outcome and report the complete funnel:
 
-The accepted platform contract inherited from CF-093 remains:
+`missing/stale/due → eligible → queued → acquired → extracted → admitted/unchanged/rejected → Layer 3/4 → Search/Publication → website/API visible`.
 
-- same-actor Preview before consequential dispatch;
-- exact Preview token/fingerprint/binding/identity provenance;
-- deterministic Evidence-preserving Layer 2;
-- bounded provider/policy/credential/budget qualification;
-- no generic scheduler Layer 3 auto-approval;
-- Layer 4 human authority for unresolved outcomes;
-- no implicit Search/Publication consequence;
-- forward-only immutable migration history.
+Do not increase scheduler frequency merely because a tick finds no work. First make demand and admission outcomes observable.
 
-## Operational baseline
+## Reconciled live findings
 
-Six-university discovery is terminal at **1,676 / 1,676 distinct courses accounted for**. RMIT deterministic Layer 2 batch `74b4b16f-20f0-4b61-a9e0-632d824f001a` reached terminal `partial` at **263 / 263 processed**.
+At planning time on 15 September 2026:
 
-Retain current dispatcher/runtime guardrails unless comparable governed evidence supports a new Change Control:
+- cron/scheduler infrastructure was healthy;
+- 245 successful `layer2_acquisition_v2/course_facts` jobs existed in the inspected prior 24h;
+- all 245 reported content changed, Evidence and screenshot Evidence;
+- zero reported `canonical_mutation_authorised=true`;
+- no matching `layer2_run_items` telemetry was produced by that active path in the inspected period;
+- 3,059 Layer 2 source profiles existed, including approximately 933 active course-facts website profiles;
+- only 10 Layer 2 refresh policies existed, 8 enabled, effectively AU-only, with zero due at inspection;
+- 50 Layer 2 execution policies existed and were enabled.
 
-- ordinary transport wave cap 4;
-- scraper-first cap 2;
-- pg_net ceiling 120 seconds;
-- rank-4 sanitized metrics read;
-- rank-5+ governed tuning only;
-- mandatory governance reason and tuning audit trail;
-- in-flight `policy_snapshot` immutable;
-- provider credentials/routing separate from dispatcher tuning.
+Website/consumer coverage baseline for this workstream:
 
-## Exact next action
+- 33,105 Search courses;
+- 26,457 regulatory tuition;
+- 10 intakes;
+- 10 English requirement coverage;
+- 10 official links;
+- 10 provider-current tuition;
+- 0 website-admitted scholarships.
 
-Continue M2.4.5 operations and evidence-led metrics monitoring from the accepted v2.15.79 baseline. Track throughput, queue wait/execution time, provider response and extraction p50/p95, retries, Evidence counts, field-resolution yield, provider budget, HTTP 429/5xx/error rates, terminal outcomes and recurrence of NZQA/`admin_read` runtime errors.
+## Exact first action
 
-For Canada or another country/source onboarding wave, open a **new Change Control** scoped to that work; do not reuse CF-093.
+1. Reconcile the 245 successful recent acquisition jobs against provider attempts, Evidence, extraction/candidate/admission stores and Search/publication outputs.
+2. Produce exact counts for every reason `canonical_mutation_authorised=false`.
+3. Wire the real scheduled acquisition path into the common batch/item telemetry contract, preserving accepted security/authority boundaries.
+4. Produce the first real one-hour enrichment funnel report before changing concurrency, scheduler frequency or provider limits.
+5. Then classify/generate AU/NZ missing/stale backlog and expand bounded work queues.
 
-Keep M2.5 paused unless separately authorised.
+## Required reporting
 
-## Operating expectation
+Hourly reporting must show eligible/queued/fetched/failed, Evidence, extraction, fields found, facts admitted/unchanged/rejected, L3/L4 counts, courses improved, website-visible field deltas, cost/units, latency and 429/5xx/runtime errors.
 
-Proceed autonomously through normal governed decisions and recovery/re-run loops instead of stopping for repeated `proceed` confirmations. Stop only for a true authorisation, security, destructive/irreversible or externally unavailable capability boundary. Before tool/runtime limits, update continuity with exact repo heads, run IDs, blockers and the first next action.
+Daily reporting must show:
+
+`starting coverage → added today → ending coverage → coverage % → remaining gap → blocked/not-queueable → recent velocity`.
+
+Do not invent ETA until representative multi-period throughput exists.
+
+## Authority and tuning boundaries
+
+Preserve Layer 1 identity, deterministic Evidence-preserving Layer 2, Preview/binding provenance where applicable, no generic Layer 3 auto-approval, Layer 4 authority, separate Search/Publication admission, existing ACL/RLS/private-helper/service-role boundaries and immutable applied migration history.
+
+Tune only from comparable evidence. Behavioural tuning must be audited with reason, before/after policy and CF-245 reference.
+
+## Continuity obligation
+
+Proceed autonomously through normal governed implementation, targeted testing and recovery loops. Before ending or approaching tool/runtime limits, update CF-245, RUNSHEET, CURRENT-STATE, FOLLOW-UPS and NEXT-CHAT with exact repo/runtime heads, migrations, PR/CI/UAT IDs, measured metrics, blockers and the first next action.
