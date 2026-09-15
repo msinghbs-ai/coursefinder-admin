@@ -54,3 +54,12 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - Runtime remains **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked. No additional L2 work launched; no L3 execution/admission/consumer delta authorised while #98 is under exact-head assurance.
 - Resource posture unchanged: no new model/provider calls or cost intentionally consumed. Tuition route remains benchmark-failed/paused, so even after derivation deployment it will fail closed until a task-specific profile passes.
 - Next action: require exact-head CI + clean Gitar review, then merge/deploy #98 and proceed to bounded dispatcher + tuition benchmark work. No hard external API/auth/quota blocker.
+
+## 2026-09-15 16:27 UTC — governed handoff derivation accepted/deployed
+
+- PR #98 exact head `2f2cb6b...` passed Pilot Frontend Build; Cloudflare preview deployment succeeded; both Gitar defect threads are resolved. PR #98 merged to Pilot main as `2346fab3a018943f505656fad225b423115ce328`.
+- Applied `cf_247_layer3_handoff_derivation` to Pilot Supabase. Service maps only explicit governed fee blockers, selects one latest retained Evidence attempt per L2 item, remains service-role only and requires enabled/unpaused/benchmark-PASS tuition profile.
+- Runtime remains **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked. Calling the deployed enqueue service correctly returned `queued=0 / no_benchmark_passed_executable_profile`; no unsafe work entered the L3 queue.
+- Tuition profile remains paused/FAIL: NVIDIA Nemotron free route, 10 RPM / 25 day; prior benchmark provider cases 0/4, controls 3/4, 11 calls, 67,876 input + 1,246 output tokens, max latency 6.114 s, USD 0. This is now the immediate throughput gate for explicit fee backlog.
+- No new L2 work, L3 interpretations, admissions or consumer/Search delta this cycle. No new provider/model cost incurred.
+- Next action: build/execute a corrected tuition benchmark route/profile and only on PASS enable bounded dispatch; in parallel preserve explicit provenance work for the 1,403 generic `layer3_required` rows. No external API/auth/quota blocker currently observed.
