@@ -1,9 +1,9 @@
 # CourseFinder Documentation — Current Document Index
 
 **Status:** AUTHORITATIVE CURRENT-DOCUMENT ROUTER  
-**Effective:** 14 September 2026  
+**Effective:** 15 September 2026  
 **Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`, `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md`  
-**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch; CF-CHG-20260910-093 CLOSED/PASS historical Scheduled Tasks baseline
+**Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch; CF-CHG-20260910-093 CLOSED/PASS historical; CF-CHG-20260915-245 CLOSED/PASS M2.4.5 predecessor baseline
 
 ## Rule
 
@@ -29,13 +29,18 @@ Do not infer the current document from the highest filename version or from chat
 ## Active milestone router
 
 - M1: CLOSED / PASS / FROZEN.
-- M2.1–M2.4.4: CLOSED / PASS; M2.4.4 remains FROZEN.
-- **M2.4.5: ACTIVE / PRE-PRODUCTION HARDENING.**
-- M2.5: PAUSED / READINESS AT P0 until M2.4.5 closes.
-- Active continuity: `project-runsheets/milestone-2/m2.4/m2.4.5/`.
-- Active hardening authority: `change-control/00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md`.
+- M2.1–M2.4.5: CLOSED / PASS; M2.4.5 is FROZEN at Pilot `e62c01cadaf43efa8c3d8ea57625c23874d1b010`.
+- **M2.4.6: ACTIVE — PRODUCTION OPERATIONS MODEL.**
+- M2.4.7: planned controlled operational scale after M2.4.6 acceptance.
+- M2.4.8: planned consumer/data-operations readiness after M2.4.7.
+- M2.4.9: planned production dress rehearsal and explicit GO/NO-GO.
+- M2.5: PAUSED / Production establishment must not start until M2.4.9 records GO.
+- Programme sequence authority: `project-runsheets/milestone-2/m2.4/M2.4.6-M2.4.9-OPERATIONS-PLAN.md`.
+- Active continuity: `project-runsheets/milestone-2/m2.4/m2.4.6/`.
+- M2.4.6 exact gate source: `project-runsheets/milestone-2/m2.4/m2.4.6/RUNSHEET.md`.
 - **CF-093 is CLOSED / PASS and historical only:** `change-control/30-admin-pim-ux/CF-CHG-20260910-093-scheduled-workflow-orchestrator.md`. Future country/source onboarding or defects must use a new Change Control ID and may reference CF-093 only as historical evidence.
-- Production-readiness authority retained: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`.
+- **CF-245 is CLOSED / PASS predecessor evidence:** `change-control/40-layer2-enrichment/CF-CHG-20260915-245-m245-enrichment-operations-metrics-coverage-expansion.md`.
+- Production-readiness authority retained: `change-control/70-security-platform/CF-CHG-20260901-049-m2-5-clean-production-stack-establishment.md`; it does not authorise early M2.5 entry.
 - Change index: `change-control/REGISTER.md`.
 
 For any bug, regression, failed UAT, runtime incident, large corrective change or recovery continuation, the Troubleshooting / Bug-Fix / Recovery Protocol is mandatory in addition to the normal milestone authorities.
