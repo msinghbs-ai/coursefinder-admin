@@ -2,8 +2,8 @@
 
 | ID | Workstream | Status | Exact next action |
 |---|---|---|---|
-| M247-FU-001 | End-to-end automation | ACTIVE / PRIMARY | Implement durable Layer 2 → Layer 3 queue + server dispatcher from existing `layer3_required` Evidence; do not increase Layer 2 wave volume first. |
-| M247-FU-002 | Layer 3 task coverage | ACTIVE | Benchmark/enable model routes for actual Course-fact task classes. Prefer free OpenRouter models only when task-specific benchmark and validator gates pass. |
+| M247-FU-001 | End-to-end automation | ACTIVE / PRIMARY | Queue foundation and governed handoff derivation are deployed. Implement/activate the server dispatcher only after the tuition task profile passes its task-specific benchmark; then prove bounded queue drain before adding Layer 2 volume. |
+| M247-FU-002 | Layer 3 task coverage | BLOCKING | Correct and rerun `provider_current_tuition_validation` benchmark against representative retained first-party Evidence. Require semantic provider cases + control cases to PASS before unpausing; do not reuse unrelated PASS profiles. |
 | M247-FU-003 | Post-L3 admission | ACTIVE | Add deterministic field-policy admission service. AI output remains candidate input; identity/regulatory/consequential ambiguity routes Layer 4. |
 | M247-FU-004 | Search/API propagation | ACTIVE | Trigger incremental governed Search/API projection only after accepted canonical change; prove consumer delta/no-op semantics. |
 | M247-FU-005 | Live Admin progress | ACTIVE | Add active-run L2/L3/L4/admitted/remaining counters, progress %, Evidence, calls/tokens/cost/latency and stop reasons with polling/realtime refresh. |
@@ -17,6 +17,8 @@
 | M247-FU-013 | Evidence reuse | DEFERRED UNTIL MEASURED | Tune shared-fetch reuse only if repeated acquisition materially affects cost/latency after the end-to-end loop works. |
 | M247-FU-014 | Retry/refactor cleanup | DEFERRED UNTIL MEASURED | Refine or retire duplicated functions only when touched, blocking scale or replaced by accepted shared orchestration. No big-bang refactor. |
 | M247-FU-015 | Website/Zoho handover | CONTINUOUS | Keep already-admitted data available through curated APIs while automation coverage expands; do not wait for 100% completeness. |
+| M247-FU-016 | Monitoring integrity | BLOCKING METRIC TRUST | Reconcile the 18:26 UTC 2,313/1,998 observation against authoritative direct-table counts. Standardise hourly metrics on direct source tables/read model with timestamp + source identity so false backlog deltas cannot be reported as admission gains. |
+| M247-FU-017 | Generic Layer 3 provenance | ACTIVE | 1,780 current `layer3_required` items have only generic blocker provenance. Add explicit unresolved-field/task provenance before any dispatch; do not infer task class from the generic marker. |
 
 ## Stop rule
 
