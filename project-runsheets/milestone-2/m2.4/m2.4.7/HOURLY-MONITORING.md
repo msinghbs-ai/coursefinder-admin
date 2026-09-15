@@ -8,56 +8,40 @@
 
 Add one concise entry per hourly monitoring/execution cycle. Record only actionable deltas and exact blockers; do not turn this into a chat transcript.
 
-Each entry should contain where available:
-
-- timestamp;
-- repo/runtime/CI head checked;
-- implementation/data outcome achieved during the hour;
-- L2 processed/resolved/blocked;
-- L3 queued/active/completed/rejected;
-- L4 exceptions;
-- admissions/Search/API coverage delta;
-- Evidence created/reused;
-- provider/model units, calls, tokens, cost and latency;
-- backlog/resource/quota headroom;
-- forecast/next action;
-- hard external blocker, if any.
+Each entry should contain where available: timestamp; repo/runtime/CI head checked; implementation/data outcome; L2/L3/L4; admissions/Search/API delta; Evidence; provider/model usage; backlog/resource headroom; forecast/next action; hard external blocker.
 
 ## 2026-09-15 09:27 UTC — monitoring baseline
 
-- CF-247 end-to-end automation programme active.
-- Pilot Supabase: `fxcwkweaxjtknorudmwp`.
-- Accepted Pilot code baseline entering CF-247: `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`.
-- Latest controlled RMIT proof: 25/25 processed, 0 deterministic L2 resolution, 25 `layer3_required`, 0 blocked, USD 0 provider cost.
-- Runtime Layer 3 fall-out backlog check: **2,402** Layer 2 run items currently in `layer3_required` state.
-- No active queued/running Layer 2 item work at the observation point.
-- Consumer baseline retained: Search 33,105; official URLs 527; intakes 487; English 520; provider-current tuition 161; website v3.1 `has_link=true` 527.
-- Primary blocker is architectural/operational, not source volume: Layer 2 does not automatically dispatch the general Layer 3 queue.
-- Decision: do not generate larger L2 backlog. Implement automatic L2→L3 queue/dispatcher, task-qualified model routes, post-L3 deterministic admission/Search projection and live actionable UI first.
-- Resource monitoring requirement activated: provider quotas, model RPM/day/tokens/cost, DB/Edge latency, Evidence growth, queue age/depth and estimated backlog-clear time must be retained/reported.
-- Hourly autonomous monitoring/execution automation enabled. Routine safe work no longer waits for a `proceed` command.
+- CF-247 active; Pilot Supabase `fxcwkweaxjtknorudmwp`; accepted entering baseline `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`.
+- RMIT proof: 25/25 processed, 0 deterministic L2 resolution, 25 `layer3_required`, 0 blocked, USD 0.
+- Runtime backlog **2,402** `layer3_required`; consumer baseline Search 33,105; official URLs 527; intakes 487; English 520; provider-current tuition 161.
+- Decision: no larger L2 backlog until automatic L2→L3→admission exists.
 
 ## 2026-09-15 11:27 UTC — durable Layer 3 queue foundation
 
-- Reconciled accepted Pilot `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`, existing Layer 3 reservation/completion services, `layer3-interpret`, CF-245 tuition profile and live Pilot runtime.
-- Runtime L2 item states: **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked. No new L2 volume launched.
-- Confirmed current general free profile is benchmark PASS/unpaused but authorised only for course_description/official_course_url/delivery_mode/duration; tuition profile remains paused/benchmark FAIL; scholarship model profiles remain paused/benchmark FAIL. No unsafe profile was enabled.
-- Implemented first CF-247 Pilot unit on `cf-247-automatic-layer3-admission`: private `pipeline.layer3_work_items`, idempotent enqueue, bounded `FOR UPDATE SKIP LOCKED` reservation, benchmark/paused-profile guard and explicit transition service.
-- Added targeted service-role/security/idempotency UAT contract. No canonical, Search or consumer mutation is included in this foundation.
-- Pilot PR #97 opened at head `8a1f1e8efec2479510b8284dfb5e6881ae9ecba0`; mergeable. Pilot Frontend Build queued at observation time.
-- L3 executions/admissions this cycle: 0 by design; queue foundation is not deployed yet. Existing backlog therefore remains 2,402.
-- Provider/model calls/tokens/cost this cycle: 0 / 0 / USD 0. No external quota consumed.
-- Immediate next action: obtain green CI/review on PR #97, then wire a server-owned dispatcher to existing `layer3-interpret` and map only benchmark-approved task classes; add post-L3 deterministic admission only after the dispatcher contract passes.
-- No hard external API/authentication blocker. Current constraint is implementation/CI progression, not quota.
+- Implemented private `pipeline.layer3_work_items`, idempotent enqueue, bounded `SKIP LOCKED` reservation, benchmark/paused-profile guard and explicit transition service on Pilot PR #97.
+- Runtime: 2,402 layer3_required; 2,281 resolved_l2; 815 cancelled; 10 blocked. L3 executions 0; provider/model usage 0 / USD 0.
 
 ## 2026-09-15 12:27 UTC — queue security/recovery hardening
 
-- PR #97 initial head `8a1f1e8e` completed Pilot Frontend Build PASS and Cloudflare preview deployment PASS.
-- Gitar review identified three actionable foundation defects: ineffective `current_user` authorization inside SECURITY DEFINER, no stale-reservation recovery, and unbounded failed-item retries.
-- Fixed all three on the same bounded foundation branch: caller authorization now resolves JWT caller role with session fallback; stale `reserved` leases older than 15 minutes are reclaimed; work reaching five reservations is parked/dead-lettered instead of retrying indefinitely.
-- Extended the targeted UAT contract to assert JWT caller inspection, lease recovery, five-attempt ceiling and absence of the ineffective `current_user` guard.
-- Current PR #97 head: `71228019a5d7f200be0dc369008ff4fab43ec251`; CI had not yet registered a workflow run at the observation instant, so this head is not represented as accepted/green yet.
-- Fresh runtime at 12:26 UTC: **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked; active L2 batches 0; Layer 3 interpretations in prior hour 0; Layer 4 items in prior hour 0.
-- No additional L2 work launched; no model/provider calls, tokens or cost consumed; consumer coverage unchanged.
-- Next action: require green CI and clean Gitar review on exact head, then implement the dispatcher against this recoverable queue and existing `layer3-interpret`; do not deploy or backfill the 2,402 backlog until that exact queue foundation passes.
-- No external API/auth/quota blocker. Current gating item is exact-head CI/review assurance.
+- PR #97 initial build/Cloudflare PASS; Gitar found ineffective SECURITY DEFINER caller check, stale reservation recovery gap and unlimited retries.
+- Corrected caller JWT/session role evaluation, 15-minute lease recovery and five-attempt parking; extended targeted UAT.
+- Runtime unchanged; no L2 volume added.
+
+## 2026-09-15 13:27 UTC — queue foundation accepted/deployed
+
+- Pilot PR #97 merged to main as `81cfa56b5f4689b0208b3cf50dc48dec12dcd34c`; queue migration applied to Pilot runtime.
+- Runtime queue initially empty by design; historical Layer 2 backlog remained 2,402 pending governed Evidence/task-class derivation.
+- No AI calls/admissions/consumer delta; next unit is handoff derivation + dispatcher.
+
+## 2026-09-15 14:27 UTC — Evidence lineage reconciled; governed handoff derivation opened
+
+- Reconciled Pilot main `81cfa56b5f4689b0208b3cf50dc48dec12dcd34c` and live runtime.
+- Runtime remains **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked; Layer 3 queue empty; interpretations in prior hour 0.
+- Important lineage finding: direct `evidence_artifacts.entity_id/job_id` matching is not the correct Layer 2 Evidence join for these runs. `layer2_provider_attempts` carries the authoritative raw/html/screenshot Evidence IDs. **2,178 / 2,402** current Layer 3 fall-out items have retained raw Evidence through that lineage with storage path + content hash.
+- Backlog composition is predominantly tuition ambiguity: 351 multiple-equal-rank fee cases, 105 low-confidence fee cases plus further fee/no-fee variants; 1,403 rows show a generic `layer3_required` blocker and must not have a task class guessed.
+- Model headroom: general free profile PASS/unpaused 20 RPM / 50 day but not tuition-authorised; source-pattern PASS 10/30; international-contact PASS 8/50. Provider-current-tuition profile remains paused + benchmark FAIL at 10 RPM / 25 day. Scholarship profiles remain paused/FAIL.
+- Opened Pilot PR #98 at `896403d26231a38f4bf5b35cf9046530b944e219`: explicit service-role handoff derivation for fee-specific blockers using retained provider-attempt Evidence and only an enabled/unpaused/benchmark-PASS tuition profile. It deliberately fails closed today, so unsafe tuition AI is not executed.
+- No AI/provider calls, tokens or cost this cycle; no canonical/Search/API delta. No new Layer 2 wave launched.
+- Next action: get PR #98 CI/review clean; in parallel improve/benchmark the tuition task route rather than bypassing it. Once a tuition profile passes, deploy derivation and a bounded dispatcher can begin draining explicit fee cases. Generic `layer3_required` rows require explicit unresolved-field provenance before dispatch.
+- No hard external API/auth/quota blocker. Active gate is internal task qualification and CI/review, not resource exhaustion.
