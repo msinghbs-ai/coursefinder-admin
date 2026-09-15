@@ -1,63 +1,55 @@
 # M2.4.6 CURRENT STATE
 
-**Status:** ACTIVE — ADMISSION-FIRST PRODUCTION OPERATIONS MODEL  
-**Reconciled:** 2026-09-15 AEST  
-**Accepted Pilot baseline:** `e62c01cadaf43efa8c3d8ea57625c23874d1b010`  
+**Status:** CLOSED / PASS / FROZEN  
+**Closed:** 2026-09-15 AEST  
+**Accepted Pilot:** `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`  
 **Visible accepted release:** v2.15.79 / package 0.1.6  
 **Pilot Supabase:** `fxcwkweaxjtknorudmwp`  
+**Successor:** M2.4.7 — Controlled Operational Scale  
 **Production:** not provisioned; M2.5 paused until M2.4.9 GO
 
-## Current decision
+## Accepted outcome
 
-M2.4.6 is not an open-ended logic-hardening exercise. The active priority is to keep safe deterministic admission moving and hand consumer-ready data to the website team as soon as it passes existing authority/Evidence/Search gates.
+M2.4.6 established and proved the minimum production-like operating contract without expanding into recurring logic redesign.
 
-A new issue blocks the gate only if it directly prevents safe deterministic admission, required security/identity/Layer authority, Search/API correctness, or bounded recovery from an active failure. Other improvements are deferred to their owning later gate.
+CF-246 permanently corrected the two demonstrated bounded-operation defects:
 
-See `EXECUTION-PRIORITY.md`.
+- duplicate active Layer 2 wave starts are idempotent by country/scope/route;
+- `schedule_remaining=false` now means exactly one dispatched wave, with later continuation limited to reconciliation.
 
-## Runtime admission completed in this reconciliation
+Fresh post-fix AU runtime proof:
 
-Existing accepted CF-245 functions were reused; no new admission semantics were introduced.
+- requested/accepted 5-item managed university wave;
+- immediate duplicate start reused the same request;
+- 5/5 processed;
+- 5 bounded Layer 3 handoffs;
+- 0 blocked;
+- USD 0 provider cost;
+- one batch only;
+- terminal continuation dispatched 0 additional items;
+- request completed with 258 items deliberately unprocessed.
 
-Official URL admission:
+Pilot PR #96 merged at `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`; PR-head build `34948479991` PASS.
 
-- 272 latest qualified candidates checked;
+## Admission / consumer position at closure
+
+Existing accepted CF-245 admission functions were reused rather than redesigned:
+
+- 272 latest qualified official-URL candidates checked;
 - 269 eligible/applied;
 - 122 canonical changes;
-- governed Search projection applied 122 changed rows;
-- current website/Search official-course-URL coverage: **527**.
+- Search projection applied those 122 changes;
+- website/Search official-course-URL coverage is **527**;
+- website v3.1 `has_link=true` returns **527** records and exposes admitted URL, regulatory tuition, intake and English summaries.
 
-Website consumer verification:
+Current deterministic observed-Evidence replay has no further intake or English additions. The 457 provider-current-tuition candidates remain in bounded Layer 3 validation and do not block website handover.
 
-- `website-integration-v3.1-pilot` runtime search with `has_link=true` returns total **527**;
-- returned records include official course URL, regulatory tuition, intake summary, English summary and explicit provider-current-tuition null/value semantics;
-- this confirms the newly admitted URL data is already available through the website consumer contract.
+## Frozen decisions
 
-Observed Evidence replay:
+The M2.4.6 stop rule remains applicable to successors: do not make an optimisation a blocker unless measured runtime evidence shows it directly prevents safe admission, required authority/security, consumer correctness or bounded recovery.
 
-- current replay preview selected 465 observed records;
-- additional deterministic intake candidates: **0**;
-- additional deterministic English candidates: **0**;
-- provider-current-tuition candidates requiring Layer 3 validation: **457**.
+Shared-fetch reuse tuning and generic retry taxonomy are therefore deferred to evidence-led controlled scale, not carried forward as assumed defects.
 
-Therefore intake/English replay is currently exhausted and must not be repeatedly reworked. The 457 ambiguous tuition candidates are a separate Layer 3 workstream and do not block website handover of already-admitted fields.
+## Handover
 
-## Dispatcher/operations reconciliation
-
-Existing runtime already provides server-owned/rank-gated wave dispatch, qualified-scope checks, wave-size clamping, per-profile serialization, continuation scheduling, stale recovery, Evidence/telemetry and explicit NZ Course-enrichment blocking.
-
-Demonstrated improvements such as request-level deduplication, shared-Evidence reuse configuration and generic retry classification remain useful, but they may become M2.4.6 blockers only if a bounded operational exercise proves they prevent safe execution. Do not let them recursively expand the gate.
-
-## Current Search/website position
-
-- Search courses: 33,105;
-- regulatory tuition present: 26,326 plus explicit zero/source-null/not-applicable states;
-- intake coverage: 487;
-- English coverage: 520;
-- official course URLs: **527**;
-- provider-current tuition: 161;
-- website-admitted scholarships: 0.
-
-## Exact next action
-
-Run one bounded qualified AU operational exercise using existing accepted paths. Fix only defects that actually block safe execution/admission. Then close M2.4.6 and move to M2.4.7 controlled scale; website/API handover of the current admitted dataset proceeds in parallel rather than waiting for enrichment perfection.
+Continue from `project-runsheets/milestone-2/m2.4/m2.4.7/`. M2.4.7 must scale only genuinely qualified scopes, measure outcomes, admit qualified deterministic data continuously, and keep the website consumer moving in parallel.
