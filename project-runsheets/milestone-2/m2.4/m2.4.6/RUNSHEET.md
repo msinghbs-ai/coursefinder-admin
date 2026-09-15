@@ -1,10 +1,11 @@
 # M2.4.6 RUNSHEET — Production Operations Model
 
-**Status:** ACTIVE  
+**Status:** ACTIVE — ADMISSION-FIRST EXECUTION  
 **Opened:** 2026-09-15 AEST  
 **Predecessor:** M2.4.5 CLOSED / PASS / FROZEN  
 **Successor:** M2.4.7 Controlled Operational Scale  
-**Programme authority:** `../M2.4.6-M2.4.9-OPERATIONS-PLAN.md`
+**Programme authority:** `../M2.4.6-M2.4.9-OPERATIONS-PLAN.md`  
+**Execution priority:** `EXECUTION-PRIORITY.md`
 
 ## Accepted predecessor baseline
 
@@ -18,34 +19,46 @@
 
 ## M2.4.6 objective
 
-Define and prove the practical day-to-day operating model using the accepted Pilot/runtime, without broad scale expansion and without weakening source qualification, Layer authority, Evidence, identity, security or Search/publication rules.
+Define and prove the minimum practical day-to-day operating model required to safely keep admitting qualified data and handing it to governed consumers. Do not make optional operational improvements prerequisites for admission or website handover.
+
+## Permanent stop rule
+
+A newly discovered issue blocks M2.4.6 only when it directly prevents safe deterministic admission, required security/identity/Layer authority, Search/API correctness, or bounded recovery from an active failure. Otherwise record it for the owning later gate and continue.
 
 ## Gates
 
 - [x] Gate A — predecessor baseline reconciled and frozen.
-- [ ] Gate B — dispatcher/wave operating contract: who/what dispatches, eligible scopes, Evidence reuse-first, deterministic L2, bounded L3 and L4 escalation.
-- [ ] Gate C — failure/recovery contract: retries, parking, stale-item recovery, idempotency/replay and operator intervention boundaries.
-- [ ] Gate D — resource controls: provider quotas, paid-attempt/cost ceilings, concurrency/rate stop conditions and fail-closed behaviour.
-- [ ] Gate E — operating ownership/observability: operator ownership, actionable status, hourly/daily metrics, audit/evidence drill-down and run attribution.
-- [ ] Gate F — bounded runtime exercise: prove the model on qualified AU work; NZ only where qualification genuinely exists.
-- [ ] Gate G — targeted security/browser/UAT acceptance and runbook/admin-guide reconciliation.
-- [ ] Gate H — close/freeze M2.4.6 and hand accepted model to M2.4.7 controlled scale.
+- [x] Gate B — dispatcher/wave operating contract materially reconciled: server-owned/rank-gated wave dispatch, qualified scope checks, wave clamping, per-profile serialization, scheduled continuation and explicit NZ Course block are present. Remaining improvements must pass the stop rule before becoming blockers.
+- [ ] Gate C — minimum failure/recovery contract: only fixes required to prevent duplicate/unsafe execution; optional retry/reuse improvements may defer.
+- [ ] Gate D — confirm existing provider quota/cost/concurrency stop controls are sufficient for bounded operation; do not tune without evidence.
+- [x] Gate E — accepted CF-245 observability retained; admission and consumer deltas are measurable.
+- [ ] Gate F — bounded runtime exercise using existing qualified AU data and accepted admission paths.
+- [ ] Gate G — targeted security/API acceptance and runbook reconciliation only for changed surfaces.
+- [ ] Gate H — close/freeze M2.4.6 and hand the operating model to M2.4.7 controlled scale.
+
+## Admission progress — 15 September 2026
+
+The accepted CF-245 official-course-URL admission path was reused without redesign:
+
+- 272 latest qualified candidates checked;
+- 269 eligible/applied;
+- 122 canonical changes;
+- Search projection applied 122 changed rows;
+- website/Search `official_course_url` coverage is now **527**.
+
+Website v3.1 runtime verification with `has_link=true` returns total **527** and includes admitted official URL, regulatory tuition, intake and English summaries.
+
+Observed-artifact deterministic replay currently has no further intake/English candidates: 0 intake courses / 0 English courses. Remaining 457 provider-current-tuition candidates are already classified for Layer 3 fee validation and are not a blocker for current website handover.
 
 ## Scope boundaries
 
-M2.4.6 may refine operational orchestration, recovery and controls only where required to prove the operating model. It must not:
+M2.4.6 must not reopen CF-093, manufacture data, copy AU qualification into NZ, introduce generic Layer 3 auto-approval, bypass Layer 4, weaken Evidence/security, or delay consumer handover merely to improve non-blocking orchestration logic.
 
-- reopen CF-093;
-- manufacture data or copy AU qualification assumptions into NZ;
-- introduce generic Layer 3 auto-approval;
-- bypass Layer 4 consequential authority;
-- expose private Evidence/base tables;
-- merge acquisition with canonical/Search publication authority;
-- expand country onboarding beyond governed AU/NZ scope;
-- start M2.5 or provision Production.
-
-Broad throughput/coverage expansion belongs to M2.4.7 after this operating model is accepted.
+Broad throughput/coverage expansion belongs to M2.4.7. Consumer/API operationalisation belongs to M2.4.8, but accepted consumer-ready data may be handed over continuously rather than waiting for that gate to begin.
 
 ## Exact next gate
 
-Reconcile the current Pilot dispatcher/scheduler/run-item/provider-attempt implementation and the accepted CF-245 telemetry against Gate B. Document the existing dispatcher, ownership, wave eligibility and stop conditions first; create a new Change Control only for demonstrated gaps requiring implementation changes.
+1. Verify the current website v3.1 consumer contract against the newly projected data and preserve the runtime sample/evidence.
+2. Complete only the minimum duplicate/unsafe-execution protection needed for bounded waves.
+3. Run one bounded qualified AU operational exercise using existing accepted paths.
+4. If green, close M2.4.6 and move immediately to M2.4.7 scale while the website consumer uses the already-admitted dataset.
