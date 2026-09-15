@@ -45,3 +45,12 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - No AI/provider calls, tokens or cost this cycle; no canonical/Search/API delta. No new Layer 2 wave launched.
 - Next action: get PR #98 CI/review clean; in parallel improve/benchmark the tuition task route rather than bypassing it. Once a tuition profile passes, deploy derivation and a bounded dispatcher can begin draining explicit fee cases. Generic `layer3_required` rows require explicit unresolved-field provenance before dispatch.
 - No hard external API/auth/quota blocker. Active gate is internal task qualification and CI/review, not resource exhaustion.
+
+## 2026-09-15 15:28 UTC — handoff derivation review fixes
+
+- PR #98 original head `896403d...` Frontend Build PASS, but Gitar correctly blocked merge on two defects: provider-attempt fan-out could enqueue multiple Evidence items for one Layer 2 run item, and broad fee-candidate matching could produce a NULL reason and abort the batch.
+- Corrected derivation to select exactly one latest retained Evidence attempt per run item through a lateral lookup and narrowed matching to the three explicitly governed fee blocker classes. Unknown blocker variants now fail closed instead of being guessed or aborting a batch.
+- Extended targeted UAT to lock single-attempt selection and explicit taxonomy. New exact PR head `2f2cb6b5c44b0df4919ca9f1c656d6a5dbf0169c`; exact-head workflow/re-review pending at observation time.
+- Runtime remains **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked. No additional L2 work launched; no L3 execution/admission/consumer delta authorised while #98 is under exact-head assurance.
+- Resource posture unchanged: no new model/provider calls or cost intentionally consumed. Tuition route remains benchmark-failed/paused, so even after derivation deployment it will fail closed until a task-specific profile passes.
+- Next action: require exact-head CI + clean Gitar review, then merge/deploy #98 and proceed to bounded dispatcher + tuition benchmark work. No hard external API/auth/quota blocker.
