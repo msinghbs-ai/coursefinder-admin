@@ -49,3 +49,15 @@ Each entry should contain where available:
 - Provider/model calls/tokens/cost this cycle: 0 / 0 / USD 0. No external quota consumed.
 - Immediate next action: obtain green CI/review on PR #97, then wire a server-owned dispatcher to existing `layer3-interpret` and map only benchmark-approved task classes; add post-L3 deterministic admission only after the dispatcher contract passes.
 - No hard external API/authentication blocker. Current constraint is implementation/CI progression, not quota.
+
+## 2026-09-15 12:27 UTC — queue security/recovery hardening
+
+- PR #97 initial head `8a1f1e8e` completed Pilot Frontend Build PASS and Cloudflare preview deployment PASS.
+- Gitar review identified three actionable foundation defects: ineffective `current_user` authorization inside SECURITY DEFINER, no stale-reservation recovery, and unbounded failed-item retries.
+- Fixed all three on the same bounded foundation branch: caller authorization now resolves JWT caller role with session fallback; stale `reserved` leases older than 15 minutes are reclaimed; work reaching five reservations is parked/dead-lettered instead of retrying indefinitely.
+- Extended the targeted UAT contract to assert JWT caller inspection, lease recovery, five-attempt ceiling and absence of the ineffective `current_user` guard.
+- Current PR #97 head: `71228019a5d7f200be0dc369008ff4fab43ec251`; CI had not yet registered a workflow run at the observation instant, so this head is not represented as accepted/green yet.
+- Fresh runtime at 12:26 UTC: **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked; active L2 batches 0; Layer 3 interpretations in prior hour 0; Layer 4 items in prior hour 0.
+- No additional L2 work launched; no model/provider calls, tokens or cost consumed; consumer coverage unchanged.
+- Next action: require green CI and clean Gitar review on exact head, then implement the dispatcher against this recoverable queue and existing `layer3-interpret`; do not deploy or backfill the 2,402 backlog until that exact queue foundation passes.
+- No external API/auth/quota blocker. Current gating item is exact-head CI/review assurance.
