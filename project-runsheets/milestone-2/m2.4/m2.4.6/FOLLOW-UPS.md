@@ -1,20 +1,20 @@
-# M2.4.6 FOLLOW-UPS
+# M2.4.6 FOLLOW-UPS — FROZEN
 
-| ID | Workstream | Status | Exact next action |
+| ID | Workstream | Closure state | Successor treatment |
 |---|---|---|---|
-| M246-FU-001 | Dispatcher / waves | ACTIVE | Reconcile existing dispatcher, scheduler and wave creation/selection paths; identify exact runtime owner and eligibility gates. |
-| M246-FU-002 | Evidence reuse | ACTIVE | Verify reuse-first behaviour and when a new provider acquisition is permitted versus existing Evidence replay. |
-| M246-FU-003 | Layer authority | ACTIVE | Reconcile deterministic L2, bounded L3 and L4 escalation/stop conditions; preserve fail-closed authority. |
-| M246-FU-004 | Retry / parking / stale recovery | ACTIVE | Map retry classes, retry ceilings, parked/blocked states, stale recovery and idempotent replay contracts. |
-| M246-FU-005 | Quota / cost controls | ACTIVE | Reconcile provider budgets, rate/concurrency controls, paid-attempt ceilings and operator-visible stop reasons. |
-| M246-FU-006 | Operator ownership | ACTIVE | Determine task/wave creator/owner attribution, deleted-user handling and practical operator intervention/audit requirements. |
-| M246-FU-007 | Metrics | ACTIVE | Use accepted CF-245 hourly coverage/outcome telemetry; add only missing run/wave attribution needed for operations. |
-| M246-FU-008 | AU bounded exercise | BLOCKED ON GATE B–E | Run representative qualified AU operation only after operating contract is explicit. |
-| M246-FU-009 | NZ operation | BLOCKED ON QUALIFICATION | Do not copy AU assumptions; operate NZ only when governed source/profile/discovery/policy qualification exists. |
-| M246-FU-010 | Scale | DEFERRED | Broad provider/state/country scale belongs to M2.4.7. |
-| M246-FU-011 | Consumer/support readiness | DEFERRED | Website/API/support operationalisation belongs to M2.4.8. |
-| M246-FU-012 | Production rehearsal | DEFERRED | Environment/rollback/full rehearsal belongs to M2.4.9. |
+| M246-FU-001 | Dispatcher / waves | CLOSED / PASS | Accepted under CF-246; active starts are idempotent and bounded-wave continuation is enforced. |
+| M246-FU-002 | Evidence reuse | DEFERRED — NON-BLOCKING | M2.4.7 may tune shared-fetch reuse only if measured scale evidence shows meaningful repeated-acquisition cost/latency. |
+| M246-FU-003 | Layer authority | CLOSED / PASS | Fresh bounded exercise preserved L2 → bounded L3 handling; no authority bypass. |
+| M246-FU-004 | Retry / parking / stale recovery | ACCEPTED BASELINE / NON-BLOCKING | Existing stale recovery/fail-closed controls are sufficient for bounded operation; refine only from measured failures. |
+| M246-FU-005 | Quota / cost controls | CLOSED FOR BOUNDED OPERATION | Fresh exercise respected wave bound and cost USD 0; tuning belongs to measured M2.4.7 scale. |
+| M246-FU-006 | Operator ownership | ACCEPTED BASELINE | Existing request/run attribution retained; improve in later ops UX only if needed. |
+| M246-FU-007 | Metrics | CLOSED / PASS | CF-245 telemetry plus wave/run attribution sufficient to enter controlled scale. |
+| M246-FU-008 | AU bounded exercise | CLOSED / PASS | 5/5 processed; 5 bounded L3 handoffs; 0 blocked; one batch; no continuation overrun. |
+| M246-FU-009 | NZ operation | BLOCKED ON QUALIFICATION | Do not copy AU assumptions. M2.4.7 may operate NZ only where governed qualification genuinely exists. |
+| M246-FU-010 | Scale | HANDED TO M2.4.7 | Controlled operational scale is now the active milestone. |
+| M246-FU-011 | Consumer/support readiness | M2.4.8 | Website handover of already-admitted v3.1 data continues in parallel. |
+| M246-FU-012 | Production rehearsal | M2.4.9 | Production remains unprovisioned until explicit GO. |
 
-## Guardrails
+## Frozen closure
 
-CF-093 remains closed. CF-245 is accepted predecessor evidence. M2.5 and Production remain paused. Any material implementation gap discovered during M2.4.6 must be routed through a new Change Control and the applicable troubleshooting/recovery protocol when defect-like.
+CF-246 and M2.4.6 are CLOSED / PASS. Do not reopen them for scale tuning. Any new material defect must receive a new Change Control and follow the governed troubleshooting/recovery protocol.
