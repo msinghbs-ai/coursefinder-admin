@@ -36,3 +36,16 @@ Each entry should contain where available:
 - Decision: do not generate larger L2 backlog. Implement automatic L2→L3 queue/dispatcher, task-qualified model routes, post-L3 deterministic admission/Search projection and live actionable UI first.
 - Resource monitoring requirement activated: provider quotas, model RPM/day/tokens/cost, DB/Edge latency, Evidence growth, queue age/depth and estimated backlog-clear time must be retained/reported.
 - Hourly autonomous monitoring/execution automation enabled. Routine safe work no longer waits for a `proceed` command.
+
+## 2026-09-15 11:27 UTC — durable Layer 3 queue foundation
+
+- Reconciled accepted Pilot `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`, existing Layer 3 reservation/completion services, `layer3-interpret`, CF-245 tuition profile and live Pilot runtime.
+- Runtime L2 item states: **2,402 layer3_required**, 2,281 resolved_l2, 815 cancelled, 10 blocked. No new L2 volume launched.
+- Confirmed current general free profile is benchmark PASS/unpaused but authorised only for course_description/official_course_url/delivery_mode/duration; tuition profile remains paused/benchmark FAIL; scholarship model profiles remain paused/benchmark FAIL. No unsafe profile was enabled.
+- Implemented first CF-247 Pilot unit on `cf-247-automatic-layer3-admission`: private `pipeline.layer3_work_items`, idempotent enqueue, bounded `FOR UPDATE SKIP LOCKED` reservation, benchmark/paused-profile guard and explicit transition service.
+- Added targeted service-role/security/idempotency UAT contract. No canonical, Search or consumer mutation is included in this foundation.
+- Pilot PR #97 opened at head `8a1f1e8efec2479510b8284dfb5e6881ae9ecba0`; mergeable. Pilot Frontend Build queued at observation time.
+- L3 executions/admissions this cycle: 0 by design; queue foundation is not deployed yet. Existing backlog therefore remains 2,402.
+- Provider/model calls/tokens/cost this cycle: 0 / 0 / USD 0. No external quota consumed.
+- Immediate next action: obtain green CI/review on PR #97, then wire a server-owned dispatcher to existing `layer3-interpret` and map only benchmark-approved task classes; add post-L3 deterministic admission only after the dispatcher contract passes.
+- No hard external API/authentication blocker. Current constraint is implementation/CI progression, not quota.
