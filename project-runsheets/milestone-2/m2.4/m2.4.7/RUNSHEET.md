@@ -1,6 +1,6 @@
 # M2.4.7 RUNSHEET — Controlled Operational Scale
 
-**Status:** ACTIVE  
+**Status:** ACTIVE — FIRST QUALIFIED SCALE WAVE RUNNING  
 **Opened:** 2026-09-15 AEST  
 **Predecessor:** M2.4.6 CLOSED / PASS / FROZEN  
 **Accepted Pilot baseline:** `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`  
@@ -14,8 +14,8 @@ Scale the accepted operating model across genuinely qualified AU/NZ scopes while
 ## Gates
 
 - [x] Gate A — M2.4.6 accepted/frozen at Pilot `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`.
-- [ ] Gate B — select the highest-value genuinely qualified controlled scale scope from runtime backlog/admission opportunity; do not select by raw queue size alone.
-- [ ] Gate C — execute bounded multi-wave scale using accepted dispatcher/authority controls; AU first unless NZ qualification is independently proven.
+- [x] Gate B — first scale target selected by governed admission opportunity: RMIT qualified Course profile. Current queueable backlog is 261 courses / 303 missing field rows, including 37 intake and 5 English gaps plus provider-current tuition requiring bounded L3. UQ has only 3 deterministic intake/English gaps. Flinders/Curtin queue rows were not selected because no matching admitted Course-Fact source qualification was present.
+- [ ] Gate C — bounded controlled scale execution ACTIVE: RMIT university request `f120fb4b-ec69-4f2c-8147-550a338c6f3d`, managed route, 25-item wave, `schedule_remaining=false`.
 - [ ] Gate D — measure throughput, deterministic admission gain, L3/L4 handoff, failure/block rate, vendor units/cost, latency and recovery.
 - [ ] Gate E — continuously project accepted deterministic changes into governed Search and verify website/API deltas.
 - [ ] Gate F — tune Evidence reuse/retry/provider routing only if measurements show a material blocker; no speculative redesign.
@@ -32,6 +32,12 @@ Scale the accepted operating model across genuinely qualified AU/NZ scopes while
 - website v3.1 `has_link=true`: 527;
 - website-admitted scholarships: 0.
 
+## First scale-wave evidence
+
+RMIT is fully enabled/unpaused, current profile validation is valid, execution policy enabled, qualification status `qualified`, `apply_admitted=true`, `search_admitted=true`, and admitted domains include official URL, international fee, intake and English requirement.
+
+The first controlled request started with exactly 25 items and automatic continuation disabled. Initial batch `13f33fcf-05b9-4379-b214-cf4760bbe1f3` is processing under the accepted managed route. No broad country run or scheduler/concurrency increase has been authorised.
+
 ## Guardrails
 
 - CF-093 and CF-246 remain closed historical acceptance evidence.
@@ -43,4 +49,4 @@ Scale the accepted operating model across genuinely qualified AU/NZ scopes while
 
 ## Exact next gate
 
-Reconcile runtime qualified AU profiles against current queueable backlog and already-admitted coverage. Select the first controlled scale target by expected safe admission value, then run a bounded wave and measure the end-to-end gain before increasing scope.
+Complete the 25-item RMIT wave, reconcile terminal outcomes and newly observed deterministic fields, admit only qualified safe changes through existing paths, refresh governed Search, and measure the website delta before authorising another wave or a wider scope.
