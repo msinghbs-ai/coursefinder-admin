@@ -1,13 +1,15 @@
 # CF-CHG-20260903-087 — M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / H1 TARGETED PASS — H2 ACTIVE  
+**Status:** CLOSED / PASS — M2.4.5 ACCEPTED AND FROZEN  
 **Category:** 00-governance-programme  
 **Initiated:** 2026-09-03 10:28 AEST  
+**Closed:** 2026-09-15 AEST  
 **Origin chat:** CF M2.5 — Production Readiness — 2026-09-03  
 **Owner:** CourseFinder programme governance  
 **Parent milestone:** M2  
 **Inserted gate:** M2.4.5  
-**Production gate:** M2.5 P0 remains paused until M2.4.5 closure.
+**Successor gate:** M2.4.6 Production Operations Model  
+**Production gate:** M2.5 remains paused until M2.4.9 records explicit GO.
 
 ## Decision
 
@@ -36,9 +38,7 @@ Data/source → workflow → Admin UI → Settings → permissions → Evidence 
 
 ## Production boundary
 
-M2.5 P0 remains paused. No Production Supabase project may be created until:
-- M2.4.5 is closed/accepted;
-- Production organisation, region, project name and current quoted supplier cost are explicitly confirmed.
+No Production Supabase project was created during M2.4.5. The later programme decision `M2.4.6-M2.4.9-OPERATIONS-PLAN.md` inserts four operational gates before M2.5, so Production now remains paused until M2.4.9 records explicit GO and the existing Production organisation/region/name/cost requirements are met.
 
 ## Acceptance
 
@@ -51,8 +51,6 @@ M2.4.5 closes only when:
 - Production migration inventory/telemetry is current;
 - milestone meeting pack/evidence is current;
 - exactly one nominated broader regression/acceptance gate passes.
-
-
 
 ## Governance implementation evidence — 2026-09-03 10:28 AEST
 
@@ -70,13 +68,13 @@ Created/updated:
 - M2.5 P0 pause/redirect: `669a1c04842c2d7bcaed4aa94ad692c0392d84b7`, `3483856151d461be9b3033e3ea1bdee1b73957be`, `98e2e2806c6678717b009d44f553fbfe9ab33040`.
 
 Validation:
-- active document router now points implementation work to M2.4.5;
-- M2.4.4 remains frozen;
-- M2.5 remains paused at P0;
+- active document router pointed implementation work to M2.4.5 while the gate was active;
+- M2.4.4 remained frozen;
+- M2.5 remained paused at P0;
 - no runtime, schema or paid Production resource change was made in this governance step.
 
 Rollback:
-- revert the listed governance commits and restore M2.5 as the active router if the inserted gate is later cancelled before implementation.
+- historical rollback instructions are retained for audit; the accepted M2.4.5 baseline must not now be reverted merely to simplify successor operations work.
 
 ## Execution update — 2026-09-03 10:47 AEST
 
@@ -96,7 +94,7 @@ H2 started under CF-085.
 - no runtime routing semantic change yet;
 - global route mode vs per-profile routing remains the next bounded reconciliation.
 
-Production boundary remains unchanged: M2.5 is PAUSED AT P0 and no Production Supabase project exists.
+Production boundary remained unchanged: M2.5 was PAUSED AT P0 and no Production project existed.
 
 ## H2 update — 2026-09-03 11:50 AEST
 
@@ -105,25 +103,28 @@ CF-089 Scraper Config UX/performance hardening is TARGETED PASS:
 - Frontend Build `33705175916` PASS;
 - Deployed UAT `33705175873` PASS.
 
-H2 is not fully closed because the user-enabled Parse.bot credential returned HTTP 401 from the official Parse API. Parse.bot remains excluded from execution until a valid API key passes and one generated-API route is qualified.
-
-M2.4.4 remains frozen, M2.5 remains paused at P0, and no Production project has been created.
+The Parse.bot credential returned HTTP 401 from the official Parse API and Parse.bot remained excluded from execution pending a valid credential and qualified generated-API route. This residual did not authorise bypass or weaken provider qualification; any future Parse.bot enablement requires its applicable successor gate/change control.
 
 ## Addenda expansion — 2026-09-03 12:47 AEST
 
-CF-091 adds three governed M2.4.5 workstreams without reopening M2.4.4 or authorising Production:
+CF-091 added three governed M2.4.5 workstreams without reopening M2.4.4 or authorising Production:
 
 - **H11 — Provider Logo Completeness & University Source Discovery**: one approved primary logo per in-scope university/Provider where first-party Evidence is obtainable; Hotcourses sitemap/navigation may accelerate discovery/reconciliation but is not canonical authority by default.
 - **H12 — ARWU & University Diversity Statistics**: ARWU 2025 plus multi-year edition history; University Diversity/HDI as a separate contextual dataset in Statistics & Rankings.
 - **H13 — Ranking Acquisition Adapters**: uploaded parser + governed API/Parse.bot acquisition normalised through one staging/validate/apply contract with Evidence, edition/year replay, identity controls and cost telemetry.
 
-Repository reconciliation also confirms the earlier CF-083/A32 bookkeeping gap has already been closed. Current authoritative docs remain DB Architecture v2.10.50 and Admin/PIM Decisions v1.31, which preserve v2.10.49/v1.30 respectively.
-
+Repository reconciliation also confirmed the earlier CF-083/A32 bookkeeping gap had already been closed. DB Architecture v2.10.50 and Admin/PIM Decisions v1.31 remained the accepted architecture/design baseline through this gate.
 
 ## Priority override — 2026-09-03 12:59 AEST
 
-User directed execution to **H11 onward first**.
+User directed execution to **H11 onward first**. The sequence changed execution priority only; it did not weaken acceptance, source-authority, security, publication or Production boundaries.
 
-Immediate sequence is H11 → H12 → H13. H2 residual Parse.bot qualification is parked until H13 reaches live Parse.bot execution. H3-H6 remain queued behind H13. H7-H10 remain continuous controls.
+## Final closure — 2026-09-15 AEST
 
-This changes execution priority only; it does not weaken existing acceptance, source-authority, security, publication or Production boundaries.
+M2.4.5 is accepted and frozen at Pilot main `e62c01cadaf43efa8c3d8ea57625c23874d1b010`, visible release v2.15.79 / package 0.1.6.
+
+The final active operational workstream, `CF-CHG-20260915-245`, is CLOSED / PASS after PRs #91–#95. Its recovery sequence proved the intended CF-245 path rather than weakening unrelated tests: dedicated deployed UAT `34926246733` PASS, generic targeted UAT `34926246675` PASS, build/smoke `34926246673` PASS and Cloudflare deployment PASS (`c4eef0db-5910-42e7-ab50-0b9d701c5f07`).
+
+The accepted runtime has genuine hourly enrichment history and the rank-gated Enrichment Operations surface. Ongoing dispatcher/retry/cost operating procedures, broader controlled scale, consumer/support operations and Production rehearsal are explicitly transferred to M2.4.6, M2.4.7, M2.4.8 and M2.4.9 respectively under `project-runsheets/milestone-2/m2.4/M2.4.6-M2.4.9-OPERATIONS-PLAN.md`.
+
+This closure does not authorise M2.5 or Production. The exact successor is **M2.4.6 — Production Operations Model**.

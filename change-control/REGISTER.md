@@ -15,21 +15,23 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.3 COMPLETE LAYERS 1–4 GATE:** `CF-CHG-20260825-036`, `-037` and `-038` are CLOSED / PASS for accepted Pilot/UAT scope. NZ first-party Layer 2 Course enrichment remains DEFERRED to future source qualification/onboarding.
 >
-> **M2.4:** CLOSED / PASS — M2.4.0 through M2.4.4 are CLOSED/PASS.
+> **M2.4.0–M2.4.4:** CLOSED / PASS / FROZEN.
 >
-> **M2.4.5:** ACTIVE under `CF-CHG-20260903-087`. H1 Administration IA/UI standardisation is IMPLEMENTED / TARGETED PASS under `CF-CHG-20260903-088` (build `33700864619`, deployed UAT `33700864824`). H2 Scraper Config/routing hardening is ACTIVE under CF-085/CF-087. H11-H13 Provider assets, ARWU/Diversity and ranking acquisition adapters are added under CF-091. Scholarship acquisition/reconciliation is hardened through CF-195: 263 canonical international Scholarships, 0 published, 0 active detail-ready candidates, 0 active acquisition jobs and 0 reconciliation-ready records at the latest Pilot verification. M2.4.4 remains CLOSED/PASS/FROZEN. No Production Supabase project exists.
+> **M2.4.5:** CLOSED / PASS / FROZEN under `CF-CHG-20260903-087`, with final operational-enrichment acceptance under `CF-CHG-20260915-245`. Accepted Pilot baseline is `e62c01cadaf43efa8c3d8ea57625c23874d1b010`, visible release v2.15.79 / package 0.1.6. Dedicated CF-245 deployed UAT `34926246733`, generic targeted UAT `34926246675`, build/smoke `34926246673` and Cloudflare deployment all PASS. No Production Supabase project exists.
 >
-> **M2.4.5 ENRICHMENT OPERATIONS / CF-245:** `CF-CHG-20260915-245` is OPEN / IMPLEMENTATION IN PROGRESS. Gates A–E are materially progressed: common Layer 2 operational telemetry and AU/NZ backlog classification are live in Pilot; qualified RMIT official-course-URL admission produced 262 decisions (260 canonical changes, 2 unchanged); governed Search coverage is currently 421 official URLs, 161 intakes, 161 English-requirement courses and 161 provider-current-tuition courses. Pilot PR #91 is open from `cf-245-enrichment-ops@2feb5be5d9bf39f0d677a323bafd30c7f8da1026`; Gate F Admin Enrichment Operations reporting and fresh-period acceptance remain open. CF-093 remains CLOSED / PASS / historical only. Scheduler/provider frequency/concurrency was not increased.
+> **M2.4.6:** ACTIVE — PRODUCTION OPERATIONS MODEL. Authority: `project-runsheets/milestone-2/m2.4/M2.4.6-M2.4.9-OPERATIONS-PLAN.md` plus `project-runsheets/milestone-2/m2.4/m2.4.6/`. The active gate is to reconcile and prove dispatcher/waves, Evidence reuse-first, deterministic L2, bounded L3/L4 handling, retries/parking/stale recovery, idempotency, quotas/cost ceilings, stop conditions, operator ownership and operational metrics before broad scale.
+>
+> **M2.4.5 ENRICHMENT OPERATIONS / CF-245:** `CF-CHG-20260915-245` is CLOSED / PASS. Accepted runtime coverage includes 33,105 Search courses, 26,457 regulatory tuition, 487 intakes, 520 English-requirement courses, 421 official-course URLs, 161 provider-current-tuition courses and 0 website-admitted scholarships. Real hourly history exists. The final statement-timeout recovery is migration `20260915034453_cf_245_enrichment_hourly_admin_cache_v1`; it changed private reporting mechanics only and did not alter scheduler frequency/concurrency, provider routing/budgets, canonical authority or publication security.
 >
 > **M2.4.5 UI / RELEASE CURRENTNESS:** `CF-CHG-20260907-242` is CLOSED / PASS. Scholarship/Statistics/Rankings/Provider Compare UI improvements and the bounded read-contract reconciliation are accepted at Pilot v2.15.73 / `82e1f13cd37508bec314bfbf882ecdcb4a89183c`; bounded viewport `34093001623` PASS; final deployed currentness `34093765349` PASS. v2.15.72 remains superseded forensic history. Production unchanged.
 >
 > **M2.4.5 COMPARE UI BUGFIX:** `CF-CHG-20260907-243` is CLOSED / PASS. Independent QS/THE edition selectors (each with Multi-year), removal of the shared QILT/PRISMS snapshot/trend control, and sticky University/Provider identity headers are accepted at Pilot v2.15.74 / `0475dc5dc88a7f3b568a5151e6fd8d94af411924`; build/browser smoke `34097989443` PASS; deployed Cloudflare UAT/currentness `34097989441` PASS. No DB or Production change.
 >
-> **M2.4.5 ARCHITECTURAL HARDENING / CF-241:** `CF-CHG-20260908-244` is CLOSED / PASS. Four-phase tooling/typing/domain/PIM hardening and forward CF-241 runtime reconciliation are accepted at Pilot `4a927057e86935f8c5e101e434355da0b8f9bf7d`; exact-head guardrails `34223507733` PASS; post-merge build/browser smoke `34224432855` PASS; post-merge deployed UAT `34224432694` PASS. Governed Evidence and Layer 2 routes are restored, Evidence replay dependencies are represented in migration history, Course PIM/consumer boundaries are preserved and Production remains untouched. H11 Provider logo completeness/source discovery is the next recorded feature gate.
+> **M2.4.5 ARCHITECTURAL HARDENING / CF-241:** `CF-CHG-20260908-244` is CLOSED / PASS. Four-phase tooling/typing/domain/PIM hardening and forward CF-241 runtime reconciliation are accepted at Pilot `4a927057e86935f8c5e101e434355da0b8f9bf7d`; exact-head guardrails `34223507733` PASS; post-merge build/browser smoke `34224432855` PASS; post-merge deployed UAT `34224432694` PASS. Governed Evidence and Layer 2 routes are restored, Evidence replay dependencies are represented in migration history, Course PIM/consumer boundaries are preserved and Production remains untouched.
 >
-> **M2.5:** PAUSED AT P0 under `CF-CHG-20260901-049` until M2.4.5 closes. Platform foundation `CF-CHG-20260901-051` and CF-052 are IMPLEMENTED / TARGETED PASS. CF-053 is IMPLEMENTED / RUNTIME PASS and CF-054 is IMPLEMENTED / SOURCE+ROLLBACK TARGETED PASS, their earlier deployed UI block was caused by Worker v2.15.14 drift; user UAT now proves the Worker reached v2.15.19. Source has advanced to v2.15.21 under CF-061, so deployed currentness must be rechecked rather than treated as a persistent external-control-plane failure. CF-055 Evidence-lineage classification/duplicate prevention is IMPLEMENTED / TARGETED PASS; CF-056 Backup/PITR control-plane reconciliation is RECONCILED / PLATFORM PROOF PARTIAL with the executed restore gate still OPEN; CF-057 universal Layer 4 block enforcement is IMPLEMENTED / TARGETED PASS; CF-058 Platform maturity Administration surface is IMPLEMENTED / SOURCE+BUILD TARGETED PASS with deployed UI blocked by FU-015; CF-059 Evidence-lineage reconciliation/contact claim hardening is IMPLEMENTED / RUNTIME PASS with targeted CI pending. CF-060 Jobs workspace read-path restoration is IMPLEMENTED / SOURCE CI PENDING with deployed UAT pending. Raw Evidence lineage remains visible while the currently known unresolved integrity count is 0 / severity OK. No Production Supabase project exists; provisioning still requires explicit organisation, quoted-cost and region confirmation.
+> **M2.5:** PAUSED AT P0 under `CF-CHG-20260901-049`. The approved sequence is M2.4.6 Operate → M2.4.7 Scale → M2.4.8 Consume/Support → M2.4.9 Rehearse → M2.5 Production. M2.5 must not resume and Production must not be provisioned until M2.4.9 records explicit GO and the existing organisation/region/project/cost requirements are satisfied.
 >
-> **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR. M2.4 is CLOSED/PASS.
+> **M2.4.4 FINAL ACCEPTANCE:** accepted Pilot `95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; deployed acceptance `33468512515` PASS — desktop 75, mobile 76; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR.
 >
 > **A15 CONTACT INTELLIGENCE:** `CF-CHG-20260829-046` remains CLOSED/PASS and frozen. It does not reopen M2.4.
 >
@@ -39,7 +41,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 | Change ID | Category | Title | Status | Record |
 |---|---|---|---|---|
-| CF-CHG-20260915-245 | 40-layer2-enrichment | M2.4.5 Enrichment Operations, Metrics & Coverage Expansion | OPEN / IMPLEMENTATION IN PROGRESS — GATES A–E PARTIAL PASS | `40-layer2-enrichment/CF-CHG-20260915-245-m245-enrichment-operations-metrics-coverage-expansion.md` |
+| CF-CHG-20260915-245 | 40-layer2-enrichment | M2.4.5 Enrichment Operations, Metrics & Coverage Expansion | CLOSED / PASS | `40-layer2-enrichment/CF-CHG-20260915-245-m245-enrichment-operations-metrics-coverage-expansion.md` |
 | CF-CHG-20260910-092 | 30-admin-pim-ux | Scheduled Tasks configuration and governed run control | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260910-092-scheduled-jobs-config-controls.md` |
 | CF-CHG-20260908-244 | 70-security-platform | M2.4.5 architectural hardening & CF-241 runtime reconciliation | CLOSED / PASS | `70-security-platform/CF-CHG-20260908-244-m245-architectural-hardening-cf241-runtime-reconciliation.md` |
 | CF-CHG-20260907-242 | 30-admin-pim-ux | M2.4.5 UI improvements & v2.15.73 release currentness | CLOSED / PASS | `30-admin-pim-ux/CF-CHG-20260907-242-m245-ui-improvements-v2-15-73-release-currentness.md` |
@@ -147,7 +149,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.6.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A33 (as applicable);
-- M2.4 plan: M2.4.0–M2.4.4 CLOSED/PASS; M2.5 ACTIVE/READINESS under `CF-CHG-20260901-049`.
+- M2.4 operations sequence: M2.4.0–M2.4.5 CLOSED/PASS; M2.4.6 ACTIVE; M2.4.7–M2.4.9 planned; M2.5 PAUSED until M2.4.9 GO.
 
 ## Accepted runtime/source authority
 
@@ -162,7 +164,8 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - **M2.4.2 corrective Stage C:** explicit governance reopening authorised one corrective run using corrected UAT; candidate `093010fada8391c93626b59e59c678064f4961c3`; acceptance `33219089690` desktop/mobile PASS.
 - **M2.4.3 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@96de9add3762a0594ebc371fba49d4d990ff4b45`; bounded integration `33285703513` desktop/mobile PASS; replacement final acceptance `33286437795` desktop/mobile governed status PASS.
 - **M2.4.4 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@95f2991e97e76e644bd74f73512b8bf2725fd4b7`; build `33468512538` PASS; final acceptance `33468512515` desktop 75 / mobile 76 PASS; Security 146 INFO / 0 WARN / 0 ERROR; Performance 172 INFO / 0 WARN / 0 ERROR.
-- **M2.5 foundation Pilot source:** `msinghbs-ai/Coursefinder-Pilot@dac23d68e6df230bc30c306fa7b61e720ecb431c`; targeted deployed UAT `33476711758` / job `99757413769` PASS; post-change Security 146 INFO / 0 WARN / 0 ERROR; Performance 174 INFO / 0 WARN / 0 ERROR. This does not replace the frozen M2.4 acceptance baseline.
+- **M2.4.5 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@e62c01cadaf43efa8c3d8ea57625c23874d1b010`; dedicated CF-245 deployed UAT `34926246733` PASS; generic targeted deployed UAT `34926246675` PASS; build/smoke `34926246673` PASS; Cloudflare Worker version `c4eef0db-5910-42e7-ab50-0b9d701c5f07` PASS.
+- **M2.5 foundation Pilot source (historical/pre-sequence work):** `msinghbs-ai/Coursefinder-Pilot@dac23d68e6df230bc30c306fa7b61e720ecb431c`; targeted deployed UAT `33476711758` / job `99757413769` PASS. This does not authorise M2.5 entry and does not replace the frozen M2.4.5 acceptance baseline.
 - **A15 accepted Pilot source:** `msinghbs-ai/Coursefinder-Pilot@f6741a0cc29c5fea236e85b9042f8079762c6993`; final acceptance `33251745111`, 48/48 desktop and 48/48 mobile PASS. Functional contact freeze remains `f9e4e530462b49cf5a83ad8e0d5137631255028a`.
 
 ## Preserved technical/semantic baseline
@@ -180,7 +183,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Next gate boundary
 
-M2.4.3 and M2.4.4 are CLOSED / PASS. M2.4 is CLOSED / PASS.
+M2.4.5 is CLOSED / PASS / FROZEN. The active gate is **M2.4.6 — Production Operations Model**. Reconcile and prove the existing dispatcher/wave model, Evidence reuse-first, deterministic L2, bounded L3/L4 escalation, retry/parking/stale recovery, replay/idempotency, quota/cost controls, stop conditions, operator ownership and operational metrics. Do not broaden AU/NZ scale until this operating model is accepted; scale belongs to M2.4.7.
 
 Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4 terminal human resolution, A8/A10/A12/A13/A15 standing behaviour, the RMIT canonical-promotion block and NZ Layer 2 source-qualification deferral. Production cutover, broad Publication and Zoho cutover remain later gates.
 
@@ -199,7 +202,7 @@ CF-076 is already used by ranking-import UX/UAT. CF-077 is the deployed Statisti
 
 | CF-CHG-20260903-086 | 00-governance-programme | CourseFinder PIM Principles, Chat Lifecycle & Documentation Hygiene | APPLIED — GOVERNANCE BASELINE / ARCHIVE MIGRATION STAGED | `00-governance-programme/CF-CHG-20260903-086-coursefinder-pim-principles-chat-lifecycle-doc-hygiene.md` |
 
-| CF-CHG-20260903-087 | 00-governance-programme | M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness | ACTIVE / H2 — CF-089 TARGETED UAT | `00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md` |
+| CF-CHG-20260903-087 | 00-governance-programme | M2.4.5 Admin/PIM Hardening & Pre-Production Operational Readiness | CLOSED / PASS | `00-governance-programme/CF-CHG-20260903-087-m2-4-5-admin-pim-hardening-preproduction-readiness.md` |
 
 | CF-CHG-20260903-090 | 20-layer1-regulatory-ingestion | Ranking Import Control Recovery & Statistics Availability | IMPLEMENTED / TARGETED UAT ACTIVE | `20-layer1-regulatory-ingestion/CF-CHG-20260903-090-ranking-import-control-recovery-statistics-availability.md` |
 | CF-CHG-20260903-089 | 40-layer2 | Parse.bot qualification and Scraper Config UX/performance hardening | IMPLEMENTED / TARGETED PASS — PARSE.BOT AUTH BLOCKED | `40-layer2/CF-CHG-20260903-089-parsebot-scraper-config-hardening.md` |

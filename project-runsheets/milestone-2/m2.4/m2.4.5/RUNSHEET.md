@@ -1,81 +1,61 @@
 # M2.4.5 RUNSHEET — Admin/PIM Hardening & Pre-Production Operational Readiness
 
-**Status:** ACTIVE / PRE-PRODUCTION HARDENING — CF-093 CLOSED / PASS; CF-245 ACTIVE  
+**Status:** CLOSED / PASS / FROZEN  
 **Opened:** 2026-09-03 10:28 AEST  
-**Reconciled:** 2026-09-15  
+**Closed/Reconciled:** 2026-09-15 AEST  
 **Predecessor:** M2.4.4 CLOSED / PASS / FROZEN  
-**Successor:** M2.5 Production Readiness — PAUSED AT P0
+**Successor:** M2.4.6 Production Operations Model — ACTIVE
 
-## Current baseline
+## Accepted baseline
 
-- Current Pilot main: `f707e2d4b7221a185dcafb6ec2095ec4a94ad841`.
-- CF-245 implementation PRs: #91 MERGED; #92 MERGED.
-- Visible accepted release remains v2.15.79 / package 0.1.6 until release governance changes it.
+- Pilot main: `e62c01cadaf43efa8c3d8ea57625c23874d1b010`.
+- Visible accepted release: v2.15.79 / package 0.1.6.
 - Pilot Supabase: `fxcwkweaxjtknorudmwp`.
 - CF-093: CLOSED / PASS / HISTORICAL ONLY; do not reopen.
+- CF-245: CLOSED / PASS; merged PRs #91–#95.
 - Production Supabase: not provisioned.
-- Current operational authority: `CF-CHG-20260915-245`.
+- M2.5 remains paused until M2.4.9 records explicit GO.
 
-## CF-245 Gate status
+## Final CF-245 gate status
 
-- [x] Gate A — historical zero-mutation cause reconciled: unresolved targeted fields drove whole-item Layer 3 escalation; scheduler capacity was not the cause.
-- [x] Gate B — common enrichment operational ledger/hourly telemetry merged and live.
+- [x] Gate A — historical workload cause reconciled.
+- [x] Gate B — common enrichment operational telemetry live.
 - [x] Gate C — AU/NZ backlog classification live.
-- [x] Gate D — bounded qualified RMIT official-course-URL admission complete: 260 changed + 2 unchanged; fail-closed exception retained.
-- [x] Gate E — governed Search projection applied; current official URL coverage 421 with no collateral final projection delta.
-- [x] Gate F implementation — Enrichment Operations reporting merged via PR #92, with rank-gated browser read path and private telemetry tables.
-- [ ] Gate F deployed acceptance — blocked by deployed-UAT suite routing/currentness recovery, not yet proven as a CF-245 functional defect.
-- [ ] Gate G — tuning not authorised; no scheduler/provider limits changed.
-- [ ] Gate H — closure remains open pending deployed UAT, real hourly/daily history and further bounded qualified expansion.
+- [x] Gate D — bounded deterministic replay/admission baseline accepted.
+- [x] Gate E — governed Search/publication reconciliation accepted.
+- [x] Gate F — Enrichment Operations Admin reporting, security and deployed acceptance PASS.
+- [x] Gate G — tuning intentionally not performed; practical tuning/scaling transferred to M2.4.6/M2.4.7.
+- [x] Gate H — M2.4.5 closure/freeze accepted under the M2.4.6–M2.4.9 operations sequence.
 
-## Current Search/website coverage
+## Final operational evidence
 
-- Search courses: 33,105.
-- Regulatory tuition: 26,457.
-- Intakes: 161.
-- English requirements: 161.
-- Official course URLs: 421.
-- Provider-current tuition: 161.
-- Website-admitted scholarships: 0.
+Latest accepted AU coverage snapshot:
 
-## Fresh CF-245 measurement cohort
+- Search courses: 33,105;
+- regulatory tuition: 26,457;
+- intakes: 487;
+- English requirements: 520;
+- official course URLs: 421;
+- provider-current tuition: 161;
+- website-admitted scholarships: 0.
 
-Batch `797da1cb-0689-4dc6-80e3-6dcf38792950`:
+NZ remains unexpanded for these enrichment fields pending governed source/profile/discovery/policy qualification.
 
-- 5 / 5 processed;
-- 5 / 5 fetched/extracted;
-- 15 correlated Evidence artifacts;
-- 20 fields targeted / 11 resolved;
-- 0 retries;
-- 0 acquisition/runtime blockers;
-- 5 vendor units / recorded cash cost USD 0;
-- all 5 ended `layer3_required` / `layer3_unresolved_target_fields`;
-- p50/p95 response about 2.9 s / 3.8 s;
-- p50/p95 extraction about 2.0 s / 2.15 s.
+Real hourly coverage history exists: intake/English moved from 161/161 at the earlier hourly baseline to 487/520 by the 02:00–03:00 UTC snapshots on 15 September 2026.
 
-Conclusion: acquisition is healthy. Field/admission granularity and Layer 3 handling remain the limiter. Do not increase scheduler frequency/concurrency from this evidence.
+## Recovery / final acceptance
 
-## Gate F implementation/security evidence
+- Generic run `34921633392`: rejected as CF-245 acceptance evidence because it selected an unrelated Layer 1 suite.
+- Dedicated run `34925786691`: valid CF-245 test; exposed genuine statement-timeout failures.
+- Runtime profiling: `pipeline.layer2_enrichment_hourly_v1` approximately 5.4 s by itself against an authenticated 8 s statement budget.
+- PR #95 / migration `20260915034453_cf_245_enrichment_hourly_admin_cache_v1`: private observational cache correction, no mutation-authority or scheduler-policy change.
+- Dedicated CF-245 deployed UAT `34926246733`: PASS.
+- Generic targeted deployed UAT `34926246675`: PASS.
+- Build/smoke `34926246673`: PASS.
+- Cloudflare Worker deployment: PASS, version `c4eef0db-5910-42e7-ab50-0b9d701c5f07`.
 
-- PR #92 final candidate CI `34905465257`: PASS.
-- Post-merge Pilot Frontend Build `34905600072`: PASS.
-- rank-4 `pipeline_operator` Enrichment Operations read: PASS.
-- rank-3 `curator` read: rejected as designed.
-- authenticated/anon direct snapshot-table SELECT: denied.
-- hourly snapshot job: minute 7 each hour.
-- no new Supabase Security Advisor WARN/ERROR introduced by CF-245.
+## Handoff
 
-## Deployed UAT recovery
+M2.4.5 is frozen. Do not add new operating-model design, scaling or tuning here.
 
-Deployed UAT run `34905600101` failed because the generic changed-file router selected `m2-5-layer2-finalizer-fairness-deployed.spec.mjs`. Its source-contract assertion passed; the deployed UI assertion failed because `[data-l2-latest-terminal="true"]` was not found.
-
-This is currently classified as **UAT routing/currentness recovery required**. Do not weaken the fairness test, security rules or enrichment authority boundaries to make it pass.
-
-## Exact next action
-
-1. Add/select a dedicated CF-245 Enrichment Operations deployed-UAT route.
-2. Verify deployed Worker/UI currentness against Pilot main `f707e2d4...`.
-3. Rerun targeted deployed desktop UAT and fix only a demonstrated CF-245 runtime/UI defect if one appears.
-4. Let genuine hourly snapshots accumulate and verify +hour coverage/throughput deltas.
-5. Continue bounded AU qualification/coverage expansion; NZ remains blocked pending source/profile/discovery/policy qualification.
-6. Do not tune scheduler frequency/concurrency/provider ceilings until comparable evidence justifies it.
+Continue from `project-runsheets/milestone-2/m2.4/M2.4.6-M2.4.9-OPERATIONS-PLAN.md` and the active `m2.4.6/` continuity set. M2.4.6 owns dispatcher/waves, Evidence reuse-first, deterministic L2, bounded L3/L4 handling, retries/parking, stale recovery, idempotency, quota/cost controls, stop conditions, ownership and operational metrics.
