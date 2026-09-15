@@ -63,3 +63,13 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - Tuition profile remains paused/FAIL: NVIDIA Nemotron free route, 10 RPM / 25 day; prior benchmark provider cases 0/4, controls 3/4, 11 calls, 67,876 input + 1,246 output tokens, max latency 6.114 s, USD 0. This is now the immediate throughput gate for explicit fee backlog.
 - No new L2 work, L3 interpretations, admissions or consumer/Search delta this cycle. No new provider/model cost incurred.
 - Next action: build/execute a corrected tuition benchmark route/profile and only on PASS enable bounded dispatch; in parallel preserve explicit provenance work for the 1,403 generic `layer3_required` rows. No external API/auth/quota blocker currently observed.
+
+## 2026-09-15 18:26 UTC — backlog decreased without Layer 3 execution; investigate before dispatch
+
+- Reconciled Pilot main `2346fab3a018943f505656fad225b423115ce328` and live Pilot runtime. `pipeline.layer3_work_items` remains empty, so no automatic L3 queue drain has occurred yet.
+- Current Layer 2 `layer3_required` count is **2,313**, down **89** from the 2,402 baseline. Current blocker composition: 1,751 generic `layer3_required`; 386 multiple-equal-rank fee; 160 low-confidence international fee; 9 no-fee; 4 domestic/CSP; 3 source-page identity mismatch.
+- Current `resolved_l2` count is **1,998**. Because both `layer3_required` and `resolved_l2` counts changed while the L3 queue stayed empty, do not attribute the 89-item reduction to successful L3 admission. Runtime history/cleanup/reclassification must be reconciled before using this as an enrichment gain metric.
+- Explicit ambiguous tuition work is now **546** items (386 + 160). Deterministic terminal/exception fee outcomes are 16 items (9 no-fee + 4 domestic/CSP + 3 identity mismatch) and should not consume AI quota.
+- No evidence in the L3 queue of provider/model calls, tokens, cost, retries or Layer 4 creation from the new automatic path. Consumer/Search delta is therefore not claimed.
+- Next action: reconcile why the L2 historical counts changed, then qualify/benchmark a tuition model and wire bounded dispatcher only for explicit Evidence-backed ambiguous tuition work. Preserve the 1,751 generic rows until explicit unresolved-field provenance exists; do not guess task class.
+- No hard external API/auth/quota blocker observed. Active gate remains internal benchmark/dispatcher implementation plus runtime-history reconciliation.
