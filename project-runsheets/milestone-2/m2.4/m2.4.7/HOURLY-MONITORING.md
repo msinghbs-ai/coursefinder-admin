@@ -33,3 +33,13 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - No model call was consumed this cycle; nominal tuition-profile headroom remains the prior 17 calls from the configured 25/day ceiling, subject to provider-side free-tier enforcement. No L3 work/admission/Search delta claimed.
 - Exact next action: change the tuition benchmark worker/corpus selector so four positive provider cases are drawn from these already-admitted Evidence-backed annual/indicative-annual truths; retain unresolved/ambiguous backlog cases as negative/exception controls. Rerun qualification. Only on semantic + control PASS may the profile be unpaused and a bounded 10–25-item queue cohort dispatched.
 - No hard external quota/auth blocker observed. The remaining gate is implementation of the corrected benchmark corpus, followed by dispatcher/admission/Search proof.
+
+## 2026-09-16 02:32 UTC — corrected benchmark corpus deployed
+
+- Reconciled live Pilot and implemented the next safe gate: `layer3_cf245_tuition_benchmark_cases_service` now selects only already-admitted `provider_current_tuition` rows with explicit `annual`/`indicative_annual` basis and retained Evidence; unresolved backlog is no longer used as positive truth.
+- Applied forward migration `cf_247_verified_tuition_benchmark_corpus_v1` to Pilot and reconciled exact SQL to Pilot main commit `1010f0273fc906f0c71be6fddf0b2f15c3fa16a8`.
+- Runtime remains **2,402 layer3_required / 2,281 resolved_l2 / 815 cancelled / 10 blocked**; L3 queue still empty and profile remains paused/FAIL pending the new benchmark result. No admission/Search/API delta claimed.
+- Triggered a fresh 4-positive + 4-control tuition benchmark request. At observation cutoff the async response had not yet recorded a new quality result; the previous result remains 0/4 provider, 4/4 controls. This is treated as in-flight/transient rather than bypassed.
+- No additional completed provider usage can yet be claimed for this cycle. Previous known usage remains 8 calls / 68,071 input / 1,466 output / USD 0 / max 5.794 s, with nominal configured daily headroom subject to provider-side enforcement.
+- Exact next action: observe the new benchmark completion. On full PASS, allow the record service to unpause the profile, enqueue a bounded explicit tuition cohort, then implement/execute server dispatcher + deterministic post-L3 admission and prove Search/API propagation. On FAIL, diagnose only the failing semantic contract against the verified corpus; do not weaken safety controls.
+- No hard external quota/auth blocker observed.
