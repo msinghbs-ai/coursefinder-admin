@@ -27,30 +27,23 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 
 ## 2026-09-16 01:27 UTC — valid benchmark-positive corpus located
 
-- Reconciled Pilot main `188093ca24449ff25068c7c555ada23b7f05c24c`; latest frontend build is PASS and deployed-UAT run exists on the exact head. Tuition profile remains paused as required.
-- Runtime contains **168** admitted `provider_current_tuition` fee rows. Of these, **9** have retained governed Evidence with storage path + content hash and an already-admitted explicit basis in the task validator's allowed set (`annual`, `indicative_annual`, `per_year_explicit`). These are suitable positive benchmark truth because the expected answer is independently established by deterministic admitted state rather than inferred from unresolved backlog.
-- Positive corpus includes 8 UQ 2027 first-party `source_snapshot` cases (AUD 48,080 / 56,800 / 60,952, `indicative_annual`) and 1 RMIT 2027 first-party `source_snapshot` case (AUD 37,440, `annual`). This gives both provider diversity and basis diversity while preserving first-party Evidence lineage.
-- No model call was consumed this cycle; nominal tuition-profile headroom remains the prior 17 calls from the configured 25/day ceiling, subject to provider-side free-tier enforcement. No L3 work/admission/Search delta claimed.
-- Exact next action: change the tuition benchmark worker/corpus selector so four positive provider cases are drawn from these already-admitted Evidence-backed annual/indicative-annual truths; retain unresolved/ambiguous backlog cases as negative/exception controls. Rerun qualification. Only on semantic + control PASS may the profile be unpaused and a bounded 10–25-item queue cohort dispatched.
-- No hard external quota/auth blocker observed. The remaining gate is implementation of the corrected benchmark corpus, followed by dispatcher/admission/Search proof.
+- Runtime contains **168** admitted `provider_current_tuition` fee rows; **9** have retained governed Evidence plus explicit allowed annual basis and form the positive benchmark corpus.
+- No model call consumed. Exact next action was corrected benchmark selection.
 
 ## 2026-09-16 02:32 UTC — corrected benchmark corpus deployed
 
-- Reconciled live Pilot and implemented the next safe gate: `layer3_cf245_tuition_benchmark_cases_service` now selects only already-admitted `provider_current_tuition` rows with explicit `annual`/`indicative_annual` basis and retained Evidence; unresolved backlog is no longer used as positive truth.
-- Applied forward migration `cf_247_verified_tuition_benchmark_corpus_v1` to Pilot and reconciled exact SQL to Pilot main commit `1010f0273fc906f0c71be6fddf0b2f15c3fa16a8`.
-- Runtime remains **2,402 layer3_required / 2,281 resolved_l2 / 815 cancelled / 10 blocked**; L3 queue still empty and profile remains paused/FAIL pending the new benchmark result. No admission/Search/API delta claimed.
-- Triggered a fresh 4-positive + 4-control tuition benchmark request. At observation cutoff the async response had not yet recorded a new quality result; the previous result remains 0/4 provider, 4/4 controls. This is treated as in-flight/transient rather than bypassed.
-- No additional completed provider usage can yet be claimed for this cycle. Previous known usage remains 8 calls / 68,071 input / 1,466 output / USD 0 / max 5.794 s, with nominal configured daily headroom subject to provider-side enforcement.
-- Exact next action: observe the new benchmark completion. On full PASS, allow the record service to unpause the profile, enqueue a bounded explicit tuition cohort, then implement/execute server dispatcher + deterministic post-L3 admission and prove Search/API propagation. On FAIL, diagnose only the failing semantic contract against the verified corpus; do not weaken safety controls.
-- No hard external quota/auth blocker observed.
+- `layer3_cf245_tuition_benchmark_cases_service` now selects only already-admitted provider-current tuition with explicit annual/indicative-annual basis and retained Evidence. Forward migration reconciled to Pilot `1010f027...`.
+- Runtime unchanged; profile remained paused pending qualification.
 
 ## 2026-09-16 03:04 UTC — verified corpus benchmark completed; worker semantic defect isolated
 
-- Reconciled Pilot main `1010f0273fc906f0c71be6fddf0b2f15c3fa16a8`, live benchmark function v1 and runtime result `a1fac3f6-cccd-4042-b93e-06a662209534`.
-- Corrected corpus is definitely active: four UQ first-party Evidence positives carry independently admitted expected values AUD 56,800 / 60,952 / 48,080 / 60,952 with `indicative_annual`, 2027, international scope. Benchmark nevertheless finished **provider 0/4, controls 4/4**, 11 external calls, 27,052 input + 1,241 output tokens, max latency 6.867 s, USD 0. Profile correctly remains paused.
-- Failure is now isolated to the benchmark worker/model interaction, not benchmark truth. One positive returned an empty/non-JSON provider response after retries; three returned `candidate_value=null` despite confidence 0 or 0.95. All four negative controls correctly returned null. The current worker user prompt requires an explicit annual/per-year basis; UQ Evidence is admitted as `indicative_annual`, so the prompt/validator contract is not aligned with the governed positive basis it is supposed to qualify. This must be corrected narrowly; safety controls remain unchanged.
-- Repository/runtime drift found: deployed `layer3-cf245-tuition-benchmark` exists as Edge function v1 but its source is not present under Pilot `supabase/functions`, so the function is not yet reproducible from repository truth. Do not continue repeatedly consuming free-tier calls against an unreconciled worker.
-- A subsequent manual trigger was issued while checking completion; it had not produced a response/result at cutoff. Treat it as potentially in-flight and do not trigger another benchmark until its status is known. Nominal profile ceiling is 25 requests/day; the completed verified-corpus run consumed 11 calls, and provider-side free-tier enforcement may be stricter.
-- Runtime backlog remains **2,402 layer3_required / 2,281 resolved_l2 / 815 cancelled / 10 blocked**; L3 queue empty; no admission/Search/API delta claimed.
-- Exact next action: reconcile the deployed tuition benchmark Edge source into Pilot, change only the positive semantic instruction so governed `indicative_annual` Evidence is accepted without annualisation/inference, preserve all four null controls and deterministic validators, then rerun once. Only a full provider+control PASS may unpause/dispatch.
-- No hard external auth/quota blocker is yet confirmed. Active blocker is an internal benchmark-worker contract/repository reconciliation defect.
+- Verified corpus benchmark finished **provider 0/4, controls 4/4**, 11 calls, 27,052 input + 1,241 output tokens, max latency 6.867 s, USD 0.
+- Worker instruction was inconsistent with governed `indicative_annual` positive truth. Deployed worker source was also absent from repository. Runtime backlog remained **2,402 / 2,281 / 815 / 10**; queue empty.
+
+## 2026-09-16 03:58 UTC — benchmark worker reconciled; narrow semantic correction committed
+
+- Retrieved deployed `layer3-cf245-tuition-benchmark` v1 source from Pilot runtime and reconciled it into Pilot repository at `supabase/functions/layer3-cf245-tuition-benchmark/index.ts`, commit `fa612605f72bd19dd3288c8869b5bec80c6563b3`.
+- Corrected only the positive semantic contract: explicit governed `annual`, `indicative annual`, or `per-year explicit` Evidence is eligible; `indicative_annual` must remain that weaker basis and may not be strengthened/annualised. Positive validator now requires the returned basis to equal independently admitted expected basis. Existing ambiguity/domestic/loan/deposit/currency controls remain unchanged.
+- Pilot frontend/deployed-UAT workflows started on exact commit. Direct Supabase deployment attempt from this execution environment was blocked by tool safety enforcement, so runtime remains on Edge v1 pending the normal repository/deployment path or a later permitted deployment. This is a tool-execution boundary for this cycle, not authority to bypass deployment controls.
+- No new model call was intentionally consumed and no benchmark rerun was launched because corrected worker is not yet deployed. Runtime/admission/Search/API deltas remain unclaimed; last authoritative backlog remains **2,402 layer3_required / 2,281 resolved_l2 / 815 cancelled / 10 blocked**, L3 queue empty.
+- Exact next action: require exact-head CI/UAT green, deploy the repository-owned worker v1.1 through an allowed path, rerun the verified 4+4 benchmark once, and only on full PASS unpause/enqueue a bounded cohort. No larger L2 wave before end-to-end proof.
