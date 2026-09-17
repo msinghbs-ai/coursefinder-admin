@@ -21,7 +21,23 @@
 | M247-FU-017 | Generic Layer 3 provenance | ACTIVE | 1,780 current `layer3_required` items have only generic blocker provenance. Add explicit unresolved-field/task provenance before any dispatch; do not infer task class from the generic marker. |
 | M247-FU-018 | Tuition candidate lineage | IMPLEMENTED / VERIFY EXECUTION | Runtime + Pilot migrations add immutable `candidate_context` to Layer 3 work items and bind it to normalized extraction Evidence. Runtime reconciliation finds 610 explicit fee fall-out records with candidate lineage; 610 have proposed tuition and 598 retain fee-candidate arrays. Next: consume this context in `layer3-interpret` and its benchmark, enforcing output membership/no-strengthening validators. |
 | M247-FU-019 | Gitar bounded self-resolution | ACTIVE SUPPORTING CONTROL | Use Gitar review/self-fix as the preferred first remediation path for ordinary implementation, lint/type, test, CI and non-authority UI defects when a PR is blocked. After any Gitar-generated commit, re-read the exact diff and exact-head CI/UAT before acceptance. Gitar must not weaken or autonomously redefine Layer 1 authority, identity, security/RLS/service-role boundaries, Evidence lineage, applied migration history, Layer 3 admission policy, Layer 4 routing, Search/publication authority, secrets or governance controls merely to make checks green. Security/data-authority/migration/governance-sensitive changes remain governed review gates. If Gitar cannot resolve a defect after one bounded repair cycle, return to root-cause diagnosis rather than repeatedly requesting equivalent fixes. |
+| M247-FU-020 | Scheduler execution invariant | ACTIVE / BLOCKING CONTROL | Scheduled CF-247 runs are execution runs, not recurring analysis. Each Admission Watch run must either change critical-path code/runtime state or stop on a specific hard external blocker. Re-reading the same known blocker, repeating reconciliation, or reporting STALLED without attempting the next authorised implementation/execution step is a scheduler execution failure. Once a root cause is established, the next run must pick up that exact corrective step automatically. |
+| M247-FU-021 | Admission proof contract | ACTIVE / REQUIRED FOR GATE ADVANCEMENT | A scheduler may claim data-admission progress only with authoritative before/after proof: L2 status delta, L3 work-item creation/reservation/result, deterministic admission or Layer-4 disposition, canonical field delta where admitted, and Search/API consumer projection delta or explicit governed no-op. Include item/entity identifiers or bounded cohort/run identifiers, Evidence lineage, timestamps, failure/retry counts, model/provider usage and resource/quota headroom. Code/CI/review progress must be reported separately from data-admission progress. |
+| M247-FU-022 | Iteration carry-forward | ACTIVE / MANDATORY | Every non-terminal scheduled run must persist the exact next critical-path action and why it is next, so the following run continues from that action without rediscovering project history. When the current gate is not advanced, record the concrete attempted operation and blocker. When the gate advances, update RUNSHEET/CURRENT-STATE/FOLLOW-UPS/NEXT-CHAT as applicable so the next iteration begins at the new gate. |
+
+## Scheduler execution invariant
+
+The primary scheduled execution loop must optimise for governed state transition, not report production. Minimal reconciliation is allowed only to prove the intended action is still safe and current. A run that has adequate access and an already-known corrective action must attempt that action during the run.
+
+Evidence of advancement is classified separately:
+
+- **Implementation advancement:** exact commit/PR/runtime change plus exact-head validation.
+- **Qualification advancement:** benchmark/profile state transition with semantic and safety results.
+- **Data-admission advancement:** authoritative item-level or bounded-cohort proof from L2 fall-out through L3 outcome and deterministic admission/L4.
+- **Consumer advancement:** Search/API projection delta or governed no-op proof tied to the admitted canonical change.
+
+A report must not describe implementation/reconciliation work as data admission.
 
 ## Stop rule
 
-The delivery outcome is governed admission, not parser count. Bugs/security/tooling proceed in parallel. They block the primary track only when they affect authority, correctness, recoverability, secure execution or consumer integrity.
+The delivery outcome is governed admission, not parser count or scheduler activity. Bugs/security/tooling proceed in parallel. They block the primary track only when they affect authority, correctness, recoverability, secure execution or consumer integrity. A scheduler may stop without critical-path advancement only for a concrete external tool/API/quota/auth/approval boundary or a newly discovered governance/safety blocker that makes the intended action unsafe.
