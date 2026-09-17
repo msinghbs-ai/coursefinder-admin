@@ -11,41 +11,46 @@ Start from repository/runtime truth. Follow `PROJECT_INSTRUCTIONS.md`, `docs/REA
 
 ## Programme objective
 
-Do not treat scraper/parser completion, scheduler activity, CI success, or a `layer3_required` status as feature completion. The active outcome is:
+The outcome is not parser count, scheduler activity, CI success or `layer3_required`. The outcome is:
 
 `Source → L1 authority → L2 acquisition/Evidence/deterministic extraction → automatic L3 interpretation → deterministic admission or L4 exception → Search/API projection → live Admin telemetry`.
 
-Existing accepted components are retained. Do not big-bang refactor working parsers/functions.
+Do not big-bang refactor accepted components and do not launch larger L2 waves merely to enlarge an undrained backlog.
 
 ## Current critical-path truth
 
-M2.4.7 remains on Gate D: durable automatic L2 → L3 work creation plus server-owned Layer 3 execution/drain. Candidate lineage work is implemented: immutable `candidate_context` is preserved from deterministic Layer 2 tuition extraction into Layer 3 work-item lineage. The remaining blocking implementation is to consume that bounded candidate context in `layer3-interpret` for `provider_current_tuition_validation` and complete durable server-owned dispatch without weakening Evidence, identity, security or authority rules.
+M2.4.7 remains on Gate D. Durable Layer 3 queue primitives and immutable tuition `candidate_context` handoff are already deployed; the route remains fail-closed because tuition qualification has not passed. Latest trusted lifecycle baseline is 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked; L3 work queue 0; Evidence 30,925. Refresh before calling these current.
 
-The active Pilot PR for candidate-bound tuition validation is PR #99. Reconcile its exact current head before work; do not rely on the SHA recorded in prior chat output if repository truth has moved.
+Pilot PR #99 branch `cf-247-candidate-bound-layer3` now has corrective head **`58115985856bace75fecb10422dea5220ea4cee4`**. It preserves the fail-closed exact-candidate contract. The benchmark worker exact source is deployed as Pilot Edge Function `layer3-cf245-tuition-benchmark` **v6**, worker `cf247-tuition-benchmark-v1.3.1-candidate-bound`.
 
-Last trusted runtime observations before this continuity update showed Layer 3 work queue still empty while Layer 2 continued to produce `layer3_required` fall-out. Treat current runtime counts as needing fresh authoritative read at the start of the next execution run; use lifecycle `status` as the backlog source of truth rather than substituting legacy `outcome_code` telemetry.
+Qualification history:
 
-The tuition-specific model/profile must remain fail-closed until the actual candidate + Evidence contract passes semantic provider cases and safety controls. Do not unpause merely for throughput.
+- request 6324: FAIL provider 0/4, controls 2/4, 13 calls, 18,799 input + 610 output, USD 0, 6.609 s max;
+- v1.3 diagnostic changed transport to `json_object`; request 6325 proved regression: FAIL provider 0/4, controls 0/4, 11 calls, 6,678 input + 35 output, USD 0, 0.901 s max;
+- corrective v1.3.1 restores strict JSON-schema transport while retaining focused Evidence context and all no-invention/no-annualisation/no-strengthening validators;
+- governed request **6326** has been submitted. At handoff it is still in `net.http_request_queue` targeting the correct tuition benchmark Edge Function with a 120-second timeout. There is no terminal `net._http_response` or new benchmark run yet.
+
+The four positive corpus rows were independently rechecked in canonical `catalogue.course_fees` with retained `pipeline.evidence_artifacts`: all are UQ 2027 international `indicative_annual` AUD tuition facts with retained Evidence/source URLs. Do not discard the corpus based only on model refusal. If 6326 still fails semantic positives after controls recover, inspect the retained HTML for exact amount/year/audience/basis support before any further model/prompt change.
+
+`layer3-interpret` still lacks final `provider_current_tuition_validation` candidate-context integration and must remain on the Gate-D path before a live admission cohort.
 
 ## Mandatory scheduled-execution invariant
 
-`M247-FU-020`, `M247-FU-021` and `M247-FU-022` are mandatory operating controls for the next iteration.
+M247-FU-020/021/022 are mandatory:
 
-1. **Execution first:** scheduled CF-247 Admission Watch runs are not recurring analysis sessions. After minimum reconciliation, each run must attempt the exact known next critical-path code/runtime action unless a concrete hard external blocker makes it unsafe or impossible.
-2. **No rediscovery loops:** once a root cause is established, the following run must pick up that corrective action directly. Re-reading the same blocker and reporting `STALLED` without attempting the authorised next action is scheduler execution failure.
-3. **Admission proof:** implementation, CI, review and qualification progress must be reported separately from actual data admission. A run may claim `DATA ADMISSION` only with authoritative before/after proof for the bounded cohort: L2 lifecycle delta; L3 work-item creation/reservation/result; deterministic admitted count and Layer-4 disposition; canonical field delta; Search/API projection delta or governed no-op; Evidence lineage/timestamps; failures/retries; model/provider usage; and resource/quota headroom.
-4. **Carry forward exact next action:** every non-terminal run must persist the exact next critical-path operation and why it is next. The next scheduled run or chat must continue from that operation rather than reconstructing the history.
-5. **Anti-loop:** one non-advancing run without a hard external blocker forces a different executable approach on the next run. Two consecutive such runs are `SCHEDULER EXECUTION FAILURE` and implementation/runtime state change takes priority over more monitoring analysis.
+1. after minimum reconciliation, execute the carried-forward critical-path action;
+2. do not rediscover a known blocker;
+3. implementation/qualification progress is separate from data admission;
+4. DATA ADMISSION requires authoritative before/after proof across L2, L3, deterministic admission/L4, canonical delta, Search/API and Evidence/model/resource telemetry;
+5. otherwise state **NO DATA ADMISSION PROVEN**;
+6. one non-advancing run without hard blocker forces a different executable approach; two is `SCHEDULER EXECUTION FAILURE`.
 
 ## Exact continuation sequence
 
-1. Reconcile the current PR #99/head/runtime just enough to confirm no newer Gate-D implementation supersedes it.
-2. Implement the fail-closed `provider_current_tuition_validation` candidate-context path in `layer3-interpret` and complete durable server-owned Layer 3 dispatch. Preserve exact Layer-2 candidate identity, Evidence lineage, service-role/RLS boundaries and no-invention/no-annualisation rules.
-3. Inspect exact diff; use one bounded Gitar self-resolution cycle only for ordinary implementation/CI defects; require exact-head CI/UAT.
-4. Run one governed candidate + Evidence qualification. If it fails, make one narrow correction based on the failing semantic contract; do not revert to broad architecture analysis.
-5. On full semantic+safety PASS, unpause only the qualified tuition route and immediately enqueue/dispatch a bounded 10–25-item existing Evidence-backed cohort.
-6. Capture proof through L3 outcome → deterministic admission or L4 exception → canonical field delta → Search/API propagation/no-op, with throughput, failures/retries, calls/tokens/cost/latency and resource/quota headroom.
-7. Only after that proof, resume normal AU admission scheduling and forecast backlog clearance using measured throughput.
-8. Then continue Gate E onward: deterministic post-L3 admission hardening, consumer propagation, live Admin telemetry, controlled AU scale, independently qualified NZ and CA pilots, then portability/convergence work.
+1. **First operation:** resolve request **6326** from `net._http_response` / `pipeline.layer3_quality_benchmark_runs` / profile state. Do not submit another benchmark while 6326 is queued or unresolved.
+2. If 6326 is full semantic+safety PASS, verify exact Pilot head/runtime/CI, complete the bounded `layer3-interpret` candidate-context integration, require exact-head CI/UAT, then allow only the qualified tuition route to execute.
+3. Immediately enqueue/dispatch only a 10–25-item existing Evidence-backed tuition cohort and capture M247-FU-021 proof: L2 before/after; L3 create/reserve/result; admitted/L4; canonical field delta; Search/API projection/no-op; Evidence lineage; failures/retries; calls/tokens/cost/latency; resource/quota headroom.
+4. If 6326 FAILs, inspect exact failures. If strict schema restores controls but positives remain null, verify retained HTML exact support before another bounded corrective change. Do not weaken validators, annualise, infer, change currency/year/basis, bypass benchmark or repurpose another profile without qualification.
+5. Only after bounded end-to-end proof establishes non-zero throughput may normal AU admission scheduling resume and backlog-clearance ETA be calculated.
 
-Do not launch larger Layer 2 waves simply to accumulate more Layer 3 backlog. Bugs/security/tooling can proceed in parallel; they block only when they affect authority, correctness, recoverability, secure execution or consumer integrity.
+**NO DATA ADMISSION PROVEN** at this handoff.
