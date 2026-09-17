@@ -9,39 +9,18 @@
 
 Close the gap between accepted source/Evidence components and the business outcome: qualified data must flow automatically from source acquisition through governed admission to consumer-ready Search/API state, with human intervention reserved for genuine exceptions.
 
-Programme authority:
-
-`docs/coursefinder-end-to-end-automated-data-admission-roadmap-v1.0.md`
-
-Actionable operations/monitoring authority:
-
-`docs/coursefinder-actionable-operations-monitoring-standard-v1.0.md`
+Programme authority: `docs/coursefinder-end-to-end-automated-data-admission-roadmap-v1.0.md`  
+Actionable operations/monitoring authority: `docs/coursefinder-actionable-operations-monitoring-standard-v1.0.md`
 
 ## Runtime finding that triggered this Change Control
 
-The current deployed `layer2-batch-runner` successfully performs governed acquisition, Evidence normalization, deterministic extraction and item telemetry. When deterministic extraction cannot resolve the target it marks the item `layer3_required` and completes/reconciles Layer 2. It does **not** enqueue or invoke a Layer 3 worker.
-
-The deployed `layer3-interpret` function is a valid evidence-bound single-interpretation execution path with model/profile/rate/cost/validator controls, but the current Admin implementation invokes it from an operator `Run eligible interpretation` action. The general Course Evidence queue is therefore not continuously drained.
-
-Current RMIT controlled-scale proof on 15 September 2026:
-
-- 25 targets;
-- 25 processed;
-- 0 resolved deterministically in Layer 2;
-- 25 marked/escalated `layer3_required`;
-- 0 blocked;
-- vendor cost USD 0;
-- no corresponding automatic Layer 3 interpretations.
-
-A wider runtime check at 2026-09-15 09:27 UTC found **2,402 Layer 2 run items in `layer3_required` state** and no active queued/running Layer 2 work. This confirms that continuing to increase Layer 2 volume without completing the Layer 3 drain would increase operational debt rather than admitted data.
+The deployed Layer 2 path performs governed acquisition, Evidence normalization, deterministic extraction and item telemetry. Unresolved targets become `layer3_required`; the controlled RMIT proof produced 25/25 Layer 3 fall-outs and no automatic Layer 3 interpretation. A wider runtime check found 2,402 Layer 2 run items in `layer3_required`, proving that increasing Layer 2 volume without a drain path creates operational debt rather than admitted data.
 
 ## Programme decision
 
-Do not continue expanding Layer 2 wave volume merely to create a larger Layer 3 backlog. The immediate engineering priority is the automatic Layer 2 → Layer 3 → admission → Search/API loop.
+Do not expand Layer 2 wave volume merely to enlarge the Layer 3 backlog. The immediate engineering priority is the automatic Layer 2 → Layer 3 → deterministic admission/Layer 4 → Search/API loop. Existing accepted parsers, adapters, Evidence contracts, provider controls, model profiles and consumer APIs remain reusable; this is not authority for a big-bang refactor.
 
-Existing accepted parsers, adapters, Evidence contracts, provider controls, model profiles and consumer APIs remain reusable. This is not authority to perform a big-bang refactor.
-
-The Admin UI and reporting model is also part of the feature outcome. Routine screens must be refactored around role-specific decisions and actionable, cross-linked metrics. Stale totals, duplicated diagnostics and decorative data must be removed or moved behind progressive disclosure.
+The Admin UI/reporting model remains part of the feature outcome. Routine screens must prioritise role-specific actionable, cross-linked metrics; stale totals and decorative diagnostics must not displace execution work.
 
 ## Required implementation outcomes
 
@@ -53,99 +32,66 @@ The Admin UI and reporting model is also part of the feature outcome. Routine sc
 6. Layer 4 receives only policy-defined exceptions/ambiguities/consequential decisions.
 7. Live Admin end-to-end progress: Layer 2 → Layer 3 → Layer 4 → admitted/Search, with Evidence, cost, tokens, latency and stop reasons.
 8. Shared source/adapter and field-policy contracts used for AU/NZ/CA and upcoming countries rather than duplicating orchestration per Provider/country.
-9. Scholarships, Rankings and Statistics converge on the same operations/control-plane conventions while retaining their correct source-specific data semantics.
+9. Scholarships, Rankings and Statistics converge on the same operations/control-plane conventions while retaining correct source-specific data semantics.
 10. Wix/Website and Zoho remain curated read consumers behind safe API contracts.
-11. Every headline operational metric is clickable/drillable to the exact Jobs/Evidence/queue/admission/consumer records that produce it.
+11. Every headline operational metric is drillable to the exact Jobs/Evidence/queue/admission/consumer records that produce it.
 12. Active runs show target, processed, remaining, L2/L3/L4/admission counts, throughput, ETA, provider/model resource usage and quota headroom with automatic refresh/realtime behaviour.
-13. Hourly and daily retained telemetry supports capacity forecasting, backlog burn-down, cost/quota planning and source freshness management.
-14. Each Admin screen is reviewed by role and stripped to actionable default data; raw diagnostics and forensic detail remain available through drill-down, not as default clutter.
-
-## Role/UI operating rule
-
-Operational screens must answer: what is running, what changed, what is blocked, what was admitted, what resource headroom remains, when the scope is forecast to finish, and what action is next.
-
-Role-specific defaults:
-
-- Platform Admin — system/security/runtime/quota/API health and alerts;
-- PIM/Data Admin — source freshness, qualified scope, coverage gaps, admission yield and blocked work;
-- Reviewer — only genuine Layer 4/quality exceptions and supporting Evidence;
-- Counsellor/business user — curated consumer data/freshness, not pipeline internals;
-- Integration/ops support — Wix/Zoho/Search projection/API health, failures, versions and lineage drill-down.
-
-No new metric/card is accepted without a defined operator action or decision it supports.
-
-## Continuous monitoring / execution rule
-
-From this Change Control onward, routine safe execution must not wait for a user `proceed` message.
-
-An hourly autonomous monitoring/execution cycle is authorised to:
-
-- reconcile Admin/Pilot/runtime/CI truth;
-- capture L1/L2/L3/L4/admission/Search/API progress and resource metrics;
-- continue the next safe implementation or execution step;
-- record material state in the hourly monitoring record and continuity files;
-- report what was achieved during the hour and the exact next action.
-
-The only normal reasons to wait are a hard external API/quota/tool execution limit, authentication/approval requirement, safety boundary or genuine authority/security blocker. The exact external blocker must be recorded when this occurs.
-
-Work must be bounded to available chat/tool/runtime limits. Before tool/context exhaustion, persist evidence, pending run IDs and exact continuation state to the repository so the next hourly cycle continues rather than duplicating work.
-
-## Testing/acceptance scope
-
-Acceptance is not one AU university. The programme roadmap defines functional, portability, data-family, security and performance matrices.
-
-Required live/qualified pilots:
-
-- AU accepted Course profiles;
-- NZ Course pilot only after independent source/profile qualification;
-- CA qualified pilot using accepted authoritative identities.
-
-Required portability before each later-country activation:
-
-- GB, US, IE and DE adapter-contract fixtures for JSON/API, HTML, sitemap/index, CSV/XLSX and PDF/static forms where applicable;
-- one qualified live pilot per country after source authority is accepted;
-- unchanged replay, changed data, identity ambiguity, deletion/retirement and recovery tests.
-
-Operational UI acceptance additionally requires:
-
-- live progress without manual refresh for active work;
-- cross-click reconciliation from headline metric to underlying records;
-- hourly/daily reporting from retained telemetry rather than stale screenshots;
-- measured throughput/resource forecasts;
-- role-specific screen simplification and progressive disclosure;
-- no statement-timeout regression from operational reporting.
+13. Hourly/daily retained telemetry supports capacity forecasting, backlog burn-down, cost/quota planning and source freshness management.
+14. Each Admin screen is reviewed by role and stripped to actionable default data; forensic detail remains available through drill-down.
 
 ## Security invariants
 
 - Layer 1 identity authority remains protected.
 - Browser does not invoke service-only dispatch/admission helpers directly.
 - private Evidence/Vault secrets remain private.
-- Layer 3 outputs are candidates; a deterministic policy service controls admission.
+- Layer 3 outputs are candidates; deterministic policy controls admission.
 - identity/regulatory/consequential ambiguity routes to Layer 4.
 - no source qualification or benchmark is bypassed for throughput.
 - API consumers have no canonical-write authority.
+- candidate-bound tuition validation may return only an immutable Layer-2 candidate or null; it may not invent, annualise, convert currency, mutate year or strengthen basis.
+
+## Continuous execution / anti-loop rule
+
+Routine safe execution must not wait for a user `proceed` message. M247-FU-020/021/022 are mandatory: scheduled runs execute the exact carried-forward critical-path action after minimum reconciliation; implementation/CI/review/qualification are not data admission; DATA ADMISSION requires authoritative before/after proof through L2, L3, deterministic admission/L4, canonical delta, Search/API and Evidence/model/resource telemetry. One non-advancing run without a hard external blocker forces a changed executable approach; two is `SCHEDULER EXECUTION FAILURE`.
+
+The only normal reasons to wait are a hard external API/quota/tool execution limit, authentication/approval requirement, safety boundary or genuine authority/security blocker. Exact run IDs and next actions must be persisted before tool/context exhaustion.
+
+## Gate D execution state — 17 September 2026
+
+Durable Layer 3 queue/security/handoff primitives are deployed and tuition candidate lineage is preserved. 610 explicit tuition fall-out records have proposed candidate context; 598 retain fee-candidate arrays. The tuition-specific profile remains correctly paused until benchmark PASS.
+
+Latest trusted lifecycle baseline is 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked; Layer 3 work queue is 0. Evidence latest trusted total is 30,925. No larger Layer 2 wave is authorised.
+
+Pilot PR #99 candidate-bound branch corrective head is **`58115985856bace75fecb10422dea5220ea4cee4`**. The exact worker source is deployed as `layer3-cf245-tuition-benchmark` runtime **v6**, worker `cf247-tuition-benchmark-v1.3.1-candidate-bound`.
+
+Qualification evidence:
+
+- request 6324: FAIL provider 0/4, controls 2/4, 13 calls, 18,799 input + 610 output, USD 0, max latency 6.609 s;
+- request 6325 on diagnostic v1.3: FAIL provider 0/4, controls 0/4, 11 calls, 6,678 input + 35 output, USD 0, max latency 0.901 s; this isolated `json_object` transport as a regression;
+- v1.3.1 restores strict JSON-schema transport while retaining focused Evidence and all fail-closed validators;
+- request **6326** is submitted through the governed server path and at continuity cut remains queued in `net.http_request_queue` with the correct tuition benchmark URL and 120-second timeout. Do not submit a duplicate while unresolved.
+
+The four positive corpus records were rechecked against canonical `catalogue.course_fees` and retained `pipeline.evidence_artifacts`; all are UQ 2027 international `indicative_annual` AUD tuition facts with retained Evidence. If 6326 still fails semantic positives after controls recover, inspect retained Evidence exact text before any further prompt/model change.
+
+`layer3-interpret` still requires final `provider_current_tuition_validation` candidate-context execution integration before the first bounded live cohort.
 
 ## Delivery order
 
-1. Automatic Layer 3 queue and dispatcher.
-2. Course-fact task profiles/benchmarks required by actual fall-out.
-3. Post-L3 admission policy + Search projection.
-4. Live actionable operations UI with cross-linked metrics and resource forecasts.
-5. AU end-to-end admission proof and scale.
-6. NZ + CA pilots on the same engine.
-7. GB/US/IE/DE portability and then source-qualified live pilots.
-8. Scholarship/Ranking/Statistics operational convergence.
-9. Role-by-role Admin screen refactoring to remove non-actionable bloat while retaining drill-down diagnostics.
-10. Full nominated acceptance matrix plus hourly/daily operational reporting acceptance.
+1. Complete Gate D qualification + candidate-context Layer 3 execution/drain.
+2. Post-L3 deterministic admission policy + Search projection.
+3. Live actionable operations UI with cross-linked metrics and resource forecasts.
+4. AU end-to-end admission proof and scale.
+5. NZ + CA pilots on the same engine.
+6. GB/US/IE/DE portability and source-qualified live pilots.
+7. Scholarship/Ranking/Statistics operational convergence.
+8. Full nominated acceptance matrix plus hourly/daily operational reporting acceptance.
 
-## Stop rule
+## Stop / rollback principle
 
-Fix bugs and security defects as they arise, but do not let unrelated refactoring, optional parser cleanup or milestone paperwork displace the end-to-end admission outcome. A change blocks this programme only when it affects authority, correctness, recoverability, secure execution or consumer integrity.
-
-## Rollback principle
-
-New orchestration/admission/components must be additive until accepted. Existing proven Layer 2/3 functions remain available during migration. Queue/dispatcher/admission/live-monitor components can be disabled independently without deleting Evidence or canonical history.
+Fix bugs and security defects as they arise, but do not let unrelated refactoring or paperwork displace the end-to-end admission outcome. New orchestration/admission components remain additive until accepted; queue/dispatcher/admission/live-monitor components can be disabled independently without deleting Evidence or canonical history.
 
 ## Current next action
 
-Implement the additive Layer 3 work-queue/dispatcher contract using existing Layer 2 run-item Evidence and existing `layer3-interpret` execution/validation logic. In parallel, define the compact live-run read model required by the actionable operations standard so the same state machine is observable without a second analytics-heavy reporting path. Do not launch larger Course waves until that queue can drain automatically and expose live progress.
+Resolve request **6326** first. On full semantic+safety PASS, complete exact-head `layer3-interpret` candidate-context integration/CI/UAT and run only a 10–25-item existing Evidence-backed cohort through L3 → deterministic admission/L4 → Search/API proof. On FAIL, use the exact failure classes; if controls recover but positives remain null, verify retained Evidence exact support before one further bounded corrective change. Do not weaken qualification and do not launch larger Course waves.
+
+**NO DATA ADMISSION PROVEN** until the bounded cohort satisfies M247-FU-021.
