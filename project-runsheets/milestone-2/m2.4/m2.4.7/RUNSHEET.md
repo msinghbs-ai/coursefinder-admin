@@ -17,8 +17,8 @@ Prove and complete the reusable end-to-end automation contract before increasing
 - [x] Gate A — M2.4.6 accepted/frozen at Pilot `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`.
 - [x] Gate B — RMIT selected as first genuinely qualified AU scale target.
 - [x] Gate C1 — bounded RMIT 25-item scale wave executed: 25/25 processed, 0 blocked, USD 0.
-- [x] Gate C2 — architecture gap proven: all 25 items ended `layer3_required`; deployed Layer 2 batch runner does not automatically enqueue/dispatch general Layer 3 Course interpretation.
-- [ ] Gate D — implement durable automatic Layer 2 → Layer 3 queue and server-owned dispatcher with benchmark/profile/rate/cost/retry/stale controls.
+- [x] Gate C2 — architecture gap proven: all 25 items ended `layer3_required`.
+- [ ] Gate D — complete the reusable automatic L2→L3 drain: durable queue/handoff primitives are deployed; candidate-context tuition route is now in bounded qualification/runtime integration and must prove server-owned execution before the first cohort.
 - [ ] Gate E — implement deterministic post-L3 admission policy and incremental Search/API projection; AI has no unrestricted canonical-write authority.
 - [ ] Gate F — add live Admin end-to-end progress: L2/L3/L4/admitted/remaining + Evidence/model/provider/cost/latency/blocker telemetry.
 - [ ] Gate G — prove automatic admitted-data delta on AU, then the same shared engine on independently qualified NZ and CA pilots; run GB/US/IE/DE portability fixtures before each later-country live pilot.
@@ -35,31 +35,21 @@ Prove and complete the reusable end-to-end automation contract before increasing
 - website v3.1 `has_link=true`: 527;
 - website-admitted scholarships: 0.
 
-## RMIT scale-wave evidence
+## Gate D current execution evidence — 17 September 2026
 
-Request `f120fb4b-ec69-4f2c-8147-550a338c6f3d`, batch `13f33fcf-05b9-4379-b214-cf4760bbe1f3`:
-
-- 25 targets / 25 processed;
-- 0 deterministic Layer 2 resolutions;
-- 25 Layer 3 fall-outs;
-- 0 blocked;
-- 25 vendor units;
-- USD 0 provider cost.
-
-This is sufficient evidence to stop launching larger Layer 2 waves until Layer 3 can drain automatically. More Layer 2 volume would only enlarge an undrained queue.
+- Queue/security/handoff foundation is deployed; immutable tuition `candidate_context` is retained from Layer 2 into Layer 3 lineage.
+- 610 explicit tuition fall-out rows have proposed candidate context; 598 retain ranked fee-candidate arrays.
+- Latest trusted lifecycle baseline: 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked; Layer 3 work queue 0.
+- Tuition route remains enabled but paused/benchmark-FAIL, correctly preventing automatic enqueue.
+- Candidate-bound PR #99 corrective head: `58115985856bace75fecb10422dea5220ea4cee4`.
+- Exact benchmark source deployed as Edge Function v6 / `cf247-tuition-benchmark-v1.3.1-candidate-bound`.
+- Request 6324 failed 0/4 provider + 2/4 controls. Diagnostic request 6325 proved `json_object` transport was a regression at 0/4 + 0/4. v1.3.1 restores strict JSON-schema transport while retaining focused Evidence and fail-closed validators.
+- Qualification request **6326** is submitted and, at continuity cut, remains queued in `net.http_request_queue`; do not duplicate it.
+- `layer3-interpret` still requires final `provider_current_tuition_validation` candidate-context execution integration before bounded live admission.
 
 ## Architecture direction
 
-Keep accepted parsers, source profiles, Evidence, provider routing and model execution functions. Add shared orchestration around them:
-
-1. automatic Layer 3 queue;
-2. server dispatcher;
-3. task-specific benchmarked model routes;
-4. deterministic admission policy;
-5. automatic Search/API projection;
-6. live Admin trace.
-
-Do not big-bang rewrite stable provider/country parsers. New country work changes adapters/source authority, not the queue/admission architecture.
+Keep accepted parsers, source profiles, Evidence, provider routing and model execution functions. Add/reuse shared orchestration around them: automatic Layer 3 queue, server dispatcher, task-specific benchmarked routes, deterministic admission, Search/API projection and live Admin trace. Do not big-bang rewrite stable provider/country parsers.
 
 ## Guardrails
 
@@ -70,7 +60,10 @@ Do not big-bang rewrite stable provider/country parsers. New country work change
 - Do not increase scheduler frequency/concurrency merely to increase counts.
 - Acquisition/Evidence/AI candidate success is not itself consumer admission.
 - Bugs/security/tooling proceed in parallel and block only when they affect authority, correctness, recoverability, safe execution or consumer integrity.
+- M247-FU-020/021/022 are mandatory: execution-first state transition, admission-proof contract and exact next-action carry-forward.
 
-## Exact next gate
+## Exact next gate action
 
-Implement Gate D: additive durable Layer 3 work queue + automatic dispatcher from existing Layer 2 `layer3_required` Evidence. Reuse deployed `layer3-interpret` for execution/validation and preserve all current security/Evidence boundaries. After that, add admission/projection and live UI before resuming broad AU waves.
+Resolve request **6326** first. On full provider+safety PASS, complete exact-head `layer3-interpret` candidate-context integration/CI/UAT and execute only a 10–25-item existing Evidence-backed tuition cohort through L3 → deterministic admission/L4 → Search/API proof. If 6326 fails, use its exact failure classes; if controls recover but positives remain null, verify retained HTML exact support before another bounded corrective change. Do not weaken qualification and do not launch larger L2 waves.
+
+**NO DATA ADMISSION PROVEN** until the bounded cohort satisfies M247-FU-021.
