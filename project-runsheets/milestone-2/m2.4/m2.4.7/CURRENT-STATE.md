@@ -10,71 +10,41 @@
 
 ## Accepted predecessor
 
-M2.4.6 / CF-246 is CLOSED / PASS / FROZEN. Active Layer 2 starts are idempotent and bounded `schedule_remaining=false` requests dispatch exactly one wave.
+M2.4.6 / CF-246 is CLOSED / PASS / FROZEN. Existing accepted Layer 1/2 authority, Evidence, identity, security and consumer contracts remain in force.
 
 ## Admission-first baseline
 
-Existing accepted CF-245 paths increased website/Search official-course-URL coverage to **527** after 122 canonical/Search changes. Intake coverage is 487, English 520 and provider-current tuition 161. Website v3.1 consumes the admitted data now; it does not wait for complete enrichment.
+Starting accepted consumer baseline remains Search 33,105 courses; official-course URLs 527; intakes 487; English 520; provider-current tuition 161; website-admitted scholarships 0. Website/Zoho are curated read consumers and are not canonical authority.
 
-## RMIT controlled-scale result
+RMIT controlled scale proved the architectural gap: 25/25 processed, 0 deterministic Layer 2 resolution, 25 `layer3_required`, 0 blocked, USD 0. No larger Layer 2 waves are authorised merely to enlarge undrained Layer 3 backlog.
 
-Request: `f120fb4b-ec69-4f2c-8147-550a338c6f3d`  
-Batch: `13f33fcf-05b9-4379-b214-cf4760bbe1f3`  
-Scope: RMIT university  
-Route: managed  
-Wave size: 25  
-Schedule remaining: false
+## Gate D implementation/runtime truth — 17 September 2026
 
-Terminal runtime outcome:
+Durable Layer 3 work-queue primitives and fail-closed server-side enqueue/reservation/transition services are already deployed. Immutable tuition `candidate_context` is preserved from deterministic Layer 2 extraction into Layer 3 lineage. Runtime reconciliation found 610 explicit fee fall-out rows with proposed tuition candidate context; 598 retain fee-candidate arrays.
 
-- 25/25 processed;
-- 0 resolved deterministically in Layer 2;
-- 25 marked/escalated `layer3_required`;
-- 0 blocked;
-- 25 vendor units;
-- USD 0 provider cost;
-- batch terminal status `partial` because all items fell out to Layer 3.
+The tuition route `openrouter-provider-tuition-validation-v1` remains enabled but **paused / benchmark FAIL**, with limits 10 RPM, 25 requests/day and USD 0 cost ceiling. Automatic enqueue therefore correctly creates no tuition work while qualification is failing.
 
-## Confirmed architecture gap
+Latest trusted lifecycle counts are **2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked**. Layer 3 work-item queue remains **0** and downstream admission throughput remains 0 items/hour. Evidence latest trusted total is **30,925**. These counts must be refreshed from authoritative runtime before being reported as current; lifecycle `status` is the backlog authority, not legacy `outcome_code`.
 
-Deployed `layer2-batch-runner` performs acquisition → Evidence → normalization → deterministic extraction. For unresolved Course items it writes `layer3_required` and reconciles the Layer 2 batch. It does **not** create/dispatch a general Layer 3 work item.
+Pilot PR #99 (`cf-247-candidate-bound-layer3`) contains the fail-closed candidate-bound tuition contract. Its shared validators preserve exact deterministic Layer-2 amount/currency/basis/year membership, permit null rejection, and prohibit invention, annualisation, currency conversion, year mutation and basis strengthening. `layer3-interpret` still requires the final `provider_current_tuition_validation` candidate-context execution integration before live cohort execution.
 
-Deployed `layer3-interpret` is an evidence-bound single-interpretation executor with benchmark/profile/rate/cost/validator controls. The current Layer 3 Admin UI loads Evidence candidates and invokes `layer3-interpret` only when the operator presses **Run eligible interpretation**. Therefore general Layer 3 Course work does not continuously drain.
+## Qualification execution state
 
-Current tuition-specific OpenRouter free profile is enabled but paused because its fee benchmark failed (`provider 0/4`, controls `3/4`). Other benchmark-passed free profiles are authorised only for their existing task classes; they cannot be silently reused for tuition/intake/English.
+- Request **6324** completed FAIL: provider **0/4**, controls **2/4**, 13 calls, 18,799 input + 610 output tokens, USD 0, max latency 6.609 s. Profile remained paused.
+- Narrow diagnostic commit `ea5d56b6f5489ee6948e4c4d2c4708caee4ff9bc` added candidate-focused Evidence context but changed transport to `json_object`. Deployed benchmark runtime v5 and request **6325** proved that transport was a regression: provider **0/4**, controls **0/4**, 11 calls, 6,678 input + 35 output tokens, USD 0, max latency 0.901 s.
+- Pilot corrective head **`58115985856bace75fecb10422dea5220ea4cee4`** restores strict JSON-schema transport while retaining candidate-focused Evidence and all fail-closed validators. Exact source is deployed as `layer3-cf245-tuition-benchmark` runtime **v6** (`cf247-tuition-benchmark-v1.3.1-candidate-bound`).
+- Governed qualification request **6326** has been submitted through `svc_cf245_run_tuition_benchmark(4)`. At the continuity cut it remains present in `net.http_request_queue` with the correct Edge Function URL and 120-second timeout; no terminal HTTP response or benchmark result exists yet. Do **not** submit another qualification until 6326 is resolved.
+- The four positive benchmark records were revalidated against canonical `catalogue.course_fees` + retained `pipeline.evidence_artifacts`: all are UQ international `indicative_annual` 2027 AUD facts (48,080 / 56,800 / 60,952) with retained Evidence and matching 2027 source URLs. Retained HTML exact-text verification remains the next diagnostic only if strict-schema request 6326 still fails semantic positives.
 
-Runtime observation at 2026-09-15 09:27 UTC found **2,402 Layer 2 run items in `layer3_required` state** and no active queued/running Layer 2 item work. The priority is therefore to drain/admit existing qualified Evidence, not create more Layer 2 backlog.
+## Mandatory scheduled-execution invariant
 
-## Programme correction — CF-247
-
-The governing definition of done is now the complete lifecycle:
-
-`Source → L1 authority → L2 acquisition/Evidence/deterministic extraction → automatic L3 interpretation where eligible → deterministic admission or L4 exception → Search/API projection → Admin telemetry`.
-
-Do not launch larger Course waves merely to create more `layer3_required` backlog. Existing parsers/functions stay in service; the next work is additive orchestration/admission, not a big-bang rewrite.
-
-## Actionable UI / monitoring decision
-
-Operational UI is now part of the functional outcome, not a later dashboard polish task.
-
-Every live operational screen must prioritise current/actionable data and cross-link headline metrics to the exact Jobs, Evidence, queue items, admissions or consumer records behind the number. Active runs must update automatically without requiring manual Refresh and must show stage progress, throughput, ETA, failures, cost/units/tokens/latency and quota/resource headroom.
-
-Role-specific default screens will be reduced to the decisions relevant to Platform Admin, PIM/Data Admin, Reviewer, Counsellor/business user and Integration/ops support. Raw IDs, forensic diagnostics and historical detail remain available by drill-down rather than occupying the default screen.
-
-Hourly and daily retained telemetry must support backlog forecasts, scraper/model quota planning, Evidence/storage growth, database/Edge capacity and consumer API health.
-
-## Autonomous execution cadence
-
-Hourly monitoring/execution is active. Each cycle must reconcile repo/runtime truth, continue the next safe CF-247 implementation/execution step, persist material outcome to `HOURLY-MONITORING.md` and continuity, and report the achieved delta.
-
-Routine safe work must not wait for a user `proceed` command. Waiting is permitted only for a hard external API/quota/tool limit, auth/approval/safety boundary or genuine authority/security blocker; the exact blocker must be recorded.
-
-## Current qualified AU comparison retained
-
-- RMIT: 261 queueable courses with material intake/English/provider-current-tuition gaps;
-- UQ: 104 queueable with fewer deterministic intake/English gaps;
-- Flinders/Curtin queue rows are not selected until matching admitted Course-Fact source qualifications exist.
+M247-FU-020/021/022 remain mandatory. Scheduled runs are execution-first, must carry forward the exact next operation, and may claim DATA ADMISSION only with authoritative before/after proof across L2 → L3 → deterministic admission/L4 → canonical field delta → Search/API projection/no-op plus Evidence/model/resource telemetry. Otherwise report **NO DATA ADMISSION PROVEN**.
 
 ## Exact next action
 
-Implement the automatic Layer 3 work queue/dispatcher from existing Layer 2 Evidence fall-out, using existing `layer3-interpret` validation logic and benchmarked task profiles. Build the compact live-run read model from the same execution state rather than adding another heavy analytics path. Then implement deterministic post-L3 admission + Search projection and prove that the 2,402-item backlog begins draining into admitted data or explicit Layer 4/parked outcomes before AU scale waves resume.
+1. Resolve authoritative result for request **6326**; do not rediscover Gate D or re-submit the same benchmark while it is queued.
+2. If 6326 PASSes semantic provider cases + safety controls, keep the qualified route unpaused and immediately complete `layer3-interpret` candidate-context integration/exact-head CI/UAT, then enqueue/dispatch only the first 10–25 existing Evidence-backed tuition items and capture the full M247-FU-021 admission proof chain.
+3. If 6326 FAILs, inspect the exact provider/control failures. If controls recover but provider positives remain null, verify the retained HTML contains the exact amount/year/audience/basis before any further prompt/model change. Do not weaken validators or bypass qualification.
+4. Do not resume broader AU waves until bounded live proof establishes non-zero L3 → admission/L4 → Search/API throughput.
+
+**NO DATA ADMISSION PROVEN** at this continuity point.
