@@ -25,7 +25,7 @@ Pilot PR #99 branch `cf-247-candidate-bound-layer3` is now at exact head **`2546
 
 A new forward-only repository/runtime bridge is applied: migration `cf_247_service_owned_layer3_work_reservation` / repository file `20260917170500_cf_247_service_owned_layer3_work_reservation.sql`. `public.layer3_reserve_work_interpretation_service(work_item_id,worker)` is service-role-only, requires an already-reserved durable work item, validates reservation ownership, retained Evidence and benchmark-passed executable profile, loads persisted `candidate_context` server-side, creates the Layer-3 interpretation audit row with `requested_by=null`, and atomically moves the work item from `reserved` to `interpreting`. Browser-supplied candidate context is not trusted.
 
-Exact-head Pilot Frontend Build **35214792902 / #2450** was in progress at handoff. Resolve this exact-head CI result before accepting the branch.
+Exact-head Pilot Frontend Build **35214792902 / #2450 = PASS** for `2546ccba...`.
 
 Qualification history remains fail-closed:
 
@@ -49,11 +49,10 @@ M247-FU-020/021/022 remain mandatory:
 
 ## Exact continuation sequence
 
-1. **First operation:** resolve exact-head CI for Pilot `2546ccba...`. If CI fails, use one bounded ordinary-code repair cycle; do not weaken authority/security/Evidence rules.
-2. Implement the service-owned `layer3-interpret` work-item path described above, importing the shared CF-247 tuition validator/prompt context. The service path must obtain candidate context only from `layer3_reserve_work_interpretation_service`; no request-body candidate context is authoritative.
-3. Add/complete the server-owned dispatcher: reserve via `layer3_reserve_work_service`, invoke the service-owned interpreter for each reserved work item, and persist work-item transitions/failures/retries. Respect profile benchmark, RPM/day, cost, retry and stale-reservation controls.
-4. Run exact-head CI/UAT and one corrected candidate+Evidence qualification. The current UQ benchmark corpus may be unsuitable for asserting basis semantics when the retained snapshot does not explicitly state annual/indicative basis near the fee. Correct corpus semantics rather than relaxing the validation policy.
-5. Only on full semantic+safety PASS unpause the tuition route and enqueue/dispatch 10–25 existing Evidence-backed tuition items. Capture M247-FU-021 proof: L2 before/after; L3 create/reserve/result; admitted/L4; canonical field delta; Search/API projection/no-op; Evidence lineage; failures/retries; calls/tokens/cost/latency; resource/quota headroom.
-6. Only after bounded end-to-end proof establishes non-zero throughput may normal AU admission scheduling resume and backlog-clearance ETA be calculated.
+1. **First operation:** implement the service-owned `layer3-interpret` work-item path on top of exact-head PASS `2546ccba...`, importing the shared CF-247 tuition validator/prompt context. The service path must obtain candidate context only from `layer3_reserve_work_interpretation_service`; no request-body candidate context is authoritative.
+2. Add/complete the server-owned dispatcher: reserve via `layer3_reserve_work_service`, invoke the service-owned interpreter for each reserved work item, and persist work-item transitions/failures/retries. Respect profile benchmark, RPM/day, cost, retry and stale-reservation controls.
+3. Run exact-head CI/UAT and one corrected candidate+Evidence qualification. The current UQ benchmark corpus may be unsuitable for asserting basis semantics when the retained snapshot does not explicitly state annual/indicative basis near the fee. Correct corpus semantics rather than relaxing the validation policy.
+4. Only on full semantic+safety PASS unpause the tuition route and enqueue/dispatch 10–25 existing Evidence-backed tuition items. Capture M247-FU-021 proof: L2 before/after; L3 create/reserve/result; admitted/L4; canonical field delta; Search/API projection/no-op; Evidence lineage; failures/retries; calls/tokens/cost/latency; resource/quota headroom.
+5. Only after bounded end-to-end proof establishes non-zero throughput may normal AU admission scheduling resume and backlog-clearance ETA be calculated.
 
 **Proof classification at this handoff:** IMPLEMENTATION ADVANCEMENT; **NO DATA ADMISSION PROVEN**.
