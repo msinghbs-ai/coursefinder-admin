@@ -19,24 +19,26 @@ Do not big-bang refactor accepted components and do not launch larger L2 waves m
 
 ## Current critical-path truth
 
-M2.4.7 remains on Gate D. Durable Layer 3 queue primitives and immutable tuition `candidate_context` handoff are already deployed; the route remains fail-closed because tuition qualification has not passed. Latest trusted lifecycle baseline is 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked; L3 work queue 0; Evidence 30,925. Refresh before calling these current.
+M2.4.7 remains on Gate D. Durable Layer 3 queue primitives and immutable tuition `candidate_context` handoff are deployed. Latest trusted lifecycle baseline remains 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked; L3 work queue 0; Evidence 30,925. Refresh before calling these current.
 
-Pilot PR #99 branch `cf-247-candidate-bound-layer3` now has corrective head **`58115985856bace75fecb10422dea5220ea4cee4`**. It preserves the fail-closed exact-candidate contract. The benchmark worker exact source is deployed as Pilot Edge Function `layer3-cf245-tuition-benchmark` **v6**, worker `cf247-tuition-benchmark-v1.3.1-candidate-bound`.
+Pilot PR #99 branch `cf-247-candidate-bound-layer3` is now at exact head **`2546ccbaee02b2fa2528353bf6a465cf889dde28`**. The shared tuition validator was corrected to match the real runtime candidate shape (`currency_code`, nullable `fee_year`, `audience`) and to permit only the explicitly governed basis resolution `annual_or_indicative_requires_validation → annual|indicative_annual`; amount/currency/year/audience remain immutable and all other basis expansion remains rejected. Contract tests were expanded accordingly.
 
-Qualification history:
+A new forward-only repository/runtime bridge is applied: migration `cf_247_service_owned_layer3_work_reservation` / repository file `20260917170500_cf_247_service_owned_layer3_work_reservation.sql`. `public.layer3_reserve_work_interpretation_service(work_item_id,worker)` is service-role-only, requires an already-reserved durable work item, validates reservation ownership, retained Evidence and benchmark-passed executable profile, loads persisted `candidate_context` server-side, creates the Layer-3 interpretation audit row with `requested_by=null`, and atomically moves the work item from `reserved` to `interpreting`. Browser-supplied candidate context is not trusted.
+
+Exact-head Pilot Frontend Build **35214792902 / #2450** was in progress at handoff. Resolve this exact-head CI result before accepting the branch.
+
+Qualification history remains fail-closed:
 
 - request 6324: FAIL provider 0/4, controls 2/4, 13 calls, 18,799 input + 610 output, USD 0, 6.609 s max;
-- v1.3 diagnostic changed transport to `json_object`; request 6325 proved regression: FAIL provider 0/4, controls 0/4, 11 calls, 6,678 input + 35 output, USD 0, 0.901 s max;
-- corrective v1.3.1 restores strict JSON-schema transport while retaining focused Evidence context and all no-invention/no-annualisation/no-strengthening validators;
-- governed request **6326** has been submitted. At handoff it is still in `net.http_request_queue` targeting the correct tuition benchmark Edge Function with a 120-second timeout. There is no terminal `net._http_response` or new benchmark run yet.
+- request 6325: transport regression, FAIL provider 0/4, controls 0/4;
+- request 6326 after strict-schema restoration: FAIL provider 0/4, controls 4/4, 9 calls, 12,807 input + 1,247 output, USD 0, 10.133 s max;
+- zero-call Evidence diagnostic 6327 confirmed all four UQ snapshots contain the amount, 2027 context and international-course context, but the rendered fee block is `Fees A$...` without an explicit annual/indicative-annual label adjacent to the amount. Do not weaken the validator to force these positives.
 
-The four positive corpus rows were independently rechecked in canonical `catalogue.course_fees` with retained `pipeline.evidence_artifacts`: all are UQ 2027 international `indicative_annual` AUD tuition facts with retained Evidence/source URLs. Do not discard the corpus based only on model refusal. If 6326 still fails semantic positives after controls recover, inspect the retained HTML for exact amount/year/audience/basis support before any further model/prompt change.
-
-`layer3-interpret` still lacks final `provider_current_tuition_validation` candidate-context integration and must remain on the Gate-D path before a live admission cohort.
+The remaining Gate-D implementation is now narrow and explicit: update `layer3-interpret` so a service-owned invocation takes `work_item_id` + reservation worker, calls `layer3_reserve_work_interpretation_service`, consumes only the returned persisted `candidate_context`, adds `tuitionValidationPromptContext`, validates the model result with `validateProviderCurrentTuitionCandidate`, and transitions the durable work item according to the persisted interpretation result. Preserve the existing curator/manual path unchanged. Then add the durable server dispatcher that reserves work and invokes this service-owned interpreter path.
 
 ## Mandatory scheduled-execution invariant
 
-M247-FU-020/021/022 are mandatory:
+M247-FU-020/021/022 remain mandatory:
 
 1. after minimum reconciliation, execute the carried-forward critical-path action;
 2. do not rediscover a known blocker;
@@ -47,10 +49,11 @@ M247-FU-020/021/022 are mandatory:
 
 ## Exact continuation sequence
 
-1. **First operation:** resolve request **6326** from `net._http_response` / `pipeline.layer3_quality_benchmark_runs` / profile state. Do not submit another benchmark while 6326 is queued or unresolved.
-2. If 6326 is full semantic+safety PASS, verify exact Pilot head/runtime/CI, complete the bounded `layer3-interpret` candidate-context integration, require exact-head CI/UAT, then allow only the qualified tuition route to execute.
-3. Immediately enqueue/dispatch only a 10–25-item existing Evidence-backed tuition cohort and capture M247-FU-021 proof: L2 before/after; L3 create/reserve/result; admitted/L4; canonical field delta; Search/API projection/no-op; Evidence lineage; failures/retries; calls/tokens/cost/latency; resource/quota headroom.
-4. If 6326 FAILs, inspect exact failures. If strict schema restores controls but positives remain null, verify retained HTML exact support before another bounded corrective change. Do not weaken validators, annualise, infer, change currency/year/basis, bypass benchmark or repurpose another profile without qualification.
-5. Only after bounded end-to-end proof establishes non-zero throughput may normal AU admission scheduling resume and backlog-clearance ETA be calculated.
+1. **First operation:** resolve exact-head CI for Pilot `2546ccba...`. If CI fails, use one bounded ordinary-code repair cycle; do not weaken authority/security/Evidence rules.
+2. Implement the service-owned `layer3-interpret` work-item path described above, importing the shared CF-247 tuition validator/prompt context. The service path must obtain candidate context only from `layer3_reserve_work_interpretation_service`; no request-body candidate context is authoritative.
+3. Add/complete the server-owned dispatcher: reserve via `layer3_reserve_work_service`, invoke the service-owned interpreter for each reserved work item, and persist work-item transitions/failures/retries. Respect profile benchmark, RPM/day, cost, retry and stale-reservation controls.
+4. Run exact-head CI/UAT and one corrected candidate+Evidence qualification. The current UQ benchmark corpus may be unsuitable for asserting basis semantics when the retained snapshot does not explicitly state annual/indicative basis near the fee. Correct corpus semantics rather than relaxing the validation policy.
+5. Only on full semantic+safety PASS unpause the tuition route and enqueue/dispatch 10–25 existing Evidence-backed tuition items. Capture M247-FU-021 proof: L2 before/after; L3 create/reserve/result; admitted/L4; canonical field delta; Search/API projection/no-op; Evidence lineage; failures/retries; calls/tokens/cost/latency; resource/quota headroom.
+6. Only after bounded end-to-end proof establishes non-zero throughput may normal AU admission scheduling resume and backlog-clearance ETA be calculated.
 
-**NO DATA ADMISSION PROVEN** at this handoff.
+**Proof classification at this handoff:** IMPLEMENTATION ADVANCEMENT; **NO DATA ADMISSION PROVEN**.
