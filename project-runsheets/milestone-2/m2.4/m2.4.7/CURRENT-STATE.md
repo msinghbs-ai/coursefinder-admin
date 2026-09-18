@@ -55,3 +55,21 @@ M247-FU-020/021/022 remain mandatory. Scheduled runs are execution-first, must c
 5. Do not resume broader AU waves until bounded live drain is proven.
 
 **NO DATA ADMISSION PROVEN** at this continuity point.
+
+## Superseding runtime state — 18 September 2026 01:20 UTC
+
+This section supersedes the older request-6326/paused-profile handoff above where inconsistent.
+
+- Pilot PR #99 exact head: `910925ffe5c2ed7549a203cf7943a7497b151220`; exact-head Frontend Build `35294774026/#2465` PASS.
+- Deployed Pilot runtime: service-owned `layer3-work-interpret` v5; `layer3-work-dispatch` v3; tuition benchmark v11. Forward migrations add durable Layer-4 exception disposition, current service-role claim compatibility, server-owned private Evidence context, quota preflight and actual-provider-call quota accounting.
+- Qualification PASS: request 6331 / run `76ba93df-7a0b-4646-be85-a22c6a548b49`, provider 4/4, controls 4/4, semantic provider 4, semantic controls 3, 10 calls, 12,460 input + 1,196 output tokens, USD 0. Profile is unpaused.
+- Bounded cohort size 10. Current durable result: **3 `layer4_required`; 7 `failed`/retryable at attempt_count=3; 0 validated/admitted**. Three new Layer-4 reviews were created with Evidence/candidate/interpretation handover.
+- Current counts: L2 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked; L4 pending 51; Evidence 30,925; `catalogue.course_fees` 79,730; Search documents 33,105.
+- Cohort telemetry: 4 actual live provider calls, 40,839 input + 2,256 output tokens, USD 0, max live latency 22,923 ms.
+- Quota telemetry is now based on actual `external_call_count`, not interpretation-row count, and includes benchmark calls. Current day total: **55 actual calls = 4 live + 51 benchmark**, configured limit 25, headroom 0; 69,096 input + 5,190 output tokens; USD 0. Reset 2026-09-19 00:00 UTC / 05:30 IST.
+- Dispatcher v3 preflight request 6336 returned `quota_blocked=true`, reserved 0, dispatched 0. No retry attempts should be consumed while headroom remains zero.
+- **NO DATA ADMISSION PROVEN**: canonical tuition and Search document counts did not change and no cohort item validated.
+
+### Exact resume action
+
+At/after quota reset, refresh actual call headroom. If positive, retry **only the same seven failed cohort items** using the quota-bounded dispatcher. Do not enqueue additional tuition work. Continue any validated item through deterministic admission/Search proof; route unresolved items to Layer 4. Preserve the complete M247-FU-021 bundle.
