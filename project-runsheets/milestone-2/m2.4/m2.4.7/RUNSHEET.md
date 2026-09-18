@@ -18,7 +18,7 @@ Prove and complete the reusable end-to-end automation contract before increasing
 - [x] Gate B — RMIT selected as first genuinely qualified AU scale target.
 - [x] Gate C1 — bounded RMIT 25-item scale wave executed: 25/25 processed, 0 blocked, USD 0.
 - [x] Gate C2 — architecture gap proven: all 25 items ended `layer3_required`.
-- [ ] Gate D — complete the reusable automatic L2→L3 drain: durable queue/handoff primitives are deployed; candidate-context tuition route is now in bounded qualification/runtime integration and must prove server-owned execution before the first cohort.
+- [ ] Gate D — complete the reusable automatic L2→L3 drain: durable queue/handoff, candidate-bound validation, service-owned interpretation and dispatcher are implemented. Qualification must prove safe resolution **and safe abstention/Layer-4 routing**; Layer 3 is not required to resolve every Evidence-backed item before bounded execution.
 - [ ] Gate E — implement deterministic post-L3 admission policy and incremental Search/API projection; AI has no unrestricted canonical-write authority.
 - [ ] Gate F — add live Admin end-to-end progress: L2/L3/L4/admitted/remaining + Evidence/model/provider/cost/latency/blocker telemetry.
 - [ ] Gate G — prove automatic admitted-data delta on AU, then the same shared engine on independently qualified NZ and CA pilots; run GB/US/IE/DE portability fixtures before each later-country live pilot.
@@ -62,8 +62,12 @@ Keep accepted parsers, source profiles, Evidence, provider routing and model exe
 - Bugs/security/tooling proceed in parallel and block only when they affect authority, correctness, recoverability, safe execution or consumer integrity.
 - M247-FU-020/021/022 are mandatory: execution-first state transition, admission-proof contract and exact next-action carry-forward.
 
+## Gate D routing correction — 18 September 2026
+
+The programme architecture is authoritative over the narrower historical benchmark interpretation. Layer 3 does **not** need to resolve every tuition candidate to prove the drain path. A safe null/abstention, ambiguity, conflict, low-confidence or validator rejection is a valid Layer 3 result when it is persisted with Evidence/attempt context and deterministically routed to Layer 4 Human Resolution. Qualification fails when the model invents/strengthens facts, breaks Evidence/identity/security boundaries, or the system fails to route the exception correctly.
+
 ## Exact next gate action
 
-Resolve request **6326** first. On full provider+safety PASS, complete exact-head `layer3-interpret` candidate-context integration/CI/UAT and execute only a 10–25-item existing Evidence-backed tuition cohort through L3 → deterministic admission/L4 → Search/API proof. If 6326 fails, use its exact failure classes; if controls recover but positives remain null, verify retained HTML exact support before another bounded corrective change. Do not weaken qualification and do not launch larger L2 waves.
+Correct the benchmark/qualification contract forward-only so it tests both: (a) explicit Evidence cases resolve to the immutable Layer-2 candidate when supported; and (b) ambiguous/insufficient/conflicting cases safely abstain/reject and route to Layer 4. Preserve all no-invention/no-annualisation/no-currency-conversion/year/audience controls. Require exact-head CI/UAT, then execute only a 10–25-item existing Evidence-backed tuition cohort through L3. Validated authorised results continue to deterministic admission; unresolved outcomes must reach Layer 4 with complete handover context. Capture the full M247-FU-021 admission/L4/Search/API proof bundle. Do not launch larger L2 waves until this bounded drain is proven.
 
 **NO DATA ADMISSION PROVEN** until the bounded cohort satisfies M247-FU-021.
