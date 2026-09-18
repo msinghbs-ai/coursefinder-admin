@@ -36,15 +36,22 @@ Pilot PR #99 (`cf-247-candidate-bound-layer3`) contains the fail-closed candidat
 - Governed qualification request **6326** has been submitted through `svc_cf245_run_tuition_benchmark(4)`. At the continuity cut it remains present in `net.http_request_queue` with the correct Edge Function URL and 120-second timeout; no terminal HTTP response or benchmark result exists yet. Do **not** submit another qualification until 6326 is resolved.
 - The four positive benchmark records were revalidated against canonical `catalogue.course_fees` + retained `pipeline.evidence_artifacts`: all are UQ international `indicative_annual` 2027 AUD facts (48,080 / 56,800 / 60,952) with retained Evidence and matching 2027 source URLs. Retained HTML exact-text verification remains the next diagnostic only if strict-schema request 6326 still fails semantic positives.
 
+## Layer 3 qualification/routing correction — 18 September 2026
+
+A continuity drift was identified between the programme architecture and Gate-D execution wording. The programme design already defines Layer 4 as terminal human resolution for ambiguous, conflicting, low-confidence or validator-failed interpretation. Therefore a model that safely refuses to infer an unsupported annual/indicative basis is behaving correctly; that item must move to Layer 4 rather than block the entire Layer 3 route.
+
+Qualification must now demonstrate both safe positive resolution and safe abstention/exception routing. Universal positive resolution is not a prerequisite for a bounded cohort. The strict candidate-bound validator remains unchanged: no invention, annualisation, currency conversion, year mutation, audience mutation or unsupported basis strengthening.
+
 ## Mandatory scheduled-execution invariant
 
 M247-FU-020/021/022 remain mandatory. Scheduled runs are execution-first, must carry forward the exact next operation, and may claim DATA ADMISSION only with authoritative before/after proof across L2 → L3 → deterministic admission/L4 → canonical field delta → Search/API projection/no-op plus Evidence/model/resource telemetry. Otherwise report **NO DATA ADMISSION PROVEN**.
 
 ## Exact next action
 
-1. Resolve authoritative result for request **6326**; do not rediscover Gate D or re-submit the same benchmark while it is queued.
-2. If 6326 PASSes semantic provider cases + safety controls, keep the qualified route unpaused and immediately complete `layer3-interpret` candidate-context integration/exact-head CI/UAT, then enqueue/dispatch only the first 10–25 existing Evidence-backed tuition items and capture the full M247-FU-021 admission proof chain.
-3. If 6326 FAILs, inspect the exact provider/control failures. If controls recover but provider positives remain null, verify the retained HTML contains the exact amount/year/audience/basis before any further prompt/model change. Do not weaken validators or bypass qualification.
-4. Do not resume broader AU waves until bounded live proof establishes non-zero L3 → admission/L4 → Search/API throughput.
+1. Treat request **6326** as historical qualification evidence: provider positives failed while safety controls passed; its UQ abstentions are not by themselves proof of an unsafe model because the retained Evidence does not explicitly establish the disputed annual/indicative basis.
+2. Make the smallest forward-only qualification/routing correction so safe abstention/ambiguity is an accepted Layer 3 outcome only when the durable work item is handed to Layer 4 with Evidence, candidate context, reason, interpretation/audit record and model telemetry.
+3. Require exact-head CI/UAT for that correction, then run a bounded 10–25 existing Evidence-backed tuition cohort. Admit only explicitly validated authorised candidates; route unresolved/ambiguous/rejected/low-confidence outcomes to Layer 4.
+4. Capture M247-FU-021 before/after proof through L2 → L3 result → deterministic admission or L4 → canonical delta → Search/API delta/no-op.
+5. Do not resume broader AU waves until bounded live drain is proven.
 
 **NO DATA ADMISSION PROVEN** at this continuity point.
