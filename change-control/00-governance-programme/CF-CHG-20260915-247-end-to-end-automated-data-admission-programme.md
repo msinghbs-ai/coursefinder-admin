@@ -75,6 +75,12 @@ The four positive corpus records were rechecked against canonical `catalogue.cou
 
 `layer3-interpret` still requires final `provider_current_tuition_validation` candidate-context execution integration before the first bounded live cohort.
 
+## Gate-D qualification interpretation correction — 18 September 2026
+
+A narrower execution interpretation incorrectly made universal positive tuition resolution a prerequisite for operating the Layer 3 route. That is not the programme design. Layer 3 must resolve only facts explicitly supported by retained Evidence and the immutable Layer-2 candidate set. Safe abstention/no-candidate, ambiguity, conflict, low confidence or validator rejection is a valid outcome when the durable work item is deterministically transferred to Layer 4 with Evidence lineage, candidate context, interpretation/audit record, reason/failure class and model/provider telemetry.
+
+Accordingly, qualification must prove two behaviours: supported facts resolve without mutation; unsupported/ambiguous facts fail closed and route correctly to Layer 4. A safe refusal to infer an unsupported annual/indicative basis is not grounds to block all Layer 3 execution. Existing security, service-role, identity, Evidence, migration, admission and Search/publication boundaries remain unchanged.
+
 ## Delivery order
 
 1. Complete Gate D qualification + candidate-context Layer 3 execution/drain.
@@ -92,6 +98,6 @@ Fix bugs and security defects as they arise, but do not let unrelated refactorin
 
 ## Current next action
 
-Resolve request **6326** first. On full semantic+safety PASS, complete exact-head `layer3-interpret` candidate-context integration/CI/UAT and run only a 10–25-item existing Evidence-backed cohort through L3 → deterministic admission/L4 → Search/API proof. On FAIL, use the exact failure classes; if controls recover but positives remain null, verify retained Evidence exact support before one further bounded corrective change. Do not weaken qualification and do not launch larger Course waves.
+Correct the qualification/routing contract forward-only so safe abstention and other policy-defined unresolved outcomes are accepted only when they produce the correct durable Layer-4 disposition and handover. Require exact-head CI/UAT, then execute a 10–25-item existing Evidence-backed cohort. Admit only validated authorised candidates; send unresolved/ambiguous/rejected/low-confidence outcomes to Layer 4. Capture M247-FU-021 through canonical and Search/API consequences. Do not weaken validation and do not launch larger Course waves until bounded drain is proven.
 
 **NO DATA ADMISSION PROVEN** until the bounded cohort satisfies M247-FU-021.
