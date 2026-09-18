@@ -18,7 +18,7 @@ Prove and complete the reusable end-to-end automation contract before increasing
 - [x] Gate B — RMIT selected as first genuinely qualified AU scale target.
 - [x] Gate C1 — bounded RMIT 25-item scale wave executed: 25/25 processed, 0 blocked, USD 0.
 - [x] Gate C2 — architecture gap proven: all 25 items ended `layer3_required`.
-- [ ] Gate D — complete the reusable automatic L2→L3 drain: durable queue/handoff, candidate-bound validation, service-owned interpretation and dispatcher are implemented. Qualification must prove safe resolution **and safe abstention/Layer-4 routing**; Layer 3 is not required to resolve every Evidence-backed item before bounded execution.
+- [ ] Gate D — **PARTIALLY PROVEN**: durable queue/handoff, candidate-bound validation, service-owned interpretation/dispatcher and route-safety qualification PASS are implemented. The first 10-item cohort has proven 3 durable L3→L4 exception handovers; 7 retryable items remain stopped by zero daily provider-call headroom. Complete the same cohort after reset before closing Gate D.
 - [ ] Gate E — implement deterministic post-L3 admission policy and incremental Search/API projection; AI has no unrestricted canonical-write authority.
 - [ ] Gate F — add live Admin end-to-end progress: L2/L3/L4/admitted/remaining + Evidence/model/provider/cost/latency/blocker telemetry.
 - [ ] Gate G — prove automatic admitted-data delta on AU, then the same shared engine on independently qualified NZ and CA pilots; run GB/US/IE/DE portability fixtures before each later-country live pilot.
@@ -66,8 +66,16 @@ Keep accepted parsers, source profiles, Evidence, provider routing and model exe
 
 The programme architecture is authoritative over the narrower historical benchmark interpretation. Layer 3 does **not** need to resolve every tuition candidate to prove the drain path. A safe null/abstention, ambiguity, conflict, low-confidence or validator rejection is a valid Layer 3 result when it is persisted with Evidence/attempt context and deterministically routed to Layer 4 Human Resolution. Qualification fails when the model invents/strengthens facts, breaks Evidence/identity/security boundaries, or the system fails to route the exception correctly.
 
+## Gate D bounded proof — 18 September 2026
+
+- Pilot PR #99 exact head `910925ffe5c2ed7549a203cf7943a7497b151220`; exact-head Frontend Build `35294774026/#2465` PASS.
+- Route-safety qualification PASS: run `76ba93df-7a0b-4646-be85-a22c6a548b49` / request 6331, provider 4/4, controls 4/4, profile unpaused.
+- First bounded cohort: 10 existing Evidence-backed tuition work items created; current result 3 `layer4_required` + 3 new Layer-4 reviews, 7 retryable `failed` items at attempt_count=3, 0 validated/admitted.
+- L2 lifecycle unchanged at 2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked. L4 pending rose 48→51. Evidence 30,925 unchanged; `catalogue.course_fees` 79,730 unchanged; Search documents 33,105 unchanged.
+- Live cohort consumed 4 actual provider calls, 40,839 input + 2,256 output tokens, USD 0, max latency 22,923 ms.
+- Corrected daily accounting includes live + governed benchmark provider calls: 55 actual calls against configured day limit 25, headroom 0. Dispatcher quota preflight request 6336 proved 0 reservations / 0 dispatches while headroom is zero. Reset: 2026-09-19 00:00 UTC / 05:30 IST.
+- **NO DATA ADMISSION PROVEN**: no validated result, canonical delta or Search/API delta exists yet.
+
 ## Exact next gate action
 
-Correct the benchmark/qualification contract forward-only so it tests both: (a) explicit Evidence cases resolve to the immutable Layer-2 candidate when supported; and (b) ambiguous/insufficient/conflicting cases safely abstain/reject and route to Layer 4. Preserve all no-invention/no-annualisation/no-currency-conversion/year/audience controls. Require exact-head CI/UAT, then execute only a 10–25-item existing Evidence-backed tuition cohort through L3. Validated authorised results continue to deterministic admission; unresolved outcomes must reach Layer 4 with complete handover context. Capture the full M247-FU-021 admission/L4/Search/API proof bundle. Do not launch larger L2 waves until this bounded drain is proven.
-
-**NO DATA ADMISSION PROVEN** until the bounded cohort satisfies M247-FU-021.
+Until quota reset, do not enqueue, reserve, dispatch or benchmark. After reset, refresh provider-call headroom and resume **only the same seven retryable cohort items**. Do not create a replacement cohort. Validated authorised results continue immediately to deterministic Gate-E admission/Search proof; unresolved results route to Layer 4 with complete handover. Capture the remaining M247-FU-021 proof and keep larger L2 waves paused.
