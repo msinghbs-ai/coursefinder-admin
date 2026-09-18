@@ -114,3 +114,13 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - Proof classification: **IMPLEMENTATION ADVANCEMENT + QUALIFICATION DISPATCH; NO DATA ADMISSION PROVEN**.
 - Exact next action: resolve request **6326** first. On full semantic+safety PASS, complete `layer3-interpret` candidate-context integration/exact-head CI/UAT and immediately run a 10–25-item existing Evidence-backed cohort. On FAIL, use exact failure classes; if controls recover but positives remain null, inspect retained Evidence exact text before any further bounded prompt/model correction. No larger L2 wave is authorised.
 - NEXT-GATE ETA and M2.4.7 completion ETA remain unavailable until 6326 terminates and the first bounded cohort establishes non-zero end-to-end throughput.
+
+## 2026-09-18 00:48 UTC / 06:18 IST — Gate-D qualification/routing contract corrected
+
+- Authoritative programme design rechecked: Layer 3 interprets Evidence; ambiguous, conflicting, low-confidence or validator-failed outcomes belong in Layer 4 Human Resolution. Universal positive AI resolution is not a programme prerequisite.
+- Identified continuity drift: recent Gate-D handoff narrowed qualification into full provider-positive PASS and caused repeated Evidence-corpus searches even though UQ safe abstention was consistent with the fail-closed design.
+- Updated CF-247 RUNSHEET, CURRENT-STATE, FOLLOW-UPS, NEXT-CHAT and Change Control so qualification must prove both supported resolution and safe abstention/rejection→Layer-4 routing. Strict no-invention/no-annualisation/no-currency-conversion/year/audience/no-strengthening controls remain unchanged.
+- Updated both active schedulers: CF-247 Admission Watch now executes the corrected bounded L3→admission/L4 path; CF Persistence Audit independently verifies safe abstention routing and M247-FU-021 proof instead of demanding universal resolution.
+- Pilot PR #99 authoritative head remains `56afd9466c7375dc0a5f2c83d6cd58dbbac02715`; exact-head Frontend Build `35224454671/#2452` PASS.
+- Proof classification: GOVERNANCE/EXECUTION-CONTRACT ADVANCEMENT; **NO DATA ADMISSION PROVEN** yet.
+- Exact next action: inspect the existing service-owned interpreter/transition path for missing abstention→Layer-4 disposition, make the smallest forward-only code/runtime correction if required, exact-head CI/UAT, then execute the first 10–25 Evidence-backed cohort. Larger L2 waves remain paused.
