@@ -8,22 +8,22 @@ Pilot PR #99 branch `cf-247-candidate-bound-layer3` exact head is **`5f786d32b2b
 
 Qualification previously PASSED under the corrected route-safety contract: run `76ba93df-7a0b-4646-be85-a22c6a548b49`, request 6331, provider 4/4 and controls 4/4. Strict candidate validation remains fail-closed; safe abstention/ambiguity/rejection is valid only when durably routed to Layer 4.
 
-The bounded 10-item Evidence-backed tuition cohort has now fully drained through Layer 3: **10/10 `layer4_required`**, with **0 validated/admitted**. The final seven previously retryable items were resumed after daily quota reset. Dispatcher requests were 6618, 6619 and 6620. Request 6618 exceeded the 120-second outer HTTP window after reserving all seven; the single final abandoned reservation was explicitly transitioned back to `failed` through `layer3_work_item_transition_service` and then safely retried by request 6620. No new cohort was created.
+The bounded 10-item Evidence-backed tuition cohort has fully drained through Layer 3: **10/10 `layer4_required`**, with **0 validated/admitted**. Layer 4 pending is **58**. `catalogue.course_fees` remains **79,730**, `search.course_documents` **33,105**, and Evidence **32,034**. **NO DATA ADMISSION PROVEN.**
 
-A forward-only Pilot migration `cf247_allowlist_layer3_work_dispatch` is repository-backed and applied. It adds only the already service-owned, quota-preflighted `layer3-work-dispatch` to the existing one-time Pilot nonce runner allowlist. It does not broaden dispatcher, Evidence or admission authority.
+### 19 Sep 2026 positive-path probe
 
-Fresh runtime after drain: L2 lifecycle **2,511 `layer3_required` / 2,423 `resolved_l2` / 815 cancelled / 10 blocked**. Layer 4 pending **58** (baseline before cohort 48, therefore +10 cohort reviews). `catalogue.course_fees` **79,730** unchanged and `search.course_documents` **33,105** unchanged. Evidence is **32,034**; this is a global runtime increase from the earlier 30,925 baseline and must not be attributed to this cohort without lineage proof.
+Execution advanced to a separate bounded RMIT target rather than recycling the exhausted cohort. RMIT Associate Degree in Design (Furniture), CRICOS `061154K`, course `1a36c939-1560-4e5f-a6b7-25bf5fa38f51`, retained Evidence `8929bff1-2606-4323-a8ef-45f25f1cf49d`, has an international AUD 38,400 candidate requiring basis validation. Its latest Layer-2 item `5ee026d1-1309-4a14-9e37-79d66a2c5a0e` is `layer3_required`.
 
-Post-reset Layer 3 telemetry is **9 actual provider calls**, **99,091 input + 9,170 output tokens**, USD **0**, max latency **93,962 ms**. Governed headroom after drain: day calls 9/25, day headroom 16, minute headroom 10, dispatch headroom 10, next reset 2026-09-20T00:00:00Z.
+A bounded enqueue through `layer3_enqueue_from_layer2_service` created work item `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1`; dispatcher request **6621** reserved it. Runtime verification immediately exposed a contract defect: this direct single-item enqueue service does **not persist `candidate_context`**, while the service-owned interpreter requires persisted candidate context. The item was safely transitioned `reserved`→`failed` through `layer3_work_item_transition_service` with a one-hour retry delay; no unsafe interpretation/admission was allowed and no DATA ADMISSION is claimed.
 
-**NO DATA ADMISSION PROVEN.** The bounded run proves the Layer 3 exception-drain contract because all ten items reached terminal Layer 4 disposition, but no item validated, no canonical tuition field changed and Search/API remained unchanged.
+The existing bulk `layer3_enqueue_eligible_layer2_service` is confirmed to construct and persist immutable `candidate_context` from the exact normalized Evidence/source record. Therefore the defect is specifically the direct single-item enqueue path, not the candidate-bound interpreter contract.
 
 ## Exact continuation sequence
 
-1. Treat the 10/10 L3→L4 bounded exception drain as proven; do not rerun or create another equivalent tuition cohort merely to obtain a positive admission.
-2. Reconcile the complete M247-FU-021 proof bundle for these exact ten items, including Evidence lineage and per-item interpretation/L4 identifiers, and persist it in RUNSHEET/CURRENT-STATE/HOURLY-MONITORING/CF-247 as applicable.
-3. Investigate the two `model response content is not JSON text` retries and the dispatcher outer-timeout behaviour as bounded reliability defects; do not weaken validators or authority boundaries.
-4. Decide the next Gate-D admission proof target from existing Evidence-backed work where a candidate is explicitly supported. A positive admission may be demonstrated with a separate bounded eligible target, but do not manufacture or relabel tuition Evidence merely to force admission.
-5. DATA ADMISSION remains unproven until authoritative before/after canonical and Search/API proof exists. Larger L2 waves remain paused until the governed gate decision records whether exception-drain proof plus a separate bounded positive admission is sufficient to advance.
+1. Do **not** dispatch work item `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1` again while its `candidate_context` is null.
+2. Make the smallest forward-only correction so the bounded/single-item enqueue path derives and persists the same immutable candidate context as `layer3_enqueue_eligible_layer2_service`, or introduce an equally narrow service-owned bounded enqueue that reuses that governed derivation. Do not accept caller-supplied candidate context.
+3. Repository-back/apply the correction, require exact-diff/exact-head CI/UAT, then retry only the RMIT bounded target. If validation succeeds, continue immediately through deterministic admission → canonical delta → Search/API projection/no-op proof. If it safely abstains/rejects, route to Layer 4 and select a different genuinely Evidence-supported positive target; do not manufacture a positive.
+4. Capture M247-FU-021 before/after proof including the bounded work/item/entity IDs, Evidence lineage, L2/L3/L4 counts, canonical and Search/API deltas, provider calls/tokens/cost/latency and quota headroom.
+5. Keep larger L2 waves paused. DATA ADMISSION remains unproven until authoritative canonical plus consumer proof exists.
 
 M247-FU-020/021/022 and the anti-loop rule remain mandatory.
