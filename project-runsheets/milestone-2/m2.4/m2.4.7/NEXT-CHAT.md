@@ -4,7 +4,7 @@ Start from repository/runtime truth under `PROJECT_INSTRUCTIONS.md`, `docs/READM
 
 ## Current critical-path truth — 19 September 2026
 
-Pilot PR #99 branch `cf-247-candidate-bound-layer3` exact head is **`5f786d32b2b6a9ca0eaf66f1ae63f0a28b97daf3`**. Exact-head Pilot Frontend Build **35411958913 / #2466 PASS**.
+Pilot PR #99 branch `cf-247-candidate-bound-layer3` exact head is **`06b2c7b2ad538500f6658f7d58883be9b7ede2e9`**. Exact-head Pilot Frontend Build **35494635619 PASS** (20 September 2026).
 
 Qualification previously PASSED under the corrected route-safety contract: run `76ba93df-7a0b-4646-be85-a22c6a548b49`, request 6331, provider 4/4 and controls 4/4. Strict candidate validation remains fail-closed; safe abstention/ambiguity/rejection is valid only when durably routed to Layer 4.
 
@@ -27,3 +27,7 @@ The existing bulk `layer3_enqueue_eligible_layer2_service` is confirmed to const
 5. Keep larger L2 waves paused. DATA ADMISSION remains unproven until authoritative canonical plus consumer proof exists.
 
 M247-FU-020/021/022 and the anti-loop rule remain mandatory.
+
+## Fresh reconciliation — 20 September 2026
+
+PR #99 head is `06b2c7b2ad538500f6658f7d58883be9b7ede2e9`; exact-head Frontend Build `35494635619` PASS. Live `pipeline.layer3_work_items` grouped by status: 10 `layer4_required`, 1 `pending`. Prior section's `reserved`→`failed` status is historical. FOLLOW-UPS records dispatcher request 6632 `service_role required` and an auth/currentness corrective action; reconcile the PR's intervening commits and deployed dispatcher before applying another fix. Do not assume an old defect persists merely from handoff text. Next executable action: inspect exact-head dispatcher auth change and deployed version; if corrected, dispatch only the existing pending work item and capture its terminal disposition; if not, make the smallest forward-only service-owned auth fix, validate/deploy then retry that item. Do not enqueue a new cohort or invent candidate context. M247-FU-021 still requires the full proof bundle; **NO DATA ADMISSION PROVEN** from the observed queue count alone.
