@@ -109,3 +109,11 @@ PR #99 exact head `9b05918bcc59a1d68da54e1bbc6b9c15c6d9b051` now enforces the so
 This is repository assurance only. Deployed runtime remains benchmark v11, interpreter v5 and dispatcher v4. Live state is 2,511 L2 `layer3_required`, 10 L3 `layer4_required`, 1 L3 `parked`, 59 L4 pending, Evidence 32,040, field admissions 1,216, fees 79,730 and Search documents 33,105. No CF-247 admission delta is proven.
 
 Ordered blockers before any drain are: task/profile/auth-safe dispatcher reservation; benchmark PASS binding to exact prompt/schema/validator/model version; deterministic idempotent admission/L2 reconciliation/canonical/Search projection; then a description-first generic handler and tiny exact-head deployed cohort. Intake and English remain out of scope until explicit policies and validators exist. The 1,780 finding is a row cohort with overlapping unresolved fields, not authority for a bulk enqueue.
+
+## Delivery evidence — 21 September 2026 14:05 AEST
+
+CF-247 dispatcher/reservation slice is now closed across repository, CI and Pilot runtime. PR #99 exact head is `c8866b573480b337ed86494f9817c98c69629c79`; workflows `35555931223/#2479` and `35555931237/#157` pass. Pilot migration `20260921040446_cf247_task_profile_scoped_reservation` is applied and `layer3-work-dispatch` is ACTIVE v5 at hash `f72a01945792207f73af03eb40c6d74748fbf6766d4f8142d6db7a74c2897d66`.
+
+The deployed path now reserves only the requested task/profile, revalidates profile eligibility in the reservation transaction, uses one-at-a-time reservation with full-call remaining-time protection, and fails closed across reserved/interpreting error states. RPC execution remains restricted to postgres/service_role; the legacy global reservation RPC is retired. The parked item was not retried. Runtime remains 10 Layer-4-required + 1 parked, with no provider call, token, cost, canonical or Search/API admission delta.
+
+The next governed unit is benchmark-version binding (slice 3). Larger L2 waves, new cohorts and the parked tuition item remain paused.

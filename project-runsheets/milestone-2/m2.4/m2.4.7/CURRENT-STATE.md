@@ -82,3 +82,15 @@ At/after quota reset, refresh actual call headroom. If positive, retry **only th
 - Live lifecycle is 2,511 L2 `layer3_required`; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59. The parked item `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1` has candidate context, attempt_count 6 and no active reservation. Do not retry it before dispatcher, benchmark binding and admission gates are exact-head validated/deployed.
 - Evidence is 32,040; field admissions 1,216; fees 79,730; Search documents 33,105. No canonical/Search delta is attributable to CF-247. **NO DATA ADMISSION PROVEN.**
 - Manual execution is primary while active. The enabled hourly `CF-247 Gitar Closure` task is failover, detects in-flight work and takes over only when manual work is idle/stalled.
+
+## Verified runtime update — 21 September 2026 14:05 AEST
+
+- Pilot PR #99: `c8866b573480b337ed86494f9817c98c69629c79`, draft/open/mergeable; Gitar review 5/5 closed.
+- Exact-head CI: Pilot Frontend Build `35555931223 / #2479` PASS; Release History Contract `35555931237 / #157` PASS.
+- Pilot migration: `20260921040446_cf247_task_profile_scoped_reservation` applied forward-only.
+- Runtime dispatcher: `layer3-work-dispatch` ACTIVE v5; hash `f72a01945792207f73af03eb40c6d74748fbf6766d4f8142d6db7a74c2897d66`; exact-head source calls `layer3_reserve_scoped_work_service` and no longer calls the legacy global RPC.
+- Runtime authority: scoped RPC is executable only by postgres/service_role and binds exact task class/profile; legacy RPC is retired fail-closed.
+- Work queue: 10 `layer4_required` + 1 `parked`. Target `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1` remains parked, attempt 6, corrective retry count 1, unreserved; no mutation this run.
+- Counts: Evidence 32,040; `catalogue.course_fees` 79,730. UTC-day live calls 0, benchmark calls 0, tokens 0/0, cost USD 0, max live latency 0 ms.
+- DATA ADMISSION remains unproven; no canonical or Search/API delta is claimed.
+- Next: slice 3 benchmark binding only. The parked item and new cohorts remain untouched.

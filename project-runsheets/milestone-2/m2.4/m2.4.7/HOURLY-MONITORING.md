@@ -133,3 +133,15 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - Direct runtime: L2 2,511 `layer3_required`; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59; Evidence 32,040; admissions 1,216; fees 79,730; Search 33,105. Deployed Edge versions remain benchmark v11, interpreter v5, dispatcher v4.
 - No provider/model call, deployment, queue mutation, canonical admission or Search/API delta occurred. **NO DATA ADMISSION PROVEN.**
 - Enabled hourly `CF-247 Gitar Closure` as manual-idle failover; older overlapping CF tasks remain paused. Next gate: finish dispatcher slice, then benchmark-version binding and deterministic admission before bounded runtime proof.
+
+## 21 September 2026 14:05 AEST — bounded execution update
+
+- Critical-path movement: completed dispatcher/reservation runtime closure.
+- Pilot PR #99 exact head: `c8866b573480b337ed86494f9817c98c69629c79`; draft/open/mergeable; Gitar review 5/5 closed.
+- CI: Pilot Frontend Build `35555931223/#2479` PASS; Release History Contract `35555931237/#157` PASS.
+- Deployed: migration `20260921040446_cf247_task_profile_scoped_reservation`; `layer3-work-dispatch` ACTIVE v5, hash `f72a01945792207f73af03eb40c6d74748fbf6766d4f8142d6db7a74c2897d66`.
+- Contract proof: exact task/profile scoped reservation; profile eligibility rechecked under lock; legacy global reservation retired; ACL only postgres/service_role; one-at-a-time dispatch with 240 s total budget, 110 s call timeout and interpreting-status fallback.
+- Live queue: 10 `layer4_required`, 1 `parked`; target unchanged at parked/attempt 6/unreserved. Retry burn 0.
+- Data/resource telemetry: Evidence 32,040; course fees 79,730; live calls 0; benchmark calls 0; input/output tokens 0/0; cost USD 0; max live latency 0 ms. Storage/CPU/memory remain unavailable.
+- Admission/canonical/Search/API delta: none proven.
+- Next action: benchmark binding slice only. No parked-item retry or new cohort.

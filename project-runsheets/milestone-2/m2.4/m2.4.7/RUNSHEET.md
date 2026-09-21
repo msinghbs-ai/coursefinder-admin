@@ -87,3 +87,12 @@ Until quota reset, do not enqueue, reserve, dispatch or benchmark. After reset, 
 - Earlier Gitar dispatcher corrections now reserve one item at a time, require a full-call time budget and recover both `reserved` and `interpreting` failures. The next bounded slice is task/profile-scoped reservation plus the governed scheduler-key auth bridge and direct dispatcher contract coverage.
 - Deployed runtime is not yet current with these branch repairs: benchmark v11, interpreter v5 and dispatcher v4 remain active. Do not dispatch or deploy piecemeal.
 - Live state at 2026-09-21 02:15 UTC: L2 `layer3_required` 2,511; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59; Evidence 32,040; field admissions 1,216; fees 79,730; Search documents 33,105. **NO DATA ADMISSION PROVEN.**
+
+## 21 September 2026 — dispatcher/reservation slice runtime closure
+
+- PR #99 exact head `c8866b573480b337ed86494f9817c98c69629c79` remains draft and mergeable; Gitar reports 5/5 findings closed.
+- Exact-head workflows PASS: Pilot Frontend Build `35555931223 / #2479`; Release History Contract `35555931237 / #157`.
+- Applied forward migration `20260921040446_cf247_task_profile_scoped_reservation` to Pilot. Scoped reservation now binds exact task class + profile, revalidates profile eligibility in-transaction, and grants execution only to `service_role`/postgres. The legacy global reservation RPC is retired fail-closed.
+- Deployed exact-head `layer3-work-dispatch` v5, hash `f72a01945792207f73af03eb40c6d74748fbf6766d4f8142d6db7a74c2897d66`. It reserves one item at a time through the scoped RPC and preserves the full-call time budget and fail-closed transition fallback.
+- Parked item `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1` was not retried or mutated: `parked`, attempt 6, unreserved. Runtime remains 10 `layer4_required` + 1 `parked`; Evidence 32,040; course fees 79,730; UTC-day live/benchmark calls 0/0, tokens 0/0, cost USD 0.
+- Slice 2 is runtime-closed. Next bounded slice is slice 3 only: benchmark binding to exact prompt/schema/validator/model version with invalidation on change. No parked-item retry, cohort, larger L2 wave, admission claim, or RLS change is authorised.
