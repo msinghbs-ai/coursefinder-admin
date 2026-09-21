@@ -123,3 +123,57 @@ Owner directive: stop Gitar from reviewing or editing the `msinghbs-ai/Coursefin
 This entry records the stop instruction, not proof that Gitar's GitHub installation, repository access, webhook triggers or outstanding queued runs have been disabled. GitHub installation/repository permissions and any Gitar-side automation must be revoked or disabled by an authorised repository/installation administrator; verify access revocation separately before reporting technical enforcement. Do not use the Gitar bot for verification or remediation. No Pilot implementation, migration, deployment, runtime execution or data admission is authorised by this documentation-only directive. **NO DATA ADMISSION PROVEN.**
 
 Next bounded unit: enforce and independently confirm Gitar's Pilot repository access/automation removal, then resume only the governed worker-to-recorder binding-hash handoff under direct control. Do not benchmark, retry the parked item, deploy or merge PR #99 as part of this governance update.
+
+### CF-247 Slice PRE follow-up — binding contract CI fix — 22 September 2026 AEST
+
+Slice PRE's reformat broke the CF-247 tuition-benchmark binding contract
+in three distinct ways, not one. Gitar's bot independently fixed the
+first (manifest-hash mismatch on the benchmark's prompt/request
+extraction anchors, commits `006f37b`, `faaad01`, `55a4acc`) before
+its Pilot access was revoked. Two further breakages remained and were
+found and fixed independently, not by Gitar:
+
+First, a genuine pre-existing bug in `extractCandidateContextInstructionSource`
+(`supabase/functions/_shared/cf247-tuition-benchmark-binding.ts`): it
+hardcoded a double-quote character to find a string literal's closing
+delimiter. Prettier had chosen single quotes for that specific string
+(it contains an embedded double-quoted word), so the function located
+the wrong quote and extracted the wrong text. Fixed to detect either
+quote character; the extracted instruction text is unchanged either
+way, so this is a correctness fix, not a contract change. The source
+manifest's `binding_helper_sha256` was regenerated to match, since it
+hashes the entire binding-helper file.
+
+Second, two more benchmark-side regex assertions in
+`tests/cf247-tuition-benchmark-binding-contract.test.ts` assumed dense,
+no-space formatting while their interpreter-side counterparts already
+tolerated Prettier spacing; both were widened to match. One arbitrary
+test-fixture string literal (unrelated to any real extraction anchor)
+was also updated to match current formatting.
+
+Independently verified: `test:cf247-tuition-benchmark-binding-contract`
+PASS, `test:cf247-tuition-validation-contract` PASS, `npm run build`
+PASS, and both non-deployed CF-247 Playwright specs 4/4 PASS. The full
+110-spec UAT suite was also run for thoroughness; all failures there
+are `@deployed`/`@smoke`-tagged tests requiring a live Pilot URL not
+reachable from this verification environment (instant connection
+failures, not logic failures) — this matches the existing split
+between the "Frontend Build" and deployed-UAT CI jobs and is not a
+new regression.
+
+This fix was prepared and verified but has not yet been committed to
+the Pilot branch — it is being applied via direct GitHub web-editor
+edits after four consecutive failures of the same transfer operation
+through the GitHub-connected agent. That agent's connector was
+confirmed (via its own diagnostic) to support creating Git blobs from
+inline text/string content but not from file attachments; this is a
+durable constraint worth remembering for future prompts to it, not a
+one-off failure. **NO DATA ADMISSION PROVEN. No SQL, migration, main,
+or worker-to-recorder binding-hash change in this unit.**
+
+Next bounded unit, once this CI fix is confirmed live: the
+worker-to-recorder binding-hash handoff — `layer3-cf245-tuition-
+benchmark/index.ts` must compute and pass `p_binding_hash` to the
+11-argument `layer3_cf245_tuition_benchmark_record_service` RPC. Do
+not start that unit, run a benchmark, retry the parked item, deploy,
+or merge PR #99 as part of this documentation update.
