@@ -19,7 +19,9 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 >
 > **M2.4.5:** CLOSED / PASS / FROZEN under `CF-CHG-20260903-087`, with final operational-enrichment acceptance under `CF-CHG-20260915-245`. Accepted Pilot baseline is `e62c01cadaf43efa8c3d8ea57625c23874d1b010`, visible release v2.15.79 / package 0.1.6. Dedicated CF-245 deployed UAT `34926246733`, generic targeted UAT `34926246675`, build/smoke `34926246673` and Cloudflare deployment all PASS. No Production Supabase project exists.
 >
-> **M2.4.6:** ACTIVE — PRODUCTION OPERATIONS MODEL. Authority: `project-runsheets/milestone-2/m2.4/M2.4.6-M2.4.9-OPERATIONS-PLAN.md` plus `project-runsheets/milestone-2/m2.4/m2.4.6/`. The active gate is to reconcile and prove dispatcher/waves, Evidence reuse-first, deterministic L2, bounded L3/L4 handling, retries/parking/stale recovery, idempotency, quotas/cost ceilings, stop conditions, operator ownership and operational metrics before broad scale.
+> **M2.4.6:** CLOSED / PASS / FROZEN under `CF-CHG-20260915-246`, accepted Pilot baseline `90ddbdf28bfad57eb8d5a0ede1b8e506e252908a`.
+> **M2.4.7:** ACTIVE — CONTROLLED OPERATIONAL SCALE under `CF-CHG-20260915-247`. Gates A–C2 done; Gate D partially proven; Gates E–I not started. Authority: `project-runsheets/milestone-2/m2.4/m2.4.7/RUNSHEET.md`.
+> **CF-247:** ACTIVE primary end-to-end automated data admission programme. Authority: `docs/coursefinder-end-to-end-automated-data-admission-roadmap-v1.0.md`. Gate D partially proven: dispatcher, candidate-bound validation and Slice PRE reformat complete; benchmark-version binding 3B2A/3B2B in progress. Detail: `00-governance-programme/CF-CHG-20260915-247-end-to-end-automated-data-admission-programme.md`.
 >
 > **M2.4.5 ENRICHMENT OPERATIONS / CF-245:** `CF-CHG-20260915-245` is CLOSED / PASS. Accepted runtime coverage includes 33,105 Search courses, 26,457 regulatory tuition, 487 intakes, 520 English-requirement courses, 421 official-course URLs, 161 provider-current-tuition courses and 0 website-admitted scholarships. Real hourly history exists. The final statement-timeout recovery is migration `20260915034453_cf_245_enrichment_hourly_admin_cache_v1`; it changed private reporting mechanics only and did not alter scheduler frequency/concurrency, provider routing/budgets, canonical authority or publication security.
 >
@@ -149,7 +151,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 - Admin navigation / information architecture: `docs/coursefinder-admin-navigation-information-architecture-v1.6.md`;
 - Data Operations guidance: `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` plus Operations Runbook v1.8 and PIM Admin Guide v1.22;
 - M2 execution: `project-runsheets/milestone-2/STANDING-INSTRUCTIONS.md` + current execution addenda through A33 (as applicable);
-- M2.4 operations sequence: M2.4.0–M2.4.5 CLOSED/PASS; M2.4.6 ACTIVE; M2.4.7–M2.4.9 planned; M2.5 PAUSED until M2.4.9 GO.
+- M2.4 operations sequence: M2.4.0–M2.4.5 CLOSED/PASS; M2.4.6 CLOSED/PASS/FROZEN; M2.4.7 ACTIVE; M2.4.8–M2.4.9 planned; M2.5 PAUSED until M2.4.9 GO.
 
 ## Accepted runtime/source authority
 
@@ -183,7 +185,7 @@ This file indexes material CourseFinder changes. Detailed records live in catego
 
 ## Next gate boundary
 
-M2.4.5 is CLOSED / PASS / FROZEN. The active gate is **M2.4.6 — Production Operations Model**. Reconcile and prove the existing dispatcher/wave model, Evidence reuse-first, deterministic L2, bounded L3/L4 escalation, retry/parking/stale recovery, replay/idempotency, quota/cost controls, stop conditions, operator ownership and operational metrics. Do not broaden AU/NZ scale until this operating model is accepted; scale belongs to M2.4.7.
+M2.4.5 and M2.4.6 are CLOSED / PASS / FROZEN. The active gate is **M2.4.7 — Controlled Operational Scale**: Gates A–C2 are done; Gate D is partially proven (durable queue/handoff, candidate-bound validation and service-owned routing implemented; exact-head repairs and deployed admission proof outstanding); Gates E–I have not started. Do not broaden AU/NZ scale before governed Gate D admission proof. See `project-runsheets/milestone-2/m2.4/m2.4.7/RUNSHEET.md` for the gate contract.
 
 Preserve Layer 1/2 authority, Layer 3 Evidence/provenance/A14 telemetry, Layer 4 terminal human resolution, A8/A10/A12/A13/A15 standing behaviour, the RMIT canonical-promotion block and NZ Layer 2 source-qualification deferral. Production cutover, broad Publication and Zoho cutover remain later gates.
 
