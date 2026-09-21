@@ -226,3 +226,65 @@ benchmark/index.ts` must compute and pass `p_binding_hash` to the
 11-argument `layer3_cf245_tuition_benchmark_record_service` RPC. Do
 not start that unit, run a benchmark, retry the parked item, deploy,
 or merge PR #99 as part of this documentation update.
+
+### CF-247 3B2A worker-to-recorder binding-hash handoff — 22 September 2026 AEST
+
+The benchmark worker (layer3-cf245-tuition-benchmark/index.ts) now
+computes and passes p_binding_hash to the 11-argument
+layer3_cf245_tuition_benchmark_record_service RPC, closing the last
+3B2A gap noted at "22 September 2026 05:06 AEST": the bound recorder
+and worker handoff are now both in the branch.
+
+Design note, recorded because it was not pre-specified: the worker
+cannot re-derive the binding hash from raw .ts source text at Deno
+edge runtime the way the CI binding contract test does (there is no
+precedent anywhere in this codebase for a deployed Edge Function
+reading its own or a sibling function's source file, and the binding
+helper's own documentation confirms that path is CI/test-only). The
+worker instead computes its hash from the checked-in, CI-verified
+source manifest (CF247_TUITION_BINDING_SOURCE_MANIFEST) combined with
+the live profile settings it already fetches. This is genuinely
+source-bound (the manifest is proven to match real source by the
+existing mandatory binding contract test) and genuinely profile-bound
+(a model, validator, or schema drift changes the hash), without a
+first-of-its-kind runtime file-read dependency.
+
+A new function, tuitionBenchmarkRuntimeBindingHash, was added to
+supabase/functions/_shared/cf247-tuition-benchmark-binding.ts, reusing
+the existing profile validation logic (extracted into
+resolveTuitionProfileBindingInputs so the CI/test descriptor path and
+the runtime path can never silently diverge in which profile fields
+they require). binding_helper_sha256 in the source manifest was
+regenerated to match.
+
+Nine new CI assertions (#25-33) in
+tests/cf247-tuition-benchmark-binding-contract.test.ts independently
+prove: correct hash format (lowercase 64-char hex, matching the
+recorder's CHECK constraint), determinism, that a source-manifest
+drift changes the hash, that a profile drift (model identifier,
+validator settings) changes the hash, that the same fail-closed
+behaviour as the full descriptor applies (ambiguous or missing profile
+fields throw), and a source-text contract proving the worker actually
+computes and passes the hash before any provider call is made (so a
+malformed profile fails closed before any cost is spent), not merely
+that the capability exists unused.
+
+Independently verified: test:cf247-tuition-benchmark-binding-contract
+PASS (33 assertions), test:cf247-tuition-validation-contract PASS,
+npm run build PASS, both non-deployed CF-247 Playwright specs 4/4
+PASS. No secrets flow into the hash — confirmed the profile fields
+used are the same non-secret settings already used elsewhere in this
+worker; the real provider credential stays on its separate resolution
+path.
+
+This closes 3B2A. **NO DATA ADMISSION PROVEN — the recorder's own SQL
+always sets paused=true regardless of pass/fail on this bound path, so
+completing this unit cannot itself unpause tuition validation.** No
+benchmark was run, the parked item was not retried, nothing was
+deployed, and PR #99 was not merged as part of this unit.
+
+Next bounded unit: 3B2B — fail-closed comparison of this binding hash
+at every tuition execution/reservation gate, with profile-change
+invalidation. That is a separate, later unit; do not start it, run a
+benchmark, retry the parked item, deploy, or merge PR #99 as part of
+this documentation update.
