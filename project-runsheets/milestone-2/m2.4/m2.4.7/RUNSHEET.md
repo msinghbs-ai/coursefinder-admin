@@ -96,3 +96,7 @@ Until quota reset, do not enqueue, reserve, dispatch or benchmark. After reset, 
 - Deployed exact-head `layer3-work-dispatch` v5, hash `f72a01945792207f73af03eb40c6d74748fbf6766d4f8142d6db7a74c2897d66`. It reserves one item at a time through the scoped RPC and preserves the full-call time budget and fail-closed transition fallback.
 - Parked item `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1` was not retried or mutated: `parked`, attempt 6, unreserved. Runtime remains 10 `layer4_required` + 1 `parked`; Evidence 32,040; course fees 79,730; UTC-day live/benchmark calls 0/0, tokens 0/0, cost USD 0.
 - Slice 2 is runtime-closed. Next bounded slice is slice 3 only: benchmark binding to exact prompt/schema/validator/model version with invalidation on change. No parked-item retry, cohort, larger L2 wave, admission claim, or RLS change is authorised.
+
+### Migration-ledger reconciliation — 21 September 2026 14:12 AEST
+
+Gitar aligned the repository migration filename to the already-applied Pilot ledger without changing SQL bytes. PR #99 exact head is now `e7b6d5b3ab345511c99fa66e35e65b89fab4d581`; Pilot Frontend Build `35560006737/#2480` and Release History Contract `35560006759/#158` both PASS. Repository file `20260921040446_cf247_task_profile_scoped_reservation.sql` now matches runtime migration `20260921040446`. Dispatcher v5/hash, queue counts and zero-call telemetry are unchanged. Slice 2 remains closed; slice 3 benchmark binding is next.

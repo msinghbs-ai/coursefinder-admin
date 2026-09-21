@@ -117,3 +117,7 @@ CF-247 dispatcher/reservation slice is now closed across repository, CI and Pilo
 The deployed path now reserves only the requested task/profile, revalidates profile eligibility in the reservation transaction, uses one-at-a-time reservation with full-call remaining-time protection, and fails closed across reserved/interpreting error states. RPC execution remains restricted to postgres/service_role; the legacy global reservation RPC is retired. The parked item was not retried. Runtime remains 10 Layer-4-required + 1 parked, with no provider call, token, cost, canonical or Search/API admission delta.
 
 The next governed unit is benchmark-version binding (slice 3). Larger L2 waves, new cohorts and the parked tuition item remain paused.
+
+### Migration-ledger reconciliation — 21 September 2026 14:12 AEST
+
+Gitar aligned the repository migration filename to the already-applied Pilot ledger without changing SQL bytes. PR #99 exact head is now `e7b6d5b3ab345511c99fa66e35e65b89fab4d581`; Pilot Frontend Build `35560006737/#2480` and Release History Contract `35560006759/#158` both PASS. Repository file `20260921040446_cf247_task_profile_scoped_reservation.sql` now matches runtime migration `20260921040446`. Dispatcher v5/hash, queue counts and zero-call telemetry are unchanged. Slice 2 remains closed; slice 3 benchmark binding is next.

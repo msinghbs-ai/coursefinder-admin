@@ -145,3 +145,7 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - Data/resource telemetry: Evidence 32,040; course fees 79,730; live calls 0; benchmark calls 0; input/output tokens 0/0; cost USD 0; max live latency 0 ms. Storage/CPU/memory remain unavailable.
 - Admission/canonical/Search/API delta: none proven.
 - Next action: benchmark binding slice only. No parked-item retry or new cohort.
+
+### Migration-ledger reconciliation — 21 September 2026 14:12 AEST
+
+Gitar aligned the repository migration filename to the already-applied Pilot ledger without changing SQL bytes. PR #99 exact head is now `e7b6d5b3ab345511c99fa66e35e65b89fab4d581`; Pilot Frontend Build `35560006737/#2480` and Release History Contract `35560006759/#158` both PASS. Repository file `20260921040446_cf247_task_profile_scoped_reservation.sql` now matches runtime migration `20260921040446`. Dispatcher v5/hash, queue counts and zero-call telemetry are unchanged. Slice 2 remains closed; slice 3 benchmark binding is next.

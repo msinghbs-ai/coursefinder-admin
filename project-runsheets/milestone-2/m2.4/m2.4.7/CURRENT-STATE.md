@@ -94,3 +94,7 @@ At/after quota reset, refresh actual call headroom. If positive, retry **only th
 - Counts: Evidence 32,040; `catalogue.course_fees` 79,730. UTC-day live calls 0, benchmark calls 0, tokens 0/0, cost USD 0, max live latency 0 ms.
 - DATA ADMISSION remains unproven; no canonical or Search/API delta is claimed.
 - Next: slice 3 benchmark binding only. The parked item and new cohorts remain untouched.
+
+### Migration-ledger reconciliation — 21 September 2026 14:12 AEST
+
+Gitar aligned the repository migration filename to the already-applied Pilot ledger without changing SQL bytes. PR #99 exact head is now `e7b6d5b3ab345511c99fa66e35e65b89fab4d581`; Pilot Frontend Build `35560006737/#2480` and Release History Contract `35560006759/#158` both PASS. Repository file `20260921040446_cf247_task_profile_scoped_reservation.sql` now matches runtime migration `20260921040446`. Dispatcher v5/hash, queue counts and zero-call telemetry are unchanged. Slice 2 remains closed; slice 3 benchmark binding is next.

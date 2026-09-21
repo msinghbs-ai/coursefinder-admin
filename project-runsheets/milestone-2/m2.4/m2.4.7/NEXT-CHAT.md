@@ -49,3 +49,7 @@ Start at Pilot PR #99 exact head `c8866b573480b337ed86494f9817c98c69629c79`. Exa
 Runtime remains 10 `layer4_required` + 1 `parked`; target `8eb0d4e1...` is parked at attempt 6 and must not be retried. Evidence is 32,040, course fees 79,730, and UTC-day provider/benchmark calls are 0/0.
 
 Execute exactly slice 3: bind benchmark PASS to the shared candidate-bound validator/schema and exact profile prompt/schema/validator/model versions, invalidate PASS on any binding change, use one bounded Gitar repair, then independently verify exact-head CI and runtime currentness. Do not start deterministic admission, generic drain, a cohort, larger L2 waves, RLS remediation or merge/ready-for-review in the same run.
+
+### Migration-ledger reconciliation — 21 September 2026 14:12 AEST
+
+Gitar aligned the repository migration filename to the already-applied Pilot ledger without changing SQL bytes. PR #99 exact head is now `e7b6d5b3ab345511c99fa66e35e65b89fab4d581`; Pilot Frontend Build `35560006737/#2480` and Release History Contract `35560006759/#158` both PASS. Repository file `20260921040446_cf247_task_profile_scoped_reservation.sql` now matches runtime migration `20260921040446`. Dispatcher v5/hash, queue counts and zero-call telemetry are unchanged. Slice 2 remains closed; slice 3 benchmark binding is next.
