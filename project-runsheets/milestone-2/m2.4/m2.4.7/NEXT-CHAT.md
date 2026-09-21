@@ -33,3 +33,11 @@ M247-FU-020/021/022 and the anti-loop rule remain mandatory.
 ## Fresh reconciliation — 20 September 2026
 
 PR #99 head is `06b2c7b2ad538500f6658f7d58883be9b7ede2e9`; exact-head Frontend Build `35494635619` PASS. Live `pipeline.layer3_work_items` grouped by status: 10 `layer4_required`, 1 `pending`. Prior section's `reserved`→`failed` status is historical. FOLLOW-UPS records dispatcher request 6632 `service_role required` and an auth/currentness corrective action; reconcile the PR's intervening commits and deployed dispatcher before applying another fix. Do not assume an old defect persists merely from handoff text. Next executable action: inspect exact-head dispatcher auth change and deployed version; if corrected, dispatch only the existing pending work item and capture its terminal disposition; if not, make the smallest forward-only service-owned auth fix, validate/deploy then retry that item. Do not enqueue a new cohort or invent candidate context. M247-FU-021 still requires the full proof bundle; **NO DATA ADMISSION PROVEN** from the observed queue count alone.
+
+## Superseding handoff — 21 September 2026
+
+PR #99 exact head is `9b05918bcc59a1d68da54e1bbc6b9c15c6d9b051`; Frontend Build `35555240917/#2478` and Release History Contract `35555240881/#156` PASS, including the new candidate-bound contract step. Gitar reports no issues and the PR remains draft.
+
+Live runtime: 2,511 L2 `layer3_required`; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59; Evidence 32,040; field admissions 1,216; fees 79,730; Search documents 33,105. Deployed functions remain benchmark v11, interpreter v5, dispatcher v4. Repository head is not deployed proof. **NO DATA ADMISSION PROVEN.**
+
+Active action: finish only the in-flight Gitar dispatcher slice requested in PR comment `5754745214`: task/profile-scoped reservation, `x-cf-pilot-key` validation through the governed RPC, one-at-a-time/full-budget/status recovery preservation, and explicit CI coverage. Then independently inspect exact diff/head/CI. Next slices are benchmark-version binding, deterministic admission/L2 reconciliation, and only then the description-first generic handler. Do not dispatch the parked item, deploy piecemeal, start intake/English, enqueue a cohort or merge PR #99.

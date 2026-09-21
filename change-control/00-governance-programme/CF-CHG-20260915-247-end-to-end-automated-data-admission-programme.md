@@ -101,3 +101,11 @@ Fix bugs and security defects as they arise, but do not let unrelated refactorin
 Correct the qualification/routing contract forward-only so safe abstention and other policy-defined unresolved outcomes are accepted only when they produce the correct durable Layer-4 disposition and handover. Require exact-head CI/UAT, then execute a 10–25-item existing Evidence-backed cohort. Admit only validated authorised candidates; send unresolved/ambiguous/rejected/low-confidence outcomes to Layer 4. Capture M247-FU-021 through canonical and Search/API consequences. Do not weaken validation and do not launch larger Course waves until bounded drain is proven.
 
 **NO DATA ADMISSION PROVEN** until the bounded cohort satisfies M247-FU-021.
+
+## Exact-head repair campaign — 21 September 2026
+
+PR #99 exact head `9b05918bcc59a1d68da54e1bbc6b9c15c6d9b051` now enforces the sole-target candidate contract and executes it in CI. Frontend Build `35555240917/#2478` and Release History Contract `35555240881/#156` PASS; Gitar reports no issues and the PR remains draft.
+
+This is repository assurance only. Deployed runtime remains benchmark v11, interpreter v5 and dispatcher v4. Live state is 2,511 L2 `layer3_required`, 10 L3 `layer4_required`, 1 L3 `parked`, 59 L4 pending, Evidence 32,040, field admissions 1,216, fees 79,730 and Search documents 33,105. No CF-247 admission delta is proven.
+
+Ordered blockers before any drain are: task/profile/auth-safe dispatcher reservation; benchmark PASS binding to exact prompt/schema/validator/model version; deterministic idempotent admission/L2 reconciliation/canonical/Search projection; then a description-first generic handler and tiny exact-head deployed cohort. Intake and English remain out of scope until explicit policies and validators exist. The 1,780 finding is a row cohort with overlapping unresolved fields, not authority for a bulk enqueue.

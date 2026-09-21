@@ -73,3 +73,12 @@ This section supersedes the older request-6326/paused-profile handoff above wher
 ### Exact resume action
 
 At/after quota reset, refresh actual call headroom. If positive, retry **only the same seven failed cohort items** using the quota-bounded dispatcher. Do not enqueue additional tuition work. Continue any validated item through deterministic admission/Search proof; route unresolved items to Layer 4. Preserve the complete M247-FU-021 bundle.
+
+## Superseding current state — 21 September 2026 02:15 UTC
+
+- PR #99 exact head is `9b05918bcc59a1d68da54e1bbc6b9c15c6d9b051`; Frontend Build `35555240917/#2478` and Release History Contract `35555240881/#156` PASS. The candidate-bound test is now an executed CI step. Gitar reports no issues; PR remains draft.
+- Candidate validation is now bound only to `candidate_context.provider_current_tuition`; competing fees cannot substitute. Non-null results require `identity_match=true` and explicit international audience. Null remains safe abstention.
+- Deployed Edge runtime remains benchmark v11 / interpreter v5 / dispatcher v4. Repository repairs are therefore not deployed proof.
+- Live lifecycle is 2,511 L2 `layer3_required`; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59. The parked item `8eb0d4e1-b531-4d4e-b902-3808df9b8ea1` has candidate context, attempt_count 6 and no active reservation. Do not retry it before dispatcher, benchmark binding and admission gates are exact-head validated/deployed.
+- Evidence is 32,040; field admissions 1,216; fees 79,730; Search documents 33,105. No canonical/Search delta is attributable to CF-247. **NO DATA ADMISSION PROVEN.**
+- Manual execution is primary while active. The enabled hourly `CF-247 Gitar Closure` task is failover, detects in-flight work and takes over only when manual work is idle/stalled.

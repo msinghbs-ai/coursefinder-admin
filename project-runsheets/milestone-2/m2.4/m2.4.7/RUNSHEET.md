@@ -18,7 +18,7 @@ Prove and complete the reusable end-to-end automation contract before increasing
 - [x] Gate B — RMIT selected as first genuinely qualified AU scale target.
 - [x] Gate C1 — bounded RMIT 25-item scale wave executed: 25/25 processed, 0 blocked, USD 0.
 - [x] Gate C2 — architecture gap proven: all 25 items ended `layer3_required`.
-- [ ] Gate D — **PARTIALLY PROVEN**: durable queue/handoff, candidate-bound validation, service-owned interpretation/dispatcher and route-safety qualification PASS are implemented. The first 10-item cohort has proven 3 durable L3→L4 exception handovers; 7 retryable items remain stopped by zero daily provider-call headroom. Complete the same cohort after reset before closing Gate D.
+- [ ] Gate D — **PARTIALLY PROVEN**: durable queue/handoff, candidate-bound validation, service-owned interpretation/dispatcher and route-safety qualification are implemented. The original 10-item cohort has drained to Layer 4; a separate tuition item is parked. Exact-head repository repairs and deployed admission proof remain outstanding.
 - [ ] Gate E — implement deterministic post-L3 admission policy and incremental Search/API projection; AI has no unrestricted canonical-write authority.
 - [ ] Gate F — add live Admin end-to-end progress: L2/L3/L4/admitted/remaining + Evidence/model/provider/cost/latency/blocker telemetry.
 - [ ] Gate G — prove automatic admitted-data delta on AU, then the same shared engine on independently qualified NZ and CA pilots; run GB/US/IE/DE portability fixtures before each later-country live pilot.
@@ -79,3 +79,11 @@ The programme architecture is authoritative over the narrower historical benchma
 ## Exact next gate action
 
 Until quota reset, do not enqueue, reserve, dispatch or benchmark. After reset, refresh provider-call headroom and resume **only the same seven retryable cohort items**. Do not create a replacement cohort. Validated authorised results continue immediately to deterministic Gate-E admission/Search proof; unresolved results route to Layer 4 with complete handover. Capture the remaining M247-FU-021 proof and keep larger L2 waves paused.
+
+## Superseding Gate-D repair state — 21 September 2026
+
+- PR #99 exact head `9b05918bcc59a1d68da54e1bbc6b9c15c6d9b051` makes `provider_current_tuition` the sole positive target, requires explicit identity/international audience, separates competing candidates, and runs the contract in exact-head CI.
+- Exact-head Pilot Frontend Build `35555240917/#2478` and Release History Contract `35555240881/#156` PASS; Gitar reports no issues. PR remains draft.
+- Earlier Gitar dispatcher corrections now reserve one item at a time, require a full-call time budget and recover both `reserved` and `interpreting` failures. The next bounded slice is task/profile-scoped reservation plus the governed scheduler-key auth bridge and direct dispatcher contract coverage.
+- Deployed runtime is not yet current with these branch repairs: benchmark v11, interpreter v5 and dispatcher v4 remain active. Do not dispatch or deploy piecemeal.
+- Live state at 2026-09-21 02:15 UTC: L2 `layer3_required` 2,511; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59; Evidence 32,040; field admissions 1,216; fees 79,730; Search documents 33,105. **NO DATA ADMISSION PROVEN.**

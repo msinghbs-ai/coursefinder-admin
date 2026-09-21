@@ -124,3 +124,12 @@ Each entry should contain where available: timestamp; repo/runtime/CI head check
 - Pilot PR #99 authoritative head remains `56afd9466c7375dc0a5f2c83d6cd58dbbac02715`; exact-head Frontend Build `35224454671/#2452` PASS.
 - Proof classification: GOVERNANCE/EXECUTION-CONTRACT ADVANCEMENT; **NO DATA ADMISSION PROVEN** yet.
 - Exact next action: inspect the existing service-owned interpreter/transition path for missing abstention→Layer-4 disposition, make the smallest forward-only code/runtime correction if required, exact-head CI/UAT, then execute the first 10–25 Evidence-backed cohort. Larger L2 waves remain paused.
+
+## 2026-09-21 02:15–02:50 UTC — manual-first Gitar closure campaign
+
+- Pilot PR #99 advanced from `06b2c7b...` to exact head `9b05918bcc59a1d68da54e1bbc6b9c15c6d9b051`. Candidate validation now has one positive target, explicit identity/audience gates, separated competitor prompt context and an executed exact-head CI contract.
+- Frontend Build `35555240917/#2478` PASS and Release History Contract `35555240881/#156` PASS; Gitar reports no issues. PR remains draft/no auto-merge.
+- Dispatcher repair commits now prevent batch lease stranding, require full-call remaining time and fail from either `reserved` or `interpreting`. Task/profile-scoped reservation + scheduler-key auth/CI coverage is the single in-flight slice.
+- Direct runtime: L2 2,511 `layer3_required`; L3 work 10 `layer4_required` + 1 `parked`; L4 pending 59; Evidence 32,040; admissions 1,216; fees 79,730; Search 33,105. Deployed Edge versions remain benchmark v11, interpreter v5, dispatcher v4.
+- No provider/model call, deployment, queue mutation, canonical admission or Search/API delta occurred. **NO DATA ADMISSION PROVEN.**
+- Enabled hourly `CF-247 Gitar Closure` as manual-idle failover; older overlapping CF tasks remain paused. Next gate: finish dispatcher slice, then benchmark-version binding and deterministic admission before bounded runtime proof.
