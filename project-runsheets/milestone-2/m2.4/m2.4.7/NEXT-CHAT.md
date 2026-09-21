@@ -2,6 +2,8 @@
 
 Start from repository/runtime truth under `PROJECT_INSTRUCTIONS.md`, `docs/README.md`, CF-CHG-20260915-247 and this directory. M2.4.7 remains Gate D. Larger L2 waves remain paused until the next governed gate decision.
 
+For short manual control prompts, use [`OPERATOR-PROMPTS.md`](./OPERATOR-PROMPTS.md). Manual work is primary while active; the hourly CF-247 task is failover and must not duplicate an in-flight Gitar, CI, deployment or UAT action.
+
 ## Current critical-path truth — 19 September 2026
 
 Pilot PR #99 branch `cf-247-candidate-bound-layer3` exact head is **`06b2c7b2ad538500f6658f7d58883be9b7ede2e9`**. Exact-head Pilot Frontend Build **35494635619 PASS** (20 September 2026).
