@@ -288,3 +288,90 @@ at every tuition execution/reservation gate, with profile-change
 invalidation. That is a separate, later unit; do not start it, run a
 benchmark, retry the parked item, deploy, or merge PR #99 as part of
 this documentation update.
+
+### CF-247 3B2A/3B2B live deployment and real verification — 22 September 2026 AEST
+
+Both prepared migrations and both updated edge functions were applied
+directly to the live Pilot Supabase project (fxcwkweaxjtknorudmwp) via
+direct database/function-deploy access, corresponding exactly to Pilot
+branch cf-247-candidate-bound-layer3 commit
+28e6b0e1b23df13737183217b5e26369ae5ce23a. This deployment did not go
+through a git merge to main or CI/CD; PR #99 remains open, draft and
+unmerged. Governance note: the live deployed code currently
+corresponds only to a reviewed draft-PR branch commit, not to main —
+worth reconciling before this branch is considered the system of
+record going forward.
+
+Pre-deployment safety checks: confirmed live queue state (10
+layer4_required + 1 parked, nothing reserved/interpreting), confirmed
+no automated cron job dispatches tuition work (only an unrelated
+15-minute housekeeping job exists), and confirmed the live 10-argument
+legacy recorder function matched the exact baseline the migration
+assumes (byte-for-byte, via MD5) before disabling its unbound path.
+
+A transcription error occurred during the first benchmark deploy
+attempt: `profile_response_schema` was accidentally omitted from the
+`tuitionBenchmarkRuntimeBindingHash` descriptor while manually
+transcribing file content into the deploy call — a real bug, not
+present in the verified source. It was caught by checking the actual
+deployed function content (not trusting the deploy call's own
+success response), and corrected in a second deploy
+(layer3-cf245-tuition-benchmark now version 13). The interpreter
+deploy (layer3-work-interpret, version 6) was verified field-by-field
+against the exact source before being treated as correct, with no
+further errors found.
+
+The residual gap flagged in the prior entry — whether the benchmark's
+profile RPC (layer3_cf245_tuition_benchmark_profile_service, which has
+no migration file in this repository) and the interpreter's profile
+RPC genuinely produce field values that hash identically — is now
+closed with direct evidence rather than inference. Querying the live
+benchmark profile RPC definition confirmed it returns
+deterministic_validators/structured_output_schema (canonical names),
+consistent with the interpreter RPC's validators/schema aliases via
+the existing alias-resolution code.
+
+A real end-to-end test was run, not simulated: triggered via the
+existing pipeline.svc_pilot_submit_nonce('layer3-cf245-tuition-benchmark')
+mechanism (the same allowlisted path the system's own scheduler uses),
+net.http_request id 6637. Result: benchmark run
+8e55c4a1-3d3e-4279-afe9-acf97ba97bd2, status FAIL (provider 0/4,
+controls 4/4, semantic_provider=4, semantic_controls=4, 10 calls, USD
+0), with binding_hash 0944b3448095b3ac62d2a5a9e1afeec54cd890fcdc228d9e73a166b027b8c902
+correctly recorded — the first non-null binding_hash on any benchmark
+run in this system's history, proving the new code path executed
+without error end-to-end (no 500, clean 422 fail response matching
+the worker's own pass/fail branching).
+
+The binding hash was independently re-derived outside the deployed
+function entirely: read the live tuition profile's exact field values
+via direct query, recomputed the identical canonical-descriptor
+SHA-256 algorithm in a separate local environment, and confirmed an
+exact byte-for-byte match against the recorded hash. This is direct
+cryptographic proof the runtime computation is correct and
+reproducible, not merely internally consistent.
+
+Post-test state, confirmed by fresh query: tuition profile remains
+enabled=true, paused=true (the bound recorder's own logic always sets
+paused=true regardless of pass/fail, by design). quality_benchmark
+now shows pass=false with the new binding_hash attached, superseding
+the prior legacy pass=true/no-binding-hash record. Work queue
+unchanged: 10 layer4_required + 1 parked, nothing newly reserved or
+interpreting. **NO DATA ADMISSION PROVEN** — the benchmark did not
+pass, and nothing was unpaused regardless.
+
+This closes 3B2A and 3B2B as deployed and verified against live
+infrastructure — a stronger bar than "built and internally
+consistent." What remains open is substantive, not procedural: the
+benchmark itself needs to actually pass (provider scoring dropped
+from 4/4 on 18 September to 0/4 today under an unchanged model and
+prompt version — worth investigating why before any retry, e.g.
+Evidence drift, provider-side model behaviour change, or case
+selection differences), and separately, unpausing tuition validation
+after a genuine pass requires its own deliberate action that has not
+been designed or built.
+
+Next bounded unit: investigate the provider-scoring regression (4/4
+to 0/4) before retrying the benchmark. Do not retry the benchmark,
+design or build an unpause mechanism, retry the parked item, or merge
+PR #99 as part of this documentation update.
