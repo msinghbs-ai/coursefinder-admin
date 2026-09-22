@@ -455,3 +455,52 @@ functionality is real, working, and independently verified live today
 (binding-hash protection, multi-model qualification with a genuine
 pass, the read-only comparison UI). Next steps: add the four migration
 files, update the PR description, mark ready for review, squash-merge.
+
+### PR #100 and PR #79 both merged and verified on live main — 22 September 2026 AEST
+
+Both PRs are now merged into main, confirmed on a fresh clone, not
+assumed: PR #100 at commit ba03fec ("Cf 247 track b UI consolidation
+(#100)"), PR #79 at commit 92ac10b ("CF-093 follow-on: Scheduled Tasks
+runtime operations and efficiency (#79)"), with #100 merged after #79.
+The two PRs touch zero overlapping files (Scheduled Tasks observability
+vs Layer 3 tuition workspace consolidation), so merge order carried no
+risk, and this was confirmed directly rather than assumed.
+
+Full verification run against actual current main (not a branch, not a
+simulation): npm run build pass; both CF-247 contract tests
+(tuition-benchmark-binding-contract, tuition-validation-contract) pass;
+all Layer 3 and Scheduled Tasks UAT specs pass (12/12 runs across
+desktop and mobile projects) — cf-247-layer3-scoped-reservation-
+contract, cf-247-layer3-work-queue-contract, cf-093-scheduled-runtime-
+health-contract, m245-layer2-discovery-terminal-timestamp-contract,
+m245-scheduled-runtime-metrics-read-contract.
+
+PR #100 delivered: retirement of the redundant tuition-specific admin
+panel and its backing RPC (duplicated what security.
+layer3_model_profiles_admin_impl already provided generically);
+extension of the real, already-wired Layer 3 — AI Interpretation
+workspace (m2-3-intelligence-entry.jsx) to include
+provider_current_tuition_validation as a task class, with qualification
+comparison (cost, provider/controls pass breakdown) shown generically
+for any task class; the manual per-item "Run eligible interpretation"
+path correctly excluded for the tuition task class, since it runs via
+the automated CF-247 dispatcher/queue rather than manual Evidence
+selection.
+
+PR #79 delivered, after a full re-review that found and fixed six real
+problems predating this session's involvement (a dangerous stale full
+copy of admin_read from 13 September embedded in a migration; two
+hidden stale-test wording mismatches; a test safety regex broken by
+design against the mandatory search_path clause; and the underlying
+governance gap — three tests never wired into any CI workflow, which is
+how all of the above went undetected despite an earlier "Approved,
+5/5 passing" status): Scheduled Tasks runtime health observability
+(ScheduledRuntimeHealth.jsx, wired into the existing
+ScheduledJobsWorkspace.jsx), the governed jobs_runtime read RPC, a
+Layer 2 discovery terminal-timestamp trigger, and a new CI workflow
+(scheduled-runtime-health-contract.yml) closing the coverage gap.
+
+**No new open items from this pass.** Standing open items unchanged:
+no unpause/activation mechanism for qualified Layer 3 profiles exists;
+Layer 1/2/4 and Scholarship's own parallel AI-control system have not
+had the same redundancy audit PR #100 applied to Layer 3.
