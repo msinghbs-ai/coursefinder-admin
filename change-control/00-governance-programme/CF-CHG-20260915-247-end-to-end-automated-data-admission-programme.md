@@ -604,3 +604,27 @@ merge, no fixes required.
 qualified Layer 3 profiles exists. Layer 1, Layer 2, Layer 4, and
 Scholarship's own parallel AI-control system have not had the
 redundancy/consolidation audit Layer 3 has now had across three PRs.
+
+### PR #102 (CF-247 Track B Phase 3: credential widget wired in) merged and verified — 22 September 2026 AEST
+
+Confirmed merged into main at commit b250cb0. Full audit findings from
+this Phase 3 unit: layer3-provider-credential-entry.jsx (complete,
+working, real live edge function, but unreachable — no HTML ever
+referenced it) converted into a regular component and mounted in the
+actual app shell, rank-gated on session context already available
+there. Two items explicitly not acted on, left for deliberate
+decisions rather than folded in here: layer2-trial-entry.jsx (a second
+orphaned entry, backing functions confirmed live, but large/old/
+uncertain current relevance) and Scholarship's own parallel AI-control
+system (confirmed a genuinely different batch/budget workflow, not
+simple redundancy — an architecture question, not a bug).
+
+Verified against actual current main, not the branch: npm run build
+pass; both CF-247 contract tests pass; 12/12 Layer 3 and Scheduled
+Tasks UAT specs pass, confirming this sits cleanly alongside every
+prior Track B unit without disturbing any of them.
+
+**Standing open items, unchanged**: no unpause/activation mechanism
+for qualified Layer 3 profiles. layer2-trial-entry.jsx's relevance
+undecided. Scholarship AI-control architecture undecided. Phase 4
+(formalising the config/telemetry split as a standing rule) is next.
