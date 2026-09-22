@@ -326,3 +326,82 @@ Next bounded unit: investigate the provider-scoring regression (4/4
 to 0/4) before retrying the benchmark. Do not retry the benchmark,
 design or build an unpause mechanism, retry the parked item, or merge
 PR #99 as part of this documentation update.
+
+### CF-247 multi-model evaluation — first genuine benchmark pass — 22 September 2026 AEST
+
+Architecture clarification recorded first: OpenRouter's own auto/fallback
+routing across models cannot be used for the qualified tuition profile.
+The recorder's model_exact check requires every response in a qualifying
+run to come from the exact profile.model_identifier; dynamic model
+routing would make that guarantee impossible by design. Provider-level
+routing for one chosen model (provider: { require_parameters: true },
+already in place since the earlier CI-fix entry) remains the correct
+and compatible use of the aggregator — it improves reliability of
+serving one qualified model, not which model answers.
+
+Multi-model support (added this session: parameterized profile_code on
+layer3_cf245_tuition_benchmark_profile_service, p_profile_id-keyed
+recorder overload, both already live and verified) was used to
+configure and empirically benchmark four OpenRouter model candidates
+against the real CF-247 case pool, not against documentation or pricing
+tables alone — OpenRouter's own model-capability docs proved unreliable
+twice this session (a "supports response_format" claim that was false
+for the live endpoint, and a free-tier model deprecated mid-session).
+
+Results, each against the identical 4 provider-case / 4 control-case
+benchmark:
+
+- openai/gpt-oss-20b (paid, $0.03/$0.13 per 1M): provider 2/4, controls
+  4/4, semantic 4/4 both, zero transport errors, $0.0007/run. Mandates
+  reasoning cannot be disabled (confirmed via direct API error
+  "Reasoning is mandatory for this endpoint and cannot be disabled");
+  code was changed to stop forcing reasoning off project-wide as a
+  result (see prior entry). Cheapest tested, but real per-run cost
+  varies with reasoning-token consumption.
+
+- deepseek/deepseek-v3.2 ($0.26/$0.38 per 1M): provider 2/4, controls
+  3/4 (one control failed on a missing rationale field, not a
+  reasoning failure), zero transport errors, no forced-reasoning
+  issue (reasoning_tokens: 0 throughout), $0.0043/run — 6x gpt-oss-20b's
+  cost for no reliability improvement.
+
+- mistralai/mistral-small-3.2-24b-instruct ($0.09/$0.25 per 1M):
+  provider 4/4, controls 4/4, zero transport errors, no reasoning
+  overhead, $0.0013/run. PASSED. Run id
+  05669d3f-efa4-47ca-aed3-6e91b4a9bed5, binding_hash
+  7e8c05f6540967a536e1654566c74915733c72dd34111b0ba2cb7fb34a78c12f,
+  8 calls (no retries needed). This is the first genuine full pass
+  of the CF-247 tuition benchmark under the corrected, require_parameters
+  -enforced scoring since 3B2A/3B2B landed.
+
+- qwen/qwen3-32b: diagnostic only, not fully benchmarked. Confirmed via
+  direct API test that it enters unsolicited extended reasoning even
+  without being asked (238 reasoning tokens for a one-line question,
+  more expensive per-call in practice than deepseek-v3.2's diagnostic
+  despite a lower headline per-token price). Same class of cost/
+  predictability problem as gpt-oss-20b; not pursued further given
+  mistral-small-3.2 already passed cleanly at lower cost.
+
+Two profiles confirmed structurally disqualified this session and
+candidates for formal retirement: the original nvidia/nemotron-3-nano-
+omni-30b-a3b-reasoning:free profile (its sole endpoint does not support
+response_format at all, confirmed via direct testing, not merely
+undocumented) and openai/gpt-oss-20b:free (deprecated by OpenRouter
+mid-session, paid variant used instead).
+
+Post-benchmark state, confirmed by direct query: the passing profile
+(mistral-small-3.2) remains enabled=true, paused=true — the bound
+recorder's own logic always sets paused=true regardless of pass/fail,
+by design. **NO DATA ADMISSION PROVEN. No unpause mechanism exists or
+was designed. No interpretation, benchmark retry, deploy beyond what
+is already recorded in prior entries, or PR #99 merge was performed
+as part of this evaluation.**
+
+Next bounded units, genuinely separate, not to be combined: (1) decide
+whether to formally retire the two disqualified profiles or leave them
+as historical record; (2) design and build the unpause mechanism
+(comparing current runtime binding hash against the qualified one, a
+3B2B-adjacent gate that has not yet been designed for the activation
+path, only the execution-refusal path); (3) build the model-selection
+UI (ScholarshipAiControl.jsx pattern already identified as the template)
+now that a real passing profile exists to feature in it.
