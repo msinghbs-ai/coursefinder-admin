@@ -405,3 +405,53 @@ as historical record; (2) design and build the unpause mechanism
 path, only the execution-refusal path); (3) build the model-selection
 UI (ScholarshipAiControl.jsx pattern already identified as the template)
 now that a real passing profile exists to feature in it.
+
+### PR #99 reviewed for squash-merge; governance gap found and fixed — 22 September 2026 AEST
+
+PR #99 was reviewed in full ahead of a decision to squash-merge it into
+main as a milestone, not discard it. Every substantive correctness
+finding gitar's automated review raised across the PR's 49-commit
+history (retired RPC still called by the dispatcher; positive validator
+losing independent audience/basis/fee_year guards; the
+ambiguous_multiple_equal_rank control contradicting the candidate-bound
+contract it was meant to test; work items able to get permanently stuck
+in interpreting on dispatcher failure; unbounded sequential dispatch
+risking a wall-clock timeout) was independently verified fixed at the
+current branch head — checked against the actual live code, not
+trusted from historical comments. Full CF-247 test suite, build, and
+UAT all pass. A dry-run merge against current main shows zero conflicts.
+
+One real gap was found and fixed in the course of this review, not
+before: four schema objects applied directly to the live Pilot Supabase
+project in an earlier session unit (parameterized
+layer3_cf245_tuition_benchmark_profile_service, the p_profile_id-keyed
+12-argument recorder overload, security.tuition_ai_control_read_impl,
+and the admin_read dispatch extension for tuition_ai) had no
+corresponding checked-in migration file. Four migration files were
+written to close this gap and each verified byte-for-byte identical to
+the live definition by reapplying the file's exact content and
+confirming the resulting function MD5 was unchanged. These four files
+must land on the branch before merge:
+
+- supabase/migrations/20260922050000_cf247_tuition_benchmark_profile_service_parameterize_code.sql
+- supabase/migrations/20260922050100_cf247_tuition_benchmark_record_service_profile_id_overload.sql
+- supabase/migrations/20260922050200_cf247_tuition_ai_control_read_impl.sql
+- supabase/migrations/20260922050300_cf247_admin_read_tuition_ai_dispatch.sql
+
+One further, non-blocking finding logged: a current_user-based
+SECURITY DEFINER auth check pattern used throughout this codebase
+(including several CF-247 functions) is a documented no-op under
+SECURITY DEFINER — current_user reflects the function owner, not the
+caller — matching a finding already raised on a separate, already-merged
+PR for the same pattern elsewhere in the codebase. Not exploitable in
+practice: actual enforcement is the REVOKE ALL / GRANT service_role
+boundary, confirmed correct on every CF-247 function reviewed here.
+Predates this PR and spans functions well outside CF-247's scope; not
+addressed here and not a merge blocker.
+
+**Decision: keep and squash-merge, not discard.** The messy 49-commit
+history is git hygiene debt, resolved by squashing; the underlying
+functionality is real, working, and independently verified live today
+(binding-hash protection, multi-model qualification with a genuine
+pass, the read-only comparison UI). Next steps: add the four migration
+files, update the PR description, mark ready for review, squash-merge.
