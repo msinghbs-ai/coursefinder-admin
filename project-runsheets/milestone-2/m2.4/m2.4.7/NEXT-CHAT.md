@@ -504,3 +504,31 @@ Layer 2 discovery terminal-timestamp trigger, and a new CI workflow
 no unpause/activation mechanism for qualified Layer 3 profiles exists;
 Layer 1/2/4 and Scholarship's own parallel AI-control system have not
 had the same redundancy audit PR #100 applied to Layer 3.
+
+### PR #101 (CF-247 Track G: live Layer 3 queue status) reviewed and verified — 22 September 2026 AEST
+
+Delivers the item flagged as not-yet-built in PR #100's own description:
+live queue status for the automated Layer 3 dispatcher/queue
+(pipeline.layer3_work_items), surfaced in the real Layer 3 — AI
+Interpretation workspace. A new read RPC
+(security.layer3_queue_status_read_v1) reports counts by task class and
+status, oldest-pending age, and last-completed timestamp — generic
+across any task class using the automated queue, not tuition-specific,
+consistent with the consolidation approach established in Track B.
+Wired into admin_read the same way as every prior addition, verified
+against genuinely current live data before this entry was written
+(10 layer4_required, 1 parked, matching the live table directly).
+
+Full verification against the actual branch content, not assumed: all
+three files (two migrations, one workspace component) confirmed
+byte-for-byte identical to what was built; npm run build pass; both
+CF-247 contract tests pass; 12/12 Layer 3 and Scheduled Tasks UAT specs
+pass, confirming this addition sits cleanly alongside PR #79 and #100's
+work without disturbing either; zero merge conflicts against current
+main; the live RPC re-confirmed unchanged since deployment. Ready to
+merge, no fixes required.
+
+**Standing open items, unchanged**: no unpause/activation mechanism for
+qualified Layer 3 profiles exists. Layer 1, Layer 2, Layer 4, and
+Scholarship's own parallel AI-control system have not had the
+redundancy/consolidation audit Layer 3 has now had across three PRs.
