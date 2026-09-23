@@ -698,3 +698,89 @@ WP3 is independent of Stage 1 and may proceed while WP1 awaits merge.
 Admitted data reaches both website and Zoho consumers through the shared
 search projection with unchanged field shapes; no UI release-version
 change is required.
+
+### Stage 1 decisions: activation gate, Layer 3 admission, website data request — 23 September 2026 AEST
+
+Recorded after "Stage 1 work packages and sequencing"; chronologically this
+entry and the next precede it.
+
+Finding: the automated chain is enqueue → dispatch → interpret → admit →
+project. Only interpret and project existed. No schedule enqueued the 298
+waiting tuition candidates, the dispatcher was not scheduled, and no
+admission step existed, so a valid Layer 3 result stopped at "validated".
+
+Decisions:
+- Activation: database gate plus automatic pause on binding drift
+  (execution already refuses drift; auto-pause keeps displayed state
+  truthful). Maker/checker approval deferred to M2.4.9.
+- Authority: administrator (rank 6) activates; rank 4 and above may pause.
+  Activation reason required. Every activation, refusal and pause is
+  recorded in an append-only audit table.
+- Activation checks: benchmark passed within 14 days, qualified binding
+  hash on record, credential stored, no other active profile for the same
+  task (one primary per task class).
+- The old profile setter can still pause or disable but can no longer
+  unpause.
+- Admission: automatic for validated, candidate-bound results at or above
+  the profile's review confidence (0.9), within allowed currencies, bases
+  and amount ceiling; written using the same fee key convention as Layer 2
+  so the two layers cannot duplicate a fee. Anything else, including a
+  conflict with an existing different fee, is held for human review. The
+  consumer projection is refreshed after each batch that admits.
+- Schedules for enqueue, dispatch and admission are created switched off;
+  enabled only after a supervised first run.
+
+Website data request (14 Sep test) reviewed against live data:
+- Coverage has moved on since the test: intakes 487, English 520,
+  official links 527, current tuition 161 (developer saw 10 each).
+- Course listing: an undocumented sync_courses action already pages
+  results; the underlying search already supports all requested filters.
+  Decision: add a documented search action as an additive consumer change
+  (Zoho functions untouched).
+- Campus city and postcode: data exists (3,921/3,922 campuses, 26,613
+  courses linked) but is not exposed. Decision: expose at campus grain.
+- Tuition basis: always return the basis explicitly; never label a course
+  total as annual.
+- Scholarships: in scope. 292 exist in canonical data at provider grain.
+  Decision: expose through a separate scholarship action.
+- publication_status "unpublished": meaningful. Pilot data is not cleared
+  for public display until the M4 publication gate.
+- QILT/PRISMS "not_admitted": a Pilot-scope decision, not licensing.
+  QS: not in scope (commercial licensing).
+- Logos: not supplied until redistribution rights are confirmed; the
+  initials fallback stands.
+
+---
+
+### Stage 1 verified live and raised for merge — 23 September 2026 AEST
+
+Stage 1 was applied directly to the live Pilot project as migrations
+cf247_stage1_activation_gate_and_tuition_admission and
+cf247_stage1_layer3_tuition_schedules_disabled, after SQL was tested
+locally (10 activation cases, 6 admission cases, atomic rollback).
+
+Live verification after apply: all eight Stage 1 functions are
+byte-identical to the locally tested versions (checksum of each
+definition). The activation audit table has row-level security on and an
+append-only trigger; anonymous users cannot activate; browser sessions
+cannot run admission or read the audit table. The enqueue, dispatch and
+admission schedules exist and are switched off. A live smoke test ran
+admission cleanly with nothing to admit, and enqueue refused to queue
+work because no tuition profile is active — activation is the master
+switch for the whole chain. Nothing has been activated or admitted.
+
+Raised as branch cf-247-stage1-activation-admission: one migration file
+(already applied live) and two UI files adding Activate/Pause to
+Administration → Environment migration → OpenRouter / Layer 3. The
+accepted A26–A28 operator-UX wording in the Layer 3 workspace is kept.
+Build, CF-247 contract tests and 12 Layer 3 / Scheduled Tasks UAT runs
+pass.
+
+Open items found during verification, not introduced by Stage 1:
+- Three legacy M2.3 profiles (free router, international contact, source
+  pattern) remain active on the NVIDIA free model, which cannot honour
+  response_format at its only endpoint; their benchmarks passed in August,
+  before provider parameter enforcement. They serve legacy task classes,
+  not tuition. Re-benchmark or pause to be decided (WP5).
+- cf-085-firecrawl-scraper-config-contract fails identically on main and
+  is not wired into any CI workflow (WP5).
