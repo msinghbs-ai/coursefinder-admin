@@ -1124,3 +1124,55 @@ After PERF-1, the targeted deployed check still failed on statement
 timeouts from other reads during an admission run. That showed the
 Dashboard was a symptom and the full search rebuild the cause; it was
 resolved by PERF-2 (see the PERF-2 entry).
+
+### Layer 4 redesign approved; PERF-4 Evidence timeout fixed — 23 September 2026 AEST
+
+Layer 4 feedback: after v2.15.82 the programme owner found the review screen
+confusing. Problems identified: items showed database IDs instead of course
+and provider names; there was no link to the page being checked; the AI's
+proposal was shown as raw data; the proposal could contradict the reason
+without saying so; six equal buttons used jargon ("Return L2", "Return
+L3"); the title appeared three times; and Evidence and Layer 3 references
+were raw IDs.
+
+Redesign principles: help operators decide without overwhelming them, and
+scale from one part-time person to a team. One decision at a time, with
+the next item opening after each decision. Show the reason first, then the
+three facts that settle it (currently recorded, AI suggested, what the page
+says), then links to the provider page and the saved copy; technical
+detail stays collapsed. Group repeat work for one decision with preview and
+audit. Management gets a read-only team and forecast view built from data
+already recorded (who decided, when, how many), refreshed in the background.
+
+Decisions (approved by the programme owner, 23 September 2026):
+- Show rule-based suggestions (not AI), clearly labelled and never applied
+  automatically.
+- Opening an item claims it; a claim is released after 30 minutes idle.
+- Managers (role 5 and above) see everyone's figures; operators see only
+  their own.
+- Waiting-time target: no item waits more than 7 days. It sets the warning
+  colour on the oldest item and the forecast's target.
+- Fix the Evidence timeout first, then build the review desk.
+
+Delivery plan: L4-A review desk (v2.15.83), L4-B team working with claims,
+next-item flow and time per decision (v2.15.84), L4-C batches, folding the
+mass-operations panel into a Batches tab and retiring its page-altering
+script (v2.15.85), L4-D team and forecast view (v2.15.86).
+
+Data facts at the time: 116 items waiting (68 tuition, 42 official course
+links, 6 scope), plus 37,200 scholarship course-scope items in cohorts;
+only 9 decisions ever recorded and no item ever assigned. Decision records
+already store who decided and when; the time an item was opened is not yet
+recorded and will be added in L4-B.
+
+PERF-4, Evidence timeout: the Evidence screen showed "canceling statement
+due to statement timeout" and no items. Its dropdown-options read made five
+full passes over 32,040 Evidence items on every open (6.5 seconds cold).
+It now uses the PERF-1 pattern: calculated in the background every 15
+minutes, same function name, curator role check and output, with a live
+calculation if the stored copy is over an hour old. PR #114 merged as
+6d9bc77; reviewed on main. Proven on live data: reads take 0 to 12
+milliseconds, and the stored options are identical to a fresh calculation.
+
+Release: PERF-4 has no screen change, so, as decided for PERF-2, it does
+not bump the version; its fix will appear in the v2.15.83 notes.
