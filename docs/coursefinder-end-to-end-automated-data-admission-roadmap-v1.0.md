@@ -279,6 +279,32 @@ Admin Cloudflare UI must provide:
 
 Wix/Website and Zoho receive versioned, curated, authenticated/rate-limited consumer APIs with no direct canonical-write authority.
 
+### UI consolidation discipline (established by CF-247 Track B, September 2026)
+
+A three-PR audit under CF-247 (#100–#102) found and corrected a
+recurring pattern: task-specific UI work defaulting to a new
+standalone panel instead of extending an existing generic one already
+covering the same category. One instance (a duplicate tuition
+model-qualification panel) was retired outright; the generic surface
+it duplicated (the real Layer 3 — AI Interpretation workspace) was
+extended instead, and later gained live queue telemetry and a
+previously-orphaned-but-complete credential widget the same way.
+
+Two findings from that audit were deliberately left as open decisions
+rather than resolved by the audit itself, and should stay open until a
+human makes the call: a second orphaned entry point whose backing
+functions are live but whose current relevance is genuinely uncertain,
+and Scholarship's own parallel AI-control system, which implements a
+materially different interaction model (batch-and-continue with
+budget gating) rather than simple redundancy — a real architecture
+question, not a bug.
+
+The standing rule from this audit (also recorded in Track B): before
+building any new operator-facing panel, check whether an existing
+surface in the correct category (Administration vs Data Operations)
+already covers the need, and extend that instead of adding a parallel
+one.
+
 ## Acceptance matrix
 
 The roadmap does not PASS on one AU university.
@@ -320,32 +346,6 @@ Run shared contract tests across:
 - Rankings;
 - Statistics/outcomes;
 - Provider contacts/assets where consumer admission is authorised.
-
-### UI consolidation discipline (established by CF-247 Track B, September 2026)
-
-A three-PR audit under CF-247 (#100–#102) found and corrected a
-recurring pattern: task-specific UI work defaulting to a new
-standalone panel instead of extending an existing generic one already
-covering the same category. One instance (a duplicate tuition
-model-qualification panel) was retired outright; the generic surface
-it duplicated (the real Layer 3 — AI Interpretation workspace) was
-extended instead, and later gained live queue telemetry and a
-previously-orphaned-but-complete credential widget the same way.
-
-Two findings from that audit were deliberately left as open decisions
-rather than resolved by the audit itself, and should stay open until a
-human makes the call: a second orphaned entry point whose backing
-functions are live but whose current relevance is genuinely uncertain,
-and Scholarship's own parallel AI-control system, which implements a
-materially different interaction model (batch-and-continue with
-budget gating) rather than simple redundancy — a real architecture
-question, not a bug.
-
-The standing rule from this audit (also recorded in Track B): before
-building any new operator-facing panel, check whether an existing
-surface in the correct category (Administration vs Data Operations)
-already covers the need, and extend that instead of adding a parallel
-one.
 
 ### Security matrix
 
