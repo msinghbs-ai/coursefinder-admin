@@ -1,7 +1,7 @@
 # CourseFinder Master Project Plan v1.81
 
 **Issued:** 1 September 2026  
-**Status:** CURRENT  
+**Status:** SUPERSEDED by v1.82  
 **Supersedes:** v1.80  
 **Programme position:** M1 FROZEN; M2.1–M2.4 CLOSED/PASS; M2.5 ACTIVE / READINESS; M3 Zoho Pilot ACTIVE/PARTIAL in parallel
 
