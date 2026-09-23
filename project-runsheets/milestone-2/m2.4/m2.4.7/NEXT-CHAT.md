@@ -733,3 +733,39 @@ Open items found during verification, not introduced by Stage 1:
   not tuition. Re-benchmark or pause to be decided (WP5).
 - cf-085-firecrawl-scraper-config-contract fails identically on main and
   is not wired into any CI workflow (WP5).
+
+### WP3 website course and scholarship search — live and raised for merge — 23 September 2026 AEST
+
+Two service-only database functions and two new website API actions
+were applied and deployed to the live Pilot project, and raised as
+branch cf-247-wp3-website-api.
+
+- WP3a website_edge_course_search_v1: combinable filters including city
+  and postcode; campuses at campus grain; explicit tuition basis, with a
+  derived annual figure only for courses of a year or more and flagged as
+  derived; the same keyword matching and sort as the Zoho search; Layer 4
+  block exclusion. Tested live: the developer's example request returns
+  11 courses with consistent pagination and no over-budget or unpriceable
+  results. A city-display defect found in testing (first campus shown
+  instead of the searched city) was fixed before release.
+- WP3b website_edge_scholarship_search_v1: 291 active scholarships at
+  provider grain; award type and value, first-party URL where known,
+  deadline status; fields not held in the data return null; unsupported
+  filters are reported in filters_not_applied. A wrong provider column
+  name found on first run was fixed before release.
+- WP3c wix-course-api, which existed only in the live project, is now in
+  source control; deployed as v4 with search and scholarships actions.
+  Existing actions and all Zoho functions are unchanged. Both database
+  functions are byte-identical to the committed files; the deployed
+  source was pulled back and matched; all actions return 401 without a
+  valid token. An authenticated end-to-end call is pending with the
+  website developer's key.
+
+Data limits recorded for the developer reply (WP4): entry-requirement
+summaries are not captured; scholarships carry no study level, study
+area or academic-score data; only 14 of 292 have a closing date.
+Performance note: a filtered course search takes about 3 seconds —
+indexing to be addressed before Production.
+
+Held for merge alongside this: Stage 1 (cf-247-stage1-activation-admission),
+already live and verified. Main is behind live until both merge.
