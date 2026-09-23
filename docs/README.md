@@ -13,7 +13,7 @@ Do not infer the current document from the highest filename version or from chat
 
 | Family | Current document | State |
 |---|---|---|
-| Master Project Plan | `docs/coursefinder-master-project-plan-v1.81.md` | CURRENT |
+| Master Project Plan | `docs/coursefinder-master-project-plan-v1.82.md` | CURRENT |
 | Running Build | `docs/coursefinder-running-build-v2.81.md` | CURRENT |
 | Database Architecture | `docs/coursefinder-database-architecture-v2.10.50.md` | CURRENT ACCEPTED |
 | Admin/PIM Design Decisions | `docs/coursefinder-admin-pim-design-decisions-v1.31.md` | CURRENT |
