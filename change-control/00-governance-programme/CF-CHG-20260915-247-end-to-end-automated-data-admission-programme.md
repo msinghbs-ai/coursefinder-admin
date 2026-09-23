@@ -868,3 +868,33 @@ for WP5.
 
 Still held: Stage 1 (cf-247-stage1-activation-admission) is live but not
 merged, so main remains behind live for the Stage 1 functions.
+
+### PR #105 merged (Stage 1); WP5 maintenance applied — 23 September 2026 AEST
+
+PR #105 merged to main as 78f51af. Reviewed on a fresh clone: the Stage 1
+migration and both UI files match the verified set byte-for-byte, so main
+now matches the Stage 1 database changes already live. Build, both CF-247
+contract tests and the Layer 3 contract specs pass on main.
+
+WP5 items completed:
+- cf-085-firecrawl-scraper-config-contract updated for the CF-088
+  Administration tool structure; the Firecrawl quota contract itself was
+  still intact. Passes on main.
+- The matching change to .github/workflows/pim-build.yml (running cf-085
+  in the Pilot Frontend Build check) did not land in #105 and is being
+  raised as a separate small PR. Until it merges, cf-085 is not run by CI.
+- Three legacy Layer 3 profiles on the NVIDIA free model were paused in
+  the live Pilot project: openrouter-free-router-v1 and
+  openrouter-international-contact-v1 (never called) and
+  openrouter-source-pattern-v1 (three calls ever, all provider errors,
+  last on 7 September). Each pause is recorded in the activation audit
+  table with no user actor and a stated reason. Reactivation must pass the
+  activation gate, which requires a benchmark pass within 14 days.
+  No Layer 3 profile is now active on the platform.
+- Preview-URL CORS: recommendation to keep Cloudflare preview origins
+  blocked from admin edge functions; admin pages are tested on the main
+  Pilot URL.
+
+Next: an administrator activates Mistral Small 3.2 from Administration →
+Environment migration → OpenRouter / Layer 3, then the supervised
+admission demonstration (WP2a) runs.
