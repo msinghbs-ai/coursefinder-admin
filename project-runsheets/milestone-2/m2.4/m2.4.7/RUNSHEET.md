@@ -979,3 +979,81 @@ Still open:
 - Layer 2 should capture the fee year itself so Layer 3 does not need to
   (option C, follow-up).
 - 288 governed backlog candidates remain to be processed once schedules run.
+
+### Layer 3 tuition schedules switched on; first automatic cycles confirmed — 23 September 2026 AEST
+
+Before switching on, the 288 remaining governed backlog candidates were
+classified by the page text beside each fee: 250 say annual or per year
+(expected to admit automatically), 35 say total, per semester or per unit
+(expected to go to a reviewer), 3 are unclear; 269 state a fee year.
+Expected run: about 10 hours, about 290 model calls, about US$0.60.
+
+The enqueue (every 15 minutes), dispatch (every 10 minutes) and admission
+(every 15 minutes) schedules were switched on. First automatic cycles,
+confirmed on live data rather than job status alone: enqueue queued 25
+candidates at 10:30 UTC; dispatch at 10:35 sent 5 to Mistral, all validated
+(annual, 2027) within about 80 seconds; admission at 10:38 recorded them and
+refreshed the consumer projection in 61 seconds, well inside its 15-minute
+slot. By 10:54 UTC, 18 fees had been admitted in total, with no failed runs
+and Mistral still active.
+
+Stopping the pipeline: pausing Mistral in Administration → Environment
+migration → OpenRouter / Layer 3 stops enqueue and dispatch immediately. The
+profile also pauses itself if the deployed code drifts from what was
+qualified. Progress is visible in Layer 3 — AI Interpretation (live queue)
+and Layer 4 — Human Resolution (items needing a person).
+
+---
+
+### UI refinement: screen decisions approved (UI-0) — 23 September 2026 AEST
+
+UI refinement runs alongside the admission pipeline and does not touch it.
+
+Findings from a code inventory: 24 top-level menu items plus 11
+Administration tools, with duplicates; 11 separate scripts loaded by the
+page, six of which alter screens after they are drawn; one 125 KB shell
+file holding most screens; 28 stylesheets (292 KB); only 7 screens remember
+any user choices; only 6 screens link to other screens.
+
+Design standard adopted for all screens: one place per job (configuration
+in Administration, work and monitoring in Data Operations); the same page
+shape everywhere (header, key numbers, filters, table, detail panel);
+every identifier is a link, including an end-to-end course trace; filters,
+sort, tab and page are kept in the address bar and remembered per screen;
+plain language; no scripts that alter screens after drawing.
+
+Approved menu, 24 items to 16 in five groups:
+- Overview: Dashboard
+- Catalogue: Providers, Courses, Campuses, Scholarships, Provider Contacts
+- Data Operations: Layer 1, Layer 2, Layer 3, Layer 4, Jobs & Schedules,
+  Evidence, Onboarding
+- Quality & Insights: Completeness, Statistics & Rankings, Compare
+- Administration: one entry holding all configuration tools
+
+Approved decisions:
+- Review Queue merges into Layer 4, on condition that both are first shown
+  to list the same review items; if they do not, the decision returns to
+  the programme owner.
+- Jobs and Scheduled Tasks merge into Jobs & Schedules, with two tabs.
+- Onboarding stays in Data Operations and its duplicate Administration tool
+  is removed (moving it into Administration would have removed access for
+  role 3 users).
+- Attributes is removed from the menu; it remains in Administration as PIM
+  configuration (the same screen).
+- Sources moves into Administration.
+- Settings (legacy Regulatory ingestion) moves into Administration; it is
+  retired later only once Layer 1 sources is shown to cover everything it
+  does.
+- Outcomes (QILT) and Student Flow (PRISMS) become tabs within Statistics &
+  Rankings.
+
+Safeguards: no user loses access to anything they can reach today (role
+gates move with their screens), and every existing address redirects to its
+new location.
+
+Plan: UI-1 navigation; UI-2 shared page kit with remembered choices; UI-4
+cross-linking and course trace; UI-5 screen-by-screen migration, busiest
+screens first; UI-6 removal of screen-altering scripts; UI-7 stylesheet
+consolidation. Visual checks rely on programme-owner screenshots, as live
+screens cannot be viewed from the build environment. Deployed UI tests that
+protect agreed behaviour are kept, not rewritten.
