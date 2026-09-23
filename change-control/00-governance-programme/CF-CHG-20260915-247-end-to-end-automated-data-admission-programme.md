@@ -1078,3 +1078,44 @@ screens first; UI-6 removal of screen-altering scripts; UI-7 stylesheet
 consolidation. Visual checks rely on programme-owner screenshots, as live
 screens cannot be viewed from the build environment. Deployed UI tests that
 protect agreed behaviour are kept, not rewritten.
+
+### UI-1 navigation and release v2.15.80 candidate merged — 23 September 2026 AEST
+
+PR #109 (UI-1 navigation) merged as e1ad2c9 and PR #110 (release v2.15.80
+candidate, package 0.1.7) merged as 18aaa41. Both reviewed on main; all
+files match what was tested.
+
+UI-1: Review Queue retired from the menu. It read workflow.review_queue,
+which has never held an item and which nothing writes to; its address
+redirects to Layer 4 and the table is untouched. "Statistics & Insights"
+and "Quality & Review" merged into "Quality & Insights". The Dashboard Open
+reviews tile and review message now open Layer 4 instead of the empty
+retired queue. Correction to the UI-0 entry: the menu had 18 visible items,
+not 24 (six items counted then are hidden deep-link routes, which stay); it
+now has 17 items in 5 groups. Jobs & Schedules, QILT/PRISMS tabs and
+Onboarding move to UI-5, where they land with their screen redesigns and
+the four tests that use those labels.
+
+Release: the version pill now shows v2.15.80 as a release candidate, with
+its changes and bug fixes, covering the visible work since v2.15.79.
+v2.15.79 remains the accepted recovery release; its own notes are now
+stored in its entry rather than borrowed from the current release. From now
+on, every UI package bumps the version and adds its changes and fixes in
+the same pull request. v2.15.80 is marked accepted after it is checked live.
+
+Deployed UAT result: the targeted deployed check failed on its "no server
+errors" safeguard, not on anything the release changed. It recorded 16
+HTTP 500 responses from the Dashboard and layer-status summary reads
+between 11:51 and 11:52 UTC. Database logs show these were statement
+timeouts. No scheduled job was running heavily at that time, and query
+statistics show these reads have taken 3 to 16 seconds for some time. This
+is a pre-existing performance problem affecting the Dashboard for real
+users. A performance package (PERF-1) is scheduled before UI-2.
+
+Also found: two older release tests
+(m245-release-currentness-ranking-fix-contract and
+m245-release-dialog-history-contract) already fail on main because they are
+pinned to v2.15.75 and v2.15.76. They are not run by CI; to be repaired in
+a small clean-up.
+
+Pipeline: the Layer 3 tuition schedules continue to run automatically.
