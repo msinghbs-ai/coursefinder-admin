@@ -908,3 +908,72 @@ the end-to-end trace will be recorded separately.
 
 Process: uploads to a subfolder are done by navigating into the folder
 first; every merge is reviewed on main before documentation is written.
+
+### First end-to-end Layer 3 admission demonstrated; PR #108 merged — 23 September 2026 AEST
+
+Result: a supervised run admitted 8 provider-current tuition fees through
+every layer, with no wrong admissions. Each is annual, 2027, confidence 1.0,
+and linked to its saved Evidence page and source: A$38,400, A$39,360,
+A$40,320, A$45,120 (two courses), A$47,040, A$48,960 and A$49,920. Two
+further items were correctly sent to people, including a page that stated a
+course total rather than an annual fee. Courses with current tuition in the
+website API rose from 161 to 169. Model cost for the run: US$0.016.
+
+End-to-end trace verified for course 078839G (RMIT Associate Degree): Layer 2
+found A$38,400 but could not tell whether it was annual and captured no year;
+Mistral Small 3.2 confirmed annual 2027, quoting the page verbatim ("AU$38,400
+(2027 annual)"); admission recorded it using the Layer 2 fee key; the website
+API now returns A$38,400, annual, provider-current, not derived.
+
+Problems found and fixed during the run (all live and merged in PR #108 as
+1a27ec3, verified byte-for-byte on main):
+1. Enqueue read the wrong population: 611 Layer 2 items with no fee to
+   confirm, while the 298 real candidates sat in the governed backlog. A
+   JSON-null check also never filtered. Enqueue now reads the backlog and
+   requires a real Layer 2 target. Five items queued under the old rule were
+   parked without a model call.
+2. The dispatcher stopped the whole batch when one item failed. Fixed.
+3. Real pages state the fee year; Layer 2 does not capture it, so correct
+   results were rejected. Decision (option A): Layer 3 may supply a year only
+   when a returned quote states it together with the amount.
+4. The benchmark did not represent real work (its cases already had a year
+   and a resolved basis). Production-shaped cases and a new required control
+   for pages stating a course total were added, and the benchmark prompt was
+   aligned with the live interpreter.
+5. The model treated "indicative" as "indicative annual", including on a
+   course-total page. Now refused both in the model's instructions and in
+   shared code used by the benchmark and the interpreter.
+6. Quote matching failed on spacing introduced when pages are converted to
+   text. Spacing is now ignored; the characters must still match exactly.
+
+Qualification: after the fixes Mistral Small 3.2 passed 6/6 provider cases
+and 5/5 required controls at binding hash c45afa50…, identical for the
+benchmark (v19) and the interpreter (v11). An administrator re-activated it
+through the activation gate with the reason "Re-qualified 6/6 and 5/5; resume
+supervised Stage 1 run". Audit correction: the first activation earlier on
+23 September recorded "Production credential rotation", a pre-filled default
+since fixed in PR #106/#107; its real purpose was the supervised run.
+
+Layer 4 now uses plain English: every review item says what happened and what
+to check, with the fee amount, for example "The page doesn't clearly say
+A$23,000 is charged per year. Please confirm whether it is an annual fee."
+Items held at admission now open a review (previously they were invisible),
+and validated fees no longer open one. The existing queue was cleaned up: six
+items rejected under the old rules were re-checked, five parked items with no
+Layer 2 fee were given reviews, and all older reasons were rewritten. 23
+reviews are pending; none use technical wording.
+
+Setting change: Mistral's daily call limit was raised from 25 to 1,000 at the
+programme owner's request, after the day's re-qualification runs used up the
+allowance. Typical cost is about US$0.0002 per call; the scheduled dispatcher
+limits real throughput to about 720 calls a day. The change and reason are
+recorded on the profile.
+
+Still open:
+- The enqueue, dispatch and admission schedules remain switched off; to be
+  switched on after this record is accepted (WP5).
+- Benchmark calls count against the live daily allowance; they should be
+  excluded (follow-up).
+- Layer 2 should capture the fee year itself so Layer 3 does not need to
+  (option C, follow-up).
+- 288 governed backlog candidates remain to be processed once schedules run.
