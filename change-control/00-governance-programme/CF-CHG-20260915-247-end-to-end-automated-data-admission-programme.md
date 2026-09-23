@@ -898,3 +898,36 @@ WP5 items completed:
 Next: an administrator activates Mistral Small 3.2 from Administration →
 Environment migration → OpenRouter / Layer 3, then the supervised
 admission demonstration (WP2a) runs.
+
+### Mistral activated; activation UI fixed; supervised run started — 23 September 2026 AEST
+
+Activation: Mistral Small 3.2
+(openrouter-provider-tuition-validation-mistral-small-3-2-v1) was
+activated at 07:29 UTC on 23 September by a logged-in administrator
+through Administration → Environment migration. Every gate check passed
+and it is the only active Layer 3 profile. Audit correction: the
+append-only activation record shows the reason "Production credential
+rotation". That text was a pre-filled default in a shared reason field,
+not the operator's intent. The actual purpose was the supervised Stage 1
+admission demonstration. The record cannot be edited by design; this
+entry is the correction.
+
+UI defects and fix: activation and pause reused the credential card's
+pre-filled reason field, and a long profile name made the OpenRouter card
+overflow onto its neighbour. Fixed with a separate, empty, required
+activation/pause reason field and cards that shrink to their column.
+PR #106 uploaded the fix to the repository root instead of src/, so the
+application was unchanged and two unreferenced copies were added at the
+root. A follow-up PR placed the fix in src/ and removed the stray copies;
+reviewed before merge (both src files match the verified fix; root copies
+removed; no other files touched).
+
+CI: commit 07ee029 completes the earlier change — cf-085 now runs in the
+Pilot Frontend Build check.
+
+WP2a started: 10 tuition candidates enqueued from the 298-item backlog
+and the first batch of 5 dispatched to Mistral. Results, admission and
+the end-to-end trace will be recorded separately.
+
+Process: uploads to a subfolder are done by navigating into the folder
+first; every merge is reviewed on main before documentation is written.
