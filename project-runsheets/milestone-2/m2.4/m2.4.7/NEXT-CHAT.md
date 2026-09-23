@@ -586,3 +586,34 @@ working and failing.
 
 Next unit: activation gate — design options first, for decision
 before build.
+
+### PR #103 merged; interpreter deployed from main; Layer 3 source reconciled — 23 September 2026 AEST
+
+Stage 1.0 of the path to Production handover is complete.
+
+PR #103 merged to main at 4128358: layer3-cf245-tuition-benchmark,
+layer3-work-interpret and the binding manifest now match the intended
+state. Confirmed on a fresh clone that all five binding-relevant files
+on main (benchmark, interpreter, manifest, shared validator, binding
+helper) match the verified set.
+
+layer3-work-interpret deployed from main as v8 (the previous v7 still
+forced reasoning off and carried an older manifest). Pulled back after
+deploy and checked against main: reasoning setting removed,
+provider.require_parameters present, and all seven manifest hashes
+identical to main. layer3-cf245-tuition-benchmark remains v15, whose
+source is identical to main.
+
+Binding hash for the qualified Mistral Small 3.2 profile, computed
+with main's code: 7e8c05f6… using the profile shape the benchmark
+receives, and 7e8c05f6… using the shape the interpreter receives from
+layer3_reserve_work_interpretation_service. Both equal the qualified
+hash. Before this deploy the live interpreter computed 010dc5fa… and
+would have refused every Mistral work item.
+
+No profile is active, so nothing executed as a result of this deploy.
+Main, the live Layer 3 functions and Mistral's qualification now agree,
+verified on edge-function source as well as database functions.
+
+Next unit: activation gate for qualified Layer 3 profiles — design
+options for decision before build.
