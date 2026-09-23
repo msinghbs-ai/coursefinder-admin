@@ -628,3 +628,33 @@ prior Track B unit without disturbing any of them.
 for qualified Layer 3 profiles. layer2-trial-entry.jsx's relevance
 undecided. Scholarship AI-control architecture undecided. Phase 4
 (formalising the config/telemetry split as a standing rule) is next.
+
+### Plan to Production handover recorded; live admission-readiness check — 23 September 2026 AEST
+
+UI consolidation Phases 0–4 are complete (PRs #100–#102, roadmap
+Track B point 6 and the UI consolidation discipline subsection). Focus
+now moves to the first complete automated admission run.
+
+Live check of the Pilot project before planning, not assumed:
+- 17 scheduled jobs active; all fire on time and report succeeded,
+  but none has created a pipeline job or Evidence since 19 September.
+  Cause confirmed: no Layer 2 wave requests are queued (all completed
+  by 15 September). Idle by design, not failing.
+- One genuine failure: coursefinder-platform-capacity-observation
+  fails daily on a statement timeout while counting storage objects.
+- Layer 3: layer3-work-dispatch is not scheduled; no qualified profile
+  is active; 0 work items have ever reached validated or admitted
+  (current queue: 10 layer4_required, 1 parked).
+- Master Project Plan v1.81 contradicted the router (it recorded M2.4
+  closed and M2.5 active). Corrected in v1.82.
+
+Plan recorded in Master Project Plan v1.82, "Path to Production
+handover". M2.4.7 exit is one controlled AU run admitting real data
+end to end, which needs, in order: an activation gate for qualified
+Layer 3 profiles; a scheduled, kill-switchable Layer 3 dispatcher;
+confirmation of the deterministic admission path; Search/API
+projection; and scheduled-job telemetry that distinguishes idle,
+working and failing.
+
+Next unit: activation gate — design options first, for decision
+before build.
