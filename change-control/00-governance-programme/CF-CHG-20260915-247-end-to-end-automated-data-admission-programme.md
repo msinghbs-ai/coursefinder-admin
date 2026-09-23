@@ -1119,3 +1119,45 @@ pinned to v2.15.75 and v2.15.76. They are not run by CI; to be repaired in
 a small clean-up.
 
 Pipeline: the Layer 3 tuition schedules continue to run automatically.
+
+### PERF-2 scoped search refresh merged; admission contention removed — 23 September 2026 AEST
+
+PR #112 merged as dd7a3e3; reviewed on main, both migrations match what was
+applied and verified live.
+
+Root cause confirmed: both failed deployed checks (11:52 and 12:23 UTC)
+happened while the admission job rebuilt the whole search projection. To add
+a few fees, admission recalculated all 33,105 course documents and rewrote
+every one of them, whether changed or not: 60 to 85 seconds of heavy work
+every 15 minutes, which pushed concurrent users' reads past the 8-second
+limit.
+
+Decisions (approved by the programme owner, 23 September 2026):
+- Option A, interim: admission moved to hourly at :37 with a cap of 50 per
+  run, cutting the heavy work fourfold straight away.
+- Option B, permanent: a scoped refresh that updates only the courses
+  admission changed. It was generated from the live full refresh by exact,
+  guarded substitution, so its logic is identical; the only difference is
+  the course restriction. The full refresh is unchanged for its other
+  callers. With B in place, admission returned to every 15 minutes with its
+  original cap of 25.
+- PERF-2 has no visible screen change, so it does not bump the version
+  pill. Its fix is included in the notes of the next UI release.
+
+Proof, on live data:
+- Equivalence: for 350 courses (every Layer 3 admission plus 300 random),
+  the scoped and full calculations gave identical results for every course
+  (0 mismatches, 0 missing).
+- Speed: a real 50-course refresh took 1.1 seconds. The first scheduled
+  admission on the new path (12:53 UTC) took 1.47 seconds, against 60 to 85
+  seconds for the four runs before it.
+- Consistency: a full recalculation afterwards found 0 of 33,105 search
+  documents out of date.
+
+Pipeline at 13:01 UTC: 51 fees admitted by Layer 3; courses with current
+tuition in search rose from 161 to 211 during the day. The backlog
+continues automatically every 15 minutes.
+
+Follow-up PERF-3 (before Production): the full refresh still rewrites every
+row even when nothing changed. It should write only changed rows. Lower
+priority now that admission no longer uses it.
