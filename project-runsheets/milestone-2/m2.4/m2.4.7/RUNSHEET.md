@@ -820,3 +820,30 @@ indexing to be addressed before Production.
 
 Held for merge alongside this: Stage 1 (cf-247-stage1-activation-admission),
 already live and verified. Main is behind live until both merge.
+
+### PR #104 merged; WP4 developer reply drafted — 23 September 2026 AEST
+
+PR #104 (WP3 website course and scholarship search) merged to main as
+b46af75. Confirmed on a fresh clone that all three files match the
+verified set; main now matches the live wix-course-api (v4) and both
+website search functions.
+
+WP4: reply to the website developer drafted against their eight asks —
+corrected coverage figures, request examples for the search and
+scholarships actions, the tuition-basis rules, the scholarship data
+limits (no study level, study area, academic score or citizenship data;
+14 of 292 with a closing date), and the recorded decisions on
+publication status, QILT/PRISMS/QS and logos. The developer is asked to
+run both requests with their key, which is the remaining end-to-end
+check.
+
+Finding: on Cloudflare preview URLs the Layer 2 — Enrichment page shows
+"Failed to send a request to the Edge Function". Cause confirmed:
+layer2-config-control and layer2-sync-control accept browser requests
+only from the main Pilot address and localhost, so preview origins are
+blocked by CORS before reaching the function. Pre-existing, not caused
+by WP3. Whether to allow preview origins is a security decision, logged
+for WP5.
+
+Still held: Stage 1 (cf-247-stage1-activation-admission) is live but not
+merged, so main remains behind live for the Stage 1 functions.
