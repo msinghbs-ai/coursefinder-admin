@@ -212,6 +212,13 @@ This is the highest priority because current runtime proves Layer 2 can generate
 3. Migrate duplicated provider-specific scheduling/retry/admission logic only when touched or when it blocks scale.
 4. Retire one-off/recovery/probe functions after replacement path is proven.
 5. Do not rewrite stable parsers merely for architectural cleanliness.
+6. Every UI addition is either Administration (configuration, changes
+   rarely, role-gated) or Data Operations (execution state, changes
+   constantly, telemetry-driven) — see the Admin Navigation/IA doc for
+   this split. Extend the matching existing generic surface in that
+   category before adding anything new; a new standalone panel is
+   justified only when no existing surface in the right category
+   already covers the need.
 
 ### Track C — AU full useful-data fill
 
@@ -313,6 +320,32 @@ Run shared contract tests across:
 - Rankings;
 - Statistics/outcomes;
 - Provider contacts/assets where consumer admission is authorised.
+
+### UI consolidation discipline (established by CF-247 Track B, September 2026)
+
+A three-PR audit under CF-247 (#100–#102) found and corrected a
+recurring pattern: task-specific UI work defaulting to a new
+standalone panel instead of extending an existing generic one already
+covering the same category. One instance (a duplicate tuition
+model-qualification panel) was retired outright; the generic surface
+it duplicated (the real Layer 3 — AI Interpretation workspace) was
+extended instead, and later gained live queue telemetry and a
+previously-orphaned-but-complete credential widget the same way.
+
+Two findings from that audit were deliberately left as open decisions
+rather than resolved by the audit itself, and should stay open until a
+human makes the call: a second orphaned entry point whose backing
+functions are live but whose current relevance is genuinely uncertain,
+and Scholarship's own parallel AI-control system, which implements a
+materially different interaction model (batch-and-continue with
+budget gating) rather than simple redundancy — a real architecture
+question, not a bug.
+
+The standing rule from this audit (also recorded in Track B): before
+building any new operator-facing panel, check whether an existing
+surface in the correct category (Administration vs Data Operations)
+already covers the need, and extend that instead of adding a parallel
+one.
 
 ### Security matrix
 
