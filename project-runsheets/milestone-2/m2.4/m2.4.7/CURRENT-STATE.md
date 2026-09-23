@@ -1138,3 +1138,38 @@ continues automatically every 15 minutes.
 Follow-up PERF-3 (before Production): the full refresh still rewrites every
 row even when nothing changed. It should write only changed rows. Lower
 priority now that admission no longer uses it.
+
+### PERF-1 Dashboard performance merged (release v2.15.81 candidate) — 23 September 2026 AEST
+
+Recorded after the PERF-2 entry; PERF-1 was merged first (PR #111 as
+9c47f96). Reviewed on main, all files match what was tested. The database
+part was applied and verified live before merge.
+
+Problem: the Dashboard and layer-status summaries counted across 27 tables
+every time a screen opened. With cold cache or contention they took 2 to 25
+seconds against the 8-second limit for signed-in users, and returned errors
+(HTTP 500).
+
+Design decisions (approved by the programme owner, 23 September 2026):
+- The summaries are pre-calculated by a background job every 2 minutes and
+  stored in a snapshot table. A Dashboard up to 2 minutes old is accepted.
+- The heavy counting runs only in the background, with no time limit; it
+  never runs when a user opens a screen. Only the service role can run it.
+- The read functions keep their names, role checks and output, and add the
+  time the figures were calculated. Screens needed no change beyond showing
+  it.
+- If the snapshot is missing or more than 10 minutes old, the read
+  calculates live, so the screen never breaks.
+- Open reviews and recent review activity now use Layer 4 review items. They
+  previously counted the retired, empty review queue and always showed 0;
+  the Dashboard now shows the real number (85 at the time of the change).
+- The Dashboard shows "Updated X ago · refreshes every 2 minutes".
+
+Result: the Dashboard reads take 0 to 20 milliseconds. The version pill
+shows v2.15.81 as a release candidate with these fixes; v2.15.79 remains
+the accepted recovery release.
+
+After PERF-1, the targeted deployed check still failed on statement
+timeouts from other reads during an admission run. That showed the
+Dashboard was a symptom and the full search rebuild the cause; it was
+resolved by PERF-2 (see the PERF-2 entry).
