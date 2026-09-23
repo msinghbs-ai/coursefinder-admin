@@ -617,3 +617,33 @@ verified on edge-function source as well as database functions.
 
 Next unit: activation gate for qualified Layer 3 profiles — design
 options for decision before build.
+
+### Stage 1 work packages and sequencing — 23 September 2026 AEST
+
+Stage 1 (activation gate and Layer 3 tuition admission) is built, verified
+live and packaged as branch cf-247-stage1-activation-admission; merge is
+held at the programme owner's discretion. Remaining work is split into
+single-session work packages:
+
+- WP1 — Stage 1 activation and admission: complete, merge held.
+- WP2a — supervised demonstration, part 1: enqueue ten tuition candidates
+  and dispatch them through Mistral Small 3.2. Requires WP1 merged and an
+  administrator to activate the profile from Administration.
+- WP2b — supervised demonstration, part 2: admission, projection refresh,
+  and an end-to-end trace from Layer 2 candidate through Evidence, Layer 3
+  validation and the admitted fee to the website API.
+- WP3a — website course search function: combinable filters, campus city
+  and postcode at campus grain, and an explicit tuition basis.
+- WP3b — scholarship search function at provider grain.
+- WP3c — bring wix-course-api into source control (it currently exists
+  only in the live project) and add search and scholarship actions.
+  Additive; existing website actions and all Zoho functions unchanged.
+- WP4 — reply to the website developer and a short API guide.
+- WP5 — switch the Layer 3 schedules on after the supervised run; decide
+  on the three legacy profiles on the NVIDIA free model; address the
+  stale cf-085 contract test.
+
+WP3 is independent of Stage 1 and may proceed while WP1 awaits merge.
+Admitted data reaches both website and Zoho consumers through the shared
+search projection with unchanged field shapes; no UI release-version
+change is required.
