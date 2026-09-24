@@ -1343,3 +1343,63 @@ before packaging, not only built.
 
 Follow-up for L4-B: in the Batches view the scholarship tools open fully
 expanded (87 cohorts); they will be collapsed by default.
+
+### Package 1 (v2.15.90): queue relief, Layer 3 re-qualification, release history — 25 September 2026 AEST
+
+Roadmap to production agreed with the programme owner, 24 September 2026:
+P1 queue relief, P2 Jobs, P3 screen-by-screen review, P4 Admin menu
+redesign, P5 admission cross-check, P6 consumer API (Wix and Zoho), P7
+release notes and history, P8 user guides by role, P9 metrics, P10
+production build in a new environment. Work is consolidated into fewer,
+larger pull requests. Production region recommended: Sydney (the pilot
+runs in Mumbai).
+
+Root cause of the Layer 4 backlog: 176 of 282 waiting tuition items (170
+from UQ) were refused because saved pages contain web-link formatting,
+so a true quote of the visible words ("Fees A$56800 Duration 3 Years")
+never matched the saved text ("Fees[A$56800](https://...)Duration...").
+Fix: one shared visible-text comparison in the shared validator, used by
+both the interpreter and the benchmark; link targets, JSON escapes and
+formatting symbols are removed on both sides, and characters must still
+match exactly and in order. Tested: real quote found; wrong amount,
+different order, invented wording and link-address-only quotes refused.
+A new benchmark case built from a UQ-style page was added.
+
+Re-qualification (governed path): the binding contract detected the
+validator change and required a regenerated manifest. Layer 3 schedules
+were paused; the functions were deployed by the new workflow; the
+programme owner paused Mistral; the benchmark passed (6/6 real provider
+cases, 3/3 real-page cases including the new one, 5/5 safety controls,
+US$0.0027); new binding 6b3adf23..., replacing c45afa50...; the
+programme owner activated it; schedules resumed. Note: the benchmark
+service function defaults to an old, disabled profile, so it must be run
+naming the profile explicitly.
+
+Layer 4 fixes: "Send back to AI check (Layer 3)" did not re-check tuition
+items (nothing consumed the request); it now re-queues the work item. A
+"Send back" suggestion appears for formatting-refused items only once a
+newly qualified binding is active. 100 items were sent back in one batch;
+93 have a Layer 2 fee to check, and 7 have none and will return to
+Layer 4 for a person to enter the fee. Official course link suggestions:
+exit awards and study abroad or exchange: Reject; research degrees: use
+the provider's research-degree page.
+
+Jobs: only recorded, non-zero counts are shown. Release history: the
+dialog had lost the notes for v2.15.79 to v2.15.88 (only the current
+release was added to an old fixed list). A build step now generates one
+history (70 releases) from the old list, the release notes files and the
+manifest; the dialog fills in missing releases and links to a searchable
+history page.
+
+Deployment: a guarded "Deploy edge functions" workflow (allow-list with
+recorded JWT settings, typed project reference that must match a
+repository variable, Layer 3 contracts run first). Lessons: files and
+folders starting with a dot are skipped by GitHub's upload page, so the
+workflow and .gitignore were created in the web editor; the project
+reference must be a variable, not a secret.
+
+Merged: PR #125 (bcab6e8), plus the workflow and .gitignore committed
+directly. Stale tests: one fixed; one more found (an Administration
+"Open PIM" expectation), deferred to Package 2. Moved to Package 2:
+merging Jobs and Scheduled Tasks in the menu, since tests select menu
+items by label.
