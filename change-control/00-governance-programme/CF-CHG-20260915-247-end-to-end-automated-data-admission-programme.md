@@ -1303,3 +1303,43 @@ package: m245-release-currentness-ranking-fix-contract,
 m245-release-dialog-history-contract, cf-208-scholarship-pim-maturity-contract,
 cf-142-143-evidence-provenance-layer-order-contract, and
 cf-205-layer4-mass-operations-contract (pinned to v2.15.65).
+
+### L4-C Layer 4 batches merged (release v2.15.85 candidate) — 24 September 2026 AEST
+
+PR #117 merged as b918aa2; reviewed on main, all 10 files match what was
+tested. The database part was applied and proven live before merge.
+
+What it adds:
+- A Batches view in Layer 4. Waiting items are grouped by task and
+  rule-based suggestion; at the time, 41 tuition fees suggested reject and
+  19 suggested approve.
+- Batch decision: Pipeline Operator role or above (curators can preview);
+  2 to 100 previewed items of one kind; items can be unticked; one reason;
+  a typed confirmation such as "REJECT 41"; no bulk editing. Each item is
+  decided through the existing single-decision function, so it gets the same
+  audit record as a manual decision, and the batch is recorded as well. If
+  any item fails, none are decided.
+- Scholarship scope items show the scholarship and provider names, with a
+  plain reason; Approve is not offered for them because it only applies to
+  course facts. Scholarship cohort reason codes are shown in plain English.
+- The mass-operations panel no longer inserts itself into the page; Layer 4
+  shows it in the Batches view.
+
+Proof before merge (all rolled back, nothing decided): wrong confirmation,
+single-item batches, mixed batches and approving scholarships were all
+refused. A real two-item batch succeeded with two per-item decision records
+and one batch record, then was rolled back. A proof run also found that the
+audit table did not accept the new batch type; this was fixed before use.
+
+Failure during review: the first version of the pull request stopped the
+application from starting. Removing the panel's self-inserting code left one
+line calling a deleted function, so the module failed on load and, because
+Layer 4 now imports it, the whole application failed. The build could not
+detect this; the CI browser smoke test did, and the change was not merged.
+The line was removed, and the fix was proven by running the module (the
+fixed version loads; the faulty version fails with the same error). Nothing
+live was affected. Practice adopted: any module that has code removed is run
+before packaging, not only built.
+
+Follow-up for L4-B: in the Batches view the scholarship tools open fully
+expanded (87 cohorts); they will be collapsed by default.
