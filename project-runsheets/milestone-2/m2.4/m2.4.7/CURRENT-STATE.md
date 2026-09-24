@@ -1225,3 +1225,58 @@ milliseconds, and the stored options are identical to a fresh calculation.
 
 Release: PERF-4 has no screen change, so, as decided for PERF-2, it does
 not bump the version; its fix will appear in the v2.15.83 notes.
+
+### UI releases v2.15.82 to v2.15.84 merged: shared kit, Layer 4 review desk, desk first — 24 September 2026 AEST
+
+Three releases merged and reviewed on main; every file matched what was
+tested. The version pill shows v2.15.84 live. v2.15.79 remains the accepted
+recovery release.
+
+v2.15.82 (PR #113, aa3de17), shared kit and first Layer 4 clarity:
+- Common screen parts now come from one shared module (src/ui-kit.jsx);
+  one page-navigation component replaces three copies, each screen keeping
+  its look.
+- A shared "remembered choices" mechanism: the address bar first, then the
+  user's last choices for that screen, then the defaults; kept per user and
+  screen; unreadable saved data falls back to defaults. The Catalogue moved
+  onto it with the same storage key, so saved choices carried over.
+- Layer 4: plain-English reason on each item, remembered filters, plain
+  status labels, queue limit 100 to 250.
+
+v2.15.83 (PR #115, 60518be), Layer 4 review desk (L4-A):
+- New read public.layer4_review_desk_v1, added alongside the existing queue.
+  It gives each item the course and provider by name, a plain task label,
+  age, a plain reason (developer-facing reasons replaced, originals kept
+  under Technical detail), what is recorded now, what the AI suggested as
+  readable text, the exact words the page shows (web-link formatting
+  removed), links including a ready-made web search, and a rule-based
+  suggestion that is never applied automatically.
+- Layer 4 screen: a queue and one decision at a time, oldest first; the
+  suggested action is the main button (none when the suggestion is only
+  "Check"); a decision note pre-filled from the suggestion; less common
+  actions under More; the next item opens after each decision. Decisions
+  still use layer4_review_decide, so auditing is unchanged.
+  Provider-contact reconciliation is unchanged.
+- Release notes include the PERF-4 Evidence fix.
+
+v2.15.84 (PR #116, 8ea1a23), desk first:
+- The mass-operations panel was a separately loaded script inserting itself
+  above the review desk and listing all 87 scholarship cohorts, pushing the
+  desk out of sight. It now sits below the desk, collapsed, with its count
+  cards visible and an "Open batch work" button. Nothing was removed.
+
+Queue at 24 September: 261 waiting (213 tuition, 42 official course links,
+6 scholarship scope); oldest 21 days against the 7-day target; 39 suggested
+reject and 18 suggested approve.
+
+Decision (programme owner, 24 September 2026): L4-C (batches) is brought
+forward ahead of L4-B, because a growing share of the queue is repeat
+cases. L4-C also gives the 6 scholarship scope items their names (they are
+scholarships, for example "Charles Sturt International Joint Cooperation
+Program Scholarship", and were showing only "Scope") and plain wording.
+
+Stale tests (fail identically on main, not run by CI), for a clean-up
+package: m245-release-currentness-ranking-fix-contract,
+m245-release-dialog-history-contract, cf-208-scholarship-pim-maturity-contract,
+cf-142-143-evidence-provenance-layer-order-contract, and
+cf-205-layer4-mass-operations-contract (pinned to v2.15.65).
