@@ -1331,3 +1331,44 @@ directly. Stale tests: one fixed; one more found (an Administration
 "Open PIM" expectation), deferred to Package 2. Moved to Package 2:
 merging Jobs and Scheduled Tasks in the menu, since tests select menu
 items by label.
+
+### Package 2 and Layer 3 qualification review; design decisions v1.32 — 25 September 2026 AEST
+
+Design decisions: the design document had not been updated since v1.31
+(3 September 2026). v1.32 now records every CF-247 decision to date as
+Decisions 84 to 123 and is CURRENT. From now on each decision is numbered
+when made and recorded no later than the close of its package
+(Decision 122).
+
+Merged and reviewed on main:
+- PR #126 (a13b386), Package 2, release v2.15.91: Jobs & Schedules menu
+  item; UQ provider fee rule and profile mechanism; Evidence acquisition
+  provenance; Scheduled Tasks clean-up; stale tests fixed. The live site
+  showed v2.15.91 after a Cloudflare build delay.
+- PR #127 (eeffe00): Layer 3 instruction for year selectors and exact
+  continuous quotes (Decision 96).
+- PR #128 (663bed3): quote comparison ignores stray square brackets
+  (Decision 95).
+- PR #129 (8104b68): fair benchmark (provider-rule context, Decision 94)
+  and one OpenRouter key per aggregator (Decision 99).
+Each Layer 3 change was deployed with the Deploy edge functions workflow.
+
+Layer 3 qualification: under the two-clean-passes rule (Decision 91), no
+model qualified (Decision 98). Findings: the benchmark had rewarded
+guessing on UQ pages (fixed, Decision 94); after the fix, careful models
+left the year blank where Layer 2's target said 2027, because UQ pages
+use a year selector (Decision 96). Layer 3 tuition validation remains
+paused; nothing unsafe was admitted at any point, because the validator
+refused every invalid answer.
+
+Decision taken: rule-covered pages (UQ) are admitted deterministically
+without AI (Decision 106). Layer 2 already recorded the fee panel text for
+each candidate, so the check runs in the database. Seven UQ fees had
+already been admitted under the rule as indicative annual. Build and a
+rolled-back proof are next.
+
+Open items: remove the Administration tab row Layer 1 to 4 duplicates;
+retire the unused data-acquisition navigation script; move production
+Layer 3 to the strict JSON schema; retire the per-profile OpenRouter key
+copies; decide on storing total course fees; plan a Gemini successor if
+chosen.
