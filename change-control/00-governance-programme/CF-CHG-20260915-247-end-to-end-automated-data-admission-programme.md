@@ -1477,3 +1477,32 @@ item of P3 (Decision 127).
 Reminders set by the programme owner: check rule admissions and the
 Layer 4 forecast the next day; weekly pipeline metrics; UQ rule review
 on 31 March 2027.
+
+### Package 4 (v2.15.93): full live-site test check, old links restored — 26 September 2026 AEST
+
+Design decisions v1.34 adds Decision 129 and is CURRENT.
+
+Merged and reviewed on main: PR #132 (6a1b5ab), release v2.15.93. All
+checks green on the merge commit, including Deployed UAT (targeted),
+which ran the updated live-site tests.
+
+P3 item 1, full live-site test check (Decision 127): all 430 on-screen
+expectations in live-site tests were compared with the current app and
+database. Result: 11 out-of-date expectations updated to current wording
+(Schedule Configuration, Latest Refresh Queue, Profile routing, contact
+reconciliation, eligibility inference); 5 changing counts now checked by
+pattern; 39 confirmed against live data; 18 built dynamically by the app;
+14 correct must-not-appear checks; none left unexplained. One
+classification was double-checked and corrected before release (the
+eligibility inference check is a positive check, not a must-not-appear
+check).
+
+Regression found and fixed: after the Jobs & Schedules merge (v2.15.91),
+bookmarks and links to #jobs, #scheduled-tasks and #refresh-scheduling
+fell back to the Dashboard; in-app buttons were not affected. They are
+routable again (Decision 129).
+
+Working practice: check results are now read directly from GitHub after
+each merge, so screenshots of green runs are no longer needed.
+
+Next: P3 continues with the screen-by-screen review.
