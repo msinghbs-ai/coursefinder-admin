@@ -1423,3 +1423,36 @@ retire the unused data-acquisition navigation script; move production
 Layer 3 to the strict JSON schema; retire the per-profile OpenRouter key
 copies; decide on storing total course fees; plan a Gemini successor if
 chosen.
+
+### Package 3 (v2.15.92): deterministic UQ admission, Administration tidy-up, stale test sweep — 25 September 2026 AEST
+
+Design decisions v1.33 adds Decisions 124 to 128 and is CURRENT.
+
+Merged and reviewed on main:
+- PR #130 (2e10605), release v2.15.92: deterministic provider-rule
+  admission and its schedule (Decisions 106 and 124); the Administration
+  tab row no longer repeats Layer 1 to 4 (Decision 116), and a test now
+  asserts it cannot return.
+- PR #131 (b009749) and direct test-only commits a06805b, b94bef1 and
+  1c316dc (Decision 126): stale live-site test expectations fixed. All
+  checks, including Deployed UAT, were green on 1c316dc.
+
+Outcome of the deterministic UQ path: proof mode first (160 would admit,
+24 held back because the matching text was UQ's fee explanation rather
+than the fee panel, 0 exclusion hits), then applied: 160 items admitted,
+89 UQ courses gained an indicative annual fee visible in search and the
+website API, 159 Layer 4 reviews marked superseded, and the Layer 4 queue
+fell from 330 to 151. Layer 3 enqueue is running again; AI dispatch and
+admission stay paused (Decision 125).
+
+Stale test sweep: 17 out-of-date expectations were fixed across 13 test
+files, including a renamed heading ("Acquisition providers"), nine
+hard-coded version pins now read from the release manifest, newer
+provider-screen wording, and ranking tests updated to automatic apply
+(Decision 128). These tests run only when related files change, which is
+why they had drifted. A full check of every live-site test is the first
+item of P3 (Decision 127).
+
+Reminders set by the programme owner: check rule admissions and the
+Layer 4 forecast the next day; weekly pipeline metrics; UQ rule review
+on 31 March 2027.
