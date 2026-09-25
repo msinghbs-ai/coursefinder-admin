@@ -1506,3 +1506,34 @@ Working practice: check results are now read directly from GitHub after
 each merge, so screenshots of green runs are no longer needed.
 
 Next: P3 continues with the screen-by-screen review.
+
+### Package 5 (v2.15.94): Operations screens review, UQ fee explanation, one current tuition — 26 September 2026 AEST
+
+Design decisions v1.35 adds Decisions 130 to 133 and is CURRENT.
+Decision 133 supersedes A24 (CF-CHG-20260830-048).
+
+Merged on main: PR #133 (4f919b1), release v2.15.94; all 23 files
+verified identical to the package. The capture tool update was committed
+directly (a3a23bc, tooling only).
+
+P3 screen review, Operations group (Jobs & Schedules, Layer 4, Layer 3),
+reviewed from captured screenshots (Decision 130). Changes: one title per
+Layer screen (Decision 133); plain titles instead of developer labels;
+Jobs shows only columns with values, one "Completed" status and fits the
+screen; the Layer 4 queue scrolls in its own column with the decision
+panel kept in view, and batch history loads its details only when
+opened; Layer 3 states when AI interpretation is paused. The first
+capture showed Layer 4 as empty because it was taken before data loaded;
+the tool now waits for data and captures full height.
+
+Data (applied with proof first): 24 more UQ items admitted from UQ's fee
+explanation, 14 courses (Decision 131); 14 courses with duplicate
+same-amount fee records resolved to one current record each, 14 records
+superseded and kept (Decision 132). A suggested Approve for the held-back
+UQ items was not built, because it would have recorded guessed years and
+the wrong basis. The Layer 4 queue stands at 127 waiting.
+
+Follow-ups: two Node contract tests (cf-206, cf-209) are stale on main
+and not run in CI; decide whether the Compare screen's banner follows
+Decision 133 in the Quality & Insights review; Layer 3 tuition panel
+(T2) and schedule preview speed (J5) remain for Package 6.
