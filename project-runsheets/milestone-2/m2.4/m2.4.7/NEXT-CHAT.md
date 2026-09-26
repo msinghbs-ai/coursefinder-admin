@@ -1536,3 +1536,33 @@ automation acts under a real admin's identity (R10).
 
 From now on, every package records its decisions in the Design
 Reference (new numbered entries), not in a new Design Decisions version.
+
+### Platform recovery, Package 8 start, Design Reference v1.1 — 26 September 2026 AEST
+
+Incident: the pilot database (Nano compute, 0.5 GB memory, 1.7 GB database)
+exhausted its disk IO budget after the evidence link index stored every
+link (1.75 million rows, 672 MB in a few hours). Jobs ran for minutes and
+failed, and Auth timed out (Deployed UAT 504s). Response: heavy jobs
+paused; link table emptied and redesigned as a narrow index; compute
+upgraded Nano to Micro (no extra cost); all jobs restored in three stages
+on a new schedule (no job more often than its data changes, heavy jobs
+never overlapping); consumer reference bundle rebuilt hourly with a
+3-hour live fallback; job history kept 14 days. Result: database 1,021 MB,
+cache hit rate 99.45%, admin summary refresh 2.7 s (was 20 s), Deployed
+UAT green.
+
+Also: a Layer 2 run stuck since 15 Sep was closed and a daily stale-run
+closer added (Decision 151); automation now acts as the system identity
+CourseFinder Automation with Pipeline Operator rights (Decision 150); the
+three Layer 1 apply functions write only on real change and refresh
+verification markers at most every 30 days (Decision 152, option B).
+Package 7 part 2 merged as PR #136 (v2.15.96).
+
+Design Reference v1.1 is CURRENT: 146 refined; 149 and 150 Current; new
+151 (stale runs closed), 152 (workload efficiency), 153 (platform sizing
+and resource observability); new principle P11 Efficient by design.
+
+Next: Package 8.2 (resource utilisation and cost in Administration),
+8.5 (admission lifecycle), then one Package 8 PR with the staged
+migrations (stale-run closer, narrow link index, Micro schedule, system
+identity, Layer 1 write-only-when-changed).
