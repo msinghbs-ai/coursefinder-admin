@@ -1516,3 +1516,50 @@ Follow-ups: two Node contract tests (cf-206, cf-209) are stale on main
 and not run in CI; decide whether the Compare screen's banner follows
 Decision 133 in the Quality & Insights review; Layer 3 tuition panel
 (T2) and schedule preview speed (J5) remain for Package 6.
+
+### Package 6 (database security and efficiency) and Package 7 start (attribute register) — 26 September 2026 AEST
+
+Design decisions v1.36 adds Decisions 134 to 145 and is CURRENT. The
+Attribute & Admission Register v1.0 is a new standing design document
+(Decision 144).
+
+Package 6 (database only; applied live; merged as PR #134, ac871b5):
+- Consumer API guard (Decision 136): 13 fixed cases across the six data
+  functions behind the website, Wix and Zoho APIs; deterministic (two
+  runs, no differences); baselines saved.
+- 12 foreign-key indexes on busy tables, including a profile lookup that
+  had been scanned about 14.2 million times; guard passed.
+- Reference bundle cached (Decision 137): 4,623 ms to 54 ms, identical
+  output, service-role access unchanged.
+- Two large unused indexes removed with recreate scripts; three kept on
+  purpose; small unused indexes left (Decision 145).
+- Function security: all 590 security-definer functions pin their search
+  path; anon execute removed from 28 functions (it had no schema access);
+  five legacy or edge-only api functions limited to the service role; the
+  admin app verified as a Pipeline Operator; consumer outputs unchanged.
+- Security advisor: informational findings only, no warnings or errors.
+
+Package 7 findings and decisions: provider-sourced attributes cover about
+2% of Australian courses because 24,087 courses await Layer 2
+qualification, now addressed per provider (Decision 141). Course
+description had no working path (Decision 140). 292 scholarships were
+found and none published; 57 are ready (Decision 139). No courses are
+published; the pilot keeps its behaviour and a production publication
+plan is recorded (Decision 138). New Zealand baseline accepted
+(Decision 143). Statistics: Statistics & Rankings cards read fields the
+read no longer returns, so they show no data; QILT is split into four
+cards; each dataset holds one edition; THE 2019–2024 validated but never
+applied; THE "2015" is likely the 2021 file; QS 2024 and 2025 duplicated;
+Layer 1 dates use US format (Decision 134 addresses these). ARWU and UDI
+planned (Decision 135).
+
+Test fix (ed5ea21, test-only, committed to main per Decision 126): the
+Layer 1 and Layer 2 test helpers still looked for the screen title inside
+the embedded panel, which Decision 133 removed. They now check the page
+title. Found by the default Layer 1 test after the Package 6 merge; all
+checks green afterwards.
+
+Next: Package 7 builds — Layer 2 admissions view and per-provider
+qualification, Layer 4 correction paths for intakes and English,
+scholarship publication batches, course description extraction,
+statistics model and screens, Layer 1 review.
