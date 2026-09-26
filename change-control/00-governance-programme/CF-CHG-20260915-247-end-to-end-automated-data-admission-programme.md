@@ -1638,3 +1638,36 @@ Next: Package 8.2 (resource utilisation and cost in Administration),
 8.5 (admission lifecycle), then one Package 8 PR with the staged
 migrations (stale-run closer, narrow link index, Micro schedule, system
 identity, Layer 1 write-only-when-changed).
+
+### Package 8 complete (v2.15.97) and Design Reference v1.2 — 26 September 2026 AEST
+
+Package 8 merged as PR #138 (c90b37e), release v2.15.97; all 17 files
+verified identical on main. It adds the Platform resources and cost panel
+(Environment & Migration): hourly observations of database size against
+memory, cache hit rate, job health and overlaps, evidence storage, largest
+tables, acquisition and AI usage; alerts; 30-day trends; an editable cost
+model; and the admission lifecycle view. The daily capacity observation,
+which had timed out every day since 2 Sep, runs again (2.9 s).
+
+Admission lifecycle (Decision 154): registers checked weekly; course facts
+annually (Aug–Nov window) or on demand; scholarships quarterly; provider
+assets annually; QILT twice a year; PRISMS monthly; rankings annually.
+3,057 Layer 2 profiles aligned through the official versioning path
+(0 errors); consumer APIs unchanged.
+
+First readings: database 1,033 MB against 1 GB memory (Micro); cache hit
+99.45%; evidence storage 15 GB; AI this month US$0.63.
+
+Design Reference v1.2 is CURRENT: Decision 154; R15 done; R16 register
+ingestion overdue since 2 Sep; R17 publishing window recorded but not yet
+enforced.
+
+Housekeeping: PR #137 placed the stale-run migration at the repository
+root; the correct copy is now under supabase/migrations/ and the root copy
+is to be removed.
+
+Next: Package 9 — R16 register ingestion, country-neutral identity and
+consumer fields (Decision 149), academic entry requirements, ranking
+editions, Layer 4 corrections for intakes and English, scholarship
+publication, course description, statistics model and Layer 1 screens,
+publishing-window scheduling (R17).
