@@ -1563,3 +1563,27 @@ Next: Package 7 builds — Layer 2 admissions view and per-provider
 qualification, Layer 4 correction paths for intakes and English,
 scholarship publication batches, course description extraction,
 statistics model and screens, Layer 1 review.
+
+### Platform Design Reference v1.0 — single decision authority — 26 September 2026 AEST
+
+docs/coursefinder-design-reference-v1.0.md is now the single authority
+for CourseFinder design, guardrails and decisions (Decision 148). It
+consolidates all 144 recorded decisions verbatim from Design Decisions
+v1.0–v1.36 (Decision 26 was never assigned), the foundation principles,
+and the Attribute & Admission Register, and adds: the Layer 1–4 model, a
+capture and admission map for 15 course attributes, refinements R1–R13,
+canonical model and new-country rules, a guardrails register and screen
+rules. Earlier decision files and the register are kept as history.
+
+New decisions: 146 (evidence first), 147 (automatic catalogue discovery),
+148 (one design reference) — Current. 149 (country-neutral identity and
+consumer fields) and 150 (system identity for automation) — Proposed.
+
+Key refinements found: academic entry requirements have no capture path
+(R1); Australian course identity is not in the identifier tables, unlike
+Canada (R3); two consumer fields use Australian terms (R4); THE
+2019–2024 validated but not applied, contrary to Decision 128 (R5);
+automation acts under a real admin's identity (R10).
+
+From now on, every package records its decisions in the Design
+Reference (new numbered entries), not in a new Design Decisions version.
