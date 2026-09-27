@@ -1648,3 +1648,39 @@ consumer fields (Decision 149), academic entry requirements, ranking
 editions, Layer 4 corrections for intakes and English, scholarship
 publication, course description, statistics model and Layer 1 screens,
 publishing-window scheduling (R17).
+
+### Package 9 (9a, 9b, CF-068 fix) complete (v2.15.98) and Design Reference v1.3 — 28 September 2026 AEST
+
+Package 9a merged as PR #139 (db56844): register ingestion unblocked
+(R16). Search refresh made safe-update compliant and moved to a deferred
+job (search-refresh-requested, every 10 minutes); the hard-coded CRICOS
+count removed from layer1-au-depth, -cricos-facts and -completeness.
+CRICOS caught up on 26 Sep (25,978 active courses; 139 new courses, 2 new
+providers). On 27 Sep the 809 courses no longer in CRICOS were retired
+(inactive, not deleted; audit table pipeline.layer1_course_retirements;
+685 linked to Adelaide University as successor; consumer API baseline
+diff empty).
+
+Package 9b merged as PR #140 (21e55b1), release v2.15.98; CF-068 fix
+merged as PR #141 (d1b8aee). All files verified identical on main; edge
+functions redeployed from main by the workflow (layer1-operations-control
+v13, layer1-nz-live v6, layer1-register-etl v11, layer1-au-depth v13).
+Decision 155 part 1: runs are advanced by the database (lease per run,
+layer1-run-driver every minute, 430 checks, 0 failures), temporary source
+errors retried 5 times, identical register files reused, live progress
+and real errors on the Layer 1 card with resume. NZQA 414 of 414
+providers in 81 s; CRICOS full dry run 3.5 min with no new evidence files.
+layer1-nz-live is now in the repository (was live-only). Decision 156:
+ranking family card shows the newest ingested edition with its year;
+QS 2027 shows as pending. Deployed UAT passed.
+
+Design Reference v1.3 is CURRENT: Decisions 155 and 156; R16 done;
+new R18 duplicate evidence, R19 change-based apply, R20 automatic
+departures and mergers, R21 database 1,296 MB against 1 GB memory
+(evidence link index 184 MB and growing), R22 run summary counts
+inactive registrations.
+
+Next: Package 10 — Decision 155 parts 2 to 4 (change-based apply,
+automatic departures and mergers, duplicate evidence clean-up with proof
+first, then automatic weekly register ingestion within the pass band);
+R21 link index growth; then Decision 149 identity and consumer fields.
