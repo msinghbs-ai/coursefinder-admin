@@ -1944,3 +1944,38 @@ Pilot PR #152.
 Gap logged: 36 SES 2024 rows (La Trobe, Monash, RMIT; 12 each) have no
 exact verified mapping match (older institution key format, loaded before
 the guard). Left unchanged; to be reconciled with R27.
+
+### 28 Sep 2026 — QS parser v1.4.0; Compare datasets on by default (v2.15.101)
+
+Pilot PRs #153 and #154.
+
+QS official workbooks (2024, 2025, 2026, 2027 as supplied by the Platform
+Admin):
+- 2024, 2026 and 2027 are byte-identical to the accepted editions; nothing
+  to load.
+- The 2025 workbook labels its country column "location code" and its
+  region column "location"; parser v1.3.0 read regions as countries (0
+  Australian rows). v1.4.0 picks the country-name column and refuses a file
+  with fewer than 30 countries or no Australia rows. 2024/2026/2027 output
+  identical to v1.3.0; 2025 now 38 Australian rows, matching the accepted
+  2025 edition on rank and score for all 38. No reload needed.
+- Governance gap closed: main held ranking-qs-official-etl v1.1.0 while
+  v1.3.0 was deployed (only on recovery branches); main now matches live.
+  Added to the deploy allow-list (verify_jwt=true).
+
+Compare:
+- QILT and PRISMS were greyed out until items were selected (periods came
+  only from the selected items). All four datasets are now on by default and
+  switched off only by a click; periods show "Latest available" until
+  items supply them.
+- Course mode labels each dataset: QILT and rankings for each course's
+  university; PRISMS for the course, its state and field, or its state.
+- Course-mode PRISMS was empty for most courses (no fallback beyond state
+  and field). It now falls back to the course's state, as the university
+  view does (checksum-guarded; admin read only; no consumer API function
+  calls it; fresh consumer baseline stored).
+- Release v2.15.101 / 0.1.28. Deployed UAT and currentness green on main.
+
+Noted: older Compare contract tests (cf-215, cf-075, cf-061, early m245)
+fail identically on main because they contradict the later M2.4.5
+contract; to be retired or rewritten.
