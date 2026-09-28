@@ -2030,3 +2030,17 @@ Fee extraction coverage (the only path that feeds Layer 3 tuition):
 Layer 3 has no new work because no new tuition candidates exist outside
 these sources. Decision needed from the Platform Admin on how to grow fee
 coverage (see NEXT-CHAT).
+
+### 28 Sep 2026 — RMIT course refresh unblocked (Decision 161)
+
+Platform Admin decision (option "Unblock RMIT"). Pilot PR #156.
+
+- RMIT weekly Layer 2 refresh policy switched back on (disabled 27 Aug
+  under CF-044); first run due 28 Sep 11:59 UTC, then weekly.
+- Output follows today's rules: tuition via Layer 3 (Decision 160), unsure
+  to Layer 4; other fields via the Decision 152 admission lifecycle.
+- RMIT: 506 courses, 141 with provider tuition, 263 selected course URLs;
+  no Layer 4 blocks; fee qualification "qualified".
+- Federation (paused, source-limited) and QUT (deferred) unchanged.
+- Next: confirm the batch runs, new tuition candidates reach Layer 3 and
+  at least one is admitted end to end (M2.4.7 exit).
