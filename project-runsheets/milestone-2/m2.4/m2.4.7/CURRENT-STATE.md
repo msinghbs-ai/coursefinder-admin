@@ -2021,3 +2021,30 @@ Platform Admin decision (option "Unblock RMIT"). Pilot PR #156.
 - Federation (paused, source-limited) and QUT (deferred) unchanged.
 - Next: confirm the batch runs, new tuition candidates reach Layer 3 and
   at least one is admitted end to end (M2.4.7 exit).
+
+### 28 Sep 2026 — Decision 162: course attributes, deterministic ingestion and refresh
+
+Platform Admin direction: tuition is steady for a year and CRICOS already
+supplies it; international applicability and scholarships to be defined;
+Layer 2 to be deterministic; review Firecrawl; explain the Layer 2/3 badges.
+
+- Definition: docs/coursefinder-course-attribute-ingestion-v1.0.md
+  (attribute catalogue, scholarship rules, Layer 2 method, refresh tiers,
+  badge redefinition, Firecrawl use, build order).
+- Findings: CRICOS gives registered international tuition for 25,795 of
+  25,978 AU courses (plus non-tuition and total cost); provider annual
+  tuition covers ~408. International availability = active CRICOS
+  registration. 292 scholarships, all international (200 Study Australia).
+- Badge engine: security.admin_course_field_states infers layers from
+  presence, not stored provenance: 242 Layer 3-admitted tuitions show "L2";
+  CRICOS tuition ignored, so ~26k courses show tuition "Awaiting L2";
+  "Awaiting L3" shown for fields Layer 3 never handles.
+- Live change (Pilot PR, applied and verified): UQ and RMIT course-page
+  refresh moved from weekly to every 90 days (term-cycle); next runs 23 Dec
+  (UQ) and 27 Dec (RMIT). Today's RMIT run still proceeds.
+- Firecrawl: fetcher only (map/sitemap, rawHtml with maxAge 0, git-diff
+  change tracking at no extra credit, PDF fast parser, scripted actions);
+  AI extraction (json, /extract, /agent) not used for admission.
+- Build order: 1 badges on stored provenance; 2 provider fee-schedule
+  adapters; 3 change check; 4 English tables; 5 entry requirements;
+  6 extend fee rules beyond UQ/RMIT/Federation.

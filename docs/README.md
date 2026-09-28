@@ -17,6 +17,7 @@ Do not infer the current document from the highest filename version or from chat
 | Running Build | `docs/coursefinder-running-build-v2.81.md` | CURRENT |
 | Database Architecture | `docs/coursefinder-database-architecture-v2.10.50.md` | CURRENT ACCEPTED |
 | Platform Design Reference (single decision authority) | `docs/coursefinder-design-reference-v1.4.md` | CURRENT |
+| Course and scholarship attributes, ingestion and refresh (Decision 162) | `docs/coursefinder-course-attribute-ingestion-v1.0.md` | CURRENT |
 | Platform Design Reference v1.3 | `docs/coursefinder-design-reference-v1.3.md` | HISTORY — see v1.4 |
 | Platform Design Reference v1.2 | `docs/coursefinder-design-reference-v1.2.md` | HISTORY — see v1.4 |
 | Platform Design Reference v1.1 | `docs/coursefinder-design-reference-v1.1.md` | HISTORY — see v1.4 |

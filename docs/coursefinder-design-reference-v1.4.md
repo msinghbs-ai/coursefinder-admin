@@ -207,6 +207,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Refinements R1, R2, R4, R7–R9, R12, R13, R17, R27 | To schedule (R3, R5, R6, R10, R11, R14–R16, R18–R26 done or accepted) |
 | Decision 160 — Layer 3 safe abstention | Current; Mistral Small 3.2 active from 28 Sep 2026; first fresh-item admission still to show for the M2.4.7 exit |
 | Decision 161 — RMIT course refresh unblocked | Current; first run 28 Sep 2026; UQ and RMIT refresh weekly |
+| Decision 162 — Course attributes and refresh | Current; definition v1.0; interim 90-day refresh live; build steps 1–6 to schedule |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1213,6 +1214,12 @@ First use: Mistral Small 3.2 (tuition validation) qualified 10/10 with 0 wrong a
 **Status:** Current (28 September 2026) · **Recorded in:** this reference
 
 RMIT's weekly Layer 2 course refresh, switched off on 27 August 2026 under CF-CHG-20260827-044 while RMIT canonical promotion was blocked, is switched back on by the Platform Admin to grow provider-current tuition coverage. The block is superseded by today's governed path: tuition candidates are checked by Layer 3 under Decision 160 and anything unsure goes to Layer 4; other fields follow the Decision 152 admission lifecycle. Federation (bounded, paused as source-limited) and QUT (deferred) are unchanged.
+
+
+### Decision 162 — Course attributes: regulator first, deterministic Layer 2, refresh by change
+**Status:** Current (28 September 2026) · **Recorded in:** docs/coursefinder-course-attribute-ingestion-v1.0.md
+
+Every course and scholarship attribute has one authority, a deterministic Layer 2 method where the regulator does not publish it, and a refresh cadence matched to how often it changes. CRICOS supplies identity, international availability (active registration), duration, locations, regulatory facts and registered international tuition, non-tuition and total cost for every Australian course; provider-page annual tuition is a fee-year refinement read once per fee year from a provider fee schedule where one exists. Provider pages are re-read only when a change check finds them changed (interim: every 90 days, replacing weekly). Layer 3 handles only ambiguous candidates for attributes with a qualified task. Layer badges show stored provenance (layer, rule or model, evidence), not a guess; CRICOS tuition shows as Layer 1. Firecrawl is used as a deterministic fetcher (sitemap discovery, raw HTML, git-diff change tracking, PDF parsing); its AI extraction features are not used for admission.
 
 ---
 
