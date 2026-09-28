@@ -2000,3 +2000,33 @@ Compare:
 Noted: older Compare contract tests (cf-215, cf-075, cf-061, early m245)
 fail identically on main because they contradict the later M2.4.5
 contract; to be retired or rewritten.
+
+### 28 Sep 2026 — Layer 2 extraction restored (discovered URLs carried forward)
+
+Pilot PR #155.
+
+Finding while checking the M2.4.7 exit (why Layer 3 had no new items):
+- Decision 152 (26 Sep) created a new version of 3,057 Layer 2 profiles,
+  changing only freshness_sla_hours. Discovered course URLs are stored per
+  profile version and were not carried over, so every current version had
+  no URLs: scheduled extraction would fetch nothing (UQ's weekly run due
+  1 Oct would have completed empty).
+- Repaired live: 7,301 discovered URLs for 141 profiles (565 selected)
+  copied to the Decision 152 versions, each copy recording its source
+  version (UQ 251, RMIT 263, Federation 10 selected; 22 profiles now have
+  selected URLs). Guarded to the exact counts.
+- A trigger now carries URLs forward whenever a new version keeps the same
+  discovery settings (discovery_strategy, url_patterns). Tested both ways
+  in a rolled-back transaction.
+
+Fee extraction coverage (the only path that feeds Layer 3 tuition):
+| Source | Status | Courses | With provider tuition |
+|---|---|---|---|
+| UQ | qualified, weekly refresh on | 382 | 262 |
+| RMIT | qualified, weekly refresh OFF (CF-044: promotion blocked) | 506 | 141 |
+| Federation | bounded, paused (source-limited) | 195 | 5 |
+| QUT | deferred | 294 | 0 |
+
+Layer 3 has no new work because no new tuition candidates exist outside
+these sources. Decision needed from the Platform Admin on how to grow fee
+coverage (see NEXT-CHAT).
