@@ -174,6 +174,12 @@ The fee-schedule qualifications record `search_admitted: false` until a gate is 
   - Check against course pages: Table 1 40 of 40 agree; minimum 149 of 150 agree (Bachelor of Music page shows PTE 30; not changed; Layer 4 item).
   - Written: 54 courses (9 Table 1, 45 minimum), 144 rows; no existing value changed; consumer API unchanged (source not yet admitted to Search).
   - Open: Search gate for this source (Platform Admin); double-degree rule (policy is silent; course pages show a double degree taking its component's higher requirement); 10 Table 1 programs have no UQ course in the catalogue (not CRICOS-registered or not onboarded).
+- **English — UQ Search gate and double degrees** (Platform Admin approvals 29 Sep 2026; Pilot PR #167):
+  - Search gate opened for the UQ English-requirements source: 54 of 54 courses show English in Search; consumer API unchanged.
+  - Double degrees take the higher requirement of their component programs (rule `higher_component_v1`). Every component must be an exact Table 1 program or a UQ single program on the minimum, otherwise the course is held.
+  - Trial: 84 of 94 resolved (68 minimum; 10 Laws (Honours) IELTS 7.0; 6 Education (Secondary) IELTS 7.5); 51 of 52 agree with course pages (the other is a course-page PTE of 30; IELTS agrees).
+  - Applied: 32 double degrees (86 rows), all in Search. Still held: 10 double degrees with a component not recognised (Diploma in Languages 5, Bachelor of Humanities 2, "Bachelor of Law (Honours)" 1, Master of International Law 1, Pharmaceutics/Doctor of Pharmacy 1).
+  - UQ English coverage: 262 → 348 of 382 active courses.
 
 ## 8. Gaps and build order
 
