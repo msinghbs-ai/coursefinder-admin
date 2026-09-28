@@ -1701,3 +1701,29 @@ observations. Merged as 82d63c4; deployed UAT (CF-068 spec) passed.
 Still open: R23 Layer 2 duplicate evidence clean-up (about 4.4 GB) awaits
 approval. Next: Decision 149 identity and consumer fields, then the
 remaining refinements.
+
+### 28 Sep 2026 — R23 duplicate Layer 2 evidence removed (approved)
+
+Scope approved: Layer 2 screenshots and HTML page snapshots only. Same
+method as R18: every evidence record is kept with its own capture time,
+URL and job; records whose file is byte-identical to an earlier capture of
+the same provider are pointed at the first stored copy (original path kept
+in metadata), then only the redundant copies are removed.
+
+Proof: 1,848 groups, 8,461 copies, 4.47 GB, no size mismatches, no
+missing files. Byte check: 60 of 60 sampled copies matched the kept file
+and the recorded SHA-256. Removed 8,461 copies, 0 failures. Every Layer 2
+record still points to a stored file. Evidence bucket 14 GB to 10 GB.
+Checked beforehand that no other table or job payload stores these file
+paths, and that capture code only removes its own just-uploaded file.
+
+Function change (migration 20260928060000): approved scope 'layer2' added;
+group checks rewritten per group because the row-by-row version timed
+out on about 17,000 records. Layer 1 scope re-run: 0 left, as expected.
+
+Also noted: two register evidence records from 14 Aug have no stored file
+(before any clean-up; not caused by R18 or R23).
+
+New R26: new Layer 2 captures still store identical files (about 600 a
+week in September); needs a decision between reusing the stored file at
+capture time or a scheduled clean-up.

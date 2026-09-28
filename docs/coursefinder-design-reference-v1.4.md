@@ -123,9 +123,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R20 | ~~Departures and mergers handled by hand~~ | Done 28 Sep 2026 | Departures retired automatically at the end of each run, large departures held for approval, reactivation, provider review list (Decisions 155 step 6, 158) |
 | R21 | ~~Database has outgrown memory~~ | Done 28 Sep 2026 | Discovery links kept once per provider (447,678 rows to 25,521); database 1,131 MB, the remainder being real data (Decision 157) |
 | R22 | Layer 1 run summary counts inactive registrations | The finalise step reports 26,787 CRICOS course registrations while 25,978 are active | Count active registrations only in run and card summaries |
-| R23 | Duplicate Layer 2 evidence | About 4.4 GB of Layer 2 captures (mostly screenshots and pages of the same content captured repeatedly, for example 485 identical Flinders captures) are byte-identical copies | Same method as R18 (records kept, copies removed); needs its own approval because Layer 2 captures are also evidence of when a page was seen |
+| R23 | ~~Duplicate Layer 2 evidence~~ | Done 28 Sep 2026 (approved) | 8,461 duplicate copies of Layer 2 screenshots and page snapshots removed (4.47 GB, 1,848 groups) after 60 of 60 sampled copies matched the kept file byte for byte; every record keeps its own capture time and URL and points to an identical stored file. Evidence bucket 14 GB to 10 GB. Captures still create new copies, so duplicates will build up again until R26 |
 | R24 | NZQA runs re-fetch every provider | NZQA has no downloadable register file, so each run fetches all 414 provider pages (about 80 seconds) | Acceptable at weekly frequency; apply only changed providers when NZQA volume grows |
 | R25 | Provider departures review screen | Providers whose courses have all left are recorded in pipeline.layer1_provider_departures but there is no screen yet | Add a Layer 4 review list (closure, merger with successor) |
+| R26 | Layer 2 duplicates build up again | New Layer 2 captures still store their own file when identical to an earlier one (about 600 duplicates a week in September) | Reuse the stored file at capture time (as Layer 1 does), or run the R23 clean-up on a schedule; needs a decision |
 
 ---
 
@@ -201,7 +202,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 |---|---|
 | Decision 149 — country-neutral identity and consumer fields | Current (approved 26 Sep 2026); build in Package 9 |
 | Decision 155 — Layer 1 ingestion redesign | Current; all steps delivered (v2.15.98 and v2.15.99, 27–28 Sep 2026) |
-| Refinements R1–R9, R11–R14, R17, R22–R25 | To schedule (R10, R15, R16, R18–R21 done) |
+| Refinements R1–R9, R11–R14, R17, R22, R24–R26 | To schedule (R10, R15, R16, R18–R21, R23 done) |
 | Layer 3 model qualification | Paused (no qualified model) |
 | Production publication gate | Planned for P10 |
 
