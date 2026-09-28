@@ -206,6 +206,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 155 — Layer 1 ingestion redesign | Current; all steps delivered (v2.15.98 and v2.15.99, 27–28 Sep 2026) |
 | Refinements R1, R2, R4, R7–R9, R12, R13, R17, R27 | To schedule (R3, R5, R6, R10, R11, R14–R16, R18–R26 done or accepted) |
 | Decision 160 — Layer 3 safe abstention | Current; Mistral Small 3.2 active from 28 Sep 2026; first fresh-item admission still to show for the M2.4.7 exit |
+| Decision 161 — RMIT course refresh unblocked | Current; first run 28 Sep 2026; UQ and RMIT refresh weekly |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1206,6 +1207,12 @@ Out of scope of the closure, and not a reopening: a new country or source is onb
 A Layer 3 model qualifies for a task when every answer it gives is correct. Saying "unsure" is allowed and sends the item to Layer 4 for a person; a wrong answer is not. The benchmark passes only with at least 3 cases, no wrong answers, no infrastructure errors, at least 3 cases and at least half of them resolved, and every control passing. A passing benchmark never switches a model on: the profile stays paused until a separate, recorded activation. The model is pinned to one named model (no automatic routing across models), so a result is always bound to the model that was qualified. Open items assigned to a profile that can no longer run are moved to the qualified profile with an audit record; finished items never move. The admission guard still applies: an AI answer is admitted only when it matches a governed Layer 2 target, and otherwise goes to Layer 4.
 
 First use: Mistral Small 3.2 (tuition validation) qualified 10/10 with 0 wrong answers and 5/5 controls, and was activated on 28 September 2026. Guarded by tests/uat/cf-247-d160-safe-abstention-contract.spec.mjs.
+
+
+### Decision 161 — RMIT course refresh unblocked
+**Status:** Current (28 September 2026) · **Recorded in:** this reference
+
+RMIT's weekly Layer 2 course refresh, switched off on 27 August 2026 under CF-CHG-20260827-044 while RMIT canonical promotion was blocked, is switched back on by the Platform Admin to grow provider-current tuition coverage. The block is superseded by today's governed path: tuition candidates are checked by Layer 3 under Decision 160 and anything unsure goes to Layer 4; other fields follow the Decision 152 admission lifecycle. Federation (bounded, paused as source-limited) and QUT (deferred) are unchanged.
 
 ---
 
