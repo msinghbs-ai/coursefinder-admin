@@ -124,6 +124,15 @@ Not used for admission: `json` extraction, `/extract`, `/agent`, `summary`, `que
 | Melbourne | PDF fee tables (robots-restricted) | Unverified | 2026 |
 | UNSW, ANU, UTS, Macquarie, Curtin, QUT, Monash, Deakin, Griffith | No single per-course schedule (fee bands, calculators or course pages only) | — | — |
 
+- **Step 2 live for two providers (28 Sep 2026, Pilot PR #159).** Worker `fee-schedule-etl` v0.3.0 (one-time nonce only) fetches a registered schedule from the university's own host, rebuilds table rows from PDF text positions and applies one rule: a row with exactly one CRICOS code; the fee is the first dollar amount after it (annual fee for one full-time year); amounts outside $5,000–$150,000 are rejected. No AI and no Firecrawl. Each provider schedule is its own source, qualified for international fees only. Writes go through `svc_coursefacts_apply_record` (evidence, provider-scoped binding, Layer 4 blocks); a same-year different amount is never overwritten, a course listed twice with different fees is held, a newer fee year is kept, an older year is superseded, and Search is refreshed.
+
+| Schedule | Parsed | Written | Held or not matched |
+|---|---|---|---|
+| Federation 2026 commencing | 73 | 73 (3 confirmed identical course-page values) | 0 |
+| Western Sydney UG 2027 | 76 | 71 | 1 listed twice with different fees; 3 codes not in the provider's register |
+| Western Sydney PG 2027 | 68 | 65 (one duplicate with equal fees merged) | 2 codes not in the provider's register |
+
+  Provider tuition coverage: 408 → 614 courses. Values spot-checked against the PDFs; no course has two current tuitions; consumer API healthy (baselines stored before and after each apply).
   Order for adapters: Western Sydney and Federation first (CRICOS-keyed), then Charles Darwin and Charles Sturt, then RMIT and Swinburne once the CRICOS column is confirmed. Schedules for the next fee year appear around August–September.
 
 ## 8. Gaps and build order

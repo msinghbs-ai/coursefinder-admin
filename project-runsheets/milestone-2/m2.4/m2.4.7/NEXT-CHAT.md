@@ -2014,3 +2014,16 @@ Pilot PR #158; deployed UAT, release history and currentness green on main.
   attribute document §8a).
 - RMIT first run: batch started 13:18 UTC (263 pages); first 20 records
   all identity-matched, 15 with tuition candidates for Layer 3.
+
+### 28 Sep 2026 — Decision 162 step 2 live: provider fee schedules (Federation, Western Sydney)
+
+Pilot PR #159. Worker fee-schedule-etl v0.3.0 (deterministic PDF table
+reading; no AI, no Firecrawl); svc_fee_schedule_preview (read-only) and
+svc_fee_schedule_apply (governed path, provider-scoped, conflict rules).
+- Federation 2026: 73 written (3 confirmed identical course-page values).
+- Western Sydney 2027: UG 71 written (1 held: listed twice with different
+  fees; 3 codes not in register); PG 65 written (2 not in register).
+- Provider tuition coverage 408 -> 614 courses; spot values match PDFs; no
+  double tuitions; consumer baselines stored before/after; API healthy.
+- Follow-up: send held same-code conflicts to Layer 4 automatically; add
+  Charles Darwin, RMIT, Swinburne schedules after inspection.
