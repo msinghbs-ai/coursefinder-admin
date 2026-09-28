@@ -1919,3 +1919,28 @@ Waiting on a person:
   (checked: 1,059 records).
 - UNSW, Sydney and Monash: hand onboarding (automatic onboarding stopped
   at needs a person).
+
+### 28 Sep 2026 — QILT SES 2025 edition applied (Decision 134)
+
+First statistics edition applied through discovery and Apply edition.
+Pilot PR #152.
+
+- First Apply (09:53 UTC) was refused: "QILT observation lacks verified
+  source-to-CRICOS mapping". Victoria University (2 CRICOS codes) and
+  Holmes Institute (3) are one QILT institution each; the verified mapping
+  lists the equivalent providers, but the apply guard accepted only the
+  first. Nothing was written.
+- Fix (checksum-guarded): the guard also accepts a provider in the same
+  verified mapping's recorded equivalent set; any other provider is still
+  refused. Tested in a rolled-back transaction both ways. Contract test
+  added to the Layer 1 closure suite (14 passed). A defect fix, not a
+  reopening of Layer 1 (Decision 159).
+- Applied by the Platform Admin at 10:07 UTC: 1,059 records read, 1,095
+  outcome rows written (Victoria University and Holmes Institute written
+  for each equivalent provider), 115 providers, 0 rows without a verified
+  mapping. SES 2025 is current; SES 2024 is retained (1,013 rows) and no
+  longer checked on schedule; next SES check 29 Mar 2027.
+
+Gap logged: 36 SES 2024 rows (La Trobe, Monash, RMIT; 12 each) have no
+exact verified mapping match (older institution key format, loaded before
+the guard). Left unchanged; to be reconciled with R27.

@@ -106,7 +106,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R3 | ~~AU identity is not in the identifier table~~ | Done 28 Sep 2026 | CRICOS and NZQA provider and course codes recorded as country-scoped identifiers, kept in step with the registration tables (Decision 149) |
 | R4 | Two AU-shaped consumer fields (`has_state`, `regulatory_tuition_state`) | Checked 28 Sep 2026: consumer outputs already use ISO subdivision codes and a neutral tuition basis; `state` inside regulatory tuition means status | Rename to `status` in the next consumer contract version, alongside the old name (Decision 149) |
 | R5 | ~~Ranking editions~~ | Done 28 Sep 2026 | THE 2016–2024 applied (800 to 2,671 rows, exact expected counts); THE "2015" withdrawn (identical to 2021, 1,526 of 1,526 rows); QS 2025 restored to the correct load (the replacement workbook had region in the country column, 0 matches). One current edition per year: QS 2021–2027, THE 2016–2026 |
-| R6 | ~~Statistics source model~~ | Done 28 Sep 2026 | Decision 134 built: edition rules from stable publisher pages, monthly discovery with a test read, Apply edition on the card, QILT as one card with survey tabs; first run found QILT SES 2025 |
+| R6 | ~~Statistics source model~~ | Done 28 Sep 2026 | Decision 134 built: edition rules from stable publisher pages, monthly discovery with a test read, Apply edition on the card, QILT as one card with survey tabs; first run found QILT SES 2025, applied 28 Sep 2026 (1,095 rows; 2024 retained) |
 | R7 | Course description | No working path | Build Decision 140 |
 | R8 | Scholarship publication | None published | Build Decision 139 batches |
 | R9 | Intakes and English corrections | No Layer 4 path | Build Decision 142 |
