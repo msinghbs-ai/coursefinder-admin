@@ -105,6 +105,27 @@ Firecrawl stays a fetcher, not an extractor. Our own rules extract facts.
 
 Not used for admission: `json` extraction, `/extract`, `/agent`, `summary`, `question`, `highlights`, `/monitor` `goal`, `/crawl` `prompt`. These use an AI model that cannot be pinned or qualified, so they conflict with Decision 160. At most they may suggest where to look, reviewed by a person. Sources: docs.firecrawl.dev (scrape, change-tracking, monitor, map, crawl, batch-scrape, llm-extract, agent) and firecrawl.dev/pricing, checked 28 September 2026.
 
+## 8a. Progress
+
+- **Step 1 done (28 Sep 2026, v2.15.102, Pilot PR #158).** `security.admin_course_field_states` reads stored provenance: Layer 3 from the admitted work item matching the fee's evidence (model shown), Layer 4 from applied resolutions, CRICOS sources as Layer 1; "Awaiting L2" only where the provider has a qualified Layer 2 source; "Awaiting L3/L4" only from open Layer 3 work items; new states "CRICOS tuition applies" and "Not collected"; lookups scoped to the course's provider. Consumer endpoints unchanged.
+- **Step 2 research (28 Sep 2026)** — whole-of-university international fee schedules:
+
+| University | Schedule | CRICOS code in it | Latest year seen |
+|---|---|---|---|
+| Western Sydney | PDF per level (UG, PG), archive 2020–2027 | Yes | 2027 |
+| Federation | PDF (commencing; continuing separate) | Yes | 2026 |
+| Charles Darwin | PDF | Yes | 2026 |
+| Charles Sturt | HTML tables (per 8-point subject) | Yes | 2026 |
+| RMIT | PDF (`2027-inton-fees.pdf`) | Unverified | 2027 |
+| Swinburne | PDF UG and PG | Unverified | 2027 |
+| Wollongong | PDF (URL id changes yearly) | Unverified | 2027 |
+| UQ | PDF (per unit, UQ program code) | No — bind via program code | 2026 |
+| UWA | HTML table by year parameter | No — bind via course code | 2026 |
+| Melbourne | PDF fee tables (robots-restricted) | Unverified | 2026 |
+| UNSW, ANU, UTS, Macquarie, Curtin, QUT, Monash, Deakin, Griffith | No single per-course schedule (fee bands, calculators or course pages only) | — | — |
+
+  Order for adapters: Western Sydney and Federation first (CRICOS-keyed), then Charles Darwin and Charles Sturt, then RMIT and Swinburne once the CRICOS column is confirmed. Schedules for the next fee year appear around August–September.
+
 ## 8. Gaps and build order
 
 | Step | Work | Outcome |

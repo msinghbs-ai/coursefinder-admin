@@ -1999,3 +1999,18 @@ Layer 2 to be deterministic; review Firecrawl; explain the Layer 2/3 badges.
 - Build order: 1 badges on stored provenance; 2 provider fee-schedule
   adapters; 3 change check; 4 English tables; 5 entry requirements;
   6 extend fee rules beyond UQ/RMIT/Federation.
+
+### 28 Sep 2026 — Decision 162 step 1 live (badges from stored provenance, v2.15.102)
+
+Pilot PR #158; deployed UAT, release history and currentness green on main.
+- security.admin_course_field_states now reads stored records (Layer 3
+  admitted work item by course and evidence, Layer 4 resolutions, CRICOS);
+  checked on six sample courses: Layer 3 fee now "L3 · mistral-small-3.2";
+  Layer 4-bound item "Awaiting L4"; other AU university "CRICOS tuition
+  applies"; NZ "Not collected". Consumer endpoint hashes unchanged.
+- Step 2 research: whole-of-university international fee schedules found
+  for Western Sydney, Federation, Charles Darwin, Charles Sturt (CRICOS-
+  keyed), RMIT, Swinburne, Wollongong, UQ, UWA, Melbourne (details in the
+  attribute document §8a).
+- RMIT first run: batch started 13:18 UTC (263 pages); first 20 records
+  all identity-matched, 15 with tuition candidates for Layer 3.
