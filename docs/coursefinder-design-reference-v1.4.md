@@ -126,7 +126,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R23 | ~~Duplicate Layer 2 evidence~~ | Done 28 Sep 2026 (approved) | 8,461 duplicate copies of Layer 2 screenshots and page snapshots removed (4.47 GB, 1,848 groups) after 60 of 60 sampled copies matched the kept file byte for byte; every record keeps its own capture time and URL and points to an identical stored file. Evidence bucket 14 GB to 10 GB. Captures still create new copies, so duplicates will build up again until R26 |
 | R24 | NZQA runs re-fetch every provider | NZQA has no downloadable register file, so each run fetches all 414 provider pages (about 80 seconds) | Acceptable at weekly frequency; apply only changed providers when NZQA volume grows |
 | R25 | Provider departures review screen | Providers whose courses have all left are recorded in pipeline.layer1_provider_departures but there is no screen yet | Add a Layer 4 review list (closure, merger with successor) |
-| R26 | Layer 2 duplicates build up again | New Layer 2 captures still store their own file when identical to an earlier one (about 600 duplicates a week in September) | Reuse the stored file at capture time (as Layer 1 does), or run the R23 clean-up on a schedule; needs a decision |
+| R26 | ~~Layer 2 duplicates build up again~~ | Done 28 Sep 2026 (approved) | New Layer 2 screenshots and page snapshots reuse an identical stored file of the same provider; each capture still gets its own record. Any upload left behind is removed by a daily clean-up (00:47 IST). Any future retention purge must only delete files that no record references |
 
 ---
 
@@ -202,7 +202,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 |---|---|
 | Decision 149 — country-neutral identity and consumer fields | Current (approved 26 Sep 2026); build in Package 9 |
 | Decision 155 — Layer 1 ingestion redesign | Current; all steps delivered (v2.15.98 and v2.15.99, 27–28 Sep 2026) |
-| Refinements R1–R9, R11–R14, R17, R22, R24–R26 | To schedule (R10, R15, R16, R18–R21, R23 done) |
+| Refinements R1–R9, R11–R14, R17, R22, R24, R25 | To schedule (R10, R15, R16, R18–R21, R23, R26 done) |
 | Layer 3 model qualification | Paused (no qualified model) |
 | Production publication gate | Planned for P10 |
 

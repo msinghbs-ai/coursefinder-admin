@@ -1778,3 +1778,26 @@ Also noted: two register evidence records from 14 Aug have no stored file
 New R26: new Layer 2 captures still store identical files (about 600 a
 week in September); needs a decision between reusing the stored file at
 capture time or a scheduled clean-up.
+
+### 28 Sep 2026 — R26 Layer 2 captures reuse identical files (approved)
+
+Approach approved: reuse the stored file at capture time. Change made once
+in the shared capture function (layer2_evidence_capture, checksum-guarded;
+migration 20260928070000), so every Layer 2 capture path is covered
+without changing edge functions.
+
+For screenshots and HTML snapshots: when an earlier record of the same
+provider source already holds a stored file with the same SHA-256, the
+new capture still gets its own record (capture time, URL, job, metadata)
+but points at that file. The just-uploaded copy is returned so callers
+that already tidy up remove it at once; it is also logged, and a new daily
+job (evidence-storage-dedupe-daily, 19:17 UTC) removes any copy left
+behind once no record references it.
+
+Tested in a rolled-back transaction: identical bytes in a new group reused
+the existing file and logged the upload; different bytes stored their own
+file; same-group repeats unchanged. No Layer 2 captures ran in the last
+24 hours, so the first live reuse will show in the next scheduled run.
+
+Rule for any future retention purge: files can be shared between records,
+so only delete files no record references.
