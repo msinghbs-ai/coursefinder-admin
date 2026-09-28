@@ -2107,3 +2107,15 @@ Pilot PRs #160, #161.
   Macquarie, UWA pattern; UTS by internal code).
 - Layer 3: 25 fresh RMIT items enqueued 14:22 UTC; results due before the
   15:50 check-in.
+
+### 28 Sep 2026 — Platform Admin approvals applied (Decision 162)
+
+- Search gates opened for the four fee-schedule sources (Pilot PR #163):
+  426 tuitions in Search/consumer API, amounts verified; snapshots stored.
+- RMIT fee-basis rule live (Pilot PR #164): 31 courses admitted as 2027
+  totals; Layer 4 queue 86 -> 53; runs 3-59/10 before the dispatcher.
+- English rule: not yet written. UWA list not exhaustive (course rules);
+  Macquarie blocks fetching (403); Western Sydney uses short names/groups;
+  UQ Table 1 is the right first case but needs a line-joining parser and a
+  full reconciliation before apply. Inspect support merged (PR #165).
+- Provider tuition coverage today: 408 -> 862 courses.

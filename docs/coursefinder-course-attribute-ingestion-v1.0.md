@@ -157,6 +157,17 @@ Not used for admission: `json` extraction, `/extract`, `/agent`, `summary`, `que
 
 The fee-schedule qualifications record `search_admitted: false` until a gate is approved.
 
+### Approvals applied (28 Sep 2026)
+
+- **Search gates opened** for the four fee-schedule sources (Pilot PR #163): 426 annual tuitions now in Search and the consumer API with matching amounts; consumer snapshots before and after (four search endpoints changed as expected; all healthy).
+- **RMIT fee-basis rule live** (Pilot PR #164): `pipeline.provider_fee_basis_rules` + `security.provider_basis_rule_admit_v1`, every 10 minutes before the Layer 3 dispatcher. Matches only "Full-fee places: AU $X (YYYY annual|total)" for the candidate's own amount; totals stored as `total_indicative`. First run: 31 courses (all 2027 totals); Layer 4 queue 86 → 53. Kept apart from the UQ profile table, whose stamping step applies one basis to every item.
+- **English default-plus-exceptions — findings before building:**
+  - UWA: the page says Higher or Accreditation requirements are "listed in their course rules", so the on-page list is not exhaustive; the default cannot be applied safely.
+  - Macquarie: the page refuses automated fetching (HTTP 403).
+  - Western Sydney: exceptions use short names and groups ("B Nursing", "Master of Teaching degrees"); binding needs a reviewed name map.
+  - UQ (best candidate): Table 1 is a formally approved policy schedule (last approved 12 Dec 2025) and every unlisted program takes the minimum; program names and band wording wrap across PDF lines and vary in form, so a line-joining parser with a full reconciliation (every Table 1 program matched to a UQ course or reported) is required before anything is written.
+  - Plan: build the UQ parser in dry-run, reconcile all Table 1 programs, then apply; Search gate for English as a separate step.
+
 ## 8. Gaps and build order
 
 | Step | Work | Outcome |
