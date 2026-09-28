@@ -1852,3 +1852,55 @@ identical before and after.
 New R27: older AU-specific columns in Layer 2 staging tables and
 vet_national_code on course_regulatory_observations; plan is neutral
 columns alongside, then retire the old names.
+
+### 28 Sep 2026 — Layer 1 closed (Decision 159, v2.15.100)
+
+Approved by the Platform Admin: close Layer 1 for functionality, including
+rankings and statistics. Pilot PR #148 (branch cf247-layer1-closure).
+
+Delivered and verified live:
+- R22: run summaries count active records (25,978 CRICOS; 809 retired
+  shown separately).
+- R25: Layer 4 → Provider departures (closed / merged with successor /
+  reviewed; Platform Admin with a reason). 10 AU providers listed, incl.
+  UniSA and The University of Adelaide with Adelaide University suggested.
+- NZQA departures (new): each run records the courses it reads; unseen
+  courses of providers read in that run are retired with the CRICOS audit
+  and hold. First run: 6,475 seen, 21 retired (= 6,496 registrations).
+- R14: CRICOS rows seen in a run are re-marked checked at most every 30
+  days; NZQA rows by each run.
+- Scheduled checks now cover QS/THE (country GLOBAL) and QILT/PRISMS (the
+  scheduled worker called undefined helpers). THE 2026 re-verified: 3,118
+  rows, pass. Ranking runs could not be queued (NULL country) — fixed.
+- R5 rankings: THE 2016–2024 applied with exact expected counts (800,
+  981, 1,103, 1,258, 1,397, 1,526, 2,112, 2,345, 2,671); THE "2015"
+  withdrawn (identical to 2021, 1,526 of 1,526 rows); QS 2025 restored to
+  the correct load (replacement workbook had region as country, 0 matches).
+  One current edition per year: QS 2021–2027, THE 2016–2026, all linked.
+- R6 / Decision 134: edition rules on stable publisher pages, monthly
+  discovery with a test read, Apply edition on the card, QILT one card
+  with survey tabs. First discovery: QILT SES 2025 found and test-read
+  (1,059 records) — waiting for a person to apply it on the card.
+- Closure contract suite (6 tests); contract suite 50 passed, the same 12
+  older failures as main. Release v2.15.100 / package 0.1.27.
+
+Background admission (running):
+- Automatic onboarding switched on gently (10 providers/day, 3 in flight).
+  First results: UNSW, Sydney and Monash (about 1,900 waiting courses)
+  failed the 3-course identity check on all 3 candidates each → Needs a
+  person. The largest university catalogues need hand onboarding.
+- Layer 2: 108 captures in 2 hours; 48 reused an identical stored file
+  (R26 working). Firecrawl 2,636 pages left this month (resets 1 Oct).
+- Layer 3: no qualified tuition model (best Mistral Small 3.2: 8/10
+  provider, 5/5 controls); dispatch and admission remain off. 336 items
+  admitted to date; 127 Layer 4 items open.
+
+Upcoming plan (M2.4.7 → M2.4.9):
+1. Layer 3 qualification decision (activation needs a passing model or an
+   agreed abstain-to-Layer-4 bar), then a bounded AU tuition cohort with
+   end-to-end admission proof (M2.4.7 exit).
+2. Hand-onboard the large universities that failed automatic onboarding;
+   keep automatic onboarding on for the rest.
+3. Consumer contract next version (R2 duration, R4 status rename).
+4. Canada register onboarding as a country adapter (not a Layer 1 change).
+5. R27, R1, R7–R9, R12, R13, R17 per the design reference.

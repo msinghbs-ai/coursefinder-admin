@@ -103,10 +103,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 |---|---|---|---|
 | R1 | **Academic entry requirements have no capture path** | Required by the AU completeness profile; table empty | Define as a Layer 2 attribute from the admitted official course page with a Layer 4 correction path; decide consumer shape first |
 | R2 | Duration held but not exposed | Consumers cannot filter or show it | Add to the search document in the next consumer contract version |
-| R3 | **AU identity is not in the identifier table** | Canada uses identifier types properly; AU keeps CRICOS only in `course_code` | Register CRICOS provider and course identifier types and backfill them; keep `course_code` as the display code |
-| R4 | Two AU-shaped consumer fields (`has_state`, `regulatory_tuition_state`) | Wrong vocabulary for other countries | Add neutral names (subdivision, regulatory basis) alongside; retire the old names in a later contract version |
-| R5 | Ranking editions: THE 2019–2024 not applied; THE "2015" suspect; QS duplicates | Contradicts Decision 128 | Proof, then apply and merge |
-| R6 | Statistics source model | Year-specific sources, one edition each | Build Decision 134 |
+| R3 | ~~AU identity is not in the identifier table~~ | Done 28 Sep 2026 | CRICOS and NZQA provider and course codes recorded as country-scoped identifiers, kept in step with the registration tables (Decision 149) |
+| R4 | Two AU-shaped consumer fields (`has_state`, `regulatory_tuition_state`) | Checked 28 Sep 2026: consumer outputs already use ISO subdivision codes and a neutral tuition basis; `state` inside regulatory tuition means status | Rename to `status` in the next consumer contract version, alongside the old name (Decision 149) |
+| R5 | ~~Ranking editions~~ | Done 28 Sep 2026 | THE 2016–2024 applied (800 to 2,671 rows, exact expected counts); THE "2015" withdrawn (identical to 2021, 1,526 of 1,526 rows); QS 2025 restored to the correct load (the replacement workbook had region in the country column, 0 matches). One current edition per year: QS 2021–2027, THE 2016–2026 |
+| R6 | ~~Statistics source model~~ | Done 28 Sep 2026 | Decision 134 built: edition rules from stable publisher pages, monthly discovery with a test read, Apply edition on the card, QILT as one card with survey tabs; first run found QILT SES 2025 |
 | R7 | Course description | No working path | Build Decision 140 |
 | R8 | Scholarship publication | None published | Build Decision 139 batches |
 | R9 | Intakes and English corrections | No Layer 4 path | Build Decision 142 |
@@ -114,7 +114,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R11 | Layer 3 AI paused | No model qualified | Keep deterministic provider rules; re-run qualification when a candidate model appears |
 | R12 | Completeness states not reported | Coverage shows present/absent only | Report the nine states in coverage views |
 | R13 | Publication gate | Pilot returns unpublished records | Production step under Decision 138 |
-| R14 | Per-row verification drifted | Course `last_verified_at` last refreshed mid-August; September register runs verified at run level only | The next full register apply re-verifies all rows once (Decision 152, option B), then every 30 days |
+| R14 | ~~Per-row verification drifted~~ | Done 28 Sep 2026 | CRICOS rows seen in a run are re-marked checked at most every 30 days; NZQA rows are re-marked by each run; stale NZ rows were departures (21 retired) |
 | R15 | ~~Resource observability~~ | Done 26 Sep 2026 (v2.15.97) | Platform resources and cost panel, hourly recorder, alerts, cost model (Decision 153) |
 | R16 | ~~Register ingestion overdue~~ | Done 26–27 Sep 2026 | CRICOS caught up (25,978 active; 809 departures retired); NZQA 414 of 414 providers; hard-coded register count removed (Package 9a); runs moved to the background (Decision 155, Package 9b) |
 | R17 | Course-facts publishing window | The Aug–Nov window is recorded; the annual cycle is enforced through profile freshness, and re-acquisition is not yet steered into the window | Schedule the annual course-facts refresh wave inside the window |
@@ -122,10 +122,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R19 | ~~Register runs re-read every row~~ | Done 28 Sep 2026 | Change-based apply: a full CRICOS comparison takes about 10 seconds and only new and changed courses are applied (Decision 155 step 2) |
 | R20 | ~~Departures and mergers handled by hand~~ | Done 28 Sep 2026 | Departures retired automatically at the end of each run, large departures held for approval, reactivation, provider review list (Decisions 155 step 6, 158) |
 | R21 | ~~Database has outgrown memory~~ | Done 28 Sep 2026 | Discovery links kept once per provider (447,678 rows to 25,521); database 1,131 MB, the remainder being real data (Decision 157) |
-| R22 | Layer 1 run summary counts inactive registrations | The finalise step reports 26,787 CRICOS course registrations while 25,978 are active | Count active registrations only in run and card summaries |
+| R22 | ~~Layer 1 run summary counts inactive registrations~~ | Done 28 Sep 2026 | Summaries count active records (25,978 CRICOS); retired shown separately |
 | R23 | ~~Duplicate Layer 2 evidence~~ | Done 28 Sep 2026 (approved) | 8,461 duplicate copies of Layer 2 screenshots and page snapshots removed (4.47 GB, 1,848 groups) after 60 of 60 sampled copies matched the kept file byte for byte; every record keeps its own capture time and URL and points to an identical stored file. Evidence bucket 14 GB to 10 GB. Captures still create new copies, so duplicates will build up again until R26 |
-| R24 | NZQA runs re-fetch every provider | NZQA has no downloadable register file, so each run fetches all 414 provider pages (about 80 seconds) | Acceptable at weekly frequency; apply only changed providers when NZQA volume grows |
-| R25 | Provider departures review screen | Providers whose courses have all left are recorded in pipeline.layer1_provider_departures but there is no screen yet | Add a Layer 4 review list (closure, merger with successor) |
+| R24 | ~~NZQA runs re-fetch every provider~~ | Accepted 28 Sep 2026 | About 80 seconds weekly; now also the basis of NZQA departures (seen tracking). Revisit only if NZQA volume grows |
+| R25 | ~~Provider departures review screen~~ | Done 28 Sep 2026 | Layer 4 → Provider departures: closed, merged into a successor (recorded association), or reviewed; Platform Admin decides with a reason |
 | R26 | ~~Layer 2 duplicates build up again~~ | Done 28 Sep 2026 (approved) | New Layer 2 screenshots and page snapshots reuse an identical stored file of the same provider; each capture still gets its own record. Any upload left behind is removed by a daily clean-up (00:47 IST). Any future retention purge must only delete files that no record references |
 | R27 | AU-specific columns in shared tables (before Decision 149) | pipeline.course_fact_source_records (course_cricos, provider_cricos), pipeline.course_fact_source_qualifications (provider_cricos), pipeline.scholarship_source_records (source_provider_cricos), catalogue.course_regulatory_observations (vet_national_code) | Add neutral columns (registration scheme and code) alongside, move readers across, then retire the old names; no rename in place |
 
@@ -201,9 +201,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 
 | Item | Status |
 |---|---|
-| Decision 149 — country-neutral identity and consumer fields | Current (approved 26 Sep 2026); build in Package 9 |
+| Decision 149 — country-neutral identity and consumer fields | Identity delivered 28 Sep 2026; consumer renames go into the next contract version (R4) |
+| Decision 159 — Layer 1 closed | Closed 28 Sep 2026 (v2.15.100); changes only by a new decision |
 | Decision 155 — Layer 1 ingestion redesign | Current; all steps delivered (v2.15.98 and v2.15.99, 27–28 Sep 2026) |
-| Refinements R1–R9, R11–R14, R17, R22, R24, R25, R27 | To schedule (R10, R15, R16, R18–R21, R23, R26 done) |
+| Refinements R1, R2, R4, R7–R9, R11–R13, R17, R27 | To schedule (R3, R5, R6, R10, R14–R16, R18–R26 done or accepted) |
 | Layer 3 model qualification | Paused (no qualified model) |
 | Production publication gate | Planned for P10 |
 
@@ -1055,6 +1056,8 @@ Each Layer screen shows its title once, as the page title. The Layer header is a
 
 Each statistics dataset (QILT, PRISMS, QS, THE) is one dataset family shown as one card, with a year selector over its retained editions. QILT is one family with its four surveys (SES, GOS, GOS-Longitudinal, ESS) as tabs. A family's source is the publisher's stable page that lists its files, with a rule for finding each year's file, not a year-specific file address. Each new year becomes a new edition in the same family; the newest becomes current and earlier editions are kept. Each family has one schedule that checks for a new edition. Licensed files (QS, THE) are uploaded from their own dataset card with the same validation and history. Placement: Statistics & Rankings is where people view and compare, Layer 1 Operations is where operators run and upload, and Administration is where sources and schedules are configured; each card links to all three. Data fixes (with proof first): apply THE 2019–2024, check the THE "2015" edition, and merge the duplicated QS 2024 and 2025 editions.
 
+Progress (28 September 2026, v2.15.100): built. Each family member has an edition rule (stable publisher page and a file pattern) in pipeline.statistics_edition_rules; a monthly discovery job records new files and test-reads them (nothing written); a Pipeline Operator applies a checked edition from the card, which makes it current and keeps the previous edition. QILT shows as one card with a tab per survey (each survey keeps its own editions). Scheduled checks now cover QS and THE. Data fixes done: THE 2016–2024 applied; THE "2015" withdrawn (it was the 2021 file); QS 2025 restored to the correct load; QS 2024 and 2025 each have one current edition.
+
 ### Decision 135 — ARWU and University Diversity Index are planned
 **Status:** Current · **Recorded in:** Design Decisions v1.36
 
@@ -1187,6 +1190,14 @@ The evidence link index keeps each discovery-relevant link once per provider, wi
 **Status:** Current (implemented 28 September 2026) · **Implements:** Decision 155 steps 6 and 7 · **Recorded in:** this reference
 
 At the end of every register apply run, records that left the register are retired (marked inactive, never deleted) with an audit record, the register file as evidence and an exact count check. If more than 2% of the register (and more than 50 records) would be retired at once, nothing is retired until a Platform Admin approves it on the Layer 1 card with a reason; the approver is recorded. A retired record that returns to the register is reactivated and its audit record closed. A provider whose every active course departed is listed for a person to review as a closure or a merger; any successor is recorded by a person, not guessed. When the weekly verification finds a changed register file and the record-count variance is 'pass', an apply run is queued automatically under the system identity; a 'warn' or 'block' variance, a paused or stale source, a run already in progress, or a file that an automatic run already failed on is left for a person. Automatic ingestion is on for CRICOS and NZQA.
+
+
+### Decision 159 — Layer 1 closed
+**Status:** Current (closed 28 September 2026, release v2.15.100) · **Recorded in:** this reference
+
+Layer 1 (regulatory registers, rankings and statistics) is functionally complete and closed. Every Layer 1 source checks itself on its schedule (registers weekly, rankings and statistics monthly), applies only what changed, retires departures with an audit record and a Platform Admin hold above 2% and 50 records (CRICOS by register comparison, NZQA by what each run reads), reactivates returning records, lists empty providers for a closure or merger decision in Layer 4, re-marks rows as checked at most every 30 days, and records identity as country-scoped identifiers. Rankings hold one current edition per year (QS 2021–2027, THE 2016–2026); licensed uploads are validated, then applied, then checked on schedule against the stored upload. Statistics find their own new editions from the publisher's page and a person applies a checked edition. The closure is guarded by the contract suite tests/uat/cf-247-layer1-closure-contract.spec.mjs; a change that breaks it needs a new decision here.
+
+Out of scope of the closure, and not a reopening: a new country or source is onboarded as an adapter (rows and a worker), not by changing how Layer 1 works — Canada's register data is the next such onboarding; R27 renames older AU-specific staging column names without changing behaviour; QS 2027 publisher access stays pending while the publisher blocks automated download.
 
 ---
 
