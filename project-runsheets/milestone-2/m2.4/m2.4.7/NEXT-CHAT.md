@@ -1750,3 +1750,33 @@ file; same-group repeats unchanged. No Layer 2 captures ran in the last
 
 Rule for any future retention purge: files can be shared between records,
 so only delete files no record references.
+
+### 28 Sep 2026 — Decision 149 country-scoped identifiers delivered
+
+Audit: Canada already recorded official identifiers in the identifier
+tables; Australia (CRICOS) and New Zealand (NZQA) codes were only in the
+registration tables, and provider registrations carried no country.
+
+Delivered (migration 20260928080000): ref.identifier_schemes lists each
+official scheme once (CRICOS and NZQA for providers and courses, IRCC DLI
+for providers); a new country adds rows, not columns. Triggers on the
+registration tables keep provider_identifiers and course_identifiers in
+step, writing only when an identifying value changes. Backfilled 1,548
+CRICOS and 414 NZQA provider codes, 26,787 CRICOS and 6,496 NZQA course
+codes; all 100% matched, country correct. Trigger test (rolled back):
+status-only change wrote nothing; code change moved the identifier;
+delete removed it; provider insert and delete mirrored.
+
+Consumer contracts checked: already neutral (ISO subdivision codes,
+tuition basis 'registered_total_course', no CRICOS-named fields). The
+'state' key inside regulatory_tuition means status; rename in the next
+contract version, alongside the old name.
+
+Fixed (migration 20260928080100): the Zoho course lookup skipped the
+Layer 4 search block for matches by course code (missing bracket). No
+course is blocked today, so no output changed; consumer snapshot content
+identical before and after.
+
+New R27: older AU-specific columns in Layer 2 staging tables and
+vet_national_code on course_regulatory_observations; plan is neutral
+columns alongside, then retire the old names.

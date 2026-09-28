@@ -127,6 +127,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R24 | NZQA runs re-fetch every provider | NZQA has no downloadable register file, so each run fetches all 414 provider pages (about 80 seconds) | Acceptable at weekly frequency; apply only changed providers when NZQA volume grows |
 | R25 | Provider departures review screen | Providers whose courses have all left are recorded in pipeline.layer1_provider_departures but there is no screen yet | Add a Layer 4 review list (closure, merger with successor) |
 | R26 | ~~Layer 2 duplicates build up again~~ | Done 28 Sep 2026 (approved) | New Layer 2 screenshots and page snapshots reuse an identical stored file of the same provider; each capture still gets its own record. Any upload left behind is removed by a daily clean-up (00:47 IST). Any future retention purge must only delete files that no record references |
+| R27 | AU-specific columns in shared tables (before Decision 149) | pipeline.course_fact_source_records (course_cricos, provider_cricos), pipeline.course_fact_source_qualifications (provider_cricos), pipeline.scholarship_source_records (source_provider_cricos), catalogue.course_regulatory_observations (vet_national_code) | Add neutral columns (registration scheme and code) alongside, move readers across, then retire the old names; no rename in place |
 
 ---
 
@@ -202,7 +203,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 |---|---|
 | Decision 149 — country-neutral identity and consumer fields | Current (approved 26 Sep 2026); build in Package 9 |
 | Decision 155 — Layer 1 ingestion redesign | Current; all steps delivered (v2.15.98 and v2.15.99, 27–28 Sep 2026) |
-| Refinements R1–R9, R11–R14, R17, R22, R24, R25 | To schedule (R10, R15, R16, R18–R21, R23, R26 done) |
+| Refinements R1–R9, R11–R14, R17, R22, R24, R25, R27 | To schedule (R10, R15, R16, R18–R21, R23, R26 done) |
 | Layer 3 model qualification | Paused (no qualified model) |
 | Production publication gate | Planned for P10 |
 
@@ -1128,6 +1129,8 @@ The CourseFinder Platform Design Reference is the single authority for design, g
 **Status:** Current (approved 26 September 2026) · **Recorded in:** this reference (26 September 2026)
 
 Every country's official identifiers, including Australia's CRICOS provider and course codes, are recorded as typed, country-scoped identifiers in the identifier tables; course_code remains the display code. Shared tables never gain country-specific columns. New consumer contract versions use country-neutral field names (subdivision rather than state; regulatory basis rather than a country's term), added alongside existing names before any old name is retired.
+
+Progress (28 September 2026): official schemes are listed once each in ref.identifier_schemes (CRICOS and NZQA for providers and courses, IRCC DLI for providers); a new country adds rows, not columns. The registration tables remain the register write path and triggers keep the identifier tables in step, writing only when an identifying value changes. Backfilled: 1,548 CRICOS and 414 NZQA provider codes, 26,787 CRICOS and 6,496 NZQA course codes, all with the correct country. The current consumer contracts were checked and already use neutral names (ISO subdivision codes such as AU-VIC, tuition basis 'registered_total_course', no CRICOS-named fields); the 'state' key inside regulatory_tuition means status and becomes 'status' in the next contract version. Older AU-specific columns in Layer 2 staging tables are listed as R27.
 
 ### Decision 150 — System identity for automation
 **Status:** Current (approved and implemented 26 September 2026) · **Recorded in:** this reference
