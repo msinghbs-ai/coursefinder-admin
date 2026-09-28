@@ -147,6 +147,16 @@ Not used for admission: `json` extraction, `/extract`, `/agent`, `summary`, `que
 
   Order for adapters: Western Sydney and Federation first (CRICOS-keyed), then Charles Darwin and Charles Sturt, then RMIT and Swinburne once the CRICOS column is confirmed. Schedules for the next fee year appear around August–September.
 
+### Decisions awaiting the Platform Admin (28 Sep 2026)
+
+| Decision | Evidence | Effect if approved |
+|---|---|---|
+| Open Search gates for the four fee-schedule sources (Federation, Western Sydney, Charles Darwin, Swinburne) | 426 schedule fees applied; values match the PDFs; no double tuitions; Search currently publishes provider tuition only from UQ and RMIT course pages (gates approved under CF-CHG-20260823-023) | Annual provider tuition for 426 more courses in Search and the consumer API |
+| RMIT provider fee rule `rmit-program-page-year-basis-v1` | RMIT pages print "(2027 annual)" (185 times) or "(2027 total)" (75 times) next to the fee | Basis and fee year resolved deterministically; the AI no longer needed for RMIT tuition; totals stored as totals |
+| English requirements: provider default by study level plus named exceptions | No university lists every course by CRICOS code; UQ, Western Sydney, Macquarie, UWA publish a default plus exceptions; UTS lists internal course codes | English requirement for every course of those providers, deterministically; exceptions matched by exact course name |
+
+The fee-schedule qualifications record `search_admitted: false` until a gate is approved.
+
 ## 8. Gaps and build order
 
 | Step | Work | Outcome |

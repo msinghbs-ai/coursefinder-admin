@@ -2115,3 +2115,16 @@ Pilot PRs #160, #161.
   items read a total as annual and were rejected by the deterministic
   validator (to Layer 4). Proposed provider rule rmit-program-page-year-
   basis-v1 awaits programme owner approval (Decision 132 pattern).
+
+### 28 Sep 2026 — Decisions awaiting the Platform Admin (Decision 162)
+
+- Search gate: the 426 schedule fees are in the catalogue but not in Search
+  or the consumer API, because only UQ and RMIT course-page sources have
+  approved Search gates (CF-023). Fee-schedule qualifications corrected to
+  search_admitted=false (Pilot PR #162). Decision: open gates for the four
+  schedule sources.
+- RMIT provider fee rule (pages print "(2027 annual)" / "(2027 total)").
+- English: provider default by study level plus named exceptions (UQ, WSU,
+  Macquarie, UWA pattern; UTS by internal code).
+- Layer 3: 25 fresh RMIT items enqueued 14:22 UTC; results due before the
+  15:50 check-in.
