@@ -2027,3 +2027,19 @@ svc_fee_schedule_apply (governed path, provider-scoped, conflict rules).
   double tuitions; consumer baselines stored before/after; API healthy.
 - Follow-up: send held same-code conflicts to Layer 4 automatically; add
   Charles Darwin, RMIT, Swinburne schedules after inspection.
+
+### 28 Sep 2026 — Decision 162 step 2 extended; RMIT basis finding
+
+Pilot PRs #160, #161.
+- Parser v0.4.1 (A$/year fees; two-column pages; $12,000 annual floor and
+  English programs excluded). Federation/WSU re-parse identically.
+- Charles Darwin 2026: 105 written; Swinburne 2027 UG 88 (1 held), PG 24.
+  Provider tuition coverage 614 -> 831; spot values match PDFs; no double
+  tuitions; consumer API healthy (baselines stored).
+- Badges: courses missing from a fee schedule show "CRICOS tuition applies";
+  schedule values labelled "Layer 2 provider fee schedule".
+- RMIT 2027 schedule deferred (rotated table, program codes, no CRICOS).
+- RMIT pages print "(2027 annual)" / "(2027 total)"; two fresh Layer 3
+  items read a total as annual and were rejected by the deterministic
+  validator (to Layer 4). Proposed provider rule rmit-program-page-year-
+  basis-v1 awaits programme owner approval (Decision 132 pattern).

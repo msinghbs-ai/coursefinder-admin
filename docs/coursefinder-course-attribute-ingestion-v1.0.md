@@ -133,6 +133,18 @@ Not used for admission: `json` extraction, `/extract`, `/agent`, `summary`, `que
 | Western Sydney PG 2027 | 68 | 65 (one duplicate with equal fees merged) | 2 codes not in the provider's register |
 
   Provider tuition coverage: 408 → 614 courses. Values spot-checked against the PDFs; no course has two current tuitions; consumer API healthy (baselines stored before and after each apply).
+- **Step 2 extended (28 Sep 2026, Pilot PRs #160, #161).** Parser v0.4.1 also reads fees written "A$37,800/year" and pages with two courses per line (split at each CRICOS code); annual fees below $12,000 and English-language programs are rejected (Charles Darwin prices English for Academic Purposes per module). Federation and Western Sydney re-parse identically.
+
+| Schedule | Parsed | Written | Held or not matched |
+|---|---|---|---|
+| Charles Darwin 2026 | 106 | 105 | 1 code not in the provider's register |
+| Swinburne UG 2027 | 120 (31 codes printed twice) | 88 | 1 listed twice with different fees |
+| Swinburne PG 2027 | 24 | 24 | 0 |
+
+  Provider tuition coverage: 614 → 831 courses. Badges: a course missing from a fee schedule shows "CRICOS tuition applies" (a schedule never fills it); schedule values are labelled "Layer 2 provider fee schedule".
+- **RMIT schedule:** the 2027 international onshore PDF is a rotated table keyed by RMIT program code (no CRICOS code); needs a column-wise reader and a program-code mapping — deferred.
+- **RMIT course pages:** fees are printed with an explicit basis, "(2027 annual)" or "(2027 total)". Proposed provider rule `rmit-program-page-year-basis-v1` (deterministic basis and fee year) awaits programme owner approval, as UQ's rule did (Decision 132). Until then the Layer 3 AI checks them; on 28 Sep it twice read "(2027 total)" as annual and the deterministic validator rejected both (sent to Layer 4) — the safety net worked.
+
   Order for adapters: Western Sydney and Federation first (CRICOS-keyed), then Charles Darwin and Charles Sturt, then RMIT and Swinburne once the CRICOS column is confirmed. Schedules for the next fee year appear around August–September.
 
 ## 8. Gaps and build order
