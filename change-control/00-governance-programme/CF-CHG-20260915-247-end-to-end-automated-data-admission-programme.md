@@ -1707,3 +1707,45 @@ Next: Package 10 — Decision 155 parts 2 to 4 (change-based apply,
 automatic departures and mergers, duplicate evidence clean-up with proof
 first, then automatic weekly register ingestion within the pass band);
 R21 link index growth; then Decision 149 identity and consumer fields.
+
+### Package 10 (v2.15.99, applied live) and Design Reference v1.4 — 28 September 2026 AEST
+
+Decision 155 is fully delivered. Applied live and verified; the code is
+staged for one Package 10 PR (21 files, 9 migrations).
+
+Link index (R21, option A, Decision 157): discovery links kept once per
+provider (447,678 rows, 188 MB, to 25,521 rows, 19 MB); candidates proven
+identical for all 648 providers (3,011) before switching; only providers
+waiting for onboarding are indexed; database 1,296 MB to 1,131 MB.
+
+Change-based apply (R19): register fingerprints bootstrapped from the
+accepted 26 Sep CRICOS file (25,978); a full comparison takes about 10 s.
+Test: 3 courses marked changed were found and applied in one 13 s batch;
+a dry run then showed 0 changes; accepted hash unchanged.
+
+Departures (R20, Decision 158): retired automatically at the end of each
+run with audit and count check; more than 2% (at least 50) held for a
+Platform Admin; reactivation and provider review list. Tested in
+rolled-back transactions (retire 2, hold 600, reactivate 1, provider 1)
+and in a live run (1 departed test key).
+
+Duplicate evidence (R18): 746 copies of register files (1.7 GB) removed
+after a 20-file byte-for-byte check; 0 failures; 0 broken references;
+evidence bucket 16 GB to 14 GB. Records were not deleted.
+
+Automatic ingestion (Decision 155 step 7): layer1-auto-ingest (hourly at
+:34) queues an apply run when a register changed within the 'pass' band;
+on for CRICOS and NZQA. Tested (1 queued, 1 'warn' skipped, rolled back).
+
+Edge functions deployed live: layer1-operations-control v1.5.0,
+layer1-au-depth v1.7.0, layer1-au-cricos-facts v1.2.0,
+evidence-storage-dedupe v1.0.0 (new). Contract suite: 42 passed; the same
+12 older failures as main.
+
+Design Reference v1.4 is CURRENT: Decisions 157 and 158; R18–R21 done;
+new R23 Layer 2 duplicate evidence (about 4.4 GB, needs approval), R24
+NZQA re-fetches every provider, R25 provider departures review screen.
+
+Next: merge Package 10 and redeploy the four functions from main; then
+Decision 149 identity and consumer fields and the remaining Package 9
+refinements.
