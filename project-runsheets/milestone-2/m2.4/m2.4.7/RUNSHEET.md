@@ -2134,3 +2134,18 @@ Pilot PRs #160, #161.
   validator rejected both (Layer 4); the RMIT basis rule now resolves such
   pages deterministically (31 courses as totals).
 - Coverage today: provider tuition 408 -> 863 courses; 861 in Search.
+
+### 28 Sep 2026 15:50 UTC — Scheduled check-in: RMIT end to end (M2.4.7 exit confirmed)
+
+- Layer 2: RMIT batch 22e7ffac… finished (263 pages); its tuition
+  candidates all reached the Layer 3 backlog and work items.
+- Layer 3 (all provider tuition items): admitted 379, Layer 4 79, parked 1,
+  pending 0. RMIT: admitted 182, Layer 4 50, parked 1.
+- The 26 rows still listed in the fee backlog view all have work items in
+  Layer 4 (for example $4,000 and $172,800 amounts that are not annual
+  tuition); none are waiting for Layer 3.
+- RMIT basis rule: 42 admissions in total; cron provider-basis-rule-admit
+  active.
+- Catalogue: 173 RMIT courses with a current provider tuition; 863 courses
+  overall. Search: 861 carry provider tuition (2 held by gates, unchanged).
+- M2.4.7 exit: met (fresh item 34aade5c… admitted end to end, 14:38 UTC).
