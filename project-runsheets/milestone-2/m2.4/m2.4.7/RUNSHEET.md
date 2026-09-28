@@ -1883,3 +1883,39 @@ Upcoming plan (M2.4.7 → M2.4.9):
 3. Consumer contract next version (R2 duration, R4 status rename).
 4. Canada register onboarding as a country adapter (not a Layer 1 change).
 5. R27, R1, R7–R9, R12, R13, R17 per the design reference.
+
+### 28 Sep 2026 — Layer 3 AI activated (Decision 160)
+
+Approved by the Platform Admin (Option 1): a Layer 3 model qualifies when
+every answer it gives is correct. It may say "unsure"; unsure items go to
+Layer 4 for a person. Pilot PRs #149 and #150.
+
+Delivered and verified live:
+- Qualification rule: at least 3 cases, 0 wrong answers, 0 infrastructure
+  errors, at least 3 and at least half resolved, controls all pass. A
+  passing benchmark still leaves the model paused; activation is a separate
+  recorded step.
+- Mistral Small 3.2 (pinned model, OpenRouter) qualified: 10/10 resolved,
+  0 wrong, controls 5/5, cost USD 0.003. Activated under the system
+  identity with an activation event. Dispatch (every 10 min) and admission
+  (every 15 min) jobs switched on; limit 1,000 calls a day, USD 0.05 cap.
+- The 5 open items (Layer 4 send-backs) were still assigned to the retired
+  Nemotron profile, so dispatch skipped them. They were moved to the
+  qualified profile, each move recorded in
+  pipeline.layer3_work_item_rebinds (only open items; finished items never
+  move).
+- First live run (09:35 UTC) processed all 5: 2 unsure and 2 stopped by the
+  admission guard (answer could not be bound to a Layer 2 fee target) went
+  to Layer 4; 1 hit a temporary provider rate limit and retries on the next
+  run. No fee was written, which is correct for these hard cases
+  (catalogue.course_fees unchanged at 157,552).
+
+Still to show for the M2.4.7 exit: a fresh Layer 2 tuition item admitted
+end to end by Layer 3 (enqueue has no new eligible items yet; they arrive as
+Layer 2 captures run).
+
+Waiting on a person:
+- QILT SES 2025 edition: press Apply edition on the Layer 1 QILT card
+  (checked: 1,059 records).
+- UNSW, Sydney and Monash: hand onboarding (automatic onboarding stopped
+  at needs a person).

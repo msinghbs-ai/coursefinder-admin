@@ -111,7 +111,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | R8 | Scholarship publication | None published | Build Decision 139 batches |
 | R9 | Intakes and English corrections | No Layer 4 path | Build Decision 142 |
 | R10 | ~~Automation acts under a real admin's identity~~ | Done 26 Sep 2026 | System identity *CourseFinder Automation* (Pipeline Operator, cannot sign in) — Decision 150 |
-| R11 | Layer 3 AI paused | No model qualified | Keep deterministic provider rules; re-run qualification when a candidate model appears |
+| R11 | ~~Layer 3 AI paused~~ | Done 28 Sep 2026 | Decision 160: qualification accepts safe abstention; Mistral Small 3.2 qualified (10/10, 0 wrong, controls 5/5) and activated; dispatch and admission on |
 | R12 | Completeness states not reported | Coverage shows present/absent only | Report the nine states in coverage views |
 | R13 | Publication gate | Pilot returns unpublished records | Production step under Decision 138 |
 | R14 | ~~Per-row verification drifted~~ | Done 28 Sep 2026 | CRICOS rows seen in a run are re-marked checked at most every 30 days; NZQA rows are re-marked by each run; stale NZ rows were departures (21 retired) |
@@ -204,8 +204,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 149 — country-neutral identity and consumer fields | Identity delivered 28 Sep 2026; consumer renames go into the next contract version (R4) |
 | Decision 159 — Layer 1 closed | Closed 28 Sep 2026 (v2.15.100); changes only by a new decision |
 | Decision 155 — Layer 1 ingestion redesign | Current; all steps delivered (v2.15.98 and v2.15.99, 27–28 Sep 2026) |
-| Refinements R1, R2, R4, R7–R9, R11–R13, R17, R27 | To schedule (R3, R5, R6, R10, R14–R16, R18–R26 done or accepted) |
-| Layer 3 model qualification | Paused (no qualified model) |
+| Refinements R1, R2, R4, R7–R9, R12, R13, R17, R27 | To schedule (R3, R5, R6, R10, R11, R14–R16, R18–R26 done or accepted) |
+| Decision 160 — Layer 3 safe abstention | Current; Mistral Small 3.2 active from 28 Sep 2026; first fresh-item admission still to show for the M2.4.7 exit |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1198,6 +1198,14 @@ At the end of every register apply run, records that left the register are retir
 Layer 1 (regulatory registers, rankings and statistics) is functionally complete and closed. Every Layer 1 source checks itself on its schedule (registers weekly, rankings and statistics monthly), applies only what changed, retires departures with an audit record and a Platform Admin hold above 2% and 50 records (CRICOS by register comparison, NZQA by what each run reads), reactivates returning records, lists empty providers for a closure or merger decision in Layer 4, re-marks rows as checked at most every 30 days, and records identity as country-scoped identifiers. Rankings hold one current edition per year (QS 2021–2027, THE 2016–2026); licensed uploads are validated, then applied, then checked on schedule against the stored upload. Statistics find their own new editions from the publisher's page and a person applies a checked edition. The closure is guarded by the contract suite tests/uat/cf-247-layer1-closure-contract.spec.mjs; a change that breaks it needs a new decision here.
 
 Out of scope of the closure, and not a reopening: a new country or source is onboarded as an adapter (rows and a worker), not by changing how Layer 1 works — Canada's register data is the next such onboarding; R27 renames older AU-specific staging column names without changing behaviour; QS 2027 publisher access stays pending while the publisher blocks automated download.
+
+
+### Decision 160 — Layer 3 qualification accepts safe abstention
+**Status:** Current (28 September 2026) · **Recorded in:** this reference
+
+A Layer 3 model qualifies for a task when every answer it gives is correct. Saying "unsure" is allowed and sends the item to Layer 4 for a person; a wrong answer is not. The benchmark passes only with at least 3 cases, no wrong answers, no infrastructure errors, at least 3 cases and at least half of them resolved, and every control passing. A passing benchmark never switches a model on: the profile stays paused until a separate, recorded activation. The model is pinned to one named model (no automatic routing across models), so a result is always bound to the model that was qualified. Open items assigned to a profile that can no longer run are moved to the qualified profile with an audit record; finished items never move. The admission guard still applies: an AI answer is admitted only when it matches a governed Layer 2 target, and otherwise goes to Layer 4.
+
+First use: Mistral Small 3.2 (tuition validation) qualified 10/10 with 0 wrong answers and 5/5 controls, and was activated on 28 September 2026. Guarded by tests/uat/cf-247-d160-safe-abstention-contract.spec.mjs.
 
 ---
 
