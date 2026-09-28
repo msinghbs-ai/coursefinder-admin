@@ -2149,3 +2149,20 @@ Pilot PRs #160, #161.
 - Catalogue: 173 RMIT courses with a current provider tuition; 863 courses
   overall. Search: 861 carry provider tuition (2 held by gates, unchanged).
 - M2.4.7 exit: met (fresh item 34aade5c… admitted end to end, 14:38 UTC).
+
+### 28 Sep 2026 — Decision 162 step 4: UQ English requirements (default plus named exceptions)
+
+- Built and applied under the Platform Admin approval (Pilot PR #166; fee-schedule-etl v0.7.1).
+- Sources: UQ ELP Procedure cl. 10-11, Table 1 (56 higher-than-minimum
+  programs) and Table 3 (minimum IELTS 6.5/6 each, TOEFL 87, PTE 64);
+  both PDFs kept as evidence with SHA-256.
+- Dry run: 0 parser issues; Table 1 agrees with course pages 40/40; minimum
+  agrees 149/150 (Bachelor of Music page PTE 30 left unchanged for Layer 4).
+- Applied: 54 UQ courses without English (9 Table 1, 45 minimum), 144 rows;
+  no existing value changed; consumer snapshots before/after identical.
+- Held, not guessed: 94 double degrees, 17 research degrees, 14 near-name
+  variants, 7 non-award, 6 exit awards.
+- Fixed during the dry run: plan timeout (27 s -> 0.13 s); a research
+  program name read as a section header.
+- Next: Search gate for this source and a double-degree rule (Platform
+  Admin decisions).

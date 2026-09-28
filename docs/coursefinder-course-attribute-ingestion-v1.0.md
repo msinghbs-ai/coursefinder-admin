@@ -167,6 +167,13 @@ The fee-schedule qualifications record `search_admitted: false` until a gate is 
   - Western Sydney: exceptions use short names and groups ("B Nursing", "Master of Teaching degrees"); binding needs a reviewed name map.
   - UQ (best candidate): Table 1 is a formally approved policy schedule (last approved 12 Dec 2025) and every unlisted program takes the minimum; program names and band wording wrap across PDF lines and vary in form, so a line-joining parser with a full reconciliation (every Table 1 program matched to a UQ course or reported) is required before anything is written.
   - Plan: build the UQ parser in dry-run, reconcile all Table 1 programs, then apply; Search gate for English as a separate step.
+- **English — UQ built and applied** (Pilot PR #166, 28 Sep 2026):
+  - Sources: UQ ELP Admission Procedure (cl. 10–11: "All UQ programs are minimum ELP programs unless specified otherwise in Table 1"), Table 1 (higher-than-minimum programs, last approved 12 Dec 2025) and Table 3 (minimum entry, last approved 26 Jun 2024). Both PDFs stored as evidence with SHA-256.
+  - Parser (`fee-schedule-etl` v0.7.1, `elp.ts`): reads Table 1 by column position; 56 programs, 0 issues, 0 unassigned. Minimum: IELTS 6.5 (6 each), TOEFL iBT 87 (19/19/21/19), PTE 64 (60 each).
+  - Rules (`security.english_table_plan_v1`, used by both dry run and apply): exact Table 1 name → Table 1 requirement (two reviewed aliases: "Sport Science", Doctor of Medicine); single award program → minimum; held back and reported: double degrees (94), research degrees (17), near-name variants (14), non-award study (7), exit awards (6). Only courses with no English requirement are written.
+  - Check against course pages: Table 1 40 of 40 agree; minimum 149 of 150 agree (Bachelor of Music page shows PTE 30; not changed; Layer 4 item).
+  - Written: 54 courses (9 Table 1, 45 minimum), 144 rows; no existing value changed; consumer API unchanged (source not yet admitted to Search).
+  - Open: Search gate for this source (Platform Admin); double-degree rule (policy is silent; course pages show a double degree taking its component's higher requirement); 10 Table 1 programs have no UQ course in the catalogue (not CRICOS-registered or not onboarded).
 
 ## 8. Gaps and build order
 
