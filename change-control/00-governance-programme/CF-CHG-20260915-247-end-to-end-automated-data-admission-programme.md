@@ -1749,3 +1749,27 @@ NZQA re-fetches every provider, R25 provider departures review screen.
 Next: merge Package 10 and redeploy the four functions from main; then
 Decision 149 identity and consumer fields and the remaining Package 9
 refinements.
+
+### 28 Sep 2026 — Package 10 merged; CF-068 deployed UAT fixed (PR #144)
+
+Package 10 merged (#142, ce47e67) and the four edge functions redeployed
+from main by the deploy workflow. CI now publishes Playwright failures as
+check annotations (#143), because UAT log downloads are blocked here.
+
+CF-068 deployed UAT failed on mapped_unique (expected 35, received 36).
+Cause: the QS validate path uses the CF-077 preview, which counts Victoria
+University (two providers with the same name) as an equivalent fan-out
+that is mapped, and always reports exact_ambiguous 0. Expectations were
+updated to live-verified values: 36 AU rows, alias 14, exact 21, fan-out
+1, unmatched 0. No data changed.
+
+Found while verifying: QS and THE sources have no country, so queuing a
+run for them (Run now or background) failed on layer1_run_queue.
+country_code (char(2), NOT NULL). Column widened to text; both queue paths
+now record GLOBAL (checksum-guarded patch, migration 20260928050000).
+Verified with a live QS 2026 background dry run: completed, 1,501
+observations. Merged as 82d63c4; deployed UAT (CF-068 spec) passed.
+
+Still open: R23 Layer 2 duplicate evidence clean-up (about 4.4 GB) awaits
+approval. Next: Decision 149 identity and consumer fields, then the
+remaining refinements.
