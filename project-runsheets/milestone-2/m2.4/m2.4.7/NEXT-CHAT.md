@@ -2068,3 +2068,18 @@ Pilot PRs #160, #161.
   UQ Table 1 is the right first case but needs a line-joining parser and a
   full reconciliation before apply. Inspect support merged (PR #165).
 - Provider tuition coverage today: 408 -> 862 courses.
+
+### 28 Sep 2026 — M2.4.7 exit evidence: fresh item admitted end to end by Layer 3
+
+- Layer 2: RMIT weekly refresh (Decision 161) batch 22e7ffac… read 263
+  pages (13:18–14:40 UTC); record for Associate Degree in Design
+  (Furniture), CRICOS 061154K, page text "Fees: AU $38,400 (2027 annual)".
+- Layer 3: work item 34aade5c… enqueued 14:22; Mistral Small 3.2 (pinned,
+  qualified, Decision 160) answered $38,400 annual 2027; deterministic
+  validator passed; admitted 14:38.
+- Catalogue: provider_current_tuition $38,400, annual, 2027 (note links
+  interpretation faab8a30…). Search: has provider tuition, annual 38,400.
+- Same run: the AI read "(2027 total)" as annual on two items; the
+  validator rejected both (Layer 4); the RMIT basis rule now resolves such
+  pages deterministically (31 courses as totals).
+- Coverage today: provider tuition 408 -> 863 courses; 861 in Search.
