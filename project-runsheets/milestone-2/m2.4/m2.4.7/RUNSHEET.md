@@ -2166,3 +2166,16 @@ Pilot PRs #160, #161.
   program name read as a section header.
 - Next: Search gate for this source and a double-degree rule (Platform
   Admin decisions).
+
+### 29 Sep 2026 — UQ English: Search gate opened; double degrees take the higher component
+
+- Platform Admin approvals 29 Sep 2026; Pilot PR #167.
+- Search gate for the UQ English-requirements source: 54/54 courses show
+  English in Search; consumer snapshots before/after identical.
+- Double-degree rule higher_component_v1 trialled first: 84 of 94 resolved
+  (68 minimum, 10 Laws (Honours) 7.0, 6 Education (Secondary) 7.5); 51/52
+  agree with course pages (other: course-page PTE 30, IELTS agrees).
+- Applied: 32 double degrees, 86 rows, all in Search; 10 held with an
+  unrecognised component (Diploma in Languages, Humanities, Law singular,
+  International Law, Pharmaceutics/Doctor of Pharmacy).
+- UQ English coverage: 262 -> 348 of 382 active courses.
