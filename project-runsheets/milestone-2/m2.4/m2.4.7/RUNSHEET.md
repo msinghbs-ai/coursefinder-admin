@@ -2317,3 +2317,13 @@ Pilot PRs #160, #161.
   - 1 duplicate of a fee already held.
 - Still in Layer 4: tuition where the model decided the amount is not this course's tuition (e.g. A$5,000 on many pages), quotes not found on the page, and differences from a value already held.
 - Operators: Layer 4 Review › Flagged values, where rank 4+ can confirm per year, edit the amount or period, or remove. Tested live in a rolled-back transaction.
+
+### 30 Sep 2026 — Everything operated from the admin screens (Decision 175); v2.15.110
+- Platform Admin (29 Sep 23:45 IST): the admin UI must control every configured feature, including moving older entries between layers and managing the AI models.
+- Sweep found three things done only in the database: the 58 scheduled automations, sending review items back to Layer 3, and scholarship publishing. Layer 3 models and the cascade were already on screen (Decision 173).
+- Admin UI v2.15.110 live (Pilot PR #193; main green: build, deployed UAT, release currentness, Workers Builds):
+  - Scheduled jobs › Automations: all 58 jobs by area in plain words, with pause or resume per job or area, run now, frequency and batch size.
+  - Layer 4 Review › Send back to AI: 213 AI-raised items in 14 reason groups; send a group or a field back; retry failed work. Send back to AI button on each Layer 3 task.
+  - Scholarships › Publishing: 124 published, 71 ready, 40 held; publish with an approval note, hold, release.
+- Database: migrations 20260930050000–20260930052000 applied live, each md5 equal to its file; the two replacements were checksum-guarded. All controls tested live as a Platform Admin in rolled-back transactions.
+- Nothing was paused, sent back or published by this change; the ready scholarships and review groups wait for an admin decision on screen.
