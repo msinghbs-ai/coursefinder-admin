@@ -208,6 +208,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 160 — Layer 3 safe abstention | Current; Mistral Small 3.2 active from 28 Sep 2026; first fresh-item admission still to show for the M2.4.7 exit |
 | Decision 161 — RMIT course refresh unblocked | Current; first run 28 Sep 2026; UQ and RMIT refresh weekly |
 | Decision 162 — Course attributes and refresh | Current; definition v1.0; interim 90-day refresh live; build steps 1–6 to schedule |
+| Decision 163 — Complete coverage, ongoing, reported daily | Current; sweep live; admission rule, Layer 3 tuition route and scholarship publication awaiting the Platform Admin |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1220,6 +1221,25 @@ RMIT's weekly Layer 2 course refresh, switched off on 27 August 2026 under CF-CH
 **Status:** Current (28 September 2026) · **Recorded in:** docs/coursefinder-course-attribute-ingestion-v1.0.md
 
 Every course and scholarship attribute has one authority, a deterministic Layer 2 method where the regulator does not publish it, and a refresh cadence matched to how often it changes. CRICOS supplies identity, international availability (active registration), duration, locations, regulatory facts and registered international tuition, non-tuition and total cost for every Australian course; provider-page annual tuition is a fee-year refinement read once per fee year from a provider fee schedule where one exists. Provider pages are re-read only when a change check finds them changed (interim: every 90 days, replacing weekly). Layer 3 handles only ambiguous candidates for attributes with a qualified task. Layer badges show stored provenance (layer, rule or model, evidence), not a guess; CRICOS tuition shows as Layer 1. Firecrawl is used as a deterministic fetcher (sitemap discovery, raw HTML, git-diff change tracking, PDF parsing); its AI extraction features are not used for admission.
+
+
+### Decision 163 — Complete coverage, ongoing, reported daily
+**Status:** Current (29 September 2026) · **Recorded in:** docs/coursefinder-course-attribute-ingestion-v1.0.md §9 and docs/coursefinder-complete-coverage-delivery-plan-v1.0.md
+
+**Coverage and reporting**
+- Every active Australian course, and its scholarships, is to be accounted for attribute by attribute. The coverage sweep keeps running (monthly site re-discovery, 90-day page re-reads, monthly document checks, weekly from October to December).
+- Coverage is shown hourly under Data Quality → Course coverage.
+- A daily consumer API update and stakeholder update is written to `docs/daily-updates/` at 08:49 IST.
+
+**Identity and admission**
+- A provider page counts as the course's own page only when it prints the course's CRICOS code.
+- The sweep writes nothing to the catalogue until the admission rule is approved.
+- Tuition from the sweep is admitted only through the qualified Layer 3 model (Decision 160).
+
+**Limits (Platform Admin, 29 Sep 2026)**
+- Firecrawl: 100,000 credits a month, 25 concurrent requests. The budget guard stops at 2,000 remaining; the platform uses at most 20 concurrent requests.
+- Layer 3: up to 15,000 items a day with a US$5 a day ceiling, on US$29 of OpenRouter prepaid credit.
+- Supabase compute may be raised for the sweep window and lowered once the backlog is admitted.
 
 ---
 
