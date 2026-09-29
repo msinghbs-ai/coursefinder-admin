@@ -220,6 +220,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 172 — Layer 3 cost-first cascade | Current; intake and English ladders running |
 | Decision 173 — Layer 3 control screen | Current; v2.15.108 |
 | Decision 174 — Tuition without a stated period: per year, flagged | Current; v2.15.109 |
+| Decision 175 — Everything operated from the admin screens | Current; v2.15.110 |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1405,6 +1406,28 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 175 — Everything configured is operated from the admin screens
+**Status:** Current (30 September 2026, v2.15.110) · **Recorded in:** this reference (Pilot PR #193)
+
+**Direction**
+- Platform Admin, 29 Sep 23:45 IST: the admin UI must be in full control of every configured feature, as the Layer 3 screen is, including moving older entries between layers and managing the AI models.
+
+**What the sweep found done only in the database, and where it now lives**
+| Feature | Admin screen | Who can change it |
+|---|---|---|
+| The 58 scheduled automations (cron jobs) | Scheduled jobs › Automations: by area, plain name and purpose, schedule in IST, last run, 24-hour runs and failures | Platform Admin: pause or resume a job or an area, run now, change frequency (preset intervals), change batch size where the job works in batches. Platform health checks, job-history trim and duplicate-file removal: rank 6 only |
+| Moving review items back to the AI | Layer 4 Review › Send back to AI, and a Send back to AI button on each Layer 3 task | Platform Admin: send a reason group or a whole field back to Layer 3; retry Layer 3 work that failed |
+| Scholarship publishing (Decision 139) | Scholarships › Publishing: published, ready and held lists, and why the rest are not published | Platform Admin: publish the ready list with an approval note, hold with a reason, release a hold |
+| Layer 3 models, cascade, limits and pause | Layer 3 AI validation › Control and Models (Decision 173) | Unchanged |
+
+**Rules**
+- Reads need rank 3; changes need Platform Admin (rank 5). Every change is logged in `pipeline.admin_control_events` and shown on the screen.
+- Send back applies only to items the AI raised with no value already held. Differences from a held value, and items not raised by the AI, stay with a person.
+- Reason groups hide amounts, so items with the same reason group together.
+- A publish batch goes ahead only if the ready list is unchanged since it was shown. Each batch keeps a before-and-after snapshot of the website API.
+- A hold takes a scholarship off the website and keeps it off future batches; there is no separate withdraw on screen, because a withdrawn scholarship would return in the next batch.
+- Intake and English work that fails is released and retried automatically, so it is not counted as failed.
 
 ### Decision 174 — Tuition without a stated period is recorded as per year, and flagged
 **Status:** Current (29 September 2026, v2.15.109) · **Recorded in:** this reference (Pilot PR #192)
