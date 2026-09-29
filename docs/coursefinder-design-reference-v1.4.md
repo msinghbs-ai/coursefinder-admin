@@ -212,7 +212,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 164 — Production in customer-owned accounts | Current; go-live 3 Oct 2026 by project transfer (Mumbai) |
 | Decision 165 — Consumer API presentation | Current; live 29 Sep 2026 (names, regional class, English summary) |
 | Decision 166 — Australian university groups | Current; 26 members; admin and API filters live 29 Sep 2026 |
-| Decision 167 — Scholarship sweep | Current; 91 own-page scholarships read; 54 published by hand-run batch |
+| Decision 167 — Scholarship sweep | Current; discovery on provider sites; 124 published by hand-run batches; 40 held after hand-check |
+| Decision 168 — Intakes after the Layer 3 benchmark | Current; benchmark failed (90%, 1 invented intake); intakes stay held |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1315,6 +1316,21 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - A scholarship is not publishable if its read provider page limits eligibility to citizens and residents, or never mentions international students.
 - The nightly review withdraws anything that stops qualifying.
 - First sweep batch, 29 September 2026: 54 published (27 at Group of Eight universities); 7 held back as domestic-only.
+
+**Discovery (step 1 and step 2, 29 September 2026)**
+- Candidate scholarship pages are collected on each provider's own site: sitemaps first, then a budget-guarded Firecrawl map, then one exact-name search where nothing matches (cron `scholarship-discover` every 10 minutes).
+- A Study Australia-only record takes its provider page only when the page names the scholarship; otherwise it is recorded as a name mismatch and nothing is applied. The Study Australia address stays in the change log.
+- A page not matched to a held record becomes a new scholarship only through `security.scholarship_admit_from_provider_page_v1`. It must be a single named scholarship on the provider's own site, open to international students and currently offered. New records start unpublished. A re-read that no longer qualifies sets the record inactive, and the change is logged.
+- Publication holds: a hand-check can hold a record from publication with a logged reason (`pipeline.scholarship_publication_holds`). Publishability reports "held after hand-check", and releasing a hold is a deliberate update.
+
+### Decision 168 — Intakes stay held after the Layer 3 benchmark
+**Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PR #180)
+
+- Gold set: 44 courses from 33 providers, each read by hand. 20 state their intake months and 24 do not.
+- Layer 2 extractor: 55% exact on stated cases, with invented intakes on 5 of 24 pages that don't state them.
+- Layer 3, pinned `mistralai/mistral-small-3.2-24b-instruct` (no automatic routing): 90% exact on stated cases, with 1 invented intake. Every answer must quote the page. OpenRouter spend was US$0.03.
+- The pass bar is at least 95% exact on stated cases and no invented intakes. The run failed, so intakes stay held. The intake profile is disabled and paused, and there is no intake cron or hand-off.
+- A re-qualification must use a fresh holdout gold set, because the prompt rules were written after reading this one. Activation is a separate step that needs Platform Admin approval.
 - The consumer scholarship API gains a `published_only` filter.
 
 ---

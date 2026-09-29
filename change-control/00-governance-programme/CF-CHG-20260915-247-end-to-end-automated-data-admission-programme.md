@@ -2248,3 +2248,16 @@ Pilot PRs #160, #161.
 - First sweep batch published by hand after a dry run and sample check: 54 published (27 at Go8 universities), verified through the live scholarship search (`published_only`). There is no automatic publish job; each later batch is run by hand. The nightly review withdraws anything that stops qualifying.
 - Completeness (hourly, 13:22 IST): 48.4% complete, 61.6% accounted for, 404 of 25,978 courses fully complete.
 - Next: scholarship discovery for the 113 Study Australia-only records and new scholarships from provider sites; Layer 3 benchmark for intakes; tuition Layer 4 review load; group filter for the Zoho v2 search.
+
+### 29 Sep 2026 — UI uniformity live; scholarship discovery and second batch; intakes benchmark (Decisions 167, 168)
+- Platform Admin (14:37 IST): prioritise data admission; run the UI improvements and planned steps in parallel.
+- UI uniformity (B2) and completeness states (R12) live, admin v2.15.106 (Pilot PR #179). There is now one token set and one component kit, with en-AU dates, numbers and money and consistent "Layer N" wording; distinct colours went from 562 to 114. Coverage shows the nine completeness states and the course score. The coverage read was replaced under a checksum guard and verified live; the deployed release check passed.
+- Scholarship discovery live (Pilot PR #181, extractor v0.4.6, cron scholarship-discover every 10 minutes).
+  - Step 1: 88 of the 200 Study Australia-only scholarships now have their own provider page, confirmed by name; 112 remain.
+  - Step 2: 152 new unpublished university scholarships were admitted through the governed function, and 22 more were admitted then withdrawn after hand-checks.
+  - 7,527 candidate pages were found (6,734 still unread). Firecrawl used 774 credits.
+  - Hand-check fixes: values from other scholarships' wording, "up to" amounts, USD as AUD, tiers, levels outside eligibility, and non-scholarship pages.
+- Second batch: a dry run showed 83 eligible. The hand-check held 40 records (`pipeline.scholarship_publication_holds`, Pilot PR #182): 12 not open, 5 English-course bursaries linked to degrees, and 23 with research and undergraduate levels together (to be re-read). 70 were published by hand. 124 are now published (Go8 49, ATN 28, IRU 13, RUN 15), verified through the live scholarship search.
+- Intakes Layer 3 benchmark (Pilot PR #180, Decision 168): 44 hand-read gold cases. Layer 2 scored 55%. Layer 3 (Mistral Small 3.2, pinned) scored 90% with 1 invented intake, which fails the bar (at least 95% and none invented). Intakes stay held and nothing was activated. OpenRouter spend was US$0.03.
+- Completeness (16:22 IST): 49.7% complete, 63.7% accounted for, 404 of 25,978 courses fully complete.
+- Next: re-read the 23 level holds with a fix, then run batch 3; let discovery read the remaining candidates (about 33 hours); intake safety rule or stronger pinned model, re-qualified on a fresh holdout set; tuition Layer 4 review queue; resume production (3 Oct) steps.
