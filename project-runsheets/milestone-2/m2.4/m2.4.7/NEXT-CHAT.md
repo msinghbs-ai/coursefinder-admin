@@ -2382,3 +2382,13 @@ Pilot PRs #160, #161.
 - The 1,381 pages without the course code are mostly the wrong page: a double degree matched to a single degree, a generic PhD page, a requirements page. Only 52 are strong unique title matches, so the identity rule stays.
 - The next step for the top 10 is finding the right pages: Monash, Melbourne, Macquarie and Newcastle course pages that the site maps did not give. This is Firecrawl work, not AI spend.
 - First Firecrawl reads: about 1 in 10 of the queued unclear pages turned out to be the right course.
+
+### 30 Sep 2026 — Priority queue in the admin screens (Decision 178); v2.15.113
+- Platform Admin (03:22 IST): move universities or courses up or down, and add a country, state or university to the priority queue, from the admin screens.
+- Live (Pilot PR #198; main green):
+  - Scheduled jobs › Priority queue: pin a university, state, country or single course; move pins up or down; remove them; "To the front" on any provider.
+  - The current order shows each provider's courses, pages matched, pages waiting, and why it is there.
+- The page reader and the Layer 3 intake and English checks follow this order: pinned courses, then pins in order, then Australian providers by size.
+- Database: migrations 20260930100000 and 20260930101000, applied live, each md5 equal to its file. The claim and page-reader edits were checksum-guarded.
+- Tested live as a Platform Admin in a rolled-back transaction: added a university, a state and a course at the top; moved; removed.
+- No pins are set yet; the order is by size until an admin pins something.

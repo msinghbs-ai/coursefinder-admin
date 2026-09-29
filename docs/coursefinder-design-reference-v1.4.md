@@ -223,6 +223,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 175 — Everything operated from the admin screens | Current; v2.15.110 |
 | Decision 176 — Layer 3 on cheap models; stronger models only from Layer 4 | Current; v2.15.111; replaces the Sonnet step of Decision 172 |
 | Decision 177 — Admin layout: daily work separate from setup | Current; Catalogue changes live in v2.15.112; Layer 1–4 merge awaits the screen review |
+| Decision 178 — Priority queue set from the admin screens | Current; v2.15.113 |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1408,6 +1409,18 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 178 — Priority queue set from the admin screens
+**Status:** Current (30 September 2026, v2.15.113) · **Recorded in:** this reference (Pilot PRs #197, #198)
+- Platform Admin, 03:22 IST: the admin screens must let an operator move universities or courses up or down, and add a country, state or university to the priority queue.
+- Work order for the page reader and the Layer 3 intake and English checks:
+  1. Pinned single courses.
+  2. Pinned universities, states and countries, in the order of the pin list. A provider takes the best of its own, its state's and its country's pin.
+  3. Australian providers by number of active courses.
+  4. Everyone else.
+- The page reader uses its Firecrawl fallback for pinned courses and the top 100 providers. Identity still needs the CRICOS code on the page.
+- Screen: Scheduled jobs › Priority queue. Anyone rank 3 or above views; a Platform Admin adds, reorders and removes. Every change is logged.
+- Not yet covered: the tuition AI check keeps its own order.
 
 ### Decision 177 — Admin layout: daily work separate from setup
 **Status:** Current (30 September 2026) · **Recorded in:** this reference (Pilot PR #195)
