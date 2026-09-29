@@ -217,7 +217,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 169 — Layer 3 model routing | Current; intake and English via Claude Sonnet 4.6, tuition via Qwen3 235B 2507; 24 profiles retired |
 | Decision 170 — Platform self-monitoring | Current; health check every 10 minutes; Platform health screen |
 | Decision 171 — Simplified admin menu; sources side by side | Current; v2.15.107 |
-| Decision 172 — Layer 3 cost-first cascade | Current; intake and English ladders; routes paused until the OpenRouter key weekly limit is raised |
+| Decision 172 — Layer 3 cost-first cascade | Current; intake and English ladders running |
+| Decision 173 — Layer 3 control screen | Current; v2.15.108 |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1387,6 +1388,22 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Safeguards**
 - 5% of lower-tier answers are re-asked to the final tier. A disagreement goes to Layer 4. Three disagreements in a tier's last 60 audits pause that tier, and it is never re-promoted automatically.
 - If OpenRouter refuses a call (key, billing or rate limit), the page is released for retry. It is never escalated or sent to Layer 4, and Platform health raises a critical issue.
+
+### Decision 173 — Layer 3 is operated from one control screen
+**Status:** Current (29 September 2026, v2.15.108) · **Recorded in:** this reference (Pilot PR #191) · **Refines:** Decisions 171 and 172
+
+**Screen**
+- Layer 3 has three tabs: Control, Models and Work queue.
+- Control shows each task: Running or Paused, today's spend against its daily limit, the last 24 hours, the cascade in order, and what is waiting for a person.
+- Models lists only models in use or qualified to be used.
+
+**Controls**
+- A Platform Admin can pause or run a task or all tasks, set the daily limit (US$0–100), switch a cascade step on or off, move it, add a qualified model as the last step, or remove one. At least one step always stays on.
+- Adding a model enforces the tier rule of Decision 172. Every change is logged and shown under Recent changes.
+
+**Retry of parked work**
+- Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
+- Items where the page differs from a value already held stay with a person.
 
 ### Decision 170 — Platform self-monitoring
 **Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PRs #184, #187)
