@@ -221,6 +221,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 173 — Layer 3 control screen | Current; v2.15.108 |
 | Decision 174 — Tuition without a stated period: per year, flagged | Current; v2.15.109 |
 | Decision 175 — Everything operated from the admin screens | Current; v2.15.110 |
+| Decision 176 — Layer 3 on cheap models; stronger models only from Layer 4 | Current; v2.15.111; replaces the Sonnet step of Decision 172 |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1406,6 +1407,40 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 176 — Layer 3 runs on cheap models; stronger models only when a person sends work from Layer 4
+**Status:** Current (30 September 2026, v2.15.111) · **Recorded in:** this reference (Pilot PR #194) · **Changes:** Decision 172 (no Sonnet step)
+
+**Direction**
+- Platform Admin, 01:31 IST: stop using Sonnet, which was costing money for no outcome.
+- Use cheap models with full coverage; anything they cannot settle goes to Layer 4.
+- Send work to a specific model only from Layer 4, or edit it there.
+- Admit as much as possible with more parallel streams.
+
+**Why**
+- In the two hours before the change, 172 of about 220 Sonnet intake calls followed two cheaper "not stated" answers. Sonnet agreed in 172 of 178 of those pages and found an intake on 3.
+- About US$7 of the day's US$12.58 Sonnet spend produced nothing.
+
+**Rules**
+| Task | Cascade (cheapest first) | Unsettled at the last step |
+|---|---|---|
+| Intakes | Qwen3 30B → Claude Haiku 4.5 | Layer 4 |
+| English | Qwen3 30B → Mistral Small 3.2 | Layer 4 |
+| Tuition | Qwen3 235B (single) | Layer 4 |
+
+- Qualification is unchanged: at least 80% right and no wrong answer admitted on the frozen holdout.
+- On 30 Sep, four cheaper intake candidates were tested against the Claude Haiku 4.5 result of 93.6%. None qualified:
+
+  | Candidate | Right | Wrong admitted |
+  |---|---|---|
+  | DeepSeek V3.2 | 43/47 | 1 |
+  | GPT-OSS 120B | 37/47 (78.7%) | 0 |
+  | Qwen3 235B | — | 1 |
+  | Qwen3 Next 80B | — | 2 |
+
+- Layer 4 › Send back to AI offers a model choice per field. The default is the cheap cascade. A named model may be any model in the task's cascade, including steps switched off such as Claude Sonnet 4.6, or a qualified tuition model.
+- A page sent to a named model goes only to that model, with no escalation and no spot check. If still unsettled, it returns to Layer 4.
+- Intake and English routes run every minute, 40 pages a run, 8 in parallel.
 
 ### Decision 175 — Everything configured is operated from the admin screens
 **Status:** Current (30 September 2026, v2.15.110) · **Recorded in:** this reference (Pilot PR #193)

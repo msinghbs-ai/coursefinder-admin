@@ -2327,3 +2327,26 @@ Pilot PRs #160, #161.
   - Scholarships › Publishing: 124 published, 71 ready, 40 held; publish with an approval note, hold, release.
 - Database: migrations 20260930050000–20260930052000 applied live, each md5 equal to its file; the two replacements were checksum-guarded. All controls tested live as a Platform Admin in rolled-back transactions.
 - Nothing was paused, sent back or published by this change; the ready scholarships and review groups wait for an admin decision on screen.
+
+### 30 Sep 2026 — Layer 3 without Sonnet (Decision 176); v2.15.111; plan for parked items
+- Platform Admin (01:24 and 01:31 IST): Sonnet had used about US$4 in an hour. Stop using it; use cheap models with full coverage or park to Layer 4; send to a specific model only from Layer 4; more streams; plan for parked items.
+- Findings:
+  - Intakes hit the day's limit at about 00:59 IST.
+  - About US$7 of the day's US$12.58 Sonnet spend confirmed two cheaper "not stated" answers.
+- Done:
+  - Sonnet switched off in both cascades (logged).
+  - Four cheaper intake candidates tested; none qualified (GPT-OSS 120B 78.7% with 0 wrong; DeepSeek V3.2 1 wrong).
+  - Model choice added on Layer 4 › Send back to AI.
+  - Worker v7 (cascade v1.1.0) deployed and checked file for file.
+  - Routes run every minute, 40 pages, 8 in parallel.
+  - Pilot PR #194 merged; main green.
+- Watch:
+  - OpenRouter credit was US$10.22 at 01:40 IST, and the AI stops at US$5. Top up to keep Layer 3 running.
+  - Daily limits on the Control screen now read US$15 for intakes and English.
+- Plan for parked and unsettled items (deterministic first, no model):
+  1. Whole-course fees: at least 312 Layer 4 tuition items quote a total course fee, not a yearly one (Wollongong 169, TAFE WA 80, Collarts 29, Canberra College of Management and Technology 19, Kingston 15). Proposal: admit as a whole-course fee (basis total_indicative), flagged, with no model call. Needs Platform Admin approval.
+  2. Amounts that are not tuition: RMIT, UQ, Aspen and TAFE WA items where Layer 2 offered an amount such as A$5,000 that the model found is not tuition. Proposal: Layer 2 skips deposit, scholarship and non-tuition amounts; close these items as "no tuition on page".
+  3. Intakes with month words but no intake: pages mention months for other reasons, such as closing dates. Proposal: provider page templates (fixed wording per provider) read deterministically; the rest stay "not stated".
+  4. Pages without the CRICOS code (5,227 read, identity not confirmed): match by exact course title, provider and level, with a sample hand check before admission.
+  5. Pages blocked or needing a browser (about 1,630): read through Firecrawl (85,533 credits left this month), identity still by CRICOS code.
+  6. Official course page differences (UQ 42): check the new URL pattern on a sample, then accept in one batch.
