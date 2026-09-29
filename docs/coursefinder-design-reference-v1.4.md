@@ -222,6 +222,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 174 — Tuition without a stated period: per year, flagged | Current; v2.15.109 |
 | Decision 175 — Everything operated from the admin screens | Current; v2.15.110 |
 | Decision 176 — Layer 3 on cheap models; stronger models only from Layer 4 | Current; v2.15.111; replaces the Sonnet step of Decision 172 |
+| Decision 177 — Admin layout: daily work separate from setup | Current; Catalogue changes live in v2.15.112; Layer 1–4 merge awaits the screen review |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1407,6 +1408,17 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 177 — Admin layout: daily work separate from setup
+**Status:** Current (30 September 2026) · **Recorded in:** this reference (Pilot PR #195)
+- Platform Admin, 02:04 IST: the Layer 1–4 screens are confusing and bloated. Ask before merging views.
+- Chosen layout: daily work (pipeline status, review, automations, health, evidence) is kept separate from setup (registers and sources, scrapers and budgets, AI models, scholarship runtime).
+- Reference data that is not a register run lives in Catalogue:
+  - Catalogue › Reference data holds Ranking imports, Key dates and Key links.
+  - Onboarding sits under Providers.
+  - Provider contacts sits in Catalogue.
+- Older operator screens change only after the Platform Admin marks each action Keep, Merge, Remove or Ask on the screen review page.
+- Whole-course tuition fees stay in Layer 4 for a person to decide. No automatic whole-course admission.
 
 ### Decision 176 — Layer 3 runs on cheap models; stronger models only when a person sends work from Layer 4
 **Status:** Current (30 September 2026, v2.15.111) · **Recorded in:** this reference (Pilot PR #194) · **Changes:** Decision 172 (no Sonnet step)

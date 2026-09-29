@@ -2371,3 +2371,30 @@ Pilot PRs #160, #161.
   4. Pages without the CRICOS code (5,227 read, identity not confirmed): match by exact course title, provider and level, with a sample hand check before admission.
   5. Pages blocked or needing a browser (about 1,630): read through Firecrawl (85,533 credits left this month), identity still by CRICOS code.
   6. Official course page differences (UQ 42): check the new URL pattern on a sample, then accept in one batch.
+
+### 30 Sep 2026 — Users & roles fixed; Catalogue and Coverage clearer (v2.15.112); screen review opened
+- Platform Admin feedback (02:04 IST, with screenshots): screens still confusing; Provider contacts belongs in Catalogue; separate course and attribute completion; Users & roles lost all accounts and audit; Layer 1 and 2 operator screens bloated, Layer 3 and 4 likewise; ask before merging views.
+- Users & roles: the system automation account (migration 20260926190000) had blank token fields that Supabase's user list cannot read, so the whole list failed.
+  - No account or role was lost.
+  - Migration 20260930070000 filled the blanks; applied live, md5 equal to the file.
+- Live in v2.15.112 (Pilot PR #195; main green):
+  - Provider contacts moved to Catalogue.
+  - New Catalogue › Reference data: Ranking imports, Key dates, Key links.
+  - Onboarding moved to Providers.
+  - Layer 1 now has only Runs, Sources and Source settings; old links redirect.
+  - Coverage has tabs Courses, Attributes and Readiness by area.
+- Platform Admin answers:
+  - Layer screens: split daily work from setup.
+  - Layer 1 extras: to Catalogue › Reference data (done).
+  - Older operator screens: list every action first, and the Platform Admin marks what to keep.
+  - Whole-course tuition fees: leave in Layer 4. Plan item 1 of Decision 176 is withdrawn.
+- Screen review page published (private artifact). It lists every action on the older Layer 1–4, Jobs and Scrapers screens with a suggestion and proposed home. Nothing is removed until it is marked.
+- Found by the review:
+  - Layer 2 Runs has broken Jobs and Data Quality links.
+  - Three paid actions have no role check in the screen: Test selected route, and the two Layer 3 Work queue AI runs.
+  - Layer 1 Retry and Recover show to operators while Resume needs Platform Admin.
+  - Five live database functions have no public definition in git: layer3_model_profiles_admin, layer3_recent_interpretations, layer3_model_profile_set_state, layer4_review_decide and refresh_intelligence_overview.
+- Health dot red at 02:00 IST was real:
+  - OpenRouter spend in the last 24 hours was US$22 (mostly Sonnet before it was switched off).
+  - Credit was US$7.47, and the AI stops at US$5.
+  - The check's US$14 combined ceiling is out of date against the Control-screen limits (to align).
