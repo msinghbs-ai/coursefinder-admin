@@ -208,7 +208,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 160 — Layer 3 safe abstention | Current; Mistral Small 3.2 active from 28 Sep 2026; first fresh-item admission still to show for the M2.4.7 exit |
 | Decision 161 — RMIT course refresh unblocked | Current; first run 28 Sep 2026; UQ and RMIT refresh weekly |
 | Decision 162 — Course attributes and refresh | Current; definition v1.0; interim 90-day refresh live; build steps 1–6 to schedule |
-| Decision 163 — Complete coverage, ongoing, reported daily | Current; sweep live; admission rule, Layer 3 tuition route and scholarship publication awaiting the Platform Admin |
+| Decision 163 — Complete coverage, ongoing, reported daily | Current; admission of official page and English live (every 10 min); tuition via Layer 3 (Option A) to build; scholarships publishing under Decision 139 |
+| Decision 164 — Production in customer-owned accounts | Current; go-live 3 Oct 2026 by project transfer; region decision open |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1240,6 +1241,23 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Firecrawl: 100,000 credits a month, 25 concurrent requests. The budget guard stops at 2,000 remaining; the platform uses at most 20 concurrent requests.
 - Layer 3: up to 15,000 items a day with a US$5 a day ceiling, on US$29 of OpenRouter prepaid credit.
 - Supabase compute may be raised for the sweep window and lowered once the backlog is admitted.
+
+
+### Decision 164 — Production in customer-owned accounts by project transfer; admission detail
+**Status:** Current (29 September 2026) · **Recorded in:** docs/coursefinder-production-environment-runbook-v1.0.md and docs/coursefinder-complete-coverage-delivery-plan-v1.1.md
+
+**Go-live**
+- Production goes live on 3 October 2026 in accounts owned and paid for by the customer: Supabase, GitHub, Cloudflare, OpenRouter, Firecrawl, SMTP and domain. The MSP keeps administrator access.
+- The Supabase project is moved by **project transfer** to the customer's organisation, so data, evidence files, functions, schedules and the API address are unchanged. A new project with a full migration is used only for a region change.
+- The consumer API is published on the customer's own domain through Cloudflare, so a later platform move doesn't affect the website.
+- Every credential used during the pilot is rotated before go-live.
+- Live edge functions without source in GitHub are brought into the repository before the transfer.
+
+**Admission detail (29 Sep 2026)**
+- Under the Decision 163 rule, official course pages and English requirements are admitted from CRICOS-code pages every 10 minutes.
+- Intakes are held because a hand-check found about 9 of 14 right. They go to the Layer 3 benchmark.
+- For scholarships under Decision 139, a provider-wide course link doesn't count for a scholarship named for a field or level. It needs a narrower course link.
+- The daily review withdraws published scholarships that stop qualifying.
 
 ---
 

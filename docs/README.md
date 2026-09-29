@@ -18,7 +18,9 @@ Do not infer the current document from the highest filename version or from chat
 | Database Architecture | `docs/coursefinder-database-architecture-v2.10.50.md` | CURRENT ACCEPTED |
 | Platform Design Reference (single decision authority) | `docs/coursefinder-design-reference-v1.4.md` | CURRENT |
 | Course and scholarship attributes, ingestion and refresh (Decision 162) | `docs/coursefinder-course-attribute-ingestion-v1.0.md` | CURRENT |
-| Complete-coverage delivery plan (Decision 163; waves 0–4 to GO/NO-GO) | `docs/coursefinder-complete-coverage-delivery-plan-v1.0.md` | ACTIVE |
+| Complete-coverage delivery plan (Decisions 163–164; go-live 3 Oct 2026) | `docs/coursefinder-complete-coverage-delivery-plan-v1.1.md` | ACTIVE |
+| Production environment runbook (customer-owned accounts, transfer, migration fallback) | `docs/coursefinder-production-environment-runbook-v1.0.md` | ACTIVE |
+| Complete-coverage delivery plan v1.0 | `docs/coursefinder-complete-coverage-delivery-plan-v1.0.md` | HISTORY — see v1.1 |
 | Daily consumer API and stakeholder updates | `docs/daily-updates/` | DAILY 08:49 IST |
 | Platform Design Reference v1.3 | `docs/coursefinder-design-reference-v1.3.md` | HISTORY — see v1.4 |
 | Platform Design Reference v1.2 | `docs/coursefinder-design-reference-v1.2.md` | HISTORY — see v1.4 |
