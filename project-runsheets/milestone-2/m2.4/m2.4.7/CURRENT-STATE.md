@@ -2186,3 +2186,10 @@ Pilot PRs #160, #161.
 - Status 09:25 IST: 1,538 providers (109 mapped, 873 queued, 554 website search); 3,460 pages bound, 1,075 read, 797 verified; candidates awaiting admission rule: official page 772, English 329, intakes 390, tuition 189. Firecrawl 9,449/11,000 this month.
 - Pending Platform Admin decisions: admission rule + Search gates for verified sweep values; Layer 3 route for sweep tuition; new Firecrawl monthly limit.
 - Detail: docs/coursefinder-course-attribute-ingestion-v1.0.md section 9.
+
+### 29 Sep 2026 — Firecrawl 100k plan live; daily updates scheduled; consolidated plan (Decision 163)
+- Platform Admin: Firecrawl upgraded to 100,000 credits a month (50,000 searches or 100,000 pages), 25 concurrent; OpenRouter US$29 prepaid.
+- Applied live (Pilot migration 20260929140000): budget limit 100,000, stop at 2,000 remaining, concurrency 20; pages held for the 1 Oct reset released; discovery 8 providers per call. Verified live: 90,245 credits available, 0 pages still held.
+- Daily update scheduled 08:49 IST (docs/daily-updates/, part A consumer API, part B stakeholders; push and email summary).
+- Consolidated plan v1.0 (waves 0–4 to GO/NO-GO 12 Oct) and Decision 163 recorded.
+- Awaiting Platform Admin: admission rule, Layer 3 tuition route, publication of 57 Decision 139 scholarships, compute upgrade, semantic search timing, website developer's request.
