@@ -2204,3 +2204,11 @@ Pilot PRs #160, #161.
 - Scholarships: exact Decision 139 check gives 4 of 292 (not 57); 4 published, 2 withdrawn by the new course-link breadth rule; 2 live; daily review cron scholarship-publication-review.
 - Found: 27 live edge functions have no source in GitHub (incl. layer4-course-resolve), to be brought into the repo before the transfer.
 - Production runbook v1.0 and plan v1.1 issued; Decision 164 recorded. Open: region (Mumbai transfer vs Sydney migration), extra Layer 2 fetchers and Apollo, host names, developer's request.
+
+### 29 Sep 2026 — Production decisions; Option A tuition live; completeness score; security retirements
+- Platform Admin (10:55 IST): production in Mumbai by project transfer; extra Layer 2 fetchers and Apollo dropped; consumer API stays on the Supabase functions address. Runbook updated (§1a).
+- Found: the code repository msinghbs-ai/Coursefinder-Pilot is public. No credentials found in main. To be made private (runbook §6.2).
+- 27 live-only edge functions imported into git (Pilot PR #173). ranking-qs-2027-publish-recovery (no authentication) and ranking-qs-2027-binary-recovery (embedded key) replaced live with 410 stubs; verified live.
+- Tuition Option A live (Pilot PR #174): sweep pages with one international fee are handed to the qualified Mistral model as plain-text evidence with Layer 2 run items (disabled profile au-coverage-sweep-course-pages). First 4 processed end to end, all held for Layer 4 (no "per year" wording), so hand-off throttled to 20 per 10 minutes until the admit rate is known.
+- Completeness score live: pipeline.course_completeness and completeness_daily, hourly (cron course-completeness-build). First build: 44.9% complete, 54.3% accounted for, 403 of 25,978 courses fully complete.
+- Daily update prompt extended with completeness, sweep admission, Layer 3 tuition and the production go-live track.
