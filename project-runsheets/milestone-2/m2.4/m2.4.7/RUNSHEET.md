@@ -2179,3 +2179,12 @@ Pilot PRs #160, #161.
   unrecognised component (Diploma in Languages, Humanities, Law singular,
   International Law, Pharmaceutics/Doctor of Pharmacy).
 - UQ English coverage: 262 -> 348 of 382 active courses.
+
+### 29 Sep 2026 — Complete-coverage programme: statistics, coverage sweep, precision checks
+- Direction (Platform Admin): complete coverage of every active Australian course, ongoing, in days not weeks; Firecrawl plan upgrade approved; Layer 3 cap 15,000/day with US$5/day ceiling; "complete" = every course accounted for per attribute.
+- Statistics live (v2.15.103, Pilot #168): Data Quality → Course coverage; one state per course per attribute, rebuilt hourly, kept daily.
+- Coverage sweep live (v2.15.104, Pilot #169; ops follow-up branch cf247-coverage-ops): find website, discover (site maps first, Firecrawl map when short), bind one-to-one, read (robots.txt respected, gzipped evidence), re-extract, monthly document checks (weekly Oct–Dec). Nothing is written to the catalogue by the sweep.
+- Precision: CRICOS-code pages 13/13 correct, exact-title-only 3/8, so only CRICOS-code pages count as verified; English 12/12; tuition amounts 8/9 but basis unreliable, so tuition goes to Layer 3.
+- Status 09:25 IST: 1,538 providers (109 mapped, 873 queued, 554 website search); 3,460 pages bound, 1,075 read, 797 verified; candidates awaiting admission rule: official page 772, English 329, intakes 390, tuition 189. Firecrawl 9,449/11,000 this month.
+- Pending Platform Admin decisions: admission rule + Search gates for verified sweep values; Layer 3 route for sweep tuition; new Firecrawl monthly limit.
+- Detail: docs/coursefinder-course-attribute-ingestion-v1.0.md section 9.

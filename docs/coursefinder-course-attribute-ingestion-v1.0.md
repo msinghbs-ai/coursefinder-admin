@@ -191,3 +191,49 @@ The fee-schedule qualifications record `search_admitted: false` until a gate is 
 | 4 | Provider English-requirements tables by study level | English for whole providers |
 | 5 | Academic entry requirements attribute | Closes the modelling gap |
 | 6 | Extend Layer 2 fee rules beyond UQ, RMIT and Federation using the provider sources already found by onboarding | Coverage beyond three providers |
+
+## 9. Complete-coverage programme (from 29 Sep 2026)
+
+**Direction (Platform Admin, 29 Sep 2026):** complete coverage of every active Australian course, running ongoing, with statistics; days, not weeks. Approvals: Firecrawl for all pages (plan upgrade by the Platform Admin); Layer 3 cap raised to 15,000 a day with a US$5 a day spend ceiling and qualification of English and intakes; "complete" means every course accounted for, attribute by attribute.
+
+### 9.1 Statistics (Data Quality → Course coverage, v2.15.103+)
+Every active Australian course has one state per attribute, rebuilt hourly and kept daily (`pipeline.course_attribute_coverage`, `pipeline.course_coverage_daily`, `security.course_coverage_build_v1`):
+
+| State | Meaning |
+|---|---|
+| Admitted | a governed value is in the catalogue |
+| Found on verified page | the value is on the course's own page, which prints the course's CRICOS code; awaits the admission rule |
+| In review / awaiting AI | a Layer 4 item or Layer 3 check is open |
+| Page read, not published | verified page read; the value is not on it |
+| Page found / site blocked | page bound but not read or not verified; or the site refused / robots.txt disallows |
+| Site known, page not found | provider site mapped or known; the course's page not found yet |
+| No website known | no provider website yet (website search runs) |
+
+Baseline 29 Sep 2026: 25,978 courses; admitted official page 537, provider tuition 863, English 615 (UQ 348 after Decision 162 step 4), intakes 497; CRICOS registered tuition 99.3%, duration 100%, campus 99.9%.
+
+### 9.2 Coverage sweep (edge `coverage-sweep`, nothing written to the catalogue)
+| Stage | How | Schedule |
+|---|---|---|
+| Find website | 604 providers had none: web search, accepted only when the home page prints the provider's CRICOS provider code | every 3 min, 5 providers |
+| Discover | the site's XML site maps (free) from the final address; Firecrawl map only when short (max 2 credits per provider); course-like pages kept | every 2 min, 6 providers; each provider every 30 days |
+| Bind | one-to-one: course and page each other's clear best match, exact title unique on both sides, or CRICOS code in the address/title; non-course sections excluded | every 5 min |
+| Read | robots.txt respected; direct fetch; Firecrawl only for refused or script-only bound pages; page kept as gzipped evidence; tuition, English and intake candidates recorded | every 30 s, 50 pages, max 8 per provider; pages re-read every 90 days |
+| Re-extract | when the extractor improves, from stored pages (no fetch) | every minute |
+| Document check | fee schedules and UQ English tables: SHA-256 compared; changed = flagged for review, never applied | monthly; weekly Oct–Dec |
+
+Firecrawl use is recorded in `pipeline.coverage_vendor_usage` and counted by the monthly budget guard. Layer 3 tuition throughput raised to 15,000 a day (binding hash unchanged; audit event).
+
+### 9.3 Precision findings (29 Sep 2026)
+- Identity: pages printing the course's CRICOS code matched the admitted official page 13/13; pages matched on exact title only 3/8 (RMIT "inherent requirements" pages carry the exact title). Only CRICOS-code pages count as verified; non-course sections are excluded from binding.
+- English (IELTS overall) matched admitted values 12/12 after tightening (overall must be stated as overall or in a score table; a single-band score is never taken as overall).
+- Tuition amounts matched 8/9, but the basis (annual or total) is often wrong in generic reading ("(2027 total)", "total indicative fee"); generic tuition goes to the qualified Layer 3 model, not a deterministic rule.
+- Fixed during the pilot: evidence bucket refused gzip (pages re-read), intake "may" read as May, "overall" read as "all band", PTE/TOEFL numbers not tied to the test.
+
+### 9.4 Decisions pending (Platform Admin)
+1. Admission rule for sweep values on CRICOS-verified pages (official page; English IELTS overall and minimum band; PTE/TOEFL where stated; intake months), writing only where the course has no value and reporting differences for Layer 4; plus the matching Search gates.
+2. Tuition from the sweep through Layer 3: Layer 3 work items require a Layer 2 run item; either record sweep reads as Layer 2 run items or allow sweep evidence directly (schema change to the Layer 3 queue).
+3. Firecrawl plan: script-rendered university pages use about 1 credit each; the remaining credits this month run out within hours, after which those pages wait for the 1 October reset or the upgraded plan.
+
+
+### 9.5 Status 29 Sep 2026, 09:25 IST (04:00 UTC)
+Providers: 1,538 in the sweep; 109 mapped, 873 queued, 554 with no website yet (website search running), 2 failed. Course pages: 3,460 bound, 5,293 ambiguous (read only if the page prints the CRICOS code); 1,075 read, 797 CRICOS-verified; about 2,300 reads in the last hour. Candidates on verified pages awaiting the admission rule: official page 772, English 329, intakes 390, tuition 189. Firecrawl: 9,449 of 11,000 credits used this month (sweep 700); the guard stops at 250 remaining.
