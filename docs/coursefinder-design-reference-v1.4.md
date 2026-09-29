@@ -209,7 +209,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 161 — RMIT course refresh unblocked | Current; first run 28 Sep 2026; UQ and RMIT refresh weekly |
 | Decision 162 — Course attributes and refresh | Current; definition v1.0; interim 90-day refresh live; build steps 1–6 to schedule |
 | Decision 163 — Complete coverage, ongoing, reported daily | Current; admission of official page and English live (every 10 min); tuition via Layer 3 (Option A) to build; scholarships publishing under Decision 139 |
-| Decision 164 — Production in customer-owned accounts | Current; go-live 3 Oct 2026 by project transfer; region decision open |
+| Decision 164 — Production in customer-owned accounts | Current; go-live 3 Oct 2026 by project transfer (Mumbai) |
+| Decision 165 — Consumer API presentation | Current; live 29 Sep 2026 (names, regional class, English summary) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1258,6 +1259,28 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Intakes are held because a hand-check found about 9 of 14 right. They go to the Layer 3 benchmark.
 - For scholarships under Decision 139, a provider-wide course link doesn't count for a scholarship named for a field or level. It needs a narrower course link.
 - The daily review withdraws published scholarships that stop qualifying.
+
+
+### Decision 165 — Consumer API presentation: provider names, regional classification, English summary
+**Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PR #175)
+
+**Names**
+- Consumer APIs show a presentable provider name: the first registered trading name, HTML entities decoded, legal suffixes removed, and all-capitals names put in title case with known acronyms kept.
+- The registered name stays available (`provider.legal_name`; the bundle keeps `name`).
+- Campus localities in capitals are shown in title case.
+- All of this is computed when the API is read, so register refreshes never undo it.
+
+**Regional classification**
+- Each campus carries the Department of Home Affairs regional category, from Migration (LIN 19/217: Regional Areas) Instrument 2019 postcode lists: 1 major city, 2 city or major regional centre, 3 regional centre or other regional area.
+- Each campus also carries its metro area.
+- The city filter matches either the locality or the metro area.
+
+**English summary**
+- `entry_requirements.summary` states only the English requirement, marked `basis: english_only`.
+- Academic entry is not held and is never implied.
+
+**Contract**
+- All changes are additive within `website-search-v1`, with consumer snapshots recorded before and after.
 
 ---
 

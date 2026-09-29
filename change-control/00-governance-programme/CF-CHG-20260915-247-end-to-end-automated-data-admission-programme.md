@@ -2233,3 +2233,9 @@ Pilot PRs #160, #161.
 - Tuition Option A live (Pilot PR #174): sweep pages with one international fee are handed to the qualified Mistral model as plain-text evidence with Layer 2 run items (disabled profile au-coverage-sweep-course-pages). First 4 processed end to end, all held for Layer 4 (no "per year" wording), so hand-off throttled to 20 per 10 minutes until the admit rate is known.
 - Completeness score live: pipeline.course_completeness and completeness_daily, hourly (cron course-completeness-build). First build: 44.9% complete, 54.3% accounted for, 403 of 25,978 courses fully complete.
 - Daily update prompt extended with completeness, sweep admission, Layer 3 tuition and the production go-live track.
+
+### 29 Sep 2026 — Compute Medium; consumer API update for the website developer (Decision 165)
+- Compute upgraded to Medium by the Platform Admin (t3a.medium, 120 connections); verified: restart clean, no scheduled-job failures, sweep reading on. Sweep discovery now every minute (8 providers); reads 60 per call.
+- Website developer's data request (PDF, 29 Sep) reviewed: search, the 12 "Must" fields, city/postcode and tuition basis already live since 23 Sep; draft reply prepared.
+- Consumer API update live (Pilot PR #175), checksum-guarded, snapshots before/after (only reference_bundle changed, as expected): presentable provider names (legal_name kept), Home Affairs regional category and metro area per campus, city filter by metro area, English entry summary, title-case localities. Developer's example search 0 → 10 results; "nursing" in Melbourne 15 → 89; searches 0.1–0.4 s.
+- Tuition via Layer 3 (first hour): 42 admitted, 113 to Layer 4, 17 pending; admitted sample checked against page wording.
