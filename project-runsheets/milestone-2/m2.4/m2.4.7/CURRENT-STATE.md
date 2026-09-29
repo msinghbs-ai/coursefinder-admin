@@ -2278,3 +2278,15 @@ Pilot PRs #160, #161.
   - The intake, English and tuition route jobs are paused.
   - Platform health now flags provider refusals as critical. The cascade releases a page on refusal instead of escalating it; verified live with 2 pages released and 0 sent to Layer 4.
 - Needed from the Platform Admin: raise or remove the weekly limit on the OpenRouter API key, then the three route jobs are re-activated.
+
+### 29 Sep 2026 — Layer 3 routes resumed (cascade live)
+- Platform Admin removed the OpenRouter key's weekly limit (22:13 IST).
+- Probe: English, 3 pages answered at tier 1 for US$0.0003 in total; intakes, 3 pages, 2 settled at tier 1 and 1 escalated to tier 3.
+- Route jobs back on (Pilot PR #190; main green: build, deployed UAT, Workers Builds).
+- First 8 minutes on the cascade:
+  - Admitted: 47 English requirements and 11 intakes. Three went to Layer 4.
+  - Refusals: none.
+  - Spend: intake US$0.19, English US$0.13.
+  - English was mostly answered by tier 1 (Qwen3 30B). Intakes escalate more often: 12 of 26 pages went beyond tier 1, mostly on the "not stated but the page shows months" signal.
+  - Spot-checked tier-1 values match their page quotes.
+- The intake daily guard (US$4) is reached for today, including spend before the cascade; English is close. Both reset at 05:30 IST.
