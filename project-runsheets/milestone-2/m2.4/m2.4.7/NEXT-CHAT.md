@@ -2255,3 +2255,14 @@ Pilot PRs #160, #161.
   - Items where the page differs from a held value stay with a person.
 - First tuition retries: 2 of 83 admitted and 79 back to Layer 4. The page does not state the fee "per year", which the tuition rule requires, so a model change cannot settle these. Decision needed on the tuition basis rule.
 - Intakes and English: today's daily limits (US$4 each) are used up; they resume at 05:30 IST, or earlier if the limit is raised on the Control tab.
+
+### 29 Sep 2026 — Tuition per-year rule with flagged values (Decision 174); daily limits US$10
+- Platform Admin (23:27 IST): tuition without a stated period is per year, flagged, and editable by operators and admins. The intake daily limit was raised to US$10 on the Control tab; English matched to US$10.
+- Rule live (Pilot PR #192, v2.15.109; main green: build, deployed UAT, release currentness, Workers Builds). It applies at admission, after the unchanged qualified Layer 3 check.
+- 55 fees admitted as per year and flagged; all quote annual wording such as "estimated 1st year indicative fee", "one year of full-time study" or "pa".
+- Sample check found 27 wrongly admitted in the first runs, all reverted to Layer 4 and the rule tightened:
+  - 23 "total" fees;
+  - 3 VET Student Loan caps;
+  - 1 duplicate of a fee already held.
+- Still in Layer 4: tuition where the model decided the amount is not this course's tuition (e.g. A$5,000 on many pages), quotes not found on the page, and differences from a value already held.
+- Operators: Layer 4 Review › Flagged values, where rank 4+ can confirm per year, edit the amount or period, or remove. Tested live in a rolled-back transaction.
