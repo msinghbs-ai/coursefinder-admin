@@ -2240,3 +2240,27 @@ Pilot PRs #160, #161.
 - Intakes Layer 3 benchmark (Pilot PR #180, Decision 168): 44 hand-read gold cases. Layer 2 scored 55%. Layer 3 (Mistral Small 3.2, pinned) scored 90% with 1 invented intake, which fails the bar (at least 95% and none invented). Intakes stay held and nothing was activated. OpenRouter spend was US$0.03.
 - Completeness (16:22 IST): 49.7% complete, 63.7% accounted for, 404 of 25,978 courses fully complete.
 - Next: re-read the 23 level holds with a fix, then run batch 3; let discovery read the remaining candidates (about 33 hours); intake safety rule or stronger pinned model, re-qualified on a fresh holdout set; tuition Layer 4 review queue; resume production (3 Oct) steps.
+
+### 29 Sep 2026 — Layer 3 model routing activated; platform self-monitoring; admin menu simplified (Decisions 169–171)
+- Platform Admin (18:30 IST): stronger AI model (option 2); rework with stronger models and admit across all universities; test several OpenRouter profiles and route to the improved one; retire unused models and profiles; simplify the Layer 3 screen; keep both sources (provider and government/regulator) and show them in the UI; the platform must run on its own and report its own errors; UI (menu, completeness screen) is the top priority.
+- Intakes re-test (Pilot PR #183): safety rule, 12 quotes, frozen holdout of 45. Mistral Small 3.2 scored 76% and Mistral Medium 3.1 scored 86%; both failed.
+- Layer 3 model routing (Pilot PR #186, Decision 169):
+  - Each task's contract was frozen before the holdout pages were read. Pinned candidates were tested on fresh frozen holdouts, and the bar was unchanged.
+  - Passed: intakes and English on Claude Sonnet 4.6 (13/13 and 19/19, 0 wrong); tuition on Qwen3 235B 2507 (8/8, 0 wrong). Mistral Small 3.2 failed the fresh tuition holdout (6/8).
+  - Activated 19:44 IST as a logged step. 24 unused profiles retired.
+  - Daily guards: intake US$4, English US$4, tuition US$5. Credit floor US$5.
+  - First 75 minutes: 50 intakes and 112 English requirements admitted, 18 sent to Layer 4 and 208 pages that state neither. Spend US$4.70; OpenRouter credit US$22.70 remaining.
+  - Spot-check: admitted values match their verbatim quotes.
+  - Process note: the routing worker's report didn't come back to the lead. Its work was found live but not yet in git. It was reviewed (edge function files compared byte-for-byte, migrations and tests passing) and then merged.
+- Platform self-monitoring (Pilot PRs #184, #187, Decision 170): health check every 10 minutes; Platform health screen; summary in the daily update.
+  - Fixes: the OpenRouter check now uses the route guards (US$14 combined) plus a credit-floor check; one orphaned tuition item was released.
+  - Open issues: the Layer 4 backlog (1,079 waiting) and the database at 1.7 GB (watch level).
+- Admin UI v2.15.107 live (Pilot PR #185, Decision 171):
+  - Five-section menu, with every screen in the standard layout (the Coverage screen included).
+  - Layer 3 page with tabs (Routing, Models & profiles, Test results, Spend, Work queue).
+  - Platform settings (integrations, scrapers).
+  - Provider page next to Study Australia or CRICOS, with differences highlighted.
+  - The deployed release check passed.
+- Daily update task prompt extended with platform health, Layer 3 routing and OpenRouter credit days left.
+- Completeness (20:22 IST): 49.9% complete, 64.2% accounted for.
+- Decision needed: OpenRouter credit. At the guard rate (about US$13 a day) the US$22.70 credit reaches the US$5 floor in about 1.5 days, after which automated admission pauses. About US$12 per 1,000 course pages per task.

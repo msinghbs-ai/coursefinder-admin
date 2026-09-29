@@ -213,7 +213,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 165 — Consumer API presentation | Current; live 29 Sep 2026 (names, regional class, English summary) |
 | Decision 166 — Australian university groups | Current; 26 members; admin and API filters live 29 Sep 2026 |
 | Decision 167 — Scholarship sweep | Current; discovery on provider sites; 124 published by hand-run batches; 40 held after hand-check |
-| Decision 168 — Intakes after the Layer 3 benchmark | Current; benchmark failed (90%, 1 invented intake); intakes stay held |
+| Decision 168 — Intakes after the Layer 3 benchmark | Superseded by Decision 169 |
+| Decision 169 — Layer 3 model routing | Current; intake and English via Claude Sonnet 4.6, tuition via Qwen3 235B 2507; 24 profiles retired |
+| Decision 170 — Platform self-monitoring | Current; health check every 10 minutes; Platform health screen |
+| Decision 171 — Simplified admin menu; sources side by side | Current; v2.15.107 |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1331,6 +1334,58 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 3, pinned `mistralai/mistral-small-3.2-24b-instruct` (no automatic routing): 90% exact on stated cases, with 1 invented intake. Every answer must quote the page. OpenRouter spend was US$0.03.
 - The pass bar is at least 95% exact on stated cases and no invented intakes. The run failed, so intakes stay held. The intake profile is disabled and paused, and there is no intake cron or hand-off.
 - A re-qualification must use a fresh holdout gold set, because the prompt rules were written after reading this one. Activation is a separate step that needs Platform Admin approval.
+- **Superseded the same evening by Decision 169:** Mistral Small 3.2 and Mistral Medium 3.1 also failed a fresh holdout (76% and 86%). Claude Sonnet 4.6 passed, and intakes are now admitted through Layer 3.
+
+### Decision 169 — Layer 3 model routing: stronger pinned models, qualified per task, automated admission
+**Status:** Current (29 September 2026, activated 19:44 IST) · **Recorded in:** this reference (Pilot PRs #183, #186, #187)
+
+**Direction**
+- Platform Admin, 18:30 IST: use a stronger AI model, route each task to the improved model, retire unused models and profiles, and automate admission between layers.
+
+**Qualification**
+- Each task's prompt, schema and validators are frozen and fingerprinted before any holdout page is read.
+- Holdout gold sets are hand-read, disjoint from earlier sets and frozen by digest. Qualification spend is capped at US$8.
+- Models are individually pinned; there is no "auto" routing.
+- The bar is unchanged: at least 95% exact on stated cases and no wrong-admitted values. Withheld answers are reported separately.
+
+**Results**
+
+| Task | Model routed | Holdout result |
+|---|---|---|
+| Intakes | Claude Sonnet 4.6 | 13/13 exact, 0 wrong. Only pass; Mistral Small, Mistral Medium, GPT-4.1 mini and Claude Haiku 4.5 failed |
+| English | Claude Sonnet 4.6 | 19/19 exact, 0 wrong. Only pass; GPT-4.1 mini, Gemini 2.5 Flash and DeepSeek V3.2 failed |
+| Tuition | Qwen3 235B 2507 | 8/8 exact, 0 wrong. Replaces Mistral Small 3.2, which failed the fresh holdout (6/8) |
+
+**Running**
+- Intake and English routes run every 2 minutes. Governed admission runs every 5 minutes. A different held value goes to Layer 4, never overwritten.
+- The tuition hand-off is raised to 50 per 10 minutes.
+- Daily guards: intake US$4, English US$4, tuition US$5. All routes stop below US$5 of OpenRouter credit.
+- 24 unused or failed profiles are retired (disabled, paused, dated, with a reason, kept for audit). Scholarship profiles are untouched.
+- A new model can replace a routed one only after passing a fresh frozen holdout. Switching routes is a logged step.
+
+### Decision 170 — Platform self-monitoring
+**Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PRs #184, #187)
+- `security.platform_health_check_v1()` runs every 10 minutes.
+- It checks scheduled jobs, edge function calls, sweep, scholarship and Layer 2–4 queues, stalled admission, budgets (Firecrawl, OpenRouter against the route guards, OpenRouter credit), database size and connections, search speed, the consumer API snapshot, reference bundle freshness and the nightly scholarship review.
+- Issues are deduplicated, clear themselves when resolved, and can be acknowledged by an admin.
+- Issues show on the Platform health screen, as a status dot in the top bar and in the daily update.
+- There is no email alerting yet, because the platform has no email function.
+
+### Decision 171 — Simplified admin menu and sources side by side
+**Status:** Current (29 September 2026, v2.15.107) · **Recorded in:** this reference (Pilot PR #185)
+
+**Menu and layout**
+- The menu has five sections: Catalogue, Data pipeline, Operations, Platform settings and Administration, with Dashboard on its own at the top.
+- `src/nav-map.js` is the single source for menu, tabs, role gates and redirects from old addresses.
+- Every screen uses the standard page layout. Coverage & completeness, Administration, Jobs & Schedules and Statistics & Rankings no longer have their own shells or sub-menus.
+- Layer 3 is one page with tabs: Routing, Models & profiles, Test results, Spend and Work queue.
+- Platform settings has Environment & integrations (key names only, never values) and Scrapers & fetchers.
+
+**Sources side by side**
+- Both sources are kept and shown together, with differences highlighted:
+  - Scholarship detail shows the provider page (primary) next to Study Australia (government).
+  - Course detail shows the provider page next to the regulator (CRICOS).
+- A confirmed provider page becomes a scholarship's source. The Study Australia address stays as an identifier and in the change log.
 - The consumer scholarship API gains a `published_only` filter.
 
 ---
