@@ -2290,3 +2290,17 @@ Pilot PRs #160, #161.
   - English was mostly answered by tier 1 (Qwen3 30B). Intakes escalate more often: 12 of 26 pages went beyond tier 1, mostly on the "not stated but the page shows months" signal.
   - Spot-checked tier-1 values match their page quotes.
 - The intake daily guard (US$4) is reached for today, including spend before the cascade; English is close. Both reset at 05:30 IST.
+
+### 29 Sep 2026 — Layer 3 control screen (Decision 173); parked work re-queued
+- Platform Admin (22:47 IST): retry all parked Layer 3 and 4 work through the cascade. The cascade models weren't shown, there was no pause or model selection, and the screens were bloated.
+- Admin UI v2.15.108 live (Pilot PR #191):
+  - Layer 3 now has Control, Models and Work queue tabs.
+  - Each task can be run or paused, with its daily limit and a cascade that can be reordered, switched on or off, added to (qualified models only) or removed from.
+  - Models lists only qualified models, and the old per-profile list is gone from the Work queue.
+  - Controls tested live as a Platform Admin in a rolled-back transaction. Main green: build, deployed UAT on the live version, release currentness and Workers Builds.
+- Re-queue:
+  - Intakes and English: Layer 3-raised Layer 4 items superseded and 336 pages released to the cascade.
+  - Tuition: 1,014 items back to Layer 3; in total 1,042 Layer 4 items superseded.
+  - Items where the page differs from a held value stay with a person.
+- First tuition retries: 2 of 83 admitted and 79 back to Layer 4. The page does not state the fee "per year", which the tuition rule requires, so a model change cannot settle these. Decision needed on the tuition basis rule.
+- Intakes and English: today's daily limits (US$4 each) are used up; they resume at 05:30 IST, or earlier if the limit is raised on the Control tab.
