@@ -219,6 +219,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 171 — Simplified admin menu; sources side by side | Current; v2.15.107 |
 | Decision 172 — Layer 3 cost-first cascade | Current; intake and English ladders running |
 | Decision 173 — Layer 3 control screen | Current; v2.15.108 |
+| Decision 174 — Tuition without a stated period: per year, flagged | Current; v2.15.109 |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1404,6 +1405,29 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 174 — Tuition without a stated period is recorded as per year, and flagged
+**Status:** Current (29 September 2026, v2.15.109) · **Recorded in:** this reference (Pilot PR #192)
+
+**Direction**
+- Platform Admin, 23:27 IST: tuition fees whose page does not state the period are treated as per year and flagged, and operators and admins can edit them.
+
+**When the rule applies**
+- Layer 3 has confirmed the fee: it matches the Layer 2 candidate, is quoted verbatim, is for international students in AUD or NZD, is within the ceiling and has enough confidence.
+- The only reason it was held is that the period is not stated.
+- The model, prompt and validators are unchanged; the rule applies at admission.
+
+**When it does not**
+- The quote names another period (total, whole course, per semester, term, unit or credit).
+- The amount is a loan cap, student contribution, deposit or application fee.
+- The course already has a current fee.
+- The model decided the amount is not this course's tuition.
+- All of these stay in Layer 4.
+
+**Flags and editing**
+- Every value admitted this way is flagged in `pipeline.data_flags`.
+- Pipeline operators and admins (rank 4 and above) confirm it, correct the amount or period (per year or whole course), or remove it, on Layer 4 Review › Flagged values. Curators can view.
+- Every action is kept on the flag.
 
 ### Decision 170 — Platform self-monitoring
 **Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PRs #184, #187)
