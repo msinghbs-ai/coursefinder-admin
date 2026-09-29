@@ -2407,3 +2407,27 @@ Pilot PRs #160, #161.
   - The spot-check rule now raises an alert and never switches a step off (migration 20260930080000; Pilot PR #196).
   - No Anthropic model is in any automatic route; they are reachable only by choice from Layer 4 › Send back to AI.
 - Layer 3 stays stopped by the credit floor until OpenRouter is topped up and the routes are resumed.
+
+### 30 Sep 2026 — Resumed on cheap models; top universities first
+- Platform Admin (03:05 IST): OpenRouter topped up by US$10 (credit US$14.93); the intake daily limit was set on the Layer 3 screen. Resume, with maximum data for the top universities.
+- Resumed (logged): intake, English and tuition AI checks, and the tuition hand-off.
+  - Runs cost about US$0.01–0.02 per 40 pages.
+  - No Anthropic model is used.
+- Top universities first (Pilot PR #197):
+  - Providers are ranked by active courses (the Coverage tier ranking, refreshed daily).
+  - Layer 3 takes the top providers' pages first.
+  - The page reader takes the top 100 providers' pages first and uses Firecrawl for their blocked or script-only pages, including pages where more than one course could fit.
+  - 1,594 such pages were queued again, using up to about 1,600 Firecrawl credits of the 83,400 left.
+  - Identity is unchanged: a page is only accepted with the course's CRICOS code on it.
+- Top 10 providers (5,260 courses), where the courses stand:
+
+  | State | Courses |
+  |---|---|
+  | Page read and matched | 1,601 |
+  | Page read but it does not show the course code | 1,381 |
+  | No course page found | 1,545 (Monash 403, Melbourne 342, Macquarie 254, Newcastle 190) |
+  | Page blocked or unclear which course | about 730 |
+
+- The 1,381 pages without the course code are mostly the wrong page: a double degree matched to a single degree, a generic PhD page, a requirements page. Only 52 are strong unique title matches, so the identity rule stays.
+- The next step for the top 10 is finding the right pages: Monash, Melbourne, Macquarie and Newcastle course pages that the site maps did not give. This is Firecrawl work, not AI spend.
+- First Firecrawl reads: about 1 in 10 of the queued unclear pages turned out to be the right course.
