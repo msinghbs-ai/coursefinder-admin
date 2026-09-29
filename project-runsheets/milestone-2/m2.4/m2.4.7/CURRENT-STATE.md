@@ -2375,3 +2375,35 @@ Pilot PRs #160, #161.
   - OpenRouter spend in the last 24 hours was US$22 (mostly Sonnet before it was switched off).
   - Credit was US$7.47, and the AI stops at US$5.
   - The check's US$14 combined ceiling is out of date against the Control-screen limits (to align).
+
+### 30 Sep 2026 — Cost leak found and stopped; no Anthropic model in any automatic route
+- Platform Admin (02:49 IST): OpenRouter shows US$14.60 on Claude Sonnet 4.6 and US$7.02 on Claude Haiku 4.5. How much data did that admit?
+- Sonnet (from about 19:00 IST on 29 Sep until it was switched off at 01:34 IST): about US$12.70.
+  - Intakes: US$7.55 for 98 intakes found; 404 of its answers were "not on the page".
+  - English: US$5.15 for 241 English score sets.
+  - Qualification tests: US$0.91.
+  - No Sonnet call after 01:34 IST.
+- Leak after that:
+  - At 01:46 and 01:57 IST the spot-check rule switched off the cheap Qwen3 30B step for intakes and English (3 disagreements in 60 checks).
+  - Every intake page then went to Claude Haiku 4.5, about US$4.80 until the credit floor stopped Layer 3 at 02:13 IST (credit US$4.93).
+  - Haiku in total: US$6.71 for 417 intakes found.
+- The same period, cheap models:
+  - Qwen3 30B: 475 intakes for US$0.71; 1,311 English score sets for US$1.17.
+  - Mistral Small 3.2: 239 English score sets for US$0.19.
+- Top 10 providers, 5,260 courses:
+
+  | Attribute | Admitted |
+  |---|---|
+  | Official course page | 1,221 (23%) |
+  | English | 863 (16%) |
+  | Intakes | 368 (7%) |
+  | Provider tuition | 176 (3%) |
+  | Every attribute | 139 courses |
+
+  The main gap is course pages not found or not matched to their course, not the AI step.
+- Fixed:
+  - Qwen3 30B back on for both tasks.
+  - Claude Haiku 4.5 off. Intakes run on Qwen3 30B only (83% right, 0 wrong on the frozen holdout); English runs Qwen3 30B → Mistral Small 3.2.
+  - The spot-check rule now raises an alert and never switches a step off (migration 20260930080000; Pilot PR #196).
+  - No Anthropic model is in any automatic route; they are reachable only by choice from Layer 4 › Send back to AI.
+- Layer 3 stays stopped by the credit floor until OpenRouter is topped up and the routes are resumed.
