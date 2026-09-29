@@ -2193,3 +2193,12 @@ Pilot PRs #160, #161.
 - Daily update scheduled 08:49 IST (docs/daily-updates/, part A consumer API, part B stakeholders; push and email summary).
 - Consolidated plan v1.0 (waves 0–4 to GO/NO-GO 12 Oct) and Decision 163 recorded.
 - Awaiting Platform Admin: admission rule, Layer 3 tuition route, publication of 57 Decision 139 scholarships, compute upgrade, semantic search timing, website developer's request.
+
+### 29 Sep 2026 — Admission live (official page, English); scholarships under Decision 139; production runbook for 3 Oct (Decision 164)
+- Platform Admin approvals (09:56 IST): admission rule, tuition via Layer 3 Option A, scholarship publication plus sweep, semantic search after go-live. 10:01 IST: production by 3 Oct in customer-owned accounts; compute to Medium.
+- Extractor v0.5.3–v0.5.4: IELTS overall never read across other words or from another test; score before "IELTS"; several overall scores = unclear; PTE/TOEFL evidence kept; money/visa/deadline windows not intakes. Hand-check after fix: English 14/14.
+- Admission live (security.coverage_admission_apply_v1, cron coverage-admit every 10 min): official page and English only, write-only-when-empty, differences to Layer 4, Search gates per sweep source, snapshots before/after. First batch 20 courses verified in Search.
+- Intakes held (hand-check about 9/14): to Layer 3 benchmark.
+- Scholarships: exact Decision 139 check gives 4 of 292 (not 57); 4 published, 2 withdrawn by the new course-link breadth rule; 2 live; daily review cron scholarship-publication-review.
+- Found: 27 live edge functions have no source in GitHub (incl. layer4-course-resolve), to be brought into the repo before the transfer.
+- Production runbook v1.0 and plan v1.1 issued; Decision 164 recorded. Open: region (Mumbai transfer vs Sydney migration), extra Layer 2 fetchers and Apollo, host names, developer's request.
