@@ -211,6 +211,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 163 — Complete coverage, ongoing, reported daily | Current; admission of official page and English live (every 10 min); tuition via Layer 3 (Option A) to build; scholarships publishing under Decision 139 |
 | Decision 164 — Production in customer-owned accounts | Current; go-live 3 Oct 2026 by project transfer (Mumbai) |
 | Decision 165 — Consumer API presentation | Current; live 29 Sep 2026 (names, regional class, English summary) |
+| Decision 166 — Australian university groups | Current; 26 members; admin and API filters live 29 Sep 2026 |
+| Decision 167 — Scholarship sweep | Current; 91 own-page scholarships read; 54 published by hand-run batch |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1281,6 +1283,39 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 
 **Contract**
 - All changes are additive within `website-search-v1`, with consumer snapshots recorded before and after.
+
+
+### Decision 166 — Australian university groups
+**Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PRs #176, #177)
+
+**Membership**
+- The Group of Eight, Australian Technology Network, Innovative Research Universities and Regional Universities Network are held as provider collections (`ref.institution_collections`, type `university_group`).
+- Membership comes from each group's official member page (26 universities on 29 September 2026). Each member is matched to the university's own CRICOS provider code; pathway colleges and pre-merger registrations are excluded.
+- Membership is re-checked yearly. Changes are made by migration, citing the page.
+
+**Filtering**
+- Admin screens: University group filter on Courses and Providers, with group badges on provider detail (v2.15.105).
+- Consumer API: `university_groups` filter, plus `provider.university_groups` on course and scholarship results. The reference bundle lists each group with its members and course count.
+- Group filter codes: `go8`, `atn`, `iru`, `run`.
+
+### Decision 167 — Scholarship sweep
+**Status:** Current (29 September 2026) · **Recorded in:** this reference and docs/coursefinder-course-attribute-ingestion-v1.0.md
+
+**Reading**
+- Each active scholarship's own provider page is read with robots.txt respected, and the page is kept as gzipped evidence.
+- Deterministic facts are recorded: study levels (from the eligibility section where the page has one), field (from the scholarship's name or the faculty it names), award value, closing date and eligibility excerpt.
+
+**Applying**
+- Facts are applied only where the record lacks them, and every change is logged. Tiered or mixed values are not applied.
+- Course links cover the provider's active courses at the stated levels and in the named field. They replace provider-wide links.
+- A faculty that cannot be matched to a field stops linking. A re-read that states no level or field removes the earlier sweep links.
+
+**Publishing**
+- Publication stays with the Decision 139 batch under the 29 September approval. Each batch is run by hand: dry run, sample check, then apply. There is no automatic publish job.
+- A scholarship is not publishable if its read provider page limits eligibility to citizens and residents, or never mentions international students.
+- The nightly review withdraws anything that stops qualifying.
+- First sweep batch, 29 September 2026: 54 published (27 at Group of Eight universities); 7 held back as domestic-only.
+- The consumer scholarship API gains a `published_only` filter.
 
 ---
 
