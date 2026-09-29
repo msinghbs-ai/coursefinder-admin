@@ -217,6 +217,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 169 — Layer 3 model routing | Current; intake and English via Claude Sonnet 4.6, tuition via Qwen3 235B 2507; 24 profiles retired |
 | Decision 170 — Platform self-monitoring | Current; health check every 10 minutes; Platform health screen |
 | Decision 171 — Simplified admin menu; sources side by side | Current; v2.15.107 |
+| Decision 172 — Layer 3 cost-first cascade | Current; intake and English ladders; routes paused until the OpenRouter key weekly limit is raised |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1362,6 +1363,30 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Daily guards: intake US$4, English US$4, tuition US$5. All routes stop below US$5 of OpenRouter credit.
 - 24 unused or failed profiles are retired (disabled, paused, dated, with a reason, kept for audit). Scholarship profiles are untouched.
 - A new model can replace a routed one only after passing a fresh frozen holdout. Switching routes is a logged step.
+
+### Decision 172 — Layer 3 cost-first cascade
+**Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PR #189) · **Refines:** Decision 169
+
+**Direction**
+- Platform Admin, 21:08 IST: use the cheapest OpenRouter model with at least 80% success, and escalate failed pages to higher-cost models, so stronger models are used only when needed.
+
+**Tier rule**
+- A model can hold a tier only with at least 80% right **and no wrong admissions** on the task's frozen holdout. Moving up a tier rescues answers a model did not give; it cannot catch a confident wrong answer.
+- Tiers are ordered by measured cost, cheapest first. The final tier is the qualified single-route model from Decision 169.
+- A page moves up when the answer fails the automatic checks, or says "not stated" while the page shows a clear signal (month names near intake words, or an English test name with a score).
+
+**Ladders**
+
+| Task | Tier 1 | Tier 2 | Tier 3 | Cost per 1,000 pages (holdout simulation) |
+|---|---|---|---|---|
+| Intakes | Qwen3 30B | Claude Haiku 4.5 | Claude Sonnet 4.6 | US$1.29 (Sonnet only US$10.94); 43/45 right, 0 wrong |
+| English | Qwen3 30B | Mistral Small 3.2 | Claude Sonnet 4.6 | US$0.17 (Sonnet only US$10.72); 36/37 right, 0 wrong |
+
+- Tuition stays on its single qualified route (Qwen3 235B 2507, US$0.55 per 1,000).
+
+**Safeguards**
+- 5% of lower-tier answers are re-asked to the final tier. A disagreement goes to Layer 4. Three disagreements in a tier's last 60 audits pause that tier, and it is never re-promoted automatically.
+- If OpenRouter refuses a call (key, billing or rate limit), the page is released for retry. It is never escalated or sent to Layer 4, and Platform health raises a critical issue.
 
 ### Decision 170 — Platform self-monitoring
 **Status:** Current (29 September 2026) · **Recorded in:** this reference (Pilot PRs #184, #187)

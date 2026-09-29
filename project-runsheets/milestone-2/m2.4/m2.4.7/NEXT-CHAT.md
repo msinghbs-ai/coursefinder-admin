@@ -2213,3 +2213,19 @@ Pilot PRs #160, #161.
 - Daily update task prompt extended with platform health, Layer 3 routing and OpenRouter credit days left.
 - Completeness (20:22 IST): 49.9% complete, 64.2% accounted for.
 - Decision needed: OpenRouter credit. At the guard rate (about US$13 a day) the US$22.70 credit reaches the US$5 floor in about 1.5 days, after which automated admission pauses. About US$12 per 1,000 course pages per task.
+
+### 29 Sep 2026 — Main branch green again; Layer 3 cost-first cascade (Decision 172); OpenRouter key weekly limit
+- Platform Admin (21:08 IST): Layer 3 must use OpenRouter routing: the cheapest model with at least 80% success first, and failed pages escalated to higher-cost models. At 21:13 IST: keep PR hand-over and merging consistent and keep main green.
+- Main branch: the deployed UAT failed after v2.15.107 because Layer 1 tests still looked for the old page titles. The deployed specs and helpers were updated to the new menu (Pilot PR #188), and main is green (build, deployed UAT, Workers Builds). From now on the deployed UAT runs from the branch before merging.
+- Cascade (Pilot PR #189, Decision 172):
+  - Intakes: Qwen3 30B → Claude Haiku 4.5 → Claude Sonnet 4.6. English: Qwen3 30B → Mistral Small 3.2 → Claude Sonnet 4.6.
+  - Each tier has at least 80% right and 0 wrong on the frozen holdouts.
+  - Simulated cost: US$1.29 and US$0.17 per 1,000 pages, against US$10.94 and US$10.72 for Sonnet alone.
+  - 5% audits by the final tier; a tier pauses automatically after 3 disagreements in its last 60 audits.
+  - The foundation migration left live by an interrupted worker was reconstructed byte-for-byte into git. All live migration checksums match their files, and edge function v6 matches the branch byte-for-byte.
+- Incident:
+  - From 21:07 IST, OpenRouter refused every call with "Key limit exceeded (weekly limit)". The API key's own weekly cap was reached; about US$19.69 of account credit remains.
+  - Refused pages had been sent to Layer 4 as model failures. 476 of these items were superseded and their pages released for retry.
+  - The intake, English and tuition route jobs are paused.
+  - Platform health now flags provider refusals as critical. The cascade releases a page on refusal instead of escalating it; verified live with 2 pages released and 0 sent to Layer 4.
+- Needed from the Platform Admin: raise or remove the weekly limit on the OpenRouter API key, then the three route jobs are re-activated.
