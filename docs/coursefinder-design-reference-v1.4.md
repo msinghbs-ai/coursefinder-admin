@@ -224,6 +224,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 176 — Layer 3 on cheap models; stronger models only from Layer 4 | Current; v2.15.111; replaces the Sonnet step of Decision 172 |
 | Decision 177 — Admin layout: daily work separate from setup | Current; Catalogue changes live in v2.15.112; Layer 1–4 merge awaits the screen review |
 | Decision 178 — Priority queue set from the admin screens | Current; v2.15.113 |
+| Decision 179 — Manual data first: CRUD, course pages not found, automatic publishing | Agreed; build order CRUD → course pages → publishing |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1409,6 +1410,31 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 179 — Manual data first: CRUD at every level, course pages not found, automatic publishing
+**Status:** Agreed (30 September 2026, 23:59 AEST); to be built · **Recorded in:** this reference
+- Platform Admin: most foundational data will be handled manually, so every level needs create, edit and delete. A separate publishing step adds complexity.
+
+**CRUD (build first)**
+- Providers, courses, course facts (official page, intakes, English, tuition), scholarships, contacts and reference data can be added, edited and removed from their own admin page, by role.
+- Every change is audited.
+- A person's entry always wins: automation never overwrites a manual value or refills a value a person removed.
+- Today the course and provider pages are read-only. Only Layer 4 (fee and official link when approving) and Flagged values (tuition) can change facts.
+
+**Course pages not found (build second)**
+- Each course carries a page status: found, searching, not found (last tried), or no page exists.
+- **Every** course with no page found goes to a Layer 4 "Course page needed" queue (about 9,400 today). There an operator adds the link, sends it for another search, or marks "no page exists", which stops retries.
+- Links are found in this order:
+  1. One course catalogue address per university, for example the course finder section.
+  2. A search per missing course.
+  3. A link list supplied by the university (CSV upload).
+- Every link still needs the course's CRICOS code on the page.
+- Reason for the top 10 gap: the finder reads whole-site maps. Monash is recorded under its old domain (36 pages kept). Melbourne's course pages are on a separate study site (157 kept from 7,712). Macquarie and Newcastle list only part of their degree pages.
+
+**Publishing (build third)**
+- A record goes live automatically when it passes the basic checks. For scholarships: a stated value, its own page, and open to international students.
+- Anyone rank 4 and above can hide any record, with a reason.
+- Batch publishing (Decision 139) is retired when this is built. Course publication status is already unused: all 43,639 courses are "unpublished" and the website still serves them.
 
 ### Decision 178 — Priority queue set from the admin screens
 **Status:** Current (30 September 2026, v2.15.113) · **Recorded in:** this reference (Pilot PRs #197, #198)
