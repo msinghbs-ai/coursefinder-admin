@@ -2490,3 +2490,24 @@ Pilot PRs #160, #161.
 - Queued: 3,650 top-10 courses with no confirmed page (none, mismatch, or ambiguous and already read).
 - First 40 minutes: 163 pages confirmed with the CRICOS code on the page (UNSW 128, Melbourne 12, Flinders 10, Macquarie 6, Monash 5, UTS 1, RMIT 1). 131 more are found and waiting to be read.
 - About 2,900 courses are still to be searched, at about 90 minutes of run time. Courses with no page after both stages will be marked "none" for the Layer 4 "Course page needed" queue.
+
+### 1 Oct 2026 (03:00 AEST) — Site map test, reverse match, CRUD (Decision 181), scholarship course links (Decision 182)
+- **Firecrawl site map (Platform Admin question, Sydney and UNSW):**
+  - A map call costs 1 credit and returned 537 Sydney and 497 UNSW course pages, but discovery already knew all but one of each. Crawling every page would cost about 36,000 credits for Sydney. Not used.
+  - The gap is matching pages to courses: about 1,500 known top-10 course pages are matched to no course.
+  - Sydney pages show no course CRICOS code, so they match by exact title only.
+- **Reverse match** (Pilot PR #201, migrations 20260930113000 and 114000): reads the known unmatched pages directly (no credits) and matches a course only when its code is on exactly one page. Result: 1 new match; these pages are mostly majors of courses already covered.
+- **CRUD, Decision 181** (v2.15.114, Pilot PR #202, migration 20260930120000; coverage-sweep v32, file-for-file equal to the branch):
+  - Edit this course / Edit this provider panels, and Add course / Add provider.
+  - Guard triggers make a hand-entered or removed value win over every automated writer.
+  - Live test (rolled back): automated insert and update blocked, title kept, release worked, removal not refilled.
+- **Scholarship course links, Decision 182** (v2.15.115, Pilot PR #203, migrations 20260930130000 to 133000):
+  - One decision per scholarship for the 37,200 waiting links from 87 scholarships.
+  - Decisions also govern the automatic sweep, which had mapped 17,008 of these links.
+  - Live test (rolled back): one Masters scholarship matched 1 course, 580 rejected, 24 wrong sweep links removed.
+  - No decisions have been made yet; they are the operators' to make.
+- **Link search, 02:45 check:**
+  - 1,092 of 3,650 top-10 courses confirmed.
+  - Official pages 8,312 → 8,967, intakes 2,847 → 2,997, English 6,169 → 6,297, tuition 1,439 → 1,446.
+  - 7,482 Firecrawl credits used (15,000 cap). The title-search stage is running.
+- All migrations applied live, each md5(statements[1]) equal to its file. UAT green on every branch and on main.

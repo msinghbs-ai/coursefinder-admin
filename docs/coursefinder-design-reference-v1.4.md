@@ -226,6 +226,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 178 — Priority queue set from the admin screens | Current; v2.15.113 |
 | Decision 179 — Manual data first: CRUD, course pages not found, automatic publishing | Agreed; build order CRUD → course pages → publishing |
 | Decision 180 — Course link recipes: find course pages by CRICOS code on the university's own site | Current; top 10 universities running (Pilot PRs #199, #200) |
+| Decision 181 — A person's entry always wins (CRUD for courses and providers) | Current; v2.15.114 (Pilot PR #202) |
+| Decision 182 — Scholarship course links decided once per scholarship | Current; v2.15.115 (Pilot PR #203) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1411,6 +1413,33 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 182 — Scholarship course links decided once per scholarship
+**Status:** Current (1 October 2026, v2.15.115) · **Recorded in:** this reference (Pilot PR #203)
+- Platform Admin chose "Clear the 37,200 links" as the first scholarship selection work.
+- Finding: the 37,200 waiting links come from 87 scholarships whose pages name no course, so each was proposed for every course of its university. 17,008 of them were also mapped by the automatic sweep. For example, a scholarship for one Masters course was linked to 25 courses.
+- Scholarships › Course links: for each scholarship, a Pipeline Operator or above chooses one of:
+  - all proposed courses;
+  - only matching courses (study level, broad field of study, words in the title);
+  - no courses.
+- Matching links are accepted and the rest rejected. The decision is saved with who made it and why, and can be changed.
+- The hourly job `scholarship-scope-apply` applies saved decisions to links proposed later.
+- The decision governs the automatic sweep: matching sweep links are taken over, non-matching ones are removed, and a guard trigger stops new excluded links. Links from the scholarship's own stated scope are untouched.
+- A suggestion from the name is shown (for example "Master of …" suggests that course, "research" suggests research degrees). It is never applied on its own.
+
+### Decision 181 — A person's entry always wins (CRUD for courses and providers)
+**Status:** Current (1 October 2026, v2.15.114) · **Recorded in:** this reference (Pilot PR #202). This is build step 1 of Decision 179.
+- Course detail › Edit this course: official course page (or "No page"), intakes, English requirement, international tuition, title shown, duration, delivery and description.
+- Provider detail › Edit this provider: name, website, course finder address (sends the provider back to page discovery), phone, email, address and description.
+- Access by role:
+  - Curator and above can edit.
+  - PIM Operator and above can add, archive and restore courses and providers.
+- `pipeline.manual_locks` records each field a person set or removed. Guard triggers on the four course-fact tables, on courses and on providers stop every automated writer from overwriting or refilling it, without editing each writer.
+- "Let automation update this" releases the lock. Layer 4 approvals do not lock.
+- Every change goes to `pipeline.manual_edit_log` and is shown on the record.
+- Setting or removing a value closes that course's open Layer 4 items for the same field.
+- A hand-entered official page is trusted by the page reader (identity "manual", worker v0.6.3) and left alone by the site-map matcher.
+- Not yet: the Hide switch (it comes with publishing, Decision 179 step 3). Admission of facts read from "manual" or exact-title pages still requires the CRICOS code on the page. Relaxing that is a separate decision.
 
 ### Decision 180 — Course link recipes: find course pages by CRICOS code on the university's own site
 **Status:** Current (1 October 2026, 01:40 AEST) · **Recorded in:** this reference (Pilot PRs #199, #200)
