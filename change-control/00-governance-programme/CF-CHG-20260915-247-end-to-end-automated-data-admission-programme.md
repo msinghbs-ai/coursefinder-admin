@@ -2464,3 +2464,29 @@ Pilot PRs #160, #161.
 - Database: migrations 20260930100000 and 20260930101000, applied live, each md5 equal to its file. The claim and page-reader edits were checksum-guarded.
 - Tested live as a Platform Admin in a rolled-back transaction: added a university, a state and a course at the top; moved; removed.
 - No pins are set yet; the order is by size until an admin pins something.
+
+### 30 Sep 2026 (23:59 AEST) — Decision 179: manual data first
+- Platform Admin: how to find the top 10 course links; how to keep track of "not found"; CRUD needed at every level; publishing adds complexity because most foundational data will be handled manually.
+- Answers:
+  - Publishing: automatic, with a Hide switch.
+  - "Course page needed": every course goes to Layer 4.
+  - Build order: CRUD first, then course pages, then publishing.
+- Findings:
+  - The course and provider pages are read-only.
+  - Official links are stored in catalogue.course_links; eight automated processes write intakes, English and fees.
+  - All 43,639 courses are "unpublished", yet the website serves them.
+- Status report (30 Sep 22:37 AEST), all courses since the morning:
+
+  | Measure | Morning | 22:37 |
+  |---|---|---|
+  | Intakes | 1,051 | 2,841 |
+  | English | 4,225 | 6,162 |
+  | Official pages | 8,218 | 8,305 |
+  | Tuition | 1,391 | 1,439 |
+  | Completeness | 50.9% | 53.1% |
+  | Fully complete | 467 | 651 |
+
+  - AI: US$1.55 for about 2,600 values; OpenRouter credit US$13.37.
+  - Jobs: 13,820 runs, 0 failures.
+  - Database: 1,844 MB.
+  - Eight tuition items at their retry limit were closed; they had set off the "dispatch stopped" alert.
