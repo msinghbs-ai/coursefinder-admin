@@ -2534,3 +2534,19 @@ Pilot PRs #160, #161.
   - Official pages 8,312 → 8,967, intakes 2,847 → 2,997, English 6,169 → 6,297, tuition 1,439 → 1,446.
   - 7,482 Firecrawl credits used (15,000 cap). The title-search stage is running.
 - All migrations applied live, each md5(statements[1]) equal to its file. UAT green on every branch and on main.
+
+### 1 Oct 2026 (08:30 AEST) — Link search finished; Layer 4 batch rules (Decision 183)
+- **Link search final (03:30 AEST):**
+  - 1,382 of 3,650 top-10 courses now have a confirmed page; 2,197 have none (candidates for the "Course page needed" queue).
+  - Newcastle: 61 are waiting because its handbook site blocks automated reading, which we respect.
+  - Official pages 8,312 → 9,356, intakes 2,847 → 3,150, English 6,169 → 6,468, tuition 1,439 → 1,446.
+  - 12,300 Firecrawl credits used.
+- **Platform Admin example 068783B** (UNSW Bachelor of Commerce / Bachelor of Information Systems): already matched and admitted since 29 Sep. Its tuition was unsettled because the page shows a first-year fee and a whole-degree fee. 228 UNSW pages share that wording.
+- **Layer 4 batch rules, Decision 183** (v2.15.116, Pilot PR #205, migration 20260930140000, md5 equal to its file):
+  - Fee wording rules with preview, a list of found wordings, draft → approve & run, hourly runs, pause.
+  - A rule never touches a course that already has a fee or a value entered by hand.
+- **Draft rules prepared for approval:**
+  - #1 UNSW "Indicative First Year Fee", per year: 214 courses, amounts A$23,500–A$99,500.
+  - #2 Monash "standard full-time course load for a year. The fees for", per year: 231 courses, A$41,940–A$68,140.
+  - Neither has been approved or run yet.
+- **CI fix** (Pilot PR #204): Release Currentness now waits until Cloudflare serves the new version, instead of failing when it runs too early.

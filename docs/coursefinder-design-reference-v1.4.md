@@ -228,6 +228,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 180 — Course link recipes: find course pages by CRICOS code on the university's own site | Current; top 10 universities running (Pilot PRs #199, #200) |
 | Decision 181 — A person's entry always wins (CRUD for courses and providers) | Current; v2.15.114 (Pilot PR #202) |
 | Decision 182 — Scholarship course links decided once per scholarship | Current; v2.15.115 (Pilot PR #203) |
+| Decision 183 — Layer 4 batch rules: one fee wording rule per university | Current; v2.15.116 (Pilot PR #205) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1413,6 +1414,24 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 183 — Layer 4 batch rules: one fee wording rule per university
+**Status:** Current (1 October 2026, v2.15.116) · **Recorded in:** this reference (Pilot PR #205)
+- Platform Admin (1 Oct 07:45 AEST): "simplify it and make provision in layer 4 to create those batch decisions and rules … same for Monash … make rules from ui".
+- Finding: unsettled tuition at a university usually comes down to one wording.
+  - UNSW: "2026 Indicative First Year Fee $56,500" is the international block; the domestic block says "First Year Full Fee".
+  - Monash: "standard full-time course load for a year. The fees for 2027 are: A$46,640".
+- Layer 4 › Batch rules:
+  - A rule is a university plus the words just before the fee plus the fee period (with an optional address filter).
+  - A preview shows every course it would settle and the amount.
+  - Wordings repeated on 10+ pages with no fee are listed.
+  - A Pipeline Operator prepares a draft. A PIM Operator approves it, which runs it at once and then hourly, and can pause it.
+- A run admits international tuition only when:
+  - the page is confirmed (CRICOS code on the page, or entered by hand);
+  - the words match exactly one amount;
+  - the course has no current fee and no value entered by hand.
+- When a fee is admitted, the course's open Layer 4 tuition items are closed and its Layer 3 tuition work is marked admitted. Every run is logged, and every admission is kept with its matched text.
+- The first two rules were prepared as drafts for the Platform Admin to approve: UNSW (214 courses) and Monash (231 courses).
 
 ### Decision 182 — Scholarship course links decided once per scholarship
 **Status:** Current (1 October 2026, v2.15.115) · **Recorded in:** this reference (Pilot PR #203)
