@@ -225,6 +225,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 177 — Admin layout: daily work separate from setup | Current; Catalogue changes live in v2.15.112; Layer 1–4 merge awaits the screen review |
 | Decision 178 — Priority queue set from the admin screens | Current; v2.15.113 |
 | Decision 179 — Manual data first: CRUD, course pages not found, automatic publishing | Agreed; build order CRUD → course pages → publishing |
+| Decision 180 — Course link recipes: find course pages by CRICOS code on the university's own site | Current; top 10 universities running (Pilot PRs #199, #200) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1410,6 +1411,34 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 180 — Course link recipes: find course pages by CRICOS code on the university's own site
+**Status:** Current (1 October 2026, 01:40 AEST) · **Recorded in:** this reference (Pilot PRs #199, #200)
+- Platform Admin (1 Oct 00:39 AEST): take the "Further information" link that VTAC shows for each course, build the same strategy for the top 10 universities, and fetch the links with Firecrawl.
+
+**Why not VTAC itself**
+- The VTAC link is the university's own course page. For Monash it is built from the Monash course code: `https://www.monash.edu/study/course/B2029`.
+- VTAC's robots.txt blocks all automated access (`User-agent: *`, `Disallow: /`). VTAC also lists only Victorian undergraduate entry, so most of the top 10 (NSW and SA) and all postgraduate courses are missing. We checked one VTAC page by hand to confirm the pattern and do not crawl VTAC.
+
+**The strategy (per university, editable data)**
+- `pipeline.course_link_recipes` holds, for each university:
+  - the domain to search;
+  - its address patterns, in order: the course page first, then the handbook entry.
+  - `{year}` in a handbook address is replaced by the current year, so an old handbook hit becomes this year's edition.
+- Monash: the course code comes from a handbook or publications hit, and the page is `/study/course/<code>?international=true`, the same address VTAC links to.
+- For each course without a confirmed page:
+  1. Search for the CRICOS code on the university's domain (2 Firecrawl credits).
+  2. If nothing matches the patterns, search for the exact course title.
+  3. The first match is bound as `cricos_search` or `title_search`.
+  4. The page reader then has to find the CRICOS code (or the exact title) on the page. A page that fails the check, or answers 404, moves to the next candidate.
+  5. Courses with nothing left are marked "none". They are the first entries for the Layer 4 "Course page needed" queue (Decision 179).
+- The page reader renders a priority page through Firecrawl before it calls it a mismatch. UNSW and Melbourne handbooks are built by script and show the code only when rendered. This is worker v0.6.2.
+- The site-map matcher (`coverage_bind_v2`) no longer overwrites or releases pages found this way.
+- Limits:
+  - Monthly credit cap of 15,000 (`pipeline.course_link_search_settings`).
+  - The job `course-link-search` runs every minute with 40 searches per run. It appears under Automations, where it can be paused, run now or resized.
+  - Universities are taken in turn, so the reader keeps up.
+- To add a university, add a recipe row and queue its courses (`security.course_link_search_enqueue_v1`). An editor for recipes comes with the "Course page needed" queue.
 
 ### Decision 179 — Manual data first: CRUD at every level, course pages not found, automatic publishing
 **Status:** Agreed (30 September 2026, 23:59 AEST); to be built · **Recorded in:** this reference
