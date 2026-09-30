@@ -2467,3 +2467,26 @@ Pilot PRs #160, #161.
   - Jobs: 13,820 runs, 0 failures.
   - Database: 1,844 MB.
   - Eight tuition items at their retry limit were closed; they had set off the "dispatch stopped" alert.
+
+### 1 Oct 2026 (01:45 AEST) — Decision 180: course link recipes for the top 10 universities
+- Platform Admin (00:39 AEST): use VTAC's "Further information" link for the top 10 universities, build the same strategy, and fetch links with Firecrawl.
+- VTAC findings:
+  - The link is the university's own course page (Monash: `/study/course/<code>`).
+  - VTAC's robots.txt blocks all automated access, and VTAC covers only Victorian undergraduate entry. We checked one page by hand and do not crawl VTAC.
+- Strategy:
+  - The same result comes from each university's own site. We search for the CRICOS code on its domain, then match the result to that university's course page or handbook address pattern.
+  - A pilot of 36 courses (4 per university) gave a usable address for 26.
+- Built (Pilot PRs #199 and #200, merged; UAT green on both branches and on main):
+  - Recipe table (10 universities) and a search queue.
+  - The search looks for the CRICOS code first, then the exact title.
+  - Job `course-link-search`: every minute, 40 searches per run, universities in turn, 15,000-credit monthly cap.
+  - `coverage_bind_v2` leaves these pages alone.
+  - Page reader v0.6.2 renders a priority page through Firecrawl before calling it a mismatch.
+  - A candidate that answers 404 moves on at once.
+- Verification:
+  - Migrations 20260930110000, 111000 and 112000 are applied live, each md5(statements[1]) equal to its file.
+  - `coverage_bind_v2` and the tick edits were md5-guarded.
+  - coverage-sweep v31 was deployed by the workflow and matches the repo file for file.
+- Queued: 3,650 top-10 courses with no confirmed page (none, mismatch, or ambiguous and already read).
+- First 40 minutes: 163 pages confirmed with the CRICOS code on the page (UNSW 128, Melbourne 12, Flinders 10, Macquarie 6, Monash 5, UTS 1, RMIT 1). 131 more are found and waiting to be read.
+- About 2,900 courses are still to be searched, at about 90 minutes of run time. Courses with no page after both stages will be marked "none" for the Layer 4 "Course page needed" queue.
