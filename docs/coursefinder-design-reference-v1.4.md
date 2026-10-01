@@ -254,6 +254,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 206 — Layer 3 English and intake claims: no duplicate calls, under the time limit | Current; v2.15.134 (Pilot PR #227) |
 | Decision 207 — The Firecrawl budget guard follows the balance Firecrawl reports | Current; migration 20261001179500 (Pilot PR #228) |
 | Decision 208 — QS and THE universities linked to providers, kept linked for every country | Current; v2.15.135 (Pilot PR #229) |
+| Decision 209 — The Platform guide lives in the app and is reviewed with every release | Current; v2.15.136 (Pilot PR #230) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1439,6 +1440,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 209 — The Platform guide lives in the app and is reviewed with every release
+**Status:** Current (1 October 2026, v2.15.136) · **Recorded in:** this reference (Pilot PR #230)
+- Help › Platform guide is the operator and Platform Admin walkthrough. It is open to every role; each screen's Open button shows only when the person's role can open that screen.
+- **Where the words are:** Pilot `src/guide/platformGuide.js`. They are plain Australian English, with no figures that go stale (counts and amounts stay on the screens). It has no screenshots.
+- **What every release must do:**
+  - update the entries for any screen, role, job, budget or alert it changes;
+  - set `GUIDE_REVIEWED_FOR` to the release version.
+- **Enforcement:** `npm run release:verify` (before every build) and the contract test refuse a release whose guide is not reviewed for its version, or that adds a menu page without a guide entry.
 
 ### Decision 208 — QS and THE universities linked to providers, kept linked for every country
 **Status:** Current (1 October 2026, migration 20261001180000) · **Recorded in:** this reference (Pilot PR #229)

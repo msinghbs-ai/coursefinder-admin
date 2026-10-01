@@ -2725,3 +2725,23 @@ Pilot PRs #160, #161.
 - **Live result of the first run:** 8 universities linked across 42 ranking entries (ANU, Adelaide, UNSW, Newcastle, Auckland, Canterbury, Lincoln, Victoria (Canada)); 22 candidates offered for a person, mostly Canadian universities listed in French (for example McGill, Laval, Montréal, Concordia).
 - **Screens:** Rankings › QS / THE: Country, State, Provider and Link filters; a linked provider opens its record; Curators link a university from suggestions or a provider search. The provider record shows its QS and THE ranks by edition.
 - **Waiting for a person:** the 22 candidates (Rankings › QS or THE › Link: Not linked › Link).
+
+### 1 Oct 2026 (21:15 AEST) — Platform guide in the menu, reviewed every release (Decision 209); v2.15.136; Platform Admin answers recorded
+- **Request (Platform Admin, 20:27):** put the screen walkthrough in the menu as a Platform guide; keep it updated with every new feature or change; update admin documents and repositories as needed.
+- **Released:** v2.15.136 (Pilot PR #230), merged with a squash merge after targeted deployed UAT passed on the branch; main build, smoke, release history and deployed UAT green.
+- **Help › Platform guide** (all roles): how the platform works, who does what, the daily routine, every menu screen (what it answers, what to read, what to do, and a button that opens it when the role allows), signal → action, Platform Admin duties, alert emails, and what changed in the current release. No screenshots, so it never shows stale or sample data.
+- **Kept current:** the guide's words are in Pilot `src/guide/platformGuide.js`. The release gate (`npm run release:verify`, run before every build) and `cf-247-platform-guide-contract` fail unless the guide is marked reviewed for the release version and every menu page has an entry. Release procedure step 5a added (Release / Version Control & Recovery).
+- **Corrected:** the walkthrough doc's "US$4 a day per task" came from sample screenshots. The live AI task limits are US$20 (intakes), US$15 (English) and US$5 (tuition); they were left unchanged.
+- **OpenRouter:** the platform reads US$40.21 after the Platform Admin's US$30 top-up (20:17).
+- **Platform Admin answers (20:19, multiple choice), queued in this order:**
+  1. keep a fee for every year (one record per year; latest shown; earlier kept as history), and read year-by-year fee blocks such as Murdoch's (0 of 267 courses have a fee);
+  2. when a page does not say "per year", take the basis from the university's approved fee schedule or fee rule; otherwise a person decides;
+  3. UAC portal first, others after (waiting for confirmation that UAC's pages may be used);
+  4. start testing an AI model for English policies and calendars (activation separately approved);
+  5. NZ tuition in NZD, after fee schedules;
+  6. ranking name matching fixed at import; Unlink / Change link for Platform Admin;
+  7. remove background area fetch, wave workload defaults and Layer 4 findings; keep source-pattern interpretation for Platform Admin;
+  8. remove the Data model screen;
+  9. the Platform health budget check follows the sum of the AI task limits;
+  10. reuse an identical stored page at capture instead of storing a copy;
+  11. alert emails through Mailgun (sending subdomain, DNS, key and recipients to be provided).

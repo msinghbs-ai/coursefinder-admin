@@ -29,6 +29,7 @@ Do not infer the current document from the highest filename version or from chat
 | Admin/PIM Design Decisions (history, v1.0–v1.36) | `docs/coursefinder-admin-pim-design-decisions-v1.36.md` | HISTORY — see Design Reference |
 | Attribute & Admission Register (history) | `docs/coursefinder-attribute-admission-register-v1.0.md` | HISTORY — see Design Reference §3 |
 | Admin Navigation / Information Architecture | `docs/coursefinder-admin-navigation-information-architecture-v1.6.md` | CURRENT |
+| Platform guide (operators and Platform Admins; in the app under Help › Platform guide) | Pilot `src/guide/platformGuide.js` | CURRENT — reviewed every release (Decision 209) |
 | PIM Admin Guide | `docs/coursefinder-pim-admin-guide-v1.22.md` | CURRENT |
 | Operations Runbook | `docs/coursefinder-operations-runbook-v1.8.md` | CURRENT |
 | Data Operations Admin Guide | `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` | CURRENT |
