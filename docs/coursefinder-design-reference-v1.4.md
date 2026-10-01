@@ -255,6 +255,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 207 — The Firecrawl budget guard follows the balance Firecrawl reports | Current; migration 20261001179500 (Pilot PR #228) |
 | Decision 208 — QS and THE universities linked to providers, kept linked for every country | Current; v2.15.135 (Pilot PR #229) |
 | Decision 209 — The Platform guide lives in the app and is reviewed with every release | Current; v2.15.136 (Pilot PR #230) |
+| Decision 210 — An approved fee schedule settles the flagged fees it answers | Current; v2.15.137 (Pilot PR #232) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1440,6 +1441,16 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 210 — An approved fee schedule settles the flagged fees it answers
+**Status:** Current (2 October 2026, migration 20261001180200) · **Recorded in:** this reference (Pilot PR #232)
+- **What a flag asks:** whether a fee shown without a period is per year or for the whole course.
+- **What an approved fee schedule answers,** for the same course (CRICOS code), using a per-year row:
+  - the same amount: the flag is confirmed by the schedule, and the fee takes the schedule's year when it had none;
+  - an amount within 15% (a whole-course fee would be about two or more times larger): the period is confirmed, and the recorded amount is unchanged;
+  - anything else: the flag stays open for a person, with the schedule's fee shown beside it.
+- It runs when a schedule is approved and ran once for the schedules already approved. Fees locked by hand are left for a person.
+- Fee rules stay for universities without a fee schedule.
 
 ### Decision 209 — The Platform guide lives in the app and is reviewed with every release
 **Status:** Current (1 October 2026, v2.15.136) · **Recorded in:** this reference (Pilot PR #230)
