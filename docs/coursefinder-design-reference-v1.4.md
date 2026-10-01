@@ -257,6 +257,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 209 — The Platform guide lives in the app and is reviewed with every release | Current; v2.15.136 (Pilot PR #230) |
 | Decision 210 — An approved fee schedule settles the flagged fees it answers | Current; v2.15.137 (Pilot PR #232) |
 | Decision 211 — Scholarship eligibility and award scope are read from the provider page | Current; v2.15.138 (Pilot PR #233) |
+| Decision 212 — Scholarship publishing: domestic only held back, "up to" values as maxima, savings per year | Current; v2.15.139 (Pilot PR #234) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1442,6 +1443,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 212 — Scholarship publishing: domestic only held back, "up to" values as maxima, savings per year
+**Status:** Current (2 October 2026, migration 20261002180400) · **Recorded in:** this reference (Pilot PR #234)
+- **Domestic only:** a scholarship is not publishable when the provider page's student type (Decision 211) names domestic students only. It is publishable again only when a Platform Admin records that international students can apply (Scholarships › Publishing › Domestic only; a note is required; stored as a person's criterion that automation never changes). The daily review withdraws a published one.
+- **"Up to" values:** when the page states a single maximum amount or percentage and the record has no value, it is recorded with award_value_is_maximum. It is shown as "Up to …", counts as a stated value for publishing, and is never used to work out a fee saving. Values entered by hand are not changed.
+- **Savings:** a percentage off tuition fees is worked out per year from the course's annual international tuition fee recorded from the provider (fee type provider_current_tuition). The scholarship's year is used when it states one, otherwise the latest year. Two different fees for the same year are left for a person. Refreshed daily (job scholarship-savings).
+- Publishing itself is unchanged: a Platform Admin publishes the ready list with an approval note.
 
 ### Decision 211 — Scholarship eligibility and award scope are read from the provider page
 **Status:** Current (2 October 2026, migration 20261002180300) · **Recorded in:** this reference (Pilot PR #233)
