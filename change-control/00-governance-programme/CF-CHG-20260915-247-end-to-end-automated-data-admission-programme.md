@@ -2773,3 +2773,11 @@ Pilot PRs #160, #161.
 - **Fix:** migration 20261001180100 grants execute to authenticated; the function checks the role itself. Applied live; stored md5 equals the file. Pilot PR #231, merged with a squash merge after targeted deployed UAT passed.
 - **Checked live as a signed-in Platform Admin:** filter options (106 countries; Australia 37 ranked), Australia-filtered rankings, link candidates and provider search. Every security function that public.admin_read calls is now executable by authenticated.
 - **Lesson:** a new read routed through public.admin_read is tested live as a signed-in user, not only as the database owner.
+
+### 2 Oct 2026 (00:20 AEST) — Approved fee schedules settle flagged fees (Decision 210); v2.15.137
+- **Reported (Platform Admin, 1 Oct 23:43, screenshots):** Layer 4 › Flagged values still asks a person to confirm "per year" fees for universities whose fee schedule was already approved, a double take.
+- **Released:** v2.15.137 (Pilot PR #232), merged with a squash merge after targeted deployed UAT passed on the branch.
+- **Database:** migration 20261001180200 applied live after a rolled-back test; stored md5 equals the file; md5 guards on public.admin_provider_fee_schedule_decide and security.admin_data_flags_read_v1.
+- **Result:** 30 flags settled by approved schedules: Charles Sturt 25 (8 the same fee, 17 within 15%, last year's fee) and Sunshine Coast 5. 456 remain open, mostly Deakin (143) and Edith Cowan (140), whose fee documents are now read first.
+- **Screens:** flagged values show the schedule's fee with "Use schedule fee"; settled flags say why. The Platform guide was updated and reviewed for v2.15.137.
+- **Seen, not changed:** some approved schedules differ from fees already held by exactly 2 or 3 times (AIH Higher Education), which suggests a whole-course column read as annual. Those were listed as "different", not written, at approval.
