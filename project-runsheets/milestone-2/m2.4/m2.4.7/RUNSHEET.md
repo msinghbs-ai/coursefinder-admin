@@ -2657,3 +2657,32 @@ Pilot PRs #160, #161.
   - AU exact-title pages (1,615).
   - Institution-level sources for fees, English and intakes.
   - Confirm the new Firecrawl and OpenRouter amounts.
+
+### 1 Oct 2026 (17:45 AEST) — Course links of every kind, who can apply, link refresh, admission rules per country (Decisions 200–203); v2.15.133
+- **Direction (Platform Admin, 16:54):** find and build course and handbook pages with Firecrawl and third-party or regulatory portals, in parallel; keep them in the course links, maintainable by hand; schedule refreshes for all countries or per country (more countries will be added). The applicant is the international student; domestic-only courses must be identifiable, because a missing English requirement makes sense for them. Answers: 1 yes, 2 yes, 3 build it, 4 same accounts.
+- **Released:** v2.15.133 (Pilot PR #223), merged with a squash merge after targeted deployed UAT passed on the branch; main green.
+- **Database:** five migrations applied live; each stored statement's md5 equals its file. The rule changes were tested first in rolled-back transactions.
+
+  | Migration | Change | Decision |
+  |---|---|---|
+  | 20261001170000 | Link types, a manual lock per link type, who can apply, NZQA regulator links, editing functions, Courses filter | 200 |
+  | 20261001171000 | "Has a course link" means the official course page everywhere (8 functions) | 200 |
+  | 20261001172000 | Link refresh schedules (job link-refresh, every 10 minutes) and the portal registry | 201 |
+  | 20261001173000 | Admission rules per country: NZ (Decision 202) and AU exact title (Decision 203) | 202, 203 |
+  | 20261001174000 | Provider "enrols international students" read | 200 |
+- **Live results by 17:42:**
+  - AU official course links: 12,155 (up from 10,232 this morning).
+  - NZ: 148 official course links and 60 English requirements, the first NZ values admitted. NZ intakes are still in Layer 3.
+  - Every one of the 6,475 NZ courses has its NZQA regulator page.
+  - All 26,103 AU courses are marked open to international students (CRICOS); 1,556 providers enrol international students.
+- **Measured limit:** the database's outbound queue (pg_net) sends requests in rounds of 200 and each round waits for its slowest call.
+  - At 80 course-link searches a minute the queue stalled for about 4 minutes and the coverage workers waited behind it.
+  - Search is back to 20 a minute.
+  - The fix for more speed is to move the search into the edge worker.
+- **Corrected in tests:** the Layer 2 dispatcher contract still expected wording replaced in v2.15.131. It was failing on main and passes now.
+- **Not yet done:**
+  - NZ tuition (the Layer 3 tuition steps still assume AUD);
+  - the portal harvest worker (UAC first; registry and switches are in place, all off except NZQA);
+  - the institution-level fee, English and intake reader (approval 3);
+  - moving the search into the edge worker.
+- **OpenRouter:** the platform's key reports US$45 purchased and US$12.29 left at 16:54. The top-up is not on the balance this key draws on.

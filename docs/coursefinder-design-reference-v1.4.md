@@ -245,6 +245,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 197 — Older screens in the compact style | Current; v2.15.132 (Pilot PR #221) |
 | Decision 198 — New Zealand course-page coverage started; Layer 3 limited to Australia until NZ admission is approved | Current; migrations 20261001160000–20261001163000 (Pilot PR #222) |
 | Decision 199 — Course-link search for every Australian provider | Current; migration 20261001164000 (Pilot PR #222) |
+| Decision 200 — Course links of every kind; who can apply | Current; v2.15.133 (Pilot PR #223) |
+| Decision 201 — Course link refresh schedules for every country | Current; v2.15.133 (Pilot PR #223) |
+| Decision 202 — New Zealand admission: NZ programme code or exact title, NZD only | Current; v2.15.133 (Pilot PR #223) |
+| Decision 203 — Australian exact-title pages admit course links and intakes | Current; v2.15.133 (Pilot PR #223) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1430,6 +1434,45 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 203 — Australian exact-title pages admit course links and intakes
+**Status:** Current (1 October 2026, migration 20261001173000) · **Recorded in:** this reference (Pilot PR #223)
+- Platform Admin approval 2 (1 Oct 2026 16:54): a page on the provider's own site whose title is the course title admits the official course page and intakes.
+- Tuition and English still need the CRICOS code printed on the page.
+- Set in pipeline.coverage_admission_countries (AU row), together with Decision 202.
+
+### Decision 202 — New Zealand admission: NZ programme code or exact title, NZD only
+**Status:** Current (1 October 2026, migration 20261001173000) · **Recorded in:** this reference (Pilot PR #223)
+- Platform Admin approval 1 (1 Oct 2026 16:54): NZ values are admitted when the page is on the provider's own site and shows the NZQA programme code or the exact programme title.
+- **Values:** official course page, intakes and English. Tuition waits for the NZD tuition path.
+- **Rules per country:** they live in pipeline.coverage_admission_countries (identities per value, currency), so a country added later is a row, not new code. The admission plan, the admission apply step and Layer 3 (claim and admit) read it.
+- **How NZ values are written:** through security.coverage_apply_course_v1, keyed by the course and its evidence. It refuses a fee whose currency differs from the country's.
+- A tuition entered by hand defaults to the course country's currency.
+
+### Decision 201 — Course link refresh schedules for every country
+**Status:** Current (1 October 2026, migration 20261001172000) · **Recorded in:** this reference (Pilot PR #223)
+- **Where schedules are set:** pipeline.link_refresh_policies, for all countries, one country or one provider, per link type. The most specific schedule wins.
+- **Defaults (all countries):** official page every 30 days; handbook, admission centre and regulator listing every 90 days.
+- **The job link-refresh (every 10 minutes, in Automations):**
+  - re-reads pages that are due;
+  - searches again for courses with no page after their period;
+  - carries each read to the link: re-confirmed, or marked unverified when the page is gone (404/410) and the course searched again;
+  - adds regulator links for new NZ codes.
+- Links set by a person or confirmed in Layer 4 are never changed.
+- pipeline.link_portals registers third-party and regulatory portals per country: NZQA (on), UAC, VTAC, QTAC, SATAC, TISC and Study Australia (off until their reader is verified).
+- Both are maintained on Coverage › Courses › Link refresh.
+
+### Decision 200 — Course links of every kind; who can apply
+**Status:** Current (1 October 2026, migrations 20261001170000, 20261001171000, 20261001174000) · **Recorded in:** this reference (Pilot PR #223)
+- **Link types (ref.course_link_types):** official course page, handbook entry, international students page, how to apply, admission centre listing, regulator listing.
+- **Editing:** every type can be added, changed and removed in the course editor. Each type has its own manual lock, and automation leaves a hand-set link type alone until it is handed back.
+- **"Has a course link"** still means the official course page everywhere: search projection, data quality, admin lists and the Layer 2 snapshot.
+- **NZQA regulator page:** added for every NZ course.
+- **Who can apply:** courses record open to international students and open to domestic students (yes, no or not known).
+  - Australian CRICOS-registered courses are open to international students.
+  - Providers record whether they enrol international students, and that applies to their courses not set by hand.
+  - An English requirement is expected only where international students can apply.
+  - Courses has the filter "International students".
 
 ### Decision 199 — Course-link search for every Australian provider
 **Status:** Current (1 October 2026, migration 20261001164000) · **Recorded in:** this reference (Pilot PR #222)
