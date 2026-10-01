@@ -2686,3 +2686,33 @@ Pilot PRs #160, #161.
   - the institution-level fee, English and intake reader (approval 3);
   - moving the search into the edge worker.
 - **OpenRouter:** the platform's key reports US$45 purchased and US$12.29 left at 16:54. The top-up is not on the balance this key draws on.
+
+### 1 Oct 2026 (19:45 AEST) — Course-link search in the worker, fee schedules for approval, Layer 3 claim fixes, Firecrawl guard on the reported balance (Decisions 204–207); v2.15.134
+- **Direction (Platform Admin, 18:15):** go ahead with the institution reader; make sure nothing else breaks; write a screen walkthrough for operators and Platform Admins (telemetry and actions); alert emails will use a free SMTP provider such as Mailgun; speed up data admission before Saturday.
+- **Released:** v2.15.134 (Pilot PR #227). Pilot PRs #224, #225, #226, #227 and #228 merged with squash merges after targeted deployed UAT passed on each branch; main green after each. coverage-sweep deployed from main after #226 and #227 and checked by a live run.
+- **Database:** nine migrations applied live; each stored statement's md5 equals its file. Function changes were tested first in rolled-back transactions, behind md5 guards.
+
+  | Migration | Change | Decision |
+  |---|---|---|
+  | 20261001175000, 20261001176000 | Course-link search runs in the coverage-sweep worker (job course-link-search-worker) | 204 |
+  | 20261001177000 | Worker pass lasts 5 minutes | 204 |
+  | 20261001178000 | Institution-level sources: search queue (top 150 AU providers), documents, fee rows | 205 |
+  | 20261001179000 | Layer 3 claim: a stale claim closes its interpretation; courses with an open call are skipped | 206 |
+  | 20261001179100 | Layer 3 claim checks written as joins (9.1 s to 0.6 s) | 206 |
+  | 20261001179200 | Fee schedules: linked PDFs followed; proposals approved by a Platform Admin | 205 |
+  | 20261001179300 | Layer 3 claim: one claim at a time per task | 206 |
+  | 20261001179400 | Job provider-facts every 10 minutes | 205 |
+  | 20261001179500 | Firecrawl balance read every 15 minutes; guard uses the lower figure | 207 |
+- **Found and fixed while checking nothing else broke:**
+  - Layer 3 English and intake claims failed 26 times (06:00–08:30 UTC) on a duplicate open call, and 18 times on the 8-second time limit. Both fixed; no failures after 09:10 UTC.
+  - The Firecrawl guard showed 60,657 credits left; Firecrawl reported 47,476. The guard now uses the reported balance.
+  - Two coverage-sweep contract tests had been stale since earlier releases; corrected.
+- **Live results (19:30):**
+  - AU (26,103 courses): official course links 15,550; English 7,812; intakes 4,893; current tuition 2,340.
+  - NZ (6,475 courses): official course links 271; English 202.
+  - Last 6 hours: 6,529 course links, 1,877 English requirements, 448 tuition values admitted.
+  - Course-link search queue is empty (5,255 found by CRICOS code, 2,879 by title, 5,476 with no page found).
+  - First fee schedules read: ACU 2027 (103 courses ready for approval, 1 already the same); ACPE 2026 held back (several amounts per course, not used).
+- **Waiting for a person:** approval of the ACU 2027 fee schedule (Coverage › Attributes › Fee schedules).
+- **Not yet done:** English policy and calendar reading (needs a qualified extractor); NZ tuition in NZD; the portal harvest worker (UAC first); alert emails (SMTP provider to be chosen).
+- **Operator walkthrough:** published as a doc, "CourseFinder Operations Walkthrough" (roles, daily routine, reading the screens, signal → action, Platform Admin duties, alert emails).
