@@ -2694,3 +2694,10 @@ Pilot PRs #160, #161.
   9. the Platform health budget check follows the sum of the AI task limits;
   10. reuse an identical stored page at capture instead of storing a copy;
   11. alert emails through Mailgun (sending subdomain, DNS, key and recipients to be provided).
+
+### 1 Oct 2026 (23:50 AEST) — Fix: QS and THE filters refused for signed-in users (Decision 208)
+- **Reported (Platform Admin, 23:28, screenshot):** "permission denied for function admin_ranking_links_read" on Rankings › QS; the Country list showed no options.
+- **Cause:** public.admin_read runs as the signed-in user; migration 20261001180000 had revoked execute on the new security.admin_ranking_links_read from authenticated. The mocked browser tests and the rolled-back test could not see it.
+- **Fix:** migration 20261001180100 grants execute to authenticated; the function checks the role itself. Applied live; stored md5 equals the file. Pilot PR #231, merged with a squash merge after targeted deployed UAT passed.
+- **Checked live as a signed-in Platform Admin:** filter options (106 countries; Australia 37 ranked), Australia-filtered rankings, link candidates and provider search. Every security function that public.admin_read calls is now executable by authenticated.
+- **Lesson:** a new read routed through public.admin_read is tested live as a signed-in user, not only as the database owner.
