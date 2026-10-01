@@ -256,6 +256,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 208 — QS and THE universities linked to providers, kept linked for every country | Current; v2.15.135 (Pilot PR #229) |
 | Decision 209 — The Platform guide lives in the app and is reviewed with every release | Current; v2.15.136 (Pilot PR #230) |
 | Decision 210 — An approved fee schedule settles the flagged fees it answers | Current; v2.15.137 (Pilot PR #232) |
+| Decision 211 — Scholarship eligibility and award scope are read from the provider page | Current; v2.15.138 (Pilot PR #233) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1441,6 +1442,19 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 211 — Scholarship eligibility and award scope are read from the provider page
+**Status:** Current (2 October 2026, migration 20261002180300) · **Recorded in:** this reference (Pilot PR #233)
+- **What is read** (scholarship reader v0.5.3, from the eligibility section and short "key details" lines; each item keeps the page's own words):
+  - student type: domestic, international, or both;
+  - study stage: new (commencing) or current students; a page naming both gives neither;
+  - full-time study; minimum ATAR, GPA (with its scale when stated) or weighted average;
+  - citizenship lists, gender restrictions, and consideration without an application;
+  - award duration: one-off, first year only, each year, each year for the length of the course, for the length of the course, or each semester.
+- **Exclusions are respected:** "not an Australian citizen", "... are not eligible", and "not eligible ... if you: are an Australian citizen" do not make a scholarship domestic.
+- **Where it goes:** scholarship.criteria rows marked value_json.by = 'scholarship_sweep'. A changed page supersedes the earlier sweep rows. Criteria from people, AI or feeds are never touched. Award duration is filled only where the record has none.
+- **When:** on every scholarship page read. Stored pages are re-read without fetching (worker mode scholarship_reextract) when the reader version changes.
+- **Not changed:** publication rules and fee-saving calculations. Old course-link candidates are kept as superseded, not deleted.
 
 ### Decision 210 — An approved fee schedule settles the flagged fees it answers
 **Status:** Current (2 October 2026, migration 20261001180200) · **Recorded in:** this reference (Pilot PR #232)
