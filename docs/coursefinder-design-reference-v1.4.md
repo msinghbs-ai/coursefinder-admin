@@ -249,6 +249,10 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 201 — Course link refresh schedules for every country | Current; v2.15.133 (Pilot PR #223) |
 | Decision 202 — New Zealand admission: NZ programme code or exact title, NZD only | Current; v2.15.133 (Pilot PR #223) |
 | Decision 203 — Australian exact-title pages admit course links and intakes | Current; v2.15.133 (Pilot PR #223) |
+| Decision 204 — Course-link search runs in the coverage-sweep worker | Current; migrations 20261001175000–20261001177000 (Pilot PRs #224, #225) |
+| Decision 205 — Institution-level fee schedules, approved by a Platform Admin | Current; v2.15.134 (Pilot PRs #226, #227, #228) |
+| Decision 206 — Layer 3 English and intake claims: no duplicate calls, under the time limit | Current; v2.15.134 (Pilot PR #227) |
+| Decision 207 — The Firecrawl budget guard follows the balance Firecrawl reports | Current; migration 20261001179500 (Pilot PR #228) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1434,6 +1438,32 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 207 — The Firecrawl budget guard follows the balance Firecrawl reports
+**Status:** Current (1 October 2026, migration 20261001179500) · **Recorded in:** this reference (Pilot PR #228)
+- The guard used the platform's own usage per calendar month against the 100,000 plan. Firecrawl's period runs 29th to 29th and some usage is outside the platform's count: at 19:30 on 1 Oct the guard showed 60,657 credits left and Firecrawl 47,476.
+- The job firecrawl-credit reads Firecrawl's balance every 15 minutes (pipeline.vendor_credit_observations).
+- security.layer2_provider_budget_status uses the lower of its own count and the last reading (under 2 hours old) less the platform's use since. The reserve stop (2,000 credits) is unchanged.
+
+### Decision 206 — Layer 3 English and intake claims: no duplicate calls, under the time limit
+**Status:** Current (1 October 2026, migrations 20261001179000, 20261001179100, 20261001179300) · **Recorded in:** this reference (Pilot PR #227)
+- Releasing a stale claim (after 30 minutes) also closes its interpretation, as hourly housekeeping does; a course with an open call is never claimed again.
+- One claim at a time per task, so two claims sent together never choose the same course.
+- The identity and block checks are joins, not per-row functions: a 40-item claim takes 0.6 seconds (was 9.1, over the 8-second limit for calls through the API). The pages chosen are the same.
+
+### Decision 205 — Institution-level fee schedules, approved by a Platform Admin
+**Status:** Current (1 October 2026, migrations 20261001178000, 20261001179200, 20261001179400) · **Recorded in:** this reference (Pilot PRs #226, #227, #228)
+- Platform Admin approval 3 (1 Oct 2026 16:54, "build it"; 18:15 "go ahead with the institution reader").
+- The job provider-facts (every 10 minutes) searches each provider's own site for its international fee schedule, English policy and academic calendar, and follows fee PDFs linked from a fee page. Documents are kept as evidence.
+- A fee row is kept only when one CRICOS code and one amount sit on the same row, with the basis from the column heading (a schedule split across pages keeps its heading).
+- Each document becomes a proposal. A Platform Admin approves it on Coverage › Attributes › Fee schedules. Approval writes a fee only where the course has no current tuition and no Layer 4 tuition review is pending; a different fee on record is listed, not changed. Per-semester rows and courses with several amounts are not used.
+- English policies and calendars are found but not read until a qualified extractor exists.
+
+### Decision 204 — Course-link search runs in the coverage-sweep worker
+**Status:** Current (1 October 2026, migrations 20261001175000, 20261001176000, 20261001177000) · **Recorded in:** this reference (Pilot PRs #224, #225)
+- Searches sent through the database's outbound queue (pg_net) stalled it at 80 a minute: the queue sends in rounds of 200 and each round waits for its slowest call.
+- The worker (mode link_search) runs searches six at a time and records each through the same rules; job course-link-search-worker every minute.
+- The one-time pass a job hands the worker lasts 5 minutes, so a call delayed in the queue is still accepted.
 
 ### Decision 203 — Australian exact-title pages admit course links and intakes
 **Status:** Current (1 October 2026, migration 20261001173000) · **Recorded in:** this reference (Pilot PR #223)
