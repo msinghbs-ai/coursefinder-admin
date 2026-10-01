@@ -261,6 +261,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 213 — Coverage by country and university; fee schedules approved in bulk; course-page pattern requests retired | Current; v2.15.140 (Pilot PR #235) |
 | Decision 214 — Live activity shows every layer's work; discovery keeps its own list | Current; v2.15.141 (Pilot PR #236) |
 | Decision 215 — Scheduled workers sign in with one-time run passes; worker errors are shown | Current; v2.15.142 (Pilot PR #237) |
+| Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1446,6 +1447,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 216 — Every background function signs in with one-time run passes
+**Status:** Current (2 October 2026, migration 20261002181200) · **Recorded in:** this reference (Pilot PR #238)
+- **No shared automation key:** every scheduled job and background worker signs in with a one-time run pass, valid for 5 minutes and usable once, consumed under the receiving function's own name. No function accepts the long-lived automation key.
+- **One allow-list:** `pipeline.pilot_nonce_functions` decides which functions can be given a pass. Database callers use `svc_pilot_submit_nonce` or `svc_pilot_issue_nonce`; a worker that calls another worker makes a fresh pass for each call (never forwards the one it received). A new background function is added to this list and to the deploy workflow's allow-list.
+- **Deployed from git only:** background functions are deployed by the deploy workflow from the repository, and live code is compared with git after each deploy. Code found running without its source in git is committed before it is changed.
 
 ### Decision 215 — Scheduled workers sign in with one-time run passes; worker errors are shown
 **Status:** Current (2 October 2026, migrations 20261002180900–20261002181100) · **Recorded in:** this reference (Pilot PR #237)
