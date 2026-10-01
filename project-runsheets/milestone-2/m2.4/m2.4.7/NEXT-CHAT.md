@@ -2572,3 +2572,37 @@ Pilot PRs #160, #161.
   - Platform health budgets check: it reports OK at US$12.76 of OpenRouter spend in 24 h against a stored daily ceiling of US$5. The ceiling looks stale, since the per-task Layer 3 limits now total US$13.
   - The four Ask items, still open: background area fetch, wave defaults, source-pattern interpretation and Layer 4 findings.
 - **Screen review status:** all marked Fix items are implemented, except those raised above. Skips are respected: Courses filters, filter walls generally, and the placement of Provider contacts.
+
+### 1 Oct 2026 (16:30 AEST) — NZ course-page coverage started; Layer 3 limited to Australia; course-link search for every Australian provider (Decisions 198–199)
+- **Direction (Platform Admin, 16:01):** "Start parallel jobs for nz asap". Also: plan admitted data at scale for production handover; the Firecrawl, Supabase and OpenRouter subscriptions have been raised.
+- **Released:** Pilot PR #222, merged with a squash merge after targeted deployed UAT passed on the branch. `layer1-nz-live` v1.2.1 deployed through the edge-function workflow (live version 7, content checked).
+- **Database:** all five migrations were applied live, and each stored statement's md5 equals its file:
+  - 20261001160000: 287 NZ providers queued for course-page discovery (281 pending, 6 with no website).
+  - 20261001161000: second discovery worker `coverage-discover-2`, listed in Automations.
+  - 20261001162000: 137 NZ websites stored as `https://https://…` corrected and requeued.
+  - 20261001163000: Layer 3 hand-offs limited to Australian providers (Decision 198). Tested first in a rolled-back transaction.
+  - 20261001164000: generic course-link search recipes for 920 Australian providers (Decision 199). Tested first in a rolled-back transaction.
+- **NZ currency risk found and closed (Decision 198):**
+  - NZ programme codes (e.g. AUT "AK3717") are printed on NZ pages the same way CRICOS codes are. So NZ pages reached the Layer 3 tuition step (which records AUD) and the intake and English steps.
+  - Nothing was written to any NZ course: 0 fees, 0 intakes, 0 English, 0 links. Admission needs a CRICOS registration, so the NZ answers went to the Layer 4 queue instead.
+  - The open NZ Layer 3 items are parked, and 48 NZ Layer 4 items are marked superseded with the reason.
+- **NZ progress at 16:25:**
+  - Discovery: 266 of 287 providers mapped, 20 failed.
+  - 3,148 of 6,475 NZ courses have a candidate page.
+  - Pages read: 48 show the programme code, 210 match on exact title, and 1,473 do not confirm. NZ pages rarely print the NZQA code.
+- **Australian search (Decision 199):**
+  - 9,960 courses queued; the batch was raised from 40 to 80 a minute through the governed control.
+  - First 15 minutes: 438 searches, 105 pages found, 71 confirmed by the CRICOS code on the page.
+  - Firecrawl this month: 1,057 credits of the 100,000 plan guard.
+- **Corrections:**
+  - The earlier "Firecrawl used 9 units" counted only the new calendar month. About 16,000 credits were used in the 24 hours before.
+  - The US$12.76 in the 15:25 entry is the remaining OpenRouter credit, not 24-hour spend. Actual Layer 3 spend in 24 hours was about US$0.62.
+  - The OpenRouter balance still read US$12.74 at 16:23. The Layer 3 credit floor stops work at US$5.
+- **Measured, not assumed:**
+  - Layer 3 has already tried almost every eligible Australian page (2 left untried for intakes and English, 0 tuition candidates waiting). Raising AI limits alone adds nothing.
+  - On the pages it read in 24 hours, intakes were not stated on 691 of 1,017 and English on 750 of 752.
+- **Raised with the Platform Admin:**
+  - NZ admission rule: identity by NZ programme code or exact title on the provider's own site, NZD only.
+  - AU exact-title pages (1,615).
+  - Institution-level sources for fees, English and intakes.
+  - Confirm the new Firecrawl and OpenRouter amounts.

@@ -243,6 +243,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 195 — Edit in list for course facts, campuses and scholarships | Current; v2.15.130 (Pilot PR #219) |
 | Decision 196 — Melbourne time, plain wording and counts that say what they cover | Current; v2.15.131 (Pilot PR #220) |
 | Decision 197 — Older screens in the compact style | Current; v2.15.132 (Pilot PR #221) |
+| Decision 198 — New Zealand course-page coverage started; Layer 3 limited to Australia until NZ admission is approved | Current; migrations 20261001160000–20261001163000 (Pilot PR #222) |
+| Decision 199 — Course-link search for every Australian provider | Current; migration 20261001164000 (Pilot PR #222) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1428,6 +1430,27 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 199 — Course-link search for every Australian provider
+**Status:** Current (1 October 2026, migration 20261001164000) · **Recorded in:** this reference (Pilot PR #222)
+- Course-link search looks for a course's own page on its provider's site with Firecrawl: first "<CRICOS code>", then "<title>". It used to run only for the 10 universities with a hand-written recipe.
+- 920 more Australian providers that have a website and CRICOS-coded courses now have a generic recipe. Any page on the provider's own site can be a candidate, except files and news, event, staff and search pages.
+- The safeguard is unchanged: a candidate page is used only when the reader finds the course's CRICOS code printed on it. Otherwise the next candidate is tried, then the title search, then the course is marked not found.
+- Generic recipes are marked in their notes and can be switched off per provider. Websites holding more than one address (6) were left out.
+- Monthly search allowance: raised from 15,000 to 50,000 Firecrawl credits, inside the 100,000-credit plan guard.
+- Batch: 80 courses a minute, changeable in Automations.
+
+### Decision 198 — New Zealand course-page coverage started; Layer 3 limited to Australia until NZ admission is approved
+**Status:** Current (1 October 2026, migrations 20261001160000–20261001163000) · **Recorded in:** this reference (Pilot PR #222)
+- **NZ providers in the pipeline:**
+  - All NZ providers with active courses are in course-page discovery.
+  - A second discovery worker runs beside the first; the queue never gives the same provider to both.
+  - NZ websites with a doubled scheme were corrected, and the NZ register loader (`layer1-nz-live` v1.2.1) no longer creates them.
+- **Layer 3 is limited to Australian providers.** This covers tuition (`svc_coverage_tuition_handoff_next`) and intakes and English (`layer3_fact_claim_service`). NZ programme codes appear on NZ pages like CRICOS codes, and the tuition step records AUD.
+- **NZ pages are found, matched and read, but nothing is admitted for NZ** until a separate NZ admission rule is approved:
+  - identity by NZ programme code or exact title on the provider's own site;
+  - amounts in NZD.
+- Open NZ Layer 3 items were parked, and their Layer 4 items were marked superseded with the reason. No NZ value had been written.
 
 ### Decision 197 — Older screens in the compact style
 **Status:** Current (1 October 2026, v2.15.132) · **Recorded in:** this reference (Pilot PR #221)
