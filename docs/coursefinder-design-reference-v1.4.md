@@ -232,6 +232,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 184 — Models & services: one on/off switch per model and service | Current; v2.15.118 (Pilot PR #207) |
 | Decision 185 — Parse.bot removed completely | Current; v2.15.119 (Pilot PR #208) |
 | Decision 186 — Edit in list for Courses and Providers | Current; v2.15.120 (Pilot PR #209) |
+| Decision 187 — Reference sources: third-party sites managed in the admin and read by the platform | Current; v2.15.121 (Pilot PR #210) |
+| Decision 188 — One home per setting for models and services | Current; v2.15.122 (Pilot PR #211) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1417,6 +1419,42 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 188 — One home per setting for models and services
+**Status:** Current (1 October 2026, v2.15.122) · **Recorded in:** this reference (Pilot PR #211)
+- Screen review, 1 Oct (Fix): models and services were switched or configured in five places.
+- Where each setting now lives:
+  - **Models & services:** the only on/off for models and services.
+  - **Environment & integrations:** keys only.
+  - **Scrapers & fetchers:** address, limits and routing.
+  - **Layer 3 › Control:** cascade order and daily limits.
+  - Layer 3 › Models was removed; old links open Models & services.
+- A model can be switched on only after it has passed its test: a passed benchmark, or the tier rule (at least 80% right and 0 wrong on the frozen pages) for one of its tasks. Passing never switches it on by itself.
+- Adding a model to a cascade no longer switches the model on as a side effect. Before this change it bypassed the activation checks.
+- New fetching services start switched off.
+
+### Decision 187 — Reference sources: third-party sites managed in the admin and read by the platform
+**Status:** Current (1 October 2026, v2.15.121) · **Recorded in:** this reference (Pilot PR #210)
+- Platform Admin (1 Oct 09:24 AEST): "notable third party links … UI should maintain and control profiles how they are used. Not hard coded in script or functions."
+- Reference data › Key links became **Reference sources**. Each site has a domain, an on/off switch and ticked uses:
+  - reference link;
+  - data source;
+  - never a university website;
+  - never a course page;
+  - scholarship placeholder;
+  - logo directory;
+  - ranking publisher.
+- It was seeded with exactly the patterns that were previously hard-coded: 40 new sites and 7 existing ones.
+- These now read the list instead of fixed patterns:
+  - nine database functions (course-link binding, provider catalogue, six scholarship functions, source comparison; md5-guarded edits);
+  - the coverage sweep (it fails closed if the list is empty);
+  - the Ranking imports addresses.
+- Scholarship publishability output was byte-identical before and after.
+- Who can change what:
+  - Curators: names, addresses, purpose, and "Check now".
+  - PIM Operators: adding or retiring a site, or changing its domain, uses, category or switch. A reason is required and the change is logged.
+- A placeholder site cannot be switched off while scholarships depend on it (111 depend on Study Australia today).
+- Key dates is edited in place: list first, dd/mm/yyyy, cancel and restore, and a short form for adding a date.
 
 ### Decision 186 — Edit in list for Courses and Providers
 **Status:** Current (1 October 2026, v2.15.120) · **Recorded in:** this reference (Pilot PR #209)
