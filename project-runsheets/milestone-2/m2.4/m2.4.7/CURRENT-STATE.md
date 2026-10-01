@@ -2570,3 +2570,34 @@ Pilot PRs #160, #161.
 - **Package 2, one home per setting, Decision 188** (v2.15.122, Pilot PR #211, migration 20261001120000, md5 equal to its file).
 - **Governance gap found and closed:** adding a model to a Layer 3 cascade switched the model on without the activation checks. It must now be switched on in Models & services first, and only after passing its test.
 - **Not yet built:** "Add model", which starts a new model's qualification from the UI. It needs qualification-run orchestration and is planned separately.
+
+### 1 Oct 2026 (14:05 AEST) — Packages 3–5 live (Decisions 189–194)
+- **Released, each merged with a squash merge after targeted deployed UAT passed on the branch, and main green after each:**
+
+  | Package | Release | Pilot PR | Decision |
+  |---|---|---|---|
+  | 3, merge duplicate screens | v2.15.123–124 | #212, #213 | 189 |
+  | 4, Dashboard "Waiting for you" | v2.15.125 | #214 | 190 |
+  | 5, part 1: fee rules, flagged values, Layer 3 Control | v2.15.126 | #215 | 191 |
+  | 5, part 2: Layer 3 Work queue, Layer 2 Source profiles | v2.15.127 | #216 | 192 |
+  | 5, part 3: Layer 2 tabs | v2.15.128 | #217 | 193 |
+  | 5, part 4: Layer 4 review queue | v2.15.129 | #218 | 194 |
+- **Database:** only migration 20261001130000 (`admin_waiting_read`), md5 equal to its file. No edge function changes.
+- **Review calls checked against the code and live data before acting:**
+  - Layer 2 provider onboarding is not a duplicate of Providers › Onboarding, so it was kept.
+  - Layer 4 provider departures (10 live records) was kept.
+  - The scholarship scope cohorts (37,200 stale candidates) and the reusable scope rules (none ever saved) were removed from Layer 4 in favour of Scholarships › Course links.
+- **UAT fix:** one deployed helper failed since #213 because a page with only one visible tab shows no tab bar (Layer 1 Register for operators). The helper now accepts that case.
+- **Still waiting on the Platform Admin (Ask items):**
+  - background area fetch: now on Layer 2 › Fetch an area;
+  - wave defaults;
+  - source-pattern interpretation: now on Layer 3 › Work queue;
+  - Layer 4 findings: now under Bulk decisions.
+- **Next:**
+  - Package 6: edit in list for tuition, intakes, English, campuses, scholarships and Data model, and a shorter course panel.
+  - Package 7: plain language, AU dates and Melbourne time, consistent counts, and older screens in the compact style.
+- **Known failing tests, all already failing on main:**
+  - cf-247-coverage-sweep-contract:84;
+  - cf-247-admin-simplify:149 (mobile);
+  - cf-206 version pin;
+  - deployed specs that need credentials when run locally.
