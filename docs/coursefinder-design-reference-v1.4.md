@@ -260,6 +260,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 212 — Scholarship publishing: domestic only held back, "up to" values as maxima, savings per year | Current; v2.15.139 (Pilot PR #234) |
 | Decision 213 — Coverage by country and university; fee schedules approved in bulk; course-page pattern requests retired | Current; v2.15.140 (Pilot PR #235) |
 | Decision 214 — Live activity shows every layer's work; discovery keeps its own list | Current; v2.15.141 (Pilot PR #236) |
+| Decision 215 — Scheduled workers sign in with one-time run passes; worker errors are shown | Current; v2.15.142 (Pilot PR #237) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1445,6 +1446,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 215 — Scheduled workers sign in with one-time run passes; worker errors are shown
+**Status:** Current (2 October 2026, migrations 20261002180900–20261002181100) · **Recorded in:** this reference (Pilot PR #237)
+- **Run passes:** a scheduled job calls its worker with a one-time run pass (`pipeline.svc_pilot_submit_nonce`, allow-listed per function); the worker accepts it once (`svc_pilot_consume_nonce`). The long-lived automation key expired on 30 September 2026 and is not used for new work.
+- **Worker errors are visible:** a scheduled run only sends the request, so its success says nothing about the worker. Live activity (admin_read 'live_activity') lists error replies that workers sent back in the last few hours (pg_net), with a plain-English reading. A job that relies on a worker must have its worker's reply shown, not just the run's status.
+- **Evidence link indexing** reads compressed saved pages. Pages wrongly recorded as having no links were indexed again.
 
 ### Decision 214 — Live activity shows every layer's work; discovery keeps its own list
 **Status:** Current (2 October 2026, migrations 20261002180600–20261002180800) · **Recorded in:** this reference (Pilot PR #236)
