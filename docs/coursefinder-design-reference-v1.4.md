@@ -234,6 +234,12 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 186 — Edit in list for Courses and Providers | Current; v2.15.120 (Pilot PR #209) |
 | Decision 187 — Reference sources: third-party sites managed in the admin and read by the platform | Current; v2.15.121 (Pilot PR #210) |
 | Decision 188 — One home per setting for models and services | Current; v2.15.122 (Pilot PR #211) |
+| Decision 189 — Duplicate screens merged | Current; v2.15.123–v2.15.124 (Pilot PRs #212, #213) |
+| Decision 190 — Dashboard opens with "Waiting for you" | Current; v2.15.125 (Pilot PR #214) |
+| Decision 191 — Fee rules, flagged values and Layer 3 Control easier to read | Current; v2.15.126 (Pilot PR #215) |
+| Decision 192 — Layer 3 Work queue rebuilt; fetchers set per source | Current; v2.15.127 (Pilot PR #216) |
+| Decision 193 — Layer 2 split into Overview, Fetch an area, History and Source profiles | Current; v2.15.128 (Pilot PR #217) |
+| Decision 194 — Layer 4 review queue: Bulk decisions, scholarship scope decided on Course links | Current; v2.15.129 (Pilot PR #218) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1419,6 +1425,92 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 194 — Layer 4 review queue: Bulk decisions, scholarship scope decided on Course links
+**Status:** Current (1 October 2026, v2.15.129) · **Recorded in:** this reference (Pilot PR #218)
+- Screen review, 1 Oct (Fix): l4-batch-naming, l4-scholarship-overlap, l4-legacy-style, l4-status-tiles, l4-forecast.
+- Review queue: four even status tiles; filters read "All tasks", "Everyone / Mine / Unassigned"; items show "Yours" or "With someone else".
+- "Batches" is renamed **Bulk decisions**. Below its groups are only:
+  - provider departures (10 live records; nowhere else);
+  - errors and improvements (kept until the Platform Admin decides on Layer 4 findings);
+  - decision history (renamed from Mass audit).
+- Removed from Layer 4:
+  - scholarship scope cohorts: all 37,200 candidates were stale, and Scholarships › Course links decides once per scholarship (Decision 182), linked from here;
+  - the older generic review cohorts, covered by the Bulk decisions groups;
+  - the self-mounted reusable scope rules panel: no rule was ever saved.
+- No database change.
+
+### Decision 193 — Layer 2 split into Overview, Fetch an area, History and Source profiles
+**Status:** Current (1 October 2026, v2.15.128) · **Recorded in:** this reference (Pilot PR #217)
+- Screen review, 1 Oct (Fix): l2-bloat, l2-dup, l2-hour-table, l2-jargon, l2-mixed-style. The page was about 2,500px with about 15 panels.
+- **Overview:** tiles, coverage and what is left, where work stops, fetchers, by hour (9 columns instead of 25; the full breakdown is in the row tooltip), not ready to fetch, recently accepted facts.
+- **Fetch an area:** provider onboarding (each provider's course catalogue page, Decisions 141, 146 and 147) and the background area fetch.
+  - Provider onboarding was kept: the review called it a duplicate of Providers › Onboarding, but that is a different feature (the case-stage tracker).
+  - Background area fetch stays until the Platform Admin decides on it.
+- **History:** progress, recent runs, recent page fetches and the execution trace.
+- Removed as duplicates: the acquisition policy chain and its fixed example (Scrapers & fetchers), the Data Quality and Evidence boxes, an extra tile row, internal notes and the change-control footer.
+- No database change.
+
+### Decision 192 — Layer 3 Work queue rebuilt; fetchers set per source
+**Status:** Current (1 October 2026, v2.15.127) · **Recorded in:** this reference (Pilot PR #216)
+- Screen review, 1 Oct (Fix): l3w-banner, l3w-jargon, l3w-dup-buttons, l3w-placement, prof-style, prof-governance-text, prof-provider-btn, prof-routing-dup.
+- **Layer 3 › Work queue** shows:
+  - work by task: waiting, settled, no value on the page, sent to a person, failed;
+  - course-page pattern requests, still run by hand, one at a time, with unchanged behaviour;
+  - recent results.
+- Removed from the Work queue:
+  - the "AI interpretation is paused" banner: it counted older model-route records and could contradict Control;
+  - the one-off manual run form: its task types had no activity in 30 days;
+  - duplicate links.
+- **Layer 2 › Source profiles** moved to the compact style; the governance footer and pipeline banner are gone.
+- Which fetchers a source uses is now shown, added and tested in that source's detail panel:
+  - adding a fetcher is PIM Admin only, with the same server call as before;
+  - Scrapers & fetchers points there instead of having its own routing panel.
+- No database change.
+
+### Decision 191 — Fee rules, flagged values and Layer 3 Control easier to read
+**Status:** Current (1 October 2026, v2.15.126) · **Recorded in:** this reference (Pilot PR #215)
+- Platform Admin (1 Oct 09:24 AEST): the Layer 4 rules preview was "very hard to read".
+- **Fee rules:**
+  - the preview opens directly under the rule, with the page words centred on the rule's wording and that wording highlighted;
+  - the tab is renamed "Fee rules".
+- **Flagged values:**
+  - filter by university and search by course;
+  - "Confirm all N as per year" appears only once a university is chosen and confirms each item through the same call as one by one.
+- **Send back to AI:** short reasons and days ago. "Layer 3 work that failed" moved to Layer 3 under Control.
+- **Layer 3 Control:** short model names (full ID on hover), fixed column widths, compact row actions, and "stopped for today" when a task is over its daily limit.
+- UAT helper fix: a page with only one visible tab shows no tab bar, which is the case for Layer 1 Register for operators since #213.
+- No database change.
+
+### Decision 190 — Dashboard opens with "Waiting for you"
+**Status:** Current (1 October 2026, v2.15.125) · **Recorded in:** this reference (Pilot PR #214)
+- Screen review, 1 Oct (Fix): dash-missing-todo, dash-duplicate-health, dash-tiles-low-value, dash-jargon, dash-security-strip.
+- New `public.admin_waiting_read()` (migration 20261001130000, md5 equal to its file) lists nine queues. Each has its count, oldest item, link and the lowest role that can open it:
+  - Layer 4 review items;
+  - flagged values;
+  - fee rules to approve;
+  - scholarships to link;
+  - scholarships ready to publish;
+  - unreachable reference sites;
+  - key dates within their warning window;
+  - failed jobs;
+  - failed automations.
+- Rows above the viewer's role are dropped. A row that cannot be counted is skipped instead of failing the whole read.
+- The rest of the Dashboard is four tiles, one platform-health line, four layer tiles and recent activity. The old command view, pulse and attention panels were removed.
+
+### Decision 189 — Duplicate screens merged
+**Status:** Current (1 October 2026, v2.15.123–v2.15.124) · **Recorded in:** this reference (Pilot PRs #212, #213)
+- Screen review, 1 Oct (Fix): reg-merge-l1, l1set-merge-regulatory, reg-crash, rd-nested-tabs, mig-thin, sch-overlap, jobs-dup, au-overlap, dom-merge, src-cross-layer and others.
+- **Regulatory settings** removed:
+  - the bounded country runner moved to Layer 1 › Manual batch runs (Platform Admin);
+  - the Pilot database reset moved to the Go-live checklist.
+- **Environment migration** became the **Go-live checklist**: production settings, migration manifest, readiness gates and UAT.
+- **Platform health › Capacity** is one page with no inner tabs.
+- New **Layer 4 › Blocks** tab.
+- **Scheduled jobs** tabs are Automations, Priority queue and Jobs. Schedules render under Automations without their copied run history.
+- **Coverage** tabs are Courses and Attributes. Readiness by area is a section of Attributes.
+- **Operations › Sources** is a new page, replacing Layer 1 › Sources.
+- Old addresses redirect. Provider contacts stays where it is (Platform Admin's note). No database change.
 
 ### Decision 188 — One home per setting for models and services
 **Status:** Current (1 October 2026, v2.15.122) · **Recorded in:** this reference (Pilot PR #211)
