@@ -253,6 +253,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 205 — Institution-level fee schedules, approved by a Platform Admin | Current; v2.15.134 (Pilot PRs #226, #227, #228) |
 | Decision 206 — Layer 3 English and intake claims: no duplicate calls, under the time limit | Current; v2.15.134 (Pilot PR #227) |
 | Decision 207 — The Firecrawl budget guard follows the balance Firecrawl reports | Current; migration 20261001179500 (Pilot PR #228) |
+| Decision 208 — QS and THE universities linked to providers, kept linked for every country | Current; v2.15.135 (Pilot PR #229) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1438,6 +1439,16 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 208 — QS and THE universities linked to providers, kept linked for every country
+**Status:** Current (1 October 2026, migration 20261001180000) · **Recorded in:** this reference (Pilot PR #229)
+- **Automatic links** (job ranking-link, hourly, security.ranking_link_auto_v1), only within the same country and only to one provider:
+  - the publisher's name equals a provider's name, or a provider alias (letters and digits compared);
+  - or the name key (lower case, accents folded, no leading "The", nothing in brackets or after "|") equals a provider's name or alias, and the same provider is already linked under that key from the other ranking or another edition.
+- Anything else is a candidate (ranking.provider_mappings status candidate: up to three providers with at least half their words in common). A Curator or above links or rejects it (public.admin_ranking_link). The provider must be active and in the university's country.
+- A link applies to every edition of that university and keeps the publisher's name as a provider alias, so the next edition links at import. A link is never changed automatically; a second, different link is refused.
+- New countries need no code: once a country's providers are in the catalogue, the hourly job links its universities across all editions held.
+- **Screens:** filters by country, state (from the linked provider), provider and link; the provider record shows QS and THE ranks by edition.
 
 ### Decision 207 — The Firecrawl budget guard follows the balance Firecrawl reports
 **Status:** Current (1 October 2026, migration 20261001179500) · **Recorded in:** this reference (Pilot PR #228)

@@ -2737,3 +2737,12 @@ Pilot PRs #160, #161.
 - **Waiting for a person:** approval of the ACU 2027 fee schedule (Coverage › Attributes › Fee schedules).
 - **Not yet done:** English policy and calendar reading (needs a qualified extractor); NZ tuition in NZD; the portal harvest worker (UAC first); alert emails (SMTP provider to be chosen).
 - **Operator walkthrough:** published as a doc, "CourseFinder Operations Walkthrough" (roles, daily routine, reading the screens, signal → action, Platform Admin duties, alert emails).
+
+### 1 Oct 2026 (20:45 AEST) — QS and THE filters by country, state and provider; ranked universities linked to providers (Decision 208); v2.15.135
+- **Request (Platform Admin, 19:46):** add country, state and provider filters to the QS and THE rankings; link the ranked universities to the providers page; keep the linkage automatic as countries are added.
+- **Released:** v2.15.135 (Pilot PR #229), merged with a squash merge after targeted deployed UAT passed on the branch; main green (including release currentness).
+- **Database:** migration 20261001180000 applied live after a rolled-back test; stored md5 equals the file. md5 guards on security.admin_ranking_read and public.admin_read.
+- **Found:** QS and THE universities were linked to providers only when an edition was imported (exact name and country). Providers added later, a new country, or a slightly different name never linked, and no one could link one by hand. Unlinked in countries we hold: Australia 5, New Zealand 3, Canada 19 publisher names.
+- **Live result of the first run:** 8 universities linked across 42 ranking entries (ANU, Adelaide, UNSW, Newcastle, Auckland, Canterbury, Lincoln, Victoria (Canada)); 22 candidates offered for a person, mostly Canadian universities listed in French (for example McGill, Laval, Montréal, Concordia).
+- **Screens:** Rankings › QS / THE: Country, State, Provider and Link filters; a linked provider opens its record; Curators link a university from suggestions or a provider search. The provider record shows its QS and THE ranks by edition.
+- **Waiting for a person:** the 22 candidates (Rankings › QS or THE › Link: Not linked › Link).
