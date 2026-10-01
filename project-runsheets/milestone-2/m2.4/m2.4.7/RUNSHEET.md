@@ -2760,3 +2760,14 @@ Pilot PRs #160, #161.
 - **Result:** 30 flags settled by approved schedules: Charles Sturt 25 (8 the same fee, 17 within 15%, last year's fee) and Sunshine Coast 5. 456 remain open, mostly Deakin (143) and Edith Cowan (140), whose fee documents are now read first.
 - **Screens:** flagged values show the schedule's fee with "Use schedule fee"; settled flags say why. The Platform guide was updated and reviewed for v2.15.137.
 - **Seen, not changed:** some approved schedules differ from fees already held by exactly 2 or 3 times (AIH Higher Education), which suggests a whole-course column read as annual. Those were listed as "different", not written, at approval.
+
+### 2 Oct 2026 (03:15 AEST) — Scholarship eligibility and award scope from provider pages (Decision 211); v2.15.138
+- **Asked (Platform Admin, 2 Oct 00:01):** "What is happening with scholarship for courses available to international students". Answers by multiple choice: read criteria first; retire the old course-link candidates.
+- **Found:** 1,233 active scholarships (all recorded as for international students), 124 published. Structured eligibility existed for 9; award duration was known for 3. 37,200 course-link candidates had waited since 3–5 Sep 2026. Main publishing blocker is the award value (722 have no single stated value); 282 pass every check and wait on Scholarships › Publishing.
+- **Released:** v2.15.138 (Pilot PR #233), merged with a squash merge after targeted deployed UAT passed on the branch; main checks green.
+- **Database:** migration 20261002180300 applied live after a rolled-back test; stored md5 equals the file. md5 guards on public.scholarship_course_fill_service, security.scholarship_sweep_apply_v1 and public.ui_scholarship_detail. No rows deleted.
+- **Reader:** coverage-sweep worker v0.9.0, scholarship reader v0.5.3 (three fixes after hand-checking 56 readings). Deployed through deploy-edge-functions.yml; the deployed files match the repository.
+- **Result (all 1,120 stored pages re-read without fetching):** 834 scholarships have eligibility criteria; 524 have an award duration. Student type: 251 international only, 204 domestic and international, 251 domestic only. Study stage 426, full-time 339, ATAR/GPA/WAM minimum 140, automatic consideration 178, citizenship list 58, gender 46.
+- **Old candidates:** 37,200 marked superseded (17,008 were already linked by later rules); the fill service no longer reopens them.
+- **Screens:** Catalogue › Scholarships record shows Eligibility and award, each line with the provider page's words. The Platform guide was updated and reviewed for v2.15.138.
+- **Not changed (for a decision):** publication rules. 251 scholarships read as domestic only, of which 18 are in the ready-to-publish list and 1 is published (Women in Engineering and Construction Scholarship). Fee-saving figures remain unresolved: the scholarship fee-type and basis words do not match the course fee records.
