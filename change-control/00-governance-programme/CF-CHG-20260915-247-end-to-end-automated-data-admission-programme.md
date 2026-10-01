@@ -2792,3 +2792,16 @@ Pilot PRs #160, #161.
 - **Old candidates:** 37,200 marked superseded (17,008 were already linked by later rules); the fill service no longer reopens them.
 - **Screens:** Catalogue › Scholarships record shows Eligibility and award, each line with the provider page's words. The Platform guide was updated and reviewed for v2.15.138.
 - **Not changed (for a decision):** publication rules. 251 scholarships read as domestic only, of which 18 are in the ready-to-publish list and 1 is published (Women in Engineering and Construction Scholarship). Fee-saving figures remain unresolved: the scholarship fee-type and basis words do not match the course fee records.
+
+### 2 Oct 2026 (06:00 AEST) — Scholarship publishing rules (Decision 212); v2.15.139
+- **Asked (Platform Admin, 2 Oct, multiple choice):** add a publishing check for domestic-only scholarships; publish a single "up to" value as a maximum; fix the fee-saving matching.
+- **Correction recorded:** the earlier report that 378 scholarships were held back only by "up to" wording was wrong. 378 were held back only by the award value; 130 of those use "up to" wording, and 76 state a single "up to" value.
+- **Released:** v2.15.139 (Pilot PR #234), merged with a squash merge after targeted deployed UAT passed on the branch.
+- **Database:** migration 20261002180400 applied live after a rolled-back test; stored md5 equals the file. md5 guards on seven functions; no rows deleted. New column scholarship.scholarships.award_value_is_maximum; new daily job scholarship-savings (20:41 UTC).
+- **Reader:** scholarship reader v0.5.4 (comma-listed "International Student" includes international students), deployed; the deployed files match the repository; all stored pages re-read.
+- **Result:**
+  - 236 scholarships read as domestic only are no longer publishable. Scholarships › Publishing › Domestic only lists them with the page's words. A Platform Admin can record "International students can apply" (note required). The one published domestic-only scholarship (Women in Engineering and Construction Scholarship) is withdrawn at the next daily review.
+  - 145 scholarships hold a single maximum value, shown as "Up to …", never used for a saving. The website search marks them (amount_is_maximum, additive).
+  - Fee savings: 3,221 course savings calculated for 44 scholarships across 1,345 courses (was 0). Each is per year, from the provider's annual international tuition fee. Unresolved: no annual fee for the course 10,299; page does not say the percentage is off tuition 8,365; maximum or not a percentage 355.
+  - Ready to publish: 344 (was 282). Published: 124. Publishing itself still waits for a Platform Admin.
+- **Open:** the deployed-release-currentness check after merge has failed since v2.15.136 at its wait step (the probe does not see the new version within 20 minutes). Targeted deployed UAT and the Workers build pass. The live version shown in the app has not been confirmed from this session.
