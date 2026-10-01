@@ -240,6 +240,9 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 192 — Layer 3 Work queue rebuilt; fetchers set per source | Current; v2.15.127 (Pilot PR #216) |
 | Decision 193 — Layer 2 split into Overview, Fetch an area, History and Source profiles | Current; v2.15.128 (Pilot PR #217) |
 | Decision 194 — Layer 4 review queue: Bulk decisions, scholarship scope decided on Course links | Current; v2.15.129 (Pilot PR #218) |
+| Decision 195 — Edit in list for course facts, campuses and scholarships | Current; v2.15.130 (Pilot PR #219) |
+| Decision 196 — Melbourne time, plain wording and counts that say what they cover | Current; v2.15.131 (Pilot PR #220) |
+| Decision 197 — Older screens in the compact style | Current; v2.15.132 (Pilot PR #221) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1425,6 +1428,49 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 197 — Older screens in the compact style
+**Status:** Current (1 October 2026, v2.15.132) · **Recorded in:** this reference (Pilot PR #221)
+- Screen review, 1 Oct (Fix): cc-two-styles, ast-big-tiles, rnk-style, cmp-hero, cmp-tiny-controls, imp-native, au-tall-rows, att-wide-table, att-vocab, l1-country-empty, l1-desc, l1set-hero, hc-chart.
+- Changes by screen:
+  - Logos & assets and the Rankings overview: compact tiles, small buttons and styled selects.
+  - Compare: a light header in plain words.
+  - Ranking imports: smaller controls.
+  - Automations: two short rows per automation.
+  - Coverage › Attributes: short column headings (full wording on hover) and a line explaining the two panels.
+  - Layer 1: the country filter always shows a value, and Source settings has a light header.
+  - Platform health: a short history chart, with the table on request.
+- Not changed: the filter panels on Evidence, Jobs and Contacts, because the Platform Admin skipped "filter walls" in general.
+- CSS and wording only.
+
+### Decision 196 — Melbourne time, plain wording and counts that say what they cover
+**Status:** Current (1 October 2026, v2.15.131) · **Recorded in:** this reference (Pilot PR #220)
+- Screen review, 1 Oct (Fix): au-timezone, cc-time-format, cc-jargon, cc-counts-consistency, ds-blank, l2r-onboard (merge), onb-*, usr-*, pub-reasons-dead, hc-actions, hc-details-text, au-error-text.
+- Every instant is shown in Australia/Melbourne time, with daylight saving, for every viewer. Calendar dates are shown as written. Schedules (which run on UTC) name the Melbourne time and day.
+- About 80 on-screen strings were rewritten in plain words. Milestone and change-control codes no longer appear on screens; the release history is unchanged.
+- Counts state their scope:
+  - lists and Dashboard tiles: every status;
+  - Coverage: active Australian courses.
+- Rankings › Datasets is a proper list, replacing a panel injected by script that showed nothing when its read failed.
+- The provider onboarding queue sits on Providers › Onboarding, as marked (merge). The older onboarding case tracker (0 cases ever) is collapsed beneath it.
+- Users & roles explains each role, matching security.roles ranks 1–6.
+- Publishing reasons and Platform health issues link to where they are fixed.
+
+### Decision 195 — Edit in list for course facts, campuses and scholarships
+**Status:** Current (1 October 2026, v2.15.130) · **Recorded in:** this reference (Pilot PR #219)
+- Screen review, 1 Oct (Fix): crs-listedit-fields, cmp-readonly, sch-no-edit, cc-inline-edit, crs-detail-long, crs-detail-jargon, sch-fill-overlap, sch-decision-support, sch-jargon.
+- **Courses › Edit in list** also edits tuition (amount, per year, semester, trimester or whole course, and year), intakes and English, through the existing admin_course_edit actions.
+  - Start dates and sub-scores already held are kept.
+  - The live `indicative_annual` basis is shown and saved as per year.
+- **Campuses and scholarships** follow Decision 181: a person's entry always wins.
+  - `pipeline.manual_locks` accepts campus and scholarship.
+  - A guard trigger on each table keeps a person's value on every automated update.
+  - `admin_campus_edit` and `admin_scholarship_edit` are Curator and above, and every change is logged. `admin_campus_create` is PIM Operator and above.
+  - Migrations 20261001140000 and 20261001150000 are both md5-guarded, and each stored statement equals its file.
+  - Rolled-back live test: hand-entered values survived a simulated automated update while unlocked columns still changed.
+- **Course panel:** corrections and three less-used sections start collapsed, with plain wording.
+- **Scholarships:** fill-from-clear-scopes and course decision support moved to Course links.
+- **Not done:** Data model editing, which changes the catalogue structure. It is raised with the Platform Admin.
 
 ### Decision 194 — Layer 4 review queue: Bulk decisions, scholarship scope decided on Course links
 **Status:** Current (1 October 2026, v2.15.129) · **Recorded in:** this reference (Pilot PR #218)

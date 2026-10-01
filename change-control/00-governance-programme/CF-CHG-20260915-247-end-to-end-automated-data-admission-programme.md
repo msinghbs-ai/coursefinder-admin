@@ -2624,3 +2624,23 @@ Pilot PRs #160, #161.
   - cf-247-admin-simplify:149 (mobile);
   - cf-206 version pin;
   - deployed specs that need credentials when run locally.
+
+### 1 Oct 2026 (15:25 AEST) — Packages 6 and 7 live (Decisions 195–197); screen review implemented
+- **Released, each merged with a squash merge after targeted deployed UAT passed on the branch, and main green after each:**
+
+  | Package | Release | Pilot PR | Decision |
+  |---|---|---|---|
+  | 6, edit in list | v2.15.130 | #219 | 195 |
+  | 7A, Melbourne time, plain wording, counts | v2.15.131 | #220 | 196 |
+  | 7B, older screens in the compact style | v2.15.132 | #221 | 197 |
+- **Database:**
+  - 20261001140000: list read for tuition, intakes and English.
+  - 20261001150000: campus and scholarship edits, with the manual-lock guard.
+  - Both are md5-guarded, each stored statement equals its file, and both were tested live in a rolled-back transaction first.
+- **Checks:** a broad local test run on every release found no new failures against main. Its 87 failing specs are pre-existing: specs that need deployed credentials, and old contracts.
+- **Corrected against the marks:** provider onboarding was first placed on Layer 2. It moved to Providers › Onboarding because the Platform Admin had marked it "merge" there.
+- **Raised with the Platform Admin, not acted on:**
+  - Data model editing: three options were sent; the recommendation is read-only, tidied.
+  - Platform health budgets check: it reports OK at US$12.76 of OpenRouter spend in 24 h against a stored daily ceiling of US$5. The ceiling looks stale, since the per-task Layer 3 limits now total US$13.
+  - The four Ask items, still open: background area fetch, wave defaults, source-pattern interpretation and Layer 4 findings.
+- **Screen review status:** all marked Fix items are implemented, except those raised above. Skips are respected: Courses filters, filter walls generally, and the placement of Provider contacts.
