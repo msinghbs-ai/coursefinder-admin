@@ -2836,3 +2836,18 @@ Pilot PRs #160, #161.
 - **Live activity:** a new Workers sending back errors panel lists error replies from workers in the last few hours, with a plain-English reading, count and time. Index evidence links now shows pages left, pages done in 24 hours and links found. The live read was checked as a signed-in Platform Admin.
 - **Released:** v2.15.142 (Pilot PR #237), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.142: Live activity, Evidence, a new signal for repeating worker errors, and run passes under Budgets and keys.
 - **Open (Platform Admin decision):** 27 other edge functions still sign in with the expired key. They are not on a schedule now, but would be refused if run. Options: move each to run passes, or issue a new key.
+
+### 2 Oct 2026 (09:20 AEST) — Every background function signs in with one-time run passes (Decision 216); v2.15.143
+- **Asked (Platform Admin, multiple choice after Decision 215):** move all 27 functions still on the expired automation key to run passes (recommended option).
+- **Found before changing anything:** all 27 were deployed and active. 23 matched git exactly; 3 differed only in formatting. **`layer1-ca-on-college-programs` ran v0.3.0 live, which writes course records for four Ontario colleges, while git held an older test-only v0.1.0.** The live code was committed to git first (32b6ba3), then changed. 26 of the 27 had only ever been deployed by hand.
+- **Changed:**
+  - Each function now accepts only a one-time run pass under its own name (or, where it already allowed it, an admin sign-in). The Layer 2 batch runner and the scholarship scope job make a fresh pass for each function they call. evidence-link-index no longer accepts the old key either.
+  - Migration 20261002181200 adds one allow-list (`pipeline.pilot_nonce_functions`, 55 functions) and `public.svc_pilot_issue_nonce` (service role only). It switches the six database callers to passes, each behind an md5 guard. It was applied after a rolled-back test; the stored md5 equals the file.
+  - No database function or scheduled job references the old key any more.
+- **Deployed:** all 28 functions from the branch through the deploy workflow (26 added to its allow-list, `verify_jwt=false` as before). Each was then compared byte for byte with git live: all identical, the on-college drift included.
+- **Live checks:**
+  - A valid pass gets through sign-in: the batch runner and scope job reach their request checks, and the diagnostic answers 200.
+  - No pass is refused (401), and a fake pass is refused.
+  - Evidence link indexing kept running on schedule: about 1,000 pages indexed in the hour after the change.
+- **Released:** v2.15.143 (Pilot PR #238), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.143: Budgets and keys, and the worker-error signal.
+- **Noted, not changed:** `layer2-v2-diagnostic` passes sign-in but its own query fails ("Invalid schema: pipeline"), as it did before; it is a diagnostic only. The old key's database records remain, unused and expired.
