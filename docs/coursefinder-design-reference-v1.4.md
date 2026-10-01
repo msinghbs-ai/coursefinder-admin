@@ -229,6 +229,9 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 181 — A person's entry always wins (CRUD for courses and providers) | Current; v2.15.114 (Pilot PR #202) |
 | Decision 182 — Scholarship course links decided once per scholarship | Current; v2.15.115 (Pilot PR #203) |
 | Decision 183 — Layer 4 batch rules: one fee wording rule per university | Current; v2.15.116 (Pilot PR #205) |
+| Decision 184 — Models & services: one on/off switch per model and service | Current; v2.15.118 (Pilot PR #207) |
+| Decision 185 — Parse.bot removed completely | Current; v2.15.119 (Pilot PR #208) |
+| Decision 186 — Edit in list for Courses and Providers | Current; v2.15.120 (Pilot PR #209) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1414,6 +1417,40 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 186 — Edit in list for Courses and Providers
+**Status:** Current (1 October 2026, v2.15.120) · **Recorded in:** this reference (Pilot PR #209)
+- Platform Admin (1 Oct 09:24 AEST): "can this be modernise and have inline edit on existing fields? Or better edit in list view on visible columns?"
+- Courses and Providers have an **Edit in list** button (Curator and above). The editable fields become columns:
+  - courses: title, duration, delivery, course page;
+  - providers: name, city, website, phone, email.
+- Click a cell to edit. Enter or leaving the cell saves; Esc cancels. A tick confirms each save, and a lock marks values entered by hand.
+- Saves use the same guarded edits as the record panel (Decision 181), so every change is role-checked, logged and locked against automation.
+- The read `admin_catalogue_edit_rows` takes up to 100 rows (one page).
+- The screen review suggests adding tuition, intakes and English next.
+
+### Decision 185 — Parse.bot removed completely
+**Status:** Current (1 October 2026, v2.15.119) · **Recorded in:** this reference (Pilot PR #208)
+- Platform Admin (1 Oct 09:24 AEST): "Parse.bot remove completely."
+- Parse.bot had never fetched a page: no attempts, fetches, run items, benchmarks or trials.
+- Removed:
+  - the provider, its 2,098 source routes and its stored key;
+  - its settings card and section;
+  - the ranking URL-import route, i.e. the three functions `ranking-publisher-url-import`, `ranking-qs-url-import` and `ranking-the-url-import`;
+  - every code reference. Two database functions were edited behind md5 guards.
+- Ranking imports are file upload only. Rankings already imported and their evidence (one superseded QS 2026 file) are kept.
+- The deploy workflow can delete only functions on a fixed retired list, and only once their source is gone from the repository.
+- Keep `layer2-scope-discover-scheduled` at worker version v1.3.10: terminal-discovery freshness is keyed to that string.
+
+### Decision 184 — Models & services: one on/off switch per model and service
+**Status:** Current (1 October 2026, v2.15.118) · **Recorded in:** this reference (Pilot PR #207)
+- Platform Admin (1 Oct 09:24 AEST): "Model or external should have toggle button to enable /disable. Disable should grey out or not available in operation but only in admin menu."
+- **Platform settings › Models & services** lists every AI model and every page-fetching service with an on/off switch. Pipeline Operators can view it; PIM Operators and above can switch.
+- Anything switched off stays listed there, greyed, and is not offered on operations screens (Layer 3 Control, Send back to AI, Layer 2 routing).
+- Switching a model off also pauses it and switches off its cascade steps; the confirmation names the steps. Switching it back on does not put it back into a cascade; that stays a Layer 3 Control decision.
+- Retired models (failed tests) are listed separately and cannot be switched on.
+- Every switch is logged (`admin_control_events`, area `services`) with an optional reason.
+- The 29 Sep production decision to drop ZenRows, Scrape.do and ScraperAPI is now one switch each; they are still on, pending the Platform Admin.
 
 ### Decision 183 — Layer 4 batch rules: one fee wording rule per university
 **Status:** Current (1 October 2026, v2.15.116) · **Recorded in:** this reference (Pilot PR #205)

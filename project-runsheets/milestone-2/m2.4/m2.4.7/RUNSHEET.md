@@ -2529,3 +2529,29 @@ Pilot PRs #160, #161.
   - #2 Monash "standard full-time course load for a year. The fees for", per year: 231 courses, A$41,940–A$68,140.
   - Neither has been approved or run yet.
 - **CI fix** (Pilot PR #204): Release Currentness now waits until Cloudflare serves the new version, instead of failing when it runs too early.
+
+### 1 Oct 2026 (11:30 AEST) — Batch rule fix; Models & services; Parse.bot removed; Edit in list (Decisions 184–186)
+- **Platform Admin feedback (09:24 AEST):** approving a batch rule did nothing; asked for inline or list editing, an end to bloated previews, on/off switches for models and outside services, Parse.bot removed completely, a UI-managed list of third-party reference sites, and a review of every screen.
+- **Batch rule approval fixed** (v2.15.117, Pilot PR #206, migration 20260930150000):
+  - The run log was refused by a database check, so each approval rolled itself back. The error showed only in the page banner.
+  - Errors now show on the Batch rules screen, and the preview is one compact table under the rules list.
+  - Live test (rolled back): approving the Monash rule admitted 232 fees and closed 231 Layer 4 items.
+  - Rules #1 (UNSW) and #2 (Monash) are still drafts awaiting the Platform Admin's approval.
+- **Answer given — profiles:**
+  - Course details use Layer 2 course-fact website profiles and Layer 3 models per task (intakes and English: Qwen3 30B, then Mistral Small for English; tuition: Qwen3 235B).
+  - Scholarships use Layer 2 catalogue and website profiles. Their Layer 3 models are set up but paused, and scholarship AI is off for AU/NZ.
+- **Models & services, Decision 184** (v2.15.118, Pilot PR #207, migration 20260930160000, md5 equal to its file).
+- **Parse.bot removed, Decision 185** (v2.15.119, Pilot PR #208, migration 20260930170000, md5 equal to its file):
+  - Edge functions redeployed through the workflow, then verified file for file against main.
+  - The three ranking URL-import functions were deleted.
+  - Live check: no database function mentions Parse.bot; 6 fetching services remain.
+- **Edit in list, Decision 186** (v2.15.120, Pilot PR #209, migration 20260930180000, md5 equal to its file).
+- **Layout fix in v2.15.120:**
+  - Page grids could stretch past the window, hiding Add course, Compare, the result count and the pager on Courses and Providers, and overflowing Evidence, Layer 2 Runs, Schedules and Readiness. Checked on every page at 1440px.
+  - Form text boxes are no longer cut to 130px.
+- **Screen review:** all 47 screens and tabs reviewed; 171 findings published to the existing review page for the Platform Admin to mark Fix, Later, Skip or Discuss. Older screens are not reworked until the marks are in (Decision 177).
+- **Next:** reference sources registry (Hotcourses, Study Australia, regulators, ranking publishers) replacing hard-coded site patterns. The design was sent to the Platform Admin.
+- **Known failing tests, all already failing on main:**
+  - cf-247-coverage-sweep-contract;
+  - cf-092 scheduled-jobs contract;
+  - m2-5-evidence-lineage-contract (expects worker v1.3.3).
