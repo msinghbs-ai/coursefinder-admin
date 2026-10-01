@@ -2784,3 +2784,15 @@ Pilot PRs #160, #161.
   - Fee savings: 3,221 course savings calculated for 44 scholarships across 1,345 courses (was 0). Each is per year, from the provider's annual international tuition fee. Unresolved: no annual fee for the course 10,299; page does not say the percentage is off tuition 8,365; maximum or not a percentage 355.
   - Ready to publish: 344 (was 282). Published: 124. Publishing itself still waits for a Platform Admin.
 - **Open:** the deployed-release-currentness check after merge has failed since v2.15.136 at its wait step (the probe does not see the new version within 20 minutes). Targeted deployed UAT and the Workers build pass. The live version shown in the app has not been confirmed from this session.
+
+### 2 Oct 2026 (08:30 AEST) — Coverage by country and university, fee schedule bulk approval, pattern requests retired (Decision 213); v2.15.140
+- **Reported (Platform Admin, 06:56, screenshots):** "Edge Function returned a non-2xx status code" on Layer 3 › Work queue and Coverage; "what is the course page pattern doing?"; fee schedules need bulk approval and a review of every entry, and one schedule with nothing to approve kept appearing; Coverage & completeness has no country or university filter. Answers (multiple choice): retire the pattern requests; Coverage opens on all countries.
+- **Cause of the error:** every course-page pattern request (CF-054; 1,415 queued and 240 blocked, 31 Aug–25 Sep) was bound to a retired free model that is paused, so Run returned 400. The banner stays on screen across pages until it is closed.
+- **Released:** v2.15.140 (Pilot PR #235), merged with a squash merge after targeted deployed UAT passed on the branch.
+- **Database:** migration 20261002180500 applied live after a rolled-back test; stored md5 equals the file; md5 guards on six functions; no deletes, drops or truncates. New table pipeline.course_coverage_daily_by_country; the old daily table is unchanged.
+- **Result:**
+  - Pattern requests: all 1,655 cancelled with the reason (kept); new ones are created cancelled; the panel shows only when one waits.
+  - Fee schedules: approve or reject several at once; "Review N rows" on each; Show waiting, decided or all; "Close (nothing to add)" for a schedule with no new fees (this still settles flagged fees it answers). Waiting schedules are listed first, up to 300.
+  - Coverage & completeness: every country with active courses (AU 26,103; NZ 6,475; CA 2,382), opening on all countries; Country and University filters apply to every count, list and trend; provider tiers ranked within each country. Checked live as a signed-in Platform Admin.
+- **Seen, not changed:** New Zealand and Canada score low (NZ about 1%) because their register values (duration, campus, registered tuition) are not held for them yet, and only 272 NZ course pages and 203 English requirements are admitted.
+- **Still open:** the deployed-release-currentness check after merge failed again (v2.15.139). The app itself showed the new version in the Platform Admin's screenshots, so the site deploys; the check's probe is at fault.
