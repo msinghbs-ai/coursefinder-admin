@@ -259,6 +259,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 211 — Scholarship eligibility and award scope are read from the provider page | Current; v2.15.138 (Pilot PR #233) |
 | Decision 212 — Scholarship publishing: domestic only held back, "up to" values as maxima, savings per year | Current; v2.15.139 (Pilot PR #234) |
 | Decision 213 — Coverage by country and university; fee schedules approved in bulk; course-page pattern requests retired | Current; v2.15.140 (Pilot PR #235) |
+| Decision 214 — Live activity shows every layer's work; discovery keeps its own list | Current; v2.15.141 (Pilot PR #236) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1444,6 +1445,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 214 — Live activity shows every layer's work; discovery keeps its own list
+**Status:** Current (2 October 2026, migrations 20261002180600–20261002180800) · **Recorded in:** this reference (Pilot PR #236)
+- **Live activity** (admin_read 'live_activity', every role, read only) lists every scheduled job in pipeline.automation_catalogue by layer. Each job shows its state (Running now, Working, Up to date, Scheduled, Paused, Stuck, Failing), last run, failures in 24 hours, work left and done in 24 hours where it has a queue, the worker's last reply and the next run. It also shows what is waiting for a person. A new scheduled job must be added to the catalogue so that it appears.
+- **No silent stops:** a job that works through a list keeps that list filled itself (scholarship discovery: job scholarship-discover-refill keeps 30 providers waiting, adding the largest not yet searched). A list that has run dry shows as Up to date; a waiting list with nothing done in 24 hours shows as Stuck.
+- **Release check:** deployed-release-currentness downloads the served bundle before searching it for the version (never a pipe into `grep -q` under pipefail).
 
 ### Decision 213 — Coverage by country and university; fee schedules approved in bulk; course-page pattern requests retired
 **Status:** Current (2 October 2026, migration 20261002180500) · **Recorded in:** this reference (Pilot PR #235)
