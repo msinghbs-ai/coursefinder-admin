@@ -159,6 +159,7 @@ For every next browser release:
 3. Change candidate `UI_VERSION` and `PACKAGE_VERSION` in `src/release-manifest.js`.
 4. Update `package.json` and `CHANGELOG.md` in the same release PR.
 5. Do not edit HTML, shell or currentness components with new independent version literals.
+5a. Review the in-app Platform guide (Pilot `src/guide/platformGuide.js`): update the entries for any screen, role, job, budget or alert the release changes, add an entry for any new menu page, then set `GUIDE_REVIEWED_FOR` to the candidate `UI_VERSION`. `npm run release:verify` refuses the build otherwise (Decision 209).
 
 ### Validate
 
