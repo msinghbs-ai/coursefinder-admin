@@ -2553,3 +2553,20 @@ Pilot PRs #160, #161.
   - cf-247-coverage-sweep-contract;
   - cf-092 scheduled-jobs contract;
   - m2-5-evidence-lineage-contract (expects worker v1.3.3).
+
+### 1 Oct 2026 (13:15 AEST) — Screen review marked; packages 1 and 2 live (Decisions 187–188)
+- **Screen review results (Platform Admin, 11:41 AEST):**
+  - 171 findings: 166 Fix, 3 Skip (Courses filter wall, filter walls in general, contacts placement), 1 Discuss. The Discuss item was menu grouping: Provider contacts stays standalone where it is, the rest of the regrouping is Fix.
+  - Older screen actions: Keep 27, Merge 14, Remove 8, Ask 5.
+  - Work is grouped into 7 packages, each its own release.
+- **Ask items answered with facts and recommendations, awaiting the Platform Admin:**
+  - Layer 2 background enrichment (last used 13 Sep): remove.
+  - Wave workload defaults (last wave 15 Sep): remove the panel and switch its job off.
+  - Source-pattern interpretation (3 runs in 30 days, no role check): keep for Platform Admin only.
+  - Layer 4 findings (0 records): remove.
+- **Package 1, Reference sources, Decision 187** (v2.15.121, Pilot PR #210):
+  - Migrations 20261001110000, 111000 and 112000, each md5 equal to its file.
+  - coverage-sweep v33 deployed through the workflow and verified file for file.
+- **Package 2, one home per setting, Decision 188** (v2.15.122, Pilot PR #211, migration 20261001120000, md5 equal to its file).
+- **Governance gap found and closed:** adding a model to a Layer 3 cascade switched the model on without the activation checks. It must now be switched on in Models & services first, and only after passing its test.
+- **Not yet built:** "Add model", which starts a new model's qualification from the UI. It needs qualification-run orchestration and is planned separately.
