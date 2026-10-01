@@ -258,6 +258,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 210 — An approved fee schedule settles the flagged fees it answers | Current; v2.15.137 (Pilot PR #232) |
 | Decision 211 — Scholarship eligibility and award scope are read from the provider page | Current; v2.15.138 (Pilot PR #233) |
 | Decision 212 — Scholarship publishing: domestic only held back, "up to" values as maxima, savings per year | Current; v2.15.139 (Pilot PR #234) |
+| Decision 213 — Coverage by country and university; fee schedules approved in bulk; course-page pattern requests retired | Current; v2.15.140 (Pilot PR #235) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1443,6 +1444,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 213 — Coverage by country and university; fee schedules approved in bulk; course-page pattern requests retired
+**Status:** Current (2 October 2026, migration 20261002180500) · **Recorded in:** this reference (Pilot PR #235)
+- **Coverage & completeness** counts every active course in every country, with the country on each row; provider tiers are ranked within each country. Every count, list and trend can be narrowed by country and by university (admin_read course_coverage, course_coverage_courses, course_coverage_providers). Daily attribute counts by country are kept in pipeline.course_coverage_daily_by_country; history before 2 October 2026 is Australia only.
+- **Fee schedules:** a Platform Admin may approve or reject several waiting schedules at once (each is still decided on its own). A schedule with nothing to add is closed by approving it, which records the decision and settles flagged fees it answers. Every row of a schedule can be reviewed before deciding.
+- **Course-page pattern requests** (CF-054) are retired: the course-link search (Decision 204) finds course pages. Existing requests are cancelled with the reason; new ones are created cancelled.
 
 ### Decision 212 — Scholarship publishing: domestic only held back, "up to" values as maxima, savings per year
 **Status:** Current (2 October 2026, migration 20261002180400) · **Recorded in:** this reference (Pilot PR #234)
