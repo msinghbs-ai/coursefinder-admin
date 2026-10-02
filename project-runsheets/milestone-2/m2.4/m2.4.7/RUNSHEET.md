@@ -3198,3 +3198,13 @@ Pilot PRs #160, #161.
   - coverage-admit fix (20261002185400) and the hand run that wrote 495 courses: 22:05;
   - the entry itself: about 22:08 (not 23:15).
 - Nothing else in the entry changes. The migration files are left as applied, so their stored text still equals the file.
+
+### 2 Oct 2026 (22:30 AEST) — Reference sources, website hints, OpenRouter key status, priority control (Pilot PR #255, Decision 233)
+- **OpenRouter weekly key limit:** checked at about 22:15. The limit is still US$50 a week and was not raised: US$35.52 used this week, US$14.48 left (US$5.93 today). It is likely to be reached again overnight; the matcher returns refused items to the queue without using attempts.
+- **New sources (migration 20261002185500, md5 a27845fc…), recorded in pipeline.sources:**
+  - Hipo university-domains-list (GitHub, MIT): website hints only. 10,268 rows read, 10,249 loaded, 134 matched to our providers by exact name. Stored as evidence under reference/hipo/.
+  - univ.cc: third-party directory, hints only. Not captured: its robots.txt could not be read, so nothing was fetched (robots is not bypassed).
+  - XuanXiao rankings: reference only, not read by any job. Its terms reserve text and data mining and forbid automated access.
+- **Website hint check (worker coverage-sweep-worker-v0.10.1, extractor unchanged at coverage-sweep-v0.5.6):** a hint is accepted only if the home page proves it — AU: the CRICOS provider code on the page; CA/NZ: a .ca/.nz host plus the existing name or DLI rule. First run: 4 Canadian providers needed a website and had a hint (Royal Roads, North Island College, Fraser Valley, BCIT); all 4 were rejected by the name rule (one returned HTTP 403). Nothing was loosened.
+- **Priority:** the AI link matcher's queue now follows the Priority queue pins (course order, then university rank), as page reads and matcher preparation already did.
+- **Verification:** Pilot PR #255 merged after build-and-smoke; contract tests (30) and build passed locally; deployed coverage-sweep compared byte-for-byte with the branch by a separate check (5 files, all match).
