@@ -3267,3 +3267,17 @@ Pilot PRs #160, #161.
 - **Preview (rolled-back test, nothing written):** if all 49 waiting calendars were approved, they would answer 43 of the 428 semester-only intake reviews (Australian Catholic University 23, UNSW 12, Central Queensland University 6, Swinburne 1, Deakin 1). The rest have no usable calendar or a period with several start months; the largest are Curtin (67), Murdoch (63), CQU (48 more), Griffith (50), UTas (36) and TAFE International Western Australia (36). The earlier figure of 355 counted reviews waiting for a calendar, not reviews a calendar would answer.
 - **Prepared:** migration 20261003000500_cf247_calendar_intakes_on.sql (md5 123f2f50cd92c23467eaa9a52833092d) on Pilot branch cf247-calendar-intakes-on: parts 2 and 3 of Decision 228 (prepared 2 Oct as 20261002183410 and 20261002183420, never applied) with the md5 guard on admin_provider_policy_decide updated to ed78f0a0bd0534430e194c543846edc5. It approves nothing.
 - **Not applied:** the database tool's approval prompt came back cancelled three times (02:58 test, 03:00 and 03:02 after the Platform Admin chose "Try again now"). Nothing changed in the live database; the branch is not merged so that main matches the live database.
+
+### 3 Oct 2026 (06:30 AEST) — Morning report, overnight maximum-admission run (21:20 → 06:30)
+- **Result by country** (courses with an official course page / English / intakes):
+
+| Country | 21:20 | 06:30 | Change |
+|---|---|---|---|
+| Australia | 15,789 / 8,518 / 5,763 | 16,516 / 11,142 / 5,954 | +727 / +2,624 / +191 |
+| New Zealand | 1,384 / 842 / 760 | 1,656 / 937 / 760 | +272 / +95 / 0 |
+| Canada | 163 / 29 / 21 | 869 / 250 / 115 | +706 / +221 / +94 |
+
+- **What made the difference:** Australian English by exact title (Decision 234, 796 values); 77 university English policies approved by the Platform Admin (1,780 courses filled in total); Canadian search by title words and the field + award page rule (Decision 235); the New Zealand degree-name rule (Decision 236); Canada and New Zealand pinned first for the AI link matcher.
+- **Spend overnight:** OpenRouter about US$2.30 (US$12.20 of the US$50 weekly limit left at 06:30; Layer 3 checks US$2.08); Firecrawl 15,801 credits (page reads 10,085, course search 4,242, policy documents 1,065, directories 245). No scheduled job failed overnight. Gains stopped after about 03:50: the matcher queue emptied and the Canadian searches cleared.
+- **Waiting for the Platform Admin:** (1) apply the calendar step (Pilot branch cf247-calendar-intakes-on; its approval prompt was cancelled three times; answers 43 reviews from the 49 waiting calendars); (2) start months entered by hand for Curtin, Murdoch, Griffith, CQU, UTas and TAFE International WA (a screen to be built on request); (3) whether a parent course page may give English and intakes to its named majors (1,223 Australian picks rejected for that reason); (4) the AI page-identity test (recommended: fix the test set, then decide); (5) Hotcourses terms (legal review); (6) OpenRouter limit (fine at the current rate).
+- **Report:** Claude Docs "CourseFinder overnight admission report — 2–3 Oct 2026" (summary, decisions taken, the AI test explained, decisions waiting, hourly log 23:10–06:30).
