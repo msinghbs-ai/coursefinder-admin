@@ -1464,6 +1464,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 235 — Canadian course pages by field and award; websites by full name and a fitting address
+**Status:** Current (2 October 2026; migrations 20261002190000–20261002190200; worker coverage-sweep v0.11.2) · **Recorded in:** this reference · **Refines:** Decision 220
+- Platform Admin, 22:55 (multiple choice "Yes, test then switch on"): a Canadian course page on the university's own site matches when its heading or title holds the same award (in words or its abbreviation) and exactly the same field. Combined, dual and double awards, generic awards, a different campus (UBC Okanagan) and archived calendar pages never match. It admits the official course page, English and intakes; tuition still needs the course code.
+- A Canadian or New Zealand website is accepted when the full name is anywhere on the home page and the address fits the name (initials or a distinctive word), besides the title/heading and DLI rules of Decision 220.
+- Canadian course searches use the title's words, not the catalogue title as an exact phrase.
+
 ### Decision 234 — Australian English by exact title; university English statements need one approval each
 **Status:** Current (2 October 2026; migrations 20261002185600, 20261002185700, 20261002185800) · **Recorded in:** this reference · **Refines:** Decisions 203, 227, 233
 - Platform Admin, 22:26: Australian English is admitted from a page on the provider's own site that shows the CRICOS code or whose title is exactly the course title. The CRICOS code is no longer required for English.
