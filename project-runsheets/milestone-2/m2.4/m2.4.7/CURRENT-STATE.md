@@ -3152,3 +3152,11 @@ Pilot PRs #160, #161.
 - **Why each failed:** Kimi (intakes) withheld one stated page by returning more than twelve quotes; MiMo (intakes) withheld one stated page whose quotes were short numeric dates ("02 Feb") that the v1.2.0 quote rule does not match; Kimi (English) said "not stated" on a page listing two courses. None admitted a wrong value.
 - **Consequence:** MiMo v2.6 Pro is qualified for the English task at about US$0.001 a page and could be added to the English cascade or kept as an alternative. Nothing is switched on; adding it to a cascade is a separate Platform Admin step. Neither model is qualified for intakes under v1.2.0.
 - **Also delivered:** a workbook of data sources by course attribute and university (register, course page, PDF, policy page, calendar; ingestion layer; hard-coded, AI-qualified or person rules), built from the live database as at today.
+
+### 2 Oct 2026 (21:05 AEST) — English cascade step 3 switched on: MiMo v2.6 Pro (Decision 230)
+- **Asked (Platform Admin, multiple choice):** "Add as English step 3 (Recommended)".
+- **Done (Pilot PR #252, merged):**
+  - Migration 20261002184200: MiMo v2.6 Pro (qualified on l3r-english-h1, 37 of 37, 0 wrong-admitted) is English step 3 and the final step, after Qwen3 30B and Mistral Small 3.2. It was placed only after the same holdout evidence check as the ladder. Claude Sonnet 4.6 moved from step 3 to step 4 and stays off. Stored md5 equals the file.
+  - Migration 20261002184300: the 281 waiting English reviews with no value on record were sent back once through all three steps. Reviews where the page differs from a value on record stay with a person. Stored md5 equals the file.
+- **First 40 minutes, live:** 201 pages settled — 77 validated (going to admission), 69 not stated on the page, 55 to a person. 183 pages reached MiMo. Cost US$0.34. The intake cascade is unchanged.
+- **Note:** a three-step English run can take longer than the 120-second HTTP wait of the cron call; the worker finishes the run regardless (confirmed from the work items).
