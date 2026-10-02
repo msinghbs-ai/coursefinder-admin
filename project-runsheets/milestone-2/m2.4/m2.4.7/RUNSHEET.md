@@ -3162,3 +3162,31 @@ Pilot PRs #160, #161.
   - Migration 20261002184300: the 281 waiting English reviews with no value on record were sent back once through all three steps. Reviews where the page differs from a value on record stay with a person. Stored md5 equals the file.
 - **First 40 minutes, live:** 201 pages settled — 77 validated (going to admission), 69 not stated on the page, 55 to a person. 183 pages reached MiMo. Cost US$0.34. The intake cascade is unchanged.
 - **Note:** a three-step English run can take longer than the 120-second HTTP wait of the cron call; the worker finishes the run regardless (confirmed from the work items).
+
+### 2 Oct 2026 (23:15 AEST) — Overnight admission run, part 1: map-first link matcher, identity v0.5.7, admission fix, Hotcourses capture (Decisions 231, 232)
+- **Asked (Platform Admin, 21:18):** "Keep using firecrawl and ai models cascaded approach and ill keep funding the both toolset. Outcome id maximum data admitted till tomm morning for au,nz,Canada. Extract all uni for Canada and nz from hotcourse as starting point if required using firecrawl, save as evidence as off-line website in our evidence bucket. Get started on new model asap."
+- **Baseline at 21:20 (courses with a value):** AU official page 15,789 · English 8,518 · intakes 5,763; NZ 1,384 · 842 · 760; CA 163 · 29 · 21.
+- **Decision 231 — map-first AI link matcher (live; Pilot PR #253):**
+  - For a course with no verified page, the 25 closest addresses come from its university's stored site map (775,083 addresses for 1,694 providers; no Firecrawl credit).
+  - One pinned model (Qwen3 30B 2507) picks the course's page or none; the choice must be one of the candidates.
+  - The page is read and accepted only under the identity rule. Pages entered by hand are never replaced.
+  - Cost about US$0.0001 a course. By 23:15: 408 pages chosen, 56 proven, 319 failed the identity rule (correctly in the cases checked).
+- **Identity rule v0.5.7 (live):** a national qualification code before the exact title ("CHC52025 Diploma of Community Services") is the exact title. Stored mismatch pages were checked again without fetching: 423 of 8,100 now pass.
+- **Admission fix (Pilot PR #254, migration 20261002185400):**
+  - Cron coverage-admit was using the old default extractor (v0.5.4) while every page carries v0.5.6, so it had admitted nothing since 2 Oct.
+  - The job now names the current extractor. A run by hand wrote 495 courses (0 errors, 0 to Layer 4).
+  - AU official pages are now 16,284 (+495).
+- **Decision 232 — third-party directories are hints only (Hotcourses captured):**
+  - All 236 pages are stored under evidence thirdparty/hotcourses/: Canada and NZ site maps, 13 Canadian and 5 NZ listing pages, and all 208 institution profiles. robots.txt was read and respected.
+  - 154 Canadian and 54 NZ institutions were found. 98 and 19 match our providers by exact name; course counts are kept for comparison.
+  - The profiles show no official website (only tracking links), so Hotcourses gives no website hints.
+  - Nothing from Hotcourses is admitted. Its terms bar commercial use without IDP's written consent: legal review is recommended before any further use.
+- **OpenRouter weekly key limit:**
+  - The key hit its weekly limit at about 22:40 and every model call was refused. The cascades released their work safely.
+  - The matcher was paused, and refusals now return to the queue without using a course's attempts. It was resumed at about 23:00, when the key worked again.
+- **AI page-identity check (contract cf247-page-identity-v1.0.2): qualification only, NOT switched on.**
+  - Holdouts pid-h1 (development) and pid-h2 (fresh) were built from pages that print the course code (code masked for the model).
+  - On pid-h2, Qwen3 30B and Claude Haiku 4.5 each accepted 1 wrong pairing and about half the right pairings → FAIL against the pre-set rule (≥95% right accepted, 0 wrong).
+  - The one wrong pairing is a page whose heading is exactly the asked course but which prints a related award's code. The live exact-title rule would accept it too.
+  - Many "right" pairings are general pages that merely print the code (the model correctly says no), so 95% may not be reachable with this gold. This needs a Platform Admin decision on the rule.
+- **Waiting for the Platform Admin (not changed overnight):** Decision 203 limits Australian English to pages showing the CRICOS code. 708 English values from exact-title pages are waiting if that is relaxed.

@@ -266,6 +266,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
 | Decision 229 — Intake check v1.3.0 is a separate contract, switched on only after qualification | Not qualified (both candidates 2 wrong-admitted on l3r-intake-h1); profiles paused |
 | Decision 230 — Candidate models are qualified on the frozen holdouts before any cascade change | Current; MiMo v2.6 Pro is English step 3 (Pilot PR #252); Kimi K2 0905 not qualified; intakes: neither (Pilot PR #251) |
+| Decision 231 — Course pages are matched from the university's own site map by a pinned model; the identity rule still decides | Current; live 2 Oct 2026 (Pilot PRs #253, #254) |
+| Decision 232 — Third-party course directories are hints and counts only | Current; Hotcourses Canada and NZ captured 2 Oct 2026 |
 | Decision 228 — Semester-only intakes are answered from the university's approved calendar | In progress; part 1 of 3 live (Pilot branch cf247-semester-months) |
 | Decision 227 — English requirements from each university's own policy, approved per university | Current; v2.15.153 (Pilot PR #249) |
 | Decision 226 — Quote failures are re-run once; a repeat failure needs a new intake check | Current; v2.15.153 (Pilot PR #249) |
@@ -1461,6 +1463,20 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 232 — Third-party course directories are hints and counts only
+**Status:** Current (2 October 2026; migrations 20261002184800, 20261002185200) · **Recorded in:** this reference
+- Directory pages (Hotcourses only) are captured through Firecrawl with robots.txt respected, and stored as evidence under thirdparty/<site>/<country>/.
+- Institutions are matched to providers by exact name only; course counts are kept for comparison. Nothing from a directory is admitted.
+- The directory's terms bar commercial use without written consent: legal review before wider use.
+
+### Decision 231 — Course pages are matched from the university's own site map by a pinned model; the identity rule still decides
+**Status:** Current (2 October 2026; migrations 20261002184400–184700, 185100, 185300, 185400) · **Recorded in:** this reference
+- For a course with no verified page, the closest addresses in the stored site map are given to one pinned model, which picks one or none. The choice must be one of them.
+- The page is read and accepted only under the identity rule (course code on the page, exact title, NZQA title and level). Pages entered by hand are never replaced.
+- Identity v0.5.7: a national qualification code before the exact title is the exact title. Stored mismatch pages are checked again without fetching.
+- A refused model call (key limit, credit) returns the item to the queue without using an attempt.
+- An AI page-identity check is qualified separately and is not part of this decision until the Platform Admin switches it on.
 
 ### Decision 230 — Candidate models are qualified on the frozen holdouts before any cascade change
 **Status:** Current (2 October 2026; migrations 20261002184100–184300, Pilot PRs #251, #252) · **Recorded in:** this reference
