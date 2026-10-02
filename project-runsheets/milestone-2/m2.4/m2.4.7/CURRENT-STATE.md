@@ -3136,3 +3136,19 @@ Pilot PRs #160, #161.
   - Both migrations' stored md5 equal their files.
 - **First cascade run after the change:** 22 of 40 pages validated, against 4–8 of 40 per run with step 1 alone; 36 of the 40 went to Haiku; US$0.19.
 - **Credit:** OpenRouter credit is US$37.77.
+
+### 2 Oct 2026 (20:35 AEST) — Candidate models Kimi K2 0905 and MiMo v2.6 Pro qualified on the h1 holdouts (Decision 230)
+- **Asked (Platform Admin, 20:18):** "Qualify kimi-k2-0905 and mimo-v2.6-pro as alternative and cascade in models."
+- **Done (Pilot branch cf247-candidates-kimi-mimo, PR #251):** migration 20261002184100 adds four candidate profiles — intake and English for each model — as copies of the qualified Qwen3 30B profile, each pinned to one named OpenRouter model (`moonshotai/kimi-k2-0905`, `xiaomi/mimo-v2.6-pro`; both listed in the catalogue with structured outputs). All four are paused and in no cascade. Applied live; the stored migration equals the file.
+- **Qualification on the frozen holdouts** (rule: at least 95% exact on stated cases and zero wrong-admitted):
+
+| Holdout | Model | Stated exact | Right of all | Wrong-admitted | Withheld | Cost (US$) | Result |
+|---|---|---|---|---|---|---|---|
+| l3r-intake-h1 (47) | Kimi K2 0905 | 12 of 13 | 43 | 0 | 4 | 0.10 | FAIL |
+| l3r-intake-h1 (47) | MiMo v2.6 Pro | 12 of 13 | 45 | 0 | 2 | 0.06 | FAIL |
+| l3r-english-h1 (37) | Kimi K2 0905 | 18 of 19 | 36 | 0 | 0 | 0.07 | FAIL |
+| l3r-english-h1 (37) | MiMo v2.6 Pro | 19 of 19 | 37 | 0 | 0 | 0.04 | **PASS** |
+
+- **Why each failed:** Kimi (intakes) withheld one stated page by returning more than twelve quotes; MiMo (intakes) withheld one stated page whose quotes were short numeric dates ("02 Feb") that the v1.2.0 quote rule does not match; Kimi (English) said "not stated" on a page listing two courses. None admitted a wrong value.
+- **Consequence:** MiMo v2.6 Pro is qualified for the English task at about US$0.001 a page and could be added to the English cascade or kept as an alternative. Nothing is switched on; adding it to a cascade is a separate Platform Admin step. Neither model is qualified for intakes under v1.2.0.
+- **Also delivered:** a workbook of data sources by course attribute and university (register, course page, PDF, policy page, calendar; ingestion layer; hard-coded, AI-qualified or person rules), built from the live database as at today.
