@@ -3062,3 +3062,43 @@ Pilot PRs #160, #161.
   - Semesters to months from approved calendars (next).
   - Intake check v1.3.0 as a parallel contract: day-first numeric dates, rolling or weekly intakes, short month quotes. It will be qualified on l3r-intake-h1 and activated by the Platform Admin.
   - 14 New Zealand tuition reviews remain.
+
+### 2 Oct 2026 (19:30 AEST) — Roadblocks to data admission and the recommended actions (Decision 228 in progress)
+- **Asked (Platform Admin, 19:02):** "How we come to such difficult turn, can you take and record recommended action to have maximum data admission and unlock these roadblock."
+- **Where Australia stands (26,103 active courses):** official page 15,789 (60%), English 7,886 (30%), intakes 5,588 (21%). Tuition comes from CRICOS (Decision 225).
+- **Why it has become hard:**
+  - The easy facts are done. They came from registers (CRICOS: title, code, tuition) and from course pages that print the course's own CRICOS code.
+  - What is left sits in places that are less structured:
+    - English is usually set once per university in a policy, and often by band or faculty, not on the course page. The AI check found no English on 5,894 course pages.
+    - Intakes are often given as "Semester 1" or "Trimester 2", or on a separate key-dates page or PDF. The AI check found no intakes on 9,713 course pages.
+  - 5,766 pages were found but not proven to be the course's own. Some are the wrong page (library guides, contact pages), and those are correctly refused. Others are real course pages that do not print the CRICOS code.
+  - About 3,800 courses have no course page found at all.
+  - The safeguards are deliberate and stay: quotes must be on the saved page, models are qualified and pinned, people approve bulk writes, and hand values are never overwritten. They trade speed for accuracy, so each new source needs its own checked route.
+  - Two tooling limits slowed the day:
+    - A signed-in request stops after 8 seconds. Fixed for English policies by migration 20261002183300, which keeps the plan counts and fills courses by a job.
+    - Database changes that write intakes and close reviews in bulk need the Platform Admin's approval in the database tool's prompt, and that prompt kept coming back cancelled.
+- **Actions taken now:**
+  - The policy and calendar reader reads 20 documents a run instead of 8 (migration 20261002183500, live; stored md5 equals the file). About 500 documents are left, which should take about 4 hours.
+  - Semesters to months (Decision 228), part 1 of 3, is live: the calendar months and the plan for semester-only intake reviews (migration 20261002183400, recorded as version 20261002090507; stored md5 equals the file). It writes nothing.
+  - Parts 2 and 3 (answering the reviews, the Platform Admin calendar entry, and the 10-minute job) are on Pilot branch cf247-semester-months. They wait for the Platform Admin to accept the database tool's prompt. They will not be reshaped to avoid that prompt.
+  - In a rolled-back test, Murdoch (Semester 1 = February, Semester 2 = July) would have answered 47 reviews and ACU 23.
+  - Governance gap: `security.quoted_study_periods` was created by a test statement before its migration. Migration 183400 re-created the same definition.
+- **Recommended actions, in order of the courses they add:**
+  1. **Approve the English policies that match the course pages (Platform Admin, Coverage › Attributes › English policies).** About 630 courses:
+     - Flinders 197 (57 agree / 12 differ)
+     - Adelaide 228 (163 / 56; its "language rich" exceptions are not named, so check them)
+     - Deakin 59 (81 / 34)
+     - Collarts 66
+     - Smaller: William Angliss 19, CQU 14 (courses it names), AIH 14, Chisholm 11, AUT 10, Box Hill 8, Southern Cross 6
+  2. **Check these English policies before approving.** There are no course pages to compare them with, or the policy hides exceptions:
+     - Sydney 485 (says some courses need more)
+     - Victoria University 158 (its second document disagrees 1 / 10)
+     - Canberra 86 (40 / 31)
+     - UNE 78
+     - USQ 50
+  3. **Leave the blocked English policies.** QUT, ECU and UTas picked up a nursing or band table.
+  4. **Accept the prompt for Decision 228 parts 2 and 3, then set start months for the universities with most semester-only reviews.** Curtin 65, Murdoch 63, CQU 53, Griffith 41, TAFE International WA 36, UTas 35, UTS 34, ACU 24 (its calendar is parsed: Semester 1 March, Semester 2 August). Together about 350 reviews.
+  5. **Intake check v1.3.0 as a new contract.** It accepts a month-name quote found as a whole word on the page, day-first dates (22/02/2027) and rolling or weekly intakes. It is qualified on the frozen holdout l3r-intake-h1 and switched on by the Platform Admin. It targets about 800 waiting intake reviews (350 of them repeat quote failures) and many of the 9,713 pages with no intakes found.
+  6. **Course pages not proven to be the course.** Search again by exact course title on the university's own site for the 5,766 mismatched and about 3,800 missing pages, before any rule change. A rule change, for example the exact title as heading plus the university's own course-page address pattern, would be its own decision.
+  7. **Calendars behind links.** Follow key-dates PDFs and links from calendar pages, as fee schedules already do. Most large universities' calendar pages are menus (Curtin, Griffith, UTas).
+- **Open:** Decision 228 parts 2 and 3 wait for approval. The release of 183300 to 183500 and of the calendar screens follows once part 2 is live.

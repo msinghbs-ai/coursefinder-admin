@@ -264,6 +264,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 228 — Semester-only intakes are answered from the university's approved calendar | In progress; part 1 of 3 live (Pilot branch cf247-semester-months) |
 | Decision 227 — English requirements from each university's own policy, approved per university | Current; v2.15.153 (Pilot PR #249) |
 | Decision 226 — Quote failures are re-run once; a repeat failure needs a new intake check | Current; v2.15.153 (Pilot PR #249) |
 | Decision 225 — Tuition comes from the regulator where it publishes it | Current; v2.15.152 (Pilot PR #248) |
@@ -1458,6 +1459,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 228 — Semester-only intakes are answered from the university's approved calendar
+**Status:** In progress (2 October 2026; migration 20261002183400 live, 183410–183420 waiting for approval) · **Recorded in:** this reference
+- A course page that names only its study periods ("Semester 1", "Trimester 2") gets months from its university's calendar.
+- The calendar must be approved, or its start months set by hand, by a Platform Admin. Only periods with one start month are used.
+- A review is answered only when every period it names has a start month, the page names no months itself, the course has no intakes and none set by hand, and no campus outside Australia is named.
+- The course page stays the evidence. The page's words and the calendar months are both kept.
 
 ### Decision 227 — English requirements from each university's own policy, approved per university
 **Status:** Current (2 October 2026, migrations 20261002182800–183200) · **Recorded in:** this reference (Pilot PR #249)
