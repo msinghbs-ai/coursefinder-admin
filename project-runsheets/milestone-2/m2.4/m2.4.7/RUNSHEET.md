@@ -3190,3 +3190,11 @@ Pilot PRs #160, #161.
   - The one wrong pairing is a page whose heading is exactly the asked course but which prints a related award's code. The live exact-title rule would accept it too.
   - Many "right" pairings are general pages that merely print the code (the model correctly says no), so 95% may not be reachable with this gold. This needs a Platform Admin decision on the rule.
 - **Waiting for the Platform Admin (not changed overnight):** Decision 203 limits Australian English to pages showing the CRICOS code. 708 English values from exact-title pages are waiting if that is relaxed.
+
+### 2 Oct 2026 (22:10 AEST) — Correction to the times in the entry "Overnight admission run, part 1"
+- The times in that entry and in the comments of migrations 20261002185100, 20261002185300 and 20261002185400 were estimated and are wrong. The times recorded by the database (applied versions, results) are:
+  - first refused model call (OpenRouter weekly key limit): 21:52;
+  - matcher paused (20261002185100): 21:54; matcher resumed (20261002185300): 21:57;
+  - coverage-admit fix (20261002185400) and the hand run that wrote 495 courses: 22:05;
+  - the entry itself: about 22:08 (not 23:15).
+- Nothing else in the entry changes. The migration files are left as applied, so their stored text still equals the file.
