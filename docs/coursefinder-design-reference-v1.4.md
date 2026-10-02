@@ -1464,6 +1464,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 233 — Reference lists of universities give website hints only; a hint is used only when the home page proves it
+**Status:** Current (2 October 2026; migration 20261002185500) · **Recorded in:** this reference · **Refines:** Decision 232
+- Hipo university-domains-list and univ.cc are hint sources. A hint becomes a university's website only if its home page shows the CRICOS provider code (Australia) or, in Canada and New Zealand, the national domain plus the existing name or DLI rule.
+- A source whose robots.txt cannot be read is not captured. A source whose terms forbid automated access or text and data mining (XuanXiao) is recorded as reference only and is never read by a job.
+- Nothing from a reference list is admitted as a course value.
+
 ### Decision 232 — Third-party course directories are hints and counts only
 **Status:** Current (2 October 2026; migrations 20261002184800, 20261002185200) · **Recorded in:** this reference
 - Directory pages (Hotcourses only) are captured through Firecrawl with robots.txt respected, and stored as evidence under thirdparty/<site>/<country>/.
