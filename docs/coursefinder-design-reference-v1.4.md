@@ -264,6 +264,9 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 227 — English requirements from each university's own policy, approved per university | Current; v2.15.153 (Pilot PR #249) |
+| Decision 226 — Quote failures are re-run once; a repeat failure needs a new intake check | Current; v2.15.153 (Pilot PR #249) |
+| Decision 225 — Tuition comes from the regulator where it publishes it | Current; v2.15.152 (Pilot PR #248) |
 | Decision 224 — Tuition reviews are settled against the page's international view | Current; v2.15.151 (Pilot PR #247) |
 | Decision 223 — A fee follows the page's own domestic or international view | Current; v2.15.150 (Pilot PR #246) |
 | Decision 222 — Fetch an area works on the course-page sweep; websites not found go to a person | Current; v2.15.149 (Pilot PR #245) |
@@ -1455,6 +1458,24 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 227 — English requirements from each university's own policy, approved per university
+**Status:** Current (2 October 2026, migrations 20261002182800–183200) · **Recorded in:** this reference (Pilot PR #249)
+- A university's English language policy is read from its own site and parsed without AI into a default for undergraduate courses, a default for postgraduate coursework courses, and the courses it names with their own score.
+- A Platform Admin approves each policy. Approval writes only to courses with no English requirement, no lock set by hand, no review open and no page still to read.
+- Research degrees, double degrees, other levels and courses the policy names are held back.
+- A default that most course pages disagree with cannot be approved (at least 10 compared).
+- Policies that set scores by band, by faculty or only on course pages give no default.
+
+### Decision 226 — Quote failures are re-run once; a repeat failure needs a new intake check
+**Status:** Current (2 October 2026, migration 20261002182700) · **Recorded in:** this reference (Pilot PR #249)
+- Intake and English reviews held only because the AI's quote was not on the saved page were sent back to the AI check once.
+- Failures that repeat are fixed by a new, separately qualified check contract, never by changing the qualified one.
+
+### Decision 225 — Tuition comes from the regulator where it publishes it
+**Status:** Current (2 October 2026, migration 20261002182600) · **Recorded in:** this reference (Pilot PR #248)
+- Australian tuition comes from CRICOS. Provider-page tuition is chased only where the regulator publishes none, and only for international students.
+- Australian tuition work and reviews were closed with the reason kept. Recorded fees were not changed.
 
 ### Decision 224 — Tuition reviews are settled against the page's international view
 **Status:** Current (2 October 2026, migrations 20261002182400–182500) · **Recorded in:** this reference (Pilot PR #247)
