@@ -2970,3 +2970,34 @@ Pilot PRs #160, #161.
   - Nothing in the catalogue changes.
 - **Released:** v2.15.150 (Pilot PR #246), merged with a squash merge after targeted deployed UAT passed on the branch. The Platform guide was reviewed for v2.15.150.
 - **Open:** the remaining waiting tuition reviews whose page, once re-read, no longer has an international annual fee. They wait for the Platform Admin's decision.
+
+### 2 Oct 2026 (16:20 AEST) — Tuition reviews settled against the page's international view (Decision 224); v2.15.151
+- **Asked (Platform Admin, 15:35, with an RMIT review and RMIT's international view, AU$16,250 2027 total indicative):** "Review all other stuck in layer 4, tuition fees ... review for international students rather getting confused on default page that open domestic students."
+- **Found:** about 970 tuition reviews were waiting. Most asked a person about a figure that is not international annual tuition. The AI check had been right to refuse them. The figures were:
+  - domestic-view prices: Collarts, QIBT
+  - a VET Student Loan cap: RMIT Diploma of Business, A$12,858
+  - bursaries: TAFE International WA
+  - scholarships: RMIT
+  - health cover, salaries and deposit limits
+  - whole-course totals and per-session fees: University of Wollongong.
+- **Changed:**
+  - Reader v0.5.6 (coverage-sweep worker v0.9.4, function v45, byte-identical to the repo) leaves those amounts out and reads "Session fee / Course fee" tables.
+  - Migration 20261002182400 re-reads pages behind a waiting review first.
+  - Migration 20261002182500 adds security.layer4_tuition_settle_v1, run then and every 10 minutes (job layer4-tuition-settle). It works as follows:
+    - Duplicates are superseded.
+    - When the amount asked about is not the page's international annual fee, the review is superseded with both amounts kept, and the page's international fee goes to the AI check again.
+    - When the page shows no international fee at all, the review is superseded with that reason.
+    - When the amount matches, or the page shows only per-session fees and totals, the review stays for a person.
+    - Reviews a person opened in the last 30 minutes are left alone.
+  - Both migrations were applied after rolled-back tests; the stored md5 equals each file. Nothing in the catalogue changed.
+- **First run:** 332 reviews settled.
+  - 28 duplicates.
+  - About 120 sent back to the AI check with the page's international fee. Examples: UNE 31, TAFE SA 15, Kingston 13, RMIT 11, AUT 11, Monash 9, Box Hill 9.
+  - About 190 with no international fee on the saved page: Collarts 81, TAFE International WA 80, Elston 12, QIBT 10. These pages carry only the domestic view, or link to a separate international fee list.
+  - About 610 remain for a person:
+    - about 400 where the page's international fee is the amount asked about
+    - about 205 with only per-session fees and totals, 179 of them University of Wollongong.
+- **Released:** v2.15.151 (Pilot PR #247), merged with a squash merge after targeted deployed UAT passed on the branch. The Platform guide was reviewed for v2.15.151.
+- **Open:**
+  - University of Wollongong lists a fee per session; a full-time year is two sessions, 48 credit points.
+  - The official international fee lists of University of Wollongong and Collarts were found but not parsed: UOW's 2027 schedule PDF has 183 course codes and 0 rows read; Collarts' 2026 international flyer gave no rows.

@@ -264,6 +264,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 224 — Tuition reviews are settled against the page's international view | Current; v2.15.151 (Pilot PR #247) |
 | Decision 223 — A fee follows the page's own domestic or international view | Current; v2.15.150 (Pilot PR #246) |
 | Decision 222 — Fetch an area works on the course-page sweep; websites not found go to a person | Current; v2.15.149 (Pilot PR #245) |
 | Decision 221 — A cascade task never falls back to a switched-off model | Current; v2.15.148 (Pilot PR #244) |
@@ -1454,6 +1455,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 224 — Tuition reviews are settled against the page's international view
+**Status:** Current (2 October 2026, migrations 20261002182400–182500) · **Recorded in:** this reference (Pilot PR #247)
+- A tuition review asks a person only about a page's international annual fee.
+- Bursaries, scholarships, loan caps, health cover, salaries, deposits and other fees are never tuition.
+- A per-session fee or a course total is never taken as annual.
+- A review about any other figure is closed with both amounts kept, and the page's international fee goes to the AI check.
 
 ### Decision 223 — A fee follows the page's own domestic or international view
 **Status:** Current (2 October 2026, migrations 20261002182100–182300) · **Recorded in:** this reference (Pilot PR #246)
