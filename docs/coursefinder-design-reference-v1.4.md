@@ -264,6 +264,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 220 — The old Layer 2 pipeline is retired; Canada is admitted like New Zealand | Current; v2.15.147 (Pilot PR #243) |
 | Decision 219 — Every country's providers carry its own divisions; flagged values can be decided in bulk | Current; v2.15.146 (Pilot PR #242) |
 | Production publication gate | Planned for P10 |
 
@@ -1450,6 +1451,14 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 220 — The old Layer 2 pipeline is retired; Canada is admitted like New Zealand
+**Status:** Current (2 October 2026, migration 20261002181800) · **Recorded in:** this reference (Pilot PR #243)
+- **Retired, not removed:** the older provider-reading pipeline's 7 scheduled jobs are paused and its history kept. Layer 2 Overview lists only what someone can act on now, each item with guidance and a button. History shows daily progress by country.
+- **Canada:**
+  - A university's own site is found by name and accepted only on its own .ca site whose home page names it or prints its DLI number.
+  - Course pages are accepted on the exact course title.
+  - Fees are read in Canadian dollars and taken only from a page that prints the course's code.
 
 ### Decision 219 — Every country's providers carry its own divisions; flagged values can be decided in bulk
 **Status:** Current (2 October 2026, migration 20261002181700) · **Recorded in:** this reference (Pilot PR #242)

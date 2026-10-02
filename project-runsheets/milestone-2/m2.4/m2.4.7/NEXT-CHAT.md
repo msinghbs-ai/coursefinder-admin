@@ -2837,3 +2837,27 @@ Pilot PRs #160, #161.
   - The filter is named by country: State / territory (AU), Province / territory (CA), Region (NZ).
   - Flagged values have a tick box per row, Select all shown, and Confirm selected per year, Mark selected as whole course or Remove selected. These replace the per-university Confirm all. One call (`admin_data_flag_resolve_bulk`, Pipeline Operator and above) makes the same changes as a single decision, skips anything already decided and refreshes search once; 30 decisions took 266 ms in the test.
 - **Released:** v2.15.146 (Pilot PR #242), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.146.
+
+### 2 Oct 2026 (12:35 AEST) — Old Layer 2 pipeline retired; an actionable Layer 2 overview and daily progress by country; Canada admitted like New Zealand (Decision 220); v2.15.147
+- **Asked (Platform Admin, 12:02, with screenshots):** fan out data admission to every country and report progress since yesterday. Recent managed runs and recent fetches appear to come from an old script and make no sense — should they be removed, and why is current progress shown in History? Layer 2 Overview shows Action required but gives no button or guidance.
+- **Answered by multiple choice:** retire the old Layer 2 pipeline (pause it, keep its history). Canada "like New Zealand". No preference for the next countries.
+- **Found:**
+  - The History panels and the Action required alerts all came from the older provider-reading pipeline (waves, fan-out, qualification batches). Its last fan-out task was created on 13 Sep 2026.
+  - The "Running 29,618/29,618" batch is the ledger the course-page sweep uses to log tuition hand-offs, not a run.
+  - Canada had 2,382 active courses at 34 providers, with no websites and no admission rule. Its course codes are internal identifiers, not official codes.
+  - US, UK, Ireland and Germany have no providers or courses loaded.
+- **Changed:** migration 20261002181800 was applied after a rolled-back test; the stored md5 equals the file.
+  - The 7 old pipeline jobs are paused, not removed. Housekeeping, the onboarding snapshot, the Layer 3 tuition enqueue and scholarship scope keep running.
+  - The site finder returns each provider's country and DLI number.
+  - A Canadian site is accepted only on its own .ca host whose home page names the provider or prints its DLI number. It then gets the generic course-page recipe, and its active courses are queued for title search.
+  - Canada's rule is exact title for links, English and intakes, with tuition only from a page that prints the course's code, in CAD. The tuition admit and the Layer 4 fee correction accept CAD.
+  - All 34 Canadian providers joined the discovery queue.
+  - coverage-sweep v43 (worker v0.9.2) reads Canadian pages in CAD. It never accepts a site against an empty CRICOS pattern.
+  - Layer 2 Overview › Action required now lists only Layer 2 jobs that are failing or stuck and workers sending back errors. Each has what it means, what to do and a button to Live activity or Scheduled jobs.
+  - Layer 2 History shows daily progress by country in place of the old run and fetch lists.
+- **First Canadian results (12:30 AEST):**
+  - 22 of 34 sites were found and mapped, covering 2,183 courses. All were checked by name on their own .ca home page; 12 providers are still without a site.
+  - 1,558 courses have been searched so far.
+  - 60 pages are proven by exact title.
+  - No Canadian tuition will be added until courses carry an official code.
+- **Released:** v2.15.147 (Pilot PR #243), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (6 of 6). The Platform guide was reviewed for v2.15.147.
