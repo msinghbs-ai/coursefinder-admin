@@ -264,6 +264,8 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 222 — Fetch an area works on the course-page sweep; websites not found go to a person | Current; v2.15.149 (Pilot PR #245) |
+| Decision 221 — A cascade task never falls back to a switched-off model | Current; v2.15.148 (Pilot PR #244) |
 | Decision 220 — The old Layer 2 pipeline is retired; Canada is admitted like New Zealand | Current; v2.15.147 (Pilot PR #243) |
 | Decision 219 — Every country's providers carry its own divisions; flagged values can be decided in bulk | Current; v2.15.146 (Pilot PR #242) |
 | Production publication gate | Planned for P10 |
@@ -1451,6 +1453,18 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 222 — Fetch an area works on the course-page sweep; websites not found go to a person
+**Status:** Current (2 October 2026, migration 20261002182000) · **Recorded in:** this reference (Pilot PR #245)
+- **Fetch an area:** it shows where a country, state or university stands in the course-page sweep, and Start puts that area first. Nothing admitted or entered by hand is changed.
+- **Websites to find:** a university whose own website the finder cannot confirm waits in Layer 4 › Websites to find. A website a person enters there is never changed by automation.
+- **Errors:** each worker error says what to do.
+
+### Decision 221 — A cascade task never falls back to a switched-off model
+**Status:** Current (2 October 2026, migration 20261002181900) · **Recorded in:** this reference (Pilot PR #244)
+- Intakes and English are answered only by cascade steps that are switched on. With none switched on, nothing is sent to any model.
+- A page sent back from Layer 4 to one named, tested model is the only exception.
+- Recent results shows the model that actually answered.
 
 ### Decision 220 — The old Layer 2 pipeline is retired; Canada is admitted like New Zealand
 **Status:** Current (2 October 2026, migration 20261002181800) · **Recorded in:** this reference (Pilot PR #243)

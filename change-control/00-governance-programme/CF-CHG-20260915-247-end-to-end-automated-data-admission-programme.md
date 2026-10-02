@@ -2933,3 +2933,43 @@ Pilot PRs #160, #161.
   - 60 pages are proven by exact title.
   - No Canadian tuition will be added until courses carry an official code.
 - **Released:** v2.15.147 (Pilot PR #243), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (6 of 6). The Platform guide was reviewed for v2.15.147.
+
+### 2 Oct 2026 (13:00 AEST) — Layer 3 cascade never falls back to a switched-off model; pending claims labelled (Decision 221); v2.15.148
+- **Asked (Platform Admin, 12:35, with screenshots):** "Again even sonet is disabled as a model work queue still passed it on to sonet model why is the leaking still happening??"
+- **Found:**
+  - No intake or English answer has come from Claude Sonnet 4.6 since 30 Sep 2026 06:03 AEST, when the cascade started.
+  - In the last 24 hours every answer came from Qwen3 30b (step 1) or Mistral Small 3.2 (step 2).
+  - The "Running · claude-sonnet-4.6" rows were claims waiting for the cascade. A claim is recorded against the task's single routed profile, which is Sonnet from before the cascade, and is relabelled with the step that answers.
+  - There was a latent fallback: had every step been switched off, the worker would have called that routed profile.
+- **Changed:**
+  - layer3-model-routing v8. For a cascade task, the worker never runs the single-profile path. With no step switched on, nothing is claimed and no model is called. A step switched off mid-run releases the page. Send back to AI to one named model is unchanged.
+  - Migration 20261002181900, applied after a rolled-back test; the stored md5 equals the file. Recent results now hides the placeholder model of an unanswered cascade claim and shows "Cascade · step not chosen yet". Answered rows show the step.
+  - Verified after deploy: answers came from Qwen (step 1) and Mistral (step 2) only.
+- **Released:** v2.15.148 (Pilot PR #244), merged with a squash merge after targeted deployed UAT passed on the branch. The Platform guide was reviewed for v2.15.148.
+
+### 2 Oct 2026 (13:35 AEST) — Fetch an area works on the course-page sweep; Websites to find; worker errors say what to do (Decision 222); v2.15.149
+- **Asked (Platform Admin, 12:41, with screenshots):**
+  - "Manual job for Latrobe was submitted but open job button do nothing."
+  - Error descriptions are not helpful and give no steps.
+  - Universities whose site the finder tried should be handed to Layer 4 for a person to enter the URL.
+- **Answered, on what Fetch an area should do:** "Align the sweep function with new sweep process."
+- **Found:**
+  - Fetch an area still started the retired pipeline, so the La Trobe request could never run. Its Open Jobs button pointed to a menu item that no longer exists.
+  - In the sweep, La Trobe already has its site mapped and 239 of 248 course pages found and read. 239 have an official page admitted and 23 have intakes. None show English or fees, because the pages found are 2021 handbook pages that do not carry them.
+  - 43 universities have no confirmed website (35 AU, 8 CA).
+  - The worker errors had two causes:
+    - The AI tuition check runs for up to 4 minutes, but its caller waited only 2.
+    - The tuition hand-off took 2.7 s on average and up to 7.7 s, reaching the statement timeout once. A start-up error coincided with a release.
+- **Changed:** migration 20261002182000, applied after a rolled-back test as Platform Admin; the stored md5 equals the file.
+  - Layer 2 › Fetch an area now reads and drives the sweep. For a country, state or university it shows sites mapped or not found, pages found and read, facts admitted, and one line on what is holding it up.
+  - Start (Pipeline Operator and above) puts the area first in the sweep, using the same priority pin as Scheduled jobs › Priority. It then:
+    - searches again for sites not found and retries failed site maps
+    - searches for pages of courses with none (a search that found nothing is repeated after 7 days)
+    - reads found pages now.
+
+    Nothing admitted or entered by hand is changed.
+  - Layer 4 › Websites to find lists those universities with the search and pages tried. A website entered there is kept as entered by a person and logged. It adds the generic course-page recipe and starts the page search.
+  - Each worker error on Live activity and on Layer 2 Action required now says what to do, often nothing, and when to switch a job off or tell the Platform Admin.
+  - The AI tuition check's caller now waits 5 minutes. The tuition hand-off has an exact prefilter that misses none of the qualifying pages and runs in 0.4 s.
+- **Released:** v2.15.149 (Pilot PR #245), merged with a squash merge after targeted deployed UAT passed on the branch. The Platform guide was reviewed for v2.15.149.
+- **Open:** for universities like La Trobe, English and fees need a second page per course (the international course page rather than the handbook). This is not built yet.
