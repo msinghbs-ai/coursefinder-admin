@@ -2901,3 +2901,21 @@ Pilot PRs #160, #161.
   - The AI tuition check's caller now waits 5 minutes. The tuition hand-off has an exact prefilter that misses none of the qualifying pages and runs in 0.4 s.
 - **Released:** v2.15.149 (Pilot PR #245), merged with a squash merge after targeted deployed UAT passed on the branch. The Platform guide was reviewed for v2.15.149.
 - **Open:** for universities like La Trobe, English and fees need a second page per course (the international course page rather than the handbook). This is not built yet.
+
+### 2 Oct 2026 (15:50 AEST) — Fees follow the page's domestic or international view; answered tuition reviews closed (Decision 223); v2.15.150
+- **Asked (Platform Admin, 15:02, with screenshots):** "Uq website clearly shows $10,520 how is the json getting additional fees not even listen on the page?"
+- **Found:**
+  - UQ's page carries a domestic view and an international view, and remembers which one a visitor chose. $10,520 (2026) is the domestic view, a Commonwealth supported place. AUD $60,952 (2027) is the international view and the page's own "Fees A$60952" summary. The recorded A$60,952 is correct.
+  - The review was left by the retired pipeline's extractor (26 Aug). The same course was sent to a person again at 12:31 by layer3-tuition-enqueue, which still fed the retired pipeline's August snapshots to the AI fee check.
+  - Across Layer 4, about 940 tuition reviews were waiting. Most came from the course-page sweep handing the AI fee check domestic-view fees, course totals and part-year fees as if they were international annual fees. The AI correctly declined them.
+- **Changed:** migrations 20261002182100, 182200 and 182300, applied after rolled-back tests; the stored md5 equals each file.
+  - 15 waiting tuition reviews were closed as superseded, with the reason kept. In each, the recorded international fee is the amount the current reader reads from the same page.
+  - layer3-tuition-enqueue is paused (switched off, not removed).
+  - Reader v0.5.5 (coverage-sweep worker v0.9.3, function v44, byte-identical to the repo):
+    - fees follow the page's own view marker
+    - course totals are recognised, with total wording scoped to its own amount
+    - a fee for a study period, trimester or unit is never annual.
+  - Every saved page is re-read once, each in its country's currency (re-extraction read every page in AUD before).
+  - Nothing in the catalogue changes.
+- **Released:** v2.15.150 (Pilot PR #246), merged with a squash merge after targeted deployed UAT passed on the branch. The Platform guide was reviewed for v2.15.150.
+- **Open:** the remaining waiting tuition reviews whose page, once re-read, no longer has an international annual fee. They wait for the Platform Admin's decision.
