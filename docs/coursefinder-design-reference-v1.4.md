@@ -265,6 +265,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
 | Decision 229 — Intake check v1.3.0 is a separate contract, switched on only after qualification | Not qualified (both candidates 2 wrong-admitted on l3r-intake-h1); profiles paused |
+| Decision 230 — Candidate models are qualified on the frozen holdouts before any cascade change | MiMo v2.6 Pro qualified for English (paused); Kimi K2 0905 not qualified; intakes: neither (Pilot PR #251) |
 | Decision 228 — Semester-only intakes are answered from the university's approved calendar | In progress; part 1 of 3 live (Pilot branch cf247-semester-months) |
 | Decision 227 — English requirements from each university's own policy, approved per university | Current; v2.15.153 (Pilot PR #249) |
 | Decision 226 — Quote failures are re-run once; a repeat failure needs a new intake check | Current; v2.15.153 (Pilot PR #249) |
@@ -1460,6 +1461,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 230 — Candidate models are qualified on the frozen holdouts before any cascade change
+**Status:** Recorded (2 October 2026; migration 20261002184100, Pilot PR #251) · **Recorded in:** this reference
+- A new model enters as a paused profile pinned to one named model, copied from the qualified profile of the same task, and is run on the frozen holdout for that task.
+- It passes with at least 95% exact on stated cases and zero wrong-admitted values; a pass never places it in a cascade — the Platform Admin does that separately.
+- Results: MiMo v2.6 Pro passed English (37 of 37) and failed intakes (one stated page withheld); Kimi K2 0905 failed both (one stated page each). No wrong values were admitted by either.
 
 ### Decision 229 — Intake check v1.3.0 is a separate contract, switched on only after qualification
 **Status:** Not qualified (2 October 2026; migration 20261002183800, router version 9) · **Recorded in:** this reference
