@@ -3001,3 +3001,43 @@ Pilot PRs #160, #161.
 - **Open:**
   - University of Wollongong lists a fee per session; a full-time year is two sessions, 48 credit points.
   - The official international fee lists of University of Wollongong and Collarts were found but not parsed: UOW's 2027 schedule PDF has 183 course codes and 0 rows read; Collarts' 2026 international flyer gave no rows.
+
+### 2 Oct 2026 (18:10 AEST) — Australian tuition from CRICOS; quote failures re-run; English from each university's policy (Decisions 225–227); v2.15.152–v2.15.153
+- **Asked (Platform Admin, 16:42):** "Th tuition fees were already listed in cricos for au region why are we investing in refinding those? It should only be done where regulatory are not advertising it and only for international students. We should concentrate on intakes and English requirements." By multiple choice: English from university policy, semesters to months, intake check v1.1, re-run quote failures (all four).
+- **Decision 225 (v2.15.152, Pilot PR #248, migration 20261002182600):**
+  - A country rule with no tuition identities means tuition comes from the regulator. Australia's tuition list is now empty; New Zealand and Canada keep theirs.
+  - The institution reader no longer searches for or reads fee schedules for Australia (security.tuition_chase_enabled). It still finds English policies and academic calendars.
+  - Australian tuition work waiting for the AI check was parked, and 648 Australian tuition reviews in Layer 4 were closed as superseded, with the reason kept. Recorded fees were not changed.
+  - History › Daily progress shows Australia's tuition as "Tuition (CRICOS)".
+- **Decision 226 (v2.15.153, migration 20261002182700):**
+  - The 446 waiting intake and English reviews whose only reason was "The AI quoted text that is not on the saved page" were sent back to the Layer 3 cascade.
+  - Retry failed for tuition no longer brings back tuition work parked under Decision 225 (patch behind an md5 guard).
+  - Finding: 350 of the 446 failed the same way again. The AI's quotes are short ("April", "July", which are under the six-character minimum) or are stitched together from several parts of the page. A re-run does not clear them. The fix is a new intake check contract, qualified on the frozen holdout and switched on by the Platform Admin; the qualified v1.2 contract is not changed in place.
+- **Decision 227 (v2.15.153, Pilot PR #249, migrations 20261002182800–20261002183200, coverage-sweep worker v0.9.5):**
+  - The reader now also reads English policy and academic calendar pages, larger providers first. Each is stored as evidence and parsed without AI (parser provider-policy-v0.2.1) into a proposal.
+  - An English proposal gives a default for undergraduate courses (bachelor, honours, associate degree) and for postgraduate coursework courses (graduate certificate, graduate diploma, coursework masters). It also lists courses the policy names with their own score.
+  - The plan is worked out course by course. A requirement is written only where the course has no English row at all, no lock set by hand, no review open, no AI check in progress and no page waiting to be read.
+  - Held back: research degrees, double degrees, exit awards, other levels, and courses the policy names or nearly names.
+  - Nothing is written until a Platform Admin approves. Approved policies are applied again every six hours (job provider-english-defaults).
+  - Approval is refused where at least 10 courses can be compared with their own pages and more of them differ than agree.
+  - Screens: Coverage › Attributes › English policies and Academic calendars.
+  - Every migration was tested rolled back first; the stored md5 equals each file. The edge function was deployed from the branch and checked byte for byte against the repo.
+- **First results (116 of 413 policy documents read so far):**
+  - 42 English proposals are waiting for approval. Examples:
+    - Flinders: 57 course pages agree, 12 differ, 197 courses to fill
+    - UQ: 207 agree, 45 differ
+    - Deakin: 81 agree, 34 differ
+    - Adelaide: 163 agree, 56 differ
+  - Blocked by the agreement check, because the parser picked up a nursing table or a band table:
+    - UTS
+    - ECU: 10 agree, 106 differ
+    - QUT: 0 agree, 77 differ
+    - UTas: 3 agree, 25 differ
+  - No single default, so these stay on course pages: policies that set scores by English band (Melbourne), by faculty (UNSW, Swinburne, Murdoch) or only on each course page (UOW, RMIT, Sydney's course list).
+  - 22 calendar proposals are waiting.
+  - Nothing has been written to the catalogue yet.
+- **Released:** v2.15.152 (Pilot PR #248) and v2.15.153 (Pilot PR #249), merged with a squash merge after targeted deployed UAT passed on each branch. Local suite: 300 passed, with exactly the 18 known failures. The Platform guide was reviewed for v2.15.153.
+- **Open:**
+  - Semesters to months from approved calendars (next).
+  - Intake check v1.3.0 as a parallel contract: day-first numeric dates, rolling or weekly intakes, short month quotes. It will be qualified on l3r-intake-h1 and activated by the Platform Admin.
+  - 14 New Zealand tuition reviews remain.
