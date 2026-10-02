@@ -2876,3 +2876,13 @@ Pilot PRs #160, #161.
   - Evidence indexing (v6, deployed from the branch, checked live) works on 4 pages at a time (was 6) and skips unpacked pages over 12 MB.
 - **Result:** the first scheduled run at 11:05 left 65 flags open, from 458. The test run had confirmed 393 (319 by wording, 74 short courses). The 65 that remain name no period or another period, e.g. "$73,392 (six trimesters full-time study)" (whole course) and "Semester 1 AUD $10,720" (per semester); a person corrects these.
 - **Released:** v2.15.145 (Pilot PR #241), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.145: what Layer 4 is, the period check, and Mark as seen.
+
+### 2 Oct 2026 (11:55 AEST) — New Zealand regions and a country-named state filter; bulk decisions on flagged values (Decision 219); v2.15.146
+- **Asked (Platform Admin, 11:24, with screenshot):** no state filter for New Zealand; check Canada; make state or province available as a filter. Add mass bulk actions to Layer 4 Flagged values.
+- **Found:** Canada already holds a province or territory for all 1,130 providers (12 in use), so its filter worked. New Zealand had no regions in the reference list, so none of its 414 providers had one.
+- **Changed:** migration 20261002181700, applied after a rolled-back test as a signed-in Platform Admin; the stored md5 equals the file.
+  - New Zealand's 16 regions and the Chatham Islands were added (ISO 3166-2:NZ). 402 of 414 NZ providers were placed by their town, only where no region was held.
+  - 12 are left for a person to set on the provider record. Six have overseas addresses (Cook Islands, "Offshore", "Overseas"). Six have towns that are ambiguous or unconfirmed: "Frankton" ×4 (Hamilton or Queenstown), "Central City" and "Waipapa".
+  - The filter is named by country: State / territory (AU), Province / territory (CA), Region (NZ).
+  - Flagged values have a tick box per row, Select all shown, and Confirm selected per year, Mark selected as whole course or Remove selected. These replace the per-university Confirm all. One call (`admin_data_flag_resolve_bulk`, Pipeline Operator and above) makes the same changes as a single decision, skips anything already decided and refreshes search once; 30 decisions took 266 ms in the test.
+- **Released:** v2.15.146 (Pilot PR #242), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.146.

@@ -264,6 +264,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 219 — Every country's providers carry its own divisions; flagged values can be decided in bulk | Current; v2.15.146 (Pilot PR #242) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1449,6 +1450,11 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 219 — Every country's providers carry its own divisions; flagged values can be decided in bulk
+**Status:** Current (2 October 2026, migration 20261002181700) · **Recorded in:** this reference (Pilot PR #242)
+- **Divisions:** each country's states, provinces or regions are held in the reference list by their ISO 3166-2 codes (Australia 8, Canada 13, New Zealand 17). A provider's division is set from its own address or town; a town that names two places, or an overseas address, is left for a person. A division set by hand is never changed. The filter uses each country's own name for its divisions.
+- **Bulk decisions on flagged values:** Pipeline Operators and above may confirm, mark as whole course or remove many flagged values at once; each is recorded as that person's decision, the same as one at a time.
 
 ### Decision 218 — Fee periods are settled from the page wording; worker errors name their job
 **Status:** Current (2 October 2026, migration 20261002181600) · **Recorded in:** this reference (Pilot PR #241)
