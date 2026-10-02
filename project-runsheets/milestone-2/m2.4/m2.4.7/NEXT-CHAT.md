@@ -3199,3 +3199,8 @@ Pilot PRs #160, #161.
 - **Reported (Platform Admin, 01:39):** "Not visible in ui, Jobs › Priority queue › Course-page search budget, below the priority list".
 - **Cause:** v2.15.155 placed the card below the 60-row "Current order" table and Recent changes, so it was easy to miss. The data call works for the Platform Admin (checked as that user: used 49,840, cap 50,000, can change).
 - **Fix:** the Course-page search budget is now the first panel on Jobs › Priority queue; a browser test checks it. Release v2.15.156 / package 0.1.83; PR #261 merged after build-and-smoke; the deployed release check (Release Currentness Deployed) and Deployed UAT passed for the merged commit.
+
+### 3 Oct 2026 (02:15 AEST) — Fee schedules and English policies moved to Layer 4 › Attributes; release v2.15.157 (Pilot PR #262)
+- **Asked (Platform Admin, 02:00):** "Move english and fees from coverage attributes to layer 4 as the attributes tab."
+- **Change:** a new Layer 4 Review tab, Attributes (Pipeline Operator and above), holds Fee schedules, English policies and Academic calendars with a country filter (All, Australia, New Zealand, Canada). Behaviour is unchanged (bulk approval, one approved document per university). Coverage › Attributes keeps the counts by attribute and links to Layer 4 Review › Attributes. The Platform guide moved the matching text from Coverage to Layer 4. No database change.
+- **Verification:** CF-247 contract and browser specs pass (489; the one cf-247-admin-simplify mobile test fails on main too); release contract PASS v2.15.157 / 0.1.84; PR #262 merged after build-and-smoke; Release Currentness Deployed and Deployed UAT passed for the merged commit.
