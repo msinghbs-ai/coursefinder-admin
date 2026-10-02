@@ -1464,6 +1464,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 236 — New Zealand university degrees by name; one approved policy document per university
+**Status:** Current (3 October 2026; migrations 20261003000300, 20261003000400; worker coverage-sweep v0.12.1; release v2.15.155) · **Recorded in:** this reference · **Refines:** Decisions 202, 217, 227
+- Platform Admin, 00:57 ("yes NZ"): a New Zealand degree page (bachelor to doctor) whose heading is exactly the degree name, optionally followed by its abbreviation, is the course's page when the page names no other level of it. Conjoint, double and broad degrees taught in many subjects never match. It admits the official course page, English and intakes.
+- Approving a university's English policy or academic calendar closes its other waiting documents of the same kind. Several documents can be approved or rejected in one action, each with the same checks.
+- The course-page search monthly credit cap is shown and set on Jobs › Priority queue (Platform Admin).
+
 ### Decision 235 — Canadian course pages by field and award; websites by full name and a fitting address
 **Status:** Current (2 October 2026; migrations 20261002190000–20261002190200; worker coverage-sweep v0.11.2) · **Recorded in:** this reference · **Refines:** Decision 220
 - Platform Admin, 22:55 (multiple choice "Yes, test then switch on"): a Canadian course page on the university's own site matches when its heading or title holds the same award (in words or its abbreviation) and exactly the same field. Combined, dual and double awards, generic awards, a different campus (UBC Okanagan) and archived calendar pages never match. It admits the official course page, English and intakes; tuition still needs the course code.
