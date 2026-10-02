@@ -263,6 +263,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 215 — Scheduled workers sign in with one-time run passes; worker errors are shown | Current; v2.15.142 (Pilot PR #237) |
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
+| Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1448,6 +1449,11 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 218 — Fee periods are settled from the page wording; worker errors name their job
+**Status:** Current (2 October 2026, migration 20261002181600) · **Recorded in:** this reference (Pilot PR #241)
+- **Fee periods:** a fee the Layer 3 fee check adds as per year with its period unconfirmed is confirmed automatically when the page wording it quoted says per year, or when the course runs a year or less. Wording that names another period is never confirmed; those fees stay in Flagged values for a person. Each automatic confirmation records the rule and the quoted words.
+- **Worker errors:** every scheduled call records the function and mode it called, and Live activity shows the job behind each error reply. An error marked as seen (Pipeline Operator and above) is hidden until it happens again.
 
 ### Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD
 **Status:** Current (2 October 2026, migrations 20261002181300–20261002181500) · **Recorded in:** this reference (Pilot PRs #239, #240)

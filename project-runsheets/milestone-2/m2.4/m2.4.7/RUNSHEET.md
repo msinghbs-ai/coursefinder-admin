@@ -2866,3 +2866,15 @@ Pilot PRs #160, #161.
   - The course-page search has used about 40,800 of its 50,000 monthly units; at the cap it pauses until 1 November.
   - The tuition model's test had no NZ pages. NZ fees are being spot-checked by hand as they arrive; an NZ case set for its next test is recommended.
   - 309 NZ courses belong to providers with no website on record and cannot be searched.
+
+### 2 Oct 2026 (11:10 AEST) — Fee periods settled automatically; Live activity names the job behind each error (Decision 218); v2.15.145
+- **Asked (Platform Admin, 10:51, with screenshots):** what is Layer 4; flagged values should be handled by the Layer 3 course-fee automation, not a person; fix the errors shown on Live activity.
+- **Found:**
+  - All 458 open flags were fees the Layer 3 fee check added as per year because its validator did not recognise the period wording (for example "estimated 1st year indicative fee", "$45,800 for 1 yr full-time").
+  - The Live activity errors were the old automation key (fixed in Decisions 215–216), deliberate test calls after the run-pass change, and two compute-limit replies from evidence indexing (08:49, 08:59); every evidence run since 09:09 had succeeded.
+- **Changed:** migration 20261002181600, applied after a rolled-back test; stored md5 equals the file; function patches md5-guarded.
+  - Automatic period check (job `fee-period-settle`, every 10 minutes): confirms a flagged fee when its quoted wording says per year, or when the course runs a year or less. Wording naming another period (semester, trimester, total, whole course) is never confirmed.
+  - Live activity: scheduled calls note the function and mode they called, so each error names its job. Pipeline Operators and above can Mark as seen; an error shows again only if it recurs. The errors already understood were marked as seen.
+  - Evidence indexing (v6, deployed from the branch, checked live) works on 4 pages at a time (was 6) and skips unpacked pages over 12 MB.
+- **Result:** the first scheduled run at 11:05 left 65 flags open, from 458. The test run had confirmed 393 (319 by wording, 74 short courses). The 65 that remain name no period or another period, e.g. "$73,392 (six trimesters full-time study)" (whole course) and "Semester 1 AUD $10,720" (per semester); a person corrects these.
+- **Released:** v2.15.145 (Pilot PR #241), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.145: what Layer 4 is, the period check, and Mark as seen.
