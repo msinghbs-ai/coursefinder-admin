@@ -262,6 +262,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 214 — Live activity shows every layer's work; discovery keeps its own list | Current; v2.15.141 (Pilot PR #236) |
 | Decision 215 — Scheduled workers sign in with one-time run passes; worker errors are shown | Current; v2.15.142 (Pilot PR #237) |
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
+| Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Production publication gate | Planned for P10 |
 
 ---
@@ -1447,6 +1448,16 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD
+**Status:** Current (2 October 2026, migrations 20261002181300–20261002181500) · **Recorded in:** this reference (Pilot PRs #239, #240)
+- **NZ page identity** (in addition to the programme code and exact title of Decision 202):
+  - `title_level`: the page heading (or the page title before the site name) is the NZQA title without "(Level N)", or with the same level, and the page shows "Level N". A page that names the same qualification at another level is not accepted on its title.
+  - `nzqa_code`: the NZQA qualification number printed with its label.
+  - Both are admitted for official links, English and intakes.
+- **NZ tuition** is read in NZD and, as in Australia, only from a page that prints the course's code. It is validated by the qualified Layer 3 tuition model before admission; unclear fees go to Layer 4.
+- **Course-page search** covers courses without a CRICOS code at the title stage, with the NZQA level suffix dropped. NZ providers use the generic own-site recipe; pages still rejected after a re-read are searched each minute.
+- **Fee schedules** are CRICOS-matched (Australia only) and follow the Coverage country and university filter.
 
 ### Decision 216 — Every background function signs in with one-time run passes
 **Status:** Current (2 October 2026, migration 20261002181200) · **Recorded in:** this reference (Pilot PR #238)

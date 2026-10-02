@@ -2779,3 +2779,39 @@ Pilot PRs #160, #161.
   - Evidence link indexing kept running on schedule: about 1,000 pages indexed in the hour after the change.
 - **Released:** v2.15.143 (Pilot PR #238), merged with a squash merge after targeted deployed UAT passed on the branch; main is all green (4 of 4). The Platform guide was reviewed for v2.15.143: Budgets and keys, and the worker-error signal.
 - **Noted, not changed:** `layer2-v2-diagnostic` passes sign-in but its own query fails ("Invalid schema: pipeline"), as it did before; it is a diagnostic only. The old key's database records remain, unused and expired.
+
+### 2 Oct 2026 (10:35 AEST) — New Zealand course pages, search and tuition; fee schedules follow the country (Decision 217); v2.15.144
+- **Asked (Platform Admin, 09:21, with screenshots):** the fee schedule panel doesn't follow the selected country; NZ isn't running any jobs; NZ data admissions are almost nil.
+- **Found:**
+  - The course-page search only queued courses with a CRICOS code, so no NZ course had ever been searched.
+  - The reader rejected correct NZ pages because NZQA titles end in "(Level N)" and provider pages don't (2,584 rejected; about 900 tested as right on their stored headings).
+  - The tuition hand-off to Layer 3 was Australia-only, with AUD fixed.
+  - Fee schedules sat outside the Coverage filter.
+- **Decided (multiple choice):** NZ identity "title + same level", plus a labelled NZQA number; search all NZ courses now; NZ tuition admitted like Australia, in NZD.
+- **Changed:**
+  - Reader v0.9.1 (coverage-sweep v42, deployed from the branch, byte-compared with git):
+    - `title_level`: the heading is the NZQA title without the level, the same level shows on the page, and no other level of the same qualification appears;
+    - `nzqa_code`: a labelled NZQA number on the page;
+    - NZ fees are read in NZD, with AUD and US$ amounts left out;
+    - Australia is unchanged.
+  - Migration 20261002181300 (md5-guarded):
+    - the read queue carries the country;
+    - the NZ admission rule is extended (tuition only from a page that prints the course's code, like Australia);
+    - the tuition hand-off follows each country's rule and currency;
+    - the title search drops "(Level N)";
+    - generic recipes for 398 NZ providers.
+  - Migration 181400: 2,584 NZ pages read again; 2,927 NZ courses queued for search.
+  - Migration 181500: NZ pages still rejected after the re-read go to the title search each minute (Australian queueing unchanged).
+  - Each migration was applied after a rolled-back test; the stored md5 equals each file.
+  - Fee schedules follow the Coverage country and university; for New Zealand the panel explains that schedules are CRICOS-matched and Australian only.
+- **Results after about an hour:**
+  - NZ official course pages 272 → 989; English requirements 203 → 624; intakes almost none → 341.
+  - Proven pages: 449 by title and level, 418 exact title, 115 programme code, 14 NZQA number.
+  - Search: 310 verified, 2,647 found and waiting to be read, 1,610 with nothing found.
+  - 3 NZD tuition fees admitted through the qualified Layer 3 model. The first was checked by hand: Ara, Bachelor of Sustainability and Outdoor Education, page shows "International Fee $26,572 per year" for 2026, recorded as NZD 26,572 annual 2026.
+  - Unclear fees go to Layer 4, as in Australia (e.g. NZ$1,259 for a postgraduate diploma, likely per credit).
+- **Released:** v2.15.144 (Pilot PR #239) and the search follow-up (Pilot PR #240), each merged with a squash merge after targeted deployed UAT passed on the branch; main is green. The Platform guide was reviewed for v2.15.144: how a course page is accepted in each country, and the fee schedule scope.
+- **Watch:**
+  - The course-page search has used about 40,800 of its 50,000 monthly units; at the cap it pauses until 1 November.
+  - The tuition model's test had no NZ pages. NZ fees are being spot-checked by hand as they arrive; an NZ case set for its next test is recommended.
+  - 309 NZ courses belong to providers with no website on record and cannot be searched.
