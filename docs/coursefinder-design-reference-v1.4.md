@@ -1464,6 +1464,14 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 238 — Settings controlled from the UI; prompts as tested versions; Reviewer and Editor roles for customer staff
+**Status:** Current (3 October 2026; migrations 20261003001000–20261003001300; releases v2.15.159–v2.15.160) · **Recorded in:** this reference · **Refines:** Decisions 172, 179, 229
+- Platform Admin, 09:26: every value the pipeline runs on — throughput (universities per matcher run, items a minute, pages read per batch), Layer 3 limits (requests a day, daily spend guards, credit floor), the course-page search cap, the Firecrawl limit and reserve, and which page proofs admit each attribute per country — is shown and changed on one Settings page, grouped by pipeline step. A number applies at once and writes an audit row. Migrations stop being the way settings change.
+- Prompts and rules (English, intakes, tuition, page identity, the AI matcher, Firecrawl extraction, scholarship patterns) are versioned contracts bound to the step they qualified. A Platform Admin edits one as a new version, tests it on the frozen holdout from the same screen, and switches it on by a separate click (multiple choice, 09:30: "Edit, test on holdout, then switch on"); nothing live changes until then.
+- The course drawer opens on the course's values, each with one Change button; a value entered by hand is marked so, keeps its evidence and is never overwritten by the pipeline. No separate editor panel, no comparison strip.
+- Customer staff vet data in two roles (multiple choice, 09:30): a Reviewer confirms or flags a value on the Courses, Providers and Scholarships pages; an Editor also changes a value in place. Every action is logged with who and when; neither role sees settings, rules, jobs or users, and neither action starts a pipeline run.
+- The attribute set is fixed; the rapid admission plan fills it. Screens are folded, not multiplied: a new control goes on the page for its pipeline step, never on a new tab.
+
 ### Decision 237 — Matcher throughput; intake cascade steps 2 and 3; Firecrawl AI extraction as a provider-level candidate
 **Status:** Current (3 October 2026; migrations 20261003000600–20261003000800; worker coverage-sweep v0.13.3) · **Recorded in:** this reference · **Refines:** Decisions 172, 220, 233
 - Platform Admin, 08:17: the AI link matcher prepares up to 500 universities a run (the job asks 200) and runs 80 items a minute. The queues had been throttled by the prepare step (4 universities a run), not empty.
