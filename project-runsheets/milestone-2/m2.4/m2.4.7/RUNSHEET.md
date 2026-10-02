@@ -3127,3 +3127,14 @@ Pilot PRs #160, #161.
   - A rolling statement must name intakes or starts.
   - Because the h1 outcomes have now been read, v1.3.1 should be qualified on a fresh holdout (h2) read by hand, not on h1 again.
 - **Also found:** intake cascade step 2 (Claude Haiku 4.5, v1.2.0) is already qualified (44/47 right, 0 wrong-admitted on h1) but switched off. Today only step 1 (Qwen3 30B) runs, so every quote failure goes straight to Layer 4. Switching step 2 on (Platform Admin, Control) would send failures to a stronger model first, at about US$0.004 a page.
+
+### 2 Oct 2026 (20:20 AEST) — Intake cascade step 2 switched on; rolling intakes stay with a person
+- **Decided (Platform Admin, by multiple choice):**
+  - "Rolling / monthly intakes" stay with a person, so the v1.3.0 candidates stay paused.
+  - "Switch on Haiku step 2".
+- **Changed:**
+  - Migration 20261002183900 switches on intake cascade step 2, Claude Haiku 4.5 on the qualified v1.2.0 contract. It becomes the final step; Claude Sonnet 4.6 stays off.
+  - Migration 20261002184000 sends back once the 296 waiting intake reviews held for a quoting or format reason (quote not on the saved page, too many quotes, an answer that was not JSON). Reviews about months not in the quotes stay for a person.
+  - Both migrations' stored md5 equal their files.
+- **First cascade run after the change:** 22 of 40 pages validated, against 4–8 of 40 per run with step 1 alone; 36 of the 40 went to Haiku; US$0.19.
+- **Credit:** OpenRouter credit is US$37.77.
