@@ -1464,6 +1464,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 234 — Australian English by exact title; university English statements need one approval each
+**Status:** Current (2 October 2026; migrations 20261002185600, 20261002185700, 20261002185800) · **Recorded in:** this reference · **Refines:** Decisions 203, 227, 233
+- Platform Admin, 22:26: Australian English is admitted from a page on the provider's own site that shows the CRICOS code or whose title is exactly the course title. The CRICOS code is no longer required for English.
+- A university's own statement of English by study level fills every course of that level with no English yet, with the statement as evidence (Decision 227). Each statement is approved once by a Platform Admin in Coverage › Attributes › English policies; a statement that leaves some courses unlisted is applied with those values marked to check (confidence 0.6).
+- Reference and hint sites are read through Firecrawl when direct access fails. robots.txt is followed per RFC 9309; terms that forbid automated access are followed whatever tool is used.
+
 ### Decision 233 — Reference lists of universities give website hints only; a hint is used only when the home page proves it
 **Status:** Current (2 October 2026; migration 20261002185500) · **Recorded in:** this reference · **Refines:** Decision 232
 - Hipo university-domains-list and univ.cc are hint sources. A hint becomes a university's website only if its home page shows the CRICOS provider code (Australia) or, in Canada and New Zealand, the national domain plus the existing name or DLI rule.
