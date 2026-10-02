@@ -3030,3 +3030,49 @@ Pilot PRs #160, #161.
   6. **Course pages not proven to be the course.** Search again by exact course title on the university's own site for the 5,766 mismatched and about 3,800 missing pages, before any rule change. A rule change, for example the exact title as heading plus the university's own course-page address pattern, would be its own decision.
   7. **Calendars behind links.** Follow key-dates PDFs and links from calendar pages, as fee schedules already do. Most large universities' calendar pages are menus (Curtin, Griffith, UTas).
 - **Open:** Decision 228 parts 2 and 3 wait for approval. The release of 183300 to 183500 and of the calendar screens follows once part 2 is live.
+
+### 2 Oct 2026 (20:00 AEST) — English policies approved and applied; intake check v1.3.0 not qualified (Decisions 227, 229)
+- **Asked (Platform Admin, 19:21):** "For 1, I have reviewed it ... we should leave as is and apply only to empty or not manually edited records. 2 I dont where to check these. 4 go ahead." Later, by multiple choice on group 2: "Apply all and leave and flag which aren't listed and courses meant for international students are priorities."
+- **English group 1 approved and applied** (migration 20261002183600; stored md5 equals the file). 632 courses now have English from their university's policy:
+  - Adelaide 228, Flinders 197, Collarts 66, Deakin 59, William Angliss 19
+  - CQU 14 (its own named courses), AIH 14, Chisholm 11, AUT 10, Box Hill 8, Southern Cross 6
+  - Values already on record were left as they are, including any that differ. The existing English values come from course pages (CRICOS does not publish English).
+- **English group 2 checked against each university's own page:**
+  - Victoria University: its requirements PDF gives bachelor 6.0 (no band below 6.0) and postgraduate 6.5 (6.0). It names 19 courses that need more. Use the PDF and reject the web-page versions.
+  - USQ: 6.5 (6.0) for the majority of degrees. Bachelor of Nursing is named.
+  - Sydney: standard 6.5 (6.0), but some faculties and courses differ and are not listed.
+  - UNE: 6.0 (5.5) is a minimum; its higher-requirement courses are in a separate policy.
+  - Canberra: no single score stated.
+- **Group 2 approval with flags (migrations 20261002183700 and 20261002183710, on Pilot branch cf247-semester-months).** The flag rule:
+  - Where a policy does not list the courses that need more, a course given the university standard is marked: its note says to check the course page, and its confidence is 0.6.
+  - This also covers Adelaide and Deakin values already written.
+  - Courses open to international students are written first.
+- **Group 2 is not yet live.** The database tool's approval prompt came back cancelled for both migrations, so they are not applied. Approving Victoria University and USQ in Coverage › Attributes › English policies writes them at once (no flag needed). Sydney, UNE and Canberra wait for the flag step.
+- **Decision 229, intake check v1.3.0, built as a separate contract.**
+  - New file `_shared/cf247-intake-validation-v13.ts`. layer3-model-routing chooses the contract by the profile's prompt_profile_version.
+  - The v1.2.0 contract file is unchanged and its binding descriptor is identical, checked in code and by test cf-247-intake-check-v13-contract.
+  - Router deployed from the branch (version 9). All 10 deployed files equal the repo, and the live intake route still runs.
+  - Two paused candidate profiles were added: Qwen3 30B and Claude Haiku 4.5 (migration 20261002183800; stored md5 equals the file).
+- **What v1.3.0 accepts:**
+  - short quotes that are on the page as whole words ("JAN 12", "12/01", "April")
+  - a heading quoted with one item of its list, when every word is on the page in order and close together
+  - day-first numeric dates
+  - all twelve months for a quoted rolling, weekly or monthly intake
+- **Qualification on the frozen holdout l3r-intake-h1 (47 cases): both candidates FAIL.**
+
+| Candidate | Exact | Exact not stated | Wrong-admitted | Withheld | Incomplete | Cost (US$) |
+|---|---|---|---|---|---|---|
+| Qwen3 30B | 13 | 31 | 2 | 1 | 0 | 0.008 |
+| Claude Haiku 4.5 | 12 | 32 | 2 | 0 | 1 | 0.18 |
+
+- **The wrong admissions:**
+  - "Rolling intakes (monthly)", which the gold reads as not stated (both models)
+  - "Start Date Every Month" on a course closing to new international students from 5 October 2026 (Haiku)
+  - a general "most courses start in Semester 1, usually in the last week of February" passage that is not about this course (Qwen)
+- **Consequences:** nothing is switched on. The v1.3.0 profiles stay paused and the cascade is unchanged.
+- **Before a v1.3.1 can be qualified:**
+  - The Platform Admin must decide whether "rolling / monthly intakes" means all twelve months.
+  - The safety rule must also catch "will not be available for new international student enrolments".
+  - A rolling statement must name intakes or starts.
+  - Because the h1 outcomes have now been read, v1.3.1 should be qualified on a fresh holdout (h2) read by hand, not on h1 again.
+- **Also found:** intake cascade step 2 (Claude Haiku 4.5, v1.2.0) is already qualified (44/47 right, 0 wrong-admitted on h1) but switched off. Today only step 1 (Qwen3 30B) runs, so every quote failure goes straight to Layer 4. Switching step 2 on (Platform Admin, Control) would send failures to a stronger model first, at about US$0.004 a page.

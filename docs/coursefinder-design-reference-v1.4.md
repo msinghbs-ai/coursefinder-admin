@@ -264,6 +264,7 @@ One row per course attribute. "Correction" is the Layer 4 path a person uses. Co
 | Decision 216 — Every background function signs in with one-time run passes | Current; v2.15.143 (Pilot PR #238) |
 | Decision 217 — New Zealand course pages are proven by NZQA title and level or NZQA number; NZ tuition in NZD | Current; v2.15.144 (Pilot PRs #239, #240) |
 | Decision 218 — Fee periods are settled from the page wording; worker errors name their job | Current; v2.15.145 (Pilot PR #241) |
+| Decision 229 — Intake check v1.3.0 is a separate contract, switched on only after qualification | Not qualified (both candidates 2 wrong-admitted on l3r-intake-h1); profiles paused |
 | Decision 228 — Semester-only intakes are answered from the university's approved calendar | In progress; part 1 of 3 live (Pilot branch cf247-semester-months) |
 | Decision 227 — English requirements from each university's own policy, approved per university | Current; v2.15.153 (Pilot PR #249) |
 | Decision 226 — Quote failures are re-run once; a repeat failure needs a new intake check | Current; v2.15.153 (Pilot PR #249) |
@@ -1459,6 +1460,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 **Retry of parked work**
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
+
+### Decision 229 — Intake check v1.3.0 is a separate contract, switched on only after qualification
+**Status:** Not qualified (2 October 2026; migration 20261002183800, router version 9) · **Recorded in:** this reference
+- A new intake contract never changes the qualified one. Each profile names its contract, and every other profile keeps the binding it was qualified with.
+- A candidate needs 95% exact on stated cases and zero wrong-admitted on the frozen holdout. It then stays paused until the Platform Admin switches it on.
+- v1.3.0 failed: rolling or monthly intakes, a course closing to international students, and a general semester passage were admitted. A v1.3.1 goes to a fresh hand-read holdout.
 
 ### Decision 228 — Semester-only intakes are answered from the university's approved calendar
 **Status:** In progress (2 October 2026; migration 20261002183400 live, 183410–183420 waiting for approval) · **Recorded in:** this reference
