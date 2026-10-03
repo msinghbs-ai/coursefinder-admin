@@ -1464,6 +1464,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 243 — Calendar rules: one list, parser versioned, a university's saved months are its rule
+**Status:** Current (3 October 2026) · **Recorded in:** this reference · **Refines:** Decision 228, Decision 238
+- Platform Admin, 13:50–14:05 (multiple choice "Fold into one list + fix parser"): there is one Academic calendars list. A university whose calendar page parsed shows its suggested Intake 1 and Intake 2; a university whose page gave no months (or has none in CourseFinder) is a row of the same shape with the periods its course pages name and the calendar page address to fill in. Saving writes each intake's month to every period of that rank the course pages name; the waiting intake reviews are answered within 10 minutes; nothing is rejected.
+- The months a Platform Admin saves for a university are that university's rule: kept as an approved by-hand calendar, they win over parsed values for the same period, and a later parse never replaces them.
+- The generic parsing rules (what counts as a period, a start word, a date, and which layouts are read) are versioned with the worker (`provider-policy-v0.2.2`: a period named on its own section row or heading applies to the start-date rows under it) and move to Settings › step 7 "University documents" as a tested rule set under Decision 238. There is no per-university parsing-rule editor.
+- A new parser version re-reads stored documents without reading the site again; proposals it produces supersede earlier waiting ones, and approved calendars are untouched.
+
 ### Decision 242 — Australian provider-page tuition beside the CRICOS fee
 **Status:** Current (3 October 2026; to build) · **Recorded in:** this reference · **Refines:** Decision 225
 - Platform Admin, 13:25 (multiple choice): the fee printed on an Australian course page — per-term or per-year amount, number of terms and the total as printed — is captured and shown beside the registered CRICOS fee, labelled as the provider page's; CRICOS stays the registered fee. A difference above 20% between the two is flagged for review. The page's printed duration is recorded the same way beside the registered duration.
