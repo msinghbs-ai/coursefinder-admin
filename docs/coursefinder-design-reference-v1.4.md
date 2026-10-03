@@ -1464,6 +1464,21 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 249 — Scholarship publishing is a Layer 4 decision
+**Status:** Current (3 October 2026, release v2.15.169) · **Recorded in:** this reference · **Refines:** Decision 139
+- Publishing a scholarship is a person's decision, so it sits in Layer 4 Review › Scholarship publishing with the other decisions; Scholarships › Publishing redirects there. Layer 3 checks with AI and never publishes.
+- The nightly review (06:17 AEST) still withdraws a published scholarship that no longer passes a check; republishing is a person's step.
+
+### Decision 248 — The scholarship value shown is built from the recorded value
+**Status:** Current (3 October 2026, migration 20261003002700) · **Recorded in:** this reference
+- What counsellors, the website and Zoho see as a scholarship's value is built from the recorded value — "20% of tuition fees", "A$10,000 a year", "Up to A$15,000", the page-tier range (Decision 245) — never a fragment of page text. With no recorded value it reads "Value not stated" and the scholarship is not publishable. The page's own words stay on the record and in the evidence.
+
+### Decision 247 — A course's scholarships, and their savings, are a course attribute kept in step
+**Status:** Current (3 October 2026, migrations 20261003002500, 002600, 002900) · **Recorded in:** this reference · **Refines:** Decision 212
+- A course's scholarships (search, website, Zoho) are those **published, open to international students, and linked to the course by a decided course link**, each with its value, audience, nationalities, close date, page and saving per year with its basis. They are refreshed every 15 minutes for changed scholarships and fully each night at 06:51 AEST.
+- Saving per year (percentage-of-tuition only): from the provider's annual international fee; where there is none, for Australia, estimated from the registered CRICOS tuition ÷ registered duration in years (at least one), marked as an estimate and replaced when a provider fee is recorded.
+- A published or ready scholarship's page is re-read at least every 30 days; a changed value or date updates the record (never a value set by hand) and reaches the course within 15 minutes, the saving the next morning.
+
 ### Decision 246 — Scholarship nationality is read from the scholarship's own wording
 **Status:** Current (3 October 2026, migration 20261003002200) · **Recorded in:** this reference · **Refines:** Decision 244
 - Which nationalities a scholarship names ("citizens of India", "Sri Lankan citizen", "students from South Asia") is read hourly from its name, description and criteria against a fixed list of country names, demonyms and regions (`ref.nationality_terms`), with the matched phrase kept as the basis. An empty list means the page names none: the scholarship is open to any nationality its audience allows.
