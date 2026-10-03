@@ -1464,6 +1464,17 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 246 — Scholarship nationality is read from the scholarship's own wording
+**Status:** Current (3 October 2026, migration 20261003002200) · **Recorded in:** this reference · **Refines:** Decision 244
+- Which nationalities a scholarship names ("citizens of India", "Sri Lankan citizen", "students from South Asia") is read hourly from its name, description and criteria against a fixed list of country names, demonyms and regions (`ref.nationality_terms`), with the matched phrase kept as the basis. An empty list means the page names none: the scholarship is open to any nationality its audience allows.
+- Australia is never a nationality (it is the study country); at an Australian provider "New Zealand citizen" is the domestic rule (Decision 212), not a nationality. A value set by hand is never changed.
+- The selections, the list, the record and the Zoho `scholarships` action carry the list; a semantic search (plan step 7) will filter on it.
+
+### Decision 245 — Several values on a page become award tiers; the value is shown as a range
+**Status:** Current (3 October 2026, migration 20261003002100) · **Recorded in:** this reference · **Refines:** Decision 212
+- When a scholarship page states several values (by result, region or level) the single-value rule records none. Those values are now kept as award tiers, each with the page as evidence, and the scholarship's value text is the range in words ("20% to 70% of tuition fees"; "Up to A$15,000 (A$2,500, A$5,000, A$15,000 stated)" when the page says "up to").
+- A value with page tiers counts as a stated value for publishing. It is never used for a fee saving: a saving is worked out only from a single percentage (Decision 212). Values set by hand, pages in another currency, and pages with no value are untouched.
+
 ### Decision 244 — Scholarship audience is read from the scholarship's own wording
 **Status:** Current (3 October 2026) · **Recorded in:** this reference · **Refines:** scholarship publishing rules
 - Platform Admin, 14:21–14:50 (multiple choice "Read audience from wording, then publish international"): who a scholarship is for is never a default. It is read from the scholarship's own name, description and criteria by fixed phrase rules — International students, Domestic students, International and domestic, or Not stated on the page — and the matched phrase is kept as the basis (`scholarship.audience_readings`). A value set by hand is never changed.
