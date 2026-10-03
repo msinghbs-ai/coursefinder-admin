@@ -1464,6 +1464,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 244 — Scholarship audience is read from the scholarship's own wording
+**Status:** Current (3 October 2026) · **Recorded in:** this reference · **Refines:** scholarship publishing rules
+- Platform Admin, 14:21–14:50 (multiple choice "Read audience from wording, then publish international"): who a scholarship is for is never a default. It is read from the scholarship's own name, description and criteria by fixed phrase rules — International students, Domestic students, International and domestic, or Not stated on the page — and the matched phrase is kept as the basis (`scholarship.audience_readings`). A value set by hand is never changed.
+- Only International and International-and-domestic scholarships can be published or offered on course and provider pages; Domestic and Not stated are held until a person decides. Publishing stays a deliberate Platform Admin step; a reading never publishes anything.
+- The reading runs hourly over active scholarships (job `scholarship-audience`) so newly admitted scholarships are treated the same way; the rules are versioned (`scholarship-audience-v1`) and move to Settings with the other rule sets under Decision 238.
+
 ### Decision 243 — Calendar rules: one list, parser versioned, a university's saved months are its rule
 **Status:** Current (3 October 2026) · **Recorded in:** this reference · **Refines:** Decision 228, Decision 238
 - Platform Admin, 13:50–14:05 (multiple choice "Fold into one list + fix parser"): there is one Academic calendars list. A university whose calendar page parsed shows its suggested Intake 1 and Intake 2; a university whose page gave no months (or has none in CourseFinder) is a row of the same shape with the periods its course pages name and the calendar page address to fill in. Saving writes each intake's month to every period of that rank the course pages name; the waiting intake reviews are answered within 10 minutes; nothing is rejected.
