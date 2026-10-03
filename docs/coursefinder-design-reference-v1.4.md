@@ -1464,6 +1464,18 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 240 — Application deadline (international) is the sixth course attribute
+**Status:** Current (3 October 2026; pattern step and AI contract to follow) · **Recorded in:** this reference · **Refines:** Decision 228
+- Platform Admin, 10:58, after reviewing a UBC graduate page: every course carries the international application deadline — the open date, the deadline and the intake it applies to — read from the course page. Multiple choice (11:10): a plain pattern first ("international applicant deadline: 1 February 2027"), the AI contract with its own frozen holdout after, under the same admission rule as the other attributes. Shown on the course page and through the Zoho course API.
+
+### Decision 239 — Canadian tuition from the course's own page
+**Status:** Current (3 October 2026; tested on a hand-checked sample before switch-on) · **Recorded in:** this reference · **Refines:** Decision 220
+- Platform Admin, 11:10 (multiple choice "Yes: course's own page, labelled International, in CAD"): Canadian tuition is admitted from a page that passed exact title or field + award when the amount is labelled international and the currency is CAD; the basis (first year, per year) is recorded as printed. Decision 220's code-on-page rule stays for every other case. Switched on only after the sample check, as a separate step.
+
+### Decision 238a — Notes on a value and report-back from counsellors
+**Status:** Current (3 October 2026; migration 20261003001600; Zoho course API action "report") · **Recorded in:** this reference · **Refines:** Decision 238
+- Platform Admin, 10:46: an operator or Platform Admin leaves a note on a course value; a counsellor reports one through the Zoho course API. Both become an open flag on the course's field on Layer 4 › Flagged values, with the note, who said it and where it came from. A note never changes a value; a Reviewer or Editor acts on it.
+
 ### Decision 238 — Settings controlled from the UI; prompts as tested versions; Reviewer and Editor roles for customer staff
 **Status:** Current (3 October 2026; migrations 20261003001000–20261003001300; releases v2.15.159–v2.15.160) · **Recorded in:** this reference · **Refines:** Decisions 172, 179, 229
 - Platform Admin, 09:26: every value the pipeline runs on — throughput (universities per matcher run, items a minute, pages read per batch), Layer 3 limits (requests a day, daily spend guards, credit floor), the course-page search cap, the Firecrawl limit and reserve, and which page proofs admit each attribute per country — is shown and changed on one Settings page, grouped by pipeline step. A number applies at once and writes an audit row. Migrations stop being the way settings change.
