@@ -1464,6 +1464,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 250 — Scholarships for New Zealand and Canadian universities; the Scholarships module shows published only
+**Status:** Current (4 October 2026, migration 20261004000100, reader scholarship-sweep-v0.6.0, release v2.15.172) · **Recorded in:** this reference · **Extends:** Decisions 139, 244, 245, 246
+- New Zealand and Canadian universities are searched for their own scholarship pages exactly as Australian universities are; only universities are admitted outside Australia (the Australian rule is unchanged). Discovery uses the website on the provider record or the one the website finder verified.
+- Amounts are kept and shown in the university's own currency (A$, NZ$, C$); a page amount marked in another currency is not taken as the value. Domestic-only wording is read for the study country (for example, Canadian citizens and permanent residents; New Zealand citizens, Māori and Pasifika scholarships).
+- Government programmes are registered in Layer 1: Manaaki New Zealand Scholarships (read through each New Zealand university's own Manaaki page, so they link to that university's courses) and Study in Canada Scholarships (short exchanges for students enrolled abroad; registered for reference, not linked to courses).
+- The Scholarships module lists published scholarships only, without status filters; ready, held and withdrawn scholarships are handled in Layers 1 to 4. The scholarship record lists the courses it is linked to.
+
 ### Decision 249 — Scholarship publishing is a Layer 4 decision
 **Status:** Current (3 October 2026, release v2.15.169) · **Recorded in:** this reference · **Refines:** Decision 139
 - Publishing a scholarship is a person's decision, so it sits in Layer 4 Review › Scholarship publishing with the other decisions; Scholarships › Publishing redirects there. Layer 3 checks with AI and never publishes.
