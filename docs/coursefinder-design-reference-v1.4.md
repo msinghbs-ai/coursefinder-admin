@@ -1464,6 +1464,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 242 — Australian provider-page tuition beside the CRICOS fee
+**Status:** Current (3 October 2026; to build) · **Recorded in:** this reference · **Refines:** Decision 225
+- Platform Admin, 13:25 (multiple choice): the fee printed on an Australian course page — per-term or per-year amount, number of terms and the total as printed — is captured and shown beside the registered CRICOS fee, labelled as the provider page's; CRICOS stays the registered fee. A difference above 20% between the two is flagged for review. The page's printed duration is recorded the same way beside the registered duration.
+
+### Decision 241 — College intakes from the approved academic calendar
+**Status:** Current (3 October 2026; migration 20261003001800; job provider-calendar-defaults) · **Recorded in:** this reference · **Refines:** Decision 228
+- Platform Admin, 13:25 (multiple choice "Yes, but only for VET/TAFE colleges"): for an Australian college (a provider not named University) with an approved academic calendar, Intake 1 and Intake 2 as approved on the Academic calendars list fill every course of that college that has an official course page and no intake at all. Universities keep Decision 228's rule (a calendar only turns a period named on the page into a month).
+- The default never overrides an intake stated on the page, set or removed by hand, or waiting in a review with a value; the calendar page is the evidence; the intakes carry a calendar_default key so they can be told apart and replaced when a page states its own.
+
 ### Decision 240 — Application deadline (international) is the sixth course attribute
 **Status:** Current (3 October 2026; pattern step and AI contract to follow) · **Recorded in:** this reference · **Refines:** Decision 228
 - Platform Admin, 10:58, after reviewing a UBC graduate page: every course carries the international application deadline — the open date, the deadline and the intake it applies to — read from the course page. Multiple choice (11:10): a plain pattern first ("international applicant deadline: 1 February 2027"), the AI contract with its own frozen holdout after, under the same admission rule as the other attributes. Shown on the course page and through the Zoho course API.
