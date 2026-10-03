@@ -1464,6 +1464,12 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 251 — Scholarships are set up and watched on the layer they belong to
+**Status:** Current (4 October 2026, migration 20261004000300, release v2.15.173) · **Recorded in:** this reference · **Extends:** Decisions 139, 249, 250
+- Layer 1 › Scholarships holds the countries switched on and every scholarship source by country, each with one use: Ingest (read into records), University pages, Reference (for looking up) or Validation (to compare with our records). Third-party aggregators are Validation or Reference only, never a source of record.
+- Layer 2 › Scholarships shows what was found, read, added and refused by country, with the per-run limits and the job switches; Layer 3 › Scholarships shows the AI check, which stays off until a pinned model passes its benchmark and a person switches it on; Layer 4 keeps publishing and the jobs after it.
+- Values the jobs use are kept as settings, not in job commands or function text. Changes need a Platform Admin and a reason and are logged. A source added for Ingest is registered, not read, until a reader exists for it.
+
 ### Decision 250 — Scholarships for New Zealand and Canadian universities; the Scholarships module shows published only
 **Status:** Current (4 October 2026, migration 20261004000100, reader scholarship-sweep-v0.6.0, release v2.15.172) · **Recorded in:** this reference · **Extends:** Decisions 139, 244, 245, 246
 - New Zealand and Canadian universities are searched for their own scholarship pages exactly as Australian universities are; only universities are admitted outside Australia (the Australian rule is unchanged). Discovery uses the website on the provider record or the one the website finder verified.
