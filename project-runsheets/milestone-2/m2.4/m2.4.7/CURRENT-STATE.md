@@ -3636,3 +3636,22 @@ Findings:
 Waiting on the Platform Admin:
 - Whether adapter_code (the CRICOS code in the page's own data) and adapter_title may be admitted, by country and field.
 - Whether pages from archived and test handbook hosts should be refused.
+
+### 4 Oct 2026, 17:45 AEDT — Decision 253 amended: admit from university adapters after testing; archived and test sites refused; v2.15.181
+
+Platform Admin, 17:19: "Admit from adapter rule but I need to test it or ask for improvements on it, step 2, yes refuse".
+
+Released: v2.15.181 (Coursefinder-Pilot PR #300, merged, checks green). Migration 20261004001260 was applied; the live md5 equals the file (cd0cb4e3a5305ce4f40ab6cd8bee70ee). The worker is unchanged.
+
+- **Adapter admission:**
+  - The country admission rules for AU, NZ and CA now list adapter_code and adapter_title for official links, English and intakes. Tuition is not included.
+  - Each adapter also has its own admit switch, off by default. The admission gate requires both the country rule and the switch. Checked live: Flinders adapter_code is not admitted yet, while cricos_code still is.
+  - The adapter panel lists what the adapter would admit (course, how it was confirmed, intakes, IELTS, the page) so it can be tested first. Admission is switched on per adapter, with a reason.
+  - Requests for improvement are written against an adapter and listed as open or done.
+- **Archived and test sites refused:**
+  - A setting holds the host pattern: archive, dev, test, staging, uat and handbookpre2025.
+  - A trigger on course pages stops any page on such a host being bound, unless a person entered that link by hand.
+  - 380 pages were refused: Curtin archive and dev 243, UTS pre-2025 78, Federation test 18, Melbourne archive 17, ANU test 15, others 9. They go back to Find pages.
+  - Values admitted automatically from those pages were taken out of use: 317 links set to deprecated, 96 English requirements and 42 intakes withdrawn. Values entered by hand were not touched. Every change is logged in pipeline.refused_host_changes.
+
+Next: the Platform Admin tests the Flinders, Macquarie and Murdoch adapters on the Firecrawl panel (Adapter, then "What it would admit"), then switches admission on per adapter or sends a request for improvement.
