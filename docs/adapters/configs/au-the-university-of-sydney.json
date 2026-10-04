@@ -11,7 +11,7 @@
   "admit_reason": "Sydney: 21 honours intakes from the course pages; closing-date intakes excluded; fees and IELTS load in the browser (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T22:27:20Z",
   "config_updated_at": "2026-10-04T22:10:07Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -553,16 +553,7 @@
         "evidence_id": "c14a03c5-61b5-4b27-af61-fe9f84700e97"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "c102dfd5-5398-4042-8e9a-41dbf7a029c6",
-        "parser": "provider-policy-v0.2.2",
-        "style": "level_default",
-        "url": "https://www.sydney.edu.au/content/dam/corporate/documents/about-us/governance-and-structure/academic-board/ab-standards---guidelines-/english-language-proficiency-tables.pdf",
-        "created_at": "2026-10-04T22:30:13Z",
-        "proposal_md5": "7dc1b29b9fa3324c8772fd1d11237ecf"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 7. 21 intakes. Domestic-view pages; fee and IELTS load in the browser."

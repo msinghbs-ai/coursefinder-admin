@@ -12,7 +12,7 @@
   "admit_reason": "RMIT: fees 194 equal and 78 new, IELTS 362; intakes held: 55 pages list fewer intakes than held (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
   "config_updated_at": "2026-10-04T21:09:23Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -51,7 +51,7 @@
     }
   ],
   "central_rules": {
-    "english_rule": "proposed",
+    "english_rule": "approved",
     "calendar": "proposed",
     "central_pages": [
       {
@@ -62,16 +62,7 @@
         "evidence_id": "6307ad9c-b5e5-4c08-9723-519d161e65ed"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "4960dd35-9353-47f7-b170-76fe264110c0",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://www.rmit.edu.au/study-with-us/international-students/apply-to-rmit-international-students/entry-requirements/english-requirements/english-language-proficiency-tests",
-        "created_at": "2026-10-04T21:33:00Z",
-        "proposal_md5": "837c07e21166aa88c78a8ff1eed9b853"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 6. 271 fees, 362 IELTS. Intakes held: 56 pages list fewer intakes than held (decision)."

@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -408,6 +408,68 @@ Wave 7 had 11 universities. Admission is on for 10 of them. 490 values were repl
 | 6 | Tasmania fees | Some Tasmania courses have a standard year that is not 100 credit points. Decide whether the printed annual figure is admitted as it is, or scaled to a full-time year. |
 | 7 | Victoria University international pages | Decide whether to store the international view of each course page (`/courses/<slug>/international`), and whether per-semester fees can be turned into annual fees. |
 | 8 | Calgary and Lethbridge rebind | Approve rebinding the wrongly bound courses (186 at Lethbridge) and an abbreviation rule in the identity check. |
+
+## 14. Amendment, 5 Oct 2026 (10:30): wave 8, programme complete, open decisions
+
+**Source:** the wave run on the Platform Admin instructions of 5 Oct 2026 (04:49, 05:50, 06:12 and 06:32 fetch approved, 07:42 bigger waves). The open decisions have not been answered and stay on hold. Full entry: M2.4.7 runsheet set, entry "5 Oct 2026, 10:30 AEDT".
+
+### 14.1 Fix to written-out rules (migration 20261005001470, PR #316)
+
+- **What went wrong.** When the provider-facts job read an attached central page again, the parser's new proposal replaced ("superseded") the English rule that had been written out by hand from the same page. 10 written-out rules were lost this way (Adelaide University, AUT, Calgary, Lethbridge, Sydney, QUT, Otago, Victoria University of Wellington, University of Victoria, Alberta).
+- **Fix.** A parser re-read no longer supersedes a rule written out from the same page. The 10 lost rules were put back as proposals. The md5 of the stored statement equals the migration file.
+- **Why it matters.** Written-out rules are the main source of central English requirements (section 12.1), because most central pages give the parser no values.
+
+### 14.2 Wave 8 results
+
+Wave 8 covered the last target universities. Admission is on for 4 more (42 in all). 406 values were replaced with 0 errors, and 90 readings are excluded.
+
+| University | Fields admitted | Intakes / fees / IELTS held = adapter | Held back |
+|---|---|---|---|
+| UBC (CA) | all | 196 / 216 / 220 | 11 short course-based programme fees, 4 wrong-campus pages |
+| Southern Cross | all | 87 / 85 / 91 | 6 pages with a 2027 fee and no printed year |
+| UNE | intakes, fees | 89 / 99 / — | Online-only courses, short-course totals, the 2027 fee list. 82 courses narrow to their international on-campus months |
+| UNBC (CA) | intakes, fees | 3 / 2 / — | Most bindings are calendar pages |
+| Athabasca (CA) | none | | Online only, no study permit (decision) |
+| Notre Dame | none | | Website stored as nd.edu.au; the real site is notredame.edu.au (decision) |
+| Fraser Valley, MacEwan, Kwantlen (CA) | none | | Wrong bindings and three title-matching gaps in the worker (decision). 2 Kwantlen median-earnings "fees" are excluded |
+
+### 14.3 The programme at 10:30
+
+Every one of the 57 target universities has now been through a wave. From the live database at 10:30 AEDT:
+
+| Measure | Value |
+|---|---:|
+| Target universities | 57 (14,973 courses) |
+| Adapters configured | 50 (42 admitting, 8 testing) |
+| Universities with no adapter | 7 (Calgary has a draft only; Notre Dame, Fraser Valley, MacEwan, Kwantlen wait on decisions; Otago and Victoria University of Wellington wait on decisions from wave 6) |
+| Courses holding intakes | 5,932, of which 4,947 equal the adapter reading and 15 come from a central rule |
+| Courses holding English | 5,845, of which 3,204 equal the adapter reading and 1,297 come from a central rule |
+| Courses holding fees | 3,941, of which 2,500 equal the adapter reading |
+| Active course exclusions | 996 (994 on adapters, 2 at Kwantlen) |
+| Central pages attached | 61 (37 key-dates, 24 English) for 41 universities |
+| English rules waiting for review | 8 (3 written out from central pages: Wollongong, Victoria University, Alberta; 2 parser proposals from the wave 8 pages of Kwantlen and Notre Dame; 3 older parser proposals for providers outside the target list) |
+| Calendar proposals waiting for review | 78 |
+
+"Equal the adapter reading" means the held value's source is the adapter: the adapter read it and the overwrite admitted it, or it already matched. Values entered by hand are never changed.
+
+**Note on English rules.** At 10:26:55 AEDT, 33 English rules were approved in one batch in Layer 4 Review, including 31 written out from central pages. That is why only 3 written-out rules were still waiting at 10:30, against the 36 listed as waiting in the runsheet entry. At about 10:30 the provider-facts job then read the 15 central pages attached in wave 8 and added new parser proposals; the figures above include them. At the time of this export the central-rule English counts above had not yet changed from 09:30, so the approved rules may not yet have been applied to courses.
+
+### 14.4 Open decisions (10)
+
+Costs are estimates. Firecrawl figures use the rate of the 4 Oct better-page run (386 credits for 194 courses, about 2 credits a course) unless a figure was already given.
+
+| # | Decision | What it would change | Cost |
+|---|---|---|---|
+| 1 | RMIT intakes | 56 course pages list fewer intakes than the catalogue holds. If the page wins, intakes are admitted from RMIT pages and the extra held months are replaced. If not, held intakes stay and RMIT keeps admitting English and fees only. | Decision only; one overwrite run. No Firecrawl credits |
+| 2 | Swinburne fees | Course pages show 2026 fees; the catalogue holds the 2027 schedule. Admitting the page fees would add 2026 rows (under the fee-year rule) beside the held 2027 ones. | Decision only; one overwrite run. No Firecrawl credits |
+| 3 | Otago rebind | 152 Otago courses are rebound to `/courses/qualifications/<slug>` and the identity check accepts "(ABBR)". Otago could then get an adapter. | About 160 Firecrawl credits, plus a small identity-rule change |
+| 4 | Victoria University of Wellington domain | Website and search domain change from vuw.ac.nz to wgtn.ac.nz, then Find runs again for 273 courses. | About 550 Firecrawl credits for the Find run |
+| 5 | AUT fee levy | Decide whether AUT's annual fee is tuition only or tuition plus the student services levy. AUT fees can then be admitted. | Decision only; one overwrite run |
+| 6 | Tasmania fees | Decide whether a printed annual fee for a standard year that is not 100 credit points is admitted as it is or scaled to a full-time year. Tasmania fees can then be admitted. | Decision only; scaling would need a small adapter change |
+| 7 | Victoria University international pages | Store the international view of each course page and turn per-semester fees into annual ones (times two). VU intakes and fees could then be admitted. | About 280 Firecrawl credits to re-read the course pages, plus a small fee-conversion change |
+| 8 | Rebind and title matching (Calgary, Lethbridge, Fraser Valley, MacEwan, Kwantlen) | Rebind wrongly bound courses (186 at Lethbridge) and fix three title-matching gaps in the worker, including an abbreviation rule for Canadian graduate pages. | Worker development, then a Find run for up to about 500 courses across the five universities (up to about 1,000 Firecrawl credits) |
+| 9 | Athabasca | Athabasca is online only and no study permit is issued. Decide whether it stays a target for international students. If not, it is removed from the target list. | Decision only |
+| 10 | Notre Dame domain | Website changes from nd.edu.au to notredame.edu.au, then Find runs again for 131 courses. | About 260 Firecrawl credits for the Find run |
 
 ## Sources
 

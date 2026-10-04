@@ -11,7 +11,7 @@
   "admit_reason": "Alberta: 16 department IELTS readings only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
   "config_updated_at": "2026-10-04T21:16:45Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -54,7 +54,7 @@
     }
   ],
   "central_rules": {
-    "english_rule": "no_values",
+    "english_rule": "proposed",
     "calendar": null,
     "central_pages": [
       {
@@ -65,7 +65,16 @@
         "evidence_id": "b3d1e315-8cba-4f1c-a474-6566752ec6de"
       }
     ],
-    "english_proposals_waiting": []
+    "english_proposals_waiting": [
+      {
+        "id": "6091a508-bc5a-43da-8635-12b0b4a3bfd9",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.ualberta.ca/en/admissions/how-to-apply/admission-requirements/language-requirements/index.html",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "391b9321bee28c12bf2df9e6e4a4e36d"
+      }
+    ]
   },
   "results": {
     "note_5_oct": "Wave 6. 16 IELTS. No fee or start dates on the pages."

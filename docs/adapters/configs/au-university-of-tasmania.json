@@ -12,7 +12,7 @@
   "admit_reason": "Tasmania: 96 intakes from study periods on the international panel, 40 IELTS; fees held for non-100-credit-point years (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T22:27:20Z",
   "config_updated_at": "2026-10-04T22:13:37Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -79,7 +79,7 @@
     }
   ],
   "central_rules": {
-    "english_rule": "proposed",
+    "english_rule": "approved",
     "calendar": "proposed",
     "central_pages": [
       {
@@ -90,24 +90,7 @@
         "evidence_id": "472396b2-5d09-465e-b331-bb798417bc22"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "ba85a63f-11ac-4070-ab96-562fc3c1f802",
-        "parser": "provider-policy-v0.2.1",
-        "style": "level_default",
-        "url": "https://www.utas.edu.au/study/apply/admission-requirements/english-language-requirements",
-        "created_at": "2026-10-02T07:29:46Z",
-        "proposal_md5": "5bbd08debf021e6a98717cf65cd7bf0e"
-      },
-      {
-        "id": "80b89aa6-7466-4486-ae00-11f5bcf49b43",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://www.utas.edu.au/study/apply/admission-requirements/english-language-requirements",
-        "created_at": "2026-10-04T22:28:15Z",
-        "proposal_md5": "525e07e24158c712b23b98397abdc048"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 7. 96 intakes, 39 IELTS. Fees held: annual figures for years that are not 100 credit points (decision)."

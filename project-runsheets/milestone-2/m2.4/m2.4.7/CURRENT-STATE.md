@@ -4018,3 +4018,46 @@ Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser us
 8. Calgary and Lethbridge rebind and abbreviation identity.
 
 **Next.** Wave 8 (Southern Cross, Notre Dame, UNE, UNBC, Athabasca, MacEwan, Fraser Valley, Kwantlen) is scheduled for 09:49. UBC needs a Find re-run on ubc.ca.
+
+### 5 Oct 2026, 10:30 AEDT: CF-247 Decision 254, wave 8 (last targets) and a fix to written-out rules
+
+**Instruction.** Wave run on the Platform Admin instructions of 5 Oct (04:49, 05:50, 06:12 and 06:32 fetch approved, 07:42 bigger waves). No answer yet to the open decisions; they stay on hold.
+
+**1. Fix (live, PR #316).**
+- Migration 20261005001470 stops a parser re-read of an attached page superseding a central English rule written out from it.
+- 10 rules lost that way (Adelaide University, AUT, Calgary, Lethbridge, Sydney, QUT, Otago, Victoria University of Wellington, University of Victoria, Alberta) are proposals again.
+- Statement md5 equals the file.
+
+**2. Wave 8.**
+- Admission is on for 4 more universities (42 in all).
+- 406 values were replaced, with 0 errors.
+- 90 readings are excluded.
+
+| University | Fields admitted | Intakes / fees / IELTS held = adapter | Held back |
+|---|---|---|---|
+| UBC (CA) | all | 196 / 216 / 220 | 11 short course-based programme fees, 4 wrong-campus pages |
+| Southern Cross | all | 87 / 85 / 91 | 6 pages with a 2027 fee and no printed year |
+| UNE | intakes, fees | 89 / 99 / — | Online-only courses, short-course totals, the 2027 fee list. 82 courses narrow to their international on-campus months |
+| UNBC (CA) | intakes, fees | 3 / 2 / — | Most bindings are calendar pages |
+| Athabasca (CA) | none | | Online only, no study permit (decision) |
+| Notre Dame | none | | Website stored as nd.edu.au; the real site is notredame.edu.au (decision) |
+| Fraser Valley, MacEwan, Kwantlen (CA) | none | | Wrong bindings and three title-matching gaps in the worker (decision). 2 Kwantlen median-earnings "fees" are excluded |
+
+**Central pages and rules.**
+- 8 key-dates pages attached.
+- 9 English rules written out.
+- 36 written-out rules are waiting in Layer 4 Review › Attributes.
+
+**Open decisions (10).**
+1. RMIT intakes.
+2. Swinburne fees.
+3. Otago rebind.
+4. Victoria University of Wellington domain.
+5. AUT fee levy.
+6. Tasmania fees for years that are not 100 credit points.
+7. Victoria University international pages and per-semester fees times two.
+8. Rebind plus title-matching worker fixes for Calgary, Lethbridge, Fraser Valley, MacEwan and Kwantlen.
+9. Athabasca (online only).
+10. Notre Dame domain.
+
+**Next.** Every target university has now been through a wave. The remaining work waits on these decisions.
