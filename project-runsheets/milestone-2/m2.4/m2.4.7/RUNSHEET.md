@@ -3532,3 +3532,52 @@ Next steps proposed:
 - (c) Send ScrapingBee only course-like pages, and test premium proxies on 5 refused pages before deciding on them.
 - (d) Identity-rule fixes for variants.
 - (e) Rank provider-website results by name in the address.
+
+### 4 Oct 2026, 15:40 AEDT — Serper search pass and address repair (steps a and b): results and findings; v2.15.179
+
+Time correction: the two entries above headed 15:20 and 15:45 were written about 40 minutes ahead of the clock. Their real commit times are 14:45 and 15:03 AEDT. Times are not rewritten in place.
+
+Released: v2.15.179 (Coursefinder-Pilot PR #298, checks green). Migration 20261004001100_cf247_search_pass_and_link_repair applied and checked (live md5 b3723a9551b2b1c0f606a7d5ea8ff63c equals the file). toolset-runner worker v1.3.0 deployed and checked byte for byte.
+
+What changed:
+- Search pass (Platform Admin, Toolsets page, Serper, "Search pass"). Its limits are settings: cases per country (1,000), credits per run (2,100), carry on after a time limit (on), re-find unreadable non-course pages (on), and the address pattern that counts as course-like.
+- Search results are never admitted directly. A page found on the provider's own site with a matching title is bound with basis serper_search and goes through the existing reader and identity check. If the check refuses it, the next search result is tried, then the course is left. A confirmed page or a value entered by hand is never replaced. Every change is logged in pipeline.page_link_repairs with the old and new address.
+- The course-link pick now keeps query strings on .php, .aspx, .cfm and .jsp pages. 392 stored addresses that had lost their query string were restored from the stored search results and logged.
+
+Search pass run 90faa0c1-3361-4394-8199-3258417ca472: 2,052 courses (AU 1,000, NZ 1,000, CA 52 which is all of Canada's backlog), 2,052 Serper credits.
+
+| Country | Page on provider's site with title match | Provider's site, no title match | No results | Other sites only |
+|---|---|---|---|---|
+| AU | 431 | 401 | 164 | 4 |
+| NZ | 367 | 494 | 139 | 0 |
+| CA | 35 | 16 | 1 | 0 |
+
+After the reader and identity check (pipeline.search_pass_links, 4 Oct 15:38):
+
+| Country | Confirmed by the identity check | Still being read | Refused, no result left |
+|---|---|---|---|
+| AU | 48 | 46 | 329 |
+| NZ | 54 | 61 | 243 |
+| CA | 0 | 4 | 31 |
+
+- 102 courses gained a confirmed course page (100 new, 2 re-found). Largest sources: study.auckland.ac.nz 22, AUT 11, Lincoln 10, Macquarie handbook 10, UTS handbook 10.
+- 111 are still being read, mostly fetch failures waiting for their second attempt (Canterbury 19, EIT 8, Swinburne 8).
+- 603 were refused on every candidate. The identity check refused sibling courses correctly. Many refusals are majors, specialisations and variants that have no page of their own.
+
+The 392 restored addresses: 24 confirmed, 246 need a browser read (mostly University of Alberta calendar pages, which are built in the browser), 97 refused by the identity check, 15 fetch failed, 10 blocked.
+
+Serper key: 2,189 of 2,500 free-plan credits used, 311 left (reserve 100). The rest of the backlog (about 6,500 courses) needs the production key, entered in Environment & integrations with its plan limits set on the Toolsets page.
+
+Findings:
+1. Search plus the identity check adds pages safely but at a modest rate: about 5% of searched courses gained a confirmed page so far, rising to about 10% if the pages still being read pass. Nothing wrong was admitted.
+2. The biggest remaining loss is identity rules, not search: majors, specialisations, "(International)" variants and double degrees. Whether a specialisation may use its parent course's page is a decision for the Platform Admin (raised).
+3. UTS results come from handbookpre2025.uts.edu.au, an archived handbook. Identity matches, but fees and dates there may be out of date. Raised: prefer current handbooks or mark archived hosts as not current.
+4. ask.adelaideuni.edu.au (a help site) appears among candidates. It should be on the directory list.
+5. Recipes whose search domain is a directory site (search.acir.com.au 64, higherstudy.com 46, oneuedu.com 32) need correcting.
+
+Next steps proposed (not started):
+- (c) ScrapingBee only for course-like pages, starting with the 246 restored University of Alberta addresses, and a premium-proxy test on 5 refused pages.
+- (d) Identity-rule fixes for variants, after the Platform Admin decides on specialisations.
+- (e) Rank provider-website results by provider name in the address.
+- Correct the directory-domain recipes; add archived-handbook and help-site hosts to the settings.
+- Production Serper key before the next search pass.
