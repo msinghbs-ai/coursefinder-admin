@@ -3922,3 +3922,9 @@ Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser us
   - Term months by year.
   - Sunshine Coast fee-year decision.
   - Re-run Find for UBC (ubc.ca).
+
+### 5 Oct 2026, 07:55 AEDT: correction to the 07:30 entry
+
+- Admission is on for **19** universities, not 22 (the 07:30 table has 19 rows; the live register agrees).
+- Royal Roads: **15** scholarship fees are excluded, not 16.
+- Migrations 20261005001400 and 20261005001410 are recorded in `supabase_migrations.schema_migrations` under their apply timestamps (names cf247_admit_by_field_and_exclusions and cf247_exclusions_in_coverage_admission). The md5 of each stored statement equals its file.
