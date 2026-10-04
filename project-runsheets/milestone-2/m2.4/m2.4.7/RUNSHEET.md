@@ -3581,3 +3581,60 @@ Next steps proposed (not started):
 - (e) Rank provider-website results by provider name in the address.
 - Correct the directory-domain recipes; add archived-handbook and help-site hosts to the settings.
 - Production Serper key before the next search pass.
+
+### 4 Oct 2026, 17:05 AEDT — Decision 253: Firecrawl only, by use case, for target universities; university adapters; Firecrawl support report; v2.15.180
+
+Platform Admin, 15:51: use Firecrawl (Growth plan) for everything, by use case, only for universities that enrol international students. Keep university adapters for field mappings, set in the UI. Keep a result report that can go to Firecrawl support.
+
+Released: v2.15.180 (Coursefinder-Pilot PR #299, merged, checks green).
+- Migrations 20261004001200, 001210, 001220, 001230, 001240 and 001250 were applied. For each, the live md5 of the statement equals the file.
+- coverage-sweep worker v0.15.1 was deployed from main (version 80) and checked byte for byte: 7 of 7 files match.
+
+What changed:
+- **Target universities (settings):** AU, NZ and CA; a university name pattern; colleges, pathways and divinity left out; at least 100 active courses in AU and NZ and 30 in CA; on the CRICOS, NZQA or IRCC DLI register. This gives 57 targets (AU 34, NZ 8, CA 15). A setting (on) keeps every Firecrawl call of the coverage worker to targets.
+- **Use cases:**
+  - Read pages: course-like pages that need a browser or refused a plain read. Archives, profiles and PDFs are skipped.
+  - Find pages: a Firecrawl search on the university's own site.
+  - Each use case has its own settings and credit allowance and carries on every minute.
+- **Every Firecrawl call of a run is logged:** request, HTTP status, error, scrape id, credits, proxy and page status. The Firecrawl panel shows the support report, which can be copied or downloaded as Markdown.
+- **University adapters (UI):**
+  - Each adapter holds title patterns, JSON paths in the page's own data and heading patterns per field.
+  - An adapter is previewed on stored pages, then applied. The reader uses it too.
+  - CourseLoop adapters were set up for Flinders, Macquarie and Murdoch. Their pages carry all course data in __NEXT_DATA__, so a plain fetch reads them with no Firecrawl credit.
+  - Adapter identities (adapter_code, adapter_title) are not in any country admission rule. Nothing is admitted from them until the Platform Admin allows it.
+- **Firecrawl allowance:** the platform's allowance now follows Firecrawl's reported balance. It was still set to the old 100,000-credit plan, with 85,914 counted this month, and was about to stop all Firecrawl work.
+
+Results so far:
+
+| | AU | NZ | CA |
+|---|---|---|---|
+| Course pages confirmed by the identity check (Firecrawl search, Firecrawl read or adapter) | 242 | 53 | 5 |
+| Official course links admitted since 16:10 | 182 | 48 | 5 |
+| English requirements admitted since 16:10 | 96 | 0 | 4 |
+
+Find pages run:
+- 3,975 courses searched for 7,874 credits.
+- 2,262 had a page on the university's own site with a matching title. 345 of these are still waiting for the reader.
+- 1,328 pages were refused by the identity check: mostly sibling courses, combined degrees and specialisations.
+
+Read pages run:
+- 259 pages read so far, at 1 credit each.
+- Almost all are wrong pages bound by earlier discovery (QUT scholarship and news pages, Lincoln and UBC general pages). Refusing them sends those courses to Find pages.
+
+Firecrawl itself:
+- 4,290 calls with 3 failures: 1 timeout, 1 HTTP 502 and 1 not found.
+- No product limit was hit, so there is nothing to raise with support yet. The report is in place for when there is.
+
+Credits used today by Decision 253: about 8,700 of 490,000.
+
+Findings:
+1. **The loss is on our side, not Firecrawl's.**
+   - Firecrawl's cleaned HTML leaves out the page title and the page-data script, so handbook pages looked empty and were refused. Reads now use raw HTML.
+   - Handbooks built in the browser need an adapter, not a browser.
+2. **Pages from archived and test handbooks are confirmed and read:** archive-dev.handbook.curtin.edu.au 152, archive.handbook.curtin.edu.au 77, test-handbook.federation.edu.au 16, handbookpre2025.uts.edu.au 78. Their data may be out of date. Raised.
+3. **Most refusals are identity rules, not missing pages:** combined degrees, specialisations, NZ titles with levels, and Canadian "Master's Degree" titles. Per-university adapters (title patterns) are the place to fix these, one university at a time.
+4. **A worker call longer than the database's 120-second wait holds up every other scheduled call.** Runs now stop at 95 seconds.
+
+Waiting on the Platform Admin:
+- Whether adapter_code (the CRICOS code in the page's own data) and adapter_title may be admitted, by country and field.
+- Whether pages from archived and test handbook hosts should be refused.
