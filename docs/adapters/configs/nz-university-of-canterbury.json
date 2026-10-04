@@ -1,0 +1,46 @@
+{
+  "university": "University of Canterbury",
+  "country": "NZ",
+  "provider_id": "db910e88-67d1-4d2b-a65c-cea290aa0692",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Waves 1-2 measured, readings agree with held values or fill gaps (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:08:33Z",
+  "config_updated_at": "2026-10-04T18:36:53Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?<=International(?: students)?\\s+(?:(?!Domestic)[^\\d$]){0,40}(?:20\\d\\d [a-z ]{5,30}:\\s*\\$[\\d,]+\\s*(?:\\(\\d+ points\\)|per \\d+ points)\\s*)?)2026 (?:tuition fee estimate|Special Programme Fee|annual fee estimate):\\s*\\$\\s?([\\d,]+)\\s*(?:\\(120 points\\)|per 120 points)",
+      "intakes": "(?:Degree Structure - Start|International students START)\\s*((?:.|\\n){0,150}?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,60}?)\\s*(?:POINTS|Degree Structure - Duration|DURATION)",
+      "duration": "(?:Degree Structure - Duration|POINTS \\d{2,3} DURATION)\\s*((?:.|\\n){1,60}?full[- ]time(?:,? (?:up to )?[\\w ]{1,20}?part-time)?)",
+      "study_level": "keyboard_arrow_right Qualifications\\s+([a-z'’]+(?: [a-z'’]+){0,3}\\s(?:degree|diploma|certificate|programme|doctorate))"
+    },
+    "pick": {
+      "fee": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UC qualification pages (www.canterbury.ac.nz/study/academic-study/qualifications/...). No programme or CRICOS code is printed, so patterns use labels only. Two layouts: (a) \"Degree Structure - Start ... / POINTS / Degree Structure - Duration ...\"; (b) banner \"International students START 13 July 2027 POINTS 180 DURATION 1 year full time\". Fee: the 2026 line of the International (students) fee box (\"tuition fee estimate\", \"Special Programme Fee\" or \"annual fee estimate\"), directly after the International label or after one earlier-year line, and only when it is a 120-point (one full-time year) figure. THE YEAR 2026 IS FIXED IN THE FEE PATTERN AND MUST BE MOVED ON EACH YEAR. 60-, 150- and 180-point figures are whole-qualification amounts and ranges are ambiguous, so they are skipped on purpose. Domestic and SSL boxes are never read. Study level: breadcrumb after Qualifications (e.g. Bachelor's degree). IELTS is not on these pages (they link to central undergraduate/postgraduate language requirement pages). Campus and delivery mode are not printed. Some education/teaching pages carry no start line.",
+    "reason": "Canterbury intakes: the capture must hold a month (the START banner matched first and held only the course name) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:36:53.904279+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "148 intakes and 70 fees held after the overwrite."
+  }
+}

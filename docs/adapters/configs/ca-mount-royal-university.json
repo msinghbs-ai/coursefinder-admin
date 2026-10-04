@@ -1,0 +1,40 @@
+{
+  "university": "Mount Royal University",
+  "country": "CA",
+  "provider_id": "d38d9f8a-c2f1-446c-9d1d-6410ff878375",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T18:17:45Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "\\b([1-6]-year (?:degree|diploma|certificate))\\b"
+    },
+    "pick": {
+      "duration": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "www.mtroyal.ca programme pages (one template, no page JSON). Header block lists credential lengths e.g. \"4-year degree 2-year diploma\" - duration is the first one. Pages carry no fee (central International Student Tuition Maximum table, annual by programme and year of study), no IELTS (central ELP page: IELTS Academic 6.5, min 5.5 each band) and no start month (only \"Fall 2027 intake\" with an early admission window Oct 1 - Feb 1, which is an application window, NOT a start). catalog.mtroyal.ca pages are identity mismatches.",
+    "reason": "Save Mount Royal University adapter: duration from programme page header; fee, English and start months are central only (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:17:45.929301+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "Not admitted: nothing admissible (fee, English and start months are central only)."
+  }
+}

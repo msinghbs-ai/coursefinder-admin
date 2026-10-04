@@ -3799,3 +3799,75 @@ These are recorded in `docs/coursefinder-university-adapters-v1.0.md` section 5 
 Recorded: Decision 254 amended (design reference). The register and configurations are updated: Flinders re-exported with `{code}`, and ANU added. All 7 patterns were checked against the live rows by md5 and match.
 
 Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser using the builder. ANU needs its start-date source. Re-run Find for UBC on ubc.ca once the current run finishes.
+
+### 5 Oct 2026, 07:30 AEDT: CF-247 Decision 254, wave run 1 to 5 and admissions switched on
+
+**Instructions.**
+- 04:49: continue the wave run, report after each wave, keep docs current, plan waves in fan-out.
+- 05:50: switch on the admissions.
+- 06:12 and 06:32: fetching any public website is approved, and Firecrawl is to be used to save evidence.
+
+**1. Admission by field and course exclusions (built, live).**
+- Migration 20261005001400 adds two controls:
+  - `admit_fields`: intakes, English and fees are admitted separately.
+  - `pipeline.uni_adapter_exclusions`: a course and field excluded with a reason. Exclusions are switched off, never removed.
+- Both are honoured by the adapter overwrite, the country identity rule, the page record and, from migration 20261005001410, the coverage admission of intakes and English.
+- Both migrations were checked live: the md5 of each stored statement equals its file (55addb3e…, c11ad4f3…).
+- UI v2.15.188 (PR #312): admitted-field tick boxes, Exclude per reading, and a list of excluded courses with Stop excluding.
+
+**2. Admission switched on (22 universities).** "All" means intakes, English and fees.
+
+| University | Fields admitted | Held = adapter after the overwrite | Excluded / held back |
+|---|---|---|---|
+| Flinders | all | 174 intakes, 158 fees | — |
+| Melbourne | all | 89 intakes | — |
+| UTS | all | 130 intakes, 307 IELTS read | Fee PDF needed |
+| Canterbury (NZ) | all | 148 intakes, 70 fees | — |
+| Murdoch | all | 178 intakes, 160 fees, 41 IELTS | — |
+| Griffith | English, fees | 252 fees, 252 IELTS | Intakes held: the 2027 calendar has T1 March, T2 July, T3 September, not Feb/Jul/Oct |
+| Thompson Rivers (CA) | intakes | 36 | No fee reader |
+| Massey (NZ) | intakes, fees | 10 intakes, 79 fees | 3 fees (GDDRS, UDBRB, UBAVT) |
+| James Cook | intakes, fees | 20 intakes, 2 fees | Diploma of Higher Education fee (Singapore). IELTS held |
+| Charles Darwin | intakes, fees | 147 intakes, 130 fees | 8 short-course totals |
+| Lincoln (NZ) | intakes, fees | 57 intakes, 30 fees | LI0511 intakes |
+| Vancouver Island (CA) | intakes, fees | 27 intakes, 25 fees | Liberal Studies and Global Studies (cancelled) |
+| CQUniversity | all | 66 intakes, 66 fees, 55 IELTS | Rebound to handbook pages for the international view |
+| La Trobe | all | 100 intakes, 100 fees, 95 IELTS | Dental fee to confirm |
+| Western Sydney | intakes, fees | 138 intakes, 21 fees | 7 intakes, 6 fees |
+| ACU | intakes, English | 90 intakes, 25 IELTS | 3 intakes. Fees wait on the international view |
+| Waikato (NZ) | intakes, fees | 70 intakes, 21 fees | WI0250 intakes, 3 sub-year fees |
+| Sunshine Coast | intakes | 93 intakes | 073869J intakes. Fees held (2026 or 2027 label in doubt) |
+| Royal Roads (CA) | intakes | 13 intakes | 16 scholarship fees excluded |
+
+- Overwrite runs: 394 values (05:55), 324 values (06:35) and 166 values (07:20), all with 0 errors.
+- 54 exclusions are live, and none of them was written.
+
+**3. Not admitted yet.**
+- **ANU:** needs central start dates and English.
+- **Macquarie:** page-data fee path saved, 0 fees read.
+- **UWA:** fee calculator.
+- **Auckland:** 45 intakes differ.
+- **Simon Fraser:** 3 intakes only.
+- **Mount Royal:** nothing admissible.
+- **Bond:** fees are per semester only, and IELTS is on a second page (`/program/<slug>/entry_requirements`).
+
+**4. Firecrawl spend.**
+- Builder captures: about 3 credits per university.
+- International-view re-reads: 153 credits, all evidence saved.
+  - La Trobe: 118 pages re-read via `#/overview?studentType=int`.
+  - CQUniversity: rebound to `handbook.cqu.edu.au/he/courses/view/<CODE>`, plain fetch.
+- One text-only apply (Sunshine Coast) re-read a refused page through Firecrawl for 1 credit. That page was already needs_render.
+
+**5. Lessons.**
+- A university can be right on one field and wrong on another, so admission must be by field.
+- Wrong single courses are mostly short-course totals printed as "annual", scholarships, domestic-only pages, and application-open months read as starts.
+- Term months change by year (Griffith). The central English rule is by level for most universities (James Cook, Charles Darwin, Lincoln, Vancouver Island, Western Sydney, Sunshine Coast, Waikato). A central-rule source is the next design item.
+
+**Next.**
+- Wave 6 is scheduled for 07:49: Deakin, RMIT, Curtin, Otago (NZ), Victoria (CA).
+- Design items:
+  - Second-page source (Bond, ANU).
+  - Central English rule by level.
+  - Term months by year.
+  - Sunshine Coast fee-year decision.
+  - Re-run Find for UBC (ubc.ca).

@@ -1,0 +1,54 @@
+{
+  "university": "Central Queensland University",
+  "country": "AU",
+  "provider_id": "f02d9d9b-0eb2-4f0e-8215-27a36ae63aa6",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "CQUniversity handbook pages: 66 intakes and fees, 55 IELTS (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T20:06:19Z",
+  "config_updated_at": "2026-10-04T19:49:34Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?:CRICOS {code}\\s+First-year fee\\s+A\\$\\s?|Indicative Year - 202[6-9](?:(?!Indicative Year)(?:.|\\n)){0,250}?International Indicative First Year Fee - \\$)([0-9][0-9,]{3,8})(?:\\s*\\((20\\d\\d))?",
+      "mode": "Study mode\\s+((?:.|\\n){1,40}?)\\s+Course code",
+      "campus": "Available Locations\\s+((?:.|\\n){1,150}?)\\s+Your Course",
+      "intakes": "(?:International Availability\\s+(?:Term \\d\\s+-\\s+20\\d\\d\\s+Sorry,? no international availabilities found\\.?\\s+){0,6}|Next start term(?=(?:.|\\n){0,120}?CRICOS {code})\\s+)(Term \\d(?:\\s+-\\s+|,\\s+)20(?:2[6-9]|3\\d)(?!\\s+Sorry)(?:\\s+(?!Term\\b|Sorry\\b)[A-Za-z]+){1,8}(?:\\s+Term \\d\\s+-\\s+20\\d\\d(?!\\s+Sorry)(?:\\s+(?!Term\\b|Sorry\\b)[A-Za-z]+){1,8}){0,8})",
+      "duration": "Duration\\s+(\\d(?:.|\\n){0,60}?)\\s+(?:Location|Credit Points)",
+      "ielts_overall": "IELTS Academic\\) overall band score of at least ([5-8](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Term 1": "March",
+      "Term 2": "July",
+      "Term 3": "November"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Two page kinds. (1) handbook.cqu.edu.au course pages (/he/courses/view/CODE[/HTn/YEAR], /vet/...) - since 5 Oct the main page kind: the domestic www course pages were rebound to /he/courses/view/<CODE> (plain fetch, no Firecrawl). Intakes from the \"International Availability\" list (Term N - YYYY then campuses; leading terms marked \"Sorry, no international availabilities found\" are skipped, a later one ends the reading; the first term read must be 2026 or later). Fee from the \"Course Fees\" list: \"Indicative Year - 2026 ... International Indicative First Year Fee - $35,250\" - the international fee for one full-time year, read only inside a 2026-or-later Indicative Year block (an older year is not read; the First Term fee is never read). IELTS from the international English requirement: \"IELTS Academic) overall band score of at least 6.0 with a minimum 5.5 in each of the four components\". Duration after \"Duration\". Archived-year handbook URLs (2014-2023) exist but the availability list on them is current. (2) www.cqu.edu.au/courses/xxNN pages still bound (international-only courses with the international header): \"Next start term Term N, YYYY ... CRICOS code First-year fee A$X (YYYY Indicative)\" - fee is the indicative first-year international fee; intakes = next start term only. term_months from https://www.cqu.edu.au/study/international/enquire-apply-accept/key-dates (Term 1 = 9 Mar 2026 / 8 Mar 2027, Term 2 = 13 Jul 2026 / 12 Jul 2027, Term 3 = 9 Nov 2026 / 8 Nov 2027).",
+    "reason": "CQUniversity: domestic www course pages rebound to handbook pages; read the international indicative first-year fee and IELTS from the handbook (Claude wave run, on the Platform Admin instruction 5 Oct 06:12: fetch approved for all websites)",
+    "updated_at": "2026-10-04T19:49:34.504615+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "66 intakes, 66 fees, 55 IELTS. Rebound to handbook pages for the international view."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "university": "James Cook University",
+  "country": "AU",
+  "provider_id": "fe6af182-f5ca-4a3c-bfb4-b0773ff1b113",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "James Cook intakes 20 of 20 agree, fees 2 equal, Singapore fee excluded, IELTS held for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:29:18Z",
+  "config_updated_at": "2026-10-04T19:17:32Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Estimated annual tuition fee:\\s*\\$\\s*([0-9][0-9,]{3,8})(?:\\.[0-9]{1,2})?\\s*Courses are charged per year of full-time study\\.?\\s*International course fees",
+      "campus": "\\bLocation:?\\s+((?:.|\\n){2,150}?)\\s+Division\\b",
+      "intakes": "Commencing\\s+((?:[A-Za-z][A-Za-z ]{1,25}:\\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:,\\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)){0,11}\\s*){1,6})",
+      "duration": "Expected time to complete:?\\s*([0-9.]{1,4}\\s*Years?)",
+      "aqf_level": "AQF Level:?\\s*(Level\\s*[0-9]{1,2}(?:.|\\n){0,60}?)\\s+Location\\b",
+      "study_level": "\\bType:?\\s+([A-Za-z ]{3,40}?)\\s+Award Title\\b",
+      "ielts_overall": "English language proficiency requirements? (?:of an|as follows: Academic IELTS -) overall score of ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "aqf_level": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Two page kinds. (1) Handbook pages handbook.jcu.edu.au/course/<year>/<id> (CourseLoop): print Type (study level), AQF Level, Location (campus), Expected time to complete (duration), CRICOS Code. They carry no start dates and no fees; English is usually only \"Band 1/2/3 - Schedule II of the JCU Admissions Policy\" (central: https://www.jcu.edu.au/policy/academic-governance/student-experience/admissions-policy-schedule-ii, Band 1 = IELTS 6.0 no band below 6.0, Band 2 = 6.5 no band below 6.0, Band 3a = 7.0 no band below 6.5); a few print an explicit course IELTS, read by ielts_overall. (2) Course pages www.jcu.edu.au/courses/<slug>: Fast Facts \"Commencing <campus>: <months>\" (intakes) and \"Estimated annual tuition fee: $X Courses are charged per year of full-time study. International course fees...\" (international annual fee only; CSP and unlabelled tuition fees are not read). Trimesters 2026 (https://www.jcu.edu.au/students/academic-calendars/academic-calendars-2026/Trimesters.pdf): T1 begins late January, T2 May, T3 September; pages print months, so no term_months.",
+    "reason": "Fix James Cook University handbook patterns: labels are headings without a colon (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:17:32.11464+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "082840C",
+      "title": "Diploma of Higher Education",
+      "field": "fee",
+      "reason": "international view is Singapore only and the page says Singapore fees may differ (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "20 intakes and 2 fees. Diploma of Higher Education fee (Singapore) excluded. IELTS held."
+  }
+}

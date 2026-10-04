@@ -1,0 +1,50 @@
+{
+  "university": "Bond University Limited",
+  "country": "AU",
+  "provider_id": "739948f6-6338-4ee9-8d0c-a8c8e953c29d",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T18:48:56Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Delivery Mode\\s+((?:.|\\n){1,60}?)\\s+Location",
+      "campus": "Delivery Mode\\s+(?:.|\\n){1,60}?\\s+Location\\s+((?:.|\\n){1,40}?Campus)",
+      "intakes": "Starting Semester((?:.|\\n){0,250}?)Delivery Mode",
+      "duration": "Duration\\s+((?:.|\\n){1,60}?)\\s+Program Type",
+      "study_level": "Program Type\\s+((?:.|\\n){1,80}?)\\s+Study Area",
+      "not_admitting": "((?:program has been suspended|no student intakes are planned)(?:.|\\n){0,60})"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Bond program pages (bond.edu.au/program/<slug>) carry a key-facts panel: Duration, Program Type, Study Area, Starting Semester (a select list of month + year, e.g. \"September 2026 January 2027 May 2027\"), Delivery Mode, Location. Intakes read from Starting Semester. Fees are NOT on the program page: they sit on /program/<slug>/fees, loaded by a JavaScript widget and charged per semester subject-by-subject (no annual figure), so no fee pattern. English is NOT on the program page: it is on /program/<slug>/entry_requirements (e.g. Bachelor of Actuarial Science: IELTS Academic overall 6.5, no sub score below 6.0), so no IELTS pattern. No term_months: the page prints month names directly.",
+    "reason": "Bond University adapter: start dates and key facts from the program page key-facts panel (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:48:56.787585+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "Not admitted: fees are per semester only, and IELTS is on a second page."
+  }
+}

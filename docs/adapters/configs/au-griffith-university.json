@@ -1,0 +1,54 @@
+{
+  "university": "Griffith University",
+  "country": "AU",
+  "provider_id": "36086f5e-9fe0-4878-aa40-1897a7d8cb24",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee"
+  ],
+  "admit_reason": "Griffith fees 235 of 252 equal and IELTS read on 252, intakes held: the trimester months change by year (2027 calendar: T1 March, T2 July, T3 September) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:29:18Z",
+  "config_updated_at": "2026-10-04T19:02:20Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?<!Domestic )Fee(?: \\(INDICATIVE\\))?\\s*\\$\\s*([0-9][0-9,]*)\\s*(?:per year\\s*)?(?:20[2-3]\\d\\s*)?indicative annual fee",
+      "campus": "Degree details\\s*Campus\\s*((?:.|\\n){1,120}?)\\s*Duration\\b",
+      "intakes": "Commencing in\\s*(Trimester [123](?:\\s*(?:,|and|&)\\s*(?:Trimester\\s*)?[123]){0,2})|start studying to see the correct course lists and requirements:\\s*(?:20\\d\\d\\s*){1,8}(?:Trimester [123]\\s*){1,3}|Next intake\\s*Trimester [123] 20\\d\\d",
+      "duration": "Duration\\s*((?:.|\\n){1,150}?)\\s*Commencing in",
+      "ielts_overall": "Entry requirements\\s*IELTS \\(Academic\\)\\s*([4-9](?:\\.[05])?)\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "all",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "1, 2": "July",
+      "1, 3": "October",
+      "2, 3": "October",
+      "Trimester 1": "February",
+      "Trimester 2": "July",
+      "Trimester 3": "October"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Griffith course pages (www.griffith.edu.au/study/degrees/<slug>-<code>), one per program, international view. Text only, no page data. Key facts block: \"Campus <list> Duration <n year s full-time> Commencing in Trimester 1, 2[, 3] Credit points ... Degree code .. Cricos code .. Entry requirements IELTS (Academic) <n> ... Fee (INDICATIVE) $<n> [per year] <year> indicative annual fee\" (certificates show the 40 CP annual figure without \"per year\"). Start terms also read from the degree-structure selector (\"Select when you are planning to start studying ... Trimester 1 Trimester 2\") and \"Next intake Trimester n <year>\". Trimester to month = orientation month, from Griffith academic calendar (https://www.griffith.edu.au/__data/assets/pdf_file/0036/1475757/2027-Academic-Calendar.pdf, 2026 version /0034/1475755/) and the course pages (\"Trimester 1 2027 Orientation commences 22 February 2027\", \"Trimester 3 2026 Orientation commences 26 October 2026\"): Trimester 1 = February, Trimester 2 = July (orientation 6-10 July 2026, 5-9 July 2027), Trimester 3 = October. Keys \"1, 2\"/\"2, 3\"/\"1, 3\" only expand the page list form \"Trimester 1, 2, 3\".",
+    "reason": "Griffith adapter round 3 (final): intakes from Key facts \"Commencing in\" plus start selector and Next intake, trimester months from Griffith academic calendar; campus and duration from Key facts; diagnostics removed (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:02:20.444079+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "252 fees and 252 IELTS. Intakes held: the 2027 calendar has T1 March, T2 July, T3 September, not Feb/Jul/Oct."
+  }
+}

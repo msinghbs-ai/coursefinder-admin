@@ -1,0 +1,68 @@
+{
+  "university": "Australian Catholic University",
+  "country": "AU",
+  "provider_id": "030992c3-72c6-452d-8a3b-10ceb0fd77f2",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "ACU intakes 88 of 88 agree and 25 course-printed IELTS, 3 general-reader intakes excluded, fees held: domestic view stored (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T20:06:19Z",
+  "config_updated_at": "2026-10-04T19:37:41Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "CRICOS Code\\s+{code}(?:.|\\n){0,200}?Fees \\(first year\\)\\*?\\s*\\$\\s*([0-9][0-9,]{3,8})\\b(?!\\s*(?:CSP|Fee-paying))",
+      "intakes": "(?:intake:\\s*Beginning|Start dates|Professional Term \\d\\s*-)\\s+((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:,\\s*|\\s+and\\s+|\\s+)){1,6}20\\d\\d)",
+      "duration": "Duration\\s+((?:\\d+(?:\\.\\d+)?|one|two|three|four|five)\\s+years?\\b(?:.|\\n){0,40}?(?:part-time|full-time|full time))",
+      "aqf_level": "AQF framework\\s+(?:.|\\n){0,80}?AQF Level (\\d+)",
+      "study_level": "AQF framework\\s+([A-Za-z' ]{3,60}?)\\s+-\\s+AQF Level",
+      "ielts_overall": "IELTS(?:(?:.|\\n){0,80}?overall(?: score)?(?: of|:)?\\s*|\\s+(?=[4-9]\\.\\d\\s+overall))([4-9](?:\\.\\d)?)\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "intakes": "all",
+      "duration": "first",
+      "aqf_level": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "ACU (www.acu.edu.au). Page kinds: /course/<slug> course pages (stored in the DOMESTIC view: fees are CSP or domestic fee-paying, no CRICOS code shown); /handbook/handbook-YYYY/course/ pages (no dates or fees; 2021-2024 are archived years); /study-at-acu/find-a-course/new-courses/ landing pages listing several CRICOS codes (no dates or fees). Intakes: course page panel \"Start dates Semester 1 intake: Beginning March 2027 ... Midyear (Semester 2) intake: Beginning August 2027 / Not offered\"; the pattern reads only the Beginning months, never \"Applications open\" months. Other forms: \"Start dates February, July 2027\", \"Professional Term 2 - February 2027\". Central key dates: https://www.acu.edu.au/study-at-acu/important-dates (2027 Semester 1 starts Mon 1 Mar, Semester 2 Mon 2 Aug). IELTS: Entry requirements section when printed; otherwise central Admission to Coursework Programs Policy Schedule 4 (https://policy.acu.edu.au/document/view.php?id=312&version=2). Fee: read only when the page is the international view (CRICOS Code then \"Fees (first year)* $N\" without CSP/Fee-paying). Duration: \"Duration N years full-time\". AQF: \"AQF framework <Award> - AQF Level N\".",
+    "reason": "Round 2: AQF level read only from the AQF framework section, not from entry requirements (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:37:41.588476+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "0100201",
+      "title": "Master of Psychology (Clinical)/Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "application-open months read as intakes (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "0100202",
+      "title": "Master of Psychology (Educational and Developmental)/Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "application-open months read as intakes (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "0102080",
+      "title": "Bachelor of Education (Secondary)/Bachelor of Arts (Mathematics)",
+      "field": "intakes",
+      "reason": "June comes from a placement note (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "90 intakes and 25 IELTS. 3 intakes excluded. Fees wait on the international view."
+  }
+}

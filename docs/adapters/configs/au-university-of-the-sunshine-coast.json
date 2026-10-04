@@ -1,0 +1,57 @@
+{
+  "university": "University of the Sunshine Coast",
+  "country": "AU",
+  "provider_id": "42ea5eb7-d243-4e4d-a780-22858a090377",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Sunshine Coast trimester intakes from the published calendar, 1 excluded, fees held: the course-page fee year is doubtful (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T20:06:19Z",
+  "config_updated_at": "2026-10-04T19:33:20Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?:Annual tuition fee \\(A\\$, 20\\d\\d\\) A\\$|{code}\\s+[A-Z]{2,3}\\d{3}\\s+[^$]{3,160}?\\s\\d+(?:\\.\\d+)?\\s+years?\\s+\\$)([0-9,]+)",
+      "mode": "Delivery mode\\s+((?:.|\\n){3,80}?)\\s+Total courses",
+      "campus": "\\bLocation\\s+((?:.|\\n){3,120}?)\\s+CRICOS code",
+      "intakes": "\\bStart\\s+((?:(?:Trimester|Session|Semester) \\d\\s*){1,12})",
+      "duration": "\\bDuration\\s+(\\d+(?:\\.\\d+)?\\s+(?:years?|months?|trimesters?))"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first"
+    },
+    "term_months": {
+      "Trimester 1": "March",
+      "Trimester 2": "July",
+      "Trimester 3": "November"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UniSC (unisc.edu.au / usc.edu.au). Page kinds: (1) course pages /study/courses-and-programs/... showing both domestic and international panels; international annual fee printed as \"Annual tuition fee (A$, 2026) A$N\"; start as \"Start Trimester 1 Trimester 2\" (term_months from the 2026 academic calendar https://www.unisc.edu.au/study/calendars-timetables-and-key-dates/2026-academic-calendar: Trimester 1 = 2 March, Trimester 2 = 20 July, Trimester 3 = 9 November; Sessions not mapped because course-page session numbering does not match the calendar); Location, Duration, Delivery mode in the program panel; no IELTS figure (central page https://www.unisc.edu.au/international/international-students/english-language-requirements). (2) international tuition-fee tables /international/programs-and-fees/YYYY-international-student-tuition-fees, one row per CRICOS code with \"N year(s) $fee\"; rows with \"1 trimester\" are not read. 2024 pages are archived-year; Study Abroad and Postgraduate Qualifying Pathway rows are not annual.",
+    "reason": "Save the first University of the Sunshine Coast adapter: trimester start, international annual fee, location, duration, delivery mode (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:33:20.609722+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "073869J",
+      "title": "Master of Social Work (Qualifying)",
+      "field": "intakes",
+      "reason": "reads July only, the Session 1 start is missing (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "93 intakes. 073869J intakes excluded. Fees held (2026 or 2027 label in doubt)."
+  }
+}

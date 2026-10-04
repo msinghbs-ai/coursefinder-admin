@@ -1,0 +1,48 @@
+{
+  "university": "University of Auckland",
+  "country": "NZ",
+  "provider_id": "e096aba7-e1eb-4903-9a63-2bfb71e9a8b8",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T18:23:21Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "20\\d\\d fees(?:.|\\n){0,120}?International Student Annual Fees\\s*NZ\\$\\s*([0-9][0-9,]*(?:\\.\\d+)?)",
+      "campus": "Available locations\\s*((?:.|\\n){1,60}?)\\s*(?:Points |Programme type)",
+      "intakes": "\\b20\\d\\d [A-Za-z ]{3,30}? \\d{1,2} [A-Za-z]+ 20\\d\\d (\\d{1,2} [A-Za-z]+ 20\\d\\d) \\d{1,2} [A-Za-z]+ 20\\d\\d|Next start dates?:?\\s(?:.|\\n){1,160}?(?=Available locations|Points |Programme type)",
+      "duration": "Duration\\s*(Full[ -]time:?\\s(?:.|\\n){1,60}?)\\s*(?:Next start|Available locations|Points )",
+      "study_level": "Programme type\\s*([A-Za-z ]{3,40}?)\\s*(?:Programme Tabs|options available|Breadcrumbs|Overview)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "all",
+      "duration": "first",
+      "study_level": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Two page kinds. (1) Curriculum catalogue pages at study.auckland.ac.nz/ords/r/uoa/catalogue/program?p5_code=<code>: Quick Facts (Duration, Available locations, Programme type); Fees table \"<year> fees ... International Student Annual Fees NZ$ <low> - $ <high>\" (the lower figure of the range is read); Key Dates table (year, period, application closing date, semester START date, end date) - only the start date is read. (2) Programme pages at www.auckland.ac.nz/en/study/study-options/find-a-study-option/<name>.html: header facts (Duration, Next start date, Available locations, Points, Programme type); fees and entry requirements are not in the captured page. No programme page carries IELTS: English is on the central international English language requirements page. NZ has no CRICOS code; patterns use stable labels only.",
+    "reason": "Save the first University of Auckland adapter: start dates, international annual fee, duration, campus and programme type from the two programme page kinds (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:23:21.891248+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "Not admitted: 45 intakes differ from held values."
+  }
+}

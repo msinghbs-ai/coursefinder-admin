@@ -1,0 +1,46 @@
+{
+  "university": "Simon Fraser University",
+  "country": "CA",
+  "provider_id": "d47b6006-396a-4785-b2ae-15186c3e7709",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T17:59:18Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "intakes": "(?:(?:program|programme|classes|studies)\\s+(?:begins|starts|commences)(?: every| each| in)?|program start:?)\\s+((?:January|May|September)\\b)",
+      "duration": "Program Length\\s+([^.(]{10,250})",
+      "study_level": "\\(((?:Bachelor|Master|Doctor|Graduate (?:Certificate|Diploma))[^)]{0,80})\\)\\s*-\\s*[A-Za-z]+ Calendar",
+      "not_admitting": "((?:program|students)[^.]{0,60}(?:no longer|not)\\s+(?:accepting|admitting)[^.]{0,100})"
+    },
+    "pick": {
+      "intakes": "all",
+      "duration": "first",
+      "study_level": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "SFU pages are mostly Academic Calendar programme pages (www.sfu.ca/students/calendar/... and students.sfu.ca/calendar/...), plain HTML, no page JSON. The page title and heading carry the award, e.g. \"Chemistry (Master of Science) - Fall Calendar\", read as study level. Graduate calendar pages have a \"Program Length\" section (in terms), read as duration. Calendar pages do NOT print start months, international tuition or IELTS; course-section dates (e.g. Sep 9 - Dec 7) are class timetables, not intakes. About 30 faculty marketing pages (FAS, Education, Beedie, Contemporary Arts) sometimes say \"The program begins every September\" or \"Program start: September\", read as intakes; others print only \"Next Intake: Fall 2027\" / \"Next Start Term Fall 2027\" (term name only) and \"applications open October 1\" (not an intake). Their tuition is per term or for the whole degree, so no fee pattern is set.",
+    "reason": "Extend the start-month pattern to the Beedie \"Program start: September\" label (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T17:59:18.110194+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "Not admitted: 3 intakes only."
+  }
+}
