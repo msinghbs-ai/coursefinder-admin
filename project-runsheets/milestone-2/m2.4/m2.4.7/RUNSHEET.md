@@ -3657,3 +3657,17 @@ Released: v2.15.181 (Coursefinder-Pilot PR #300, merged, checks green). Migratio
   - Values admitted automatically from those pages were taken out of use: 317 links set to deprecated, 96 English requirements and 42 intakes withdrawn. Values entered by hand were not touched. Every change is logged in pipeline.refused_host_changes.
 
 Next: the Platform Admin tests the Flinders, Macquarie and Murdoch adapters on the Firecrawl panel (Adapter, then "What it would admit"), then switches admission on per adapter or sends a request for improvement.
+
+### 4 Oct 2026, 19:45 AEDT — University adapters easy to find; the Firecrawl panel loads at once; v2.15.182
+
+Platform Admin, 19:16: could not see how to test the adapters, and found no toggle and no per-university adapters.
+
+Cause: the Firecrawl work panel, which holds the adapters, took about 7 seconds to work out its figures. The limit for a signed-in user is 8 seconds, so under load the panel did not load at all. It also sat at the bottom of the page.
+
+Released: v2.15.182 (Coursefinder-Pilot PR #301, merged; checks and deployed release check green). Migration 20261004001270 was applied; the live md5 equals the file (f514751eb5c4ca8e1d98fb0c99445d72).
+- **Figures kept in tables:** the target list refreshes every minute and course figures and the backlog every 5 minutes. The panel now loads in 0.2 seconds; starting a run reads the same tables.
+- **Placement:** the panel sits directly under the Firecrawl settings, with a link from the settings.
+- **New "University adapters" section:**
+  - each adapter with its state (Testing — not admitting, or Admitting), pages it confirmed, pages waiting and open requests;
+  - Open and "Set up an adapter for" controls, with three steps written out.
+- **Adapter view order:** "Test, then admit" (the values found with page links, the admit switch, improvement requests) comes first. The technical settings are folded away below it.
