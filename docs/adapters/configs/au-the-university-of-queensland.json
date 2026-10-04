@@ -13,7 +13,7 @@
   "admit_reason": "UQ: intakes from the international panel (held months were closing dates), fees 276 equal, IELTS 316, 3 fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
   "config_updated_at": "2026-10-04T21:23:40Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -81,16 +81,7 @@
         "evidence_id": "af1d160c-25ce-45c8-a271-adc2c9e58303"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "ff2df4e3-5102-4b2c-b656-53c5959c519e",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://study.uq.edu.au/admissions/english-language-requirements",
-        "created_at": "2026-10-04T21:33:00Z",
-        "proposal_md5": "19825839e98703632951e3f87b046917"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 6. 316 intakes, 312 fees, 316 IELTS held = adapter. 3 fees held back."

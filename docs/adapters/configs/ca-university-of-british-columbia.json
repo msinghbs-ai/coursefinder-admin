@@ -1,0 +1,298 @@
+{
+  "university": "University of British Columbia",
+  "country": "CA",
+  "provider_id": "175462f3-59ea-4370-9c80-e7a06b100137",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "UBC: graduate pages, intakes 196 agree, IELTS 220, first-year international tuition 216 after 11 short programmes excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T23:23:08Z",
+  "config_updated_at": "2026-10-04T22:58:47Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?:Tuition \\(First Year\\)\\s*Domestic:\\s*[0-9,.]+\\s*\\|\\s*International:\\s*\\$?|Tuition per year[^$]{0,80}\\$[0-9,.]+\\s+\\$)([0-9][0-9,]*(?:\\.[0-9]+)?)",
+      "mode": "Mode of delivery\\s+((?:In person|Online|Hybrid|Blended|Multi-?modal|Distance)[A-Za-z ,-]{0,60}?)\\s+(?:Program Components|Registration Options|Specialization|Tuition|Median|Program)",
+      "campus": "Mode of delivery\\s+[A-Za-z ,-]{0,40}?\\bat (UBC (?:Vancouver|Okanagan))",
+      "intakes": "\\b((?:January|February|March|April|May|June|July|August|September|October|November|December) 20[0-9]{2}) Intake",
+      "ielts_overall": "IELTS: International English Language Testing System(?:.|\\n){0,40}?Overall score requirement\\s*:\\s*([0-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "all",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Page kinds: (1) UBC Graduate School programme pages www.grad.ubc.ca/prospective-students/graduate-degree-programs/<slug> (most read pages, UBC Vancouver graduate programmes): Quick Facts \"Tuition (First Year) Domestic: X | International: Y\" and Tuition table \"Tuition per year ... $dom $intl\" (international column second) -> fee; \"<Month> <Year> Intake\" headings -> intakes; \"IELTS: International English Language Testing System (Academic) Overall score requirement : N\" -> ielts_overall; \"Mode of delivery In person at UBC Vancouver\" -> mode, campus. (2) Faculty/department undergraduate pages (music, geog, theatrefilm, linguistics, history, landfood, nursing) carry no fee, intake or IELTS; undergraduate fees, terms and English are on central pages (you.ubc.ca tuition, vancouver.calendar.ubc.ca key dates, you.ubc.ca English language admission standard). Course-based programmes shorter than a year print first-year tuition that may equal the whole-programme fee.",
+    "reason": "Save first UBC adapter for Graduate School programme pages (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:58:47.885698+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "03b0becf-5f67-45d8-b9aa-40325c41d0a5",
+      "title": "Mining Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0a6973d7-78d5-489b-9ba0-a51f2f021aef",
+      "title": "Economics: Bachelor of Arts Degree (BA) - UBCV",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0a6973d7-78d5-489b-9ba0-a51f2f021aef",
+      "title": "Economics: Bachelor of Arts Degree (BA) - UBCV",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0a6973d7-78d5-489b-9ba0-a51f2f021aef",
+      "title": "Economics: Bachelor of Arts Degree (BA) - UBCV",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "290487af-53c7-4da3-a0b7-2edabf5a9601",
+      "title": "Geological Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "2cb52f36-7dee-45fc-8234-592c4b2b41f1",
+      "title": "Psychology: Bachelor of Science Degree (BSc) - UBCO",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "2cb52f36-7dee-45fc-8234-592c4b2b41f1",
+      "title": "Psychology: Bachelor of Science Degree (BSc) - UBCO",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "2cb52f36-7dee-45fc-8234-592c4b2b41f1",
+      "title": "Psychology: Bachelor of Science Degree (BSc) - UBCO",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "33d636e7-a443-45a6-a9f9-f3bd7c4b76fc",
+      "title": "Clean Energy Engineering: Master of Engineering Leadership (MEL) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "3de4bcd3-bebf-4d5a-86a4-43851560306c",
+      "title": "Naval Architecture and Marine Engineering - Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "3f01e6e4-1cd7-4231-a6dc-096b8116fd74",
+      "title": "Nurse Practitioner: Master of Nursing (MN) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "429c5496-1a72-4702-a4ce-8398f884ae55",
+      "title": "Electrical and Computer Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "5e10b0da-aff2-4b4c-af43-69f0bdc6a6f4",
+      "title": "Naval Architecture and Marine Engineering - Master of Engineering Leadership (MEL) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "610bc46c-c665-4152-84dd-f67232c0b2b4",
+      "title": "Economics: Master of Arts (MA) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "7d4e70ad-1f5b-4ef2-a3ba-9219e29ba76c",
+      "title": "Nursing: Bachelor of Science Degree (BSN) - UBCO",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "7d4e70ad-1f5b-4ef2-a3ba-9219e29ba76c",
+      "title": "Nursing: Bachelor of Science Degree (BSN) - UBCO",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "7d4e70ad-1f5b-4ef2-a3ba-9219e29ba76c",
+      "title": "Nursing: Bachelor of Science Degree (BSN) - UBCO",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "8921b822-2eb4-4bb1-ab76-ce6109aebfdc",
+      "title": "Economics: Bachelor of Science Degree (BSc) - UBCO",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "8921b822-2eb4-4bb1-ab76-ce6109aebfdc",
+      "title": "Economics: Bachelor of Science Degree (BSc) - UBCO",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "8921b822-2eb4-4bb1-ab76-ce6109aebfdc",
+      "title": "Economics: Bachelor of Science Degree (BSc) - UBCO",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "896504c3-50e5-4ae5-a50e-2dda01e3277c",
+      "title": "Biomedical Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "8ac464ef-2273-4ba7-81c1-78269e3bfa7e",
+      "title": "Engineering: Master of Engineering (MEng) - UBCO",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "8c8f11d2-16e2-4e7d-a3f6-6a424473fb2d",
+      "title": "Civil Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "96fa28df-2dd1-436a-8684-458747d71c21",
+      "title": "High Performance Buildings: Master of Engineering Leadership (MEL) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "9df036d7-2af3-4767-b0a7-e72095d441e0",
+      "title": "Chemical and Biological Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "a27daa49-93cb-450d-a2d5-187c5ad79664",
+      "title": "Nursing: Bachelor of Science Degree (BSN) - UBCV",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "a27daa49-93cb-450d-a2d5-187c5ad79664",
+      "title": "Nursing: Bachelor of Science Degree (BSN) - UBCV",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "a27daa49-93cb-450d-a2d5-187c5ad79664",
+      "title": "Nursing: Bachelor of Science Degree (BSN) - UBCV",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "a9babd1f-8477-4406-91f3-2fbc94985f64",
+      "title": "Genetic Counselling: Master of Science (MSc) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "c314e75d-c528-4f5e-9b4b-0365b1912b26",
+      "title": "Urban Systems: Master of Engineering Leadership (MEL) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "cf70683f-3f0d-45ed-910e-c36d34583bbe",
+      "title": "Mechatronics Design: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "d06efad0-880c-4c34-9886-ea97c85de054",
+      "title": "Psychology: Bachelor of Arts Degree (BA) - UBCV",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "d06efad0-880c-4c34-9886-ea97c85de054",
+      "title": "Psychology: Bachelor of Arts Degree (BA) - UBCV",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "d06efad0-880c-4c34-9886-ea97c85de054",
+      "title": "Psychology: Bachelor of Arts Degree (BA) - UBCV",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "e283c4a0-c093-4a5b-b093-29a99cc14a91",
+      "title": "Mechanical Engineering: Master of Engineering (MEng) - UBCV",
+      "field": "fee",
+      "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "e9b000c6-7ea2-401a-bca1-121eb82fdd31",
+      "title": "Nursing: Master of Science (MSN) - UBCV",
+      "field": "english",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "e9b000c6-7ea2-401a-bca1-121eb82fdd31",
+      "title": "Nursing: Master of Science (MSN) - UBCV",
+      "field": "fee",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "e9b000c6-7ea2-401a-bca1-121eb82fdd31",
+      "title": "Nursing: Master of Science (MSN) - UBCV",
+      "field": "intakes",
+      "reason": "wrong campus page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://you.ubc.ca/applying-ubc/requirements/english-language-competency/",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:14Z",
+        "evidence_id": "fcb79c09-7e79-48f8-8a86-82504fe727ae"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://senate.ubc.ca/vancouver/termdates/",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:14Z",
+        "evidence_id": "c0e5bbea-5a39-4849-8fc8-3420fb54ddc8"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 8. 196 intakes, 216 fees, 220 IELTS held = adapter (graduate programme pages). Short course-based programme fees and wrong-campus pages excluded."
+  }
+}

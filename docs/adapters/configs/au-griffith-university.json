@@ -12,7 +12,7 @@
   "admit_reason": "Griffith fees 235 of 252 equal and IELTS read on 252, intakes held: the trimester months change by year (2027 calendar: T1 March, T2 July, T3 September) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
   "config_updated_at": "2026-10-04T19:02:20Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,

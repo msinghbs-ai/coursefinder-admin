@@ -13,7 +13,7 @@
   "admit_reason": "Edith Cowan: intakes 148 (77 agree), fees 140 equal, IELTS 150; graduate certificate totals excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T22:27:20Z",
   "config_updated_at": "2026-10-04T21:59:16Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -153,7 +153,7 @@
     }
   ],
   "central_rules": {
-    "english_rule": "proposed",
+    "english_rule": "approved",
     "calendar": "proposed",
     "central_pages": [
       {
@@ -164,24 +164,7 @@
         "evidence_id": "cd89a2c2-3510-4019-830d-39999a6b6774"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "67309204-ea7f-4c86-98e9-ccfa3b8b0db3",
-        "parser": "provider-policy-v0.2.1",
-        "style": "level_default",
-        "url": "https://www.ecu.edu.au/future-students/course-entry/english-proficiency-bands",
-        "created_at": "2026-10-02T07:29:44Z",
-        "proposal_md5": "c45be91e3e7798b7a034561b7258e1bb"
-      },
-      {
-        "id": "6a32ae07-6711-4b61-bd04-691dbea5ae69",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://www.ecu.edu.au/future-students/course-entry/english-competency",
-        "created_at": "2026-10-04T22:28:15Z",
-        "proposal_md5": "244ec50cc68f5073e4c6bd3eee1418ad"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 7. 144 intakes, 138 fees, 149 IELTS held = adapter. Graduate certificate totals and 4 domestic-only pages excluded."

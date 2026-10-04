@@ -1,0 +1,250 @@
+{
+  "university": "Southern Cross University",
+  "country": "AU",
+  "provider_id": "f30cd2cd-01fc-458e-a061-b7aa5faa8a00",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Southern Cross: intakes 86 of 87 agree, IELTS 91, annual international fees from the international panel, 2027 figures excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T23:23:08Z",
+  "config_updated_at": "2026-10-04T23:03:58Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*([0-9]{1,3}(?:,[0-9]{3})+)\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic))",
+      "campus": "\\bLocation\\s+(?!Domestic)([^:\\n]{2,200}?)\\s+Placement",
+      "intakes": "Start Date\\s*(?:What.s this\\s*)?((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*(?:,|and|&)\\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)){0,11})(?=(?:.|\\n){0,250}?Location(?:.|\\n){0,250}?Language Requirements(?:.|\\n){0,250}?Course code(?:.|\\n){0,250}?Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*[0-9]{1,3}(?:,[0-9]{3})+\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic)))",
+      "duration": "Duration\\s*(?:What.s this\\s*)?([0-9](?:.|\\n){0,80}?)\\s*Location",
+      "ielts_overall": "Language Requirements\\s*(?:What.s this\\s*)?IELTS Overall Score\\s*([0-9](?:\\.[05])?)(?=(?:.|\\n){0,250}?Course code(?:.|\\n){0,250}?Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*[0-9]{1,3}(?:,[0-9]{3})+\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic)))"
+    },
+    "pick": {
+      "fee": "last",
+      "campus": "last",
+      "intakes": "last",
+      "duration": "last",
+      "ielts_overall": "last"
+    },
+    "term_months": {
+      "Term 1": "March",
+      "Term 2": "May",
+      "Term 3": "July",
+      "Term 4": "August",
+      "Term 5": "October",
+      "Summer Term": "January"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "SCU course pages (www.scu.edu.au/study/courses/<slug>-<code>/) print two snapshot panels: Domestic first, International second (domestic-only courses print one). Each has Start Date (month names), Duration, Location, Language Requirements (IELTS Overall Score), Course code, Indicative fee ($X (first year only); domestic adds Commonwealth supported / Fee Paying). Intakes and IELTS are read only from a panel whose Indicative fee is the international one (no Commonwealth/Fee Paying), last match; fee = international indicative first-year fee (= Annual Fees in the availability table). Handbook pages (handbook.scu.edu.au/.../<year>) are archived years with no intakes/fees. term_months from SCU 2026 teaching dates PDF https://www.scu.edu.au/media/scu-dep/staff/governance-and-records/academic-board/principal-dates/SCU-2026-Teaching-Dates---Terms.pdf (Summer Jan, T1 Mar, T2 May, T3 Jul, T4 Aug, T5 Oct). English central: https://www.scu.edu.au/study/international-study/how-to-apply-international-future-students/english-language-requirements/",
+    "reason": "Round 3: international-panel check anchored on panel labels so longer panels are read (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T23:03:58.686517+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "019863G",
+      "title": "Study Abroad Program",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082683M",
+      "title": "Doctor of Philosophy (Business)",
+      "field": "fee",
+      "reason": "archived or research page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "091558G",
+      "title": "Undergraduate Qualifying Program",
+      "field": "fee",
+      "reason": "archived or research page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "091558G",
+      "title": "Undergraduate Qualifying Program",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096807M",
+      "title": "Career Start (Study Abroad)",
+      "field": "fee",
+      "reason": "archived or research page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096807M",
+      "title": "Career Start (Study Abroad)",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110587H",
+      "title": "Master of Teaching (Secondary)",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110588G",
+      "title": "Master of Teaching (Primary)",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111196D",
+      "title": "Master of Teaching (Early Childhood)",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111874D",
+      "title": "Doctor of Philosophy",
+      "field": "fee",
+      "reason": "archived or research page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111875C",
+      "title": "Masters by Thesis",
+      "field": "fee",
+      "reason": "archived or research page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "112800C",
+      "title": "Associate Degree of Engineering",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113010C",
+      "title": "Bachelor of Innovation with Honours",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113011B",
+      "title": "Graduate Certificate in Computing",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113599B",
+      "title": "Bachelor of Laws with Honours",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114985F",
+      "title": "Study Abroad Program (Internship)",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114986E",
+      "title": "Semester Study Abroad Program (Internship)",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114987D",
+      "title": "Diploma of Conveyancing (Law and Practice)",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114988C",
+      "title": "Master of Engineering Management",
+      "field": "intakes",
+      "reason": "online, general or archived page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117743M",
+      "title": "Bachelor of Business, Bachelor of Arts",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120526E",
+      "title": "Diploma of Health and Human Sciences",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120527D",
+      "title": "Diploma of Clinical and Allied Health",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120705B",
+      "title": "Graduate Certificate in Construction Practice",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120706A",
+      "title": "Master of Construction Practice",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120836B",
+      "title": "Diploma of Global Hotel Management",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120837A",
+      "title": "Associate Degree of Global Hotel Management",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120838M",
+      "title": "Bachelor of Global Hotel and Tourism Management",
+      "field": "fee",
+      "reason": "2027 fee with no year printed, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121356K",
+      "title": "Graduate Diploma of Educational Studies",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121358H",
+      "title": "Master of Educational Studies",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121417B",
+      "title": "Bachelor of Business Administration",
+      "field": "intakes",
+      "reason": "domestic panel only, merged panels or offshore offering (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.scu.edu.au/study/international-study/how-to-apply-international-future-students/key-application-dates/",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:16Z",
+        "evidence_id": "a99db5c9-ef16-4103-a7fa-1425b3d8f0f2"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 8. 87 intakes, 85 fees, 91 IELTS held = adapter. Pages with a 2027 fee and no printed year excluded."
+  }
+}

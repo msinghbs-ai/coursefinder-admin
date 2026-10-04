@@ -1,0 +1,67 @@
+{
+  "university": "Athabasca University",
+  "country": "CA",
+  "provider_id": "e450a320-27d7-4ca2-8ad6-cafa266df869",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T23:10:19Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "intakes": "(?:\\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+\\d{1,2}(?:,\\s*20\\d\\d)?\\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:\\s+20\\d\\d)?)(?![\\s,]*\\d{1,2}\\b)|classes start in (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?)",
+      "duration": "Finish this program in as little as ((?:.|\\n){0,120}?)\\s+of(?: full-time)? study",
+      "study_level": "Credential:\\s*([a-z' ]{3,40}?)\\s+Faculty:"
+    },
+    "pick": {
+      "intakes": "all",
+      "duration": "first",
+      "study_level": "first"
+    },
+    "term_months": {
+      "Sept": "September"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Athabasca University (athabascau.ca), online/distance only, text only, no page JSON. IRCC does not issue study permits for AU online programmes (https://www.athabascau.ca/applications-admissions/apply-au/international-students.html): international students can study from outside Canada only. Page kinds: /programs/summary/<programme>.html (all 35 read pages). Undergraduate pages: \"Next start: monthly\", \"no set start dates - you can enrol at any time\" (no months to read); fees are per course (tables for Alberta, out-of-province and students living outside Canada) - no annual figure, so no fee pattern. Graduate pages: \"Application deadlines and start dates\" table \"deadline | start\" (e.g. \"June 15, 2026 Aug. 2026\"): intakes = the start month after each dated deadline (pick all); term_months maps the printed abbreviation \"Sept\" to September (course pages print \"Sept.\"); MSc Information Systems lists terms \"Fall\"/\"Winter\" with no published month mapping, so it gives no months; EdD: \"classes start in May\". Graduate fees are per course or whole-programme estimated totals (MBA ESTIMATED TOTAL) - not read. Duration = \"Finish this program in as little as ...\"; study_level = \"Credential: ...\". No page carries IELTS: central rule IELTS 6.0 overall (undergraduate https://www.athabascau.ca/calendar/undergraduate/admission-registration-evaluation/english-language-proficency.html; graduate https://www.athabascau.ca/calendar/graduate/additional-information/english-language-proficiency-requirements.html).",
+    "reason": "Athabasca adapter round 2: read the abbreviation \"Sept.\" printed in start-date tables as September (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T23:10:19.463259+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "3d31fd4a-86fa-4f3f-b0bb-a12700c5f315",
+      "title": "Master of Science Computing and Information Systems",
+      "field": "intakes",
+      "reason": "application deadline read as an intake (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.athabascau.ca/calendar/graduate/additional-information/english-language-proficiency-requirements.html",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:20Z",
+        "evidence_id": "fcee801b-88f2-4993-a5e1-9ed834025044"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 8. Testing only: online only, no study permit (decision)."
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "university": "University of New England",
+  "country": "AU",
+  "provider_id": "fa0e0d13-838a-42ff-b6a3-9cea84bd80b2",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "UNE: intakes from international campus rows only (narrows 82 courses from three months), fees from course pages and the 2026 list; online-only and whole-course fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T23:23:08Z",
+  "config_updated_at": "2026-10-04T23:08:00Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Tuition fees for international students, i\\.e\\. those not Australian or New Zealand citizens or residents\\.(?:(?!Commonwealth|Full Fee|amenities|CRICOS)(?:.|\\n)){0,250}?\\$([0-9]{1,3},[0-9]{3})\\*|(?<=CRICOS {code} Fee )[0-9]{1,3},[0-9]{3}(?=\\*)",
+      "mode": "\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+(Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*)",
+      "intakes": "(?<=Trimester 1\\W{1,4})February(?=(?:.|\\n){0,120}?\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus\\s+Offered\\b)|(?<=Trimester 2\\W{1,4})June(?=(?:.|\\n){0,120}?\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus\\s+(?:Not\\s+)?Offered\\s+Offered\\b)|(?<=Trimester 3\\W{1,4})October(?=(?:.|\\n){0,120}?\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){2}\\s+Offered\\b)",
+      "duration": "Duration ((?:.|\\n){0,80}?full-time)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "intakes": "all",
+      "duration": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UNE course pages (www.une.edu.au/study/courses/<slug>) print one Start Dates and Campus table header (Trimester 1 - February, Trimester 2 - June, Trimester 3 - October of the current year) followed by two sets of rows: domestic (Online, Armidale Campus, Sydney Campus) then international (Online, Armidale Campus, Sydney Campus). Intakes = trimester months Offered in any INTERNATIONAL campus row (online excluded: not available on a student visa). Courses whose international campus rows are all Not Offered are online-only for international students and get no adapter intakes. Fee = the international \"Estimated fees for your first year\" figure marked * (annual); the # figure is the reduced online-only international fee and is skipped. For courses of 0.5 years or 1 trimester the first-year figure is the whole-course amount (exclude). Central fee lists (www.une.edu.au/international/fees-and-scholarships/course-fees-2026 and -2027) are read per CRICOS code (\"CRICOS <code> Fee 34,800*\"); the 2027 list gives 2027 fees. IELTS is not on course pages: central rule at https://www.une.edu.au/international/apply/eligibility/english-language-requirements (IELTS 6.0, no band below 5.5) with higher requirements in https://policies.une.edu.au/document/view-current.php?id=221. Key dates: https://www.une.edu.au/about-une/principal-dates (2026: T1 23 Feb, T2 22 Jun, T3 19 Oct) and /principal-dates-2027 (T1 22 Feb, T2 21 Jun, T3 18 Oct).",
+    "reason": "Save the University of New England adapter: international on-campus start dates, international annual fee, duration, international availability rows (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T23:08:00.09022+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "000456A",
+      "title": "Master of Philosophy (Arts)",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "016022G",
+      "title": "Bachelor of Science/Bachelor of Laws",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "017603M",
+      "title": "Bachelor of Agriculture",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "020173B",
+      "title": "Bachelor of Psychology with Honours",
+      "field": "intakes",
+      "reason": "online-only or header months not tied to international availability (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "058962D",
+      "title": "International Exchange",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "058963C",
+      "title": "International Exchange",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "065083K",
+      "title": "Graduate Certificate in Science",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "072405E",
+      "title": "Graduate Certificate in Education Studies",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075533F",
+      "title": "Master of Philosophy (Business)",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075535D",
+      "title": "Master of Philosophy (Economics)",
+      "field": "fee",
+      "reason": "2027 list fee with no year recorded, it would be held as 2026 (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096382J",
+      "title": "Graduate Certificate in Data Science",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113713E",
+      "title": "Graduate Certificate in Cybersecurity",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114684H",
+      "title": "Bachelor of Accounting/Bachelor of Laws",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114684H",
+      "title": "Bachelor of Accounting/Bachelor of Laws",
+      "field": "intakes",
+      "reason": "online-only or header months not tied to international availability (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114685G",
+      "title": "Bachelor of Media and Communications/Bachelor of Laws",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114685G",
+      "title": "Bachelor of Media and Communications/Bachelor of Laws",
+      "field": "intakes",
+      "reason": "online-only or header months not tied to international availability (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116073H",
+      "title": "Postgraduate International Qualifying Program",
+      "field": "fee",
+      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116073H",
+      "title": "Postgraduate International Qualifying Program",
+      "field": "intakes",
+      "reason": "online-only or header months not tied to international availability (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.une.edu.au/about-une/principal-dates/principal-dates-2027",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:17Z",
+        "evidence_id": "c4d1e94a-0a38-4a7f-ae6f-ce68b8b4f751"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 8. 89 intakes, 99 fees. Online-only courses, short-course totals and the 2027 fee list excluded; 82 courses narrowed to their international on-campus months."
+  }
+}

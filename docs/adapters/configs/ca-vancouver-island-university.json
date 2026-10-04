@@ -12,7 +12,7 @@
   "admit_reason": "Vancouver Island intakes 26 of 29 agree, 27 fees for one year, cancelled programmes excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
   "config_updated_at": "2026-10-04T19:19:56Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -71,7 +71,7 @@
     }
   ],
   "central_rules": {
-    "english_rule": "proposed",
+    "english_rule": "approved",
     "calendar": null,
     "central_pages": [
       {
@@ -82,16 +82,7 @@
         "evidence_id": "389d782c-17d9-49e1-80e3-80e73162ee64"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "bbc1267b-fb46-4ced-b30a-22638cd73161",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://www.viu.ca/admissions/international",
-        "created_at": "2026-10-04T21:02:37Z",
-        "proposal_md5": "61bdbdc8e411c8183b4df5c1ce503b80"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "27 intakes and 25 fees. Liberal Studies and Global Studies (cancelled) excluded."

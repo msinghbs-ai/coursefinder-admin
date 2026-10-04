@@ -1,0 +1,75 @@
+{
+  "university": "University of Northern British Columbia",
+  "country": "CA",
+  "provider_id": "0d47cf4f-7389-4d92-b7a7-8a2eba6ea1e6",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "UNBC: 3 intakes and 2 annual international fees from programme pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T23:23:08Z",
+  "config_updated_at": "2026-10-04T23:01:46Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Domestic students\\s+International students\\s+Tuition\\s*\\d?\\s*\\$\\s?[0-9][0-9,]*\\s+\\$\\s?([0-9][0-9,]*)",
+      "campus": "(?:\\bCampus\\s*:?\\s+((?:Prince George|Terrace|Quesnel|Fort St\\.? John|South-Central|Northwest|Peace River)[A-Za-z ,\\-]{0,40}?campus(?:es)?)\\s+Duration|Location\\s*:\\s*(?:Prince George|Terrace|Quesnel|Fort St\\.? John)[A-Za-z ,]{0,30}?British Columbia)",
+      "intakes": "(?:Intakes|Year Starts)\\s*:?\\s*((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:\\s*(?:,|and|&)\\s*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?){0,5})",
+      "duration": "Duration\\s*:?\\s+((?:\\d+\\s*credits,\\s*)?\\d+(?:\\s*-\\s*\\d+)?\\s*(?:Years?|months))",
+      "student_type": "International Applications Accepted\\s*:?\\s+(Yes|No)\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "student_type": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UNBC (unbc.ca), text only, no page JSON. Page kinds: (a) academic calendar pages /calendar/undergraduate|graduate/... (most of the 47 read pages) carry programme rules only - no intakes, fees or English; (b) marketing programme pages /programs-and-admissions/undergraduate/programs/... carry a facts block (Campus, Duration, Intakes \"Jan, May, Sep\") and an \"Approximate costs per academic year\" table Domestic | International, tuition based on 30 credit hours: fee = the International tuition column (annual); (c) department pages (e.g. /engineering/meng-...) carry \"Duration: 12 - 24 months Year Starts: September International Applications Accepted: Yes Location: Prince George, British Columbia\" but no fee amount. Campus is read only from the facts block (site-wide \"Prince George campus\" text is ignored). No page carries IELTS. Central sources: English https://www.unbc.ca/calendar/undergraduate/international-admissions and https://www.unbc.ca/admissions/graduate/english-language-proficiency (IELTS 6.5, no band below 6.0; MEng Integrated Wood Design 7.0/6.5); semesters https://www.unbc.ca/calendar/undergraduate/semester-dates (September, January, May semesters); graduate intakes by programme https://unbc.ca/admissions/graduate/late-applications.",
+    "reason": "UNBC adapter round 2: campus read only from the programme facts block, not site-wide text (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T23:01:46.329028+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "4b1a6b98-7b83-4eb4-9dca-597a63bf6824",
+      "title": "Chemistry: Bachelor of Science Degree (BSc)",
+      "field": "intakes",
+      "reason": "study-plan heading, not intakes (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.unbc.ca/admissions/graduate/english-language-proficiency",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:19Z",
+        "evidence_id": "3520410f-bced-4d76-9346-1a156c8d8318"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.unbc.ca/calendar/undergraduate/semester-dates",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:20Z",
+        "evidence_id": "78522dcc-0021-4648-a2f9-f717dfd50819"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 8. 3 intakes, 2 fees. Most bindings are calendar pages."
+  }
+}
