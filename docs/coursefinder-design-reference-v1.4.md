@@ -1476,6 +1476,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Evaluation.** Every target university gets a next step from three settings (no page share, unreadable share, field share): find pages first, an adapter for page data, start dates or English, or no adapter needed.
 - **Waves of five.** Adapters are built five at a time, then tested and admitted before the next wave. Platform Admin review is the limit; Firecrawl (50 concurrent browsers) and the worker are not. Wave 1: ANU, Melbourne, UTS, Macquarie, UWA.
 - **Visual builder (target).** The Platform Admin works from a Firecrawl screenshot with its text blocks and the page-data tree, choosing values and adding comments. The cheapest qualified model, pinned by name, proposes the adapter, and the output is shown per attribute before saving. The model never saves, applies or admits. Admission stays a separate Platform Admin switch.
+- **Amended 23:41 (v2.15.186, migrations 20261004001340–1350, worker v0.17.1, PRs #306–#307).**
+  - Every wave includes a NZ and a CA university.
+  - Find pages approved with Firecrawl. Search results are kept in the evidence bucket.
+  - The builder uses the pinned vetted model qwen/qwen3-30b-a3b-instruct-2507, with a daily allowance of US$ 0.50 and 30 proposals (settings).
+  - International annual fees read by an admitting adapter are admitted, replacing the automatic fee of the same year. Hand-entered fees are never changed.
+  - The visual adapter builder is built (capture, marks, comments, proposal, output).
+  - Patterns may hold `{code}` (the course's own code), for pages that cover several courses.
 - **Production.** Configurations live in `pipeline.uni_adapters` and move with the database. The reviewed baseline is exported to `docs/adapters/configs/` at each release gate and whenever an adapter is admitted or changed.
 
 ### Decision 253 — Firecrawl only, by use case, for universities that enrol international students

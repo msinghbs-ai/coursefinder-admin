@@ -7,8 +7,8 @@
   "admit": true,
   "admit_reason": "Platform Admin 22:43 decision 1: admit from the Flinders adapter. Adapter readings replace held values except those entered by hand (decision 2). Switched on by Claude on that instruction.",
   "admit_changed_at": "2026-10-04T11:47:53Z",
-  "config_updated_at": "2026-10-04T11:28:28Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 4 Oct 2026 23:35 AEDT",
+  "config_updated_at": "2026-10-04T13:01:45Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 5 Oct 2026 00:25 AEDT",
   "page_roles": {
     "course_page": "https://www.flinders.edu.au/study/courses/{slug} (international block from the course CRICOS code): start dates, fee, delivery mode, duration",
     "handbook": "https://handbook.flinders.edu.au/courses/{year}/{code} (page data): title, CRICOS code, IELTS, duration, location, mode, student type, level, AQF level, not admitting",
@@ -34,10 +34,10 @@
     },
     "sections": {},
     "patterns": {
-      "intakes": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,250}?Start dates(?:[^>]{0,80}aria-expanded[^>]{0,12}>)?\\s*((?:.|\\n){0,120}?)\\s*(?:Annual|Delivery|Entry|Student|Information|Duration|Availability|Deferrable|Start dates|Save course|SATAC|CRICOS|$)",
-      "fee": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,250}?Annual (?:indicative )?fee(?:.|\\n){0,60}?\\$([0-9][0-9,]+)(?![0-9,])(?!\\s*\\((?:CSP|FFP)\\))",
-      "campus": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,200}?Delivery mode\\s*:?\\s*(.{2,80}?)\\s+(?:Duration|Deferrable|Annual|Start|Availability|Online)",
-      "duration": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,200}?Duration\\s*:?\\s*([0-9][0-9.]*(?: or [0-9.]+)? (?:years?|months?|Year/s)(?: full-time| \\(full-time\\))?)"
+      "intakes": "{code}(?:.|\\n){0,250}?Start dates(?:[^>]{0,80}aria-expanded[^>]{0,12}>)?\\s*((?:.|\\n){0,120}?)\\s*(?:Annual|Delivery|Entry|Student|Information|Duration|Availability|Deferrable|Start dates|Save course|SATAC|CRICOS|$)",
+      "fee": "{code}(?:.|\\n){0,250}?Annual (?:indicative )?fee(?:.|\\n){0,60}?\\$([0-9][0-9,]+)(?![0-9,])(?!\\s*\\((?:CSP|FFP)\\))",
+      "campus": "{code}(?:.|\\n){0,200}?Delivery mode\\s*:?\\s*(.{2,80}?)\\s+(?:Duration|Deferrable|Annual|Start|Availability|Online)",
+      "duration": "{code}(?:.|\\n){0,200}?Duration\\s*:?\\s*([0-9][0-9.]*(?: or [0-9.]+)? (?:years?|months?|Year/s)(?: full-time| \\(full-time\\))?)"
     },
     "pick": {
       "intakes": "first",
@@ -52,7 +52,7 @@
   },
   "results": {
     "stored_pages": 360,
-    "start_dates_read": 173,
+    "start_dates_read": 174,
     "agree_before": 145,
     "replaced": 22,
     "new": 6,
@@ -64,6 +64,11 @@
       "credits": 386,
       "found": 140,
       "refused_by_identity_and_restored": 28
+    },
+    "fees": {
+      "fees_read": 157,
+      "held_matching_after_admission": 155,
+      "note": "International annual fees admitted from 4 Oct 23:55 (Platform Admin decision 4). Patterns anchored on the course's own code ({code}) from 5 Oct 00:01."
     }
   }
 }

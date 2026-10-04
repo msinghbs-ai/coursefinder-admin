@@ -101,13 +101,18 @@ The adapters themselves have no technical limit. Each one is a row of settings, 
 
 **Recommendation: build five adapters at a time (a wave), and test and admit them before the next wave.** Up to ten at once is possible if the Platform Admin has the review time, but errors then surface later and cost more to undo.
 
-| Wave | Universities | Adapter type |
-|---|---|---|
-| 1 | Australian National University, University of Melbourne, University of Technology Sydney, Macquarie University, University of Western Australia | Start dates (ANU, Melbourne, UTS) and page data (Macquarie, UWA) |
-| 2 | Murdoch, La Trobe, Griffith, Bond, James Cook | Start dates |
-| 3 | Charles Darwin, Central Queensland, Western Sydney, Sunshine Coast, Australian Catholic | Start dates and English |
-| 4 | Simon Fraser, Mount Royal, Canterbury, Thompson Rivers, Vancouver Island, Royal Roads | Start dates and English (NZ and CA) |
-| In parallel | 27 universities whose next step is Find pages first | One Firecrawl Find run: about 3,725 courses at about 2 credits each (about 7,500 credits). Re-evaluate them afterwards |
+**Amended 4 Oct 23:41 (Platform Admin): every wave includes a New Zealand and a Canadian university.**
+
+| Wave | Australia | New Zealand | Canada |
+|---|---|---|---|
+| 1 | ANU (started: builder draft, adapter saved for testing), Melbourne, Macquarie | Canterbury | Simon Fraser |
+| 2 | UTS, UWA, Murdoch | Auckland | Mount Royal |
+| 3 | La Trobe, Griffith, Bond | Massey | Thompson Rivers |
+| 4 | James Cook, Charles Darwin, Central Queensland | Lincoln | Vancouver Island |
+| 5 | Western Sydney, Sunshine Coast, Australian Catholic | Waikato | Royal Roads |
+| After the Find run | Curtin, Monash, Sydney, Adelaide, Swinburne, UTas, Canberra, Notre Dame, Federation, Victoria University | Victoria University of Wellington, Otago | UBC, Alberta, Victoria, Lethbridge, Calgary, UNBC, Athabasca, MacEwan, Fraser Valley, Kwantlen |
+
+The Find run for all target universities was approved and started on 4 Oct (2,722 courses, allowance 15,000 credits). Every search result is kept in the evidence bucket with its run.
 
 Nine universities need no adapter now (RMIT, Wollongong, UQ, QUT, Deakin, ECU, Southern Cross, UNE, AUT).
 
@@ -184,12 +189,22 @@ Nine universities need no adapter now (RMIT, Wollongong, UQ, QUT, Deakin, ECU, S
 | The model proposes an unsafe or wrong configuration | Stalled worker or wrong values | Proposal checks, safe-pattern rule, output table before save, separate admit switch |
 | Review capacity | Waves slip | Five per wave. The builder shortens review |
 
-## 10. Decisions for the Platform Admin
+## 10. Decisions recorded (Platform Admin, 4 Oct 2026 23:41)
 
-1. Approve the wave plan (5 adapters per wave) and wave 1: ANU, Melbourne, UTS, Macquarie, UWA.
-2. Approve one Find run for the 27 universities needing pages first (about 7,500 credits).
-3. Choose the cheapest model to qualify for the builder (it must be pinned by name), and approve phase C.
-4. Decide whether international fees read by an admitting adapter may be admitted (currently shown only).
+| # | Decision | What was done |
+|---|---|---|
+| 1 | Each wave includes NZ and CA universities | Waves re-planned (section 5) |
+| 2 | Find pages approved with Firecrawl; keep artifacts and scrape results in the Supabase bucket | Find run started for 2,722 courses. Pages read are kept in the evidence bucket (as before), and search results are now kept there too (`layer2/{country}/firecrawl/search/{run}/{item}.json.gz`). Builder screenshots are kept in the private bucket `adapter-captures` |
+| 3 | Use the preferred cheapest vetted model, and avoid a large AI daily budget | The builder is pinned to qwen/qwen3-30b-a3b-instruct-2507 (the vetted model already used for page matching). Daily allowance: US$ 0.50 and 30 proposals (settings). First live proposal cost US$ 0.0003 |
+| 4 | Include fees and admit them | The international annual fee an admitting adapter reads is admitted and replaces the automatic fee held for the same year. Hand-entered fees are never changed. Whole-course fees still go to Layer 4 |
+| 5 | Build the visual adapter builder | Built (phase C1): capture, text blocks, page data, marks, comments, pinned model proposal, output on samples, "Use this proposal" |
+
+**Lessons from the first fee admissions.** Some study pages cover several courses, each with its own CRICOS code and block. Patterns can now hold `{code}`, which stands for the course's own code, so each course is read from its own block. The fee is also compared with the fee held for the same year.
+
+**Lesson from the Find run.** The search domain must be the university's course site:
+- UBC's recorded website is grad.ubc.ca, so undergraduate searches found only graduate pages. UBC needs a re-run on ubc.ca.
+- Monash courses are on monash.edu, not monash.edu.au. The run's Monash items were corrected before they ran.
+- Recommendation: give each adapter its own search site setting.
 
 ## Sources
 

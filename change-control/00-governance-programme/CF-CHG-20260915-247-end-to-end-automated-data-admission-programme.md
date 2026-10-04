@@ -3816,3 +3816,58 @@ Decisions waiting for the Platform Admin:
 2. Approve the Find run for the 27 universities.
 3. Choose the cheapest model to qualify for the builder, and approve phase C.
 4. Decide whether international fees read by an admitting adapter may be admitted.
+
+### 5 Oct 2026, 00:30 AEDT — Decision 254 amended: NZ and CA in every wave, Find run, pinned builder model, fees admitted, visual adapter builder built; v2.15.186
+
+Platform Admin, 23:41:
+1. Include NZ and CA universities in each wave.
+2. Find pages approved with Firecrawl; keep artifacts and scrape results in the Supabase bucket.
+3. Use the preferred cheapest vetted model, without a large daily AI budget.
+4. Include fees and admit them.
+5. Build the visual adapter builder.
+
+Released: v2.15.186 (Coursefinder-Pilot PR #306) and PRs #307–#308, all merged.
+- Migrations applied, each live md5 equal to its file:
+  - 20261004001340 (b5246789828df31d5021bda39f9635d4)
+  - 20261004001350 (7204bc305ba712a93126fbc02d6a343f)
+  - 20261004001360 (7a1181cfe252b552e4387662f81511d1)
+- Worker coverage-sweep v0.17.1, byte-verified: 8 files including the new builder.ts, deployed version 86.
+
+**1. Waves.** Each wave has three AU universities, one NZ and one CA:
+- Wave 1: ANU, Melbourne, Macquarie, Canterbury, Simon Fraser.
+- Wave 2: UTS, UWA, Murdoch, Auckland, Mount Royal.
+- Wave 3: La Trobe, Griffith, Bond, Massey, Thompson Rivers.
+- Wave 4: JCU, CDU, CQU, Lincoln, Vancouver Island.
+- Wave 5: Western Sydney, Sunshine Coast, ACU, Waikato, Royal Roads.
+
+These are recorded in `docs/coursefinder-university-adapters-v1.0.md` section 5 and in the register.
+
+**2. Find run.** Started for 2,722 courses with an allowance of 15,000 credits. At 00:20 it had done 1,519 courses for 2,968 credits: 457 found on the university site, 998 with no title match.
+- Pages read are kept in the evidence bucket, as before. Every search result is now kept there too (`layer2/{country}/firecrawl/search/{run}/{item}.json.gz`).
+- Lessons:
+  - UBC's recorded website is grad.ubc.ca, so its undergraduate searches found graduate pages only. UBC needs a re-run on ubc.ca.
+  - Monash courses are on monash.edu. Its 157 waiting items were corrected before they ran, and the change is logged.
+  - Recommendation: each adapter should hold its own search site.
+
+**3. Builder model.** The builder is pinned to qwen/qwen3-30b-a3b-instruct-2507, the vetted model already used for page matching (no Anthropic model). The daily allowance is US$ 0.50 and 30 proposals (settings, section Adapter builder). The first live proposal cost US$ 0.0003.
+
+**4. Fees.**
+- The international annual fee an admitting adapter reads is admitted and replaces the automatic fee held for the same year. Hand-entered fees are never changed. Whole-course fees still go to Layer 4.
+- Flinders: 157 fees read, and 155 now held matching the page.
+- Two fixes found on the first run:
+  - Some study pages cover several courses. Patterns now use `{code}`, the course's own code, and the Flinders patterns were re-saved with it. This corrected fees first read from another course's block on the same page (for example Water Resources Management: 23,000 back to 46,000).
+  - A fee with no year on the page was written again on every run. It now takes the year held, or the current year. The last run replaced 0.
+
+**5. Visual adapter builder (built).**
+- Capture three sample pages (undergraduate, postgraduate, double degree) with Firecrawl. Each costs 1 credit including a full-page screenshot, kept in the private bucket adapter-captures.
+- Each page is shown as text blocks and page-data values. The Platform Admin marks which one holds each attribute and adds comments.
+- "Ask for a proposal": the pinned model proposes. Unsafe patterns and unknown fields are refused. The output is shown per sample.
+- "Use this proposal" fills the adapter settings. Save, Apply and admission stay separate.
+- First live run, ANU (wave 1): 3 credits and US$ 0.0003.
+  - Proposal kept: fee, duration and mode. Left out: level and AQF fields, where the model copied a course title.
+  - Saved for testing with admission off, and applied: fee read on 379 ANU pages.
+  - ANU program pages carry no start dates, so a linked page or central key dates are needed.
+
+Recorded: Decision 254 amended (design reference). The register and configurations are updated: Flinders re-exported with `{code}`, and ANU added. All 7 patterns were checked against the live rows by md5 and match.
+
+Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser using the builder. ANU needs its start-date source. Re-run Find for UBC on ubc.ca once the current run finishes.
