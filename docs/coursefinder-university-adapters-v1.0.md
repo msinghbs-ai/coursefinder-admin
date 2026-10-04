@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -205,6 +205,91 @@ Nine universities need no adapter now (RMIT, Wollongong, UQ, QUT, Deakin, ECU, S
 - UBC's recorded website is grad.ubc.ca, so undergraduate searches found only graduate pages. UBC needs a re-run on ubc.ca.
 - Monash courses are on monash.edu, not monash.edu.au. The run's Monash items were corrected before they ran.
 - Recommendation: give each adapter its own search site setting.
+
+## 11. Amendment, 5 Oct 2026 (07:30): admission by field, course exclusions, waves 1–5
+
+**Source:** Platform Admin, 5 Oct 2026 04:49 (continue the wave run), 05:50 (switch on the admissions), 06:12 and 06:32 (fetching any public website approved, Firecrawl to save evidence). Full entry: M2.4.7 runsheet set, entry "5 Oct 2026, 07:30 AEDT".
+
+### 11.1 Admission by field
+
+- **What.** Each adapter now has a list of admitted fields (`admit_fields`): intakes, English and fees. When an adapter is admitting, only the ticked fields overwrite held values. The others are read and shown, but not admitted.
+- **Why.** A university can be right on one field and wrong on another. For example, Griffith's fees and IELTS are right, but its intakes are held because its trimester months change by year.
+- **Built by.** Migration 20261005001400. The PIM Admin (v2.15.188, PR #312) has a tick box for each admitted field.
+
+### 11.2 Course exclusions
+
+- **What.** `pipeline.uni_adapter_exclusions` holds a course, a field and a written reason. An excluded course keeps its held value for that field, even when the adapter is admitting.
+- **Why.** Most wrong readings are single courses: short-course totals printed as "annual", scholarship amounts read as fees, domestic-only pages, and application-open months read as starts. Excluding one course is safer than holding back the whole university.
+- **Never removed.** Exclusions are switched off ("Stop excluding"), never deleted, so the history stays. At 07:30, 54 exclusions were active and none had been written to the catalogue.
+- **PIM Admin.** "Exclude" beside each reading, and a list of excluded courses with "Stop excluding".
+
+### 11.3 Which functions honour them
+
+| Function | Admitted fields | Exclusions |
+|---|---|---|
+| Adapter overwrite (`security.adapter_overwrite_v1`) | Yes | Yes |
+| Country identity rule (`security.coverage_identity_allowed`) | Yes | — |
+| Page record (`public.svc_adapter_page_record`) | — | Yes |
+| Coverage admission of intakes and English (`security.coverage_admission_apply_v1`, from migration 20261005001410) | — | Yes |
+
+The exclusion check itself is `security.uni_adapter_excluded(course, field)`. Both migrations were checked live: the md5 of each stored statement equals its file.
+
+### 11.4 Term months
+
+- Many universities print a term name ("Semester 1", "Trimester 2", "Autumn Session") instead of a month. Each adapter now has `term_months`, which turns a term name into a start month.
+- The months come from each university's own key-dates or academic-calendar page, and the page is named in the adapter notes. Examples: Charles Darwin (Semester 1 = March, Semester 2 = July, Summer = November), CQUniversity (Term 1 = March, Term 2 = July, Term 3 = November), UTS (Autumn = February, Spring = July, Summer = November).
+- Where pages print months directly (Bond, James Cook, Royal Roads, Vancouver Island), no term months are set.
+
+### 11.5 Measuring before admitting
+
+`public.admin_adapter_measures(provider_ids)` gives, for each university, the pages read and how the adapter's readings compare with held values: intakes (agree, differ, new), fees (equal, differ, new), IELTS read, and other fields. It is limited to the Platform Admin and Operators. Each wave was measured with it before any field was admitted.
+
+### 11.6 Waves 1–5 results
+
+"All" means intakes, English and fees.
+
+| University | Fields admitted | Held = adapter after the overwrite | Excluded / held back |
+|---|---|---|---|
+| Flinders | all | 174 intakes, 158 fees | — |
+| Melbourne | all | 89 intakes | — |
+| UTS | all | 130 intakes, 307 IELTS read | Fee PDF needed |
+| Canterbury (NZ) | all | 148 intakes, 70 fees | — |
+| Murdoch | all | 178 intakes, 160 fees, 41 IELTS | — |
+| Griffith | English, fees | 252 fees, 252 IELTS | Intakes held: the 2027 calendar has T1 March, T2 July, T3 September, not Feb/Jul/Oct |
+| Thompson Rivers (CA) | intakes | 36 | No fee reader |
+| Massey (NZ) | intakes, fees | 10 intakes, 79 fees | 3 fees (GDDRS, UDBRB, UBAVT) |
+| James Cook | intakes, fees | 20 intakes, 2 fees | Diploma of Higher Education fee (Singapore). IELTS held |
+| Charles Darwin | intakes, fees | 147 intakes, 130 fees | 8 short-course totals |
+| Lincoln (NZ) | intakes, fees | 57 intakes, 30 fees | LI0511 intakes |
+| Vancouver Island (CA) | intakes, fees | 27 intakes, 25 fees | Liberal Studies and Global Studies (cancelled) |
+| CQUniversity | all | 66 intakes, 66 fees, 55 IELTS | Rebound to handbook pages for the international view |
+| La Trobe | all | 100 intakes, 100 fees, 95 IELTS | Dental fee to confirm |
+| Western Sydney | intakes, fees | 138 intakes, 21 fees | 7 intakes, 6 fees |
+| ACU | intakes, English | 90 intakes, 25 IELTS | 3 intakes. Fees wait on the international view |
+| Waikato (NZ) | intakes, fees | 70 intakes, 21 fees | WI0250 intakes, 3 sub-year fees |
+| Sunshine Coast | intakes | 93 intakes | 073869J intakes. Fees held (2026 or 2027 label in doubt) |
+| Royal Roads (CA) | intakes | 13 intakes | 16 scholarship fees excluded |
+
+- Overwrite runs: 394 values (05:55), 324 values (06:35) and 166 values (07:20), all with 0 errors.
+- Not admitted yet: ANU, Macquarie, UWA, Auckland, Simon Fraser, Mount Royal and Bond (reasons in the register, `docs/adapters/README.md`).
+- The live database at 07:30 holds 26 adapters: 19 admitting and 7 testing, with 54 active exclusions (Royal Roads has 15 active scholarship-fee exclusions).
+
+### 11.7 Lessons
+
+- A university can be right on one field and wrong on another, so admission must be by field.
+- Wrong single courses are mostly short-course totals printed as "annual", scholarships, domestic-only pages, and application-open months read as starts.
+- Term months change by year (Griffith).
+- The central English rule is by level for most universities (James Cook, Charles Darwin, Lincoln, Vancouver Island, Western Sydney, Sunshine Coast, Waikato). A central-rule source is the next design item.
+
+### 11.8 Open design items
+
+| Item | What is needed |
+|---|---|
+| Second-page source (Bond, ANU) | Some fields are on a second page, not the course page: Bond's IELTS is on `/program/<slug>/entry_requirements`, and ANU's start dates and English are central. An adapter needs a way to read a linked or second page for a course. |
+| Central English rule by level | Most universities set English once, by level (undergraduate, postgraduate, and higher for some fields). A central rule per university and level is needed, rather than a pattern on every course page. |
+| Term months by year | Term months can change from one year to the next (Griffith 2027). `term_months` needs a year, so each intake is mapped with that year's calendar. |
+| Sunshine Coast fee year | Course pages label the fee "2026", but it may be the 2027 fee. A Platform Admin decision is needed before Sunshine Coast fees are admitted. |
+| Re-run Find for UBC | UBC's search site must be ubc.ca, not grad.ubc.ca (lesson in section 10). |
 
 ## Sources
 

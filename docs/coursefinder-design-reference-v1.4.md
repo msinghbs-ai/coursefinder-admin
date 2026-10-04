@@ -1483,6 +1483,7 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
   - International annual fees read by an admitting adapter are admitted, replacing the automatic fee of the same year. Hand-entered fees are never changed.
   - The visual adapter builder is built (capture, marks, comments, proposal, output).
   - Patterns may hold `{code}` (the course's own code), for pages that cover several courses.
+- **Amended 5 Oct 2026, 07:30 (v2.15.188, migrations 20261005001400–1410, PR #312).** Admission is by field (intakes, English, fees), single courses can be excluded for one field with a reason (switched off, never removed), and term months come from each university's key-dates page. Waves 1–5 done: 19 universities admitting at 07:30. See `docs/coursefinder-university-adapters-v1.0.md`, section 11.
 - **Production.** Configurations live in `pipeline.uni_adapters` and move with the database. The reviewed baseline is exported to `docs/adapters/configs/` at each release gate and whenever an adapter is admitted or changed.
 
 ### Decision 253 — Firecrawl only, by use case, for universities that enrol international students

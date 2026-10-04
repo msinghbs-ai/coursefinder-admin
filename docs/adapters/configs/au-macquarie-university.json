@@ -5,36 +5,40 @@
   "status": "Testing",
   "enabled": true,
   "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T05:49:31Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 4 Oct 2026 23:35 AEDT",
-  "page_roles": {
-    "course_page": "to be set (wave 1)",
-    "handbook": "CourseLoop handbook page data",
-    "central": "to be set",
-    "linked": "to be set"
-  },
+  "config_updated_at": "2026-10-04T18:13:23Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": "__NEXT_DATA__",
     "json_paths": {
-      "title": "props.pageProps.pageContent.title",
+      "fee": "props.pageProps.pageContent.fees[fee_type=international_fee_paying].estimated_annual_fee",
       "code": "props.pageProps.pageContent.cricos_code",
-      "ielts_overall": "props.pageProps.pageContent.ielts_overall_score",
+      "title": "props.pageProps.pageContent.title",
+      "campus": "props.pageProps.pageContent.offering.*.location",
       "english": "props.pageProps.pageContent.english_language_requirements",
-      "intakes": "props.pageProps.pageContent.offering",
-      "duration": "props.pageProps.pageContent.duration_ft_std"
+      "duration": "props.pageProps.pageContent.course_duration_in_years",
+      "ielts_overall": "props.pageProps.pageContent.ielts_overall_score"
     },
     "sections": {},
     "patterns": {},
     "pick": {},
+    "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "CourseLoop handbook. The course data is in the page (script __NEXT_DATA__), so a plain fetch reads it."
+    "notes": "CourseLoop handbook (coursehandbook.mq.edu.au/2026/courses and /2026/doubledegree). Course data sits in the page script __NEXT_DATA__ under props.pageProps.pageContent: cricos_code and title (identity), ielts_overall_score (IELTS overall; band scores in ielts_reading/writing/listening/speaking_score), course_duration_in_years, offering list (location, mode, admission_calendar = Session 1 / Session 2 / Term names, no months; start_date empty), fees list (one entry per fee type: international_fee_paying, domestic_fee_paying, domestic_csp, each with estimated_annual_fee and fee_per_credit_point, in varying order). The handbook does not print months or fees in its page text, so intakes and the international fee cannot be read with the current adapter fields: the fee needs a page-data filter by fee type, and the session-to-month mapping sits on a central key-dates page. Only pages kept from a plain fetch carry __NEXT_DATA__; the 149 handbook pages kept from Firecrawl (1 Oct) do not. Older handbook.mq.edu.au (2014-2019) and www.mq.edu.au course pages are read by the general reader.",
+    "reason": "Macquarie international annual fee from page data by fee type (worker v0.17.2) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:13:23.58132+00:00"
   },
+  "exclusions": [],
   "results": {
-    "note": "166 of 461 courses on pages that cannot be read: wave 1, adapter for page data"
+    "note_5_oct": "Not admitted: page-data fee path saved, 0 fees read."
   }
 }

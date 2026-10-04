@@ -1,0 +1,135 @@
+{
+  "university": "Royal Roads University",
+  "country": "CA",
+  "provider_id": "57695444-f503-48fe-a762-eb1898ec5c5a",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Royal Roads 13 start dates from the program panels, scholarship fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T20:06:19Z",
+  "config_updated_at": "2026-10-04T19:33:21Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Delivery model\\s*(On Campus|Online|Blended|Hybrid|In[- ]person)",
+      "intakes": "((?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+20\\d\\d)\\s*Application deadline",
+      "duration": "Program length\\s*([0-9](?:.|\\n){0,60}?)\\s*Delivery model",
+      "study_level": "((?:Master|Doctor|Bachelor)(?:'s)? of [A-Za-z]+(?: Administration)?)"
+    },
+    "pick": {
+      "mode": "all",
+      "intakes": "all",
+      "duration": "all",
+      "study_level": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Royal Roads (Canada). Page kinds: royalroads.ca/programs/<slug> program pages (Drupal, no page data) and commons.royalroads.ca/mais/program-source/ pages (MA Interdisciplinary Studies stream pages, no program-details panel). Program pages have a program-details panel per upcoming start: the start date is printed as a heading just before \"Application deadline\", then the deadline date, \"Program length\" (some), \"Delivery model\", \"Domestic tuition\" and \"International tuition\". Tuition is labelled \"Tuition estimates shown are for the entire program\", so it is a whole-program total and is NOT read as fee. The page also lists scholarships (\"Up to $25,000\") that the general reader wrongly took as fee. IELTS is not on the page: it links to the central page https://www.royalroads.ca/admission/english-language-requirements (blocked to automated reads, 403). No terms are printed, so no term_months.",
+    "reason": "Save the Royal Roads University adapter: start dates, delivery model, program length and study level from the program-details panel; no fee because the page prints whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:33:21.319104+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "05196702-eb10-4b50-9bdb-b1f13658a852",
+      "title": "Interdisciplinary Studies: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "184c24ec-32e2-469b-8488-7ebedc5a2269",
+      "title": "Executive and Organizational Coaching: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "21b8028e-129b-49b0-bdea-afb1628cf340",
+      "title": "Environmental Practice: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "471ddb60-ea0f-423b-a064-b53630de9276",
+      "title": "Learning and Technology: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "5de1c8d2-c26d-4596-bfc2-19cd0d21b873",
+      "title": "Executive Management: Master of Business Administration (MBA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "6a885e4f-a7fb-46c1-8e6a-55dd5e96d467",
+      "title": "Hospitality and Tourism Management: Bachelor's Degree - Third-Year Entry (BHTM)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "72d9ac88-bd20-4574-8af0-46cc8c926b6a",
+      "title": "Global Leadership: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "856fc351-1c1a-4c69-b91e-2600f21a39fd",
+      "title": "Intercultural and International Communication: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "91a9bb2a-0539-4e03-bb1a-785ba2936dd9",
+      "title": "Leadership: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "aabf4c07-0075-4b70-9719-185649e28560",
+      "title": "Environment and Management: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "c69cf61f-808a-46cd-9a45-4b3489365dda",
+      "title": "Environment and Management: Master of Science (MSc)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "cb441c61-f665-40ed-83fe-9037ffec369b",
+      "title": "Disaster and Emergency Management: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "d282e747-b8db-46d7-9bf0-42c1105ee3fc",
+      "title": "Environmental Education and Communication: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "e5bd7c38-69cc-4a53-b92d-53fe1d92bbe7",
+      "title": "Environmental Practice: Master of Science (MSc)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "fa6324ea-41f9-42e5-b5be-5541efa73fc3",
+      "title": "Professional Communication: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "general reader took a scholarship amount as the fee, pages print whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "13 intakes. Scholarship amounts excluded as fees (pages print whole-program tuition only)."
+  }
+}

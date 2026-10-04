@@ -1,0 +1,71 @@
+{
+  "university": "Massey University",
+  "country": "NZ",
+  "provider_id": "229dc07d-c573-44a3-b5dc-cc423cc2c300",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Massey fees and intakes, 3 wrong fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:29:18Z",
+  "config_updated_at": "2026-10-04T18:54:34Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "20\\d\\d tuition fees\\s*Domestic students:(?:.|\\n){0,80}?International students:\\s*(?:NZ)?\\$\\s*([0-9][0-9,]*)(?![0-9,]|\\s*(?:–|-|to\\b|for all))(?:.|\\n){0,220}?full-time study \\(120 credits\\)",
+      "mode": "Where you can study(?:.|\\n){0,150}?(Distance and online)",
+      "campus": "Where you can study\\s+((?:.|\\n){1,200}?)\\s+International students",
+      "intakes": "(?:Semester (?:One|Two|1|2) \\([A-Z][a-z]+ start\\)|intakes per year \\([A-Za-z ,]{3,60}\\)|can be started in (?:[A-Z][a-z]+(?:, | or |,? and )?){1,12}|(?:for an? |commences in |commenced in )Semester (?:One|Two|1|2)(?: start)?|first semester \\(starting in [A-Z][a-z]+\\))",
+      "duration": "Time to complete\\s+((?:.|\\n){1,120}?)\\s+(?:Part-time available|Where you can study|International students)",
+      "aqf_level": "NZQF level (\\d{1,2})",
+      "study_level": "Level of study\\s+([A-Za-z-]+ study)",
+      "student_type": "((?:Not open|Open) to international students(?:.|\\n){0,120}?)\\s+Key dates",
+      "ielts_overall": "IELTS[^0-9.]{0,30}([5-8](?:\\.[05])?) overall"
+    },
+    "pick": {
+      "intakes": "all"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July",
+      "Semester One": "February",
+      "Semester Two": "July"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Massey qualification pages (www.massey.ac.nz/study/all-qualifications-and-degrees/<name>-<PROGCODE>/), one qualification per page, no page JSON (primary-nav-config script is navigation only). Key-facts header: \"Level of study\", \"NZQF level N\", \"Time to complete\", \"Where you can study\", \"Open to international students ...\" then links to central Key dates / Semester dates. Fee block \"20xx tuition fees Domestic students: $x International students: $y ... The estimates are for full-time study (120 credits)\" = one full-time year, NZD incl GST; fee read only when that 120-credit sentence follows (60-credit, \"for all 180 credits\" and range figures are left out). Known exceptions: part-time-only qualifications (GDDRS, UDBRB) print a 120-credit figure that is the whole qualification over 2 years. Start dates are mostly NOT on the page (central semester dates page); read only course-specific phrases: \"Semester One (February start)\", \"intakes per year (March, July, November)\", \"can be started in ...\", \"commences in Semester 1\", \"for a Semester Two start\". term_months Semester One/1 = February, Semester Two/2 = July as printed on Massey course pages (\"Semester One (February start)\", \"Semester Two (July start)\", Master of Design PMDSG). English: central Massey English language requirements page; only a few pages print an IELTS figure.",
+    "reason": "Massey University adapter, round 3: drop the loose \"starts in Semester\" phrase (it read the Bachelor of Veterinary Science professional-phase start as a July intake) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:54:34.870782+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "MY0021",
+      "title": "Bachelor of Aviation (Level 7)",
+      "field": "fee",
+      "reason": "page fee 117780 is not an international annual tuition figure (wave 3 check) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "MY0186",
+      "title": "Graduate Diploma in Dairy Science and Technology (Level 7)",
+      "field": "fee",
+      "reason": "page fee is not an international annual figure (wave 3 check) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "MY0196",
+      "title": "Diploma in Border and Biosecurity (Level 6)",
+      "field": "fee",
+      "reason": "page fee is not an international annual figure (wave 3 check) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "10 intakes and 79 fees. 3 fees excluded (GDDRS, UDBRB, UBAVT)."
+  }
+}

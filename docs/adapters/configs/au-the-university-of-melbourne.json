@@ -1,0 +1,52 @@
+{
+  "university": "The University of Melbourne (UniMelb)",
+  "country": "AU",
+  "provider_id": "de6d32b0-f91b-4dd0-a3da-a542f1aba5f2",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Waves 1-2 measured, readings agree with held values or fill gaps (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:08:33Z",
+  "config_updated_at": "2026-10-04T17:53:08Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "(?:Mode \\(Location\\)|Delivered:)\\s+((?:.|\\n){2,80}?)\\s+(?:Intake|You)",
+      "campus": "(?:Year & campus\\s+\\d{4}\\s*[—–-]\\s*|Mode \\(Location\\)\\s+[^(]{0,40}\\()([^)\\n]{2,60}?)(?:\\)|\\s+CRICOS)",
+      "intakes": "\\bIntake\\s+((?:.|\\n){2,80}?)\\s+Key dates",
+      "duration": "\\bDuration\\s+(\\d+(?:\\.\\d+)?\\s+(?:years?|months?|weeks?)\\s+(?:full|part)[- ]time(?:\\s*(?:/|or)\\s*\\d+(?:\\.\\d+)?\\s+(?:years?|months?|weeks?)\\s+part[- ]time)?)",
+      "aqf_level": "AQF level\\s+(\\d{1,2})\\b",
+      "study_level": "Study level & type\\s+((?:.|\\n){2,60}?)\\s+AQF level",
+      "not_admitting": "(not available to international students[^.]{0,120})"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "aqf_level": "first",
+      "study_level": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Two page kinds. study.unimelb.edu.au/find/courses course pages: header strip with Duration, Mode (Location), Intake months (before \"Key dates\"); course code like MC-ARCHUP, no CRICOS code; fees, IELTS and entry requirements sit on linked tabs/sub-pages and are not in the stored page. handbook.unimelb.edu.au/<year>/courses pages: Overview table with Year & campus, CRICOS code, Study level & type, AQF level, Duration, Delivered mode, and a not-available-to-international-students notice; no intakes, fees or IELTS. No page JSON is used (study pages carry __NUXT_DATA__ but it held no course values). No fee or IELTS pattern on purpose.",
+    "reason": "First University of Melbourne adapter: intakes, duration, mode, campus, study level, AQF level and not-admitting from study.unimelb and handbook pages (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T17:53:08.783939+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "89 intakes held after the overwrite. No fee or IELTS on stored pages."
+  }
+}

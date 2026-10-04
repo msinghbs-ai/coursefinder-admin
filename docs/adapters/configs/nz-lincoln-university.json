@@ -1,0 +1,59 @@
+{
+  "university": "Lincoln University",
+  "country": "NZ",
+  "provider_id": "248374d1-0629-41cd-a6f4-0804c422a4ff",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Lincoln intakes 55 of 58 agree, 30 fees for 120 credits, 1 intake excluded for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:29:18Z",
+  "config_updated_at": "2026-10-04T19:17:01Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Fee estimate\\W{0,5}20\\d\\d(?:.|\\n){0,80}?International:?\\s*\\$\\s*([0-9][0-9,]*)\\s*\\(?120 credits",
+      "mode": "Duration\\s+[0-9.]+(?:.|\\n){0,30}?((?:full|part)-time)",
+      "campus": "Location\\s+((?:.|\\n){1,80}?)\\s+Fee estimate",
+      "intakes": "Upcoming start dates\\s*(?=(?:.|\\n){0,60}?\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))((?:.|\\n){1,200}?)\\s*(?:Qualification|Duration|Credits|Location|Fee estimate|How you)",
+      "duration": "Duration\\s+((?:.|\\n){1,60}?)\\s+Credits",
+      "study_level": "Qualification\\s+((?:.|\\n){1,80}?)\\s+Duration"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Lincoln University (NZ). Course pages are www.lincoln.ac.nz/study/study-programmes/programme-search/<slug>/ (server-rendered, no page JSON). Key-facts panel under the H1: \"Upcoming start dates Semester 1 - 22 Feb 2027 Semester 2 - 19 Jul 2027 [or November Summer School - 09 Nov 2026] Qualification <level> Duration <n> years full-time Credits <n> Location <campus> Fee estimate 2027 Domestic: $x (N credits) International: $y (N credits)\". The bracketed credits are the load the amount covers: fee is read only when quoted per 120 credits (one full-time year, NZD). Amounts quoted for 60, 180 or 240 credits (certificates, 1.5- and 2-year taught masters) are partial-year or whole-programme totals and are deliberately not read. Term mapping Semester 1 = February, Semester 2 = July is from the course pages themselves (\"Semester 1 (late February) Semester 2 (early July)\"). IELTS is not on course pages (they link to the central English language requirements page). No course code printed on pages.",
+    "reason": "Lincoln University adapter round 2: intakes pattern also ends at \"How you\" so a start-dates line in the page body is read (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:17:01.643234+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "LI0511",
+      "title": "Graduate Certificate in Business and Sustainability (Level 7)",
+      "field": "intakes",
+      "reason": "page lists Semester 1 only, catalogue holds February and July, to be checked (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "57 intakes and 30 fees. LI0511 intakes excluded."
+  }
+}

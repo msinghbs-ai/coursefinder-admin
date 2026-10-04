@@ -2,39 +2,62 @@
   "university": "Murdoch University",
   "country": "AU",
   "provider_id": "fbe38fea-5f2c-4946-9097-1de27ea0940f",
-  "status": "Testing",
+  "status": "Admitting",
   "enabled": true,
-  "admit": false,
-  "admit_reason": null,
-  "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T05:49:31Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 4 Oct 2026 23:35 AEDT",
-  "page_roles": {
-    "course_page": "to be set (wave 2)",
-    "handbook": "CourseLoop handbook page data",
-    "central": "to be set",
-    "linked": "to be set"
-  },
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Waves 1-2 measured, readings agree with held values or fill gaps (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:08:33Z",
+  "config_updated_at": "2026-10-04T18:31:17Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": "__NEXT_DATA__",
     "json_paths": {
-      "title": "props.pageProps.pageContent.title",
       "code": "props.pageProps.pageContent.cricos_code",
-      "ielts_overall": "props.pageProps.pageContent.ielts_overall_score",
+      "title": "props.pageProps.pageContent.title",
       "english": "props.pageProps.pageContent.english_language_requirements",
       "intakes": "props.pageProps.pageContent.offering",
-      "duration": "props.pageProps.pageContent.duration_ft_std"
+      "duration": "props.pageProps.pageContent.duration_ft_std",
+      "ielts_overall": "props.pageProps.pageContent.ielts_overall_score"
     },
     "sections": {},
-    "patterns": {},
-    "pick": {},
+    "patterns": {
+      "fee": "First year fee\\s+20\\d\\d\\s+\\$[0-9,]+(?:\\s+20\\d\\d\\s+\\$[0-9,]+)?\\s+First year fee\\s+20\\d\\d\\s+\\$([0-9,]+)",
+      "campus": "(?:Semester|Trimester|Term|Summer|Winter)[^,\\n]{0,20},\\s*20\\d\\d\\s+([A-Za-z][A-Za-z ]{1,30}?)\\s+(?:Yes|No)\\s+(?:Yes|No)\\s+(?:Yes|No)\\b",
+      "intakes": "((?:Semester|Trimester) [123]),\\s*20[0-9][0-9]\\s+[A-Za-z][A-Za-z ]{1,30}?\\s+(?:Yes|No)\\s+(?:Yes|No)",
+      "aqf_level": "Australian Qualifications Framework level(?:.|\\n){0,250}?\">\\s*(?:AQF\\s*)?(?:level\\s*)?([0-9]{1,2})\\b",
+      "study_level": "Home Find a Course (Undergraduate|Postgraduate|Research|Honours|Pathways?|Enabling)\\b",
+      "ielts_overall": "Equivalent of an Academic IELTS overall score of ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "all",
+      "intakes": "all",
+      "aqf_level": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July",
+      "Trimester 1": "January",
+      "Trimester 2": "May",
+      "Trimester 3": "August"
+    },
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "CourseLoop handbook. The course data is in the page (script __NEXT_DATA__), so a plain fetch reads it."
+    "notes": "Two page kinds. (1) Murdoch course pages www.murdoch.edu.au/course/<level>/<code> (most pages, read by direct fetch): the 'Course fees' block prints 'First year fee <year> $domestic <next year> $domestic First year fee <year> $international <next year> $international', then 'Full course fee' the same way; the fee pattern takes the international first-year fee for the first year shown (the page says it is a typical full-time first-year load of 24 credit points, so annual); checked against CRICOS registered totals (annual x years). For courses of one year or less the first-year fee can be the whole-course amount. 'Start dates' table lists sessions only (Semester 1/2, year, campus, attendance), no months, so intakes are not read here; campus is read from that table; AQF level and breadcrumb study level are read too. Study mode and duration are not reliable in directly fetched pages (filled in by the browser), so no pattern. Research pages have no fee (Fee Calculator only). (2) CourseLoop handbook pages handbook.murdoch.edu.au/courses/<yy>/<code>: page data __NEXT_DATA__ props.pageProps.pageContent (cricos_code, title, offering = sessions, duration_ft_std, ielts_overall_score, english_language_requirements) and text 'Equivalent of an Academic IELTS overall score of X'; no fees.",
+    "reason": "Murdoch intakes from the teaching-period table with term months from its teaching-periods key dates page (Semester 1 = February, Semester 2 = July, Trimesters January, May, August) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:31:17.250529+00:00"
   },
+  "exclusions": [],
   "results": {
-    "note": "start dates on 3 of 224 confirmed pages: wave 2, adapter for start dates"
+    "note_5_oct": "178 intakes, 160 fees, 41 IELTS held after the overwrite."
   }
 }

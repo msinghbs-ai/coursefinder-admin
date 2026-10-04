@@ -1,0 +1,50 @@
+{
+  "university": "University of Technology Sydney (UTS)",
+  "country": "AU",
+  "provider_id": "9d22a19e-c3f7-4012-b738-17bc0b481e7f",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Waves 1-2 measured, readings agree with held values or fill gaps (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:08:33Z",
+  "config_updated_at": "2026-10-04T18:31:17Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "campus": "delivered via online \\(distance\\) learning\\.?\\s+((?:.|\\n){1,80}?)\\s+arrow_back",
+      "intakes": "applications open and close\\.?\\s+((?:.|\\n){1,200}?)\\s+View important dates",
+      "duration": "\\bDURATION\\s+((?:.|\\n){1,80}?)\\s+INTAKE\\b",
+      "ielts_overall": "IELTS Academic:\\s*overall\\s*([0-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Autumn Session": "February",
+      "Spring Session": "July",
+      "Summer Session": "November"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UTS course pages (www.uts.edu.au/courses/<slug>) are server-rendered in the DOMESTIC view; no page JSON. Header facts: CODE (UTS code + CRICOS), DURATION, INTAKE (session names only, e.g. \"Autumn Session 2027 Spring Session 2027\" - no month names), COURSE FEES (Domestic (FT) only), LOCATION. IELTS in Admission requirements (\"IELTS Academic: overall 6.5, writing 6.0\"). International fees are NOT on course pages: central 2027 international course summary tables (PDF, fee per session) and the UTS fee search. Start months come from the central principal dates: Autumn session = February, Spring session = July; research sessions January and July. Intakes pattern only yields months where the INTAKE block prints month names.",
+    "reason": "UTS term months from the 2027 Principal dates page: Autumn = February, Spring = July, Summer = November (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:31:17.250529+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "130 intakes, 307 IELTS read. International fees need the fee PDF."
+  }
+}

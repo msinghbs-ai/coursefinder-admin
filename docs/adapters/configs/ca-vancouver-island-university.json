@@ -1,0 +1,76 @@
+{
+  "university": "Vancouver Island University",
+  "country": "CA",
+  "provider_id": "fd7048c4-9a0c-4c6f-818b-94ab6f6d809d",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Vancouver Island intakes 26 of 29 agree, 27 fees for one year, cancelled programmes excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T19:29:18Z",
+  "config_updated_at": "2026-10-04T19:19:56Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International Fees Tuition and Other Mandatory Student Fees(?:.|\\n){0,200}?alumni fee(?:.|\\n){0,200}?Fees for One Year\\*? Amount Tuition \\((?:.|\\n){0,80}?\\) \\$?(\\d[\\d,]*(?:\\.\\d\\d)?)",
+      "mode": "(?:Fully Available at|Location Offered) (?:(?:Nanaimo|Cowichan|Parksville(?:-Qualicum)?|tiwšɛmawtxʷ \\(Powell River\\)|Powell River),? (?:and )?){0,4}(Online)",
+      "campus": "(?:Fully Available at|Location Offered) ((?:Nanaimo|Cowichan|Online|Parksville(?:-Qualicum)?|tiwšɛmawtxʷ \\(Powell River\\)|Powell River)(?:,? (?:and )?(?:Nanaimo|Cowichan|Online|Parksville(?:-Qualicum)?|tiwšɛmawtxʷ \\(Powell River\\)|Powell River))*)",
+      "intakes": "(?:International Program Start Date Accepting Applications Campus(?: Options)? |(?=(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,6}\\.? \\d{1,2}, 20\\d\\d (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,6}\\.? \\d{1,2}, 20\\d\\d to (?:(?!Application Fee)(?:.|\\n)){0,250}Application Fee: \\$?156))((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,6}\\.? \\d{1,2}, 20\\d\\d)",
+      "duration": "Program Length ((?:\\d+(?:\\.\\d+)?|One|Two|Three|Four)(?: (?:to|-) \\d+)? (?:Years?|Months?|Semesters?|Weeks?|Terms?))",
+      "study_level": "Credential ((?:Bachelor|Master|Doctoral|Graduate|Post-?Baccalaureate|Post-?Degree|Associate|Advanced)? ?(?:Degree|Diploma|Certificate))",
+      "not_admitting": "((?:has (?:cancelled|suspended|discontinued)|(?:is )?no longer accepting|not accepting (?:new )?applications|intake (?:has been |is )?suspended)(?:.|\\n){0,150})"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "all",
+      "duration": "first",
+      "study_level": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "VIU programme pages on www.viu.ca/programs/... (one page per programme, no CRICOS-style code, no page JSON). Domestic and International panels both in the HTML; adapter reads only the International ones. Intakes: International admissions table ('Program Start Date | Accepting Applications | Campus'): the first start date straight after the International table heading, plus every later row whose start date is followed by an application window and the international application fee ($156.06) within 250 characters; application-window dates and the Domestic table are not read. Year-specific dates (e.g. 'Jan 5, 2027', 'Sep 7, 2027'). Fee: International Fees panel, 'Fees for One Year' block, Tuition line amount (30 credits x per-credit rate), CAD; pages headed 'Fees per Program' (e.g. M.Ed.) are whole-programme and deliberately not read. Duration: 'Program Length'. Campus: 'Fully Available at' / 'Location Offered'. Level: 'Credential'. not_admitting flags cancelled/suspended notices (e.g. Global Studies BA Major cancelled June 2026). IELTS is not on programme pages: central rule at https://www.viu.ca/admissions/international = IELTS Academic 6.5 overall, no band below 6.0 (undergraduate and graduate). No term_months needed (pages print dated start dates). Pages carrying no usable panel: courses/bachelor-science-nursing (course-list page kind), bachelor-design-graphic-design and bachelor-fine-arts-theatre-transfer (no international start-date/annual-fee rows matched).",
+    "reason": "VIU adapter final: probe fields removed, notes updated (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T19:19:56.250647+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "350aea12-2b7d-43aa-9959-b0fc3cd22974",
+      "title": "Global Studies: Bachelor of Arts Degree (BA)",
+      "field": "fee",
+      "reason": "major cancelled from June 2026, minor continues, to be reviewed (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "350aea12-2b7d-43aa-9959-b0fc3cd22974",
+      "title": "Global Studies: Bachelor of Arts Degree (BA)",
+      "field": "intakes",
+      "reason": "major cancelled from June 2026, minor continues, to be reviewed (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "35160167-707f-4aca-b9fd-69a9da152693",
+      "title": "Liberal Studies: Bachelor of Arts Degree (BA)",
+      "field": "fee",
+      "reason": "programme cancelled from June 2026 per the page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "35160167-707f-4aca-b9fd-69a9da152693",
+      "title": "Liberal Studies: Bachelor of Arts Degree (BA)",
+      "field": "intakes",
+      "reason": "programme cancelled from June 2026 per the page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "27 intakes and 25 fees. Liberal Studies and Global Studies (cancelled) excluded."
+  }
+}

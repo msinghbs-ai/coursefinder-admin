@@ -1,0 +1,53 @@
+{
+  "university": "The University of Western Australia",
+  "country": "AU",
+  "provider_id": "9109fe0c-9f44-4e2d-a136-eb00dec24701",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T18:31:17Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "\\bDelivery\\s+((?:(?:Off-campus|On-campus|Online|Blended|Multi-modal|External|Internal)\\s*)+)",
+      "campus": "\\bLocations?\\s+((?:.|\\n){1,60}?)(?=\\s+(?:Minimum|Attendance|Prerequisites|Course code))",
+      "intakes": "(?:\\bIntake|Starting dates)\\s+((?:(?:every|semester\\s*\\d|january|february|march|april|may|june|july|august|september|october|november|december|and|or|&|,)\\s*)+)",
+      "duration": "(?:\\bDuration|Full time/part time duration)\\s+((?:.|\\n){1,80}?)(?=\\s+(?:Location|Minimum|Degrees|View full|Level of study|Status|\\*A major|Course code|Course structure|Weekly contact|Attendance)|$)",
+      "study_level": "Level of study\\s+(Undergraduate|Postgraduate|Research|Higher Degree by Research)",
+      "ielts_overall": "IELTS Academic require an overall score of at least ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UWA course pages are plain HTML (www.uwa.edu.au/study/courses/<slug>), no page data. Two templates: undergraduate \"Quick details\" (Course code, CRICOS code, TISC code, Intake <months>, Duration, Location, Minimum ATAR) and postgraduate/research \"Quick details\" (Status, Locations, Attendance, Delivery, Starting dates, Level of study, Course Code, CRICOS code, Full time/part time duration). Research pages say \"Throughout the year excluding January & December\" (not readable as months); postgraduate coursework often says \"Semester 1\" (no month). IELTS is printed only where a course has higher English requirements (\"IELTS Academic require an overall score of at least X\"). Course pages carry NO international fee figure: only a link to the Fee Calculator (fees.uwa.edu.au). 190 stored links are internal CMS paths (/sitecore/content/uwafs/home/courses/<slug>) blocked by robots.txt; the public page is /study/courses/<slug>.",
+    "reason": "UWA term months as printed on its course pages: Semester 1 (February), Semester 2 (July) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T18:31:17.250529+00:00"
+  },
+  "exclusions": [],
+  "results": {
+    "note_5_oct": "Not admitted: fees only in the fee calculator."
+  }
+}

@@ -5,10 +5,15 @@
   "status": "Testing",
   "enabled": true,
   "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T12:57:19Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 5 Oct 2026 00:25 AEDT",
+  "config_updated_at": "2026-10-04T17:53:48Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
   "page_roles": {
     "course_page": "programsandcourses.anu.edu.au/program/{code}: international annual fee, length, mode of delivery",
     "handbook": "same site (Programs and Courses is ANU's handbook)",
@@ -21,19 +26,22 @@
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Annual indicative fee for international students \\$([0-9][0-9,]+(?:\\.[0-9]{2})?)",
-      "mode": "Mode of delivery\\s*(In Person|Online|Multi-Modal)",
-      "duration": "Length\\s*([0-9.]+ years? full-time)"
+      "fee": "Annual indicative fee for international students \\$([1-9][0-9]{1,2},[0-9]{3}(?:\\.[0-9]{2})?)",
+      "mode": "Mode of delivery\\s*(?:[A-Z0-9]{3,10}:\\s*)?(In Person|Online|Multi-Modal)",
+      "duration": "Length\\s*([0-9.]+ (?:years?|months?) (?:full-time|part-time))"
     },
     "pick": {
       "fee": "first",
       "mode": "first",
       "duration": "first"
     },
+    "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "ANU Programs and Courses pages (programsandcourses.anu.edu.au): no page data. International annual fee after \"Annual indicative fee for international students\", length after \"Length\", mode after \"Mode of delivery\". Start dates are not on these pages (to find: linked page or central key dates). Built with the visual builder, draft 3f234771."
+    "notes": "ANU Programs and Courses pages (programsandcourses.anu.edu.au/program/<CODE>, undated URL = next academic year; /<YEAR>/program/<CODE> = archived year): no page data. International annual fee after \"Annual indicative fee for international students\" (5+ digits; for programs under 48 units ANU prints the fee for the shorter program). Length after \"Length\", mode after \"Mode of delivery\". Start dates and English (IELTS) are not on these pages: English is set centrally by ANU English Language Admission Requirements; start dates are central (Semester 1 Feb, Semester 2 July) with program-specific notes only in free text. Built with the visual builder, draft 3f234771.",
+    "reason": "ANU adapter check: fee needs 5+ digits (drops per-unit non-award amounts), duration also reads months, mode also reads double-degree \"PLAN: In Person\" form; testing only, admission off (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
+    "updated_at": "2026-10-04T17:53:48.945742+00:00"
   },
   "builder": {
     "draft": "3f234771-6624-4c03-a7c1-c3df908b6cb4",
@@ -43,8 +51,10 @@
     "kept": "fee, duration, mode",
     "left_out": "aqf_level, study_level, student_type (the model copied a course title)"
   },
+  "exclusions": [],
   "results": {
     "pages_with_fee_read": 379,
-    "note": "Testing only. Admission off."
+    "note": "Testing only. Admission off.",
+    "note_5_oct": "Not admitted: needs central start dates and English (second-page source)."
   }
 }

@@ -1,0 +1,64 @@
+{
+  "university": "La Trobe University",
+  "country": "AU",
+  "provider_id": "4f86e09a-557c-4544-a0a3-3eb5dc8468a9",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "La Trobe international view re-read through Firecrawl: intakes 96 of 100 agree, 101 annual fees, 95 IELTS, dental fee excluded for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
+  "admit_changed_at": "2026-10-04T20:06:19Z",
+  "config_updated_at": "2026-10-04T20:01:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Annual tuition fee A\\$\\s?([0-9]{2,3}[,\\s]?[0-9]{3}) per",
+      "mode": "Learning mode ((?:Multi-Modal|Face To Face|Online(?: Asynchronous| plus placement/ ?intensive)?|Blended)(?:(?:,| and| or) (?:Multi-Modal|Face To Face|Online(?: Asynchronous| plus placement/ ?intensive)?|Blended))*)",
+      "campus": "Location\\(s\\) ((?:.){1,120}?) CRICOS code",
+      "intakes": "Start dates ((?:.){0,200}?\\((?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d\\)(?:.){0,150}?) Duration ",
+      "duration": "(?:Course duration \\(full time\\)|Duration) ((?:.){1,100}?) (?:Learning mode|Course duration|Study level)",
+      "aqf_level": "AQF level (Level \\d{1,2})",
+      "study_level": "Study level ((?:.){1,40}?) AQF level",
+      "student_type": "(?:Indicative course information for (international|domestic) students|(International onshore) keyboard_arrow_down Study mode)",
+      "ielts_overall": "(?:English language requirement:? ?(?=[5-8](?:\\.[05])? IELTS)|IELTS \\(Academic\\):? minimum overall (?:band|score) of )([5-8](?:\\.[05])?)",
+      "not_admitting": "(item you are viewing is Discontinued|not available to international students(?:.){0,60}?\\.)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "aqf_level": "first",
+      "study_level": "first",
+      "student_type": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Two page kinds. (1) www.latrobe.edu.au/courses/<slug>#/overview?studentType=int course pages: since 5 Oct stored in the INTERNATIONAL view (the page is drawn in the browser; the #/overview?studentType=int address is read through Firecrawl). Text: \"Indicative course information for international students ... CRICOS code <code> Start dates [Indicative based on 2026 start dates] Semester 1 (March 2027), Semester 2 (July 2027), Summer (November 2027) Duration ... Learning mode ... Annual tuition fee A$45 600 per 120 credit points (120 credit points = one full-time year) ... English language requirement 6.5 IELTS (Academic) with no individual band less than 6.0\". Intakes = months in brackets after Start dates; fee = international annual tuition fee; IELTS = overall score; student_type shows which view a page was read in (international/domestic). The fee is per 120 credit points (one full-time year) for the course year selected by default (the latest year offered). Research degrees print no start dates or fee. (2) handbook.latrobe.edu.au/courses/<year>/<code> handbook pages (Next.js, text only): Location(s) <campus> CRICOS code, Course duration (full time), Study level, AQF level, International onshore study option, Discontinued flag; no start dates, fees or IELTS; 2021-2024 pages are archived versions. Round 2: IELTS also from \"IELTS (Academic): minimum overall band of 7.0\" (nursing-type pages); not_admitting also flags \"This course is not available to international students at the <campus> campus in <year>\". Short courses print \"Annual tuition fee A$20 700 full course duration (per 60 credit points)\" - a whole-course amount, deliberately NOT read as the annual fee (the fee pattern needs \"per\" straight after the amount).",
+    "reason": "La Trobe round 2: IELTS also read from \"IELTS (Academic): minimum overall band of N\"; \"not available to international students\" flagged (Claude wave run, on the Platform Admin instruction 5 Oct 06:12: fetch approved for all websites)",
+    "updated_at": "2026-10-04T20:01:14.984105+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "0100799",
+      "title": "Bachelor of Dental Science (Honours)",
+      "field": "fee",
+      "reason": "86000 to be confirmed by hand (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    }
+  ],
+  "results": {
+    "note_5_oct": "100 intakes, 100 fees, 95 IELTS from the international view. Dental fee to confirm."
+  }
+}
