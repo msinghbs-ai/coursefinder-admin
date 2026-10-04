@@ -1464,6 +1464,26 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 252 — One admission plan and toolset: observe, notify, trial before use, never overwrite
+**Status:** Current (4 October 2026, migrations 20261004000600–20261004000800, workers layer3-model-routing v10 and toolset-trial v1, release v2.15.177) · **Recorded in:** this reference · **Extends:** Decisions 221, 251 · **Source:** Platform Admin, 4 Oct 2026 13:37, on the failure review of 12:39
+- **This is the admission plan.** Every attribute goes through one pipeline — register, find the page, identify it, read and admit, AI check, person — with one second strategy under each stage. Layers are not re-planned per field; a new country or attribute is a new row of settings and sources, not a new design.
+- **Decisions by step** (each recorded and changeable only by the Platform Admin with a reason):
+
+| Step | Decision | State on 4 Oct 2026 |
+|---|---|---|
+| AI (Layer 3) | OpenRouter is **not capped by the platform**. Daily guards and the credit floor are shown and raise notices but stop nothing ("observe only"); one switch returns it to "stop at limits". Logs (spend by day and task, refusals) are collected and the balance is topped up when the Platform Admin decides. | Observe only; US$27.67 left. The key's own weekly limit is set at OpenRouter, outside CourseFinder; it refused 568 calls between 29 Sep and 2 Oct. |
+| Find the page (Layer 2) | **Serper** is trialled for course pages and for providers with no website, in every country listed in its settings (AU, NZ, CA to start; new countries are added as rows). No scheduled use until the Platform Admin has read the trial. | Registered, switched off; key to be saved; trial ready. |
+| Read the page (Layer 2) | **ScrapingBee** is trialled for pages that need a browser or refuse a direct read, in every listed country. Pages a provider's robots file disallows stay unread. | Registered, switched off; key to be saved; trial ready. |
+| Scholarship pages (Layer 2) | Scholarship share of Firecrawl raised from 3,000 to 6,000 credits so held scholarships are re-read. | 6,000 (2,974 used). |
+| Tuition (Layer 3) | Benchmark two pinned models (Qwen3-235B and Kimi K2) on a fresh holdout; a pass never switches a model on by itself. | To run after the trials. |
+| Jobs | Consolidate 84 scheduled jobs to about 28 in two steps: pause duplicates, retire them after seven clean days. | Planned. |
+| Go-live | GO/NO-GO is set two weeks after the trial results are reviewed. | To be dated at that review. |
+
+- **Notices, not silent stops.** Each layer's page shows a notice when a toolset it depends on hits a limit or times out — OpenRouter refusals and balance, spend past a guard, Firecrawl balance and caps, scheduled jobs that hit the database time limit or fail, edge function time-outs, trials stopped by a limit. Notices are worked out from logs that already exist when the page is read, so no new scheduled job is added. A notice can be acknowledged with a reason and comes back if the limit is hit again.
+- **Incremental, never from scratch.** New evidence never overwrites an admitted value or a value entered by hand. Each pass adds candidates that go through the same identity and admission checks; every run, trial and setting change is recorded (trial runs and cases, the control log), so iterations can be compared.
+- **Nothing hard-coded that the Platform Admin cannot change.** Every per-run limit, cap, look-back, threshold, query wording and rendering option is a settings row shown in the UI. Prompts and validators are versioned and shown read-only in Layer 3; they change only through a reviewed migration because a model's qualification is bound to them.
+- **Trials record, they do not admit.** A trial samples the real backlog per country, records each call's outcome and credits, and projects the cost for the whole backlog. Using a trial's results is a separate step the Platform Admin approves.
+
 ### Decision 251 — Scholarships are set up and watched on the layer they belong to
 **Status:** Current (4 October 2026, migration 20261004000300, release v2.15.173) · **Recorded in:** this reference · **Extends:** Decisions 139, 249, 250
 - Layer 1 › Scholarships holds the countries switched on and every scholarship source by country, each with one use: Ingest (read into records), University pages, Reference (for looking up) or Validation (to compare with our records). Third-party aggregators are Validation or Reference only, never a source of record.
