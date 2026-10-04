@@ -1,0 +1,40 @@
+{
+  "university": "Murdoch University",
+  "country": "AU",
+  "provider_id": "fbe38fea-5f2c-4946-9097-1de27ea0940f",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T05:49:31Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 4 Oct 2026 23:35 AEDT",
+  "page_roles": {
+    "course_page": "to be set (wave 2)",
+    "handbook": "CourseLoop handbook page data",
+    "central": "to be set",
+    "linked": "to be set"
+  },
+  "config": {
+    "enabled": true,
+    "json_source": "__NEXT_DATA__",
+    "json_paths": {
+      "title": "props.pageProps.pageContent.title",
+      "code": "props.pageProps.pageContent.cricos_code",
+      "ielts_overall": "props.pageProps.pageContent.ielts_overall_score",
+      "english": "props.pageProps.pageContent.english_language_requirements",
+      "intakes": "props.pageProps.pageContent.offering",
+      "duration": "props.pageProps.pageContent.duration_ft_std"
+    },
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "CourseLoop handbook. The course data is in the page (script __NEXT_DATA__), so a plain fetch reads it."
+  },
+  "results": {
+    "note": "start dates on 3 of 224 confirmed pages: wave 2, adapter for start dates"
+  }
+}

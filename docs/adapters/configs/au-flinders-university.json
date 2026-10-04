@@ -1,0 +1,69 @@
+{
+  "university": "Flinders University",
+  "country": "AU",
+  "provider_id": "0a42da16-8df1-4439-a929-4dfdd04b6d83",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_reason": "Platform Admin 22:43 decision 1: admit from the Flinders adapter. Adapter readings replace held values except those entered by hand (decision 2). Switched on by Claude on that instruction.",
+  "admit_changed_at": "2026-10-04T11:47:53Z",
+  "config_updated_at": "2026-10-04T11:28:28Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), 4 Oct 2026 23:35 AEDT",
+  "page_roles": {
+    "course_page": "https://www.flinders.edu.au/study/courses/{slug} (international block from the course CRICOS code): start dates, fee, delivery mode, duration",
+    "handbook": "https://handbook.flinders.edu.au/courses/{year}/{code} (page data): title, CRICOS code, IELTS, duration, location, mode, student type, level, AQF level, not admitting",
+    "central": "English requirements page (approved central English policy, 2 Oct 2026). Key dates and semester dates pages: fallback only, parse to no periods today",
+    "linked": "none needed"
+  },
+  "config": {
+    "enabled": true,
+    "json_source": "__NEXT_DATA__",
+    "json_paths": {
+      "title": "props.pageProps.pageContent.title",
+      "code": "props.pageProps.pageContent.cricos_code",
+      "ielts_overall": "props.pageProps.pageContent.ielts_overall_score",
+      "english": "props.pageProps.pageContent.english_language_requirements",
+      "intakes": "props.pageProps.pageContent.offering",
+      "duration": "props.pageProps.pageContent.duration_ft_std",
+      "campus": "props.pageProps.pageContent.offering_loc_mode.*.location",
+      "mode": "props.pageProps.pageContent.offering_loc_mode.*.mode",
+      "student_type": "props.pageProps.pageContent.offering_loc_mode.*.student_type",
+      "study_level": "props.pageProps.pageContent.study_level_ref",
+      "aqf_level": "props.pageProps.pageContent.aqf_level",
+      "not_admitting": "props.pageProps.pageContent.student_guidance"
+    },
+    "sections": {},
+    "patterns": {
+      "intakes": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,250}?Start dates(?:[^>]{0,80}aria-expanded[^>]{0,12}>)?\\s*((?:.|\\n){0,120}?)\\s*(?:Annual|Delivery|Entry|Student|Information|Duration|Availability|Deferrable|Start dates|Save course|SATAC|CRICOS|$)",
+      "fee": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,250}?Annual (?:indicative )?fee(?:.|\\n){0,60}?\\$([0-9][0-9,]+)(?![0-9,])(?!\\s*\\((?:CSP|FFP)\\))",
+      "campus": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,200}?Delivery mode\\s*:?\\s*(.{2,80}?)\\s+(?:Duration|Deferrable|Annual|Start|Availability|Online)",
+      "duration": "CRICOS(?: code)?:?\\s*[0-9]{6}[A-Z](?:.|\\n){0,200}?Duration\\s*:?\\s*([0-9][0-9.]*(?: or [0-9.]+)? (?:years?|months?|Year/s)(?: full-time| \\(full-time\\))?)"
+    },
+    "pick": {
+      "intakes": "first",
+      "fee": "first",
+      "campus": "first",
+      "duration": "first"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Two page kinds. Handbook (CourseLoop): course data in __NEXT_DATA__ - title, CRICOS code, IELTS, duration, offerings (location, mode, student type), level, AQF level, guidance. Study pages (flinders.edu.au/study/courses): the international block starts at the CRICOS code and holds delivery mode, duration, annual fee and start dates. The domestic block (CSP fee, SATAC) comes before it and is not read. English for all courses comes from the approved central English policy."
+  },
+  "results": {
+    "stored_pages": 360,
+    "start_dates_read": 173,
+    "agree_before": 145,
+    "replaced": 22,
+    "new": 6,
+    "duration": 227,
+    "campus": 130,
+    "fee_shown_not_admitted": 150,
+    "better_page_run": {
+      "courses": 194,
+      "credits": 386,
+      "found": 140,
+      "refused_by_identity_and_restored": 28
+    }
+  }
+}

@@ -1464,6 +1464,20 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 254 — University adapters are the admission path for course fields: page roles, waves of five, a visual builder
+**Status:** Current (4 October 2026, migrations 20261004001280–20261004001330, worker coverage-sweep v0.16.2, releases v2.15.183–v2.15.185, Pilot PRs #302–#305) · **Recorded in:** this reference; full report and design in `docs/coursefinder-university-adapters-v1.0.md`; register and configurations in `docs/adapters/` · **Amends:** Decision 253 (adapters) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
+- **Why.** The general reader missed fields because each university prints them differently. For example, it found start dates on 25 of 262 Flinders study pages. The Flinders adapter read 173, with no Firecrawl credits.
+- **Adapters read page data and page text.** JSON paths and text patterns with a "pick" rule (first, last, all) cover intakes, fee, IELTS, campus, mode, duration, level, student type, "not admitting" and AQF level. Unsafe patterns are refused. Apply runs in slices within the edge processor-time limit.
+- **An admitting adapter's own reading is exact.** It replaces held intakes and IELTS scores (logged in `adapter_overwrite_changes`). It never changes a value entered or locked by hand. Intakes are admitted only from an adapter's own reading, with its admit switch on. Tuition from pages is shown, not admitted.
+- **Page roles.** An adapter may use the course page, linked (continued) pages, the handbook page and central pages.
+  - Precedence: by hand, then course page, then linked page, then handbook, then central policy (approved, by category, gaps only), then the general reader.
+  - Linked pages inherit identity from the confirmed course page. Handbook pages must show the code. Central pages become policy proposals approved by the Platform Admin.
+- **Better pages.** Firecrawl may search for a better page for a university's courses. A better page the identity check refuses is undone, and the earlier page is restored.
+- **Evaluation.** Every target university gets a next step from three settings (no page share, unreadable share, field share): find pages first, an adapter for page data, start dates or English, or no adapter needed.
+- **Waves of five.** Adapters are built five at a time, then tested and admitted before the next wave. Platform Admin review is the limit; Firecrawl (50 concurrent browsers) and the worker are not. Wave 1: ANU, Melbourne, UTS, Macquarie, UWA.
+- **Visual builder (target).** The Platform Admin works from a Firecrawl screenshot with its text blocks and the page-data tree, choosing values and adding comments. The cheapest qualified model, pinned by name, proposes the adapter, and the output is shown per attribute before saving. The model never saves, applies or admits. Admission stays a separate Platform Admin switch.
+- **Production.** Configurations live in `pipeline.uni_adapters` and move with the database. The reviewed baseline is exported to `docs/adapters/configs/` at each release gate and whenever an adapter is admitted or changed.
+
 ### Decision 253 — Firecrawl only, by use case, for universities that enrol international students
 **Status:** Current (4 October 2026, migrations 20261004001200–20261004001250, worker coverage-sweep v0.15.1, release v2.15.180, Pilot PR #299) · **Recorded in:** this reference · **Amends:** Decision 252 (Serper and ScrapingBee are no longer used) · **Source:** Platform Admin, 4 Oct 2026 15:51
 - **One service.** Firecrawl (Growth plan, 500,000 credits a month) is used for search, page reading and site maps. Serper and ScrapingBee keys stay saved but are not used.

@@ -187,6 +187,13 @@ Each item below is compared before and after:
 - **Transfer path.** The project can be transferred back to the pilot organisation the same way. Credentials are rotated only after the GO decision, so rollback before GO needs no key changes.
 - **Migration path.** The source project stays paused but intact for 7 days. To roll back, point Cloudflare and the website back to it and switch its schedules on.
 
+## 10a. University adapters (Decision 254, added 4 Oct 2026)
+
+- Adapter configurations are database rows (`pipeline.uni_adapters`) and move with the Supabase project. After the transfer or migration, compare each live adapter with its reviewed baseline in `docs/adapters/configs/`, field by field (md5 of each pattern, path and pick value).
+- Check that these schedules are active: `coverage-admit`, `coverage-admit-intakes`, `adapter-overwrite`, `better-page-revert`, `firecrawl-runs`, `firecrawl-targets`, `firecrawl-panel-figures`.
+- Check the admit switch of each adapter against the register (`docs/adapters/README.md`). Only adapters listed as Admitting may have admission on.
+- The Firecrawl key is in the credential rotation list (section 6.5). Adapters themselves hold no credentials.
+
 ## 11. Assumptions
 - The customer can create the accounts and approve card payments by 30 September.
 - The Mumbai region is accepted for go-live (decision 29 Sep). Latency to Australian users is higher than Sydney, but the website is expected to cache through `sync_courses`, which lessens the effect.

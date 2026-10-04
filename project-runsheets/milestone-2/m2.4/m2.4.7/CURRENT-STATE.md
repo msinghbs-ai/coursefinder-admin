@@ -3754,3 +3754,42 @@ Released: v2.15.185 (Coursefinder-Pilot PR #304) and PR #305. Both merged, and t
 - UI: admitting adapters show as one collapsed line each (adapter enabled or disabled, admission on or off), which expands to work on the adapter. The table "What each university needs next" opens an adapter from its row.
 
 Next: Platform Admin to choose the next adapters from the evaluation. Suggested: ANU, Melbourne and UTS (start dates), and Macquarie and UWA (page data). Then Find pages for the 26 universities that need pages.
+
+### 4 Oct 2026, 23:55 AEDT — Decision 254: university adapters report, decision and design; register and configurations recorded
+
+Platform Admin, 23:30:
+- asked how many university adapters can be built at once;
+- asked for a report, a decision document and the configuration of each adapter, recorded in the admin documents for production preparation;
+- set the target of a visual adapter builder (Firecrawl screenshot, comments, cheapest model proposing the configuration, JSON values chosen per attribute);
+- asked how link pages, handbooks, central requirements and continued pages fill every attribute.
+
+Recorded (admin repo, documents only, no platform change):
+- **Report, decision and design:** `docs/coursefinder-university-adapters-v1.0.md` (new, CURRENT, listed in `docs/README.md`).
+- **Decision 254** in `docs/coursefinder-design-reference-v1.4.md`, inserted before Decision 253.
+- **Adapter register:** `docs/adapters/README.md`. It lists all 57 target universities with their figures, adapter state, next step and wave.
+- **Configurations:** `docs/adapters/configs/` holds Flinders (Admitting), Macquarie (Testing) and Murdoch (Testing). The Flinders export was compared with the live row field by field (md5 of each pattern, path, pick value and the notes) and all match.
+- **Production runbook:** new section 10a covers adapters after transfer: compare with the baseline, check schedules and admit switches.
+
+Answers recorded:
+- **How many at once:** adapters have no technical limit. Firecrawl Growth allows 50 concurrent browsers, and preview and apply use stored pages at no credit cost. The limits are the worker (about 2 seconds of processor time per call, so at most 5 apply chains at once) and Platform Admin review time. Recommendation: waves of five.
+  - Wave 1: ANU, Melbourne, UTS, Macquarie, UWA.
+  - Wave 2: Murdoch, La Trobe, Griffith, Bond, JCU.
+  - Wave 3: CDU, CQU, Western Sydney, Sunshine Coast, ACU.
+  - Wave 4: SFU, Mount Royal, Canterbury, Thompson Rivers, Vancouver Island, Royal Roads.
+  - In parallel: one Find run for the 27 universities needing pages first (about 3,725 courses, about 7,500 credits). 477,999 credits are left this period.
+- **Filling every attribute:** four page roles.
+  - Course page.
+  - Linked (continued) pages, which inherit identity from the confirmed course page.
+  - Handbook page, which must show the code.
+  - Central pages, which become policy proposals by course category, approved by the Platform Admin, and fill gaps only.
+  - Precedence: by hand, then course page, then linked page, then handbook, then central policy, then the general reader.
+  - Courses with no page of their own (double degrees, combined courses) keep the handbook page.
+- **Visual builder:** a target design in phases B–E.
+  - Phase 1 selects text blocks beside the screenshot and values in the JSON tree. Clicking on the picture itself needs a position probe first.
+  - The cheapest qualified model, pinned by name, only proposes. Saving, applying and admission stay Platform Admin actions, and a passing test never switches anything on.
+
+Decisions waiting for the Platform Admin:
+1. Approve waves of five and wave 1.
+2. Approve the Find run for the 27 universities.
+3. Choose the cheapest model to qualify for the builder, and approve phase C.
+4. Decide whether international fees read by an admitting adapter may be admitted.
