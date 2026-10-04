@@ -3485,3 +3485,17 @@ Waiting on the Platform Admin:
 - The OpenRouter key has its own weekly limit set at OpenRouter (it refused 568 calls, 29 Sep–2 Oct). CourseFinder cannot change it; raise or clear it there if Layer 3 should never be stopped.
 
 Next: read the trial results by country; then wire the chosen tools into the normal identity and admission checks as an incremental pass; tuition benchmark; job consolidation (pause duplicates, retire after 7 clean days); fix `scholarship-nationality` with a batch-size setting; GO/NO-GO date set at the trial review.
+
+### 4 Oct 2026, 15:20 AEDT — Decision 252 amended: keys carry plan limits; sample runs; cause of the cancelled migrations; v2.15.178
+
+Platform Admin, 14:26: no trial wording for the toolset or its code; the API keys and limits are set in the UI, starting with the keys supplied now and their plan limits, replaced later by production keys with new limits; find out what was cancelling the change; screenshots of where the settings are made.
+
+Done (verified against the live project):
+- Serper and ScrapingBee each have a key and plan section on Models & services › Toolsets and limits: plan name, credits in the plan, monthly renewal, count credits from (date), credits kept back, calls the plan allows at once, price per 1,000 credits. Work using a service stops when its key's plan reaches the reserve, with a Layer 2 notice. Moving to a production key: save it on Environment & integrations, then enter the new plan's limits. No code change.
+- "Trials" renamed to sample runs everywhere — tables, functions, settings, UI, notices — by renaming, so nothing was recreated or lost. Worker `toolset-runner` v1 replaces `toolset-trial`, which was deleted through the deploy workflow's retired list. Verified byte-for-byte; `toolset-trial` no longer exists in the project.
+- Settings grouped into sections: Key and plan limits, How the service is used, Sample runs, Notices.
+- State at release: both keys saved and both services switched on by the Platform Admin at 14:33–14:34 (ZenRows, Scrape.do and ScraperAPI switched off at the same time). Free-plan limits entered: Serper 2,500 credits (reserve 100), ScrapingBee 1,000 credits (reserve 50), counted from 4 Oct 2026; check them against each vendor's dashboard. No scheduled job routes through either service yet.
+- Migration 20261004000900: live `md5(statements[1])` equals the file. Rolled-back test of start → lease → record → close → notices passed, including the stop at the plan's reserve.
+- Release v2.15.178 / package 0.1.105, PR #296 merged. Full local suite shows no new failures beyond the env-only navigation audit.
+
+Why the earlier migrations came back "cancelled": the Supabase tool runs a destructive-statement check before applying a migration ("DROP, DELETE, TRUNCATE or UPDATE without WHERE"). The check splits the SQL on every semicolon, including semicolons inside text values. The trials change had one in a status message ("…reached its time per call; press Continue"), so the UPDATE that set it looked as if it had no WHERE clause. The tool then asked for confirmation, and this session runs non-interactively, so the request was declined automatically about 0.3 seconds later; nobody was shown a prompt. Confirmed from the client log, and by repeating it with a two-line test function (cancelled with the semicolon, applied without it). The test migrations failed on purpose and left nothing behind. Rule from now on: no text value in a migration contains a semicolon. A contract test checks this.
