@@ -3497,3 +3497,36 @@ Done (verified against the live project):
 - Release v2.15.178 / package 0.1.105, PR #296 merged. Full local suite shows no new failures beyond the env-only navigation audit.
 
 Why the earlier migrations came back "cancelled": the Supabase tool runs a destructive-statement check before applying a migration ("DROP, DELETE, TRUNCATE or UPDATE without WHERE"). The check splits the SQL on every semicolon, including semicolons inside text values. The trials change had one in a status message ("…reached its time per call; press Continue"), so the UPDATE that set it looked as if it had no WHERE clause. The tool then asked for confirmation, and this session runs non-interactively, so the request was declined automatically about 0.3 seconds later; nobody was shown a prompt. Confirmed from the client log, and by repeating it with a two-line test function (cancelled with the semicolon, applied without it). The test migrations failed on purpose and left nothing behind. Rule from now on: no text value in a migration contains a semicolon. A contract test checks this.
+
+### 4 Oct 2026, 15:45 AEDT — First sample runs on the Serper and ScrapingBee keys (AU, NZ, CA): results and findings
+
+Platform Admin, 14:54: proceed with the next step and report the result and findings.
+
+Done:
+- Sample-run worker `toolset-runner` v1.2.0 now accepts a one-time run pass, so runs the Platform Admin starts can run without a browser session (migration 20261004001000, live md5 = file; worker verified byte-for-byte; PR #297).
+- Four sample runs, each started with a reason and logged. Credits used on the free keys: Serper 137 of 2,500; ScrapingBee 175 of 1,000. The ScrapingBee run paused at the 120-second time limit as designed, raised its notice, and finished after Continue.
+- Nothing was admitted or written to any course, provider or page.
+
+Results:
+
+| Run | Cases | Outcome |
+|---|---|---|
+| Serper, course pages | 60 (20 per country) | 30 found a page on the provider's site with a matching title (AU 12, CA 12, NZ 6). 25 found the provider's site but no matching title. 5 found nothing (small English-language and VET colleges). By hand, about 17 of the 30 are the right course page. 3 are the exact page our identity check refused earlier. |
+| Serper, provider websites, run 1 | 46 | CA about 18 of 20 right. AU 11 of 20, NZ 1 to 2 of 6: the rest were government or directory listings (yourcareer.gov.au, teqsa, bebee, studyspy, companyhub). |
+| Serper, provider websites, run 2 (directories added to the settings list) | 31 | AU 10 of 15 suggestions right, with 5 correctly withheld. CA 10 of 11. Four more directories added to the list after this run. |
+| ScrapingBee, pages that need a browser or refused a direct read | 45 (15 per country) | 7 rendered the course page (Flinders, Murdoch and Sydney handbooks; Otago Polytechnic pages showing intakes, English and fees). 25 rendered a page that is not the course. 13 still refused (Otago, Lincoln, AUT, Notre Dame, Emily Carr) on standard proxies. |
+
+Findings:
+1. Most of the rendering backlog is a wrong-page problem, not a rendering problem. 967 of the 2,398 pages waiting for a browser read do not look like course pages (profiles, research archives, events, policies). 176 University of Alberta calendar addresses were stored without their query string, so they open a blank page. 47 Massey addresses are internal template paths and 47 are AUT system pages. Rendering these spends credits for nothing; they need the right page first.
+2. Search finds pages our discovery missed, including on renamed domains (Adelaide University's new adelaideuni.edu.au). Its title match is loose, so search results must go through the existing identity check and never be admitted directly. That is the plan.
+3. The identity check rejects some right pages: "(International)" variants, "Global MBA", majors under a parent degree, and double degrees.
+4. NZ register titles ("New Zealand Certificate in X (Level n)") rarely match how providers name their pages, so NZ needs the title-plus-level rule applied to search results.
+5. Provider websites: search works well for Canada. Australia needs the directory list (now a setting, extended twice) and a preference for results whose address contains the provider's name.
+6. Projected cost at the free-plan prices (from the settings): Serper about US$1 per 1,000 searches, so the whole course-page backlog (AU 5,078, NZ 3,488, CA 50) is about US$9. ScrapingBee at about 5 credits a page; only pages that look like course pages are worth sending.
+
+Next steps proposed:
+- (a) Add Serper as an incremental second discovery pass whose results go through the identity check.
+- (b) Repair the stored addresses that lost their query string, and re-find the non-course pages, before any rendering.
+- (c) Send ScrapingBee only course-like pages, and test premium proxies on 5 refused pages before deciding on them.
+- (d) Identity-rule fixes for variants.
+- (e) Rank provider-website results by name in the address.
