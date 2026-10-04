@@ -3692,3 +3692,45 @@ Released: v2.15.182 (Coursefinder-Pilot PR #301, merged; checks and deployed rel
   - each adapter with its state (Testing — not admitting, or Admitting), pages it confirmed, pages waiting and open requests;
   - Open and "Set up an adapter for" controls, with three steps written out.
 - **Adapter view order:** "Test, then admit" (the values found with page links, the admit switch, improvement requests) comes first. The technical settings are folded away below it.
+
+### 4 Oct 2026, 22:30 AEDT — Flinders adapter set up; adapters read page text; intakes admitted only from an adapter's own reading; v2.15.183 and v2.15.184
+
+Platform Admin, 21:50: Flinders shows location and delivery under the course offerings, duration, English at one central page by course category, and start dates that could follow a central or a campus calendar. "Prepare the adapter ... Help with adapter config."
+
+Released: v2.15.183 (Coursefinder-Pilot PR #302, merged) and v2.15.184 (PR #303, merged). Main matches the live database and the live worker.
+- Migrations were applied, and each live md5 equals its file:
+  - 20261004001280 (c7d26e42df45154dedf7d7eff5d44bb7)
+  - 20261004001290 (42ed3272d62a99b0a62f0057395742e8)
+  - 20261004001300 (c30e1a1a87bc0e31d08895adf4165b44)
+- The coverage-sweep worker is v0.16.2, byte-verified: 7 files, deployed version 84.
+
+**What changed**
+- **Adapters read page text.** An adapter now holds patterns for intakes, fee, IELTS, campus, mode, duration, study level, student type, not admitting and AQF level. A "pick" setting chooses the first, last or every match.
+- **Adapter readings are marked.** Values read by the adapter (intakes_by, english_by, fee_by = adapter) and extra fields (adapter_extra) are kept apart from the general reader's values. The adapter panel lists them on pages confirmed by CRICOS code, next to the intakes held now.
+- **Admission.**
+  - Intakes are admitted only when the adapter itself read them and that adapter's admit switch is on. A new schedule, coverage-admit-intakes, runs every 10 minutes.
+  - English read by an adapter also needs the switch.
+  - The admission plan was changed with an md5 guard: two snippets, each found exactly once. The rest of the function is byte-identical to before.
+  - Tuition is still not admitted from pages.
+  - Every adapter's admit switch is off, so nothing new has been admitted.
+- **Fixes found while applying Flinders:**
+  - Preview and Apply stopped with "CPU Time exceeded". An edge call may use about 2 seconds of processor time, and a 300 KB page takes about 75 ms to read. Apply now reads pages in turn and carries on in a fresh call.
+  - A pattern written as (.|\s) backtracked on long pages. Such patterns are now refused when saved.
+  - Months are read only as printed with a capital, so "may vary" is not read as May.
+
+**Flinders adapter (saved, switched on, admission off)**
+- **Handbook pages** (CourseLoop page data): title, CRICOS code, IELTS, duration, location, mode, student type, study level, AQF level and guidance (for example "Not admitting new students from 2026"). The handbook does not give intakes.
+- **Study pages:**
+  - Each page prints a domestic block (SATAC code, CSP fee) and an international block that starts at the course's CRICOS code.
+  - The patterns read only from that CRICOS code on: delivery mode and campus, duration, annual fee (CSP and FFP amounts skipped) and start dates.
+  - Start-date formats handled: "– March – July", "March, July", "February - 12 month program June & October" and the folded "Start Dates" control.
+- **Result on 360 stored pages:**
+  - Start dates were read on 173 study pages (25 before). They agree with the intakes held on 145, differ on 22 and are new on 6.
+  - Duration was read on 227 pages, campus on 130 and fee on 150.
+- **Intake calendar:** a calendar is not needed for these courses. The study page states the international start months per course. The central key-dates and semester-dates pages parse to no periods and stay a fallback for semester-only wording.
+- **English:** comes from the approved central English policy (2 Oct), mapped by course level: 253 agree, 12 differ, 1 named. Held for a decision: double degrees 72, named in policy 68, research 53, level not covered 17. Duolingo is not parsed.
+
+Next:
+- The Platform Admin checks the Flinders readings on the adapter panel ("What it read on pages confirmed by CRICOS code"), then switches admission on or sends a request.
+- With admission on, 6 new intakes would be written. The 22 that differ go to review and are not overwritten.
+- Re-find study pages for the Flinders courses bound only to the handbook (query "{course} site:flinders.edu.au/study/courses"). Intakes and fees are only on study pages.
