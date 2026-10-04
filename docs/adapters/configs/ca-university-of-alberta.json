@@ -1,0 +1,82 @@
+{
+  "university": "University of Alberta",
+  "country": "CA",
+  "provider_id": "db436563-4650-4820-bd76-0695afcc953d",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Alberta: 16 department IELTS readings only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T21:31:39Z",
+  "config_updated_at": "2026-10-04T21:16:45Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Delivery Mode:\\s*((?:On[- ]Campus|Online|Blended|Hybrid|In[- ]Person|Distance|Off[- ]Campus)(?:\\s*(?:,|/|and|&|or)\\s*(?:On[- ]Campus|Online|Blended|Hybrid|In[- ]Person|Distance|Off[- ]Campus))*)",
+      "intakes": "(?:program|students?) (?:starts?|begins?|commences?|are admitted) (?:only )?in (?:the )?((?:September|January|May|July|Fall|Winter|Spring|Summer)(?:(?: (?:or|and) |, )(?:September|January|May|July|Fall|Winter|Spring|Summer))*)",
+      "duration": "Length of Program\\s+([^.]{5,160})",
+      "study_level": "Degree Level:\\s*(Doctoral|Master'?s|Graduate Certificate|Graduate Diploma|Undergraduate|Bachelor'?s)",
+      "ielts_overall": "(?:IELTS[^.\\d]{0,30}overall(?: band)? score of\\s*|overall band score of\\s*(?=\\d\\.\\d\\s*(?:on|in) (?:the )?(?:Academic )?IELTS))(\\d\\.\\d)"
+    },
+    "pick": {},
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Pages read are mostly www.ualberta.ca/en/graduate-programs/<degree>-<subject>.html (Graduate Programs pages): ADDITIONAL INFORMATION box gives Delivery Mode and Degree Level; \"Length of Program\" heading gives duration; English Language Requirement block gives IELTS overall where the department sets it (otherwise the central FGSR rule applies: IELTS 6.5 overall, 6.0 each band, https://www.ualberta.ca/en/graduate-studies/resources/policies-procedures/graduate-program-manual/section-5-admissions/5-8-english-language-proficiency-requirement.html). Neither graduate pages nor Faculty of Arts program guides print tuition amounts or start terms; undergraduate-programs pages render tuition only in the browser (Canadian/International toggle). No term_months set: the 2026-27 academic schedule page (calendar.ualberta.ca content.php?catoid=69&navoid=20862) is browser-rendered.",
+    "reason": "Save the University of Alberta text adapter: graduate program pages give delivery mode, degree level, length and IELTS (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T21:16:45.632312+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "66eb67d0-72ca-48cf-af5c-a12700c5f311",
+      "title": "Doctor of Philosophy Chemical and Materials Engineering",
+      "field": "intakes",
+      "reason": "January from a seminar sentence (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "a6d979ea-7d2c-4e4b-b211-a12700c5f330",
+      "title": "Master of Science Chemical and Materials Engineering",
+      "field": "intakes",
+      "reason": "January from a seminar sentence (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "daf24aa0-2718-4ced-861f-a12700c5f311",
+      "title": "Juris Doctor",
+      "field": "fee",
+      "reason": "tuition deposit, not tuition (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.ualberta.ca/en/admissions/how-to-apply/admission-requirements/language-requirements/index.html",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "6091a508-bc5a-43da-8635-12b0b4a3bfd9",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.ualberta.ca/en/admissions/how-to-apply/admission-requirements/language-requirements/index.html",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "391b9321bee28c12bf2df9e6e4a4e36d"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 6. 16 IELTS. No fee or start dates on the pages."
+  }
+}

@@ -12,7 +12,7 @@
   "admit_reason": "Massey fees and intakes, 3 wrong fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
   "config_updated_at": "2026-10-04T18:54:34Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -65,6 +65,12 @@
       "reason": "page fee is not an international annual figure (wave 3 check) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
     }
   ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [],
+    "english_proposals_waiting": []
+  },
   "results": {
     "note_5_oct": "10 intakes and 79 fees. 3 fees excluded (GDDRS, UDBRB, UBAVT)."
   }

@@ -13,7 +13,7 @@
   "admit_reason": "La Trobe international view re-read through Firecrawl: intakes 96 of 100 agree, 101 annual fees, 95 IELTS, dental fee excluded for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T20:06:19Z",
   "config_updated_at": "2026-10-04T20:01:14Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -58,6 +58,12 @@
       "reason": "86000 to be confirmed by hand (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
     }
   ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "no_values",
+    "central_pages": [],
+    "english_proposals_waiting": []
+  },
   "results": {
     "note_5_oct": "100 intakes, 100 fees, 95 IELTS from the international view. Dental fee to confirm."
   }

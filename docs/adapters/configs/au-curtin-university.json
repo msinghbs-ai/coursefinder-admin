@@ -1,0 +1,187 @@
+{
+  "university": "Curtin University",
+  "country": "AU",
+  "provider_id": "982fb12f-41ed-4358-9d1b-d7422b3089dd",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Curtin: IELTS 257, intakes 213 with 9 domestic-view pages excluded, 3 international-view fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T21:31:39Z",
+  "config_updated_at": "2026-10-04T21:13:44Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "2026 International indicative fees\\s*Indicative year 1 fee\\s*(?:A)?\\$\\s*([0-9][0-9,]{3,8})",
+      "mode": "Not all majors are offered online\\.\\s*((?:Online|On campus|Multi-modal|Blended|Mixed mode|Distance)(?:,\\s*(?:Online|On campus|Multi-modal|Blended|Mixed mode|Distance)){0,4})",
+      "campus": "units of this course are offered\\.\\s*((?:Curtin|Online|Singapore|Malaysia|Dubai|Mauritius|Colombo)[A-Za-z ,'()-]{0,120}?)(?=\\s*Intake\\b)",
+      "intakes": "and may vary by course, location, and year\\s*((?:Semester|Trimester|Research Term|Extended Term|Extended Period|Block Session|Block|Intensive Study Period|Study Period|Summer|Winter|Teaching Period|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,160}?)(?=\\s*(?:Course overview|Jump to|Entry requirements|Fees and))",
+      "duration": "if you study full-time\\.\\s*([0-9.]+ (?:years?|months?|weeks?)(?: full-time)?)",
+      "ielts_overall": "Overall band score\\s*([4-9](?:\\.[05])?)\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July",
+      "Research Term 1": "January",
+      "Research Term 2": "July"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Curtin course pages www.curtin.edu.au/study/offering/course-{ug|pg|rs|research}-... (stored mostly in the DOMESTIC view, ?segment=dom). Key information panel: Duration (\"if you study full-time. 4 years full-time\"), Attendance mode, Location, Intake (study-period names: Semester 1/2, Research Term 1/2, Trimester, Extended Term, Block Session). English: course IELTS table \"Overall band score N\" (same in both views). Fee: only where the page carries the international block \"2026 International indicative fees Indicative year 1 fee $N\" (few stored pages); domestic CSP fees are never read. term_months: Semester 1 = February, Semester 2 = July (Curtin Kalgoorlie course guide 2026 key dates, publications.curtin.edu.au/curtin-kalgoorlie-course-guide/page/2-3, orientation 10-13 Feb / 14-17 Jul 2026, 9-12 Feb 2027); Research Term 1 = 1 Jan-30 Jun, Research Term 2 = 1 Jul-31 Dec (www.curtin.edu.au/study/applying/application-deadlines/). Trimester, Extended Term and Block Session names are not mapped (months vary by year). atlas.curtin.edu.au/singapore pages are Curtin Singapore (S$ total fees) and choose.curtin.edu.au is a marketing page; the adapter does not read fees from them.",
+    "reason": "Save Curtin text adapter: Key information intakes, international indicative year 1 fee (2026), IELTS overall, duration, mode, location (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T21:13:44.448235+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "003922M",
+      "title": "Bachelor of Surveying",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "010548C",
+      "title": "Bachelor of Applied Science (Construction Management)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "038785D",
+      "title": "Bachelor of Science (Actuarial Science)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "041930G",
+      "title": "Graduate Certificate in Supply Chain Management",
+      "field": "fee",
+      "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "054627G",
+      "title": "Master of Science (Actuarial and Financial Science)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "061600D",
+      "title": "Bachelor of Science (Science)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "066674A",
+      "title": "Bachelor of Science (Actuarial Science) (Honours)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079264A",
+      "title": "Master of Management",
+      "field": "fee",
+      "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096303B",
+      "title": "Master of Science (Health Practice)",
+      "field": "fee",
+      "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096307J",
+      "title": "Graduate Diploma in Clinical Leadership",
+      "field": "fee",
+      "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "102612A",
+      "title": "Bachelor of Surveying (Honours)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107628H",
+      "title": "Master of Supply Chain Management (Professional)",
+      "field": "fee",
+      "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107665C",
+      "title": "Graduate Certificate in Computing",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "108989H",
+      "title": "Master of Science (Mathematical Sciences)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110824M",
+      "title": "Master of International Business",
+      "field": "fee",
+      "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114118E",
+      "title": "Bachelor of Science, Bachelor of Innovation",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114123H",
+      "title": "Bachelor of Science (Financial Mathematics)",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117066K",
+      "title": "Bachelor of Arts, Bachelor of Innovation",
+      "field": "intakes",
+      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.curtin.edu.au/study/applying/application-deadlines/",
+        "status": "found",
+        "read_at": "2026-10-02T09:00:18Z",
+        "evidence_id": "886af7d0-68a9-4bc0-bc2c-97a3271d431a"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "f5f0bee6-27ae-4ff9-8a6b-cd2408f3b3a8",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.curtin.edu.au/study/applying/english-language-requirements/accepted-english-qualifications/",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "589687dab14c57cdd4017f625dd85e94"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 6. 202 intakes, 3 fees, 257 IELTS held = adapter. Fees wait on the international view."
+  }
+}

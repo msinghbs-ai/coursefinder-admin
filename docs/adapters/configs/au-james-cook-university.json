@@ -12,7 +12,7 @@
   "admit_reason": "James Cook intakes 20 of 20 agree, fees 2 equal, Singapore fee excluded, IELTS held for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
   "config_updated_at": "2026-10-04T19:17:32Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -52,6 +52,27 @@
       "reason": "international view is Singapore only and the page says Singapore fees may differ (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
     }
   ],
+  "central_rules": {
+    "english_rule": "no_values",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.jcu.edu.au/policy/academic-governance/student-experience/admissions-policy-schedule-ii",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:31Z",
+        "evidence_id": "e2bd9738-76f6-4965-91ac-006c4e2bd6e9"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.jcu.edu.au/students/academic-calendars/academic-calendars-2026/Trimesters.pdf",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:30Z",
+        "evidence_id": "454a2bcf-02c5-4820-8680-6505a7721ea1"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
   "results": {
     "note_5_oct": "20 intakes and 2 fees. Diploma of Higher Education fee (Singapore) excluded. IELTS held."
   }

@@ -3877,3 +3877,55 @@ Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser us
 - Admission is on for **19** universities, not 22 (the 07:30 table has 19 rows; the live register agrees).
 - Royal Roads: **15** scholarship fees are excluded, not 16.
 - Migrations 20261005001400 and 20261005001410 are recorded in `supabase_migrations.schema_migrations` under their apply timestamps (names cf247_admit_by_field_and_exclusions and cf247_exclusions_in_coverage_admission). The md5 of each stored statement equals its file.
+
+### 5 Oct 2026, 08:35 AEDT: CF-247 Decision 254, central rules, Universities tab, wave 6
+
+**Instructions.**
+- 07:36:
+  - If no fee year is printed, use the current year.
+  - Build the central rule and associate it with universities.
+  - Show universities and courses in tables with coloured pills, as a new tab in Coverage & completeness.
+- 07:42: increase the number of universities in each wave.
+
+**1. Fee year (live).**
+- Migration 20261005001420: an adapter fee with no year on the page is held against the current year (Melbourne time).
+- Sunshine Coast fees are admitted. 28 readings are excluded: 13 from the 2024 and 2025 fee tables, 6 that are not annual, and 9 pages labelled 2026 that show 2027 table figures.
+- Western Sydney courses that held a 2027 fee also gained a 2026 row.
+
+**2. Central rules (live).**
+- Migration 20261005001430: `admin_provider_central_page` attaches a university's central English or key-dates page. The provider-facts job reads it through Firecrawl (evidence kept) and the parser makes a proposal.
+- Migrations 1440 and 1450 fixed the address check and mark attached pages as manual.
+- The parser found no values on most central English pages, so migration 20261005001460 adds `admin_provider_english_propose`. It writes the rule out from the attached page as level defaults and named courses, **as a proposal only**, approved in Layer 4 Review › Attributes. An approved rule fills only courses with no English requirement.
+- 25 central pages are attached.
+- 16 English proposals are waiting:
+  - Western Sydney, Sunshine Coast, Waikato, Lincoln, Vancouver Island;
+  - Deakin, RMIT, Swinburne, UQ, Wollongong, QUT, Curtin, Otago, Victoria University of Wellington, University of Victoria, Alberta.
+- Waikato also has a parser proposal reading "7.09". It should be rejected.
+
+**3. Coverage & completeness › Universities (v2.15.189, PR #314).**
+- One row per target university with pills for:
+  - adapter state, admitted fields and exclusions;
+  - central English rule and calendar;
+  - coverage of intakes, English and fees by source.
+- Open a university for its courses, each value with its source.
+- A Platform Admin attaches central pages from the row.
+
+**4. Wave 6 (11 universities). Admission is on for 9. 902 values were replaced with 0 errors, and 143 readings are excluded.**
+
+| University | Fields admitted | Intakes / fees / IELTS held = adapter | Held back |
+|---|---|---|---|
+| UQ | all | 316 / 312 / 316 | 3 fees |
+| Deakin | all | 144 / 189 / 185 | Domestic-view pages and site-menu months |
+| QUT | all | 140 / 122 / 138 | 3 general-reader readings |
+| Curtin | all | 202 / 3 / 257 | Fees wait on the international view |
+| RMIT | English, fees | — / 271 / 362 | Intakes: 56 pages list fewer intakes than held (decision) |
+| Swinburne | intakes, English | 212 / — / 219 | Fees: pages show 2026, the catalogue holds 2027 (decision) |
+| Wollongong | intakes, English | 208 / — / 210 | No annual fee published |
+| University of Victoria (CA) | intakes, English | 70 / — / 3 | No international fee on the pages |
+| Alberta (CA) | English | — / — / 16 | No fee or start dates on the pages |
+| Otago (NZ) | none | | Wrong bindings. Rebind 152 courses to `/courses/qualifications/<slug>` (about 160 credits, decision) and accept "(ABBR)" in the identity check |
+| Victoria University of Wellington (NZ) | none | | The site moved to wgtn.ac.nz. Website and search domain still say vuw.ac.nz (decision) |
+
+**Next.**
+- Wave 7 is scheduled for 08:54: Sydney, Monash, Adelaide, Victoria University, Tasmania, Canberra, Federation, Edith Cowan, AUT (NZ), Calgary (CA), Lethbridge (CA).
+- Wave 8 finishes the list.

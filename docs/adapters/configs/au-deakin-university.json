@@ -1,0 +1,641 @@
+{
+  "university": "Deakin University (Deakin)",
+  "country": "AU",
+  "provider_id": "c5c5d225-3d4c-4e41-8275-78eddd261073",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Deakin: fees 149 equal and 40 new, IELTS 195, intakes from each course key facts (narrower than the site-menu March, July, November held), domestic-view and menu readings excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T21:31:39Z",
+  "config_updated_at": "2026-10-04T21:14:02Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "\\$([0-9][0-9,]{3,})\\s+for 1 yr full-time AUD",
+      "campus": "Campus\\s+([A-Z][A-Za-z ()]{2,80}?)\\s+Duration\\s",
+      "intakes": "Intakes\\s+(Trimesters?\\s*[1-3](?:\\s*(?:,|and|&)\\s*[1-3]){0,2})",
+      "duration": "Duration\\s+([0-9.]+\\s+years?\\s+(?:full-time|part-time)[a-z -]{0,40}?)\\s+Intakes",
+      "ielts_overall": "IELTS overall score of ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Trimester1": "March",
+      "Trimester 1": "March",
+      "Trimester 2": "July",
+      "Trimester 3": "November",
+      "Trimesters 1": "March",
+      "Trimesters 2": "July",
+      "Trimesters 1, 2": "March July",
+      "Trimesters 1, 3": "March November",
+      "Trimesters 2, 3": "July November",
+      "Trimesters 1, 2, 3": "March July November"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Deakin course pages (www.deakin.edu.au/course/<slug>-international is the international view; slugs without -international are the domestic view). Each page has a key-facts strip: \"Campus <names> Duration <n> years full-time Intakes Trimesters 1, 2 ... Fees $45,200 for 1 yr full-time AUD\". Intakes are printed only as trimester numbers; months come from the published key dates (https://www.deakin.edu.au/study/key-dates and 2027 trimester dates https://www.deakin.edu.au/students/enrolment-and-fees/manage-your-course/handbooks/2027-handbook/2027-trimester-dates): Trimester 1 = March, Trimester 2 = July, Trimester 3 = November (2026: 2 Mar, 6 Jul, 2 Nov; 2027: 1 Mar, 5 Jul, 1 Nov). Honours, Medicine and Dietetics pages say Semester 1/2 with no published month mapping, so they are not read. Fee: only \"$X for 1 yr full-time AUD\" (international annual); graduate certificate amounts \"for 4 credit points\" (whole course) and domestic CSP amounts are not read. IELTS: \"IELTS overall score of N (with no band score less than M)\" in English language requirements.",
+    "reason": "Save Deakin University adapter reading the course page key-facts strip (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T21:14:02.165246+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "001816G",
+      "title": "Bachelor of Arts (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "002452M",
+      "title": "Bachelor of Commerce / Bachelor of Laws",
+      "field": "fee",
+      "reason": "general reader amount not verified (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006227K",
+      "title": "Bachelor of Nursing (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006239F",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006243K",
+      "title": "Master of Education (Research)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006244J",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006249D",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006253G",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006256E",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006262G",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006265D",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "016704C",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "016873G",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "016887B",
+      "title": "Study Abroad",
+      "field": "english",
+      "reason": "not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "016887B",
+      "title": "Study Abroad",
+      "field": "intakes",
+      "reason": "not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "018829G",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "018830C",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "018831B",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "018832A",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "022030A",
+      "title": "Bachelor of Psychological Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "025405F",
+      "title": "Master of Engineering",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "028769J",
+      "title": "English (ELICOS) 5-45 Weeks",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "031768F",
+      "title": "Student Exchange",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "035507F",
+      "title": "Graduate Certificate of Information Technology",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "035507F",
+      "title": "Graduate Certificate of Information Technology",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "047023E",
+      "title": "Bachelor of Environmental Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "051673C",
+      "title": "English for Academic Purposes (Nursing)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052305G",
+      "title": "Graduate Certificate of Information Systems",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052305G",
+      "title": "Graduate Certificate of Information Systems",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052823G",
+      "title": "Bachelor of Health Sciences",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "056059G",
+      "title": "Master of Dietetics",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "060188G",
+      "title": "Bachelor of Health Sciences (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "060342C",
+      "title": "Bachelor of Forensic Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "061693E",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "062176G",
+      "title": "Bachelor of Exercise and Sport Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "063354G",
+      "title": "Bachelor of Information Technology (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "063355G",
+      "title": "Bachelor of Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "065147K",
+      "title": "Bachelor of Nutrition Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "067835C",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "069124G",
+      "title": "Bachelor of Public Health and Health Promotion (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "070375M",
+      "title": "Master of Architecture (Research)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "072273A",
+      "title": "Master of Social Work (Research)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "073433D",
+      "title": "Graduate Certificate of Professional Accounting",
+      "field": "fee",
+      "reason": "whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075456C",
+      "title": "Master of Construction Management (Research)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075601K",
+      "title": "Bachelor of Health and Medical Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079320J",
+      "title": "Master of Construction Management",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079320J",
+      "title": "Master of Construction Management",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079996J",
+      "title": "Bachelor of Mechanical Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079998G",
+      "title": "Bachelor of Civil Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079999F",
+      "title": "Bachelor of Mechatronics Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "080117B",
+      "title": "Bachelor of Construction Management (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "080118A",
+      "title": "Bachelor of Design (Architecture) / Bachelor of Construction Management (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083595C",
+      "title": "English for Specific Purposes (ESP)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083987J",
+      "title": "Graduate Certificate of Writing and Literature",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083987J",
+      "title": "Graduate Certificate of Writing and Literature",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083988G",
+      "title": "Graduate Diploma of Writing and Literature",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083988G",
+      "title": "Graduate Diploma of Writing and Literature",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083989G",
+      "title": "Graduate Certificate of Communication",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083989G",
+      "title": "Graduate Certificate of Communication",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088320A",
+      "title": "Bachelor of Occupational Therapy (Honours)",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088320A",
+      "title": "Bachelor of Occupational Therapy (Honours)",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088431E",
+      "title": "Master of Teaching (Secondary)",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088431E",
+      "title": "Master of Teaching (Secondary)",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "090790G",
+      "title": "Doctor of Philosophy (PhD)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092212D",
+      "title": "Bachelor of Software Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095002A",
+      "title": "Bachelor of Environmental Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096842G",
+      "title": "Doctor of Medicine",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097569A",
+      "title": "Bachelor of Medical Imaging",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098424K",
+      "title": "Master of Surgical Research",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099423C",
+      "title": "Graduate Diploma of Psychological Science",
+      "field": "fee",
+      "reason": "general reader amount not verified (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "108877E",
+      "title": "Graduate Certificate of Business Analytics",
+      "field": "fee",
+      "reason": "whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109089C",
+      "title": "Master of Research (Business)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109271E",
+      "title": "Bachelor of Creative Arts",
+      "field": "english",
+      "reason": "not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109271E",
+      "title": "Bachelor of Creative Arts",
+      "field": "intakes",
+      "reason": "not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109275A",
+      "title": "Bachelor of Data Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110775D",
+      "title": "Graduate Certificate of Health and Medical Research",
+      "field": "fee",
+      "reason": "whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110775D",
+      "title": "Graduate Certificate of Health and Medical Research",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111440H",
+      "title": "Bachelor of Design (Architecture)/Master of Architecture",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111440H",
+      "title": "Bachelor of Design (Architecture)/Master of Architecture",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111441G",
+      "title": "Bachelor of Computer Science (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111442F",
+      "title": "Bachelor of Artificial Intelligence (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111443E",
+      "title": "Bachelor of Cyber Security (Honours)",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111443E",
+      "title": "Bachelor of Cyber Security (Honours)",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113508K",
+      "title": "Bachelor of Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113509J",
+      "title": "Master of Architecture/Master of Construction Management",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117004B",
+      "title": "Graduate Certificate of Business",
+      "field": "fee",
+      "reason": "whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117808K",
+      "title": "Bachelor of Exercise and Sport Science/Bachelor of Engineering (Honours)",
+      "field": "intakes",
+      "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118364C",
+      "title": "Master of Teaching (Secondary)",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118364C",
+      "title": "Master of Teaching (Secondary)",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118467G",
+      "title": "Bachelor of Communication and Creative Arts (Honours)",
+      "field": "english",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118467G",
+      "title": "Bachelor of Communication and Creative Arts (Honours)",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "119808E",
+      "title": "Master of Artificial Intelligence for Design and Creative Practice",
+      "field": "fee",
+      "reason": "general reader amount not verified (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121187M",
+      "title": "Graduate Certificate of Fine Arts",
+      "field": "fee",
+      "reason": "whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.deakin.edu.au/students/enrolment-and-fees/manage-your-course/handbooks/2027-handbook/2027-trimester-dates",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "26d807b1-06b6-403a-b67a-8af807093b83",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.deakin.edu.au/international-students/entry-requirements/english",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "892ecbd799d46fc5cb79ba23de043950"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 6. 144 intakes, 189 fees, 185 IELTS held = adapter. Domestic-view pages and site-menu months excluded."
+  }
+}

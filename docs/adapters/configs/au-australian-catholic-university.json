@@ -12,7 +12,7 @@
   "admit_reason": "ACU intakes 88 of 88 agree and 25 course-printed IELTS, 3 general-reader intakes excluded, fees held: domestic view stored (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T20:06:19Z",
   "config_updated_at": "2026-10-04T19:37:41Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -62,6 +62,27 @@
       "reason": "June comes from a placement note (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
     }
   ],
+  "central_rules": {
+    "english_rule": "no_values",
+    "calendar": "approved",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.acu.edu.au/study-at-acu/how-to-apply/international-students/english-language-requirements",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:29Z",
+        "evidence_id": "1bd80cd9-9aa5-47e7-9445-63d372fee096"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.acu.edu.au/study-at-acu/important-dates",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:25Z",
+        "evidence_id": "852204a5-b4b5-4602-a007-45c9dbd81b71"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
   "results": {
     "note_5_oct": "90 intakes and 25 IELTS. 3 intakes excluded. Fees wait on the international view."
   }
