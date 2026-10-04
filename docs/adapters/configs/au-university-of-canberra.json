@@ -1,0 +1,381 @@
+{
+  "university": "University of Canberra",
+  "country": "AU",
+  "provider_id": "0e1532b8-de30-4761-87fe-460684608633",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Canberra: intakes 88 of 94 agree (rows open to international students only), IELTS 97; no fee on the pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T22:27:20Z",
+  "config_updated_at": "2026-10-04T22:13:23Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "campus": "Teaching start date\\s+Domestic\\s+International\\s+20\\d\\d\\s+((?:.|\\n){0,120}?)\\s+(?:Semester|Trimester|Term|Period|Study|Research|Winter|Summer|UC College|ELICOS)",
+      "intakes": "(\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d)\\s+(?:(?:[A-Za-z]+\\s+){1,3}for domestic admissions\\s+)?Open for international admissions",
+      "duration": "Course duration\\s+([^.]{3,120})",
+      "ielts_overall": "English language requirements\\s*×\\s*(?:.|\\n){0,250}?IELTS(?:.|\\n){0,80}?(\\d\\.\\d)"
+    },
+    "pick": {
+      "campus": "first",
+      "intakes": "all",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Course pages www.canberra.edu.au/course/<UC code>/<version> (static HTML, no page JSON). Intakes: table 'Periods course is open for new admissions' (Year, Location, Teaching period, Teaching start date, Domestic, International); the adapter keeps only the start dates of rows marked 'Open for international admissions' (pick all). Research rows (Research Semester 1/2) carry no date and give no months. IELTS overall: the 'English language requirements' pop-up text (e.g. 'An IELTS Academic score of 6.5 overall, with no band score below 6.0 (or equivalent)'). Duration: 'Course duration' section. Campus (test only): location of the first row of the admissions table. Fees are NOT in the stored HTML (no dollar amounts on course pages; the Fees panel is filled in the browser); https://www.canberra.edu.au/future-students/study-at-uc/fees-and-costs/international-fees-and-costs only says to look up each course. UC College fee table https://www.canberra.edu.au/uc-college/courses/course-fees lists whole-programme fees (not read). Marketing pages /future-students/study-at-uc/about-our-courses/... show domestic-oriented 'Intake dates' and are left to the general reader. Key dates: https://www.canberra.edu.au/about-uc/key-dates/ (PDFs per year); course pages print the teaching period with its start date (2027: Semester 1 15 February, Winter Term 07 June, Semester 2 09 August).",
+    "reason": "Round 2: widen University of Canberra IELTS pattern to reach professional-course wording, add campus as a test field (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:13:23.230749+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "019936G",
+      "title": "Bachelor of Information Technology",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "019948C",
+      "title": "Non-award Program - Non Fee Paying Exchange Students",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "025533J",
+      "title": "Bachelor of Science",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "049506C",
+      "title": "Master of Nutrition and Dietetics",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052826E",
+      "title": "Master of Business Administration",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052826E",
+      "title": "Master of Business Administration",
+      "field": "fee",
+      "reason": "scholarship page bound to courses (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052826E",
+      "title": "Master of Business Administration",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "054171A",
+      "title": "Bachelor of Environmental Science",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "059330F",
+      "title": "English Language Intensive Course for Overseas Students",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074938D",
+      "title": "Master of International Development",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074938D",
+      "title": "Master of International Development",
+      "field": "fee",
+      "reason": "scholarship page bound to courses (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074938D",
+      "title": "Master of International Development",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082807D",
+      "title": "Bachelor of Landscape Design",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085113K",
+      "title": "Graduate Certificate in Business",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085981K",
+      "title": "Bachelor of Visual Arts",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088964J",
+      "title": "Master of Medical Imaging",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "090071F",
+      "title": "Diploma of Health",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095076E",
+      "title": "Bachelor of Nursing",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095566J",
+      "title": "Bachelor of Communication and Media (Corporate and Public Communication)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095567G",
+      "title": "Bachelor of Communication and Media (Journalism)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095568G",
+      "title": "Bachelor of Communication and Media (Marketing Communication)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095569F",
+      "title": "Bachelor of Communication and Media (Sports Media)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096887F",
+      "title": "Bachelor of Commerce (Accounting and Finance)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096888E",
+      "title": "Bachelor of Midwifery",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098024D",
+      "title": "Graduate Diploma in Teaching English to Speakers of Other Languages (TESOL) and Foreign Language Teaching (FLT)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098211A",
+      "title": "Master of Marketing Management",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098430A",
+      "title": "Master of Business Administration (Plus)",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098430A",
+      "title": "Master of Business Administration (Plus)",
+      "field": "fee",
+      "reason": "scholarship page bound to courses (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098430A",
+      "title": "Master of Business Administration (Plus)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098999D",
+      "title": "Bachelor of Politics and International Relations/Bachelor of Business",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099006J",
+      "title": "Bachelor of Business/Bachelor of Business Informatics",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099433A",
+      "title": "Master of Data Science",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099433A",
+      "title": "Master of Data Science",
+      "field": "fee",
+      "reason": "scholarship page bound to courses (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099433A",
+      "title": "Master of Data Science",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103873E",
+      "title": "Master of Nursing Practice (Graduate Entry)",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103874D",
+      "title": "Master of Communication",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105330J",
+      "title": "Master of Pharmacy",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "106073B",
+      "title": "Bachelor of Medical Science",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "108073H",
+      "title": "Master of Building and Construction Information Management",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "108081H",
+      "title": "Graduate Certificate in Building and Construction Information Management29",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110292A",
+      "title": "Master of Creative Industries",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110293M",
+      "title": "Graduate Diploma in Creative Industries",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113900B",
+      "title": "Bachelor of Design",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114088F",
+      "title": "Graduate Certificate in Data Science",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114239G",
+      "title": "Master of Education (Professional Practice)",
+      "field": "english",
+      "reason": "packaged-entry score or wrong lowest band (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114239G",
+      "title": "Master of Education (Professional Practice)",
+      "field": "fee",
+      "reason": "scholarship page bound to courses (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "114239G",
+      "title": "Master of Education (Professional Practice)",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116129H",
+      "title": "Bachelor of Arts",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118184G",
+      "title": "Master of Research",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118325K",
+      "title": "Bachelor of Government",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118326J",
+      "title": "Bachelor of Business",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118522E",
+      "title": "Bachelor of Communication and Media",
+      "field": "intakes",
+      "reason": "not open to international students, marketing page or not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.canberra.edu.au/about-uc/key-dates/",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:22Z",
+        "evidence_id": "87764cf0-4295-4037-8a1f-762002b2a72a"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "e92757d2-af78-40da-a9a9-fc032084f7f3",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.canberra.edu.au/future-students/entry-requirements-options/core-admission-requirements/english-language-requirements",
+        "created_at": "2026-10-04T22:28:15Z",
+        "proposal_md5": "bb2a1ac8b3f8105b2d759ae5d9dfcbf8"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 7. 94 intakes, 97 IELTS. Fees are not on the stored pages (the browser loads them)."
+  }
+}

@@ -1,0 +1,1862 @@
+{
+  "university": "Victoria University",
+  "country": "AU",
+  "provider_id": "bac82321-ded7-4e10-a71d-b18f3ae4d1c7",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Victoria University: IELTS from course pages only; domestic start dates and per-semester fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T22:27:20Z",
+  "config_updated_at": "2026-10-04T22:08:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Delivery mode\\s*:?\\s*([A-Za-z ,&-]{2,40}?)\\s+(?:Fees|Location)",
+      "campus": "\\bLocation\\s*:?\\s*([A-Za-z ,&-]{2,60}?)\\s+(?:All start dates|Applications|Course starts)",
+      "intakes": "CRICOS code\\s*:\\s*{code}(?:.|\\n){0,160}?Intakes\\s*:\\s*(\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*,\\s*\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)){0,11})",
+      "duration": "\\bDuration\\s*:?\\s*(\\d[^|]{0,60}?)\\s+(?:Delivery mode|Fees)",
+      "study_level": "Level of study:\\s*([A-Za-z -]{2,40}?)\\s+(?:ATAR|Duration|\\|)",
+      "ielts_overall": "IELTS[^.:]{0,40}?:?\\s*(?:minimum\\s+)?overall\\s+(?:score|band)?\\s*(?:of|or)?\\s*([4-9](?:\\.[05])?)(?![0-9])",
+      "not_admitting": "(We are not accepting applications at this time|Applications closed)"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "VU course pages (www.vu.edu.au/courses/<slug>) are stored in the DOMESTIC view (header \"Domestic students / Switch to international\"): fees are CSP/domestic full fee and Start dates are domestic block dates (e.g. NHCM domestic Feb/Apr/Jul 2027 vs international Feb/Jul 2027), so neither fee nor intakes are read from them. The international view lives at /courses/<slug>/international (fee \"AU$x per semester\", international start dates) and is not stored. VU Sydney/VU Brisbane pages are international views with a Key information line \"CRICOS code : x ... Intakes : 16 February, 27 July ...\" but carry their own CRICOS codes (e.g. 093391K, 103277C, 113431D, 093392J, 105070B), not the Melbourne CRICOS of the catalogue course they are bound to; the intakes pattern requires the course's own code so these give nothing. Fees on Sydney/Brisbane pages are \"AU$x per semester\" (not annual, NOT read). IELTS overall read from \"IELTS ... Overall score of x\". Extras: Level of study, Duration, Delivery mode, Location, not admitting. Central English: https://www.vu.edu.au/sites/default/files/international-english-language-requirements.pdf (UG 6.0/6.0, PG 6.5/6.0, HE diploma 6.0/5.5, VET 5.5/5.0, named higher courses); key dates: https://www.vu.edu.au/current-students/your-course/timetables-calendars/academic-calendar (VU Block Model; international intakes Semester 1 = February, Semester 2 = July)",
+    "reason": "Round 2: Intakes line must follow the course's own CRICOS code, so VU Sydney/Brisbane pages (own CRICOS codes) no longer give intakes to the Melbourne courses they are bound to (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:08:14.402548+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "002875K",
+      "title": "Master of Engineering (Research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006759D",
+      "title": "Master of Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0100454",
+      "title": "Associate Degree in Hospitality and Hotel Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0101340",
+      "title": "Graduate Diploma in Early Childhood Education",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0101340",
+      "title": "Graduate Diploma in Early Childhood Education",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0101340",
+      "title": "Graduate Diploma in Early Childhood Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "012133K",
+      "title": "Master of Business Administration",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "015074C",
+      "title": "Bachelor of Science (Honours) (Biomedical Science)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "015079J",
+      "title": "Doctor of Business Administration",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "025147G",
+      "title": "Master of Arts (Research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "040190B",
+      "title": "Bachelor of Laws",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "040195G",
+      "title": "Exchange Program (52 weeks)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "041647K",
+      "title": "Bachelor of Laws (Graduate Entry)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "042907J",
+      "title": "Master of Counselling",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "043882E",
+      "title": "Study Abroad (52 weeks)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "052707A",
+      "title": "Master of Arts (Research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "059112E",
+      "title": "General English",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "061575M",
+      "title": "Bachelor of Education (Early Childhood/Primary)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "061978C",
+      "title": "Graduate Certificate in International Community Development",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "062982K",
+      "title": "Bachelor of Nursing (Pre-Registration)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "064447F",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "066093M",
+      "title": "Graduate Diploma in Professional Accounting",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "068565A",
+      "title": "Master of Laws (by research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "068927B",
+      "title": "Bachelor of Arts",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "069018J",
+      "title": "Master of Nursing (by Research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "069742C",
+      "title": "Master of Business (Research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "071137F",
+      "title": "Bachelor of Psychological Studies (Honours)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "071141K",
+      "title": "Bachelor of Psychological Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "071581G",
+      "title": "Bachelor of Education (P-12)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "071997F",
+      "title": "Bachelor of Information Technology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074356D",
+      "title": "Bachelor of Youth Work",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074358B",
+      "title": "Bachelor of Sport Coaching",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074359A",
+      "title": "Diploma of Education Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075216G",
+      "title": "Graduate Certificate in Performance-based Building and Fire Codes",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075219E",
+      "title": "Bachelor of Psychological Studies / Bachelor of Business",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075551D",
+      "title": "Master of Science (Research)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075552C",
+      "title": "Diploma of Business (Enterprise)",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075552C",
+      "title": "Diploma of Business (Enterprise)",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075552C",
+      "title": "Diploma of Business (Enterprise)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075687K",
+      "title": "Bachelor of Business (Accounting)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075711D",
+      "title": "Bachelor of Business (International Trade)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "075715M",
+      "title": "Bachelor of Business (Marketing)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077582C",
+      "title": "Master of Clinical Exercise Science and Rehabilitation",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077776D",
+      "title": "Diploma of Information Technology",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077776D",
+      "title": "Diploma of Information Technology",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077776D",
+      "title": "Diploma of Information Technology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077996C",
+      "title": "Bachelor of Psychology (Honours)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077997B",
+      "title": "Bachelor of Social Work",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "077998A",
+      "title": "Bachelor of Music",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "080229E",
+      "title": "Bachelor of Nursing",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082777E",
+      "title": "English for Academic Purposes",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082778D",
+      "title": "English for FCE Preparation",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082779C",
+      "title": "English for BULATS Preparation",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083288C",
+      "title": "Graduate Diploma in Business (Accounting)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083289B",
+      "title": "Master of Enterprise Resource Planning Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083290J",
+      "title": "Master of Business (Supply Chain Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083291G",
+      "title": "Master of Business (Marketing)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083292G",
+      "title": "Master of Business (Management)",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083292G",
+      "title": "Master of Business (Management)",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083292G",
+      "title": "Master of Business (Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083294E",
+      "title": "Master of Business (Industrial Relations/Human Resource Management)",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083294E",
+      "title": "Master of Business (Industrial Relations/Human Resource Management)",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083294E",
+      "title": "Master of Business (Industrial Relations/Human Resource Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083296C",
+      "title": "Master of Business (Enterprise Resource Planning Systems)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083297B",
+      "title": "Master of Business Analytics (Professional)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083298A",
+      "title": "Master of Business (Accounting)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083299M",
+      "title": "Master of Business Administration (Professional)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083300A",
+      "title": "Graduate Certificate in Digital Media",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083302K",
+      "title": "Master of Digital Media",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083305G",
+      "title": "Graduate Diploma in Digital Media",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083306F",
+      "title": "Master of Project Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083307E",
+      "title": "Master of Applied Information Technology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083308D",
+      "title": "Graduate Certificate in Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083309C",
+      "title": "Master of Teaching (Primary Education)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083310K",
+      "title": "Master of Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083311J",
+      "title": "Graduate Diploma in Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083312G",
+      "title": "Master of International Community Development",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084100A",
+      "title": "Bachelor of Commerce",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084102K",
+      "title": "Graduate Certificate in Enterprise and Resource Planning Systems",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084103J",
+      "title": "Graduate Diploma in Business (Marketing)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084104G",
+      "title": "Graduate Diploma in  Business (Industrial Relations and Human Resource Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084105G",
+      "title": "Graduate Diploma in Business (Finance)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084106F",
+      "title": "Master of Supply Chain Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084107E",
+      "title": "Master of Marketing",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084108D",
+      "title": "Master of Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084110K",
+      "title": "Master of Business Analytics",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084111J",
+      "title": "Master of Teaching (Secondary Education)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084113G",
+      "title": "Doctor of Philosophy (Medical Science)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084114F",
+      "title": "Doctor of Philosophy (Food Processing Technology)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084115E",
+      "title": "Doctor of Philosophy (Electrical Engineering)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084116D",
+      "title": "Doctor of Philosophy (General Nursing)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084117C",
+      "title": "Doctor of Philosophy (Human Movement)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084118B",
+      "title": "Doctor of Philosophy (Sports and Recreation)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084119A",
+      "title": "Doctor of Philosophy (Economics)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084120G",
+      "title": "Doctor of Philosophy (Psychology)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084121G",
+      "title": "Doctor of Philosophy (Society and Culture)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084122F",
+      "title": "Doctor of Philosophy (Business and Commercial Law)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084123E",
+      "title": "Doctor of Philosophy (Database Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084124D",
+      "title": "Doctor of Philosophy (Education Studies)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084125C",
+      "title": "Doctor of Philosophy (Business and Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084126B",
+      "title": "Doctor of Philosophy (Creative Arts)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084833G",
+      "title": "Bachelor of Exercise Science (Sport Practice)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084834G",
+      "title": "Bachelor of Exercise Science (Clinical Practice)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084865M",
+      "title": "Graduate Diploma in Business Analytics",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084867J",
+      "title": "Graduate Diploma in Business (Supply Chain Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084868G",
+      "title": "Graduate Diploma in Business (Enterprise Resource Planning Systems)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084869G",
+      "title": "Bachelor of Biomedicine",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084871B",
+      "title": "Graduate Diploma in Project Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084872A",
+      "title": "Bachelor of Engineering (Honours) (Architectural Engineering)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084873M",
+      "title": "Bachelor of Engineering (Honours) (Civil Engineering)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084874K",
+      "title": "Bachelor of Engineering (Honours) (Electrical and Electronic Engineering)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084875J",
+      "title": "Bachelor of Engineering (Honours) (Mechanical Engineering)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084876G",
+      "title": "Master of Engineering",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084877G",
+      "title": "Bachelor of Sport Science (Human Movement)/Bachelor of Psychological Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084878F",
+      "title": "Bachelor of Sport Science (Human Movement)/Bachelor of Sport Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084880A",
+      "title": "Bachelor of Sport Management/Bachelor of Business",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "084881M",
+      "title": "Bachelor of Sport Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085236K",
+      "title": "Bachelor of Business (Financial Risk Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085237J",
+      "title": "Bachelor of Business (International Hospitality Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085260K",
+      "title": "Graduate Diploma in International Community Development",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085318G",
+      "title": "Bachelor of Business (International Tourism Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085319G",
+      "title": "Master of Applied Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "087658E",
+      "title": "Graduate Diploma in Sport Business and Integrity",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "087659D",
+      "title": "Master of Sport Business and Integrity",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "087895C",
+      "title": "Bachelor of Laws (Honours)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088580C",
+      "title": "Doctor of Philosophy (Integrated)(Business and Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088581B",
+      "title": "Doctor of Philosophy (Integrated)(Creative Arts)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088582A",
+      "title": "Doctor of Philosophy (Integrated)(Education Studies)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088583M",
+      "title": "Doctor of Philosophy (Integrated)(Economics)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088584K",
+      "title": "Doctor of Philosophy (Integrated)(Food Processing Technology)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088585J",
+      "title": "Doctor of Philosophy (Integrated)(Electrical Engineering)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088586G",
+      "title": "Doctor of Philosophy (Integrated)(Human Movement)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088587G",
+      "title": "Doctor of Philosophy (Integrated)(Database Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088588F",
+      "title": "Doctor of Philosophy (Integrated)(Business and Commercial Law)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088590A",
+      "title": "Doctor of Philosophy (Integrated)(Medical Science)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088591M",
+      "title": "Doctor of Philosophy (Integrated)(General Nursing)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088592K",
+      "title": "Doctor of Philosophy (Integrated)(Psychology)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088593J",
+      "title": "Doctor of Philosophy (Integrated)(Sport and Recreation)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088594G",
+      "title": "Doctor of Philosophy (Integrated)(Society and Culture)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088595G",
+      "title": "Doctor of Philosophy (Integrated)(Organic Chemistry)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088596F",
+      "title": "Master of Research Practice",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088597E",
+      "title": "Bachelor of Building Surveying",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088599C",
+      "title": "Bachelor of Criminal Justice",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088601C",
+      "title": "Bachelor of Physical Education and Sport Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088602B",
+      "title": "Diploma of Engineering",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088604M",
+      "title": "Diploma of Educational Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088781E",
+      "title": "Bachelor of Science (Osteopathy)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088782D",
+      "title": "Bachelor of Community Development",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "088976E",
+      "title": "Bachelor of Applied Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089543M",
+      "title": "Master of Public Health (Global Nutrition and Active Living)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089544K",
+      "title": "Graduate Diploma in Public Health (Global Nutrition and Active Living)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089545J",
+      "title": "Diploma of Applied Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089546G",
+      "title": "Diploma of Building (Surveying)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089655C",
+      "title": "Diploma of Youth Work",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089849D",
+      "title": "Diploma of Community Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "090621C",
+      "title": "Master of Health Science (Osteopathy)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "091513K",
+      "title": "Graduate Diploma in Business Administration",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092066J",
+      "title": "Master of Business (Tourism and Destination Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092067G",
+      "title": "Master of Tourism and Destination Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092068G",
+      "title": "Graduate Diploma in Business (Tourism and Destination Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092151A",
+      "title": "Diploma of Criminal Justice Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092152M",
+      "title": "Diploma of Health Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092153K",
+      "title": "Diploma of Music Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092154J",
+      "title": "Diploma of Paramedic Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092155G",
+      "title": "Diploma of Screen Media",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092156G",
+      "title": "Bachelor of Health Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092157F",
+      "title": "Bachelor of Screen Media",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092158E",
+      "title": "Bachelor of Dermal Sciences",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092160M",
+      "title": "Bachelor of Paramedicine",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092489G",
+      "title": "Graduate Diploma in Business (Management)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092490D",
+      "title": "Graduate Certificate in Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092491C",
+      "title": "Graduate Certificate in Business Administration",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092493A",
+      "title": "Graduate Certificate in Supply Chain Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092496J",
+      "title": "Graduate Certificate in Marketing",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092497G",
+      "title": "Graduate Certificate in Tourism and Destination Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092498G",
+      "title": "Graduate Certificate in Business Analytics",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092499F",
+      "title": "Bachelor of Biomedical Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092844E",
+      "title": "Diploma of Arts",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092944A",
+      "title": "Bachelor of Business",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "093162A",
+      "title": "Bachelor of Educational Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "093163M",
+      "title": "Associate Degree in Educational Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "093862F",
+      "title": "Bachelor of Education Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "093863E",
+      "title": "Associate Degree in Education Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "094345G",
+      "title": "Master of Change, Innovation and Leadership",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "094346G",
+      "title": "Graduate Certificate in Organisational Change Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095617C",
+      "title": "Diploma of Hospitality Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095618B",
+      "title": "Advanced Diploma of Hospitality Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095830J",
+      "title": "Bachelor of Criminal Justice and Psychological Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096078F",
+      "title": "International Foundations at VU",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096078F",
+      "title": "International Foundations at VU",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096079E",
+      "title": "International Foundations at VU (Extended)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096290B",
+      "title": "Graduate Diploma in Migration Law",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096290B",
+      "title": "Graduate Diploma in Migration Law",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096291A",
+      "title": "Master of Business (Enterprise Resource Planning Systems)/Master of Business Analytics",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096292M",
+      "title": "Master of Business (Enterprise Resource Planning Systems)/ Master of Supply Chain Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096293K",
+      "title": "Diploma of Business Studies",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096293K",
+      "title": "Diploma of Business Studies",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096293K",
+      "title": "Diploma of Business Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096481F",
+      "title": "Bachelor of Biomedical and Exercise Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096482E",
+      "title": "Bachelor of Human Nutrition",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096483D",
+      "title": "Diploma of Human Nutrition",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096484C",
+      "title": "Bachelor of Building Design",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096485B",
+      "title": "Bachelor of Sport Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096486A",
+      "title": "Diploma of Information Technology Studies",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096486A",
+      "title": "Diploma of Information Technology Studies",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096486A",
+      "title": "Diploma of Information Technology Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096487M",
+      "title": "Bachelor of Construction Management (Honours)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096590A",
+      "title": "Master of Business (Accounting)/Master of Finance",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096869G",
+      "title": "Bachelor of Early Childhood Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096870D",
+      "title": "Bachelor of Information Technology (Professional)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "096958G",
+      "title": "Bachelor of Laws (Honours) (Graduate Entry)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097014C",
+      "title": "Diploma of Commerce Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097015B",
+      "title": "Diploma of Biomedical Exercise Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097016A",
+      "title": "Diploma of Biomedical Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097017M",
+      "title": "Diploma of Dermal Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097018K",
+      "title": "Diploma of Sport Science Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097019J",
+      "title": "Diploma of Sport Management Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097899E",
+      "title": "Diploma of Building Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097900F",
+      "title": "Diploma of Engineering Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097901E",
+      "title": "Diploma of Criminal Justice and Psychological Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099052C",
+      "title": "Doctor of Philosophy (Integrated)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099053B",
+      "title": "Diploma of Osteopathic Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099054A",
+      "title": "Diploma of Physical Education and Sport Science Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099055M",
+      "title": "Bachelor of Outdoor Leadership",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099056K",
+      "title": "Diploma of Outdoor Leadership",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099077E",
+      "title": "Master of Applied Research",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099078D",
+      "title": "Master of Applied Research",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099079C",
+      "title": "Master of Research",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099080K",
+      "title": "Master of Research",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099081J",
+      "title": "Master of Research Practice",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099082G",
+      "title": "Master of Research Practice",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "102415F",
+      "title": "Bachelor of Criminology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "102416E",
+      "title": "Bachelor of Laws/Bachelor of Criminology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "102921K",
+      "title": "Bachelor of Criminology/Bachelor of Psychological Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103252A",
+      "title": "Master of Professional Psychology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103253M",
+      "title": "Master of Business Administration (Global)",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103253M",
+      "title": "Master of Business Administration (Global)",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103253M",
+      "title": "Master of Business Administration (Global)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103254K",
+      "title": "Master of Professional Accounting",
+      "field": "english",
+      "reason": "Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103254K",
+      "title": "Master of Professional Accounting",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103254K",
+      "title": "Master of Professional Accounting",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103256H",
+      "title": "Master of Business Analytics",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103257G",
+      "title": "Master of Enterprise Resource Planning",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103258F",
+      "title": "Graduate Diploma in Business",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103292D",
+      "title": "Graduate Diploma in Cyber Security",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103438B",
+      "title": "Master of Sport Business",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103439A",
+      "title": "Graduate Certificate in Sport Business",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103517C",
+      "title": "Bachelor of Science (Osteopathy)/Master of Health Science (Osteopathy)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103518B",
+      "title": "Master of Human Resource Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103519A",
+      "title": "Master of Marketing",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103520H",
+      "title": "Master of Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103521G",
+      "title": "Master of Supply Chain Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103522F",
+      "title": "Master of Tourism Hospitality and Events Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "103891C",
+      "title": "Bachelor of Cyber Security",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105066J",
+      "title": "Graduate Certificate in Cyber Security",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105139H",
+      "title": "Bachelor of Early Childhood Education and Leadership",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105140D",
+      "title": "Graduate Certificate in Information Technology Project Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105141C",
+      "title": "Graduate Certificate in Artificial Intelligence",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105376F",
+      "title": "Bachelor of Midwifery/Bachelor of Nursing",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105912J",
+      "title": "Undergraduate Certificate in Early Childhood Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105913H",
+      "title": "Undergraduate Certificate in Entrepreneurial Mindset",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107822F",
+      "title": "Bachelor of Laws(Honours)/Bachelor of Criminology",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107823E",
+      "title": "Master of Global Public Health",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107824D",
+      "title": "Graduate Diploma in Global Public Health",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107825C",
+      "title": "Graduate Certificate in Global Public Health",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107915A",
+      "title": "Master of Applied Psychology (Community Psychology)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "108667D",
+      "title": "Bachelor of Data Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109628C",
+      "title": "Certificate IV in Kitchen Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109765E",
+      "title": "Certificate III in Commercial Cookery",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111080E",
+      "title": "Bachelor of Accounting",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111132J",
+      "title": "Diploma of Building and Construction (Building)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111133H",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111134G",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111134G",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "111750E",
+      "title": "Graduate Certificate in Early Childhood Education",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113243H",
+      "title": "Diploma of Beauty Therapy",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113244G",
+      "title": "Diploma of Hospitality Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113245F",
+      "title": "Advanced Diploma of Hospitality Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113430E",
+      "title": "Master of Applied Psychology (Clinical Psychology)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "113573A",
+      "title": "Graduate Certificate in TESOL",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115011H",
+      "title": "OSCE Preparation Program for Nurses",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115011H",
+      "title": "OSCE Preparation Program for Nurses",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115012G",
+      "title": "Bachelor of Science (Honours)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116632D",
+      "title": "Master of Construction Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116633C",
+      "title": "Graduate Certificate in Construction Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116634B",
+      "title": "Graduate Diploma in Construction Management",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117293K",
+      "title": "Bachelor of Architectural Design",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117806A",
+      "title": "Bachelor of Exercise and Sport Science",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117854D",
+      "title": "Diploma of Cyber Security",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118572F",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "domestic, per-semester or short-course fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118572F",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "119224G",
+      "title": "Bachelor of Applied Music",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "119225F",
+      "title": "Diploma of Applied Music",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "119575F",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "120237C",
+      "title": "Graduate Diploma in Educational Studies",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121412G",
+      "title": "Master of Artificial Intelligence",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121413F",
+      "title": "Bachelor of Science (Osteopathic Studies)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121414E",
+      "title": "Master of Education (Early Childhood Teaching)",
+      "field": "intakes",
+      "reason": "domestic start dates or a Sydney/Brisbane course bound to a Melbourne course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.vu.edu.au/current-students/your-course/timetables-calendars/academic-calendar",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:17Z",
+        "evidence_id": "6f6b21cf-afc8-4cc0-a804-4c32fda133db"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "47c664c1-3254-4e16-93d3-b0d3c134359a",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.vu.edu.au/sites/default/files/international-english-language-requirements.pdf",
+        "created_at": "2026-10-04T22:28:15Z",
+        "proposal_md5": "f035312fc383aaf3c91cfcdcb4b8f318"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 7. 7 IELTS. Domestic-view pages; per-semester fees (decision)."
+  }
+}
