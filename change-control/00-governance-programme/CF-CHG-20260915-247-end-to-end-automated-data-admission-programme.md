@@ -3485,3 +3485,24 @@ Decisions put to the Platform Admin (none actioned): (1) OpenRouter top-up to US
 Open items logged, not actioned: `scholarship-nationality` times out 8/14 runs (needs a batch-size setting); a UTS news story admitted as a scholarship ("Tanisha's success…"); 509 AU provider pages refused as "not a university" (rule right for scholarships, wrong for course pages).
 
 Nothing deployed this entry. Main stays at v2.15.176 / package 0.1.103.
+
+### 4 Oct 2026, 14:20 AEDT — Decision 252: one admission plan and toolset; v2.15.177 released
+
+Platform Admin, 13:37: keep OpenRouter uncapped by the platform (collect logs, analyse, top up when required); notify on the UI for the layer that hits a toolset time-out or limit; test the Serper and ScrapingBee trial keys first, in all countries, not only Australia; take the rest of the recommendations and record a decision for each step; plan incremental updates, never overwrite data from scratch, keep iterations recorded and inform of infrastructure limits; UI control of every variable.
+
+Done (verified against the live project):
+- Decision 252 recorded in the design reference, with a decision per step (AI, find the page, read the page, scholarship pages, tuition, jobs, go-live) and the standing rules: notices not silent stops; incremental, never from scratch; nothing hard-coded the Platform Admin cannot change; trials record, they do not admit.
+- OpenRouter set to **observe only**: md5-guarded patches to `layer3_fact_claim_service`, `layer3_dispatch_headroom_service`, `layer3_route_credit_floor_service`; the routing worker's fixed US$5 floor replaced by `svc_layer3_credit_policy()`. One switch on Models & services returns it to "stop at limits".
+- Notices on Layers 1–4, worked out from existing logs (no new scheduled job). Live at release: `scholarship-nationality` hit the database time limit 10 times in 24 h; scholarship Firecrawl share 2,974 of 3,000.
+- Models & services › Toolsets and limits: toolset register with every threshold and look-back as a settings row; OpenRouter balance, spend today by task and 14 days of spend.
+- Serper and ScrapingBee registered **switched off**; `toolset-trial` worker (v1); trials sample the real backlog per country and record outcome and credits, with a cost projection. Backlog today: course pages AU 5,078 / NZ 3,488 / CA 49; providers with no website AU 600 / NZ 6 / CA 31; pages needing a browser AU 1,185 / NZ 1,004 / CA 209. Rolled-back test of start → lease → record → close → results → notice passed.
+- Scholarship Firecrawl cap raised 3,000 → 6,000 (logged, reason Decision 252).
+- Migrations 20261004000600–20261004000800 (12 files): live `md5(statements[1])` equals every file. The trials change was applied in pieces because the migration tool cancelled the larger statements without a prompt; the pieces are recorded one file each.
+- Edge functions `layer3-model-routing` v10 and `toolset-trial` v1 deployed via the workflow, verified byte-for-byte by an independent check. Routing worker calls after deploy return 200.
+- Release v2.15.177 / package 0.1.104, PR #295 merged; full local suite shows no new failures beyond the env-only navigation audit.
+
+Waiting on the Platform Admin:
+- Save the Serper and ScrapingBee trial keys on Platform settings › Environment & integrations, then start the trials on Models & services › Toolsets and limits.
+- The OpenRouter key has its own weekly limit set at OpenRouter (it refused 568 calls, 29 Sep–2 Oct). CourseFinder cannot change it; raise or clear it there if Layer 3 should never be stopped.
+
+Next: read the trial results by country; then wire the chosen tools into the normal identity and admission checks as an incremental pass; tuition benchmark; job consolidation (pause duplicates, retire after 7 clean days); fix `scholarship-nationality` with a batch-size setting; GO/NO-GO date set at the trial review.
