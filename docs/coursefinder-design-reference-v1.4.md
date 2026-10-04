@@ -1464,8 +1464,25 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 253 — Firecrawl only, by use case, for universities that enrol international students
+**Status:** Current (4 October 2026, migrations 20261004001200–20261004001250, worker coverage-sweep v0.15.1, release v2.15.180, Pilot PR #299) · **Recorded in:** this reference · **Amends:** Decision 252 (Serper and ScrapingBee are no longer used) · **Source:** Platform Admin, 4 Oct 2026 15:51
+- **One service.** Firecrawl (Growth plan, 500,000 credits a month) is used for search, page reading and site maps. Serper and ScrapingBee keys stay saved but are not used.
+- **Target universities only.** A rule of settings picks the targets: countries, a name pattern, names left out, the least number of active courses per country (AU 100, NZ 100, CA 30) and the international-student registers (CRICOS, NZQA, IRCC DLI). The Platform Admin can add or take out any provider with a reason. A setting (on) keeps every Firecrawl call of the coverage worker to the targets. On 4 Oct this gave 57 targets: AU 34, NZ 8, CA 15.
+- **By use case, each with its own settings and credit allowance.** A run is started by the Platform Admin with a reason, carries on every minute and stops at its allowance or at the plan's reserve.
+  - **Read pages:** course-like pages that need a browser or refused a plain read. Research archives, profiles and PDFs are skipped.
+  - **Find pages:** a Firecrawl search on the university's own site for courses without a confirmed page.
+  - **Pages found or read go through the existing identity check and approved admission paths.** Nothing new is admitted by a run.
+- **University adapters, set in the UI.** Each adapter is one university's own settings:
+  - patterns taken off page titles and catalogue titles;
+  - where the page keeps its data as JSON (a script id and a path for each field);
+  - where each field is on the page (a heading pattern).
+  - An adapter is previewed on stored pages (no credits), then applied. It is also used by the reader, so handbooks that keep their data in the page (CourseLoop: Flinders, Macquarie, Murdoch) are read from a plain fetch with no Firecrawl credits.
+  - A page an adapter confirms gets the identity basis adapter_code or adapter_title. **No country admission rule allows these yet. Allowing them is a separate Platform Admin decision.**
+- **Report for Firecrawl support.** Every Firecrawl call made by a run is logged: the request, HTTP status, error, scrape id, credits, proxy used and the page's own status. The Firecrawl panel shows the report and copies or downloads it as Markdown.
+- **The platform's allowance follows Firecrawl's own balance.** It was still set to the old 100,000 plan and would have stopped all Firecrawl work at about 86,000 credits used this month.
+
 ### Decision 252 — One admission plan and toolset: observe, notify, trial before use, never overwrite
-**Status:** Current (4 October 2026, migrations 20261004000600–20261004000900, workers layer3-model-routing v10 and toolset-runner v1, releases v2.15.177–v2.15.178; amended 14:26) · **Recorded in:** this reference · **Extends:** Decisions 221, 251 · **Source:** Platform Admin, 4 Oct 2026 13:37, on the failure review of 12:39
+**Status:** Current (4 October 2026, migrations 20261004000600–20261004000900, workers layer3-model-routing v10 and toolset-runner v1, releases v2.15.177–v2.15.178; amended 14:26); **amended by Decision 253:** Firecrawl only, Serper and ScrapingBee not used · **Recorded in:** this reference · **Extends:** Decisions 221, 251 · **Source:** Platform Admin, 4 Oct 2026 13:37, on the failure review of 12:39
 - **This is the admission plan.** Every attribute goes through one pipeline — register, find the page, identify it, read and admit, AI check, person — with one second strategy under each stage. Layers are not re-planned per field; a new country or attribute is a new row of settings and sources, not a new design.
 - **Decisions by step** (each recorded and changeable only by the Platform Admin with a reason):
 
