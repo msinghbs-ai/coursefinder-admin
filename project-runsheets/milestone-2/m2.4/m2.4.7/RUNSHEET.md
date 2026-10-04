@@ -3713,3 +3713,46 @@ Next:
 - The Platform Admin checks the Flinders readings on the adapter panel ("What it read on pages confirmed by CRICOS code"), then switches admission on or sends a request.
 - With admission on, 6 new intakes would be written. The 22 that differ go to review and are not overwritten.
 - Re-find study pages for the Flinders courses bound only to the handbook (query "{course} site:flinders.edu.au/study/courses"). Intakes and fees are only on study pages.
+
+### 4 Oct 2026, 23:30 AEDT — Flinders adapter admitting; adapter readings replace held values; better pages; next step per university; v2.15.185
+
+Platform Admin, 22:43:
+1. Yes, admit from the Flinders adapter.
+2. "adapter is exact auto read and can overwrite all except manual ones".
+3. Yes, search with Firecrawl.
+
+Also: learn from the adapter exercise, evaluate the pending universities and courses for data admission, and show successful adapters collapsed, with each line stating whether it is enabled.
+
+Released: v2.15.185 (Coursefinder-Pilot PR #304) and PR #305. Both merged, and the checks and deployed release check are green. No worker change; the coverage-sweep worker stays at v0.16.2. Migrations were applied, and each live md5 equals its file:
+- 20261004001310 (e7662f6dfa7c3aefe91410d46c19b9b7)
+- 20261004001320 (b1a851aa4f9053af93f873318f7f2c1d)
+- 20261004001330 (cd8eb755a26ee33f4e77d7bc166c5569)
+
+**1. Flinders admitting.** The admit switch was turned on with the reason logged.
+
+**2. Adapter readings replace held values.**
+- When an adapter is enabled and admitting, what it reads itself replaces held intakes and IELTS scores. Intakes not on the page are withdrawn.
+- Values entered or locked by hand are never changed: manual locks, and intakes with no source.
+- Each change is logged in pipeline.adapter_overwrite_changes, and pending review items for the same field are closed as superseded. This runs on the schedule adapter-overwrite (every 10 minutes).
+- Flinders: 28 courses changed (22 replaced, 6 new). All 173 courses whose start dates the adapter read now match their page.
+
+**3. Better pages with Firecrawl.**
+- The run searched "{course} site:flinders.edu.au/study/courses" for 194 Flinders courses on handbook or other pages: 386 credits, with 140 found on the Flinders site.
+- Only a result matching the study-page pattern replaces a page. A link entered by hand is never replaced.
+- Lesson: double degrees, combined and discontinued courses have no study page of their own, so search returned a related page. The identity check refused 28 of them. Migration 1330 now undoes a better page the identity check refuses, binding and reading the earlier page again (schedule better-page-revert, every 5 minutes). Values admitted from the earlier page were never removed. 3 better pages are confirmed so far and 27 are waiting to be read.
+
+**4. Evaluation of the target universities.**
+- The rules learnt from Flinders are now settings (Firecrawl, Adapter evaluation):
+  - no page for 30% or more of courses: find pages first;
+  - unreadable pages for 20% or more: an adapter for the page data;
+  - start dates or English on under 50% of confirmed pages: an adapter with patterns.
+- Result:
+  - Find pages first (26): Sydney, UBC, Alberta, Monash, Curtin, Auckland, VUW, Otago, Massey, Waikato, Victoria University, UVic, Lethbridge, Swinburne, Calgary, UTas, Lincoln, Adelaide, Notre Dame, Federation, UNBC, Canberra, Athabasca, MacEwan, Fraser Valley, Kwantlen.
+  - Adapter for start dates (12): ANU, Melbourne, UTS, Murdoch, La Trobe, SFU, Bond, Griffith, JCU, CDU, CQU, Mount Royal.
+  - Adapter for English (7): Western Sydney, Canterbury, Sunshine Coast, ACU, Thompson Rivers, Vancouver Island, Royal Roads.
+  - Adapter for page data (2): Macquarie, UWA.
+  - Admitted as it is (9): RMIT, Wollongong, AUT, QUT, ECU, Southern Cross, UNE, UQ, Deakin.
+  - Admitting: Flinders.
+- UI: admitting adapters show as one collapsed line each (adapter enabled or disabled, admission on or off), which expands to work on the adapter. The table "What each university needs next" opens an adapter from its row.
+
+Next: Platform Admin to choose the next adapters from the evaluation. Suggested: ANU, Melbourne and UTS (start dates), and Macquarie and UWA (page data). Then Find pages for the 26 universities that need pages.
