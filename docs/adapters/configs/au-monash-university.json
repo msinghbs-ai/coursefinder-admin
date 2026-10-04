@@ -1,0 +1,162 @@
+{
+  "university": "Monash University",
+  "country": "AU",
+  "provider_id": "543b87b8-f0dd-4bc7-80d6-76252cfaabec",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Monash: intakes 269 of 273 agree, fees 240 equal and 22 new (2027 per 48 credit points), IELTS 260 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T22:27:20Z",
+  "config_updated_at": "2026-10-04T22:15:26Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International fee\\s*:?\\s*(?:Fees are per 48 credit points(?:.|\\n){0,120}?fees for 20\\d\\d are:?|(?:.|\\n){0,250}?equivalent fee per 48 credit points(?:.|\\n){0,120}?would be)\\s*A?\\$\\s?([0-9][0-9,]{3,})",
+      "campus": "Location\\s+((?:.|\\n){1,200}?)\\s+Duration",
+      "intakes": "(?:Start dates?|Intakes)\\s*:?[\\s​]+((?:This course commences|First|Second|Semester|Summer|Winter|Trimester|Term|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,200}?)\\s+(?:Qualification|Fees|Course Handbook|Study area)",
+      "duration": "Duration\\s+((?:.|\\n){1,160}?)\\s+Start dates?",
+      "ielts_overall": "IELTS \\(Academic\\)\\s*:?\\s*([4-9](?:\\.[05])?)\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Monash course pages www.monash.edu/study/course/<CODE>?international=true (international view). Course Details block: \"Location ... Duration ... Start date First semester (February) and Second semester (July) Qualification\"; Monash College pages print \"Intakes February, June and October Study area\". Fee: \"International fee: Fees are per 48 credit points (a standard full-time year). The fees for 2027 are: A$NN,NNN\"; 24 credit point courses print a course total then \"The equivalent fee per 48 credit points ... would be A$NN,NNN\" (the annual figure is read, never the total). Domestic \"Full fee\"/CSP blocks are not read. IELTS: \"IELTS (Academic) : 6.5 Overall\" (graduate) or the English tests table (undergraduate). No term_months: course pages print the month next to each semester and some differ (M6012 Second Semester = June). Handbook pages (handbook.monash.edu, pubs/*handbooks) carry no international fee or intakes. Central English: https://www.monash.edu/admissions/entry-requirements/english-language (IELTS 6.5, no band below 6.0; some courses higher). Key dates: https://www.monash.edu/study-abroad/inbound/apply/key-dates",
+    "reason": "Monash adapter round 3: drop term_months (M6012 prints Second Semester in June) (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:15:26.525265+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "001722B",
+      "title": "Bachelor of Engineering (Honours)",
+      "field": "intakes",
+      "reason": "page lists a June/July mix or a specialisation not offered in July (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0100729",
+      "title": "Master of Philosophy",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0101139",
+      "title": "Master of Educational Leadership",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0101139",
+      "title": "Master of Educational Leadership",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "089230F",
+      "title": "Master of Philosophy",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "090746A",
+      "title": "Master of Social Work",
+      "field": "intakes",
+      "reason": "page lists a June/July mix or a specialisation not offered in July (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107728D",
+      "title": "Graduate Certificate of Food Science and Agribusiness",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "109385F",
+      "title": "Graduate Certificate of Green Chemistry and Sustainable Technologies",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "110786A",
+      "title": "Master of Philosophy (Monash - Southeast)",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117708C",
+      "title": "Monash Advanced Preparation Program",
+      "field": "fee",
+      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121116D",
+      "title": "Bachelor of Education (Honours) in Early Childhood and Primary Education",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121121G",
+      "title": "Bachelor of Education (Honours) in Secondary Education and Bachelor of Arts",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121130F",
+      "title": "Bachelor of Education (Honours) in Primary and Secondary Inclusive and Special Education",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121164G",
+      "title": "Master of Teaching in Secondary Education",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121165F",
+      "title": "Bachelor of Education (Honours) in Primary Education",
+      "field": "intakes",
+      "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.monash.edu/study-abroad/inbound/apply/key-dates",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:13Z",
+        "evidence_id": "9f18a1fe-626b-4dc2-b087-bab0d6ae3fbe"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "262bad40-48bb-4bf4-8e48-7409aaf5b6a4",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.monash.edu/admissions/entry-requirements/english-language",
+        "created_at": "2026-10-04T22:28:15Z",
+        "proposal_md5": "7a47a3b41dc9c0e4f6cfd7f98a500e57"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 7. 266 intakes, 262 fees, 260 IELTS held = adapter. Scholarship and domestic fees, 2 intakes held back."
+  }
+}

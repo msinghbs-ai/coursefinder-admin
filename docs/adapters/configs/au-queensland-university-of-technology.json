@@ -13,7 +13,7 @@
   "admit_reason": "QUT: intakes 137 of 140 agree, 122 annual fees checked against the 2027 quick guide, IELTS 138 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
   "config_updated_at": "2026-10-04T21:26:46Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -68,26 +68,26 @@
       {
         "kind": "english_policy",
         "url": "https://www.qut.edu.au/study/applying/postgraduate-applying-your-guide",
-        "status": "found",
-        "read_at": null,
-        "evidence_id": null
+        "status": "read",
+        "read_at": "2026-10-04T21:40:17Z",
+        "evidence_id": "dd37cc5e-5d3c-4e4d-9398-9a25b4154e14"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.qut.edu.au/about/key-dates-and-academic-calendar/teaching-periods",
-        "status": "found",
-        "read_at": null,
-        "evidence_id": null
+        "status": "read",
+        "read_at": "2026-10-04T21:40:17Z",
+        "evidence_id": "c8a34e15-58c2-49e2-91f9-267c50d1dc3f"
       }
     ],
     "english_proposals_waiting": [
       {
-        "id": "41d065d2-fcb4-4434-be9b-ed4e4b7d2da4",
-        "parser": "written out from the central page",
+        "id": "1f707f82-da83-4860-badc-a87ae863b472",
+        "parser": "provider-policy-v0.2.2",
         "style": "level_default",
         "url": "https://www.qut.edu.au/study/applying/postgraduate-applying-your-guide",
-        "created_at": "2026-10-04T21:33:00Z",
-        "proposal_md5": "5815cc7bc42d6011e070e19a7b52ab3b"
+        "created_at": "2026-10-04T21:40:18Z",
+        "proposal_md5": "5f4d98db4ee979146476423e3a9764bf"
       }
     ]
   },

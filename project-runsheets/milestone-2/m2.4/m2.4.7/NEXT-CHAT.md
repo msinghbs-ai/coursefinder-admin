@@ -3929,3 +3929,43 @@ Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser us
 **Next.**
 - Wave 7 is scheduled for 08:54: Sydney, Monash, Adelaide, Victoria University, Tasmania, Canberra, Federation, Edith Cowan, AUT (NZ), Calgary (CA), Lethbridge (CA).
 - Wave 8 finishes the list.
+
+### 5 Oct 2026, 09:30 AEDT: CF-247 Decision 254, wave 7
+
+**Instruction.** Wave run on the Platform Admin instructions of 5 Oct (04:49, 05:50, 06:12 and 06:32 approving fetching of public websites, 07:42 asking for bigger waves). The four decisions raised after wave 6 have not been answered and stay on hold.
+
+**Wave 7 (11 universities).**
+- Admission is on for 10 of the 11.
+- 490 values were replaced, with 0 errors.
+- 685 readings are excluded: mostly domestic start dates, application closing dates and half-year totals.
+- After the overwrite, every admitted field matches the adapter.
+
+| University | Fields admitted | Intakes / fees / IELTS held = adapter | Held back |
+|---|---|---|---|
+| Monash | all | 266 / 262 / 260 | Scholarship and domestic fees, 2 intakes |
+| Adelaide University | all | 229 / 199 / 246 | Half-year and online totals; online intakes (student visas) |
+| Edith Cowan | all | 144 / 138 / 149 | Graduate certificate totals, 4 domestic-only pages |
+| Canberra | intakes, English | 94 / — / 97 | Fees: not on the stored pages (the browser loads them) |
+| Tasmania | intakes, English | 96 / — / 39 | Fees: annual figures for years that are not 100 credit points (decision) |
+| AUT (NZ) | intakes, English | 137 / — / 138 | Fees: tuition only or with the student services levy (decision) |
+| Federation | English, fees | — / 9 / 100 | Intakes: domestic-view pages |
+| Sydney | intakes | 21 / — / — | Domestic-view pages; fee and IELTS load in the browser |
+| Victoria University | English | — / — / 7 | Domestic-view pages; per-semester fees (decision) |
+| Lethbridge (CA) | intakes | 3 / — / — | 186 courses bound to the wrong pages (decision) |
+| Calgary (CA) | none | | Wrong bindings; graduate pages need an abbreviation identity rule (decision) |
+
+**Central pages and rules.**
+- 11 key-dates pages attached.
+- 11 English proposals written out from the central pages, waiting in Layer 4 Review › Attributes (38 in total).
+
+**Open decisions (8).**
+1. RMIT intakes.
+2. Swinburne fees.
+3. Otago rebind (about 160 credits).
+4. Victoria University of Wellington domain (wgtn.ac.nz).
+5. AUT fee levy.
+6. Tasmania fees for years that are not 100 credit points.
+7. Victoria University international pages and turning per-semester fees into annual ones.
+8. Calgary and Lethbridge rebind and abbreviation identity.
+
+**Next.** Wave 8 (Southern Cross, Notre Dame, UNE, UNBC, Athabasca, MacEwan, Fraser Valley, Kwantlen) is scheduled for 09:49. UBC needs a Find re-run on ubc.ca.

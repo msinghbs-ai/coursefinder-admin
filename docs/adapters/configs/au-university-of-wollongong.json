@@ -12,7 +12,7 @@
   "admit_reason": "Wollongong: intakes 200 of 210 agree, IELTS 210; no annual fee published (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
   "config_updated_at": "2026-10-04T21:23:10Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -65,8 +65,8 @@
       {
         "kind": "intake_calendar",
         "url": "https://www.uow.edu.au/student/dates/",
-        "status": "found",
-        "read_at": "2026-10-02T07:08:58Z",
+        "status": "read",
+        "read_at": "2026-10-04T21:40:17Z",
         "evidence_id": "81c43521-bfc8-4135-8d02-b4ac1737688c"
       }
     ],

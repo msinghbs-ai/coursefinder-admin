@@ -12,7 +12,7 @@
   "admit_reason": "Swinburne: intakes 213 of 214 agree, IELTS 220; fees held: pages show 2026, the catalogue holds the 2027 schedule (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
   "config_updated_at": "2026-10-04T21:23:42Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -87,9 +87,9 @@
       {
         "kind": "intake_calendar",
         "url": "https://www.swinburne.edu.au/courses/intakes/start-dates-intakes/",
-        "status": "found",
-        "read_at": "2026-10-02T07:08:52Z",
-        "evidence_id": "dd216eaf-8b8c-43d9-811c-9ffb7aef4271"
+        "status": "read",
+        "read_at": "2026-10-04T21:40:14Z",
+        "evidence_id": "327aa16a-5c33-437b-9d60-ce347f761972"
       }
     ],
     "english_proposals_waiting": [

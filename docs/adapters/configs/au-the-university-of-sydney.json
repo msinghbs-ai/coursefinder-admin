@@ -1,0 +1,570 @@
+{
+  "university": "The University of Sydney",
+  "country": "AU",
+  "provider_id": "68022bdf-43e8-44b3-ac14-e9eed9f71e83",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Sydney: 21 honours intakes from the course pages; closing-date intakes excluded; fees and IELTS load in the browser (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T22:27:20Z",
+  "config_updated_at": "2026-10-04T22:10:07Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Study mode\\s*:?\\s*((?:Face to face|Online|Blended|Distance|Block mode|Multi-modal)(?:\\s+(?:Face to face|Online|Blended|Distance|Block mode|Multi-modal))*)",
+      "campus": "Location\\s*:?\\s*(?:This course is delivered at\\s*:?\\s*)?(.{3,150}?)\\s+Study mode",
+      "intakes": "(?:Intake\\/s|Starting dates?|Commencing semesters?)\\s*:?\\s*((?:\\d{1,2}\\s+)?(?:Semester\\s*[12]|Trimester\\s*[1-3]|January|February|March|April|May|June|July|August|September|October|November|December).{0,50})",
+      "duration": "Duration\\s*:?\\s*(\\d+(?:\\.\\d+)?\\s*(?:years?|months?|semesters?|weeks?)\\s*(?:full|part)-time)"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "August"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Pages: www.sydney.edu.au/courses/courses/{uc,pc,pr}/... course pages, stored in the default DOMESTIC view; the fee panel ('Tuition fee information for the year selected is currently not available') and the English scores load in the browser, so no fee or IELTS is read. Also old rp-handbooks / handbooks archive pages (51 archived-year; no adapter fields). Intakes: the Intake/s panel or 'Starting date' / 'Commencing semesters' text when it names Semester 1/2 or a month (mostly honours pages); most pages say only 'Check semester start dates'. term_months from https://www.sydney.edu.au/study/applying/application-dates.html (2026: Semester 1 starts 23 February, Semester 2 starts 3 August). Duration, Location (campus) and Study mode are extras. English central rule: https://www.sydney.edu.au/content/dam/corporate/documents/about-us/governance-and-structure/academic-board/ab-standards---guidelines-/english-language-proficiency-tables.pdf (default IELTS 6.5, no band below 6.0; higher for listed courses).",
+    "reason": "Tighten University of Sydney duration, campus and mode patterns (page text has no line breaks); not re-applied to avoid re-queuing 14 needs_render pages for Firecrawl (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:10:07.345235+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "000659A",
+      "title": "Bachelor of Science in Agriculture",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "000685K",
+      "title": "Master of Philosophy (Architecture, Design and Planning)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "002748F",
+      "title": "Graduate Diploma in Rehabilitation Counselling",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "003519M",
+      "title": "Doctor of Philosophy (Architecture, Design and Planning)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006449G",
+      "title": "Master of Laws",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "006450C",
+      "title": "Doctor of Philosophy (Law)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "007448M",
+      "title": "Master of Music (Performance)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "008403E",
+      "title": "Graduate Diploma in Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "008408M",
+      "title": "Master of Laws (Research)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "008414B",
+      "title": "Master of Nutrition and Dietetics",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "008426J",
+      "title": "Master of Veterinary Clinical Studies",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "008454E",
+      "title": "Master of Music (Music Education)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "009061C",
+      "title": "Master of Philosophy (Arts and Social Sciences)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0100199",
+      "title": "Bachelor of Advanced Studies (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "0100200",
+      "title": "Doctor of Philosophy (Arts and Social Sciences)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "012846K",
+      "title": "Graduate Diploma in Science (Research)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "016238B",
+      "title": "Master of Criminology (Research)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "019178G",
+      "title": "Master of Music (Composition)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "019180B",
+      "title": "Master of Music (Musicology)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "022575A",
+      "title": "Doctor of Education",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "025102K",
+      "title": "Bachelor of Engineering / Bachelor of Commerce",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "026956M",
+      "title": "Master of Philosophy (Education)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "026965K",
+      "title": "Master of Studio Art",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "028770E",
+      "title": "Bachelor of Applied Science (Exercise and Sport Science) Honours",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "029884J",
+      "title": "Master of International Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "030526K",
+      "title": "Graduate Diploma in International Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "031432G",
+      "title": "Master of Health Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "036730B",
+      "title": "Bachelor of Design Computing",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "036745F",
+      "title": "Bachelor of Science (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "039860A",
+      "title": "Master of Philosophy (Social Work)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "039863J",
+      "title": "Doctor of Philosophy (Music)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "040575G",
+      "title": "Bachelor of Medical Science (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "045006M",
+      "title": "Graduate Diploma in Media Practice",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "045007K",
+      "title": "Doctor of Arts",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "045009G",
+      "title": "Graduate Certificate in Media Practice",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "045478A",
+      "title": "Doctor of Social Work",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "048508J",
+      "title": "Master of Design Science (Building)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "048509G",
+      "title": "Master of Design Science (Building Services)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "050921M",
+      "title": "Master of Business Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "050922K",
+      "title": "Master of Arts (Research)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "054857D",
+      "title": "Master of Learning Sciences & Technology",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "054928E",
+      "title": "Master of Education (Research)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "055520K",
+      "title": "Master of Facilities Management",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "055548J",
+      "title": "Master of Arts",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "055691B",
+      "title": "Bachelor of Design Computing (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "057888F",
+      "title": "Master of Digital Communication and Culture",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "057891M",
+      "title": "Graduate Diploma in Digital Communication and Culture",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "057893J",
+      "title": "Graduate Certificate in Digital Communication and Culture",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "057896F",
+      "title": "Master of Philosophy (Dentistry)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "060911G",
+      "title": "Master of Design Science (Audio and Acoustics)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "060912G",
+      "title": "Master of Design Science (Audio and Acoustics)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "061144A",
+      "title": "Doctor of Musical Arts",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "062100E",
+      "title": "Bachelor of Information Technologies and Bachelor of Commerce",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "063204M",
+      "title": "Master of Rehabilitation Counselling",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "063746C",
+      "title": "Bachelor of International and Global Studies and Bachelor of Laws",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "064103G",
+      "title": "Bachelor of Information Technology and Bachelor of Arts",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "066825B",
+      "title": "Bachelor of Education (Secondary) (Human Movement and Health Education)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "068825G",
+      "title": "Master of Brain and Mind Sciences",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "068826G",
+      "title": "Graduate Diploma in Brain and Mind Sciences",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "068827F",
+      "title": "Graduate Certificate in Brain and Mind Sciences",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "068924E",
+      "title": "Master of Fine Arts",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "074086K",
+      "title": "Master of International Business and Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "078670F",
+      "title": "Master of Media Practice",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079025E",
+      "title": "Master of Digital Communication and Culture",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079218G",
+      "title": "Bachelor of Science and Doctor of Medicine",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082878M",
+      "title": "Master of Clinical Psychology",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083286E",
+      "title": "Master of Contemporary Art",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083287D",
+      "title": "Master of Moving Image",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "083314F",
+      "title": "Direct Entry Course",
+      "field": "english",
+      "reason": "entry level of an English course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "086045J",
+      "title": "Advanced Skills for Academic Success",
+      "field": "fee",
+      "reason": "English-language course total, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "086047G",
+      "title": "Graduate Academic Skills",
+      "field": "fee",
+      "reason": "English-language course total, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "090781J",
+      "title": "Bachelor of Design in Architecture (Honours) and Master of Architecture",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "093678F",
+      "title": "Graduate Diploma in Business Law",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "093751B",
+      "title": "Bachelor of Arts and Doctor of Medicine",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "095861B",
+      "title": "Master of Business Administration (Leadership and Enterprise)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "097036G",
+      "title": "Bachelor of Science and Master of Mathematical Sciences",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "099884G",
+      "title": "Bachelor of Advanced Studies",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "105726M",
+      "title": "Master of Education (Research)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "107174M",
+      "title": "Graduate Certificate in Business Administration",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116442K",
+      "title": "Bachelor of Animal and Veterinary Bioscience (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "116445G",
+      "title": "Bachelor of Wildlife Conservation (Taronga) (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117214C",
+      "title": "Bachelor of Mathematical Sciences (Honours)",
+      "field": "intakes",
+      "reason": "general reader intakes from closing dates or archived handbooks (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.sydney.edu.au/content/dam/corporate/documents/about-us/governance-and-structure/academic-board/ab-standards---guidelines-/english-language-proficiency-tables.pdf",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:12Z",
+        "evidence_id": "e65a883e-74ff-4401-9bb3-166994378a12"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.sydney.edu.au/study/applying/application-dates.html",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:11Z",
+        "evidence_id": "c14a03c5-61b5-4b27-af61-fe9f84700e97"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "c102dfd5-5398-4042-8e9a-41dbf7a029c6",
+        "parser": "provider-policy-v0.2.2",
+        "style": "level_default",
+        "url": "https://www.sydney.edu.au/content/dam/corporate/documents/about-us/governance-and-structure/academic-board/ab-standards---guidelines-/english-language-proficiency-tables.pdf",
+        "created_at": "2026-10-04T22:30:13Z",
+        "proposal_md5": "7dc1b29b9fa3324c8772fd1d11237ecf"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 7. 21 intakes. Domestic-view pages; fee and IELTS load in the browser."
+  }
+}

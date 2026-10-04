@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -363,6 +363,51 @@ At 08:35 the live database holds 35 adapters (28 admitting, 7 testing) and 222 a
 | Swinburne fee year | Course pages show 2026 fees, but the catalogue holds the 2027 schedule from Swinburne's international fee lists. Decide whether to keep 2027 only, or also hold the 2026 page figures. |
 | Otago rebinding | 152 Otago courses are bound to the wrong pages. Rebinding them to `/courses/qualifications/<slug>` costs about 160 Firecrawl credits. The identity check would also need to accept a short name in brackets, for example "(BSc)". |
 | Victoria University of Wellington domain | The university's site has moved to wgtn.ac.nz, but its website and search domain are still vuw.ac.nz. Decide whether to change both, then re-run Find. |
+
+## 13. Amendment, 5 Oct 2026 (09:30): wave 7
+
+**Source:** the wave run on the Platform Admin instructions of 5 Oct 2026 (04:49, 05:50, 06:12 and 06:32 approving fetching of public websites, 07:42 asking for bigger waves). The four decisions raised after wave 6 (section 12.6) have not been answered and stay on hold. Full entry: M2.4.7 runsheet set, entry "5 Oct 2026, 09:30 AEDT".
+
+### 13.1 Wave 7 results
+
+Wave 7 had 11 universities. Admission is on for 10 of them. 490 values were replaced with 0 errors. Readings that would have been wrong were excluded course by course, mostly domestic start dates, application closing dates and half-year totals. After the overwrite, every admitted field matches the adapter.
+
+| University | Fields admitted | Intakes / fees / IELTS held = adapter | Held back |
+|---|---|---|---|
+| Monash | all | 266 / 262 / 260 | Scholarship and domestic fees, 2 intakes |
+| Adelaide University | all | 229 / 199 / 246 | Half-year and online totals; online intakes (student visas) |
+| Edith Cowan | all | 144 / 138 / 149 | Graduate certificate totals, 4 domestic-only pages |
+| Canberra | intakes, English | 94 / — / 97 | Fees: not on the stored pages (the browser loads them) |
+| Tasmania | intakes, English | 96 / — / 39 | Fees: annual figures for years that are not 100 credit points (decision) |
+| AUT (NZ) | intakes, English | 137 / — / 138 | Fees: tuition only or with the student services levy (decision) |
+| Federation | English, fees | — / 9 / 100 | Intakes: domestic-view pages |
+| Sydney | intakes | 21 / — / — | Domestic-view pages; fee and IELTS load in the browser |
+| Victoria University | English | — / — / 7 | Domestic-view pages; per-semester fees (decision) |
+| Lethbridge (CA) | intakes | 3 / — / — | 186 courses bound to the wrong pages (decision) |
+| Calgary (CA) | none | | Wrong bindings; graduate pages need an abbreviation identity rule (decision) |
+
+**Central pages and rules.** 11 key-dates pages (and 5 more central English pages) were attached for wave 7 universities. The English rules written out from them, or read by the parser, wait for review in Layer 4 Review › Attributes like the earlier ones (section 12.1).
+
+**At 09:30** the live database holds 45 adapters (38 admitting, 7 testing), 906 active course exclusions and 46 attached central pages for 32 universities. Calgary has a draft adapter only, so it has no configuration file yet. Wave 8 (Southern Cross, Notre Dame, UNE, UNBC, Athabasca, MacEwan, Fraser Valley, Kwantlen) is scheduled for 09:49 and finishes the list. UBC needs a Find re-run on ubc.ca.
+
+### 13.2 Lessons
+
+- **Domestic-view pages are the main blocker.** Sydney, Victoria University, Federation and Curtin keep their course pages in the domestic view. The international start dates and fees are either on a separate address or drawn in the browser, so the stored page shows domestic dates and fees. Reading them would admit the wrong values, so those fields are held back until the international view is stored (for example through Firecrawl, as was done for La Trobe).
+- **Half-year and online-program totals.** Many graduate certificates and short programs print the whole-program fee in the place where longer courses print the annual fee (Adelaide University, Edith Cowan). Fully online programs print online prices and online-term start months, which do not apply to student-visa holders. These are excluded course by course, and adapter patterns now refuse amounts marked as part-year where the page says so.
+- **Wrong bindings at Canadian universities.** At Lethbridge and Calgary many courses are bound to news, department or old planning-guide pages, not the programme page. Graduate programme pages name the degree by its short form (for example "MSc" or "PhD"), so the identity check needs an abbreviation rule before the courses can be rebound safely.
+
+### 13.3 Open decisions (8)
+
+| # | Decision | What is needed |
+|---|---|---|
+| 1 | RMIT intakes | 56 course pages list fewer intakes than the catalogue holds. Decide whether the page wins or the held intakes stay (section 12.6). |
+| 2 | Swinburne fees | Course pages show 2026 fees, the catalogue holds the 2027 schedule. Decide which year to keep (section 12.6). |
+| 3 | Otago rebind | Rebind 152 courses to `/courses/qualifications/<slug>`, about 160 Firecrawl credits (section 12.6). |
+| 4 | Victoria University of Wellington domain | Change the website and search domain to wgtn.ac.nz, then re-run Find (section 12.6). |
+| 5 | AUT fee levy | AUT prints tuition and the student services levy separately. Decide whether the admitted annual fee is tuition only or includes the levy. |
+| 6 | Tasmania fees | Some Tasmania courses have a standard year that is not 100 credit points. Decide whether the printed annual figure is admitted as it is, or scaled to a full-time year. |
+| 7 | Victoria University international pages | Decide whether to store the international view of each course page (`/courses/<slug>/international`), and whether per-semester fees can be turned into annual fees. |
+| 8 | Calgary and Lethbridge rebind | Approve rebinding the wrongly bound courses (186 at Lethbridge) and an abbreviation rule in the identity check. |
 
 ## Sources
 

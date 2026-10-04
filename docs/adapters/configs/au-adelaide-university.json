@@ -1,0 +1,503 @@
+{
+  "university": "Adelaide University",
+  "country": "AU",
+  "provider_id": "de2201a1-69ee-40ff-b6aa-0e54e535e6c0",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Adelaide University: intakes 224 of 236 agree, 204 annual fees, IELTS 246; half-year and online totals excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T22:27:20Z",
+  "config_updated_at": "2026-10-04T22:12:51Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Fees are based on the total number of units studied in this program on a full-time annual basis\\.\\s*\\$\\s*([0-9]{2,3},[0-9]{3})(?![0-9])(?!\\s*per\\s+[0-9.]+\\s+of\\s+a\\s+year)",
+      "mode": "Mode Close tooltip(?:.|\\n){0,250}?\\s(On campus|100% online|Online|Multi-modal)\\s+Start date",
+      "campus": "Campus More info Campus Close tooltip(?:.|\\n){0,200}?((?:Adelaide City Campus|Magill|Mawson Lakes|Mt Gambier|Mount Gambier|Roseworthy Campus|Roseworthy|Waite Campus|Whyalla|Online)(?:,\\s*(?:Adelaide City Campus|Magill|Mawson Lakes|Mt Gambier|Mount Gambier|Roseworthy Campus|Roseworthy|Waite Campus|Whyalla|Online))*)\\s+Duration",
+      "intakes": "Start date Close tooltip The month you will commence your studies\\.(?:.|\\n){0,80}?timetable\\.\\s*((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)[,\\s]*(?:and\\s+)?)+)",
+      "duration": "Duration is approximate(?:.|\\n){0,120}?([0-9]+(?:\\.[0-9]+)? (?:year|month|week)\\(s\\) (?:full-time|part-time))",
+      "study_level": "(Undergraduate|Postgraduate|Research)\\s+I am an:",
+      "ielts_overall": "IELTS Overall ([0-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Adelaide University (merged Univ. of Adelaide + UniSA, teaching from 2026). Stored pages are all the new Adelaide University degree pages (/study/degrees/<slug>/, international view), on adelaide.edu.au and adelaideuni.edu.au (adelaideuni.edu.au now 302-redirects to adelaide.edu.au); no old degree-finder or UniSA pages are stored. Key-facts panel: \"Start date ... Exact start date is outlined in the course timetable. February, July\" (months printed; research degrees say any time of year - not read); \"Indicative annual fees ... on a full-time annual basis. $52,500\" (international annual; the variant \"Where the duration of the program is less than one year, the total cost of the program is displayed\" is a whole-program total and is deliberately NOT read; research \"2027 Annual Fee ... differs across study areas\" not read); \"IELTS Overall 6.5\" with bands per page; Duration \"3 year(s) full-time\"; Campus list; Mode \"On campus\". Academic calendar: https://adelaide.edu.au/students/manage-study/academic-calendar/ (2026 Semester 1 starts 23 Feb, Semester 2 starts 3 Aug; 2027 22 Feb / 2 Aug). No term_months used: course pages print months.",
+    "reason": "Adelaide University adapter round 2: fee pattern refuses amounts printed \"per 0.5 of a year\" (whole-program totals of short programs) (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:12:51.779431+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "115663E",
+      "title": "Associate Degree in Data Analytics",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115663E",
+      "title": "Associate Degree in Data Analytics",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115667A",
+      "title": "Associate Degree in Engineering",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115667A",
+      "title": "Associate Degree in Engineering",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115669K",
+      "title": "Associate Degree in Information Technology",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115669K",
+      "title": "Associate Degree in Information Technology",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115732H",
+      "title": "Bachelor of Medical Science",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115732H",
+      "title": "Bachelor of Medical Science",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115783H",
+      "title": "Diploma in Psychology Studies",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115783H",
+      "title": "Diploma in Psychology Studies",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115789B",
+      "title": "Graduate Certificate in 3D Animation",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115790J",
+      "title": "Graduate Certificate in Aboriginal Studies",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115791H",
+      "title": "Graduate Certificate in Architectural Design",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115793F",
+      "title": "Graduate Certificate in Business",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115794E",
+      "title": "Graduate Certificate in Business Administration",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115795D",
+      "title": "Graduate Certificate in Commerce",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115796C",
+      "title": "Graduate Certificate in Compositing and Tracking",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115797B",
+      "title": "Graduate Certificate in Construction Management",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115798A",
+      "title": "Graduate Certificate in Counselling and Psychotherapy",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115799M",
+      "title": "Graduate Certificate in Creature Effects",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115800A",
+      "title": "Graduate Certificate in Data Analytics",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115802K",
+      "title": "Graduate Certificate in Dynamic Effects and Lighting",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115804H",
+      "title": "Graduate Certificate in Education",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115805G",
+      "title": "Graduate Certificate in Education (Catholic Education)",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115807E",
+      "title": "Graduate Certificate in Engineering",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115809C",
+      "title": "Graduate Certificate in Environmental Policy and Management",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115810K",
+      "title": "Graduate Certificate in Film and Television",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115811J",
+      "title": "Graduate Certificate in Global Executive Business Administration",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115812H",
+      "title": "Graduate Certificate in Health Services Management",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115814F",
+      "title": "Graduate Certificate in Human Services Management",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115815E",
+      "title": "Graduate Certificate in Immersive Media Technologies",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115816D",
+      "title": "Graduate Certificate in Information Technology",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115816D",
+      "title": "Graduate Certificate in Information Technology",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115818B",
+      "title": "Graduate Certificate in Landscape Design",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115819A",
+      "title": "Graduate Certificate in Law",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115820H",
+      "title": "Graduate Certificate in Mathematical Sciences",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115821G",
+      "title": "Graduate Certificate in Midwifery",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115822F",
+      "title": "Graduate Certificate in Curatorial and Museum Studies",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115823E",
+      "title": "Graduate Certificate in Nursing",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115824D",
+      "title": "Graduate Certificate in Project Management",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115825C",
+      "title": "Graduate Certificate in Public Health",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115826B",
+      "title": "Graduate Certificate in Science",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115827A",
+      "title": "Graduate Certificate in Statistics",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115830F",
+      "title": "Graduate Certificate in Urban and Regional Planning",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115831E",
+      "title": "Graduate Certificate in Wine and Food Business",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115833C",
+      "title": "Graduate Diploma in Aboriginal Studies",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115840D",
+      "title": "Graduate Diploma in Business Administration",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115840D",
+      "title": "Graduate Diploma in Business Administration",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115850B",
+      "title": "Graduate Diploma in Engineering (Management)",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115852M",
+      "title": "Graduate Diploma in Finance",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115852M",
+      "title": "Graduate Diploma in Finance",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115856G",
+      "title": "Graduate Diploma in Global Executive Business Administration",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115856G",
+      "title": "Graduate Diploma in Global Executive Business Administration",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115967M",
+      "title": "Master of Visual Effects",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117263E",
+      "title": "Graduate Certificate in Research Skills",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117264D",
+      "title": "Graduate Certificate in Research Design",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117892J",
+      "title": "Graduate Certificate in Leadership",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117893H",
+      "title": "Graduate Certificate in Marketing",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117928B",
+      "title": "Bachelor of Environmental Policy and Management",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117952B",
+      "title": "Bachelor of Sociology (Honours)",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117952B",
+      "title": "Bachelor of Sociology (Honours)",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117961A",
+      "title": "Graduate Certificate in Business Analytics",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117962M",
+      "title": "Graduate Certificate in Cyber Security",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117962M",
+      "title": "Graduate Certificate in Cyber Security",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117963K",
+      "title": "Graduate Certificate in Data Science",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117964J",
+      "title": "Graduate Certificate in Public Policy",
+      "field": "fee",
+      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117965H",
+      "title": "Graduate Diploma in Cyber Security",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "117965H",
+      "title": "Graduate Diploma in Cyber Security",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "119560B",
+      "title": "Bachelor of Business (Financial Planning)",
+      "field": "fee",
+      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "119560B",
+      "title": "Bachelor of Business (Financial Planning)",
+      "field": "intakes",
+      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "approved",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://adelaide.edu.au/study/international-students/how-to-apply/entry-requirements/english-language-proficiency/",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:14Z",
+        "evidence_id": "4d3b2191-9a72-4898-9120-aa05c23a6223"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://adelaide.edu.au/students/manage-study/academic-calendar/",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:15Z",
+        "evidence_id": "2b9e0f06-4e47-4d61-af51-3573e9580d90"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "539de0c7-2c8b-45c1-88e8-806d47701649",
+        "parser": "provider-policy-v0.2.2",
+        "style": "level_default",
+        "url": "https://adelaide.edu.au/study/international-students/how-to-apply/entry-requirements/english-language-proficiency/",
+        "created_at": "2026-10-04T22:30:14Z",
+        "proposal_md5": "fd9f384fa938df16fd1c5034e3678c9f"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 7. 229 intakes, 199 fees, 246 IELTS held = adapter. Half-year and online totals, and online intakes, excluded."
+  }
+}

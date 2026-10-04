@@ -1,0 +1,508 @@
+{
+  "university": "Auckland University of Technology",
+  "country": "NZ",
+  "provider_id": "39301fa8-bff2-4389-bbcd-32d8415fae04",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "AUT: intakes 124 of 147 agree, IELTS 141; fees held until the levy convention is decided (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T22:27:20Z",
+  "config_updated_at": "2026-10-04T22:09:33Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 09:30 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International\\s*(?:20\\d\\d fee:\\s*)?\\$[\\d,.]+\\s*\\(for 120 points\\)\\s*\\(\\$([\\d,]+)(?:\\.\\d+)?\\s*tuition fees",
+      "mode": "Duration:[^:]{0,40}?((?:full-time|part-time)(?:.|\\n){0,40}?)\\s*Campus:",
+      "campus": "Campus:\\s*((?:.|\\n){1,100}?)\\s*(?:\\*|Starts:)",
+      "intakes": "Starts:\\s*((?:\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,6}\\.?\\s+20\\d\\d\\s*){1,12})",
+      "duration": "Duration:\\s*((?:.|\\n){1,80}?)\\s*Campus:",
+      "aqf_level": "Programme code:\\s*[A-Z0-9]+\\s*Level:\\s*(\\d{1,2})\\b",
+      "ielts_overall": "IELTS \\(Academic\\)\\s*(\\d(?:\\.\\d)?)\\s*overall",
+      "not_admitting": "Starts:\\s*(This programme is not offered to new students|Not offered to new students(?:.|\\n){0,40}?)\\s*(?:Key semester dates|Fees|\\.)"
+    },
+    "pick": {
+      "fee": "first",
+      "intakes": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "AUT course pages (www.aut.ac.nz/study/study-options/<area>/courses/<slug> and www.aut.ac.nz/courses/<slug>) carry a Key facts panel: \"Programme code: AKxxxx Level: N Points: N Duration: ... Campus: ... Starts: 22 Feb 2027 12 Jul 2027 Key semester dates Fees Domestic $.. (for N points) (...) International [2026 fee:] $.. (for N points) ($N tuition fees + $N student services levy)\", then \"English language requirements IELTS (Academic) 6.5 overall with all bands 6.0 or higher\". Fee = international tuition (student services levy excluded) only when stated for 120 points (one full-time year); where two years are printed the first (2026) line is read and its year kept; 60/180/240-point figures, per-major split figures (e.g. \"Computing: $..\") and \"Not offered to new students\" lines are not read. Level = NZQF level (kept as aqf_level, testing only). not_admitting = \"Starts: This programme is not offered to new students\". Arion (arion.aut.ac.nz) paper/qualification pages, online.aut.ac.nz pages and old PDF programme guides carry none of these. Semester dates: https://www.aut.ac.nz/study/semester-dates (S1 = February, S2 = July, Summer School = November); business professional masters trimesters: https://www.aut.ac.nz/study/semester-dates/business-professional-masters-programmes-dates (T1 = March, T2 = June, T3 = October).",
+    "reason": "Save AUT adapter v2: fee also reads the first year-labelled international 120-point line (2026 fee:), add not-offered-to-new-students flag (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T22:09:33.134822+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "AK1011",
+      "title": "Diploma in Paramedic Science (Level 6)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1015",
+      "title": "Postgraduate Diploma in Disaster Risk Management and Development (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1023",
+      "title": "Master of Human Rights (Level 9)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1036",
+      "title": "Postgraduate Diploma in Higher Education (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1048",
+      "title": "Master of English and New Media Studies (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1049",
+      "title": "Master of Language and Culture (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1051",
+      "title": "Master of Educational Leadership (Level 9)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1052",
+      "title": "Postgraduate Certificate in Educational Leadership (Level 8)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1054",
+      "title": "Master of Education Practice (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1059",
+      "title": "Postgraduate Certificate in Education Practice (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1061",
+      "title": "Postgraduate Diploma in Education Practice (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1062",
+      "title": "Postgraduate Certificate in Higher Education (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1063",
+      "title": "Postgraduate Diploma in Language and Culture (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1064",
+      "title": "Postgraduate Certificate in Language and Culture (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1067",
+      "title": "Master of Criminology and Criminal Justice (Level 9)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1068",
+      "title": "Postgraduate Certificate in Human Rights (Level 8)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1069",
+      "title": "Postgraduate Diploma in Human Rights (Level 8)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1074",
+      "title": "Postgraduate Diploma in Criminology and Criminal Justice (Level 8)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1075",
+      "title": "Postgraduate Diploma in English and New Media Studies (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1076",
+      "title": "Postgraduate Certificate in English and New Media Studies (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1077",
+      "title": "Master of Digital Transformation Leadership (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1078",
+      "title": "Postgraduate Diploma in Digital Transformation Leadership (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1079",
+      "title": "Postgraduate Certificate in Digital Transformation Leadership (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1087",
+      "title": "Master of Applied Artificial Intelligence (Level 9)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1088",
+      "title": "Postgraduate Diploma in Applied Artificial Intelligence (Level 8)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1089",
+      "title": "Postgraduate Certificate in Applied Artificial Intelligence (Level 8)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1093",
+      "title": "Postgraduate Diploma in Creative Innovation and Technology (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1094",
+      "title": "Postgraduate Certificate in Creative Innovation and Technology (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1095",
+      "title": "Master of Human Performance Leadership (Level 9)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1096",
+      "title": "Postgraduate Diploma in Human Performance Leadership (Level 8)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1101",
+      "title": "Master of Applied Psychology (Level 9)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1102",
+      "title": "Postgraduate Diploma in Applied Psychology (Level 8)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1103",
+      "title": "Postgraduate Certificate in Applied Psychology (Level 8)",
+      "field": "intakes",
+      "reason": "online-only course, student-visa eligibility not confirmed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1271",
+      "title": "Bachelor of Mathematical Sciences (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1273",
+      "title": "Diploma in Sports Management and Exercise Science (Level 5)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1275",
+      "title": "Certificate in Education (Level 5)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1277",
+      "title": "Bachelor of International Tourism Management (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1287",
+      "title": "Master of Professional Language Studies (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1303",
+      "title": "Master of Creative Writing (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1305",
+      "title": "Bachelor of Creative Technologies (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1306",
+      "title": "Bachelor of Creative Technologies (Honours) (Level 8)",
+      "field": "english",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1306",
+      "title": "Bachelor of Creative Technologies (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1313",
+      "title": "Postgraduate Diploma in Performance and Media Arts (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1314",
+      "title": "Master of Performance and Media Arts (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1315",
+      "title": "Bachelor of Business and Bachelor of Communication Studies (conjoint) (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1320",
+      "title": "Master of Creative Technologies (Level 9)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1330",
+      "title": "Postgraduate Certificate in Visual Arts (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1331",
+      "title": "Postgraduate Certificate in Design (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1339",
+      "title": "Master of Information Technology Project Management (Level 9)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1440",
+      "title": "Postgraduate Certificate in Creative Technologies (Level 8)",
+      "field": "intakes",
+      "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK2040",
+      "title": "Bachelor of Advanced Science (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3001",
+      "title": "Bachelor of Science and Bachelor of Business (Conjoint) (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3003",
+      "title": "Bachelor of Business and Bachelor of Computer and Information Sciences (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3006",
+      "title": "Bachelor of Arts (NZSL-English Interpreting) (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3113",
+      "title": "Bachelor of Health Science (Oral Health) (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3408",
+      "title": "Diploma in Outdoor Recreation Leadership (Level 6)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3429",
+      "title": "Diploma in Japanese (Level 6)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3594",
+      "title": "Bachelor of Education ([Specialty] Teaching) (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3598",
+      "title": "Certificate in Hospitality and Tourism (Level 4)",
+      "field": "english",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3598",
+      "title": "Certificate in Hospitality and Tourism (Level 4)",
+      "field": "intakes",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3670",
+      "title": "Bachelor of Art And Design (Honours) (Level 8)",
+      "field": "english",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3670",
+      "title": "Bachelor of Art And Design (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3687",
+      "title": "Bachelor of Computer and Information Sciences (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3706",
+      "title": "Bachelor of Arts and Bachelor of Computer and Information Sciences (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3716",
+      "title": "Certificate in Foundation Studies (Level 3)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3724",
+      "title": "Certificate in Social Sciences (Level 4)",
+      "field": "english",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3724",
+      "title": "Certificate in Social Sciences (Level 4)",
+      "field": "intakes",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3726",
+      "title": "Bachelor of Health Science and Bachelor of Business conjoint degree (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3730",
+      "title": "Bachelor of Business and Bachelor of Sport and Recreation (conjoint) (Level 7)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3940",
+      "title": "Postgraduate Diploma in Rehabilitation Psychology (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK4662",
+      "title": "Bachelor of Health Science (Physiotherapy Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK4740",
+      "title": "Certificate in Business (Level 4)",
+      "field": "english",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK4740",
+      "title": "Certificate in Business (Level 4)",
+      "field": "intakes",
+      "reason": "old programme guide (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "no_values",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.aut.ac.nz/study/entry-requirements/english-language-requirements",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:18Z",
+        "evidence_id": "68038823-2cf5-4a7d-ba83-6d03c8c781a3"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.aut.ac.nz/study/semester-dates",
+        "status": "read",
+        "read_at": "2026-10-04T22:30:16Z",
+        "evidence_id": "55c01f68-b297-4ff1-9b53-90284ed133e4"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 7. 137 intakes, 138 IELTS. Fees held: tuition only or with the student services levy (decision)."
+  }
+}
