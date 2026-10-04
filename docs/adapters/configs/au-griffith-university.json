@@ -12,7 +12,7 @@
   "admit_reason": "Griffith fees 235 of 252 equal and IELTS read on 252, intakes held: the trimester months change by year (2027 calendar: T1 March, T2 July, T3 September) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
   "config_updated_at": "2026-10-04T19:02:20Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -48,6 +48,20 @@
     "updated_at": "2026-10-04T19:02:20.444079+00:00"
   },
   "exclusions": [],
+  "central_rules": {
+    "english_rule": "no_values",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.griffith.edu.au/__data/assets/pdf_file/0036/1475757/2027-Academic-Calendar.pdf",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:20Z",
+        "evidence_id": "47145fdd-b255-44c1-9186-0673c2dce03f"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
   "results": {
     "note_5_oct": "252 fees and 252 IELTS. Intakes held: the 2027 calendar has T1 March, T2 July, T3 September, not Feb/Jul/Oct."
   }

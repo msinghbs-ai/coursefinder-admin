@@ -12,7 +12,7 @@
   "admit_reason": "Lincoln intakes 55 of 58 agree, 30 fees for 120 credits, 1 intake excluded for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
   "config_updated_at": "2026-10-04T19:17:01Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -53,6 +53,36 @@
       "reason": "page lists Semester 1 only, catalogue holds February and July, to be checked (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
     }
   ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.lincoln.ac.nz/study/apply-and-enrol/apply/english-language-requirements/",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:28Z",
+        "evidence_id": "a553a3be-2a87-4379-9284-ab23645c8fed"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.lincoln.ac.nz/study/key-dates/",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:27Z",
+        "evidence_id": "9b205fb6-eacc-41f8-a7b1-acf458ebc97e"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "c4ad5e08-fd49-4e5d-aa29-352371a49fce",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.lincoln.ac.nz/study/apply-and-enrol/apply/english-language-requirements/",
+        "created_at": "2026-10-04T21:02:37Z",
+        "proposal_md5": "f0e46f38d52de56258ccc9057011e243"
+      }
+    ]
+  },
   "results": {
     "note_5_oct": "57 intakes and 30 fees. LI0511 intakes excluded."
   }

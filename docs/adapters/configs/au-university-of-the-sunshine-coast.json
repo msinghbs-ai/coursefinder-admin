@@ -6,12 +6,13 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "fee",
     "intakes"
   ],
-  "admit_reason": "Sunshine Coast trimester intakes from the published calendar, 1 excluded, fees held: the course-page fee year is doubtful (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T20:06:19Z",
+  "admit_reason": "Sunshine Coast fees from the 2026 table and course pages, stale-table, non-annual and doubtful-year readings excluded (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)",
+  "admit_changed_at": "2026-10-04T20:38:32Z",
   "config_updated_at": "2026-10-04T19:33:20Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -45,13 +46,211 @@
   },
   "exclusions": [
     {
+      "course_code": "026639B",
+      "title": "Study Abroad",
+      "field": "fee",
+      "reason": "per trimester, not annual (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "028845B",
+      "title": "Bachelor of Business (International Business)",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "028846A",
+      "title": "Bachelor of Business (Marketing)",
+      "field": "fee",
+      "reason": "2025 fee table (last year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "028849J",
+      "title": "Bachelor of Business (Honours)",
+      "field": "fee",
+      "reason": "2025 fee table (last year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "056828D",
+      "title": "Study Abroad (Full Year)",
+      "field": "fee",
+      "reason": "6-course option, not the annual fee (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "061061D",
+      "title": "Master of Health Promotion",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "061658G",
+      "title": "Bachelor of Nutrition",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "064652A",
+      "title": "Associate Degree in Science",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "066415J",
+      "title": "Bachelor of Business (Tourism, Leisure and Event Management)",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "066777E",
+      "title": "Master of Business Administration",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "067674D",
+      "title": "Graduate Certificate in Business Administration",
+      "field": "fee",
+      "reason": "one-trimester program, whole-course fee (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "067675C",
+      "title": "Graduate Diploma in Business Administration",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
       "course_code": "073869J",
       "title": "Master of Social Work (Qualifying)",
       "field": "intakes",
       "reason": "reads July only, the Session 1 start is missing (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "076977C",
+      "title": "Bachelor of Business (Human Resource Management)",
+      "field": "fee",
+      "reason": "2025 fee table (last year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "077418D",
+      "title": "Bachelor of Occupational Therapy (Honours)",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "078086M",
+      "title": "Bachelor of Nursing Science",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "080099K",
+      "title": "Bachelor of Creative Industries",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "080425A",
+      "title": "Master of Nursing (Clinical Leadership)",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "081795M",
+      "title": "Graduate Certificate in Education",
+      "field": "fee",
+      "reason": "one-trimester program, whole-course fee (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "081796K",
+      "title": "Master of Education",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "084892G",
+      "title": "Master of International Development",
+      "field": "fee",
+      "reason": "2024 fee table (archived year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "096508M",
+      "title": "Postgraduate Qualifying Pathway",
+      "field": "fee",
+      "reason": "whole program (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "098459K",
+      "title": "Bachelor of Creative Industries (Theatre and Performance)",
+      "field": "fee",
+      "reason": "2025 fee table (last year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "098460F",
+      "title": "Bachelor of Creative Industries (Screen Media)",
+      "field": "fee",
+      "reason": "2025 fee table (last year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "098464B",
+      "title": "Bachelor of Creative Industries (Creative Writing and Publishing)",
+      "field": "fee",
+      "reason": "2025 fee table (last year) (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "099395B",
+      "title": "Graduate Certificate in Education Research",
+      "field": "fee",
+      "reason": "one-trimester program, whole-course fee (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "106002F",
+      "title": "Bachelor of Music",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "117524M",
+      "title": "Master of Business Intelligence and Analytics",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
+    },
+    {
+      "course_code": "117525K",
+      "title": "Master of Business Administration/Master of Business Intelligence and Analytics",
+      "field": "fee",
+      "reason": "page labelled 2026 shows the 2027 table figure (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)"
     }
   ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.unisc.edu.au/international/international-students/english-language-requirements",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:32Z",
+        "evidence_id": "659fcb5b-a6b2-4a37-8a5b-0689657271a2"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.unisc.edu.au/study/calendars-timetables-and-key-dates/2026-academic-calendar",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:33Z",
+        "evidence_id": "3d2d24b8-36d1-4751-a781-da45fe8bc4c3"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "3722d85d-6fa5-440f-a02d-c3b70bee3767",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.unisc.edu.au/international/international-students/english-language-requirements",
+        "created_at": "2026-10-04T21:02:37Z",
+        "proposal_md5": "5c84d6b32c3e1005cb9e6dafe2483d06"
+      }
+    ]
+  },
   "results": {
-    "note_5_oct": "93 intakes. 073869J intakes excluded. Fees held (2026 or 2027 label in doubt)."
+    "note_5_oct": "93 intakes and 23 fees. Fees admitted from 07:36 under the fee-year rule; 28 fee readings excluded (2024/2025 tables, not annual, 2026 label with 2027 figures)."
   }
 }

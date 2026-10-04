@@ -1,0 +1,109 @@
+{
+  "university": "Swinburne University of Technology",
+  "country": "AU",
+  "provider_id": "349da14b-66b1-4c57-9dfd-6f9c36412432",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Swinburne: intakes 213 of 214 agree, IELTS 220; fees held: pages show 2026, the catalogue holds the 2027 schedule (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T21:31:39Z",
+  "config_updated_at": "2026-10-04T21:23:42Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?:20[2-3][0-9] (?:tuition )?fees )?Yearly fee\\*? \\(\\$AUD\\):? \\$([0-9,]+(?:\\.[0-9]{2})?)(?![0-9.,]| Total fee)",
+      "campus": "Location ([A-Z][A-Za-z ]{2,30}?) Start dates [0-9]",
+      "intakes": "Location (?:Hawthorn|Croydon|Wantirna|Melbourne|Online|Box Hill|Sydney)[A-Za-z ,()-]{0,40}? Start dates ([0-9]{1,2}-[A-Z][a-z]{2,8}-20[0-9]{2})",
+      "duration": "([0-9]+(?:\\.[0-9]+)? years? full-time) or equivalent part-time",
+      "study_level": "Back to (Undergraduate|Postgraduate|Degree pathway|Pathways|Research|Vocational|TAFE|Inbound)",
+      "ielts_overall": "IELTS overall band of ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "last",
+      "campus": "all",
+      "intakes": "all",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Swinburne course pages (www.swinburne.edu.au/course/<level>/<slug>), plain HTML, no page data. Fees: each page prints a domestic panel (\"2026 tuition fees\" or \"2026 fees\": Yearly fee + Total fee) then an international panel (same heading, Yearly fee only, $0.00 when not offered to international students); fee = last Yearly fee not followed by Total fee (2026 figures; catalogue holds the 2027 schedule from the international fee PDFs). Start dates: \"<term> Location <campus> Start dates DD-Month-YYYY\" in the Apply panel; only Australian campuses and Online read (Colombo/Sarawak pathway intakes skipped); empty panel = no international intake listed. IELTS: \"IELTS overall band of X (Academic Module) with no individual band below Y\". Central: English https://www.swinburne.edu.au/study/international/apply/entry-requirements/ ; dates https://www.swinburne.edu.au/courses/intakes/start-dates-intakes/ (Semester 1 = March, Semester 2 = August; UniLink Pathways 1/2/3 = February/June/October; TAFE February/July intakes).",
+    "reason": "Swinburne adapter round 2: fee year from \"2026 fees\" or \"2026 tuition fees\" heading; probe fields removed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T21:23:42.501786+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "030775D",
+      "title": "International Study Abroad Program",
+      "field": "fee",
+      "reason": "study-abroad programme fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "030776C",
+      "title": "International Study Abroad Program",
+      "field": "fee",
+      "reason": "study-abroad programme fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "070386G",
+      "title": "Graduate Diploma of Business Management",
+      "field": "intakes",
+      "reason": "January start conflicts with Semester 1, or online-only start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "092696A",
+      "title": "Graduate Diploma of Project Management",
+      "field": "intakes",
+      "reason": "January start conflicts with Semester 1, or online-only start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "098545A",
+      "title": "Master of Teaching (Primary)",
+      "field": "english",
+      "reason": "Swinburne Online page bound to the campus course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121173F",
+      "title": "Bachelor of Laws/Bachelor of Criminology and Criminal Justice",
+      "field": "intakes",
+      "reason": "January start conflicts with Semester 1, or online-only start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.swinburne.edu.au/courses/intakes/start-dates-intakes/",
+        "status": "found",
+        "read_at": "2026-10-02T07:08:52Z",
+        "evidence_id": "dd216eaf-8b8c-43d9-811c-9ffb7aef4271"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "94f140fa-2625-4d29-a4ed-1105a82e43f7",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.swinburne.edu.au/study/international/apply/entry-requirements/",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "6e3fc3185178a1f969c3b635642fd8f9"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 6. 212 intakes, 219 IELTS. Fees held: pages show 2026, the catalogue holds 2027 (decision)."
+  }
+}

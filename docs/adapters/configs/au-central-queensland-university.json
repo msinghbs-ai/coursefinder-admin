@@ -13,7 +13,7 @@
   "admit_reason": "CQUniversity handbook pages: 66 intakes and fees, 55 IELTS (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T20:06:19Z",
   "config_updated_at": "2026-10-04T19:49:34Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 5 Oct 2026 07:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -48,6 +48,20 @@
     "updated_at": "2026-10-04T19:49:34.504615+00:00"
   },
   "exclusions": [],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "approved",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.cqu.edu.au/study/international/enquire-apply-accept/key-dates",
+        "status": "read",
+        "read_at": "2026-10-04T20:50:33Z",
+        "evidence_id": "c61a629c-25f0-492c-8ef7-a7010860d5ec"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
   "results": {
     "note_5_oct": "66 intakes, 66 fees, 55 IELTS. Rebound to handbook pages for the international view."
   }

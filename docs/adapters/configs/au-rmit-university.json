@@ -1,0 +1,79 @@
+{
+  "university": "RMIT University (RMIT)",
+  "country": "AU",
+  "provider_id": "8e1adb6c-e069-43db-9584-bd054255e702",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee"
+  ],
+  "admit_reason": "RMIT: fees 194 equal and 78 new, IELTS 362; intakes held: 55 pages list fewer intakes than held (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T21:31:39Z",
+  "config_updated_at": "2026-10-04T21:09:23Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,200}?Fees: (?:AU)?\\$([0-9][0-9,]{3,8}) \\(20[2-3][0-9] annual\\)",
+      "mode": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: ([A-Za-z ,-]{2,60}?) Entry score:",
+      "campus": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,250}?Location: ((?:.|\\n){1,80}?) Back to",
+      "intakes": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,200}?Next intakes?: ((?:January|February|March|April|May|June|July|August|September|October|November|December)[^:]{0,100}?) Location:",
+      "duration": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,120}?Duration: ((?:.|\\n){1,60}?) Fees:",
+      "ielts_overall": "IELTS \\(Academic\\):? minimum overall (?:band|score) of ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "RMIT course pages (www.rmit.edu.au/study-with-us/levels-of-study/...) are plain HTML with no page-data JSON. The at-a-glance panel prints both views: \"Student type: Domestic International\", then the domestic panel (Learning mode / Entry score / Duration / Fees / Next intake / Location), then the international panel in the same order. Every pattern is anchored on the SECOND \"Learning mode:\" after \"Student type: Domestic International\", i.e. the international panel. Fee = international \"Fees: AU$NN,NNN (YYYY annual)\" only; vocational \"(YYYY total indicative)\" amounts are not read. Intakes = international \"Next intake:\" months (research shows \"Continuous\", not read). IELTS = \"IELTS (Academic): minimum overall band of X\" in the English language requirements section. Central: English https://www.rmit.edu.au/study-with-us/international-students/apply-to-rmit-international-students/entry-requirements/english-requirements/english-language-proficiency-tests ; key dates https://www.rmit.edu.au/students/my-course/important-dates/2026/he and /2027/he (course pages print months directly, so no term_months).",
+    "reason": "Save RMIT adapter reading the international at-a-glance panel (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T21:09:23.466924+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "114236K",
+      "title": "Bachelor of Biomedical Science (Osteopathy)",
+      "field": "fee",
+      "reason": "fee year taken from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "proposed",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.rmit.edu.au/students/my-course/important-dates/2027/he",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "4960dd35-9353-47f7-b170-76fe264110c0",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://www.rmit.edu.au/study-with-us/international-students/apply-to-rmit-international-students/entry-requirements/english-requirements/english-language-proficiency-tests",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "837c07e21166aa88c78a8ff1eed9b853"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 6. 271 fees, 362 IELTS. Intakes held: 56 pages list fewer intakes than held (decision)."
+  }
+}

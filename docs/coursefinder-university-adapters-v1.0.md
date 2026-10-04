@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -290,6 +290,79 @@ The exclusion check itself is `security.uni_adapter_excluded(course, field)`. Bo
 | Term months by year | Term months can change from one year to the next (Griffith 2027). `term_months` needs a year, so each intake is mapped with that year's calendar. |
 | Sunshine Coast fee year | Course pages label the fee "2026", but it may be the 2027 fee. A Platform Admin decision is needed before Sunshine Coast fees are admitted. |
 | Re-run Find for UBC | UBC's search site must be ubc.ca, not grad.ubc.ca (lesson in section 10). |
+
+## 12. Amendment, 5 Oct 2026 (08:35): central rules, Universities tab, fee year, wave 6
+
+**Source:** Platform Admin, 5 Oct 2026 07:36 (fee year when none is printed; build the central rule and link it to universities; show universities and courses with coloured pills in a new tab) and 07:42 (more universities in each wave). Full entry: M2.4.7 runsheet set, entry "5 Oct 2026, 08:35 AEDT".
+
+### 12.1 Central pages and English proposals
+
+- **What.** Many universities set English, and sometimes start months, once for the whole university on a central page, not on each course page. A Platform Admin can now attach that central page to a university: an English requirements page or a key-dates page (`admin_provider_central_page`, migration 20261005001430; migrations 1440 and 1450 fixed the address check and mark attached pages as manual).
+- **How it works.**
+  1. The provider-facts job reads the attached page through Firecrawl and keeps the page as evidence.
+  2. The parser tries to turn it into a rule. Most central English pages gave no values, so the rule can also be written out from the page by hand (`admin_provider_english_propose`, migration 20261005001460). It is written as level defaults (for example, undergraduate and postgraduate) plus any named courses with their own requirement.
+  3. Either way, the result is **a proposal only**. Nothing changes in the catalogue until a reviewer approves it in Layer 4 Review › Attributes.
+- **Why.** Course pages often say only "see English requirements". Without a central rule those courses would show no English requirement at all.
+- **At 08:35.** 30 central pages are attached for 21 universities, and 16 English proposals written out from central pages are waiting for review. Waikato also has a parser proposal reading "7.09", which should be rejected.
+
+### 12.2 Precedence: which value a course shows
+
+For intakes and English, each course takes its value in this order:
+
+1. **The course's own page** (read by the adapter or the general reader).
+2. **The central rule** for its university, once approved, and only when the course page gave nothing.
+3. **Nothing.** The field stays empty, and coverage shows it as missing.
+
+A value entered by hand is never replaced by any of these. Course exclusions (section 11.2) still apply.
+
+### 12.3 Coverage & completeness › Universities
+
+- **What.** A new tab (v2.15.189, PR #314) with one row per target university. Coloured pills show:
+  - the adapter state, admitted fields and exclusions;
+  - the central English rule and the calendar (Approved, Proposed, No values or none);
+  - how many courses hold intakes, English and fees, and from which source (adapter, central rule or general reader).
+- **Open a university** to see its courses, each value with its source.
+- **Attach a central page** from the university's row (Platform Admin only).
+- **Why.** One view of where each university stands, so the next action (admit a field, attach a central page, approve a rule) is easy to see. The adapter register (`docs/adapters/README.md`) uses the same rule for its English rule and Calendar columns: the latest proposal of each kind, with approved ahead of proposed, and proposed ahead of no values.
+
+### 12.4 Fee year
+
+- **Rule.** When a page shows a fee but prints no year, the fee is held against the **current year** (Melbourne time). Migration 20261005001420.
+- **Why.** Fees are compared and replaced year by year. Without a year, a correct fee could not be admitted.
+- **Sunshine Coast.** Fees are now admitted. 28 readings are excluded:
+  - 13 from the 2024 and 2025 fee tables;
+  - 6 that are not annual;
+  - 9 from pages labelled 2026 that show the 2027 table figures.
+- **Western Sydney.** Courses that held a 2027 fee also gained a 2026 row.
+
+### 12.5 Wave 6 results
+
+Wave 6 had 11 universities. Admission is on for 9 of them. 902 values were replaced with 0 errors, and 143 readings are excluded.
+
+| University | Fields admitted | Intakes / fees / IELTS held = adapter | Held back |
+|---|---|---|---|
+| UQ | all | 316 / 312 / 316 | 3 fees |
+| Deakin | all | 144 / 189 / 185 | Domestic-view pages and site-menu months |
+| QUT | all | 140 / 122 / 138 | 3 general-reader readings |
+| Curtin | all | 202 / 3 / 257 | Fees wait on the international view |
+| RMIT | English, fees | — / 271 / 362 | Intakes: 56 pages list fewer intakes than held (decision) |
+| Swinburne | intakes, English | 212 / — / 219 | Fees: pages show 2026, the catalogue holds 2027 (decision) |
+| Wollongong | intakes, English | 208 / — / 210 | No annual fee published |
+| University of Victoria (CA) | intakes, English | 70 / — / 3 | No international fee on the pages |
+| Alberta (CA) | English | — / — / 16 | No fee or start dates on the pages |
+| Otago (NZ) | none | | Wrong bindings. Rebind 152 courses to `/courses/qualifications/<slug>` (about 160 credits, decision) and accept "(ABBR)" in the identity check |
+| Victoria University of Wellington (NZ) | none | | The site moved to wgtn.ac.nz. Website and search domain still say vuw.ac.nz (decision) |
+
+At 08:35 the live database holds 35 adapters (28 admitting, 7 testing) and 222 active course exclusions. Wave 7 is scheduled for 08:54, and wave 8 finishes the list.
+
+### 12.6 Open decisions
+
+| Decision | What is needed |
+|---|---|
+| RMIT intakes | 56 course pages list fewer intakes than the catalogue holds. Decide whether the page wins (fewer intakes) or the held intakes stay. Until then RMIT admits English and fees only. |
+| Swinburne fee year | Course pages show 2026 fees, but the catalogue holds the 2027 schedule from Swinburne's international fee lists. Decide whether to keep 2027 only, or also hold the 2026 page figures. |
+| Otago rebinding | 152 Otago courses are bound to the wrong pages. Rebinding them to `/courses/qualifications/<slug>` costs about 160 Firecrawl credits. The identity check would also need to accept a short name in brackets, for example "(BSc)". |
+| Victoria University of Wellington domain | The university's site has moved to wgtn.ac.nz, but its website and search domain are still vuw.ac.nz. Decide whether to change both, then re-run Find. |
 
 ## Sources
 

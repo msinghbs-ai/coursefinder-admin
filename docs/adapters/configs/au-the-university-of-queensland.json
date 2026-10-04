@@ -1,0 +1,98 @@
+{
+  "university": "The University of Queensland",
+  "country": "AU",
+  "provider_id": "e55396d2-869a-46ef-9d17-841c7eab1313",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "UQ: intakes from the international panel (held months were closing dates), fees 276 equal, IELTS 316, 3 fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
+  "admit_changed_at": "2026-10-04T21:31:39Z",
+  "config_updated_at": "2026-10-04T21:23:40Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 08:35 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "AUD \\$\\s?([0-9]{1,3}(?:,[0-9]{3})+)\\s+20[2-3][0-9]",
+      "campus": "Location\\s+((?:.|\\n){1,80}?)\\s+Fees A\\$",
+      "intakes": "Fees A\\$[0-9,]+(?:.|\\n){0,250}?Start Semester\\s+((?=(?:.|\\n){0,40}?(?:Semester|Summer|Trimester|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))(?:.|\\n){1,200}?)\\s+(?:Semester dates|Program Code|CRICOS|AQF)",
+      "duration": "Fees A\\$[0-9,]+\\s+Duration\\s+((?:.|\\n){1,250}?)\\s+Start Semester",
+      "aqf_level": "CRICOS Code\\s+{code}\\s+AQF\\s+(Level [0-9]{1,2})",
+      "ielts_overall": "IELTS (?:score of (?=[4-9](?:\\.[05])? overall))?(?:overall )?([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "aqf_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "UQ course pages on study.uq.edu.au hold both a domestic and an international key-facts panel. The international panel reads: Location, Fees A$<amount>, Duration (one or more lines), Start Semester with dates (e.g. Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027); some programs start earlier, e.g. Semester 1 (26 Jan, 2027) or Summer Semester (29 Nov, 2027)), Program Code, CRICOS Code, AQF. Intakes, duration and campus are read from the international panel (anchored on 'Fees A$'); months come from the printed dates, so no term-to-month mapping is used (the generic calendar mapping is wrong for programs with their own dates). Fee is the international 'Indicative annual fee' block 'AUD $<amount> <year>' (the domestic/CSP block has no AUD prefix). IELTS from 'IELTS overall X' or 'IELTS score of X overall'. Central calendar: https://about.uq.edu.au/academic-calendar (Semester 1 = February, Semester 2 = July, Summer Semester = late November). Closing dates in 'Important dates' are application deadlines, not intakes. HDR pages (PhD/MPhil) carry no fee or start panel. Pages on programs-courses.uq.edu.au and faculty sites are left to the general reader.",
+    "reason": "Round 3: drop term_months because UQ pages print program-specific start dates and the generic mapping added wrong months (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
+    "updated_at": "2026-10-04T21:23:40.184145+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "077443C",
+      "title": "Master of Conservation Biology",
+      "field": "fee",
+      "reason": "years 1-2 only, or 24-unit year to review (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "082609K",
+      "title": "Master of Conservation Science",
+      "field": "fee",
+      "reason": "years 1-2 only, or 24-unit year to review (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121167D",
+      "title": "Bachelor of Medical Science / Doctor of Medicine",
+      "field": "fee",
+      "reason": "years 1-2 only, or 24-unit year to review (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121168C",
+      "title": "Bachelor of Medical Science (Exit award)",
+      "field": "fee",
+      "reason": "years 1-2 only, or 24-unit year to review (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://about.uq.edu.au/academic-calendar",
+        "status": "found",
+        "read_at": "2026-10-02T07:08:54Z",
+        "evidence_id": "af1d160c-25ce-45c8-a271-adc2c9e58303"
+      }
+    ],
+    "english_proposals_waiting": [
+      {
+        "id": "ff2df4e3-5102-4b2c-b656-53c5959c519e",
+        "parser": "written out from the central page",
+        "style": "level_default",
+        "url": "https://study.uq.edu.au/admissions/english-language-requirements",
+        "created_at": "2026-10-04T21:33:00Z",
+        "proposal_md5": "19825839e98703632951e3f87b046917"
+      }
+    ]
+  },
+  "results": {
+    "note_5_oct": "Wave 6. 316 intakes, 312 fees, 316 IELTS held = adapter. 3 fees held back."
+  }
+}
