@@ -3463,3 +3463,25 @@ Pilot PRs #160, #161.
 - **Found — scholarships:** AU 363 published (28 withdrawn at the first daily review, as Decision 139 intends), NZ 1 published, CA none published (2 withdrawn); 825 AU, 17 NZ and 28 CA waiting in Layer 4.
 - **Fix (v2.15.176):** Melbourne moved to AEDT today; the Scholarships tabs converted job times with a fixed +10. They now use the shared Melbourne clock helper; fixed clock times removed from the guide, the publishing tile and a job description (migration 20261004000500, md5 7bb0bb0a93c73173ee5a42f543d9d8ab, live = file). Full suite with only the pre-existing baseline and environment-only deployed specs failing; all four workflows green.
 - **Next steps (recommended):** decide on resuming the tuition hand-off to Layer 3; re-run the failed Layer 3 intake and English items on a re-qualified pinned model or narrower rules; clear the Layer 4 backlog (bulk decisions where the rule is clear); repeat the course-page search for the 10,995 not found with a second strategy; NZ/CA register attributes (NZQA, Canadian equivalents) for duration, campus and tuition; scholarship Firecrawl cap decision; production go-live (parked since 29 Sep) to be rescheduled with a GO/NO-GO.
+
+### 4 Oct 2026, 13:35 AEDT — Data admission failure review and final plan (report delivered)
+
+Platform Admin, 12:39: find an end-to-end solution — every step stalls after execution; the UI needs complete visibility of variables, limits and prompts for each layer; review the plan for each attribute and its source; report what has failed, the blockers and the steps to resolve them; research other toolsets if needed; scheduled jobs are too bloated; finalise the admission plan and toolset and stop replanning layers per field.
+
+Delivered as a Claude Docs report, "CourseFinder data admission — failure review and final plan" (eight sections: where admission stands, plan vs reality per attribute, the six blockers, toolset keep/add/retire, UI visibility inventory, job consolidation 84→28, final admission plan with one pipeline diagram and an eight-step order, decisions needed).
+
+Findings recorded (live counts at 4 Oct):
+- Workers are healthy; each strategy is exhausted, not broken. 15,187 courses have no official page (7,637 pages found but failed CRICOS identity — NZ/CA pages never print a code; 27,609 AI page-identity "none").
+- Values sit on provider-wide pages, not course pages: 7,761 English and 11,031 intake "no_candidate" (UNSW 456, ANU 420, UniMelb 339, USyd 332 …); 13,781 tuition "not on page".
+- Layer 3 quote check too strict: 794 intake + 38 English held at Layer 4. `layer3-tuition-enqueue` paused since 2 Oct (1,066 L4 + 1,919 candidates); Qwen3-235B at 75%. OpenRouter credit US$27.67 of 75.
+- 1,012 blocked + 1,396 needs_render + 287 robots-disallowed pages (Monash, QUT, Otago, Lincoln, UWA robots; Sydney/Flinders handbooks; Alberta calendar). Scholarship Firecrawl: 304 of 3,000 credits left.
+- No register for NZ/CA fees or Canadian programmes; 1,096 Canadian providers never entered the website finder. Scholarship Layer 3 configured but off. Layer 4: 1,023 pending.
+- 84 cron jobs (76 active, 12 per-minute-or-faster); 140 edge functions, 7 scheduled.
+
+Toolset researched (not yet chosen): search — Serper from US$1/1k, Brave US$5/1k, Exa US$7/1k, Tavily US$5–8/1k, SerpApi from US$15/1k; rendering/unblocking per 1k successful — Zyte US$0.10–0.95, ScrapingBee ~US$0.10 plain / US$0.45–1.49 rendered, ZenRows ~US$0.20, Bright Data US$1.50. NZQA publishes qualifications/levels (no fees); no Canadian national programme register.
+
+Decisions put to the Platform Admin (none actioned): (1) OpenRouter top-up to US$75; (2) search provider and monthly cap (Serper recommended, ~US$16 for 15,187 courses); (3) rendering fetcher and scholarship Firecrawl cap (ScrapingBee or Zyte; backlog <US$5; cap 3,000→6,000); (4) two pinned models for a fresh tuition holdout; (5) job consolidation 84→28; (6) new go-live date and GO/NO-GO; (7) confirm robots-disallowed pages stay unread and the UI control rule (settings rows for limits; versioned read-only prompts/validators in Layer 3).
+
+Open items logged, not actioned: `scholarship-nationality` times out 8/14 runs (needs a batch-size setting); a UTS news story admitted as a scholarship ("Tanisha's success…"); 509 AU provider pages refused as "not a university" (rule right for scholarships, wrong for course pages).
+
+Nothing deployed this entry. Main stays at v2.15.176 / package 0.1.103.
