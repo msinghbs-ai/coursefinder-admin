@@ -1,6 +1,6 @@
 # Adapter Lessons Learnt
 
-**Status:** CURRENT · **Decision:** 254 · **Change control:** CF-CHG-20260915-247 · **As at:** 6 Oct 2026, 07:39 AEDT
+**Status:** CURRENT · **Decision:** 254 · **Change control:** CF-CHG-20260915-247 · **As at:** 6 Oct 2026, 09:24 AEDT
 **Companion documents:**
 - `ADAPTER-PATTERN-SHEET.md` and `.csv`: one row per provider, showing where each attribute sits.
 - `README.md`: the register and reviewed configurations.
@@ -105,6 +105,28 @@ This is the working playbook for building a provider adapter. It collects what t
 | Fees per term only (Academies Australasia, AAPoly cookery). | Not readable until per-term annualisation exists (open item 3). |
 | Intakes printed as "Semester 1 each year" with no key-dates page (Cairnmillar). | Needs a `term_months` map from the provider's own key-dates page. Do not invent one. |
 
+## 8. Added after waves 11 to 14 (6 Oct, 09:24), including the first Canadian providers
+
+| Finding | What to do |
+|---|---|
+| Delivery printed as "Mixed", "20 hrs/week (mixed)", "face to face virtual", "classroom environment (face to face or virtual)" or "Face-to-Face / Online". | Not a single mode. Do not admit unless the page says which applies. "Face-to-Face / Online" may be a choice or a required mix; report it. |
+| A legend of every study mode printed on every course page (Educare, Charlton Brown: "Entirely On-Campus / Entirely Online / Mixed Mode"). | Not a per-course delivery. Write no delivery pattern. |
+| One whole-course figure headed "Tuition Fees" or "Course Fee" with no international label (King's School of Culinary Arts, Hallmark, Alpha Beta, Whitehouse, UHE). | Save the pattern if it helps, but hold the fee until someone confirms it is the international figure. |
+| A fee table with Domestic, International and Temporary Resident columns (Charlton Brown). | Read the International column only. |
+| A "No longer accepting applications" or closed-to-new-enrolment banner (HELI Master of eLearning). | Correctly no intakes. Not a reading failure. |
+| Intakes as a dated Monday list ("2026 October Monday, 12th November Monday, 02nd …"). | Months can be read with pick "all", but on 8-weekly or monthly courses the set is only a window on a rolling schedule. Say so before admitting. |
+| Intakes as month headings in capitals with day numbers underneath (ETEA "JAN FEB … 5 th 20 th"). | Not readable until open item 2 is built. |
+| Domestic and international views on separate pages (Chisholm, Australian Nursing and Training Services). | Bind the international page. If only the domestic page is stored, do not read fees or delivery. |
+| Course pages that are learning-management shells ("Enroll Now, Lessons 0") or blog author archives. | Not course pages. Rebind or report. |
+| Template copy that contradicts the catalogue ("Duration 3 Years, AQF 7" on a graduate certificate, APEX). | Exclude the fee for that course and report it as site noise. |
+| A careers block printing median salary (WorkBC, "Median Annual Earnings"). | The general reader takes it as a fee. Exclude the fee for that course. |
+| **Canada:** courses carry a source GUID as course_code and no course URL, so the general reader calls most right pages mismatches. | Bind by exact title only and confirm with `set_official_url`. The page then reads as identity manual. |
+| **Canada:** most courses are `lifecycle_status = inactive` (for example 205 of 213 at Camosun, 78 of 81 at College of the Rockies). | The builder, preview and apply only reach active courses. Rebinding alone gives inactive courses no adapter readings (open item 8). |
+| **Canada:** intakes as terms (Fall, Winter, Spring, Summer). | Read printed month names only. Kwantlen prints "Fall (September)", which reads directly. NIC, Douglas, Selkirk and Northwestern print terms only and need a `term_months` map from the provider's own key-dates page. |
+| **Canada:** fees in CAD as a whole-programme total (Camosun, NIC), a Year 1 international panel (College of the Rockies, Selkirk) or "approx. first year" (Okanagan). | Decision 220 already allows CAD tuition only from a page that prints the course's code. Canadian course pages print no code, so no Canadian fee is admitted. Patterns are saved for later. |
+| **Canada:** one page per discipline serving several degrees (King's, Burman, Calgary). | Exact-title identity fails. Needs a person to map degrees to pages. |
+| **Canada:** sites that refuse the reader (Emily Carr, HTTP 403) or put programme facts on a current-year calendar profile (Capilano 2026-27). | Use the current-year calendar profile, never an archive year. A 403 site needs a rendered read or hand entry. |
+
 ## 5. Platform fixes made because of these lessons
 
 | Fix | What it does |
@@ -126,3 +148,6 @@ This is the working playbook for building a provider adapter. It collects what t
 5. **Level-aware reading:** for pages that cover several qualification levels (CIT).
 6. **Track H discovery:** 438 providers and 896 courses with no usable pages.
 7. **Repeated fee decisions:** onshore or offshore; page or catalogue when they disagree; whether 2027 fees replace 2026.
+8. **Inactive courses (Canada):** let the builder, preview and apply reach inactive courses, or activate the Canadian courses through the proper process. This blocks most of the 2,200 Canadian courses.
+9. **Central page reads:** the Canadian `english_policy` and `intake_calendar` pages attached tonight are queued but not read ("budget" error). The provider-facts job needs another run.
+10. **Providers with no own website or pages:** about 40 providers bound only to aggregator listings (higherstudy.com, search.acir.com.au, oneuedu.com, australiancourses.com.au) need their own site found before any adapter work.
