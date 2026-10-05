@@ -1,0 +1,296 @@
+{
+  "university": "Southern Institute of Technology",
+  "country": "NZ",
+  "provider_id": "e2dd4b2b-1379-46c5-abe1-e8f24e685913",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Wave 9 report: intakes and English ready; fee not admitted as pages carry no international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:43Z",
+  "config_updated_at": "2026-10-04T23:59:55Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Study Modes:\\s?((?:.|\\n){1,60}?)\\s?Dates:",
+      "intakes": "(?:(?:Intake|Semester|Term|Block|Trimester)\\s?[A-Z0-9]{0,3}|20\\d\\d|Year 1(?: and 2)?)\\s?:\\s?\\d{1,2}(?:st|nd|rd|th)? (January|February|March|April|May|June|July|August|September|October|November|December)",
+      "duration": "Duration:\\s?((?:.|\\n){1,90}?)\\s?Study Modes",
+      "study_level": "Level:\\s?(\\d{1,2})(?![0-9])",
+      "ielts_overall": "IELTS[^0-9$]{0,40}?([4-9](?:\\.[05])?)(?![0-9])"
+    },
+    "pick": {
+      "mode": "first",
+      "intakes": "all",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "SIT course pages (www.sit.ac.nz/programme/course/<title>[/campus/<campus>], also /programme/id/<n>) are server-rendered and show the domestic view. Key Details: \"Level: 7\", \"Duration: ... Study Modes: ... Dates: ApplyOnline... --> 2027 Intake 1: 09 February to 04 June\" / \"2027 Semester 1: 15 February to 25 June\" / \"2027: 18 January to 28 May\" / \"2027 Year 1: 22 February ...\"; intakes = the START month of each line (pick all; Year 2/Year 3 continuing-student lines are not read). Application Criteria prints IELTS with the overall first (\"IELTS Academic: 6.0 overall, with no band below 5.5\"). No fee is read: the Fees section is domestic (Zero Fees / direct material costs); international fees are a link to a central page, or \"International Fees $100 per credit\" on distance programmes, or a whole-programme amount (one page: $12500 for a 17-week certificate). Central calendar: https://www.sit.ac.nz/Fees-Enrolments/Important-Dates (2026 Semester 1 = February, Semester 2 = July); course pages print their own dates so no term_months are needed.",
+    "reason": "Round 3 final: intakes also read \"2027: 18 January\" and \"Year 1: 22 February\" lines, temporary probes removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:59:55.372951+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1933",
+      "title": "Bachelor of Commerce (Level 7)",
+      "field": "intakes",
+      "reason": "Borderline intake reading flagged for review in wave 9 report; excluded conservatively (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2376",
+      "title": "New Zealand Certificate in Equine Skills (Level 3)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2377",
+      "title": "New Zealand Certificate in Equine Skills (Sporthorse Groom) (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2413",
+      "title": "New Zealand Certificate in Hairdressing (Professional Stylist) (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2417",
+      "title": "Postgraduate Certificate in Information Technology (Level 8)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2418",
+      "title": "Postgraduate Diploma in Information Technology (Level 8)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2459",
+      "title": "New Zealand Diploma in Business (Level 5)",
+      "field": "intakes",
+      "reason": "Borderline intake reading flagged for review in wave 9 report; excluded conservatively (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2594",
+      "title": "New Zealand Certificate in Information Technology Essentials (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2628",
+      "title": "New Zealand Certificate in Digital Media and Design (Level 3)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2634",
+      "title": "New Zealand Diploma in Animation (Level 5)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2681",
+      "title": "New Zealand Certificate in Organic Primary Production (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2715",
+      "title": "New Zealand Certificate in Mechanical Engineering (Level 3)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2740",
+      "title": "New Zealand Diploma in Wellness and Relaxation Massage (Level 5)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2741",
+      "title": "New Zealand Diploma in Remedial Massage (Level 6)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2834",
+      "title": "New Zealand Certificate in Construction Trade Skills (Level 3)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2869",
+      "title": "New Zealand Certificate in Creativity (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2962",
+      "title": "New Zealand Certificate in Education Support and Care (Level 3)",
+      "field": "english",
+      "reason": "News article wrongly bound as the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2962",
+      "title": "New Zealand Certificate in Education Support and Care (Level 3)",
+      "field": "fee",
+      "reason": "News article wrongly bound as the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2962",
+      "title": "New Zealand Certificate in Education Support and Care (Level 3)",
+      "field": "intakes",
+      "reason": "News article wrongly bound as the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2992",
+      "title": "New Zealand Certificate in Health and Wellbeing (Social and Community Services) (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3097",
+      "title": "New Zealand Certificate in Automotive Engineering (Level 3)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3171",
+      "title": "Master of Information Technology (Level 9)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3422",
+      "title": "New Zealand Diploma in Audio Engineering and Production (Level 5)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3431",
+      "title": "New Zealand Diploma in Music (Level 5)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3432",
+      "title": "New Zealand Diploma in Music (Level 6)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3444",
+      "title": "New Zealand Certificate in Beauty Therapy (Level 4)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3652",
+      "title": "Postgraduate Diploma in Applied Health Sciences (Wellness and Rehabilitation) (Level 8)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3959",
+      "title": "Bachelor of Engineering Technology (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4113",
+      "title": "New Zealand Certificate in Wool Technology and Classing (Level 4)",
+      "field": "intakes",
+      "reason": "Borderline intake reading flagged for review in wave 9 report; excluded conservatively (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4316",
+      "title": "New Zealand Certificate in Electrical Pre-Trade (Level 3)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT5066",
+      "title": "Bachelor of Engineering Technology (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST4893",
+      "title": "Bachelor of Sport and Exercise (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST4929",
+      "title": "Bachelor of Information Technology (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST4956",
+      "title": "Bachelor of Hotel Management (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST5260",
+      "title": "Graduate Diploma in Sport and Exercise (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST5262",
+      "title": "Graduate Diploma in Contemporary Music (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST5263",
+      "title": "Graduate Certificate in Contemporary Music (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST5264",
+      "title": "Graduate Diploma in Audio Production (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "ST5312",
+      "title": "Graduate Diploma in Screen Arts (3D Animation) (Level 7)",
+      "field": "fee",
+      "reason": "SIT course pages show domestic Zero Fees, material costs, per-credit or whole-programme sums, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.sit.ac.nz/Fees-Enrolments/Important-Dates",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Intakes and English admitted. All general-reader fees held back."
+  }
+}

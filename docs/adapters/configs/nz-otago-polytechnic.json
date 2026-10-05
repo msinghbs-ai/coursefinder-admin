@@ -1,0 +1,256 @@
+{
+  "university": "Otago Polytechnic",
+  "country": "NZ",
+  "provider_id": "cd27693c-6c80-42f4-8b76-1ed2d94e0b45",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Wave 9 report: intakes, IELTS and annual fees read from the International panel are ready after the listed exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:10Z",
+  "config_updated_at": "2026-10-04T23:56:23Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International\\s+Duration\\s+[1-9] Years?\\s*Full-time(?:.|\\n){0,120}?Fees\\s+\\$([0-9][0-9,]{3,})",
+      "mode": "International\\s+Duration(?:.|\\n){0,200}?Delivery\\s+((?:.|\\n){1,100}?)\\s+Location",
+      "campus": "International\\s+Duration(?:.|\\n){0,250}?Location\\s+((?:.|\\n){1,80}?)\\s+(?:Intakes|Express your interest|Apply Now)",
+      "intakes": "International\\s+Duration(?:.|\\n){0,250}?Intakes\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:[\\s,]+(?:and\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December|20[2-3][0-9]))*)",
+      "duration": "International\\s+Duration\\s+((?:[0-9.]+ (?:Years?|Months?|Weeks?)\\s*(?:Full-time|Part-time)\\s*)+)",
+      "study_level": "International\\s+Duration(?:.|\\n){0,80}?(Level\\s+[0-9]{1,2})\\b",
+      "ielts_overall": "(?:Overall Academic IELTS|IELTS overall band score of)\\s+([4-9](?:\\.[05])?)",
+      "not_admitting": "International\\s+Duration(?:.|\\n){0,250}?(This programme is not currently available)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Otago Polytechnic course pages (www.op.ac.nz/programmes/nzqa/...) print a Domestic panel then an International panel (Duration, Level, Credits, Fees, Delivery, Location, Intakes), then Fees sections. All fields are read from the International panel only. Fee is read only when the international duration is whole years full-time (the panel fee is per year for multi-year programmes, per the International fees table https://www.op.ac.nz/international/fees-and-scholarship/international-fees-table; for sub-year programmes it is a whole-course total and is not read). Intakes are printed month names. IELTS from the course English section (Overall Academic IELTS N). Domestic-only pages carry no International panel and give no reading.",
+    "reason": "Otago Polytechnic intakes pattern now captures the month list only (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:56:23.669895+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1879",
+      "title": "New Zealand Certificate in English Language (Foundation) (Level 1)",
+      "field": "fee",
+      "reason": "general-reader fee 6,000 is a whole-course or wrong figure, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "fee",
+      "reason": "general-reader fee 6,000 is a whole-course or wrong figure, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1883",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 4)",
+      "field": "fee",
+      "reason": "general-reader fee 6,000 is a whole-course or wrong figure, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2206",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 5)",
+      "field": "intakes",
+      "reason": "page says the programme is not currently available (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2453",
+      "title": "New Zealand Certificate in Business (Introduction to Team Leadership) (Level 3)",
+      "field": "intakes",
+      "reason": "domestic-panel intakes; page says it will be offered in 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2455",
+      "title": "New Zealand Certificate in Business (Accounting Support Services) (Level 4)",
+      "field": "fee",
+      "reason": "whole-course fee for a 17-week programme, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2457",
+      "title": "New Zealand Certificate in Business (Small Business) (Level 4)",
+      "field": "intakes",
+      "reason": "general-reader intakes are mixed domestic months (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2677",
+      "title": "New Zealand Certificate in Horticulture (General) (Level 3)",
+      "field": "intakes",
+      "reason": "domestic-only page, general-reader intakes from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2714",
+      "title": "New Zealand Certificate in Mechanical Engineering (Trade) (Level 4)",
+      "field": "intakes",
+      "reason": "domestic-panel intakes; page says it will be offered in 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2715",
+      "title": "New Zealand Certificate in Mechanical Engineering (Level 3)",
+      "field": "intakes",
+      "reason": "domestic-panel intakes; page says it will be offered in 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2719",
+      "title": "New Zealand Certificate in Engineering Fabrication (Trade) (Level 4)",
+      "field": "intakes",
+      "reason": "domestic-panel intakes; page says it will be offered in 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2754",
+      "title": "New Zealand Certificate in Adult Literacy and Numeracy Education (Vocational/Workplace) (Level 5)",
+      "field": "intakes",
+      "reason": "domestic-only page, general-reader intakes from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2761",
+      "title": "New Zealand Certificate in Education Support (Level 4)",
+      "field": "intakes",
+      "reason": "domestic-only page, general-reader intakes from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2889",
+      "title": "New Zealand Diploma in Enrolled Nursing (Level 5)",
+      "field": "intakes",
+      "reason": "page gives February 2028 as the next intake, not a current intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2993",
+      "title": "New Zealand Certificate in Adult and Tertiary Teaching (Level 5)",
+      "field": "intakes",
+      "reason": "domestic-only page, general-reader intakes from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3139",
+      "title": "Postgraduate Certificate in Design (Level 8)",
+      "field": "fee",
+      "reason": "whole-course fee for a 6-month programme, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3188",
+      "title": "Te Taketake Diploma in Applied Addictions Counselling (Level 7)",
+      "field": "intakes",
+      "reason": "domestic-only page, general-reader intakes from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "fee",
+      "reason": "general-reader fee 6,000 is a whole-course or wrong figure, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3669",
+      "title": "New Zealand Certificate in English Language (General) (Level 4)",
+      "field": "fee",
+      "reason": "general-reader fee 6,000 is a whole-course or wrong figure, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3702",
+      "title": "Doctor of Professional Practice (Level 10)",
+      "field": "fee",
+      "reason": "borderline: 29,600 not in the fees table, cannot confirm it is per year (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3704",
+      "title": "Postgraduate Certificate in Applied Science (Level 8)",
+      "field": "fee",
+      "reason": "whole-course fee for a 6-month programme, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4316",
+      "title": "New Zealand Certificate in Electrical Pre-Trade (Level 3)",
+      "field": "intakes",
+      "reason": "domestic-panel intakes; page says it will be offered in 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5354",
+      "title": "New Zealand Diploma in Enrolled Nursing (Level 5)",
+      "field": "intakes",
+      "reason": "page gives February 2028 as the next intake, not a current intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4863",
+      "title": "Postgraduate Certificate in Midwifery Practice (Level 8)",
+      "field": "english",
+      "reason": "IELTS 7.5 is for NZ-registered midwives; international applicants need 6.5 with Speaking 7.0 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4863",
+      "title": "Postgraduate Certificate in Midwifery Practice (Level 8)",
+      "field": "fee",
+      "reason": "whole-course fee for a 6-month programme, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4864",
+      "title": "Postgraduate Diploma in Midwifery (Level 8)",
+      "field": "english",
+      "reason": "IELTS 7.5 is for NZ-registered midwives; international applicants need 6.5 with Speaking 7.0 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4865",
+      "title": "Master of Midwifery (Level 9)",
+      "field": "english",
+      "reason": "IELTS 7.5 is for NZ-registered midwives; international applicants need 6.5 with Speaking 7.0 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4898",
+      "title": "Postgraduate Certificate in Occupational Therapy Practice (Level 8)",
+      "field": "english",
+      "reason": "IELTS 7.5 is for NZ-registered midwives; international applicants need 6.5 with Speaking 7.0 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4898",
+      "title": "Postgraduate Certificate in Occupational Therapy Practice (Level 8)",
+      "field": "fee",
+      "reason": "whole-course fee for a 6-month programme, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT5068",
+      "title": "Postgraduate Certificate in Visual Arts (Level 8)",
+      "field": "fee",
+      "reason": "1,000 is a course-costs loan, not the tuition fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.op.ac.nz/explore/international-students/entry-requirements",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.op.ac.nz/explore/events-and-important-dates/important-dates",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 30 readings held back."
+  }
+}

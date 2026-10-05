@@ -1,0 +1,142 @@
+{
+  "university": "Unitec",
+  "catalogue_name": "Manukau Institute of Technology and Unitec - Unitec",
+  "country": "NZ",
+  "provider_id": "66f6fcc9-15f8-46e6-b3b3-0576ab4bcce3",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Admit Unitec intakes, fee and english after exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:29:04Z",
+  "config_updated_at": "2026-10-05T00:24:24Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International students\\s+\\$\\s?([0-9][0-9,]*(?:\\.[0-9]+)?)\\s*\\(NZD\\)\\s*\\(approximate fees for 120 credits(?:\\s+only)?\\)",
+      "campus": "Campus\\s+((?:.|\\n){2,60}?)\\s+Start dates",
+      "intakes": "Start dates?\\s+((?:Starts\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,100}?)(?:\\s+Duration|\\s+Call us|\\n|$)",
+      "duration": "Duration\\s+((?:.|\\n){2,140}?)\\s+Call us",
+      "ielts_overall": "IELTS\\s*\\(Academic\\)[^0-9]{0,80}?(?:score|overall)\\s*(?:of\\s*)?(?:at least\\s*)?([4-9](?:\\.[05])?)\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Unitec course pages (www.unitec.ac.nz/career-and-study-options/.../<programme>/), WordPress, no page JSON. Header strip: \"Level N Credits N (N EFTS) Campus X Start dates <months> Duration ... Call us now\". Fee: \"Annual Tuition Fees\" block, \"International students $N (NZD) (approximate fees for 120 credits[ only])\" - 120 credits = one full-time year; 60-credit (16-week / PG certificate) amounts are not read. IELTS: international Admission requirements tab, \"IELTS (Academic) ... score of at least N\". Semester dates block on each page (\"Sem 1 2026: 23 Feb\", \"Sem 2 2026: 13/20 Jul\"); start dates print month names so no term_months needed.",
+    "reason": "Round 2: read \"120 credits only\" fee wording, tighten IELTS to the score after its label (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:24:24.671245+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1797",
+      "title": "Graduate Diploma in Professional Accountancy (Level 7)",
+      "field": "english",
+      "reason": "IELTS 5.5 reading unverified, below usual 6.0 for this level (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "fee",
+      "reason": "Fee is for 60 credits / 16 weeks, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1883",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 4)",
+      "field": "fee",
+      "reason": "Fee is for 60 credits / 16 weeks, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1884",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 5)",
+      "field": "fee",
+      "reason": "Fee is for 60 credits / 16 weeks, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2738",
+      "title": "New Zealand Certificate in Carpentry (Level 4)",
+      "field": "intakes",
+      "reason": "Part-time, requires full-time NZ employment; likely domestic only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3665",
+      "title": "New Zealand Diploma in Interior Design (Residential) (Level 5)",
+      "field": "english",
+      "reason": "IELTS 5.5 reading unverified, below usual 6.0 for this level (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "fee",
+      "reason": "Fee is for 60 credits / 16 weeks, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3995",
+      "title": "Bachelor of Veterinary Nursing (Level 7)",
+      "field": "intakes",
+      "reason": "July is a Year 3 intake only; first-year intake is February (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4208",
+      "title": "Postgraduate Certificate in Applied Business (Level 8)",
+      "field": "fee",
+      "reason": "Fee is for 60 credits, whole qualification, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4998",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 3)",
+      "field": "fee",
+      "reason": "Fee is for 60 credits / 16 weeks, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CA2190",
+      "title": "Bachelor of Landscape Architecture (Level 7)",
+      "field": "intakes",
+      "reason": "July intake domestic or part-time only; international starts February (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CA2311",
+      "title": "Doctor of Computing (Level 10)",
+      "field": "fee",
+      "reason": "Doctoral rate 10,212.20 unconfirmed as international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CA2357",
+      "title": "Bachelor of Architectural Studies (Level 7)",
+      "field": "intakes",
+      "reason": "July intake domestic or part-time only; international starts February (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.unitec.ac.nz/international/study-with-us/english-language-requirements-for-international-students/",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 13 readings held back."
+  }
+}

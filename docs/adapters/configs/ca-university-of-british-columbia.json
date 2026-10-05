@@ -13,7 +13,7 @@
   "admit_reason": "UBC: graduate pages, intakes 196 agree, IELTS 220, first-year international tuition 216 after 11 short programmes excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T23:23:08Z",
   "config_updated_at": "2026-10-04T22:58:47Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,

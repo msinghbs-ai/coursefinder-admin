@@ -1,6 +1,6 @@
 # University Adapter Register
 
-**Status:** CURRENT · **Decision:** 254 (design reference v1.4) · **Change control:** CF-CHG-20260915-247 · **As at:** 5 Oct 2026, 10:30 AEDT
+**Status:** CURRENT · **Decision:** 254 (design reference v1.4) · **Change control:** CF-CHG-20260915-247 · **As at:** 5 Oct 2026, 11:47 AEDT
 **Design and decision document:** `docs/coursefinder-university-adapters-v1.0.md`
 
 This register lists every target university and its adapter state, with each adapter's reviewed configuration in `configs/`. The live configuration is held in the database (`pipeline.uni_adapters`) and edited in the PIM Admin (Models & services › University adapters). The files here are the reviewed baseline for production. Re-export them at every release gate, and whenever an adapter is admitted or changed.
@@ -10,11 +10,11 @@ This register lists every target university and its adapter state, with each ada
 - **Next step** for each university comes from the adapter evaluation rules (settings under Firecrawl › Adapter evaluation) and is shown in the live panel, not in this register.
 - **Wave** is the planned build order, five adapters at a time, each wave with a NZ and a CA university (see section 5 of the design document, amended 23:41). The Wave column below follows the amended plan.
 - **Adapter** is the live state: None, Testing (enabled, not admitting), or Admitting (enabled, admission on for the fields shown in the table above).
-- **Wave** shows "Done (wave N)" once the adapter built in that wave is admitting. Waves 1 to 5 ran on 5 Oct 2026 (see the M2.4.7 runsheet entry of 07:30), wave 6 by 08:35, wave 7 by 09:30 and wave 8, the last, by 10:30 (entries of the same times). From wave 6, each wave had about 11 universities. Every target university has now been through a wave. "Waiting on decision" means the next step waits on one of the open decisions in section 14 of the design document.
+- **Wave** shows "Done (wave N)" once the adapter built in that wave is admitting. Waves 1 to 5 ran on 5 Oct 2026 (see the M2.4.7 runsheet entry of 07:30), wave 6 by 08:35, wave 7 by 09:30 and wave 8, the last of the target list, by 10:30 (entries of the same times). From wave 6, each wave had about 11 universities. Every target university has now been through a wave. Wave 9 (entry of 11:35) went beyond the target list to 25 more providers, mostly polytechnics and TAFEs; they are listed in their own table below. "Waiting on decision" means the next step waits on one of the open decisions in section 14 of the design document.
 
 ## Adapters with a configuration
 
-50 adapters are configured: 42 admitting and 8 testing. 996 course exclusions are active (994 on adapters). 61 central pages are attached for 41 universities. All figures are from the live database at the time above. Calgary (draft only), Notre Dame, Fraser Valley, MacEwan and Kwantlen have no adapter, so they have no configuration and appear only in the table of all target universities. Kwantlen has 2 active exclusions without an adapter (median-earnings figures read as fees), which are counted in the total above.
+75 adapters are configured: 64 admitting and 11 testing. 1962 course exclusions are active (1960 on adapters). 113 central pages are attached for 64 providers. All figures are from the live database at the time above. Calgary (draft only), Notre Dame, Fraser Valley, MacEwan and Kwantlen have no adapter, so they have no configuration and appear only in the table of all target universities. Kwantlen has 2 active exclusions without an adapter (median-earnings figures read as fees), which are counted in the total above. NorthTec, WITT and Whitireia and WelTec are divisions of one catalogue provider (New Zealand Institute of Skills and Technology), each with its own provider record and adapter; their configurations keep the catalogue name as `catalogue_name`.
 
 **Admission by field.** An adapter that is admitting only overwrites the fields ticked for it (intakes, English, fees). A university can be right on one field and wrong on another, so each field is switched on by itself.
 
@@ -51,7 +51,7 @@ This register lists every target university and its adapter state, with each ada
 | RMIT University (AU) | Admitting | English, fees | 5 Oct 2026, 08:31 AEDT | 1 | Approved | Proposed | 1 | `configs/au-rmit-university.json` | Wave 6. 271 fees, 362 IELTS. Intakes held: 56 pages list fewer intakes than held (decision). |
 | Swinburne University of Technology (AU) | Admitting | intakes, English | 5 Oct 2026, 08:31 AEDT | 6 | Approved | Proposed | 1 | `configs/au-swinburne-university-of-technology.json` | Wave 6. 212 intakes, 219 IELTS. Fees held: pages show 2026, the catalogue holds 2027 (decision). |
 | The University of Queensland (AU) | Admitting | intakes, English, fees | 5 Oct 2026, 08:31 AEDT | 4 | Approved | Proposed | 1 | `configs/au-the-university-of-queensland.json` | Wave 6. 316 intakes, 312 fees, 316 IELTS held = adapter. 3 fees held back. |
-| University of Alberta (CA) | Admitting | English | 5 Oct 2026, 08:31 AEDT | 3 | Proposed | — | 1 | `configs/ca-university-of-alberta.json` | Wave 6. 16 IELTS. No fee or start dates on the pages. |
+| University of Alberta (CA) | Admitting | English | 5 Oct 2026, 08:31 AEDT | 3 | Approved | — | 1 | `configs/ca-university-of-alberta.json` | Wave 6. 16 IELTS. No fee or start dates on the pages. |
 | University of Victoria (CA) | Admitting | intakes, English | 5 Oct 2026, 08:31 AEDT | 10 | Approved | No values | 2 | `configs/ca-university-of-victoria.json` | Wave 6. 70 intakes, 3 IELTS. No international fee on the pages. |
 | University of Wollongong (AU) | Admitting | intakes, English | 5 Oct 2026, 08:31 AEDT | 2 | Proposed | Proposed | 1 | `configs/au-university-of-wollongong.json` | Wave 6. 208 intakes, 210 IELTS. No annual fee published. |
 | Adelaide University (AU) | Admitting | intakes, English, fees | 5 Oct 2026, 09:27 AEDT | 70 | Approved | Approved | 2 | `configs/au-adelaide-university.json` | Wave 7. 229 intakes, 199 fees, 246 IELTS held = adapter. Half-year and online totals, and online intakes, excluded. |
@@ -68,12 +68,37 @@ This register lists every target university and its adapter state, with each ada
 | University of British Columbia (CA) | Admitting | intakes, English, fees | 5 Oct 2026, 10:23 AEDT | 38 | Approved | Proposed | 2 | `configs/ca-university-of-british-columbia.json` | Wave 8. 196 intakes, 216 fees, 220 IELTS held = adapter (graduate programme pages). Short course-based programme fees and wrong-campus pages excluded. |
 | University of New England (AU) | Admitting | intakes, fees | 5 Oct 2026, 10:23 AEDT | 18 | Approved | Proposed | 1 | `configs/au-university-of-new-england.json` | Wave 8. 89 intakes, 99 fees. Online-only courses, short-course totals and the 2027 fee list excluded; 82 courses narrowed to their international on-campus months. |
 | University of Northern British Columbia (CA) | Admitting | intakes, fees | 5 Oct 2026, 10:23 AEDT | 1 | Approved | No values | 2 | `configs/ca-university-of-northern-british-columbia.json` | Wave 8. 3 intakes, 2 fees. Most bindings are calendar pages. |
+| UNSW Sydney (AU) | Admitting | intakes, fees | 5 Oct 2026, 11:20 AEDT | 40 | Approved | Proposed | 2 | `configs/au-unsw-sydney.json` | Wave 9. Intakes and fees admitted. 34 fees held back (graduate certificate totals, borderline graduate diplomas, 6 wrong bindings). The English rule failed the agreement check (catalogue holds 6.0). |
+| Charles Sturt University (AU) | Admitting | intakes, English, fees | 5 Oct 2026, 11:20 AEDT | 17 | Approved | Proposed | 2 | `configs/au-charles-sturt-university.json` | Wave 9. All fields admitted. 15 fees (2026 tables, study abroad, Master of Philosophy) and 2 intakes held back. |
+| TAFE Queensland (AU) | Admitting | English, fees | 5 Oct 2026, 11:21 AEDT | 116 | Approved | Proposed | 3 | `configs/au-tafe-queensland.json` | Wave 9. English and fees admitted. Intakes held back. |
+| Alphacrucis College (AU) | Admitting | intakes, English | 5 Oct 2026, 11:21 AEDT | 1 | Approved | No values | 4 | `configs/au-alphacrucis-college.json` | Wave 9. Intakes and English admitted. Fees held back (domestic per-subject only). The parser English proposal (7.0 for every level) was to be rejected; it was superseded at 11:35 by the written-out rule. |
+| Otago Polytechnic (NZ) | Admitting | intakes, English, fees | 5 Oct 2026, 11:21 AEDT | 30 | — | — | 2 | `configs/nz-otago-polytechnic.json` | Wave 9. All fields admitted. 30 readings held back. |
+| TAFE International Western Australia (AU) | Admitting | intakes, English | 5 Oct 2026, 11:21 AEDT | 94 | Approved | No values | 2 | `configs/au-tafe-international-western-australia.json` | Wave 9. Intakes and English admitted. All fees held back (semester or whole-course totals). |
+| Nelson Marlborough Institute of Technology (NMIT) (NZ) | Admitting | intakes, English | 5 Oct 2026, 11:21 AEDT | 71 | Approved | — | 2 | `configs/nz-nelson-marlborough-institute-of-technology.json` | Wave 9. Intakes and English admitted. All fees held back (domestic). |
+| Torrens University Australia (AU) | Admitting | intakes, English | 5 Oct 2026, 11:21 AEDT | 49 | No values | Proposed | 1 | `configs/au-torrens-university-australia.json` | Wave 9. Intakes and English admitted. 29 intakes and 20 English held back (single past starts, shared pages). |
+| Whitireia and WelTec (NZIST) (NZ) | Admitting | intakes, English, fees | 5 Oct 2026, 11:21 AEDT | 9 | Approved | — | 3 | `configs/nz-whitireia-and-weltec.json` | Wave 9. All fields admitted. 8 fees and 1 intake held back. NZIST division; catalogue name is New Zealand Institute of Skills and Technology. |
+| The University of Newcastle (AU) | Admitting | English | 5 Oct 2026, 11:21 AEDT | 8 | Approved | Proposed | 3 | `configs/au-the-university-of-newcastle.json` | Wave 9. English admitted. Intakes held back (domestic first term); fees held back (browser only). |
+| Ara Institute of Canterbury (NZ) | Admitting | intakes, English, fees | 5 Oct 2026, 11:21 AEDT | 14 | Approved | — | 2 | `configs/nz-ara-institute-of-canterbury.json` | Wave 9. All fields admitted. 6 fees, 5 intakes and 3 English held back. |
+| WITT (NZIST) (NZ) | Admitting | English, fees | 5 Oct 2026, 11:21 AEDT | 5 | — | — | 3 | `configs/nz-witt.json` | Wave 9. English and fees admitted. Intakes held back (next intake only). NZIST division; catalogue name is New Zealand Institute of Skills and Technology. |
+| Southern Institute of Technology (NZ) | Admitting | intakes, English | 5 Oct 2026, 11:21 AEDT | 39 | — | — | 1 | `configs/nz-southern-institute-of-technology.json` | Wave 9. Intakes and English admitted. All general-reader fees held back. |
+| Eastern Institute of Technology (EIT) (NZ) | Admitting | intakes, English | 5 Oct 2026, 11:21 AEDT | 75 | Approved | — | 3 | `configs/nz-eastern-institute-of-technology.json` | Wave 9. Intakes and English admitted. 37 courses not offered to international students held back. |
+| TAFE South Australia (AU) | Admitting | intakes, English, fees | 5 Oct 2026, 11:22 AEDT | 16 | Approved | No values | 3 | `configs/au-tafe-south-australia.json` | Wave 9. All fields admitted. 15 fees held back. |
+| Waikato Institute of Technology (Wintec) (NZ) | Admitting | intakes | 5 Oct 2026, 11:22 AEDT | 73 | — | — | 2 | `configs/nz-waikato-institute-of-technology.json` | Wave 9. Intakes admitted. All fees held back (domestic), 3 intakes. |
+| Melbourne Polytechnic (AU) | Admitting | intakes, English, fees | 5 Oct 2026, 11:22 AEDT | 77 | Approved | Proposed | 4 | `configs/au-melbourne-polytechnic.json` | Wave 9. All fields admitted. 27 not-for-international, closed or old-registration courses held back. |
+| Collarts (AU) | Admitting | intakes | 5 Oct 2026, 11:22 AEDT | 20 | Approved | Proposed | 2 | `configs/au-collarts.json` | Wave 9. Intakes admitted. 12 intakes and 8 wrong catalogue fees held back. |
+| Australia Institute of Business and Technology (AIBT) (AU) | Admitting | intakes, English, fees | 5 Oct 2026, 11:28 AEDT | 27 | — | No values | 0 | `configs/au-australia-institute-of-business-and-technology.json` | Wave 9. All fields admitted. 9 fees (52 weeks on the page, longer in the catalogue) and 9 older CRICOS codes held back. |
+| Unitec (NZ) | Admitting | intakes, English, fees | 5 Oct 2026, 11:29 AEDT | 13 | Approved | — | 1 | `configs/nz-unitec.json` | Wave 9. All fields admitted. 13 readings held back. |
+| Manukau Institute of Technology (NZ) | Admitting | intakes, English, fees | 5 Oct 2026, 11:30 AEDT | 33 | — | — | 1 | `configs/nz-manukau-institute-of-technology.json` | Wave 9. All fields admitted. 9 pages not for international students and 6 fees held back. |
+| Toi Ohomai Institute of Technology (NZ) | Admitting | English | 5 Oct 2026, 11:30 AEDT | 0 | — | — | 2 | `configs/nz-toi-ohomai-institute-of-technology.json` | Wave 9. English admitted. Intakes held back (domestic view). |
 | Athabasca University (CA) | Testing | — | — | 1 | Approved | — | 1 | `configs/ca-athabasca-university.json` | Wave 8. Testing only: online only, no study permit (decision). |
 | Australian National University (AU) | Testing | — | — | 0 | No values | No values | 0 | `configs/au-australian-national-university.json` | Not admitted: needs central start dates and English (second-page source). |
 | Bond University Limited (AU) | Testing | — | — | 0 | No values | No values | 0 | `configs/au-bond-university-limited.json` | Not admitted: fees are per semester only, and IELTS is on a second page. |
 | Macquarie University (AU) | Testing | — | — | 0 | No values | No values | 0 | `configs/au-macquarie-university.json` | Not admitted: page-data fee path saved, 0 fees read. |
 | Mount Royal University (CA) | Testing | — | — | 0 | — | — | 0 | `configs/ca-mount-royal-university.json` | Not admitted: nothing admissible (fee, English and start months are central only). |
+| NorthTec (NZIST) (NZ) | Testing | — | — | 134 | — | — | 1 | `configs/nz-northtec.json` | Wave 9. Testing only, not admitted: 40 courses bound to the academic-calendar document. NZIST division; catalogue name is New Zealand Institute of Skills and Technology. |
 | Simon Fraser University (CA) | Testing | — | — | 0 | — | — | 0 | `configs/ca-simon-fraser-university.json` | Not admitted: 3 intakes only. |
+| TAFE NSW (AU) | Testing | — | — | 3 | No values | Proposed | 3 | `configs/au-tafe-nsw.json` | Wave 9. Testing only, not admitted: no usable fields. |
+| The Open Polytechnic of New Zealand (NZ) | Testing | — | — | 2 | — | — | 0 | `configs/nz-open-polytechnic.json` | Wave 9. Testing only, not admitted: distance study only. |
 | The University of Western Australia (AU) | Testing | — | — | 0 | No values | Proposed | 0 | `configs/au-the-university-of-western-australia.json` | Not admitted: fees only in the fee calculator. |
 | University of Auckland (NZ) | Testing | — | — | 0 | — | — | 0 | `configs/nz-university-of-auckland.json` | Not admitted: 45 intakes differ from held values. |
 
@@ -106,7 +131,7 @@ Rebuilt from the live database at the time above, with the same figures as the U
 | Royal Roads University | CA | 31 | 17 | 13 (13 / 0) | 0 (0 / 0) | 0 (0) | Admitting | — | — | Done (wave 5) |
 | The University of Sydney | AU | 655 | 432 | 30 (21 / 0) | 487 (0 / 482) | 0 (0) | Admitting | Approved | Proposed | Done (wave 7) |
 | University of British Columbia | CA | 575 | 275 | 200 (196 / 0) | 221 (220 / 0) | 216 (216) | Admitting | Approved | Proposed | Done (wave 8) |
-| University of Alberta | CA | 379 | 81 | 1 (0 / 0) | 22 (16 / 0) | 0 (0) | Admitting | Proposed | — | Done (wave 6) |
+| University of Alberta | CA | 379 | 81 | 1 (0 / 0) | 22 (16 / 0) | 0 (0) | Admitting | Approved | — | Done (wave 6) |
 | University of Technology Sydney | AU | 530 | 359 | 183 (130 / 0) | 310 (307 / 0) | 145 (0) | Admitting | No values | Proposed | Done (wave 2) |
 | Monash University | AU | 582 | 385 | 287 (266 / 0) | 264 (260 / 0) | 266 (262) | Admitting | Approved | Proposed | Done (wave 7) |
 | Curtin University | AU | 373 | 293 | 230 (202 / 0) | 262 (257 / 0) | 3 (3) | Admitting | Approved | Proposed | Done (wave 6) |
@@ -133,7 +158,7 @@ Rebuilt from the live database at the time above, with the same figures as the U
 | Kwantlen Polytechnic University | CA | 37 | 7 | 2 (0 / 0) | 0 (0 / 0) | 0 (0) | None | Approved | Proposed | Wave 8, waiting on decision |
 | RMIT University | AU | 507 | 384 | 309 (83 / 0) | 369 (109 / 0) | 305 (77) | Admitting | Approved | Proposed | Done (wave 6) |
 | University of Wollongong | AU | 367 | 341 | 210 (208 / 0) | 220 (210 / 0) | 0 (0) | Admitting | Proposed | Proposed | Done (wave 6) |
-| Auckland University of Technology | NZ | 257 | 190 | 145 (137 / 0) | 145 (138 / 0) | 6 (0) | Admitting | Approved | No values | Done (wave 7) |
+| Auckland University of Technology | NZ | 257 | 191 | 146 (137 / 0) | 145 (138 / 0) | 6 (0) | Admitting | Approved | No values | Done (wave 7) |
 | Queensland University of Technology | AU | 294 | 210 | 147 (140 / 0) | 201 (138 / 63) | 122 (122) | Admitting | Approved | No values | Done (wave 6) |
 | Edith Cowan University | AU | 172 | 155 | 145 (144 / 0) | 150 (149 / 0) | 144 (138) | Admitting | Approved | Proposed | Done (wave 7) |
 | Southern Cross University | AU | 153 | 128 | 99 (87 / 0) | 118 (90 / 6) | 85 (85) | Admitting | Approved | Proposed | Done (wave 8) |
@@ -141,7 +166,46 @@ Rebuilt from the live database at the time above, with the same figures as the U
 | The University of Queensland | AU | 383 | 355 | 332 (316 / 0) | 353 (3 / 1) | 315 (261) | Admitting | Approved | Proposed | Done (wave 6) |
 | Deakin University | AU | 252 | 212 | 194 (144 / 0) | 244 (175 / 56) | 196 (189) | Admitting | Approved | Proposed | Done (wave 6) |
 
+## Wave 9 providers outside the target list (25)
+
+Added by wave 9 (entry of 11:35). They are not in the Firecrawl target list of 57 (`security.firecrawl_targets_fast`, included); the figures come from the same functions, keyed by provider. Charles Sturt, Newcastle and Torrens are in the Firecrawl provider list but not marked as included targets.
+
+| University | Country | Courses | Pages read | Intakes held (adapter / central) | English held (adapter / central) | Fees held (adapter) | Adapter | English rule | Calendar | Wave |
+|---|---|---:|---:|---|---|---|---|---|---|---|
+| Alphacrucis College | AU | 75 | 64 | 55 (54 / 0) | 51 (51 / 0) | 0 (0) | Admitting | Approved | No values | Done (wave 9) |
+| Australia Institute of Business and Technology (AIBT) | AU | 58 | 47 | 35 (35 / 0) | 46 (37 / 0) | 16 (16) | Admitting | — | No values | Done (wave 9) |
+| Charles Sturt University | AU | 67 | 56 | 33 (32 / 0) | 54 (5 / 42) | 51 (32) | Admitting | Approved | Proposed | Done (wave 9) |
+| Collarts | AU | 139 | 94 | 94 (82 / 0) | 81 (0 / 66) | 8 (0) | Admitting | Approved | Proposed | Done (wave 9) |
+| Melbourne Polytechnic | AU | 85 | 62 | 44 (36 / 0) | 50 (37 / 0) | 30 (30) | Admitting | Approved | Proposed | Done (wave 9) |
+| TAFE International Western Australia | AU | 103 | 89 | 89 (89 / 0) | 89 (89 / 0) | 0 (0) | Admitting | Approved | No values | Done (wave 9) |
+| TAFE Queensland | AU | 98 | 87 | 78 (0 / 0) | 63 (63 / 0) | 53 (7) | Admitting | Approved | Proposed | Done (wave 9) |
+| TAFE South Australia | AU | 81 | 70 | 37 (35 / 0) | 35 (34 / 0) | 9 (8) | Admitting | Approved | No values | Done (wave 9) |
+| The University of Newcastle | AU | 457 | 192 | 177 (167 / 0) | 172 (168 / 0) | 97 (0) | Admitting | Approved | Proposed | Done (wave 9) |
+| Torrens University Australia | AU | 182 | 119 | 103 (90 / 0) | 107 (95 / 0) | 0 (0) | Admitting | No values | Proposed | Done (wave 9) |
+| UNSW Sydney | AU | 667 | 465 | 458 (454 / 0) | 264 (0 / 255) | 296 (277) | Admitting | Approved | Proposed | Done (wave 9) |
+| Ara Institute of Canterbury | NZ | 178 | 85 | 56 (53 / 0) | 82 (76 / 0) | 27 (17) | Admitting | Approved | — | Done (wave 9) |
+| Eastern Institute of Technology (EIT) | NZ | 184 | 66 | 36 (28 / 0) | 61 (28 / 0) | 0 (0) | Admitting | Approved | — | Done (wave 9) |
+| Manukau Institute of Technology | NZ | 144 | 32 | 23 (23 / 0) | 24 (18 / 0) | 17 (17) | Admitting | — | — | Done (wave 9) |
+| Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | 66 | 60 (54 / 0) | 59 (57 / 0) | 0 (0) | Admitting | Approved | — | Done (wave 9) |
+| Otago Polytechnic | NZ | 182 | 62 | 52 (45 / 0) | 56 (35 / 0) | 33 (33) | Admitting | — | — | Done (wave 9) |
+| Southern Institute of Technology | NZ | 207 | 119 | 103 (101 / 0) | 95 (93 / 0) | 0 (0) | Admitting | — | — | Done (wave 9) |
+| Toi Ohomai Institute of Technology | NZ | 156 | 50 | 48 (48 / 0) | 51 (49 / 0) | 0 (0) | Admitting | — | — | Done (wave 9) |
+| Unitec | NZ | 80 | 48 | 45 (42 / 0) | 41 (26 / 0) | 30 (30) | Admitting | Approved | — | Done (wave 9) |
+| WITT (NZIST) | NZ | 89 | 41 | 35 (35 / 0) | 11 (11 / 0) | 11 (11) | Admitting | — | — | Done (wave 9) |
+| Waikato Institute of Technology (Wintec) | NZ | 144 | 76 | 71 (66 / 0) | 72 (0 / 0) | 0 (0) | Admitting | — | — | Done (wave 9) |
+| Whitireia and WelTec (NZIST) | NZ | 116 | 53 | 23 (23 / 0) | 39 (37 / 0) | 15 (15) | Admitting | Approved | — | Done (wave 9) |
+| TAFE NSW | AU | 107 | 100 | 0 (0 / 0) | 0 (0 / 0) | 0 (0) | Testing | No values | Proposed | Wave 9, testing (not admitted) |
+| NorthTec (NZIST) | NZ | 123 | 38 | 0 (0 / 0) | 38 (0 / 0) | 0 (0) | Testing | — | — | Wave 9, testing (not admitted) |
+| The Open Polytechnic of New Zealand | NZ | 92 | 70 | 4 (4 / 0) | 0 (0 / 0) | 0 (0) | Testing | — | — | Wave 9, testing (not admitted) |
+
+## Live fixes behind the adapters
+
+| Migration | What it changed | Pull request | Check |
+|---|---|---|---|
+| 20261005001470 | Written-out English rules: fix described in section 14.1 of the design document | Pilot PR #316 | See the 10:30 entry |
+| 20261005001480 (`cf247_adapter_requeue_and_stale_extra`) | Applying a text-only adapter no longer sends needs_render pages back for a Firecrawl read; the adapter's page record clears `adapter_extra` when the new reading has none | Pilot PR #317 (open, not merged, at the time above) | Statement md5 `1f3d0473f87374a289358ff2c48c4148` equals the file in PR #317; recorded live as version 20261005003319 |
+
 ## Recording rule
 
 - When an adapter is set up, changed or admitted, re-export its configuration to `configs/{country}-{university-slug}.json`, including `config` (with `term_months`), `admit_fields`, the active `exclusions` (course code, title, field, reason), `central_rules` (English rule and calendar state, attached central pages, English proposals waiting), `results` and the admit reason and date. `page_roles` is kept where it was written. Update its row above and append an entry to the M2.4.7 runsheet set.
-- The export must match the live row field by field (md5 of each pattern, path and pick value). The 4 Oct export of Flinders was checked this way. The 5 Oct 07:30 export of all 26 configurations was checked the same way: every pattern (140) by md5, and each whole `security.uni_adapter_json` value, admit reason and exclusion list against the live rows. The 5 Oct 08:35 export of all 35 configurations was checked the same way: every pattern (189) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (222), attached central page (30) and waiting English proposal (by md5 of its content). The 5 Oct 09:30 export of all 45 configurations was checked the same way: every pattern (246) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (906), attached central page (46) and waiting English proposal (28). The 5 Oct 10:30 export of all 50 configurations was checked the same way: every pattern (268) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (994), attached central page (61) and waiting English proposal (8).
+- The export must match the live row field by field (md5 of each pattern, path and pick value). The 4 Oct export of Flinders was checked this way. The 5 Oct 07:30 export of all 26 configurations was checked the same way: every pattern (140) by md5, and each whole `security.uni_adapter_json` value, admit reason and exclusion list against the live rows. The 5 Oct 08:35 export of all 35 configurations was checked the same way: every pattern (189) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (222), attached central page (30) and waiting English proposal (by md5 of its content). The 5 Oct 09:30 export of all 45 configurations was checked the same way: every pattern (246) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (906), attached central page (46) and waiting English proposal (28). The 5 Oct 10:30 export of all 50 configurations was checked the same way: every pattern (268) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (994), attached central page (61) and waiting English proposal (8). The 5 Oct 11:47 export of all 75 configurations was checked the same way: every pattern (404) by md5, plus each whole `security.uni_adapter_json` value, admit reason, exclusion list (1960), attached central page (113) and waiting English proposal (3).

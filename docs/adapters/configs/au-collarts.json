@@ -1,0 +1,190 @@
+{
+  "university": "Collarts",
+  "country": "AU",
+  "provider_id": "53eaf404-8f22-46ff-a208-b0e82da4284e",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Wave 9: intakes (next intake only) ready after 12 exclusions; no annual international fee published and English comes from the central page, so neither admitted (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:22:41Z",
+  "config_updated_at": "2026-10-04T23:54:21Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "STUDY MODES?:?\\s*((?:(?:On[- ]Campus|Online|Blended)(?:,\\s*)?){1,3})",
+      "campus": "LOCATION:?\\s*((?:Melbourne|Sydney|Fitzroy|Collingwood|Online)(?:\\s*\\([^)]{1,60}\\)|\\s+with online components|\\s+and\\s+(?:Sydney|Melbourne|Online))?)",
+      "intakes": "NEXT INTAKE:?\\s*((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s+20\\d\\d)?)",
+      "duration": "(\\d+(?:\\.\\d+)?\\s+(?:years?|months|trimesters)(?:\\s+full-time)?(?:\\s+or\\s+\\d+\\s+years\\s+accelerated)?)\\s(?:.|\\n){0,80}?STUDY MODES"
+    },
+    "pick": {
+      "mode": "last",
+      "campus": "last",
+      "intakes": "last",
+      "duration": "last"
+    },
+    "term_months": {
+      "Trimester 1": "February",
+      "Trimester 2": "June",
+      "Trimester 3": "September"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Collarts course pages (www.collarts.edu.au/courses/...) cover a Diploma and Bachelor (several CRICOS codes, printed as CRICOS Code a/b/c). Each page prints a Local view then an International view; header items STUDY MODES, NEXT INTAKE, LOCATION and duration appear in both, so pick last = International view. Only the NEXT intake is printed (e.g. September 2026), not the full set. International fees are per UNIT and COURSE TOTAL only - no annual fee, so no fee pattern. No IELTS on course pages: central rule on /study-information/international-students/ (IELTS 6.0, no band below 6.0; Entertainment Journalism 6.5, no band below 6.0). Trimesters from /study-information/key-dates/: Trimester 1 = February, Trimester 2 = June, Trimester 3 = September.",
+    "reason": "Save Collarts adapter: next intake, mode, campus, duration from course page header; no fee or IELTS on course pages (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:54:21.31891+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "096472G",
+      "title": "Bachelor of Music Performance and Bachelor of Applied Business (Entertainment Management)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "096473F",
+      "title": "Bachelor of Audio Production and Bachelor of Applied Business (Entertainment Management)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "096729J",
+      "title": "Diploma of Applied Business (Fashion Marketing)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104376C",
+      "title": "Diploma of Applied Business (Entertainment Management)",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104388K",
+      "title": "Diploma of Applied Business (Fashion Marketing)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104505K",
+      "title": "Bachelor of Music Production",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104510B",
+      "title": "Bachelor of Audio Production and Bachelor of Applied Business (Entertainment Management)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104511A",
+      "title": "Bachelor of Music Performance and Bachelor of Applied Business (Entertainment Management)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104512M",
+      "title": "Bachelor of Music Performance and Bachelor of Applied Business (Entertainment Management)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108972F",
+      "title": "Bachelor of Design (Fashion & Sustainability) and Bachelor of Applied Business (Fashion Marketing)",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108972F",
+      "title": "Bachelor of Design (Fashion & Sustainability) and Bachelor of Applied Business (Fashion Marketing)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108974D",
+      "title": "Bachelor of Design (Fashion & Sustainability) and Bachelor of Applied Business (Fashion Marketing)",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110056B",
+      "title": "Bachelor of Game Design",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110057A",
+      "title": "Bachelor of Game Design",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114000H",
+      "title": "Bachelor of Fashion Marketing (Branding and Communication)",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114001G",
+      "title": "Bachelor of Fashion Marketing (Branding and Communication)",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114013C",
+      "title": "Bachelor of Fashion Marketing (Buying and Retail Management)",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "117405G",
+      "title": "Bachelor of Circus Arts",
+      "field": "fee",
+      "reason": "Catalogue international annual fee is actually a whole-course total (or domestic/online total) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118491G",
+      "title": "Graduate Certificate of Creative Industries",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118492F",
+      "title": "Master of Creative Industries",
+      "field": "intakes",
+      "reason": "Page gives the next intake only (September); would narrow the catalogue Feb/Jun/Sep set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.collarts.edu.au/study-information/international-students/",
+        "status": "found",
+        "read_at": "2026-10-02T07:08:54Z",
+        "evidence_id": "a87286cc-7f4b-43ef-ae8e-cba0226dee3f"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.collarts.edu.au/study-information/key-dates/",
+        "status": "found",
+        "read_at": "2026-10-02T07:08:57Z",
+        "evidence_id": "389a41d7-f349-4947-9788-264bdbcb86fe"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Intakes admitted. 12 intakes and 8 wrong catalogue fees held back."
+  }
+}

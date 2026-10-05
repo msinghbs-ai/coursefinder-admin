@@ -1,0 +1,500 @@
+{
+  "university": "Nelson Marlborough Institute of Technology (NMIT)",
+  "country": "NZ",
+  "provider_id": "dbf22c45-062e-4c5d-92a9-aaabd8c452f7",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Wave 9: intakes and English ready after named exclusions; fee held (stored pages show domestic view only) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:19Z",
+  "config_updated_at": "2026-10-04T23:58:15Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "\\bStudy options\\s+((?:.|\\n){1,150}?)\\s+Length\\b",
+      "campus": "\\bLocation\\s+((?:.|\\n){1,80}?)\\s+Years\\b",
+      "intakes": "Locations and dates\\s*((?:.|\\n){0,250}?\\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d(?:.|\\n){0,250}?(?:.|\\n){0,250}?)\\s*(?:Study options|Length|Total credits|Fees\\b)",
+      "duration": "\\bLength\\s+((?:.|\\n){1,150}?)\\s+Total credits\\b",
+      "study_level": "\\b(Level\\s+\\d{1,2})\\s+Apply Now",
+      "ielts_overall": "\\bIELTS\\)?(?:\\s*\\(?(?:general|academic|or|overall|band|score|of|at least|minimum)\\)?){0,8}\\s*(\\d(?:\\.\\d)?)\\b"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "NMIT programme pages www.nmit.ac.nz/study/programmes/<slug> (server-rendered, no page JSON). Stored pages are the DOMESTIC view (the Domestic/International switch is a JavaScript menu); the Fees block (e.g. '2026: $8,344 plus $300 Student Services Fee per year') is the domestic fee, so there is no fee pattern. Intakes: dated list under the heading 'Locations and dates' (Campus: day Month year), up to Study options/Length. IELTS: first IELTS figure on the page (wording varies: 'IELTS 6.0 Academic', '(IELTS) overall academic score of at least 5.5', 'IELTS (General) score of 5'). Campus: Location block before Years. Mode: Study options. Duration: Length. study_level: NZQF level in the page heading. term_months from https://www.nmit.ac.nz/study/planning-your-studies/academic-dates (2026: S1 16 Feb, S2 20 Jul; 2027: S1 15 Feb, S2 19 Jul). Central English page: https://www.nmit.ac.nz/international/entry-requirements",
+    "reason": "Round 3: NMIT IELTS pattern covers all page wordings; diagnostic removed; term_months from NMIT academic dates page (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:58:15.674541+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1769",
+      "title": "Postgraduate Certificate in Professional Supervision (Level 8)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1769",
+      "title": "Postgraduate Certificate in Professional Supervision (Level 8)",
+      "field": "intakes",
+      "reason": "Page reads February only (workshop dates elsewhere); catalogue holds six months; review before admitting (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1883",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 4)",
+      "field": "english",
+      "reason": "IELTS 6.0 read is for onward programmes, not this course's own entry requirement (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1883",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1884",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1945",
+      "title": "Postgraduate Certificate in Information Technology (Level 8)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2101",
+      "title": "New Zealand Certificate in Cookery (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2218",
+      "title": "New Zealand Certificate in Primary Industry Skills (Level 2)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2223",
+      "title": "New Zealand Certificate in Apiculture (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2225",
+      "title": "New Zealand Certificate in Apiculture (Queen Bee Rearing) (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2342",
+      "title": "Master of Information Technology (Level 9)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2411",
+      "title": "New Zealand Certificate in Hairdressing (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2459",
+      "title": "New Zealand Diploma in Business (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2506",
+      "title": "New Zealand Certificate in Maritime Crewing (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2509",
+      "title": "New Zealand Certificate in Marine Engineering Class 6 (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2515",
+      "title": "New Zealand Diploma in Nautical Science (Level 6)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2528",
+      "title": "Postgraduate Diploma in Sustainable Aquaculture (Level 8)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2529",
+      "title": "Bachelor of Aquaculture and Marine Conservation (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2530",
+      "title": "Bachelor of Viticulture and Winemaking (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2595",
+      "title": "New Zealand Certificate in Information Technology (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2596",
+      "title": "New Zealand Diploma in Information Technology Technical Support (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2598",
+      "title": "New Zealand Diploma in Web Development and Design (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2612",
+      "title": "New Zealand Diploma in Engineering (Level 6)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2634",
+      "title": "New Zealand Diploma in Animation (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2635",
+      "title": "New Zealand Diploma in Animation (Level 6)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2636",
+      "title": "New Zealand Diploma in Arts and Design (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2637",
+      "title": "New Zealand Diploma in Arts and Design (Level 6)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2666",
+      "title": "New Zealand Diploma in Horticulture Production (Level 5)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2676",
+      "title": "New Zealand Certificate in Horticulture Production (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2677",
+      "title": "New Zealand Certificate in Horticulture (General) (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2715",
+      "title": "New Zealand Certificate in Mechanical Engineering (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2722",
+      "title": "New Zealand Certificate in Cellar Operations (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2722",
+      "title": "New Zealand Certificate in Cellar Operations (Level 3)",
+      "field": "intakes",
+      "reason": "June read from an end date (18 January-04 June 2027) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2738",
+      "title": "New Zealand Certificate in Carpentry (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2738",
+      "title": "New Zealand Certificate in Carpentry (Level 4)",
+      "field": "intakes",
+      "reason": "Borderline: page adds February (Richmond) not in catalogue; excluded conservatively pending review (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2834",
+      "title": "New Zealand Certificate in Construction Trade Skills (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2860",
+      "title": "New Zealand Certificate in Study and Employment Pathways (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2861",
+      "title": "New Zealand Certificate in Foundation Skills (Level 1)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2862",
+      "title": "New Zealand Certificate in Foundation Skills (Level 2)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2863",
+      "title": "New Zealand Certificate in Study and Employment Pathways (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2907",
+      "title": "New Zealand Diploma in Aeronautical Maintenance Certification (Level 6)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3097",
+      "title": "New Zealand Certificate in Automotive Engineering (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3118",
+      "title": "New Zealand Certificate in Heavy Automotive Engineering (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3120",
+      "title": "New Zealand Diploma in Career Development (Level 6)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3418",
+      "title": "New Zealand Certificate in Music (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3444",
+      "title": "New Zealand Certificate in Beauty Therapy (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3450",
+      "title": "New Zealand Certificate in Light Automotive Engineering (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3460",
+      "title": "New Zealand Certificate in Automotive Electrical Engineering (Level 4)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3720",
+      "title": "Graduate Certificate in Career Development (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3784",
+      "title": "Master of Applied Management (Level 9)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3785",
+      "title": "Postgraduate Diploma in Applied Management (Level 8)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3786",
+      "title": "Postgraduate Certificate in Applied Management (Level 8)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3874",
+      "title": "Bachelor of Commerce (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3875",
+      "title": "Graduate Diploma in Accounting (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3876",
+      "title": "Graduate Diploma in Marketing (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3878",
+      "title": "Graduate Diploma in Management (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3894",
+      "title": "Bachelor of Social Work (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3895",
+      "title": "Paetahi Tumu K&#333;rero Bachelor of Counselling (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3925",
+      "title": "Bachelor of Computer Generated Imagery (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3933",
+      "title": "Postgraduate Certificate in Professional Supervision (Level 8)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3933",
+      "title": "Postgraduate Certificate in Professional Supervision (Level 8)",
+      "field": "intakes",
+      "reason": "Page reads February only (workshop dates elsewhere); catalogue holds six months; review before admitting (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4513",
+      "title": "Graduate Certificate in Management (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5571",
+      "title": "Master of Professional Accounting (Level 9)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3730",
+      "title": "Bachelor of Nursing (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NE4402",
+      "title": "Bachelor of Commerce (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NE4507",
+      "title": "Bachelor of Information Technology (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NE4587",
+      "title": "Graduate Diploma in Information Technology (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NE4711",
+      "title": "Bachelor of Arts and Media (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "OT4728",
+      "title": "Bachelor of Nursing (Level 7)",
+      "field": "fee",
+      "reason": "Stored pages show only the domestic fee; international view not captured (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.nmit.ac.nz/international/entry-requirements",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.nmit.ac.nz/study/planning-your-studies/academic-dates",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Intakes and English admitted. All fees held back (domestic)."
+  }
+}

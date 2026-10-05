@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14; 11:35, section 15) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -470,6 +470,68 @@ Costs are estimates. Firecrawl figures use the rate of the 4 Oct better-page run
 | 8 | Rebind and title matching (Calgary, Lethbridge, Fraser Valley, MacEwan, Kwantlen) | Rebind wrongly bound courses (186 at Lethbridge) and fix three title-matching gaps in the worker, including an abbreviation rule for Canadian graduate pages. | Worker development, then a Find run for up to about 500 courses across the five universities (up to about 1,000 Firecrawl credits) |
 | 9 | Athabasca | Athabasca is online only and no study permit is issued. Decide whether it stays a target for international students. If not, it is removed from the target list. | Decision only |
 | 10 | Notre Dame domain | Website changes from nd.edu.au to notredame.edu.au, then Find runs again for 131 courses. | About 260 Firecrawl credits for the Find run |
+
+## 15. Amendment, 5 Oct 2026 (11:35): wave 9 and the adapter apply fix
+
+Source: M2.4.7 runsheet entry of 11:35. Figures in 15.4 were re-read from the live database at 11:47 AEDT.
+
+### 15.1 Fix to applying adapters (migration 20261005001480, Pilot PR #317)
+
+- Applying a text-only adapter no longer sends `needs_render` pages back for a Firecrawl read. Before the fix, UBC, NorthTec and Southern Cross spent Firecrawl credits this way.
+- The adapter's page record now clears test-only extra fields (`adapter_extra`) when the new reading has none.
+- The statement md5 (`1f3d0473f87374a289358ff2c48c4148`) equals the migration file. It is recorded live as version 20261005003319. At 11:47, PR #317 was still open, so `main` of the Pilot repo does not yet hold this file.
+
+### 15.2 Wave 9 results
+
+Wave 9 went beyond the target list of 57 to 25 more providers, mostly polytechnics and TAFEs. Admission is on for 22 of them (64 in all); NorthTec, the Open Polytechnic and TAFE NSW stay in testing. 778 values were replaced across 676 courses (717 previously blank), with 0 errors. 966 readings are excluded (1,962 in all).
+
+| Provider | Fields admitted | Held back |
+|---|---|---|
+| UNSW | intakes, fees | 34 fees (graduate certificate totals, borderline graduate diplomas, 6 wrong bindings). The English rule failed the agreement check (catalogue holds 6.0) |
+| Newcastle | English | Intakes (domestic first term), fees (browser only) |
+| Torrens | intakes, English | 29 intakes and 20 English (single past starts, shared pages) |
+| Southern Institute of Technology | intakes, English | All general-reader fees |
+| Collarts | intakes | 12 intakes, 8 wrong catalogue fees |
+| TAFE International WA | intakes, English | All fees (semester or whole-course totals) |
+| TAFE Queensland | English, fees | Intakes |
+| TAFE SA | all | 15 fees |
+| Ara | all | 6 fees, 5 intakes, 3 English |
+| Wintec | intakes | All fees (domestic), 3 intakes |
+| NMIT | intakes, English | All fees (domestic) |
+| EIT | intakes, English | 37 courses not offered to international students |
+| Alphacrucis | intakes, English | Fees (domestic per-subject only) |
+| Otago Polytechnic | all | 30 readings |
+| Melbourne Polytechnic | all | 27 not-for-international, closed or old-registration courses |
+| Charles Sturt | all | 15 fees (2026 tables, study abroad, Master of Philosophy), 2 intakes |
+| Whitireia and WelTec | all | 8 fees, 1 intake |
+| WITT | English, fees | Intakes (next intake only) |
+| Toi Ohomai | English | Intakes (domestic view) |
+| AIBT | all | 9 fees (52 weeks on the page, longer in the catalogue), 9 older CRICOS codes |
+| Unitec | all | 13 readings |
+| Manukau Institute of Technology | all | 9 pages not for international students, 6 fees |
+| NorthTec, Open Polytechnic, TAFE NSW | none | 40 courses bound to the academic calendar / distance only / no usable fields |
+
+### 15.3 Working rules from wave 9
+
+- **No web fetching by agents.** At 10:54 the Platform Admin reported website permission prompts. They came from wave agents fetching university sites directly. From wave 10, agents do not fetch web pages. They read stored pages only.
+- **Central pages are read on the server.** Central English and key-dates pages are attached to the provider (`pipeline.provider_fact_sources`, found by hand) and read by Firecrawl on the server, with evidence kept. About 40 were attached in wave 9 (113 in all at 11:47).
+- **The requeue fix.** Applying a text-only adapter must not send pages back for a Firecrawl read (15.1). An adapter apply is a database step and should cost no credits.
+- **Exclude by course, not by URL, when a page is shared.** Where one page serves several courses (shared specialisation pages, index pages, a course bound to another course's page), exclusions are made by course code or `course_id`. Excluding the URL would also hide the courses the page really belongs to.
+- **Written-out English rules cover two levels only.** `public.admin_provider_english_propose` keeps only the undergraduate and postgraduate levels. New Zealand rules tiered by NZQF level, and VET rules, cannot be written out in full through it. Those rules wait for a change to the function or are entered by hand.
+- **The NZQA Rule 18 table is a shared New Zealand English source.** NZQA's table of internationally recognised English proficiency outcomes (NZQA Rules 2025) is the English source for NorthTec and is attached beside the provider page for WITT and Whitireia and WelTec. It is one shared page, not a provider page, so a change to it affects every New Zealand provider that uses it.
+- **No direct table changes.** Before the brief was tightened, wave 9 agents changed `pipeline.coverage_course_pages` directly: `next_read_at` at Charles Sturt (11 pages) and NorthTec (43 pages), and `adapter_extra` on 7 NorthTec rows. The brief now forbids direct table changes.
+
+### 15.4 Live figures at 11:47 that differ from the 11:35 entry
+
+- The 12 English rules written out in wave 9 (Whitireia and WelTec, Newcastle, Melbourne Polytechnic, Ara, EIT, Alphacrucis, TAFE Queensland, TAFE SA, NMIT, Collarts, TAFE International WA, Unitec) were approved at 11:35 AEDT, so none is still waiting in Layer 4 Review.
+- Alphacrucis's parser proposal (7.0 for every level) was superseded at 11:35 by the written-out rule, not rejected.
+- The Kwantlen and Notre Dame parser proposals and the written-out rules for Victoria University and Alberta were approved at 10:55 AEDT.
+- 3 English proposals are still waiting (Wollongong, written out; Southern Queensland and JMC Academy, older parser proposals).
+- 75 adapters are configured (64 admitting, 11 testing), with 404 patterns, 1,962 active exclusions (1,960 on adapters) and 113 central pages for 64 providers. All 75 configurations are in `docs/adapters/configs/`, checked against the live rows by md5.
+
+### 15.5 Open decisions
+
+The 10 open decisions in 14.4 are unchanged. Wave 10 (19 providers) uses no web fetching.
 
 ## Sources
 

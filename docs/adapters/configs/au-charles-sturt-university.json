@@ -1,0 +1,172 @@
+{
+  "university": "Charles Sturt University",
+  "country": "AU",
+  "provider_id": "f34fae5e-b5b9-4c82-a6ca-44bf0803020e",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Wave 9 report: intakes, English and fee ready after domestic-view and 2026/Study Abroad/shared-page fee exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:20:32Z",
+  "config_updated_at": "2026-10-05T00:01:30Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "(?:Fee paying overseas: Full-time - \\$|{code} (?:.|\\n){0,160}?\\$[0-9,]+(?:\\.[0-9]{2})?\\s*\\$)([0-9,]+)",
+      "mode": "sessions ((?:On Campus|Online)(?: (?:On Campus|Online))?) Next session start",
+      "campus": "Session \\d+ ?: ?(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, 20\\d\\d (?:On Campus|Online)(?:, (?:On Campus|Online))? ((?:(?!Session \\d)[^\\n]){3,120}?) (?:Session \\d|Duration)",
+      "intakes": "Session \\d+ ?: ?((?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, 20\\d\\d)",
+      "duration": "Duration Minimum time - ([0-9.]+ year\\(s\\))",
+      "aqf_level": "AQF: Level ([0-9]+)",
+      "ielts_overall": "IELTS(?: results)? \\(academic module\\) with a minimum overall score of ([0-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "all"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Charles Sturt (wave run 5 Oct). Page kinds: (1) international course pages study.csu.edu.au/international/courses/<slug> (static HTML, read direct/Firecrawl): 'Study mode and sessions' block lists 'Session N : <Month d, yyyy> <mode> <campuses>' (intakes = months of those dates, pick all; campus = text after first session's mode); 'Duration Minimum time - N year(s)'; 'Indicative fees International on campus Fee paying overseas: Full-time - $X pa' (fee = first, the on-campus full-time annual figure; online and part-time figures follow and are not read); 'AQF: Level N'; 'Cricos: <code>'; IELTS only where the page prints 'IELTS [results] (academic module) with a minimum overall score of N' (most pages defer to the central entry-requirements page). (2) central fee tables: www.csu.edu.au/current-students/financial-and-scholarship/fees/course-fees/international-students (2027 fees) and its /previous (2026) and study.csu.edu.au/international/course-fees (2026): row '<CRICOS> <name> <location> $<per 8pt subject> $<annual 8 subjects>' -> fee = second amount after {code}. 2026-year table pages and Study Abroad 6-month rows are excluded from fee. (3) handbook.csu.edu.au pages are browser-rendered (needs_render) and not read. English: central page https://study.csu.edu.au/international/how-to-apply/course-entry-requirements. No term_months needed: course pages print session start dates.",
+    "reason": "Round 2: IELTS pattern also reads IELTS results wording; campus skips online-only first session (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:01:30.554206+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "001257M",
+      "title": "Master of Philosophy (Lab Based)",
+      "field": "fee",
+      "reason": "One page covers two Master of Philosophy courses; fee binding ambiguous (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0101014",
+      "title": "Bachelor of Agriculture",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "010599C",
+      "title": "Bachelor of Nursing",
+      "field": "intakes",
+      "reason": "Domestic course page view, not international intakes (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "012005G",
+      "title": "Bachelor of Equine Science",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "017016G",
+      "title": "Study Abroad (6 months)",
+      "field": "fee",
+      "reason": "Study Abroad fee, not an annual course tuition fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "017017G",
+      "title": "Study Abroad (12 months)",
+      "field": "fee",
+      "reason": "Study Abroad fee, not an annual course tuition fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "022895G",
+      "title": "Bachelor of Criminal Justice",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "029254F",
+      "title": "Bachelor of Business Studies",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "068869G",
+      "title": "Bachelor of Agricultural Science",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "068968D",
+      "title": "Bachelor of Veterinary Biology / Bachelor of Veterinary Science",
+      "field": "intakes",
+      "reason": "Domestic course page view, not international intakes (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "071461E",
+      "title": "Bachelor of Medical Radiation Science",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "074734E",
+      "title": "Study Abroad - Veterinary Science (6 months)",
+      "field": "fee",
+      "reason": "Study Abroad fee, not an annual course tuition fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "075523G",
+      "title": "Master of Philosophy (Non Lab Based)",
+      "field": "fee",
+      "reason": "One page covers two Master of Philosophy courses; fee binding ambiguous (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107934J",
+      "title": "Graduate Diploma in Professional Accounting (Professional Practice)",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109133D",
+      "title": "Master of Agriculture",
+      "field": "fee",
+      "reason": "Previous-year fee table, 2026 rates (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "117250K",
+      "title": "Graduate Diploma of Project Management and Leadership",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "117253G",
+      "title": "Graduate Diploma of Business Data Analytics",
+      "field": "fee",
+      "reason": "Central course-fees page shows 2026 rates, not current 2027 international fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://study.csu.edu.au/international/how-to-apply/course-entry-requirements",
+        "status": "found",
+        "read_at": "2026-10-02T07:09:01Z",
+        "evidence_id": "1caee22c-325b-4e35-a5c2-ca345bfff77d"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://about.csu.edu.au/our-university/important-dates",
+        "status": "found",
+        "read_at": "2026-10-02T07:08:59Z",
+        "evidence_id": "93ab4f73-e5cc-4cfa-b9b9-41bb37e4f9b1"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 15 fees (2026 tables, study abroad, Master of Philosophy) and 2 intakes held back."
+  }
+}

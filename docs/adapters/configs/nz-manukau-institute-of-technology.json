@@ -1,0 +1,266 @@
+{
+  "university": "Manukau Institute of Technology",
+  "catalogue_name": "Manukau Institute of Technology and Unitec - MIT",
+  "country": "NZ",
+  "provider_id": "becd7287-5ede-4a62-800e-b2cd15d62c33",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "MIT adapter readings checked against page text and catalogue; wrong and domestic-only readings excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:30:12Z",
+  "config_updated_at": "2026-10-05T00:24:56Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International fees\\s+(?:.|\\n){0,120}?\\$\\s?([0-9][0-9,]{3,})\\s*\\(approx\\.?\\)\\*?\\s*per 120 credits",
+      "campus": "Location\\s+((?:.|\\n){1,80}?)\\s+(?:Entry requirements|Domestic fees)",
+      "intakes": "Start dates\\s+((?:.|\\n){0,80}?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,120}?)\\s+(?:Key dates|Accounting strand|Qualification)",
+      "duration": "Duration and study methods\\s+((?:.|\\n){1,200}?)\\s+Programme structure",
+      "study_level": "Qualification\\s+(?:.|\\n){0,200}?\\((Level \\d+)\\)",
+      "ielts_overall": "IELTS(?!,\\s*\\()[^0-9.;]{0,40}?\\b(\\d(?:\\.\\d)?)\\b",
+      "not_admitting": "International fees\\s+(Not available to international students)"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "ielts_overall": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Pages: www.manukau.ac.nz/programme/<slug>/ (WordPress, text only, no page JSON). Panel headings: \"Duration and study methods\", \"Start dates\" (months printed, sometimes per year or per strand), \"Qualification ... Programme code: NZ/MN####\", \"Credits\", \"Location\", \"Domestic fees\", \"International fees\". Fee read only as the international amount printed \"per 120 credits\" (one full-time NZ year); \"per 60/80/30 credits\" amounts are whole-programme or module prices and are not read. \"International fees: Not available to international students\" is read as not_admitting. IELTS overall from the Entry requirements text (first IELTS figure). No term names, so no term_months. Central key dates: https://www.manukau.ac.nz (Key dates and timetables link) - not attached.",
+    "reason": "Manukau Institute of Technology adapter, final pass: international fee per 120 credits only, IELTS overall, not-admitting flag; diagnostic captures removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:24:56.63797+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1880",
+      "title": "New Zealand Certificate in English Language (Level 1)",
+      "field": "english",
+      "reason": "IELTS 4.5 is the 2026 rule only; no requirement for 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1880",
+      "title": "New Zealand Certificate in English Language (Level 1)",
+      "field": "fee",
+      "reason": "per-60-credit whole-programme price, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1880",
+      "title": "New Zealand Certificate in English Language (Level 1)",
+      "field": "intakes",
+      "reason": "includes past September 2026 intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "english",
+      "reason": "IELTS 4.5 is the 2026 rule only; no requirement for 2027 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "fee",
+      "reason": "per-60-credit whole-programme price, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "intakes",
+      "reason": "includes past September 2026 intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2104",
+      "title": "New Zealand Certificate in Food and Beverage Service (Level 3)",
+      "field": "fee",
+      "reason": "per-60-credit whole-programme price, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2265",
+      "title": "Graduate Certificate in Cross Cultural Supervision (Level 7)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2265",
+      "title": "Graduate Certificate in Cross Cultural Supervision (Level 7)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2516",
+      "title": "New Zealand Diploma in Yacht Operations (Level 6)",
+      "field": "fee",
+      "reason": "fee is the 2026 Chief Mate Yacht strand only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2594",
+      "title": "New Zealand Certificate in Information Technology Essentials (Level 4)",
+      "field": "fee",
+      "reason": "per-60-credit whole-programme price, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2595",
+      "title": "New Zealand Certificate in Information Technology (Level 5)",
+      "field": "fee",
+      "reason": "per-60-credit whole-programme price, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2627",
+      "title": "New Zealand Certificate in Arts and Design (Level 4)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2627",
+      "title": "New Zealand Certificate in Arts and Design (Level 4)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2660",
+      "title": "New Zealand Certificate in Plumbing, Gasfitting and Drainlaying (Level 3)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2660",
+      "title": "New Zealand Certificate in Plumbing, Gasfitting and Drainlaying (Level 3)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2738",
+      "title": "New Zealand Certificate in Carpentry (Level 4)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2738",
+      "title": "New Zealand Certificate in Carpentry (Level 4)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2834",
+      "title": "New Zealand Certificate in Construction Trade Skills (Level 3)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2834",
+      "title": "New Zealand Certificate in Construction Trade Skills (Level 3)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2853",
+      "title": "New Zealand Certificate in Skills for Living for Supported Learners (Level 1)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2853",
+      "title": "New Zealand Certificate in Skills for Living for Supported Learners (Level 1)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3008",
+      "title": "New Zealand Certificate in Collision Repair and Automotive Refinishing (Level 3)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3008",
+      "title": "New Zealand Certificate in Collision Repair and Automotive Refinishing (Level 3)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3097",
+      "title": "New Zealand Certificate in Automotive Engineering (Level 3)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3097",
+      "title": "New Zealand Certificate in Automotive Engineering (Level 3)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3190",
+      "title": "Bachelor of Applied Counselling (Level 7)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3190",
+      "title": "Bachelor of Applied Counselling (Level 7)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "fee",
+      "reason": "per-60-credit whole-programme price, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3832",
+      "title": "Diploma in Foreign Going Master or Chief (Level 7)",
+      "field": "fee",
+      "reason": "fee is the 2027 MEC 2 amount labelled 2026; MEC 1 priced per 30 credits (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "MN0517",
+      "title": "Graduate Certificate in Applied eLearning (Level 7)",
+      "field": "english",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "MN0517",
+      "title": "Graduate Certificate in Applied eLearning (Level 7)",
+      "field": "intakes",
+      "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "MN4183",
+      "title": "Diploma in Foreign Going Master or Chief (Level 7)",
+      "field": "fee",
+      "reason": "fee is the 2027 MEC 2 amount labelled 2026; MEC 1 priced per 30 credits (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.manukau.ac.nz/student-life/new-students/tools-and-resources/mit-calendar-and-key-dates/",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 9 pages not for international students and 6 fees held back."
+  }
+}

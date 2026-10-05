@@ -1,0 +1,509 @@
+{
+  "university": "Waikato Institute of Technology (Wintec)",
+  "catalogue_name": "Waikato Institute of Technology",
+  "country": "NZ",
+  "provider_id": "742eef0a-1341-46ef-a4ab-4d105c47be9b",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Wave 9: intakes ready after excluding 3 module-start programmes; fee is domestic only and English comes from the central page, so neither admitted (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:22:26Z",
+  "config_updated_at": "2026-10-04T23:55:38Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Course details (?:.|\\n){0,120}?\\b((?:full-time|part-time)(?: or (?:full-time|part-time))?)\\b",
+      "campus": "International Fee Guideline ((?:.|\\n){3,160}?) (?:Summary|On-campus|What you will learn|Overview|\\(Note|Note:|Please note)",
+      "intakes": "Course details ((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \\d{4} ?)+)",
+      "duration": "Course details (?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \\d{4} )*([A-Za-z0-9.\\- ]{1,30}?\\b(?:years?|months?|weeks?|semesters?|days?))\\b",
+      "study_level": "Course details (?:.|\\n){0,250}?\\b(Level \\d{1,2})\\b",
+      "student_type": "Course details (?:.|\\n){0,250}?\\b((?:not )?available for international students)"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "study_level": "first",
+      "student_type": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Wintec (NZ) course pages at www.wintec.ac.nz/study-at-wintec/courses/<area>/<slug>, server-rendered HTML, no page JSON. A 'Course details' panel near the top prints, in order: start months as 'Feb 2027 Jul 2027' (intakes), duration ('One year'), mode ('Full-time or Part-time'), a fee with '*' that is the DOMESTIC fee (e.g. $9,561* + Fees Free note), NZQF level ('Level 8'), 'Available for International Students', a link 'International Fee Guideline' (international fees are only in that separate guide, not on the page), then campus. No fee pattern: the page fee is domestic. No IELTS on course pages: central rule at https://www.wintec.ac.nz/international/international-academic-entry-requirements (L4 and below 5.5/5.0; L5-7 6.0/5.5; L8+ 6.5/6.0); Bachelor of Nursing and NZ Diploma in Enrolled Nursing 6.5 in all bands (nursing English PDF). Semesters per https://www.wintec.ac.nz/student-resources/student-events: Semester 1 = February, Semester 2 = July.",
+    "reason": "Wave 6 Wintec adapter round 2: campus pattern stops before page notes (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:55:38.034217+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1740",
+      "title": "Postgraduate Diploma in Applied Informatics (Level 8)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1769",
+      "title": "Postgraduate Certificate in Professional Supervision (Level 8)",
+      "field": "intakes",
+      "reason": "Panel shows only Feb 2027 but programme starts modules through the year; would narrow the catalogue set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1841",
+      "title": "New Zealand Certificate in Baking (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1879",
+      "title": "New Zealand Certificate in English Language (Foundation) (Level 1)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1880",
+      "title": "New Zealand Certificate in English Language (Level 1)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1881",
+      "title": "New Zealand Certificate in English Language (Level 2)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1883",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 4)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1884",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2218",
+      "title": "New Zealand Certificate in Primary Industry Skills (Level 2)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2221",
+      "title": "New Zealand Diploma in Primary Industry Business Management (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2270",
+      "title": "New Zealand Diploma in Dairy Processing (Level 6)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2282",
+      "title": "Graduate Diploma in Accounting (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2288",
+      "title": "Graduate Diploma in Human Resource Management (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2290",
+      "title": "Graduate Diploma in Operations and Production Management (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2294",
+      "title": "Graduate Diploma in Strategic Management (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2296",
+      "title": "Bachelor of Applied Management (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2411",
+      "title": "New Zealand Certificate in Hairdressing (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2416",
+      "title": "New Zealand Diploma in Architectural Technology (Level 6)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2420",
+      "title": "New Zealand Diploma in Construction (Level 6)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2452",
+      "title": "New Zealand Certificate in Business (Administration and Technology) (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2453",
+      "title": "New Zealand Certificate in Business (Introduction to Team Leadership) (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2456",
+      "title": "New Zealand Certificate in Business (First Line Management) (Level 4)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2459",
+      "title": "New Zealand Diploma in Business (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2487",
+      "title": "New Zealand Certificate in Animal Care (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2533",
+      "title": "Bachelor of Social Work (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2550",
+      "title": "New Zealand Certificate in Applied Science (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2552",
+      "title": "New Zealand Diploma in Applied Science (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2553",
+      "title": "New Zealand Diploma in Applied Science (Level 6)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2570",
+      "title": "New Zealand Certificate in Outdoor Experiences (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2595",
+      "title": "New Zealand Certificate in Information Technology (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2596",
+      "title": "New Zealand Diploma in Information Technology Technical Support (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2660",
+      "title": "New Zealand Certificate in Plumbing, Gasfitting and Drainlaying (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2669",
+      "title": "New Zealand Diploma in Arboriculture (Level 6)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2715",
+      "title": "New Zealand Certificate in Mechanical Engineering (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2746",
+      "title": "New Zealand Certificate in Adult and Tertiary Teaching (Level 4)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2834",
+      "title": "New Zealand Certificate in Construction Trade Skills (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2863",
+      "title": "New Zealand Certificate in Study and Employment Pathways (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2889",
+      "title": "New Zealand Diploma in Enrolled Nursing (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2992",
+      "title": "New Zealand Certificate in Health and Wellbeing (Social and Community Services) (Level 4)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3187",
+      "title": "Bachelor of Applied Information Technology (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3208",
+      "title": "New Zealand Diploma in Journalism (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3563",
+      "title": "New Zealand Certificate in Exercise (Level 4)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3588",
+      "title": "Postgraduate Certificate in Applied Information Technology (Level 8)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3589",
+      "title": "Postgraduate Diploma in Applied Information Technology (Level 8)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3590",
+      "title": "Master of Applied Information Technology (Level 9)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3713",
+      "title": "Bachelor of Design (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3714",
+      "title": "Bachelor of Communication (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3760",
+      "title": "Graduate Diploma in Engineering Technology (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3809",
+      "title": "Graduate Diploma In Applied Information Technology (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3890",
+      "title": "Bachelor of Physiotherapy (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3912",
+      "title": "Bachelor of Music and Performing Arts (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3913",
+      "title": "Bachelor of Contemporary Art (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4002",
+      "title": "Master of Nursing Science (Pre-Registration) (Level 9)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4166",
+      "title": "Te Paetahi Akoranga Bachelor of Teaching (Early Childhood Education) (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4278",
+      "title": "Postgraduate Certificate in Mental Health and Addiction (Level 8)",
+      "field": "intakes",
+      "reason": "Panel shows only Feb 2027 but programme starts modules through the year; would narrow the catalogue set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4775",
+      "title": "Bachelor of Accounting (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4998",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 3)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5354",
+      "title": "New Zealand Diploma in Enrolled Nursing (Level 5)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2342",
+      "title": "Bachelor of Nursing (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2343",
+      "title": "Bachelor of Midwifery (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2374",
+      "title": "Bachelor of Sport and Exercise Science (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2422",
+      "title": "Bachelor of Media Arts - Honours (Level 8)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2470",
+      "title": "Graduate Diploma in Communication (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2485",
+      "title": "Postgraduate Diploma in Sport and Exercise Science (Level 8)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2486",
+      "title": "Bachelor of Sport and Exercise Science (Honours) (Level 8)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2487",
+      "title": "Master of Science (Human Performance Science) (Level 9)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2525",
+      "title": "Master of Arts (Level 9)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2539",
+      "title": "Master of Nursing (Level 9)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2539",
+      "title": "Master of Nursing (Level 9)",
+      "field": "intakes",
+      "reason": "Panel shows only Feb 2027 but programme starts modules through the year; would narrow the catalogue set (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2560",
+      "title": "Bachelor of Applied Science (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2584",
+      "title": "Graduate Diploma in Sport and Exercise Science (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "WK2609",
+      "title": "Bachelor of Teaching (Early Childhood Education) (Level 7)",
+      "field": "fee",
+      "reason": "General reader took the domestic panel fee (Fees Free note), not an international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.wintec.ac.nz/international/international-academic-entry-requirements",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.wintec.ac.nz/student-resources/student-events",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Intakes admitted. All fees held back (domestic), 3 intakes."
+  }
+}

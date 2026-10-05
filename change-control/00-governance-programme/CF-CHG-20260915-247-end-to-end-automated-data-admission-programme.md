@@ -4084,3 +4084,60 @@ Next: wave 1 continues with Melbourne, Macquarie, Canterbury and Simon Fraser us
 10. Notre Dame domain.
 
 **Next.** Every target university has now been through a wave. The remaining work waits on these decisions.
+
+### 5 Oct 2026, 11:35 AEDT: CF-247 Decision 254, wave 9 and the adapter apply fix
+
+**Instruction.** Wave run on the Platform Admin instructions of 5 Oct (04:49, 05:50 switching admission on, 06:12–06:32 and 10:29 asking for bigger waves). At 10:54 the Platform Admin reported website permission prompts. They came from wave agents fetching university sites directly. From wave 10, agents do not fetch web pages. They read stored pages only, and central pages are attached for a Firecrawl read on the server, with evidence kept.
+
+**1. Fix (live, PR #317).**
+- Migration 20261005001480: applying a text-only adapter no longer sends needs_render pages back for a Firecrawl read (UBC, NorthTec and Southern Cross spent credits this way).
+- The adapter's page record now clears test-only extra fields (adapter_extra) when the new reading has none.
+- Statement md5 equals the file.
+
+**2. Wave 9 (25 records).**
+- Admission is on for 22 more (64 in all).
+- 778 values were replaced across 676 courses (717 previously blank), with 0 errors.
+- 966 readings are excluded (1,962 in all).
+
+| Provider | Fields admitted | Held back |
+|---|---|---|
+| UNSW | intakes, fees | 34 fees (graduate certificate totals, borderline graduate diplomas, 6 wrong bindings). The English rule failed the agreement check (catalogue holds 6.0) |
+| Newcastle | English | Intakes (domestic first term), fees (browser only) |
+| Torrens | intakes, English | 29 intakes and 20 English (single past starts, shared pages) |
+| Southern Institute of Technology | intakes, English | All general-reader fees |
+| Collarts | intakes | 12 intakes, 8 wrong catalogue fees |
+| TAFE International WA | intakes, English | All fees (semester or whole-course totals) |
+| TAFE Queensland | English, fees | Intakes |
+| TAFE SA | all | 15 fees |
+| Ara | all | 6 fees, 5 intakes, 3 English |
+| Wintec | intakes | All fees (domestic), 3 intakes |
+| NMIT | intakes, English | All fees (domestic) |
+| EIT | intakes, English | 37 courses not offered to international students |
+| Alphacrucis | intakes, English | Fees (domestic per-subject only) |
+| Otago Polytechnic | all | 30 readings |
+| Melbourne Polytechnic | all | 27 not-for-international, closed or old-registration courses |
+| Charles Sturt | all | 15 fees (2026 tables, study abroad, Master of Philosophy), 2 intakes |
+| Whitireia and WelTec | all | 8 fees, 1 intake |
+| WITT | English, fees | Intakes (next intake only) |
+| Toi Ohomai | English | Intakes (domestic view) |
+| AIBT | all | 9 fees (52 weeks on the page, longer in the catalogue), 9 older CRICOS codes |
+| Unitec | all | 13 readings |
+| Manukau Institute of Technology | all | 9 pages not for international students, 6 fees |
+| NorthTec, Open Polytechnic, TAFE NSW | none | 40 courses bound to the academic calendar / distance only / no usable fields |
+
+**Central pages and rules.**
+- About 40 central English and key-dates pages are attached.
+- 12 English rules are written out, waiting in Layer 4 Review › Attributes:
+  - Whitireia and WelTec, Newcastle, Melbourne Polytechnic, Ara, EIT, Alphacrucis;
+  - TAFE Queensland, TAFE SA, NMIT, Collarts, TAFE International WA, Unitec.
+- Alphacrucis's parser proposal (7.0 for every level) should be rejected.
+
+**Governance note.** Before the brief was tightened, wave 9 agents changed pipeline.coverage_course_pages directly:
+- next_read_at at Charles Sturt (11 pages) and NorthTec (43 pages);
+- adapter_extra on 7 NorthTec rows.
+
+The brief now forbids direct table changes.
+
+**Open decisions (10, unchanged).** These are the ten listed in the 10:30 entry.
+
+**Next.** Wave 10 (19 providers) uses no web fetching.
