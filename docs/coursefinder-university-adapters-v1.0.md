@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14; 11:35, section 15; 18:04, section 16; 20:30, section 17) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14; 11:35, section 15; 18:04, section 16; 20:30, section 17; 21:00, section 17.8) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -656,6 +656,12 @@ Award links applied today: La Trobe 28, RMIT 18, Melbourne 14, Canberra 8, Griff
 - La Trobe College Undergraduate Certificates: the whole-course fee is stored as annual.
 - Monash diplomas are held under both Monash and Monash College.
 - RMIT vocational courses under one year (Certificate IV in Accounting and Bookkeeping, Diploma of Accounting) are not read.
+
+### 17.8 Note, 5 Oct 2026 (21:00): hand-bound pages and central English
+
+- **Hand-bound pages are now admitted.** A course page bound by hand (identity 'manual') counts as a confirmed page for admission, like an adapter or host page. Before migration 20261005001610, 'manual' was missing from the identity lists, so 482 hand-bound pages at 26 universities (15 at Athabasca) were never admitted. The adapter overwrite runs every 10 minutes now admit them, 200 changes a run.
+- **One bad central rule no longer stops the rest.** The hourly central English job failed on every run from 10:33 (61 failures) because one approved rule had no evidence. The job now takes the central page's evidence when the rule has none, skips a rule that still fails and records the error on it. The catch-up wrote 2,308 English requirements across 117 rules. 9 rules stay held until their central pages are read: Ara, Newcastle, TAFE Queensland, Alphacrucis, Melbourne Polytechnic, NMIT, EIT, Unitec and NZIST.
+- **"Work out the fee range again"** only recomputes the fee range (section 16). Course values are admitted by the 10-minute runs, not by this button.
 
 ## Sources
 
