@@ -13,7 +13,7 @@
   "admit_reason": "Platform Admin 22:43 decision 1: admit from the Flinders adapter. Adapter readings replace held values except those entered by hand (decision 2). Switched on by Claude on that instruction.",
   "admit_changed_at": "2026-10-04T11:47:53Z",
   "config_updated_at": "2026-10-04T13:01:45Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
   "page_roles": {
     "course_page": "https://www.flinders.edu.au/study/courses/{slug} (international block from the course CRICOS code): start dates, fee, delivery mode, duration",
     "handbook": "https://handbook.flinders.edu.au/courses/{year}/{code} (page data): title, CRICOS code, IELTS, duration, location, mode, student type, level, AQF level, not admitting",

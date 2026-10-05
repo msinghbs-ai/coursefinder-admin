@@ -1,0 +1,548 @@
+{
+  "university": "Melbourne Polytechnic",
+  "country": "AU",
+  "provider_id": "91491287-ab6a-46bd-9723-a2284a36717a",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Admit intakes, English and fee: the adapter reads the international panel (international months, international per-year fee, IELTS); not-available, closed, old-registration, wrong-binding and whole-course cases excluded first (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:22:39Z",
+  "config_updated_at": "2026-10-05T00:03:19Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Per year \\$\\s?([0-9][0-9,]{3,})\\s+Per semester \\$\\s?[0-9,]+\\s+(?:The student tuition|Materials fee|Total tuition|When you are studying)",
+      "campus": "Campus\\s+((?:(?!Campus)[A-Za-z ,]){2,80}?)\\s+Duration",
+      "intakes": "Next Intake\\s+[A-Za-z ,]{0,100}?Next Intake\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*,\\s*(?:and\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December|Ongoing))*)",
+      "duration": "Duration\\s+((?:(?!Duration)(?:.|\\n)){1,60}?)\\s+Requirements",
+      "ielts_overall": "IELTS(?: Academic)?\\s+([4-9](?:\\.[05])?)(?![0-9])",
+      "not_admitting": "Call 1300 635 276 (?:(?!Call 1300)(?:.|\\n)){0,200}?(Sorry, this course is not available for international students)|(no longer accepting enrolments)"
+    },
+    "pick": {
+      "fee": "last",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Melbourne Polytechnic course pages (www.melbournepolytechnic.edu.au/study/<level>/<course>/) carry a local and an international panel in the same HTML. Overview: Campus / Duration / Next Intake are printed twice, local first and international second; the adapter reads the second (no reading when only one is printed). Fees & Costs: local VET uses a Concession / Government subsidised / Non-subsidised table; local HE prints CSP and Fee-paying Places Per year / Per semester; the international panel is the Per year $X Per semester $Y pair followed by the fee note (The student tuition fees... / Materials fee / Total tuition / When you are studying...); per-semester and Total tuition figures are not read. Where Per year equals Per semester (6-month courses) the figure is a whole-course amount and must be excluded. IELTS is printed once under Requirements (international entry). The header line after Code / CRICOS / VTAC Number may say \"Sorry, this course is not available for international students\" (read into not_admitting); \"no longer accepting enrolments\" marks closed courses. Intakes are printed as months, so no term_months. Central: English https://www.melbournepolytechnic.edu.au/study/how-to-enrol/international-admissions/entrance-requirements/ ; calendars https://www.melbournepolytechnic.edu.au/students/academic-calendars/ (HE: Semester 1 Feb, Semester 2 Jul, Summer Nov; VET: Term 1 Feb, Term 2 Apr, Term 3 Jul, Term 4 Oct).",
+    "reason": "Adapter round 3 (final): not-available marker read from the course header line; temporary probe removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:03:19.281346+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "0100618",
+      "title": "Certificate III in Locksmithing",
+      "field": "english",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0100618",
+      "title": "Certificate III in Locksmithing",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0100618",
+      "title": "Certificate III in Locksmithing",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "070935F",
+      "title": "Bachelor of Agriculture and Technology",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "070935F",
+      "title": "Bachelor of Agriculture and Technology",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "070935F",
+      "title": "Bachelor of Agriculture and Technology",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "074625K",
+      "title": "Bachelor of Music",
+      "field": "english",
+      "reason": "Course closed (no longer accepting enrolments) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "074625K",
+      "title": "Bachelor of Music",
+      "field": "fee",
+      "reason": "Course closed (no longer accepting enrolments) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "074625K",
+      "title": "Bachelor of Music",
+      "field": "intakes",
+      "reason": "Course closed (no longer accepting enrolments) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "097028G",
+      "title": "Certificate III in Pathology Collection",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "097028G",
+      "title": "Certificate III in Pathology Collection",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "097028G",
+      "title": "Certificate III in Pathology Collection",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "099957F",
+      "title": "Diploma of Engineering Technology",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "099957F",
+      "title": "Diploma of Engineering Technology",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "099957F",
+      "title": "Diploma of Engineering Technology",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103795C",
+      "title": "Certificate III in Construction Waterproofing",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103795C",
+      "title": "Certificate III in Construction Waterproofing",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103795C",
+      "title": "Certificate III in Construction Waterproofing",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103834A",
+      "title": "Certificate III in Bricklaying and Blocklaying",
+      "field": "english",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103834A",
+      "title": "Certificate III in Bricklaying and Blocklaying",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103834A",
+      "title": "Certificate III in Bricklaying and Blocklaying",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109293K",
+      "title": "Certificate IV in Marketing and Communication",
+      "field": "fee",
+      "reason": "Fee 8,200 is a whole-course amount (6-month course, Per year equals Per semester) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109758D",
+      "title": "Certificate III in Patisserie",
+      "field": "english",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109758D",
+      "title": "Certificate III in Patisserie",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109758D",
+      "title": "Certificate III in Patisserie",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110205E",
+      "title": "Diploma of Marketing and Communication",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110205E",
+      "title": "Diploma of Marketing and Communication",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110205E",
+      "title": "Diploma of Marketing and Communication",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111062G",
+      "title": "Diploma of Music",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111062G",
+      "title": "Diploma of Music",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111062G",
+      "title": "Diploma of Music",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111063F",
+      "title": "Advanced Diploma of Music",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111063F",
+      "title": "Advanced Diploma of Music",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111063F",
+      "title": "Advanced Diploma of Music",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111350K",
+      "title": "Certificate IV in Screen and Media",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111350K",
+      "title": "Certificate IV in Screen and Media",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111350K",
+      "title": "Certificate IV in Screen and Media",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111812G",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code; general-reader fee is a whole-course total (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111812G",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code; general-reader fee is a whole-course total (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111812G",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code; general-reader fee is a whole-course total (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111813F",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111813F",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111813F",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111971C",
+      "title": "Certificate IV in Interior Decoration",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111971C",
+      "title": "Certificate IV in Interior Decoration",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111971C",
+      "title": "Certificate IV in Interior Decoration",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111977H",
+      "title": "Diploma of Interior Design",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111977H",
+      "title": "Diploma of Interior Design",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111977H",
+      "title": "Diploma of Interior Design",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112445F",
+      "title": "Certificate IV in Cyber Security",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112445F",
+      "title": "Certificate IV in Cyber Security",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112445F",
+      "title": "Certificate IV in Cyber Security",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114593M",
+      "title": "Advanced Diploma of Building Design (Architectural)",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114593M",
+      "title": "Advanced Diploma of Building Design (Architectural)",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114593M",
+      "title": "Advanced Diploma of Building Design (Architectural)",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114594K",
+      "title": "Diploma of Community Services",
+      "field": "english",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114594K",
+      "title": "Diploma of Community Services",
+      "field": "fee",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114594K",
+      "title": "Diploma of Community Services",
+      "field": "intakes",
+      "reason": "Old registration bound by title to a page that prints a newer CRICOS code (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "115297M",
+      "title": "Advanced Diploma of Hospitality Management",
+      "field": "english",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "115297M",
+      "title": "Advanced Diploma of Hospitality Management",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "115297M",
+      "title": "Advanced Diploma of Hospitality Management",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students; general-reader fee is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "115312F",
+      "title": "Diploma of Accounting",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "115312F",
+      "title": "Diploma of Accounting",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "115312F",
+      "title": "Diploma of Accounting",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118574D",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "english",
+      "reason": "Wrong binding: bound to the Traineeship page instead of the non-traineeship page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118574D",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "Wrong binding: bound to the Traineeship page instead of the non-traineeship page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118574D",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "Wrong binding: bound to the Traineeship page instead of the non-traineeship page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119577D",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "english",
+      "reason": "Wrong binding: bound to the Partial-VDSS page instead of the main Cert III ECEC page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119577D",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "Wrong binding: bound to the Partial-VDSS page instead of the main Cert III ECEC page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119577D",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "Wrong binding: bound to the Partial-VDSS page instead of the main Cert III ECEC page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120048H",
+      "title": "Certificate III in Pathology",
+      "field": "english",
+      "reason": "Page says the course is not available for international students; bound by title only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120048H",
+      "title": "Certificate III in Pathology",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students; bound by title only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120048H",
+      "title": "Certificate III in Pathology",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students; bound by title only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120176M",
+      "title": "Certificate IV in Screen and Media",
+      "field": "fee",
+      "reason": "General-reader fee 1,220 is a domestic amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121166E",
+      "title": "Diploma of Visual Arts",
+      "field": "english",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121166E",
+      "title": "Diploma of Visual Arts",
+      "field": "fee",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121166E",
+      "title": "Diploma of Visual Arts",
+      "field": "intakes",
+      "reason": "Page says the course is not available for international students (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.melbournepolytechnic.edu.au/study/how-to-enrol/international-admissions/entrance-requirements/",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.melbournepolytechnic.edu.au/students/academic-calendars/",
+        "status": "found",
+        "read_at": "2026-10-02T07:08:52Z",
+        "evidence_id": "5da7e07d-06e5-4f60-90a3-f6fda340e23a"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.melbournepolytechnic.edu.au/students/academic-calendars/higher-education-calendar/",
+        "status": "found",
+        "read_at": "2026-10-02T09:30:19Z",
+        "evidence_id": "4ca055db-b584-4666-b164-ef5b54a6bcf3"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.melbournepolytechnic.edu.au/students/academic-calendars/vet-calendar/",
+        "status": "found",
+        "read_at": "2026-10-02T11:50:41Z",
+        "evidence_id": "ca441639-07ce-4e08-aba8-2b7ca85baed5"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 27 not-for-international, closed or old-registration courses held back."
+  }
+}

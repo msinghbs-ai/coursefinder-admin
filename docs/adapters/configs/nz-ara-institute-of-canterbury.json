@@ -1,0 +1,153 @@
+{
+  "university": "Ara Institute of Canterbury",
+  "country": "NZ",
+  "provider_id": "87576ec2-c4b0-4a00-ab94-64422c77d545",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "Wave 9 build report: intakes, English and international per-year fees ready after excluding NZ5354 intakes, the three sub-year $13,286 fees, CH3998 and the CH3995 Change binding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:31Z",
+  "config_updated_at": "2026-10-05T00:03:18Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "Fees for 20[2-3][0-9](?:.|\\n){0,80}?International Fee\\s*\\$\\s*([0-9][0-9,]{3,})\\s*per year",
+      "mode": "Programme Duration\\s+((?:Full|Part)-time)",
+      "campus": "Campus Location\\s+((?:.|\\n){3,80}?)\\s+(?:Duration|Domestic|International|Programme)",
+      "intakes": "(?:Start date:\\s*[0-9]{1,2}\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20[2-3][0-9])|\\bfor\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December))\\s+start\\b)",
+      "duration": "Programme Duration\\s+((?:Full|Part)-time\\s*-\\s*[0-9.]+\\s*(?:Years?|Weeks?|Months?|Semesters?))",
+      "aqf_level": "Credits\\s+[0-9]+\\s+Level\\s+([0-9]{1,2})",
+      "study_level": "Information Type\\s+([A-Za-z ]{3,40}?)\\s+Code",
+      "ielts_overall": "\\bIELTS\\s+([4-9](?:\\.[05])?)\\s+Academic\\s*(?:-?\\s*[4-9](?:\\.[05])?\\s+Listening|\\(?\\s*(?:with\\s+|and\\s+)?no\\s+(?:band|lower|less|score))"
+    },
+    "pick": {
+      "intakes": "all"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Ara Institute of Canterbury (NZ, NZD). All course pages are on www.ara.ac.nz/products/programme/<code>-<ref>-<slug>/ (not the Te Pukenga domain); server-rendered, no page JSON. Intakes: dated class list (\"Start date: 15 February 2027\") plus \"International application close date 6 January for February start; 2 June for July start\"; no term names, so no term_months. Central calendar https://www.ara.ac.nz/about-us/academic-calendar/ (2026: Semester 1 starts 16 February, Semester 2 starts 20 July). Fee: \"Fees for 2026 Domestic Fee ... International Fee $26,572 per year\" (international, labelled per year; 19-week programmes print a one-semester amount, $13,286, as per year - exclude those). IELTS: \"IELTS 6.0 Academic 5.5 Listening 5.5 Reading ...\" in entry requirements; the Listening band is required so registration notes (SWRB IELTS 7.0) are skipped. No central numeric English rule: https://www.ara.ac.nz/study/priority-learner-groups/international/international-how-to-apply/academic-equivalence/ defers to course pages. Campus: \"Campus Location City campus, Christchurch\" (few pages). Duration/mode: \"Programme Duration Full-time - 3 Years\". study_level = Information Type. aqf_level holds the NZQF level (\"Credits 360 Level 7\"), not AQF.",
+    "reason": "Round 3: IELTS pattern also accepts the wording \"IELTS 6.0 Academic (no lower than 5.5 in any subtests)\" (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:03:18.485544+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "2452",
+      "title": "New Zealand Certificate in Business (Administration and Technology) (Level 3)",
+      "field": "fee",
+      "reason": "NZ2452 runs 19 weeks; the $13,286 labelled per year is a one-semester or whole-programme amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2594",
+      "title": "New Zealand Certificate in Information Technology Essentials (Level 4)",
+      "field": "fee",
+      "reason": "NZ2594 runs under a year; the $13,286 labelled per year is a one-semester or whole-programme amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2863",
+      "title": "New Zealand Certificate in Study and Employment Pathways (Level 3)",
+      "field": "fee",
+      "reason": "NZ2863 runs under a year; the $13,286 labelled per year is a one-semester or whole-programme amount (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2889",
+      "title": "New Zealand Diploma in Enrolled Nursing (Level 5)",
+      "field": "intakes",
+      "reason": "NZ5354 page close-date text says March start but the class list says February (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5354",
+      "title": "New Zealand Diploma in Enrolled Nursing (Level 5)",
+      "field": "intakes",
+      "reason": "NZ5354 page close-date text says March start but the class list says February (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5694",
+      "title": "Graduate Diploma in Hotel and Tourism Management (Level 7)",
+      "field": "english",
+      "reason": "CH3998 page now returns 404, readings are stale (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5694",
+      "title": "Graduate Diploma in Hotel and Tourism Management (Level 7)",
+      "field": "fee",
+      "reason": "CH3998 page now returns 404, readings are stale (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "5694",
+      "title": "Graduate Diploma in Hotel and Tourism Management (Level 7)",
+      "field": "intakes",
+      "reason": "CH3998 page now returns 404, readings are stale (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3995",
+      "title": "Graduate Diploma in Business Transformation and Change (Level 7)",
+      "field": "english",
+      "reason": "CH3995 Strategy page wrongly bound to Business Transformation and Change (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3995",
+      "title": "Graduate Diploma in Business Transformation and Change (Level 7)",
+      "field": "fee",
+      "reason": "CH3995 Strategy page wrongly bound to Business Transformation and Change (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3995",
+      "title": "Graduate Diploma in Business Transformation and Change (Level 7)",
+      "field": "intakes",
+      "reason": "CH3995 Strategy page wrongly bound to Business Transformation and Change (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3998",
+      "title": "Graduate Diploma in Hotel Management (Level 7)",
+      "field": "english",
+      "reason": "CH3998 page now 404 and bound to the wrong course (Hotel Management) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3998",
+      "title": "Graduate Diploma in Hotel Management (Level 7)",
+      "field": "fee",
+      "reason": "CH3998 page now 404 and bound to the wrong course (Hotel Management) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3998",
+      "title": "Graduate Diploma in Hotel Management (Level 7)",
+      "field": "intakes",
+      "reason": "CH3998 page now 404 and bound to the wrong course (Hotel Management) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.ara.ac.nz/study/priority-learner-groups/international/international-how-to-apply/academic-equivalence/",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.ara.ac.nz/about-us/academic-calendar/",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 6 fees, 5 intakes and 3 English held back."
+  }
+}

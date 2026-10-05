@@ -12,7 +12,7 @@
   "admit_reason": "Sunshine Coast fees from the 2026 table and course pages, stale-table, non-annual and doubtful-year readings excluded (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)",
   "admit_changed_at": "2026-10-04T20:38:32Z",
   "config_updated_at": "2026-10-04T19:33:20Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,

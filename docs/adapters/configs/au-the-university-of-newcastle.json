@@ -1,0 +1,118 @@
+{
+  "university": "The University of Newcastle",
+  "catalogue_name": "The University of Newcastle (UoN), The University of Newcastle Language Centre, Sydney",
+  "country": "AU",
+  "provider_id": "1822b40a-8b13-44dc-8c37-106ae31bb447",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Admit English only: IELTS read from the international section, spot checks correct; intakes are the domestic first-term note and fees are not on the stored pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:23Z",
+  "config_updated_at": "2026-10-05T00:07:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "intakes": "Next start date(?:.|\\n){0,40}?Note: ((?:Semester|Trimester) [1-3] commences on [0-9]{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20[0-9]{2})",
+      "ielts_overall": "IELTS overall minimum[^0-9]{0,8}([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "intakes": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Course pages are www.newcastle.edu.au/degrees/<slug> (stored as plain fetches). The key-facts panel (CRICOS code, duration, location, mode, next start date, indicative fee) and the Similar degrees fee cards are filled by script in the browser, so the stored text carries no fee, campus, mode or per-course start dates. IELTS overall is read from the static line \"IELTS overall minimum - X\" (English proficiency requirements, under Apply as an international student). Intakes are read from the static note under Next start date (\"Note: Semester 1 commences on 22 February 2027\" / \"Note: Trimester 1 commences on 1 February 2027\"), which is the domestic default view and gives only the first term, not the full international intake list. The full international start terms are in <meta name=\"UON.Degree.StartDate.International\"> (e.g. \"Semester 1; Semester 2\", \"Trimester 1; Trimester 2; Trimester 3\"), with IELTS in UON.Degree.IELTS.OverallMinimum / SectionMinimum and campus in UON.Degree.Location - not readable by text patterns today. Calendar: https://www.newcastle.edu.au/__data/assets/pdf_file/0005/1137173/Academic-Calendar-2027.pdf (2027: Sem 1 22 Feb, Midyear 21 Jun, Sem 2 16 Aug, Tri 1 1 Feb, Tri 2 10 May, Tri 3 16 Aug). handbook.newcastle.edu.au is robots-disallowed.",
+    "reason": "Final University of Newcastle adapter: remove the temporary section-minimum test read (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:07:14.982222+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "027423K",
+      "title": "Graduate Certificate in Marketing",
+      "field": "english",
+      "reason": "Borderline binding: Graduate Certificate in Marketing is read from the successor Marketing and Digital Strategy page; excluded to be conservative (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "027423K",
+      "title": "Graduate Certificate in Marketing",
+      "field": "intakes",
+      "reason": "Borderline binding to the successor Marketing and Digital Strategy page; excluded to be conservative (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "084249B",
+      "title": "Master of Business Administration / Master of Marketing",
+      "field": "english",
+      "reason": "Borderline binding: MBA / Master of Marketing is read from the successor MBA / Marketing and Digital Strategy page; excluded to be conservative (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "084249B",
+      "title": "Master of Business Administration / Master of Marketing",
+      "field": "intakes",
+      "reason": "Borderline binding to the successor MBA / Marketing and Digital Strategy page; excluded to be conservative (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "102241A",
+      "title": "Master of Marketing",
+      "field": "english",
+      "reason": "Borderline binding: Master of Marketing is read from the successor Marketing and Digital Strategy page; excluded to be conservative (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "102241A",
+      "title": "Master of Marketing",
+      "field": "intakes",
+      "reason": "Borderline binding to the successor Marketing and Digital Strategy page; excluded to be conservative (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "106659J",
+      "title": "Bachelor of Biomedicine",
+      "field": "english",
+      "reason": "Bachelor of Biomedicine is bound to the combined Laws (Honours) page, which gives 7.0, not the standalone requirement (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "106659J",
+      "title": "Bachelor of Biomedicine",
+      "field": "intakes",
+      "reason": "Bachelor of Biomedicine is bound to the combined Laws (Honours) page, not its own page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://policies.newcastle.edu.au/document/view-current.php?id=165",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.newcastle.edu.au/__data/assets/pdf_file/0005/1038056/Academic-Calendar-2026_jul22.pdf",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.newcastle.edu.au/__data/assets/pdf_file/0005/1137173/Academic-Calendar-2027.pdf",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. English admitted. Intakes held back (domestic first term); fees held back (browser only)."
+  }
+}

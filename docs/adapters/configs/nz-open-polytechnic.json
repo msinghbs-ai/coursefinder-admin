@@ -1,0 +1,67 @@
+{
+  "university": "The Open Polytechnic of New Zealand",
+  "country": "NZ",
+  "provider_id": "f6b3e3a9-cc45-4770-8fb6-0d068f50732f",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T23:55:30Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Delivery method:\\s*(Online study|Online|Blended|Distance|Print-based|Mixed|On-?campus)",
+      "intakes": "enrol in the ((?:January|February|March|April|May|June|July|August|September|October|November|December) 20[2-3][0-9]) intake",
+      "aqf_level": "Academic level:\\s*Level ([0-9]{1,2})",
+      "study_level": "Academic level:\\s*(Level [0-9]{1,2})",
+      "not_admitting": "(closed to new enrolments)"
+    },
+    "pick": {
+      "mode": "first",
+      "intakes": "all",
+      "aqf_level": "first",
+      "study_level": "first",
+      "not_admitting": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Open Polytechnic of New Zealand (distance/online only). Pages are qualification pages on www.openpolytechnic.ac.nz/qualifications-and-courses/<code>-<slug>/ with a summary strip: \"Academic level: Level N\", \"Programme credits\", \"Delivery method: Online study\", \"Programme cost: $N NZ Domestic\" (whole-programme DOMESTIC estimate, often $0 under zero-fees; stored pages show the domestic view only, no international fee anywhere) and \"Time limit: Maximum completion time\" (a completion limit, not a duration). No IELTS on course pages: English is central (https://www.openpolytechnic.ac.nz/study-with-us/how-to-apply/english-language-requirements/). Most programmes have rolling course starts (fortnightly, every month) on the central page https://www.openpolytechnic.ac.nz/study-with-us/how-to-apply/course-start-end-and-withdrawal-dates/ ; only the cohort teaching programmes print intakes on the page as \"enrol in the <Month YYYY> intake\", which the intakes pattern reads. Fee is deliberately not read. Not a student-visa provider: programmes are distance study, generally not open to international students on a student visa.",
+    "reason": "Fix the delivery-mode pattern (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:55:30.969456+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "4447",
+      "title": "Graduate Diploma in Teaching (Early Childhood Education) (Level 7)",
+      "field": "intakes",
+      "reason": "Intake \"July\" comes from a noho marae note; unconfirmed start, excluded conservatively (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "4448",
+      "title": "Bachelor of Teaching (Early Childhood Education) (Level 7)",
+      "field": "intakes",
+      "reason": "Intakes \"September, October\" come from a noho marae note, not a real intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Testing only, not admitted: distance study only."
+  }
+}

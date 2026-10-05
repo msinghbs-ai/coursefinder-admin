@@ -11,7 +11,7 @@
   "admit_reason": "Victoria University: IELTS from course pages only; domestic start dates and per-semester fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T22:27:20Z",
   "config_updated_at": "2026-10-04T22:08:14Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 10:30 AEDT",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -1845,16 +1845,7 @@
         "evidence_id": "6f6b21cf-afc8-4cc0-a804-4c32fda133db"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "47c664c1-3254-4e16-93d3-b0d3c134359a",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://www.vu.edu.au/sites/default/files/international-english-language-requirements.pdf",
-        "created_at": "2026-10-04T22:28:15Z",
-        "proposal_md5": "f035312fc383aaf3c91cfcdcb4b8f318"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 7. 7 IELTS. Domestic-view pages; per-semester fees (decision)."

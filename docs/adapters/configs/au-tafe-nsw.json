@@ -1,0 +1,88 @@
+{
+  "university": "TAFE NSW",
+  "catalogue_name": "TAFE NSW Technical and Further Education Commission; TAFE NSW Higher Education",
+  "country": "AU",
+  "provider_id": "430a7fd4-6c32-41d8-b756-0ebbd16b2c0c",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-04T23:55:47Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "Duration ((?:[0-9.]+|one|two|three|four) (?:years?|months?|weeks?)(?: (?:full time|full-time))?(?: or (?:[0-9.]+|one|two|three|four) (?:years?|months?) (?:part time|part-time))?)"
+    },
+    "pick": {
+      "duration": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "TAFE NSW (VET + higher education). Page kinds: international course pages (www.tafensw.edu.au/international/courses/<slug>--<code>), international package pages (/international/package/<slug>--<id>, two-course pathways), domestic course pages (/course-areas/.../courses/<slug>--<code>-01, no international data), credittransfer.tafensw.edu.au pages and a few general pages. Stored text carries: \"Course code: X | CRICOS Code: Y\", \"Course fee $A - $B AUD\" (WHOLE-COURSE range, not annual: never read as fee), \"Duration N years\". The 2026/2027 \"Starting dates, course fees and locations\" tab and the entry-requirements tab are filled in the browser, so no start months, campus or IELTS are in the stored text. Central sources: intakes https://www.tafensw.edu.au/international/courses/academic-calendar/certificate-and-diploma (Term 1 Feb, Term 2 April*, Term 3 July, Term 4 September*/October; *some courses only) and https://www.tafensw.edu.au/international/courses/academic-calendar/higher-education (Semester 1 Feb, Semester 2 July); English: https://www.tafensw.edu.au/international/apply/entry-requirements (rule in a linked PDF). Only duration is read by pattern.",
+    "reason": "Save TAFE NSW adapter (duration only; stored pages carry no start months, no IELTS and only whole-course fees) (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:55:47.622014+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "075731M",
+      "title": "Bachelor of 3D Art and Animation",
+      "field": "fee",
+      "reason": "General-reader fee 75120 is the whole-course fee for 3 years, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "093299F",
+      "title": "Diploma of 3D Art and Animation",
+      "field": "fee",
+      "reason": "General-reader fee 75120 is the whole-course fee for 3 years, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "095553C",
+      "title": "Associate Degree of 3D Art and Animation",
+      "field": "fee",
+      "reason": "General-reader fee 75120 is the whole-course fee for 3 years, not annual (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "no_values",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.tafensw.edu.au/international/apply/entry-requirements",
+        "status": "found",
+        "read_at": "2026-10-02T07:09:25Z",
+        "evidence_id": "a99cec18-b580-4b07-ad20-7c192e83b81e"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.tafensw.edu.au/international/courses/academic-calendar/certificate-and-diploma",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.tafensw.edu.au/international/courses/academic-calendar/higher-education",
+        "status": "found",
+        "read_at": "2026-10-02T09:30:13Z",
+        "evidence_id": "0c01f07a-8296-46c8-836d-6f7bb547efb8"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Testing only, not admitted: no usable fields."
+  }
+}

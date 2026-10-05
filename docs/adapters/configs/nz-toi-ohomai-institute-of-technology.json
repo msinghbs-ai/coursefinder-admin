@@ -1,0 +1,63 @@
+{
+  "university": "Toi Ohomai Institute of Technology",
+  "country": "NZ",
+  "provider_id": "38f8ea71-2269-407c-aab6-68a5f09fc01a",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Start dates come from the domestic view of the pages, so intakes are held back (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:30:48Z",
+  "config_updated_at": "2026-10-04T23:59:00Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "campus": "((?:Rotorua|Tauranga|Taup\\u014d|Taupo|Whakat\\u0101ne|Whakatane|Tokoroa|Kawerau|Online|Distance)[A-Za-z\\u0101\\u014d\\u016b' ]{0,40}?)\\s+\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d",
+      "intakes": "Location\\s+Campus\\s+Start Date\\s+((?:.|\\n){0,250}?\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d(?:(?:.|\\n){0,120}?\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d){0,12})",
+      "ielts_overall": "English Language Requirements\\s*:?\\s*(?:.|\\n){0,200}?IELTS(?: \\(general or academic\\)| test)?\\s*-?\\s*(?:(?:General or )?Academic )?(?:overall )?(?:score of )?([4-9](?:\\.[05])?)\\b"
+    },
+    "pick": {
+      "campus": "all",
+      "intakes": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Toi Ohomai course pages (www.toiohomai.ac.nz/study/course/<slug>) are stored in the default NZ/Australian (domestic) view: they carry only domestic indicative fees, so no fee is read. Start dates are printed per campus under 'Course Locations and Intake Information' as 'Location Campus Start Date Rotorua Mokoia Campus 22 Feb 2027 Apply now ...' (dates are explicit, so no term mapping is needed). IELTS overall is the first IELTS figure within 200 characters after 'English Language Requirements' (wordings: 'IELTS Academic score of 6 with no band score lower than 5.5', 'Level 5 certificate or diploma IELTS Academic score of 5.5', 'an IELTS (general or academic) score of 5.5', 'IELTS 5.0'). Campus is read from the intake table. Duration and delivery mode are not printed in the stored text. Central key dates: https://www.toiohomai.ac.nz/study/important-dates (2027: Semester 1 starts 22 Feb, Semester 2 starts 19 Jul). Central English guidance: https://www.toiohomai.ac.nz/study/get-help-english (refers to NZQA rules; per-course figures are on each course page).",
+    "reason": "Final Toi Ohomai adapter: broader IELTS wording, diagnostic fields and unreliable level removed; no fee (domestic view only) (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:59:00.517884+00:00"
+  },
+  "exclusions": [],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.toiohomai.ac.nz/study/get-help-english",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.toiohomai.ac.nz/study/important-dates",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. English admitted. Intakes held back (domestic view)."
+  }
+}

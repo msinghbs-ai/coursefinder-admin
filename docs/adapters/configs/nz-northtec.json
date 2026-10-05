@@ -1,0 +1,866 @@
+{
+  "university": "NorthTec (NZIST)",
+  "catalogue_name": "New Zealand Institute of Skills and Technology",
+  "country": "NZ",
+  "provider_id": "d72e0120-a3a2-4909-8ddf-bcad1ec60150",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-05T00:04:28Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "International Fees:\\s*\\$([0-9][0-9,]{3,})\\s*(?:\\(per academic year\\)\\s*)?\\+ CSSF levy \\(\\$2\\.50/credit\\)\\s*\\((?:202[6-9]|203[0-9])\\)",
+      "campus": "\\*\\s*[0-9]{1,3} (?:Weeks|Months|Years?)\\s+([A-Za-zāēīōū ]{3,40}?)\\s+Overview",
+      "intakes": "Rolling Intake\\s*,\\s*((?:January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, 20[0-9]{2})",
+      "duration": "\\*\\s*([0-9]{1,3} (?:Weeks|Months|Years?))\\b"
+    },
+    "pick": {
+      "fee": "first",
+      "campus": "first",
+      "intakes": "all",
+      "duration": "first"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "NorthTec (Tai Tokerau / Northland business division of Te Pukenga / NZIST); host www.northtec.ac.nz/programmes/; Webflow CMS page, server-rendered text with hidden tabs, no usable page JSON. Header: '* N Weeks|Years Campus Overview'. Dates & Bookings tab: 'Rolling Intake , <Month d, yyyy> – <Month d, yyyy>' per class (start date = intake month; the end date is not an intake). International Fees: '$X [(per academic year)] + CSSF levy ($2.50/credit) (YYYY)*' repeated for each year; read only for 2026 onward; '(18 Months)' totals not read. Site note: fees for programmes longer than one academic year are first-year fees; 19-week certificate amounts are half-year totals and must be excluded. IELTS is NOT read: every page carries two template IELTS lines (5.0 and 5.5) before the programme-specific one. Intakes are not split domestic/international.",
+    "reason": "NorthTec adapter, final round: class start dates, current-year international fee, probes removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:04:28.057089+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "1882",
+      "title": "New Zealand Certificate in English Language (General) (Level 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2100",
+      "title": "New Zealand Certificate in Cookery (Level 3)",
+      "field": "fee",
+      "reason": "Fee 13,286 is a 19-week course total, not an annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2104",
+      "title": "New Zealand Certificate in Food and Beverage Service (Level 3)",
+      "field": "fee",
+      "reason": "Fee 13,286 is a 19-week course total, not an annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2206",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2206",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2206",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2207",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 6)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2207",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 6)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2207",
+      "title": "New Zealand Diploma in Tourism and Travel (Level 6)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2215",
+      "title": "New Zealand Certificate in Primary Industry Operational Skills (Level 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2215",
+      "title": "New Zealand Certificate in Primary Industry Operational Skills (Level 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2215",
+      "title": "New Zealand Certificate in Primary Industry Operational Skills (Level 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2221",
+      "title": "New Zealand Diploma in Primary Industry Business Management (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2221",
+      "title": "New Zealand Diploma in Primary Industry Business Management (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2221",
+      "title": "New Zealand Diploma in Primary Industry Business Management (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2236",
+      "title": "New Zealand Certificate in Retail (Level 4)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2236",
+      "title": "New Zealand Certificate in Retail (Level 4)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2236",
+      "title": "New Zealand Certificate in Retail (Level 4)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2330",
+      "title": "New Zealand Certificate in Forest Industry Operations (Planning and Monitoring) (Level 4)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2330",
+      "title": "New Zealand Certificate in Forest Industry Operations (Planning and Monitoring) (Level 4)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2330",
+      "title": "New Zealand Certificate in Forest Industry Operations (Planning and Monitoring) (Level 4)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2434",
+      "title": "Manaaki Marae - Te Nihowera, Te Ringawera (Kaupae 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2434",
+      "title": "Manaaki Marae - Te Nihowera, Te Ringawera (Kaupae 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2434",
+      "title": "Manaaki Marae - Te Nihowera, Te Ringawera (Kaupae 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2435",
+      "title": "Manaaki Marae - Te K&#257;uta, Te Wharekai (Kaupae 2)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2435",
+      "title": "Manaaki Marae - Te K&#257;uta, Te Wharekai (Kaupae 2)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2435",
+      "title": "Manaaki Marae - Te K&#257;uta, Te Wharekai (Kaupae 2)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2452",
+      "title": "New Zealand Certificate in Business (Administration and Technology) (Level 3)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2455",
+      "title": "New Zealand Certificate in Business (Accounting Support Services) (Level 4)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2456",
+      "title": "New Zealand Certificate in Business (First Line Management) (Level 4)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2457",
+      "title": "New Zealand Certificate in Business (Small Business) (Level 4)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2461",
+      "title": "New Zealand Certificate in Business (Administration and Technology) (Level 4)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2462",
+      "title": "New Zealand Certificate in Project Management (Level 4)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2553",
+      "title": "New Zealand Diploma in Applied Science (Level 6)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2553",
+      "title": "New Zealand Diploma in Applied Science (Level 6)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2553",
+      "title": "New Zealand Diploma in Applied Science (Level 6)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2594",
+      "title": "New Zealand Certificate in Information Technology Essentials (Level 4)",
+      "field": "intakes",
+      "reason": "January read is a rolling online class window, not an international intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2596",
+      "title": "New Zealand Diploma in Information Technology Technical Support (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2596",
+      "title": "New Zealand Diploma in Information Technology Technical Support (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2596",
+      "title": "New Zealand Diploma in Information Technology Technical Support (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2598",
+      "title": "New Zealand Diploma in Web Development and Design (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2598",
+      "title": "New Zealand Diploma in Web Development and Design (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2598",
+      "title": "New Zealand Diploma in Web Development and Design (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2604",
+      "title": "New Zealand Diploma in Software Development (Level 6)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2604",
+      "title": "New Zealand Diploma in Software Development (Level 6)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2604",
+      "title": "New Zealand Diploma in Software Development (Level 6)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2716",
+      "title": "New Zealand Certificate in Mechanical Engineering (Advanced) (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2716",
+      "title": "New Zealand Certificate in Mechanical Engineering (Advanced) (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2716",
+      "title": "New Zealand Certificate in Mechanical Engineering (Advanced) (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2738",
+      "title": "New Zealand Certificate in Carpentry (Level 4)",
+      "field": "fee",
+      "reason": "Fee 1,028 is the domestic amount, not the international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2754",
+      "title": "New Zealand Certificate in Adult Literacy and Numeracy Education (Vocational/Workplace) (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2754",
+      "title": "New Zealand Certificate in Adult Literacy and Numeracy Education (Vocational/Workplace) (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2754",
+      "title": "New Zealand Certificate in Adult Literacy and Numeracy Education (Vocational/Workplace) (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2860",
+      "title": "New Zealand Certificate in Study and Employment Pathways (Level 4)",
+      "field": "fee",
+      "reason": "Fee 13,286 is a 19-week course total, not an annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2863",
+      "title": "New Zealand Certificate in Study and Employment Pathways (Level 3)",
+      "field": "fee",
+      "reason": "Fee 13,286 is a 19-week course total, not an annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2879",
+      "title": "Te P&#333;kairua Wh&#257;nau Ora (Kaupae 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2879",
+      "title": "Te P&#333;kairua Wh&#257;nau Ora (Kaupae 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2879",
+      "title": "Te P&#333;kairua Wh&#257;nau Ora (Kaupae 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3038",
+      "title": "Te P&#333;kaitahi Tikanga (Waka, Rongo&#257;, Te Ara Nunumi, M&#257;tauranga M&#257;ori, M&#257;ori Development, Rangahau) (Kaupae 2)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3038",
+      "title": "Te P&#333;kaitahi Tikanga (Waka, Rongo&#257;, Te Ara Nunumi, M&#257;tauranga M&#257;ori, M&#257;ori Development, Rangahau) (Kaupae 2)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3038",
+      "title": "Te P&#333;kaitahi Tikanga (Waka, Rongo&#257;, Te Ara Nunumi, M&#257;tauranga M&#257;ori, M&#257;ori Development, Rangahau) (Kaupae 2)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3039",
+      "title": "Te P&#333;kaitahi Tikanga (Waka, Rongo&#257;, Te Ara Nunumi, M&#257;tauranga M&#257;ori, M&#257;ori Development, Rangahau) (Kaupae 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3039",
+      "title": "Te P&#333;kaitahi Tikanga (Waka, Rongo&#257;, Te Ara Nunumi, M&#257;tauranga M&#257;ori, M&#257;ori Development, Rangahau) (Kaupae 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3039",
+      "title": "Te P&#333;kaitahi Tikanga (Waka, Rongo&#257;, Te Ara Nunumi, M&#257;tauranga M&#257;ori, M&#257;ori Development, Rangahau) (Kaupae 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3052",
+      "title": "Te Tohu Hiwi (Kaupae 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3052",
+      "title": "Te Tohu Hiwi (Kaupae 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3052",
+      "title": "Te Tohu Hiwi (Kaupae 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3408",
+      "title": "New Zealand Diploma in Creative Writing (Level 5)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3408",
+      "title": "New Zealand Diploma in Creative Writing (Level 5)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3408",
+      "title": "New Zealand Diploma in Creative Writing (Level 5)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3409",
+      "title": "New Zealand Diploma in Creative Writing (Level 6)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3409",
+      "title": "New Zealand Diploma in Creative Writing (Level 6)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3409",
+      "title": "New Zealand Diploma in Creative Writing (Level 6)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3444",
+      "title": "New Zealand Certificate in Beauty Therapy (Level 4)",
+      "field": "fee",
+      "reason": "Fee 7,632 is the domestic amount, not the international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3450",
+      "title": "New Zealand Certificate in Light Automotive Engineering (Level 4)",
+      "field": "fee",
+      "reason": "Fee 1,300 is the domestic amount, not the international fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3533",
+      "title": "New Zealand Certificate in Workplace Health and Safety Practice (Level 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3533",
+      "title": "New Zealand Certificate in Workplace Health and Safety Practice (Level 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3533",
+      "title": "New Zealand Certificate in Workplace Health and Safety Practice (Level 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3534",
+      "title": "New Zealand Certificate in Workplace Health and Safety Practice (Level 4)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3534",
+      "title": "New Zealand Certificate in Workplace Health and Safety Practice (Level 4)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3534",
+      "title": "New Zealand Certificate in Workplace Health and Safety Practice (Level 4)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3563",
+      "title": "New Zealand Certificate in Exercise (Level 4)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3563",
+      "title": "New Zealand Certificate in Exercise (Level 4)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3563",
+      "title": "New Zealand Certificate in Exercise (Level 4)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3568",
+      "title": "New Zealand Certificate in Painting and Decorating (Level 4)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3568",
+      "title": "New Zealand Certificate in Painting and Decorating (Level 4)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3568",
+      "title": "New Zealand Certificate in Painting and Decorating (Level 4)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3625",
+      "title": "New Zealand Certificate in Sport, Recreation and Exercise (Level 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3625",
+      "title": "New Zealand Certificate in Sport, Recreation and Exercise (Level 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3625",
+      "title": "New Zealand Certificate in Sport, Recreation and Exercise (Level 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3645",
+      "title": "New Zealand Diploma in Workplace Health and Safety Management (Level 6)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3645",
+      "title": "New Zealand Diploma in Workplace Health and Safety Management (Level 6)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3645",
+      "title": "New Zealand Diploma in Workplace Health and Safety Management (Level 6)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3667",
+      "title": "New Zealand Certificate in English Language (Applied) (Level 3)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3785",
+      "title": "Postgraduate Diploma in Applied Management (Level 8)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3785",
+      "title": "Postgraduate Diploma in Applied Management (Level 8)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3785",
+      "title": "Postgraduate Diploma in Applied Management (Level 8)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3786",
+      "title": "Postgraduate Certificate in Applied Management (Level 8)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3786",
+      "title": "Postgraduate Certificate in Applied Management (Level 8)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3786",
+      "title": "Postgraduate Certificate in Applied Management (Level 8)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3827",
+      "title": "Graduate Diploma in Sales and Marketing (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3827",
+      "title": "Graduate Diploma in Sales and Marketing (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3827",
+      "title": "Graduate Diploma in Sales and Marketing (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3828",
+      "title": "Graduate Diploma in Innovation and Entrepreneurship (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3828",
+      "title": "Graduate Diploma in Innovation and Entrepreneurship (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3828",
+      "title": "Graduate Diploma in Innovation and Entrepreneurship (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3829",
+      "title": "Graduate Diploma in Event Management (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3829",
+      "title": "Graduate Diploma in Event Management (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "3829",
+      "title": "Graduate Diploma in Event Management (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3996",
+      "title": "Graduate Diploma in Event Management (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3996",
+      "title": "Graduate Diploma in Event Management (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH3996",
+      "title": "Graduate Diploma in Event Management (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4000",
+      "title": "Graduate Diploma in Innovation and Entrepreneurship (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4000",
+      "title": "Graduate Diploma in Innovation and Entrepreneurship (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4000",
+      "title": "Graduate Diploma in Innovation and Entrepreneurship (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4002",
+      "title": "Graduate Diploma in Project Management (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4002",
+      "title": "Graduate Diploma in Project Management (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4002",
+      "title": "Graduate Diploma in Project Management (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4003",
+      "title": "Graduate Diploma in Marketing and Sales (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4003",
+      "title": "Graduate Diploma in Marketing and Sales (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "CH4003",
+      "title": "Graduate Diploma in Marketing and Sales (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT4890",
+      "title": "Graduate Diploma in Accounting (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT4890",
+      "title": "Graduate Diploma in Accounting (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT4890",
+      "title": "Graduate Diploma in Accounting (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT4891",
+      "title": "Graduate Diploma in Business Information Systems (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT4891",
+      "title": "Graduate Diploma in Business Information Systems (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT4891",
+      "title": "Graduate Diploma in Business Information Systems (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT5010",
+      "title": "Bachelor of Applied Management (Level 7)",
+      "field": "english",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT5010",
+      "title": "Bachelor of Applied Management (Level 7)",
+      "field": "fee",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "NT5010",
+      "title": "Bachelor of Applied Management (Level 7)",
+      "field": "intakes",
+      "reason": "Course wrongly bound to the academic-calendar regulations document, not its course page; needs unbinding (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": null,
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www2.nzqa.govt.nz/assets/About-us/Our-rules-fees-and-policies/NZQA-Rules/2025/Table-for-internationally-recognised-English-proficiency-outcomes-for-international-students.pdf",
+        "status": "found",
+        "read_at": null,
+        "evidence_id": null
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Testing only, not admitted: 40 courses bound to the academic-calendar document. NZIST division; catalogue name is New Zealand Institute of Skills and Technology."
+  }
+}

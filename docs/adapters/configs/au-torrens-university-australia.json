@@ -1,0 +1,354 @@
+{
+  "university": "Torrens University Australia",
+  "catalogue_name": "Torrens University Australia; Torrens University Language Centre; Chifley Business School at Torrens University Australia CBS at Torrens University Australia Blue Mountains International Hotel Management School at Torrens University Australia BMIHMS at To",
+  "country": "AU",
+  "provider_id": "fec52f92-a8a3-4de8-a862-06f355e4e2f7",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Wave 9: intakes and English ready after named exclusions; fee held (fees are on a separate fee schedule, none read) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:19Z",
+  "config_updated_at": "2026-10-04T23:54:25Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Study mode\\s+((?:.|\\n){1,80}?)\\s+Campus locations",
+      "campus": "Campus locations\\*?\\s+((?:.|\\n){1,150}?)\\s+Student\\s+Domestic",
+      "intakes": "Start date\\s+((?:\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+20\\d\\d\\s*){1,10})",
+      "duration": "Course duration\\s+((?:.|\\n){1,150}?)\\s+(?:Start date|Fee & scholarships|View all key dates)",
+      "aqf_level": "This is an AQF Level (\\d+) course",
+      "ielts_overall": "(?:Academic\\s+)?IELTS\\s+(\\d\\.\\d)\\b"
+    },
+    "pick": {
+      "ielts_overall": "last"
+    },
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "Torrens course pages (www.torrens.edu.au/courses/<area>/<slug>), one course per page, server-rendered, no page JSON. Key-facts panel: \"Study mode\", \"Campus locations*\", \"Course duration\", \"Start date DD Mon YYYY ...\" (dated starts, shared by domestic/international view; central calendar https://www.torrens.edu.au/how-to-apply/key-dates, Main Intakes 1-4 = Feb, May/Jun, Sep, Nov), \"This is an AQF Level N course\". English: international Admission criteria tab, \"Academic IELTS 6.5 (no band less than 6.0)\" - last IELTS on page is the international one. Fee NOT on course pages (points to international course fee schedule PDF); no fee pattern. Index/hub pages bound to several courses (higher-degrees-by-research, graduate-diploma-of-education, master-of-education-advanced) must not be admitted.",
+    "reason": "Save Torrens University Australia text adapter: start dates, IELTS, campus, mode, duration, AQF level from course-page key facts panel; no fee (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:54:25.373764+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "0100910",
+      "title": "Bachelor of Nursing",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "089931K",
+      "title": "Master of International Hotel Management",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "089932J",
+      "title": "Graduate Certificate of International Hotel Management",
+      "field": "english",
+      "reason": "Bound to the Master of International Hotel Management page, not this Graduate Certificate (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "089932J",
+      "title": "Graduate Certificate of International Hotel Management",
+      "field": "intakes",
+      "reason": "Bound to the Master of International Hotel Management page, not this Graduate Certificate (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "090247J",
+      "title": "Master of Global Project Management (Advanced)",
+      "field": "english",
+      "reason": "Bound to a country information page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "090247J",
+      "title": "Master of Global Project Management (Advanced)",
+      "field": "intakes",
+      "reason": "Bound to a country information page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094179F",
+      "title": "Bachelor of Business (Hospitality Management)",
+      "field": "english",
+      "reason": "Bound to a country information page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094179F",
+      "title": "Bachelor of Business (Hospitality Management)",
+      "field": "intakes",
+      "reason": "Bound to a country information page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094854J",
+      "title": "Non Award - Study Abroad (1 trimester)",
+      "field": "english",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094854J",
+      "title": "Non Award - Study Abroad (1 trimester)",
+      "field": "intakes",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094855G",
+      "title": "Non Award - Study Abroad (2 trimesters)",
+      "field": "english",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094855G",
+      "title": "Non Award - Study Abroad (2 trimesters)",
+      "field": "intakes",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094856G",
+      "title": "Non Award - Study Abroad (1 year)",
+      "field": "english",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "094856G",
+      "title": "Non Award - Study Abroad (1 year)",
+      "field": "intakes",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "095357G",
+      "title": "Master of Global Project Management",
+      "field": "english",
+      "reason": "Bound to a country information page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "095357G",
+      "title": "Master of Global Project Management",
+      "field": "intakes",
+      "reason": "Bound to a country information page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "096608G",
+      "title": "Doctor of Philosophy",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "097405K",
+      "title": "Graduate Certificate of Public Health",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "102917F",
+      "title": "Graduate Diploma of Counselling",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108075F",
+      "title": "Graduate Certificate of Research Studies",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113059H",
+      "title": "Master of Education (Leadership & Innovation) Advanced",
+      "field": "english",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113059H",
+      "title": "Master of Education (Leadership & Innovation) Advanced",
+      "field": "intakes",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113062B",
+      "title": "Graduate Diploma of Education (Leadership & Innovation)",
+      "field": "english",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113062B",
+      "title": "Graduate Diploma of Education (Leadership & Innovation)",
+      "field": "intakes",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113063A",
+      "title": "Master of Education (Inclusive Education) Advanced",
+      "field": "english",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113063A",
+      "title": "Master of Education (Inclusive Education) Advanced",
+      "field": "intakes",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113065K",
+      "title": "Graduate Diploma of Education (Inclusive Education)",
+      "field": "english",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113065K",
+      "title": "Graduate Diploma of Education (Inclusive Education)",
+      "field": "intakes",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113067H",
+      "title": "Master of Education (Inclusive Literacies) Advanced",
+      "field": "english",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113067H",
+      "title": "Master of Education (Inclusive Literacies) Advanced",
+      "field": "intakes",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113069F",
+      "title": "Graduate Diploma of Education (Inclusive Literacies)",
+      "field": "english",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113069F",
+      "title": "Graduate Diploma of Education (Inclusive Literacies)",
+      "field": "intakes",
+      "reason": "Shared page covering several specialisations; reading not specific to this course (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119193J",
+      "title": "Bachelor of Business (International Hotel Management)",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119195G",
+      "title": "Diploma of Business (International Hotel Management)",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119240G",
+      "title": "Bachelor of Health Science (Dermal Therapies)",
+      "field": "intakes",
+      "reason": "Stored start-date panel showed only one (now past) start; reading incomplete (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120238B",
+      "title": "Non Award - Study Abroad Hospitality",
+      "field": "english",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120238B",
+      "title": "Non Award - Study Abroad Hospitality",
+      "field": "intakes",
+      "reason": "Bound to a study-abroad page, not a course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121389A",
+      "title": "Professional Doctorate [Design Innovation and Creative Practices]",
+      "field": "english",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121389A",
+      "title": "Professional Doctorate [Design Innovation and Creative Practices]",
+      "field": "intakes",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121390H",
+      "title": "Professional Doctorate (AI Futures)",
+      "field": "english",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121390H",
+      "title": "Professional Doctorate (AI Futures)",
+      "field": "intakes",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121391G",
+      "title": "Professional Doctorate [EdTech]",
+      "field": "english",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121391G",
+      "title": "Professional Doctorate [EdTech]",
+      "field": "intakes",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121393E",
+      "title": "Professional Doctorate (Living Systems Tourism and Technology)",
+      "field": "english",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121393E",
+      "title": "Professional Doctorate (Living Systems Tourism and Technology)",
+      "field": "intakes",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121394D",
+      "title": "Professional Doctorate (Translational Biological Discovery)",
+      "field": "english",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121394D",
+      "title": "Professional Doctorate (Translational Biological Discovery)",
+      "field": "intakes",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121395C",
+      "title": "Professional Doctorate (Business Transformation)",
+      "field": "english",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121395C",
+      "title": "Professional Doctorate (Business Transformation)",
+      "field": "intakes",
+      "reason": "Bound to the Higher Degrees by Research index page, not the course page (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "no_values",
+    "calendar": "proposed",
+    "central_pages": [
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.torrens.edu.au/how-to-apply/key-dates",
+        "status": "found",
+        "read_at": "2026-10-02T07:09:02Z",
+        "evidence_id": "82543196-b0c7-4393-97b1-64a4f260ced6"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Intakes and English admitted. 29 intakes and 20 English held back (single past starts, shared pages)."
+  }
+}

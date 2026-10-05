@@ -1,0 +1,633 @@
+{
+  "university": "TAFE International Western Australia",
+  "country": "AU",
+  "provider_id": "7339c659-60a6-4839-ba65-e1f5b926bdf8",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Adapter reads semester intakes and IELTS on all 89 read pages; fee not admitted (semester/course totals only) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:21:17Z",
+  "config_updated_at": "2026-10-04T23:53:35Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "How\\s*\\|\\s*([^|>]{2,80}?)\\s*(?:-->|Fees)",
+      "campus": "Where\\s*\\|\\s*([^|>]{2,80}?)\\s*(?:-->|Location map)",
+      "intakes": "When\\s*\\|\\s*((?:Semester\\s*[1-4]|Term\\s*[1-4]|January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\\s*20[2-3][0-9])?)",
+      "duration": "Duration\\s*\\|\\s*([^|>]{1,40}?)\\s*(?:-->|When)",
+      "ielts_overall": "IELTS score \\(academic\\) of ([4-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "campus": "all",
+      "intakes": "all"
+    },
+    "term_months": {
+      "Semester 1": "February",
+      "Semester 2": "July"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "One course page per qualification at tafeinternational.wa.edu.au/tafe-courses/<code>-<title>, plain HTML (no page JSON). Each study-option panel prints Duration | When (Semester 1/2, year) | Where (college) | How (mode) | Fees. Term months from https://www.tafeinternational.wa.edu.au/tafe-courses/key-dates (2026: S1 2 Feb, S2 20 Jul; 2027 prelim: S1 1 Feb, S2 19 Jul). IELTS from admission-requirements block \"An IELTS score (academic) of X\". Fee NOT read: pages print \"Fees (Semester)\" or \"Fees (total indicative for course)\", never an annual fee.",
+    "reason": "Save TAFE International WA adapter: intakes (Semester 1/2 via key-dates mapping), IELTS, duration, campus, mode; no fee pattern because pages print only semester or whole-course fees (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-04T23:53:35.945767+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "0100601",
+      "title": "Diploma of Aquaculture",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0100603",
+      "title": "Certificate III in Aquaculture",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0100606",
+      "title": "Certificate II in Aquaculture",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0101214",
+      "title": "Diploma of Aviation (Aviation Management)",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "0101518",
+      "title": "Certificate IV in Veterinary Nursing",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "090729B",
+      "title": "Certificate III in Community Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "091648F",
+      "title": "Certificate IV in Automotive Mechanical Diagnosis",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "091696J",
+      "title": "Diploma of Automotive Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "096422F",
+      "title": "Certificate III in Hairdressing",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103424H",
+      "title": "Advanced Diploma of Maritime Operations (Master Unlimited)",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103426F",
+      "title": "Diploma of Marine Engineering",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103611E",
+      "title": "Certificate III in Light Vehicle Mechanical Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103750E",
+      "title": "Advanced Diploma of Marine Engineering (Class 1)",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103764K",
+      "title": "Diploma of Building and Construction (Building)",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103778D",
+      "title": "Certificate IV in Building and Construction",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103797A",
+      "title": "Certificate III in Wall and Floor Tiling",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103833B",
+      "title": "Certificate III in Bricklaying and Blocklaying",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104856J",
+      "title": "Certificate III in Carpentry",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104883F",
+      "title": "Certificate III in Surveying and Spatial Information Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104884E",
+      "title": "Certificate IV in Surveying and Spatial Information Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104885D",
+      "title": "Diploma of Surveying",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "104886C",
+      "title": "Advanced Diploma of Surveying",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105104H",
+      "title": "Diploma of Maritime Operations",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105229F",
+      "title": "Advanced Diploma of Civil Construction Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105244G",
+      "title": "Diploma of Civil Construction Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105772E",
+      "title": "Certificate III in Design Fundamentals",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105779J",
+      "title": "Certificate III in Screen and Media",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105801E",
+      "title": "Certificate IV in Visual Arts",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "105814M",
+      "title": "Diploma of Graphic Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "106319G",
+      "title": "Certificate III in Information Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "106320C",
+      "title": "Certificate IV in Information Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "106321B",
+      "title": "Diploma of Information Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "106615K",
+      "title": "Certificate IV in Marketing and Communication",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107276E",
+      "title": "Certificate IV in Business",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107936G",
+      "title": "Diploma of Screen and Media",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107937F",
+      "title": "Advanced Diploma of Screen and Media",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107938E",
+      "title": "Diploma of Business",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108209H",
+      "title": "Certificate IV in Residential Drafting",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108210D",
+      "title": "Diploma of Building Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108215K",
+      "title": "Diploma of Visual Arts",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108216J",
+      "title": "Advanced Diploma of Visual Arts",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "108217H",
+      "title": "Advanced Diploma of Graphic Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109485B",
+      "title": "Certificate IV in Patisserie",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109626E",
+      "title": "Certificate IV in Kitchen Management",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109754H",
+      "title": "Certificate III in Patisserie",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "109763G",
+      "title": "Certificate III in Commercial Cookery",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110029E",
+      "title": "Certificate IV in Accounting and Bookkeeping",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110615J",
+      "title": "Certificate III in Animal Care Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110936C",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110937B",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111816C",
+      "title": "Certificate IV in Preparation for Health and Nursing Studies",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111837J",
+      "title": "Diploma of Nursing",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111838H",
+      "title": "Diploma of Beauty Therapy",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111973A",
+      "title": "Diploma of Interior Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111983K",
+      "title": "Advanced Diploma of Interior Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111991K",
+      "title": "Diploma of Environmental Monitoring and Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112000B",
+      "title": "Certificate III in Engineering - Technical",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112005H",
+      "title": "Diploma of Engineering - Technical",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112016E",
+      "title": "Advanced Diploma of Engineering",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112031F",
+      "title": "Certificate III in Laboratory Skills",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112037M",
+      "title": "Certificate IV in Laboratory Techniques",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "112042C",
+      "title": "Diploma of Laboratory Technology",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113113G",
+      "title": "Diploma of Accounting",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113319D",
+      "title": "Diploma of Remedial Massage",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113481E",
+      "title": "Certificate IV in Hospitality",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113482D",
+      "title": "Diploma of Hospitality Management",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114014B",
+      "title": "Certificate III in Events",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114015A",
+      "title": "Diploma of Event Management",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114743B",
+      "title": "Certificate IV in Community Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114745M",
+      "title": "Diploma of Community Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114746K",
+      "title": "Certificate III in Tourism",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114747J",
+      "title": "Diploma of Travel and Tourism Management",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114748H",
+      "title": "Certificate III in Apparel, Fashion and Textiles",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114749G",
+      "title": "Diploma of Apparel, Fashion and Textiles",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114750C",
+      "title": "Advanced Diploma of Apparel, Fashion and Textiles",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114751B",
+      "title": "Certificate III in Individual Support",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114752A",
+      "title": "Advanced Diploma of Engineering Technology - Electrical",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "114753M",
+      "title": "Certificate IV in Youth Work",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "117506B",
+      "title": "Certificate III in Barbering",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118569A",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118873D",
+      "title": "Diploma of Community Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118929D",
+      "title": "Advanced Diploma of Creative Product Development",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119034B",
+      "title": "Certificate IV in Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119063H",
+      "title": "Diploma of Photography and Digital Imaging",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119536B",
+      "title": "Certificate IV in Electronics and Communications",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119537A",
+      "title": "Diploma of Electronics and Communications Engineering",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "119572J",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120260D",
+      "title": "Certificate IV in Automotive Mechanical Diagnosis",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120513K",
+      "title": "Certificate III in Surveying and Spatial Information Services",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "120859F",
+      "title": "Certificate III in Tourism",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121293J",
+      "title": "Diploma of Graphic Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121304M",
+      "title": "Advanced Diploma of Graphic Design",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121317F",
+      "title": "Advanced Diploma of Civil and Structural Engineering",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "121318E",
+      "title": "Diploma of Civil and Structural Engineering",
+      "field": "fee",
+      "reason": "General-reader fee is a semester or whole-course total, never an international yearly fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.tafeinternational.wa.edu.au/tafe-courses/tafe-admission-requirements",
+        "status": "found",
+        "read_at": "2026-10-02T07:09:02Z",
+        "evidence_id": "ba83a96a-46c4-4f22-8da7-0771b26ed9b4"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.tafeinternational.wa.edu.au/tafe-courses/key-dates",
+        "status": "found",
+        "read_at": "2026-10-02T07:09:03Z",
+        "evidence_id": "eb04aece-0d98-4f57-a3b1-1331d8022812"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. Intakes and English admitted. All fees held back (semester or whole-course totals)."
+  }
+}

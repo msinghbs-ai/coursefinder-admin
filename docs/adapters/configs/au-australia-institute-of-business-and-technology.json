@@ -1,0 +1,222 @@
+{
+  "university": "Australia Institute of Business and Technology (AIBT)",
+  "catalogue_name": "Australia Institute of Business and Technology",
+  "country": "AU",
+  "provider_id": "eb9e3903-6d92-4502-a2b3-51cb231b21fc",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": "AIBT: intakes, English and Offshore 52-week fee readings checked; exclusions applied first (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
+  "admit_changed_at": "2026-10-05T00:28:04Z",
+  "config_updated_at": "2026-10-05T00:24:20Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "fee": "CRICOS:\\s*{code}(?:.|\\n){0,120}?Duration\\s*52 weeks(?:.|\\n){0,120}?Offshore Int Student:\\s*\\$\\s*([0-9][0-9,]*)",
+      "mode": "Delivery Mode\\s*(Face to face mode of delivery[^.]{0,150}?)\\s*CRICOS Code",
+      "campus": "Location\\s*((?:NSW|QLD|TAS|VIC|WA|SA|ACT)(?:\\s*\\|\\s*(?:NSW|QLD|TAS|VIC|WA|SA|ACT)){0,6}\\s*Campus(?:es)?)",
+      "intakes": "Intake Dates?:\\s*AIBT(?:.|\\n){0,12}?(Monthly intakes)\\s+except June and December",
+      "duration": "Duration\\s*([0-9]+ weeks(?:\\s*\\([^)]{0,60}\\))?)",
+      "ielts_overall": "English requirement:\\s*A minimum of IELTS\\s*([0-9](?:\\.[05])?)"
+    },
+    "pick": {
+      "fee": "first",
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {
+      "Monthly intakes": "January February March April May July August September October November"
+    },
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "notes": "AIBT (aibtglobal.edu.au/courses/study/<slug>/) course pages, one page per qualification, text only (no page JSON). Header: VET code, CRICOS code and weeks, then Duration, Location (NSW | QLD | TAS Campuses), Tuition Fee Offshore Int Student $X / Onshore Student Visa Holder $Y (a WHOLE-COURSE price, so fee is read only when Duration is 52 weeks, Offshore figure taken). Entry Requirements: English requirement A minimum of IELTS n.n. Intake Dates: AIBT - Monthly intakes except June and December (term_months maps that phrase to the ten other months; source is the course page itself, which also states study periods January-May and July-November). Fast Course Guide: Delivery Mode Face to face ... CRICOS Code. Live pages now also show a Rolling Intakes date picker (e.g. 11 Oct 2026, 22 Nov 2026, 17 Jan 2027) that is empty in stored pages. /course/diploma-of-aviation-management/ uses another layout and gives nothing.",
+    "reason": "Save AIBT text adapter: intakes, 52-week international fee, IELTS, extras (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
+    "updated_at": "2026-10-05T00:24:20.196833+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "095065G",
+      "title": "Certificate IV in Automotive Mechanical Diagnosis",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "095065G",
+      "title": "Certificate IV in Automotive Mechanical Diagnosis",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "095067F",
+      "title": "Diploma of Automotive Management",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "095067F",
+      "title": "Diploma of Automotive Management",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103589J",
+      "title": "Certificate IV in Automotive Electrical Technology",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "103589J",
+      "title": "Certificate IV in Automotive Electrical Technology",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107118H",
+      "title": "Advanced Diploma of Leadership and Management",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "107121B",
+      "title": "Diploma of Information Technology",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110911A",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110911A",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "General-reader fee, not adapter; page 52 weeks vs catalogue 104 weeks (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110911A",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110912M",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "110912M",
+      "title": "Certificate III in Early Childhood Education and Care",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111040B",
+      "title": "Certificate III in Commercial Cookery",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111044J",
+      "title": "Certificate III in Patisserie",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111045H",
+      "title": "Certificate IV in Patisserie",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "111045H",
+      "title": "Certificate IV in Patisserie",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113809H",
+      "title": "Diploma of Community Services",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113809H",
+      "title": "Diploma of Community Services",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113811C",
+      "title": "Advanced Diploma of Accounting",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113812B",
+      "title": "Diploma of Hospitality Management",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113814M",
+      "title": "Certificate III in Hospitality",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113814M",
+      "title": "Certificate III in Hospitality",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113815K",
+      "title": "Certificate IV in Hospitality",
+      "field": "english",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "113815K",
+      "title": "Certificate IV in Hospitality",
+      "field": "intakes",
+      "reason": "Older CRICOS code confirmed by title only; page carries a different code (possibly superseded) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118607M",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "General-reader fee, not adapter; page 52 weeks vs catalogue 104 weeks (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "118733E",
+      "title": "Diploma of Community Services",
+      "field": "fee",
+      "reason": "Page shows 52 weeks but catalogue duration is 78/104 weeks; annual basis uncertain (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": null,
+    "calendar": "no_values",
+    "central_pages": [],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "Wave 9. All fields admitted. 9 fees (52 weeks on the page, longer in the catalogue) and 9 older CRICOS codes held back."
+  }
+}
