@@ -5,6 +5,9 @@
 
 This register lists every target university and its adapter state, with each adapter's reviewed configuration in `configs/`. The live configuration is held in the database (`pipeline.uni_adapters`) and edited in the PIM Admin (Models & services › University adapters). The files here are the reviewed baseline for production. Re-export them at every release gate, and whenever an adapter is admitted or changed.
 
+
+> **Adapter pattern sheet (6 Oct 2026):** for every provider worked so far, `ADAPTER-PATTERN-SHEET.md` (and `adapter-pattern-sheet.csv`) shows where intakes, fees, English and delivery sit on the provider's site. It also shows the special adapter settings, central pages, blockers and next step. `ADAPTER-LESSONS.md` is the playbook of lessons learnt. Both are rebuilt after every adapter wave. This register's university tables below remain the reviewed baseline for the target universities.
+
 ## How to read this register
 
 - **Next step** for each university comes from the adapter evaluation rules (settings under Firecrawl › Adapter evaluation) and is shown in the live panel, not in this register.
