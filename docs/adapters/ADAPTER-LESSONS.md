@@ -1,6 +1,6 @@
 # Adapter Lessons Learnt
 
-**Status:** CURRENT · **Decision:** 254 · **Change control:** CF-CHG-20260915-247 · **As at:** 6 Oct 2026, 08:20 AEDT
+**Status:** CURRENT · **Decision:** 254 · **Change control:** CF-CHG-20260915-247 · **As at:** 6 Oct 2026, 07:39 AEDT
 **Companion documents:**
 - `ADAPTER-PATTERN-SHEET.md` and `.csv`: one row per provider, showing where each attribute sits.
 - `README.md`: the register and reviewed configurations.
@@ -90,6 +90,20 @@ This is the working playbook for building a provider adapter. It collects what t
 - Exclude wrong readings before admitting: wrong binding, domestic page, short course, two options, or a stale year.
 - The `admit` list replaces the current list, so always send the full set.
 - Domestic-only providers (NZ "Fees Free" programmes, Queensland-funded pages, programmes open only to residents) keep their adapter but do not admit.
+
+## 7. Added after waves 9 and 10 (6 Oct, 07:39)
+
+| Seen | What to do |
+|---|---|
+| The page prints the NZQA number as "NZ2891" or "1882-2", or a training package code in the heading ("Carpentry - CPC30220"), so the general reader calls it a mismatch even though it is the right page (Westport Deepsea, PEETO, Norton). | Confirm the same URL by hand with `set_official_url`, re-read, then apply. Worker v0.17.12 then reads its fields. |
+| A rolling list of the next three start dates ("Next intakes 5 Oct 2026, 2 Nov 2026, 4 Jan 2027"), or a single "Next intake: January" (ACBI, Level Up). | Not a set of intakes. Do not admit unless it agrees with the catalogue on every page, and say so. |
+| The website field holds two sites in one value ("https://www.ubss.edu.au, www.gca.edu.au", "ihbrisbane.com.au; alscertificates.com"). | Set one live domain, the one that carries the course pages. Report the other. |
+| Many NZ private training establishments and ITOs ("Fees Free", "NZ Resident or citizen", employer-based apprenticeships: BCITO, Skills Active, Training For You, PCTI, VSTET, Apprentice Training NZ). | Domestic only. Keep any adapter, do not admit, report. |
+| One merged catalogue provider for several unrelated trading names (Stott's / ASIT / Front Cooking / Melbourne Language Centre / Affectors). | Needs a person to split it before discovery. |
+| A site whose stored links point to another provider's domain (Stott's → acknowledgeeducation.edu.au, Actors College → trades courses). | Do not set the website. Report it as possibly mis-mapped or compromised. |
+| Fees per study period with a total for the whole course (Australian Institute of Music: three study periods plus total). | Read the international total with `fee_total` and the international full-time years. |
+| Fees per term only (Academies Australasia, AAPoly cookery). | Not readable until per-term annualisation exists (open item 3). |
+| Intakes printed as "Semester 1 each year" with no key-dates page (Cairnmillar). | Needs a `term_months` map from the provider's own key-dates page. Do not invent one. |
 
 ## 5. Platform fixes made because of these lessons
 
