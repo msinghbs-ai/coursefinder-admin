@@ -4167,3 +4167,63 @@ The brief now forbids direct table changes.
 - UBC (256 courses) and Auckland (12) have no course length, so they have no range yet.
 - Vancouver Island shows the same whole fee on all 25 courses (one annual fee x 4 years); it needs a check of the adapter's course length.
 - There is no public provider page in the repo yet, so published ranges are held in catalogue.provider_fee_ranges, ready for the public card.
+
+### 5 Oct 2026, 20:30 AEDT: CF-247 Decision 254, hosted courses (award links and host pages) and the RMIT fee fix (19:01–20:30)
+
+**Platform Admin requests.**
+- 19:01: pathways (foundation → diploma → associate degree → bachelor) often have no course page of their own.
+- 19:07: "try it out for couple of uni and come up with answers to decisions".
+- 19:18: agreed, and asked whether this applies to the rest. It does: 5,400 active courses across all 76 adapters have no confirmed page.
+
+**Decisions from read-only checks (RMIT, La Trobe, Monash and their colleges).**
+1. An exit or nested award takes its page, annual fee, intakes and delivery from its single-degree parent, never a double degree, and only after a register check. Evidence: at RMIT, 20 of 21 Graduate Certificates are half the master's annual fee and 21 of 27 Graduate Diplomas equal it; La Trobe matches 33 of 39 pairs.
+2. Pathway colleges (RMIT UP, La Trobe College, Monash College) stay as their own providers, outside the university's fee range, with a "leads to" link to the degree. This link is not built yet (provider_associations is empty platform-wide).
+
+**Migrations applied (statement md5 equals the file).**
+- 1580 cf247_award_links_and_host_pages ef747391efc0184c870e29c21c010044
+- 1590 cf247_award_link_settings_year_aware_check 9742dd7eeb43b395b6a45492572839dc
+- 1600 cf247_award_apply_no_fee_admitted_fix a54aba72bd168430b5e6c87b8b73d3bd
+
+**1580 (award links and host pages).**
+- security.exit_awards_detect_v2: La Trobe and RMIT exit-award wording; nested awards matched by title with exactly one single-degree parent; links moved off double degrees.
+- security.exit_awards_apply_v2: skips a link that fails the check unless it was set by hand, and copies each field only when that field is admitted.
+- pipeline.course_host_pages (shared_page, double_degree, no_public_page).
+- security.host_pages_detect_v1 and apply_v1; cron job host-pages-apply at :42 each hour; admitted field 'host_pages'; identity basis 'host_page' added to the Coverage admission country lists.
+- public.admin_host_pages (read, detect, apply, confirm_page, no_page, off/on).
+- The course list shows 'host'.
+
+**1590 (award link settings).**
+- pipeline.award_link_settings: same-year tolerance 2%, lagged tolerance 6%, set from Coverage › Universities.
+- The register check allows for the register running one fee year behind.
+- admin_exit_awards gains a 'settings' action and reads the settings with scope 'settings'.
+
+**1600.** Apply fix where fees are not admitted (Canberra).
+
+**Worker.** coverage-sweep v0.17.10 deployed (version 95; all 8 files the SAME as the repo). It gives an annual fee from a whole-course total for courses of 0.25 to 8 years.
+
+**Hand corrections.**
+- La Trobe 121336C and 121337B re-linked from the double degree to the Bachelor of Food and Nutrition (check passes at 44,400).
+- La Trobe Diploma of Science re-linked to the Bachelor of Science.
+
+**Results.**
+- Award links: 43 exit awards (36 pass; 7 fail but were set by hand, so they are applied); 360 nested awards (142 pass, 191 fail and are held for review, 27 with no register entry).
+- Applied today: La Trobe 28, RMIT 18, Melbourne 14, Canberra 8, Griffith 7, Southern Cross 6.
+- Host pages proposed: 55 shared pages (28 pass), 169 double degrees and 262 pages gone, all waiting for a Platform Admin. host_pages is not yet admitted for any university.
+
+**RMIT fee fix.**
+- 19 Graduate Certificates held the domestic figure as the international fee (fee rule rmit-program-page-year-basis-v1).
+- The adapter now reads the international "(2027 total)" over 6 months. The overwrite at 20:20 replaced them with the international annual figure, which equals CRICOS (for example Marketing 19,200 → 50,880).
+- 3 new Graduate Certificate fees were added: 084999G 55,680, 103208E 50,880, 084998J 50,880. No other RMIT fee changed.
+
+**UI.** v2.15.192 (package 0.1.119) adds the Coverage › Universities hosted-courses panel, the award link settings, a host marker on each course and the 'Host pages' admit field.
+
+**Pull requests.** #319 squash f22c4ad9522bfbb30643714ea24b8b45958579aa and #320 squash 4f3bc82b7aefc2b97490ceb5a2ed051382c88a67; CI green.
+
+**Open items.**
+- 191 nested awards failed the check (for example Melbourne Graduate Certificate in Management +114% and RMIT Diploma of Graphic Design −44%: different products, not parts of the degree).
+- Admitting 'host_pages' university by university.
+- The pathway "leads to" links (next change).
+- La Trobe College Undergraduate Certificates: the whole-course fee is stored as annual.
+- Monash diplomas are held under both Monash and Monash College.
+- RMIT vocational courses under one year (Certificate IV in Accounting and Bookkeeping, Diploma of Accounting) are not read.
+- The existing chromium-mobile failure in cf-247-admin-simplify ("highlight differences").
