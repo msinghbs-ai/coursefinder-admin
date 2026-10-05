@@ -4229,3 +4229,31 @@ The brief now forbids direct table changes.
 - Monash diplomas are held under both Monash and Monash College.
 - RMIT vocational courses under one year (Certificate IV in Accounting and Bookkeeping, Diploma of Accounting) are not read.
 - The existing chromium-mobile failure in cf-247-admin-simplify ("highlight differences").
+
+### 5 Oct 2026, 21:00 AEDT: CF-247 Decision 254, central English unblocked and hand-bound pages admitted (20:37–21:00)
+
+**Platform Admin 20:37.** Athabasca "has all central links for requirements and course link is correct still not admitting or filling values, work out again was pressed but nothing happened".
+
+**Root causes.**
+1. The hourly central English job (provider-english-defaults) failed on every run from 5 Oct 10:33 Melbourne: 61 failures with "the policy document has no stored evidence". One approved rule with no evidence on the rule itself stopped every rule after it, across the platform. 24 approved rules had no evidence on the rule: 15 have it on their central page record and 9 have no captured page.
+2. Pages bound by hand (identity 'manual') were never admitted: 482 pages at 26 universities, including 15 at Athabasca. 'manual' was missing from the identity lists of the Coverage admission countries.
+3. "Work out again" only recomputes the fee range, and the button did not make that clear.
+
+**Migration 1610** cf247_central_english_unblocked_hand_pages_admitted, md5 7a7d8978d95dc0b0385c64749da14873 (equals the file).
+- provider_english_apply_v1 takes the evidence of the central page with the same address when the rule has none.
+- provider_english_apply_all_v1 keeps going past a failing rule and records the error on that rule.
+- 'manual' is added to the official_url, intakes and english identity lists.
+- university_course_location_v1 shows "Online" for online-only courses.
+
+**Catch-up.** The central English run wrote 2,308 English requirements across 117 rules. 9 rules stay held because their evidence was never captured.
+
+**Athabasca at 20:55 (50 courses).**
+- Delivery 50, location 50, intakes 49 (was 35), English 48 (was 0; 2 research degrees held), fee 39 (unchanged).
+- 15 delivery and 11 intake changes came from the hand-bound pages.
+- The other hand-bound pages are admitted by the adapter overwrite runs every 10 minutes (200 changes a run).
+
+**UI.** v2.15.193 (package 0.1.120): the button now reads "Work out the fee range again", with a note that course values are admitted every 10 minutes.
+
+**Pull request.** #321 squash 87378ac4606d9618bb95fc0c29068098be2b4321; CI green.
+
+**Open.** The 9 held English rules need their central pages read: Ara, Newcastle, TAFE Queensland, Alphacrucis, Melbourne Polytechnic, NMIT, EIT, Unitec and NZIST.
