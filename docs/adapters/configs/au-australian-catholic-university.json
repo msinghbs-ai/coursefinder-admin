@@ -6,41 +6,53 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "fee",
     "intakes"
   ],
-  "admit_reason": "ACU intakes 88 of 88 agree and 25 course-printed IELTS, 3 general-reader intakes excluded, fees held: domestic view stored (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T20:06:19Z",
-  "config_updated_at": "2026-10-04T19:37:41Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "ACU international view (?type=International): 104 international 2027 first-year fees (96 equal the 2027 Schedule of Tuition Fees, 8 new one-year honours fees, 0 differ), 105 international start months, 48 IELTS, 22 delivery; 5 pages spot-checked against stored text (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:27:39Z",
+  "config_updated_at": "2026-10-05T06:03:45Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "CRICOS Code\\s+{code}(?:.|\\n){0,200}?Fees \\(first year\\)\\*?\\s*\\$\\s*([0-9][0-9,]{3,8})\\b(?!\\s*(?:CSP|Fee-paying))",
-      "intakes": "(?:intake:\\s*Beginning|Start dates|Professional Term \\d\\s*-)\\s+((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:,\\s*|\\s+and\\s+|\\s+)){1,6}20\\d\\d)",
-      "duration": "Duration\\s+((?:\\d+(?:\\.\\d+)?|one|two|three|four|five)\\s+years?\\b(?:.|\\n){0,40}?(?:part-time|full-time|full time))",
       "aqf_level": "AQF framework\\s+(?:.|\\n){0,80}?AQF Level (\\d+)",
-      "study_level": "AQF framework\\s+([A-Za-z' ]{3,60}?)\\s+-\\s+AQF Level",
-      "ielts_overall": "IELTS(?:(?:.|\\n){0,80}?overall(?: score)?(?: of|:)?\\s*|\\s+(?=[4-9]\\.\\d\\s+overall))([4-9](?:\\.\\d)?)\\b"
+      "duration": "Duration\\s+((?:\\d+(?:\\.\\d+)?|one|two|three|four|five)\\s+years?\\b(?:.|\\n){0,40}?(?:part-time|full-time|full time))",
+      "entry_requirement": "(To be eligible (?:for|to apply for) admission(?:.|\\n){10,200})",
+      "fee": "CRICOS Code\\s+{code}(?:.|\\n){0,250}?Fees \\(first year\\)\\*?\\s*\\$\\s*([0-9][0-9,]{3,8})\\b(?!\\s*(?:CSP|Fee-paying))(?:\\s*Start dates\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d)?",
+      "ielts_overall": "IELTS(?:(?:.|\\n){0,80}?overall(?: score)?(?: of|:)?\\s*|\\s+(?=[4-9]\\.\\d\\s+overall)|\\)?\\s+(?:academic\\s+)?(?:score\\s+)?of\\s+)([4-9](?:\\.\\d)?)\\b",
+      "intakes": "(?:intake:\\s*Beginning|Start dates|Professional Term \\d\\s*-)\\s+((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s+20\\d\\d)?(?:,\\s*|\\s+and\\s+|\\s+)?){1,12})",
+      "mode": "delivered in ((?:campus attendance|online(?: attendance)?|multi-mode|blended|mixed)(?:\\s+(?:and|or)\\s+(?:campus attendance|online(?: attendance)?))?) mode",
+      "study_level": "AQF framework\\s+([A-Za-z' ]{3,60}?)\\s+-\\s+AQF Level"
     },
     "pick": {
       "fee": "first",
+      "mode": "first",
       "intakes": "all",
       "duration": "first",
       "aqf_level": "first",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "ACU (www.acu.edu.au). Page kinds: /course/<slug> course pages (stored in the DOMESTIC view: fees are CSP or domestic fee-paying, no CRICOS code shown); /handbook/handbook-YYYY/course/ pages (no dates or fees; 2021-2024 are archived years); /study-at-acu/find-a-course/new-courses/ landing pages listing several CRICOS codes (no dates or fees). Intakes: course page panel \"Start dates Semester 1 intake: Beginning March 2027 ... Midyear (Semester 2) intake: Beginning August 2027 / Not offered\"; the pattern reads only the Beginning months, never \"Applications open\" months. Other forms: \"Start dates February, July 2027\", \"Professional Term 2 - February 2027\". Central key dates: https://www.acu.edu.au/study-at-acu/important-dates (2027 Semester 1 starts Mon 1 Mar, Semester 2 Mon 2 Aug). IELTS: Entry requirements section when printed; otherwise central Admission to Coursework Programs Policy Schedule 4 (https://policy.acu.edu.au/document/view.php?id=312&version=2). Fee: read only when the page is the international view (CRICOS Code then \"Fees (first year)* $N\" without CSP/Fee-paying). Duration: \"Duration N years full-time\". AQF: \"AQF framework <Award> - AQF Level N\".",
-    "reason": "Round 2: AQF level read only from the AQF framework section, not from entry requirements (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T19:37:41.588476+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "?type=International",
+      "wait_ms": 3000,
+      "url_pattern": "^https://www\\.acu\\.edu\\.au/course/[A-Za-z0-9_-]+$"
+    },
+    "notes": "ACU (www.acu.edu.au). Page kinds: /course/<slug> course pages (stored in the DOMESTIC view: fees are CSP or domestic fee-paying, no CRICOS code shown); /handbook/handbook-YYYY/course/ pages (no dates or fees; 2021-2024 are archived years); /study-at-acu/find-a-course/new-courses/ landing pages listing several CRICOS codes (no dates or fees). Intakes: course page panel \"Start dates Semester 1 intake: Beginning March 2027 ... Midyear (Semester 2) intake: Beginning August 2027 / Not offered\"; the pattern reads only the Beginning months, never \"Applications open\" months. Other forms: \"Start dates February, July 2027\", \"Professional Term 2 - February 2027\". Central key dates: https://www.acu.edu.au/study-at-acu/important-dates (2027 Semester 1 starts Mon 1 Mar, Semester 2 Mon 2 Aug). IELTS: Entry requirements section when printed; otherwise central Admission to Coursework Programs Policy Schedule 4 (https://policy.acu.edu.au/document/view.php?id=312&version=2). Fee: read only when the page is the international view (CRICOS Code then \"Fees (first year)* $N\" without CSP/Fee-paying). Duration: \"Duration N years full-time\". AQF: \"AQF framework <Award> - AQF Level N\". INTERNATIONAL VIEW (5 Oct, Platform Admin 13:02): /course/<slug> pages are read through Firecrawl at <url>?type=International (page_view render, wait 3 s; the ?type=International links are printed on ACU pages). That view prints \"CRICOS Code <code> IELTS ... Fees (first year)* $N Start dates February 2027, July 2027, ...\"; the fee is the international first-year fee and matches the ACU 2027 Schedule of Tuition Fees (https://www.acu.edu.au/-/media/acu/international/acu-2027-schedule-of-tuition-fees.pdf), its year is taken from the first start date printed right after it. Intakes: every month in the Start dates list (international). Delivery (mode): the course map line \"All units are delivered in campus attendance mode\" (campus attendance = on campus). Handbook and new-courses landing pages are not in the view (url_pattern) and keep the domestic reading. 5 Oct 15:22 checks: Exit points are printed by credit points or by award requirements only (e.g. \"40cp ... may exit with ... Graduate Certificate\"), never as years of full-time study, and course pages do not print the credit points of one full-time year (only \"a normal full-time load\", unit fee based on 10cp), so no exit_awards pattern and no hand-set exits. Every international view prints Fees (first year), so no fee_total pattern. entry_requirement: the \"To be eligible for admission ...\" sentence of Entry requirements.",
+    "reason": "ACU: entry_requirement added; exits are credit-point based only (reported); no fee-from-total needed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:03:45.392417+00:00"
   },
   "exclusions": [
     {

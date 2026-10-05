@@ -6,25 +6,27 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Wave 9: intakes and international first-year fees ready after excluding 24 Graduate Certificate whole-course fees, 4 borderline Graduate Diploma fees and 6 wrong bindings; English not printed on course pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:20:31Z",
-  "config_updated_at": "2026-10-05T00:11:45Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "UNSW: delivery added. The plain degree page already shows the international panel; Delivery Mode reads Face-to-face (includes blended) = on campus, with Online / Distance where printed; 4 stored-text spot-checks agree (fee, intakes, delivery); fee and intakes kept (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:11:09Z",
+  "config_updated_at": "2026-10-05T06:07:59Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:Fees )?20[0-9]{2} Indicative (?:CSP )?first year (?:full )?fee (?:\\$[0-9,]+|nil)\\*?\\s*20[0-9]{2} Indicative (?:CSP )?(?:full )?fee to complete degree (?:\\$[0-9,]+|nil)\\*?\\s*Fees 20[0-9]{2} Indicative first year (?:full )?fee \\$([0-9,]+)",
-      "mode": "Delivery Mode\\s+((?:.|\\n){2,80}?)\\s+(?:Campus|Intake Period)",
-      "campus": "(?:^|\\s)Campus\\s+((?:.|\\n){2,60}?)\\s+(?:Codes|Total Units|Study Level)",
-      "intakes": "(?:Commencing Terms?|Intake Periods?)\\s*((?:Term|Summer|Winter|Hexamester|Semester|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,60}?)\\s+(?:Duration|Academic Calendar|Typical|Delivery|Minimum|AQF|Campus)",
-      "duration": "(?:Duration|what it means for you\\.|Typical duration:(?:.|\\n){0,250}?(?:.|\\n){0,200}?)\\s*([0-9][0-9.]*(?:\\s*-\\s*[0-9.]+)?\\s*Years?(?:\\(s\\))?(?:\\s*[FP]/T)?(?:,\\s*[0-9.]+\\s*Years?(?:\\(s\\))?\\s*P/T)?)",
       "aqf_level": "AQF Level\\s+(Level [0-9]+)",
+      "campus": "(?:^|\\s)Campus\\s+((?:.|\\n){2,60}?)\\s+(?:Codes|Total Units|Study Level)",
+      "duration": "(?:Duration|what it means for you\\.|Typical duration:(?:.|\\n){0,250}?(?:.|\\n){0,200}?)\\s*([0-9][0-9.]*(?:\\s*-\\s*[0-9.]+)?\\s*Years?(?:\\(s\\))?(?:\\s*[FP]/T)?(?:,\\s*[0-9.]+\\s*Years?(?:\\(s\\))?\\s*P/T)?)",
+      "entry_requirement": "(?:Assumed knowledge:?|For entry into this degree,? (?:students|you) must have:?|minimum (?:academic )?(?:entry )?requirements? (?:for (?:admission to )?(?:.){2,100}? )?(?:is|are):?|Minimum Entry Requirements keyboard_arrow_down(?: As a general guide, the UNSW entry requirements for the degree of (?:.){3,60}? are as follows:)?)\\s+((?:(?!Adjustment Factors|Additional Selection Criteria|Cognate disciplines|English language requirements|Program Requirements|Admission Requirements|Recognition of Prior Learning|Want to see more|Entry requirements|Expand all|Assumed knowledge).){3,200})",
+      "fee": "(?:Fees )?20[0-9]{2} Indicative (?:CSP )?first year (?:full )?fee (?:\\$[0-9,]+|nil)\\*?\\s*20[0-9]{2} Indicative (?:CSP )?(?:full )?fee to complete degree (?:\\$[0-9,]+|nil)\\*?\\s*Fees 20[0-9]{2} Indicative first year (?:full )?fee \\$([0-9,]+)",
+      "intakes": "(?:Commencing Terms?|Intake Periods?)\\s*((?:Term|Summer|Winter|Hexamester|Semester|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,60}?)\\s+(?:Duration|Academic Calendar|Typical|Delivery|Minimum|AQF|Campus)",
+      "mode": "Delivery Mode\\s+((?:.|\\n){2,80}?)\\s+(?:Campus|Intake Period)",
       "study_level": "Study Level info Study Level refers to the academic level of a program, specialisation or course\\.\\s*(Undergraduate|Postgraduate|Research)"
     },
     "pick": {
@@ -34,7 +36,8 @@
       "intakes": "first",
       "duration": "first",
       "aqf_level": "first",
-      "study_level": "first"
+      "study_level": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Term 1": "February",
@@ -47,11 +50,12 @@
       "Term 1, 2 & 3": "February May September"
     },
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Two page kinds. (1) www.unsw.edu.au/study/... degree pages (text): key-details strip prints Delivery Mode, Campus, Codes (Program code, CRICOS code), then two fee panels in order domestic then international: \"Fees 2026 Indicative first year full fee $X* 2026 Indicative full fee to complete degree $Y*\" twice; the adapter takes the SECOND panel first-year fee (international, first-year = annual). Commencing Terms prints terms only (\"Term 1, 2 & 3\"); Duration follows. IELTS is not printed per program (selector only); central rule at https://www.unsw.edu.au/study/how-to-apply/english-language-requirements (by faculty). (2) www.handbook.unsw.edu.au program pages (Firecrawl-rendered copies only): Campus, Study Level, Typical duration, Delivery Mode, Intake Period (Term 1, Term 2, Term 3, Summer Term), AQF Level; no fees, no IELTS. Term months from the UNSW academic calendar https://www.unsw.edu.au/student/managing-your-studies/key-dates/academic-calendar for 2027 (T1 15 Feb, T2 31 May, T3 13 Sep, Summer U1 4 Jan; in 2026 T2 began 1 Jun). From 2028 UNSW moves to a flex-semester calendar (S1 28 Feb, S2 14 Aug) - the mapping must be revised then. No json_source on purpose (would send 22 Firecrawl-refused pages back for re-render).",
-    "reason": "Round 3: fee pattern accepts the CSP panel without a Fees heading (postgraduate pages); probe removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:11:45.300504+00:00"
+    "title_strip": "\\s(?:in|of)\\s",
+    "course_title_strip": "\\s(?:in|of)\\s",
+    "page_view": {},
+    "notes": "Two page kinds. (1) www.unsw.edu.au/study/... degree pages (text): key-details strip prints Delivery Mode, Campus, Codes (Program code, CRICOS code), then two fee panels in order domestic then international: \"Fees 2026 Indicative first year full fee $X* 2026 Indicative full fee to complete degree $Y*\" twice; the adapter takes the SECOND panel first-year fee (international, first-year = annual). Commencing Terms prints terms only (\"Term 1, 2 & 3\"); Duration follows. IELTS is not printed per program (selector only); central rule at https://www.unsw.edu.au/study/how-to-apply/english-language-requirements (by faculty). (2) www.handbook.unsw.edu.au program pages (Firecrawl-rendered copies only): Campus, Study Level, Typical duration, Delivery Mode, Intake Period (Term 1, Term 2, Term 3, Summer Term), AQF Level; no fees, no IELTS. Term months from the UNSW academic calendar https://www.unsw.edu.au/student/managing-your-studies/key-dates/academic-calendar for 2027 (T1 15 Feb, T2 31 May, T3 13 Sep, Summer U1 4 Jan; in 2026 T2 began 1 Jun). From 2028 UNSW moves to a flex-semester calendar (S1 28 Feb, S2 14 Aug) - the mapping must be revised then. No json_source on purpose (would send 22 Firecrawl-refused pages back for re-render). International view (5 Oct 13:02 review): the plain (direct) fetch of www.unsw.edu.au/study/... degree pages already holds both the domestic and the international fee panels, Commencing Terms and Delivery Mode; the domestic/international switch is a client-side modal with no address parameter, so page_view is left empty and no Firecrawl is needed. IELTS is behind a client-side selector (not printed). title_strip/course_title_strip drop \" in \"/\" of \" so \"Diploma in X\" matches the page \"Diploma of X\". page_view (5 Oct 13:02): left empty. A render-only view for 78 handbook pages was tried and withdrawn: UNSW is not a Firecrawl target university, so the reader cannot render them (they went to needs_render). Entry requirement (5 Oct 15:22, for review, not admitted): degree pages \"Assumed knowledge\" (undergraduate) or \"For entry into this degree, students must have:\" / \"The minimum entry requirement for ... is:\" (postgraduate); handbook \"Minimum Entry Requirements\" block. Exit awards: no \"N years of full-time study\" exit wording on stored pages (one page says students \"can exit with that award\" without years), so no exit_awards pattern. Fees: every degree page prints an indicative first-year (annual) international fee beside the full fee to complete the degree, so no whole-course fee pattern is needed.",
+    "reason": "UNSW: entry_requirement read for review (not admitted); probe patterns removed; no exit-award or whole-course fee pattern needed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:07:59.391672+00:00"
   },
   "exclusions": [
     {
@@ -302,14 +306,14 @@
       {
         "kind": "english_policy",
         "url": "https://www.unsw.edu.au/study/how-to-apply/english-language-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:07:35Z",
         "evidence_id": "aa02adf3-328b-439d-8242-f423ff0601eb"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.unsw.edu.au/student/managing-your-studies/key-dates/academic-calendar",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T08:30:04Z",
         "evidence_id": "28f89941-3899-49e9-a926-86e6967978d5"
       }

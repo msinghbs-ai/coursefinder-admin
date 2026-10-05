@@ -6,14 +6,15 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Waves 1-2 measured, readings agree with held values or fill gaps (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T19:08:33Z",
-  "config_updated_at": "2026-10-04T18:31:17Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Delivery added: the LOCATION block (City campus) reads the same in the international view; spot-checked on 5 international-view pages; international first-year fees agree with the 5 held values (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:33:41Z",
+  "config_updated_at": "2026-10-05T06:03:45Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -21,15 +22,21 @@
     "sections": {},
     "patterns": {
       "campus": "delivered via online \\(distance\\) learning\\.?\\s+((?:.|\\n){1,80}?)\\s+arrow_back",
-      "intakes": "applications open and close\\.?\\s+((?:.|\\n){1,200}?)\\s+View important dates",
       "duration": "\\bDURATION\\s+((?:.|\\n){1,80}?)\\s+INTAKE\\b",
-      "ielts_overall": "IELTS Academic:\\s*overall\\s*([0-9](?:\\.[05])?)"
+      "entry_requirement": "Admission requirements\\s+((?:Applicants|To be eligible|An applicant)(?:.|\\n){10,200})",
+      "fee": "International course fees\\s+20[23]\\d\\s+(?:.|\\n){0,80}?First-Year tuition fee\\s*:?\\s*\\$\\s?([0-9][0-9,]{3,})",
+      "ielts_overall": "IELTS Academic:\\s*overall\\s*([0-9](?:\\.[05])?)",
+      "intakes": "applications open and close\\.?\\s+((?:.|\\n){1,200}?)\\s+View important dates",
+      "mode": "delivered via online \\(distance\\) learning\\.?\\s+((?:.|\\n){1,80}?)\\s+arrow_back"
     },
     "pick": {
+      "fee": "first",
+      "mode": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Autumn Session": "February",
@@ -39,11 +46,30 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "UTS course pages (www.uts.edu.au/courses/<slug>) are server-rendered in the DOMESTIC view; no page JSON. Header facts: CODE (UTS code + CRICOS), DURATION, INTAKE (session names only, e.g. \"Autumn Session 2027 Spring Session 2027\" - no month names), COURSE FEES (Domestic (FT) only), LOCATION. IELTS in Admission requirements (\"IELTS Academic: overall 6.5, writing 6.0\"). International fees are NOT on course pages: central 2027 international course summary tables (PDF, fee per session) and the UTS fee search. Start months come from the central principal dates: Autumn session = February, Spring session = July; research sessions January and July. Intakes pattern only yields months where the INTAKE block prints month names.",
-    "reason": "UTS term months from the 2027 Principal dates page: Autumn = February, Spring = July, Summer = November (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:31:17.250529+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "?student=international&type=international",
+      "wait_ms": 8000,
+      "url_pattern": "^https://www\\.uts\\.edu\\.au/courses/bachelor-"
+    },
+    "notes": "UTS course pages (www.uts.edu.au/courses/<slug>) are server-rendered in the DOMESTIC view; no page JSON. Header facts: CODE (UTS code + CRICOS), DURATION, INTAKE (session names only, e.g. \"Autumn Session 2027 Spring Session 2027\" - no month names), COURSE FEES (Domestic (FT) only), LOCATION. IELTS in Admission requirements (\"IELTS Academic: overall 6.5, writing 6.0\"). International fees are NOT on course pages: central 2027 international course summary tables (PDF, fee per session) and the UTS fee search. Start months come from the central principal dates: Autumn session = February, Spring session = July; research sessions January and July. Intakes pattern only yields months where the INTAKE block prints month names. 5 Oct (international view): the course page has a Domestic/International switch run in the browser. A rendered read with ?student=international&type=international showed the international view on some undergraduate pages (about 5 in 8 reads) and on no postgraduate page (0 in 9, with studentType, student, type, audience, region parameters and a #international fragment); the view is not reliably set by the address. International view prints 'International course fees 2027 Indicative tuition fees for international students Indicative First-Year tuition fee : $N Indicative Total tuition fee: $M'; the fee pattern reads the First-Year figure (one year full time) with its year. LOCATION (delivery) is the same in both views. Result 5 Oct: three rendered passes over the undergraduate pages (suffix ?student=international&type=international, then reordered and with view=3 for pages still domestic) gave the international view on 123 of 152 confirmed undergraduate rows; the view is set in the browser and is not guaranteed by the address, so a later re-read can come back domestic. Postgraduate pages never showed the international view (0 of 9 tests), so page_view is limited to /courses/bachelor-. 5 Oct 15:22 checks: no exit awards in the \"N years of full-time study ... exit with\" form (pages mention only internal course transfers and graduate certificate/diploma exit points without years), so no exit_awards pattern. Every international panel prints the First-Year fee next to the Indicative Total, so no fee_total pattern (the only two pages with a total but no first-year fee are single degrees bound to a Communication/Laws double-degree page). entry_requirement: the first sentence(s) of Admission requirements (same for domestic and international).",
+    "reason": "UTS: entry_requirement added; no exit awards or fee-from-total needed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:03:45.392417+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "119205K",
+      "title": "Bachelor of Communication (Journalism)",
+      "field": "fee",
+      "reason": "Single Bachelor of Communication course bound to the combined Communication and Laws page; the fee read is the combined degree fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "119206J",
+      "title": "Bachelor of Communication (Media Business)",
+      "field": "fee",
+      "reason": "Single Bachelor of Communication course bound to the combined Communication and Laws page; the fee read is the combined degree fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": "no_values",
     "calendar": "proposed",

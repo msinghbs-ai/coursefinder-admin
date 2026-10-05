@@ -12,34 +12,63 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T17:59:18Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:03:35Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "intakes": "(?:(?:program|programme|classes|studies)\\s+(?:begins|starts|commences)(?: every| each| in)?|program start:?)\\s+((?:January|May|September)\\b)",
       "duration": "Program Length\\s+([^.(]{10,250})",
-      "study_level": "\\(((?:Bachelor|Master|Doctor|Graduate (?:Certificate|Diploma))[^)]{0,80})\\)\\s*-\\s*[A-Za-z]+ Calendar",
-      "not_admitting": "((?:program|students)[^.]{0,60}(?:no longer|not)\\s+(?:accepting|admitting)[^.]{0,100})"
+      "entry_requirement": "Admission Requirements\\s+((?:Applicants|Admission to|Acceptance|To qualify|Entry to|Program and course admission|Students (?:must|may|are|who)|The (?:program|minimum)|A (?:minimum|bachelor|master)|Normally)(?:[^.]|\\.[0-9]){15,200}\\.?)",
+      "intakes": "(?:(?:program|programme|classes|studies)\\s+(?:begins|starts|commences)(?: every| each| in)?|program start:?)\\s+((?:January|May|September)\\b)",
+      "mode": "(?:(?:method of delivery|delivery method(?: and location)?)\\s*:\\s*|program at a glance description\\s+)([a-z][a-z ,&-]{1,60}?)\\s+(?:applications|next start|contact|estimated|location_on)",
+      "not_admitting": "((?:program|students)[^.]{0,60}(?:no longer|not)\\s+(?:accepting|admitting)[^.]{0,100})",
+      "study_level": "\\(((?:Bachelor|Master|Doctor|Graduate (?:Certificate|Diploma))[^)]{0,80})\\)\\s*-\\s*[A-Za-z]+ Calendar"
     },
     "pick": {
       "intakes": "all",
       "duration": "first",
       "study_level": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "SFU pages are mostly Academic Calendar programme pages (www.sfu.ca/students/calendar/... and students.sfu.ca/calendar/...), plain HTML, no page JSON. The page title and heading carry the award, e.g. \"Chemistry (Master of Science) - Fall Calendar\", read as study level. Graduate calendar pages have a \"Program Length\" section (in terms), read as duration. Calendar pages do NOT print start months, international tuition or IELTS; course-section dates (e.g. Sep 9 - Dec 7) are class timetables, not intakes. About 30 faculty marketing pages (FAS, Education, Beedie, Contemporary Arts) sometimes say \"The program begins every September\" or \"Program start: September\", read as intakes; others print only \"Next Intake: Fall 2027\" / \"Next Start Term Fall 2027\" (term name only) and \"applications open October 1\" (not an intake). Their tuition is per term or for the whole degree, so no fee pattern is set.",
-    "reason": "Extend the start-month pattern to the Beedie \"Program start: September\" label (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T17:59:18.110194+00:00"
+    "page_view": {},
+    "notes": "SFU pages are mostly Academic Calendar programme pages (www.sfu.ca/students/calendar/... and students.sfu.ca/calendar/...), plain HTML, no page JSON. The page title and heading carry the award, e.g. \"Chemistry (Master of Science) - Fall Calendar\", read as study level. Graduate calendar pages have a \"Program Length\" section (in terms), read as duration. Calendar pages do NOT print start months, international tuition or IELTS; course-section dates (e.g. Sep 9 - Dec 7) are class timetables, not intakes. About 30 faculty marketing pages (FAS, Education, Beedie, Contemporary Arts) sometimes say \"The program begins every September\" or \"Program start: September\", read as intakes; others print only \"Next Intake: Fall 2027\" / \"Next Start Term Fall 2027\" (term name only) and \"applications open October 1\" (not an intake). Their tuition is per term or for the whole degree, so no fee pattern is set. 5 Oct 15:22 checks: no exit-award wording and no international tuition on any stored page (no fee_total). entry_requirement = first sentence of the calendar \"Admission Requirements\" section (programme-level), for review only; course prerequisites are not read.",
+    "reason": "Entry requirement read for review; no exit awards printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:03:35.075581+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "290c2c00-06b2-46a9-b7c4-b6f3a38c47a7",
+      "title": "Contemporary Arts: Doctor of Philosophy (PhD)",
+      "field": "fee",
+      "reason": "Fee reading 2,570 is a per-term fees estimate for the other two terms, not an international annual tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "5b8863a6-d948-4abd-ba0e-f69016eb45c9",
+      "title": "Contemporary Arts: Master of Arts (MA)",
+      "field": "fee",
+      "reason": "Fee reading 2,570 is a per-term fees estimate for the other two terms, not an international annual tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "9912ab13-2416-4e25-b737-16b048a6411a",
+      "title": "Smart Manufacturing and Systems: Master of Engineering (MEng)",
+      "field": "fee",
+      "reason": "Fee reading 14,216 is the international fee PER TERM (first four terms), not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "b0487357-a295-4630-b2da-0f2b3c754035",
+      "title": "Sustainable Energy Engineering: Master of Engineering (MEng)",
+      "field": "fee",
+      "reason": "Fee reading 8,600 is the regular tuition for the ENTIRE degree, not an international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": null,
     "calendar": null,

@@ -12,19 +12,19 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T23:55:30Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:00:41Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Delivery method:\\s*(Online study|Online|Blended|Distance|Print-based|Mixed|On-?campus)",
-      "intakes": "enrol in the ((?:January|February|March|April|May|June|July|August|September|October|November|December) 20[2-3][0-9]) intake",
       "aqf_level": "Academic level:\\s*Level ([0-9]{1,2})",
-      "study_level": "Academic level:\\s*(Level [0-9]{1,2})",
-      "not_admitting": "(closed to new enrolments)"
+      "intakes": "enrol in the ((?:January|February|March|April|May|June|July|August|September|October|November|December) 20[2-3][0-9]) intake",
+      "mode": "Delivery method:\\s*(Online study|Online|Blended|Distance|Print-based|Mixed|On-?campus)",
+      "not_admitting": "(closed to new enrolments)",
+      "study_level": "Academic level:\\s*(Level [0-9]{1,2})"
     },
     "pick": {
       "mode": "first",
@@ -37,9 +37,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "Open Polytechnic of New Zealand (distance/online only). Pages are qualification pages on www.openpolytechnic.ac.nz/qualifications-and-courses/<code>-<slug>/ with a summary strip: \"Academic level: Level N\", \"Programme credits\", \"Delivery method: Online study\", \"Programme cost: $N NZ Domestic\" (whole-programme DOMESTIC estimate, often $0 under zero-fees; stored pages show the domestic view only, no international fee anywhere) and \"Time limit: Maximum completion time\" (a completion limit, not a duration). No IELTS on course pages: English is central (https://www.openpolytechnic.ac.nz/study-with-us/how-to-apply/english-language-requirements/). Most programmes have rolling course starts (fortnightly, every month) on the central page https://www.openpolytechnic.ac.nz/study-with-us/how-to-apply/course-start-end-and-withdrawal-dates/ ; only the cohort teaching programmes print intakes on the page as \"enrol in the <Month YYYY> intake\", which the intakes pattern reads. Fee is deliberately not read. Not a student-visa provider: programmes are distance study, generally not open to international students on a student visa.",
-    "reason": "Fix the delivery-mode pattern (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:55:30.969456+00:00"
+    "reason": "Probes removed: the stored pages print no exit awards, no international fee and no entry requirement text (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:00:41.32991+00:00"
   },
   "exclusions": [
     {

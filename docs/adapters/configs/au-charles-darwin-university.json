@@ -6,31 +6,34 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Charles Darwin intakes 147 from the published semester dates, fees 113 equal, 8 short-course totals excluded, IELTS not read (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T19:29:18Z",
-  "config_updated_at": "2026-10-04T19:16:34Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Charles Darwin University: admit delivery with fee and intakes; mode reads the international On campus / Online intake line, spot-checks pass (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:18:39Z",
+  "config_updated_at": "2026-10-05T06:23:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International tuition fees\\s*The annual tuition fee for full time study in 20\\d\\d is AUD \\$\\s*([0-9][0-9,]*(?:\\.[0-9]{2})?)",
-      "mode": "Intake (?:.|\\n){0,100}?(On campus - (?:.|\\n){0,100}?) Important Dates",
-      "campus": "Important Dates Locations ((?:.|\\n){0,120}?) (?:Not available to international students\\.|Entry requirements)",
-      "intakes": "Intake (?:.|\\n){0,100}?On campus - ((?:Semester|Summer)(?:.|\\n){0,80}?)(?: Online - | Important Dates)",
-      "duration": "Duration ((?:.|\\n){0,80}?) Intake",
       "aqf_level": "Qualifications Framework at Level (\\d+)",
-      "study_level": "Find a course(?:.|\\n){0,150}?\\(\\w{6} - 20\\d\\d\\) ([A-Z][a-z]+(?: Coursework| Research)?)",
-      "not_admitting": "Important Dates Locations (?:.|\\n){0,120}?(Not available to international students)"
+      "campus": "Important Dates Locations ((?:.|\\n){0,120}?) (?:Not available to international students\\.|Entry requirements)",
+      "duration": "Duration ((?:.|\\n){0,80}?) Intake",
+      "entry_requirement": "Admission criteria\\s+((?:.|\\n){10,200}?(?<!e\\.g)\\.(?=\\s)|(?:.|\\n){10,200})",
+      "fee": "International tuition fees\\s*The annual tuition fee for full time study in 20\\d\\d is AUD \\$\\s*([0-9][0-9,]*(?:\\.[0-9]{2})?)",
+      "intakes": "Intake (?:.|\\n){0,100}?On campus - ((?:Semester|Summer)(?:.|\\n){0,80}?)(?: Online - | Important Dates)",
+      "mode": "Intake (?:.|\\n){0,100}?(On campus - (?:.|\\n){0,100}?) Important Dates",
+      "not_admitting": "Important Dates Locations (?:.|\\n){0,120}?(Not available to international students)",
+      "study_level": "Find a course(?:.|\\n){0,150}?\\(\\w{6} - 20\\d\\d\\) ([A-Z][a-z]+(?: Coursework| Research)?)"
     },
     "pick": {
       "fee": "first",
-      "intakes": "first"
+      "intakes": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Semester 1": "March",
@@ -40,9 +43,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "CDU course pages (www.cdu.edu.au/study/course/<slug>, each a single course, current version e.g. \"(SMLSC1 - 2027)\") carry the domestic and international views in the same HTML. Key details: \"Intake <domestic terms> On campus - <international on-campus terms> Online - <international online terms or No> Important Dates\"; the intakes pattern reads only the international on-campus terms. Terms become months from CDU Important Dates (https://www.cdu.edu.au/current-students/student-admin/important-dates): Semester 1 = March (2 Mar 2026, 1 Mar 2027), Semester 2 = July (20 Jul 2026, 19 Jul 2027), Summer Semester = November (16 Nov 2026, 15 Nov 2027). Fee: \"International tuition fees - The annual tuition fee for full time study in 2027 is AUD $X\" (annual, international; the per-10-credit-point unit figure that follows is not read). IELTS is in a generic table on every page (undergraduate/pathway column 6.0 no band below 6.0; postgraduate HDR and coursework column 6.5 no band below 6.0), so it is not read by pattern. Not available to international students is printed beside Locations. VET pages on stapps.cdu.edu.au (Course Catalogue app) are not covered.",
-    "reason": "Save the Charles Darwin University adapter: international on-campus intakes, international annual tuition fee, level, AQF, duration, locations (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T19:16:34.971084+00:00"
+    "page_view": {},
+    "notes": "CDU course pages (www.cdu.edu.au/study/course/<slug>, each a single course, current version e.g. \"(SMLSC1 - 2027)\") carry the domestic and international views in the same HTML. Key details: \"Intake <domestic terms> On campus - <international on-campus terms> Online - <international online terms or No> Important Dates\"; the intakes pattern reads only the international on-campus terms. Terms become months from CDU Important Dates (https://www.cdu.edu.au/current-students/student-admin/important-dates): Semester 1 = March (2 Mar 2026, 1 Mar 2027), Semester 2 = July (20 Jul 2026, 19 Jul 2027), Summer Semester = November (16 Nov 2026, 15 Nov 2027). Fee: \"International tuition fees - The annual tuition fee for full time study in 2027 is AUD $X\" (annual, international; the per-10-credit-point unit figure that follows is not read). IELTS is in a generic table on every page (undergraduate/pathway column 6.0 no band below 6.0; postgraduate HDR and coursework column 6.5 no band below 6.0), so it is not read by pattern. Not available to international students is printed beside Locations. VET pages on stapps.cdu.edu.au (Course Catalogue app) are not covered. 5 Oct: entry_requirement (review only): 'Admission criteria' text to the first full stop (or 200 characters). The Master of Environmental Management prints exit points after one/two semesters (Graduate Certificate/Diploma), but neither is a CDU catalogue course; no whole-course fee.",
+    "reason": "Final: entry_requirement pattern kept for review; exit-award and full-time-load probes removed (no exit awards printed with full-time years; no whole-course fees) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:23:14.04951+00:00"
   },
   "exclusions": [
     {

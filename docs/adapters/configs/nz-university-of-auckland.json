@@ -12,36 +12,414 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T18:23:21Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:11:32Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "20\\d\\d fees(?:.|\\n){0,120}?International Student Annual Fees\\s*NZ\\$\\s*([0-9][0-9,]*(?:\\.\\d+)?)",
       "campus": "Available locations\\s*((?:.|\\n){1,60}?)\\s*(?:Points |Programme type)",
-      "intakes": "\\b20\\d\\d [A-Za-z ]{3,30}? \\d{1,2} [A-Za-z]+ 20\\d\\d (\\d{1,2} [A-Za-z]+ 20\\d\\d) \\d{1,2} [A-Za-z]+ 20\\d\\d|Next start dates?:?\\s(?:.|\\n){1,160}?(?=Available locations|Points |Programme type)",
       "duration": "Duration\\s*(Full[ -]time:?\\s(?:.|\\n){1,60}?)\\s*(?:Next start|Available locations|Points )",
+      "entry_requirement": "may require a higher grade to be offered a place\\.\\s*((?:.|\\n){20,200})",
+      "fee": "20\\d\\d fees(?:(?:.|\\n){0,250}?International Student Annual Fees\\s*(?:&lt;.{0,80}?&gt;\\s*){0,3}|\\s*Domestic students(?:.|\\n){0,80}?International students\\s*)NZ\\$\\s*([0-9][0-9,]*(?:\\.\\d+)?)",
+      "intakes": "\\b20\\d\\d [A-Za-z ]{3,30}? \\d{1,2} [A-Za-z]+ 20\\d\\d (\\d{1,2} [A-Za-z]+ 20\\d\\d) \\d{1,2} [A-Za-z]+ 20\\d\\d|Next start dates?:?\\s(?:.|\\n){1,160}?(?=Available locations|Points |Programme type)",
+      "mode": "Available locations\\s*((?:.|\\n){1,60}?)\\s*(?:Points |Programme type)",
       "study_level": "Programme type\\s*([A-Za-z ]{3,40}?)\\s*(?:Programme Tabs|options available|Breadcrumbs|Overview)"
     },
     "pick": {
       "fee": "first",
+      "mode": "first",
       "campus": "first",
       "intakes": "all",
       "duration": "first",
-      "study_level": "first"
+      "study_level": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Two page kinds. (1) Curriculum catalogue pages at study.auckland.ac.nz/ords/r/uoa/catalogue/program?p5_code=<code>: Quick Facts (Duration, Available locations, Programme type); Fees table \"<year> fees ... International Student Annual Fees NZ$ <low> - $ <high>\" (the lower figure of the range is read); Key Dates table (year, period, application closing date, semester START date, end date) - only the start date is read. (2) Programme pages at www.auckland.ac.nz/en/study/study-options/find-a-study-option/<name>.html: header facts (Duration, Next start date, Available locations, Points, Programme type); fees and entry requirements are not in the captured page. No programme page carries IELTS: English is on the central international English language requirements page. NZ has no CRICOS code; patterns use stable labels only.",
-    "reason": "Save the first University of Auckland adapter: start dates, international annual fee, duration, campus and programme type from the two programme page kinds (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:23:21.891248+00:00"
+    "title_strip": "\\s+conjoint\\s*$",
+    "course_title_strip": "^Conjoint:\\s*|\\s*\\(Level \\d+\\)\\s*$",
+    "page_view": {},
+    "notes": "Two page kinds. (1) Curriculum catalogue pages at study.auckland.ac.nz/ords/r/uoa/catalogue/program?p5_code=<code>: Quick Facts (Duration, Available locations, Programme type); Fees table \"<year> fees ... International Student Annual Fees NZ$ <low> - $ <high>\" (the lower figure of the range is read); Key Dates table (year, period, application closing date, semester START date, end date) - only the start date is read. (2) Programme pages at www.auckland.ac.nz/en/study/study-options/find-a-study-option/<name>.html: header facts (Duration, Next start date, Available locations, Points, Programme type); fees and entry requirements are not in the captured page. No programme page carries IELTS: English is on the central international English language requirements page. NZ has no CRICOS code; patterns use stable labels only. International view (5 Oct): both page kinds print the international fee in the plain page for every visitor (no student-type switch or URL variant): programme pages \"How much does a <programme> cost per year? <year> fees Domestic students NZ$x * International students NZ$y *\" (read: y, per year) and catalogue pages \"International Student Annual Fees NZ$ low - $ high\" (lower figure). Delivery (mode) is read from \"Available locations\" (City, Grafton, Epsom, University of Auckland Online ...); campus names alone are not recognised as on campus by the delivery normaliser. | 5 Oct (exit awards and requirements): entry_requirement = programme page \"Minimum programme requirements\" grades after \"...may require a higher grade to be offered a place.\" (study option, points, GPA, qualifying degree; PG pages only; the same for all applicants). UG pages link to a separate international entry requirements page. Exit options (PGCert/PGDip) are printed in points only and mostly have their own pages; no exit-award pattern. Fees are annual.",
+    "reason": "Final: entry_requirement pattern for review (not admitted); exploratory exit-award text removed, no exit awards with full-time years printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:11:32.987233+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "AU0026",
+      "title": "Conjoint: Bachelor of Commerce/Bachelor of Laws (Hons) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU0037",
+      "title": "Conjoint: Bachelor of Science/Bachelor of Laws (Hons) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU0087",
+      "title": "Bachelor of Science (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU0112",
+      "title": "Bachelor of Optometry (Level 7)",
+      "field": "fee",
+      "reason": "General reader fee is not the international annual tuition (other costs, the domestic figure, or an online-brand page amount) (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4015",
+      "title": "Doctor of Philosophy (Level 10)",
+      "field": "fee",
+      "reason": "General reader fee is not the international annual tuition (other costs, the domestic figure, or an online-brand page amount) (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4054",
+      "title": "Master of Management (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4060",
+      "title": "Bachelor of Property (Honours) (Level 8)",
+      "field": "english",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4060",
+      "title": "Bachelor of Property (Honours) (Level 8)",
+      "field": "fee",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4060",
+      "title": "Bachelor of Property (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4089",
+      "title": "Graduate Diploma in Teaching (Primary) (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU4090",
+      "title": "Graduate Diploma in Teaching (Secondary) (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5067",
+      "title": "Postgraduate Certificate in Public Health (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5139",
+      "title": "Postgraduate Certificate in Light Metals Reduction Technology (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5142",
+      "title": "Foundation Certificate in English for Academic Purposes (Level 4)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5167",
+      "title": "Conjoint: Bachelor of Nursing/Bachelor of Science (Level 7)",
+      "field": "english",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5167",
+      "title": "Conjoint: Bachelor of Nursing/Bachelor of Science (Level 7)",
+      "field": "fee",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5167",
+      "title": "Conjoint: Bachelor of Nursing/Bachelor of Science (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5174",
+      "title": "Conjoint: Bachelor of Arts/ Bachelor of Fine Arts (Honours) (Level 8)",
+      "field": "english",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5174",
+      "title": "Conjoint: Bachelor of Arts/ Bachelor of Fine Arts (Honours) (Level 8)",
+      "field": "fee",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5174",
+      "title": "Conjoint: Bachelor of Arts/ Bachelor of Fine Arts (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5180",
+      "title": "Bachelor of Health Sciences (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5529",
+      "title": "Postgraduate Diploma in Management (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5549",
+      "title": "Master of Architecture (Professional) and Heritage Conservation (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5551",
+      "title": "Master of Urban Planning (Professional) and Heritage Conservation (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5554",
+      "title": "Conjoint: Bachelor of Engineering (Honours) and Bachelor of Music (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5555",
+      "title": "Conjoint: Bachelor of Music and Bachelor of Laws (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5556",
+      "title": "Conjoint: Bachelor of Music and Bachelor of Laws (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5557",
+      "title": "Bachelor of Sport, Health and Physical Education (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5593",
+      "title": "Postgraduate Diploma in Energy (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5594",
+      "title": "Postgraduate Certificate in Energy (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5625",
+      "title": "Conjoint: Bachelor of Design / Bachelor of Laws (Level 7)",
+      "field": "english",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5625",
+      "title": "Conjoint: Bachelor of Design / Bachelor of Laws (Level 7)",
+      "field": "fee",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5625",
+      "title": "Conjoint: Bachelor of Design / Bachelor of Laws (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5626",
+      "title": "Conjoint: Bachelor of Design / Bachelor of Laws (Honours) (Level 8)",
+      "field": "english",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5626",
+      "title": "Conjoint: Bachelor of Design / Bachelor of Laws (Honours) (Level 8)",
+      "field": "fee",
+      "reason": "The programme page address redirects to a different page (another programme or a general listing); nothing on it belongs to this course (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5626",
+      "title": "Conjoint: Bachelor of Design / Bachelor of Laws (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5630",
+      "title": "Conjoint: Bachelor of Global Studies / Bachelor of Health Science (Level 7)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5634",
+      "title": "Postgraduate Diploma in Architectural studies (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5640",
+      "title": "Master of Business Development (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5681",
+      "title": "Certificate in Arts (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5682",
+      "title": "Diploma in Arts (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5684",
+      "title": "Diploma in Commerce (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5688",
+      "title": "Diploma in Design (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5689",
+      "title": "Certificate in Fine Arts (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5690",
+      "title": "Diploma in Fine Arts (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5692",
+      "title": "Diploma in Global Studies (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5693",
+      "title": "Diploma in Health Sciences (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5695",
+      "title": "Diploma in Music (Level 5)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5712",
+      "title": "Bachelor of Communication/Bachalor of Laws (Honours) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5716",
+      "title": "Postgraduate Diploma in Global Studies (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5718",
+      "title": "Postgraduate Diploma in Property Practice (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5725",
+      "title": "Postgraduate Certificate in Commerce (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5740",
+      "title": "Master of Stroke Care (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5755",
+      "title": "Master of Civil Engineering (Level 9)",
+      "field": "fee",
+      "reason": "General reader fee is not the international annual tuition (other costs, the domestic figure, or an online-brand page amount) (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5758",
+      "title": "Master of Regional Development (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5761",
+      "title": "Postgraduate Diploma in Applied Finance (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5762",
+      "title": "Postgraduate Diploma in Paediatrics (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5769",
+      "title": "Postgraduate Certificate in Data Science (Level 8)",
+      "field": "fee",
+      "reason": "General reader fee is not the international annual tuition (other costs, the domestic figure, or an online-brand page amount) (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5778",
+      "title": "Postgraduate Certificate in BioEngineering (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5785",
+      "title": "Juris Doctor (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5792",
+      "title": "Master of Nutrition and Dietetics (Level 9)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AU5803",
+      "title": "Bachelor of Biomedical Science/Bachelor of Engineering (Hons) (Level 8)",
+      "field": "intakes",
+      "reason": "General reader took months from regulation commencement dates, application closing dates or a different year's start; not the programme's start dates (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": null,
     "calendar": null,

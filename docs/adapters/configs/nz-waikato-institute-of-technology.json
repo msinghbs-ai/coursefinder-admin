@@ -7,24 +7,26 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "intakes"
   ],
-  "admit_reason": "Wave 9: intakes ready after excluding 3 module-start programmes; fee is domestic only and English comes from the central page, so neither admitted (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:22:26Z",
-  "config_updated_at": "2026-10-04T23:55:38Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Delivery spot-checks pass on the international view (5 pages: on campus, block courses & online, Regional/Online delivery); intakes kept, delivery added (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:08:30Z",
+  "config_updated_at": "2026-10-05T06:09:44Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Course details (?:.|\\n){0,120}?\\b((?:full-time|part-time)(?: or (?:full-time|part-time))?)\\b",
       "campus": "International Fee Guideline ((?:.|\\n){3,160}?) (?:Summary|On-campus|What you will learn|Overview|\\(Note|Note:|Please note)",
-      "intakes": "Course details ((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \\d{4} ?)+)",
       "duration": "Course details (?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \\d{4} )*([A-Za-z0-9.\\- ]{1,30}?\\b(?:years?|months?|weeks?|semesters?|days?))\\b",
-      "study_level": "Course details (?:.|\\n){0,250}?\\b(Level \\d{1,2})\\b",
-      "student_type": "Course details (?:.|\\n){0,250}?\\b((?:not )?available for international students)"
+      "entry_requirement": "Entry criteria\\s+(?!Pathways|Your First Day)(?:General (?:academic )?admission\\s+)?((?:(?!Special admission|English language requirement|Domestic applicants)(?:.|\\n)){10,200})",
+      "intakes": "Course details ((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \\d{4} ?)+)",
+      "mode": "International Fee Guideline ((?:.|\\n){3,160}?) (?:Summary|On-campus|What you will learn|Overview|\\(Note|Note:|Please note)",
+      "student_type": "Course details (?:.|\\n){0,250}?\\b((?:not )?available for international students)",
+      "study_level": "Course details (?:.|\\n){0,250}?\\b(Level \\d{1,2})\\b"
     },
     "pick": {
       "mode": "first",
@@ -32,15 +34,17 @@
       "intakes": "first",
       "duration": "first",
       "study_level": "first",
-      "student_type": "first"
+      "student_type": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Wintec (NZ) course pages at www.wintec.ac.nz/study-at-wintec/courses/<area>/<slug>, server-rendered HTML, no page JSON. A 'Course details' panel near the top prints, in order: start months as 'Feb 2027 Jul 2027' (intakes), duration ('One year'), mode ('Full-time or Part-time'), a fee with '*' that is the DOMESTIC fee (e.g. $9,561* + Fees Free note), NZQF level ('Level 8'), 'Available for International Students', a link 'International Fee Guideline' (international fees are only in that separate guide, not on the page), then campus. No fee pattern: the page fee is domestic. No IELTS on course pages: central rule at https://www.wintec.ac.nz/international/international-academic-entry-requirements (L4 and below 5.5/5.0; L5-7 6.0/5.5; L8+ 6.5/6.0); Bachelor of Nursing and NZ Diploma in Enrolled Nursing 6.5 in all bands (nursing English PDF). Semesters per https://www.wintec.ac.nz/student-resources/student-events: Semester 1 = February, Semester 2 = July.",
-    "reason": "Wave 6 Wintec adapter round 2: campus pattern stops before page notes (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:55:38.034217+00:00"
+    "page_view": {},
+    "notes": "Wintec (NZ) course pages at www.wintec.ac.nz/study-at-wintec/courses/<area>/<slug>, server-rendered HTML, no page JSON. A 'Course details' panel near the top prints, in order: start months as 'Feb 2027 Jul 2027' (intakes), duration ('One year'), mode ('Full-time or Part-time'), a fee with '*' that is the DOMESTIC fee (e.g. $9,561* + Fees Free note), NZQF level ('Level 8'), 'Available for International Students', a link 'International Fee Guideline' (international fees are only in that separate guide, not on the page), then campus. No fee pattern: the page fee is domestic. No IELTS on course pages: central rule at https://www.wintec.ac.nz/international/international-academic-entry-requirements (L4 and below 5.5/5.0; L5-7 6.0/5.5; L8+ 6.5/6.0); Bachelor of Nursing and NZ Diploma in Enrolled Nursing 6.5 in all bands (nursing English PDF). Semesters per https://www.wintec.ac.nz/student-resources/student-events: Semester 1 = February, Semester 2 = July. Entry requirement (5 Oct 15:22, for review): the \"Entry criteria\" text (general academic admission). Exit awards: only module-based exits (e.g. PG Dip Nursing to PG Cert after two modules), no full-time years, so none linked. No fee amount in the stored text (\"International Fee Guideline\" is a link), so no whole-course fee.",
+    "reason": "Entry requirement pattern skips the menu link (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:09:44.257503+00:00"
   },
   "exclusions": [
     {
@@ -489,14 +493,14 @@
       {
         "kind": "english_policy",
         "url": "https://www.wintec.ac.nz/international/international-academic-entry-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.wintec.ac.nz/student-resources/student-events",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

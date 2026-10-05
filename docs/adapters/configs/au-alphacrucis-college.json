@@ -6,36 +6,40 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "Wave 9: intakes (54/54 agree) and English (51 read, course-page Admission Criteria) ready; fee not admitted, stored pages show only the domestic per-subject fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:05Z",
-  "config_updated_at": "2026-10-05T00:01:46Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Alphacrucis: delivery admitted with English and intakes; Study Modes read from the course header, spot-checks pass (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:11:59Z",
+  "config_updated_at": "2026-10-05T06:04:10Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Study Modes ((?:.|\\n){0,120}?) Study Locations",
       "campus": "Study Locations ((?:.|\\n){0,120}?)(?: \\* Some subjects| Start Dates| Fees )",
-      "intakes": "Start Dates ((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\b(?:.|\\n){0,100}?)(?: Fees | Subjects | Speak to |$)",
       "duration": "Course Duration ((?:.|\\n){0,80}?) Study Modes",
-      "ielts_overall": "IELTS \\(or equivalent\\) Score of ([0-9](?:\\.[05])?)"
+      "entry_requirement": "Admission Criteria Entry Requirements (?!International Students)((?:.|\\n){10,200}?(?=(?<![0-9])\\. | International Students| Work and Life| Vocational Education| Professional Entry| Additional Information| Special admission)|(?:.|\\n){200})",
+      "ielts_overall": "IELTS \\(or equivalent\\) Score of ([0-9](?:\\.[05])?)",
+      "intakes": "Start Dates ((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\b(?:.|\\n){0,100}?)(?: Fees | Subjects | Speak to |$)",
+      "mode": "Study Modes ((?:.|\\n){0,120}?) Study Locations"
     },
     "pick": {
       "intakes": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Alphacrucis course pages (www.ac.edu.au/awards/<slug>/, WordPress, no page JSON). Header block: \"CRICOS: <code> ... Course Duration <x> Study Modes <x> Study Locations <x> Start Dates March (S1), Aug (S2), November (Summer) Fees $2,425 per subject FEE-HELP\" - the header fee is the DOMESTIC per-subject fee, never read as fee; no international annual fee is printed on stored pages. English is in Admission Criteria: \"International Students - Language Requirements IELTS (or equivalent) Score of 6.0 (with no score below 5.5 ...)\" and varies by course (5.5 to 7.5). The generic \"Key Dates Semester 1 Term 1 February / March Term 2 April Semester 2 Term 3 July / August Term 4 November\" block (also https://www.ac.edu.au/key-dates/) is on every page and is not used; month names are printed in Start Dates so term_months is not needed. Central: https://www.ac.edu.au/study/international/ says the IELTS minimum differs by award.",
-    "reason": "Final Alphacrucis adapter: remove temporary IELTS probe field (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:01:46.131088+00:00"
+    "page_view": {},
+    "notes": "Alphacrucis course pages (www.ac.edu.au/awards/<slug>/, WordPress, no page JSON). Header block: \"CRICOS: <code> ... Course Duration <x> Study Modes <x> Study Locations <x> Start Dates March (S1), Aug (S2), November (Summer) Fees $2,425 per subject FEE-HELP\" - the header fee is the DOMESTIC per-subject fee, never read as fee; no international annual fee is printed on stored pages. English is in Admission Criteria: \"International Students - Language Requirements IELTS (or equivalent) Score of 6.0 (with no score below 5.5 ...)\" and varies by course (5.5 to 7.5). The generic \"Key Dates Semester 1 Term 1 February / March Term 2 April Semester 2 Term 3 July / August Term 4 November\" block (also https://www.ac.edu.au/key-dates/) is on every page and is not used; month names are printed in Start Dates so term_months is not needed. Central: https://www.ac.edu.au/study/international/ says the IELTS minimum differs by award. Entry requirement (Platform Admin 15:36): \"Admission Criteria Entry Requirements <first admission route>\" up to the first full stop or the next route heading (max 200 characters), shown for review only. Exit awards: pages mention exit only generally (\"a recognised exit point\", \"gracefully exit a Bachelor program\"), never with full-time years, so no exit_awards pattern. No international fee printed, so no fee_total.",
+    "reason": "Alphacrucis: exit-award probe removed (no full-time-year exit points printed) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:04:10.318242+00:00"
   },
   "exclusions": [
     {
@@ -52,28 +56,28 @@
       {
         "kind": "english_policy",
         "url": "https://www.ac.edu.au/ppm/admissions-policy/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "english_policy",
         "url": "https://www.ac.edu.au/study/international/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.ac.edu.au/academic-calendars/",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T09:50:50Z",
         "evidence_id": "e05d2210-695d-4ef3-a7d3-87db64a5f214"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.ac.edu.au/key-dates/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

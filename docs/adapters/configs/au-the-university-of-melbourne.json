@@ -6,46 +6,155 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "exit_awards",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Waves 1-2 measured, readings agree with held values or fill gaps (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T19:08:33Z",
-  "config_updated_at": "2026-10-04T17:53:08Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit exit awards (one verified exit award set by hand) with the existing admitted fields (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+  "admit_changed_at": "2026-10-05T06:23:49Z",
+  "config_updated_at": "2026-10-05T06:23:33Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "(?:Mode \\(Location\\)|Delivered:)\\s+((?:.|\\n){2,80}?)\\s+(?:Intake|You)",
-      "campus": "(?:Year & campus\\s+\\d{4}\\s*[—–-]\\s*|Mode \\(Location\\)\\s+[^(]{0,40}\\()([^)\\n]{2,60}?)(?:\\)|\\s+CRICOS)",
-      "intakes": "\\bIntake\\s+((?:.|\\n){2,80}?)\\s+Key dates",
-      "duration": "\\bDuration\\s+(\\d+(?:\\.\\d+)?\\s+(?:years?|months?|weeks?)\\s+(?:full|part)[- ]time(?:\\s*(?:/|or)\\s*\\d+(?:\\.\\d+)?\\s+(?:years?|months?|weeks?)\\s+part[- ]time)?)",
       "aqf_level": "AQF level\\s+(\\d{1,2})\\b",
-      "study_level": "Study level & type\\s+((?:.|\\n){2,60}?)\\s+AQF level",
-      "not_admitting": "(not available to international students[^.]{0,120})"
+      "campus": "(?:Year & campus\\s+\\d{4}\\s*[—–-]\\s*|Mode \\(Location\\)\\s+[^(]{0,40}\\()([^)\\n]{2,60}?)(?:\\)|\\s+CRICOS)",
+      "duration": "\\bDuration\\s+(\\d+(?:\\.\\d+)?\\s+(?:years?|months?|weeks?)\\s+(?:full|part)[- ]time(?:\\s*(?:/|or)\\s*\\d+(?:\\.\\d+)?\\s+(?:years?|months?|weeks?)\\s+part[- ]time)?)",
+      "fee": "Fees\\s+AUD\\s*\\$\\s?([0-9]{2,3},[0-9]{3})\\s*\\(20[2-3][0-9] indicative first year fee\\)(?:.|\\n){0,120}?English language requirements",
+      "ielts_overall": "English language requirements\\s+IELTS\\s+([4-9](?:\\.[05])?)\\b",
+      "intakes": "\\bIntake\\s+((?:.|\\n){2,80}?)\\s+Key dates",
+      "mode": "(?:Mode \\(Location\\)|Delivered:)\\s+((?:.|\\n){2,80}?)\\s+(?:Intake|You)",
+      "not_admitting": "(not available to international students[^.]{0,120})",
+      "study_level": "Study level & type\\s+((?:.|\\n){2,60}?)\\s+AQF level"
     },
     "pick": {
+      "fee": "first",
       "mode": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
       "aqf_level": "first",
       "study_level": "first",
+      "ielts_overall": "first",
       "not_admitting": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Two page kinds. study.unimelb.edu.au/find/courses course pages: header strip with Duration, Mode (Location), Intake months (before \"Key dates\"); course code like MC-ARCHUP, no CRICOS code; fees, IELTS and entry requirements sit on linked tabs/sub-pages and are not in the stored page. handbook.unimelb.edu.au/<year>/courses pages: Overview table with Year & campus, CRICOS code, Study level & type, AQF level, Duration, Delivered mode, and a not-available-to-international-students notice; no intakes, fees or IELTS. No page JSON is used (study pages carry __NUXT_DATA__ but it held no course values). No fee or IELTS pattern on purpose.",
-    "reason": "First University of Melbourne adapter: intakes, duration, mode, campus, study level, AQF level and not-admitting from study.unimelb and handbook pages (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T17:53:08.783939+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "?residency=international",
+      "wait_ms": 5000,
+      "url_pattern": "^https://study\\.unimelb\\.edu\\.au/find/courses/(?:graduate|undergraduate|honours|research)/[a-z0-9-]+/?$"
+    },
+    "notes": "Two page kinds. study.unimelb.edu.au/find/courses/<level>/<course>/ course pages are read in the INTERNATIONAL student view (page_view: Firecrawl render of the address with ?residency=international, tested 5 Oct: ?studentType= and ?student= leave the domestic view). The international header strip gives Duration, Mode (Location), Intake months (before \"Key dates\"), \"Fees AUD $NN,NNN (YYYY indicative first year fee)\" and \"English language requirements IELTS N.N: with no band less than N.N\". The fee and IELTS patterns require the English-requirements block that only the international view prints, so a domestic full-fee figure is never read. handbook.unimelb.edu.au/<year>/courses pages (not in the view): Overview table with Year & campus, CRICOS code, Study level & type, AQF level, Duration, Delivered mode, and a not-available-to-international-students notice; no intakes, fees or IELTS. Courses bound to the handbook were rebound to their own study.unimelb page where that page appears in stored links (5 Oct). 5 Oct 15:22 checks: exit awards - no 'N years of full-time study ... exit with' wording on stored pages; handbook pages of two Graduate Certificates say they are exit awards (credit points), one set by hand (Grad Cert in Science (Advanced) from the Graduate Diploma in Science (Advanced), 50 cp = 6 months full-time). No whole-course fees (the international header prints an indicative first-year fee). Entry requirements are not printed on the stored pages (study pages link to a separate entry-requirements page; handbook pages to 'Entry and participation requirements'), so no entry_requirement pattern.",
+    "reason": "Final adapter after the exit-award, whole-course fee and requirement checks: probe patterns removed, no new patterns (none of the three is printed in a readable form on the stored pages) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:23:33.609888+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "040953G",
+      "title": "Graduate Certificate in Environment",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "073114G",
+      "title": "Graduate Certificate in Bushfire Planning and Management",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "073591A",
+      "title": "Graduate Certificate in Evaluation",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075252D",
+      "title": "Graduate Diploma in Employment and Labour Relations Law",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075316D",
+      "title": "Graduate Diploma in Communications Law",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075324D",
+      "title": "Graduate Diploma in Tax",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075325C",
+      "title": "Graduate Diploma in International Tax",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075329K",
+      "title": "Graduate Diploma in Health and Medical Law",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075331E",
+      "title": "Graduate Diploma in Dispute Resolution",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "075334B",
+      "title": "Graduate Diploma in Banking and Finance Law",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "077726C",
+      "title": "Graduate Diploma in Environmental Law",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "077727B",
+      "title": "Graduate Diploma in Energy and Resources Law",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "085948M",
+      "title": "Graduate Certificate in Journalism (Advanced)",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "089647C",
+      "title": "Graduate Certificate in Entrepreneurship",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "104600M",
+      "title": "Graduate Certificate in Language and Cultural Literacy",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "107113B",
+      "title": "Graduate Certificate in Entrepreneurship",
+      "field": "fee",
+      "reason": "The \"indicative first year fee\" covers less than one year of full-time study (6-month full-time or part-time-only course), so it is not an annual full-time fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": "no_values",
     "calendar": "proposed",

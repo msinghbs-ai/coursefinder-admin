@@ -6,13 +6,15 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "exit_awards",
     "intakes"
   ],
-  "admit_reason": "Canberra: intakes 88 of 94 agree (rows open to international students only), IELTS 97; no fee on the pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:13:23Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "University of Canberra: exit_awards added (2 exit awards of the Master of Professional Accounting set by hand from the page: 12 and 24 credit points, 24 credit points = one full-time year as printed on the page); delivery, english and intakes kept (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+  "admit_changed_at": "2026-10-05T06:03:32Z",
+  "config_updated_at": "2026-10-05T06:10:23Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -20,23 +22,28 @@
     "sections": {},
     "patterns": {
       "campus": "Teaching start date\\s+Domestic\\s+International\\s+20\\d\\d\\s+((?:.|\\n){0,120}?)\\s+(?:Semester|Trimester|Term|Period|Study|Research|Winter|Summer|UC College|ELICOS)",
-      "intakes": "(\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d)\\s+(?:(?:[A-Za-z]+\\s+){1,3}for domestic admissions\\s+)?Open for international admissions",
       "duration": "Course duration\\s+([^.]{3,120})",
-      "ielts_overall": "English language requirements\\s*×\\s*(?:.|\\n){0,250}?IELTS(?:.|\\n){0,80}?(\\d\\.\\d)"
+      "entry_requirement": "Admission requirements\\s+(?!for |specific|below|page|and )((?:(?!Periods course is open|Enquiries|Alternative exits|Course-specific information|Assumed knowledge).){10,200})",
+      "ielts_overall": "English language requirements\\s*×\\s*(?:.|\\n){0,250}?IELTS(?:.|\\n){0,80}?(\\d\\.\\d)",
+      "intakes": "(\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d)\\s+(?:(?:[A-Za-z]+\\s+){1,3}for domestic admissions\\s+)?Open for international admissions",
+      "mode": "Delivery mode\\s+Location\\s+Duration\\s+(?:(?:[0-9]{1,3}(?:\\.[0-9]{1,2})?|PG|N/?A|-)\\s+)?((?:(?:On[ -]campus|Online|Blended|Off[ -]campus|Distance|Multi[ -]?modal|Intensive|Flexible|Mixed mode|Face[ -]to[ -]face|In[ -]person|Workplace)(?:\\s*,\\s*|\\s+)?){1,5})"
     },
     "pick": {
+      "mode": "first",
       "campus": "first",
       "intakes": "all",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Course pages www.canberra.edu.au/course/<UC code>/<version> (static HTML, no page JSON). Intakes: table 'Periods course is open for new admissions' (Year, Location, Teaching period, Teaching start date, Domestic, International); the adapter keeps only the start dates of rows marked 'Open for international admissions' (pick all). Research rows (Research Semester 1/2) carry no date and give no months. IELTS overall: the 'English language requirements' pop-up text (e.g. 'An IELTS Academic score of 6.5 overall, with no band score below 6.0 (or equivalent)'). Duration: 'Course duration' section. Campus (test only): location of the first row of the admissions table. Fees are NOT in the stored HTML (no dollar amounts on course pages; the Fees panel is filled in the browser); https://www.canberra.edu.au/future-students/study-at-uc/fees-and-costs/international-fees-and-costs only says to look up each course. UC College fee table https://www.canberra.edu.au/uc-college/courses/course-fees lists whole-programme fees (not read). Marketing pages /future-students/study-at-uc/about-our-courses/... show domestic-oriented 'Intake dates' and are left to the general reader. Key dates: https://www.canberra.edu.au/about-uc/key-dates/ (PDFs per year); course pages print the teaching period with its start date (2027: Semester 1 15 February, Winter Term 07 June, Semester 2 09 August).",
-    "reason": "Round 2: widen University of Canberra IELTS pattern to reach professional-course wording, add campus as a test field (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:13:23.230749+00:00"
+    "page_view": {},
+    "notes": "Course pages www.canberra.edu.au/course/<UC code>/<version> (static HTML, no page JSON). Intakes: table 'Periods course is open for new admissions' (Year, Location, Teaching period, Teaching start date, Domestic, International); the adapter keeps only the start dates of rows marked 'Open for international admissions' (pick all). Research rows (Research Semester 1/2) carry no date and give no months. IELTS overall: the 'English language requirements' pop-up text (e.g. 'An IELTS Academic score of 6.5 overall, with no band score below 6.0 (or equivalent)'). Duration: 'Course duration' section. Campus (test only): location of the first row of the admissions table. Fees are NOT in the stored HTML (no dollar amounts on course pages; the Fees panel is filled in the browser); https://www.canberra.edu.au/future-students/study-at-uc/fees-and-costs/international-fees-and-costs only says to look up each course. UC College fee table https://www.canberra.edu.au/uc-college/courses/course-fees lists whole-programme fees (not read). Marketing pages /future-students/study-at-uc/about-our-courses/... show domestic-oriented 'Intake dates' and are left to the general reader. Key dates: https://www.canberra.edu.au/about-uc/key-dates/ (PDFs per year); course pages print the teaching period with its start date (2027: Semester 1 15 February, Winter Term 07 June, Semester 2 09 August). Delivery (mode): the key-details strip under the Domestic/International tabs (one strip shared by both views) \"Selection rank Delivery mode Location Duration <rank> <mode> <location> <duration>\"; the pattern keeps only delivery words (On campus, Online, Blended ...), not the location. International view (5 Oct 13:02 check): the stored page already carries the International tab content (intakes column \"Open for international admissions\", IELTS pop-up, delivery strip). Fees: the Fees table (\"AQF level Per Unit Per Annum Full Course\") has empty cells in the stored HTML AND in a Firecrawl render with 8 s wait (tested on 838AA/5 and 723AL/4, 2 credits); the values are filled by the page script only after interaction, so no URL view is set (page_view left empty). Entry requirement (5 Oct 15:22, for review, not admitted): the course \"Admission requirements\" section text (UG pages say admission is by entrance rank; PG pages name the degree required). Exit awards: \"Alternative exits\" lists lesser awards by credit points (e.g. Master of Professional Accounting: Graduate Diploma in Accounting on completion of 24 credit points, Graduate Certificate 12); no \"N years of full-time study\" wording, so no exit_awards pattern; the Fees disclaimer on every course page states standard full-time enrolment is 24 credit points a year, used for exit awards set by hand.",
+    "reason": "University of Canberra: entry_requirement no longer reads the marketing-page sentence \"admission requirements for the course ...\" (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:10:23.969248+00:00"
   },
   "exclusions": [
     {

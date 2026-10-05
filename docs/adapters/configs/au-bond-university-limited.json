@@ -12,20 +12,21 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T18:48:56Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:02:22Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Delivery Mode\\s+((?:.|\\n){1,60}?)\\s+Location",
       "campus": "Delivery Mode\\s+(?:.|\\n){1,60}?\\s+Location\\s+((?:.|\\n){1,40}?Campus)",
-      "intakes": "Starting Semester((?:.|\\n){0,250}?)Delivery Mode",
       "duration": "Duration\\s+((?:.|\\n){1,60}?)\\s+Program Type",
-      "study_level": "Program Type\\s+((?:.|\\n){1,80}?)\\s+Study Area",
-      "not_admitting": "((?:program has been suspended|no student intakes are planned)(?:.|\\n){0,60})"
+      "intakes": "Starting Semester((?:.|\\n){0,250}?)Delivery Mode",
+      "mode": "Delivery Mode\\s+((?:.|\\n){1,60}?)\\s+Location",
+      "not_admitting": "((?:program has been suspended|no student intakes are planned)(?:.|\\n){0,60})",
+      "student_type": "(I'?m an? (?:International|Domestic) Student)",
+      "study_level": "Program Type\\s+((?:.|\\n){1,80}?)\\s+Study Area"
     },
     "pick": {
       "mode": "first",
@@ -39,11 +40,41 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Bond program pages (bond.edu.au/program/<slug>) carry a key-facts panel: Duration, Program Type, Study Area, Starting Semester (a select list of month + year, e.g. \"September 2026 January 2027 May 2027\"), Delivery Mode, Location. Intakes read from Starting Semester. Fees are NOT on the program page: they sit on /program/<slug>/fees, loaded by a JavaScript widget and charged per semester subject-by-subject (no annual figure), so no fee pattern. English is NOT on the program page: it is on /program/<slug>/entry_requirements (e.g. Bachelor of Actuarial Science: IELTS Academic overall 6.5, no sub score below 6.0), so no IELTS pattern. No term_months: the page prints month names directly.",
-    "reason": "Bond University adapter: start dates and key facts from the program page key-facts panel (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:48:56.787585+00:00"
+    "page_view": {
+      "render": true,
+      "wait_ms": 5000,
+      "url_pattern": "^https://bond\\.edu\\.au/program/[a-z0-9-]+/?$"
+    },
+    "notes": "Bond program pages (bond.edu.au/program/<slug>) carry a key-facts panel: Duration, Program Type, Study Area, Starting Semester (a select list of month + year, e.g. \"September 2026 January 2027 May 2027\"), Delivery Mode, Location. Intakes read from Starting Semester. Fees are NOT on the program page: they sit on /program/<slug>/fees, loaded by a JavaScript widget and charged per semester subject-by-subject (no annual figure), so no fee pattern. English is NOT on the program page: it is on /program/<slug>/entry_requirements (e.g. Bachelor of Actuarial Science: IELTS Academic overall 6.5, no sub score below 6.0), so no IELTS pattern. No term_months: the page prints month names directly. International view (5 Oct 13:02): program pages are read through Firecrawl (page_view render, wait 5 s, url_pattern bond.edu.au/program/<slug>) so the key-facts panel renders; the rendered page shows the student-type selector set to \"I'm an International Student\" (captured as student_type), Starting Semester and Delivery Mode. No URL variant is needed. Fee and IELTS are still not on the program page (separate /fees and /entry_requirements pages).",
+    "reason": "Entry requirement pattern (international view) and probe clean-up; Curtin keeps a temporary whole-fee probe for one apply (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:02:22.390893+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "063195G",
+      "title": "Graduate Diploma of Psychological Science",
+      "field": "intakes",
+      "reason": "Graduate Diploma of Psychological Science: program suspended, \"January\" comes from \"no student intakes are planned from January 2025\" (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "078659A",
+      "title": "Master of Criminology",
+      "field": "intakes",
+      "reason": "Master of Criminology: program suspended from May 2026 (no further intakes); the months come from descriptive text, not the Starting Semester panel (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "097032A",
+      "title": "Master of Sport Management / Master of Project Management",
+      "field": "intakes",
+      "reason": "Master of Sport Management / Master of Project Management: program suspended from September 2024; months come from descriptive text (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "099578F",
+      "title": "Master of Healthcare Innovations",
+      "field": "fee",
+      "reason": "Master of Healthcare Innovations: $3,540 read by the general reader is not an international annual tuition fee (program page prints no annual fee) (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": "no_values",
     "calendar": "no_values",

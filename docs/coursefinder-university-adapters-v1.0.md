@@ -1,6 +1,6 @@
 # CourseFinder — University Adapters: Report, Decision and Design
 
-**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14; 11:35, section 15) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
+**Version:** 1.0 · **Status:** CURRENT · **Date:** 4 October 2026 (amended 5 October 2026, 07:30, section 11; 08:35, section 12; 09:30, section 13; 10:30, section 14; 11:35, section 15; 18:04, section 16) · **Decision:** 254 (recorded in `docs/coursefinder-design-reference-v1.4.md`)
 **Change control:** CF-CHG-20260915-247 (M2.4.7) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 **Register and configurations:** `docs/adapters/README.md`, `docs/adapters/configs/`
 
@@ -532,6 +532,73 @@ Wave 9 went beyond the target list of 57 to 25 more providers, mostly polytechni
 ### 15.5 Open decisions
 
 The 10 open decisions in 14.4 are unchanged. Wave 10 (19 providers) uses no web fetching.
+
+## 16. Amendment, 5 Oct 2026 (18:04): whole-course fee range and the 16:49 decisions
+
+Source: M2.4.7 runsheet entry of 18:04 (covering 11:48 to 18:04). Adapter figures in 16.5 were re-read from the live database at 18:51 AEDT.
+
+### 16.1 What changed between 11:48 and 18:04
+
+- **International view (11:48, 13:02).** Adapters read the international student view of each course page. Where the view is set by the address, `page_view` holds the render setting, the address suffix and the pages it applies to (for example ACU `?type=International`, Curtin `?region=int`, Monash `?international=true`, La Trobe `#/fees?studentType=int&year=2027`). Where the page prints both views in plain HTML, `page_view` is empty.
+- **Delivery (11:48).** Delivery is a new admitted field. Courses delivered 100% online are in scope.
+- **Exit awards (15:22).** Exit awards are a new admitted field. Where the page gives no years, they are set by hand: Diploma 1 year, Associate Degree 2 years, Bachelor 3 years. The whole fee is the annual fee times the years.
+- **Annual fee from a whole-course fee (15:34).** Where a page prints only a whole-course fee and its full-time years (`fee_total` and `course_years`), the annual fee is the total divided by the years. Courses under one year get no annual fee this way.
+- **Per-credit fees (12:12, 13:25).** Athabasca's per-credit rate is turned into an annual fee at 30 credits a year.
+- **Coverage page (15:36).** The Coverage page shows location, delivery and requirement columns.
+
+### 16.2 Decisions of 16:49 (Platform Admin)
+
+1. RMIT higher education figures labelled "(2027 total)" are treated as annual fees.
+2. Exit award years follow the term: 6 months or 1 year.
+3. Delivery is On campus or Online. Location gives the campus detail.
+4. Requirement means the entry requirement plus any other requirements, such as a nursing uniform, visits or kits.
+
+### 16.3 Whole-course fee range
+
+Each university can show the range of whole-course international fees across its award courses: the cheapest and the most expensive course, with the course behind each end. The range is worked out from course data. It is shown on the university only after a Platform Admin publishes it.
+
+**Decisions of 18:04 (Platform Admin).**
+- Current fees come first. Where a course has no current fee, the CRICOS register fee is used as the fallback.
+- Only award courses count.
+- Ranges are published per university, not all at once.
+
+**How a course's whole fee is worked out.** From current fees where they exist: a whole-course total printed on the course page, or the current annual fee times the course length in years. Otherwise the CRICOS register total is used. Each course in the list shows which way was used, and courses left out show why.
+
+**Settings** (`pipeline.provider_fee_range_settings`, defaults set at 18:04):
+
+| Setting | Default |
+|---|---|
+| Include courses under one year | Yes |
+| Minimum number of courses for a range to count | 5 |
+| Oldest fee year used | 2026 |
+| Floor (whole fees below this are left out) | A$1,000 |
+| Levels left out | Non-award levels (non-AQF awards, short vocational courses, foundation and school levels) |
+
+**Parts** (migration 20261005001570, `cf247_provider_whole_course_fee_range`):
+- `catalogue.provider_fee_ranges`: one row per university, with the low and high amounts, the courses and sources behind them, counts by source, skipped courses, the fee years used, any range set by hand, and the publish state.
+- `security.course_years_from_text`, `provider_course_whole_fees_v1` and `provider_fee_ranges_refresh_v1`. The cron job `provider-fee-ranges-refresh` runs at :57 each hour.
+- `public.admin_provider_fee_range` with actions read, refresh, publish, unpublish, set, release and settings. Every change needs a Platform Admin and a reason, and the reason is logged.
+- UI v2.15.191: a "Whole-course fees" column in Coverage › Universities, a panel per university (publish, set by hand, work out again, course list) and a settings panel.
+
+**First run.** 1,161 providers, 1,151 with a range, 845 meeting the minimum, none published. Example: RMIT A$13,500–A$290,400 from 499 award courses (24 page totals, 329 annual fee times years, 146 from the CRICOS register). The A$1 placeholder fees in the CRICOS register are left out by the floor (14 at Monash, 1 at La Trobe).
+
+**Gaps.**
+- UBC (256 courses) and Auckland (12 courses) have no course length, so no range yet.
+- Vancouver Island shows the same whole fee on all 25 courses (one annual fee times 4 years). The adapter's course length needs checking.
+- There is no public provider page in the repo yet. Published ranges stay in `catalogue.provider_fee_ranges`, ready for the public card.
+
+### 16.4 Migrations and releases
+
+- Migrations 20261005001490 to 20261005001570 (9 files) are applied, and each statement md5 equals the file in Pilot main (PR #318, merge `9f43815719df32f5d4b375115ce415064f30f3dd`, CI green). Pilot PR #317 (migration 20261005001480) is now merged too.
+- Worker coverage-sweep v0.17.9 is deployed (version 94); all 8 files are the same as the repo.
+- UI v2.15.191 (package 0.1.118).
+
+### 16.5 Adapters at 18:51
+
+- 76 adapters: 65 admitting and 11 testing. MacEwan has a calendar adapter in testing (level and credits only).
+- 526 patterns, 2,161 active exclusions (2,159 on adapters) and 126 central pages for 64 providers. No English proposals are waiting.
+- Of the central pages attached in wave 9, most now show a failed read (for example Newcastle, UNSW, TAFE NSW, TAFE SA, Collarts, EIT and the NZQA table). They are recorded in each configuration's `central_rules` as they stand.
+- All 76 configurations in `docs/adapters/configs/` were checked against the live rows by md5.
 
 ## Sources
 

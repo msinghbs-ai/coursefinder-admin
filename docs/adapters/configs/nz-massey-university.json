@@ -6,31 +6,36 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Massey fees and intakes, 3 wrong fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T19:29:18Z",
-  "config_updated_at": "2026-10-04T18:54:34Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Massey: delivery now read from the international-view line and spot-checked; 21 mismatched readings excluded; fee and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:16:33Z",
+  "config_updated_at": "2026-10-05T05:57:17Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "20\\d\\d tuition fees\\s*Domestic students:(?:.|\\n){0,80}?International students:\\s*(?:NZ)?\\$\\s*([0-9][0-9,]*)(?![0-9,]|\\s*(?:–|-|to\\b|for all))(?:.|\\n){0,220}?full-time study \\(120 credits\\)",
-      "mode": "Where you can study(?:.|\\n){0,150}?(Distance and online)",
-      "campus": "Where you can study\\s+((?:.|\\n){1,200}?)\\s+International students",
-      "intakes": "(?:Semester (?:One|Two|1|2) \\([A-Z][a-z]+ start\\)|intakes per year \\([A-Za-z ,]{3,60}\\)|can be started in (?:[A-Z][a-z]+(?:, | or |,? and )?){1,12}|(?:for an? |commences in |commenced in )Semester (?:One|Two|1|2)(?: start)?|first semester \\(starting in [A-Z][a-z]+\\))",
-      "duration": "Time to complete\\s+((?:.|\\n){1,120}?)\\s+(?:Part-time available|Where you can study|International students)",
       "aqf_level": "NZQF level (\\d{1,2})",
-      "study_level": "Level of study\\s+([A-Za-z-]+ study)",
+      "campus": "Where you can study\\s+((?:.|\\n){1,200}?)\\s+International students",
+      "duration": "Time to complete\\s+((?:.|\\n){1,120}?)\\s+(?:Part-time available|Where you can study|International students)",
+      "entry_requirement": "Specific requirements\\s+(?:This is a selected entry qualification\\.(?:.|\\n){0,160}?)?(To (?:enter|be admitted|gain admission)(?:.|\\n){20,190})",
+      "fee": "20\\d\\d tuition fees\\s*Domestic students:(?:.|\\n){0,80}?International students:\\s*(?:NZ)?\\$\\s*([0-9][0-9,]*)(?![0-9,]|\\s*(?:–|-|to\\b|for all))(?:.|\\n){0,220}?full-time study \\(120 credits\\)",
+      "ielts_overall": "IELTS[^0-9.]{0,30}([5-8](?:\\.[05])?) overall",
+      "intakes": "(?:Semester (?:One|Two|1|2) \\([A-Z][a-z]+ start\\)|intakes per year \\([A-Za-z ,]{3,60}\\)|can be started in (?:[A-Z][a-z]+(?:, | or |,? and )?){1,12}|(?:for an? |commences in |commenced in )Semester (?:One|Two|1|2)(?: start)?|first semester \\(starting in [A-Z][a-z]+\\))",
+      "mode": "Open to international students\\s+(on campus in New Zealand,?\\s+or studying online)|Open to international students\\s+on campus(?=\\s+in New Zealand)|Open to international students\\s+studying online|Distance and online(?=(?:.|\\n){0,250}?Open to international students\\s+on campus in New Zealand,?\\s+or studying on-line)",
       "student_type": "((?:Not open|Open) to international students(?:.|\\n){0,120}?)\\s+Key dates",
-      "ielts_overall": "IELTS[^0-9.]{0,30}([5-8](?:\\.[05])?) overall"
+      "study_level": "Level of study\\s+([A-Za-z-]+ study)"
     },
     "pick": {
-      "intakes": "all"
+      "mode": "all",
+      "intakes": "all",
+      "course_years": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Semester 1": "February",
@@ -39,11 +44,12 @@
       "Semester Two": "July"
     },
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Massey qualification pages (www.massey.ac.nz/study/all-qualifications-and-degrees/<name>-<PROGCODE>/), one qualification per page, no page JSON (primary-nav-config script is navigation only). Key-facts header: \"Level of study\", \"NZQF level N\", \"Time to complete\", \"Where you can study\", \"Open to international students ...\" then links to central Key dates / Semester dates. Fee block \"20xx tuition fees Domestic students: $x International students: $y ... The estimates are for full-time study (120 credits)\" = one full-time year, NZD incl GST; fee read only when that 120-credit sentence follows (60-credit, \"for all 180 credits\" and range figures are left out). Known exceptions: part-time-only qualifications (GDDRS, UDBRB) print a 120-credit figure that is the whole qualification over 2 years. Start dates are mostly NOT on the page (central semester dates page); read only course-specific phrases: \"Semester One (February start)\", \"intakes per year (March, July, November)\", \"can be started in ...\", \"commences in Semester 1\", \"for a Semester Two start\". term_months Semester One/1 = February, Semester Two/2 = July as printed on Massey course pages (\"Semester One (February start)\", \"Semester Two (July start)\", Master of Design PMDSG). English: central Massey English language requirements page; only a few pages print an IELTS figure.",
-    "reason": "Massey University adapter, round 3: drop the loose \"starts in Semester\" phrase (it read the Bachelor of Veterinary Science professional-phase start as a July intake) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:54:34.870782+00:00"
+    "title_strip": "\\s+[–-]\\s+[^\\s–]{1,20}$|ā|^Te Wai Ararau\\s+",
+    "course_title_strip": "\\s*\\(Level \\d+\\)\\s*$|\\bwith(?= Honours)|&#257;|(?<=M)a(?=ori)|(?<=T)a(?=tairangi)",
+    "page_view": {},
+    "notes": "Massey qualification pages (www.massey.ac.nz/study/all-qualifications-and-degrees/<name>-<PROGCODE>/), one qualification per page, no page JSON (primary-nav-config script is navigation only). Key-facts header: \"Level of study\", \"NZQF level N\", \"Time to complete\", \"Where you can study\", \"Open to international students ...\" then links to central Key dates / Semester dates. Fee block \"20xx tuition fees Domestic students: $x International students: $y ... The estimates are for full-time study (120 credits)\" = one full-time year, NZD incl GST; fee read only when that 120-credit sentence follows (60-credit, \"for all 180 credits\" and range figures are left out). Known exceptions: part-time-only qualifications (GDDRS, UDBRB) print a 120-credit figure that is the whole qualification over 2 years. Start dates are mostly NOT on the page (central semester dates page); read only course-specific phrases: \"Semester One (February start)\", \"intakes per year (March, July, November)\", \"can be started in ...\", \"commences in Semester 1\", \"for a Semester Two start\". term_months Semester One/1 = February, Semester Two/2 = July as printed on Massey course pages (\"Semester One (February start)\", \"Semester Two (July start)\", Master of Design PMDSG). English: central Massey English language requirements page; only a few pages print an IELTS figure. Delivery (mode) is read from the international view line \"Open to international students on campus in New Zealand [, or studying online/on-line outside New Zealand]\" / \"studying online from outside New Zealand\" (not from the domestic \"Where you can study\" list); \"Not open to international students\" gives no delivery. Title matching (5 Oct 13:02): course_title_strip drops \"(Level N)\", \"with\" before Honours and the a of Maori/Tatairangi; title_strip drops the \" – <abbreviation>\" suffix, the macron letter and the \"Te Wai Ararau\" prefix, so pages bound by hand to their own qualification page are confirmed by title and read with the adapter. International view: Massey prints domestic and international fees and the \"Open to international students\" line in the static page, so no page_view is needed.",
+    "reason": "Massey: whole-qualification fee probe removed (12-18 month durations give no fixed full-time years); entry requirement kept for review (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T05:57:17.946267+00:00"
   },
   "exclusions": [
     {

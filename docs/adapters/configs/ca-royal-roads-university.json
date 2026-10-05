@@ -6,36 +6,40 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "intakes"
   ],
-  "admit_reason": "Royal Roads 13 start dates from the program panels, scholarship fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T20:06:19Z",
-  "config_updated_at": "2026-10-04T19:33:21Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Royal Roads: delivery read from the labelled \"Delivery model\" field (blended 7, online 5, on campus 1); spot-checks agree; intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:29:45Z",
+  "config_updated_at": "2026-10-05T06:06:27Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Delivery model\\s*(On Campus|Online|Blended|Hybrid|In[- ]person)",
-      "intakes": "((?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+20\\d\\d)\\s*Application deadline",
       "duration": "Program length\\s*([0-9](?:.|\\n){0,60}?)\\s*Delivery model",
+      "entry_requirement": "Standard admission\\s*:?\\s*((?:Completion of an? |An? )?(?:[A-Za-z0-9-]+[- ]year|undergraduate|bachelor)(?:[^.]|\\.(?=\\d)){10,200}\\.)",
+      "intakes": "((?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+20\\d\\d)\\s*Application deadline",
+      "mode": "Delivery model\\s*(On Campus|Online|Blended|Hybrid|In[- ]person)",
       "study_level": "((?:Master|Doctor|Bachelor)(?:'s)? of [A-Za-z]+(?: Administration)?)"
     },
     "pick": {
       "mode": "all",
       "intakes": "all",
       "duration": "all",
-      "study_level": "first"
+      "study_level": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "Royal Roads (Canada). Page kinds: royalroads.ca/programs/<slug> program pages (Drupal, no page data) and commons.royalroads.ca/mais/program-source/ pages (MA Interdisciplinary Studies stream pages, no program-details panel). Program pages have a program-details panel per upcoming start: the start date is printed as a heading just before \"Application deadline\", then the deadline date, \"Program length\" (some), \"Delivery model\", \"Domestic tuition\" and \"International tuition\". Tuition is labelled \"Tuition estimates shown are for the entire program\", so it is a whole-program total and is NOT read as fee. The page also lists scholarships (\"Up to $25,000\") that the general reader wrongly took as fee. IELTS is not on the page: it links to the central page https://www.royalroads.ca/admission/english-language-requirements (blocked to automated reads, 403). No terms are printed, so no term_months.",
-    "reason": "Save the Royal Roads University adapter: start dates, delivery model, program length and study level from the program-details panel; no fee because the page prints whole-program tuition only (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T19:33:21.319104+00:00"
+    "reason": "Entry requirement (standard admission) read from programme pages; probe field removed; no exit awards or whole-course fees on stored pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:06:27.91789+00:00"
   },
   "exclusions": [
     {

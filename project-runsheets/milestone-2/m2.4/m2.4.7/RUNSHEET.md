@@ -4120,3 +4120,52 @@ The brief now forbids direct table changes.
 **Open decisions (10, unchanged).** These are the ten listed in the 10:30 entry.
 
 **Next.** Wave 10 (19 providers) uses no web fetching.
+
+### 5 Oct 2026, 18:04 AEDT: CF-247 Decision 254, international view, delivery, exit awards and the whole-course fee range (11:48–18:04)
+
+**Instructions (Platform Admin, 5 Oct).**
+- 11:48: read the international view; courses delivered 100% online are in scope; scholarships aligned.
+- 12:12: Athabasca (per-credit fees); 13:25: use 30 credits a year.
+- 12:18: MacEwan calendar.
+- 13:02: La Trobe international fees view.
+- 15:22: exit awards. Diploma 1 year, Associate Degree 2 years, Bachelor 3 years; whole fee = annual fee x years.
+- 15:34: RMIT international toggle and pathways.
+- 15:36: Coverage page columns for location, delivery and requirement.
+- 16:49: decisions (below).
+- 17:04: plan for the provider whole-course fee range.
+- 18:04: decisions (below).
+
+**Decisions of 16:49.**
+- RMIT higher education figures labelled "(2027 total)" are treated as annual fees.
+- Exit award years follow the term: 6 months or 1 year.
+- Delivery is On campus or Online; location gives the campus detail.
+- Requirement = the entry requirement plus other requirements (for example a nursing uniform, visits or kits).
+
+**Decisions of 18:04 (whole-course fee range).**
+- Use current fees first, with the CRICOS register as the fallback.
+- Award courses only.
+- Ranges are published per university.
+
+**Migrations applied (statement md5 equals the file).**
+- 1490 a83044fc, 1500 57423f76, 1510 b7679e14, 1520 3e06d14c, 1530 d4996cea, 1540 b0054498, 1550 2b60ad7e.
+- 1560 a04060d8dfc30d7e85d2a3c820762ea4.
+- 1570 0d18058e8436d2988e626af2cf18bfa6 (cf247_provider_whole_course_fee_range).
+
+**Whole-course fee range (migration 1570).**
+- New tables: catalogue.provider_fee_ranges and pipeline.provider_fee_range_settings.
+- Defaults: courses under one year included; at least 5 courses; oldest fee year 2026; floor A$1,000; non-award levels left out.
+- Functions: security.course_years_from_text, provider_course_whole_fees_v1 and provider_fee_ranges_refresh_v1 (cron job provider-fee-ranges-refresh at :57 each hour).
+- Admin function public.admin_provider_fee_range with actions read, refresh, publish, unpublish, set, release and settings. Changes need a Platform Admin and a reason, which is logged.
+- First run: 1,161 providers, 1,151 with a range, 845 meet the minimum, 0 published.
+- Example: RMIT A$13,500–A$290,400 from 499 award courses (24 page totals, 329 annual fee x years, 146 from the CRICOS register).
+- The A$1 CRICOS placeholder fees are left out by the floor (Monash 14, La Trobe 1).
+
+**Releases.**
+- Worker coverage-sweep v0.17.9 deployed (version 94); all 8 files are the SAME as the repo.
+- UI v2.15.191 (package 0.1.118). Coverage › Universities has a "Whole-course fees" column, a panel for each university (publish, set by hand, work out again, and the course list showing how each fee was worked out and why a course was left out) and a settings panel.
+- PR #318 squash-merged into main as 9f43815719df32f5d4b375115ce415064f30f3dd; CI green.
+
+**Open items.**
+- UBC (256 courses) and Auckland (12) have no course length, so they have no range yet.
+- Vancouver Island shows the same whole fee on all 25 courses (one annual fee x 4 years); it needs a check of the adapter's course length.
+- There is no public provider page in the repo yet, so published ranges are held in catalogue.provider_fee_ranges, ready for the public card.

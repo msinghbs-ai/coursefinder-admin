@@ -11,18 +11,19 @@
   ],
   "admit_reason": "UNBC: 3 intakes and 2 annual international fees from programme pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T23:23:08Z",
-  "config_updated_at": "2026-10-04T23:01:46Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T05:54:18Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Domestic students\\s+International students\\s+Tuition\\s*\\d?\\s*\\$\\s?[0-9][0-9,]*\\s+\\$\\s?([0-9][0-9,]*)",
       "campus": "(?:\\bCampus\\s*:?\\s+((?:Prince George|Terrace|Quesnel|Fort St\\.? John|South-Central|Northwest|Peace River)[A-Za-z ,\\-]{0,40}?campus(?:es)?)\\s+Duration|Location\\s*:\\s*(?:Prince George|Terrace|Quesnel|Fort St\\.? John)[A-Za-z ,]{0,30}?British Columbia)",
-      "intakes": "(?:Intakes|Year Starts)\\s*:?\\s*((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:\\s*(?:,|and|&)\\s*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?){0,5})",
       "duration": "Duration\\s*:?\\s+((?:\\d+\\s*credits,\\s*)?\\d+(?:\\s*-\\s*\\d+)?\\s*(?:Years?|months))",
+      "entry_requirement": "Admission Requirements\\s+((?:In addition|Applicants|Students|Admission to|Candidates|A |An |The )(?:.|\\n){20,200})",
+      "fee": "Domestic students\\s+International students\\s+Tuition\\s*\\d?\\s*\\$\\s?[0-9][0-9,]*\\s+\\$\\s?([0-9][0-9,]*)",
+      "intakes": "(?:Intakes|Year Starts)\\s*:?\\s*((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:\\s*(?:,|and|&)\\s*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?){0,5})",
       "student_type": "International Applications Accepted\\s*:?\\s+(Yes|No)\\b"
     },
     "pick": {
@@ -30,15 +31,19 @@
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "student_type": "first"
+      "fee_total": "first",
+      "course_years": "first",
+      "student_type": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "UNBC (unbc.ca), text only, no page JSON. Page kinds: (a) academic calendar pages /calendar/undergraduate|graduate/... (most of the 47 read pages) carry programme rules only - no intakes, fees or English; (b) marketing programme pages /programs-and-admissions/undergraduate/programs/... carry a facts block (Campus, Duration, Intakes \"Jan, May, Sep\") and an \"Approximate costs per academic year\" table Domestic | International, tuition based on 30 credit hours: fee = the International tuition column (annual); (c) department pages (e.g. /engineering/meng-...) carry \"Duration: 12 - 24 months Year Starts: September International Applications Accepted: Yes Location: Prince George, British Columbia\" but no fee amount. Campus is read only from the facts block (site-wide \"Prince George campus\" text is ignored). No page carries IELTS. Central sources: English https://www.unbc.ca/calendar/undergraduate/international-admissions and https://www.unbc.ca/admissions/graduate/english-language-proficiency (IELTS 6.5, no band below 6.0; MEng Integrated Wood Design 7.0/6.5); semesters https://www.unbc.ca/calendar/undergraduate/semester-dates (September, January, May semesters); graduate intakes by programme https://unbc.ca/admissions/graduate/late-applications.",
-    "reason": "UNBC adapter round 2: campus read only from the programme facts block, not site-wide text (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T23:01:46.329028+00:00"
+    "reason": "Entry requirement pattern (review only); TAFE Queensland VET annual fee = international total course fee / full-time years from the international full-time offering row; Massey whole-qualification fee probe (no years, no fee computed) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T05:54:18.570188+00:00"
   },
   "exclusions": [
     {

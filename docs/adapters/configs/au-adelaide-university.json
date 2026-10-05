@@ -6,27 +6,29 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Adelaide University: intakes 224 of 236 agree, 204 annual fees, IELTS 246; half-year and online totals excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:12:51Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit delivery with English, fee and intakes: mode now reads the whole delivery value on the international view (On campus 215, On campus or online 21, 100% online 7, Online 7); spot-checks match; online courses in scope, 11 online exclusions switched off (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:21:52Z",
+  "config_updated_at": "2026-10-05T06:13:41Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Fees are based on the total number of units studied in this program on a full-time annual basis\\.\\s*\\$\\s*([0-9]{2,3},[0-9]{3})(?![0-9])(?!\\s*per\\s+[0-9.]+\\s+of\\s+a\\s+year)",
-      "mode": "Mode Close tooltip(?:.|\\n){0,250}?\\s(On campus|100% online|Online|Multi-modal)\\s+Start date",
       "campus": "Campus More info Campus Close tooltip(?:.|\\n){0,200}?((?:Adelaide City Campus|Magill|Mawson Lakes|Mt Gambier|Mount Gambier|Roseworthy Campus|Roseworthy|Waite Campus|Whyalla|Online)(?:,\\s*(?:Adelaide City Campus|Magill|Mawson Lakes|Mt Gambier|Mount Gambier|Roseworthy Campus|Roseworthy|Waite Campus|Whyalla|Online))*)\\s+Duration",
-      "intakes": "Start date Close tooltip The month you will commence your studies\\.(?:.|\\n){0,80}?timetable\\.\\s*((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)[,\\s]*(?:and\\s+)?)+)",
       "duration": "Duration is approximate(?:.|\\n){0,120}?([0-9]+(?:\\.[0-9]+)? (?:year|month|week)\\(s\\) (?:full-time|part-time))",
-      "study_level": "(Undergraduate|Postgraduate|Research)\\s+I am an:",
-      "ielts_overall": "IELTS Overall ([0-9](?:\\.[05])?)"
+      "entry_requirement": "(?<=you must have successfully completed before you can enrol into this program\\.\\s{1,5})((?!(?:None|N\\/A|Nil|Not applicable)\\b)(?:(?!\\s+(?:Assumed knowledge|Time commitment|English language requirements)\\b)(?:.)){2,200})|(?<=minimum level of understanding in the relevant course area\\.\\s{1,5})((?!(?:None|N\\/A|Nil|Not applicable)\\b)(?:(?!\\s+(?:Time commitment|English language requirements|Prerequisite)\\b)(?:.)){2,200})|(?<=admission will be competitive with ranks based on the entry criteria\\.\\s{1,5})((?:.){20,200})",
+      "fee": "Fees are based on the total number of units studied in this program on a full-time annual basis\\.\\s*\\$\\s*([0-9]{2,3},[0-9]{3})(?![0-9])(?!\\s*per\\s+[0-9.]+\\s+of\\s+a\\s+year)",
+      "ielts_overall": "IELTS Overall ([0-9](?:\\.[05])?)",
+      "intakes": "Start date Close tooltip The month you will commence your studies\\.(?:.|\\n){0,80}?timetable\\.\\s*((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)[,\\s]*(?:and\\s+)?)+)",
+      "mode": "Mode Close tooltip(?:.|\\n){0,250}?\\s((?:On campus|100% online|Online|Multi-modal|Blended|Hybrid)(?:(?:\\s*,\\s*|\\s+or\\s+|\\s+and\\s+)(?:On campus|100% online|Online|Multi-modal|Blended|Hybrid))*)\\s+Start date",
+      "study_level": "(Undergraduate|Postgraduate|Research)\\s+I am an:"
     },
     "pick": {
       "fee": "first",
@@ -35,54 +37,20 @@
       "intakes": "first",
       "duration": "first",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Adelaide University (merged Univ. of Adelaide + UniSA, teaching from 2026). Stored pages are all the new Adelaide University degree pages (/study/degrees/<slug>/, international view), on adelaide.edu.au and adelaideuni.edu.au (adelaideuni.edu.au now 302-redirects to adelaide.edu.au); no old degree-finder or UniSA pages are stored. Key-facts panel: \"Start date ... Exact start date is outlined in the course timetable. February, July\" (months printed; research degrees say any time of year - not read); \"Indicative annual fees ... on a full-time annual basis. $52,500\" (international annual; the variant \"Where the duration of the program is less than one year, the total cost of the program is displayed\" is a whole-program total and is deliberately NOT read; research \"2027 Annual Fee ... differs across study areas\" not read); \"IELTS Overall 6.5\" with bands per page; Duration \"3 year(s) full-time\"; Campus list; Mode \"On campus\". Academic calendar: https://adelaide.edu.au/students/manage-study/academic-calendar/ (2026 Semester 1 starts 23 Feb, Semester 2 starts 3 Aug; 2027 22 Feb / 2 Aug). No term_months used: course pages print months.",
-    "reason": "Adelaide University adapter round 2: fee pattern refuses amounts printed \"per 0.5 of a year\" (whole-program totals of short programs) (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:12:51.779431+00:00"
+    "page_view": {},
+    "notes": "Adelaide University (merged Univ. of Adelaide + UniSA, teaching from 2026). Stored pages are all the new Adelaide University degree pages (/study/degrees/<slug>/, international view), on adelaide.edu.au and adelaideuni.edu.au (adelaideuni.edu.au now 302-redirects to adelaide.edu.au); no old degree-finder or UniSA pages are stored. Key-facts panel: \"Start date ... Exact start date is outlined in the course timetable. February, July\" (months printed; research degrees say any time of year - not read); \"Indicative annual fees ... on a full-time annual basis. $52,500\" (international annual; the variant \"Where the duration of the program is less than one year, the total cost of the program is displayed\" is a whole-program total and is deliberately NOT read; research \"2027 Annual Fee ... differs across study areas\" not read); \"IELTS Overall 6.5\" with bands per page; Duration \"3 year(s) full-time\"; Campus list; Mode \"On campus\". Academic calendar: https://adelaide.edu.au/students/manage-study/academic-calendar/ (2026 Semester 1 starts 23 Feb, Semester 2 starts 3 Aug; 2027 22 Feb / 2 Aug). No term_months used: course pages print months. 5 Oct 13:02 (international view check): the plain degree address already serves the international view (page title \"Information for International students\", \"Future student - International student\"); a test read of /study/degrees/2027/<slug>/int/?student=future (Bachelor of Computer Science (Honours), Bachelor of Arts; plain fetch, no Firecrawl) gave the same fee, intakes, IELTS and mode, so no page_view is set. The fee figure carries no printed year. Courses offered only to Australian students redirect to /study/degrees/2027/<slug>/dom/ (\"Information for Domestic students\"); their intakes, fee and delivery are excluded. 5 Oct 15:22 (exit awards and requirements): entry_requirement reads the key-facts Prerequisite (else Assumed knowledge, else the first Admission criteria line) for review. Exit awards: degree pages print only a generic stackable sentence ('you can exit after one year of study with a standalone Diploma or after two years with an Associate Degree'; masters 'after six months ... Graduate Certificate or after one year ... Graduate Diploma'), never the award title (e.g. 'Diploma in Building Studies') and never 'N years of full-time study', so no exit_awards pattern and the 'X Studies' exit awards cannot be linked to a parent from page text. No fee_total: courses under one year print a whole-program total (left without a fee); one-year diplomas (Building Studies, Legal Studies) show only the Australian-student fee panel.",
+    "reason": "Final: entry_requirement (prerequisite, assumed knowledge or admission criteria) for review; fee-panel probe removed; no exit_awards or fee_total (not printed in a usable form) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:13:41.98985+00:00"
   },
   "exclusions": [
     {
-      "course_code": "115663E",
-      "title": "Associate Degree in Data Analytics",
-      "field": "fee",
-      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "115663E",
-      "title": "Associate Degree in Data Analytics",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "115667A",
-      "title": "Associate Degree in Engineering",
-      "field": "fee",
-      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "115667A",
-      "title": "Associate Degree in Engineering",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "115669K",
-      "title": "Associate Degree in Information Technology",
-      "field": "fee",
-      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "115669K",
-      "title": "Associate Degree in Information Technology",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
       "course_code": "115732H",
       "title": "Bachelor of Medical Science",
       "field": "fee",
@@ -93,6 +61,18 @@
       "title": "Bachelor of Medical Science",
       "field": "intakes",
       "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "115769F",
+      "title": "Diploma in Building Studies",
+      "field": "fee",
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
+    },
+    {
+      "course_code": "115769F",
+      "title": "Diploma in Building Studies",
+      "field": "intakes",
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
     },
     {
       "course_code": "115783H",
@@ -188,7 +168,13 @@
       "course_code": "115805G",
       "title": "Graduate Certificate in Education (Catholic Education)",
       "field": "fee",
-      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
+    },
+    {
+      "course_code": "115805G",
+      "title": "Graduate Certificate in Education (Catholic Education)",
+      "field": "intakes",
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
     },
     {
       "course_code": "115807E",
@@ -206,7 +192,13 @@
       "course_code": "115810K",
       "title": "Graduate Certificate in Film and Television",
       "field": "fee",
-      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
+    },
+    {
+      "course_code": "115810K",
+      "title": "Graduate Certificate in Film and Television",
+      "field": "intakes",
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
     },
     {
       "course_code": "115811J",
@@ -326,13 +318,7 @@
       "course_code": "115840D",
       "title": "Graduate Diploma in Business Administration",
       "field": "fee",
-      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "115840D",
-      "title": "Graduate Diploma in Business Administration",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "kept: the page prints the total cost of the program (\"per 0.75 of a year\"), a whole-course amount, not an annual fee; the online exclusion of intakes is switched off (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)"
     },
     {
       "course_code": "115850B",
@@ -374,7 +360,13 @@
       "course_code": "117263E",
       "title": "Graduate Certificate in Research Skills",
       "field": "fee",
-      "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
+    },
+    {
+      "course_code": "117263E",
+      "title": "Graduate Certificate in Research Skills",
+      "field": "intakes",
+      "reason": "Offered to Australian students only (page redirects to the /dom/ view); admitted domestic values withdrawn (Claude, on the Platform Admin instruction 5 Oct 11:48)"
     },
     {
       "course_code": "117264D",
@@ -425,12 +417,6 @@
       "reason": "half-year whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "117962M",
-      "title": "Graduate Certificate in Cyber Security",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
       "course_code": "117963K",
       "title": "Graduate Certificate in Data Science",
       "field": "fee",
@@ -446,25 +432,7 @@
       "course_code": "117965H",
       "title": "Graduate Diploma in Cyber Security",
       "field": "fee",
-      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "117965H",
-      "title": "Graduate Diploma in Cyber Security",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "119560B",
-      "title": "Bachelor of Business (Financial Planning)",
-      "field": "fee",
-      "reason": "100% online pricing or whole-program total (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "119560B",
-      "title": "Bachelor of Business (Financial Planning)",
-      "field": "intakes",
-      "reason": "online-term months, a fully online program is not for student visas (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "kept: the page prints the total cost of the program (\"per 0.75 of a year\"), a whole-course amount, not an annual fee; the online exclusion of intakes is switched off (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)"
     }
   ],
   "central_rules": {

@@ -6,46 +6,69 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "fee",
     "intakes"
   ],
-  "admit_reason": "University of Victoria: graduate intakes from the international deadline list with 6 pages excluded, IELTS from pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:23:33Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "UVic: fee added - the adapter reads only \"Tuition - International Year 1 $X\" (2 terms, rates effective May 1, 2026) from the rendered undergraduate programme page (Music BMus CAD 37,576, matching the international panel seen in stored text); domestic general readings on 4 pages excluded; delivery, english and intakes kept (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:32:30Z",
+  "config_updated_at": "2026-10-05T06:14:51Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Program delivery:?\\s*((?:On-campus|Online|Blended|Hybrid|Off-campus|Multi-access|Distance)(?:\\s*(?:,|and|&|or)\\s*(?:On-campus|Online|Blended|Hybrid|Off-campus|Multi-access|Distance))*)",
-      "intakes": "\\b((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s+(?:entry|start|intake))?)(?:\\s|&#160;)*(?:–|—|-|&#8211;|&#8212;)(?:\\s|&#160;)*apply by\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?(?:,?\\s+\\d{4})?[\\s.,;]*(?=(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s+(?:entry|start|intake))?(?:\\s|&#160;)*(?:–|—|-|&#8211;|&#8212;)(?:\\s|&#160;)*apply by\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?(?:,?\\s+\\d{4})?[\\s.,;]*)*(?:(?!apply by)(?:.|\\n)){0,250}?Admission requirements)|\\bfor\\s+(?:the\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:(?:\\s*,\\s*(?:and\\s+|or\\s+)?|\\s+(?:and|or|&)\\s+)(?:January|February|March|April|May|June|July|August|September|October|November|December))*\\s+(?:entry|start|intake|admission)|\\b(?:offers?|admits?)\\s+(?:students\\s+)?(?:entry\\s+)?in\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:(?:\\s*,\\s*(?:and\\s+|or\\s+)?|\\s+(?:and|or|&)\\s+)(?:January|February|March|April|May|June|July|August|September|October|November|December))*",
       "duration": "Expected length:?\\s*(\\d+(?:\\.\\d+)?(?:\\s*(?:-|–|to)\\s*\\d+(?:\\.\\d+)?)?\\s*(?:years?|months?|terms?))",
-      "study_level": "Program options:?\\s*((?:Master[’']s|Doctorate|Doctoral|PhD|Bachelor[’']s|Graduate certificate|Graduate diploma|Certificate|Diploma)(?:\\s*(?:,|and|or)\\s*(?:Master[’']s|Doctorate|Doctoral|PhD|Bachelor[’']s|Graduate certificate|Graduate diploma|Certificate|Diploma))*)",
-      "ielts_overall": "(?:IELTS[^.]{0,80}?overall band score of|overall band score of[^.]{0,10}?)\\s*([4-9](?:\\.[05])?)(?![0-9])"
+      "entry_requirement": "(?:Program[- ]specific requirements|Admission requirements)\\s*:?\\s*((?!You must (?:also|upload|submit|include|provide)|Completion requirements)(?:You must|Your|Applicants|Completion|A |An )(?=[^.\\n]{0,120}(?:degree|baccalaureate|diploma|GPA|average))(?:[^.\\n]|\\.(?=\\d)){10,200})",
+      "fee": "(?:rates effective[^.]{0,20}?20[2-3]\\d(?:.|\\n){0,250}?(?:.|\\n){0,250}?(?:.|\\n){0,250}?(?:.|\\n){0,250}?)?International tuition fees(?:.|\\n){0,80}?Tuition\\s*[-–]\\s*International\\s+Year 1\\s*:?\\s*\\$([0-9][0-9,]+)(?![0-9,])",
+      "ielts_overall": "(?:IELTS[^.]{0,80}?overall band score of|overall band score of[^.]{0,10}?)\\s*([4-9](?:\\.[05])?)(?![0-9])",
+      "intakes": "\\b((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s+(?:entry|start|intake))?)(?:\\s|&#160;)*(?:–|—|-|&#8211;|&#8212;)(?:\\s|&#160;)*apply by\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?(?:,?\\s+\\d{4})?[\\s.,;]*(?=(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s+(?:entry|start|intake))?(?:\\s|&#160;)*(?:–|—|-|&#8211;|&#8212;)(?:\\s|&#160;)*apply by\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?(?:,?\\s+\\d{4})?[\\s.,;]*)*(?:(?!apply by)(?:.|\\n)){0,250}?Admission requirements)|\\bfor\\s+(?:the\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:(?:\\s*,\\s*(?:and\\s+|or\\s+)?|\\s+(?:and|or|&)\\s+)(?:January|February|March|April|May|June|July|August|September|October|November|December))*\\s+(?:entry|start|intake|admission)|\\b(?:offers?|admits?)\\s+(?:students\\s+)?(?:entry\\s+)?in\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:(?:\\s*,\\s*(?:and\\s+|or\\s+)?|\\s+(?:and|or|&)\\s+)(?:January|February|March|April|May|June|July|August|September|October|November|December))*",
+      "mode": "Program delivery:?\\s*((?:On-campus|Online|Blended|Hybrid|Off-campus|Multi-access|Distance)(?:\\s*(?:,|and|&|or)\\s*(?:On-campus|Online|Blended|Hybrid|Off-campus|Multi-access|Distance))*)",
+      "study_level": "Program options:?\\s*((?:Master[’']s|Doctorate|Doctoral|PhD|Bachelor[’']s|Graduate certificate|Graduate diploma|Certificate|Diploma)(?:\\s*(?:,|and|or)\\s*(?:Master[’']s|Doctorate|Doctoral|PhD|Bachelor[’']s|Graduate certificate|Graduate diploma|Certificate|Diploma))*)"
     },
     "pick": {
+      "fee": "first",
       "mode": "first",
       "intakes": "all",
       "duration": "first",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
-    "course_title_strip": null,
-    "notes": "UVic course pages are of two kinds: (1) central graduate programme pages under /graduate/programs/graduate-programs/credential-pages/ (most read pages) with Quick facts (Program options, Study options, Program delivery, Expected length), Application deadlines printed as \"<Month> [entry|start] – apply by <date>\" for the Canadian view and then the International view; the intakes pattern reads only the last deadline list before \"Admission requirements\" (the International view) when a note separates the two lists, and falls back to both lists when they run together, optional Program-specific language requirements (IELTS overall band score), and an Estimated minimum program cost that is rendered in the browser and is a whole-programme figure (not read); (2) faculty/department undergraduate and some graduate pages (index.php) that carry programme rules but usually no entry months, fee or English. No page data JSON. Fees are not read: none of the pages prints an international annual tuition figure (MEng BISY prints a per-term instalment; Elementary PDPP prints a Year 1 / Summer / Year 2 table). Central rules: English https://www.uvic.ca/graduate/admissions/language-proficiency/index.php (IELTS 6.5, no band below 6.0) and https://www.uvic.ca/undergraduate/admissions/language-requirements/index.php (IELTS 6.5, no component below 6.0); entry points https://www.uvic.ca/graduate/admissions/dates-deadlines/index.php (September, January, May); term dates https://www.uvic.ca/calendar/dates/ (Winter Session first term September, second term January; Summer Session May). Pages print month names, so no term_months mapping is set. Other entry wordings read: \"<date> for <Month> entry\" and \"We offer entry in <Months>\" / \"admits students in <Months>\".",
-    "reason": "Add entry-month wordings \"for <Month> entry\" and \"offer entry in <Months>\" to the intakes pattern (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:23:33.3346+00:00"
+    "course_title_strip": "(?:\\s+Combined Major)?:\\s+Bachelor.*$",
+    "page_view": {
+      "render": true,
+      "wait_ms": 6000,
+      "url_pattern": "^https://www\\.uvic\\.ca/undergraduate/programs/undergraduate-programs/pages/"
+    },
+    "notes": "UVic course pages are of two kinds: (1) central graduate programme pages under /graduate/programs/graduate-programs/credential-pages/ (most read pages) with Quick facts (Program options, Study options, Program delivery, Expected length), Application deadlines printed as \"<Month> [entry|start] – apply by <date>\" for the Canadian view and then the International view; the intakes pattern reads only the last deadline list before \"Admission requirements\" (the International view) when a note separates the two lists, and falls back to both lists when they run together, optional Program-specific language requirements (IELTS overall band score), and an Estimated minimum program cost that is rendered in the browser and is a whole-programme figure (not read); (2) faculty/department undergraduate and some graduate pages (index.php) that carry programme rules but usually no entry months, fee or English. No page data JSON. Fees are not read: none of the pages prints an international annual tuition figure (MEng BISY prints a per-term instalment; Elementary PDPP prints a Year 1 / Summer / Year 2 table). Central rules: English https://www.uvic.ca/graduate/admissions/language-proficiency/index.php (IELTS 6.5, no band below 6.0) and https://www.uvic.ca/undergraduate/admissions/language-requirements/index.php (IELTS 6.5, no component below 6.0); entry points https://www.uvic.ca/graduate/admissions/dates-deadlines/index.php (September, January, May); term dates https://www.uvic.ca/calendar/dates/ (Winter Session first term September, second term January; Summer Session May). Pages print month names, so no term_months mapping is set. Other entry wordings read: \"<date> for <Month> entry\" and \"We offer entry in <Months>\" / \"admits students in <Months>\". International view (5 Oct): the undergraduate programme pages (/undergraduate/programs/undergraduate-programs/pages/<programme>.php) draw their programme details in the browser, so page_view reads them through Firecrawl (render, no address change); the rendered page shows both fee panels (\"Domestic fees\" and \"International fees\", \"rates effective May 1, 2026\"), and the fee pattern reads \"Tuition - International Year 1 $X\" from the international panel (2 terms = one academic year; fee year from the rates-effective date). Graduate credential pages still print only an estimated whole-programme cost (not read).",
+    "reason": "Entry requirement pattern narrowed to qualification sentences (degree with an average or equivalent) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:14:51.818337+00:00"
   },
   "exclusions": [
+    {
+      "course_code": "02bd35bc-1c37-407d-9e51-90e1f515811e",
+      "title": "Physics: Bachelor of Science Degree (BSc)",
+      "field": "fee",
+      "reason": "UVic Physics: Bachelor of Science Degree (BSc): the fee reading 6544 is the domestic tuition (2 terms) from the rendered page, not the international Year 1 tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
     {
       "course_code": "0954c7a3-535c-413e-b4c3-1663f0eda25c",
       "title": "Biochemistry: Master of Science (MSc)",
       "field": "intakes",
       "reason": "incomplete or Canadian-view intake list (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "18b9d2cc-de18-4f25-80c7-32bcf2df218d",
+      "title": "Visual Arts: Bachelor of Fine Arts Degree (BFA)",
+      "field": "fee",
+      "reason": "UVic Visual Arts: Bachelor of Fine Arts Degree (BFA): the fee reading 6544 is the domestic tuition (2 terms) from the rendered page, not the international Year 1 tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "6a31475f-60af-4fa4-96fc-908c9388b64c",
@@ -54,10 +77,22 @@
       "reason": "instalment or Year 1 table figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
+      "course_code": "7342de60-fd95-44ea-8785-d2f43f25ef8e",
+      "title": "Biology: Bachelor of Science Degree (BSc)",
+      "field": "fee",
+      "reason": "UVic Biology: Bachelor of Science Degree (BSc): the fee reading 6544 is the domestic tuition (2 terms) from the rendered page, not the international Year 1 tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
       "course_code": "7ffadc65-3a82-42fb-a164-195bb303418b",
       "title": "Microbiology: Bachelor of Science Degree (BSc)",
       "field": "intakes",
       "reason": "incomplete or Canadian-view intake list (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "b7fb55d1-70be-4843-b9a9-c592cb2b0d92",
+      "title": "Engineering: Bachelor of Engineering Degree",
+      "field": "fee",
+      "reason": "UVic Engineering: Bachelor of Engineering Degree: the fee reading 7240 is the domestic tuition (2 terms) from the rendered page, not the international Year 1 tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "bb7497ca-1296-4e15-8e16-7d0110545aed",

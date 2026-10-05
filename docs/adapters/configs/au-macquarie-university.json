@@ -12,8 +12,8 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T18:13:23Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:16:44Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": "__NEXT_DATA__",
@@ -27,17 +27,816 @@
       "ielts_overall": "props.pageProps.pageContent.ielts_overall_score"
     },
     "sections": {},
-    "patterns": {},
-    "pick": {},
-    "term_months": {},
+    "patterns": {
+      "entry_requirement": "Assumed knowledge\\s+(?!Recommended|Inherent|Admission|Entry)((?:.|\\n){3,200}?(?=\\s*(?:Recommended studies|Inherent requirements|Admission criteria|Entry requirements|Additional admission|Selection rank))|(?:.|\\n){10,200})",
+      "intakes": "Location and start dates\\s+((?:.|\\n){0,250}?)\\s+(?:Summary|Overview|Entry requirements)",
+      "mode": "Study options\\s+(?:(?:Part Time|Full Time)\\s+){0,2}((?:In person, on campus|Online|Off-campus|Multi-modal|Fully online|Blended)(?:\\s*,?\\s*(?:In person, on campus|Online|Off-campus|Multi-modal|Fully online|Blended)){0,3})"
+    },
+    "pick": {
+      "mode": "first",
+      "intakes": "first",
+      "entry_requirement": "first"
+    },
+    "term_months": {
+      "Session 1": "February",
+      "Session 2": "July"
+    },
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "CourseLoop handbook (coursehandbook.mq.edu.au/2026/courses and /2026/doubledegree). Course data sits in the page script __NEXT_DATA__ under props.pageProps.pageContent: cricos_code and title (identity), ielts_overall_score (IELTS overall; band scores in ielts_reading/writing/listening/speaking_score), course_duration_in_years, offering list (location, mode, admission_calendar = Session 1 / Session 2 / Term names, no months; start_date empty), fees list (one entry per fee type: international_fee_paying, domestic_fee_paying, domestic_csp, each with estimated_annual_fee and fee_per_credit_point, in varying order). The handbook does not print months or fees in its page text, so intakes and the international fee cannot be read with the current adapter fields: the fee needs a page-data filter by fee type, and the session-to-month mapping sits on a central key-dates page. Only pages kept from a plain fetch carry __NEXT_DATA__; the 149 handbook pages kept from Firecrawl (1 Oct) do not. Older handbook.mq.edu.au (2014-2019) and www.mq.edu.au course pages are read by the general reader.",
-    "reason": "Macquarie international annual fee from page data by fee type (worker v0.17.2) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:13:23.58132+00:00"
+    "page_view": {},
+    "notes": "Two page kinds. (1) CourseLoop handbook coursehandbook.mq.edu.au/2026/courses|doubledegree/<code>: course data in the page script __NEXT_DATA__ under props.pageProps.pageContent (cricos_code, title, ielts_overall_score, course_duration_in_years, offering list with location and admission_calendar = Session names, fees list with one entry per fee type). Each fee entry's fee_type is an object {label, value} (e.g. value international_fee_paying), so the path filter fees[fee_type=international_fee_paying] matches nothing: the international estimated_annual_fee is in the data but cannot be selected until the worker supports a nested filter (fees[fee_type.value=international_fee_paying]). Handbook page text carries no session, fee or delivery text; the offering admission_calendar gives Session 1/Session 2 but term_months only applies to text patterns. (2) Course pages www.mq.edu.au/study/find-a-course/courses/<slug>: Gatsby pages stored in the domestic view (\"I'm a domestic student looking to start my course in 2027\"); the international view is a client-side selector and no query parameter switches it (tested ?studentType, student, audience, type, residency, cohort, region=int, international=true on 2 pages, 5 Oct). Start dates: \"Location and start dates North Ryde : Session 1 ( 22 February 2027 ) Session 2 ( 26 July 2027 ) Off-campus : ...\" (term_months Session 1 = February, Session 2 = July as printed there). Delivery: \"Study options Part Time Full Time In person, on campus | Off-campus\". 136 bound handbook addresses return 404 and 90 courses are bound only to archived handbooks (2010-2025); none has a current www course page among the 224 known addresses.",
+    "reason": "Exit award pattern removed: no course page prints an exit award (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:16:44.230187+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "001359E",
+      "title": "Bachelor of Arts - Psychology",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "001359E",
+      "title": "Bachelor of Arts - Psychology",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "001371J",
+      "title": "Bachelor of Arts with the degree of Bachelor of Laws",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "001371J",
+      "title": "Bachelor of Arts with the degree of Bachelor of Laws",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "018437A",
+      "title": "Bachelor of Commerce with the degree of Bachelor of Laws",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "018437A",
+      "title": "Bachelor of Commerce with the degree of Bachelor of Laws",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "021499E",
+      "title": "Bachelor of Education (Early Childhood Education) (Birth to 12)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "021499E",
+      "title": "Bachelor of Education (Early Childhood Education) (Birth to 12)",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "022767D",
+      "title": "Master of Accounting (CPA Extension)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "031133G",
+      "title": "Bachelor of Business Administration with the degree of Bachelor of Arts - Psychology",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "031133G",
+      "title": "Bachelor of Business Administration with the degree of Bachelor of Arts - Psychology",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "037283A",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Laws",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "037283A",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Laws",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "043333A",
+      "title": "Bachelor of e-Business",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "060660M",
+      "title": "Master of Advanced Surgery",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "060661K",
+      "title": "Master of Surgery",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067844B",
+      "title": "Bachelor of Applied Finance with the degree of Bachelor of Actuarial Studies",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067844B",
+      "title": "Bachelor of Applied Finance with the degree of Bachelor of Actuarial Studies",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067846M",
+      "title": "Bachelor of Arts with the degree of Bachelor of Commerce",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067846M",
+      "title": "Bachelor of Arts with the degree of Bachelor of Commerce",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067851C",
+      "title": "Bachelor of Commerce - Professional Accounting",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067851C",
+      "title": "Bachelor of Commerce - Professional Accounting",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067866G",
+      "title": "Bachelor of Business Administration with the degree of Bachelor of Arts",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "067866G",
+      "title": "Bachelor of Business Administration with the degree of Bachelor of Arts",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "070505F",
+      "title": "Master of Advanced Medicine",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "077336F",
+      "title": "Doctor of Advanced Surgery",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "077583B",
+      "title": "Master of Medical Practice",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "077685G",
+      "title": "Master of Advanced Professional Accounting",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "077685G",
+      "title": "Master of Advanced Professional Accounting",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "078005F",
+      "title": "Bachelor of Commerce with the degree of Bachelor of Arts - Psychology",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "078005F",
+      "title": "Bachelor of Commerce with the degree of Bachelor of Arts - Psychology",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "078627J",
+      "title": "Master of Clinical Sciences",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "078628G",
+      "title": "Doctor of Clinical Practice",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079199E",
+      "title": "Master of International Public Diplomacy",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079199E",
+      "title": "Master of International Public Diplomacy",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079304J",
+      "title": "Bachelor of Business Administration with the degree of Bachelor of Psychology (Honours)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079304J",
+      "title": "Bachelor of Business Administration with the degree of Bachelor of Psychology (Honours)",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079305G",
+      "title": "Bachelor of Commerce with the degree of Bachelor of Psychology (Honours)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079305G",
+      "title": "Bachelor of Commerce with the degree of Bachelor of Psychology (Honours)",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079307F",
+      "title": "Bachelor of Business Leadership and Commerce",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079307F",
+      "title": "Bachelor of Business Leadership and Commerce",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079889A",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Education (Primary)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079890G",
+      "title": "Bachelor of Psychology (Honours) with the degree of Bachelor of Laws",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "079890G",
+      "title": "Bachelor of Psychology (Honours) with the degree of Bachelor of Laws",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "080286G",
+      "title": "Bachelor of Global Business",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "080286G",
+      "title": "Bachelor of Global Business",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "081340J",
+      "title": "Bachelor of Science with the degree of Bachelor of Education (Secondary)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "081340J",
+      "title": "Bachelor of Science with the degree of Bachelor of Education (Secondary)",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "081342G",
+      "title": "Bachelor of Arts with the degree of  Bachelor of Education (Secondary)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "081342G",
+      "title": "Bachelor of Arts with the degree of  Bachelor of Education (Secondary)",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "081724D",
+      "title": "Doctor of Advanced Medicine",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083741J",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Human Sciences",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083741J",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Human Sciences",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083742G",
+      "title": "Bachelor of Hellenic Studies",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083742G",
+      "title": "Bachelor of Hellenic Studies",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083743G",
+      "title": "Bachelor of Psychology (Honours) with the degree of Bachelor of Human Sciences",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083743G",
+      "title": "Bachelor of Psychology (Honours) with the degree of Bachelor of Human Sciences",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083746D",
+      "title": "Doctor of Medical Science",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083750G",
+      "title": "Graduate Certificate of Development Studies and Global Health",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083750G",
+      "title": "Graduate Certificate of Development Studies and Global Health",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083757A",
+      "title": "Graduate Certificate of Politics and Public Policy",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083757A",
+      "title": "Graduate Certificate of Politics and Public Policy",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083758M",
+      "title": "Graduate Certificate of Social Entrepreneurship",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083758M",
+      "title": "Graduate Certificate of Social Entrepreneurship",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083762D",
+      "title": "Graduate Diploma of Laboratory Quality Analysis and Management",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083763C",
+      "title": "Graduate Diploma of Laws",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083763C",
+      "title": "Graduate Diploma of Laws",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083766M",
+      "title": "Graduate Diploma of Politics and Public Policy",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083767K",
+      "title": "Graduate Diploma of Social Impact Assessment",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083768J",
+      "title": "Graduate Diploma of Specialised Medicine",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083769G",
+      "title": "Graduate Diploma of Specialised Surgery",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083788E",
+      "title": "Master of Geoscience",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083788E",
+      "title": "Master of Geoscience",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083792J",
+      "title": "Master of International Business with the degree of Master of International Communication",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083793G",
+      "title": "Master of International Business with the degree of Master of International Relations",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083794G",
+      "title": "Master of International Communication",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083794G",
+      "title": "Master of International Communication",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083795F",
+      "title": "Master of International Communication with the degree of Master of International Relations",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083795F",
+      "title": "Master of International Communication with the degree of Master of International Relations",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083796E",
+      "title": "Master of International Law, Governance and Public Policy",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083799B",
+      "title": "Master of Laboratory Quality Analysis and Management",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083799B",
+      "title": "Master of Laboratory Quality Analysis and Management",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083805J",
+      "title": "Master of Policy and Applied Social Research",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083805J",
+      "title": "Master of Policy and Applied Social Research",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083806G",
+      "title": "Master of Politics and Public Policy",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083806G",
+      "title": "Master of Politics and Public Policy",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083808F",
+      "title": "Master of Social Entrepreneurship",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "083808F",
+      "title": "Master of Social Entrepreneurship",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084524K",
+      "title": "Graduate Certificate of International Relations",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084524K",
+      "title": "Graduate Certificate of International Relations",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084526G",
+      "title": "Graduate Certificate of Policy and Applied Social Research",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084528F",
+      "title": "Graduate Diploma of Creative Writing",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084528F",
+      "title": "Graduate Diploma of Creative Writing",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084529E",
+      "title": "Graduate Diploma of International Relations",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084529E",
+      "title": "Graduate Diploma of International Relations",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "084530A",
+      "title": "Graduate Diploma of Policy and Applied Social Research",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "087877E",
+      "title": "Bachelor of Engineering (Honours) with the degree of Bachelor of Arts",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "087877E",
+      "title": "Bachelor of Engineering (Honours) with the degree of Bachelor of Arts",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "087878D",
+      "title": "Bachelor of Engineering (Honours) with the degree of Bachelor of Commerce",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "087878D",
+      "title": "Bachelor of Engineering (Honours) with the degree of Bachelor of Commerce",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "087879C",
+      "title": "Bachelor of Engineering (Honours) with the degree of Bachelor of Science",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "087879C",
+      "title": "Bachelor of Engineering (Honours) with the degree of Bachelor of Science",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "088497J",
+      "title": "Bachelor of Applied Finance with the degree of Bachelor of Business Analytics",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "088497J",
+      "title": "Bachelor of Applied Finance with the degree of Bachelor of Business Analytics",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "088498G",
+      "title": "Bachelor of Commerce - Professional Accounting with the degree of Bachelor of Business Analytics",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "090742E",
+      "title": "Bachelor of Digital Business",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "090742E",
+      "title": "Bachelor of Digital Business",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092010C",
+      "title": "Master of Creative Industries with the degree of Master of Future Journalism",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092010C",
+      "title": "Master of Creative Industries with the degree of Master of Future Journalism",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092113G",
+      "title": "Master of Development Studies",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092113G",
+      "title": "Master of Development Studies",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092115E",
+      "title": "Master of Accounting (Advanced)",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092115E",
+      "title": "Master of Accounting (Advanced)",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "094123M",
+      "title": "Bachelor of Commerce - Professional Accounting with the degree of Bachelor of Laws",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095108B",
+      "title": "Bachelor of Science - Global Challenges",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095108B",
+      "title": "Bachelor of Science - Global Challenges",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095112F",
+      "title": "Graduate Diploma of Security Studies and Criminology",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095116B",
+      "title": "Master of Policy and Applied Social Research with the degree of Master of Development Studies",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095116B",
+      "title": "Master of Policy and Applied Social Research with the degree of Master of Development Studies",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095117A",
+      "title": "Master of Politics and Public Policy with the degree of Master of Development Studies",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095117A",
+      "title": "Master of Politics and Public Policy with the degree of Master of Development Studies",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095118M",
+      "title": "Master of Politics and Public Policy with the degree of Master of International Relations",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095118M",
+      "title": "Master of Politics and Public Policy with the degree of Master of International Relations",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095119K",
+      "title": "Master of Politics and Public Policy with the degree of Master of Policy and Applied Social Research",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "095119K",
+      "title": "Master of Politics and Public Policy with the degree of Master of Policy and Applied Social Research",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "096860F",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Speech, Hearing and Language Sciences",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "096860F",
+      "title": "Bachelor of Arts - Psychology with the degree of Bachelor of Speech, Hearing and Language Sciences",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "096862D",
+      "title": "Bachelor of Speech, Hearing and Language Sciences with the degree of Bachelor of Human Sciences",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "096862D",
+      "title": "Bachelor of Speech, Hearing and Language Sciences with the degree of Bachelor of Human Sciences",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "098530G",
+      "title": "Graduate Certificate of Biotechnology",
+      "field": "english",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "098530G",
+      "title": "Graduate Certificate of Biotechnology",
+      "field": "intakes",
+      "reason": "Read from an archived Macquarie handbook year (2010-2025), not the current course: stale value (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": "no_values",
     "calendar": "no_values",

@@ -7,30 +7,34 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee"
   ],
-  "admit_reason": "Wave 9 build report: fee and English ready after exclusions; intakes not admitted because stored pages show the next intake only and are not split domestic/international (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:33Z",
-  "config_updated_at": "2026-10-05T00:01:03Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "WITT: admit delivery with English and fee; header Campus <name> or Delivered online, spot-checks pass (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:18:39Z",
+  "config_updated_at": "2026-10-05T06:23:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:Duration\\s+[1-4](?:\\.5)?[- ]years?,? full[- ]?time(?:.|\\n){0,120}?International Fees|International Fees(?=\\s*\\$[0-9,.]+\\*?\\s*\\(Year 1\\)))\\s*\\$([0-9][0-9,]{3,})",
       "campus": "Campus\\s+([A-Za-z][A-Za-z ,]{2,40}?)\\s+Intakes",
-      "intakes": "\\bIntakes?\\s+((?:[0-9]{1,2}/[0-9]{1,2}/20[0-9]{2}[ ,]*){1,8})",
       "duration": "Duration\\s+([0-9][^$\\n]{0,60}?)\\s+Domestic Fees",
-      "ielts_overall": "IELTS\\)?\\s*(?:\\((?:general or )?academic\\)\\s*)?(?:band\\s*)?score of\\s*([4-9](?:\\.[05])?)(?![0-9])"
+      "entry_requirement": "Entry Requirements\\s+(?:General admission\\s+)?((?!Student support|Insurance|Life in|Career Opportunities|Additional Expenses|Other information|You will learn)(?:.|\\n){4,230}?(?:(?=\\s+(?:English language requirements|Special admission|Discretionary admission|Other information|Career Opportunities|You will learn|Additional Expenses)\\b)|\\.(?=\\s)))",
+      "fee": "(?:Duration\\s+[1-4](?:\\.5)?[- ]years?,? full[- ]?time(?:.|\\n){0,120}?International Fees|International Fees(?=\\s*\\$[0-9,.]+\\*?\\s*\\(Year 1\\)))\\s*\\$([0-9][0-9,]{3,})",
+      "ielts_overall": "IELTS\\)?\\s*(?:\\((?:general or )?academic\\)\\s*)?(?:band\\s*)?score of\\s*([4-9](?:\\.[05])?)(?![0-9])",
+      "intakes": "\\bIntakes?\\s+((?:[0-9]{1,2}/[0-9]{1,2}/20[0-9]{2}[ ,]*){1,8})",
+      "mode": "(Campus\\s+[A-Za-z][A-Za-z ,]{2,40}?(?=\\s+Intakes)|Delivered online(?= with flexible intakes))"
     },
     "pick": {
       "fee": "first",
       "campus": "first",
       "intakes": "all",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "1/2026": "January",
@@ -100,9 +104,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "WITT, Western Institute of Technology at Taranaki (business division of Te Pukenga / NZIST); host www.witt.ac.nz/study/; server-rendered text, no page JSON. Header: Campus X, Intakes dd/mm/yyyy, Duration, Domestic Fees, International Fees $x.00*; further INTAKE dd/mm/yyyy headings lower down (read too, pick all). Intakes are not split domestic/international on WITT pages. term_months maps the page's own mm/yyyy date parts to month names for 2026-2028 (extend each year). Fee: the fee-exclusion note says international fees are for 1 year of study (120 credits) OR as specified for the programme, so the fee is read only when Duration is 1 to 4 years full-time, or as the (Year 1) amount; semester / week-length programme totals and per-level amounts (Dairy Farming L3/L4) are not read. IELTS: '(IELTS) score of X (general or academic)' or 'overall IELTS (Academic) band score of X'. online.witt.ac.nz pages are not matched (identity_mismatch).",
-    "reason": "WITT adapter, final round: probes removed, fee for multi-year and Year 1 wording, wider IELTS wording (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:01:03.980235+00:00"
+    "page_view": {},
+    "notes": "WITT, Western Institute of Technology at Taranaki (business division of Te Pukenga / NZIST); host www.witt.ac.nz/study/; server-rendered text, no page JSON. Header: Campus X, Intakes dd/mm/yyyy, Duration, Domestic Fees, International Fees $x.00*; further INTAKE dd/mm/yyyy headings lower down (read too, pick all). Intakes are not split domestic/international on WITT pages. term_months maps the page's own mm/yyyy date parts to month names for 2026-2028 (extend each year). Fee: the fee-exclusion note says international fees are for 1 year of study (120 credits) OR as specified for the programme, so the fee is read only when Duration is 1 to 4 years full-time, or as the (Year 1) amount; semester / week-length programme totals and per-level amounts (Dairy Farming L3/L4) are not read. IELTS: '(IELTS) score of X (general or academic)' or 'overall IELTS (Academic) band score of X'. online.witt.ac.nz pages are not matched (identity_mismatch). Delivery (mode): WITT pages print no separate delivery label; the header's \"Campus <name>\" (on campus) is read, or \"Delivered online with flexible intakes\" printed in the Duration slot (online). 5 Oct: entry_requirement (review only): the 'Entry Requirements' section (General admission text) up to the English language requirements. No exit awards or whole-course fees printed.",
+    "reason": "Final: entry_requirement pattern kept for review; exit-award and full-time-load probes removed (no exit awards printed with full-time years; no whole-course fees) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:23:14.04951+00:00"
   },
   "exclusions": [
     {
@@ -143,21 +148,21 @@
       {
         "kind": "english_policy",
         "url": "https://www.witt.ac.nz/international-students/international-support-and-resources/english-language-entry-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "english_policy",
         "url": "https://www2.nzqa.govt.nz/assets/About-us/Our-rules-fees-and-policies/NZQA-Rules/2025/Table-for-internationally-recognised-English-proficiency-outcomes-for-international-students.pdf",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.witt.ac.nz/information-and-enrolment/domestic/important-dates/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

@@ -6,36 +6,41 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Edith Cowan: intakes 148 (77 agree), fees 140 equal, IELTS 150; graduate certificate totals excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T21:59:16Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Edith Cowan: delivery read from the International tab Availability & Campus table; 143 of 145 agree with the international Semester availability, spot-checks pass (2 online, 41 on campus and online, 102 on campus) (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:11:00Z",
+  "config_updated_at": "2026-10-05T06:01:59Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International students - estimated 1st year indicative fee AUD \\$\\s?([0-9][0-9,]{3,8})",
-      "campus": "Semester availability\\s+Semester [123]: Study [a-z-]+ (?:at )?([A-Z][^:]{0,80}?)(?=\\s*Semester [123]:|\\s*Course Structure|\\s*Course Notes|\\s*Unit Code|\\s*-->|$)",
-      "intakes": "Semester availability\\s+((?:Semester [123]: Study [^:]{0,120}?\\s*(?=Semester [123]:|Course Structure|Course Notes|Course learning|Unit Code|Year 1|-->|$)){1,8})",
-      "duration": "Duration(?: -->)?\\s+((?:[0-9.]+|One|Two|Three|Four) (?:years?|months?|weeks?|semesters?)[^.]{0,60}?)\\s+See Course Details",
       "aqf_level": "accredited by ECU as an AQF Level ([0-9]{1,2})",
-      "study_level": "AQF Level [0-9]{1,2} ([A-Z][A-Za-z ()]{3,60}?) (?:-->|Award)",
-      "ielts_overall": "English Language requirements \\(Band [0-9]\\)(?:.|\\n){0,250}?(?:.|\\n){0,200}?IELTS A[^0-9]{0,100}?([4-9](?:\\.[05])?)\\b"
+      "campus": "Semester availability\\s+Semester [123]: Study [a-z-]+ (?:at )?([A-Z][^:]{0,80}?)(?=\\s*Semester [123]:|\\s*Course Structure|\\s*Course Notes|\\s*Unit Code|\\s*-->|$)",
+      "duration": "Duration(?: -->)?\\s+((?:[0-9.]+|One|Two|Three|Four) (?:years?|months?|weeks?|semesters?)[^.]{0,60}?)\\s+See Course Details",
+      "entry_requirement": "(Academic Admission requirements \\(Band [0-9]\\)\\s+(?:(?!\\s(?:English (?:language|Proficiency)|Course Entry|Fees &)\\b)[^|]){5,170})",
+      "fee": "International students - estimated 1st year indicative fee AUD \\$\\s?([0-9][0-9,]{3,8})",
+      "ielts_overall": "English Language requirements \\(Band [0-9]\\)(?:.|\\n){0,250}?(?:.|\\n){0,200}?IELTS A[^0-9]{0,100}?([4-9](?:\\.[05])?)\\b",
+      "intakes": "Semester availability\\s+((?:Semester [123]: Study [^:]{0,120}?\\s*(?=Semester [123]:|Course Structure|Course Notes|Course learning|Unit Code|Year 1|-->|$)){1,8})",
+      "mode": "International students - estimated 1st year indicative fee(?:.|\\n){0,250}?Location Semester 1 Semester 2\\s+(?:City Campus\\s+Joondalup\\s+South West\\s+Sri Lanka\\s+(?=Online\\s+(?:FT|PT)\\b))?(City Campus(?:\\s+(?:Joondalup|Mount Lawley|South West|Bunbury|Sri Lanka|FT|PT)){0,20}?\\s+(?:FT|PT)(?:\\s+(?:Joondalup|Mount Lawley|South West|Bunbury|Sri Lanka|FT|PT)){0,20}(?:\\s+Online(?:\\s+(?:FT|PT)){1,4})?|Online(?:\\s+(?:FT|PT)){1,4})(?:\\s+Online)?\\s+\\*",
+      "study_level": "AQF Level [0-9]{1,2} ([A-Z][A-Za-z ()]{3,60}?) (?:-->|Award)"
     },
     "pick": {
       "fee": "first",
+      "mode": "first",
       "campus": "last",
       "intakes": "last",
       "duration": "last",
       "aqf_level": "first",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "last"
     },
     "term_months": {
       "Semester 1": "February",
@@ -44,9 +49,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "ECU course pages (www.ecu.edu.au/degrees/courses/<slug>) carry a Domestic tab then an International tab in the same HTML. International tab: CRICOS code; fee line \"International students - estimated 1st year indicative fee AUD $N\" (first-year, per year); Duration; Course Details tab \"Semester availability\" lists \"Semester 1/2: Study full-time at <campus>\" (international list is the LAST one on the page). English: \"English Language requirements (Band N)\" block with the IELTS Academic overall score. AQF level line gives level and award type. Term months from https://www.ecu.edu.au/future-students/applying/important-dates (Semester 1 lectures commence late February, Semester 2 late July). china.ecu.edu.au study-area pages carry no course fields.",
-    "reason": "Save ECU adapter: international fee, semester availability, IELTS, duration, campus, AQF (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:59:16.494373+00:00"
+    "reason": "Entry requirement: academic admission requirement (band) on the International tab; probe patterns removed; exit points have no full-time years and no whole-course fee is printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:01:59.126237+00:00"
   },
   "exclusions": [
     {

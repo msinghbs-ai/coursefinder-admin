@@ -6,39 +6,43 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "Wave 9 report: intakes and English ready; fee not admitted as pages carry no international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:43Z",
-  "config_updated_at": "2026-10-04T23:59:55Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit delivery: Study Modes spot-checked; Onsite or Flexible Distance readings excluded (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:11:26Z",
+  "config_updated_at": "2026-10-05T06:19:43Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Study Modes:\\s?((?:.|\\n){1,60}?)\\s?Dates:",
-      "intakes": "(?:(?:Intake|Semester|Term|Block|Trimester)\\s?[A-Z0-9]{0,3}|20\\d\\d|Year 1(?: and 2)?)\\s?:\\s?\\d{1,2}(?:st|nd|rd|th)? (January|February|March|April|May|June|July|August|September|October|November|December)",
       "duration": "Duration:\\s?((?:.|\\n){1,90}?)\\s?Study Modes",
-      "study_level": "Level:\\s?(\\d{1,2})(?![0-9])",
-      "ielts_overall": "IELTS[^0-9$]{0,40}?([4-9](?:\\.[05])?)(?![0-9])"
+      "entry_requirement": "Application Criteria(?!\\s?(?:Qualification|Enrolment|Satisfactory|Key|Course|Application|Additional|Assessments|Textbooks|section|below|Pathways))\\s?:?\\s?((?:(?!Language Requirements|Mature Applicants?|Additional Information|Enrolment Information|Application Checklist|Selection Criteria)(?:.|\\n)){8,220})",
+      "ielts_overall": "IELTS[^0-9$]{0,40}?([4-9](?:\\.[05])?)(?![0-9])",
+      "intakes": "(?:(?:Intake|Semester|Term|Block|Trimester)\\s?[A-Z0-9]{0,3}|20\\d\\d|Year 1(?: and 2)?)\\s?:\\s?\\d{1,2}(?:st|nd|rd|th)? (January|February|March|April|May|June|July|August|September|October|November|December)",
+      "mode": "Study Modes:\\s?((?:.|\\n){1,60}?)\\s?Dates:",
+      "study_level": "Level:\\s?(\\d{1,2})(?![0-9])"
     },
     "pick": {
       "mode": "first",
       "intakes": "all",
       "duration": "first",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "SIT course pages (www.sit.ac.nz/programme/course/<title>[/campus/<campus>], also /programme/id/<n>) are server-rendered and show the domestic view. Key Details: \"Level: 7\", \"Duration: ... Study Modes: ... Dates: ApplyOnline... --> 2027 Intake 1: 09 February to 04 June\" / \"2027 Semester 1: 15 February to 25 June\" / \"2027: 18 January to 28 May\" / \"2027 Year 1: 22 February ...\"; intakes = the START month of each line (pick all; Year 2/Year 3 continuing-student lines are not read). Application Criteria prints IELTS with the overall first (\"IELTS Academic: 6.0 overall, with no band below 5.5\"). No fee is read: the Fees section is domestic (Zero Fees / direct material costs); international fees are a link to a central page, or \"International Fees $100 per credit\" on distance programmes, or a whole-programme amount (one page: $12500 for a 17-week certificate). Central calendar: https://www.sit.ac.nz/Fees-Enrolments/Important-Dates (2026 Semester 1 = February, Semester 2 = July); course pages print their own dates so no term_months are needed.",
-    "reason": "Round 3 final: intakes also read \"2027: 18 January\" and \"Year 1: 22 February\" lines, temporary probes removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:59:55.372951+00:00"
+    "page_view": {},
+    "notes": "SIT course pages (www.sit.ac.nz/programme/course/<title>[/campus/<campus>], also /programme/id/<n>) are server-rendered and show the domestic view. Key Details: \"Level: 7\", \"Duration: ... Study Modes: ... Dates: ApplyOnline... --> 2027 Intake 1: 09 February to 04 June\" / \"2027 Semester 1: 15 February to 25 June\" / \"2027: 18 January to 28 May\" / \"2027 Year 1: 22 February ...\"; intakes = the START month of each line (pick all; Year 2/Year 3 continuing-student lines are not read). Application Criteria prints IELTS with the overall first (\"IELTS Academic: 6.0 overall, with no band below 5.5\"). No fee is read: the Fees section is domestic (Zero Fees / direct material costs); international fees are a link to a central page, or \"International Fees $100 per credit\" on distance programmes, or a whole-programme amount (one page: $12500 for a 17-week certificate). Central calendar: https://www.sit.ac.nz/Fees-Enrolments/Important-Dates (2026 Semester 1 = February, Semester 2 = July); course pages print their own dates so no term_months are needed. International view check (5 Oct 13:02): SIT course pages have no international view or URL variant; the page prints \"Fees: Domestic Fees ... International Fees can be found here\" (a link to a central page not held in stored links). 20 distance (SIT Online) pages print \"International Fees $100 per credit\" with no year; one on-campus certificate prints a whole-programme amount ($12500). Programme pages for 9 catalogue titles now show only the generic Programmes page (\"The course might not be available\"). 5 Oct 15:22: entry_requirement = Application Criteria section up to Language Requirements / Mature Applicants (review only). No exit-award wording on SIT pages.",
+    "reason": "Notes: entry requirement and exit-award findings (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:19:43.694267+00:00"
   },
   "exclusions": [
     {
@@ -283,7 +287,7 @@
       {
         "kind": "intake_calendar",
         "url": "https://www.sit.ac.nz/Fees-Enrolments/Important-Dates",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

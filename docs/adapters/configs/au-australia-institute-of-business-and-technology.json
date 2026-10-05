@@ -7,26 +7,28 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "AIBT: intakes, English and Offshore 52-week fee readings checked; exclusions applied first (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:28:04Z",
-  "config_updated_at": "2026-10-05T00:24:20Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "AIBT: delivery read from the Fast Course Guide Delivery Mode on the international-fee page; all 46 read pages say face to face (on campus), spot-checks pass (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:11:00Z",
+  "config_updated_at": "2026-10-05T05:54:29Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "CRICOS:\\s*{code}(?:.|\\n){0,120}?Duration\\s*52 weeks(?:.|\\n){0,120}?Offshore Int Student:\\s*\\$\\s*([0-9][0-9,]*)",
-      "mode": "Delivery Mode\\s*(Face to face mode of delivery[^.]{0,150}?)\\s*CRICOS Code",
       "campus": "Location\\s*((?:NSW|QLD|TAS|VIC|WA|SA|ACT)(?:\\s*\\|\\s*(?:NSW|QLD|TAS|VIC|WA|SA|ACT)){0,6}\\s*Campus(?:es)?)",
-      "intakes": "Intake Dates?:\\s*AIBT(?:.|\\n){0,12}?(Monthly intakes)\\s+except June and December",
       "duration": "Duration\\s*([0-9]+ weeks(?:\\s*\\([^)]{0,60}\\))?)",
-      "ielts_overall": "English requirement:\\s*A minimum of IELTS\\s*([0-9](?:\\.[05])?)"
+      "entry_requirement": "Academic requirement:\\s*Overseas(?: and domestic)?\\s*\\(normal study\\)\\s*((?:(?!\\s(?:Domestic )?RPL candidates:)[^|]){5,200})",
+      "fee": "CRICOS:\\s*{code}(?:.|\\n){0,120}?Duration\\s*52 weeks(?:.|\\n){0,120}?Offshore Int Student:\\s*\\$\\s*([0-9][0-9,]*)",
+      "ielts_overall": "English requirement:\\s*A minimum of IELTS\\s*([0-9](?:\\.[05])?)",
+      "intakes": "Intake Dates?:\\s*AIBT(?:.|\\n){0,12}?(Monthly intakes)\\s+except June and December",
+      "mode": "Delivery Mode\\s*(Face to face mode of delivery[^.]{0,150}?)\\s*CRICOS Code"
     },
     "pick": {
       "fee": "first",
@@ -34,7 +36,8 @@
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Monthly intakes": "January February March April May July August September October November"
@@ -42,9 +45,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "AIBT (aibtglobal.edu.au/courses/study/<slug>/) course pages, one page per qualification, text only (no page JSON). Header: VET code, CRICOS code and weeks, then Duration, Location (NSW | QLD | TAS Campuses), Tuition Fee Offshore Int Student $X / Onshore Student Visa Holder $Y (a WHOLE-COURSE price, so fee is read only when Duration is 52 weeks, Offshore figure taken). Entry Requirements: English requirement A minimum of IELTS n.n. Intake Dates: AIBT - Monthly intakes except June and December (term_months maps that phrase to the ten other months; source is the course page itself, which also states study periods January-May and July-November). Fast Course Guide: Delivery Mode Face to face ... CRICOS Code. Live pages now also show a Rolling Intakes date picker (e.g. 11 Oct 2026, 22 Nov 2026, 17 Jan 2027) that is empty in stored pages. /course/diploma-of-aviation-management/ uses another layout and gives nothing.",
-    "reason": "Save AIBT text adapter: intakes, 52-week international fee, IELTS, extras (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:24:20.196833+00:00"
+    "reason": "Entry requirement read from the overseas academic requirement; probe patterns removed; no exit awards; whole-course fee printed with weeks only (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T05:54:29.791529+00:00"
   },
   "exclusions": [
     {

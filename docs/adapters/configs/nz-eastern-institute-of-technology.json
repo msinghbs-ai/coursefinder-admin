@@ -7,26 +7,28 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "Wave 9 build report: intakes (28/28 agree) and English right for the courses offered to international students, after excluding not-offered pages and Te Hono English; no fee on course pages so fee not admitted (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:57Z",
-  "config_updated_at": "2026-10-05T00:02:31Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "EIT: delivery read from the international panel (Study Location with Study Options), spot-checks match (24 on campus, 5 online); English and intakes kept, no fee on course pages (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:14:46Z",
+  "config_updated_at": "2026-10-05T06:05:53Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Study Options\\s*((?:.|\\n){1,80}?)\\s*Start Dates(?:(?!Study Options)(?:.|\\n)){0,250}?dates and fees document",
       "campus": "Study Location\\s*((?:.|\\n){1,150}?)\\s*Study Options(?:(?!Study Location)(?:.|\\n)){0,250}?Programme Level(?:(?!Study Location)(?:.|\\n)){0,250}?dates and fees document",
-      "intakes": "Start Dates\\s*((?:.|\\n){0,100}?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,150}?)\\s*Programme Length(?:(?!Start Dates)(?:.|\\n)){0,250}?dates and fees document",
       "duration": "Programme Length\\s*((?:.|\\n){1,60}?)\\s*Programme Level(?:(?!Programme Length)(?:.|\\n)){0,250}?dates and fees document",
-      "study_level": "Programme Level\\s*(Level\\s*\\d+)",
+      "entry_requirement": "Academic (?:Entry )?Requirements?(?!\\s*above)\\s*(?:for (?:.){3,80}? (?:is|are)(?: either| one of the following)?:?\\s*)?((?:(?!English Language Entry Requirements|Health and Professional Requirements|Other Requirements|Selection Criteria|Standard Entry Requirements|Special Admission|Information Session)(?:.|\\n)){10,200})",
       "ielts_overall": "IELTS[^0-9]{0,60}?([4-9]\\.[05])",
-      "not_admitting": "(not currently offered for International Students)"
+      "intakes": "Start Dates\\s*((?:.|\\n){0,100}?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,150}?)\\s*Programme Length(?:(?!Start Dates)(?:.|\\n)){0,250}?dates and fees document",
+      "mode": "Study Location\\s*((?:(?!Study Location|Study Options)(?:.|\\n)){1,150}?\\s*Study Options\\s*(?:.|\\n){1,80}?)\\s*Start Dates(?:(?!Study Options)(?:.|\\n)){0,250}?dates and fees document|Study Options\\s*(?:.|\\n){1,80}?(?=\\s*Start Dates(?:(?!Study Options)(?:.|\\n)){0,250}?dates and fees document)",
+      "not_admitting": "(not currently offered for International Students)",
+      "study_level": "Programme Level\\s*(Level\\s*\\d+)"
     },
     "pick": {
       "mode": "first",
@@ -35,15 +37,17 @@
       "duration": "first",
       "study_level": "first",
       "ielts_overall": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "EIT programme pages (www.eit.ac.nz/programmes/<slug>/, WordPress, no page JSON) print two Programme Info panels: domestic first (its Fees line says Visit https://www.eit.ac.nz/fees/), then the international panel (its Fees line says the fees are in our dates and fees document). Intakes, campus, mode and duration are read only from the panel followed by dates and fees document, i.e. the international panel. When the international panel says This programme is not currently offered for International Students, no adapter intakes are read and not_admitting is set. NZQF level from Programme Level. IELTS overall from the English Language Entry Requirements block (first IELTS figure). Fees are NOT on the course pages: central 2027 international dates and fees PDF https://www.eit.ac.nz/wp-content/uploads/programme-app-packs/int%20Programme%20Matrix.pdf (NZD incl. GST; degrees and diplomas per year; PG certificates, PG diplomas and masters are whole-programme figures) - no fee pattern. Central English page https://www.eit.ac.nz/campus/international-students/english-language-requirements/ (rule shown only as an image). Important dates https://www.eit.ac.nz/students/important-dates/ lists 2026 semester dates as TBC; no term_months needed because programme pages print month names.",
-    "reason": "Round 3: anchor intakes/campus/mode/duration on the international panel (followed by dates and fees document) (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:02:31.337577+00:00"
+    "page_view": {},
+    "notes": "EIT programme pages (www.eit.ac.nz/programmes/<slug>/, WordPress, no page JSON) print two Programme Info panels: domestic first (its Fees line says Visit https://www.eit.ac.nz/fees/), then the international panel (its Fees line says the fees are in our dates and fees document). Intakes, campus, mode and duration are read only from the panel followed by dates and fees document, i.e. the international panel. When the international panel says This programme is not currently offered for International Students, no adapter intakes are read and not_admitting is set. NZQF level from Programme Level. IELTS overall from the English Language Entry Requirements block (first IELTS figure). Fees are NOT on the course pages: central 2027 international dates and fees PDF https://www.eit.ac.nz/wp-content/uploads/programme-app-packs/int%20Programme%20Matrix.pdf (NZD incl. GST; degrees and diplomas per year; PG certificates, PG diplomas and masters are whole-programme figures) - no fee pattern. Central English page https://www.eit.ac.nz/campus/international-students/english-language-requirements/ (rule shown only as an image). Important dates https://www.eit.ac.nz/students/important-dates/ lists 2026 semester dates as TBC; no term_months needed because programme pages print month names. Delivery (mode): international panel Study Location together with Study Options (Study Options alone is study load plus Online), so a campus reads as on campus and Online as online; where the international panel prints no Study Location, its Study Options line alone is read (e.g. Full Time Online). Entry requirement (for review, not admitted): the Academic (Entry) Requirements text, up to 200 characters, stopping at English Language Entry Requirements or Health and Professional Requirements. No exit awards are printed and the programme pages print no fees, so no exit_awards or fee_total.",
+    "reason": "Entry requirement for review added; temporary probe fields removed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:53.829246+00:00"
   },
   "exclusions": [
     {
@@ -504,21 +508,21 @@
       {
         "kind": "english_policy",
         "url": "https://www.eit.ac.nz/campus/international-students/english-language-requirements/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.eit.ac.nz/students/important-dates/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.eit.ac.nz/wp-content/uploads/programme-app-packs/int%20Programme%20Matrix.pdf",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

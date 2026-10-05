@@ -6,27 +6,30 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Waikato intakes 69 of 71 agree and 24 per-year fees, 1 intake and 3 fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T20:06:19Z",
-  "config_updated_at": "2026-10-04T19:40:36Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Waikato: courses now read from their own /int/ (international view) qualification pages (104 rebound, 5 redirected addresses removed); fee now also reads the international 120-point figure on masters pages (one full-time year as Waikato prints it); spot-checks of 12 pages agree with stored text; english not admitted (IELTS is not printed on course pages) (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:31:44Z",
+  "config_updated_at": "2026-10-05T06:05:25Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International:\\s*\\$\\s?([0-9]{1,3}(?:,[0-9]{3})+)(?:\\.00)?(?:\\s*approx\\.?)?\\s*per year",
       "campus": "\\b[0-9]{2,3} points,[^$|]{0,200}?\\b((?:Hamilton|Tauranga|Online|Auckland)(?:\\s*(?:,|&|and|or)\\s*(?:Hamilton|Tauranga|Online|Auckland))*)\\b",
-      "intakes": "((?:(?:Trimester|Teaching Period) [A-H]\\b|\\b[A-H] Trimester\\b|(?<!\\bto )\\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\\b(?! (?:to|until)\\b))(?:(?!points,)[^$]){0,160}?)\\s+(?:Estimated fees|Domestic:|International:|Why study)",
       "duration": "\\b[0-9]{2,3} points,\\s*([0-9.]+(?:\\s*-\\s*[0-9.]+)?\\s*(?:academic )?(?:years?|months?|weeks?))",
+      "fee": "International:\\s*\\$\\s?([0-9]{1,3}(?:,[0-9]{3})+)(?:\\.00)?(?:\\s*approx\\.?)?\\s*(?:per year|\\(120 (?:pts|points)\\))",
+      "intakes": "((?:(?:Trimester|Teaching Period) [A-H]\\b|\\b[A-H] Trimester\\b|(?<!\\bto )\\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\\b(?! (?:to|until)\\b))(?:(?!points,)[^$]){0,160}?)\\s+(?:Estimated fees|Domestic:|International:|Why study)",
+      "mode": "\\b[0-9]{2,3} points,(?:(?!Hamilton|Tauranga|Auckland|Online)[^$|]){0,200}?\\b(Online)\\b(?!\\s*(?:,|&|and|or)\\s*(?:Hamilton|Tauranga|Auckland|Online))",
       "study_level": "((?:Bachelors|Masters|Doctoral|Doctorate|Honours|Graduate|Postgraduate|Undergraduate|Sub-degree|Foundation)(?: [A-Za-z]+){0,2})\\s+\\S{2,25}\\s+Jump to"
     },
     "pick": {
       "fee": "first",
+      "mode": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
@@ -35,17 +38,78 @@
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
-    "course_title_strip": null,
-    "notes": "University of Waikato qualification pages (www.waikato.ac.nz/study/qualifications/... and /int/study/qualifications/...). Plain HTML, no page data. Each page has a summary line near the top: '<points>, <duration> <campus> <school> <start trimesters with months> Domestic: $X per year, International: $Y per year'; some pages print the labels (Points and Duration, Locations, Start Dates, Estimated fees). Intakes = start trimesters with months in brackets (e.g. 'Trimester A (March) and Trimester B (July)'). Fee = the 'International: $Y per year' figure only; pages that give 'International: $Y' without 'per year' (whole-programme figures, e.g. MDigiBus 120/180 pts) are not read. IELTS is not on course pages: central rule at https://www.waikato.ac.nz/int/about/calendar/admission/english-language-requirements/ (UG 6.0 no band below 5.5; PG 6.5 no band below 6.0; LLB 6.5/6.0; BNurs 6.5/6.5; ITE 7.0/7.0; MPSOCS, MClinPrac(Midwifery), MNursPrac, MPharmPrac 7.0/7.0). Teaching periods: https://www.waikato.ac.nz/about/calendar/important-dates/teaching-and-assessment-periods/ (Trimester A starts March, B July, C/G November, H January); term_months not set because some pages print February for Trimester A.",
-    "reason": "Round 2: intakes pattern no longer crosses the points/duration summary and skips months used as ranges (January to October), fixing application-date months on nursing, pharmacy, midwifery and PGDipPA pages (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T19:40:36.666401+00:00"
+    "course_title_strip": "\\s*\\(Level \\d+\\)\\s*$",
+    "page_view": {},
+    "notes": "University of Waikato qualification pages (www.waikato.ac.nz/study/qualifications/... and /int/study/qualifications/...). Plain HTML, no page data. Each page has a summary line near the top: '<points>, <duration> <campus> <school> <start trimesters with months> Domestic: $X per year, International: $Y per year'; some pages print the labels (Points and Duration, Locations, Start Dates, Estimated fees). Intakes = start trimesters with months in brackets (e.g. 'Trimester A (March) and Trimester B (July)'). Fee = the 'International: $Y per year' figure, or the 'International: $Y (120 pts)' figure on masters pages that price 120 and 180/240 points separately (Waikato prints 120 points as one academic year of full-time study, e.g. MDigiBus '120 points, 1 academic year (full-time study over A and B trimesters)'); ranges ('$34,062 - $44,342 per year'), bare figures with no basis, 180/240-point totals and Foundation accelerated/standard splits are not read. No year is printed with the international figure. IELTS is not on course pages: central rule at https://www.waikato.ac.nz/int/about/calendar/admission/english-language-requirements/ (UG 6.0 no band below 5.5; PG 6.5 no band below 6.0; LLB 6.5/6.0; BNurs 6.5/6.5; ITE 7.0/7.0; MPSOCS, MClinPrac(Midwifery), MNursPrac, MPharmPrac 7.0/7.0). Teaching periods: https://www.waikato.ac.nz/about/calendar/important-dates/teaching-and-assessment-periods/ (Trimester A starts March, B July, C/G November, H January); term_months not set because some pages print February for Trimester A. Mode (delivery) is read only when the location list in the summary is exactly \"Online\" (online only). Pages list delivery as places (Hamilton, Tauranga, Online) with no campus wording, and the delivery normaliser does not treat town names as on campus, so campus-only and mixed lists (e.g. \"Hamilton, Online\") give no mode rather than a wrong \"online\". International view (5 Oct 13:02): the /int/study/qualifications/<slug>/ pages are the international student view (site set to English (International)); courses are bound to them. A plain fetch already carries the summary line with the international fee and start trimesters, and a rendered read (tested on 10 pages) adds nothing more: no fee year is printed for the international figure and IELTS is not on course pages, so page_view rendering is off. Catalogue titles are compared without the (Level N) suffix (course_title_strip). Entry requirement (5 Oct 15:22): not read. The stored /int/ qualification pages print the Entry requirements tabs (Domestic students / International students) but only the domestic tab content is in the stored page (e.g. \"There are five ways you can gain admission...\"), so no international entry requirement can be read; patterns.entry_requirement is not set. Exit awards and whole-course fees: no \"after N years of full-time study you can exit with\" wording and no international whole-course fee found in stored pages.",
+    "reason": "entry_requirement pattern removed: the stored pages show only the domestic entry requirements, not the international ones (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:25.342529+00:00"
   },
   "exclusions": [
+    {
+      "course_code": "WI0194",
+      "title": "Certificate of Attainment in English Language (Level 3)",
+      "field": "fee",
+      "reason": "Waikato: qualification is shorter than one year (10 weeks), so the per year figure is the whole qualification, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
     {
       "course_code": "WI0250",
       "title": "Master of Business Administration (Level 9)",
       "field": "intakes",
       "reason": "March and May are part-time Hamilton starts (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "WI0290",
+      "title": "Certificate of University Preparation (Level 4)",
+      "field": "fee",
+      "reason": "Waikato: qualification is shorter than one year (6 months), so the per year figure is the whole qualification, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0815",
+      "title": "Doctor of Laws (Level 10)",
+      "field": "intakes",
+      "reason": "Waikato: Doctor of Laws intake reading is a dated mention (\"January 2025\"), not a published start period (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0816",
+      "title": "Bachelor of Business Analysis (Level 7)",
+      "field": "english",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0816",
+      "title": "Bachelor of Business Analysis (Level 7)",
+      "field": "fee",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0816",
+      "title": "Bachelor of Business Analysis (Level 7)",
+      "field": "intakes",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0818",
+      "title": "Bachelor of Computing and Mathematical Sciences with Honours (Level 8)",
+      "field": "english",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0818",
+      "title": "Bachelor of Computing and Mathematical Sciences with Honours (Level 8)",
+      "field": "fee",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0818",
+      "title": "Bachelor of Computing and Mathematical Sciences with Honours (Level 8)",
+      "field": "intakes",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0822",
+      "title": "Graduate Certificate (Level 7)",
+      "field": "fee",
+      "reason": "Waikato: qualification is shorter than one year (0.5 years), so the per year figure is the whole qualification, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "WI0932",
@@ -58,6 +122,30 @@
       "title": "Graduate Certificate in Project Management (Level 7)",
       "field": "fee",
       "reason": "under one year, the per year figure is the whole qualification (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "WI0970",
+      "title": "Diploma in Postgraduate Preparation - Pre-Masters (Level 7)",
+      "field": "fee",
+      "reason": "Waikato: qualification is shorter than one year (8 months), so the per year figure is the whole qualification, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0982",
+      "title": "Certificate in Professional Engineering Practice (Level 6)",
+      "field": "english",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0982",
+      "title": "Certificate in Professional Engineering Practice (Level 6)",
+      "field": "fee",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "WI0982",
+      "title": "Certificate in Professional Engineering Practice (Level 6)",
+      "field": "intakes",
+      "reason": "Waikato: the bound address redirects to another qualification page, so its readings belong to that qualification (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "WI0983",
