@@ -6,14 +6,15 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Platform Admin 22:43 decision 1: admit from the Flinders adapter. Adapter readings replace held values except those entered by hand (decision 2). Switched on by Claude on that instruction.",
-  "admit_changed_at": "2026-10-04T11:47:53Z",
-  "config_updated_at": "2026-10-04T13:01:45Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Flinders: delivery read from the international block (on campus 149 study pages, on campus and online 4; handbook on campus 13) after the delivery-word rule removed 18 junk handbook readings; 5 spot-checks agree with stored text; 9 delivery and 7 fee readings excluded; english, fee and intakes kept (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:18:47Z",
+  "config_updated_at": "2026-10-05T06:23:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "page_roles": {
     "course_page": "https://www.flinders.edu.au/study/courses/{slug} (international block from the course CRICOS code): start dates, fee, delivery mode, duration",
     "handbook": "https://handbook.flinders.edu.au/courses/{year}/{code} (page data): title, CRICOS code, IELTS, duration, location, mode, student type, level, AQF level, not admitting",
@@ -39,26 +40,73 @@
     },
     "sections": {},
     "patterns": {
+      "campus": "{code}(?:.|\\n){0,200}?Delivery mode\\s*:?\\s*((?:In[ -]?person|On[ -]?campus|Online|Face[ -]to[ -]face|Blended|Distance|External|Mixed|Multi[ -]?modal).{0,78}?)\\s+(?:Duration|Deferrable|Annual|Start|Availability|Online)",
+      "duration": "{code}(?:.|\\n){0,200}?Duration\\s*:?\\s*([0-9][0-9.]*(?: or [0-9.]+)? (?:years?|months?|Year/s)(?: full-time| \\(full-time\\))?)",
+      "entry_requirement": "Entry requirements\\s+((?:(?:Masters?|Graduate (?:Certificate|Diploma)|Doctor|Honours)[^.]{0,80}?\\s)?Applicants? must(?:.|\\n){10,200}?\\.(?=\\s)|Entry into(?:.|\\n){10,200}?\\.(?=\\s))|(Prerequisites?\\s+(?:.|\\n){1,120}?\\s+Assumed knowledge\\s+(?:.|\\n){1,120}?)(?=\\s+(?:Note|Overview|20\\d\\d selection|Guaranteed|TAFElink|Duration|Selection|Deferrable|SATAC|Entry|Careers|Please)\\b)",
       "fee": "{code}(?:.|\\n){0,250}?Annual (?:indicative )?fee(?:.|\\n){0,60}?\\$([0-9][0-9,]+)(?![0-9,])(?!\\s*\\((?:CSP|FFP)\\))",
-      "campus": "{code}(?:.|\\n){0,200}?Delivery mode\\s*:?\\s*(.{2,80}?)\\s+(?:Duration|Deferrable|Annual|Start|Availability|Online)",
       "intakes": "{code}(?:.|\\n){0,250}?Start dates(?:[^>]{0,80}aria-expanded[^>]{0,12}>)?\\s*((?:.|\\n){0,120}?)\\s*(?:Annual|Delivery|Entry|Student|Information|Duration|Availability|Deferrable|Start dates|Save course|SATAC|CRICOS|$)",
-      "duration": "{code}(?:.|\\n){0,200}?Duration\\s*:?\\s*([0-9][0-9.]*(?: or [0-9.]+)? (?:years?|months?|Year/s)(?: full-time| \\(full-time\\))?)"
+      "mode": "(?:{code}(?:.|\\n){0,200}?Delivery mode\\s*:?\\s*|Delivery mode\\s*:?\\s*(?=(?:.|\\n){0,100}?CRICOS code:?\\s*{code}))((?:In[ -]?person|On[ -]?campus|Online|Face[ -]to[ -]face|Blended|Distance|External|Mixed|Multi[ -]?modal).{0,78}?)\\s+(?:Location|Duration|Deferrable|Annual|Start|Availability|CRICOS|Practical|Entry|Student|Information)\\b"
     },
     "pick": {
       "fee": "first",
       "campus": "first",
       "intakes": "first",
-      "duration": "first"
+      "duration": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Two page kinds. Handbook (CourseLoop): course data in __NEXT_DATA__ - title, CRICOS code, IELTS, duration, offerings (location, mode, student type), level, AQF level, guidance. Study pages (flinders.edu.au/study/courses): the international block starts at the CRICOS code and holds delivery mode, duration, annual fee and start dates. The domestic block (CSP fee, SATAC) comes before it and is not read. English for all courses comes from the approved central English policy.",
-    "reason": "Flinders patterns anchored on the course's own CRICOS code ({code}): study pages that cover several courses are read per course (Claude, fix after the first fee admissions)",
-    "updated_at": "2026-10-04T13:01:45.648416+00:00"
+    "page_view": {},
+    "notes": "Two page kinds. Handbook (CourseLoop): course data in __NEXT_DATA__ - title, CRICOS code, IELTS, duration, offerings (location, mode, student type), level, AQF level, guidance. Study pages (flinders.edu.au/study/courses): postgraduate and research pages print an international block (CRICOS code, delivery mode, duration, annual fee, start dates) after the domestic block (SATAC, CSP/FFP fees); the fee pattern skips amounts marked (CSP) or (FFP). Delivery (mode/campus): read after this course's CRICOS code (or just before it on research pages listing several courses) and must start with a delivery word (In person, On campus, Online, ...) - 5 Oct: this stops the handbook text \"Delivery mode definitions\" being read as a mode. International view: most undergraduate (bachelor, honours, graduate certificate) study pages print only the domestic block; a rendered read with no address change, ?studentType=international and #international were tested on 2 pages (5 Oct) and none showed the international block, so page_view is off. English for all courses comes from the approved central English policy. Handbook pages fall back to json_paths.mode, which lists every offering (domestic too). 5 Oct: entry_requirement (review only, not admitted): undergraduate 'Prerequisites ... Assumed knowledge ...' from the international block, postgraduate/honours 'Entry requirements Applicants must ...' / 'Entry into ...'. No exit-award sentence with full-time years (exit-only awards are printed with units only), no whole-course fee.",
+    "reason": "Final: entry_requirement pattern kept for review; exit-award and full-time-load probes removed (no exit awards printed with full-time years; no whole-course fees) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:23:14.04951+00:00"
   },
-  "exclusions": [],
+  "exclusions": [
+    {
+      "course_code": "058295A",
+      "title": "Bachelor of Accounting",
+      "field": "fee",
+      "reason": "Flinders 058295A: the stored page shows only the domestic view; its fee reading 17,399 is the CSP figure, not an international fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "058780K",
+      "title": "Master of Business (Research)",
+      "field": "fee",
+      "reason": "Flinders 058780K: the year printed with the fee reads 2024 (older than last year): not the current international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "088953A",
+      "title": "Master of Surgery (Research)",
+      "field": "fee",
+      "reason": "Flinders 088953A: the year printed with the fee reads 2024 (older than last year): not the current international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "094010J",
+      "title": "Master of Engineering Science (Specialisations)",
+      "field": "fee",
+      "reason": "Flinders 094010J: the year printed with the fee reads 2020: not the current international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "106252K",
+      "title": "Doctor of Philosophy (Business)",
+      "field": "fee",
+      "reason": "Flinders 106252K: the year printed with the fee reads 2024 (older than last year): not the current international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "110758E",
+      "title": "Bachelor of Design and Technology (Honours)",
+      "field": "fee",
+      "reason": "Flinders 110758E: the stored page shows only the domestic view; its fee reading 9,314 is a domestic figure, not an international fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "113747F",
+      "title": "Graduate Certificate in Older Adult Care and Wellbeing",
+      "field": "fee",
+      "reason": "Flinders 113747F: the year printed with the fee reads 2024 (older than last year): not the current international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    }
+  ],
   "central_rules": {
     "english_rule": "approved",
     "calendar": "no_values",

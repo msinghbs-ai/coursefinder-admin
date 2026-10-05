@@ -6,32 +6,40 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Deakin: fees 149 equal and 40 new, IELTS 195, intakes from each course key facts (narrower than the site-menu March, July, November held), domestic-view and menu readings excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:14:02Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Deakin: delivery read from the international-view key-facts Campus line, spot-checks match, 12 domestic-view pages excluded for delivery; English, fee and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:14:46Z",
+  "config_updated_at": "2026-10-05T06:21:09Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "\\$([0-9][0-9,]{3,})\\s+for 1 yr full-time AUD",
       "campus": "Campus\\s+([A-Z][A-Za-z ()]{2,80}?)\\s+Duration\\s",
-      "intakes": "Intakes\\s+(Trimesters?\\s*[1-3](?:\\s*(?:,|and|&)\\s*[1-3]){0,2})",
+      "course_years": "Duration\\s+([0-9]+(?:\\.[0-9]+)?)\\s+years?\\s+full[ -]time",
       "duration": "Duration\\s+([0-9.]+\\s+years?\\s+(?:full-time|part-time)[a-z -]{0,40}?)\\s+Intakes",
-      "ielts_overall": "IELTS overall score of ([4-9](?:\\.[05])?)"
+      "entry_requirement": "Entry requirements\\s+Academic requirements\\s+(?!Course-specific)((?:(?!English language requirements|Previous higher education|Work experience|Selection adjustment|Get credit for|Admission criteria)(?:.|\\n)){10,200})",
+      "fee": "\\$([0-9][0-9,]{3,})\\s*for 1 yr full-time AUD",
+      "fee_total": "Fees\\s*\\$\\s?([0-9][0-9,]{3,})\\s*for [0-9]+ CP AUD",
+      "ielts_overall": "IELTS overall score of ([4-9](?:\\.[05])?)",
+      "intakes": "Intakes\\s+(Trimesters?\\s*[1-3](?:\\s*(?:,|and|&)\\s*[1-3]){0,2})",
+      "mode": "Campus\\s+(Online)\\s+Duration\\s|Campus\\s+[A-Z][A-Za-z ()]{2,80}?\\s+Duration\\s"
     },
     "pick": {
       "fee": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "fee_total": "first",
+      "course_years": "first",
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Trimester1": "March",
@@ -48,9 +56,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Deakin course pages (www.deakin.edu.au/course/<slug>-international is the international view; slugs without -international are the domestic view). Each page has a key-facts strip: \"Campus <names> Duration <n> years full-time Intakes Trimesters 1, 2 ... Fees $45,200 for 1 yr full-time AUD\". Intakes are printed only as trimester numbers; months come from the published key dates (https://www.deakin.edu.au/study/key-dates and 2027 trimester dates https://www.deakin.edu.au/students/enrolment-and-fees/manage-your-course/handbooks/2027-handbook/2027-trimester-dates): Trimester 1 = March, Trimester 2 = July, Trimester 3 = November (2026: 2 Mar, 6 Jul, 2 Nov; 2027: 1 Mar, 5 Jul, 1 Nov). Honours, Medicine and Dietetics pages say Semester 1/2 with no published month mapping, so they are not read. Fee: only \"$X for 1 yr full-time AUD\" (international annual); graduate certificate amounts \"for 4 credit points\" (whole course) and domestic CSP amounts are not read. IELTS: \"IELTS overall score of N (with no band score less than M)\" in English language requirements.",
-    "reason": "Save Deakin University adapter reading the course page key-facts strip (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:14:02.165246+00:00"
+    "page_view": {},
+    "notes": "Deakin course pages (www.deakin.edu.au/course/<slug>-international is the international view; slugs without -international are the domestic view). Each page has a key-facts strip: \"Campus <names> Duration <n> years full-time Intakes Trimesters 1, 2 ... Fees $45,200 for 1 yr full-time AUD\". Intakes are printed only as trimester numbers; months come from the published key dates (https://www.deakin.edu.au/study/key-dates and 2027 trimester dates https://www.deakin.edu.au/students/enrolment-and-fees/manage-your-course/handbooks/2027-handbook/2027-trimester-dates): Trimester 1 = March, Trimester 2 = July, Trimester 3 = November (2026: 2 Mar, 6 Jul, 2 Nov; 2027: 1 Mar, 5 Jul, 1 Nov). Honours, Medicine and Dietetics pages say Semester 1/2 with no published month mapping, so they are not read. Fee: only \"$X for 1 yr full-time AUD\" (international annual); graduate certificate amounts \"for 4 credit points\" (whole course) and domestic CSP amounts are not read. IELTS: \"IELTS overall score of N (with no band score less than M)\" in English language requirements. Delivery (mode): the international-view key-facts Campus line, kept with its Campus label so a physical campus reads as on campus and Online as online; a line that is only Online is read as Online. Fee pattern allows no space before \"for 1 yr\" (Master of Artificial Intelligence for Design and Creative Practice prints \"$40,800for 1 yr full-time AUD\"). Whole-course fee: where no \"for 1 yr\" figure is printed but the key facts give \"Fees $X for N CP AUD\" (the whole course, e.g. Graduate Diploma of Psychological Science \"$56,750 for 10 CP AUD\", \"Duration 1 year full time taken over three consecutive trimesters\"), annual = X / full-time years from the Duration line (only for 1 year or more; graduate certificates of 0.5 year stay without a fee). Exit awards: course pages print only the general \"flexible course entry and exit options\" text, WAM-based alternative exits to degrees that have their own pages, and the Bachelor of Arts early exit to the Diploma of Arts (A215, 8 credit points = one full-time year), which is not a catalogue course; no exit_awards pattern. Entry requirement (for review, not admitted): the Entry requirements > Academic requirements text, up to 200 characters.",
+    "reason": "Entry requirement reads the Entry requirements section, not the key-facts banner (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:21:09.769188+00:00"
   },
   "exclusions": [
     {
@@ -468,12 +477,6 @@
       "reason": "site-menu months or semester page, not the course start (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "099423C",
-      "title": "Graduate Diploma of Psychological Science",
-      "field": "fee",
-      "reason": "general reader amount not verified (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
       "course_code": "108877E",
       "title": "Graduate Certificate of Business Analytics",
       "field": "fee",
@@ -598,12 +601,6 @@
       "title": "Bachelor of Communication and Creative Arts (Honours)",
       "field": "intakes",
       "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "119808E",
-      "title": "Master of Artificial Intelligence for Design and Creative Practice",
-      "field": "fee",
-      "reason": "general reader amount not verified (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
       "course_code": "121187M",

@@ -12,34 +12,39 @@
   ],
   "admit_reason": "QUT: intakes 137 of 140 agree, 122 annual fees checked against the 2027 quick guide, IELTS 138 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:26:46Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:11:32Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "\\b2027: \\$([0-9][0-9,]{3,7}) per year full-time(?! \\(48 credit points\\))",
       "campus": "CRICOS code {code} Delivery (?:.|\\n){0,80}?Delivery ((?:Online|Gardens Point|Kelvin Grove|Caboolture|Sunshine Coast|Mooloolaba)(?:,? (?:and )?(?:Online|Gardens Point|Kelvin Grove|Caboolture|Sunshine Coast|Mooloolaba))*)",
-      "intakes": "\\bEntry ((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:(?:,|,? and|,? &) (?:January|February|March|April|May|June|July|August|September|October|November|December))*)",
       "duration": "CRICOS code {code} (?:.|\\n){0,200}?Duration ([0-9.]+ years? full-time)",
-      "ielts_overall": "IELTS Academic(?: / One Skill Retake)? Overall ([4-9](?:\\.[05])?)\\b"
+      "entry_requirement": "((?:Assumed knowledge (?!Before you start)(?:.|\\n){5,160}?(?= You must have achieved this study)|Entry requirements? (?:(?!Delivery|Professional)[^\\n]{0,60}?)You must have:?(?:.|\\n){10,180}))",
+      "fee": "\\b2027: \\$([0-9][0-9,]{3,7}) per year full-time(?! \\(48 credit points\\))",
+      "ielts_overall": "IELTS Academic(?: / One Skill Retake)? Overall ([4-9](?:\\.[05])?)\\b",
+      "intakes": "\\bEntry ((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:(?:,|,? and|,? &) (?:January|February|March|April|May|June|July|August|September|October|November|December))*)",
+      "mode": "CRICOS code {code} Delivery (?:(?!Delivery )(?:.|\\n)){0,80}Delivery (Online)(?= Duration)"
     },
     "pick": {
       "fee": "last",
+      "mode": "first",
       "campus": "first",
       "intakes": "last",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "last"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "QUT course pages (www.qut.edu.au/courses/<slug>) carry both the Australian/NZ view and the international view in the page text, domestic first then international. Requirements block: \"CRICOS code <code> Delivery <dom> Delivery <intl> Duration <dom> Duration <intl> Entry <dom months> Entry <intl months>\" - intakes = last \"Entry\" months (international). Fees: \"2027: CSP $X\" (UG domestic) or \"2027: $X per year full-time (96 credit points)\" (PG domestic fee-paying) then \"2027: $Y per year full-time (96 credit points)\" (international) - fee = last 2027 per-year line; lines at 48 credit points (graduate certificates, a half-year whole-course amount) are not read. Checked against the 2027 International Quick Guide (cms.qut.edu.au/__data/assets/pdf_file/0008/1566476/international-quick-gide-2027.pdf). IELTS table: \"IELTS Academic / One Skill Retake Overall 6.5 Listening 6 ...\". Duration and campus anchored on \"CRICOS code <code>\" so study-area listing pages (/study/..., /your-future-in-law) give no extras. online.qut.edu.au pages (QUT Online, domestic online) carry none of these. Teaching periods: https://www.qut.edu.au/about/key-dates-and-academic-calendar/teaching-periods (Semester 1 = February, Semester 2 = July, Summer = November).",
-    "reason": "QUT adapter round 3: fee from any 2027 per-year line except 48 credit point (half-year graduate certificate) lines, restoring correct annual fees for other credit loads (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:26:46.308697+00:00"
+    "page_view": {},
+    "notes": "QUT course pages (www.qut.edu.au/courses/<slug>) carry both the Australian/NZ view and the international view in the page text, domestic first then international. Requirements block: \"CRICOS code <code> Delivery <dom> Delivery <intl> Duration <dom> Duration <intl> Entry <dom months> Entry <intl months>\" - intakes = last \"Entry\" months (international). Fees: \"2027: CSP $X\" (UG domestic) or \"2027: $X per year full-time (96 credit points)\" (PG domestic fee-paying) then \"2027: $Y per year full-time (96 credit points)\" (international) - fee = last 2027 per-year line; lines at 48 credit points (graduate certificates, a half-year whole-course amount) are not read. Checked against the 2027 International Quick Guide (cms.qut.edu.au/__data/assets/pdf_file/0008/1566476/international-quick-gide-2027.pdf). IELTS table: \"IELTS Academic / One Skill Retake Overall 6.5 Listening 6 ...\". Duration and campus anchored on \"CRICOS code <code>\" so study-area listing pages (/study/..., /your-future-in-law) give no extras. online.qut.edu.au pages (QUT Online, domestic online) carry none of these. Teaching periods: https://www.qut.edu.au/about/key-dates-and-academic-calendar/teaching-periods (Semester 1 = February, Semester 2 = July, Summer = November). International view (5 Oct 13:02 check): the page source of www.qut.edu.au/courses/<slug> holds both the Australian/NZ panel and the international panel (\"You are viewing international students' course information\"); the second Delivery / Duration / Entry values and the last 2027 per-year fee are the international ones, so no address variant or Firecrawl render is needed. Delivery: the international Delivery value names campuses (Gardens Point, Kelvin Grove) or Online; mode reads only an Online-only international Delivery, because campus names alone do not normalise to on campus (mechanism needed). | 5 Oct (exit awards and requirements): entry_requirement = international panel \"Assumed knowledge <subjects>\" (UG, the text before \"You must have achieved this study at a level comparable to Australian Year 12\") or \"Entry requirement(s) ... You must have ...\" (PG), last match. UG academic entry for international students is by country selector and not in page text. Exit points (\"Early exit ... exit with ...\") are printed without full-time years; no exit-award pattern. Fees are printed per year (no whole-course fee).",
+    "reason": "Final: entry_requirement pattern for review (not admitted); exploratory exit-award text removed, no exit awards with full-time years printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:11:32.987233+00:00"
   },
   "exclusions": [
     {

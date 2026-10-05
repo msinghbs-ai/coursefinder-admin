@@ -1,0 +1,100 @@
+{
+  "university": "Grant MacEwan University",
+  "country": "CA",
+  "provider_id": "50efbfe2-b917-4cf7-be50-4a53c9a718d7",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-05T01:35:33Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "(\\d{2,3} credits(?= of non-duplicative coursework| required to (?:complete|graduate))|four-year(?= [A-Z]))",
+      "study_level": "((?:Bachelor|Master|Doctor|Diploma|Certificate)[A-Za-z ]{0,60}?)\\s*\\|\\s*MacEwan University Academic Catalog"
+    },
+    "pick": {},
+    "term_months": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Courses are bound by hand to their own programme page in the current MacEwan calendar (calendar.macewan.ca/programs/degree-programs/<programme>/, 2027-2028 edition); identity is manual. These pages print the credential (page title \"<Major> - Bachelor of <X> | MacEwan University Academic Catalog\") and the credits for the degree (120 credits / four-year), which the adapter reads as study_level and duration. They do NOT print intake months, IELTS scores, delivery mode or any fee: English points to MacEwan.ca/ELP (attached as english_policy), terms to the Academic Schedule (attached as intake_calendar; current schedule already attached), fees to the calendar fee section (address not found in any stored text). No intakes, english, fee or mode pattern is set, so nothing is admitted from this adapter.",
+    "reason": "Bespoke MacEwan calendar adapter: programme pages in the 2027-2028 calendar; level and credits only (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 12:12)",
+    "updated_at": "2026-10-05T01:35:33.538087+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "0e4eab42-e0be-442f-90b5-a12700c5f2fb",
+      "title": "Bachelor of Music Performance",
+      "field": "intakes",
+      "reason": "Wrong intake reading: \"September\" comes from \"Major and Minor declarations may be submitted starting September 1\" on the calendar page, not a start date (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 12:12)"
+    },
+    {
+      "course_code": "66311985-655e-4c60-b636-a12700c5f315",
+      "title": "Bachelor of Music Composition",
+      "field": "intakes",
+      "reason": "Wrong intake reading: \"September\" comes from \"Major and Minor declarations may be submitted starting September 1\" on the calendar page, not a start date (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 12:12)"
+    },
+    {
+      "course_code": "abb12234-263f-49a9-a60b-a12700c5f322",
+      "title": "Bachelor of Music General",
+      "field": "intakes",
+      "reason": "Wrong intake reading: \"September\" comes from \"Major and Minor declarations may be submitted starting September 1\" on the calendar page, not a start date (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 12:12)"
+    },
+    {
+      "course_code": "c2707a9e-0764-45ea-b710-a7ea8f9b4c70",
+      "title": "Bachelor of Music Recording and Production",
+      "field": "intakes",
+      "reason": "Wrong intake reading: \"September\" comes from \"Major and Minor declarations may be submitted starting September 1\" on the calendar page, not a start date (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 12:12)"
+    }
+  ],
+  "central_rules": {
+    "english_rule": "approved",
+    "calendar": "no_values",
+    "central_pages": [
+      {
+        "kind": "english_policy",
+        "url": "https://www.macewan.ca/c/documents/intl_brochure_english.pdf",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:25Z",
+        "evidence_id": "681f511e-31d7-4a29-8b80-873882dcc210"
+      },
+      {
+        "kind": "english_policy",
+        "url": "https://www.macewan.ca/elp",
+        "status": "read",
+        "read_at": "2026-10-05T01:40:15Z",
+        "evidence_id": "e166b671-0c0f-4b49-adc4-93cbf261c9cb"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://calendar.macewan.ca/academic-schedule/",
+        "status": "read",
+        "read_at": "2026-10-05T01:40:14Z",
+        "evidence_id": "651700bb-8ee5-482e-a237-a61ff81b6d89"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://calendar.macewan.ca/academic-schedule/current/",
+        "status": "read",
+        "read_at": "2026-10-04T23:30:22Z",
+        "evidence_id": "4b0ccc7c-52d5-464e-ad6f-444391f3795d"
+      }
+    ],
+    "english_proposals_waiting": []
+  },
+  "results": {
+    "note_5_oct": "18:04 export. Testing only: bespoke calendar adapter (Platform Admin 12:12) reads level and credits from the 2027-2028 calendar programme pages; no intakes, English, fee or delivery pattern, so nothing is admitted."
+  }
+}

@@ -11,20 +11,21 @@
   ],
   "admit_reason": "Tasmania: 96 intakes from study periods on the international panel, 40 IELTS; fees held for non-100-credit-point years (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
   "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:13:37Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:25:15Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:20[23]\\d annual international student tuition fee\\s*:?\\s*|20[23]\\d Total Tuition Fee \\(international students\\)\\s*:?\\s*\\$\\s*[0-9][0-9,]*\\s*AUD\\*?\\s*Tuition fee based on a rate of\\s*)\\$\\s*([0-9][0-9,]{3,})",
-      "campus": "CRICOS\\s*:?\\s*{code}(?:.|\\n){0,250}?(?:.|\\n){0,250}?Location\\s+([A-Za-z][A-Za-z ]{1,30}?)\\s+(?:(?<!IPC\\s)Semester\\s*[12]|Trimester|Summer|Winter|Spring|AMC MT (?:Main|Post) Block\\s*[1-4])",
-      "intakes": "CRICOS\\s*:?\\s*{code}(?:.|\\n){0,250}?(?:.|\\n){0,250}?Location\\s+((?:[A-Za-z][A-Za-z ]{1,30}?\\s+(?:(?:(?<!IPC\\s)Semester\\s*[12]|Trimester|Summer|Winter|Spring|AMC MT (?:Main|Post) Block\\s*[1-4])(?:\\s*,\\s*|\\s+|$))+){1,6})",
-      "duration": "CRICOS\\s*:?\\s*{code}\\s*Duration\\s+(Minimum[^.]{0,80})",
       "aqf_level": "Australian Qualification Framework level\\s*:?\\s*(\\d{1,2})",
-      "ielts_overall": "IELTS\\W{0,4}(?:\\(?Academic\\)?)?\\W{0,4}(?:minimum\\s+)?(?:overall\\s+)?(?:score\\s+of\\s+)?([5-9](?:\\.[05])?)\\b"
+      "campus": "CRICOS\\s*:?\\s*(?:{code}|[0-9]{6}[0-9A-Z])(?:.|\\n){0,250}?(?:.|\\n){0,250}?Location\\s+([A-Za-z][A-Za-z ]{1,30}?)\\s+(?:(?<!IPC\\s)Semester\\s*[12]|Trimester|Summer|Winter|Spring|AMC MT (?:Main|Post) Block\\s*[1-4])",
+      "duration": "CRICOS\\s*:?\\s*(?:{code}|[0-9]{6}[0-9A-Z])\\s*Duration\\s+(Minimum[^.]{0,80})",
+      "entry_requirement": "For International students\\s+((?:Admission|Applicants|Entry|International applicants|To be eligible|All international students|Successful completion|Completion of|Candidates|Students|Prior|An? |The minimum)[^|]{20,220}?\\.)(?=\\s)",
+      "fee": "(?:20[23]\\d annual international student tuition fee\\s*:?\\s*|20[23]\\d Total Tuition Fee \\(international students\\)\\s*:?\\s*\\$\\s*[0-9][0-9,]*\\s*AUD\\*?\\s*Tuition fee based on a rate of\\s*)\\$\\s*([0-9][0-9,]{3,})",
+      "ielts_overall": "IELTS\\W{0,4}(?:\\(?Academic\\)?)?\\W{0,4}(?:minimum\\s+)?(?:overall\\s+)?(?:score\\s+of\\s+)?([5-9](?:\\.[05])?)\\b",
+      "intakes": "CRICOS\\s*:?\\s*(?:{code}|[0-9]{6}[0-9A-Z])(?:.|\\n){0,250}?(?:.|\\n){0,250}?Location\\s+((?:[A-Za-z][A-Za-z ]{1,30}?\\s+(?:(?:(?<!IPC\\s)Semester\\s*[12]|Trimester|Summer|Winter|Spring|AMC MT (?:Main|Post) Block\\s*[1-4])(?:\\s*,\\s*|\\s+|$))+){1,6})"
     },
     "pick": {
       "fee": "first",
@@ -32,7 +33,8 @@
       "intakes": "first",
       "duration": "first",
       "aqf_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Spring": "November",
@@ -46,11 +48,12 @@
       "AMC MT Post Block 4": "November"
     },
     "section_chars": 2000,
-    "title_strip": null,
+    "title_strip": "\\s*\\([A-Z0-9]{2,5}\\)\\s*$",
     "course_title_strip": null,
-    "notes": "UTAS course pages (www.utas.edu.au/courses/<college>/courses/<code>-<slug>), one course per page, Domestic and International views both in the HTML (2027 course year). The international panel starts at CRICOS : <code>, then Duration and Location; Location lists campus + study periods (e.g. Hobart Semester 1, Semester 2). term_months from the published study periods https://www.utas.edu.au/key-dates/2026-study-periods and https://www.utas.edu.au/key-dates/2027-study-periods: Semester 1 Feb, Semester 2 Jul, Summer Jan, Winter Jun, Trimester/Spring Nov, AMC MT Main Block 1 Feb, AMC MT Main Block 3 Jun, AMC MT Post Block 4 Nov. IPC (Foundation/pathway) periods are excluded from intakes (IPC Semester 1 Feb, IPC Semester 2 Jun, IPC Semester 3 Oct) because the generic Semester 2 key would give July. Fee = <year> annual international student tuition fee: $X AUD (annual for the course standard year, which can be under 100 credit points, e.g. AMC 57 cp, C7U 75 cp, 54D 133 cp); short courses print <year> Total Tuition Fee (international students) ... based on a rate of $Y AUD per standard full-time year: Y is read; foundation programs print a rate of $0 and are not read. IELTS from course-specific English Language Requirements text where printed; else central rule https://www.utas.edu.au/study/apply/admission-requirements/english-language-requirements.",
-    "reason": "Round 2: AMC MT and IPC study periods mapped from the UTAS key-dates pages, rate-based international fee for short courses (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:13:37.223507+00:00"
+    "page_view": {},
+    "notes": "UTAS course pages (www.utas.edu.au/courses/<college>/courses/<code>-<slug>), one course per page, Domestic and International views both in the HTML (2027 course year). The international panel starts at CRICOS : <code>, then Duration and Location; Location lists campus + study periods (e.g. Hobart Semester 1, Semester 2). term_months from the published study periods https://www.utas.edu.au/key-dates/2026-study-periods and https://www.utas.edu.au/key-dates/2027-study-periods: Semester 1 Feb, Semester 2 Jul, Summer Jan, Winter Jun, Trimester/Spring Nov, AMC MT Main Block 1 Feb, AMC MT Main Block 3 Jun, AMC MT Post Block 4 Nov. IPC (Foundation/pathway) periods are excluded from intakes (IPC Semester 1 Feb, IPC Semester 2 Jun, IPC Semester 3 Oct) because the generic Semester 2 key would give July. Fee = <year> annual international student tuition fee: $X AUD (annual for the course standard year, which can be under 100 credit points, e.g. AMC 57 cp, C7U 75 cp, 54D 133 cp); short courses print <year> Total Tuition Fee (international students) ... based on a rate of $Y AUD per standard full-time year: Y is read; foundation programs print a rate of $0 and are not read. IELTS from course-specific English Language Requirements text where printed; else central rule https://www.utas.edu.au/study/apply/admission-requirements/english-language-requirements. 5 Oct 13:02 international view: the international panel is in the page HTML (no URL view needed). Headings print \"Title (CODE)\"; title_strip removes the code so a course page whose CRICOS differs from the catalogue code is matched by its exact title; the CRICOS anchor accepts any course CRICOS (one course per page). The international panel lists Location as campus names and study periods (Online when offered online); it prints no delivery wording, so mode is not read. 5 Oct 15:22 checks: exit awards are described in credit points or without years (e.g. MPA: 50 cp -> Grad Cert, 100 cp -> Grad Dip; MBA Maritime and Global Logistics masters nest a Grad Cert and Grad Dip), and every named exit award has its own course page with its own values, so none is recorded as an exit award. Every course page prints an annual international fee, and the courses printing only a Total Tuition Fee are under one year (Foundation 36 weeks, UPP Fast Track 17 weeks, ELP), so no fee_total. entry_requirement reads the first sentence of the international entry text ('Entry requirements ... For International students ...'), shown for review only.",
+    "reason": "entry_requirement pattern added after the exit-award, whole-course fee and requirement checks; probe patterns removed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:25:15.224585+00:00"
   },
   "exclusions": [
     {

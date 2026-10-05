@@ -13,32 +13,36 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-05T00:04:28Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:17:56Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International Fees:\\s*\\$([0-9][0-9,]{3,})\\s*(?:\\(per academic year\\)\\s*)?\\+ CSSF levy \\(\\$2\\.50/credit\\)\\s*\\((?:202[6-9]|203[0-9])\\)",
       "campus": "\\*\\s*[0-9]{1,3} (?:Weeks|Months|Years?)\\s+([A-Za-zāēīōū ]{3,40}?)\\s+Overview",
+      "duration": "\\*\\s*([0-9]{1,3} (?:Weeks|Months|Years?))\\b",
+      "entry_requirement": "IELTS score of 5\\.5 with no band score lower than 5; or an accepted international equivalence\\.\\s*(?:All applicants must:\\s*be at least 16 years old at the time the programme commences\\.?\\s*)?((?!.{0,4}Time limit)(?:(?!\\s*Intakes & Applications)(?:.|\\n)){20,200})",
+      "fee": "International Fees:\\s*\\$([0-9][0-9,]{3,})\\s*(?:\\(per academic year\\)\\s*)?\\+ CSSF levy \\(\\$2\\.50/credit\\)\\s*\\((?:202[6-9]|203[0-9])\\)",
       "intakes": "Rolling Intake\\s*,\\s*((?:January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, 20[0-9]{2})",
-      "duration": "\\*\\s*([0-9]{1,3} (?:Weeks|Months|Years?))\\b"
+      "mode": "\\*\\s*[0-9]{1,3} (?:weeks|months|years?)\\s+((?:online|blended|distance)(?:\\s+(?:online|blended|distance)){0,9})\\s+overview"
     },
     "pick": {
       "fee": "first",
       "campus": "first",
       "intakes": "all",
-      "duration": "first"
+      "duration": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "NorthTec (Tai Tokerau / Northland business division of Te Pukenga / NZIST); host www.northtec.ac.nz/programmes/; Webflow CMS page, server-rendered text with hidden tabs, no usable page JSON. Header: '* N Weeks|Years Campus Overview'. Dates & Bookings tab: 'Rolling Intake , <Month d, yyyy> – <Month d, yyyy>' per class (start date = intake month; the end date is not an intake). International Fees: '$X [(per academic year)] + CSSF levy ($2.50/credit) (YYYY)*' repeated for each year; read only for 2026 onward; '(18 Months)' totals not read. Site note: fees for programmes longer than one academic year are first-year fees; 19-week certificate amounts are half-year totals and must be excluded. IELTS is NOT read: every page carries two template IELTS lines (5.0 and 5.5) before the programme-specific one. Intakes are not split domestic/international.",
-    "reason": "NorthTec adapter, final round: class start dates, current-year international fee, probes removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:04:28.057089+00:00"
+    "page_view": {},
+    "notes": "NorthTec (Tai Tokerau / Northland business division of Te Pukenga / NZIST); host www.northtec.ac.nz/programmes/; Webflow CMS page, server-rendered text with hidden tabs, no usable page JSON. Header: '* N Weeks|Years Campus Overview'. Dates & Bookings tab: 'Rolling Intake , <Month d, yyyy> – <Month d, yyyy>' per class (start date = intake month; the end date is not an intake). International Fees: '$X [(per academic year)] + CSSF levy ($2.50/credit) (YYYY)*' repeated for each year; read only for 2026 onward; '(18 Months)' totals not read. Site note: fees for programmes longer than one academic year are first-year fees; 19-week certificate amounts are half-year totals and must be excluded. IELTS is NOT read: every page carries two template IELTS lines (5.0 and 5.5) before the programme-specific one. Intakes are not split domestic/international. 5 Oct 15:22 checks: no exit-award wording. International fees are already per academic year (or first-year), so no fee_total. entry_requirement = the programme-specific block after the two template IELTS lines (5.0 and 5.5), for review only.",
+    "reason": "Entry requirement: calendar-index skip also allows a hidden joiner character before the text (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:17:56.624246+00:00"
   },
   "exclusions": [
     {
@@ -853,7 +857,7 @@
       {
         "kind": "english_policy",
         "url": "https://www2.nzqa.govt.nz/assets/About-us/Our-rules-fees-and-policies/NZQA-Rules/2025/Table-for-internationally-recognised-English-proficiency-outcomes-for-international-students.pdf",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

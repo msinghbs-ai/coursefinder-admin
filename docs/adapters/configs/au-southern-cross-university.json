@@ -6,32 +6,40 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "exit_awards",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Southern Cross: intakes 86 of 87 agree, IELTS 91, annual international fees from the international panel, 2027 figures excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T23:23:08Z",
-  "config_updated_at": "2026-10-04T23:03:58Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit exit awards alongside the existing fields (4 exit awards checked against the parent pages) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+  "admit_changed_at": "2026-10-05T06:10:03Z",
+  "config_updated_at": "2026-10-05T06:19:43Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*([0-9]{1,3}(?:,[0-9]{3})+)\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic))",
       "campus": "\\bLocation\\s+(?!Domestic)([^:\\n]{2,200}?)\\s+Placement",
-      "intakes": "Start Date\\s*(?:What.s this\\s*)?((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*(?:,|and|&)\\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)){0,11})(?=(?:.|\\n){0,250}?Location(?:.|\\n){0,250}?Language Requirements(?:.|\\n){0,250}?Course code(?:.|\\n){0,250}?Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*[0-9]{1,3}(?:,[0-9]{3})+\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic)))",
       "duration": "Duration\\s*(?:What.s this\\s*)?([0-9](?:.|\\n){0,80}?)\\s*Location",
-      "ielts_overall": "Language Requirements\\s*(?:What.s this\\s*)?IELTS Overall Score\\s*([0-9](?:\\.[05])?)(?=(?:.|\\n){0,250}?Course code(?:.|\\n){0,250}?Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*[0-9]{1,3}(?:,[0-9]{3})+\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic)))"
+      "entry_requirement": "specifics listed below\\. Entry requirements (?:(?!Other things to consider|Exit Awards?)(?:.|\\n)){0,250}?((?:Academic (?:admission|entry) requirements?|Applicants['’] qualifications|Applicants (?:must|may|for admission)|To be (?:eligible|considered)|To meet admission|For admission|An applicant|Completion of|Successful completion|A (?:3|three|four \\(4\\)|4)[- ]year|Bachelor degree|Admission to|Be a minimum)(?:(?!Other things to consider|Exit Awards?|Language requirements|English language)(?:.|\\n)){20,200})",
+      "exit_awards": "((?:exit with|exit award of) (?:a|an|the) [A-Z][^.]{3,120}? after completing (?:the equivalent of |the first )?(?:[^.]{0,40}?)[0-9]{1,2} (?:core |specialisation )?units(?: \\([0-9]{2,3} credit points\\))?|Annual tuition fee is based on completing [0-9]{1,2} units per year)",
+      "fee": "Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*([0-9]{1,3}(?:,[0-9]{3})+)\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic))",
+      "ielts_overall": "Language Requirements\\s*(?:What.s this\\s*)?IELTS Overall Score\\s*([0-9](?:\\.[05])?)(?=(?:.|\\n){0,250}?Course code(?:.|\\n){0,250}?Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*[0-9]{1,3}(?:,[0-9]{3})+\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic)))",
+      "intakes": "Start Date\\s*(?:What.s this\\s*)?((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*(?:,|and|&)\\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)){0,11})(?=(?:.|\\n){0,250}?Location(?:.|\\n){0,250}?Language Requirements(?:.|\\n){0,250}?Course code(?:.|\\n){0,250}?Indicative fee\\s*(?:What.s this\\s*)?\\$\\s*[0-9]{1,3}(?:,[0-9]{3})+\\s*\\(first year only\\)(?!\\s*(?:Commonwealth|Fee Paying|Domestic)))",
+      "mode": "International snapshot(?:.|\\n){0,250}?Location (Online) Placement"
     },
     "pick": {
       "fee": "last",
+      "mode": "last",
       "campus": "last",
       "intakes": "last",
       "duration": "last",
-      "ielts_overall": "last"
+      "exit_awards": "all",
+      "ielts_overall": "last",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Term 1": "March",
@@ -44,9 +52,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "SCU course pages (www.scu.edu.au/study/courses/<slug>-<code>/) print two snapshot panels: Domestic first, International second (domestic-only courses print one). Each has Start Date (month names), Duration, Location, Language Requirements (IELTS Overall Score), Course code, Indicative fee ($X (first year only); domestic adds Commonwealth supported / Fee Paying). Intakes and IELTS are read only from a panel whose Indicative fee is the international one (no Commonwealth/Fee Paying), last match; fee = international indicative first-year fee (= Annual Fees in the availability table). Handbook pages (handbook.scu.edu.au/.../<year>) are archived years with no intakes/fees. term_months from SCU 2026 teaching dates PDF https://www.scu.edu.au/media/scu-dep/staff/governance-and-records/academic-board/principal-dates/SCU-2026-Teaching-Dates---Terms.pdf (Summer Jan, T1 Mar, T2 May, T3 Jul, T4 Aug, T5 Oct). English central: https://www.scu.edu.au/study/international-study/how-to-apply-international-future-students/english-language-requirements/",
-    "reason": "Round 3: international-panel check anchored on panel labels so longer panels are read (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T23:03:58.686517+00:00"
+    "page_view": {},
+    "notes": "SCU course pages (www.scu.edu.au/study/courses/<slug>-<code>/) print two snapshot panels: Domestic first, International second (domestic-only courses print one). Each has Start Date (month names), Duration, Location, Language Requirements (IELTS Overall Score), Course code, Indicative fee ($X (first year only); domestic adds Commonwealth supported / Fee Paying). Intakes and IELTS are read only from a panel whose Indicative fee is the international one (no Commonwealth/Fee Paying), last match; fee = international indicative first-year fee (= Annual Fees in the availability table). Handbook pages (handbook.scu.edu.au/.../<year>) are archived years with no intakes/fees. term_months from SCU 2026 teaching dates PDF https://www.scu.edu.au/media/scu-dep/staff/governance-and-records/academic-board/principal-dates/SCU-2026-Teaching-Dates---Terms.pdf (Summer Jan, T1 Mar, T2 May, T3 Jul, T4 Aug, T5 Oct). English central: https://www.scu.edu.au/study/international-study/how-to-apply-international-future-students/english-language-requirements/ 5 Oct 15:22: entry_requirement = academic requirement in the course page \"Entry requirements\" section (English block skipped; review only). exit_awards (review only) keeps \"exit with ... after completing N units (N credit points)\" and \"Annual tuition fee is based on completing 8 units per year\"; 4 exit awards set by hand (years = units / 8).",
+    "reason": "Notes: entry requirement and exit-award findings (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:19:43.694267+00:00"
   },
   "exclusions": [
     {

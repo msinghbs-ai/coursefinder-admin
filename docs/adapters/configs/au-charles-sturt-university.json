@@ -6,40 +6,44 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Wave 9 report: intakes, English and fee ready after domestic-view and 2026/Study Abroad/shared-page fee exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:20:32Z",
-  "config_updated_at": "2026-10-05T00:01:30Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit delivery: mode read from the international view fee block (International on campus / online); 5 spot-checks match, domestic pages give no reading (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:10:28Z",
+  "config_updated_at": "2026-10-05T06:11:32Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:Fee paying overseas: Full-time - \\$|{code} (?:.|\\n){0,160}?\\$[0-9,]+(?:\\.[0-9]{2})?\\s*\\$)([0-9,]+)",
-      "mode": "sessions ((?:On Campus|Online)(?: (?:On Campus|Online))?) Next session start",
-      "campus": "Session \\d+ ?: ?(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, 20\\d\\d (?:On Campus|Online)(?:, (?:On Campus|Online))? ((?:(?!Session \\d)[^\\n]){3,120}?) (?:Session \\d|Duration)",
-      "intakes": "Session \\d+ ?: ?((?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, 20\\d\\d)",
-      "duration": "Duration Minimum time - ([0-9.]+ year\\(s\\))",
       "aqf_level": "AQF: Level ([0-9]+)",
-      "ielts_overall": "IELTS(?: results)? \\(academic module\\) with a minimum overall score of ([0-9](?:\\.[05])?)"
+      "campus": "Session \\d+ ?: ?(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, 20\\d\\d (?:On Campus|Online)(?:, (?:On Campus|Online))? ((?:(?!Session \\d)[^\\n]){3,120}?) (?:Session \\d|Duration)",
+      "duration": "Duration Minimum time - ([0-9.]+ year\\(s\\))",
+      "entry_requirement": "Academic entry requirements\\s+((?:.|\\n){20,200})",
+      "fee": "(?:Fee paying overseas: Full-time - \\$|{code} (?:.|\\n){0,160}?\\$[0-9,]+(?:\\.[0-9]{2})?\\s*\\$)([0-9,]+)",
+      "ielts_overall": "IELTS(?: results)? \\(academic module\\) with a minimum overall score of ([0-9](?:\\.[05])?)",
+      "intakes": "Session \\d+ ?: ?((?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, 20\\d\\d)",
+      "mode": "Indicative fees (International (?:on campus|online)(?:(?:.|\\n){0,250}?International (?:on campus|online))?)"
     },
     "pick": {
       "fee": "first",
       "campus": "first",
-      "intakes": "all"
+      "intakes": "all",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Charles Sturt (wave run 5 Oct). Page kinds: (1) international course pages study.csu.edu.au/international/courses/<slug> (static HTML, read direct/Firecrawl): 'Study mode and sessions' block lists 'Session N : <Month d, yyyy> <mode> <campuses>' (intakes = months of those dates, pick all; campus = text after first session's mode); 'Duration Minimum time - N year(s)'; 'Indicative fees International on campus Fee paying overseas: Full-time - $X pa' (fee = first, the on-campus full-time annual figure; online and part-time figures follow and are not read); 'AQF: Level N'; 'Cricos: <code>'; IELTS only where the page prints 'IELTS [results] (academic module) with a minimum overall score of N' (most pages defer to the central entry-requirements page). (2) central fee tables: www.csu.edu.au/current-students/financial-and-scholarship/fees/course-fees/international-students (2027 fees) and its /previous (2026) and study.csu.edu.au/international/course-fees (2026): row '<CRICOS> <name> <location> $<per 8pt subject> $<annual 8 subjects>' -> fee = second amount after {code}. 2026-year table pages and Study Abroad 6-month rows are excluded from fee. (3) handbook.csu.edu.au pages are browser-rendered (needs_render) and not read. English: central page https://study.csu.edu.au/international/how-to-apply/course-entry-requirements. No term_months needed: course pages print session start dates.",
-    "reason": "Round 2: IELTS pattern also reads IELTS results wording; campus skips online-only first session (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:01:30.554206+00:00"
+    "page_view": {},
+    "notes": "Charles Sturt (wave run 5 Oct). Page kinds: (1) international course pages study.csu.edu.au/international/courses/<slug> (static HTML, read direct/Firecrawl): 'Study mode and sessions' block lists 'Session N : <Month d, yyyy> <mode> <campuses>' (intakes = months of those dates, pick all; campus = text after first session's mode); 'Duration Minimum time - N year(s)'; 'Indicative fees International on campus Fee paying overseas: Full-time - $X pa' (fee = first, the on-campus full-time annual figure; online and part-time figures follow and are not read); 'AQF: Level N'; 'Cricos: <code>'; IELTS only where the page prints 'IELTS [results] (academic module) with a minimum overall score of N' (most pages defer to the central entry-requirements page). (2) central fee tables: www.csu.edu.au/current-students/financial-and-scholarship/fees/course-fees/international-students (2027 fees) and its /previous (2026) and study.csu.edu.au/international/course-fees (2026): row '<CRICOS> <name> <location> $<per 8pt subject> $<annual 8 subjects>' -> fee = second amount after {code}. 2026-year table pages and Study Abroad 6-month rows are excluded from fee. (3) handbook.csu.edu.au pages are browser-rendered (needs_render) and not read. English: central page https://study.csu.edu.au/international/how-to-apply/course-entry-requirements. No term_months needed: course pages print session start dates. | 5 Oct (exit awards and requirements): entry_requirement = text after \"Academic entry requirements\" on the international course page. No exit sentence with full-time years (MHPP mentions early exit options only). Fees are per annum (pa).",
+    "reason": "Final: entry_requirement pattern for review (not admitted); exploratory exit-award text removed, no exit awards with full-time years printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:11:32.987233+00:00"
   },
   "exclusions": [
     {
@@ -152,14 +156,14 @@
       {
         "kind": "english_policy",
         "url": "https://study.csu.edu.au/international/how-to-apply/course-entry-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:09:01Z",
         "evidence_id": "1caee22c-325b-4e35-a5c2-ca345bfff77d"
       },
       {
         "kind": "intake_calendar",
         "url": "https://about.csu.edu.au/our-university/important-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:08:59Z",
         "evidence_id": "93ab4f73-e5cc-4cfa-b9b9-41bb37e4f9b1"
       }

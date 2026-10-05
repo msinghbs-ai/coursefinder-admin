@@ -6,28 +6,33 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "Wollongong: intakes 200 of 210 agree, IELTS 210; no annual fee published (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:23:10Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Wollongong: delivery admitted alongside english and intakes; key-facts delivery agrees with the international course fees table delivery method on 183 on-campus pages and 3 distance (Flexible) pages, one disagreeing course excluded (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:10:52Z",
+  "config_updated_at": "2026-10-05T06:10:33Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Delivery\\s*\\??\\s*((?:On Campus|Online|Multi-?mode|Blended|Block|Distance)(?:(?:,| and| or|/|&)\\s*(?:On Campus|Online|Multi-?mode|Blended|Block|Distance))*)",
       "campus": "Campus\\s*\\??\\s*(?:Please select\\s+)?([a-z][a-z ,]{2,80}?)\\s+(?:ATAR|Delivery|IBAS|Selection)",
-      "intakes": "(?:Starts\\s+((?:(?:[a-z]+ )?(?:Autumn|Spring|Summer|Annual|Trimester [1-3]|Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) 20[2-3][0-9],?\\s*)+)|\\b(?:Autumn|Spring|Summer|Annual|Trimester [1-3]|January|February|March|April|May|June|July|August|September|October|November|December)(?: Session)?,? 20[2-3][0-9] at UOW)",
+      "course_years": "Delivery\\s*\\??\\s*(?:On Campus|Online|Multi-?mode|Blended|Block|Distance)(?:(?:,| and| or|/|&)\\s*(?:On Campus|Online|Multi-?mode|Blended|Block|Distance))*\\s+Duration\\s*\\??\\s*([0-9]+(?:\\.[0-9]+)? years? full[- ]time)",
       "duration": "Duration\\s*\\??\\s*([0-9.]+ (?:years?|months?|weeks?|sessions?|trimesters?)(?: full[- ]time)?)",
-      "ielts_overall": "IELTS Academic\\s+([4-9](?:\\.[05])?)\\b"
+      "entry_requirement": "Entry Requirements Additional information\\s*(?:Entry Requirements Additional information\\s*)?(?:Academic Entry Requirements\\s*)?((?:[^.]|\\.[0-9A-Za-z]){15,200}\\.?)",
+      "fee_total": "Session fee\\*\\s+Course fee\\*(?:.|\\n){0,120}?\\$[0-9,]{4,} \\(20[2-3][0-9]\\)\\s+\\$([0-9,]{4,}) \\(20[2-3][0-9]\\)",
+      "ielts_overall": "IELTS Academic\\s+([4-9](?:\\.[05])?)\\b",
+      "intakes": "(?:Starts\\s+((?:(?:[a-z]+ )?(?:Autumn|Spring|Summer|Annual|Trimester [1-3]|Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) 20[2-3][0-9],?\\s*)+)|\\b(?:Autumn|Spring|Summer|Annual|Trimester [1-3]|January|February|March|April|May|June|July|August|September|October|November|December)(?: Session)?,? 20[2-3][0-9] at UOW)",
+      "mode": "Delivery\\s*\\??\\s*((?:On Campus|Online|Multi-?mode|Blended|Block|Distance)(?:(?:,| and| or|/|&)\\s*(?:On Campus|Online|Multi-?mode|Blended|Block|Distance))*)"
     },
     "pick": {
       "intakes": "all",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Autumn": "March",
@@ -40,9 +45,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "UOW course pages (www.uow.edu.au/study/courses/...) carry a key-facts panel: \"Campus\", \"Delivery\", \"Duration\", \"Starts <session> <year>\" (stored view is the current year only, so passed sessions can be missing) and Codes (CRICOS, UOW); the Key dates tab lists each commencing session as \"<Session>, <year> at UOW\" for this and next year. Intakes = all session names from both, mapped to months from https://www.uow.edu.au/student/dates/ (Autumn=March, Spring=July, Summer=November, Trimester 1/2/3=February/May/August). English table row \"IELTS Academic <overall> <bands>\". International fees are only a per-session fee and a whole-course fee, so no annual fee is read. Handbook pages (documents.uow.edu.au/handbook/yrYYYY) are archived years and are not read.",
-    "reason": "Save University of Wollongong adapter round 2: intakes also read from the key-dates session headings (current and next year), Summer mapped to November, probe field removed (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:23:10.661276+00:00"
+    "page_view": {},
+    "notes": "UOW course pages (www.uow.edu.au/study/courses/...) carry a key-facts panel: \"Campus\", \"Delivery\", \"Duration\", \"Starts <session> <year>\" (stored view is the current year only, so passed sessions can be missing) and Codes (CRICOS, UOW); the Key dates tab lists each commencing session as \"<Session>, <year> at UOW\" for this and next year. Intakes = all session names from both, mapped to months from https://www.uow.edu.au/student/dates/ (Autumn=March, Spring=July, Summer=November, Trimester 1/2/3=February/May/August). English table row \"IELTS Academic <overall> <bands>\". International fees are only a per-session fee and a whole-course fee, so no annual fee is read. Handbook pages (documents.uow.edu.au/handbook/yrYYYY) are archived years and are not read. 5 Oct 13:02 international view: the plain server HTML of www.uow.edu.au/study/courses pages already holds the international content (key facts, key dates, International Course fees table); a rendered ?students=international read of 2 pages gave identical readings, so no page_view is set. The 5 UOW College international-only diplomas (address ?students=international) print no fee, start dates or IELTS even when rendered. International fees are printed only as a session fee and an indicative whole-course fee (2026); no annual fee and no full-time sessions-per-year statement on the course pages. 5 Oct 15:22 checks: no exit-award wording on any stored page. fee_total = the international \"Course fee*\" (whole-course, indicative, labelled \"Total course tuition fees ... based on normal course length\") with course_years = the key-facts \"Delivery ... Duration N years full-time\"; annual = total / years (cross-check: total = session fee x sessions, e.g. 21096 x 6 = 126576 over 3 years). Courses under one year give no fee. entry_requirement = the first sentence of the Academic Entry Requirements block (international view), for review only.",
+    "reason": "Full-time years read only from the key-facts Duration (after Delivery), so a later \"N years full-time\" elsewhere on the page is not used (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:10:33.949935+00:00"
   },
   "exclusions": [
     {
@@ -59,7 +65,7 @@
     }
   ],
   "central_rules": {
-    "english_rule": "proposed",
+    "english_rule": "no_values",
     "calendar": "proposed",
     "central_pages": [
       {
@@ -70,16 +76,7 @@
         "evidence_id": "81c43521-bfc8-4135-8d02-b4ac1737688c"
       }
     ],
-    "english_proposals_waiting": [
-      {
-        "id": "c2b83545-143b-4536-b2cb-5d73948a7ad1",
-        "parser": "written out from the central page",
-        "style": "level_default",
-        "url": "https://www.uow.edu.au/study/international/requirements/english/",
-        "created_at": "2026-10-04T21:33:00Z",
-        "proposal_md5": "4fa6e547f3fd9d90ca64ebd87534970b"
-      }
-    ]
+    "english_proposals_waiting": []
   },
   "results": {
     "note_5_oct": "Wave 6. 208 intakes, 210 IELTS. No annual fee published."

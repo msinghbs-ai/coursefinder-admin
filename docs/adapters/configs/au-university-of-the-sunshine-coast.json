@@ -6,31 +6,34 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Sunshine Coast fees from the 2026 table and course pages, stale-table, non-annual and doubtful-year readings excluded (Claude wave run, on the Platform Admin decision 5 Oct 07:36: fee year)",
-  "admit_changed_at": "2026-10-04T20:38:32Z",
-  "config_updated_at": "2026-10-04T19:33:20Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "UniSC: delivery admitted with fee and intakes; Delivery mode read from the program panel, 5 spot-checks match (Blended Learning, Blended Learning Online, empty panel = none) (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:15:30Z",
+  "config_updated_at": "2026-10-05T06:08:06Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:Annual tuition fee \\(A\\$, 20\\d\\d\\) A\\$|{code}\\s+[A-Z]{2,3}\\d{3}\\s+[^$]{3,160}?\\s\\d+(?:\\.\\d+)?\\s+years?\\s+\\$)([0-9,]+)",
-      "mode": "Delivery mode\\s+((?:.|\\n){3,80}?)\\s+Total courses",
       "campus": "\\bLocation\\s+((?:.|\\n){3,120}?)\\s+CRICOS code",
+      "duration": "\\bDuration\\s+(\\d+(?:\\.\\d+)?\\s+(?:years?|months?|trimesters?))",
+      "entry_requirement": "(?:\\bPrerequisites\\s+(?!are minimum)|Entry requirements\\s+(?:Font Awesome fontawesome\\.com -->\\s+)?(?=Completion|A |An |Successful|Applicants|Bachelor|Year 12)|(?=To be considered for admission))((?:.|\\n){15,200}?(?=\\.\\s|\\s+(?:Recommended prior study|Please note|Inherent|Entry requirements|Pathways|Additional))|(?:.|\\n){15,200})",
+      "fee": "(?:Annual tuition fee \\(A\\$, 20\\d\\d\\) A\\$|{code}\\s+[A-Z]{2,3}\\d{3}\\s+[^$]{3,160}?\\s\\d+(?:\\.\\d+)?\\s+years?\\s+\\$)([0-9,]+)",
       "intakes": "\\bStart\\s+((?:(?:Trimester|Session|Semester) \\d\\s*){1,12})",
-      "duration": "\\bDuration\\s+(\\d+(?:\\.\\d+)?\\s+(?:years?|months?|trimesters?))"
+      "mode": "Delivery mode\\s+((?:.|\\n){3,80}?)\\s+Total courses"
     },
     "pick": {
       "fee": "first",
       "mode": "first",
       "campus": "first",
       "intakes": "first",
-      "duration": "first"
+      "duration": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Trimester 1": "March",
@@ -40,9 +43,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "UniSC (unisc.edu.au / usc.edu.au). Page kinds: (1) course pages /study/courses-and-programs/... showing both domestic and international panels; international annual fee printed as \"Annual tuition fee (A$, 2026) A$N\"; start as \"Start Trimester 1 Trimester 2\" (term_months from the 2026 academic calendar https://www.unisc.edu.au/study/calendars-timetables-and-key-dates/2026-academic-calendar: Trimester 1 = 2 March, Trimester 2 = 20 July, Trimester 3 = 9 November; Sessions not mapped because course-page session numbering does not match the calendar); Location, Duration, Delivery mode in the program panel; no IELTS figure (central page https://www.unisc.edu.au/international/international-students/english-language-requirements). (2) international tuition-fee tables /international/programs-and-fees/YYYY-international-student-tuition-fees, one row per CRICOS code with \"N year(s) $fee\"; rows with \"1 trimester\" are not read. 2024 pages are archived-year; Study Abroad and Postgraduate Qualifying Pathway rows are not annual.",
-    "reason": "Save the first University of the Sunshine Coast adapter: trimester start, international annual fee, location, duration, delivery mode (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T19:33:20.609722+00:00"
+    "reason": "Add the entry requirement pattern (international view, shown for review, not admitted); no exit points or international whole-course fee with printed full-time years found in stored pages, so no exit_awards / fee_total patterns (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:08:06.304253+00:00"
   },
   "exclusions": [
     {

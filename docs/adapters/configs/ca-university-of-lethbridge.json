@@ -6,12 +6,13 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "intakes"
   ],
-  "admit_reason": "Lethbridge: 3 graduate intakes (Fall) from programme pages (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:09:36Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Lethbridge: delivery from the programme page delivery sentence (Master of Nursing online for international students, M.Sc. Health Sciences on the Lethbridge campus; both checked); intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:20:44Z",
+  "config_updated_at": "2026-10-05T06:05:01Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -19,24 +20,29 @@
     "sections": {},
     "patterns": {
       "campus": "\\bCampus(?:es)?:?\\s+((?:Lethbridge|Calgary)(?:\\s*(?:&|and|,)\\s*(?:Lethbridge|Calgary))?)\\s+Intake\\b",
+      "entry_requirement": "Admission requirements\\s+(?:Applicants will meet the following minimum requirements to be considered for admission:\\s*)?((?:Hold|Master's degree|A (?:baccalaureate|bachelor)|Minimum|Completion)(?:.|\\n){20,200})",
       "intakes": "\\bIntake:?\\s+((?:Fall|Winter|Spring|Summer)(?:\\s*(?:&|and|,|/)\\s*(?:Fall|Winter|Spring|Summer)){0,3})",
+      "mode": "Mode of delivery\\s+(In person|In-person|Online|Blended|Hybrid|Multi-?modal)|((?:International students\\s+)?This program is (?:an?\\s+)?online delivery format|programs? (?:are|is) delivered (?:entirely\\s+)?on the (?:Lethbridge|Calgary) campus)",
       "not_admitting": "\\((program suspended)\\)"
     },
     "pick": {
+      "mode": "first",
       "campus": "first",
       "intakes": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Fall": "September",
       "Winter": "January"
     },
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "ULethbridge programme pages are www.ulethbridge.ca/future-student/program/<subject> (undergraduate, one page per subject covering BA, BA&Sc, combined degrees) and /future-student/graduate-studies/<programme>. Both print a labelled block: Credentials available / Campus (Lethbridge, Calgary) / Intake (e.g. \"Fall & Winter\", \"Fall\", \"Summer\"). Term months from the university academic schedule (https://www.ulethbridge.ca/sites/ross/files/imported/academic-schedule/Academic-Schedule.pdf; https://www.ulethbridge.ca/ross/admissions/grad/deadlines): Fall = September, Winter = January. Summer is deliberately NOT mapped: the Summer term opens in May but Summer-intake graduate programmes (e.g. PhD in Education) start on campus in July, so a Summer intake gives no month. Pages carry NO fee and NO IELTS: international tuition is central (https://www.ulethbridge.ca/future-student/undergraduate-tuition-fees, 2026/27 CAD 24,662.20 per year full-time) and English is central (https://www.ulethbridge.ca/ross/admissions/elp and /ross/admissions/grad/elr: IELTS 6.5 overall, 6.0 each band). /ross/post-diploma/eligible/N pages are diploma-transfer tables, not programme pages; \"(program suspended)\" in their titles is read as not_admitting. Catalogue course codes are ALIS programme ids, not printed on pages. Most courses are bound to the wrong pages (old PDF planning guides, department, careers, news pages): rebinding undergraduate courses to /future-student/program/<subject> is the fix.",
-    "reason": "Round 2: drop Summer=May (PhD Education Summer intake starts July), campus must precede the Intake label (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:09:36.854716+00:00"
+    "title_strip": "\\s*\\((?:[^()]|\\([^()]*\\))*\\)\\s*$",
+    "course_title_strip": "^(?:Bachelor|Master|Doctor) of (?:Arts and Science|Arts|Science - Management|Science|Education|Fine Arts - (?:Art|Dramatic Arts|Indigenous Art|Multidisciplinary|New Media)|Business Administration|Health Sciences|Music|Nursing|Therapeutic Recreation|Philosophy|Management|Health Services Management|Counselling|Fine Arts)\\s+|\\s*\\(Project Option\\)$",
+    "page_view": {},
+    "notes": "ULethbridge programme pages are www.ulethbridge.ca/future-student/program/<subject> (undergraduate, one page per subject covering BA, BA&Sc, combined degrees) and /future-student/graduate-studies/<programme>. Both print a labelled block: Credentials available / Campus (Lethbridge, Calgary) / Intake (e.g. \"Fall & Winter\", \"Fall\", \"Summer\"). Term months from the university academic schedule (https://www.ulethbridge.ca/sites/ross/files/imported/academic-schedule/Academic-Schedule.pdf; https://www.ulethbridge.ca/ross/admissions/grad/deadlines): Fall = September, Winter = January. Summer is deliberately NOT mapped: the Summer term opens in May but Summer-intake graduate programmes (e.g. PhD in Education) start on campus in July, so a Summer intake gives no month. Pages carry NO fee and NO IELTS: international tuition is central (https://www.ulethbridge.ca/future-student/undergraduate-tuition-fees, 2026/27 CAD 24,662.20 per year full-time) and English is central (https://www.ulethbridge.ca/ross/admissions/elp and /ross/admissions/grad/elr: IELTS 6.5 overall, 6.0 each band). /ross/post-diploma/eligible/N pages are diploma-transfer tables, not programme pages; \"(program suspended)\" in their titles is read as not_admitting. Catalogue course codes are ALIS programme ids, not printed on pages. Most courses are bound to the wrong pages (old PDF planning guides, department, careers, news pages): rebinding undergraduate courses to /future-student/program/<subject> is the fix. Delivery (mode): the programme page sentence on delivery, e.g. \"International students This program is online delivery format\" (Master of Nursing, online) or \"programs are delivered on the Lethbridge campus\" (M.Sc.); pages without such a sentence give no delivery. International view (5 Oct 13:02 review): programme pages print one view (Intake, Campus and the international-students delivery sentence in the plain page); fee and IELTS are central only, so no page_view is needed. Courses were rebound by hand to /future-student/program/<subject> (undergraduate) and /future-student/graduate-studies/<credential>/<subject> (graduate). Title identity: course_title_strip takes the credential off the catalogue title and title_strip takes the bracketed credential off the page title (\"Cultural, Social, and Political Thought (MA)\"), so a subject of two or more words is confirmed; single-word subjects (Anthropology, Chemistry ...) cannot be confirmed by title (the worker needs two words) and stay \"manual\". Graduate programme pages also print a facts block: \"Length of program ... Mode of delivery In person ... Campus Lethbridge Intake Summer, Fall and Winter\"; mode reads \"Mode of delivery\" first, then the delivery sentence. Undergraduate subject pages print no delivery wording.",
+    "reason": "probe patterns removed; entry_requirement pattern added (international entry requirement for review). No exit-year sentences or whole-course international fees printed on stored pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:01.677612+00:00"
   },
   "exclusions": [
     {
@@ -52,20 +58,8 @@
       "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "4514ab9e-9190-40a2-8352-95d5868587bc",
-      "title": "Bachelor of Health Sciences Indigenous Health",
-      "field": "intakes",
-      "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
       "course_code": "5bf4b4f3-202a-427a-aad4-a12700c5f324",
       "title": "Bachelor of Arts Agricultural Studies",
-      "field": "intakes",
-      "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "899698c4-ef8b-4f64-a5fd-266f163b2808",
-      "title": "Bachelor of Therapeutic Recreation Therapeutic Recreation",
       "field": "intakes",
       "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
@@ -90,18 +84,6 @@
     {
       "course_code": "bfde0c0d-0717-4fb7-ab12-40dba6a74162",
       "title": "Master of Health Services Management Health Services Management",
-      "field": "intakes",
-      "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "ced25c19-3520-4c80-af02-a12700c5f311",
-      "title": "Bachelor of Science Environmental Science",
-      "field": "intakes",
-      "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "d9871b0a-7f85-4dd4-82bc-a12700c5f32f",
-      "title": "Bachelor of Science Agricultural Studies",
       "field": "intakes",
       "reason": "news article, transfer table or Summer/July case (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },

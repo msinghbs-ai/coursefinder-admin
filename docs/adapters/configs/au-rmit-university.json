@@ -6,25 +6,31 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "exit_awards",
     "fee"
   ],
-  "admit_reason": "RMIT: fees 194 equal and 78 new, IELTS 362; intakes held: 55 pages list fewer intakes than held (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:09:23Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit exit awards with the existing fields delivery, english, fee (intakes stay on hold); 5 Graduate Diploma exit awards checked against the master's pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+  "admit_changed_at": "2026-10-05T06:17:42Z",
+  "config_updated_at": "2026-10-05T06:19:43Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,200}?Fees: (?:AU)?\\$([0-9][0-9,]{3,8}) \\(20[2-3][0-9] annual\\)",
-      "mode": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: ([A-Za-z ,-]{2,60}?) Entry score:",
       "campus": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,250}?Location: ((?:.|\\n){1,80}?) Back to",
-      "intakes": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,200}?Next intakes?: ((?:January|February|March|April|May|June|July|August|September|October|November|December)[^:]{0,100}?) Location:",
+      "course_years": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,120}?Duration: Full-time ([0-9](?:\\.[0-9])?) years? (?=Fees: (?:AU)?\\$[0-9][0-9,]{3,8} \\(20[2-3][0-9] total indicative\\))",
       "duration": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,120}?Duration: ((?:.|\\n){1,60}?) Fees:",
-      "ielts_overall": "IELTS \\(Academic\\):? minimum overall (?:band|score) of ([4-9](?:\\.[05])?)"
+      "entry_requirement": "Entry requirements and admissions (?:.|\\n){0,250}?(?:.|\\n){0,250}?((?:You must have|You will need|There (?:are|is) no minimum|The minimum requirements|Applicants must|Successful completion|Completion of)(?:.|\\n){0,200})",
+      "exit_awards": "(If you wish to exit early with [^.]{0,250}\\.|[^.]{0,120}available (?:as )?an? exit awards?[^.]{0,60}|After completing 96 credit points[^.]{0,150}|standard year of full-time study \\(96 credit points\\)|96 credit points \\(equivalent to [^)]{0,60}\\))",
+      "fee": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,120}?Duration: (?=Full-time 1 year(?: Part-time [^:]{1,20}?)? Fees: (?:AU)?\\$[0-9][0-9,]{3,8} \\(20[2-3][0-9] total(?: indicative)?\\)|(?:.|\\n){0,60}?Fees: (?:AU)?\\$[0-9][0-9,]{3,8} \\(20[2-3][0-9] annual\\))(?:.|\\n){0,60}?Fees: (?:AU)?\\$([0-9][0-9,]{3,8}) \\(20[2-3][0-9] (?:annual|total(?: indicative)?)\\)",
+      "fee_total": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,120}?Duration: Full-time [0-9](?:\\.[0-9])? years? Fees: (?:AU)?\\$([0-9][0-9,]{3,8}) \\(20[2-3][0-9] total indicative\\)",
+      "ielts_overall": "IELTS \\(Academic\\):? minimum overall (?:band|score) of ([4-9](?:\\.[05])?)",
+      "intakes": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: (?:.|\\n){0,200}?Next intakes?: ((?:January|February|March|April|May|June|July|August|September|October|November|December)[^:]{0,100}?) Location:",
+      "mode": "Student type: Domestic International(?:.|\\n){0,250}?Learning mode:(?:.|\\n){0,250}?Learning mode: ([A-Za-z ,-]{2,60}?) Entry score:"
     },
     "pick": {
       "fee": "first",
@@ -32,15 +38,18 @@
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "exit_awards": "all",
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "RMIT course pages (www.rmit.edu.au/study-with-us/levels-of-study/...) are plain HTML with no page-data JSON. The at-a-glance panel prints both views: \"Student type: Domestic International\", then the domestic panel (Learning mode / Entry score / Duration / Fees / Next intake / Location), then the international panel in the same order. Every pattern is anchored on the SECOND \"Learning mode:\" after \"Student type: Domestic International\", i.e. the international panel. Fee = international \"Fees: AU$NN,NNN (YYYY annual)\" only; vocational \"(YYYY total indicative)\" amounts are not read. Intakes = international \"Next intake:\" months (research shows \"Continuous\", not read). IELTS = \"IELTS (Academic): minimum overall band of X\" in the English language requirements section. Central: English https://www.rmit.edu.au/study-with-us/international-students/apply-to-rmit-international-students/entry-requirements/english-requirements/english-language-proficiency-tests ; key dates https://www.rmit.edu.au/students/my-course/important-dates/2026/he and /2027/he (course pages print months directly, so no term_months).",
-    "reason": "Save RMIT adapter reading the international at-a-glance panel (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:09:23.466924+00:00"
+    "page_view": {},
+    "notes": "RMIT course pages (www.rmit.edu.au/study-with-us/levels-of-study/...) are plain HTML with no page-data JSON. The at-a-glance panel prints both views: \"Student type: Domestic International\", then the domestic panel (Learning mode / Entry score / Duration / Fees / Next intake / Location), then the international panel in the same order. Every pattern is anchored on the SECOND \"Learning mode:\" after \"Student type: Domestic International\", i.e. the international panel. Fee = international \"Fees: AU$NN,NNN (YYYY annual)\" only; vocational \"(YYYY total indicative)\" amounts are not read. Intakes = international \"Next intake:\" months (research shows \"Continuous\", not read). IELTS = \"IELTS (Academic): minimum overall band of X\" in the English language requirements section. Central: English https://www.rmit.edu.au/study-with-us/international-students/apply-to-rmit-international-students/entry-requirements/english-requirements/english-language-proficiency-tests ; key dates https://www.rmit.edu.au/students/my-course/important-dates/2026/he and /2027/he (course pages print months directly, so no term_months). International view (5 Oct 13:02): RMIT prints the domestic and international panels in the same plain HTML (no address variant, no render needed), so page_view stays empty. Fee also reads the international \"(YYYY total)\" or \"(YYYY total indicative)\" amount when the international panel says \"Duration: Full-time 1 year\" (one year of full-time study = annual); totals for longer or unstated durations are not read. 15:34: fee_total + course_years read the international panel's vocational \"AU$X (YYYY total indicative)\" with \"Duration: Full-time N year(s)\"; the worker gives annual = total / N where no annual fee is printed (1-year totals are already read as fee). Not read: 6-month totals (below one year), and higher-education \"(YYYY total)\" figures on multi-year pages, which are per-year amounts mislabelled as total (BEng Honours 4 years AU$48,960, MR 2 years $44,160, the same as other pages' annual fees), so dividing them would understate the fee. 5 Oct 15:22: entry_requirement = first requirement sentence under \"Entry requirements and admissions\" (review only). exit_awards (review only) keeps the exit sentences and the page's \"standard year of full-time study (96 credit points)\"; RMIT exit wording has no full-time years, so the 5 Graduate Diploma exit awards (Arts Management, Justice and Criminology, Animation Games and Interactivity, Communication Design, Design Innovation and Technology) were set by hand at 1 year.",
+    "reason": "Notes: entry requirement and exit-award findings (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:19:43.694267+00:00"
   },
   "exclusions": [
     {
@@ -48,6 +57,12 @@
       "title": "Bachelor of Biomedical Science (Osteopathy)",
       "field": "fee",
       "reason": "fee year taken from the domestic panel (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "118028H",
+      "title": "Bachelor of Sustainability and Environment",
+      "field": "fee",
+      "reason": "Page prints a per-year amount labelled total over 3 years; the divided fee 13,440 is withdrawn (Claude, on the Platform Admin instruction 5 Oct 15:34)"
     }
   ],
   "central_rules": {

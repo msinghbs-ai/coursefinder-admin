@@ -12,28 +12,32 @@
   ],
   "admit_reason": null,
   "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T18:31:17Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T05:57:54Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "\\bDelivery\\s+((?:(?:Off-campus|On-campus|Online|Blended|Multi-modal|External|Internal)\\s*)+)",
       "campus": "\\bLocations?\\s+((?:.|\\n){1,60}?)(?=\\s+(?:Minimum|Attendance|Prerequisites|Course code))",
-      "intakes": "(?:\\bIntake|Starting dates)\\s+((?:(?:every|semester\\s*\\d|january|february|march|april|may|june|july|august|september|october|november|december|and|or|&|,)\\s*)+)",
       "duration": "(?:\\bDuration|Full time/part time duration)\\s+((?:.|\\n){1,80}?)(?=\\s+(?:Location|Minimum|Degrees|View full|Level of study|Status|\\*A major|Course code|Course structure|Weekly contact|Attendance)|$)",
-      "study_level": "Level of study\\s+(Undergraduate|Postgraduate|Research|Higher Degree by Research)",
-      "ielts_overall": "IELTS Academic require an overall score of at least ([4-9](?:\\.[05])?)"
+      "entry_requirement": "(?:Admission Requirements (?=To be considered for admission to this course)|Prerequisites\\s+)((?:(?!Related study areas|Audition Process|Why study this|Majors available|How to apply|Course structure)(?:.|\\n)){10,200})",
+      "exit_awards": "(exit after (?:one|two|three|four|[1-4]) years? with an? (?:.|\\n){5,120}?\\(Advanced\\))",
+      "ielts_overall": "IELTS Academic require an overall score of at least ([4-9](?:\\.[05])?)",
+      "intakes": "(?:\\bIntake|Starting dates)\\s+((?:(?:every|semester\\s*\\d|january|february|march|april|may|june|july|august|september|october|november|december|and|or|&|,)\\s*)+)",
+      "mode": "\\bDelivery\\s+((?:(?:Off-campus|On-campus|Online|Blended|Multi-modal|External|Internal)\\s*)+)",
+      "study_level": "Level of study\\s+(Undergraduate|Postgraduate|Research|Higher Degree by Research)"
     },
     "pick": {
       "mode": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
+      "exit_awards": "all",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Semester 1": "February",
@@ -42,9 +46,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "UWA course pages are plain HTML (www.uwa.edu.au/study/courses/<slug>), no page data. Two templates: undergraduate \"Quick details\" (Course code, CRICOS code, TISC code, Intake <months>, Duration, Location, Minimum ATAR) and postgraduate/research \"Quick details\" (Status, Locations, Attendance, Delivery, Starting dates, Level of study, Course Code, CRICOS code, Full time/part time duration). Research pages say \"Throughout the year excluding January & December\" (not readable as months); postgraduate coursework often says \"Semester 1\" (no month). IELTS is printed only where a course has higher English requirements (\"IELTS Academic require an overall score of at least X\"). Course pages carry NO international fee figure: only a link to the Fee Calculator (fees.uwa.edu.au). 190 stored links are internal CMS paths (/sitecore/content/uwafs/home/courses/<slug>) blocked by robots.txt; the public page is /study/courses/<slug>.",
-    "reason": "UWA term months as printed on its course pages: Semester 1 (February), Semester 2 (July) (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:31:17.250529+00:00"
+    "page_view": {},
+    "notes": "UWA course pages are plain HTML (www.uwa.edu.au/study/courses/<slug>), no page data. Two templates: undergraduate \"Quick details\" (Course code, CRICOS code, TISC code, Intake <months>, Duration, Location, Minimum ATAR) and postgraduate/research \"Quick details\" (Status, Locations, Attendance, Delivery, Starting dates, Level of study, Course Code, CRICOS code, Full time/part time duration). Research pages say \"Throughout the year excluding January & December\" (not readable as months); postgraduate coursework often says \"Semester 1\" (no month). IELTS is printed only where a course has higher English requirements (\"IELTS Academic require an overall score of at least X\"). Course pages carry NO international fee figure: only a link to the Fee Calculator (fees.uwa.edu.au). 190 stored links are internal CMS paths (/sitecore/content/uwafs/home/courses/<slug>) blocked by robots.txt; the public page is /study/courses/<slug>. International view check (5 Oct 13:02): UWA course pages have no address variant for international students; the \"domestic / international\" switch only toggles the fees panel inside the same plain HTML, and the Quick details (intakes, delivery, location) are the same for both. The international fees panel prints no figure (\"charged per credit point ... visit the fee calculator\"); the annual international fee lives only in the Fee Calculator (fees.uwa.edu.au/Calculator?category=INTUG&year=2026&course=<code>), so page_view stays empty. Exit awards (5 Oct 15:22): combined bachelor and master (CBM) pages print \"you can exit after three years with a Bachelor of X (Advanced)\"; the Advanced bachelors are exit-only awards, not catalogue courses, so nothing is linked. Entry requirement (for review): undergraduate \"Prerequisites ...\" or postgraduate \"To be considered for admission to this course an applicant must have ...\". No whole-course international fee is printed.",
+    "reason": "Entry requirement and exit award patterns from stored text (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T05:57:54.100298+00:00"
   },
   "exclusions": [],
   "central_rules": {

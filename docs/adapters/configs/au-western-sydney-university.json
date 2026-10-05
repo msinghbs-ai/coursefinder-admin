@@ -11,19 +11,20 @@
   ],
   "admit_reason": "Western Sydney intakes 143 of 144 agree, fees spot-checked, 7 intakes and 6 fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T20:06:19Z",
-  "config_updated_at": "2026-10-04T19:40:23Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:10:14Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:internationalFees&#34;:&#34;|Indicative annual fee:?\\s*(?:Commonwealth Supported Places \\(CSP\\)\\s*)?)\\s*AUD\\s*\\$\\s?([0-9]{2,3},[0-9]{3})",
-      "campus": "(?:Closing Date Campuses\\^?(?:\\s*LSR\\s*\\?)?|Location Campus Attendance Mode Advice)\\s*((?:.|\\n){3,250}?)\\s+(?:Domestic Student Fees|Additional Information|Work Integrated Learning|Admission|Program Structure)",
-      "intakes": "Next Start Date\\s*((?:\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d\\s*)+)",
-      "duration": "(?:Summary Duration|Study Mode:?)\\s*((?:.|\\n){3,80}?)\\s+(?:Next Start Date|Program Advice)",
       "aqf_level": "AQF Level:\\s*(\\d{1,2})\\b",
+      "campus": "(?:Closing Date Campuses\\^?(?:\\s*LSR\\s*\\?)?|Location Campus Attendance Mode Advice)\\s*((?:.|\\n){3,250}?)\\s+(?:Domestic Student Fees|Additional Information|Work Integrated Learning|Admission|Program Structure)",
+      "duration": "(?:Summary Duration|Study Mode:?)\\s*((?:.|\\n){3,80}?)\\s+(?:Next Start Date|Program Advice)",
+      "entry_requirement": "Entry requirements for international students(?:(?:(?!Indicative annual fee|Entry requirements for domestic)[^|]){255})??(?:(?:(?!Indicative annual fee|Entry requirements for domestic)[^|]){255})??(?:(?:(?!Indicative annual fee|Entry requirements for domestic)[^|]){255})??(?:(?:(?!Indicative annual fee|Entry requirements for domestic)[^|]){255})??(?:(?!Indicative annual fee|Entry requirements for domestic)[^|]){0,255}?(?:Assumed knowledge|Prerequisites?)\\s*:\\s*((?:(?!\\s(?:Special Requirements|Indicative annual fee|Opens in new window))[^|]){3,200})",
+      "fee": "(?:internationalFees&#34;:&#34;|Indicative annual fee:?\\s*(?:(?:Commonwealth Supported Places \\(CSP\\)|(?:from\\s*)?(?:AUD\\s*)?\\$\\s?[0-9][0-9,]*\\*?)\\s*)?)\\s*AUD\\s*\\$\\s?([0-9]{2,3},[0-9]{3})",
+      "intakes": "Next Start Date\\s*((?:\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d\\s*)+)",
       "student_type": "Generic (?:UG|PG) (Dom International|International Only|Dom Only|Domestic Only|Dom)\\b"
     },
     "pick": {
@@ -32,17 +33,48 @@
       "intakes": "first",
       "duration": "first",
       "aqf_level": "first",
-      "student_type": "first"
+      "student_type": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Course pages (www.westernsydney.edu.au/future/study/courses/...): start dates are printed as full dates after \"Next Start Date\" in the summary panel. The international annual fee sits in the page component data as internationalFees \"AUD $...\" (the rendered page shows it under \"Indicative annual fee\"; the domestic \"from $\" figure is separate and not read). In the stored copy that data is only visible as text on some pages, so many pages give no fee. Duration and campuses are in the summary panel. The pages do not print IELTS: central rule at westernsydney.edu.au/international/studying/entry-requirements is IELTS Academic 6.5 overall, no band below 6.0, higher for nursing, allied health, medicine, teaching, social work and professional psychology. Handbook pages (handbook.westernsydney.edu.au/2021-2025) are archived editions with no fees or start dates; only study mode, location and AQF level are read from them.",
-    "reason": "Round 2: read the international fee from the internationalFees value the stored pages print; tidy campus (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T19:40:23.790234+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "",
+      "wait_ms": 5000,
+      "url_pattern": "^https://www\\.westernsydney\\.edu\\.au/future/study/courses/(?:undergraduate|postgraduate|research)/[a-z0-9-]+/?$"
+    },
+    "notes": "Course pages (www.westernsydney.edu.au/future/study/courses/<level>/<course>) are read through Firecrawl (page_view render, no address change: the course page has no international address; the international fee column is filled in by the page script, so a plain fetch shows only the domestic summary panel on most pages; tested 5 Oct). Start dates are printed as full dates after \"Next Start Date\" in the summary panel. The international annual fee is the AUD figure in the \"Indicative annual fee\" row after the domestic value (CSP or \"from $\"), or the internationalFees value in the page component data where a plain fetch kept it; no fee year is printed next to it. Duration and campuses are in the summary panel; the course page prints no delivery mode beyond the campus list. The pages do not print IELTS (only a generic international entry note): central rule at westernsydney.edu.au/international/studying/entry-requirements is IELTS Academic 6.5 overall, no band below 6.0, higher for nursing, allied health, medicine, teaching, social work and professional psychology. Handbook pages (handbook.westernsydney.edu.au/2021-2025) are archived editions with no fees or start dates; only study mode, location and AQF level are read from them. Courses bound to the handbook were rebound to their own course page where it appears in stored links (5 Oct).",
+    "reason": "Entry requirement: replace the widened pattern (slow on pages without a match) with fixed-size steps, same reading (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:10:14.705224+00:00"
   },
   "exclusions": [
+    {
+      "course_code": "0101791",
+      "title": "Bachelor of Physiotherapy (Honours)",
+      "field": "fee",
+      "reason": "Course page is tagged domestic only (Generic UG Dom Only); availability to international students is not confirmed, so the international-column value is held back (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "0101791",
+      "title": "Bachelor of Physiotherapy (Honours)",
+      "field": "intakes",
+      "reason": "Course page is tagged domestic only (Generic UG Dom Only); availability to international students is not confirmed, so the international-column value is held back (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "0101793",
+      "title": "Bachelor of Podiatric Medicine (Honours)",
+      "field": "fee",
+      "reason": "Course page is tagged domestic only (Generic UG Dom Only); availability to international students is not confirmed, so the international-column value is held back (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "0101793",
+      "title": "Bachelor of Podiatric Medicine (Honours)",
+      "field": "intakes",
+      "reason": "Course page is tagged domestic only (Generic UG Dom Only); availability to international students is not confirmed, so the international-column value is held back (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
     {
       "course_code": "041143A",
       "title": "Bachelor of Psychology",
@@ -90,6 +122,12 @@
       "title": "Master of Nursing Practice (Preregistration)",
       "field": "fee",
       "reason": "page figure is the year 2 rate (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)"
+    },
+    {
+      "course_code": "114846F",
+      "title": "Bachelor of Youth Work",
+      "field": "fee",
+      "reason": "Course page is tagged domestic only (Generic UG Dom Only); availability to international students is not confirmed, so the international-column value is held back (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "114846F",

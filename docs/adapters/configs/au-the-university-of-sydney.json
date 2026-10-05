@@ -6,28 +6,31 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "intakes"
   ],
-  "admit_reason": "Sydney: 21 honours intakes from the course pages; closing-date intakes excluded; fees and IELTS load in the browser (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:10:07Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Sydney: delivery added after 5 spot-checks of the Study mode panel, which states the international student visa position (Face to face = on campus; online-only courses = online); fees and IELTS stay off: the international view is set in the browser and no address shows it (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:20:57Z",
+  "config_updated_at": "2026-10-05T06:05:01Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Study mode\\s*:?\\s*((?:Face to face|Online|Blended|Distance|Block mode|Multi-modal)(?:\\s+(?:Face to face|Online|Blended|Distance|Block mode|Multi-modal))*)",
       "campus": "Location\\s*:?\\s*(?:This course is delivered at\\s*:?\\s*)?(.{3,150}?)\\s+Study mode",
+      "duration": "Duration\\s*:?\\s*(\\d+(?:\\.\\d+)?\\s*(?:years?|months?|semesters?|weeks?)\\s*(?:full|part)-time)",
+      "entry_requirement": "Entry requirements \\d+ Qualifications Mandatory for course entry\\s+((?:.|\\n){20,200})",
       "intakes": "(?:Intake\\/s|Starting dates?|Commencing semesters?)\\s*:?\\s*((?:\\d{1,2}\\s+)?(?:Semester\\s*[12]|Trimester\\s*[1-3]|January|February|March|April|May|June|July|August|September|October|November|December).{0,50})",
-      "duration": "Duration\\s*:?\\s*(\\d+(?:\\.\\d+)?\\s*(?:years?|months?|semesters?|weeks?)\\s*(?:full|part)-time)"
+      "mode": "Study mode\\s*:?\\s*(Online(?=\\s+Available only for non-international)|(?:Face to face|Online|Blended|Distance|Block mode|Multi-modal)(?:\\s+(?:Face to face|Online|Blended|Distance|Block mode|Multi-modal))*(?:\\s+Available only for non-international student visa holders\\.?)?)"
     },
     "pick": {
       "mode": "first",
       "campus": "first",
       "intakes": "first",
-      "duration": "first"
+      "duration": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Semester 1": "February",
@@ -36,9 +39,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Pages: www.sydney.edu.au/courses/courses/{uc,pc,pr}/... course pages, stored in the default DOMESTIC view; the fee panel ('Tuition fee information for the year selected is currently not available') and the English scores load in the browser, so no fee or IELTS is read. Also old rp-handbooks / handbooks archive pages (51 archived-year; no adapter fields). Intakes: the Intake/s panel or 'Starting date' / 'Commencing semesters' text when it names Semester 1/2 or a month (mostly honours pages); most pages say only 'Check semester start dates'. term_months from https://www.sydney.edu.au/study/applying/application-dates.html (2026: Semester 1 starts 23 February, Semester 2 starts 3 August). Duration, Location (campus) and Study mode are extras. English central rule: https://www.sydney.edu.au/content/dam/corporate/documents/about-us/governance-and-structure/academic-board/ab-standards---guidelines-/english-language-proficiency-tables.pdf (default IELTS 6.5, no band below 6.0; higher for listed courses).",
-    "reason": "Tighten University of Sydney duration, campus and mode patterns (page text has no line breaks); not re-applied to avoid re-queuing 14 needs_render pages for Firecrawl (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:10:07.345235+00:00"
+    "page_view": {},
+    "notes": "Pages: www.sydney.edu.au/courses/courses/{uc,pc,pr}/... course pages, stored in the default DOMESTIC view; the fee panel ('Tuition fee information for the year selected is currently not available') and the English scores load in the browser, so no fee or IELTS is read. Also old rp-handbooks / handbooks archive pages (51 archived-year; no adapter fields). Intakes: the Intake/s panel or 'Starting date' / 'Commencing semesters' text when it names Semester 1/2 or a month (mostly honours pages); most pages say only 'Check semester start dates'. term_months from https://www.sydney.edu.au/study/applying/application-dates.html (2026: Semester 1 starts 23 February, Semester 2 starts 3 August). Duration, Location (campus) and Study mode are extras. English central rule: https://www.sydney.edu.au/content/dam/corporate/documents/about-us/governance-and-structure/academic-board/ab-standards---guidelines-/english-language-proficiency-tables.pdf (default IELTS 6.5, no band below 6.0; higher for listed courses). Delivery (mode, 5 Oct, Platform Admin 11:48): the Study mode panel, which states the international position on the page itself: \"Face to face\" gives on_campus; \"Face to face Online Available only for non-international student visa holders\" gives on_campus (the online option is ignored, as in delivery_mode_from_text); \"Online Available only for non-international student visa holders\" alone (an online-only course) is read as \"Online\" and gives online; \"Multi-modal\" gives blended; \"Research\" gives no value. INTERNATIONAL VIEW (5 Oct, Platform Admin 13:02): not reachable by address. The course page shows a \"Set your preferences: I am Domestic / International, Start year\" panel kept in the browser; fees (\"Tuition fee information for the year selected is currently not available\") and English scores load only after a choice is made. Two tests on uc/bachelor-of-science and pc/master-of-global-health with query parameters studentType, student-type, student_type, audience, type, student, region, residency, citizenship, view, profile, intl, year (values international/int/International, 2027) still showed the domestic view, so page_view is left empty. Needs a Firecrawl click action (choose International and a start year) or a cookie/header in page_view.",
+    "reason": "probe patterns removed; entry_requirement pattern added (international entry requirement for review). No exit-year sentences or whole-course international fees printed on stored pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:01.677612+00:00"
   },
   "exclusions": [
     {

@@ -7,44 +7,50 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "MIT adapter readings checked against page text and catalogue; wrong and domestic-only readings excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:30:12Z",
-  "config_updated_at": "2026-10-05T00:24:56Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Delivery added: read only where the Location panel says Online; two plain Online readings correct, blended and two-location readings excluded (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:12:07Z",
+  "config_updated_at": "2026-10-05T06:23:33Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International fees\\s+(?:.|\\n){0,120}?\\$\\s?([0-9][0-9,]{3,})\\s*\\(approx\\.?\\)\\*?\\s*per 120 credits",
       "campus": "Location\\s+((?:.|\\n){1,80}?)\\s+(?:Entry requirements|Domestic fees)",
-      "intakes": "Start dates\\s+((?:.|\\n){0,80}?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,120}?)\\s+(?:Key dates|Accounting strand|Qualification)",
       "duration": "Duration and study methods\\s+((?:.|\\n){1,200}?)\\s+Programme structure",
-      "study_level": "Qualification\\s+(?:.|\\n){0,200}?\\((Level \\d+)\\)",
+      "entry_requirement": "Entry requirements\\s+Entry requirements\\s+(?:General\\s+)?([^|]{20,240}?\\.)(?=\\s)",
+      "fee": "International fees\\s+(?:.|\\n){0,120}?\\$\\s?([0-9][0-9,]{3,})\\s*\\(approx\\.?\\)\\*?\\s*per 120 credits",
       "ielts_overall": "IELTS(?!,\\s*\\()[^0-9.;]{0,40}?\\b(\\d(?:\\.\\d)?)\\b",
-      "not_admitting": "International fees\\s+(Not available to international students)"
+      "intakes": "Start dates\\s+((?:.|\\n){0,80}?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,120}?)\\s+(?:Key dates|Accounting strand|Qualification)",
+      "mode": "Location\\s+((?:(?!Domestic fees|Entry requirements)(?:.|\\n)){0,60}?\\bOnline\\b(?:(?!Domestic fees|Entry requirements)(?:.|\\n)){0,80}?)\\s+(?:Entry requirements|Domestic fees)",
+      "not_admitting": "International fees\\s+(Not available to international students)",
+      "study_level": "Qualification\\s+(?:.|\\n){0,200}?\\((Level \\d+)\\)"
     },
     "pick": {
       "fee": "first",
+      "mode": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
       "study_level": "first",
       "ielts_overall": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Pages: www.manukau.ac.nz/programme/<slug>/ (WordPress, text only, no page JSON). Panel headings: \"Duration and study methods\", \"Start dates\" (months printed, sometimes per year or per strand), \"Qualification ... Programme code: NZ/MN####\", \"Credits\", \"Location\", \"Domestic fees\", \"International fees\". Fee read only as the international amount printed \"per 120 credits\" (one full-time NZ year); \"per 60/80/30 credits\" amounts are whole-programme or module prices and are not read. \"International fees: Not available to international students\" is read as not_admitting. IELTS overall from the Entry requirements text (first IELTS figure). No term names, so no term_months. Central key dates: https://www.manukau.ac.nz (Key dates and timetables link) - not attached.",
-    "reason": "Manukau Institute of Technology adapter, final pass: international fee per 120 credits only, IELTS overall, not-admitting flag; diagnostic captures removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:24:56.63797+00:00"
+    "course_title_strip": "^New Zealand\\s+",
+    "page_view": {},
+    "notes": "Pages: www.manukau.ac.nz/programme/<slug>/ (WordPress, text only, no page JSON). Panel headings: \"Duration and study methods\", \"Start dates\" (months printed, sometimes per year or per strand), \"Qualification ... Programme code: NZ/MN####\", \"Credits\", \"Location\", \"Domestic fees\", \"International fees\". Fee read only as the international amount printed \"per 120 credits\" (one full-time NZ year); \"per 60/80/30 credits\" amounts are whole-programme or module prices and are not read. \"International fees: Not available to international students\" is read as not_admitting. IELTS overall from the Entry requirements text (first IELTS figure). No term names, so no term_months. Central key dates: https://www.manukau.ac.nz (Key dates and timetables link) - not attached. Delivery (mode): the page prints no delivery label; the Location panel names the campus or says Online, so mode is read only when the Location text contains Online (campus-only pages give no mode reading). Identity: MIT page titles drop the leading \"New Zealand\" of the qualification name (e.g. \"Certificate in Floristry (Level 3) | Manukau Institute of Technology\"), so course_title_strip removes it from the catalogue title before the title check. 5 Oct: 36 courses rebound by hand to their own programme pages. 5 Oct 15:22 checks: no exit awards and no whole-course fees on stored pages (international fee is printed per 120 credits). entry_requirement reads the first sentence of the 'Entry requirements' section (one section for all students), shown for review only. 35 programme pages are bound by hand, so apply does not re-read them.",
+    "reason": "entry_requirement pattern added after the exit-award, whole-course fee and requirement checks; probe patterns removed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:23:33.609888+00:00"
   },
   "exclusions": [
     {
@@ -66,6 +72,12 @@
       "reason": "includes past September 2026 intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
+      "course_code": "1881",
+      "title": "New Zealand Certificate in English Language (Level 2)",
+      "field": "fee",
+      "reason": "Fee read is the international amount per 60 credits (a 16-week programme), not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
       "course_code": "1882",
       "title": "New Zealand Certificate in English Language (General) (Level 3)",
       "field": "english",
@@ -84,6 +96,24 @@
       "reason": "includes past September 2026 intake (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
+      "course_code": "1883",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 4)",
+      "field": "fee",
+      "reason": "Fee read is the international amount per 60 credits (a 16-week programme), not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "1884",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 5)",
+      "field": "english",
+      "reason": "IELTS read from the Unitec page is not confirmed as the entry requirement (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "1884",
+      "title": "New Zealand Certificate in English Language (Academic) (Level 5)",
+      "field": "fee",
+      "reason": "Bound page is the Unitec page; the fee is the total for a 60-credit (0.5 EFTS) programme, not annual (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
       "course_code": "2104",
       "title": "New Zealand Certificate in Food and Beverage Service (Level 3)",
       "field": "fee",
@@ -100,6 +130,30 @@
       "title": "Graduate Certificate in Cross Cultural Supervision (Level 7)",
       "field": "intakes",
       "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2452",
+      "title": "New Zealand Certificate in Business (Administration and Technology) (Level 3)",
+      "field": "fee",
+      "reason": "Fee read is the international amount for a 60-credit 16-week programme, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "2461",
+      "title": "New Zealand Certificate in Business (Administration and Technology) (Level 4)",
+      "field": "fee",
+      "reason": "Fee read is the international amount for a 60-credit 16-week programme, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "2506",
+      "title": "New Zealand Certificate in Maritime Crewing (Level 3)",
+      "field": "english",
+      "reason": "International fees: Not available to international students (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "2506",
+      "title": "New Zealand Certificate in Maritime Crewing (Level 3)",
+      "field": "intakes",
+      "reason": "International fees: Not available to international students (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "2516",
@@ -144,6 +198,24 @@
       "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
+      "course_code": "2671",
+      "title": "New Zealand Certificate in Floristry (Level 2)",
+      "field": "fee",
+      "reason": "Fee read is the international amount for a 60-credit 17-week programme, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "2672",
+      "title": "New Zealand Certificate in Floristry (Level 3)",
+      "field": "fee",
+      "reason": "Fee read is the international amount for a 60-credit 17-week programme, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "2673",
+      "title": "New Zealand Certificate in Floristry (Level 4)",
+      "field": "fee",
+      "reason": "Fee read is the international amount for a 90-credit programme, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
       "course_code": "2738",
       "title": "New Zealand Certificate in Carpentry (Level 4)",
       "field": "english",
@@ -178,6 +250,18 @@
       "title": "New Zealand Certificate in Skills for Living for Supported Learners (Level 1)",
       "field": "intakes",
       "reason": "not available to international students (domestic-only programme) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
+    },
+    {
+      "course_code": "2895",
+      "title": "New Zealand Certificate in Domestic Maritime Crewing (Level 3)",
+      "field": "english",
+      "reason": "International fees: Not available to international students (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "2895",
+      "title": "New Zealand Certificate in Domestic Maritime Crewing (Level 3)",
+      "field": "intakes",
+      "reason": "International fees: Not available to international students (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "3008",
@@ -253,7 +337,7 @@
       {
         "kind": "intake_calendar",
         "url": "https://www.manukau.ac.nz/student-life/new-students/tools-and-resources/mit-calendar-and-key-dates/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

@@ -6,12 +6,13 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english"
   ],
-  "admit_reason": "Start dates come from the domestic view of the pages, so intakes are held back (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:30:48Z",
-  "config_updated_at": "2026-10-04T23:59:00Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Toi Ohomai: English (already admitted) plus delivery read from the course intake table (campus or online), spot-checked on 5 pages; start dates stay held back because course pages show only the NZ/Australian view; international fees written from the central list by credit-fee rules (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:14:48Z",
+  "config_updated_at": "2026-10-05T06:05:25Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -19,40 +20,57 @@
     "sections": {},
     "patterns": {
       "campus": "((?:Rotorua|Tauranga|Taup\\u014d|Taupo|Whakat\\u0101ne|Whakatane|Tokoroa|Kawerau|Online|Distance)[A-Za-z\\u0101\\u014d\\u016b' ]{0,40}?)\\s+\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d",
+      "duration": "Study options\\s+((?:.|\\n){0,120}?Total credits\\s+\\d{1,3})",
+      "ielts_overall": "English Language Requirements\\s*:?\\s*(?:.|\\n){0,200}?IELTS(?: \\(general or academic\\)| test)?\\s*-?\\s*(?:(?:General or )?Academic )?(?:overall )?(?:score of )?([4-9](?:\\.[05])?)\\b",
       "intakes": "Location\\s+Campus\\s+Start Date\\s+((?:.|\\n){0,250}?\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d(?:(?:.|\\n){0,120}?\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d){0,12})",
-      "ielts_overall": "English Language Requirements\\s*:?\\s*(?:.|\\n){0,200}?IELTS(?: \\(general or academic\\)| test)?\\s*-?\\s*(?:(?:General or )?Academic )?(?:overall )?(?:score of )?([4-9](?:\\.[05])?)\\b"
+      "mode": "((?:Rotorua|Tauranga|Taup\\u014d|Taupo|Whakat\\u0101ne|Whakatane|Tokoroa|Kawerau|Online|Distance)[A-Za-z\\u0101\\u014d\\u016b' ]{0,40}?)\\s+\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* 20\\d\\d"
     },
     "pick": {
+      "mode": "all",
       "campus": "all",
       "intakes": "first",
+      "duration": "first",
       "ielts_overall": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Toi Ohomai course pages (www.toiohomai.ac.nz/study/course/<slug>) are stored in the default NZ/Australian (domestic) view: they carry only domestic indicative fees, so no fee is read. Start dates are printed per campus under 'Course Locations and Intake Information' as 'Location Campus Start Date Rotorua Mokoia Campus 22 Feb 2027 Apply now ...' (dates are explicit, so no term mapping is needed). IELTS overall is the first IELTS figure within 200 characters after 'English Language Requirements' (wordings: 'IELTS Academic score of 6 with no band score lower than 5.5', 'Level 5 certificate or diploma IELTS Academic score of 5.5', 'an IELTS (general or academic) score of 5.5', 'IELTS 5.0'). Campus is read from the intake table. Duration and delivery mode are not printed in the stored text. Central key dates: https://www.toiohomai.ac.nz/study/important-dates (2027: Semester 1 starts 22 Feb, Semester 2 starts 19 Jul). Central English guidance: https://www.toiohomai.ac.nz/study/get-help-english (refers to NZQA rules; per-course figures are on each course page).",
-    "reason": "Final Toi Ohomai adapter: broader IELTS wording, diagnostic fields and unreliable level removed; no fee (domestic view only) (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:59:00.517884+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "",
+      "wait_ms": 3000,
+      "url_pattern": "toiohomai\\.ac\\.nz/study/(?:course/|international-courses-list)"
+    },
+    "notes": "Toi Ohomai course pages (www.toiohomai.ac.nz/study/course/<slug>) refuse a plain fetch (403) and are read through Firecrawl (page_view render, no suffix). The international student view is a location setting kept by the site (button at the top right, \"You're viewing this page as a New Zealand citizen or resident\"); no address variant shows it, so course pages are stored in the NZ/Australian (domestic) view and carry only domestic indicative fees. International tuition fees and the next intake per course are on the central list https://www.toiohomai.ac.nz/study/international-courses-list (attached as a central page; figures \"per year\" for degrees and Level 6 diplomas, otherwise the programme fee). Start dates: \"Course Locations and Intake Information\" table (Location Campus Start Date ...). IELTS: first figure after \"English Language Requirements\". Delivery (mode): the campus names in the intake table (Online / Distance = online; a campus = on campus). Duration: \"Study options ... Total credits N\" (1 year full-time = 120 credits). Key dates: https://www.toiohomai.ac.nz/study/important-dates (2027: Semester 1 starts 22 Feb, Semester 2 starts 19 Jul). English guidance: https://www.toiohomai.ac.nz/study/get-help-english (refers to NZQA rules). Entry requirement (5 Oct 15:22): not read. Course pages are stored in the domestic view; the Entry Criteria section shows domestic criteria or the notice \"To see the information for international students change your location\", so no international entry requirement can be read; patterns.entry_requirement is not set. Exit awards and whole-course fees: no exit-award wording found; the only whole-course figures are domestic \"Indicative Fees $X for domestic students\", which are not used.",
+    "reason": "entry_requirement pattern removed: the stored pages show only the domestic entry requirements, not the international ones (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:25.342529+00:00"
   },
   "exclusions": [],
   "central_rules": {
     "english_rule": null,
-    "calendar": null,
+    "calendar": "no_values",
     "central_pages": [
       {
         "kind": "english_policy",
         "url": "https://www.toiohomai.ac.nz/study/get-help-english",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.toiohomai.ac.nz/study/important-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.toiohomai.ac.nz/study/international-courses-list",
+        "status": "read",
+        "read_at": "2026-10-05T04:12:09Z",
+        "evidence_id": "1c64adcc-8a1e-4694-8d11-5c8c56eddfe9"
       }
     ],
     "english_proposals_waiting": []

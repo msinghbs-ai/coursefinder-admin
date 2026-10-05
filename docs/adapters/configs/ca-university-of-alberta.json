@@ -6,51 +6,56 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english"
   ],
-  "admit_reason": "Alberta: 16 department IELTS readings only (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:16:45Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Alberta: admit delivery with english; Delivery Mode label on graduate program pages read as printed (69 on campus, 2 on campus or online, 1 hybrid), single view for all students, spot-checks pass (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:09:15Z",
+  "config_updated_at": "2026-10-05T06:02:22Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Delivery Mode:\\s*((?:On[- ]Campus|Online|Blended|Hybrid|In[- ]Person|Distance|Off[- ]Campus)(?:\\s*(?:,|/|and|&|or)\\s*(?:On[- ]Campus|Online|Blended|Hybrid|In[- ]Person|Distance|Off[- ]Campus))*)",
-      "intakes": "(?:program|students?) (?:starts?|begins?|commences?|are admitted) (?:only )?in (?:the )?((?:September|January|May|July|Fall|Winter|Spring|Summer)(?:(?: (?:or|and) |, )(?:September|January|May|July|Fall|Winter|Spring|Summer))*)",
       "duration": "Length of Program\\s+([^.]{5,160})",
-      "study_level": "Degree Level:\\s*(Doctoral|Master'?s|Graduate Certificate|Graduate Diploma|Undergraduate|Bachelor'?s)",
-      "ielts_overall": "(?:IELTS[^.\\d]{0,30}overall(?: band)? score of\\s*|overall band score of\\s*(?=\\d\\.\\d\\s*(?:on|in) (?:the )?(?:Academic )?IELTS))(\\d\\.\\d)"
+      "entry_requirement": "minimum admission requirements? (?:are|is|include)\\s*((?:.|\\n){20,200}?)(?=,? and (?:a |an )?(?:TOEFL|IELTS|English)|\\.\\s)",
+      "ielts_overall": "(?:IELTS[^.\\d]{0,30}overall(?: band)? score of\\s*|overall band score of\\s*(?=\\d\\.\\d\\s*(?:on|in) (?:the )?(?:Academic )?IELTS))(\\d\\.\\d)",
+      "intakes": "(?:program|students?) (?:starts?|begins?|commences?|are admitted) (?:only )?in (?:the )?((?:September|January|May|July|Fall|Winter|Spring|Summer)(?:(?: (?:or|and) |, )(?:September|January|May|July|Fall|Winter|Spring|Summer))*)",
+      "mode": "Delivery Mode:\\s*((?:On[- ]Campus|Online|Blended|Hybrid|In[- ]Person|Distance|Off[- ]Campus)(?:\\s*(?:,|/|and|&|or)\\s*(?:On[- ]Campus|Online|Blended|Hybrid|In[- ]Person|Distance|Off[- ]Campus))*)",
+      "study_level": "Degree Level:\\s*(Doctoral|Master'?s|Graduate Certificate|Graduate Diploma|Undergraduate|Bachelor'?s)"
     },
-    "pick": {},
+    "pick": {
+      "entry_requirement": "first"
+    },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Pages read are mostly www.ualberta.ca/en/graduate-programs/<degree>-<subject>.html (Graduate Programs pages): ADDITIONAL INFORMATION box gives Delivery Mode and Degree Level; \"Length of Program\" heading gives duration; English Language Requirement block gives IELTS overall where the department sets it (otherwise the central FGSR rule applies: IELTS 6.5 overall, 6.0 each band, https://www.ualberta.ca/en/graduate-studies/resources/policies-procedures/graduate-program-manual/section-5-admissions/5-8-english-language-proficiency-requirement.html). Neither graduate pages nor Faculty of Arts program guides print tuition amounts or start terms; undergraduate-programs pages render tuition only in the browser (Canadian/International toggle). No term_months set: the 2026-27 academic schedule page (calendar.ualberta.ca content.php?catoid=69&navoid=20862) is browser-rendered.",
-    "reason": "Save the University of Alberta text adapter: graduate program pages give delivery mode, degree level, length and IELTS (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:16:45.632312+00:00"
+    "page_view": {},
+    "notes": "Pages read are mostly www.ualberta.ca/en/graduate-programs/<degree>-<subject>.html (Graduate Programs pages): ADDITIONAL INFORMATION box gives Delivery Mode and Degree Level; \"Length of Program\" heading gives duration; English Language Requirement block gives IELTS overall where the department sets it (otherwise the central FGSR rule applies: IELTS 6.5 overall, 6.0 each band, https://www.ualberta.ca/en/graduate-studies/resources/policies-procedures/graduate-program-manual/section-5-admissions/5-8-english-language-proficiency-requirement.html). Neither graduate pages nor Faculty of Arts program guides print tuition amounts or start terms; undergraduate-programs pages render tuition only in the browser (Canadian/International toggle). No term_months set: the 2026-27 academic schedule page (calendar.ualberta.ca content.php?catoid=69&navoid=20862) is browser-rendered. International view check (5 Oct 13:02): undergraduate program pages (www.ualberta.ca/en/undergraduate-programs/<slug>.html) were read through Firecrawl (10 pages) and captured: the \"Tuition and Fees\" block only offers a \"View costs for: Canadian High School / International Student\" selector and a link to the cost calculator; no fee amount is printed in the rendered page and no URL variant for the international selection was found in stored evidence, so no page_view is kept. The Deadline block prints \"Fall application Domestic: March 1, 2027 International: March 1, 2027\" (Fall entry for international students). Undergraduate pages do not print delivery mode or an IELTS score (central rule applies). Their headings are the major only (\"Chemistry\"), so neither the reader nor this adapter confirms identity; courses rebound by hand are read by the general reader.",
+    "reason": "Entry requirement pattern (international view) and probe clean-up; Curtin keeps a temporary whole-fee probe for one apply (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:02:22.390893+00:00"
   },
   "exclusions": [
     {
       "course_code": "66eb67d0-72ca-48cf-af5c-a12700c5f311",
       "title": "Doctor of Philosophy Chemical and Materials Engineering",
       "field": "intakes",
-      "reason": "January from a seminar sentence (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "PhD Chemical and Materials Engineering: \"January\" comes from a seminar-attendance sentence, not a published intake (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "a6d979ea-7d2c-4e4b-b211-a12700c5f330",
       "title": "Master of Science Chemical and Materials Engineering",
       "field": "intakes",
-      "reason": "January from a seminar sentence (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "MSc Chemical and Materials Engineering: \"January\" comes from a seminar-attendance sentence, not a published intake (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "daf24aa0-2718-4ced-861f-a12700c5f311",
       "title": "Juris Doctor",
       "field": "fee",
-      "reason": "tuition deposit, not tuition (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Juris Doctor: the $1,000 read is the tuition deposit, and the page prints only a Canadian first-year estimate (2024), not an international annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     }
   ],
   "central_rules": {

@@ -13,34 +13,37 @@
   ],
   "admit_reason": "Admit Unitec intakes, fee and english after exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
   "admit_changed_at": "2026-10-05T00:29:04Z",
-  "config_updated_at": "2026-10-05T00:24:24Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:02:22Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International students\\s+\\$\\s?([0-9][0-9,]*(?:\\.[0-9]+)?)\\s*\\(NZD\\)\\s*\\(approximate fees for 120 credits(?:\\s+only)?\\)",
       "campus": "Campus\\s+((?:.|\\n){2,60}?)\\s+Start dates",
-      "intakes": "Start dates?\\s+((?:Starts\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,100}?)(?:\\s+Duration|\\s+Call us|\\n|$)",
       "duration": "Duration\\s+((?:.|\\n){2,140}?)\\s+Call us",
-      "ielts_overall": "IELTS\\s*\\(Academic\\)[^0-9]{0,80}?(?:score|overall)\\s*(?:of\\s*)?(?:at least\\s*)?([4-9](?:\\.[05])?)\\b"
+      "entry_requirement": "International students\\s+Academic requirements\\s+((?:(?!\\s*;?\\s*And (?:meet )?(?:one of the )?English entry)(?:.|\\n)){20,200})",
+      "fee": "International students\\s+\\$\\s?([0-9][0-9,]*(?:\\.[0-9]+)?)\\s*\\(NZD\\)\\s*\\(approximate fees for 120 credits(?:\\s+only)?\\)",
+      "ielts_overall": "IELTS\\s*\\(Academic\\)[^0-9]{0,80}?(?:score|overall)\\s*(?:of\\s*)?(?:at least\\s*)?([4-9](?:\\.[05])?)\\b",
+      "intakes": "Start dates?\\s+((?:Starts\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,100}?)(?:\\s+Duration|\\s+Call us|\\n|$)"
     },
     "pick": {
       "fee": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
+    "page_view": {},
     "notes": "Unitec course pages (www.unitec.ac.nz/career-and-study-options/.../<programme>/), WordPress, no page JSON. Header strip: \"Level N Credits N (N EFTS) Campus X Start dates <months> Duration ... Call us now\". Fee: \"Annual Tuition Fees\" block, \"International students $N (NZD) (approximate fees for 120 credits[ only])\" - 120 credits = one full-time year; 60-credit (16-week / PG certificate) amounts are not read. IELTS: international Admission requirements tab, \"IELTS (Academic) ... score of at least N\". Semester dates block on each page (\"Sem 1 2026: 23 Feb\", \"Sem 2 2026: 13/20 Jul\"); start dates print month names so no term_months needed.",
-    "reason": "Round 2: read \"120 credits only\" fee wording, tighten IELTS to the score after its label (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:24:24.671245+00:00"
+    "reason": "Entry requirement pattern (international view) and probe clean-up; Curtin keeps a temporary whole-fee probe for one apply (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:02:22.390893+00:00"
   },
   "exclusions": [
     {
@@ -129,7 +132,7 @@
       {
         "kind": "english_policy",
         "url": "https://www.unitec.ac.nz/international/study-with-us/english-language-requirements-for-international-students/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

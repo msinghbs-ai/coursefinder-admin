@@ -6,37 +6,41 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": "UNE: intakes from international campus rows only (narrows 82 courses from three months), fees from course pages and the 2026 list; online-only and whole-course fees excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T23:23:08Z",
-  "config_updated_at": "2026-10-04T23:08:00Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "UNE: delivery read from the international availability rows of the course page (91 readings: 88 on campus and online, 2 online, 1 on campus; 5 spot-checks match the international rows); fee and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:20:44Z",
+  "config_updated_at": "2026-10-05T06:05:01Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
+      "duration": "Duration ((?:.|\\n){0,80}?full-time)",
+      "entry_requirement": "(Entry is based on (?:[^.]|\\.(?=[0-9A-Za-z])){5,230}\\.)\\s+English language requirements must also be met",
       "fee": "Tuition fees for international students, i\\.e\\. those not Australian or New Zealand citizens or residents\\.(?:(?!Commonwealth|Full Fee|amenities|CRICOS)(?:.|\\n)){0,250}?\\$([0-9]{1,3},[0-9]{3})\\*|(?<=CRICOS {code} Fee )[0-9]{1,3},[0-9]{3}(?=\\*)",
-      "mode": "\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+(Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*)",
-      "intakes": "(?<=Trimester 1\\W{1,4})February(?=(?:.|\\n){0,120}?\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus\\s+Offered\\b)|(?<=Trimester 2\\W{1,4})June(?=(?:.|\\n){0,120}?\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus\\s+(?:Not\\s+)?Offered\\s+Offered\\b)|(?<=Trimester 3\\W{1,4})October(?=(?:.|\\n){0,120}?\\bOct\\s+Online(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){2}\\s+Offered\\b)",
-      "duration": "Duration ((?:.|\\n){0,80}?full-time)"
+      "intakes": "(?<=Trimester 1\\W{1,4})February(?=(?:.|\\n){0,120}?\\bOct\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus\\s+Offered\\b|\\s+Offered\\b(?:\\s+(?:Not\\s+)?Offered){2}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+Not\\s+Offered){3})*(?!\\s+[A-Za-z]+\\s+Campus)))|(?<=Trimester 2\\W{1,4})June(?=(?:.|\\n){0,120}?\\bOct\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered)\\s+Offered\\b|(?:\\s+(?:Not\\s+)?Offered)\\s+Offered\\b(?:\\s+(?:Not\\s+)?Offered)(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+Not\\s+Offered){3})*(?!\\s+[A-Za-z]+\\s+Campus)))|(?<=Trimester 3\\W{1,4})October(?=(?:.|\\n){0,120}?\\bOct\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+Online\\s*\\*?(?:(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){2}\\s+Offered\\b|(?:\\s+(?:Not\\s+)?Offered){2}\\s+Offered\\b(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+Not\\s+Offered){3})*(?!\\s+[A-Za-z]+\\s+Campus)))",
+      "mode": "(?<=\\bOct\\s+Online\\s*\\*?(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*\\s+)(?:Online\\s*\\*?(?=(?:\\s+(?:Not\\s+)?Offered){0,2}\\s+Offered\\b)(?:\\s+(?:Not\\s+)?Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+(?:Not\\s+)?Offered){3})*?\\s+[A-Za-z]+\\s+Campus(?=(?:\\s+(?:Not\\s+)?Offered){0,2}\\s+Offered\\b)(?:\\s+(?:Not\\s+)?Offered){3}|Online\\s*\\*?(?=(?:\\s+(?:Not\\s+)?Offered){0,2}\\s+Offered\\b)(?:\\s+(?:Not\\s+)?Offered){3}(?=(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+Not\\s+Offered){3})*(?!\\s+[A-Za-z]+\\s+Campus))|Online\\s*\\*?(?:\\s+Not\\s+Offered){3}(?:\\s+[A-Za-z]+\\s+Campus(?:\\s+Not\\s+Offered){3})*?\\s+([A-Za-z]+\\s+Campus(?=(?:\\s+(?:Not\\s+)?Offered){0,2}\\s+Offered\\b)(?:\\s+(?:Not\\s+)?Offered){3}))"
     },
     "pick": {
       "fee": "first",
       "mode": "first",
       "intakes": "all",
-      "duration": "first"
+      "duration": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "UNE course pages (www.une.edu.au/study/courses/<slug>) print one Start Dates and Campus table header (Trimester 1 - February, Trimester 2 - June, Trimester 3 - October of the current year) followed by two sets of rows: domestic (Online, Armidale Campus, Sydney Campus) then international (Online, Armidale Campus, Sydney Campus). Intakes = trimester months Offered in any INTERNATIONAL campus row (online excluded: not available on a student visa). Courses whose international campus rows are all Not Offered are online-only for international students and get no adapter intakes. Fee = the international \"Estimated fees for your first year\" figure marked * (annual); the # figure is the reduced online-only international fee and is skipped. For courses of 0.5 years or 1 trimester the first-year figure is the whole-course amount (exclude). Central fee lists (www.une.edu.au/international/fees-and-scholarships/course-fees-2026 and -2027) are read per CRICOS code (\"CRICOS <code> Fee 34,800*\"); the 2027 list gives 2027 fees. IELTS is not on course pages: central rule at https://www.une.edu.au/international/apply/eligibility/english-language-requirements (IELTS 6.0, no band below 5.5) with higher requirements in https://policies.une.edu.au/document/view-current.php?id=221. Key dates: https://www.une.edu.au/about-une/principal-dates (2026: T1 23 Feb, T2 22 Jun, T3 19 Oct) and /principal-dates-2027 (T1 22 Feb, T2 21 Jun, T3 18 Oct).",
-    "reason": "Save the University of New England adapter: international on-campus start dates, international annual fee, duration, international availability rows (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T23:08:00.09022+00:00"
+    "page_view": {},
+    "notes": "UNE course pages (www.une.edu.au/study/courses/<slug>) print one Start Dates and Campus table header (Trimester 1 - February, Trimester 2 - June, Trimester 3 - October of the current year) followed by two sets of rows: domestic (Online, Armidale Campus, Sydney Campus) then international (Online, Armidale Campus, Sydney Campus). Intakes = trimester months Offered in any INTERNATIONAL campus row; when no international campus row is Offered the course is online only on the international view and its intakes are the months Offered in the international Online row (5 Oct, Platform Admin 11:48: a course online on the international view is in scope). For a course offered on campus and online the online-only trimesters (often October) are not added to its intakes. Delivery (mode) = the international rows marked Offered: Online only gives online, a campus only gives on_campus, both give on_campus_and_online; a page with no international rows gives no delivery. Fee = the international \"Estimated fees for your first year\" figure marked * (annual); the # figure is the reduced fee for studying online in a course also offered on campus and is skipped (the on-campus * figure is read); a course offered to international students online only prints one International * figure (annual), which is read. For courses of 0.5 years or 1 trimester the first-year figure is the whole-course amount (exclude). Central fee lists (www.une.edu.au/international/fees-and-scholarships/course-fees-2026 and -2027) are read per CRICOS code (\"CRICOS <code> Fee 34,800*\"); the 2027 list gives 2027 fees. IELTS is not on course pages: central rule at https://www.une.edu.au/international/apply/eligibility/english-language-requirements (IELTS 6.0, no band below 5.5) with higher requirements in https://policies.une.edu.au/document/view-current.php?id=221. Key dates: https://www.une.edu.au/about-une/principal-dates (2026: T1 23 Feb, T2 22 Jun, T3 19 Oct) and /principal-dates-2027 (T1 22 Feb, T2 21 Jun, T3 18 Oct).",
+    "reason": "probe patterns removed; entry_requirement pattern added (international entry requirement for review). No exit-year sentences or whole-course international fees printed on stored pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:01.677612+00:00"
   },
   "exclusions": [
     {
@@ -110,30 +114,6 @@
       "title": "Graduate Certificate in Cybersecurity",
       "field": "fee",
       "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "114684H",
-      "title": "Bachelor of Accounting/Bachelor of Laws",
-      "field": "fee",
-      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "114684H",
-      "title": "Bachelor of Accounting/Bachelor of Laws",
-      "field": "intakes",
-      "reason": "online-only or header months not tied to international availability (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "114685G",
-      "title": "Bachelor of Media and Communications/Bachelor of Laws",
-      "field": "fee",
-      "reason": "online-only course or whole-course amount (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "114685G",
-      "title": "Bachelor of Media and Communications/Bachelor of Laws",
-      "field": "intakes",
-      "reason": "online-only or header months not tied to international availability (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
       "course_code": "116073H",

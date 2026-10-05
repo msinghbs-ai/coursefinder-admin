@@ -7,36 +7,44 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "Wave 9: intakes and English ready after named exclusions; fee held (fees are on a separate fee schedule, none read) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:19Z",
-  "config_updated_at": "2026-10-04T23:54:25Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Torrens: delivery read from the \"Study mode\" panel (on campus and online 83, on campus 12, blended 11, online 1); 3 spot-checks agree; english and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:29:45Z",
+  "config_updated_at": "2026-10-05T05:58:06Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "Study mode\\s+((?:.|\\n){1,80}?)\\s+Campus locations",
-      "campus": "Campus locations\\*?\\s+((?:.|\\n){1,150}?)\\s+Student\\s+Domestic",
-      "intakes": "Start date\\s+((?:\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+20\\d\\d\\s*){1,10})",
-      "duration": "Course duration\\s+((?:.|\\n){1,150}?)\\s+(?:Start date|Fee & scholarships|View all key dates)",
       "aqf_level": "This is an AQF Level (\\d+) course",
-      "ielts_overall": "(?:Academic\\s+)?IELTS\\s+(\\d\\.\\d)\\b"
+      "campus": "Campus locations\\*?\\s+((?:.|\\n){1,150}?)\\s+Student\\s+Domestic",
+      "course_years": "Course duration\\s+(?:Full[- ]time:\\s*|[^\\n|]{0,60}?,\\s*)?([0-9]+(?:\\.[0-9]+)?)\\s+years?(?=\\s+full[- ]?time|\\s+Part[- ]time)",
+      "duration": "Course duration\\s+((?:.|\\n){1,150}?)\\s+(?:Start date|Fee & scholarships|View all key dates)",
+      "entry_requirement": "study as an? international student, check that you meet (?:all )?the requirements(?: listed)? below\\.?\\s*((?:.|\\n){10,230}?)\\s*(?:AND\\s+)?(?=Academic IELTS|IELTS|OR alternative|View full)",
+      "fee_total": "indicative total course fee[^$]{0,160}?\\$[0-9][0-9,]*(?:\\s+for domestic students)?\\s+and\\s+\\$([0-9][0-9,]{4,})\\s+for international",
+      "ielts_overall": "(?:Academic\\s+)?IELTS\\s+(\\d\\.\\d)\\b",
+      "intakes": "Start date\\s+((?:\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+20\\d\\d\\s*){1,10})",
+      "mode": "Study mode\\s+((?:.|\\n){1,80}?)\\s+Campus locations"
     },
     "pick": {
-      "ielts_overall": "last"
+      "fee_total": "first",
+      "course_years": "first",
+      "ielts_overall": "last",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Torrens course pages (www.torrens.edu.au/courses/<area>/<slug>), one course per page, server-rendered, no page JSON. Key-facts panel: \"Study mode\", \"Campus locations*\", \"Course duration\", \"Start date DD Mon YYYY ...\" (dated starts, shared by domestic/international view; central calendar https://www.torrens.edu.au/how-to-apply/key-dates, Main Intakes 1-4 = Feb, May/Jun, Sep, Nov), \"This is an AQF Level N course\". English: international Admission criteria tab, \"Academic IELTS 6.5 (no band less than 6.0)\" - last IELTS on page is the international one. Fee NOT on course pages (points to international course fee schedule PDF); no fee pattern. Index/hub pages bound to several courses (higher-degrees-by-research, graduate-diploma-of-education, master-of-education-advanced) must not be admitted.",
-    "reason": "Save Torrens University Australia text adapter: start dates, IELTS, campus, mode, duration, AQF level from course-page key facts panel; no fee (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:54:25.373764+00:00"
+    "title_strip": "\\s(?:in|of)\\s",
+    "course_title_strip": "\\s(?:in|of)\\s",
+    "page_view": {},
+    "notes": "Torrens course pages (www.torrens.edu.au/courses/<area>/<slug>), one course per page, server-rendered, no page JSON. Key-facts panel: \"Study mode\", \"Campus locations*\", \"Course duration\", \"Start date DD Mon YYYY ...\" (dated starts, shared by domestic/international view; central calendar https://www.torrens.edu.au/how-to-apply/key-dates, Main Intakes 1-4 = Feb, May/Jun, Sep, Nov), \"This is an AQF Level N course\". English: international Admission criteria tab, \"Academic IELTS 6.5 (no band less than 6.0)\" - last IELTS on page is the international one. Fee NOT on course pages (points to international course fee schedule PDF); no fee pattern. Index/hub pages bound to several courses (higher-degrees-by-research, graduate-diploma-of-education, master-of-education-advanced) must not be admitted. International view (5 Oct 13:02 review): the plain fetch already holds the international tab (Admission criteria with IELTS, international Fees text); the international fee itself is only in the separate international course fee schedule document, whose address is not in stored data. page_view left empty. title_strip/course_title_strip drop \" in \"/\" of \".",
+    "reason": "Second probe of requirement and whole-course fee wording on stored pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T05:58:06.428291+00:00"
   },
   "exclusions": [
     {
@@ -341,7 +349,7 @@
       {
         "kind": "intake_calendar",
         "url": "https://www.torrens.edu.au/how-to-apply/key-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:09:02Z",
         "evidence_id": "82543196-b0c7-4393-97b1-64a4f260ced6"
       }

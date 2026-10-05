@@ -10,8 +10,8 @@
   ],
   "admit_reason": "Thompson Rivers intakes 35 of 36 agree, 1 correction (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
   "admit_changed_at": "2026-10-04T19:29:18Z",
-  "config_updated_at": "2026-10-04T18:47:44Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:04:08Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
@@ -19,11 +19,12 @@
     "sections": {},
     "patterns": {
       "campus": "Credential\\s+(?:.|\\n){0,150}?\\s+Delivery\\s+((?:.|\\n){1,60}?)\\s+Length",
-      "intakes": "Intake dates\\s+((?:.|\\n){1,80}?)\\s+(?:Application|International|Apply)|([A-Za-z]+) intake \\(international\\)|semesters starting each ([A-Za-z]+)|Next Intake\\W{0,10}([A-Za-z]+ 20\\d\\d)",
       "duration": "Delivery\\s+(?:.|\\n){1,60}?\\s+Length\\s+((?:.|\\n){1,40}?)\\s+Intake dates",
-      "study_level": "Credential\\s+((?:.|\\n){1,150}?)\\s+Delivery",
+      "entry_requirement": "Admission requirements\\s+((?:Grade 12|English Studies ?12|Open admission|Completion of|Applicants?|Minimum|A (?:four|three)|Bachelor|Undergraduate|Degree|Successful|Students can apply)(?:(?!Program requirements|Fees Contact|Residency Requirements|Careers|Admission requirements)(?:.|\\n)){0,200})",
+      "intakes": "Intake dates\\s+((?:.|\\n){1,80}?)\\s+(?:Application|International|Apply)|([A-Za-z]+) intake \\(international\\)|semesters starting each ([A-Za-z]+)|Next Intake\\W{0,10}([A-Za-z]+ 20\\d\\d)",
+      "not_admitting": "Applications\\s+((?:not|no longer|closed|currently not)(?:.|\\n){0,50}?)\\s+International",
       "student_type": "International\\s+((?:not )?open to international applicants)",
-      "not_admitting": "Applications\\s+((?:not|no longer|closed|currently not)(?:.|\\n){0,50}?)\\s+International"
+      "study_level": "Credential\\s+((?:.|\\n){1,150}?)\\s+Delivery"
     },
     "pick": {
       "campus": "first",
@@ -31,15 +32,17 @@
       "duration": "first",
       "study_level": "first",
       "student_type": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "TRU (Canada, no CRICOS). Page kinds: (1) tru.ca/programs/catalogue/* programme pages with a Program Details box: Credential (study level), Delivery (campus), Length (duration), Intake dates (month names, e.g. September, January, May; graduate pages follow with \"Application Deadline <date>\", which is excluded), International (open to international applicants). (2) Faculty/graduate pages (gaglardi, nursing): intake given as \"September intake (international)\", \"semesters starting each September\" or \"Next Intake May 2026\". (3) distance/Open Learning pages: no intake, fee or IELTS. Fees: catalogue pages carry only a per-semester calculator (default Canadian, about 4 courses, e.g. Tuition $1,904.40); the international figure is computed in the browser and no annual international fee is printed, so no fee pattern. IELTS is not printed on programme pages; English is a central TRU admissions rule. Terms are printed as month names so no term_months mapping is needed.",
-    "reason": "Round 2: stop the intakes capture before \"Application Deadline\" so deadline months are not read as intakes (Claude wave run, on the Platform Admin instruction 5 Oct 04:49)",
-    "updated_at": "2026-10-04T18:47:44.242226+00:00"
+    "page_view": {},
+    "notes": "TRU (Canada, no CRICOS). Page kinds: (1) tru.ca/programs/catalogue/* programme pages with a Program Details box: Credential (study level), Delivery (campus), Length (duration), Intake dates (month names, e.g. September, January, May; graduate pages follow with \"Application Deadline <date>\", which is excluded), International (open to international applicants). (2) Faculty/graduate pages (gaglardi, nursing): intake given as \"September intake (international)\", \"semesters starting each September\" or \"Next Intake May 2026\". (3) distance/Open Learning pages: no intake, fee or IELTS. Fees: catalogue pages carry only a per-semester calculator (default Canadian, about 4 courses, e.g. Tuition $1,904.40); the international figure is computed in the browser and no annual international fee is printed, so no fee pattern. IELTS is not printed on programme pages; English is a central TRU admissions rule. Terms are printed as month names so no term_months mapping is needed. Entry requirement (5 Oct 15:22, for review): the \"Admission requirements\" text (Grade 12 / open admission ...). No exit awards and no programme fee amounts in the stored text (fees are links only).",
+    "reason": "Entry requirement pattern widened to science pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:04:08.703163+00:00"
   },
   "exclusions": [],
   "central_rules": {

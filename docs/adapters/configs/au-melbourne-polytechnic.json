@@ -6,25 +6,28 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Admit intakes, English and fee: the adapter reads the international panel (international months, international per-year fee, IELTS); not-available, closed, old-registration, wrong-binding and whole-course cases excluded first (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:22:39Z",
-  "config_updated_at": "2026-10-05T00:03:19Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit delivery with English, fee and intakes: mode reads the learning method under How you will study (On-campus 40, On-campus / Self-paced online learning 2); delivery excluded for 25 courses with no international view and 2 Virtual classroom pages the normaliser misreads; HE pages without the block give no reading (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:21:52Z",
+  "config_updated_at": "2026-10-05T06:08:49Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Per year \\$\\s?([0-9][0-9,]{3,})\\s+Per semester \\$\\s?[0-9,]+\\s+(?:The student tuition|Materials fee|Total tuition|When you are studying)",
       "campus": "Campus\\s+((?:(?!Campus)[A-Za-z ,]){2,80}?)\\s+Duration",
-      "intakes": "Next Intake\\s+[A-Za-z ,]{0,100}?Next Intake\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*,\\s*(?:and\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December|Ongoing))*)",
       "duration": "Duration\\s+((?:(?!Duration)(?:.|\\n)){1,60}?)\\s+Requirements",
+      "entry_requirement": "\\bAcademic\\s*:(?:\\s*:)?\\s*((?:(?!\\s*English\\s*:)(?:.)){5,200}?)\\.?\\s*(?=English\\s*:)",
+      "fee": "Per year \\$\\s?([0-9][0-9,]{3,})\\s+Per semester \\$\\s?[0-9,]+\\s+(?:The student tuition|Materials fee|Total tuition|When you are studying)",
       "ielts_overall": "IELTS(?: Academic)?\\s+([4-9](?:\\.[05])?)(?![0-9])",
+      "intakes": "Next Intake\\s+[A-Za-z ,]{0,100}?Next Intake\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*,\\s*(?:and\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December|Ongoing))*)",
+      "mode": "How you will study\\s+Each course has a dedicated learning method that is designed to let you thrive in your studies\\.\\s+((?:On-campus|On campus|Online|Virtual classroom|Self-paced online learning|Blended|Workplace|Off-campus)(?:\\s*/\\s*(?:On-campus|On campus|Online|Virtual classroom|Self-paced online learning|Blended|Workplace|Off-campus))*)(?=\\s)",
       "not_admitting": "Call 1300 635 276 (?:(?!Call 1300)(?:.|\\n)){0,200}?(Sorry, this course is not available for international students)|(no longer accepting enrolments)"
     },
     "pick": {
@@ -33,15 +36,17 @@
       "intakes": "first",
       "duration": "first",
       "ielts_overall": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Melbourne Polytechnic course pages (www.melbournepolytechnic.edu.au/study/<level>/<course>/) carry a local and an international panel in the same HTML. Overview: Campus / Duration / Next Intake are printed twice, local first and international second; the adapter reads the second (no reading when only one is printed). Fees & Costs: local VET uses a Concession / Government subsidised / Non-subsidised table; local HE prints CSP and Fee-paying Places Per year / Per semester; the international panel is the Per year $X Per semester $Y pair followed by the fee note (The student tuition fees... / Materials fee / Total tuition / When you are studying...); per-semester and Total tuition figures are not read. Where Per year equals Per semester (6-month courses) the figure is a whole-course amount and must be excluded. IELTS is printed once under Requirements (international entry). The header line after Code / CRICOS / VTAC Number may say \"Sorry, this course is not available for international students\" (read into not_admitting); \"no longer accepting enrolments\" marks closed courses. Intakes are printed as months, so no term_months. Central: English https://www.melbournepolytechnic.edu.au/study/how-to-enrol/international-admissions/entrance-requirements/ ; calendars https://www.melbournepolytechnic.edu.au/students/academic-calendars/ (HE: Semester 1 Feb, Semester 2 Jul, Summer Nov; VET: Term 1 Feb, Term 2 Apr, Term 3 Jul, Term 4 Oct).",
-    "reason": "Adapter round 3 (final): not-available marker read from the course header line; temporary probe removed (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-05T00:03:19.281346+00:00"
+    "page_view": {},
+    "notes": "Melbourne Polytechnic course pages (www.melbournepolytechnic.edu.au/study/<level>/<course>/) carry a local and an international panel in the same HTML. Overview: Campus / Duration / Next Intake are printed twice, local first and international second; the adapter reads the second (no reading when only one is printed). Fees & Costs: local VET uses a Concession / Government subsidised / Non-subsidised table; local HE prints CSP and Fee-paying Places Per year / Per semester; the international panel is the Per year $X Per semester $Y pair followed by the fee note (The student tuition fees... / Materials fee / Total tuition / When you are studying...); per-semester and Total tuition figures are not read. Where Per year equals Per semester (6-month courses) the figure is a whole-course amount and must be excluded. IELTS is printed once under Requirements (international entry). The header line after Code / CRICOS / VTAC Number may say \"Sorry, this course is not available for international students\" (read into not_admitting); \"no longer accepting enrolments\" marks closed courses. Intakes are printed as months, so no term_months. Central: English https://www.melbournepolytechnic.edu.au/study/how-to-enrol/international-admissions/entrance-requirements/ ; calendars https://www.melbournepolytechnic.edu.au/students/academic-calendars/ (HE: Semester 1 Feb, Semester 2 Jul, Summer Nov; VET: Term 1 Feb, Term 2 Apr, Term 3 Jul, Term 4 Oct). 5 Oct 15:22 (exit awards and requirements): entry_requirement reads the international entry line 'Academic: <requirement> English: ...' under Requirements (pages without that line, e.g. the Master, give none). No exit_awards pattern: exits are printed by subject count or as an embedded exit (Bachelor of Information Technology: associate degree after 16 of 24 subjects; Bachelor of Engineering Technology (Civil): exit with the Associate Degree after the BET210 capstone), never as years of full-time study. No fee_total: the international panel prints Per year; whole-course amounts appear only for 6-month courses (excluded).",
+    "reason": "Final: entry_requirement (international Academic line) for review; exit award probe removed (no years-based exits printed); no whole-course fee (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:08:49.585751+00:00"
   },
   "exclusions": [
     {
@@ -514,28 +519,28 @@
       {
         "kind": "english_policy",
         "url": "https://www.melbournepolytechnic.edu.au/study/how-to-enrol/international-admissions/entrance-requirements/",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.melbournepolytechnic.edu.au/students/academic-calendars/",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:08:52Z",
         "evidence_id": "5da7e07d-06e5-4f60-90a3-f6fda340e23a"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.melbournepolytechnic.edu.au/students/academic-calendars/higher-education-calendar/",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T09:30:19Z",
         "evidence_id": "4ca055db-b584-4666-b164-ef5b54a6bcf3"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.melbournepolytechnic.edu.au/students/academic-calendars/vet-calendar/",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T11:50:41Z",
         "evidence_id": "ca441639-07ce-4e08-aba8-2b7ca85baed5"
       }

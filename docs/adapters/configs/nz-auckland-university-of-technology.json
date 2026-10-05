@@ -6,51 +6,50 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "AUT: intakes 124 of 147 agree, IELTS 141; fees held until the levy convention is decided (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:09:33Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "AUT: delivery added from the Key facts Campus value (141 on campus, 4 on campus and online, 46 none), spot-checks agree; english and intakes kept, fee still held for the levy decision; corrects the count in the previous entry (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:21:12Z",
+  "config_updated_at": "2026-10-05T06:12:31Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International\\s*(?:20\\d\\d fee:\\s*)?\\$[\\d,.]+\\s*\\(for 120 points\\)\\s*\\(\\$([\\d,]+)(?:\\.\\d+)?\\s*tuition fees",
-      "mode": "Duration:[^:]{0,40}?((?:full-time|part-time)(?:.|\\n){0,40}?)\\s*Campus:",
-      "campus": "Campus:\\s*((?:.|\\n){1,100}?)\\s*(?:\\*|Starts:)",
-      "intakes": "Starts:\\s*((?:\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,6}\\.?\\s+20\\d\\d\\s*){1,12})",
-      "duration": "Duration:\\s*((?:.|\\n){1,80}?)\\s*Campus:",
       "aqf_level": "Programme code:\\s*[A-Z0-9]+\\s*Level:\\s*(\\d{1,2})\\b",
+      "campus": "Campus:\\s*((?:.|\\n){1,100}?)\\s*(?:\\*|Starts:)",
+      "duration": "Duration:\\s*((?:.|\\n){1,80}?)\\s*Campus:",
+      "entry_requirement": "Minimum entry requirements\\s+(?!(?:for the (?:.|\\n){3,80}?\\s+)?(?:If you have New Zealand qualifications|University Entrance|NCEA|Completion of Year 1[23]))((?:.|\\n){3,200}?(?=\\s+(?:International student entry requirements|English language requirements|Other requirements|Selection criteria|Select your country|What you study|How to apply|Brochure))|(?:.|\\n){10,200})",
+      "fee": "(?:(?<=International\\s{0,3}2026 fee:[^)]{0,60}\\)\\s{0,3}\\([^)]{0,90}\\)\\s{0,3})2027 fee:|International\\s*(?:20\\d\\d fee:)?)\\s*\\$[\\d,.]+\\s*\\(for 120 points\\)\\s*\\(\\$([\\d,]+)(?:\\.\\d+)?\\s*tuition fees(?![^)]{0,90}\\)\\s{0,3}2027 fee:)",
       "ielts_overall": "IELTS \\(Academic\\)\\s*(\\d(?:\\.\\d)?)\\s*overall",
+      "intakes": "Starts:\\s*((?:\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]{0,6}\\.?\\s+20\\d\\d\\s*){1,12})",
+      "mode": "Campus:\\s*((?:.|\\n){1,100}?)\\s*(?:\\*|Starts:)",
       "not_admitting": "Starts:\\s*(This programme is not offered to new students|Not offered to new students(?:.|\\n){0,40}?)\\s*(?:Key semester dates|Fees|\\.)"
     },
     "pick": {
       "fee": "first",
+      "mode": "first",
       "intakes": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "AUT course pages (www.aut.ac.nz/study/study-options/<area>/courses/<slug> and www.aut.ac.nz/courses/<slug>) carry a Key facts panel: \"Programme code: AKxxxx Level: N Points: N Duration: ... Campus: ... Starts: 22 Feb 2027 12 Jul 2027 Key semester dates Fees Domestic $.. (for N points) (...) International [2026 fee:] $.. (for N points) ($N tuition fees + $N student services levy)\", then \"English language requirements IELTS (Academic) 6.5 overall with all bands 6.0 or higher\". Fee = international tuition (student services levy excluded) only when stated for 120 points (one full-time year); where two years are printed the first (2026) line is read and its year kept; 60/180/240-point figures, per-major split figures (e.g. \"Computing: $..\") and \"Not offered to new students\" lines are not read. Level = NZQF level (kept as aqf_level, testing only). not_admitting = \"Starts: This programme is not offered to new students\". Arion (arion.aut.ac.nz) paper/qualification pages, online.aut.ac.nz pages and old PDF programme guides carry none of these. Semester dates: https://www.aut.ac.nz/study/semester-dates (S1 = February, S2 = July, Summer School = November); business professional masters trimesters: https://www.aut.ac.nz/study/semester-dates/business-professional-masters-programmes-dates (T1 = March, T2 = June, T3 = October).",
-    "reason": "Save AUT adapter v2: fee also reads the first year-labelled international 120-point line (2026 fee:), add not-offered-to-new-students flag (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:09:33.134822+00:00"
+    "page_view": {},
+    "notes": "AUT course pages (www.aut.ac.nz/study/study-options/<area>/courses/<slug> and www.aut.ac.nz/courses/<slug>) carry a Key facts panel: \"Programme code: AKxxxx Level: N Points: N Duration: ... Campus: ... Starts: 22 Feb 2027 12 Jul 2027 Key semester dates Fees Domestic $.. (for N points) (...) International [2026 fee:] $.. (for N points) ($N tuition fees + $N student services levy)\", then \"English language requirements IELTS (Academic) 6.5 overall with all bands 6.0 or higher\". Fee = international tuition (student services levy excluded) only when stated for 120 points (one full-time year); where two years are printed the newer (2027) international line is read and its year kept (5 Oct 13:02), otherwise the single line (year kept when printed); 60/180/240-point figures, per-major split figures (e.g. \"Computing: $..\") and \"Not offered to new students\" lines are not read. Level = NZQF level (kept as aqf_level, testing only). not_admitting = \"Starts: This programme is not offered to new students\". Arion (arion.aut.ac.nz) paper/qualification pages, online.aut.ac.nz pages and old PDF programme guides carry none of these. Semester dates: https://www.aut.ac.nz/study/semester-dates (S1 = February, S2 = July, Summer School = November); business professional masters trimesters: https://www.aut.ac.nz/study/semester-dates/business-professional-masters-programmes-dates (T1 = March, T2 = June, T3 = October). Mode (delivery) = the Key facts \"Campus:\" value, which is where the course page prints delivery (e.g. \"City Campus\", \"City Campus Online study\", \"South Campus Distance learning\"); the earlier mode pattern read study load (full-time/part-time) and was replaced. online.aut.ac.nz pages (ON-coded AUT Online pages, domestic fees only) print \"Delivery: 100% online\" but are not read for mode because they are a different programme page from the bound AK course. International view (5 Oct 13:02): the AUT course page prints domestic and international figures together in Key facts (no separate international address or toggle found in stored pages), so no page_view is needed; 13 courses bound to Arion, PDF, repository or wrong pages were moved to their own course pages. Entry requirement (5 Oct 15:22, shown in Coverage for review, never admitted): the Key facts page section \"Minimum entry requirements\" (up to about 200 characters, ending at \"International student entry requirements\", \"English language requirements\", \"Other requirements\" or \"Selection criteria\"); the international panel (\"International student entry requirements\") adds only English and other requirements to it. Pages whose minimum requirement is worded for New Zealand qualifications (\"If you have New Zealand qualifications ... If you have qualifications from another country See entry requirements for students from other countries\") and minimum requirements stated only as New Zealand school qualifications (University Entrance, NCEA, Year 12/13) are not read, because the international requirement is on a separate by-country page. Exit awards (5 Oct 15:22): three postgraduate pages say only \"available as an exit qualification\" / \"you can exit with ...\" with no full-time years, so no exit_awards pattern is set. Whole-course fees: the only whole-programme figures are online.aut.ac.nz domestic-only fees (\"not available for international students\"), so no fee_total pattern is set.",
+    "reason": "entry_requirement also skips minimum requirements stated only as New Zealand school qualifications (University Entrance, NCEA, Year 12/13) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:12:31.756516+00:00"
   },
   "exclusions": [
     {
       "course_code": "AK1011",
       "title": "Diploma in Paramedic Science (Level 6)",
-      "field": "intakes",
-      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "AK1015",
-      "title": "Postgraduate Diploma in Disaster Risk Management and Development (Level 8)",
       "field": "intakes",
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
@@ -65,6 +64,18 @@
       "title": "Postgraduate Diploma in Higher Education (Level 8)",
       "field": "intakes",
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1039",
+      "title": "Postgraduate Certificate in Science (Level 8)",
+      "field": "fee",
+      "reason": "AUT: fee read by the general reader is a per-major 60-point figure (Computing / Science), not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AK1047",
+      "title": "Master of Teaching and Learning (Level 9)",
+      "field": "fee",
+      "reason": "AUT: fee read by the general reader is the student services levy amount ($1,889) of a 180-point figure, not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "AK1048",
@@ -135,6 +146,12 @@
     {
       "course_code": "AK1068",
       "title": "Postgraduate Certificate in Human Rights (Level 8)",
+      "field": "fee",
+      "reason": "AUT: fee read by the general reader is a 60-point figure for a programme not offered to new students in 2027 (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "AK1068",
+      "title": "Postgraduate Certificate in Human Rights (Level 8)",
       "field": "intakes",
       "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
@@ -143,6 +160,12 @@
       "title": "Postgraduate Diploma in Human Rights (Level 8)",
       "field": "intakes",
       "reason": "not offered to new students (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK1070",
+      "title": "Postgraduate Certificate in Business Studies (Level 8)",
+      "field": "fee",
+      "reason": "AUT: fee read by the general reader is the 2027 figure for 60 points (a whole half-year certificate), not an annual 120-point fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "AK1074",
@@ -331,12 +354,6 @@
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "AK1339",
-      "title": "Master of Information Technology Project Management (Level 9)",
-      "field": "intakes",
-      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
       "course_code": "AK1440",
       "title": "Postgraduate Certificate in Creative Technologies (Level 8)",
       "field": "intakes",
@@ -367,12 +384,6 @@
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "AK3113",
-      "title": "Bachelor of Health Science (Oral Health) (Level 7)",
-      "field": "intakes",
-      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
       "course_code": "AK3408",
       "title": "Diploma in Outdoor Recreation Leadership (Level 6)",
       "field": "intakes",
@@ -383,6 +394,12 @@
       "title": "Diploma in Japanese (Level 6)",
       "field": "intakes",
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "AK3518",
+      "title": "Doctor Of Philosophy (Level 10)",
+      "field": "fee",
+      "reason": "AUT: fee read by the general reader is the student services levy amount ($1,221), not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "AK3594",
@@ -457,14 +474,14 @@
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "AK3940",
-      "title": "Postgraduate Diploma in Rehabilitation Psychology (Level 8)",
-      "field": "intakes",
-      "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "AK3811",
+      "title": "Postgraduate Certificate in Professional Accounting (Level 8)",
+      "field": "fee",
+      "reason": "AUT: fee read by the general reader is the 2027 figure for 60 points (a whole half-year certificate), not an annual 120-point fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
-      "course_code": "AK4662",
-      "title": "Bachelor of Health Science (Physiotherapy Honours) (Level 8)",
+      "course_code": "AK3940",
+      "title": "Postgraduate Diploma in Rehabilitation Psychology (Level 8)",
       "field": "intakes",
       "reason": "paper page bound to a qualification (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },

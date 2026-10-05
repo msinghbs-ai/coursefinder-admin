@@ -6,41 +6,49 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee"
   ],
-  "admit_reason": "Wave 9: English and international per-year fee ready after exclusions; intakes not admitted (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:03Z",
-  "config_updated_at": "2026-10-04T23:57:36Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "TAFE Queensland: delivery now read from the rows priced for international students and spot-checked; english and fee kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:16:33Z",
+  "config_updated_at": "2026-10-05T05:54:18Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International:? \\$ ?([0-9][0-9,]{3,}) This is an indicative fee for one year of full-time study for international students",
-      "mode": "WAYS TO STUDY ((?:.|\\n){3,80}?) (?:NEXT INTAKE|LAST CHANCE|Start date)",
       "campus": "STUDY LOCATIONS ((?:.|\\n){3,160}?) WAYS TO STUDY",
-      "intakes": "quickly\\. (\\d{1,2} [A-Z][a-z]{2} 20\\d\\d) The date the course starts\\. Apply early as intakes fill up quickly\\. DURATION The total length of time it takes to complete the course\\. (?:.|\\n){1,40}?The total length of time it takes to complete the course\\. Workload The average amount of time students will need to allocate to study each week\\. Full time",
+      "course_years": "\\d{1,2} [A-Z][a-z]{2} 20\\d\\d ([1-8] years?) (?:[^:$]{1,60}: )?Full time[^$]{0,200}?International:\\s*\\$",
       "duration": "Duration: (\\d+(?:\\.\\d)? (?:years?|months?|weeks?)(?: \\d+ months?)?)",
-      "ielts_overall": "IELTS(?: \\(Academic\\))?:? ?(?:Minimum overall score of |overall (?:score )?(?:of )?)?(\\d\\.\\d)"
+      "entry_requirement": "Academic Requirements\\s*:\\s*((?:.|\\n){10,220}?)(?=\\s+(?:For more information|View more information))",
+      "fee": "International:? \\$ ?([0-9][0-9,]{3,}) This is an indicative fee for one year of full-time study for international students",
+      "fee_total": "International This is the total course fee for international students\\.?\\s*(?:Learn more\\s*)?\\$ ?([0-9][0-9,]{3,})(?![0-9,]| ?[-–])",
+      "ielts_overall": "IELTS(?: \\(Academic\\))?:? ?(?:Minimum overall score of |overall (?:score )?(?:of )?)?(\\d\\.\\d)",
+      "intakes": "quickly\\. (\\d{1,2} [A-Z][a-z]{2} 20\\d\\d) The date the course starts\\. Apply early as intakes fill up quickly\\. DURATION The total length of time it takes to complete the course\\. (?:.|\\n){1,40}?The total length of time it takes to complete the course\\. Workload The average amount of time students will need to allocate to study each week\\. Full time",
+      "mode": "((?:On campus|Fully online|Online|Blended|Flexible|Workplace|Mixed mode)(?: with some (?:online|on campus))?)\\s+\\d{1,2} [A-Z][a-z]{2} 20\\d\\d\\s[^$]{1,200}?International:\\s*\\$"
     },
     "pick": {
       "fee": "first",
-      "mode": "first",
+      "mode": "all",
       "campus": "first",
       "intakes": "all",
       "duration": "first",
-      "ielts_overall": "first"
+      "fee_total": "first",
+      "course_years": "first",
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "TAFE Queensland course pages (tafeqld.edu.au/course/<n>/<id>/<slug>), one course per page, text only (no page data). Intakes: each offering panel prints \"START DATE ... 25 Jan 2027 ... Workload ... Full time\"; only full-time offerings are read (student-visa study is full time). Fee: only higher-education pages (associate degrees, bachelors, graduate certificates/diplomas, masters) print an international annual indicative fee (offering panel: \"International: $27,600 This is an indicative fee for one year of full-time study for international students\"); VET pages print a total course fee (\"This is the total course fee for international students\") which is deliberately NOT read. IELTS: \"IELTS (Academic): 6.0\" on higher-education pages only; VET English is central: https://tafeqld.edu.au/content/dam/tafe/en/documents/pdfs/international-students/TAFE%20Queensland_EnglishLanguageEquivalenciesTable.pdf. International intakes and VET totals: https://tafeqld.edu.au/international/courses/international-pricelist. Key dates: https://tafeqld.edu.au/international/how-to-apply/application-process/key-dates",
-    "reason": "Save TAFE Queensland adapter v2: fee read from the offering panel \"International: $N This is an indicative fee for one year\", wider IELTS wording (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:57:36.317255+00:00"
+    "page_view": {},
+    "notes": "TAFE Queensland course pages (tafeqld.edu.au/course/<n>/<id>/<slug>), one course per page, text only (no page data). Intakes: each offering panel prints \"START DATE ... 25 Jan 2027 ... Workload ... Full time\"; only full-time offerings are read (student-visa study is full time). Fee: only higher-education pages (associate degrees, bachelors, graduate certificates/diplomas, masters) print an international annual indicative fee (offering panel: \"International: $27,600 This is an indicative fee for one year of full-time study for international students\"); VET pages print a total course fee (\"This is the total course fee for international students\") which is deliberately NOT read. IELTS: \"IELTS (Academic): 6.0\" on higher-education pages only; VET English is central: https://tafeqld.edu.au/content/dam/tafe/en/documents/pdfs/international-students/TAFE%20Queensland_EnglishLanguageEquivalenciesTable.pdf. International intakes and VET totals: https://tafeqld.edu.au/international/courses/international-pricelist. Key dates: https://tafeqld.edu.au/international/how-to-apply/application-process/key-dates Delivery (mode) is read from the comparison-chart rows priced \"International: $\" (study mode label such as \"On campus with some online\" / \"On Campus\"), not from the WAYS TO STUDY summary, which mixes domestic ways (online, apprenticeships, TAFE at School).",
+    "reason": "Entry requirement pattern (review only); TAFE Queensland VET annual fee = international total course fee / full-time years from the international full-time offering row; Massey whole-qualification fee probe (no years, no fee computed) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T05:54:18.570188+00:00"
   },
   "exclusions": [
     {
@@ -106,20 +114,8 @@
     {
       "course_code": "095395A",
       "title": "Certificate IV in Automotive Mechanical Diagnosis",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "095395A",
-      "title": "Certificate IV in Automotive Mechanical Diagnosis",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "096796J",
-      "title": "Diploma of Mental Health",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "096796J",
@@ -136,12 +132,6 @@
     {
       "course_code": "103604D",
       "title": "Certificate III in Heavy Commercial Vehicle Mechanical Technology",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "103604D",
-      "title": "Certificate III in Heavy Commercial Vehicle Mechanical Technology",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
@@ -154,32 +144,14 @@
     {
       "course_code": "104852B",
       "title": "Diploma of Conservation and Ecosystem Management",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "104852B",
-      "title": "Diploma of Conservation and Ecosystem Management",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "104863K",
       "title": "Certificate III in Carpentry",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "104863K",
-      "title": "Certificate III in Carpentry",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "105823K",
-      "title": "Diploma of Graphic Design",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "105823K",
@@ -200,18 +172,6 @@
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
-      "course_code": "107313E",
-      "title": "Diploma of Information Technology",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "107798A",
-      "title": "Diploma of Sport",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
       "course_code": "107798A",
       "title": "Diploma of Sport",
       "field": "intakes",
@@ -220,20 +180,8 @@
     {
       "course_code": "107861K",
       "title": "Diploma of Music",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "107861K",
-      "title": "Diploma of Music",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "107862J",
-      "title": "Diploma of Screen and Media",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "107862J",
@@ -268,12 +216,6 @@
     {
       "course_code": "109290B",
       "title": "Diploma of Early Childhood Education and Care",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "109290B",
-      "title": "Diploma of Early Childhood Education and Care",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
@@ -304,12 +246,6 @@
     {
       "course_code": "109391H",
       "title": "Certificate III in Early Childhood Education and Care",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "109391H",
-      "title": "Certificate III in Early Childhood Education and Care",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
@@ -318,12 +254,6 @@
       "title": "Certificate IV in Kitchen Management",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "109736K",
-      "title": "Certificate III in Patisserie",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "109736K",
@@ -346,24 +276,12 @@
     {
       "course_code": "110425D",
       "title": "Diploma of Visual Arts",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "110425D",
-      "title": "Diploma of Visual Arts",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "110617G",
       "title": "Certificate III in Animal Care Services",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "110771H",
-      "title": "Diploma of Agribusiness Management",
       "field": "fee",
       "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
@@ -380,12 +298,6 @@
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
-      "course_code": "111236A",
-      "title": "Diploma of Beauty Therapy",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
       "course_code": "111757J",
       "title": "Diploma of Anaesthetic Technology and Practice",
       "field": "intakes",
@@ -400,12 +312,6 @@
     {
       "course_code": "112010M",
       "title": "Diploma of Engineering - Technical",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "112010M",
-      "title": "Diploma of Engineering - Technical",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
@@ -414,12 +320,6 @@
       "title": "Certificate IV in Laboratory Techniques",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "112094B",
-      "title": "Certificate IV in Cyber Security",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "112094B",
@@ -454,20 +354,8 @@
     {
       "course_code": "112777H",
       "title": "Advanced Diploma of Engineering Technology - Electrical",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "112777H",
-      "title": "Advanced Diploma of Engineering Technology - Electrical",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "112778G",
-      "title": "Diploma of Event Management",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "112779F",
@@ -490,20 +378,8 @@
     {
       "course_code": "113763F",
       "title": "Diploma of Community Services",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "113763F",
-      "title": "Diploma of Community Services",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "113882K",
-      "title": "Diploma of Remedial Massage",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "113882K",
@@ -526,32 +402,14 @@
     {
       "course_code": "114312C",
       "title": "Certificate III in Rural Operations",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "114312C",
-      "title": "Certificate III in Rural Operations",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "114313B",
       "title": "Certificate III in Horticulture",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "114313B",
-      "title": "Certificate III in Horticulture",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "114314A",
-      "title": "Certificate III in Cabinet Making and Timber Technology",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "114314A",
@@ -564,12 +422,6 @@
       "title": "Bachelor of Nursing",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "114604B",
-      "title": "Diploma of Apparel, Fashion and Textiles",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "114604B",
@@ -622,20 +474,8 @@
     {
       "course_code": "118592B",
       "title": "Diploma of Early Childhood Education and Care",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "118592B",
-      "title": "Diploma of Early Childhood Education and Care",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "118707G",
-      "title": "Diploma of Community Services",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "118707G",
@@ -652,20 +492,8 @@
     {
       "course_code": "119144G",
       "title": "Certificate III in Marine Craft Construction",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "119144G",
-      "title": "Certificate III in Marine Craft Construction",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "119596A",
-      "title": "Certificate III in Early Childhood Education and Care",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "119596A",
@@ -682,32 +510,14 @@
     {
       "course_code": "120661J",
       "title": "Diploma of Music",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "120661J",
-      "title": "Diploma of Music",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "120669A",
       "title": "Diploma of Graphic Design",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "120669A",
-      "title": "Diploma of Graphic Design",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "120670H",
-      "title": "Diploma of Visual Arts",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "120670H",
@@ -726,12 +536,6 @@
       "title": "Associate Degree in Applied Technologies",
       "field": "intakes",
       "reason": "Course-page start dates mix domestic offerings and miss the international July intake; use the price list instead (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
-    },
-    {
-      "course_code": "121397A",
-      "title": "Certificate III in Baking",
-      "field": "fee",
-      "reason": "General-reader fee is a VET whole-course total, a stray amount or a domestic fee, not an international annual fee (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)"
     },
     {
       "course_code": "121397A",
@@ -747,21 +551,21 @@
       {
         "kind": "english_policy",
         "url": "https://tafeqld.edu.au/content/dam/tafe/en/documents/pdfs/international-students/TAFE%20Queensland_EnglishLanguageEquivalenciesTable.pdf",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://tafeqld.edu.au/current-students/academic-calendar",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:09:03Z",
         "evidence_id": "83737967-19a6-4845-863a-10cabcb09586"
       },
       {
         "kind": "intake_calendar",
         "url": "https://tafeqld.edu.au/international/how-to-apply/application-process/key-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T11:50:40Z",
         "evidence_id": "b9fb8500-ceb0-4e4c-bdff-837f4fe09eab"
       }

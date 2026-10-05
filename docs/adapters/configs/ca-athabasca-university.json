@@ -2,54 +2,60 @@
   "university": "Athabasca University",
   "country": "CA",
   "provider_id": "e450a320-27d7-4ca2-8ad6-cafa266df869",
-  "status": "Testing",
+  "status": "Admitting",
   "enabled": true,
-  "admit": false,
+  "admit": true,
   "admit_fields": [
-    "english",
+    "delivery",
     "fee",
     "intakes"
   ],
-  "admit_reason": null,
-  "admit_changed_at": null,
-  "config_updated_at": "2026-10-04T23:10:19Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Athabasca: fee admitted for 39 undergraduate courses from the 2026-27 calendar outside-Canada 3-credit rate x 30 credits (CAD 17,715 Business/Health Disciplines; CAD 17,075 HSS/Science and Technology); graduate programmes have no fee rule; delivery and intakes kept (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 13:25: use 30 credits)",
+  "admit_changed_at": "2026-10-05T02:41:32Z",
+  "config_updated_at": "2026-10-05T06:08:06Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "intakes": "(?:\\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+\\d{1,2}(?:,\\s*20\\d\\d)?\\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:\\s+20\\d\\d)?)(?![\\s,]*\\d{1,2}\\b)|classes start in (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?)",
       "duration": "Finish this program in as little as ((?:.|\\n){0,120}?)\\s+of(?: full-time)? study",
+      "entry_requirement": "Admission requirements\\s+((?!are confirmed|Program details)(?:.|\\n){20,200})",
+      "intakes": "(?:\\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+\\d{1,2}(?:,\\s*20\\d\\d)?\\s+((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:\\s+20\\d\\d)?)(?![\\s,]*\\d{1,2}\\b)|classes start in (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?|Next start:\\s*monthly\\b|intakes each year:? in (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?(?:,? and (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?)?)",
+      "mode": "\\|\\s*([^|]{0,30}?\\bonline\\b[^|]{0,30}?)\\s*\\|\\s*Athabasca University|(?<=\\d-credit )online(?= (?:degree|diploma|certificate|program))|\\bonline(?= and on your own time)|(?<=first step to )online(?= learning)",
       "study_level": "Credential:\\s*([a-z' ]{3,40}?)\\s+Faculty:"
     },
     "pick": {
+      "mode": "first",
       "intakes": "all",
       "duration": "first",
-      "study_level": "first"
+      "study_level": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
-      "Sept": "September"
+      "Sept": "September",
+      "monthly": "January February March April May June July August September October November December"
     },
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Athabasca University (athabascau.ca), online/distance only, text only, no page JSON. IRCC does not issue study permits for AU online programmes (https://www.athabascau.ca/applications-admissions/apply-au/international-students.html): international students can study from outside Canada only. Page kinds: /programs/summary/<programme>.html (all 35 read pages). Undergraduate pages: \"Next start: monthly\", \"no set start dates - you can enrol at any time\" (no months to read); fees are per course (tables for Alberta, out-of-province and students living outside Canada) - no annual figure, so no fee pattern. Graduate pages: \"Application deadlines and start dates\" table \"deadline | start\" (e.g. \"June 15, 2026 Aug. 2026\"): intakes = the start month after each dated deadline (pick all); term_months maps the printed abbreviation \"Sept\" to September (course pages print \"Sept.\"); MSc Information Systems lists terms \"Fall\"/\"Winter\" with no published month mapping, so it gives no months; EdD: \"classes start in May\". Graduate fees are per course or whole-programme estimated totals (MBA ESTIMATED TOTAL) - not read. Duration = \"Finish this program in as little as ...\"; study_level = \"Credential: ...\". No page carries IELTS: central rule IELTS 6.0 overall (undergraduate https://www.athabascau.ca/calendar/undergraduate/admission-registration-evaluation/english-language-proficency.html; graduate https://www.athabascau.ca/calendar/graduate/additional-information/english-language-proficiency-requirements.html).",
-    "reason": "Athabasca adapter round 2: read the abbreviation \"Sept.\" printed in start-date tables as September (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T23:10:19.463259+00:00"
+    "title_strip": "\\s+Major$|(?<=Applied Math)ematics\\b",
+    "course_title_strip": "\\s+3 Yr\\b|\\s+(?:Applied Studies|Arts and Science|Counselling Psychology)$|(?<=Health Studies)\\s+General$|^Bachelor of Nursing\\s+(?=Post-)|(?<=Earth System)s\\b",
+    "page_view": {},
+    "notes": "Athabasca University (athabascau.ca), Canada's Open University: every programme is delivered online (Platform Admin 5 Oct 12:12); text only, no page JSON. Page kind: one programme summary page per programme, https://www.athabascau.ca/programs/summary/<programme>.html (all 50 courses bound to these on 5 Oct; 3-year BA options share the major's page, which prints 'a 3-year and a 4-year option' and 'Credits: 90 or 120'; both BGS designations share the BGS page). Intakes: undergraduate pages print 'Next start: monthly' (monthly admissions, enrol at any time) - term_months maps 'monthly' to all twelve months (taken from the course page itself); graduate pages print an 'Application deadlines and start dates' table 'deadline | start' (e.g. 'June 15, 2026 Aug. 2026', 'March 1 Sept.') - the start month after each dated deadline (pick all), 'Sept' mapped to September; MSc Information Systems prints '2 intakes each year: in Sept. and Jan.'; DBA/EdD 'classes start in <month>'. MA Interdisciplinary Studies prints terms (spring/fall/winter) with no month mapping, so it gives no months. Fee: programme pages print per-course fee tables (undergraduate 'student living outside Canada' 3-credit totals $1,737.50/$1,674.50, older than the calendar; graduate per-course fees incl. 'outside Canada' rows, MBA ESTIMATED TOTAL) - no annual figure, so no fee pattern. Current undergraduate rate (2026-27 calendar, effective Sep. 1, 2026 to Aug. 31, 2027, https://www.athabascau.ca/calendar/undergraduate/fees-refunds-and-financial-assistance/students-outside-canada.html): student living outside Canada, 3-credit course total $1,771.50 (Faculties of Business, Health Disciplines) / $1,707.50 (Humanities and Social Sciences, Science and Technology). Annual international fee = 3-credit course total x (full-time credits per year / 3); the calendar prints a full course load of 3.75 credits per month (part-time-full-time-students.html) and programme pages print e.g. 120 credits in 4 years of full-time study; estimated-program-fees.html prints the outside-Canada totals per credit count (30 credits $17,715 / $17,075; 45 credits $26,572.50 / $25,612.50). Needs a rate x credits mechanism and a decision on the annual load (reported 5 Oct). Duration = 'Finish this program in as little as ...'; study_level = 'Credential: ...'. English: no IELTS on pages; central rule IELTS 6.0 overall (approved central English policy). Delivery (mode): page title segment holding 'online' (e.g. '| Online degree |'), else 'N-credit online degree program', 'online and on your own time', or the page's 'first step to online learning' panel. Central calendars attached 5 Oct: 2026-2027 undergraduate and graduate calendars (https://www.athabascau.ca/calendar/undergraduate/index.html, https://www.athabascau.ca/calendar/graduate/index.html) and the undergraduate fees and registration sections. (Claude bespoke adapter, 5 Oct)",
+    "reason": "Add the entry requirement pattern (international view, shown for review, not admitted); no exit points or international whole-course fee with printed full-time years found in stored pages, so no exit_awards / fee_total patterns (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:08:06.304253+00:00"
   },
   "exclusions": [
     {
-      "course_code": "3d31fd4a-86fa-4f3f-b0bb-a12700c5f315",
-      "title": "Master of Science Computing and Information Systems",
+      "course_code": "2250a76c-91d4-4802-a058-5000aaab5803",
+      "title": "Master of Science Earth Systems Science",
       "field": "intakes",
-      "reason": "application deadline read as an intake (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "MSc Earth System Science: the stored intake months (August, September) come from the fee line \"effective for courses starting September 1, 2026 to August 31, 2027\", not from start dates (Claude bespoke adapter, on the Platform Admin instruction 5 Oct 12:12)"
     }
   ],
   "central_rules": {
     "english_rule": "approved",
-    "calendar": null,
+    "calendar": "no_values",
     "central_pages": [
       {
         "kind": "english_policy",
@@ -57,6 +63,76 @@
         "status": "read",
         "read_at": "2026-10-04T23:30:20Z",
         "evidence_id": "fcee801b-88f2-4993-a5e1-9ed834025044"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/graduate/additional-information/glossary.html",
+        "status": "read",
+        "read_at": "2026-10-05T02:10:13Z",
+        "evidence_id": "6c43eacb-f23d-4c2c-87c4-91fbfa1eeaf7"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/graduate/additional-information/index.html",
+        "status": "read",
+        "read_at": "2026-10-05T02:00:14Z",
+        "evidence_id": "99fcbd6d-11d0-4ef2-a413-7a3d83cf51c3"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/graduate/index.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:30:15Z",
+        "evidence_id": "8b56ce39-af7e-4ff1-8c51-b6e41cb227ad"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/admission-registration-evaluation/index.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:40:15Z",
+        "evidence_id": "43d2ff5a-fbe3-4572-8977-5c83b7be9ba4"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/admission-registration-evaluation/part-time-full-time-students.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:50:15Z",
+        "evidence_id": "769a4632-9d85-4e10-a8d2-c0fe49a382b8"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/fees-refunds-and-financial-assistance/estimated-program-fees.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:50:15Z",
+        "evidence_id": "bbde9696-45e7-4861-bb67-5629ef5938cd"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/fees-refunds-and-financial-assistance/index.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:40:15Z",
+        "evidence_id": "91fc7e91-54f9-4dba-9bf0-a83d94265f8c"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/fees-refunds-and-financial-assistance/non-canadian-student-fees.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:50:16Z",
+        "evidence_id": "c5076da3-a64a-41d0-9178-aac90e9210be"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/fees-refunds-and-financial-assistance/students-outside-canada.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:50:15Z",
+        "evidence_id": "f2321cb9-c520-47bc-99fb-6b031d38443c"
+      },
+      {
+        "kind": "intake_calendar",
+        "url": "https://www.athabascau.ca/calendar/undergraduate/index.html",
+        "status": "read",
+        "read_at": "2026-10-05T01:30:15Z",
+        "evidence_id": "5b1a9068-9d48-488c-9531-0a5644496e60"
       }
     ],
     "english_proposals_waiting": []

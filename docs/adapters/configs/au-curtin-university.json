@@ -6,26 +6,28 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Curtin: IELTS 257, intakes 213 with 9 domestic-view pages excluded, 3 international-view fees (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T21:31:39Z",
-  "config_updated_at": "2026-10-04T21:13:44Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Curtin international view (?region=int): 2027 international indicative year 1 fees 251 after 24 exclusions, intakes 199 (all agree with held), IELTS 254, delivery 241 on campus; spot-checks match stored text (Claude international view, on the Platform Admin instruction 5 Oct 13:02)",
+  "admit_changed_at": "2026-10-05T04:31:08Z",
+  "config_updated_at": "2026-10-05T06:12:04Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "2026 International indicative fees\\s*Indicative year 1 fee\\s*(?:A)?\\$\\s*([0-9][0-9,]{3,8})",
-      "mode": "Not all majors are offered online\\.\\s*((?:Online|On campus|Multi-modal|Blended|Mixed mode|Distance)(?:,\\s*(?:Online|On campus|Multi-modal|Blended|Mixed mode|Distance)){0,4})",
       "campus": "units of this course are offered\\.\\s*((?:Curtin|Online|Singapore|Malaysia|Dubai|Mauritius|Colombo)[A-Za-z ,'()-]{0,120}?)(?=\\s*Intake\\b)",
-      "intakes": "and may vary by course, location, and year\\s*((?:Semester|Trimester|Research Term|Extended Term|Extended Period|Block Session|Block|Intensive Study Period|Study Period|Summer|Winter|Teaching Period|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,160}?)(?=\\s*(?:Course overview|Jump to|Entry requirements|Fees and))",
       "duration": "if you study full-time\\.\\s*([0-9.]+ (?:years?|months?|weeks?)(?: full-time)?)",
-      "ielts_overall": "Overall band score\\s*([4-9](?:\\.[05])?)\\b"
+      "entry_requirement": "[0-9]{2}(?:\\.[0-9]{1,2})? (?:Guaranteed|Minimum) ATAR or equivalent(?: qualification)?|Essential subjects (?:.|\\n){3,160}?(?=\\s+English requirements)|(?<=Entry requirements )(?:Applicants|Specifically|An? (?:undergraduate|bachelor|recognised|relevant|completed|degree)|Completion|Successful|Admission to|Entry (?:into|to) |Candidates|Prospective|You (?:must|will) |To be (?:eligible|considered))(?:.|\\n){10,200}?(?<!\\be\\.g|\\bi\\.e)\\.(?=\\s)",
+      "fee": "(?:2027 International indicative fees\\s*Indicative year 1 fee\\s*|Indicative year 1 fee \\(2027\\)\\s*|2026 International indicative fees(?!(?:.|\\n){0,250}?2027)\\s*Indicative year 1 fee\\s*|Indicative year 1 fee \\(2026\\)(?!(?:.|\\n){0,120}?\\(2027\\))\\s*)(?:A)?\\$\\s*([0-9][0-9,]{3,8})",
+      "ielts_overall": "Overall band score\\s*([4-9](?:\\.[05])?)\\b",
+      "intakes": "and may vary by course, location, and year\\s*((?:Semester|Trimester|Research Term|Extended Term|Extended Period|Block Session|Block|Intensive Study Period|Study Period|Summer|Winter|Teaching Period|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,160}?)(?=\\s*(?:Course overview|Jump to|Entry requirements|Fees and))",
+      "mode": "Not all majors are offered online\\.\\s*((?:Online|On campus|Multi-modal|Blended|Mixed mode|Distance)(?:,\\s*(?:Online|On campus|Multi-modal|Blended|Mixed mode|Distance)){0,4})"
     },
     "pick": {
       "fee": "first",
@@ -33,7 +35,8 @@
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "all"
     },
     "term_months": {
       "Semester 1": "February",
@@ -44,28 +47,46 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Curtin course pages www.curtin.edu.au/study/offering/course-{ug|pg|rs|research}-... (stored mostly in the DOMESTIC view, ?segment=dom). Key information panel: Duration (\"if you study full-time. 4 years full-time\"), Attendance mode, Location, Intake (study-period names: Semester 1/2, Research Term 1/2, Trimester, Extended Term, Block Session). English: course IELTS table \"Overall band score N\" (same in both views). Fee: only where the page carries the international block \"2026 International indicative fees Indicative year 1 fee $N\" (few stored pages); domestic CSP fees are never read. term_months: Semester 1 = February, Semester 2 = July (Curtin Kalgoorlie course guide 2026 key dates, publications.curtin.edu.au/curtin-kalgoorlie-course-guide/page/2-3, orientation 10-13 Feb / 14-17 Jul 2026, 9-12 Feb 2027); Research Term 1 = 1 Jan-30 Jun, Research Term 2 = 1 Jul-31 Dec (www.curtin.edu.au/study/applying/application-deadlines/). Trimester, Extended Term and Block Session names are not mapped (months vary by year). atlas.curtin.edu.au/singapore pages are Curtin Singapore (S$ total fees) and choose.curtin.edu.au is a marketing page; the adapter does not read fees from them.",
-    "reason": "Save Curtin text adapter: Key information intakes, international indicative year 1 fee (2026), IELTS overall, duration, mode, location (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T21:13:44.448235+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "?region=int",
+      "wait_ms": 2000,
+      "url_pattern": "^https?://www\\.curtin\\.edu\\.au/study/offering/course-"
+    },
+    "notes": "Curtin course pages www.curtin.edu.au/study/offering/course-{ug|pg|rs|research}-... (stored mostly in the DOMESTIC view, ?segment=dom). Key information panel: Duration (\"if you study full-time. 4 years full-time\"), Attendance mode, Location, Intake (study-period names: Semester 1/2, Research Term 1/2, Trimester, Extended Term, Block Session). English: course IELTS table \"Overall band score N\" (same in both views). Fee: only where the page carries the international block \"2026 International indicative fees Indicative year 1 fee $N\" (few stored pages); domestic CSP fees are never read. term_months: Semester 1 = February, Semester 2 = July (Curtin Kalgoorlie course guide 2026 key dates, publications.curtin.edu.au/curtin-kalgoorlie-course-guide/page/2-3, orientation 10-13 Feb / 14-17 Jul 2026, 9-12 Feb 2027); Research Term 1 = 1 Jan-30 Jun, Research Term 2 = 1 Jul-31 Dec (www.curtin.edu.au/study/applying/application-deadlines/). Trimester, Extended Term and Block Session names are not mapped (months vary by year). atlas.curtin.edu.au/singapore pages are Curtin Singapore (S$ total fees) and choose.curtin.edu.au is a marketing page; the adapter does not read fees from them. 5 Oct 13:02: course pages are read in the INTERNATIONAL view (page_view suffix ?region=int, Firecrawl render, url_pattern www.curtin.edu.au/study/offering/course-); the international view prints Attendance mode, Intake, IELTS and \"<year> International indicative fees Indicative year 1 fee\"; the fee pattern reads the international indicative year 1 fee in both printed forms (\"2027 International indicative fees Indicative year 1 fee $N\" and research-degree \"Indicative year 1 fee (2027) $N\"), 2027 when printed, else 2026; total course fees and the $10,000 Global Future Leaders scholarship credit are never read.",
+    "reason": "Curtin: drop the temporary whole-fee probe (every page with a total also prints the year 1 fee); entry requirement stops at a full stop, not e.g. (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:12:04.120238+00:00"
   },
   "exclusions": [
     {
-      "course_code": "003922M",
-      "title": "Bachelor of Surveying",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "0100582",
+      "title": "Graduate Certificate in Geospatial Intelligence",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
-      "course_code": "010548C",
-      "title": "Bachelor of Applied Science (Construction Management)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "014167F",
+      "title": "Graduate Certificate in Food Science and Technology",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
-      "course_code": "038785D",
-      "title": "Bachelor of Science (Actuarial Science)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "018030B",
+      "title": "Graduate Certificate in Mineral and Energy Economics",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "023976J",
+      "title": "Graduate Certificate in Development Planning",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "029361C",
+      "title": "Graduate Certificate in Project Management",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "041930G",
@@ -74,28 +95,40 @@
       "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "054627G",
-      "title": "Master of Science (Actuarial and Financial Science)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "051616A",
+      "title": "Graduate Certificate in Professional Accounting",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
-      "course_code": "061600D",
-      "title": "Bachelor of Science (Science)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
-    },
-    {
-      "course_code": "066674A",
-      "title": "Bachelor of Science (Actuarial Science) (Honours)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "074652G",
+      "title": "Graduate Certificate in Business",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "079264A",
       "title": "Master of Management",
       "field": "fee",
       "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "079914E",
+      "title": "Graduate Certificate in Public Health",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "092979A",
+      "title": "Graduate Certificate in Predictive Analytics",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "096301D",
+      "title": "Graduate Diploma in Legal Practice",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "096303B",
@@ -110,10 +143,34 @@
       "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "102612A",
-      "title": "Bachelor of Surveying (Honours)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "098147D",
+      "title": "Graduate Certificate in Arts",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "102809K",
+      "title": "Graduate Certificate in Education",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "102810F",
+      "title": "Graduate Certificate in Business Fundamentals",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "103009A",
+      "title": "Graduate Certificate in Design",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "103850A",
+      "title": "Graduate Diploma in Health Studies",
+      "field": "fee",
+      "reason": "Fee reading is the one-off A$10,000 Global Future Leaders scholarship credit, not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "107628H",
@@ -124,14 +181,20 @@
     {
       "course_code": "107665C",
       "title": "Graduate Certificate in Computing",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
-      "course_code": "108989H",
-      "title": "Master of Science (Mathematical Sciences)",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "107667A",
+      "title": "Graduate Diploma in Agriculture and Food Security",
+      "field": "fee",
+      "reason": "Fee reading is the one-off A$10,000 Global Future Leaders scholarship credit, not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "107685K",
+      "title": "Graduate Diploma in Occupational Health and Safety",
+      "field": "fee",
+      "reason": "Fee reading is the one-off A$10,000 Global Future Leaders scholarship credit, not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "110824M",
@@ -140,10 +203,10 @@
       "reason": "Singapore whole-course total or start-from figure (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "114118E",
-      "title": "Bachelor of Science, Bachelor of Innovation",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "114119D",
+      "title": "Graduate Certificate in Global Engagement",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "114123H",
@@ -152,10 +215,34 @@
       "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
     },
     {
-      "course_code": "117066K",
-      "title": "Bachelor of Arts, Bachelor of Innovation",
-      "field": "intakes",
-      "reason": "domestic-view intakes differ from the international ones (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "course_code": "118502J",
+      "title": "Graduate Certificate in International Security",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "120915C",
+      "title": "Doctor of Pharmacy",
+      "field": "fee",
+      "reason": "Fee reading is the one-off A$10,000 Global Future Leaders scholarship credit, not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "121208M",
+      "title": "Master of Applied Science (Urban and Regional Planning)",
+      "field": "fee",
+      "reason": "Fee reading is the one-off A$10,000 Global Future Leaders scholarship credit, not tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "121216M",
+      "title": "Graduate Certificate in Planning for Sustainability",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "121378D",
+      "title": "Graduate Certificate in Health Services  Management and Leadership",
+      "field": "fee",
+      "reason": "Indicative year 1 fee of a course shorter than one full-time year (6-7 months): it is the whole-course amount, not an annual fee (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     }
   ],
   "central_rules": {

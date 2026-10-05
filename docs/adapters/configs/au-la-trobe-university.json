@@ -6,30 +6,34 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
+    "exit_awards",
     "fee",
     "intakes"
   ],
-  "admit_reason": "La Trobe international view re-read through Firecrawl: intakes 96 of 100 agree, 101 annual fees, 95 IELTS, dental fee excluded for checking (Claude wave run, on the Platform Admin instruction 5 Oct 05:50: switch on the admissions)",
-  "admit_changed_at": "2026-10-04T20:06:19Z",
-  "config_updated_at": "2026-10-04T20:01:14Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "La Trobe: exit awards (Diplomas and Associate Degrees with no page of their own) take their parent degree's page, per-year fee, intakes and delivery; 17 pairs checked by hand (Claude international view, on the Platform Admin instruction 5 Oct 15:22)",
+  "admit_changed_at": "2026-10-05T05:05:37Z",
+  "config_updated_at": "2026-10-05T06:04:10Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Annual tuition fee A\\$\\s?([0-9]{2,3}[,\\s]?[0-9]{3}) per",
-      "mode": "Learning mode ((?:Multi-Modal|Face To Face|Online(?: Asynchronous| plus placement/ ?intensive)?|Blended)(?:(?:,| and| or) (?:Multi-Modal|Face To Face|Online(?: Asynchronous| plus placement/ ?intensive)?|Blended))*)",
-      "campus": "Location\\(s\\) ((?:.){1,120}?) CRICOS code",
-      "intakes": "Start dates ((?:.){0,200}?\\((?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d\\)(?:.){0,150}?) Duration ",
-      "duration": "(?:Course duration \\(full time\\)|Duration) ((?:.){1,100}?) (?:Learning mode|Course duration|Study level)",
       "aqf_level": "AQF level (Level \\d{1,2})",
-      "study_level": "Study level ((?:.){1,40}?) AQF level",
-      "student_type": "(?:Indicative course information for (international|domestic) students|(International onshore) keyboard_arrow_down Study mode)",
+      "campus": "Location\\(s\\) ((?:.){1,120}?) CRICOS code",
+      "duration": "(?:Course duration \\(full time\\)|Duration) ((?:.){1,100}?) (?:Learning mode|Course duration|Study level)",
+      "entry_requirement": "(?:Academic entry requirement (?:Prerequisites )?|Subject prerequisites )((?:.|\\n){10,200}?(?=(?<![0-9])\\. | Note:| English language requirement)|(?:.|\\n){200})",
+      "exit_awards": "(After completing [0-9](?:\\.[0-9])? years? of full-time study,? You can exit with an? (?:.){4,150}?)(?= or (?:a |an )?(?:Diploma|Associate|Bachelor|Graduate)| Year [0-9]{1,2} After completing| (?:Bachelor|Master|Doctor|Associate|Diploma)\\b(?:.){0,150}? intended learning outcomes)",
+      "fee": "(?:\\((?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d\\)(?:.){0,250}?(?:.){0,250}?)?Annual tuition fee A\\$\\s?([0-9]{2,3}[,\\s]?[0-9]{3}) per",
       "ielts_overall": "(?:English language requirement:? ?(?=[5-8](?:\\.[05])? IELTS)|IELTS \\(Academic\\):? minimum overall (?:band|score) of )([5-8](?:\\.[05])?)",
-      "not_admitting": "(item you are viewing is Discontinued|not available to international students(?:.){0,60}?\\.)"
+      "intakes": "Start dates ((?:.){0,200}?\\((?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d\\)(?:.){0,150}?|[0-3]?\\d (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d(?:.){0,150}?) Duration ",
+      "mode": "Learning mode ((?:Multi-Modal|Face To Face|Online(?: Asynchronous| plus placement/ ?intensive)?|Blended)(?:(?:,| and| or) (?:Multi-Modal|Face To Face|Online(?: Asynchronous| plus placement/ ?intensive)?|Blended))*)",
+      "not_admitting": "(item you are viewing is Discontinued|not available to international students(?:.){0,60}?\\.)",
+      "student_type": "(?:Indicative course information for (international|domestic) students|(International onshore) keyboard_arrow_down Study mode)",
+      "study_level": "Study level ((?:.){1,40}?) AQF level"
     },
     "pick": {
       "fee": "first",
@@ -38,17 +42,25 @@
       "intakes": "first",
       "duration": "first",
       "aqf_level": "first",
+      "exit_awards": "all",
       "study_level": "first",
       "student_type": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Two page kinds. (1) www.latrobe.edu.au/courses/<slug>#/overview?studentType=int course pages: since 5 Oct stored in the INTERNATIONAL view (the page is drawn in the browser; the #/overview?studentType=int address is read through Firecrawl). Text: \"Indicative course information for international students ... CRICOS code <code> Start dates [Indicative based on 2026 start dates] Semester 1 (March 2027), Semester 2 (July 2027), Summer (November 2027) Duration ... Learning mode ... Annual tuition fee A$45 600 per 120 credit points (120 credit points = one full-time year) ... English language requirement 6.5 IELTS (Academic) with no individual band less than 6.0\". Intakes = months in brackets after Start dates; fee = international annual tuition fee; IELTS = overall score; student_type shows which view a page was read in (international/domestic). The fee is per 120 credit points (one full-time year) for the course year selected by default (the latest year offered). Research degrees print no start dates or fee. (2) handbook.latrobe.edu.au/courses/<year>/<code> handbook pages (Next.js, text only): Location(s) <campus> CRICOS code, Course duration (full time), Study level, AQF level, International onshore study option, Discontinued flag; no start dates, fees or IELTS; 2021-2024 pages are archived versions. Round 2: IELTS also from \"IELTS (Academic): minimum overall band of 7.0\" (nursing-type pages); not_admitting also flags \"This course is not available to international students at the <campus> campus in <year>\". Short courses print \"Annual tuition fee A$20 700 full course duration (per 60 credit points)\" - a whole-course amount, deliberately NOT read as the annual fee (the fee pattern needs \"per\" straight after the amount).",
-    "reason": "La Trobe round 2: IELTS also read from \"IELTS (Academic): minimum overall band of N\"; \"not available to international students\" flagged (Claude wave run, on the Platform Admin instruction 5 Oct 06:12: fetch approved for all websites)",
-    "updated_at": "2026-10-04T20:01:14.984105+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "#/fees?studentType=int&year=2027",
+      "wait_ms": 4000,
+      "url_pattern": "^https://www\\.latrobe\\.edu\\.au/courses/"
+    },
+    "notes": "International view (5 Oct, Platform Admin 13:02): every La Trobe page is read through Firecrawl at www.latrobe.edu.au/courses/<slug>#/fees?studentType=int&year=2027 (page_view render, wait 4 s). No location parameter: the page shows the international annual fee, 2027 start dates and Learning mode for its default campus without it (tested 5 Oct on Master of Dietetics and Associate Degree in Engineering Technology: CRICOS code matched, Semester 1 (March 2027), Semester 2 (July 2027), fee A$ per 120 credit points, Multi-Modal); a fixed location=BU would show \"not available\" for courses taught only at Sydney, Bendigo or other campuses. Courses previously bound to handbook.latrobe.edu.au (no fees, start dates or delivery) were rebound by hand to their own course page where one exists. Page text: \"Indicative course information for international students ... CRICOS code <code> Start dates Semester 1 (March 2027), Semester 2 (July 2027) Duration ... Learning mode ... Annual tuition fee A$45 600 per 120 credit points (120 credit points = one full-time year) ... English language requirement 6.5 IELTS (Academic) with no individual band less than 6.0\". Intakes = months in brackets after Start dates; fee = international annual tuition fee per 120 credit points (one full-time year); the fee pattern also takes the first start date before it so the fee year (2027) is recorded; IELTS = overall score; mode = Learning mode. Research degrees print no start dates or fee. Short courses (graduate certificates) print \"Annual tuition fee A$20 700 full course duration (per 60 credit points)\" - a whole-course amount, NOT read as the annual fee (the pattern needs \"per\" straight after the amount). not_admitting flags \"not available to international students at the <campus> campus in <year>\" (the default campus is not offered to international students). Handbook pages (handbook.latrobe.edu.au/courses/<year>/<code>, still bound for courses with no current course page) carry Location(s), CRICOS code, duration, study level and AQF level only. Intakes also read from dated start dates (\"Start dates 1 February 2027\"). Research degrees print \"Start dates Anytime (2027)\" (no month, no intakes) and \"Annual tuition fee A$43 800 per EFTSL\" (one full-time year, read as the annual fee). Exit awards (Platform Admin 15:22): the course page (international view, outcomes block is in the stored text) lists \"Year N After completing N year(s) of full-time study You can exit with a/an <Award>\"; exit_awards captures each sentence up to the next \"Year N\", an \" or \" second award, or the course title before \"intended learning outcomes\". Where two awards are offered (\"Diploma of Arts or Diploma in Business\") only the first is captured. Entry requirement (Platform Admin 15:36): \"Entry requirements and pathways International students Academic entry requirement Prerequisites <text>\"; entry_requirement takes the text after it up to the first full stop (max 200 characters), shown for review only. Undergraduate pages print \"Subject prerequisites <VCE Units 3 and 4 ...>\" instead; that is read too.",
+    "reason": "La Trobe: entry_requirement also reads Subject prerequisites (undergraduate) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:04:10.318242+00:00"
   },
   "exclusions": [
     {

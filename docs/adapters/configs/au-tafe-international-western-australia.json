@@ -6,28 +6,31 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "intakes"
   ],
-  "admit_reason": "Adapter reads semester intakes and IELTS on all 89 read pages; fee not admitted (semester/course totals only) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:17Z",
-  "config_updated_at": "2026-10-04T23:53:35Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "TAFE International WA: delivery admitted alongside english and intakes; the How | line on the international site reads on campus for all 89 read pages, 5 of 5 spot-checks agree (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:10:58Z",
+  "config_updated_at": "2026-10-05T06:03:35Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "How\\s*\\|\\s*([^|>]{2,80}?)\\s*(?:-->|Fees)",
       "campus": "Where\\s*\\|\\s*([^|>]{2,80}?)\\s*(?:-->|Location map)",
-      "intakes": "When\\s*\\|\\s*((?:Semester\\s*[1-4]|Term\\s*[1-4]|January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\\s*20[2-3][0-9])?)",
       "duration": "Duration\\s*\\|\\s*([^|>]{1,40}?)\\s*(?:-->|When)",
-      "ielts_overall": "IELTS score \\(academic\\) of ([4-9](?:\\.[05])?)"
+      "entry_requirement": "Admission requirements\\s+An IELTS score \\(academic\\) of [0-9.]+(?:.|\\n){0,80}?or equivalent\\.\\s*((?:(?!\\s*​?Please view|\\s*Your study options)(?:.|\\n)){10,200})",
+      "ielts_overall": "IELTS score \\(academic\\) of ([4-9](?:\\.[05])?)",
+      "intakes": "When\\s*\\|\\s*((?:Semester\\s*[1-4]|Term\\s*[1-4]|January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\\s*20[2-3][0-9])?)",
+      "mode": "How\\s*\\|\\s*([^|>]{2,160}?)\\s*(?:-->|Fees)"
     },
     "pick": {
       "campus": "all",
-      "intakes": "all"
+      "intakes": "all",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Semester 1": "February",
@@ -36,9 +39,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "One course page per qualification at tafeinternational.wa.edu.au/tafe-courses/<code>-<title>, plain HTML (no page JSON). Each study-option panel prints Duration | When (Semester 1/2, year) | Where (college) | How (mode) | Fees. Term months from https://www.tafeinternational.wa.edu.au/tafe-courses/key-dates (2026: S1 2 Feb, S2 20 Jul; 2027 prelim: S1 1 Feb, S2 19 Jul). IELTS from admission-requirements block \"An IELTS score (academic) of X\". Fee NOT read: pages print \"Fees (Semester)\" or \"Fees (total indicative for course)\", never an annual fee.",
-    "reason": "Save TAFE International WA adapter: intakes (Semester 1/2 via key-dates mapping), IELTS, duration, campus, mode; no fee pattern because pages print only semester or whole-course fees (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:53:35.945767+00:00"
+    "page_view": {},
+    "notes": "One course page per qualification at tafeinternational.wa.edu.au/tafe-courses/<code>-<title>, plain HTML (no page JSON). Each study-option panel prints Duration | When (Semester 1/2, year) | Where (college) | How (mode) | Fees. Term months from https://www.tafeinternational.wa.edu.au/tafe-courses/key-dates (2026: S1 2 Feb, S2 20 Jul; 2027 prelim: S1 1 Feb, S2 19 Jul). IELTS from admission-requirements block \"An IELTS score (academic) of X\". Fee NOT read: pages print \"Fees (Semester)\" or \"Fees (total indicative for course)\", never an annual fee. 5 Oct 15:22 checks: no exit-award wording. Fees are \"Fees (total indicative for course)\" with Duration in semesters only (never in years), so no fee_total/course_years is set (the worker needs full-time years). entry_requirement = the academic entry line after the IELTS line in Admission requirements, for review only.",
+    "reason": "Entry requirement read for review; no exit awards printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:03:35.075581+00:00"
   },
   "exclusions": [
     {
@@ -613,14 +617,14 @@
       {
         "kind": "english_policy",
         "url": "https://www.tafeinternational.wa.edu.au/tafe-courses/tafe-admission-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:09:02Z",
         "evidence_id": "ba83a96a-46c4-4f22-8da7-0771b26ed9b4"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.tafeinternational.wa.edu.au/tafe-courses/key-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:09:03Z",
         "evidence_id": "eb04aece-0d98-4f57-a3b1-1331d8022812"
       }

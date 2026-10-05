@@ -11,28 +11,28 @@
   ],
   "admit_reason": "Wave 9: intakes and English ready after named exclusions; fee held (stored pages show domestic view only) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
   "admit_changed_at": "2026-10-05T00:21:19Z",
-  "config_updated_at": "2026-10-04T23:58:15Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "config_updated_at": "2026-10-05T06:11:19Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "mode": "\\bStudy options\\s+((?:.|\\n){1,150}?)\\s+Length\\b",
       "campus": "\\bLocation\\s+((?:.|\\n){1,80}?)\\s+Years\\b",
-      "intakes": "Locations and dates\\s*((?:.|\\n){0,250}?\\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d(?:.|\\n){0,250}?(?:.|\\n){0,250}?)\\s*(?:Study options|Length|Total credits|Fees\\b)",
       "duration": "\\bLength\\s+((?:.|\\n){1,150}?)\\s+Total credits\\b",
-      "study_level": "\\b(Level\\s+\\d{1,2})\\s+Apply Now",
-      "ielts_overall": "\\bIELTS\\)?(?:\\s*\\(?(?:general|academic|or|overall|band|score|of|at least|minimum)\\)?){0,8}\\s*(\\d(?:\\.\\d)?)\\b"
+      "entry_requirement": "(?<!International )(?<!see )(?<!the )Entry requirements\\s+(?!International\\b|of\\b|for\\b|\\(external)(?:Academic (?:entry )?requirements:?\\s+)?((?!Academic (?:entry )?requirements,)(?:(?!\\s(?:Alternative|English language|Special admission|Selection|Other) (?:entry )?requirements)(?:.)){10,200})",
+      "ielts_overall": "\\bIELTS\\)?(?:\\s*\\(?(?:general|academic|or|overall|band|score|of|at least|minimum)\\)?){0,8}\\s*(\\d(?:\\.\\d)?)\\b",
+      "intakes": "Locations and dates\\s*((?:.|\\n){0,250}?\\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+20\\d\\d(?:.|\\n){0,250}?(?:.|\\n){0,250}?)\\s*(?:Study options|Length|Total credits|Fees\\b)",
+      "study_level": "\\b(Level\\s+\\d{1,2})\\s+Apply Now"
     },
     "pick": {
-      "mode": "first",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
       "study_level": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {
       "Semester 1": "February",
@@ -41,9 +41,10 @@
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "NMIT programme pages www.nmit.ac.nz/study/programmes/<slug> (server-rendered, no page JSON). Stored pages are the DOMESTIC view (the Domestic/International switch is a JavaScript menu); the Fees block (e.g. '2026: $8,344 plus $300 Student Services Fee per year') is the domestic fee, so there is no fee pattern. Intakes: dated list under the heading 'Locations and dates' (Campus: day Month year), up to Study options/Length. IELTS: first IELTS figure on the page (wording varies: 'IELTS 6.0 Academic', '(IELTS) overall academic score of at least 5.5', 'IELTS (General) score of 5'). Campus: Location block before Years. Mode: Study options. Duration: Length. study_level: NZQF level in the page heading. term_months from https://www.nmit.ac.nz/study/planning-your-studies/academic-dates (2026: S1 16 Feb, S2 20 Jul; 2027: S1 15 Feb, S2 19 Jul). Central English page: https://www.nmit.ac.nz/international/entry-requirements",
-    "reason": "Round 3: NMIT IELTS pattern covers all page wordings; diagnostic removed; term_months from NMIT academic dates page (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:58:15.674541+00:00"
+    "page_view": {},
+    "notes": "NMIT programme pages www.nmit.ac.nz/study/programmes/<slug> (server-rendered, no page JSON). Stored pages are the DOMESTIC view (the Domestic/International switch is a JavaScript menu); the Fees block (e.g. '2026: $8,344 plus $300 Student Services Fee per year') is the domestic fee, so there is no fee pattern. Intakes: dated list under the heading 'Locations and dates' (Campus: day Month year), up to Study options/Length. IELTS: first IELTS figure on the page (wording varies: 'IELTS 6.0 Academic', '(IELTS) overall academic score of at least 5.5', 'IELTS (General) score of 5'). Campus: Location block before Years. Mode: Study options. Duration: Length. study_level: NZQF level in the page heading. term_months from https://www.nmit.ac.nz/study/planning-your-studies/academic-dates (2026: S1 16 Feb, S2 20 Jul; 2027: S1 15 Feb, S2 19 Jul). Central English page: https://www.nmit.ac.nz/international/entry-requirements 5 Oct 15:22 (exit awards and requirements): entry_requirement reads the academic entry requirement under 'Entry requirements' (up to Alternative / English language requirements); it applies to all applicants, with international equivalents assessed by NMIT. No exit points are printed on the stored programme pages, so no exit_awards pattern. No fee_total: the stored pages are the domestic view and print only the domestic per-year fee.",
+    "reason": "entry_requirement refined: skips the 2020 University Entrance note and 'entry requirements of/for' phrases (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:11:19.749656+00:00"
   },
   "exclusions": [
     {
@@ -480,14 +481,14 @@
       {
         "kind": "english_policy",
         "url": "https://www.nmit.ac.nz/international/entry-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.nmit.ac.nz/study/planning-your-studies/academic-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

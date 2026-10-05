@@ -6,28 +6,30 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Wave 9 report: intakes, IELTS and annual fees read from the International panel are ready after the listed exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:21:10Z",
-  "config_updated_at": "2026-10-04T23:56:23Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Otago Polytechnic: delivery read from the International panel Delivery line, spot-checks match; English, fee and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:14:46Z",
+  "config_updated_at": "2026-10-05T06:05:53Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International\\s+Duration\\s+[1-9] Years?\\s*Full-time(?:.|\\n){0,120}?Fees\\s+\\$([0-9][0-9,]{3,})",
-      "mode": "International\\s+Duration(?:.|\\n){0,200}?Delivery\\s+((?:.|\\n){1,100}?)\\s+Location",
       "campus": "International\\s+Duration(?:.|\\n){0,250}?Location\\s+((?:.|\\n){1,80}?)\\s+(?:Intakes|Express your interest|Apply Now)",
-      "intakes": "International\\s+Duration(?:.|\\n){0,250}?Intakes\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:[\\s,]+(?:and\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December|20[2-3][0-9]))*)",
       "duration": "International\\s+Duration\\s+((?:[0-9.]+ (?:Years?|Months?|Weeks?)\\s*(?:Full-time|Part-time)\\s*)+)",
-      "study_level": "International\\s+Duration(?:.|\\n){0,80}?(Level\\s+[0-9]{1,2})\\b",
+      "entry_requirement": "(?:Academic requirements|Minimum academic entry criteria)\\s*(?:Minimum academic entry criteria\\s*)?((?:(?!International (?:requirements and )?equivalence|English Language requirements|Selection criteria|Want your existing|Additional requirements)(?:.|\\n)){10,200})",
+      "fee": "International\\s+Duration\\s+[1-9] Years?\\s*Full-time(?:.|\\n){0,120}?Fees\\s+\\$([0-9][0-9,]{3,})",
       "ielts_overall": "(?:Overall Academic IELTS|IELTS overall band score of)\\s+([4-9](?:\\.[05])?)",
-      "not_admitting": "International\\s+Duration(?:.|\\n){0,250}?(This programme is not currently available)"
+      "intakes": "International\\s+Duration(?:.|\\n){0,250}?Intakes\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)(?:[\\s,]+(?:and\\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December|20[2-3][0-9]))*)",
+      "mode": "International\\s+Duration(?:.|\\n){0,200}?Delivery\\s+((?:.|\\n){1,100}?)\\s+Location",
+      "not_admitting": "International\\s+Duration(?:.|\\n){0,250}?(This programme is not currently available)",
+      "study_level": "International\\s+Duration(?:.|\\n){0,80}?(Level\\s+[0-9]{1,2})\\b"
     },
     "pick": {
       "fee": "first",
@@ -37,15 +39,17 @@
       "duration": "first",
       "study_level": "first",
       "ielts_overall": "first",
-      "not_admitting": "first"
+      "not_admitting": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Otago Polytechnic course pages (www.op.ac.nz/programmes/nzqa/...) print a Domestic panel then an International panel (Duration, Level, Credits, Fees, Delivery, Location, Intakes), then Fees sections. All fields are read from the International panel only. Fee is read only when the international duration is whole years full-time (the panel fee is per year for multi-year programmes, per the International fees table https://www.op.ac.nz/international/fees-and-scholarship/international-fees-table; for sub-year programmes it is a whole-course total and is not read). Intakes are printed month names. IELTS from the course English section (Overall Academic IELTS N). Domestic-only pages carry no International panel and give no reading.",
-    "reason": "Otago Polytechnic intakes pattern now captures the month list only (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:56:23.669895+00:00"
+    "page_view": {},
+    "notes": "Otago Polytechnic course pages (www.op.ac.nz/programmes/nzqa/...) print a Domestic panel then an International panel (Duration, Level, Credits, Fees, Delivery, Location, Intakes), then Fees sections. All fields are read from the International panel only. Fee is read only when the international duration is whole years full-time (the panel fee is per year for multi-year programmes, per the International fees table https://www.op.ac.nz/international/fees-and-scholarship/international-fees-table; for sub-year programmes it is a whole-course total and is not read). Intakes are printed month names. IELTS from the course English section (Overall Academic IELTS N). Domestic-only pages carry no International panel and give no reading. Entry requirement (for review, not admitted): the Academic requirements / Minimum academic entry criteria text, up to 200 characters, stopping at International equivalence or English Language requirements. No exit awards are printed on the course pages. Whole-programme fee: only the Master of Applied Science prints a full programme fee ($44,400, 18 Months Full-time); its duration is in months, so annual = total / years is not read (no fee_total).",
+    "reason": "Entry requirement for review added; temporary probe fields removed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:53.829246+00:00"
   },
   "exclusions": [
     {
@@ -236,14 +240,14 @@
       {
         "kind": "english_policy",
         "url": "https://www.op.ac.nz/explore/international-students/entry-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.op.ac.nz/explore/events-and-important-dates/important-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": null,
         "evidence_id": null
       }

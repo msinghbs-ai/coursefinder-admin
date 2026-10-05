@@ -6,40 +6,44 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "UBC: graduate pages, intakes 196 agree, IELTS 220, first-year international tuition 216 after 11 short programmes excluded (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T23:23:08Z",
-  "config_updated_at": "2026-10-04T22:58:47Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "UBC: delivery added; graduate pages read \"Mode of delivery\" (226 in person at UBC Vancouver = on campus, 1 online), spot-checks agree; english, fee and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:21:03Z",
+  "config_updated_at": "2026-10-05T06:16:39Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "(?:Tuition \\(First Year\\)\\s*Domestic:\\s*[0-9,.]+\\s*\\|\\s*International:\\s*\\$?|Tuition per year[^$]{0,80}\\$[0-9,.]+\\s+\\$)([0-9][0-9,]*(?:\\.[0-9]+)?)",
-      "mode": "Mode of delivery\\s+((?:In person|Online|Hybrid|Blended|Multi-?modal|Distance)[A-Za-z ,-]{0,60}?)\\s+(?:Program Components|Registration Options|Specialization|Tuition|Median|Program)",
       "campus": "Mode of delivery\\s+[A-Za-z ,-]{0,40}?\\bat (UBC (?:Vancouver|Okanagan))",
+      "entry_requirement": "(?:Minimum Academic Requirements|Prior Degree Requirements)\\s+((?:.|\\n){10,200}?(?=\\s+(?:The graduate program that you are applying|Each program may|Please review|Other Requirements|Prior Degree Requirements|Course Requirements|Document Requirements|Reference Letters?|English Language|Program Requirements|Meeting the mini|[0-9]\\)\\s))|(?:.|\\n){10,200})",
+      "fee": "(?:Tuition \\(First Year\\)\\s*Domestic:\\s*[0-9,.]+\\s*\\|\\s*International:\\s*\\$?|Tuition per year[^$]{0,80}\\$[0-9,.]+\\s+\\$)([0-9][0-9,]*(?:\\.[0-9]+)?)",
+      "ielts_overall": "IELTS: International English Language Testing System(?:.|\\n){0,40}?Overall score requirement\\s*:\\s*([0-9](?:\\.[05])?)",
       "intakes": "\\b((?:January|February|March|April|May|June|July|August|September|October|November|December) 20[0-9]{2}) Intake",
-      "ielts_overall": "IELTS: International English Language Testing System(?:.|\\n){0,40}?Overall score requirement\\s*:\\s*([0-9](?:\\.[05])?)"
+      "mode": "Mode of delivery\\s+((?:In person|Online|Hybrid|Blended|Multi-?modal|Distance)(?:[A-Za-z ,-]{0,60}?(?=\\s+(?:Program Components|Registration Options|Specialization|Tuition|Median|Program))|\\b)|[A-Za-z][A-Za-z ,%-]{0,60}?(?=\\s+(?:Program Components|Registration Options|Specialization|Tuition|Median|Program)))"
     },
     "pick": {
       "fee": "first",
       "mode": "first",
       "campus": "first",
       "intakes": "all",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "last"
     },
     "term_months": {},
     "section_chars": 2000,
-    "title_strip": null,
-    "course_title_strip": null,
-    "notes": "Page kinds: (1) UBC Graduate School programme pages www.grad.ubc.ca/prospective-students/graduate-degree-programs/<slug> (most read pages, UBC Vancouver graduate programmes): Quick Facts \"Tuition (First Year) Domestic: X | International: Y\" and Tuition table \"Tuition per year ... $dom $intl\" (international column second) -> fee; \"<Month> <Year> Intake\" headings -> intakes; \"IELTS: International English Language Testing System (Academic) Overall score requirement : N\" -> ielts_overall; \"Mode of delivery In person at UBC Vancouver\" -> mode, campus. (2) Faculty/department undergraduate pages (music, geog, theatrefilm, linguistics, history, landfood, nursing) carry no fee, intake or IELTS; undergraduate fees, terms and English are on central pages (you.ubc.ca tuition, vancouver.calendar.ubc.ca key dates, you.ubc.ca English language admission standard). Course-based programmes shorter than a year print first-year tuition that may equal the whole-programme fee.",
-    "reason": "Save first UBC adapter for Graduate School programme pages (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:58:47.885698+00:00"
+    "title_strip": "^[^()]*?\\bin\\s+|\\s+in\\s+|^(?:Doctor|Master) of\\s+|\\s+Master of\\s+|\\s+Diploma(?=\\s)|[()]",
+    "course_title_strip": ":\\s[^(]*\\(|\\s-\\s(?:Master|Doctor)[^(]*\\(|\\)\\s*-\\s*UBCV$",
+    "page_view": {},
+    "notes": "Page kinds: (1) UBC Graduate School programme pages www.grad.ubc.ca/prospective-students/graduate-degree-programs/<slug> (most read pages, UBC Vancouver graduate programmes): Quick Facts \"Tuition (First Year) Domestic: X | International: Y\" and Tuition table \"Tuition per year ... $dom $intl\" (international column second) -> fee; \"<Month> <Year> Intake\" headings -> intakes; \"IELTS: International English Language Testing System (Academic) Overall score requirement : N\" -> ielts_overall; \"Mode of delivery In person at UBC Vancouver\" -> mode, campus. (2) Faculty/department undergraduate pages (music, geog, theatrefilm, linguistics, history, landfood, nursing) carry no fee, intake or IELTS; undergraduate fees, terms and English are on central pages (you.ubc.ca tuition, vancouver.calendar.ubc.ca key dates, you.ubc.ca English language admission standard). Course-based programmes shorter than a year print first-year tuition that may equal the whole-programme fee. Mode = the \"Mode of delivery\" value (e.g. \"In person at UBC Vancouver\", \"Online\", \"Hybrid\"); when the usual following heading is missing the delivery keyword alone is kept, so online programmes are still read. International view (5 Oct 13:02 review): graduate programme pages print the international tuition beside the domestic one in the plain page, so no page_view is needed; you.ubc.ca undergraduate programme pages print no fee, start date or IELTS in the stored page (central pages only). 51 graduate courses were rebound by hand to their own grad.ubc.ca programme page. Title identity (13:02 review): course_title_strip keeps \"<subject> <ABBR>\" of a UBC Vancouver catalogue title (\"Social Work: Master's Degree (MSW) - UBCV\" -> \"Social Work MSW\"); title_strip turns the Graduate School heading into the same (\"Master of Social Work (MSW)\" -> \"Social Work MSW\"), so a page bound by hand is confirmed only when subject and abbreviation agree. UBC Okanagan titles keep \"UBCO\" and never match a Vancouver page. Entry requirement (5 Oct 15:22, shown in Coverage for review, never admitted): graduate programme pages - the programme's own \"Prior Degree Requirements\" text where printed (pick last), otherwise the \"Minimum Academic Requirements\" sentence of the Faculty of Graduate and Postdoctoral Studies (B+ average, 76% at UBC), up to about 200 characters; these apply to all applicants including international. Exit awards (5 Oct 15:22): no exit-award wording found in stored pages. Whole-course fee: only opl.educ.ubc.ca/med-literacy prints a whole-programme international tuition (CAD 20,906.40, 8 instalments of 2,613.30) with \"Length: 2.5 Years | Part-Time\"; no full-time length is printed, so no fee_total/course_years pattern is set.",
+    "reason": "final: entry_requirement (Prior Degree Requirements, else Minimum Academic Requirements); temporary probes removed; no exit-award wording; the one whole-programme international fee is for a part-time programme, so no fee_total (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:16:39.425215+00:00"
   },
   "exclusions": [
     {
@@ -179,6 +183,12 @@
       "title": "Civil Engineering: Master of Engineering (MEng) - UBCV",
       "field": "fee",
       "reason": "first-year tuition of a short course-based programme, close to the whole cost (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "9209c45e-0516-4e9b-a0d7-26f6d9213dc1",
+      "title": "Educational Technology: Master's Degree (MET) - UBCV",
+      "field": "fee",
+      "reason": "UBC Master of Educational Technology: the fee reading 1,087 is a per-course amount from the general reader, not the international annual tuition (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "96fa28df-2dd1-436a-8684-458747d71c21",

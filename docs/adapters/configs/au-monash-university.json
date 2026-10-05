@@ -6,40 +6,51 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Monash: intakes 269 of 273 agree, fees 240 equal and 22 new (2027 per 48 credit points), IELTS 260 (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:15:26Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Monash: delivery read from the international-view Location panel only (274 readings; archive pages no longer read; 8 domestic-view/MADA pages excluded), 5 spot-checks agree; english, fee and intakes kept (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:28:36Z",
+  "config_updated_at": "2026-10-05T06:14:51Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International fee\\s*:?\\s*(?:Fees are per 48 credit points(?:.|\\n){0,120}?fees for 20\\d\\d are:?|(?:.|\\n){0,250}?equivalent fee per 48 credit points(?:.|\\n){0,120}?would be)\\s*A?\\$\\s?([0-9][0-9,]{3,})",
       "campus": "Location\\s+((?:.|\\n){1,200}?)\\s+Duration",
-      "intakes": "(?:Start dates?|Intakes)\\s*:?[\\s​]+((?:This course commences|First|Second|Semester|Summer|Winter|Trimester|Term|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,200}?)\\s+(?:Qualification|Fees|Course Handbook|Study area)",
       "duration": "Duration\\s+((?:.|\\n){1,160}?)\\s+Start dates?",
-      "ielts_overall": "IELTS \\(Academic\\)\\s*:?\\s*([4-9](?:\\.[05])?)\\b"
+      "entry_requirement": "(?:Entry Score - 20\\d\\d intake\\s+(ATAR\\s+\\d{2}(?:\\.\\d{1,2})?)|((?:Successful completion of an?|Completion of an?|An?)\\s+(?:Australian\\s+)?(?:bachelor|honours|master)[’']?s?\\s+(?:degree|level)\\s+(?:\\(or equivalent\\)|in\\s|with\\s|requiring\\s|from\\s)(?=[^.\\n]{0,180}(?:average|equivalent|WAM|GPA|%))[^.\\n]{10,180}))",
+      "fee": "International fee\\s*:?\\s*(?:Fees are per 48 credit points(?:.|\\n){0,120}?fees for 20\\d\\d are:?|(?:.|\\n){0,250}?equivalent fee per 48 credit points(?:.|\\n){0,120}?would be|Fees are per 48 credit points which represents a standard full-time course load for a year\\.?)\\s*A?\\$\\s?([0-9][0-9,]{3,})",
+      "ielts_overall": "IELTS \\(Academic\\)\\s*:?\\s*([4-9](?:\\.[05])?)\\b",
+      "intakes": "(?:Start dates?|Intakes)\\s*:?[\\s​]+((?:This course commences|First|Second|Semester|Summer|Winter|Trimester|Term|January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,200}?)\\s+(?:Qualification|Fees|Course Handbook|Study area)",
+      "mode": "\\b(On[- ]campus|Online|Multi-modal|Off[- ]campus)(?=(?:\\s+at\\s+[^:\\n]{1,60})?:\\s*(?:Full|Part)[- ]time)"
     },
     "pick": {
       "fee": "first",
+      "mode": "all",
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Monash course pages www.monash.edu/study/course/<CODE>?international=true (international view). Course Details block: \"Location ... Duration ... Start date First semester (February) and Second semester (July) Qualification\"; Monash College pages print \"Intakes February, June and October Study area\". Fee: \"International fee: Fees are per 48 credit points (a standard full-time year). The fees for 2027 are: A$NN,NNN\"; 24 credit point courses print a course total then \"The equivalent fee per 48 credit points ... would be A$NN,NNN\" (the annual figure is read, never the total). Domestic \"Full fee\"/CSP blocks are not read. IELTS: \"IELTS (Academic) : 6.5 Overall\" (graduate) or the English tests table (undergraduate). No term_months: course pages print the month next to each semester and some differ (M6012 Second Semester = June). Handbook pages (handbook.monash.edu, pubs/*handbooks) carry no international fee or intakes. Central English: https://www.monash.edu/admissions/entry-requirements/english-language (IELTS 6.5, no band below 6.0; some courses higher). Key dates: https://www.monash.edu/study-abroad/inbound/apply/key-dates",
-    "reason": "Monash adapter round 3: drop term_months (M6012 prints Second Semester in June) (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:15:26.525265+00:00"
+    "page_view": {
+      "render": true,
+      "suffix": "?international=true",
+      "wait_ms": 3000,
+      "url_pattern": "^https://www\\.monash\\.edu/study/course/[A-Za-z0-9]{4,6}\\?international=true$"
+    },
+    "notes": "Monash course pages www.monash.edu/study/course/<CODE>?international=true (international view). Course Details block: \"Location ... Duration ... Start date First semester (February) and Second semester (July) Qualification\"; Monash College pages print \"Intakes February, June and October Study area\". Fee: \"International fee: Fees are per 48 credit points (a standard full-time year). The fees for 2027 are: A$NN,NNN\"; 24 credit point courses print a course total then \"The equivalent fee per 48 credit points ... would be A$NN,NNN\" (the annual figure is read, never the total). Domestic \"Full fee\"/CSP blocks are not read. IELTS: \"IELTS (Academic) : 6.5 Overall\" (graduate) or the English tests table (undergraduate). No term_months: course pages print the month next to each semester and some differ (M6012 Second Semester = June). Handbook pages (handbook.monash.edu, pubs/*handbooks) carry no international fee or intakes. Central English: https://www.monash.edu/admissions/entry-requirements/english-language (IELTS 6.5, no band below 6.0; some courses higher). Key dates: https://www.monash.edu/study-abroad/inbound/apply/key-dates Delivery (mode): read from the international-view Course Details \"Location\" panel, each delivery label printed before a study-load line (\"On-campus at <campus>: Full time\", \"Online: Full time & part time\", \"Multi-modal at <campus>: Full time\"); Monash College pages print \"<campus> on campus ... Entry Requirements\". All labels are kept (pick all). Notes such as \"cannot be completed online\" are not read. International view (5 Oct 13:02): page_view renders www.monash.edu/study/course/<CODE>?international=true through Firecrawl (url_pattern names only those pages); find-a-course pages without international=true are the domestic view and are not read for fees. Some international-view pages print no year: \"International fee Fees are per 48 credit points which represents a standard full-time course load for a year. A$NN,NNN\" (read as the annual fee, year not printed).",
+    "reason": "Entry requirement pattern narrowed to qualification sentences (degree with an average or equivalent) (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:14:51.818337+00:00"
   },
   "exclusions": [
     {
@@ -52,7 +63,7 @@
       "course_code": "0100729",
       "title": "Master of Philosophy",
       "field": "fee",
-      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "0101139",
@@ -70,7 +81,7 @@
       "course_code": "089230F",
       "title": "Master of Philosophy",
       "field": "fee",
-      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "090746A",
@@ -82,19 +93,25 @@
       "course_code": "107728D",
       "title": "Graduate Certificate of Food Science and Agribusiness",
       "field": "fee",
-      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
+    },
+    {
+      "course_code": "107734F",
+      "title": "Graduate Certificate of Genome Analytics",
+      "field": "fee",
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "109385F",
       "title": "Graduate Certificate of Green Chemistry and Sustainable Technologies",
       "field": "fee",
-      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "110786A",
       "title": "Master of Philosophy (Monash - Southeast)",
       "field": "fee",
-      "reason": "scholarship, domestic full fee or college program fee (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     },
     {
       "course_code": "117708C",
@@ -131,6 +148,12 @@
       "title": "Bachelor of Education (Honours) in Primary Education",
       "field": "intakes",
       "reason": "domestic-view page (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "121272C",
+      "title": "Bachelor of Climate, Society and Economy",
+      "field": "fee",
+      "reason": "Fee reading A$10,000 is the \"International Study Grants valued at up to $10,000\" scholarship line, not a tuition fee; the international view prints no annual fee this pattern reads (Claude international view, on the Platform Admin instruction 5 Oct 13:02)"
     }
   ],
   "central_rules": {

@@ -9,22 +9,23 @@
     "english",
     "fee"
   ],
-  "admit_reason": "Federation: IELTS 100, 9 international fees equal; intakes held (domestic-view pages) (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 07:42)",
-  "admit_changed_at": "2026-10-04T22:27:20Z",
-  "config_updated_at": "2026-10-04T22:07:11Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "exit awards taken back out of the admitted list: no verified exit award (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+  "admit_changed_at": "2026-10-05T06:07:17Z",
+  "config_updated_at": "2026-10-05T06:05:01Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "International full fee-paying place\\s+(?:20\\d\\d\\s+)?indicative full-time fee:\\s*(?:AUD\\s*)?\\$\\s*([0-9][0-9,]{3,})",
-      "mode": "Study mode\\s+(?:Study modes tell you(?:.|\\n){0,250}?use\\.\\s+)?((?:On campus|Online|Blended)(?:\\s+(?:On campus|Online|Blended)){0,2})",
       "campus": "Locations\\s+((?:.|\\n){3,200}?)\\s+Course overview",
-      "intakes": "Start dates\\s+((?:Anytime(?:.|\\n){0,40}?)?\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,200}?)\\s+Locations",
       "duration": "Duration\\s+((?:\\d+(?:\\.\\d+)?|one|two|three|four)\\s+years?(?:.|\\n){0,40}?)\\s+Start dates",
-      "ielts_overall": "English language requirements\\s+(?:[^.]{0,60}?:\\s*)?(?:Overall\\s+)?(?:Academic\\s+)?IELTS(?:\\s+band score|\\s+with an overall score|\\s+overall score)?\\s+(?:of\\s+)?(\\d(?:\\.\\d)?)"
+      "entry_requirement": "(?:Entry requirements \\((?:non )?year 12\\)|Entry requirements Entry requirements(?= To be eligible| The University's))\\s+((?:.|\\n){20,200})",
+      "fee": "International full fee-paying place\\s+(?:20\\d\\d\\s+)?indicative full-time fee:\\s*(?:AUD\\s*)?\\$\\s*([0-9][0-9,]{3,})",
+      "ielts_overall": "English language requirements\\s+(?:[^.]{0,60}?:\\s*)?(?:Overall\\s+)?(?:Academic\\s+)?IELTS(?:\\s+band score|\\s+with an overall score|\\s+overall score)?\\s+(?:of\\s+)?(\\d(?:\\.\\d)?)",
+      "intakes": "Start dates\\s+((?:Anytime(?:.|\\n){0,40}?)?\\d{1,2}\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:.|\\n){0,200}?)\\s+Locations",
+      "mode": "Study mode\\s+(?:Study modes tell you(?:.|\\n){0,250}?use\\.\\s+)?((?:On campus|Online|Blended)(?:\\s+(?:On campus|Online|Blended)){0,2})"
     },
     "pick": {
       "fee": "first",
@@ -32,15 +33,17 @@
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "Course pages www.federation.edu.au/courses/<code>-<slug>. Server renders the DOMESTIC view by default; only international-only (Melbourne city campus) courses are stored in the international view. Top panel: Fees label, Credit, Study mode, Duration, Start dates (dated list e.g. 01 March 2027 26 July 2027 22 November 2027), Locations. Fee read only from \"International full fee-paying place 2026 indicative full-time fee: $X\" (annual, 1 EFTSL; for 0.5 EFTSL certificates the whole-certificate fee is shown - exclude). Domestic fees never read. English: \"English language requirements Overall IELTS band score of X, with no band less than Y\". Start dates on domestic-view pages are domestic intakes and may include online/domestic-only terms (Late Summer Jan, Winter Apr, Spring Sep, Oct). Central: international intakes https://www.federation.edu.au/apply/how-to-apply/international/standard-cut-off-dates/ (Semester 1 = March, Semester 2 = July, Summer = November; Early Semester 1/2 Nursing = January/June). English policy https://www.federation.edu.au/apply/how-to-apply/international/english-language-requirements/ . Fee schedule PDF https://www.federation.edu.au/siteassets/files/students/fees/2027_higher_ed_commencing_international_student_tuition_fee_schedule.pdf",
-    "reason": "Widen the Federation University IELTS pattern to the \"Academic IELTS of X overall\" wordings (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)",
-    "updated_at": "2026-10-04T22:07:11.953408+00:00"
+    "page_view": {},
+    "notes": "Course pages www.federation.edu.au/courses/<code>-<slug>. Server renders the DOMESTIC view by default; only international-only (Melbourne city campus) courses are stored in the international view. Top panel: Fees label, Credit, Study mode, Duration, Start dates (dated list e.g. 01 March 2027 26 July 2027 22 November 2027), Locations. Fee read only from \"International full fee-paying place 2026 indicative full-time fee: $X\" (annual, 1 EFTSL; for 0.5 EFTSL certificates the whole-certificate fee is shown - exclude). Domestic fees never read. English: \"English language requirements Overall IELTS band score of X, with no band less than Y\". Start dates on domestic-view pages are domestic intakes and may include online/domestic-only terms (Late Summer Jan, Winter Apr, Spring Sep, Oct). Central: international intakes https://www.federation.edu.au/apply/how-to-apply/international/standard-cut-off-dates/ (Semester 1 = March, Semester 2 = July, Summer = November; Early Semester 1/2 Nursing = January/June). English policy https://www.federation.edu.au/apply/how-to-apply/international/english-language-requirements/ . Fee schedule PDF https://www.federation.edu.au/siteassets/files/students/fees/2027_higher_ed_commencing_international_student_tuition_fee_schedule.pdf Delivery (5 Oct, Platform Admin 11:48): the international view stored for the international-only courses shows Course essentials (IELTS, Fees International Fee Paying Place, Credit) and prints NO Study mode; the mode pattern reads the Study mode panel of the DOMESTIC view (e.g. \"On campus Online\", where online is only for those not on an international student visa), so it is not the international delivery and must not be admitted as delivery until international-view pages are captured.",
+    "reason": "probe patterns removed; entry_requirement pattern added (international entry requirement for review). No exit-year sentences or whole-course international fees printed on stored pages (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:05:01.677612+00:00"
   },
   "exclusions": [
     {
@@ -240,6 +243,30 @@
       "title": "Master of Arts",
       "field": "intakes",
       "reason": "scholarship or unit page bound to a course (Claude wave run, on the Platform Admin instruction 5 Oct 07:42)"
+    },
+    {
+      "course_code": "085206E",
+      "title": "Graduate Certificate in Professional Accounting",
+      "field": "fee",
+      "reason": "withdraw the exit-award fee written for this course while its exit years are decided (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)"
+    },
+    {
+      "course_code": "085206E",
+      "title": "Graduate Certificate in Professional Accounting",
+      "field": "intakes",
+      "reason": "withdraw the exit-award intakes written for this course while its exit years are decided (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)"
+    },
+    {
+      "course_code": "085209B",
+      "title": "Graduate Diploma of Professional Accounting",
+      "field": "fee",
+      "reason": "withdraw the exit-award fee written for this course while its exit years are decided (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)"
+    },
+    {
+      "course_code": "085209B",
+      "title": "Graduate Diploma of Professional Accounting",
+      "field": "intakes",
+      "reason": "withdraw the exit-award intakes written for this course while its exit years are decided (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)"
     },
     {
       "course_code": "088144A",

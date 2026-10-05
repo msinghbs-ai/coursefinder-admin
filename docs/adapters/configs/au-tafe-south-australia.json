@@ -6,26 +6,28 @@
   "enabled": true,
   "admit": true,
   "admit_fields": [
+    "delivery",
     "english",
     "fee",
     "intakes"
   ],
-  "admit_reason": "Wave 9: intakes, English and the remaining annual (two-semester, 52-week) fees ready after exclusions (Claude wave run, on the Platform Admin instruction 5 Oct 05:50 and 10:29)",
-  "admit_changed_at": "2026-10-05T00:22:09Z",
-  "config_updated_at": "2026-10-04T23:58:50Z",
-  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 11:47 AEDT",
+  "admit_reason": "Admit delivery: mode read from the International Applications table Study Mode; spot-checks match, domestic pages give no reading (Claude delivery cross-check, on the Platform Admin instruction 5 Oct 11:48)",
+  "admit_changed_at": "2026-10-05T01:10:28Z",
+  "config_updated_at": "2026-10-05T06:11:32Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
     "enabled": true,
     "json_source": null,
     "json_paths": {},
     "sections": {},
     "patterns": {
-      "fee": "Fees\\s+These course fees are for international students only\\.(?:.|\\n){0,120}?Semester 1\\s+AUD \\$[0-9,]+(?:\\s+AUD \\$[0-9,]+)?[\\s*-]*Semester 2\\s+AUD \\$[0-9,]+(?:\\s+AUD \\$[0-9,]+)?[\\s*-]*Fee Totals\\s+AUD \\$([0-9,]+)",
-      "mode": "Study Load\\s+Commences(?:.|\\n){0,80}?(On campus/location|Online|Blended|Workplace based|Mixed mode)",
       "campus": "Study Load\\s+Commences\\s+(?:Scheduled\\s+)?([A-Za-z][A-Za-z ,]{2,60}?)\\s+(?:On campus|Online|Blended|Workplace|Mixed)",
-      "intakes": "Study Load\\s+Commences(?:.|\\n){0,250}?(?:Full|Part)[- ]Time\\s+((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*,\\s*|\\s+and\\s+|\\s+)?){1,12})",
       "duration": "Duration \\(incl\\. holidays\\)(?:.|\\n){0,80}?([0-9]+ weeks)",
-      "ielts_overall": "Admission Requirements \\(for International Applications\\)(?:.|\\n){0,250}?IELTS[^0-9]{0,30}([4-9](?:\\.[05])?)"
+      "entry_requirement": "Admission Requirements \\(for International Applications\\)\\s*((?:(?! Course Notes| Fees These| Information Sessions)(?:.|\\n)){10,200})",
+      "fee": "Fees\\s+These course fees are for international students only\\.(?:.|\\n){0,120}?Semester 1\\s+AUD \\$[0-9,]+(?:\\s+AUD \\$[0-9,]+)?[\\s*-]*Semester 2\\s+AUD \\$[0-9,]+(?:\\s+AUD \\$[0-9,]+)?[\\s*-]*Fee Totals\\s+AUD \\$([0-9,]+)",
+      "ielts_overall": "Admission Requirements \\(for International Applications\\)(?:.|\\n){0,250}?IELTS[^0-9]{0,30}([4-9](?:\\.[05])?)",
+      "intakes": "Study Load\\s+Commences(?:.|\\n){0,250}?(?:Full|Part)[- ]Time\\s+((?:(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s*,\\s*|\\s+and\\s+|\\s+)?){1,12})",
+      "mode": "Study Load\\s+Commences(?:.|\\n){0,80}?(On campus/location|Online|Blended|Workplace based|Mixed mode)"
     },
     "pick": {
       "fee": "first",
@@ -33,15 +35,17 @@
       "campus": "first",
       "intakes": "first",
       "duration": "first",
-      "ielts_overall": "first"
+      "ielts_overall": "first",
+      "entry_requirement": "first"
     },
     "term_months": {},
     "section_chars": 2000,
     "title_strip": null,
     "course_title_strip": null,
-    "notes": "TAFE SA. International course pages are /xml/course/in/in_[YEAR]<code>.aspx (YEAR = intake year). Header: Duration (incl. holidays) / Semester(s) / Teaching Duration; International Applications table: Campus / Location, Study Mode, Contact Hours, Study Load, Commences (months, e.g. January, July). Course Admission Requirements (for International Applications) gives IELTS overall and bands. Fees section is international-only, printed PER SEMESTER (Semester 1..n) with Fee Totals = whole course; the fee pattern reads Fee Totals only when the table has exactly two semesters (= one academic year of tuition). Courses of 1.5 semesters (e.g. 39 weeks) also print two fee lines, so their Fee Totals is the whole (sub-annual) course - check against duration before admitting fees. One-semester and multi-year courses give no annual figure. Domestic pages (/xml/course/aw/, /courses/...) and reverse-credit pages carry no international intakes/fees. Central English: https://www.tafesa.edu.au/international/entry-requirements (Academic IELTS 6.0, 5.0 all bands, most courses). Term dates: https://students.tafesa.edu.au/getting-started/term-dates (course pages print months directly, so no term_months).",
-    "reason": "Loosen TAFE SA duration pattern (Claude wave run, on the Platform Admin instruction 5 Oct 10:29)",
-    "updated_at": "2026-10-04T23:58:50.258073+00:00"
+    "page_view": {},
+    "notes": "TAFE SA. International course pages are /xml/course/in/in_[YEAR]<code>.aspx (YEAR = intake year). Header: Duration (incl. holidays) / Semester(s) / Teaching Duration; International Applications table: Campus / Location, Study Mode, Contact Hours, Study Load, Commences (months, e.g. January, July). Course Admission Requirements (for International Applications) gives IELTS overall and bands. Fees section is international-only, printed PER SEMESTER (Semester 1..n) with Fee Totals = whole course; the fee pattern reads Fee Totals only when the table has exactly two semesters (= one academic year of tuition). Courses of 1.5 semesters (e.g. 39 weeks) also print two fee lines, so their Fee Totals is the whole (sub-annual) course - check against duration before admitting fees. One-semester and multi-year courses give no annual figure. Domestic pages (/xml/course/aw/, /courses/...) and reverse-credit pages carry no international intakes/fees. Central English: https://www.tafesa.edu.au/international/entry-requirements (Academic IELTS 6.0, 5.0 all bands, most courses). Term dates: https://students.tafesa.edu.au/getting-started/term-dates (course pages print months directly, so no term_months). | 5 Oct (exit awards and requirements): entry_requirement = \"Admission Requirements (for International Applications)\" text up to Course Notes / Fees. Fee Totals is the whole-course fee, but duration is printed in weeks and semesters, not years, so fee_total/course_years are not set. No exit awards.",
+    "reason": "Final: entry_requirement pattern for review (not admitted); exploratory exit-award text removed, no exit awards with full-time years printed (Claude exit awards and requirements, on the Platform Admin instruction 5 Oct 15:22)",
+    "updated_at": "2026-10-05T06:11:32.987233+00:00"
   },
   "exclusions": [
     {
@@ -148,21 +152,21 @@
       {
         "kind": "english_policy",
         "url": "https://www.tafesa.edu.au/international/entry-requirements",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:08:55Z",
         "evidence_id": "c5d4dde3-e86d-4d65-b897-d66a3883fc91"
       },
       {
         "kind": "intake_calendar",
         "url": "https://students.tafesa.edu.au/getting-started/term-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T09:30:21Z",
         "evidence_id": "f8c94edd-d10e-499f-938d-888ff329df3b"
       },
       {
         "kind": "intake_calendar",
         "url": "https://www.tafesa.edu.au/apply-enrol/key-dates",
-        "status": "found",
+        "status": "failed",
         "read_at": "2026-10-02T07:08:53Z",
         "evidence_id": "fba04188-2a6d-43c1-b0a5-518e022b0680"
       }
