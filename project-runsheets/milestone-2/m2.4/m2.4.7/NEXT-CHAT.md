@@ -4385,3 +4385,17 @@ The brief now forbids direct table changes.
 - Not touched, per the approval: the 6 queued scholarship scope acquisition jobs (11 Sep), the Layer 3 work items and the Layer 4 review items.
 - Finding for the next step: of 5,359 Layer 3 items in `failed` or `layer4_required` for intake and English validation, 4,790 belong to courses whose provider's adapter is now admitting, so most are probably superseded by adapter readings. 3,279 intake and 984 English items are `failed` (29 Sep to 4 Oct); 967 intake and 129 English are `layer4_required`. Not yet checked against the held values, so none has been closed.
 - Of the 1,473 pending Layer 4 items, 469 say the page lists different intake months from the ones held, 552 intake and 37 English say the AI answer was not supported by the page, and 184 are official page address mismatches. These need a person or an adapter fix.
+
+## 6 Oct 2026 — correction to the adapter coverage figure; Layer 3 items checked against held values (read only)
+
+- Correction: the 71.5% "admitting" figure in the wave plan counts courses whose provider's adapter admits at least one field. By field, adapters admit intakes for 17,167 active courses (49.1%), English for 18,518 (53.0%) and fees for 14,765 (42.2%). Values actually held today: intakes 11,493 courses (32.9%), English 16,711 (47.8%), page fee 8,020 (22.9%). Of the 706 admitting adapters, 258 admit one field, 264 two, 130 three, 49 four and 5 five. `docs/adapters/ADAPTER-COVERAGE-WAVE-PLAN.md` is amended; which measure counts for the 80% target is an open decision.
+- Read-only check of the 5,359 Layer 3 items in `failed` or `layer4_required` for intake and English validation (29 Sep to 5 Oct), against the course's provider adapter and held values:
+
+| Item state | Field | Items | Provider admits the field, value held, page read | Admitted but no value held | Provider does not admit the field | Value held, page not read |
+|---|---|---:|---:|---:|---:|---:|
+| failed | English | 984 | 521 | 153 | 293 | 17 |
+| failed | Intakes | 3,279 | 1,984 | 492 | 766 | 37 |
+| layer4_required | English | 129 | 38 | 37 | 48 | 6 |
+| layer4_required | Intakes | 967 | 366 | 312 | 285 | 4 |
+
+- So 2,909 items look superseded by an adapter reading, 994 are admitted fields with no value held (adapter fix or a real Layer 3 case), 1,392 belong to providers that do not admit that field, and 64 hold a value from a page that is not read. Nothing has been closed or changed. The next step is to bring the 2,909 list to the Platform Admin for approval before any item is superseded.
