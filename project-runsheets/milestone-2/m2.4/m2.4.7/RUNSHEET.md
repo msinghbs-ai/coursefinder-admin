@@ -4450,3 +4450,10 @@ The brief now forbids direct table changes.
 | layer4_required | Intakes | 967 | 366 | 312 | 285 | 4 |
 
 - So 2,909 items look superseded by an adapter reading, 994 are admitted fields with no value held (adapter fix or a real Layer 3 case), 1,392 belong to providers that do not admit that field, and 64 hold a value from a page that is not read. Nothing has been closed or changed. The next step is to bring the 2,909 list to the Platform Admin for approval before any item is superseded.
+
+## 6 Oct 2026 — decision: 80% target measured per field; superseding the covered Layer 3 items needs a mechanism decision
+
+- Decision (Platform Admin, 6 Oct): the 80% coverage target is measured per field (intakes, English, fees), not by providers with any admitted field. Today: intakes admitted for 49.1% of active courses and held for 32.9%; English 53.0% and 47.8%; page fee 42.2% and 22.9% (see the correction entry above). `docs/adapters/ADAPTER-COVERAGE-WAVE-PLAN.md` is read against this measure.
+- The Platform Admin also chose to supersede the 2,909 Layer 3 items that an admitting adapter already covers. Not done yet: `pipeline.layer3_work_items` has no `superseded` status (allowed: pending, reserved, interpreting, validated, no_candidate, rejected, admission_pending, layer4_required, admitted, parked, failed). Layer 4 review items do have `superseded`. Closing Layer 3 items needs either a migration adding a status, or the existing `layer3_work_item_transition_service` with `rejected` or `parked` and a reason. To be decided before any change.
+- Layer 4 side, read only: of 1,288 pending Layer 4 intake and English items, 270 have an admitting adapter, a held value and a read page. The 213 of them under "the page lists different intake months from the ones we hold" are real disagreements (the RMIT-type page-wins question), not superseded, so they stay pending. About 57 others (mostly AI-answer problems) could be superseded.
+- Nothing changed in Layer 3 or Layer 4.
