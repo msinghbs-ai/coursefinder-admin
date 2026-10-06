@@ -4291,3 +4291,10 @@ The brief now forbids direct table changes.
 - Pilot PR #335 merged (squash 969309bac4a32ac283d3ad043b067ed724280a41). Migration 1760 `20261006001760_cf247_fee_rules_dry_run` applied live (file md5 68b44a654a141214cc92dd24a8f65bb7): read-only `public.admin_fee_rules_report` (Operator and above). UI: Layer 2 › Adapters › Page fees against CRICOS (dry run), collapsed card.
 - Finding: CRICOS "tuition" is a registered course total, so it is divided by the course duration before comparison. Of 6,825 courses with both: 4,241 agree within 5%, 2,584 differ; the page would win on 2,349 (1,138 higher, 1,211 lower, 962 differ by over 20%), 1 is protected by hand, 59 keep CRICOS (older year), 175 keep CRICOS (no year).
 - No fee value was written or changed.
+
+## 6 Oct 2026 — v2.15.202 / 0.1.129: fee used label (Decision 255)
+
+- Finding that changed the build: the whole-course fee range already takes the page's current annual fee first (CRICOS registered total only as the fallback), and the Zoho, Wix and website course APIs return the page fee and the CRICOS total as separate fields. So no resolver was added to those. Platform Admin chose (multiple choice) "Add a labelled fee used to the course drawer and APIs".
+- Pilot PR #336 merged (squash 674da06d519186846d55fd98c3e61f7e095aec30). Migration 1770 `20261006001770_cf247_fee_used_label` applied live (file md5 a55eef993fe34380b9bd895fb542baa4, equal to the applied statement md5): read-only `security.course_fee_used_v1` and a `fee_used` key on `security.admin_course_fee_summary` (patch behind md5 guard a9edf2b34508931f9eea1df7c8ed6dfc). UI: course drawer › Fees › Fee used (page or CRICOS per year, the reason, locked by hand).
+- Checked live as Platform Admin on four courses: page names 2027 (page used), page names 2025 (CRICOS used), no page fee (CRICOS used). No stored fee changed.
+- Open: the Zoho, Wix and website APIs read through a prebuilt layer and do not yet carry `fee_used`; adding it is a separate step (an additive field on a public contract). The page-wins rule is not otherwise applied anywhere; the dry run (Adapters › Page fees against CRICOS) is the check.
