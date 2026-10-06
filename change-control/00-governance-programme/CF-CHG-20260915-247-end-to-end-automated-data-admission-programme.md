@@ -4719,3 +4719,9 @@ The brief now forbids direct table changes.
 - Built: `public.admin_provider_fee_newer_year(action, source_id, note)` (preview or apply; Platform Admin only; reason required; logged as `newer_year_fees_applied`). Migration `20261007001000_cf247_fee_newer_year_apply.sql`, file md5 1f3589a98cf4da1918b3dd033313ccdd equals the recorded statement; PR merged in Coursefinder-Pilot. No UI change, so no release bump.
 - Preview then approval by the Platform Admin; applied 144 later-year (2027) fees: UniMelb 116, Federation University 15, Charles Sturt 13; 0 refused. Verified live: 144 of 144 equal the schedule's annual figure, and all 144 courses still hold their 2026 fee. WSU and TAFE Queensland newer-year rows came to 0 after the year check.
 - Still open: 171 same-year conflicts (needs a decision list), and the fee rules not yet measured: unlabelled CRICOS-only fee, fee year at UOW and Swinburne, UTas credit points, AUT levy.
+
+### 7 Oct 2026 (Wed, Melbourne) – Apex rebind outcome
+
+- Platform Admin chose to rebind only the two mis-bound Apex courses. Diploma of Automotive Technology (105603M) and Certificate III in Light Vehicle Mechanical Technology (103627H) are bound to the pages of other courses (Certificate IV in Automotive Mechanical Diagnosis, Certificate IV in Building and Construction), and the find run holds no correct page for either, so rebinding was not possible.
+- Both courses were excluded from the Apex adapter on all four fields (intakes, English, fee, delivery; 8 active exclusion rows, verified), so wrong values cannot be admitted. Neither held an adapter-admitted English value.
+- Other four providers (Clarendon, Centre of Excellence, Australian National College, AVETA, Holborne): the find results are mostly PDF brochures (ANC 11 courses; the reader skips PDFs) or no title match. A PDF-brochure reader for ANC is an option needing approval.
