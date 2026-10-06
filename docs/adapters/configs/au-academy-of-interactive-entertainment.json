@@ -1,0 +1,36 @@
+{
+  "university": "The Academy of Interactive Entertainment Ltd",
+  "country": "AU",
+  "provider_id": "63ba256d-0c70-48a9-83d8-d397d0b828e2",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T15:17:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 02:35 AEDT, scheduled overnight adapter wave run (third run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Academy of Interactive Entertainment (aie.edu.au/course/<slug>/). Course pages are programme pages shared by several qualifications (game-programming serves Diploma of Screen and Media 106064C and Diploma of Information Technology 106066A; game-design-production serves 114805D and 119345J). Every page carries the enrolment form's study-mode list ('Online Day - Full Time, Online Evening - Full Time, Online Evening - Part Time'), a legend rather than the course's delivery (lesson 8), so no delivery pattern. No fees, IELTS or intake months on stored pages ('Fees' is a menu link). 098405B is bound to a degrees information page and 106067M to the game art page (identity mismatch); not rebound. Needs the international fees and dates pages (Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (third run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T15:17:16.450009+00:00"
+  },
+  "exclusions": []
+}

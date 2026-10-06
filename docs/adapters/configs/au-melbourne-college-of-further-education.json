@@ -1,0 +1,73 @@
+{
+  "university": "Melbourne College of Further Education",
+  "country": "AU",
+  "provider_id": "87885927-dc16-4264-9e22-a8e978efa219",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T18:18:24Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 05:05 AEDT, scheduled wave run (sixth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields that pass the admit rule.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Melbourne College of Further Education (mcfe.com.au). Two courses share the international students page, which lists several courses with fees ($9,500, $10,500, $9,885, $12,500) and 'No further intakes are scheduled for 2025' (stale); the general reader's $12,500 is not per course, so fee excluded for both. 113316G and 118589H are bound to domestic pages ($4,000 and $3,900 fee-for-service, 'Not currently accepting enrolments'): fee excluded. IELTS 6.0* only on the shared page (2 courses). No patterns admitted.",
+    "reason": "Scheduled wave run 7 Oct 2026 (sixth run, CF-247, Decision 254): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T18:18:24.927920+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "089967J",
+      "title": "Certificate III in Individual Support",
+      "field": "fee",
+      "reason": "Shared international page lists several courses and fees; the general reader figure is not this course fee (scheduled wave run 7 Oct, sixth run)"
+    },
+    {
+      "course_code": "089967J",
+      "title": "Certificate III in Individual Support",
+      "field": "intakes",
+      "reason": "page is a multi-course international listing, fee and 2025 intakes cannot be tied to this course (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"
+    },
+    {
+      "course_code": "091043B",
+      "title": "Diploma of Hospitality Management",
+      "field": "fee",
+      "reason": "Shared international page lists several courses and fees; the general reader figure is not this course fee (scheduled wave run 7 Oct, sixth run)"
+    },
+    {
+      "course_code": "091043B",
+      "title": "Diploma of Hospitality Management",
+      "field": "intakes",
+      "reason": "page is a multi-course international listing, fee and 2025 intakes cannot be tied to this course (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"
+    },
+    {
+      "course_code": "113316G",
+      "title": "Certificate III in Individual Support",
+      "field": "fee",
+      "reason": "Bound to the domestic page (fee-for-service price, not accepting enrolments); no international page evidenced (scheduled wave run 7 Oct, sixth run)"
+    },
+    {
+      "course_code": "118589H",
+      "title": "Diploma of Early Childhood Education and Care",
+      "field": "fee",
+      "reason": "Bound to the domestic page (fee-for-service price, not accepting enrolments); no international page evidenced (scheduled wave run 7 Oct, sixth run)"
+    }
+  ]
+}

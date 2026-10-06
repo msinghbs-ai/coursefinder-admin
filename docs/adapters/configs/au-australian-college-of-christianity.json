@@ -1,0 +1,36 @@
+{
+  "university": "Australian College of Christianity",
+  "country": "AU",
+  "provider_id": "fa78f9a2-a387-407a-8753-f6280c607aec",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T14:20:04Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 01:35 AEDT, scheduled overnight adapter wave run (second run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Australian College of Christianity (accu.edu.au/courses/department-of-<area>/<slug>/). Delivery is printed separately for local and international students: 'International Students: The course is delivered through face-to-face lectures and live online sessions' (theology, media) and 'international program in Australia is delivered in a mixture mode (face to face mostly and little bit of online)' (counselling). Both are a required mix (blended, lesson 3 delivery), so no mode pattern is written. Intakes printed as 'Intake : February 2025' (stale year, lesson 3) and only on the counselling page. Fees: per-unit VSL tables for domestic students (not read). No IELTS on stored pages. Two CRICOS codes share the Certificate IV in Screen and Media page (110257D, 119280K).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T14:20:04.795246+00:00"
+  },
+  "exclusions": []
+}

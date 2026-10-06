@@ -1,0 +1,38 @@
+{
+  "university": "Construction Training Australia Pty Ltd",
+  "country": "AU",
+  "provider_id": "ba2bc7a4-3154-4d75-8010-51ffdaeabda8",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T15:17:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 02:35 AEDT, scheduled overnight adapter wave run (third run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "Course Duration ([0-9]+ years? full-time)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Construction Training Australia (ctaustralia.vic.edu.au, Brunswick VIC). All 8 course pages are read and bound by CRICOS code. Each prints a facts strip 'International Student OR Domestic Student Course Code <package> CRICOS Code <code> Delivery Mode Contact Us Location Brunswick VIC Course Duration N year(s) full-time (incl. breaks) Nominal Study Hours ... Cost Contact Us'. Duration is read for review only. Delivery and cost say 'Contact Us'; no IELTS or intakes on any stored page. Nothing admissible; needs central fee, dates or English pages (Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (third run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T15:17:16.450009+00:00"
+  },
+  "exclusions": []
+}

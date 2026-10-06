@@ -1,0 +1,39 @@
+{
+  "university": "Griffin College",
+  "country": "AU",
+  "provider_id": "edfd6b91-b435-4d24-ae55-700955d5b285",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T14:18:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 01:35 AEDT, scheduled overnight adapter wave run (second run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "DURATION Study: ([0-9]+ weeks)",
+      "other_requirements": "ESTIMATED TOTAL COURSE COST\\. (The maximum cost for this course is A\\$[0-9,]+)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Griffin College (griffin.edu.au/courses/<package>-<slug>-(<cricos>), Brisbane). Main course pages carry no facts (fields point to a support-portal login). The support knowledge-base articles (support.griffin.edu.au/support/solutions/articles/<id>-<package>-<slug>-cricos-course-code-<code>) print 'DURATION Study: N weeks Holiday/Academic Breaks Upto N Weeks' and 'ESTIMATED TOTAL COURSE COST. The maximum cost for this course is A$29200. However, the actual cost applicable to you will depend on ... country of passport' (read for review only into other_requirements). That figure is a maximum whole-course cost, not labelled international (lesson 8), so no fee pattern is written and the fee is held. No IELTS and no intake months on stored pages. 118744B Diploma of Community Services is bound to the student application form (links.griffin.edu.au/studentapplicationform), not a course page; 4 support articles are fetch_failed. Needs a person or Layer 2.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T14:18:16.998975+00:00"
+  },
+  "exclusions": []
+}

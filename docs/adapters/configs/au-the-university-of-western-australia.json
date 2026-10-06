@@ -6,12 +6,10 @@
   "enabled": true,
   "admit": false,
   "admit_fields": [
-    "english",
-    "fee",
     "intakes"
   ],
-  "admit_reason": null,
-  "admit_changed_at": null,
+  "admit_reason": "Scheduled wave run 7 Oct 2026 05:1x AEDT: admission switched off again after read-back. Only intakes was admitted, but English held values rose from 176 to 193 (17 rows written from the adapter English reading, evidence = adapter page) with no adapter_overwrite_changes row. A field that was not admitted changed, so admission is stopped for a person to review. The 110 intake values written stay in place (all from empty).",
+  "admit_changed_at": "2026-10-06T18:23:29Z",
   "config_updated_at": "2026-10-05T05:57:54Z",
   "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {

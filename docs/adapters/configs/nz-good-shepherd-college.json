@@ -1,0 +1,36 @@
+{
+  "university": "Good Shepherd College - Te Hepara Pai",
+  "country": "NZ",
+  "provider_id": "fad2a32a-cfb3-4c1a-bf48-2ba58b2668f4",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T17:16:28Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 04:20 AEDT, scheduled overnight adapter wave run (fifth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Good Shepherd College - Te Hepara Pai, Catholic Theological College at Te Kupenga (tekupenga.ac.nz/catholic-theological-college-2/so-you-want-to-study/our-programmes/<slug>/, Auckland). Four read programme pages (Bachelor of Divinity, Graduate Diploma in Theology, NZ Certificate and Diploma in Christian Studies). They print programme structure and 'On-campus students can study full-time (60 credits per semester) or part-time ... Distance students usually study up to 30 credits per semester' (a choice of on-campus or distance, not one mode for international students), and the menu ('International Students', 'Fees Loans & Allowances'). No fees, IELTS or intake months on stored pages, so no patterns. Needs the international students and fees pages (Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fifth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T17:16:28.099785+00:00"
+  },
+  "exclusions": []
+}

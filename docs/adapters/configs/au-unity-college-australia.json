@@ -1,0 +1,55 @@
+{
+  "university": "Unity College Australia",
+  "country": "AU",
+  "provider_id": "a5dbd7fa-cbc2-4d10-b650-658f759d5579",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T15:17:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 02:35 AEDT, scheduled overnight adapter wave run (third run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Unity College Australia (unity.edu.au, Adelaide). Only 2 of 12 active courses have a read page: General English 089714G (ELICOS, /english-as-a-second-language/) and Certificate IV in Community Services 116306G (/community-services/). The ELICOS fee is 'Elementary 10 Week Module $2,900 + plus application fee ... Pricing for International Students' (per module, not annual; lesson 3 fees), and the Certificate IV fees are 'Pricing for domestic students' ($4,000 / $5,000 / $3,500 Special 2024 introductory price). Both pages print a term timetable ('Term 4: October - December'), which the general reader takes as intakes; these are term date ranges, not start months. Fee (089714G) and intakes (both) excluded by course. No IELTS on the stored pages. 7 Christian ministry, theology and leadership courses are bound to the /courses/ listing page (identity mismatch) and 2 community services courses to a win32.unity.edu.au page that returns 404; no evidenced course URL, so not rebound (needs a person or Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (third run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T15:17:16.450009+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "089714G",
+      "title": "General English",
+      "field": "fee",
+      "reason": "ELICOS fee printed per 10-week module (A$2,900 per module), not an annual fee (scheduled wave run 7 Oct, lesson 3 fees)"
+    },
+    {
+      "course_code": "089714G",
+      "title": "General English",
+      "field": "intakes",
+      "reason": "Term timetable date ranges (Term 1 to Term 4) read as intakes; not start months (scheduled wave run 7 Oct, lesson 3 intakes)"
+    },
+    {
+      "course_code": "116306G",
+      "title": "Certificate IV in Community Services",
+      "field": "intakes",
+      "reason": "Term timetable date ranges (Term 1 to Term 4) read as intakes; not start months (scheduled wave run 7 Oct, lesson 3 intakes)"
+    }
+  ]
+}

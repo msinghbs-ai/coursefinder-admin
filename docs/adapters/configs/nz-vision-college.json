@@ -1,0 +1,67 @@
+{
+  "university": "Vision College Limited",
+  "country": "NZ",
+  "provider_id": "1dff6a85-6da2-4181-aea4-e1c52c103a81",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Scheduled wave run 7 Oct 2026 06:5x AEDT: intakes pass (pages read 9; counted over the 5 international pages: read on 4, agreement 4 of 4 = 100%; 3 domestic /study/ pages excluded first; Upcoming Intakes lists agree with the catalogue on every compared page), Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T19:54:11Z",
+  "config_updated_at": "2026-10-05T13:24:54Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 07:0x AEDT, scheduled wave run (seventh run)",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "((?:delivery|learning)(?: with)? (?:online|face)(?:.|\\n){0,60})",
+      "campus": "Upcoming Intakes ((?:.|\\n){0,60}?)(?:\\d|Call)",
+      "intakes": "(Upcoming Intakes(?:.|\\n){0,150}?) Fees",
+      "duration": "(\\d+ (?:Weeks?|Months?|Years?)(?:.|\\n){0,60})",
+      "fee_total": "International Fees \\*(?: International Fees\\*)?(?: Tuition(?:/Administrative fee)?)? \\$([0-9,]+(?:\\.[0-9]{2})?)",
+      "entry_requirement": "ENTRY REQUIREMENTS ((?:.|\\n){0,200})"
+    },
+    "pick": {
+      "mode": "first",
+      "campus": "first",
+      "intakes": "first",
+      "duration": "first",
+      "fee_total": "first",
+      "entry_requirement": "first"
+    },
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Vision College course pages (visioncollege.ac.nz). Intakes follow \"Upcoming Intakes\" (campus and date, e.g. \"Auckland 12 Oct 2026\"); the International Fees line gives programme tuition and is read as fee_total, but no annual figure is made yet because the course length is not read reliably. Not admitting: a second read sent the site pages back as fetch_failed (the site refuses the reader), so only a few pages have stored text.",
+    "reason": "Record the current state in the notes (Claude night run, on the Platform Admin instruction 5 Oct 21:44)",
+    "updated_at": "2026-10-05T13:24:54.579129+00:00"
+  },
+  "note_on_notes": "The notes text above predates the 7 Oct admission and still says 'Not admitting'; patterns are not changed by scheduled runs, so the notes were left as they are. Admission state is in admit, admit_fields and admit_reason.",
+  "exclusions": [
+    {
+      "course_code": "2772",
+      "title": "New Zealand Certificate in Christian Ministry (Level 4)",
+      "field": "intakes",
+      "reason": "Scheduled wave run 7 Oct 2026 06:5x AEDT: course bound to the domestic /study/ page, not the /internationals/ page; domestic-page intakes are not read for admission (admit rule 5, lesson 2)"
+    },
+    {
+      "course_code": "2849",
+      "title": "New Zealand Certificate in Early Childhood Education and Care (Introductory Skills) (Level 3)",
+      "field": "intakes",
+      "reason": "Scheduled wave run 7 Oct 2026 06:5x AEDT: course bound to the domestic /study/ page, not the /internationals/ page; domestic-page intakes are not read for admission (admit rule 5, lesson 2)"
+    },
+    {
+      "course_code": "2850",
+      "title": "New Zealand Certificate in Early Childhood Education and Care (Level 4)",
+      "field": "intakes",
+      "reason": "Scheduled wave run 7 Oct 2026 06:5x AEDT: course bound to the domestic /study/ page, not the /internationals/ page; domestic-page intakes are not read for admission (admit rule 5, lesson 2)"
+    }
+  ]
+}

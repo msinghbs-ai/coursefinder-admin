@@ -1,0 +1,41 @@
+{
+  "university": "USQ - Sydney Education Centre",
+  "country": "AU",
+  "provider_id": "58238b5c-07df-4140-b90f-0280f925f0c7",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Scheduled wave run 7 Oct 2026 06:5x AEDT: english passes (pages read 6, IELTS Academic read on 6 of 6, agreement 6 of 6 = 100%, spot-checks right: 6.0 and 6.5 with bands), Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T19:55:55Z",
+  "config_updated_at": "2026-10-05T20:32:01Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 07:0x AEDT, scheduled wave run (seventh run)",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "intakes": "Start\\s((?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*(?:,\\s|\\sand\\s)?){1,4})\\s?View\\sdates",
+      "duration": "Duration\\s(\\d+\\syears?)",
+      "ielts_overall": "IELTS\\s\\(Academic\\)\\s-\\sMinimum\\soverall\\sscore\\sof\\s(\\d(?:\\.\\d)?)"
+    },
+    "pick": {
+      "intakes": "first",
+      "duration": "first",
+      "ielts_overall": "first"
+    },
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Course pages on www.unisq.edu.au/study/degrees-and-courses/<course> (the main UniSQ site; the Sydney Education Centre has no pages of its own). The summary strip prints Duration, Location (Toowoomba, Springfield, Online), Start (Feb, Jun, Sep) and one Indicative annual fee. The fee is not read: the stored view looks domestic (Master of Information Systems shows AUD 10,518) and the strip does not say international. IELTS (Academic) overall and bands are in the entry requirements. A separate key-dates table on the page lists trimester dates (Trimester 2 starts in May); the Start strip is what the adapter reads.",
+    "reason": "Fix intakes pattern (space before View dates) (Claude night run, on the Platform Admin instruction 5 Oct 21:44)",
+    "updated_at": "2026-10-05T20:32:01.618284+00:00"
+  },
+  "exclusions": []
+}

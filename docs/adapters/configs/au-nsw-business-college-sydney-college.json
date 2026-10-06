@@ -1,0 +1,36 @@
+{
+  "university": "NSW Business College  Sydney College",
+  "country": "AU",
+  "provider_id": "7e67f122-8de5-423b-a531-d2bb1b6b4cfc",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T13:21:11Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 00:50 AEDT, scheduled overnight adapter wave run",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "NSW Business College / Sydney College (sydneycollege.nsw.edu.au/our-courses/<package-code>-<slug>/). Stored course pages are short (about 3,600 characters): title, CRICOS course code and units only. No intakes, fees, IELTS or delivery printed, so no patterns. Two CRICOS codes share each massage page (116265M and 102506C; 116266K and 102507B). Needs a central fees, dates or English page found (Layer 2) before any field can be read.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T13:21:11.895199+00:00"
+  },
+  "exclusions": []
+}

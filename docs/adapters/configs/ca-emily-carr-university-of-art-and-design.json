@@ -1,0 +1,36 @@
+{
+  "university": "Emily Carr University of Art + Design",
+  "country": "CA",
+  "provider_id": "8bcdcee6-a7cb-4731-83cc-4f116e423914",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T14:18:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 01:35 AEDT, scheduled overnight adapter wave run (second run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Emily Carr University of Art + Design (ecuad.ca/degree-programs/undergraduate/<slug>, Vancouver). 10 stored programme pages are hand-bound (identity manual) and print only 'Duration 4 years / 120 credits Portfolio Required Yes' and a link to the central tuition page. No fees, IELTS or intake months on stored pages (news blocks print dates). Canadian fees cannot be admitted (decision 220, no course code on page). Two graduate programmes are bound to how-to-apply or faculty pages and are blocked (HTTP 403, lesson 8). Needs central tuition, English and key-dates pages read (Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T14:18:16.998975+00:00"
+  },
+  "exclusions": []
+}

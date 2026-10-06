@@ -1,0 +1,38 @@
+{
+  "university": "Milestones English Academy",
+  "country": "AU",
+  "provider_id": "f118f722-2185-475f-9442-4dd99ff16df6",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T16:17:00Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 03:25 AEDT, scheduled overnight adapter wave run (fourth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "Duration: (1~[0-9]+ weeks) "
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Milestones English Academy (milestones.vic.edu.au, Melbourne). ELICOS courses. Pages print 'Intakes: Every Monday Duration: 1~52 weeks Provider: Milestones English Academy (CRICOS 03496B)'; weekly rolling starts are not a set of intakes (lesson 3), so no intakes pattern; duration read for review only. No entry IELTS (IELTS appears only as the IELTS Preparation course name in the menu) and no tuition on course pages. 0101086 English for Tourism and Hospitality and 0101087 Business English are both bound to the tourism page (its title says CRICOS 0101087, its body says 0101086). 0101088 Cambridge Exam Preparation is bound to an online live-class product page ('from AUD 31 per class', 'Single Option $500'), not the CRICOS course view: its price must never be read as a fee. The 'Delivery' text is the footer menu. Nothing admissible.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fourth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T16:17:00.674772+00:00"
+  },
+  "exclusions": []
+}

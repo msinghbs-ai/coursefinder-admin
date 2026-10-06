@@ -1,0 +1,38 @@
+{
+  "university": "Lawson College Australia",
+  "country": "AU",
+  "provider_id": "68fd6424-429a-42ff-b61a-848d204f8275",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T14:20:04Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 01:35 AEDT, scheduled overnight adapter wave run (second run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "ielts_overall": "English Requirement IELTS ([0-9](?:\\.[05])?)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Lawson College Australia (lawsoncollege.edu.au/course/<slug>, Melbourne). Course facts (delivery mode, location, duration, tuition fees) sit only in a downloadable international course PDF per course ('Delivery Mode, Delivery Location/s, Course Duration, Tuition Fees etc. <course> - International <size>KB'), which is not stored. Four of 12 read pages print 'English Requirement IELTS 5.5 or equivalent' or 'IELTS 6.0/ PTE 52 or equivalent' (read as ielts_overall); the other eight print none, so English is below the half rule and is held. No intakes or fees on stored pages. Two course pairs share one page (110410M and 119611G; 110411K and 118604C, with and without a trailing slash). 0102145 Diploma of Mental Health is bound to the community-care area page. Needs the course PDFs read (Layer 2) before fees, delivery or intakes.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T14:20:04.795246+00:00"
+  },
+  "exclusions": []
+}

@@ -1,0 +1,36 @@
+{
+  "university": "Feats Ltd",
+  "country": "NZ",
+  "provider_id": "875b5c1c-4144-4626-99e6-ddb4787a1b06",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T18:18:24Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 05:05 AEDT, scheduled wave run (sixth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields that pass the admit rule.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Feats Ltd (Te Herenga Pa Ra, NZ). Foundation programmes, 'Start Date: Any time', no fee or IELTS; enrols_international not set; looks domestic. No patterns, do not admit.",
+    "reason": "Scheduled wave run 7 Oct 2026 (sixth run, CF-247, Decision 254): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T18:18:24.927920+00:00"
+  },
+  "exclusions": []
+}

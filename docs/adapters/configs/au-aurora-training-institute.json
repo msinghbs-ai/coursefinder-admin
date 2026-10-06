@@ -1,0 +1,38 @@
+{
+  "university": "Aurora Training Institute",
+  "country": "AU",
+  "provider_id": "8d88310f-5871-4635-8208-8cf13e4fef29",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T16:17:00Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 03:25 AEDT, scheduled overnight adapter wave run (fourth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "is delivered over ([0-9]+(?:-[0-9]+)? ?months)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Aurora Training Institute (aurora.edu.au/courses/<package>-<slug>/, Queensland). Six read pages (2 bound by hand, 4 ambiguous because two CRICOS codes share each early childhood page: 119444F and 119698F; 119445E and 119807F). Pages print 'Delivery The <course> is delivered over 12-36 months. Trainers will deliver training on the job' (cookery) or 'delivered over 18 months with an online delivery model' (hospitality diploma); duration is read for review only. The early childhood pages describe an 'online and on-campus course in Townsville, Toowoomba and the Gold Coast' in marketing copy, not as the international delivery, so no mode pattern. No IELTS, fees or intake months on any stored page; the only international text is the site menu ('International Students Page'). The stored pages look like the domestic or traineeship view. Nothing admissible; needs the international course pages or a central fees and dates page (Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fourth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T16:17:00.674772+00:00"
+  },
+  "exclusions": []
+}

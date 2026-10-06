@@ -1,6 +1,6 @@
 # Adapter Lessons Learnt
 
-**Status:** CURRENT · **Decision:** 254 · **Change control:** CF-CHG-20260915-247 · **As at:** 6 Oct 2026, 09:24 AEDT
+**Status:** CURRENT · **Decision:** 254 · **Change control:** CF-CHG-20260915-247 · **As at:** 7 Oct 2026, 07:05 AEDT
 **Companion documents:**
 - `ADAPTER-PATTERN-SHEET.md` and `.csv`: one row per provider, showing where each attribute sits.
 - `README.md`: the register and reviewed configurations.
@@ -126,6 +126,82 @@ This is the working playbook for building a provider adapter. It collects what t
 | **Canada:** fees in CAD as a whole-programme total (Camosun, NIC), a Year 1 international panel (College of the Rockies, Selkirk) or "approx. first year" (Okanagan). | Decision 220 already allows CAD tuition only from a page that prints the course's code. Canadian course pages print no code, so no Canadian fee is admitted. Patterns are saved for later. |
 | **Canada:** one page per discipline serving several degrees (King's, Burman, Calgary). | Exact-title identity fails. Needs a person to map degrees to pages. |
 | **Canada:** sites that refuse the reader (Emily Carr, HTTP 403) or put programme facts on a current-year calendar profile (Capilano 2026-27). | Use the current-year calendar profile, never an archive year. A 403 site needs a rendered read or hand entry. |
+
+## 9. Added after the first scheduled overnight wave run (7 Oct, 00:09 AEDT, track E)
+
+| Finding | What to do |
+|---|---|
+| A preview shows only 8 stored pages and puts identity-mismatch pages first, so for a provider with many mismatches it never shows a read page. | Explore with review-only fields instead: save the adapter in testing with wide capture patterns on the extra fields (`other_requirements`, `location`, `entry_requirement`, `mode`, `duration`, `campus`, `exit_awards`), run `apply` (stored pages, no credits), read `candidates->'adapter_extra'` per page, then replace them with the real patterns and apply again. The final apply clears the exploratory extras. |
+| Patterns are checked by Postgres before saving, and Postgres refuses a repeat count above 255 (`{0,280}` fails with "cannot be read"). `[\s\S]` is also refused inside brackets. | Use `(?:.\|\n){0,250}`, and chain two or three of them for a longer window. |
+| A fee table whose text ends in `-->` sits inside an HTML comment, so it is hidden on the live page (SITS: "Total Fees : $26000 -->", then "For fee details, please contact us"). | Do not read it. Hold the fee and say why. |
+| A site builder prints every visibility tag on every page (Webflow, AIAS: "This course is online only", "available full time", "available part time" on all pages). | Same as a legend (section 8): write no delivery pattern. |
+| A careers block prints "Average (median) salary $49,800" and the general reader takes it as a fee (AIAS). | Exclude the fee for that course, as with WorkBC (section 8). |
+| Fees printed per term inside each qualification block of a shared study-area page ("CRICOS Course Code: 115292E Duration: 4 terms (36 college weeks) Cost: A$4,000 /term", Academies Australasia). | Read duration and the per-term cost per course with `{code}` for review only; exclude the general reader's per-term figure as a fee. Not admissible until open item 3. |
+| Many small VET providers' stored pages print only the title, CRICOS code and units, or only the domestic view (Sydney College, AIAS, SITS domestic pages). | Two read pages (track E) does not mean there is anything to read. Expect about one provider in three to pass a field; the rest need Layer 2 (international or central pages) first. |
+| A free, domestic-only NZ programme page ("There is no cost for this programme", "Start dates flexible", People Potential). | Domestic only: keep the adapter in testing, no patterns, do not admit. |
+| A new adapter row takes the table default `admit_fields` (english, fee, intakes). | Never admit by switching admission on alone. Send only the fields that pass in the `admit` call. |
+
+## 10. Added after the second scheduled overnight wave run (7 Oct, 01:11 AEDT, track E)
+
+| Finding | What to do |
+|---|---|
+| Wide keyword patterns match the site's mega-menu first ("IELTS Preparation → Students Resources Fees and charges →", Innovative; "English General English IELTS Packages", Lawson), so the first exploratory capture shows menu text on every page. | Exclude the menu separator in the window (`[^→]{0,200}`) and anchor the real pattern on the course block's own label ("English language proficiency: IELTS", "English Requirement IELTS"). |
+| HTML entities such as `&#038;` and `&#8211;` survive in stored text and contain digits. | A "digit nearby" test is not enough to find a score; anchor on the label. |
+| A site prints the same VET entry block ("IELTS 6.0 (5.5 in each module)") on its ELICOS pages (General English, IELTS Preparation). | Exclude english for the ELICOS courses by course before proposing. The `exclude` action also withdraws any coverage-sweep catalogue value for that course and field, by design; say so in the proposal and the runsheet. |
+| Course facts (delivery, location, duration, fees) sit only in a per-course international PDF ("... Tuition Fees etc. <course> - International 549KB", Lawson). | Not readable from stored pages. Report it for Layer 2 (read the PDFs) and do not pattern. |
+| Facts sit on a support or knowledge-base subdomain rather than the course page (support.griffin.edu.au articles), and the fee reads "The maximum cost for this course is A$29,200 ... depends on country of passport". | A maximum, unlabelled whole-course figure: save it for review only and hold the fee (section 8). |
+| Delivery is printed separately for local and international students ("International Students: The course is delivered through face-to-face lectures and live online sessions"). | Read only the international sentence. Face-to-face lectures plus live online sessions is a required mix (blended): no mode pattern. |
+| The catalogue values a proposal agrees with were written earlier by the coverage sweep from the same page. | The agreement is not independent evidence. State it in the proposal so the Platform Admin can weigh it. |
+
+## 11. Added after the third scheduled overnight wave run (7 Oct, 02:11 AEDT, track E)
+
+| Finding | What to do |
+|---|---|
+| Adapter patterns are matched without regard to case: an exploratory `(IELTS\|PTE\|TOEFL)` matched "pte" inside "September" (Unity, NZ Welding School). | Anchor on a label with punctuation ("IELTS): A band score of"), never on a short code alone. |
+| Every read course is bound to the provider's central fees page (Iona Columba `/fees/`), so the pages are "read" but none is a course page. | Read the table per course with `{code}` for review only. Hold the fee when the table is whole-course, not labelled international or differs from the catalogue. The courses need their own pages found before anything else. |
+| A facts strip prints "Delivery Mode Contact Us" and "Cost Contact Us" on every course page (Construction Training Australia). | Nothing to read. Save duration for review only and report the provider for Layer 2. |
+| The enrolment form's study-mode question ("Online Day - Full Time, Online Evening - Part Time") sits on every programme page (AIE). | A legend, not the course's delivery (section 8). Write no delivery pattern. |
+| A track E provider with only 2 read pages among 7 to 12 courses (Unity, SAE Auckland, NZ Welding School). | Any proposal covers only those 2 courses. Say so in the proposal, and prefer rebinding and Layer 2 reads to more patterns. |
+| An exclusion withdraws coverage-sweep catalogue values for that course and field (section 10). | When a wrong reading is already in the catalogue (NZ Welding School rolling intakes), leave the exclusion to the Platform Admin and report it rather than withdrawing values in an unattended run. |
+
+## 12. Added after the fourth scheduled overnight wave run (7 Oct, 03:11 AEDT, track E)
+
+| Finding | What to do |
+|---|---|
+| ELICOS-only colleges (AICOL, Milestones, MIT Institute) print "Intakes: Every Monday" or "Commencement Dates Any Monday", fees per week or on a central page, and no entry score on most courses. | Rolling weekly starts are not a set of intakes and per-week fees are not annual. Save the adapter in testing with review-only duration and report it; do not expect a proposal. Read English only where a course prints its own entry score (MIT OET Preparation "IELTS 6.5 or equivalent"). |
+| A CRICOS course is bound to the provider's online product page ("from AUD 31 per class", "Single Option $500", Milestones Cambridge Exam Preparation). | Not the CRICOS course view. Never read its price as a fee; report it for rebinding. |
+| A page title and its body name different CRICOS codes (Milestones: title "CRICOS 0101087", body "0101086"), and both courses are bound to it. | Site noise. Do not use the page to separate the two courses; report it. |
+| Exploratory capture on `exit_awards` with "international student\|domestic" matched the site menu ("International Students Page") on every page (Aurora). | Menu text, as in section 10. Anchor exploratory windows on a facts-strip label, and treat a match on every page as a menu or legend. |
+| The overlap-guard run log was written straight into `pipeline.uni_adapter_requests` (the table requires a provider, so the first wave provider was used). | Write run logs and proposals with `admin_uni_adapter_control('request', ...)` and close them with `('answer', ...)`, so they are logged as control events like other requests. |
+
+## 13. Added after the fifth scheduled overnight wave run (7 Oct, 04:11 AEDT, track E)
+
+| Finding | What to do |
+|---|---|
+| One all-inclusive programme fee with no international label ("Program fees are: BSB50120 Diploma of Business $13,500", AICBT), on 52-week courses, equal to the CRICOS international tuition for every course. | Read it with `fee` (one-year programme, lesson 3) and propose it, but say in the proposal that the Platform Admin must confirm the provider is CRICOS-only before admitting (lesson 3 rule for unlabelled figures). |
+| A web-shop line on the course page ("initial payment of AU$4,050, along with an enrolment fee of AU$650, resulting in a total of AU$ 4,700") that the general reader takes as the fee. | Anchor the fee pattern on the programme-fee label, never on a "$" near "fee". A deposit is not a fee. |
+| A course URL that serves a learning-management shell ("Duration 30 hours Enrolled 20 Students Lesson 0 Lessons", Woodstock). | Not a course page (section 8). Write no patterns and report it for Layer 2 or rebinding. |
+| Track E providers with 4 to 6 courses whose stored pages carry no fee, date or English fact at all (Access Recognised Training, Bayside, Excel, Good Shepherd). | Expect nothing from stored pages. Save the adapter in testing with notes only, and point the provider to Layer 2 (international, fees and dates pages). |
+
+## 14. Added after the sixth scheduled wave run (7 Oct, 05:09 AEDT, first run with admit authority)
+
+| Finding | What to do |
+|---|---|
+| Schools (track E with 3 to 5 courses) bind every course to one international page that prints English as a table by year level (AEAS, IELTS, TOEFL) and fees on a separate fees page. | Write no English pattern (no single value per course). Point the provider to Layer 2 for the fees page. Expect nothing admissible from stored pages. |
+| A shared school page says the year "commences in late January and concludes in early December"; the general reader reads January and December as intakes (Redlands). | Exclude intakes by course; December is the year end, not an intake. |
+| Admitted values land at the next coverage sweep (about 4 minutes after `apply`). At UWA, admitting only intakes also wrote 17 English rows from the adapter reading, with no overwrite log. | Record every field's held count before admitting; after the sweep compare all fields, not only the admitted ones; if a field that was not admitted changed, switch admission off at once and report it. |
+| `apply` on an adapter that reads page data (`json_source`) re-reads pages (Macquarie: 21 pages queued). | Before applying a held page-data adapter, say how many pages it will re-read; a stored-pages-only run should prefer adapters without `json_source`. |
+| A held adapter that passes Qualify can still fail rule 7: a fee printed as a range with the lower figure read (Auckland), or a labelled international annual fee on pages that already list next-year starts (Yoobee). | Admit only the fields that pass every rule, and say why each other field is held. |
+
+## 15. Added after the seventh scheduled wave run (7 Oct, 06:52 AEDT, held adapters)
+
+| Finding | What to do |
+|---|---|
+| Track E providers with their own website now have 3 or fewer active courses (79 of 89); a 3-course provider passes the 3-page minimum only if every page reads. | Prefer wave 3 (held adapters) and queue thin cases as proposals; build track E only when a run has time left after held adapters. |
+| Most held adapters that pass Qualify on fee fail rule 7: a whole-course figure with no international label (VIITE, IBMA, Austral, Unity Skills, Kingsford), a 2026 indicative fee on pages listing 2027 starts (UOW), or a standing decision (UTas sub-100-credit-point years). | Hold the fee and name the rule; a Platform Admin rule on unlabelled CRICOS-only fees and on the fee year would release several at once. |
+| Excluding intakes for courses bound to domestic pages also withdraws the coverage-sweep values those courses already held, even when they agreed (Vision College: 10 rows to 8). | Record held counts before excluding, and say in the run entry which drop the exclusion explains. |
+| A provider whose every page says it is not accepting new enrolments (TrEd College) still reads delivery. | Do not admit; report it so a person can decide whether the courses should stay active. |
+| Qualify counts read pages over all pages; nested or domestic pages make the share low even when every relevant page reads (ASA, Vision). | Count the half rule over the pages that print the field's view, after excluding the others, and say so in the admit reason. |
 
 ## 5. Platform fixes made because of these lessons
 

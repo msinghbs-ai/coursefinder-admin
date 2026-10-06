@@ -1,0 +1,38 @@
+{
+  "university": "NZ Welding School Limited",
+  "country": "NZ",
+  "provider_id": "5fba8ccc-dd2a-4487-9f1c-9cf3c4d09ff7",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T15:17:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 02:35 AEDT, scheduled overnight adapter wave run (third run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "DURATION: ([0-9]+ Weeks)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "NZ Welding School (nzweldingschool.co.nz/our-courses/<slug>/, Wiri, Auckland). Two of 7 active courses have a read page (Welding Level 3 4605, Level 4 4606). Pages print 'DURATION: 24 Weeks LOCATIONS: Wiri, Auckland NEXT INTAKE: 18 August, 15 September, 13 October' and 'Fees $4849.40 *You may be eligible for fees free training' plus 'Intakes Every Month!'. The fee is the domestic fee (Fees Free eligibility), so no fee pattern. The intakes are a rolling next-three-dates list on a monthly schedule (lesson 7), not a set of intakes, so no intakes pattern; the catalogue's August, September, October for 4605 and September, October for 4606 came from the coverage sweep reading the same list (held, not excluded here because an exclusion would withdraw those catalogue rows). No IELTS. 5 foundation and trades courses are bound to shared or work-based-training pages (identity mismatch). Treated as domestic-focused: keep in testing, do not admit.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (third run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T15:17:16.450009+00:00"
+  },
+  "exclusions": []
+}

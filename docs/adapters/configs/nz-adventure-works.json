@@ -1,0 +1,36 @@
+{
+  "university": "Adventure Works Limited",
+  "country": "NZ",
+  "provider_id": "0396c6f0-d357-413d-80c3-dad393bc2798",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T14:18:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 01:35 AEDT, scheduled overnight adapter wave run (second run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "AdventureWorks (adventureworks.co.nz, Auckland). NZ private training establishment for outdoor leadership and youth work. Pages print domestic, discounted fees with 'Fees Free may apply' ($950 discounted from $1600 per level 4 to 6 strand; diploma $10,500 a year), regional scheduled strands and a blended youth-work programme. Domestic only (lessons 4 and 7): adapter kept in testing, no patterns, do not admit. 7 of 12 courses are bound to strand or philosophy pages (identity mismatch); not rebound.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T14:18:16.998975+00:00"
+  },
+  "exclusions": []
+}
