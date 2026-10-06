@@ -6,7 +6,7 @@
 
 ## 1. Where we are (live database, 6 Oct 2026)
 
-Active courses: 34,960 across 1,867 providers. "Admitting" means the provider's adapter has admission switched on.
+Active courses: 34,960 across 1,867 providers. "Admitting" means the provider's adapter has admission switched on with at least one field admitted. It does not mean every field is admitted (see the field view below).
 
 | Country | Providers | Adapter exists | No adapter | Admitting | Courses admitting |
 |---|---:|---:|---:|---:|---:|
@@ -24,7 +24,17 @@ Active courses: 34,960 across 1,867 providers. "Admitting" means the provider's 
 
 - 943 of the 980 providers without an adapter have fewer than 20 courses each (4,114 courses). Cost per adapter is the same as for a large provider, so the long tail is slow to close.
 - Of the 181 not-admitting adapters, 54 pass at least one Qualify field (AU 35, NZ 15, CA 4) and 127 pass none (AU 88, NZ 31, CA 8). The earlier Qualify run showed AU 37 of 124, CA 4 of 12 and NZ 16 of 46 passing. Those results are not admitted (standing decision, "Not yet").
-- The target is 80% of active courses, which is 27,968 courses, about 2,980 more than today.
+- On the provider-level measure, 80% of active courses is 27,968, about 2,980 more than today. On the per-field measure the gap is much larger (see the field view).
+
+**Coverage by field (added 6 Oct, 23:55 AEDT, correcting the headline).** The 71.5% above is the share of courses whose provider admits at least one field. By field the picture is lower:
+
+| Field | Courses whose adapter admits it | Share | Courses that hold a value today | Share |
+|---|---:|---:|---:|---:|
+| Intakes | 17,167 | 49.1% | 11,493 | 32.9% |
+| English | 18,518 | 53.0% | 16,711 | 47.8% |
+| Page fee (provider current tuition) | 14,765 | 42.2% | 8,020 | 22.9% |
+
+Of the 706 admitting adapters, 258 admit one field, 264 two, 130 three, 49 four and 5 five. The 80% target needs a decision on which measure applies: provider-level (any field), or per field. Per-field is the stricter and more useful measure, and this plan should be read against it. Reaching 80% on every field needs many more adapters and many more admitted fields, not only the waves below.
 
 ## 2. Readiness of the 980 providers without an adapter
 
@@ -70,7 +80,7 @@ Gains are an upper bound if every course in the wave is admitted. Earlier waves 
 | 6 | Track G: Find, then build as track E | 142 | 918 | up to +2.6 points | About 1,800 credits | Credit budget |
 | 7 | Track H: find each provider's own site; NZ ITOs and domestic-only providers keep an adapter without admission | 321 | 2,090 | up to +6.0 points | Site discovery | Whether small providers get adapters, or a CRICOS-only tier |
 
-Reaching 80%: waves 1 and 2 reach about 79% at the upper bound, and wave 3 (admitting held adapters) is what closes the rest. Waves 5 to 7 take coverage towards 95% but cost the most per course.
+Reaching 80% on the provider-level measure: waves 1 and 2 reach about 79% at the upper bound, and wave 3 (admitting held adapters) closes the rest. On the per-field measure, wave 3 should admit every field that qualifies, and wave 4 repairs adapters for fields that fail. Waves 5 to 7 take coverage towards 95% but cost the most per course.
 
 Per-wave gates: preview on stored pages, measure with `admin_adapter_measures`, Qualify, then admit by field with a reason. Each wave records its configurations in `docs/adapters/configs/` and updates the register the same day. Five providers is a reviewable wave for one person; this plan uses larger waves only where adapters share a template, because review time is the bottleneck.
 
@@ -114,5 +124,5 @@ No cancel, delete or re-queue runs without the Platform Admin approving the list
 
 - Active means `lifecycle_status = 'active'`; every course is currently unpublished, so "admitting" is data coverage, not publication.
 - Track counts use stored pages, so "no pages" means none stored, not none on the web.
-- The 80% target is by courses, not providers.
+- The 80% target is by courses, not providers. Which field measure applies is an open decision.
 - The Qualify results are not admitted, page-wins is applied nowhere, D3 and D8 are not built, and the 169 double degrees stay held (D11).
