@@ -4740,3 +4740,8 @@ The brief now forbids direct table changes.
 - Platform Admin chose to keep Auckland fee admission on and exclude the doubtful rows. 58 fee exclusions were applied through `admin_uni_adapter_control('exclude')`, all 58 calls returned ok: 56 courses whose catalogue page reads the low end of a fee range, AU5549 (odd programme URL ending `.html/1000.html`) and AU5667 (PGCert in Design, half-load figure 27,742).
 - Verified live: Auckland holds `admit = true, admit_fields = {fee}`; 67 active fee exclusion rows now cover the doubtful courses (including the 8 excluded earlier). Admission stays on for the programme-page courses only.
 - Still open from Wave 3: NorthTec intakes, VIITE and Advance Institute fee conflicts, Austral 103761B, Salford; `semester_intake_apply_v1` answered 0 of 11 items (to check); scratch table and probe objects to remove when permitted.
+
+### 7 Oct 2026 (Wed, Melbourne) – Wave 3: open items decided (no change to live data)
+
+- Platform Admin decisions: NorthTec (NZ Institute of Skills and Technology) intakes stay not admitting (rolling starts are not fixed intakes); VIITE and Advance Institute fee conflicts: CRICOS stays the held fee and the adapter fee stays off (no page-wins); Austral 103761B stays excluded and Salford fee stays off.
+- No database change was needed. Wave 3 is closed: Austral (5 courses), IBMA (12) and Auckland fee admitted; 215 adapters remain switched on but not admitting by decision or failed spot-checks.
