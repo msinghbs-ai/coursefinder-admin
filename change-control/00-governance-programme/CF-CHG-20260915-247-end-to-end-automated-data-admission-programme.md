@@ -4711,3 +4711,11 @@ The brief now forbids direct table changes.
 - No adapter built: Clarendon (bound to Academies Australasia study-area pages; none of its own CRICOS codes found), The Centre of Excellence (all 17 courses bound to one Moodle listing), Australian National College (a listing page), Holborne (a generic courses page), AVETA (every page fetch_failed or too thin). These need own-site discovery and rebinding with `set_official_url`.
 - Lesson: a count of bound pages with evidence overstates readiness; count `read_status = 'read'` pages whose text carries the course's own code before planning adapter work.
 - Configs for the three saved adapters are held in the session scratchpad and are not yet exported to `docs/adapters/configs/`.
+
+### 7 Oct 2026 (Wed, Melbourne) – The 480 differing fees: rule and later-year fees applied
+
+- Split of the 480 schedule rows that differ from the fee on record, by fee year: 225 older year (Sunshine Coast 207 on 2025, WSU 11, CSU 6, CDU 1), 160 newer year (UniMelb 116, Federation 15, CSU 13, WSU 9, TAFE Queensland 7), 171 same year (WSU 116, Canberra College 20, AIH 15, CSU 13, USC 4, other 3; Canberra, AIH and TAFE Queensland compare a total with an annual fee, so they are not true conflicts).
+- Platform Admin rule: older-year rows ignored (no change); newer-year rows put to a decision; same-year conflicts listed, not changed.
+- Built: `public.admin_provider_fee_newer_year(action, source_id, note)` (preview or apply; Platform Admin only; reason required; logged as `newer_year_fees_applied`). Migration `20261007001000_cf247_fee_newer_year_apply.sql`, file md5 1f3589a98cf4da1918b3dd033313ccdd equals the recorded statement; PR merged in Coursefinder-Pilot. No UI change, so no release bump.
+- Preview then approval by the Platform Admin; applied 144 later-year (2027) fees: UniMelb 116, Federation University 15, Charles Sturt 13; 0 refused. Verified live: 144 of 144 equal the schedule's annual figure, and all 144 courses still hold their 2026 fee. WSU and TAFE Queensland newer-year rows came to 0 after the year check.
+- Still open: 171 same-year conflicts (needs a decision list), and the fee rules not yet measured: unlabelled CRICOS-only fee, fee year at UOW and Swinburne, UTas credit points, AUT levy.
