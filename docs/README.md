@@ -20,6 +20,7 @@ Do not infer the current document from the highest filename version or from chat
 | Course and scholarship attributes, ingestion and refresh (Decision 162) | `docs/coursefinder-course-attribute-ingestion-v1.0.md` | CURRENT |
 | Complete-coverage delivery plan (Decisions 163–164; go-live 3 Oct 2026) | `docs/coursefinder-complete-coverage-delivery-plan-v1.1.md` | ACTIVE |
 | University adapters: report, decision and design (Decision 254) | `docs/coursefinder-university-adapters-v1.0.md`; register and configurations `docs/adapters/` | CURRENT |
+| Adapter coverage wave plan: 980 providers without adapters (proposed) | `docs/adapters/ADAPTER-COVERAGE-WAVE-PLAN.md` | PROPOSED |
 | Production environment runbook (customer-owned accounts, transfer, migration fallback) | `docs/coursefinder-production-environment-runbook-v1.0.md` | ACTIVE |
 | Complete-coverage delivery plan v1.0 | `docs/coursefinder-complete-coverage-delivery-plan-v1.0.md` | HISTORY — see v1.1 |
 | Daily consumer API and stakeholder updates | `docs/daily-updates/` | DAILY 08:49 IST |
