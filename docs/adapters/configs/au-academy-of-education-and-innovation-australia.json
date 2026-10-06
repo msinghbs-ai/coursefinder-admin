@@ -1,0 +1,36 @@
+{
+  "university": "Academy of Education and Innovation Australia",
+  "country": "AU",
+  "provider_id": "5b88537f-b872-4a6c-8eb2-e4c40527c3ed",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Scheduled wave run 7 Oct 2026 05:1x AEDT: english passes (pages read 8, IELTS read on 7; agreement 7 of 7 = 100%; spot-checks right), ADMIT PROPOSAL #3, Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T18:16:36Z",
+  "config_updated_at": "2026-10-06T13:21:11Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 00:50 AEDT, scheduled overnight adapter wave run",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "ielts_overall": "An IELTS score of ([0-9](?:\\.[05])?)",
+      "duration": "delivered over a total of ([0-9]+ weeks)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "AEI (aei.edu.au/<cricos-or-package-code>-<slug>/). VET course pages print 'Demonstrate English language proficiency through one of the following: An IELTS score of 6.0 (no older than 2 years), or equivalent', read as ielts_overall. Duration printed as 'delivered over a total of N weeks, which includes: X weeks of training and assessment, Y weeks of scheduled breaks' (shown for review). Delivery is 'a combination of: face-to-face classroom-based learning, structured self-study, workplace-based learning' = required mix (blended), so no mode pattern (lessons 3 delivery). No intakes on VET pages; the ELICOS page (096436M General English) prints 'Weekly Intake' (rolling, not readable) and no IELTS. No fees on any stored page.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T13:21:11.895199+00:00"
+  },
+  "exclusions": []
+}

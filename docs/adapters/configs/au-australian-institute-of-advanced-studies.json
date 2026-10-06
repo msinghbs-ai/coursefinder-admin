@@ -1,0 +1,43 @@
+{
+  "university": "Australian Institute of Advanced Studies Pty Ltd",
+  "country": "AU",
+  "provider_id": "138ae7b3-6ea4-4d1b-a2fb-8b5909b2dbdb",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T13:21:11Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 00:50 AEDT, scheduled overnight adapter wave run",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "AIAS (aias.edu.au/course/<slug>, Webflow). Stored pages are the domestic online view: every page prints the same visibility legend ('This course is online only', 'available full time', 'available part time'), so no delivery pattern (lesson 8, legend on every page). No intakes, IELTS or international fee on any stored page; the only dollar figures are 'Average (median) salary' careers blocks, which the general reader can take as a fee (Diploma of Screen and Media 106956M fee excluded). Needs the international course pages found (Layer 2) before any field can be read.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T13:21:11.895199+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "106956M",
+      "title": "Diploma of Screen and Media",
+      "field": "fee",
+      "reason": "Median salary careers block read as a fee by the general reader; no international fee on the page (scheduled wave run 7 Oct, lesson 8)"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "university": "Woodstock International Pty Ltd",
+  "country": "AU",
+  "provider_id": "502fc6fd-8565-49b2-9d43-b3252eff42fc",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T17:16:28Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 04:20 AEDT, scheduled overnight adapter wave run (fifth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Woodstock International (woodstock.sa.edu.au/courses/<package>-<slug>/, Adelaide). The three read course pages are learning-management shells, not course pages: they print 'Duration 30 hours Enrolled 20 Students Lesson 0 Lessons More Courses' (lesson 8, LMS shells) and the site menu ('Fees & Intake Dates', agent forms). No IELTS, international fee, intake months or delivery mode on any stored page, so no patterns. 109184D, 109185C and 120337K are bound to the Certificate III and Certificate IV pages but are identity mismatches (the Certificate IV slug carries a ligature, certi%ef%ac%81cate); not rebound. Needs the real course pages and the central 'Fees & Intake Dates' page (Layer 2).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fifth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T17:16:28.099785+00:00"
+  },
+  "exclusions": []
+}

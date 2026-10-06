@@ -1,0 +1,38 @@
+{
+  "university": "AICOL",
+  "country": "AU",
+  "provider_id": "4af80a9b-80a9-44d8-8483-3558a68baaa8",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T16:17:00Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 03:25 AEDT, scheduled overnight adapter wave run (fourth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "Length(?: of course)?:? ?([0-9]+ ?(?:-|to) ?[0-9]+ weeks)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "AICOL, Australian International College of Language (aicol.com.au, Gold Coast). ELICOS only (General English, EAP, High School Preparation, Young Learners). Pages print 'Commencement Dates Any Monday throughout the year' (rolling weekly start, not a set of intakes, lesson 3) and face-to-face class hours plus guided independent study per week. No entry IELTS (the IELTS text is the course menu: 'IELTS Test Preparation in Australia'), and fees sit on a central 'Costs and Fees' page that is not stored. 106677G IELTS Preparation Level 2 is bound to a 2025 news post and 120596B Primary School Preparation to the high school preparation page (identity mismatch); no evidenced course URL, so not rebound. Duration pattern is review only. Nothing admissible.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fourth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T16:17:00.674772+00:00"
+  },
+  "exclusions": []
+}

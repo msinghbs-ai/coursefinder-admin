@@ -1,0 +1,36 @@
+{
+  "university": "Excel Ministries Charitable Trust",
+  "country": "NZ",
+  "provider_id": "4db5b277-3a0e-45ff-8f5a-09ce4b5a6dc8",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T17:16:28Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 04:20 AEDT, scheduled overnight adapter wave run (fifth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Excel Ministries Charitable Trust, EXCEL School of Performing Arts (excel.ac.nz, Avondale, Auckland). Four hand-bound read pages (NZ Certificate in Dance and Music Level 4, NZ Diploma in Dance and Music Level 5). Stored text is the site menu and a short qualification description only ('Home | Qualifications | Facilities + Story | Apply | Tour | Blog | FAQs'); no fees, IELTS, intake months, delivery or international content. enrols_international is not set for this provider. No patterns; needs the fees and international pages (Layer 2) and a decision on whether it enrols international students.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fifth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T17:16:28.099785+00:00"
+  },
+  "exclusions": []
+}

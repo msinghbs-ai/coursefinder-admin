@@ -1,0 +1,56 @@
+{
+  "university": "Yoobee Colleges Limited",
+  "country": "NZ",
+  "provider_id": "e503631d-05b4-44dd-b438-77c9dfc0c1e5",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english",
+    "intakes"
+  ],
+  "admit_reason": "Scheduled wave run 7 Oct 2026 05:1x AEDT: english and intakes pass (pages read 17; English read on 13, agreement 12 of 12 = 100%; intakes read on 13, agreement 13 of 13 = 100%; spot-checks right). Fee and delivery held, Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T18:16:36.332907+00:00",
+  "config_updated_at": "2026-10-05T12:07:31.798326+00:00",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, security.uni_adapter_json and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 05:05 AEDT, scheduled wave run (sixth run), after admitting english and intakes",
+  "config": {
+    "pick": {},
+    "notes": "Yoobee (yoobee.ac.nz) course pages, one per programme; each names the NZQA award it leads to (\"you will receive the New Zealand Diploma in ... (Level N)\"), which is how catalogue courses (NZQA titles) were bound to the branded pages. Header: \"Level N NZQA 40 weeks\" or \"Level 7 3 years\". Intakes: \"Course Start Dates\" block with campus tabs (Online / Wellington / Auckland / Christchurch) and dated starts. Fee: \"International students Tuition Fees: $27,300 /year (NZD)\" (multi-year programmes, per year) or \"$27,300 (NZD)\" for one-year programmes (34-45 weeks, taken as the annual fee); resource/enrolment fees left out. Sub-year programmes (16-19 weeks) print one total: fee excluded for those courses. Delivery from the start-date campuses (Online Campus only = online). IELTS overall from the entry requirements. Many catalogue courses (beauty, hairdressing, barbering, tourism, hospitality, nursing, health) belong to sister schools of the same NZQA provider on other websites and have no Yoobee page.",
+    "reason": "Yoobee adapter round 2: online-only start dates headed \"Full-Time Start Dates\" read as online; NZQA title without its level matches the page heading (Claude night run, on the Platform Admin instruction 5 Oct 21:44)",
+    "enabled": true,
+    "reading": {},
+    "patterns": {
+      "fee": "International students\\s*Tuition Fees:\\s*\\$\\s*([0-9,]+)",
+      "mode": "Course Start Dates\\s*(?:Full-time\\s*(?:Intakes|Start Dates)?\\s*)?All (Online)\\s+Online Campus|Course Start Dates(?:.|\\n){0,200}?\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d(?:.|\\n){0,100}",
+      "intakes": "Course Start Dates(?:.|\\n){0,200}?(\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\\d\\d(?:(?:.|\\n)(?!Ready to apply|Check out|FAQs|Software &|Next round|Audition)){0,250})",
+      "duration": "(?:Level \\d+ (?:NZQA )?|for the period of )([0-9]+ (?:weeks|years?|months))",
+      "location": "Course Start Dates\\s*(?:Full-time\\s*(?:Intakes|Start Dates)?\\s*)?All ((?:(?:Online|Wellington|Auckland|Christchurch)\\s*){1,4})",
+      "study_level": "(?:receive|earn) the ((?:.|\\n){0,110}?\\(Level \\d+\\))",
+      "ielts_overall": "IELTS(?: level)?(?: \\((?:General or )?Academic\\))?\\s*([4-9](?:\\.[05])?)",
+      "entry_requirement": "Entry Requirements\\s*((?:.|\\n){20,200})"
+    },
+    "sections": {},
+    "page_view": {},
+    "json_paths": {},
+    "updated_at": "2026-10-05T12:07:31.798326+00:00",
+    "json_source": null,
+    "term_months": {},
+    "title_strip": null,
+    "section_chars": 2000,
+    "course_title_strip": "\\s*\\(Level \\d+\\)\\s*$"
+  },
+  "exclusions": [
+    {
+      "field": "fee",
+      "title": "New Zealand Certificate in Digital Media and Design (Level 4)",
+      "reason": "Fee 15,225 is the whole fee of a 19-week certificate, not an annual fee (one-semester rule would give 30,450; not readable by the adapter) (Claude night run, on the Platform Admin instruction 5 Oct 21:44)",
+      "course_code": "2629"
+    },
+    {
+      "field": "fee",
+      "title": "New Zealand Diploma in Drama (Level 6)",
+      "reason": "Fee 54,600 is the two-year total; the page prints 27,300 a year but the hand-bound page is read by the general reader (Claude night run, on the Platform Admin instruction 5 Oct 21:44)",
+      "course_code": "3429"
+    }
+  ]
+}

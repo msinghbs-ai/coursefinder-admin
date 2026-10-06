@@ -1,0 +1,36 @@
+{
+  "university": "People Potential Limited",
+  "country": "NZ",
+  "provider_id": "4f260fab-9cfa-4b92-855c-e72a757f359a",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T13:21:11Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 00:50 AEDT, scheduled overnight adapter wave run",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {},
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "People Potential (peoplepotential.co.nz). NZ private training establishment with free, domestic programmes ('PROGRAMME FEES: There is no cost for this programme', 'START DATES Flexible, contact us'). Domestic only (lessons 4 and 7): adapter kept in testing, nothing to admit, no patterns.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T13:21:11.895199+00:00"
+  },
+  "exclusions": []
+}

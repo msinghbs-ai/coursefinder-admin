@@ -1,0 +1,166 @@
+{
+  "university": "Academies Australasia Institute",
+  "country": "AU",
+  "provider_id": "343dbbcf-8ce8-4b0c-93cf-397a1f7472dc",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T13:21:11Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 00:50 AEDT, scheduled overnight adapter wave run",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "duration": "CRICOS Course Code: {code} Duration: ([^\\n]{0,40}?) Cost",
+      "location": "CRICOS Course Code: {code} Duration: [^\\n]{0,40}? Cost: (A\\$[0-9,]+ ?/term)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Academies Australasia Institute (academies.edu.au/courses-<city>-<area>/). One shared page per study area covers several qualifications; each block prints 'CRICOS Course Code: <code> Duration: N terms (X college weeks) Cost: A$Y /term', so duration and the per-term cost are read per course with {code} for review only (location field holds the per-term cost). Fees are per term only (lesson 7, open item 3: not readable until per-term annualisation exists); the general reader's per-term figures are excluded as fees for every read course. No intakes and no IELTS on course pages. 095624D is bound to a 2025 news post and 9 courses to the pathways page or the intranet (identity mismatch); no evidenced course URL in stored links, so not rebound (needs a person).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T13:21:11.895199+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "093094G",
+      "title": "Certificate IV in Travel and Tourism",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "093095G",
+      "title": "Diploma of Travel and Tourism Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "104111F",
+      "title": "Diploma of Project Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "104147E",
+      "title": "Diploma of Leadership and Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "104473B",
+      "title": "Advanced Diploma of Program Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "105588E",
+      "title": "Certificate IV in Information Technology",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "105589D",
+      "title": "Diploma of Information Technology",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "105590M",
+      "title": "Advanced Diploma of Information Technology",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "105596E",
+      "title": "Advanced Diploma of Agribusiness Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "106527K",
+      "title": "Certificate IV in Marketing and Communication",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "106528J",
+      "title": "Diploma of Marketing and Communication",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "106529H",
+      "title": "Advanced Diploma of Leadership and Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "106530D",
+      "title": "Advanced Diploma of Marketing and Communication",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "109446J",
+      "title": "Advanced Diploma of Travel and Tourism Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "111686H",
+      "title": "Certificate IV in Travel and Tourism",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "111687G",
+      "title": "Diploma of Travel and Tourism Management",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "115292E",
+      "title": "Diploma of Agriculture",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "116056J",
+      "title": "Diploma of Community Services",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "116057H",
+      "title": "Certificate III in Individual Support",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "118689D",
+      "title": "Diploma of Community Services",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    },
+    {
+      "course_code": "119732J",
+      "title": "Certificate IV in Travel and Tourism",
+      "field": "fee",
+      "reason": "Fee printed per term only (Cost: A$ /term); the general reader's figure is not an annual fee (scheduled wave run 7 Oct, lessons 7 and open item 3)"
+    }
+  ]
+}

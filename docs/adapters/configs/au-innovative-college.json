@@ -1,0 +1,49 @@
+{
+  "university": "Innovative College Pty Ltd",
+  "country": "AU",
+  "provider_id": "0d168ba2-dc21-4622-aefd-cfcc7ec2e79c",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "Scheduled wave run 7 Oct 2026 05:1x AEDT: english passes (pages read 13, IELTS read on 11 of 11 non-excluded; agreement 11 of 11 = 100%; spot-checks right), ADMIT PROPOSAL #6, Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T18:16:36Z",
+  "config_updated_at": "2026-10-06T14:23:17Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 01:35 AEDT, scheduled overnight adapter wave run (second run)",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "ielts_overall": "English language proficiency: IELTS ([0-9](?:\\.[05])?)",
+      "duration": "Duration ([0-9]+(?:–[0-9]+)? weeks) Fees"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Innovative College (invcollege.edu.au/courses/<slug>, North Parramatta). Course pages print a facts strip 'Duration N weeks Fees Contact us Code <package> CRICOS <code> Total Units N' and an entry block 'English language proficiency: IELTS 6.0 (5.5 in each module) or equivalent test accepted by the Department of Home Affairs' (read as ielts_overall; the site menu also mentions IELTS Preparation, so the pattern is anchored on 'English language proficiency:'). The ELICOS pages (General English 110728M, IELTS Preparation 110730F) carry the same site-wide 6.0 block, which is not their entry level, so English is excluded for those two courses. Fees: 'Contact us' only (not published). Intakes: only in a downloadable brochure PDF (not stored). Delivery: not printed as a mode (the word only appears in qualification descriptions).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: notes corrected (ELICOS pages), testing, admission off",
+    "updated_at": "2026-10-06T14:23:17.377298+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "110728M",
+      "title": "General English - Elementary to Advanced",
+      "field": "english",
+      "reason": "ELICOS course (General English or IELTS Preparation): IELTS 6.0 is the site-wide VET entry block, not this course's entry level (scheduled wave run 7 Oct, lesson 4 exclusions)"
+    },
+    {
+      "course_code": "110730F",
+      "title": "IELTS Preparation",
+      "field": "english",
+      "reason": "ELICOS course (General English or IELTS Preparation): IELTS 6.0 is the site-wide VET entry block, not this course's entry level (scheduled wave run 7 Oct, lesson 4 exclusions)"
+    }
+  ]
+}

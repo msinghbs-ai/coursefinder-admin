@@ -1,0 +1,38 @@
+{
+  "university": "Iona Columba College",
+  "country": "AU",
+  "provider_id": "5df5514a-98b2-4793-8a5f-472f01a3c36a",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T15:17:16Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 02:35 AEDT, scheduled overnight adapter wave run (third run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "location": "{code} (\\$[0-9,]+)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Iona Columba College (iona.edu.au, Sydney). Every read course is bound to the central fees page (/fees/), not a course page. The page prints 'Tuition Fees The tuition fees below apply to students commencing their course in 2026 ... Total tuition fee' as a table (National code, course name, CRICOS code, total), read per course with {code} for review only into location (for example 117093G $6,240). These are whole-course totals with no duration and no international label (the page refers to a 'domestic and international course brochure'), and they differ from the catalogue's international tuition (117093G page $6,240 against catalogue $6,800), so no fee pattern is written and the fee is held (lesson 8). No IELTS, intakes or delivery on stored pages. 099651B is bound to /tuition_fees/ (identity mismatch). The course pages need finding (Layer 2) before any rebind.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (third run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T15:17:16.450009+00:00"
+  },
+  "exclusions": []
+}

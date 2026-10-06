@@ -1,0 +1,56 @@
+{
+  "university": "ASA Institute of Higher Education",
+  "country": "AU",
+  "provider_id": "7ccf8b4a-9550-439b-a69d-b5b84d679d4e",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "intakes"
+  ],
+  "admit_reason": "Scheduled wave run 7 Oct 2026 06:5x AEDT: intakes pass (pages read 16; counted over the 6 main course pages that print Intake Options, nested-qualification pages already excluded: read on 6, agreement 6 of 6 = 100%, spot-checks right: January, April, July, October), Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T19:54:11Z",
+  "config_updated_at": "2026-10-05T13:13:38Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 07:0x AEDT, scheduled wave run (seventh run)",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "mode": "Delivery ((?:.|\\n){0,40}?) Course Duration",
+      "intakes": "Intake Options ((?:.|\\n){0,70})",
+      "duration": "Course Duration ([0-9.]+ (?:years?|months?)(?: Full Time)?)",
+      "aqf_level": "AQF Level (?:AQF Level )?([0-9]+)",
+      "entry_requirement": "Entry Requirements ((?:.|\\n){0,200})"
+    },
+    "pick": {
+      "mode": "first",
+      "intakes": "first",
+      "duration": "first",
+      "aqf_level": "first",
+      "entry_requirement": "first"
+    },
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Main course pages (asahe.edu.au/courses/...) print Delivery, Course Duration, Intake Options and AQF Level in one line. Nested qualification pages (asahe.edu.au/nested-qualifications/...) carry none of these, so intakes there are excluded (a footer sentence \"Starting from July 1, 2024\" had been misread as July). Tuition is charged per unit of study with no annual figure on the course pages, so no fee is read. Key dates and Pricing Information are separate pages; their addresses are not in stored links.",
+    "reason": "ASA adapter from captured and stored pages (Claude night run, on the Platform Admin instruction 5 Oct 21:44)",
+    "updated_at": "2026-10-05T13:13:38.176681+00:00"
+  },
+  "exclusions": [
+    {"course_code": "108860C", "title": "Associate Degree in Business and Technology", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "108861B", "title": "Diploma of Business and Technology", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117598D", "title": "Graduate Diploma of Information Technology (Cyber Security)", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117599C", "title": "Graduate Certificate of Information Technology (Cyber Security)", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117601C", "title": "Graduate Diploma of Information Technology (Artificial Intelligence)", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117602B", "title": "Graduate Certificate of Information Technology (Artificial Intelligence)", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117604M", "title": "Graduate Diploma of Software Application Development", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117605K", "title": "Graduate Certificate of Software Application Development", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117607H", "title": "Graduate Diploma of Project Management", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"},
+    {"course_code": "117608G", "title": "Graduate Certificate of Project Management", "field": "intakes", "reason": "Nested qualification page prints no intakes; July came from a footer sentence (Claude night run, on the Platform Admin instruction 5 Oct 21:44)"}
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "university": "Step Into Training Services (SITS)",
+  "country": "AU",
+  "provider_id": "53056fe0-7c7d-4e2a-a2c6-3c77babeee30",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T13:21:11Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 00:50 AEDT, scheduled overnight adapter wave run",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in the queued ADMIT PROPOSAL.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "ielts_overall": "IELTS band ([0-9](?:\\.[05])?) or equivalent",
+      "duration": "Duration ?: ([0-9]+ (?:weeks|months))"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "SITS College (sits.edu.au). International pages /international/<slug>/ print 'IELTS band 6.0 or equivalent' (read as ielts_overall). Five of six read pages are the domestic view (/domestic/<slug>/) with domestic fee-for-service and VET Student Loan figures; their fee and intakes are excluded and no international variant URL is evidenced in stored links, so they are not rebound. The international fee block ('Material Fees: Tuition Fees: Enrolment Fees: Total Fees: $700 $25000 $300 $26000') sits inside an HTML comment (text ends '-->', the page shows 'For fee details, please contact us'), so it is hidden on the live page and no fee pattern is written. Intakes only on a central 'Intake Dates' link ('2026 Intake Dates : Click Here'); no stored central page. Delivery: international page 'Face to Face', domestic pages 'Face to Face Online Learning' or 'Face to Face Workplace: On the job' (held, not patterned).",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026: adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T13:21:11.895199+00:00"
+  },
+  "exclusions": [
+    {
+      "course_code": "104283H",
+      "title": "Diploma of Leadership and Management",
+      "field": "fee",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "104283H",
+      "title": "Diploma of Leadership and Management",
+      "field": "intakes",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "105235H",
+      "title": "Advanced Diploma of Civil Construction Design",
+      "field": "fee",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "105235H",
+      "title": "Advanced Diploma of Civil Construction Design",
+      "field": "intakes",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "107409H",
+      "title": "Advanced Diploma of Leadership and Management",
+      "field": "fee",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "107409H",
+      "title": "Advanced Diploma of Leadership and Management",
+      "field": "intakes",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "113078E",
+      "title": "Certificate III in Commercial Cookery",
+      "field": "fee",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "113078E",
+      "title": "Certificate III in Commercial Cookery",
+      "field": "intakes",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "113079D",
+      "title": "Certificate IV in Kitchen Management",
+      "field": "fee",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    },
+    {
+      "course_code": "113079D",
+      "title": "Certificate IV in Kitchen Management",
+      "field": "intakes",
+      "reason": "Bound to the domestic page (/domestic/); no evidenced international page in stored links (scheduled wave run 7 Oct, lesson 2)"
+    }
+  ]
+}

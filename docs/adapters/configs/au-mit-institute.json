@@ -1,0 +1,39 @@
+{
+  "university": "MIT Institute Pty Ltd",
+  "country": "AU",
+  "provider_id": "404625b9-996c-41a6-91dc-32fd8dd90d51",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T16:17:00Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json) and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 03:25 AEDT, scheduled overnight adapter wave run (fourth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields in a queued ADMIT PROPOSAL; none was queued for this provider.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "ielts_overall": "IELTS ([0-9](?:\\.[05])?) or equivalent Course Length",
+      "duration": "Course Length ([0-9]+-week block|[0-9]+ ?(?:-|to) ?[0-9]+ weeks)"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "MIT Institute (mitinstitute.nsw.edu.au/<slug>, Sydney). ELICOS courses (General English, Foundation in IELTS, EAP and IELTS, FCE, OET Preparation). Each page has a facts strip; OET Preparation prints 'IELTS 6.5 or equivalent Course Length 6-week block', read as ielts_overall (agrees with the catalogue's coverage-sweep 6.5, same page). The other four print 'Intake Every Monday' (rolling, lesson 3) and no entry score in the strip; FCE lists 'IELTS General Training 5.0, TOEIC 560' as one entry option among several (not read). English is therefore read on 1 of 5 read pages, under the half rule, and is held. No fees on course pages (brochure download only). Nothing admissible this run.",
+    "reason": "Scheduled overnight adapter wave run (CF-247, Decision 254), 7 Oct 2026 (fourth run): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T16:17:00.674772+00:00"
+  },
+  "exclusions": []
+}

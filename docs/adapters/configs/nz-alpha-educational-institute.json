@@ -1,0 +1,38 @@
+{
+  "university": "Alpha Educational Institute Limited",
+  "country": "NZ",
+  "provider_id": "ec0a098e-c1f9-4cb2-9a1c-b15be44ea7dc",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T18:18:24Z",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters and pipeline.uni_adapter_exclusions (active), 7 Oct 2026 05:05 AEDT, scheduled wave run (sixth run)",
+  "note_on_admit_fields": "admit_fields holds the table default (english, fee, intakes) and admission is off. An admit must send only the fields that pass the admit rule.",
+  "config": {
+    "enabled": true,
+    "json_source": null,
+    "json_paths": {},
+    "sections": {},
+    "patterns": {
+      "ielts_overall": "IELTS ([0-9](?:\\.[05])?) with individual no bands? less than"
+    },
+    "pick": {},
+    "term_months": {},
+    "reading": {},
+    "section_chars": 2000,
+    "title_strip": null,
+    "course_title_strip": null,
+    "page_view": {},
+    "notes": "Alpha Educational Institute (aei.ac.nz, NZ). Business diploma pages print 'IELTS 5.5 with individual no bands less than 5.0' (Level 5) and 'IELTS 6.0 with individual no bands less than 5.5' (Level 6), read as ielts_overall. Only 2 courses: thin evidence, proposal queued, not admitted. No fees (fee-protection text only) or intake months.",
+    "reason": "Scheduled wave run 7 Oct 2026 (sixth run, CF-247, Decision 254): adapter built on stored pages and saved in testing, admission off",
+    "updated_at": "2026-10-06T18:18:24.927920+00:00"
+  },
+  "exclusions": []
+}

@@ -2,16 +2,14 @@
   "university": "Macquarie University",
   "country": "AU",
   "provider_id": "188103a5-1aba-4f99-bd3e-0416659086d3",
-  "status": "Testing",
+  "status": "Admitting",
   "enabled": true,
-  "admit": false,
+  "admit": true,
   "admit_fields": [
-    "english",
-    "fee",
-    "intakes"
+    "english"
   ],
-  "admit_reason": null,
-  "admit_changed_at": null,
+  "admit_reason": "Scheduled wave run 7 Oct 2026 05:1x AEDT: english passes (pages read 270, English read on 153 = 80% of read pages; agreement 6 of 6 = 100% where the catalogue holds values; spot-checks right: page-data IELTS), Platform Admin authority 7 Oct 2026",
+  "admit_changed_at": "2026-10-06T18:16:36Z",
   "config_updated_at": "2026-10-05T06:16:44Z",
   "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active), pipeline.provider_fact_sources (manual, rank 9) and pipeline.provider_policy_proposals (english_policy, proposed), 5 Oct 2026 18:51 AEDT",
   "config": {
