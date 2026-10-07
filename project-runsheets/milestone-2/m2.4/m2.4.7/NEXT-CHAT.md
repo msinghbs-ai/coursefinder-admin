@@ -4722,3 +4722,9 @@ The brief now forbids direct table changes.
 - Fixed (migration 20261007001500, md5-guarded): both checks now also require the field to be in the adapter's admitted fields. Readings from the general reader are unchanged.
 - The 17 English rows were kept: the values (IELTS 6.5/6.0, 7.0/6.5, 7.5/7.0) match the spread of UWA's other rows from the CRICOS-coded course pages. Platform Admin chose to keep them and re-admit UWA intakes; done (`admit = true, admit_fields = {intakes}`).
 - Verified after the 17:10 sweep: UWA English rows stay at 193 and intakes at 353 (no unadmitted field changed).
+
+### 7 Oct 2026 (Wed, Melbourne) – Fee-year check across adapters; CSU setting removed
+
+- Compared adapter page fees with approved schedules for every provider holding both. WSU (setting 2027): 93 match the 2027 schedule, none the 2026; setting right. CSU (setting 2027): pages are mixed; 12 page fees filed as 2027 equal the 2026 schedule. USC and Federation match the same year. CDU: 89 page fees printed as 2027 equal the 2026 schedule (no 2027 schedule held; cannot judge). TAFE Qld: 7 of 48 equal the 2027 schedule. Melbourne, Newcastle, CCMT, AIM, ACU, AIH: no overlapping schedule course.
+- Platform Admin decisions: CSU fee-year setting removed; the 12 courses excluded from the adapter fee and refiled from the schedules (2026: 12 written; 2027: 10 written through the later-year function). Verified: 12 of 12 2026 fees equal the 2026 schedule, 10 of 10 2027 fees equal the 2027 schedule; intact after the 18:20 sweep. CDU and TAFE Qld left for review.
+- Lesson: a provider-wide fee-year setting is only safe where every page shows the same year; test each provider against its schedules first.
