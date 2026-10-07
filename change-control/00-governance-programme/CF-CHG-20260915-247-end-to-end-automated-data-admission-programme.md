@@ -4822,3 +4822,9 @@ The brief now forbids direct table changes.
 - Kept after checking: PlatformMaturity (its three views are distinct: Layer 4 blocks, capacity, go-live gates); `layer2-operations-entry.jsx` and `EnrichmentOperations.jsx` (unused by the app but read by 8 passing contract specs); the Layer 2 configuration editor stays at rank 5 (the only way to create a new configuration version). Open decisions: retire those two files with their specs; whether configuration versions become Platform Admin only.
 - Tests: 419 contract specs pass; 17 failures existed before (18 on main), none new.
 - Publishing: Platform Admin chose to wait; the published-only filter on the website and Wix APIs is applied in the same step as the first pilot publish.
+
+### 7 Oct 2026 (Wed, Melbourne) – Data-quality clean-up
+
+- 41 values reported as written outside admitted fields: a false alarm. The 35 Toi Ohomai fees were written by the credit-fee rule approved on 5 Oct (13:02); the 6 RMIT and Griffith intakes are exit awards that copied their parent course's intakes under the admitted exit-awards field. No change; the check must exclude rule and exit-award writes.
+- Tuition with no fee year (221 rows; migration 20261007001800, PR on the code repo): 6 Newcastle rows read from its 2026 undergraduate schedule were stamped 2026; the other 215 (mainly Layer 3 admissions where the page gives no period and per year was assumed under the 29 Sep rule, plus Aventia's 2021 schedule, UQ and Federation August rows, and 4 Newcastle rows that differ from a held 2026 fee) are pending in Layer 4 review with the reason. Values stay shown until decided. Verified: 0 untreated year-less rows; 215 pending items.
+- Fees on 809 inactive courses (about 2,421 mostly CRICOS registered rows): left as they are by decision (never projected or published).
