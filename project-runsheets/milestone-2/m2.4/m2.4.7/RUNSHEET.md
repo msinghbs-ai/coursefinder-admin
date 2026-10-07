@@ -4766,3 +4766,10 @@ The brief now forbids direct table changes.
 ### 7 Oct 2026 (Wed, Melbourne) – Three adapter configurations exported
 
 - Exported from the live database to `docs/adapters/configs/`: Apex Australia Vocational Education (admitting, English), Global Business College of Australia (testing) and Platinum Institute (testing), with their active exclusions (7, 12 and 0). Each file's configuration, exclusions and admission state were checked equal to the live database (`security.uni_adapter_json`, active exclusions, `admit`) before commit. Three rows added to the adapter register.
+
+### 7 Oct 2026 (Wed, Melbourne) – UWA rollback reviewed and closed; admitted-field gate fixed
+
+- Cause found: the 17 UWA English rows were not written by the adapter overwrite (which checks the admitted fields) but by the coverage sweep's fill-empty path (`security.coverage_admission_plan_v1`). That path accepted an adapter's English and intake readings whenever the adapter was admitting any field. This was a platform-wide gap, not a UWA fault; fees were not affected.
+- Fixed (migration 20261007001500, md5-guarded): both checks now also require the field to be in the adapter's admitted fields. Readings from the general reader are unchanged.
+- The 17 English rows were kept: the values (IELTS 6.5/6.0, 7.0/6.5, 7.5/7.0) match the spread of UWA's other rows from the CRICOS-coded course pages. Platform Admin chose to keep them and re-admit UWA intakes; done (`admit = true, admit_fields = {intakes}`).
+- Verified after the 17:10 sweep: UWA English rows stay at 193 and intakes at 353 (no unadmitted field changed).
