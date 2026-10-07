@@ -4673,3 +4673,11 @@ The brief now forbids direct table changes.
 
 - Platform Admin decisions: NorthTec (NZ Institute of Skills and Technology) intakes stay not admitting (rolling starts are not fixed intakes); VIITE and Advance Institute fee conflicts: CRICOS stays the held fee and the adapter fee stays off (no page-wins); Austral 103761B stays excluded and Salford fee stays off.
 - No database change was needed. Wave 3 is closed: Austral (5 courses), IBMA (12) and Auckland fee admitted; 215 adapters remain switched on but not admitting by decision or failed spot-checks.
+
+### 7 Oct 2026 (Wed, Melbourne) – Same-year fee conflicts reviewed; WSU fee year corrected
+
+- Review of 174 same-year fee conflicts between approved schedules and held fees: WSU 117, CCMT 17, AIH 15, CSU 12, TAFE Qld 7, USC 4, Newcastle 1, AIM 1. Platform Admin decisions: rows within 3% of the held fee are ignored (TAFE Qld 7, Newcastle 1); the other conflicts (CCMT, AIH, CSU, USC, AIM) are held until a per-provider spot-check.
+- WSU finding: course pages print no fee year, and 93 of 102 page reads equal the 2027 schedule exactly, so they were 2027 fees filed as 2026. Platform Admin chose to relabel. Two admin functions were added (migrations 20261007001100 `admin_provider_fee_year_relabel` and 20261007001200 `admin_provider_fee_schedule_refile`, PRs on the code repo).
+- Outcome (93 courses, verified live): 2026 fee from the 2026 schedule and 2027 fee from the 2027 schedule (every 2026 fee is below its 2027 fee). The 93 courses are excluded from the WSU adapter fee so the sweep cannot overwrite them; the exclusion also withdrew the page read, which is why the fees were refiled from the schedules.
+- Lesson: the first relabel was reverted by the hourly sweep (it rewrote the 2026 rows and superseded the 2027 rows). The sweep holds one fee per course and takes its year from the date, so a page with no printed year needs an exclusion or a year setting. Post-sweep check is scheduled for the 13:10 run.
+- Still open: WSU 9 non-matching rows and 14 other WSU conflicts; the adapter fee-year setting (no config exists; a code change to the sweep would be needed); CCMT, AIH, CSU, USC and AIM spot-checks.
