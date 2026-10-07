@@ -4732,3 +4732,9 @@ The brief now forbids direct table changes.
 - Outcome (93 courses, verified live): 2026 fee from the 2026 schedule and 2027 fee from the 2027 schedule (every 2026 fee is below its 2027 fee). The 93 courses are excluded from the WSU adapter fee so the sweep cannot overwrite them; the exclusion also withdrew the page read, which is why the fees were refiled from the schedules.
 - Lesson: the first relabel was reverted by the hourly sweep (it rewrote the 2026 rows and superseded the 2027 rows). The sweep holds one fee per course and takes its year from the date, so a page with no printed year needs an exclusion or a year setting. Post-sweep check is scheduled for the 13:10 run.
 - Still open: WSU 9 non-matching rows and 14 other WSU conflicts; the adapter fee-year setting (no config exists; a code change to the sweep would be needed); CCMT, AIH, CSU, USC and AIM spot-checks.
+
+### 7 Oct 2026 (Wed, Melbourne) – Same-year fee conflicts: CSU corrected, AIH/CCMT/USC closed
+
+- CSU (12 conflicts): same year-label problem as WSU. Course pages print no fee year and the page reads equal the 2027 schedule, so they were 2027 fees filed as 2026. Platform Admin approved the same fix: the 12 courses were excluded from the CSU adapter fee, the 2026 fees were refiled from the 2026 schedule (16 written, including 4 courses that had no fee) and the 2027 fees filed from the 2027 schedule through the later-year function (15 written, including 3 genuine later-year changes). Verified live: 2026 fee below 2027 fee for 23 of 24 later-year rows.
+- AIH (15) and CCMT (17): not price conflicts. The schedules show the whole-course total and the held fees are one year; closed with no action. USC (4): older-year documents; closed with no action. TAFE Qld (7) and Newcastle (1) were within 3% and ignored. AIM (1) stays held.
+- The post-sweep check for WSU and CSU is scheduled for after the 13:10 sweep.
