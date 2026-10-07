@@ -4692,3 +4692,9 @@ The brief now forbids direct table changes.
 
 - `semester_intake_apply_v1` is run every 10 minutes by the `provider-calendar-intakes` scheduled job (last runs succeeded), so the 11 items it answered 0 of at the time were applied on the next run. Live: 26 Layer 4 items answered from the course page and an approved calendar (Decision 228); no 'answer' items remain.
 - Remaining outcomes: 48 no calendar (the university's calendar is not approved yet), 25 held, 10 period unknown. Approving the 12 'review' and 8 'skip' calendars from the workbook is the way to release the 48.
+
+### 7 Oct 2026 (Wed, Melbourne) – University calendars: four more approved
+
+- Review of the 8 'skip' calendars (workbook): official pages were found by web search (no Firecrawl credits spent). Platform Admin approved, through `admin_provider_calendar_set`: University of Melbourne (Semester 1 Mar, Semester 2 Jul), UNSW (Term 1 Feb, Term 2 Jun, Term 3 Sep), CQUniversity (Term 1 Mar, Term 2 Jul, Term 3 Nov), University of British Columbia (Term 1 Sep, Term 2 Jan, winter terms only). Summer and winter terms are not mapped.
+- Left out by decision: Kwantlen (Fall, Spring, Summer terms cannot be stored as numbered periods), ECU (page read looked wrong), University of Sydney and UQ (no usable official page found). The 12 'review' calendars (Newcastle, UTS, VU, UOW, UWA, Torrens, SCU, Excelsia, UNE, CSU, CDU, USQ) still need official main-semester months.
+- Effect: 6 course intake items can be answered now (CQU 5, UNSW 1; Melbourne and UBC 0). Calendars only answer courses whose page quotes a period, so the gain is small, as the university rule (no blanket default) expects.
