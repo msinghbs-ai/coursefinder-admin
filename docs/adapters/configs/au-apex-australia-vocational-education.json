@@ -1,0 +1,87 @@
+{
+  "university": "Apex Australia Vocational Education",
+  "country": "AU",
+  "provider_id": "4bd30aeb-ffe4-4c0d-9794-db5ff7513628",
+  "status": "Admitting",
+  "enabled": true,
+  "admit": true,
+  "admit_fields": [
+    "english"
+  ],
+  "admit_reason": "CF-247 Decision 254: IELTS 6.0 read on 12 of 13 read pages (92%), 12 of 12 agree with catalogue, spot-checked against page text on 3 courses. Fee, delivery and intakes not admitted.",
+  "admit_changed_at": "2026-10-06T21:25:05.733199+00:00",
+  "config_updated_at": "2026-10-06T21:21:00.079885+00:00",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active) and pipeline.provider_policy_proposals (approved or proposed), 7 Oct 2026 14:20 AEDT",
+  "config": {
+    "pick": {},
+    "notes": "Apex Australia (vet.apexaustralia.edu.au/courses/<slug>), one course per page, server-rendered text. Key facts: 'CRICOS Course Code: <code> ... Quick Details Study mode X Campus locations Y Course duration N weeks Full-Time Course Fees ...'; lower down 'Course Duration and Delivery N Weeks ... Course Fees Tuition Fee: $T * Enrolment Fee ... Resources Fee ...'. Tuition Fee is a whole-course figure with no international label (page says it is for domestic and international students) and for most courses it disagrees with the CRICOS register total, so fee_total and course_years are read for review only and the fee is not admitted (fee rule 7). General English prints $290 per week (not read). English: 'IELTS 6.0 or equivalent' in Entry Requirements on VET pages (not on General English or EAP). Delivery: 'Face-to-Face' (General English) or 'Blended (face-to-face and online)' (VET); blended is a required mix, so delivery is not admitted unless the reader understands it. Intakes: the page prints only stale dates ('Intake Dates 12 Aug 2024 ... 14 Apr 2025 View More 12 July 2021') or a hidden 'View Intakes' panel, so no intakes pattern; the general reader's July is stale and must not be admitted. Nine other bound pages failed to fetch (evidence kept, not read).",
+    "reason": "CF-247 Decision 254: Apex adapter built on stored pages, saved in testing, admission off until measured",
+    "enabled": true,
+    "reading": {},
+    "patterns": {
+      "mode": "{code}(?:.|\\n){0,150}?Study mode\\s+((?:.|\\n){3,60}?)\\s+(?:Campus locations|Location)",
+      "campus": "Study mode(?:.|\\n){3,60}?(?:Campus locations|Location)\\s+((?:.|\\n){3,120}?)\\s+Course [Dd]uration",
+      "duration": "{code}(?:.|\\n){0,250}?Course [Dd]uration\\s+([0-9][^\\n]{0,40}?)\\s+Course Fees",
+      "fee_total": "Course Duration and Delivery\\s+[0-9]+\\s*[Ww]eeks(?:.|\\n){0,150}?Tuition Fee:\\s*\\$\\s*([0-9][0-9,]*)\\s*\\*",
+      "course_years": "{code}(?:.|\\n){0,250}?Course [Dd]uration\\s+([0-9]+\\s*[Ww]eeks)\\s+(?:Full-Time\\s+)?Course Fees",
+      "ielts_overall": "IELTS\\s+([4-9](?:\\.[05])?)\\s+or equivalent"
+    },
+    "sections": {},
+    "page_view": {},
+    "json_paths": {},
+    "updated_at": "2026-10-06T21:21:00.079885+00:00",
+    "json_source": null,
+    "term_months": {},
+    "title_strip": null,
+    "section_chars": 2000,
+    "course_title_strip": null
+  },
+  "exclusions": [
+    {
+      "field": "english",
+      "reason": "Bound page is another course's page (identity mismatch); no correct Apex page found. CF-247 7 Oct 2026",
+      "set_at": "2026-10-06T21:40:56.388423+00:00",
+      "course_id": "7ae350f6-8441-456a-87a6-10e6bb0c1054"
+    },
+    {
+      "field": "english",
+      "reason": "Bound page is another course's page (identity mismatch); no correct Apex page found. CF-247 7 Oct 2026",
+      "set_at": "2026-10-06T21:40:56.388423+00:00",
+      "course_id": "b7af2888-5af4-4f13-ba34-3197bcb1ff91"
+    },
+    {
+      "field": "fee",
+      "reason": "General English prints $290 per week, not a whole-course or annual figure",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "1276c19f-e37c-4640-8ee6-9f56403072be"
+    },
+    {
+      "field": "fee",
+      "reason": "Bound page is another course's page (identity mismatch); no correct Apex page found. CF-247 7 Oct 2026",
+      "set_at": "2026-10-06T21:40:56.388423+00:00",
+      "course_id": "7ae350f6-8441-456a-87a6-10e6bb0c1054"
+    },
+    {
+      "field": "fee",
+      "reason": "Bound page is another course's page (identity mismatch); no correct Apex page found. CF-247 7 Oct 2026",
+      "set_at": "2026-10-06T21:40:56.388423+00:00",
+      "course_id": "b7af2888-5af4-4f13-ba34-3197bcb1ff91"
+    },
+    {
+      "field": "intakes",
+      "reason": "Bound page is another course's page (identity mismatch); no correct Apex page found. CF-247 7 Oct 2026",
+      "set_at": "2026-10-06T21:40:56.388423+00:00",
+      "course_id": "7ae350f6-8441-456a-87a6-10e6bb0c1054"
+    },
+    {
+      "field": "intakes",
+      "reason": "Bound page is another course's page (identity mismatch); no correct Apex page found. CF-247 7 Oct 2026",
+      "set_at": "2026-10-06T21:40:56.388423+00:00",
+      "course_id": "b7af2888-5af4-4f13-ba34-3197bcb1ff91"
+    }
+  ],
+  "central_rules": {
+    "proposals": []
+  },
+  "results": {}
+}

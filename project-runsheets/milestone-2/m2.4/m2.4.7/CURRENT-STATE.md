@@ -4760,3 +4760,7 @@ The brief now forbids direct table changes.
 - Switched on with 2027 for WSU and CSU (Platform Admin approved). The 13:50 sweep filed 72 WSU and 18 CSU page fees as 2027 and retired their 2026-labelled reads; no cleanup was needed.
 - Side effect found and fixed: for 15 WSU courses the sweep replaced approved 2027 schedule fees (Decision 162) with page figures that disagree (8 Graduate Certificates at double, the schedule giving the half-year course total; 6 about 5% apart; 1 at +33%). Platform Admin chose to restore: the 15 courses were excluded from the adapter fee and the 15 schedule rows reactivated (migration 20261007001400). Verified live: 15 of 15 active, one active 2027 fee each.
 - Lesson: before switching on a fee-year setting, compare the page fees against any held schedule fee for the same year; the sweep overwrites a same-year fee that differs.
+
+### 7 Oct 2026 (Wed, Melbourne) – Three adapter configurations exported
+
+- Exported from the live database to `docs/adapters/configs/`: Apex Australia Vocational Education (admitting, English), Global Business College of Australia (testing) and Platinum Institute (testing), with their active exclusions (7, 12 and 0). Each file's configuration, exclusions and admission state were checked equal to the live database (`security.uni_adapter_json`, active exclusions, `admit`) before commit. Three rows added to the adapter register.

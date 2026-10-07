@@ -1,0 +1,44 @@
+{
+  "university": "Platinum Institute",
+  "country": "AU",
+  "provider_id": "c220ffde-d769-4ee2-bd66-9842a384d3e5",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T21:24:38.613636+00:00",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active) and pipeline.provider_policy_proposals (approved or proposed), 7 Oct 2026 14:20 AEDT",
+  "config": {
+    "pick": {},
+    "notes": "Platinum Institute (platinuminstitute.com.au/course/<slug>/), 7 read pages bound by exact title. Only the Certificate III in Individual Support page (119459K) carries course facts (Mode of Delivery, Duration, Course Fees, Entry Requirements 'IELTS Score 6.0, or equivalent, within the last 2 years'); the other 6 stored pages hold only the nav and footer (no duration, fees, intakes or English), so they probably need a rendered read. Fees on 119459K print two options, 'Tuition Fee: Onshore: $11,000.00 Offshore: $2,750', so the fee is not read (needs a decision on which figure). Mode is 'Full time Face to Face at Melbourne Campus or Blended Learning* for offshore students', not a single mode. English is read on 1 of 7 pages, so nothing is admitted. No intakes printed.",
+    "reason": "CF-247 Decision 254: Platinum adapter built on stored pages, testing, admission off",
+    "enabled": true,
+    "reading": {},
+    "patterns": {
+      "mode": "Mode of Delivery\\s+((?:.|\\n){3,120}?)\\s+Vocational Placement",
+      "duration": "Duration\\s+(The course is conducted over [0-9]+ weeks)",
+      "course_years": "Duration\\s+The course is conducted over ([0-9]+ weeks)",
+      "ielts_overall": "IELTS Score\\s+([4-9](?:\\.[05])?)\\s*,?\\s+or equivalent"
+    },
+    "sections": {},
+    "page_view": {},
+    "json_paths": {},
+    "updated_at": "2026-10-06T21:24:38.613636+00:00",
+    "json_source": null,
+    "term_months": {},
+    "title_strip": null,
+    "section_chars": 2000,
+    "course_title_strip": null
+  },
+  "exclusions": [],
+  "central_rules": {
+    "proposals": []
+  },
+  "results": {}
+}

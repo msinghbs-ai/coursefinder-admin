@@ -105,6 +105,9 @@ This register lists every target university and its adapter state, with each ada
 | The Open Polytechnic of New Zealand (NZ) | Testing | — | — | 2 | — | — | 0 | `configs/nz-open-polytechnic.json` | Wave 9. Testing only, not admitted: distance study only. |
 | The University of Western Australia (AU) | Testing | — | — | 0 | No values | Proposed | 0 | `configs/au-the-university-of-western-australia.json` | Not admitted: fees only in the fee calculator. |
 | University of Auckland (NZ) | Testing | — | — | 62 | — | — | 0 | `configs/nz-university-of-auckland.json` | Not admitted: 45 intakes differ from held values. |
+| Apex Australia Vocational Education (AU) | Admitting | English | 7 Oct 2026, 08:25 AEDT | 7 | — | — | 0 | `configs/au-apex-australia-vocational-education.json` | 7 Oct export. IELTS only; two mis-bound courses excluded on all fields; fee, delivery and intakes not admitted. |
+| Global Business College of Australia (AU) | Testing | — | — | 12 | — | — | 0 | `configs/au-global-business-college-of-australia.json` | 7 Oct export. One usable course page; four courses excluded on all fields (blog, Moodle and self-paced pages). |
+| Platinum Institute (AU) | Testing | — | — | 0 | — | — | 0 | `configs/au-platinum-institute.json` | 7 Oct export. Only 1 of 7 pages carries course facts; fee prints onshore and offshore figures. |
 
 ## All target universities (57)
 

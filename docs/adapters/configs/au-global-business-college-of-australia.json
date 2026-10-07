@@ -1,0 +1,116 @@
+{
+  "university": "Global Business College of Australia",
+  "country": "AU",
+  "provider_id": "4ad6fb76-f286-4d93-9500-26df7663a549",
+  "status": "Testing",
+  "enabled": true,
+  "admit": false,
+  "admit_fields": [
+    "english",
+    "fee",
+    "intakes"
+  ],
+  "admit_reason": null,
+  "admit_changed_at": null,
+  "config_updated_at": "2026-10-06T21:24:38.613636+00:00",
+  "exported_from": "Supabase fxcwkweaxjtknorudmwp, pipeline.uni_adapters (security.uni_adapter_json), pipeline.uni_adapter_exclusions (active) and pipeline.provider_policy_proposals (approved or proposed), 7 Oct 2026 14:20 AEDT",
+  "config": {
+    "pick": {},
+    "notes": "Global Business College of Australia (gbca.edu.au). Six read pages but only one is a usable course page: gbca.edu.au/courses/certificate-iii-in-individual-support/ (113757D by CRICOS code, 104889M by exact title). It prints 'Delivery mode: Blended learning between face to face and online', 'delivered over a maximum of 52 weeks' and 'IELTS 5.5 (no band less than 5) or equivalent, or successfully complete GBCA EAP1'; the IELTS line offers an English-course alternative, so it is not admitted. Fees and intake dates are behind 'Course Fees for international students' and 'Intake dates' links with nothing printed. The other bound pages are not course pages: a 2016 blog post (091761E), two Moodle learning-system shells (108236E, 119616B) and a self-paced Certificate IV page that prints the provider CRICOS number 03443D, not the course code (109993D); all fields are excluded for those four courses. Nothing admitted (1 usable page).",
+    "reason": "CF-247 Decision 254: GBCA adapter built on stored pages, testing, admission off",
+    "enabled": true,
+    "reading": {},
+    "patterns": {
+      "mode": "Delivery mode:\\s+((?:.|\\n){3,80}?)\\s+(?:Government funding|Campus location)",
+      "duration": "duration:\\s+(The certificate III in individual support c\\s?ourse will be delivered over a maximum of [0-9]+ weeks)",
+      "ielts_overall": "IELTS\\s+([4-9](?:\\.[05])?)\\s+\\(no band less than"
+    },
+    "sections": {},
+    "page_view": {},
+    "json_paths": {},
+    "updated_at": "2026-10-06T21:24:38.613636+00:00",
+    "json_source": null,
+    "term_months": {},
+    "title_strip": null,
+    "section_chars": 2000,
+    "course_title_strip": null
+  },
+  "exclusions": [
+    {
+      "field": "english",
+      "reason": "Bound page is a Moodle learning-system shell, not a course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "0042c19e-e849-4461-aeee-e0745824cebf"
+    },
+    {
+      "field": "english",
+      "reason": "Bound page is a 2016 blog post, not the course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "92b50d69-2826-4be0-add3-f5309ab31191"
+    },
+    {
+      "field": "english",
+      "reason": "Bound page is a Moodle learning-system shell, not a course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "9ada4d0f-b444-4b84-8494-6d5a65a863c6"
+    },
+    {
+      "field": "english",
+      "reason": "Bound self-paced page prints the provider CRICOS number 03443D, not the course code",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "fa4ad3f3-c160-4902-a148-43a4e5ea78c0"
+    },
+    {
+      "field": "fee",
+      "reason": "Bound page is a Moodle learning-system shell, not a course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "0042c19e-e849-4461-aeee-e0745824cebf"
+    },
+    {
+      "field": "fee",
+      "reason": "Bound page is a 2016 blog post, not the course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "92b50d69-2826-4be0-add3-f5309ab31191"
+    },
+    {
+      "field": "fee",
+      "reason": "Bound page is a Moodle learning-system shell, not a course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "9ada4d0f-b444-4b84-8494-6d5a65a863c6"
+    },
+    {
+      "field": "fee",
+      "reason": "Bound self-paced page prints the provider CRICOS number 03443D, not the course code",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "fa4ad3f3-c160-4902-a148-43a4e5ea78c0"
+    },
+    {
+      "field": "intakes",
+      "reason": "Bound page is a Moodle learning-system shell, not a course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "0042c19e-e849-4461-aeee-e0745824cebf"
+    },
+    {
+      "field": "intakes",
+      "reason": "Bound page is a 2016 blog post, not the course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "92b50d69-2826-4be0-add3-f5309ab31191"
+    },
+    {
+      "field": "intakes",
+      "reason": "Bound page is a Moodle learning-system shell, not a course page",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "9ada4d0f-b444-4b84-8494-6d5a65a863c6"
+    },
+    {
+      "field": "intakes",
+      "reason": "Bound self-paced page prints the provider CRICOS number 03443D, not the course code",
+      "set_at": "2026-10-06T21:24:45.185451+00:00",
+      "course_id": "fa4ad3f3-c160-4902-a148-43a4e5ea78c0"
+    }
+  ],
+  "central_rules": {
+    "proposals": []
+  },
+  "results": {}
+}
