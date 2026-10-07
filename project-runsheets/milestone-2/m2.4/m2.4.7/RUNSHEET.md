@@ -4738,3 +4738,8 @@ The brief now forbids direct table changes.
 - CSU (12 conflicts): same year-label problem as WSU. Course pages print no fee year and the page reads equal the 2027 schedule, so they were 2027 fees filed as 2026. Platform Admin approved the same fix: the 12 courses were excluded from the CSU adapter fee, the 2026 fees were refiled from the 2026 schedule (16 written, including 4 courses that had no fee) and the 2027 fees filed from the 2027 schedule through the later-year function (15 written, including 3 genuine later-year changes). Verified live: 2026 fee below 2027 fee for 23 of 24 later-year rows.
 - AIH (15) and CCMT (17): not price conflicts. The schedules show the whole-course total and the held fees are one year; closed with no action. USC (4): older-year documents; closed with no action. TAFE Qld (7) and Newcastle (1) were within 3% and ignored. AIM (1) stays held.
 - The post-sweep check for WSU and CSU is scheduled for after the 13:10 sweep.
+
+### 7 Oct 2026 (Wed, Melbourne) – Semester calendar answers: checked
+
+- `semester_intake_apply_v1` is run every 10 minutes by the `provider-calendar-intakes` scheduled job (last runs succeeded), so the 11 items it answered 0 of at the time were applied on the next run. Live: 26 Layer 4 items answered from the course page and an approved calendar (Decision 228); no 'answer' items remain.
+- Remaining outcomes: 48 no calendar (the university's calendar is not approved yet), 25 held, 10 period unknown. Approving the 12 'review' and 8 'skip' calendars from the workbook is the way to release the 48.
