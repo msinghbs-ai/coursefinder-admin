@@ -4747,3 +4747,9 @@ The brief now forbids direct table changes.
 - Review of the 8 'skip' calendars (workbook): official pages were found by web search (no Firecrawl credits spent). Platform Admin approved, through `admin_provider_calendar_set`: University of Melbourne (Semester 1 Mar, Semester 2 Jul), UNSW (Term 1 Feb, Term 2 Jun, Term 3 Sep), CQUniversity (Term 1 Mar, Term 2 Jul, Term 3 Nov), University of British Columbia (Term 1 Sep, Term 2 Jan, winter terms only). Summer and winter terms are not mapped.
 - Left out by decision: Kwantlen (Fall, Spring, Summer terms cannot be stored as numbered periods), ECU (page read looked wrong), University of Sydney and UQ (no usable official page found). The 12 'review' calendars (Newcastle, UTS, VU, UOW, UWA, Torrens, SCU, Excelsia, UNE, CSU, CDU, USQ) still need official main-semester months.
 - Effect: 6 course intake items can be answered now (CQU 5, UNSW 1; Melbourne and UBC 0). Calendars only answer courses whose page quotes a period, so the gain is small, as the university rule (no blanket default) expects.
+
+### 7 Oct 2026 (Wed, Melbourne) – WSU/CSU fee check passed; UTS and UWA calendars set
+
+- Post-sweep check (after the 13:10 sweep): all 93 WSU and 24 CSU later-year pairs are intact, with the 2026 fee below the 2027 fee (the one CSU exception is a genuine later-year change). The adapter did not overwrite the excluded courses.
+- Platform Admin approved two more calendars through `admin_provider_calendar_set`: UTS (Session 1 Feb, Session 2 Jul, Session 3 Nov, from the 2027 principal dates; assumes courses call Autumn, Spring and Summer sessions 1, 2 and 3) and UWA (Semester 1 Feb, Semester 2 Jul; Trimester 1 Jan, 2 Apr, 3 Aug, from the 2026 important dates). Neither answers any course item today (to_answer 0).
+- Still without a usable official page: Newcastle (months not confirmed), VU, UOW, Torrens, SCU, Excelsia, UNE, CSU, CDU, USQ; and ECU, Sydney, UQ, Kwantlen from the skip group.
