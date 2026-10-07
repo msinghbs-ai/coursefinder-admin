@@ -4857,3 +4857,10 @@ The brief now forbids direct table changes.
 - v2.15.215 had shown the previous release notes on screen; corrected in v2.15.216.
 - PR #379 on the code repo; deployed; Workers Builds, deployed release-currentness, deployed UAT, build-and-smoke and release-history checks passed. 212 related specs pass. No database change.
 - `security.zz_probe_v1()`: the Platform Admin chose to leave it for now (open item). The drop was cancelled by the Supabase connector, like the scheduled-build functions earlier; the connector appears to cancel statements it treats as needing confirmation, with no prompt shown.
+
+### 7 Oct 2026 (Wed, Melbourne) – Job notice clears after recovery; adapter proposals no longer cut off (worker v0.17.14)
+
+- Platform Admin (22:56): fix the scholarship notice and the guided build step 3 error.
+- Scholarship notice: `scholarship-nationality` was already fixed (20261007001700); every run since 18:53 succeeds in about 0.2 s and all 1,354 active scholarships are read. The notice counted every timeout in the last 24 hours. Migration 20261007002100 (applied live, md5 verified; guarded by the md5 of the live `security.platform_notices_v1`) leaves out a job whose last 3 runs all succeeded; a job that still fails now and then stays listed. Verified: no scheduled-job notices now.
+- Step 3 (Notre Dame): the proposal failed with "Unterminated string in JSON". The model's answer was cut off at the 1,500-token cap (one string over 5,000 characters). coverage-sweep worker v0.17.14 raises the cap to 4,000 tokens, asks for short patterns, reason and notes, and says in plain words when an answer is cut off or not complete JSON. PR #380 on the code repo; deployed through the Deploy edge functions workflow from the merged commit (run 37618381227).
+- Verified live: the Notre Dame proposal was asked again (worker v0.17.14, US$0.0003) and recorded as proposed. Its content is weak: the three samples are two research masters and a bachelor, and it reads only mode, campus and duration (no intakes, IELTS or fee); several patterns list exact values. Not saved; recommended next: capture different samples and add comments.
