@@ -4776,3 +4776,10 @@ The brief now forbids direct table changes.
 - Post-sweep check (after the 13:10 sweep): all 93 WSU and 24 CSU later-year pairs are intact, with the 2026 fee below the 2027 fee (the one CSU exception is a genuine later-year change). The adapter did not overwrite the excluded courses.
 - Platform Admin approved two more calendars through `admin_provider_calendar_set`: UTS (Session 1 Feb, Session 2 Jul, Session 3 Nov, from the 2027 principal dates; assumes courses call Autumn, Spring and Summer sessions 1, 2 and 3) and UWA (Semester 1 Feb, Semester 2 Jul; Trimester 1 Jan, 2 Apr, 3 Aug, from the 2026 important dates). Neither answers any course item today (to_answer 0).
 - Still without a usable official page: Newcastle (months not confirmed), VU, UOW, Torrens, SCU, Excelsia, UNE, CSU, CDU, USQ; and ECU, Sydney, UQ, Kwantlen from the skip group.
+
+### 7 Oct 2026 (Wed, Melbourne) – Adapter fee-year setting built and switched on (WSU, CSU)
+
+- Built (migration 20261007001300, md5-guarded patches to `security.adapter_overwrite_v1` and `admin_uni_adapter_write`): an adapter can carry `reading.fee_year`. It is used only when the page prints no year, and only while it is this year or next, so a stale setting falls back to the current year. Set through `admin_uni_adapter_fee_year` (Platform Admin, logged).
+- Switched on with 2027 for WSU and CSU (Platform Admin approved). The 13:50 sweep filed 72 WSU and 18 CSU page fees as 2027 and retired their 2026-labelled reads; no cleanup was needed.
+- Side effect found and fixed: for 15 WSU courses the sweep replaced approved 2027 schedule fees (Decision 162) with page figures that disagree (8 Graduate Certificates at double, the schedule giving the half-year course total; 6 about 5% apart; 1 at +33%). Platform Admin chose to restore: the 15 courses were excluded from the adapter fee and the 15 schedule rows reactivated (migration 20261007001400). Verified live: 15 of 15 active, one active 2027 fee each.
+- Lesson: before switching on a fee-year setting, compare the page fees against any held schedule fee for the same year; the sweep overwrites a same-year fee that differs.
