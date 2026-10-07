@@ -4800,3 +4800,11 @@ The brief now forbids direct table changes.
 - Compared adapter page fees with approved schedules for every provider holding both. WSU (setting 2027): 93 match the 2027 schedule, none the 2026; setting right. CSU (setting 2027): pages are mixed; 12 page fees filed as 2027 equal the 2026 schedule. USC and Federation match the same year. CDU: 89 page fees printed as 2027 equal the 2026 schedule (no 2027 schedule held; cannot judge). TAFE Qld: 7 of 48 equal the 2027 schedule. Melbourne, Newcastle, CCMT, AIM, ACU, AIH: no overlapping schedule course.
 - Platform Admin decisions: CSU fee-year setting removed; the 12 courses excluded from the adapter fee and refiled from the schedules (2026: 12 written; 2027: 10 written through the later-year function). Verified: 12 of 12 2026 fees equal the 2026 schedule, 10 of 10 2027 fees equal the 2027 schedule; intact after the 18:20 sweep. CDU and TAFE Qld left for review.
 - Lesson: a provider-wide fee-year setting is only safe where every page shows the same year; test each provider against its schedules first.
+
+### 7 Oct 2026 (Wed, Melbourne) – Platform and UI readiness review (phase 1, read-only)
+
+- Request: platform and UI readiness, data quality, performance, publishing, UI bloat, role leakage, role guides, pending tasks, and an Adapter builder tab in Layer 2. Phase 1 was read-only; the report is the Claude doc "CourseFinder Platform and UI Readiness – 7 Oct 2026".
+- Headline: not ready to publish. 0 of 43,764 courses published (search function trusts the caller's published filter); coverage below 80% on every field (intakes 34.0%, English 48.5%, current tuition 24.4%, delivery 32.6%); `scholarship-nationality` failed 24 of 24 runs and `platform-resource-observe` 13 of 24 in 24 h.
+- Roles: no data leakage (server checks every write; no page reachable by URL without a rank check). Mismatches: Layer 2 Adapters shown from rank 4 but needs 5 to read and 6 to write; scholarship publishing, Send back and Priority shown from 3 but need 5.
+- Adapter visual creator: not deleted; moved on 6 Oct (PR #334, v2.15.200) into each university row under Layer 2 › Adapters. Proposed a separate six-step Adapter builder tab reusing the existing functions; awaiting Platform Admin approval before any build.
+- 15 pending tasks listed in the report; no change made to live data or code in this phase.
