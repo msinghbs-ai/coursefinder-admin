@@ -40,6 +40,7 @@ Do not infer the current document from the highest filename version or from chat
 | Troubleshooting / Bug-Fix / Recovery Protocol | `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md` | CURRENT |
 | Release / Version Control & Recovery | `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md` | CURRENT |
 | University Ranking Data Design | `docs/coursefinder-university-ranking-data-design-v1.1.md` | CURRENT |
+| Legal and Transparency Pack | `docs/coursefinder-legal-transparency-pack-v0.1.md` | DRAFT FOR REVIEW — not reviewed by legal counsel |
 
 ## Active milestone router
 
