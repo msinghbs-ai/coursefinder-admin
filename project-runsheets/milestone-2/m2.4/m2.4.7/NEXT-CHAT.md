@@ -4941,3 +4941,18 @@ The brief now forbids direct table changes.
 - Published (batch, approval note quoting the decision): 59 scholarships (Australia Awards, Manaaki and 57 provider scholarships), published total 360 to 419. Course pages after the 15-minute job: Australia Awards on 4,121 courses (40 providers), Manaaki on 1,921 (10 providers), no saving claimed for either.
 - Verification: local suite 475 passed; build and UI token check pass.
 - Open: Canada held (EduCanada robots.txt); the 139 non-university provider pages stay in the index only (universities-only admission kept).
+
+### 9 Oct 2026 (Fri, Melbourne) – Scholarships: AU, NZ and CA only; country onboarding trigger in place
+
+- Platform Admin (08:31): "Let only target au, nz, can at the moment for scholarships, more countries will be joining in later make sure plan are in place to trigger as more countries come along." UK and US government awards were not built: the catalogue has no UK or US courses (AU 26,103, NZ 6,474, CA 2,382), so they could not reach any course.
+- Release (PR #419; migration 20261008005000, applied live, history md5 8d6bc03d… matches the file):
+  - Country switch off for DE, GB, IE and US (no courses; logged); on for AU, NZ and CA only.
+  - `scholarship.country_onboarding` (status, domestic-student wording prefilled for GB, US, IE, DE, government registers).
+  - Planned registers: Chevening, Commonwealth Scholarships, Fulbright.
+  - `security.scholarship_country_readiness_v1`.
+  - Daily job scholarship-country-watch (06:13 Melbourne): raises and resolves platform issue `scholarship_country:<code>`.
+  - `admin_scholarship_country` (Platform Admin; refused until ready; queues the country's universities for discovery) and `admin_scholarship_countries`.
+  - The university test and the audience reader no longer hard-wire NZ and CA (md5-guarded patches).
+- Checks: rolled-back dry run first (145 scholarship universities before and after, same list); live after apply: AU, CA, NZ on; same university list; job scheduled; no issue raised (no other country has courses). Rolled-back simulation of a UK university: issue "United Kingdom has 199 courses but scholarships are not switched on" raised with next steps; switching the UK on succeeded and resolved the issue; everything rolled back.
+- Runbook: `docs/scholarships/scholarship-countries-v1.md` (countries in scope, trigger, readiness checks, steps when a country joins).
+- Local suite 476 passed; build passes.
