@@ -70,3 +70,9 @@ PR #99 remains draft/unmerged at exact head `eb432f4ad155010cb6292111c96f6dc3ef0
 ### CF-247 Scholarships — parked 9 Oct 2026 08:50 (Melbourne)
 
 Parked by the Platform Admin ("park this for circle later"): review why New Zealand and Canada provider scholarships stay thin. Canada: of about 1,600 university scholarship pages read, 43 admitted; most rejections are "international_not_stated" (often with "no_named_title"). New Zealand: 76 held from 8 universities. Proposed first step when resumed: hand-check about 30 rejected Canadian and New Zealand pages, read-only, to see whether the "international not stated" rule is too strict for those sites, then propose a rule change for a decision.
+
+### CF-247 Canada Layer 1 — opened 9 Oct 2026 09:30 (Melbourne)
+
+1. Ten Canadian readers held after first verification (exact-count checks out of date or detail check failed): Boreal, Centennial, Fanshawe, Fleming, Lambton, Northern, Sault, Seneca, St Clair, St Lawrence. Each needs its expected count re-based against the current site (reader change, deploy, re-verify, first run, then `admin_layer1_schedule` monthly).
+2. Seneca register adapter `ca_seneca` copies reader v0.1.0; the deployed reader is v0.3.1 and reads a different page. Re-derive the adapter and its replay from v0.3.1 before any switch-on.
+3. Phase B: ALIS, EducationPlannerBC, NSCC, Saskatchewan Polytechnic and Quebec MES paged readers.

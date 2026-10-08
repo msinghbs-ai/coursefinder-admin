@@ -5007,3 +5007,19 @@ The brief now forbids direct table changes.
 - Checks: rolled-back dry run first (145 scholarship universities before and after, same list); live after apply: AU, CA, NZ on; same university list; job scheduled; no issue raised (no other country has courses). Rolled-back simulation of a UK university: issue "United Kingdom has 199 courses but scholarships are not switched on" raised with next steps; switching the UK on succeeded and resolved the issue; everything rolled back.
 - Runbook: `docs/scholarships/scholarship-countries-v1.md` (countries in scope, trigger, readiness checks, steps when a country joins).
 - Local suite 476 passed; build passes.
+
+### 9 Oct 2026 (Fri, Melbourne) – Canada Layer 1 phase A: 26 catalogue and register sources on Layer 1; 16 on a monthly schedule
+
+- Platform Admin: "Canada Layer 1 schedule (Recommended)". Before this, none of the 31 Canadian catalogue and register sources had a Layer 1 operations row; their evidence was last captured 13 to 18 August 2026.
+- Release (Pilot PR #420, squash 30fd5928):
+  - layer1-operations-control v1.8.0 and layer1-operations-scheduled v1.4.0 verify and run Canadian readers (source_system CA_READER, reader named in `metadata.layer1_reader`; only `layer1-ca-*` functions; IRCC applied in slices of 200).
+  - layer1-ca-live v1.2.0 accepts the Layer 1 service key; added to the deploy list (verify_jwt true).
+  - Governance gap closed: layer1-ca-seneca-catalogue deployed v0.3.1 was not in git (git held v0.1.0); live code now checked in.
+  - Deployed copies of all four functions identical to main (sha256 and cmp).
+- Migration 20261008005100 (applied live; history md5 b754c933… matches the file): 26 sources mapped to readers (23 college and provincial catalogues, Aurora and Yukon, IRCC DLI); 26 Layer 1 operations rows, verification due, no schedule switched on; 15 readers added to the run-token allow-list. Nothing deleted.
+- First verification (all 26): 16 passed, 10 failed. The failures are the readers' own exact-count checks tripping because the sites changed since August: Boreal 63→65, Centennial 195→200, Fanshawe 204→200, Lambton 71→72, Sault 76→77, Seneca 158→157, St Clair 132→130, Northern (7 intake suspensions expected, 0 found), St Lawrence (detail check failed on 0263), Fleming (response wait exceeded). Nothing was applied for these 10; they stay held with no schedule.
+- First apply runs (Platform Admin, 16 sources, all completed): 0 rejected, 0 failed, 0 updated. New courses: Georgian 12, Durham 8, Mohawk 7, Ontario public-college workbook 5, Loyalist 3, CNA 1, Niagara 1, Sheridan 1. IRCC DLI: 1,108 providers reconciled, none created. The Ontario workbook (769 rows) timed out once in the database and passed on the automatic retry. Mohawk reads only currently open programmes (7 of 15 rows; 6 closed), so its 7 are new keys.
+- Schedule: `admin_layer1_schedule` monthly for the 16 sources whose first run completed (auto ingest on, 30-day verification and ingestion). 10 held.
+- Finding: the Seneca register adapter (`ca_seneca`, switched off, replay passed on the 13 Aug copy) copies reader v0.1.0, which reads a different page from the deployed v0.3.1. The contract test now checks that copy against a fixture of v0.1.0. The adapter must be re-derived from v0.3.1 before any switch-on (FOLLOW-UPS).
+- Verification: local suite 476 passed; contract specs 24/24 after the Seneca fixture change; build, UI token check and syntax check pass.
+- Open: the 10 held readers need their expected counts re-based against the current sites (each a reader change, then re-verify); phase B (ALIS, EducationPlannerBC, NSCC, Saskatchewan Polytechnic, Quebec MES paged readers); Canada government scholarship register held (EduCanada robots.txt).
