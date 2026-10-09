@@ -5114,3 +5114,10 @@ The brief now forbids direct table changes.
 - Kept: provider-contact-discover-scheduled, provider-contact-enrich-apollo, layer3-intake-benchmark, layer3-cf245-tuition-benchmark, layer3-contact-benchmark (capabilities); zoho-course-api, website-course-api, wix-course-api (external callers); every Canada function.
 - UI stage 2 (Pilot PR #437, squash 0ffd079; UI v2.15.229 / package 0.1.156): Layer 1 register, Layer 2, Coverage, Sources, Platform health use the shared look; boxed filter selects keep their box (fixes the Sources and Jobs overflow from v2.15.227); Sources and Jobs headers slimmed; plain wording on Layer 1 manual batch runs and alerts. Full suite 481 passed.
 - Deployed UAT after #437 failed on the Layer 1 NZ test: it chose the first NZ source and card, which since 8 Oct (#417) is the NZ scholarship register. Test-only fixes PR #438 and #439 skip the scholarship registers; Deployed UAT then passed (NZQA 415 providers).
+
+### 10 Oct 2026 (Sat, Melbourne) – Clean-up batch 7 applied live
+
+- Migration 20261009006200 pasted by the Platform Admin (10:54, "Success. No rows returned"); history row normalised for editor line endings, md5 048fc6bb… matches the file.
+- Live check: the 6 functions of the old scale-qualification chain are gone (layer2_qualification_continue_service, layer2_qualification_continue_impl, layer2_scale_qualification_dispatch, layer2_provider_attempt_start, scheduler_workflow_queueable_url_allowed_v1, scheduler_workflow_https_host_v1); the 8 run-token rows removed; 94 cron jobs unchanged.
+- Edge functions deleted from the live project by the deploy workflow (23:55 UTC 9 Oct; live list confirmed): coursefacts-au-qut, coursefacts-au-rmit, coursefacts-au-uq, layer2-scale-qualify-scheduled, layer2-screenshot-backfill-scheduled, layer3-source-pattern-benchmark, layer1-au-completeness, pilot-reset.
+- Old-system clean-up of the data-admission programme is complete apart from the Canada functions, which stay while Canada is parked.
