@@ -5058,3 +5058,10 @@ The brief now forbids direct table changes.
 | Tuition | 308 | 100% (33 of 33) | 14.9% vs 12.7% | 263 (1) | US$0.0059 |
 
 - Caveat: round 3 read the next-oldest Layer 3 courses (newest first, as in rounds 1 and 2), and this slice is mostly pages where Layer 3 itself found little (Layer 3 found 0.3% to 12.7%, against 16% to 78% in rounds 1 and 2), so few values were compared. The summary marks tuition as meeting the rule, but on 33 found courses in an unrepresentative slice, with 263 of 308 reads escalated and a cost about five times Layer 3's. Not treated as a basis to retire anything. 3,936 shadow reads today, US$4.96.
+
+### 9 Oct 2026 (Fri, Melbourne) – Phase 3 closed: Layer 3 keeps intakes, English and tuition
+
+- Platform Admin decision (multiple choice): "Keep Layer 3, stop shadow".
+- Finding across three shadow rounds (5,070 reads on courses Layer 3 had finished; nothing admitted): a single adapter model (Qwen3 30B), a stronger single model (MiMo v2.6 Pro) and the adapter model with one escalation step each agreed with Layer 3 where both found a value, but none found values as often as the Layer 3 cascade at a lower cost. Layer 3 routing, work items and admission stay as they are for these three fields; the Phase 4 retirement of Layer 3 routing does not proceed for them.
+- Shadow run switched off through admin_adapter_shadow (Platform Admin, logged, 16:59). Migration 20261008005800 (Pilot PR #430; applied live through the connector, history md5 14fe6a45… matches the file): the three shadow jobs removed (refused while the run is on); 94 scheduled jobs remain; no open claims. The shadow tables, functions and every read are kept as the record of the comparison.
+- Possible later work, not scheduled: a fair re-run on a random sample if the merged step is revisited (the claim takes the newest finished courses, which cluster by provider).
