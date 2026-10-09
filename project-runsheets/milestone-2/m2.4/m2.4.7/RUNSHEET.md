@@ -5041,3 +5041,21 @@ The brief now forbids direct table changes.
 - Note: Layer 3 has had no new work for 8+ hours before this release (claims return 0 with no reason); OpenRouter credit US$19.08 remaining (floor US$5).
 - Verification: local suite 483 passed; build and UI token check pass.
 - Next: let the shadow run reach 300+ compared per field (about a day at 500 a field), then report against the retire rule; tuition joins the shadow run in a later step.
+
+### 9 Oct 2026 (Fri, Melbourne) – Phase 3 shadow run: tuition added, capacity raised, results against the retire rule
+
+- Platform Admin: "Add tuition to the shadow run or any other attribute as required, increase the capacity to finish it 4 hours." Then (12:36): "can we expedite the current running task?" Layer 3 reads only intakes, English and tuition, so all three were compared.
+- Release (Pilot PR #423, squash 6f06890e): layer3-model-routing shadow v1.1.0 (tuition under the tuition task's own prompt, checks and input length, with the adapter's pinned model); deployed files (12) identical to main; routing version and binding hashes unchanged.
+- Migration 20261008005400 (md5-guarded): task tuition; 1,500 reads a day (500 a field); 30-day window; 6 reads a field every 2 minutes; job adapter-shadow-tuition (job 145). The connector cancelled it at the approval prompt (one `drop constraint` line to widen the task check; no data removed); the Platform Admin pasted it in the SQL editor at 11:20. The pasted history row carried Windows line endings (md5 14e5087a…); normalised to the file, history md5 now 56220e26… matches. The live function bodies keep the line endings outside every literal; behaviour unaffected.
+- Expedited at 12:36: 14 extra worker rounds; every field passed the 300-compared minimum by about 12:45, inside the 4-hour target. The 13:28 scheduled check was cancelled.
+- Results (933 reads, 0 errors, US$0.36; nothing admitted):
+
+| Field | Compared | Agree where both found | Merged step found | Layer 3 found | Retire rule |
+|---|---|---|---|---|---|
+| Intakes | 323 | 97.2% (141 of 145) | 44.9% | 52.0% | Not met: finds less often (22 only Layer 3, 0 only merged) |
+| English | 330 | 100% (60 of 60) | 18.5% | 20.3% | Not met: finds less often (7 only Layer 3, 1 only merged) |
+| Tuition | 322 | 80.0% (132 of 165); amount 100% (165 of 165) | 55.6% | 74.8% | Not met: agreement and finds less often (76 only Layer 3, 14 only merged) |
+
+- Reading: where both find a value they agree (intakes and English pass the 95% test; tuition amounts always match, the 33 disagreements are a fee year the merged step added). The gap is how often a value is found: the merged step is one pinned model (Qwen3 30B, the builder default; no adapter has a chosen model), while Layer 3 escalates a "not stated" answer with a clear page signal to stronger models (MiMo, Kimi). Cost: intakes US$0.06 merged vs US$0.22 Layer 3; tuition about equal. All reads used the whole page (no adapter names a section for these fields).
+- No field is eligible to retire. Layer 3 stays as it is. The shadow run keeps running within its daily limits. Workbook of the results sent to the Platform Admin (CourseFinder-Phase3-Shadow-Results-9Oct2026-final.xlsx).
+- Next: Platform Admin decision on the merged step's model (stronger adapter model, one escalation step, or keep Layer 3 for these fields); clean-up batch 2 (old-system screens, scripts, workflows and tests) inventoried, decisions pending on four items.
