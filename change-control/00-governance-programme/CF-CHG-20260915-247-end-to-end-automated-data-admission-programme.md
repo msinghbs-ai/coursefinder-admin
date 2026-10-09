@@ -5166,3 +5166,13 @@ The brief now forbids direct table changes.
 - Batch 6: migration 20261009006100 (Pilot PR #434, squash 2b432ef) pasted by the Platform Admin (19:17, "Success. No rows returned"); history row normalised, md5 1601c229… matches the file. 19 functions dropped behind md5 guards (no CASCADE): provider page fan-out and logo promote apply, old acquisition invoke and shared-fetch register, the discovery and scope dispatch chain, the profile binding snapshot, and the scholarship runtime / Layer 2 profiles / Layer 2 config admin read helpers. 5 run-token rows removed. Live check: none remain; 94 cron jobs unchanged.
 - Edge functions retired (source removed, on the retired list, deleted from the live project by the deploy workflow 08:18 UTC; live list confirmed): layer2-provider-page-fanout, layer2-provider-asset-promote, layer2-hotcourses-directory-parse, layer2-acquire-v2, layer2-scope-discover-scheduled. Logo upload and display (provider-asset-upload, provider-asset-access) unchanged.
 - Kept for a later decision: layer2_provider_attempt_start and the two URL helpers (still referenced by layer2-scale-qualify-scheduled, which also looks unused).
+
+### 9 Oct 2026 (Fri, Melbourne) – v2.15.227: same look on every page, stage 1
+
+- Platform Admin decision (multiple choice, 17:55): "Every page, in stages". Stage 1: Dashboard, Layer 3, Layer 4 review, Scheduled jobs, Evidence. Stage 2 (Layer 1 register, Layer 2, Coverage, Sources, Platform health) and stage 3 (Rankings, Reference data, Settings, Models and services, remaining admin pages) to follow.
+- Pilot PR #435 (squash 342da4b), UI v2.15.227 / package 0.1.154:
+  - every table on every page resizes like the catalogue lists (one shared helper started by the app shell; widths remembered per page and table in that browser; double-click resets);
+  - plain dropdowns and input boxes share one style app-wide;
+  - Evidence: the repeated heading block replaced by one slim line with the count and Refresh; Scheduled jobs › Jobs: plain wording;
+  - Layer 4 review: More button matches the others; Dashboard: the four tiles line up.
+- Checks: new contract cf-247-ui-standard-stage1 (3); full chromium-desktop suite 478 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed passed. No database change.
