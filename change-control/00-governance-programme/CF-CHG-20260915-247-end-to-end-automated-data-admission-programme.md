@@ -5146,3 +5146,14 @@ The brief now forbids direct table changes.
 - admin_read replaced (live md5 4949564e… as expected): operations scholarship_runtime, scholarship_runtime_uat, layer2_profiles, layer2_profile_detail and layer2_provider_routes removed (all five now rejected); scholarships_page, platform_health, jobs_runtime and layer3_queue_status checked as the Platform Admin and still return.
 - Kept because still called: scheduler_workflow_profile_binding_snapshot_v1, scheduler_workflow_queueable_url_allowed_v1, scheduler_workflow_https_host_v1.
 - Still to decide: provider-asset functions (layer2-provider-page-fanout, layer2-provider-asset-promote, layer2-hotcourses-directory-parse); layer2-acquire-v2 and layer2-scope-discover-scheduled; admin_read helpers no longer called (security.admin_scholarship_runtime_read, admin_layer2_profiles_page, admin_layer2_config_read).
+
+### 9 Oct 2026 (Fri, Melbourne) – v2.15.225: lists fill the page; course and provider panels as pills and cards
+
+- Platform Admin report (17:37, screenshot): the Scholarships list did not fill the page, Value, Courses and Closes were off screen, and columns could not be resized; course and provider panels carried too much evidence and regulatory text. Asked for a consolidated card view with coloured pills, standard across the app.
+- Cause: one scholarship with a long nationality list rendered as a single pill that could not wrap, stretching "Who it is for" and pushing the other columns off screen.
+- Pilot PR #432 (squash 3b9724d), UI v2.15.225 / package 0.1.152:
+  - every list: fixed layout at full width; drag a heading's edge to resize (double-click resets; widths kept in that browser); long nationality lists show two names and a count;
+  - course, provider and other record panels: coloured pills (level, field, delivery, duration, CRICOS code, publication) and fact cards (tuition used, registered cost, intakes, English, campuses, courses, scholarships, contacts, last checked) that reflow from one to four columns; editable values shown as cards with short Automated / Entered by hand pills;
+  - removed from the panels: regulatory facts, evidence list, operational state, arrange sections, raw facts and identifier/evidence/registration dumps, the logo hint line; related insights and corrections moved to a closed "More" section. Evidence still opens from the panel header.
+- Checks: new contract cf-247-ui-standard-contract (5); full chromium-desktop suite 485 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed (probes the live assets for v2.15.225) all passed.
+- No database change.
