@@ -5113,3 +5113,20 @@ The brief now forbids direct table changes.
 | Tuition | 336 | 80% → 100% (124 of 124) | 42% vs 65% (95 only Layer 3) | US$0.00081 → US$0.0032 | Not met (finds less) |
 
 - Reading: the stronger single model removed the tuition fee-year disagreements but did not close the gap in how often a value is found, at four to six times the cost of round 1 and more than Layer 3. No field is eligible to retire; Layer 3 stays as it is. Workbook with a Round 2 tab sent to the Platform Admin (CourseFinder-Phase3-Shadow-Results-9Oct2026-round2.xlsx).
+
+### 9 Oct 2026 (Fri, Melbourne) – Old-system clean-up batch 4 (database); Phase 3 round 3 (one escalation step) results
+
+- Platform Admin decisions (multiple choice): Phase 3 "Try one escalation step"; database clean-up "Prepare it now".
+- Release (Pilot PR #428, squash 177c8839; PR #429, squash 95d8e70f): layer3-model-routing shadow v1.2.0 (the adapter's own model first; MiMo v2.6 Pro asked once only when nothing was found and the page clearly shows the field: the Layer 3 cascade signal for intakes and English, supplied fee candidates for tuition; never after a safety rule). Deployed files (12) identical to main; routing version and binding hashes unchanged. Four dormant edge functions retired and deleted from the live project (workflow run 37883849399): layer2-extract-v2, layer2-course-fact-extract-v2, layer2-scholarship-extract, layer2-scholarship-catalogue-enumerate. Live and git now hold the same 100 functions.
+- Migrations 20261008005600 (clean-up batch 4) and 20261008005700 (round 3), pasted together in one transaction by the Platform Admin at 16:24; the batch 4 trigger post-check was first changed to ignore Windows line endings (PR #429). Verified live: history rows normalised, md5 17423506… and 3bddbb51… match the files; the 15 functions are gone; pipeline.trg_submit_pilot_edge_execution md5 6e6f2d16… (Layer 2 branch removed); run-token rows for retired functions removed; round 3 settings in place.
+  - Batch 4 dropped 15 functions (all 16 md5 guards checked read-only first; no caller, cron, trigger, view, policy or default; no CASCADE): the old Layer 2 operator, scope-batch, refresh, fan-out, qualification, auto-discovery, wave scheduler and stale-wave functions, layer3_enqueue_eligible_layer2_service, the public scholarship_runtime_settings_write wrapper and the four onboarding-case RPCs. No table, data or history dropped.
+  - Kept for a later decision: 11 old functions still reached from admin_read ('scholarship_runtime_uat') or the scheduler workflow bridges (and layer2_background_scope_service, which nothing calls); the provider-asset edge functions (layer2-provider-page-fanout, layer2-provider-asset-promote, layer2-hotcourses-directory-parse; CF-101/CF-102 logos and assets); layer2-acquire-v2 and layer2-scope-discover-scheduled.
+- Round 3 expedited (claims in bursts timed out on the claim lock; switched to one call per field a minute). Results (0 worker errors; 4 claim timeouts during the burst, retried):
+
+| Field | Compared | Agree where both found | Merged found vs Layer 3 found | Escalated (found after) | Cost a read |
+|---|---|---|---|---|---|
+| Intakes | 300 | 93.8% (15 of 16) | 5.7% vs 6.0% | 87 (6) | US$0.00037 |
+| English | 316 | none to compare | 0% vs 0.3% | 2 (0) | US$0.00016 |
+| Tuition | 308 | 100% (33 of 33) | 14.9% vs 12.7% | 263 (1) | US$0.0059 |
+
+- Caveat: round 3 read the next-oldest Layer 3 courses (newest first, as in rounds 1 and 2), and this slice is mostly pages where Layer 3 itself found little (Layer 3 found 0.3% to 12.7%, against 16% to 78% in rounds 1 and 2), so few values were compared. The summary marks tuition as meeting the rule, but on 33 found courses in an unrepresentative slice, with 263 of 308 reads escalated and a cost about five times Layer 3's. Not treated as a basis to retire anything. 3,936 shadow reads today, US$4.96.
