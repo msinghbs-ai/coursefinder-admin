@@ -5386,3 +5386,40 @@ The brief now forbids direct table changes.
   - New contract cf-247-r4b-pause-contract (3). Version pins in the r3 contacts and toolsets contracts updated. Full chromium-desktop suite passed (511 plus the 2 updated pins).
   - After merge: Workers build, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
 - Next: R5. A new 'archived' lifecycle status with a reason; Layer 1 departures auto-archive a provider when all its courses have gone; cascade to related work; an Archived review screen with restore; a manual archive clean-up checklist with preview; search refresh when a course is archived.
+
+### 11 Oct 2026 (Sun, Melbourne) – R5 released as v2.15.238: archived status, clean-up workflow and Archived review screen
+
+- Scope: Features 5, 6 and 7 (Platform Admin decision: "New 'archived' status"). Pilot PR #460, squash 7f064b59; package 0.1.165.
+- Found before building:
+  - A provider departure review already existed (Layer 1 retires courses that leave the register and queues the provider). Providers stayed published until reviewed; 10 were waiting, all published with no active courses, including UniSA and the University of Adelaide (merged into Adelaide University).
+  - The old Archive button only set the status to inactive.
+  - Of 6,502 non-active courses, 5,615 are Canadian courses outside the import scope (Canada parked).
+- Design choices, stated to the Platform Admin:
+  - Courses keep their existing statuses and are shown on the Archived screen with why; the new 'archived' status applies to providers only.
+  - Archive and restore stay at PIM Operator and above.
+  - Hand-started work is unaffected (as in v2.15.237).
+- Migration 20261010007000, pasted by the Platform Admin ("Success. No rows returned").
+  - Verified live: history md5 7db541ac… equals the file.
+  - Post-check md5s: admin_provider_edit bc9e961a…, admin_provider_edit_read c09d51ed…, layer4_provider_departure_decide_v1 92051857…, admin_course_edit 3fdf8862….
+  - pipeline.provider_archives: one row per archive (source, reason, earlier status and publication, what was switched off), closed at restore.
+  - Archive clean-up (security.provider_archive_apply_v1): status 'archived' and unpublished; adapter and course link search switched off; waiting Layer 4 reviews superseded; logged; search rebuilt. A status locked by hand is kept when the archive comes from Layer 1.
+  - Restore (security.provider_restore_v1) switches back on exactly what was switched off and reopens those reviews.
+  - Checklist (preview) through admin_provider_archive(p_preview); admin_provider_restore.
+  - Layer 1 triggers: a new provider departure archives the provider when it has no active courses. A course coming back restores a provider archived by Layer 1. A failure never stops the Layer 1 run.
+  - The departure review's closure or merger now archives through the same workflow.
+  - admin_archive_read: archived providers and non-active courses with why (left the register, archived by hand, outside the import scope (Layer 1), suspended), plus departures waiting.
+  - A course archived or restored by hand requests a search rebuild (gap A).
+  - security.layer4_search_blocked_courses now includes every non-active course (partial index courses_not_active_idx), so no consumer API serves one by id.
+  - Effect at apply: the 10 waiting providers archived (source layer1_departure, unpublished); 10 providers hidden; 6,502 courses blocked; 10 search refresh requests. The 10 departures still wait in Layer 4 to record a closure or merger.
+- UI:
+  - Archive checklist in the provider panel, with a reason chosen from a short list.
+  - New tab Providers › Archived, with Restore.
+  - The Providers and Courses lists show active records unless another Status is chosen ("Any status" shows all).
+  - Platform guide (Providers) updated.
+- Checks:
+  - New contract cf-247-r5-archived-contract (4, including mocked screen tests). Full chromium-desktop suite 517 passed.
+  - After merge: Workers build, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- The Platform Admin bug list of 10 Oct 2026 is now complete (R1 to R5).
+- Open items:
+  - RMIT's public email is a reporting mailbox (safercommunity@); set it by hand or add it to the skip list.
+  - Record the UniSA and University of Adelaide departures as merged into Adelaide University in Layer 4.
