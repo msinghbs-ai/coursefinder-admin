@@ -5292,3 +5292,31 @@ The brief now forbids direct table changes.
 - Checks: new contract cf-247-r2-own-sites-contract (3). Full chromium-desktop suite 502 passed (plus a re-run after a test-scope fix). After merge, Workers build, deploy, Deployed UAT (targeted), deployed-release-currentness, release-history-contract and build-and-smoke all passed.
 - Open for review: 40 course finder addresses are "not confirmed" (own-looking abbreviations, plus technologycourses.com.au, educonnect.com.au and learn.bom.gov.au). They are kept but never copied to Website.
 - Next: R3 (phone and email from the provider's own site; CRICOS Principal Executive Officer as an internal regulatory contact).
+
+### 10 Oct 2026 (Sat, Melbourne) – R3 released as v2.15.234 and fixed in v2.15.235: provider phone and email; CRICOS contact held internally
+
+- Scope: Fix 2. Platform Admin decisions (multiple choice): "Both, kept separate"; public contact "Fill automatically"; CRICOS contacts "All at once".
+- R3, v2.15.234 / 0.1.161 (Pilot PR #456, squash).
+  - coverage-sweep v0.17.33 deployed by CI (run 38041938217).
+  - Migration 20261010006600 pasted by Platform Admin. The editor showed cron job 147, i.e. the schedule was created.
+  - Verified live: history md5 11695b59… equals the file; admin_provider_edit_read 3306e121… matches the post-check.
+  - New tables: pipeline.provider_contact_points and pipeline.provider_contact_checks (RLS on, no client access).
+  - New service-only functions svc_provider_contact_next / _record and svc_cricos_peo_next / _record.
+  - New schedules: provider-contact-page (job 146) and cricos-peo (job 147), both in the automation catalogue.
+  - Provider panel: shows where the public contact came from, and the CRICOS contact to PIM Operators and above, marked "Internal only · never published". No consumer API reads these tables.
+- Live check after 5 minutes found two problems:
+  - Public contacts: 13 found, but several were not enquiry mailboxes (security@rmit, media@adelaide, feedback@auckland, campus.assist@sydney).
+  - CRICOS: 4 found with correct names; 8 not found because the Firecrawl search returned no CRICOS page, at 2 credits each.
+  - Both jobs were paused (cron.alter_job 146 and 147 set inactive).
+- v2.15.235 / 0.1.162 (Pilot PR #457, squash).
+  - coverage-sweep v0.17.34 deployed by CI (run 38043088712).
+  - Public contacts: media, security, feedback, careers, IT and similar mailboxes are skipped; the main contact page is read first; mobile numbers rank lower.
+  - CRICOS: the page is read directly by provider code (InstitutionDetails.aspx?ProviderCode=…), with a Firecrawl scrape only as fallback and no search.
+  - Migration 20261010006700 pasted by Platform Admin. Verified: history md5 abb78982…; svc_provider_contact_record f6dba8fb…; both schedules active.
+  - The record function now replaces or clears a value the job wrote earlier; values entered by hand stay locked. Checks re-queued.
+- Result over the 6 minutes after the fix:
+  - CRICOS: 14 of 14 found with correct names and titles (for example Griffith: Liz Burd, Deputy Vice Chancellor (Education)).
+  - Public contacts: 13 found, 11 not found; mostly enquiry addresses and main lines.
+  - Two weaker picks remain (Victoria University: a library-service address on another domain; Murdoch: a vet hospital mailbox). Next worker fix: compare registrable domains, and skip library, vet and similar mailboxes. Those providers will be re-read.
+- Checks: contract cf-247-r3-contacts-contract (4); full chromium-desktop suite 506, then 507, passed. After each merge: build, release-history and Workers build passed.
+- Next: R4 (Published toggle as a real gate; unpublished providers hidden and their work paused).
