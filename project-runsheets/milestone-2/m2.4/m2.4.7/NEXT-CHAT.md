@@ -5351,3 +5351,48 @@ The brief now forbids direct table changes.
 - Open items:
   - RMIT's public email is a reporting mailbox (safercommunity@); set it by hand or add it to the skip list.
   - Record the UniSA and University of Adelaide departures as merged into Adelaide University in Layer 4.
+
+### 11 Oct 2026 (Sun, Melbourne) – Scholarship completeness pass (v2.15.239 to v2.15.241), StudySearch rename, overnight follow-ups
+- Platform Admin request (11 Oct 2026): show how scholarships are found and checked (Curtin's page listed 7 but only 1 was published), keep the 27-provider watch list, bulk restore for archived records, and rename CourseFinder to StudySearch (repository names stay until production).
+- Platform Admin decisions:
+
+| Question | Decision |
+|---|---|
+| Order | Scholarship fixes first, rename last |
+| Pages naming no level or course | Link all international courses, marked as such |
+| Consumer API default | Published only, always |
+| Publishing | Auto-publish, list for morning review |
+| Applying migrations | Applied overnight through the new Database apply migration workflow; anything that drops or deletes is pasted by the Platform Admin |
+
+- New workflow Database apply migration (PR #461): applies one migration file and its history row in one transaction, refuses a version already recorded or any top-level drop, delete or truncate, then checks that the history md5 equals the file.
+- Releases and migrations (each applied through the workflow; the history md5 matched the file each time):
+
+| Release / PR | Migration | What |
+|---|---|---|
+| v2.15.239 (#462) | 20261011007100 | Published only in every website, Wix and Zoho scholarship read |
+| v2.15.239 (#462) | 20261011007200 | An unmatched faculty no longer blocks course links. A page naming no level or field links to all courses open to international students (basis sweep_level_field_scope). Edition check added to publishability. Auto-publish setting and job scholarship-auto-publish ('29 * * * *'). Re-read queued; read_limit raised to 40 |
+| v2.15.240 (#463) | 20261011007300 | Listing pages, coverage checks and the 27-provider watch list; job scholarship-listing ('7-59/15 * * * *'); bulk restore (admin_archive_restore_bulk) |
+| #464 | 20261011007400–7600 | Auto-publish publishes directly (no consumer snapshot); edition ranking uses the leading term or year, and past years rank last |
+| #465, #467 | 20261011007800 | Listing parser filters (worker v0.17.38); headings take the first provider link (v0.17.39); "similar name" match |
+| v2.15.241 (#466) | 20261011007700 | CourseFinder renamed StudySearch in the UI, guide and 82 function bodies (none left; verified) |
+| #468 | 20261011007900 | Publishability edition check precomputed (50 s to 3.6 s) |
+| #469 | 20261011008000, 8100 | Platform notices read the job history once and rank only failed jobs (12.6 s to 0.86 s); live md5 a3f2cace… |
+
+- UI:
+  - New tab Scholarships › Coverage: how scholarships are found and checked, the listing pages per provider, the watch list and every setting, with full control and nothing else added to the screen.
+  - Providers › Archived: tick several and Restore.
+- Live results (11 Oct 2026, 04:10 Melbourne):
+  - 451 scholarships published (was 419); 1,032 unpublished; 47 withdrawn.
+  - Curtin: 7 published. Its listing page now reads 9 items (5 before the similar-name match).
+  - Listing pages: 14 read, 4 failed, 43 suggested.
+  - Pages: 1,407 read; 4 gone, 3 blocked, 2 too thin, 5 name mismatch.
+- Checks:
+  - New contracts cf-247-s1-scholarships, cf-247-s3-coverage and cf-247-s6-studysearch; full chromium-desktop suite 527 passed.
+  - Deployed UAT (targeted) failed on 5xx from admin_platform_notices_read and admin_waiting_read (8-second limit). Fixed by #468 and #469, then passed (run 38070470245).
+- Open items:
+  - Morning review of what auto-publish published.
+  - Curtin Global Scholars needs "International" confirmed.
+  - UTas, Lincoln and Otago listing pages return 403; Le Cordon Bleu fetch fails. A Firecrawl fallback is possible later.
+  - read_limit is 40 and can be set back.
+  - Deferred to production: reader user agents, cron job names, web address, Wix and Zoho contract names (still CourseFinder).
+  - svc_provider_contact_next timed out once. layer3-fact-admit still fails on the consumer snapshot timeout (existing issue).
