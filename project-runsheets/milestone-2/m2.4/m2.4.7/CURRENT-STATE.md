@@ -5318,3 +5318,20 @@ The brief now forbids direct table changes.
   - Two weaker picks remain (Victoria University: a library-service address on another domain; Murdoch: a vet hospital mailbox). Next worker fix: compare registrable domains, and skip library, vet and similar mailboxes. Those providers will be re-read.
 - Checks: contract cf-247-r3-contacts-contract (4); full chromium-desktop suite 506, then 507, passed. After each merge: build, release-history and Workers build passed.
 - Next: R4 (Published toggle as a real gate; unpublished providers hidden and their work paused).
+
+### 10 Oct 2026 (Sat, Melbourne) – R4 part 1 released as v2.15.236: Published switch; publication becomes a real gate
+
+- Scope: Feature 4 (Platform Admin decision: "Hide and pause work"). This is part 1, the gate and the switch; pausing related work follows in part 2. Pilot PR #458, squash; package 0.1.163.
+- Before: publication was not enforced. All 3,101 providers were marked unpublished, yet all were served to Wix, Zoho and the website.
+- Migration 20261010006800, pasted by Platform Admin before the UI merged ("Success. No rows returned").
+  - Verified live: history md5 d98b4dde… equals the file.
+  - Post-check md5s: refresh_course_base_v3 bbb65ede…, website_v2_scholarships f0a9139a…, website_v2_scholarship 4168bdab…, zoho_edge_scholarships_v1 c1ba4d2d…, website_v2_rankings 9a9e9598…, website_v2_course_item 6f354729…, website_v2_providers 9e6674ed….
+  - New view security.provider_hidden_v1: providers not published or not active.
+  - The Layer 4 search-block views (providers, courses, campuses, scholarships), which every consumer API reads, now include hidden providers with their courses, campuses and scholarships.
+  - Consumer paths that did not read the block views now do: the course index build, the website/Wix provider list, single course, scholarships (list and one), rankings, Zoho scholarships.
+  - Every active provider is published (3,101 published / active). New providers start published (column default and an insert trigger).
+  - New admin_provider_publish: PIM Operator and above, no reason asked, logged in manual_edit_log, triggers a search rebuild; refuses to publish an archived provider.
+  - Effect at apply: 0 providers hidden; 37,300 search documents unchanged.
+- UI: Published switch in the provider list. Unpublished rows are greyed. The switch does not open the provider.
+- Checks: new contract cf-247-r4-published-contract (3, including mocked switch tests); full chromium-desktop suite 510 passed. After merge: Workers build, build-and-smoke, Deployed UAT (targeted), deployed-release-currentness and release-history-contract all passed.
+- Next: R4 part 2, pausing an unpublished or archived provider's background work: page finding, adapters, Firecrawl, contact jobs and the site search.
