@@ -5207,3 +5207,12 @@ The brief now forbids direct table changes.
 - Deployed from main by the CI workflow (run 38014776914): ranking-publisher-import (now v9), layer1-au-depth, layer1-au-cricos-facts, layer3-intake-benchmark. Edge drift check run 38014900629 after deploy: live equals git for all six functions, including shared files (0 differences).
 - The behaviour-drift findings from the readiness review (e71) are closed. Snapshot branches edge-live-snapshot/38014044472, edge-live-snapshot/38014900629 and db-function-snapshot/38014304853 remain (this session cannot delete branches); safe to delete.
 - Next: phase 4 (database baseline from live), then phase 3 (CI map for the remaining 14 non-Canada functions; database changes through CI), 5 and 6.
+
+### 10 Oct 2026 (Sat, Melbourne) – Production readiness phase 4 started: live schema baseline captured
+
+- Platform Admin decisions (multiple choice): baseline "Dump + test project"; old migration files "Move to archive folder" (after the rebuild test passes). The test project create through the connector was cancelled; Platform Admin chose "You create it" (name coursefinder-baseline-test, techM org).
+- New read-only workflow "Database schema dump" (Pilot PR #446): supabase db dump of the confirmed project to a never-merged branch db-schema-dump/<run id>. Run 38015733264: schema.sql 4,455,889 bytes (md5 e267e6a0…), roles.sql 370 bytes (md5 9d2a94b6…); 400 tables and 1,257 functions, equal to live counts (17 application schemas; 5 policies, 104 triggers live).
+- Pilot PR #447 (squash; no version bump): baseline held at supabase/live-capture/baseline with MD5SUMS; new workflow "Database baseline rebuild test" builds an empty project named coursefinder-baseline-test from the baseline, dumps it and pushes dump and push log to db-baseline-rebuild/<run id>. It refuses the Pilot ref, any other project name, or a project with application tables. New contract cf-247-baseline-contract (2); full chromium-desktop suite 491 passed.
+- Not in the baseline, to be handled before Production: row data (including reference and configuration tables), the 94 cron.job schedules, storage buckets, edge function secrets, Auth settings.
+- Waiting on: Platform Admin to create coursefinder-baseline-test and share its ref. Then: run the rebuild test, compare dumps, move the 1,053 migration files to an archive folder, delete the test project.
+- Snapshot branch db-schema-dump/38015733264 remains (this session cannot delete branches).
