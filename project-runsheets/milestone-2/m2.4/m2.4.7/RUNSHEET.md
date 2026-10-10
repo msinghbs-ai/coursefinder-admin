@@ -5447,3 +5447,28 @@ The brief now forbids direct table changes.
   - read_limit is 40 and can be set back.
   - Deferred to production: reader user agents, cron job names, web address, Wix and Zoho contract names (still CourseFinder).
   - svc_provider_contact_next timed out once. layer3-fact-admit still fails on the consumer snapshot timeout (existing issue).
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.242: scholarships read through the scraper first
+- Platform Admin request (11 Oct 2026, 09:05): "Always use scrapper for Scholarships ... use the evidence read like courses to read scholarship asap. This can be controlled via ui."
+- What changed:
+  - Scholarship pages and provider listing pages are read through Firecrawl first, as the rendered page (rawHtml, as course pages with a view are read). This applies to every provider, within the scholarship credit cap.
+  - robots.txt is still respected. A direct read is the fallback when the scraper cannot be used or returns nothing.
+  - Evidence is kept as before (gzipped page, evidence_artifacts, capture versions).
+  - New Layer 2 setting "Read scholarship pages through the scraper" (read_via_scraper, on by default), shown as an on/off switch on Scholarships › Coverage › Settings and jobs. On/off scholarship settings now show as switches.
+  - Discovery's candidate screening still reads directly, with Firecrawl only for pages that refuse, to keep credit use bounded.
+- Migration 20261011008200, applied through Database apply migration (history md5 75af1cfc… equals the file):
+  - adds the setting;
+  - public.svc_scholarship_fc_budget passes it to the worker (live md5 2faa5eac… → 5a58bfd5…, verified);
+  - scholarship credit cap 6,000 → 12,000 (about 2,000 were left; one full pass is about 1,600; the Firecrawl plan had about 448,000 left);
+  - every active scholarship page (1,404) and active listing page (18) queued to be read again now.
+- Worker coverage-sweep:
+  - v0.17.40: reads through the scraper first.
+  - v0.17.41: a record that hits the 8-second limit is retried once and no longer fails the whole run.
+  - v0.17.42: pages are read six at a time but recorded at most two at a time. Each record rebuilds course links (1–2 s), and six at once pushed some past the limit: 13 of 40 failed before the change, 40 of 40 read after.
+- Live after deploy (first 30 minutes): 157 pages read through the scraper, 11 by the direct fallback, 1 blocked, 1 name mismatch. Listing pages read through the scraper (6 in the first run). 1,249 still to read, at about 480 an hour. 458 scholarships published.
+- Checks:
+  - New contract cf-247-s7-scholarship-scraper (3); the toolsets contract was updated for the any-provider scraper use. Full chromium-desktop suite: 528 passed (one UI sweep test was flaky and passed on re-run).
+  - PR #470 merged. Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness all passed.
+- Open items:
+  - The record step's course-link rebuild (security.scholarship_sweep_apply_v1, 1–2 s per scholarship) is worth speeding up later.
+  - Credit use will be about one credit per page read; the cap and the switch are on the Coverage screen.
