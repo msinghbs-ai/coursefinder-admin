@@ -5286,3 +5286,31 @@ The brief now forbids direct table changes.
 - UI: Published switch in the provider list. Unpublished rows are greyed. The switch does not open the provider.
 - Checks: new contract cf-247-r4-published-contract (3, including mocked switch tests); full chromium-desktop suite 510 passed. After merge: Workers build, build-and-smoke, Deployed UAT (targeted), deployed-release-currentness and release-history-contract all passed.
 - Next: R4 part 2, pausing an unpublished or archived provider's background work: page finding, adapters, Firecrawl, contact jobs and the site search.
+
+### 10 Oct 2026 (Sat, Melbourne) – R4 part 2 released as v2.15.237: background work paused for unpublished providers; contact email fix
+
+- Scope: Feature 4, part 2 (Platform Admin decision: "Hide and pause work"). Pilot PR #459, squash 3a231789; package 0.1.164.
+- Design choice (stated to the Platform Admin): automatic background work pauses for a hidden provider. Work a Platform Admin starts by hand still runs (adapter builder, Firecrawl runs, adapter apply, edits), so a record can be fixed before it is published again.
+- Migration 20261010006900, pasted by the Platform Admin ("Success. No rows returned").
+  - Verified live: history md5 184c978d… equals the file.
+  - The 20 functions it replaced were checked first against the live snapshot (db-function-snapshot run 38051743191).
+  - Each of the 20 automatic pickers now skips providers in security.provider_hidden_v1 (not published or not active). Post-check md5s, all as intended:
+    - svc_coverage_discovery_next 7d6ae2fa…, svc_coverage_site_next 3858a8ab…, svc_coverage_read_next 57d2b087…, svc_coverage_ai_match_next 101f769a…
+    - svc_course_link_search_next 1359e0d8…, svc_site_hint_next 48424915…, svc_provider_contact_next a3ba9860…, svc_cricos_peo_next 448741d9…
+    - svc_provider_facts_read_next bcc11812…, svc_provider_facts_search_next ad0e0802…
+    - svc_scholarship_candidate_next 2f3ccd5c…, svc_scholarship_discover_next cf7cd3c0…, svc_scholarship_read_next e2d5ab79…, svc_scholarship_search_next 3e5ae07b…
+    - svc_coverage_tuition_handoff_next e93adb48…, svc_coverage_reextract_next 0ddd2a75…, svc_coverage_reidentify_next 3e8689f9…
+    - coverage_bind_tick_v1 ea26c91e…, course_link_search_tick_v1 9d53e299… (send and re-queue steps), adapter_overwrite_v1 eeeae4a7…
+  - Work already in flight finishes; everything resumes when the provider is published again. Not gated (hand-started): svc_fc_run_next, svc_adapter_apply_next/continue, svc_adapter_preview_next, firecrawl_backlog_v1, firecrawl_targets_v1.
+  - Effect at apply: 0 providers hidden, so nothing paused yet.
+  - Data fix: public contact emails set by the contact job that the new rules reject were cleared, unless locked by hand, and those providers were re-queued: 9 providers (VU ×2, Murdoch, RMIT, Adelaide, Auckland, Newcastle, Sunshine Coast, NZIE). One search refresh was requested.
+- Worker coverage-sweep v0.17.35 deployed (Deploy edge functions run 38056200161):
+  - A contact email must be on the provider's own domain. The domain's name, after its public suffix, must match the site's name, so vu.libanswers.com is refused for vu.edu.au.
+  - Library, vet hospital, clinic, ethics, philanthropy, partnership, helpdesk, facilities and research mailboxes are skipped.
+  - First re-reads (v0.17.35): Murdoch studentcentre@murdoch.edu.au; Newcastle international-enquiries@newcastle.edu.au; VU, Adelaide and Auckland phone only, no email (better than a wrong one); Sunshine Coast information@unisc.edu.au (printed on its own site).
+  - Open quality item: RMIT now gives safercommunity@rmit.edu.au, which is not an enquiry mailbox. To fix with R5 or by hand.
+- UI: the Published switch tooltip and the Platform guide (Providers) say switching off also pauses background work.
+- Checks:
+  - New contract cf-247-r4b-pause-contract (3). Version pins in the r3 contacts and toolsets contracts updated. Full chromium-desktop suite passed (511 plus the 2 updated pins).
+  - After merge: Workers build, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Next: R5. A new 'archived' lifecycle status with a reason; Layer 1 departures auto-archive a provider when all its courses have gone; cascade to related work; an Archived review screen with restore; a manual archive clean-up checklist with preview; search refresh when a course is archived.
