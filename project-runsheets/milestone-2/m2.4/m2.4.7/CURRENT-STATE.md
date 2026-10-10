@@ -5228,3 +5228,40 @@ The brief now forbids direct table changes.
 - Not yet in the baseline: row data (reference and configuration tables), the 94 cron.job schedules, storage buckets, edge function secrets, Auth settings.
 - The test project can now be deleted (Platform Admin). Snapshot branches db-schema-dump/38015733264 and db-baseline-rebuild/* remain (this session cannot delete branches).
 - Next: phase 3 (CI map for the remaining 14 non-Canada functions; database changes through CI, with the baseline recorded as applied on the Pilot), then 5 and 6.
+
+### 10 Oct 2026 (Sat, Melbourne) – Platform Admin bug list (Fixes 1–5, Features 1–7) logged; R1 released as v2.15.232
+
+- Platform Admin raised, with screenshots (Britts College Pty Ltd, CRICOS 04061K): no website found; Layer 1 did not capture phone and email; a course finder address changed by hand still showed Automated; Create adapter did nothing; the Firecrawl target asked for a reason; only the provider's own website or the regulator may be used, never third-party course finders; a Published toggle; Layer 1 handling of deregistered or discontinued providers and courses; review of archived records; a clean-up workflow for manual archive.
+- Logged items and plan (read-only investigation of the live project first):
+
+| ID | Finding (live) | Release |
+|---|---|---|
+| Fix 1 Website | The CRICOS register gave none. The site search accepted higherstudy.com because it shows the CRICOS code. Sites the search finds are never copied to providers.website (309 AU). | R2 |
+| Fix 2 Phone and email | The CRICOS download has no contact columns. The CRICOS website shows the Principal Executive Officer. 0 providers have phone or email. | R3 |
+| Fix 3 Course finder manual | The UI always showed Automated; no lock was written. | R1 |
+| Fix 4 Create adapter | The target only saved a setting. A provider with no website has no domain and was skipped silently (212 providers). | R1 |
+| Fix 5 Reason prompts | The builder asked at every step; Cancel or a short reason did nothing silently. | R1 |
+| Feature 1 Own-site validation | About 192 course finder rows are on aggregators (search.acir 64, higherstudy 46, oneuedu 38, studymelbourne 18 and others). | R2 |
+| Feature 2 Manual course page | A sample had to be a stored page. | R1 |
+| Feature 3 Remove third-party course finders | Hotcourses directory parsing and third_party_directory sources. | R2 |
+| Feature 4 Published toggle | Not enforced anywhere: all 3,101 providers are unpublished yet served. | R4 |
+| Feature 5 Layer 1 departures | Courses are retired to inactive (831). Providers go to needs_review (10). | R5 |
+| Feature 6 Archived review and cascade | No cascade; the search index ignores provider status. | R5 |
+| Feature 7 Manual archive workflow | The button changes one field only. | R5 |
+| Gap A | A course archived by hand stays in search until the next rebuild. | R5 |
+| Gap B | A CRICOS evidence row points at a missing zip record. | R2 |
+
+- Platform Admin decisions (multiple choice):
+  - Contacts: "Both, kept separate". Public phone and email come from the provider's own site; the CRICOS Principal Executive Officer is held as an internal regulatory contact and never published.
+  - Unpublish: "Hide and pause work".
+  - Archive: "New 'archived' status" with a reason.
+  - Hotcourses: "Keep for logos only".
+- R1 = v2.15.232 / 0.1.159 (Pilot PR #453, squash). Migration 20261010006400: the connector apply was cancelled; Platform Admin chose "I'll paste it" and pasted it in one transaction with its history row ("Success. No rows returned").
+  - Verified live: history md5 bac1fd50… equals the file.
+  - Function md5s match the post-check: admin_provider_edit 21b1ff38…, svc_coverage_site_record 153b3bd4…, admin_firecrawl_write d4a359d6…, admin_adapter_builder 08bcda47….
+  - Fix 3: a course finder address entered by hand is locked and marked manual; the site search keeps it; the row shows Entered by hand.
+  - Fix 4: builder step 1 asks for the provider's own website when none is recorded, and otherwise starts a find_page run for that provider only and reports it.
+  - Fix 5: no reason prompts in the builder; a standard log line is written instead.
+  - Feature 2: add_page saves a course page entered by hand (provider's own website only) as the official page and a sample.
+- Checks: new contract cf-247-r1-builder-contract (5); full chromium-desktop suite 500 passed. After merge: Workers build, Deployed UAT (targeted), deployed-release-currentness, build-and-smoke and release-history-contract all passed.
+- Next: R2 (own-site validation; remove third-party course finders; copy validated own sites to Website).
