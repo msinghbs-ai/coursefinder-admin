@@ -5216,3 +5216,28 @@ The brief now forbids direct table changes.
   - Feature 2: add_page saves a course page entered by hand (provider's own website only) as the official page and a sample.
 - Checks: new contract cf-247-r1-builder-contract (5); full chromium-desktop suite 500 passed. After merge: Workers build, Deployed UAT (targeted), deployed-release-currentness, build-and-smoke and release-history-contract all passed.
 - Next: R2 (own-site validation; remove third-party course finders; copy validated own sites to Website).
+
+### 10 Oct 2026 (Sat, Melbourne) – R2 released as v2.15.233: only the provider's own website, the regulator, or a value entered by hand
+
+- Scope: Fix 1, Feature 1 and Feature 3 from the 10 Oct bug list (Platform Admin decision: Hotcourses kept for logos only). Pilot PR #455, squash; package 0.1.160.
+- New read-only workflow "Database migration test" (Pilot PR #454). It applies migration files to the throwaway coursefinder-baseline-test project and refuses the Pilot or any other name. It was not used this time because Platform Admin had already deleted the test project. The R2 SQL was checked offline with pglast and against the Pilot with read-only queries instead.
+- Migration 20261010006500, applied by Platform Admin paste:
+  - The first paste ran over 2 minutes (a per-row function over every evidence row). It rolled back when the SQL editor connection dropped. Verified live: no history row, no new functions, data unchanged.
+  - The data steps were rewritten set-based (the third-party list is read once into a temporary table; only evidence behind active facts is checked). The second paste returned "Success. No rows returned".
+  - Verified live: history md5 10500cc7… equals the file. Function md5s match the post-check: refused_host 348b59aa…, svc_coverage_site_record db8dd065…, svc_site_hint_next a15edf55…, admin_provider_edit 88d604e0…, admin_course_edit a8acab9d…, admin_provider_edit_read fd6fec4d….
+- Effect (live counts before → after):
+  - Reference sources 47 → 59: 12 course directories added as third_party_directory with uses not_provider_site and not_course_page.
+  - Course finders on a third-party site cleared and sent back to the website search: no_website 26 → 217.
+  - Course pages on a third-party site refused: refused_host 113 → 285.
+  - Withdrawn (locked values kept): active intakes 29,760 → 29,651; active English requirements 23,510 → 23,488; active links 29,492 → 29,328.
+  - An own site found by the search became the provider Website: providers with a website 1,630 → 1,726.
+  - Search rebuild requested.
+- Britts College: the higherstudy.com course finder was cleared and the provider is back in the website search. Verdict check: higherstudy.com = third_party; brittscollege.edu.au = own.
+- New helpers: security.site_host_v1, security.third_party_host_v1, security.provider_site_verdict_v1.
+- Third-party sites are now refused as a website, course finder or official course page, whether found by automation or entered by hand.
+- Directory site hints (Hotcourses, univ.cc) are retired.
+- The provider panel shows whose the Website and Course finder address are.
+- coverage-sweep worker v0.17.32 deployed by CI (run 38040777085). An AU site needs the CRICOS code on its home page, or on a deeper page of an address that fits the name. An edge drift check after the deploy found live identical to git; the shared extract.ts is unchanged.
+- Checks: new contract cf-247-r2-own-sites-contract (3). Full chromium-desktop suite 502 passed (plus a re-run after a test-scope fix). After merge, Workers build, deploy, Deployed UAT (targeted), deployed-release-currentness, release-history-contract and build-and-smoke all passed.
+- Open for review: 40 course finder addresses are "not confirmed" (own-looking abbreviations, plus technologycourses.com.au, educonnect.com.au and learn.bom.gov.au). They are kept but never copied to Website.
+- Next: R3 (phone and email from the provider's own site; CRICOS Principal Executive Officer as an internal regulatory contact).
