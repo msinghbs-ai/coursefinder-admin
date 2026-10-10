@@ -5193,3 +5193,10 @@ The brief now forbids direct table changes.
 - Live check: the 6 functions of the old scale-qualification chain are gone (layer2_qualification_continue_service, layer2_qualification_continue_impl, layer2_scale_qualification_dispatch, layer2_provider_attempt_start, scheduler_workflow_queueable_url_allowed_v1, scheduler_workflow_https_host_v1); the 8 run-token rows removed; 94 cron jobs unchanged.
 - Edge functions deleted from the live project by the deploy workflow (23:55 UTC 9 Oct; live list confirmed): coursefacts-au-qut, coursefacts-au-rmit, coursefacts-au-uq, layer2-scale-qualify-scheduled, layer2-screenshot-backfill-scheduled, layer3-source-pattern-benchmark, layer1-au-completeness, pilot-reset.
 - Old-system clean-up of the data-admission programme is complete apart from the Canada functions, which stay while Canada is parked.
+
+### 10 Oct 2026 (Sat, Melbourne) – v2.15.230: same look on every page, stage 3 (rollout complete)
+
+- Stage 3 of the Platform Admin decision "Every page, in stages": Rankings, Reference data, Settings, Models and services, Data model, Scrapers, Go-live checklist, Storage, Users, Provider contacts, Live activity and the provider tabs reviewed by screenshot.
+- Pilot PR #440 (squash 99785c7), UI v2.15.230 / package 0.1.157: Settings rows, the Go-live and Capacity section headers and the environment panels use the standard text sizes; the other stage 3 pages already followed the shared look (tables resize everywhere since v2.15.227).
+- Checks: new contract cf-247-ui-standard-stage3 (3); full chromium-desktop suite 484 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed passed. No database change.
+- The app-wide look-and-feel rollout (v2.15.225 to v2.15.230) is complete.
