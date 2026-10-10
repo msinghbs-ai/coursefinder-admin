@@ -5128,3 +5128,10 @@ The brief now forbids direct table changes.
 - Pilot PR #440 (squash 99785c7), UI v2.15.230 / package 0.1.157: Settings rows, the Go-live and Capacity section headers and the environment panels use the standard text sizes; the other stage 3 pages already followed the shared look (tables resize everywhere since v2.15.227).
 - Checks: new contract cf-247-ui-standard-stage3 (3); full chromium-desktop suite 484 passed; build, ui-tokens and release-contract pass. After merge: Workers build, Deployed UAT and Release Currentness Deployed passed. No database change.
 - The app-wide look-and-feel rollout (v2.15.225 to v2.15.230) is complete.
+
+### 10 Oct 2026 (Sat, Melbourne) – v2.15.231: slim course read; simple logo list
+
+- Platform Admin decisions (multiple choice): course panel "Yes, load insights on More"; Logos tab "Simple logo list"; next "Production readiness review".
+- Migration 20261010006300 (Pilot PR #441, squash 57234ed; applied live through the connector, history md5 7adf4785… matches the file; admin_read guard c4e339a7…, post-check f910ab61…): course_detail no longer returns related insights, ranking context, taxonomy or state summaries; new course_insights operation loaded only when "More about this course" is opened. Live: course_detail about 85 KB to 21.5 KB (insights 54.8 KB on demand). Compare reads rankings through contextual_compare and is unaffected.
+- Providers › Logos & assets is a has-logo / no-logo list with the share that has a logo; the retired logo-finding counts are removed. Logos are added or replaced by clicking the logo in the provider's panel.
+- UI v2.15.231 / package 0.1.158. Checks: cf-247-ui-standard contract (8); full chromium-desktop suite 486 passed; after merge Workers build, Deployed UAT and Release Currentness Deployed passed.
