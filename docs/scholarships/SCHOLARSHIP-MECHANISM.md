@@ -1,6 +1,6 @@
 # StudySearch – How scholarships work
 
-**Version:** 1.0 (11 Oct 2026, platform release v2.15.244)
+**Version:** 2.0 (11 Oct 2026, platform release v2.15.249)
 **Owner:** Platform Admin
 **Change control:** CF-247
 **Rule:** this document is updated with every change to how scholarships are found, read, linked, published or controlled. The change-control entry for that change says which version of this document it produced.
@@ -9,7 +9,7 @@
 
 ## 1. In one paragraph
 
-StudySearch takes scholarships only from each university's own website, in every country. A scraper (Firecrawl) reads each page as a person would see it, and the page is saved as evidence. Fixed rules then read the facts from the saved page: value, who it's for, nationalities, dates, study levels and courses. Each fact keeps the sentence it came from. Courses are linked only where the page supports it. Scholarships that pass every publishing check are published automatically each hour and appear on the website and in Zoho. Pages are read again regularly, so changes on the university's site flow through. Anyone with the right role can also run any of this on demand, and every piece of background work shows in Task manager.
+StudySearch takes scholarships only from each university's own website, in every country. A scraper (Firecrawl) reads each page as a person would see it, and the page is saved as evidence. A pinned AI model then reads the saved page and answers with the facts: whether it is one scholarship, its name, who it's for, whether it is offered, the value, study levels, courses and dates. Each fact must come with an exact quote from the page, and the quote is checked against the page; a fact that is not proven counts as not stated. (Until AI admission is switched on, the fixed rules used before v2.15.249 still decide, and the AI answers are recorded alongside.) Courses are linked only where the page supports it. Scholarships that pass every publishing check are published automatically each hour and appear on the website and in Zoho. Pages are read again regularly, so changes on the university's site flow through. Anyone with the right role can also run any of this on demand, and every piece of background work shows in Task manager.
 
 ## 2. Principles
 
@@ -18,7 +18,8 @@ StudySearch takes scholarships only from each university's own website, in every
 | Provider pages only | Scholarships come from universities' own sites. No national register or third-party directory is used (Study Australia, Australia Awards and Manaaki were retired on 11 Oct 2026). |
 | Scraper only | Every scholarship page, listing page, candidate page and site map is read through the scraper (rendered page). There is no direct read and no fallback. robots.txt is not consulted for scholarship pages (Platform Admin decision, 11 Oct 2026). |
 | Evidence first | Every page read is saved (compressed copy, fingerprint, version). Every fact and every course link points back to it. |
-| Fixed rules, no guessing | Facts are read by deterministic rules. Anything unclear (for example, two different values) is left for a person, not guessed. |
+| Proven facts, no guessing | The AI may only state what the page says, with a quote. Code checks every quote against the saved page. A fact without a proven quote counts as not stated. Anything unclear (for example, two different values) is left for a person. |
+| Pinned, qualified model | One named model version is used (no automatic routing between models). A model is qualified on a sample of pages with known answers before it is used. Qualifying never switches anything on: making a model active and switching AI admission on are separate steps, each with a reason. |
 | People win | A value entered by hand is never changed by automation until a person hands it back. |
 | Country-neutral | Amounts stay in the provider's own currency. Numeric dates are read in that country's day/month order. |
 | Everything visible and controllable | Every job and on-demand task appears in Task manager with its controls. |
@@ -29,10 +30,10 @@ StudySearch takes scholarships only from each university's own website, in every
 |---|---|---|
 | 1. Universities queued | Universities in countries switched on for scholarships wait their turn for discovery. | Layer 1 › Scholarships (countries); Layer 2 › Scholarships |
 | 2. Site mapped | The scraper maps the university's site, including its site maps, and keeps addresses that look like scholarship pages (candidates). | Layer 2 › Scholarships (discovery by country) |
-| 3. Candidates screened | Each candidate is read through the scraper. It is admitted only if it is one named scholarship, open to international students and currently offered. The reasons for refusing a page are recorded. | Layer 2 › Scholarships (outcomes and reasons) |
+| 3. Candidates screened | Each candidate is read through the scraper and saved. Addresses matching a skip rule (course pages, news and similar) are skipped. With AI admission on, the AI answer decides: it is admitted only if it is one named scholarship, open to international students and not ended. The reasons for refusing a page are recorded. | Layer 2 › Scholarships; Scholarships › Extraction (recent answers); the task's journey |
 | 4. Page read and saved | The scholarship's own page is read through the scraper and saved as evidence (a new version only when the page changed). | Scholarship record › Evidence & extraction, steps 1 to 3 |
 | 5. Name check | The page must name the scholarship before anything is taken from it. | Evidence & extraction, step 4 |
-| 6. Facts read | Value (percentage, amount, tiers, maximums), who it's for, nationalities, who qualifies, how long, applications open, applications close (with rounds), study start, study levels, fields, and courses named or excluded. Each fact keeps the page's words. | Scholarship record rows; Evidence & extraction, step 5 |
+| 6. Facts read | AI (when on): name, who it's for, offered, value (percentage, amount, tiers, full tuition), study levels, courses named and dates, each with its quote. Fixed rules still read nationalities, who qualifies and how long. Each fact keeps the page's words. | Scholarship record rows; Evidence & extraction, step 5; Scholarships › Extraction |
 | 7. Facts applied | New values update the record unless a person has locked them. Every change is logged with its evidence. | Evidence & extraction, step 6; record History |
 | 8. Courses linked | See section 4. | Courses it applies to › Show the courses and why each is linked |
 | 9. Publishing checks | See section 5. Passing scholarships are published hourly as a batch named auto-publish. | Layer 4 › Scholarship publishing; Scholarships › Coverage (review) |
@@ -86,7 +87,9 @@ A scholarship with no linked course **can** be published (Platform Admin decisio
 | Re-read scholarship pages | Every 5 minutes | Reads due scholarship pages through the scraper and applies what they state |
 | Read listing pages | Every 15 minutes | Reads each provider's scholarship listing page for the coverage check |
 | Re-read cadence | Daily | Brings forward the next read of published and ready scholarships |
-| Who it is for | Hourly | Reads the audience from the wording (fixed rules) |
+| Who it is for | Hourly | Reads the audience from the wording (fixed rules); skips scholarships read by AI |
+| Read scholarship pages with AI | Every minute | Sends queued pages to the active model (and the qualification sample to a model being qualified); checks every quote |
+| AI re-check of refused pages | Nightly | While AI admission is on, queues the next universities (25 a night) whose refused pages have not been read with the active model and instructions |
 | Nationalities | Every 10 minutes | Reads the nationalities named (fixed rules) |
 | Fee alignment | Hourly | Recalculates savings for courses whose fee changed |
 | Publish automatically | Hourly | Publishes scholarships that pass every check, as one batch |
@@ -103,6 +106,9 @@ Retired on 11 Oct 2026: register feeds (ETL scheduler), weekly scope maintenance
 | Provider record; Scholarships › Coverage (one provider, or tick up to 50) | Find scholarships now | Maps the university's site through the scraper, screens its candidate pages, admits new scholarships, reads every scholarship page and links courses from the evidence |
 | Course record | Check scholarships for this course | Reads the provider's scholarship pages again and applies the link rules. The task lists the scholarships added to or removed from the course. |
 | Scholarship record | Read again now | Reads that scholarship's page again now and applies what it states |
+| Scholarships › Extraction | Qualify | Reads the qualification sample with one model and scores it |
+| Scholarships › Extraction | Re-check the watch list with AI | Reads every refused and known page of the watch-list universities with the active model |
+| Scholarships › Extraction | Try a page | Reads one address with a model and shows the answer; changes nothing |
 
 Each button starts a **task**. The task puts its pages first in the reader's queue, sends the scraper worker the next step each minute (map, screen, read), shows progress on the button and in Task manager, and finishes when nothing in scope is left. Courses are attached by the same evidence rules as scheduled reading. Cancel stops the task. Pages already read keep their results, and the rest go back to their normal turn. A task for the same target can't be started twice. Unpublished or archived providers can't be scanned until restored.
 
@@ -131,12 +137,17 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | Re-read published and ready pages at least every | 30 days |
 | Scraper credits for scholarships (all time) | 60,000 |
 | Publish scholarships that pass every check automatically | On |
+| AI admission (Scholarships › Extraction) | Off until a person switches it on |
+| Active AI model | None until a person makes a qualified model active |
+| AI instructions | Versioned; a new version switches AI admission off until the model is qualified again |
+| Universities re-checked with AI each night | 25 |
 
 ## 10. Costs
 
 - About one scraper credit per page read (scholarship page, listing page or candidate) and one per site map.
 - When the scholarship credit cap is reached, pages wait. There is no direct read. Raise the cap in Settings.
 - Credits used show on Layer 2 › Scholarships, on each scholarship record (Evidence & extraction) and in Task manager.
+- AI reading of a stored page uses no scraper credit. Measured on the 41-page sample: Qwen3 30B about US$0.0003 a page; GPT-4.1 mini about US$0.0008 a page. Cost today shows on Scholarships › Extraction.
 
 ## 11. Where to look
 
@@ -148,9 +159,12 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | What is discovery finding and refusing? | Layer 2 › Scholarships |
 | What was published or withdrawn, and when? | Layer 4 › Scholarship publishing |
 | What is running right now? | Scheduled jobs › Task manager |
+| What did the AI read on a page, and was each fact proven? | Scholarships › Extraction (recent answers, with the stored copy) |
+| Which AI model is used, and how well did it qualify? | Scholarships › Extraction |
 
 ## 12. Version history
 
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 11 Oct 2026 | First issue: scraper-only reading, evidence journey, dates, evidence-based course links, Study Australia retired (v2.15.243); on-demand tasks and Task manager running now (v2.15.244). |
+| 2.0 | 11 Oct 2026 | v2.15.248: every page a task reads is recorded and shown as a journey; a copy of every page is kept; skip rules; listing page suggestions; an automatically published scholarship that fails a check is held. v2.15.249: a pinned, qualified AI model reads every scholarship page with quotes checked against the page (Scholarships › Extraction); AI admission, model activation and instructions are separate, reasoned steps. |
