@@ -5602,3 +5602,33 @@ The brief now forbids direct table changes.
 - Diagnostics: the UI review screenshot workflow now records console errors and, on Layer 2 › Adapters, what the list drew (optional Platform Admin filters).
 - Standing rule G1 applied: both new task types and the central-find job are in Task manager with labels and controls.
 - Open items: large university sites may still need a central page attached by hand; a provider that has renamed itself may not verify by name and then needs its website entered once (step 1.1).
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.246: bugs 11/10-3 – one Sources list, Task manager live board, register runs in Jobs
+- Platform Admin request (11 Oct 2026, 15:15, four screenshots): NZQA jobs have many entries with no meaningful detail or evidence links; the Task manager shows nothing although it should show every job, worker or API call using resources; every job must be kept in Automations or Jobs and controlled from the UI; what is Layer 1 Manual batch runs for; Layer 1 Runs is tool-bloated and Source settings does not belong in it (wanted: a simple list with expandable rows, pills, editing on expand and + Add source, as on Reference sources); Reference sources' fields, explanation and columns do not match.
+- Platform Admin decisions: Manual batch runs retired (each source has Run now, one job); Layer 1 is one Sources list (tabs Sources and Scholarships); Task manager shows live plus the last 15 minutes; a register is rerun when it is due and its file has changed.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Fix 1 | NZQA showed 21 job rows per register run (1,712 rows). Jobs now shows one Register run row per run with what it found against the last applied register; opening it shows why it ran, its counts, every batch and links to the stored source files (security.layer1_run_for_job_v1). | 1,867 batch rows fold to 318 run rows; NZQA run 08e3b11c opens with 21 batches and its evidence. |
+| Fix 2 | NZQA reran about 5 times a day because its listing hash changes on every read while nothing changed. A source whose last two change-started runs found nothing new, changed or departed, with a completed run inside its cadence, waits for its due date. | layer1_auto_ingest_tick_v1 md5 21f32515 live. |
+| Fix 3 | Task manager blank: its read took up to 34 s (scheduler history of 289,228 runs scanned three times per job) and the error was hidden behind Loading. The read is 0.3–0.4 s; the page never hides an error; the board shows running now and the last 15 minutes (scheduled jobs with Pause, Resume and Run now, worker and API calls by kind, AI model calls and cost, scraper credits, queues with the job that works each) and flags any scheduled job not in the catalogue. | Live capture: 54 scheduled jobs in 15 minutes, 194 calls, 53 credits, queues shown, none uncatalogued; drawn in 2.8 s. |
+| Fix 4 | Automations read 34 s to 0.46 s (last runs computed once). | Timed live. |
+| Fix 5 | Study Australia, DFAT and Manaaki scholarship registers retired (inactive, paused, no automatic ingest). | Rows retired live. |
+| Fix 6 | An unhealthy Layer 1 source says why (for example "Centennial expected 195 unique source codes got 200"); 10 Canadian sources show their reasons. | Live list. |
+| Fix 7 | Reference sources rebuilt on the shared list: filters in column order, rows open to the same fields as Add site; a name-only change no longer asks for a reason (found by the new test). "Check all" run: 46 reachable, 13 not reachable, none unchecked. | Live read. |
+| Feature 1 | Batch size editable for the 32 automations that work in batches (28 report a batch now); uncatalogued jobs flagged in Automations. | Live read: 94 jobs, 0 uncatalogued. |
+| Feature 2 | Layer 1 › Sources: one list (source, country, type, health, last run, schedule) with expandable rows, pills, in-place settings (Platform Admin, with a reason), Run now, Check source, Pause or Resume and + Add source (public.admin_layer1_add_source, Platform Admin, new source paused until a reader is assigned). Runs, Source settings and Manual batch runs retired; old addresses open Sources. | Live capture: 35 sources, 10 needing attention sorted first. |
+
+- Database (Database apply migration workflow, each verified live):
+
+| Migration | What | Live check |
+|---|---|---|
+| 20261011009800 | Task board, Automations read, noisy-register rule, jobs folded per run, run detail, retired registers, batch_editable | First apply refused by its own post-check (a trailing newline stripped from a body); corrected and applied. md5s: admin_running_now_v1 420627ee, layer1_auto_ingest_tick_v1 21f32515, admin_pipeline_ops_read b5d89ce1. |
+| 20261011009900 | Automations read computes last runs once | admin_automations_read_v1 md5 81d5e16a; 0.46 s. |
+| 20261011010000 | public.admin_layer1_add_source | Present, Platform Admin only. |
+
+- App: PR #476 (squash c74c86e), v2.15.246 / package 0.1.173; PR #477 (a source's second line shows its authority or address, not its name again); PR #478 (deployed Layer 1 specs follow the Sources list); capture tool waits for a clicked tab's read. New contract cf-247-s12. Full chromium-desktop suite: 544 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed. Layer 1 deployed specs run live from the branch: 6 passed (real NZQA, CRICOS, QILT and PRISMS validations); A21 navigation 5 passed.
+- Paste file offered (not applied; it deletes): trim scheduler run history to 3 days and add a daily catalogued job cron-history-trim (Platform upkeep).
+- Standing rule G1 applied: every scheduled job is catalogued (94 of 94) and visible with its controls in Task manager.
+- Open items: 13 reference sites are not reachable from the checker (likely bot protection); 10 Canadian sources fail their count checks by 1–5 records and need their expected counts reviewed.
