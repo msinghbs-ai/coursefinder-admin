@@ -5765,3 +5765,27 @@ The brief now forbids direct table changes.
 | Paste file paste-cf247-layer3-retire.sql | Unschedules the 10 paused jobs and removes their catalogue rows; lists the 6 deployed edge functions to delete | Sent to the Platform Admin |
 
 - Left as they are: Layer 3 tables and history, the Layer 3 database functions (no caller once the jobs are removed), read-only "Layer 3" labels on course coverage and evidence history.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.253: universities without an adapter onboarded automatically; Layer 4 tabs retired; credit banner
+- Platform Admin request (12 Oct 2026, 09:35): "Build adapters for universities without an adapter. Once the provider is in, the workflow should onboard it, which creates the adapter automatically and then runs the scholarship adapter. Layer 4 tabs need review as well; retire what is not being used, like Fee Rules, Attributes, Blocks, Scholarship publishing, Flagged values." Decisions: stop for a person at admitting; as fast as possible, with a notice on the platform when toolset credit runs out or nears its limit; central page approvals (Attributes) move into onboarding; close the open flags and keep the fee rule results.
+- How it runs (G1): one catalogued scheduled job, provider-onboarding, every minute, moves each university a step at a time (website, course pages, 6 sample pages, AI proposal, save in testing and apply, qualify, central pages, scholarship search) and stops at Ready to admit. A passing qualification never admits; admitting stays a person's step on Layer 2 › Adapters. New universities start by themselves (setting); 30 at once.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010200 | pipeline.provider_onboarding and settings, step and tick functions, admin_provider_onboarding (read, start, stop, retry, settings), admin_credit_notices, new-provider trigger, catalogued job; adapter builder allowance raised to 400 proposals and US$5 a day; 33 open flagged fees closed (fees kept); all 1,153 universities without an admitting adapter queued, largest first | History md5 e533292b; 1,153 queued; 33 flags closed |
+| Migration 20261012010300 | Tick fix: the job failed every minute ("record o is not assigned yet") | History md5 419f9e2d; tick runs clean |
+| Migration 20261012010400 | Step fixes: at most 300 courses per course-page task; generic course-page search added for websites recorded before generic searches existed; a failed AI proposal asked again twice; the model named in the note | History md5 5932950d |
+| App v2.15.253 / 0.1.180 (PR #490) | Providers › Onboarding board (tiles, steps, notes, why stopped and what to do, Retry, Stop, Onboard all, settings, Approvals waiting); Adapter builder 1.3 approvals for one university; Layer 4 Flagged values, Fee rules, Attributes, Scholarship publishing and Blocks retired with old addresses redirected; credit and limit banner on every page (Curator and above) | All checks, Deployed UAT and deployed-release-currentness passed |
+
+- At about 10:30: 1,100 queued, 29 in progress, 7 stopped, 17 ready to admit.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.254: onboarding follow-ups (switched-off course-page search, stalled AI proposals) and Dashboard waiting rows
+- Found while checking v2.15.253 live: Humber College stopped with a misleading "no website" error because its only course-page search had been switched off on 11 Oct (built from guelphhumber.ca, not Humber's site); University of Calgary and University of Manitoba stopped because their AI proposals never answered (the worker was shut down; 2 of 11 proposals that hour). The Dashboard still listed the retired Flagged values and Fee rules.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010500 | A switched-off search for a different domain from the recorded website is replaced by the generic search for that website; one switched off for the same website stops onboarding with the plain reason recipe_off. Dashboard "Waiting for you": Flagged values and Fee rules rows removed, Universities ready to admit and Onboarding stopped for a person added, Scholarships ready to publish opens Scholarships › Coverage. Humber put back | History md5 fc1fdd3a; functions md5 33530dae (step) and 8eae4aa1 (waiting), as intended; Humber now reading course pages; Dashboard rows checked as Platform Admin |
+| Migration 20261012010600 | A proposal with no answer after 30 minutes is asked again, twice at most, before onboarding stops; Calgary and Manitoba put back | History md5 d238bb7b; step md5 333443c3 as intended; both asked again |
+| App v2.15.254 / 0.1.181 (PR #491) | Providers › Onboarding explains "Course-page search switched off"; Platform guide updated | Full suite 535 passed; Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed |
+
+- Onboarding after the fixes: 1,086 queued, 30 in progress, 30 ready to admit, 7 stopped (all no verified website: Canadore, La Cité, Niagara, Algonquin, Cambrian and Loyalist colleges in Canada, and Brisbane College of Australia). Their websites can be entered in Layer 4 › Websites to find; onboarding then carries on by itself.
