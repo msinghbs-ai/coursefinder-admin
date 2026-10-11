@@ -147,7 +147,7 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 - About one scraper credit per page read (scholarship page, listing page or candidate) and one per site map.
 - When the scholarship credit cap is reached, pages wait. There is no direct read. Raise the cap in Settings.
 - Credits used show on Layer 2 › Scholarships, on each scholarship record (Evidence & extraction) and in Task manager.
-- AI reading of a stored page uses no scraper credit. Measured on the 41-page sample: Qwen3 30B about US$0.0003 a page; GPT-4.1 mini about US$0.0008 a page. Cost today shows on Scholarships › Extraction.
+- AI reading of a stored page uses no scraper credit. Measured on the 41-page sample: Qwen3 30B about US$0.0003 a page; GPT-4.1 mini about US$0.0014 a page (instructions v2). Cost today shows on Scholarships › Extraction.
 
 ## 11. Where to look
 
