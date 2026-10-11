@@ -5720,3 +5720,5 @@ The brief now forbids direct table changes.
 - App: v2.15.250 / 0.1.177 and v2.15.251 / 0.1.178. New contract cf-247-s16; Layer 4 tab lists in two older contracts updated. Full chromium-desktop suite: 563 passed. After merge: build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed.
 - Scholarship mechanism document: version 2.1.
 - Open items: an Indigenous-only scholarship quoted without "citizen" or "domestic" goes to Layer 4 (add Indigenous wording to the domestic proof); the 6 held scholarships need a person's decision; ~3,400 pages queued overnight; VU two registrations (CRICOS-code course matching) not yet built.
+
+- Correction to the entry above (12 Oct 2026): AI admission was switched on at about 23:24 (first page decided 23:25:22), not 23:01; it ran about 6 minutes before the pause at 23:31, and resumed at about 23:45.
