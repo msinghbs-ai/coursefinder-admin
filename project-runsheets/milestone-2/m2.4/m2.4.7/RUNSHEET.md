@@ -5527,3 +5527,46 @@ The brief now forbids direct table changes.
 - Open items:
   - Website and Zoho APIs do not yet carry applications open or study start.
   - Course titles named on a page but not found among the provider's courses are shown on the record for a person to check.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.244: on-demand scholarship tasks, Task manager › Running now, scholarship mechanism document
+- Platform Admin request (11 Oct 2026, 12:44):
+  - fire scholarship gathering by hand, from a provider or a course, with the scholarships found attached on demand;
+  - every run registered as a job and visible in Task manager;
+  - everything using resources at any time visible in Task manager, with controls;
+  - a document on how the platform handles scholarships, kept up to date in this repository, as a Docs artifact and in Google Drive;
+  - every future feature follows the same rules.
+- Platform Admin decisions: attach by evidence rules; buttons on the provider record, course record and scholarship record, plus bulk from Scholarships › Coverage; safe controls (tasks: pause, resume or cancel at a safe point; scheduled jobs: pause, resume, run now; worker calls shown, never stopped); Word file in Drive.
+- Standing rule G1 (Platform Admin, 11 Oct 2026): every future feature that runs work in the background is registered as a task type (pipeline.admin_job_kinds) or a scheduled job (with a pipeline.automation_catalogue label) and appears in Task manager with its controls.
+- Points delivered:
+
+| Point | What |
+|---|---|
+| F1 | Find scholarships now (provider record; Coverage, one provider or up to 50 ticked), Check scholarships for this course (course record; lists scholarships added or removed), Read again now (scholarship record). Each starts a task: its pages go first in the scraper queue, the worker gets the next step each minute (map, screen, read), courses attach by the evidence rules. Cancel only. |
+| F2 | Task manager › Running now: tasks, scheduled jobs running this minute (pause, resume, run now), worker calls on their way (shown only), scraper credits in the last hour. |
+| G1 | Task kinds became a registry table linked to admin_jobs; new kinds are rows, with no further drops. |
+| B1 | An empty Read again now or course check (inactive scholarship, provider without active pages) is refused with its reason. Found in the live check. |
+| B2 | The task note says the credits figure is all scholarship scraper use for the provider while the task ran. |
+| B3 | 22 scheduled jobs had no label, so Running now showed internal names; every scheduled job now has a label, area and control rank. |
+| D1 | Scholarship mechanism document v1.0. |
+
+- Database:
+  - Platform Admin paste `paste-cf247-task-kinds.sql`: dropped only the admin_jobs_kind_check constraint (confirmed gone live).
+  - Applied by the Database apply migration workflow, each verified live:
+
+| Migration | What | Live check |
+|---|---|---|
+| 20261011009000 | Task kind registry (9 kinds) and link; requested_at on scholarship pages and candidates; scholarship task prepare and fire; running now; six functions replaced | md5: admin_job_slice_v1 577823ad, admin_job_watch_v1 f166a3fb, admin_jobs b259a26f, svc_scholarship_read_next bd0b48fc, svc_scholarship_read_record 8bd3588a, svc_scholarship_candidate_next 0080ad82 |
+| 20261011009100 | B1 and B2 | md5: scholarship_task_prepare_v1 747d4df8, admin_job_watch_v1 10dd1edb |
+| 20261011009200 | B3: 22 catalogue labels | 0 scheduled jobs without a label; 105 catalogue rows |
+
+- Live tasks (11 Oct 2026, about 13:10 Melbourne):
+  - Read again now (LPDP-Australia Awards Scholarship): 1 page read through the scraper; course links changed; done.
+  - Check scholarships for Bachelor of Nursing (080229E): 2 pages read; 0 added, 0 removed; done.
+  - Find scholarships now (Australian Catholic University): site mapped, 1 new scholarship found while screening candidate pages.
+  - Read again now on an inactive scholarship: refused with "this scholarship is not active, so there is no page to read; restore it first".
+- App: PR #473 (squash 3ece284), v2.15.244 / package 0.1.171. New contract cf-247-s10 (6 tests). Full chromium-desktop suite: 531 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Scholarship mechanism document v1.0:
+  - repository: docs/scholarships/SCHOLARSHIP-MECHANISM.md (PR #283), linked from docs/README.md;
+  - Docs artifact: https://claude.ai/artifact/21BcQNe8bdjGYM9Rg9TwMQ;
+  - Word copy in Google Drive: https://drive.google.com/file/d/1L5kRJFx41TKSiE3mQPoFtlrlgnJhbkH0/view (16,370 bytes, md5 1a6af3833e2dca5411afc41cc545a0ac locally; Drive size and content checked).
+  - Updated with every change to how scholarships are found, read, linked, published or controlled; each change-control entry names the version it produced. This entry: v1.0.
