@@ -5645,3 +5645,23 @@ The brief now forbids direct table changes.
 
 - Database: 20261011010100 (Database apply migration workflow). Guard md5s admin_jobs 43e1caad and admin_scholarship_coverage_read 20be9198 matched; live after apply e5aa7642 and 1c27d819 as intended.
 - App: PR #480 (squash 766ac46), v2.15.247 / package 0.1.174. New contract cf-247-s13. Full chromium-desktop suite: 547 passed. After merge the targeted deployed UAT failed one Layer 1 test: its navigation helper still clicked a tab named Runs (renamed Sources in v2.15.246). Fixed in PR #481 (6 passed live from the branch and after merge).
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.248: bugs 11/10-5 – the journey of a scholarship task, evidence for every page, skip rules
+- Platform Admin request (11 Oct 2026, 20:42, screenshot of Jobs): a Find scholarships now run for four universities finished with no new scholarship; nothing showed what happened, how long it would take to reach a published scholarship, or which universities the Layer 2 job covered: "this is not complete auditing".
+- What the run (8:32–8:36 pm) actually did: Engineering Institute of Technology had no new pages; Charles Darwin University had 16 new pages, all refused (13 short-course pages, an alumni-awards page, a help page and its Scholarship Finder); Bond had 3 (its Grants and scholarships hub too thin, two research papers); ACU's 9 known pages were re-read unchanged. No stored copy was kept for any refused page.
+- Platform Admin decisions: keep a copy of every page read; hold an automatically published scholarship that now fails a check; show the journey on the task and on each university's Coverage panel; skip non-scholarship pages by address rules.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Feature 2 | Every site map, listing page, new page and known page a scholarship task finds or reads is recorded with the task (pipeline.admin_job_items), while it runs and once at the end. | 74 items recorded for today's tasks; the 8:31 pm run reads back per university. |
+| Feature 1 | Journey per university on the task (Task manager, Jobs) and on the university's Coverage panel: Found, Read (pages, credits), Decided (plain-English reasons), Records, Published (live, next automatic publish time, or what blocks each scholarship), time left while running; links to each page's stored copy and each scholarship. | public.admin_scholarship_job_journey read in 0.9 s. |
+| Fix 1 | Jobs rows show the task title, its outcome and the universities. | Live capture: "Find scholarships now: 4 providers" with Australian Catholic University, … (4 universities). |
+| Fix 2 | Every candidate page read keeps a stored copy, registered as evidence (worker coverage-sweep v0.19.2). | Worker v0.19.2 live; 30 copies registered in its first run. |
+| Fix 3 | 9 address skip rules (course pages, research papers and portals, help, news, alumni, handbook, staff); never an address naming a scholarship, bursary, stipend or grant. Editable under Coverage › Settings and jobs. | No rule matches a page held or admitted; 120 earlier refusals would have been skipped; 4 waiting pages skipped. |
+| Fix 4 | A page that lists scholarships is suggested as the university's listing page. | From the next read. |
+| Fix 5 | The hourly publish holds a scholarship it published that now fails a check (reason kept; released in Layer 4); one a person published is shown as failing only. | ACU Flourishing Lives International and ACU Tuition Fee qualify (audience became "not stated" after a re-read). |
+
+- Database: 20261011010200 (Database apply migration workflow). First apply refused (a missing FROM in the journey function); corrected and applied in one transaction; history md5 matches the file. Guard md5s matched for svc_scholarship_candidate_next 0080ad82, svc_scholarship_candidate_record 70ae63d8, scholarship_auto_publish_v1 e6f87354, admin_job_watch_v1 90a14cb3, admin_job_close_v1 54edd7ac, admin_pipeline_ops_read b5d89ce1.
+- App: PR #482 (squash 377bb41), v2.15.248 / package 0.1.175. New contract cf-247-s14. Full chromium-desktop suite: 551 passed (one flaky R5 browser test passed on its own; one worker-version expectation updated). After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Open items: about 600 too-thin candidate pages are read again every 6 hours (up to 3 tries), including the same third-party ACIR directory pages listed under 50 providers and 230 Sydney Catholic Schools pages; a rule for third-party directories needs an exception setting (their addresses name scholarships). Jobs rows for single-provider tasks that are not scholarship tasks (Fill in from website) do not yet carry the provider name.
