@@ -5632,3 +5632,18 @@ The brief now forbids direct table changes.
 - Paste file offered (not applied; it deletes): trim scheduler run history to 3 days and add a daily catalogued job cron-history-trim (Platform upkeep).
 - Standing rule G1 applied: every scheduled job is catalogued (94 of 94) and visible with its controls in Task manager.
 - Open items: 13 reference sites are not reachable from the checker (likely bot protection); 10 Canadian sources fail their count checks by 1–5 records and need their expected counts reviewed.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.247: bugs 11/10-4 – tasks start without a reason; Find scholarships now works
+- Platform Admin request (11 Oct 2026, 19:28, one screenshot of Scholarships › Coverage with Australian Catholic University ticked): "on demand run for scholarship never runs, it ask for reason which is not required and nothing happened afterwards".
+- Cause: no task reached the database (none since the 13:17 live check). The screen asked for a reason and returned silently when it was empty or under 4 characters, with no message.
+- Platform Admin decisions: no reason for any task Start (Admit the passing fields, pause and cancel still need one); two providers of one name show their CRICOS codes.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Fix 1 | Starting any task asks only to confirm; the log records "Started from <screen>". | Find scholarships now for Australian Catholic University started with no reason ("Started from Scholarships › Coverage"); done: 9 pages read through the scraper, 10 credits, 0 new. |
+| Fix 2 | Every outcome is shown next to the button (started, already running, or the error); providers in a running Find scholarships task show Finding… until it finishes. | Mocked browser test; live page drawn with no console errors. |
+| Fix 3 | Coverage shows each provider's CRICOS code: Victoria University is two CRICOS providers (00124K, 280 courses; 02475D, 35 courses). | Live capture: every row shows its code. |
+
+- Database: 20261011010100 (Database apply migration workflow). Guard md5s admin_jobs 43e1caad and admin_scholarship_coverage_read 20be9198 matched; live after apply e5aa7642 and 1c27d819 as intended.
+- App: PR #480 (squash 766ac46), v2.15.247 / package 0.1.174. New contract cf-247-s13. Full chromium-desktop suite: 547 passed. After merge the targeted deployed UAT failed one Layer 1 test: its navigation helper still clicked a tab named Runs (renamed Sources in v2.15.246). Fixed in PR #481 (6 passed live from the branch and after merge).
