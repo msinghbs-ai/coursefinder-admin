@@ -137,9 +137,9 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | Re-read published and ready pages at least every | 30 days |
 | Scraper credits for scholarships (all time) | 60,000 |
 | Publish scholarships that pass every check automatically | On |
-| AI admission (Scholarships › Extraction) | Off until a person switches it on |
-| Active AI model | None until a person makes a qualified model active |
-| AI instructions | Versioned; a new version switches AI admission off until the model is qualified again |
+| AI admission (Scholarships › Extraction) | On since 11 Oct 2026, 11:45 pm (switched on and off by a person, with a reason) |
+| AI models in use | Qwen3 30B first, GPT-4.1 mini second (both qualified on instructions v2) |
+| AI instructions | Version 2; a new version switches AI admission off until the models are qualified again |
 | Universities re-checked with AI each night | 25 |
 | Model order | Qwen3 30B, then GPT-4.1 mini, then Layer 4 |
 | Second model confirms admissions | On |
@@ -151,6 +151,7 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 - When the scholarship credit cap is reached, pages wait. There is no direct read. Raise the cap in Settings.
 - Credits used show on Layer 2 › Scholarships, on each scholarship record (Evidence & extraction) and in Task manager.
 - AI reading of a stored page uses no scraper credit. Measured on the 41-page sample: Qwen3 30B about US$0.0003 a page; GPT-4.1 mini about US$0.0014 a page (instructions v2). Cost today shows on Scholarships › Extraction.
+- AI calls are paid from the OpenRouter key shared with Layer 3; when the key's credit limit is reached every AI call fails until it is raised.
 
 ## 11. Where to look
 
