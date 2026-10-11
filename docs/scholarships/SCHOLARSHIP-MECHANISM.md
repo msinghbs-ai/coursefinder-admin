@@ -1,6 +1,6 @@
 # StudySearch – How scholarships work
 
-**Version:** 2.0 (11 Oct 2026, platform release v2.15.249)
+**Version:** 2.1 (12 Oct 2026, platform release v2.15.251)
 **Owner:** Platform Admin
 **Change control:** CF-247
 **Rule:** this document is updated with every change to how scholarships are found, read, linked, published or controlled. The change-control entry for that change says which version of this document it produced.
@@ -18,8 +18,8 @@ StudySearch takes scholarships only from each university's own website, in every
 | Provider pages only | Scholarships come from universities' own sites. No national register or third-party directory is used (Study Australia, Australia Awards and Manaaki were retired on 11 Oct 2026). |
 | Scraper only | Every scholarship page, listing page, candidate page and site map is read through the scraper (rendered page). There is no direct read and no fallback. robots.txt is not consulted for scholarship pages (Platform Admin decision, 11 Oct 2026). |
 | Evidence first | Every page read is saved (compressed copy, fingerprint, version). Every fact and every course link points back to it. |
-| Proven facts, no guessing | The AI may only state what the page says, with a quote. Code checks every quote against the saved page. A fact without a proven quote counts as not stated. Anything unclear (for example, two different values) is left for a person. |
-| Pinned, qualified model | One named model version is used (no automatic routing between models). A model is qualified on a sample of pages with known answers before it is used. Qualifying never switches anything on: making a model active and switching AI admission on are separate steps, each with a reason. |
+| Proven facts, no guessing | The AI may only state what the page says, with a quote. Code checks every quote against the saved page, and the quote for who it is for must itself name international (or domestic) students. A fact without a proven quote counts as not stated. Anything unclear (for example, two different values) is left for a person. |
+| Pinned, qualified models in order | Qwen3 30B reads first, GPT-4.1 mini reads again when the first reply fails, a stated fact is not proven, or the first model would admit (a second model confirms each admission); a page neither settles goes to Layer 4 › AI could not decide, where a person's decision is kept for that page copy. Each model is a named version (no automatic routing between models). A model is qualified on a sample of pages with known answers before it is used. Qualifying never switches anything on: making a model active and switching AI admission on are separate steps, each with a reason. |
 | People win | A value entered by hand is never changed by automation until a person hands it back. |
 | Country-neutral | Amounts stay in the provider's own currency. Numeric dates are read in that country's day/month order. |
 | Everything visible and controllable | Every job and on-demand task appears in Task manager with its controls. |
@@ -141,6 +141,9 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | Active AI model | None until a person makes a qualified model active |
 | AI instructions | Versioned; a new version switches AI admission off until the model is qualified again |
 | Universities re-checked with AI each night | 25 |
+| Model order | Qwen3 30B, then GPT-4.1 mini, then Layer 4 |
+| Second model confirms admissions | On |
+| AI calls at once | 5 |
 
 ## 10. Costs
 
@@ -161,6 +164,7 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | What is running right now? | Scheduled jobs › Task manager |
 | What did the AI read on a page, and was each fact proven? | Scholarships › Extraction (recent answers, with the stored copy) |
 | Which AI model is used, and how well did it qualify? | Scholarships › Extraction |
+| Which pages could no model settle? | Layer 4 › AI could not decide |
 
 ## 12. Version history
 
@@ -168,3 +172,4 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 |---|---|---|
 | 1.0 | 11 Oct 2026 | First issue: scraper-only reading, evidence journey, dates, evidence-based course links, Study Australia retired (v2.15.243); on-demand tasks and Task manager running now (v2.15.244). |
 | 2.0 | 11 Oct 2026 | v2.15.248: every page a task reads is recorded and shown as a journey; a copy of every page is kept; skip rules; listing page suggestions; an automatically published scholarship that fails a check is held. v2.15.249: a pinned, qualified AI model reads every scholarship page with quotes checked against the page (Scholarships › Extraction); AI admission, model activation and instructions are separate, reasoned steps. |
+| 2.1 | 12 Oct 2026 | v2.15.250: models read in order (Qwen3 30B, then GPT-4.1 mini, then Layer 4 › AI could not decide); parked Layer 4 course items rerouted to university adapters and parked scholarships to the AI. v2.15.251: the audience quote must name international or domestic students; a second model confirms each admission. |
