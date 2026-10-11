@@ -5591,3 +5591,35 @@ The brief now forbids direct table changes.
   - Docs artifact: https://claude.ai/artifact/21BcQNe8bdjGYM9Rg9TwMQ;
   - Word copy in Google Drive: https://drive.google.com/file/d/1L5kRJFx41TKSiE3mQPoFtlrlgnJhbkH0/view (16,370 bytes, md5 1a6af3833e2dca5411afc41cc545a0ac locally; Drive size and content checked).
   - Updated with every change to how scholarships are found, read, linked, published or controlled; each change-control entry names the version it produced. This entry: v1.0.
+
+### 11 Oct 2026 (Sun, Melbourne) – v2.15.245: bugs 11/10-2 – consumer search speed, provider websites, central pages, Adapter builder
+- Platform Admin request (11 Oct 2026, 13:26, with two screenshots): the Layer 2 Adapters list shows nothing; builder result text too small; "23 of 26 stored" and "6 of 6 captured" should list the courses that need pages, from the register or a Firecrawl search; a provider entered by hand (or from a country with no regulator) should be filled in by Firecrawl search (website, contacts and locations, course links, central pages; R3 Principal Executive Officer, public phone and email); the builder numbered 1.1, 1.2 and so on; the step 3 failure "model answer was too long" fixed with a suggestion and a way to raise the limit, wasting no tokens; the website and the central pages searched automatically. Added during the work (Platform Admin, 13:4x): the Adapters list still blank on v2.15.244; coverage-admit and coverage-admit-intakes hitting the time limit 75 times in 24 hours.
+- Platform Admin decisions: layout Provider 1.x, Course pages 2.x, Adapter 3.x; a cut-off proposal retried once automatically; every provider without a website searched, all 1,096 Canadian ones included; a verified website goes on the record straight away.
+- Points delivered:
+
+| Point | What | Live check |
+|---|---|---|
+| Fix 7 | Zoho, website and search course queries took ~60 s and every coverage-admit run had been rolled back since 10 Oct 14:10 UTC (nothing admitted for ~12 hours). Cause: the blocked-course check, which R5 (20261010007000) grew to 6,502 courses, was rebuilt once per candidate course. Now built once per query in 16 consumer functions (22 checks). | Search 60.9 s → 0.5 s, same 5,479 courses; 13 consumer-API checks in 2.4 s in all; both admit jobs succeeded at 13:50 (51–53 s). |
+| Fix 1 | Adapters list hidden by ad blockers: its styles were named ad-list, ad-row, ad-note. Renamed adp-. | Live site, Platform Admin filters (Australia, any provider): 830 shown, 50 rows drawn, no console errors. |
+| Fix 3 | Websites found and verified by search were held only in the discovery table. They now go on the provider record, never over one entered by hand. | 41 adopted (Britts College: brittscollege.edu.au, verified by CRICOS 04061K). |
+| Features 2–3 | Every provider without a website is searched (all countries, by name where there is no register code; Firecrawl targets no longer required; 189 Australian providers skipped as "budget" searched again; new providers queued as added). A website starts its course page search, contact read and central page search. Task type Fill in a provider from its website (builder 1.1, provider record). An address carrying another distinctive name is refused. | 1,302 queued; first five Canadian colleges: four sites verified and adopted. Humber College had been matched to guelphhumber.ca (the University of Guelph-Humber): refused by the new rule, website, recipe and its 276 queued course searches switched off, searched again. |
+| Feature 4 | Central pages (key dates, international fees, English requirements) suggested from a Firecrawl map of the site, plus a targeted map for each kind not found; residence, insurance, refund and English-course pages left out. Scheduled job central-find (labelled in Task manager). | 1,644 providers queued; first eight: e.g. Silverline keydates, fees, english-requirements; AIBT academic calendar, fee schedule, English equivalencies. |
+| Feature 1 | Builder 2.1 lists every course with its page state; Find course pages with Firecrawl as a task. | Britts College: 4 of 4 missing course pages found, 8 credits. |
+| Fixes 2, 5, 6 | Builder numbered 1.1–1.3, 2.1–2.2, 3.1–3.4 and 4 (adjust by hand, collapsed); readable text; capture status on its own. | Build and 538 local tests. |
+| Fix 4 | A proposal cut off at 4,000 tokens is asked again once at 8,000; the tokens and cost of every attempt are recorded and shown at 3.1. | Worker v0.19.0 deployed. |
+
+- Database (Database apply migration workflow, each verified live):
+
+| Migration | What | Live check |
+|---|---|---|
+| 20261011009300 | Fix 7 (16 functions; vector_candidates fingerprinted as the live session shows its type) | First apply refused by the md5 guard (snapshot showed extensions.vector); corrected and applied. Fingerprints match. |
+| 20261011009400 | Websites, central page search, two task types, trigger for new providers, central-find job | 7 replaced functions match intended md5s; Britts College website on record. |
+| 20261011009500 | Humber correction; a later website replaces a switched-off recipe; course page task scoped by provider | md5s match; Humber website null, recipe off. |
+| 20261011009600 | Central page results could not be saved ("found" is also a PL/pgSQL variable) | md5 b94f89ea; results saved from the next run. |
+| 20261011009700 | Providers searched before the targeted maps re-queued | 8 re-queued. |
+
+- Worker coverage-sweep v0.19.0, then v0.19.1 (PR #475): a home page that refuses a direct read (George Brown, georgebrown.ca answered 403) is checked through the scraper. Live: georgebrown.ca read through the scraper, verified (name on the site and in the address) and adopted by a Fill in from website task.
+- App: PR #474 (squash 359385d), v2.15.245 / package 0.1.172. New contract cf-247-s11. Full chromium-desktop suite: 538 passed. After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Diagnostics: the UI review screenshot workflow now records console errors and, on Layer 2 › Adapters, what the list drew (optional Platform Admin filters).
+- Standing rule G1 applied: both new task types and the central-find job are in Task manager with labels and controls.
+- Open items: large university sites may still need a central page attached by hand; a provider that has renamed itself may not verify by name and then needs its website entered once (step 1.1).
