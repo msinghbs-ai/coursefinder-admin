@@ -5472,3 +5472,58 @@ The brief now forbids direct table changes.
 - Open items:
   - The record step's course-link rebuild (security.scholarship_sweep_apply_v1, 1–2 s per scholarship) is worth speeding up later.
   - Credit use will be about one credit per page read; the cap and the switch are on the Coverage screen.
+
+### 11 Oct 2026 (Sun, Melbourne) – Scholarships list timeout fixed; v2.15.243: scholarship evidence journey, scraper only, Study Australia retired
+- Platform Admin request (11 Oct 2026, 11:03, with a screenshot of the timeout):
+  - scholarships must always be read through the scraper, with no direct read or fallback, because university pages sit behind gatekeepers;
+  - course association must be read from the evidence; a scholarship without a course is fine;
+  - start date and application dates must be covered;
+  - the whole extraction and evidence journey must be visible in the UI;
+  - old scholarship screens and scripts must be cleaned up;
+  - there must be no Study Australia comparison or fields (the platform is global);
+  - the Scholarships screen times out when returning to it.
+- Platform Admin decisions:
+
+| Question | Decision |
+|---|---|
+| Scraper cannot read a page | Wait and retry; robots.txt not consulted for scholarship pages |
+| Page names no course, level or field | No course links (link-to-all rule removed); still publishable |
+| Dates | Applications open, applications close (with rounds), study start, each with the page's words |
+| Study Australia | Removed as comparison and as source |
+| Discovery candidates | Through the scraper, no daily cap (scholarship credit cap 60,000) |
+| Existing Study Australia records | Keep those with their own provider page read and name-checked; set the rest inactive |
+
+- Bug fix (PR #471, migration 20261011008300): the Scholarships list worked out publishability for every scholarship before choosing the page's rows (5.5–5.8 s). It now takes 0.69 s live; Curtin search returns the same 8 published.
+- v2.15.243 (PR #472). Migrations, all applied through Database apply migration with history md5 matching each file:
+
+| Migration | What |
+|---|---|
+| 20261011008400 | Scraper-only statuses (waiting_scraper, retried within the hour); dates and study start columns; course_mappings.proof; course links from evidence with proof, search refreshed only when links change (about 50 ms instead of 1–2 s); publishing checks shared and runnable for one scholarship; "no linked course" no longer holds; Study Australia exemptions removed; public API reference_code null; 5 legacy jobs unscheduled; register records: 91 kept as provider-page records (identifiers inactive), 115 with no provider page set inactive (not deleted); register candidates rejected; cap 60,000; everything queued to be read again |
+| 20261011008500 | Courses the page excludes are never linked |
+| 20261011008600 | Pages read by reader v0.7.0 read again |
+| 20261011008700 | Scholarship register sources taken off Layer 1 |
+| 20261011008800 | Long course titles matched by containment (Adelaide Defence & Space MBA); v0.7.0/v0.7.1 pages read again |
+
+- Worker coverage-sweep v0.18.2, reader v0.7.2:
+  - scholarship pages, listing pages, discovery candidates and site maps are read through Firecrawl only;
+  - the register search phase is retired;
+  - dates and study start are read with their words, with numeric dates in the provider country's day/month order;
+  - named and excluded courses are read, and course titles end at bullets.
+- Retired: edge functions scholarships-au-etl and scholarship-ai-control (removed from the repository and deleted through the deploy workflow's retired list; confirmed absent live). Layer 1 register runs have no reader.
+- UI:
+  - Scholarship record: Applications open, Applications close (rounds) and Study start rows with quotes; course links with proof and exclusions; an Evidence & extraction journey (provider page, scraper read and credits, saved copy, name check, facts with words, what changed, publishing checks).
+  - Removed: Study Australia comparison, Coverage Study Australia counts, Layer 1 scholarship sources, Layer 3 › Scholarships (AI runs on the retired candidate table), the scope-rules overlay and the source comparison component.
+  - Retired jobs and the always-on scraper setting are no longer listed.
+- Live results (11 Oct 2026, about 14:30 Melbourne):
+  - 316 pages read through the scraper in the first 40 minutes.
+  - Of 239 pages on reader v0.7.1: 202 linked by levels and fields, 28 by courses named, 9 with no course link, 102 with a closing date.
+  - 482 scholarships published.
+  - About 1,390 pages queued to be read again, at about 480 an hour.
+- Checks:
+  - New contract cf-247-s9 (6) and cf-247-s8 (1). Older contracts updated for the new worker and reader versions and the retired screens.
+  - Full chromium-desktop suite: 526 passed.
+  - After merge: Workers Builds, build-and-smoke, release-history-contract, Deployed UAT (targeted) and deployed-release-currentness passed.
+- Paste file for the Platform Admin (optional clean-up): removes the five retired job rows and the read_via_scraper setting row. Nothing else is deleted.
+- Open items:
+  - Website and Zoho APIs do not yet carry applications open or study start.
+  - Course titles named on a page but not found among the provider's courses are shown on the record for a person to check.
