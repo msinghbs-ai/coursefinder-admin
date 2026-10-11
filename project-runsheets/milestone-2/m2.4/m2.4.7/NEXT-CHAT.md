@@ -5681,3 +5681,15 @@ The brief now forbids direct table changes.
 - Layer 4 › AI could not decide: 234 waiting (who it is for not proven 149, value not proven 59, page could not be read 23, name not on the page 2, "no longer offered" not proven 1).
 - Rerouted course items: 681 of 701 course pages read again by the adapter; the value is now held for 402 of 622 intake items and 44 of 65 English items; none of the 14 fee items yet.
 - The nightly backfill (02:13) queued 25 more universities (8,164 pages); 9,229 pages are queued.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.252: Layer 3 retired (intakes, English and fees); screens and code removed
+- Platform Admin request (12 Oct 2026, 08:15): "Stop Layer 3 from working on intakes, English and fees and clean up UI and scripts. That was requested when the adapter was designed: stop any redundant UI and scripts when the adapter merged Layers 2 and 3." Decisions: stop everywhere (universities without an adapter keep the university-wide calendar and English defaults); pause now, delete by a paste file; close the pending Layer 4 items.
+- Why: in the 24 hours before, 93% of Layer 3 intake and English work (5,579 of 5,984 intake and 3,329 of 3,675 English items) was for universities whose adapter already admits that field; 5,533 resulting Layer 4 items were closed on arrival overnight, and Layer 3 used most of the US$75 OpenRouter limit reached at 02:18.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261012010100 | Pauses 10 jobs (layer3-intake-route, layer3-english-route, layer3-fact-admit, layer3-tuition-dispatch, layer3-tuition-admission, layer3-tuition-assumed-annual, coverage-tuition-handoff, layer4-tuition-settle, layer3-route-guard, layer3-operations-housekeeping); marks them retired in the automation catalogue; closes pending Layer 4 items for intakes, English and fees | History md5 390e90ee; all 10 jobs inactive; 442 items closed (intakes 357, English 79, fees 6); 445 course items remain pending (course addresses) |
+| App v2.15.252 / 0.1.179 (PR #489) | Layer 3 menu (Control, Work queue), Layer 4 › Send back to AI, the send-back decision, Dashboard Layer 3 tile and Layer 3 settings removed; old Layer 3 addresses open Layer 2 › Adapters; edge functions layer3-model-routing, layer3-work-dispatch, layer3-work-interpret, layer3-cf245-tuition-benchmark, layer3-contact-benchmark, layer3-intake-benchmark and nine unused shared helpers removed from the repo; layer3-provider-control kept (OpenRouter key for the scholarship AI) | Full suite 532 passed; every remaining edge function bundles; Workers Builds (first run failed on a node_modules link committed by mistake, removed), build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed |
+| Paste file paste-cf247-layer3-retire.sql | Unschedules the 10 paused jobs and removes their catalogue rows; lists the 6 deployed edge functions to delete | Sent to the Platform Admin |
+
+- Left as they are: Layer 3 tables and history, the Layer 3 database functions (no caller once the jobs are removed), read-only "Layer 3" labels on course coverage and evidence history.
