@@ -5856,3 +5856,25 @@ The brief now forbids direct table changes.
 | Migration 20261012012000 | Cohort au-top-2026-10-12: the 50 active AU providers with the most active CRICOS-coded courses (UNSW 667 … AIBT 58), baseline per provider; queued first at priority 400000 + courses; a provider with no row gets one; error stops queued again; queued pilot members under 30 courses held at -1 | Applied (run 38243951760); post-checks passed; 50 members: 46 queued, 2 at website, 2 stopped approve_central (Notre Dame, TAFE NSW; need a person); 0 pilot rows needed holding (none was still queued) |
 | App v2.15.262 / 0.1.189 | Models & services › Firecrawl credits by university (today's budget by purpose, window, Flagged only, per-university table, Search again); Daily budget settings section; guide and SOPs v1.5 (new Platform Admin start-of-day step) | Full local suite 572 passed; PR #500, squash dc3a1a91; Workers Builds, build-and-smoke and release-history-contract passed |
 | System reference v1.2, UI catalogue v1.1 | Budget rules, cohort, checksums; the new card | Admin repo |
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.263: Firecrawl reads only course pages found by CRICOS code, listed by the university or entered by a person
+- Found (hourly pilot update 4): in the hour before the daily budget, Firecrawl fallback reads were about 88% wrong pages. Page records by how each page was found, Firecrawl reads correct of all:
+
+  | How the page was found | Firecrawl reads correct |
+  |---|---|
+  | CRICOS-code search (cricos_search) | 1,436 of 1,440 (99.7%) |
+  | CRICOS code (cricos_code, cricos_code_on_page) | 149 of 149 (100%) |
+  | Listed on the university's own site (title_match) | 1,286 of 1,475 (87%) |
+  | Entered by a person (manual) | 718 of 767 (94%) |
+  | Title search (title_search) | 989 of 2,053 (48%) |
+  | AI match (ai_match) | 142 of 333 (43%) |
+  | Firecrawl search (firecrawl_search) | 469 of 1,941 (24%) |
+  | Web search (serper_search) | 43 of 283 (15%) |
+
+- Decided by the Platform Admin (23:54): "Yes, use Firecrawl for pages found by CRICOS code or listed by the uni."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Worker coverage-sweep v0.21.5 | `FC_TRUSTED_BASIS` = cricos_search, cricos_code, cricos_code_on_page, title_match, cms_path_public, manual, firecrawl_upgrade. All three Firecrawl reads in the read path (international view, blocked or browser fallback, priority re-render) need it, or a page entered by a person. Other pages are read directly only; a page that needs a browser waits for its next candidate or a page entered by hand. | Deployed from the branch (run 38253879266); live source equals the repo file byte-for-byte (md5 20dbca0b, version 147) |
+| App v2.15.263 / 0.1.190 | Guide and SOPs v1.6 describe the rule; contract spec s27; release bump; no database change | Full local suite 573 passed; PR #501, squash 9443a88e; Workers Builds, build-and-smoke and release-history-contract passed |
+| System reference v1.3 | Read row updated; worker line | Admin repo |

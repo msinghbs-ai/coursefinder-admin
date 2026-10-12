@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.2 (12 Oct 2026, platform release v2.15.262)
+**Version:** 1.3 (13 Oct 2026, platform release v2.15.263)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -51,7 +51,7 @@ enabled on; auto_start_new on; **max_active 100**; **auto_admit on** (reason: Pl
 |---|---|---|
 | Find | Firecrawl search (`{course} site:{domain}`, 5 results; CRICOS code then title), worker mode `link_search`; only Firecrawl target universities while `target_only` is on | `course-link-search` (tick, 20) and `course-link-search-worker` (limit 120) every minute |
 | Bind | First candidate bound as the course's page (basis title_search / cricos_search); a wrong page (identity mismatch) or a page failing twice (or 404/410) moves to the next candidate | in the tick |
-| Read | Worker mode `read`. **Since v2.15.261 (worker v0.21.3) every course page is read directly first; Firecrawl (rendered rawHtml, basic proxy) reads it only when the direct read is blocked, fails or the page needs a browser** — v2.15.260 read found pages through Firecrawl first and cost about 23,500 credits in an hour. robots.txt respected for course pages | `coverage-read` every 30 s, 60 a call, **up to 20 per university** (`svc_coverage_read_next`); `coverage-read-2` **paused** (can be resumed on Scheduled jobs › Automations); a page is tried at most 3 times |
+| Read | Worker mode `read`. **Since v2.15.261 (worker v0.21.3) every course page is read directly first; Firecrawl (rendered rawHtml, basic proxy) reads it only when the direct read is blocked, fails or the page needs a browser**, and **since v2.15.263 (worker v0.21.5) only for pages found by their CRICOS code (cricos_search, cricos_code, cricos_code_on_page), listed on the university's own site (title_match, cms_path_public) or entered by a person (manual)**; pages found by a title or web search are read directly only — v2.15.260 read found pages through Firecrawl first and cost about 23,500 credits in an hour. robots.txt respected for course pages | `coverage-read` every 30 s, 60 a call, **up to 20 per university** (`svc_coverage_read_next`); `coverage-read-2` **paused** (can be resumed on Scheduled jobs › Automations); a page is tried at most 3 times |
 | Identify | Code or title on the page, or the university adapter's identity; otherwise identity_mismatch | — |
 | Discover (matcher) | Worker mode `discover` | `coverage-discover` (20) and `coverage-discover-2` (8) every minute |
 
@@ -105,7 +105,7 @@ provider-onboarding (1 min) · onboarding-pilot-snapshot (hourly :07) · layer2-
 | public.svc_course_link_search_next(integer) | 6867d7ed… | 11900 |
 | security.platform_notices_v1() | 67bb25da… | 11900 (replaces e2d636a2) |
 
-Worker: coverage-sweep v0.21.4 (every Firecrawl spend through svc_fc_spend). App: v2.15.262 / 0.1.189. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
+Worker: coverage-sweep v0.21.5 (every Firecrawl spend through svc_fc_spend; Firecrawl reads only trusted page bases). App: v2.15.263 / 0.1.190. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
 
 ## 6. How a change is made (for the next change)
 Migration generated with guard blocks (live md5 must equal the definition replaced) and post-checks; plpgsql syntax-checked on a local PostgreSQL 16; applied through the `db-apply-migration` workflow from the branch (worker first through `deploy-edge-functions` when both change); anything that drops or deletes goes to the Platform Admin as a paste file. Release: bump release manifest, guide and SOP review versions, package.json, CHANGELOG, persistence-contract test; regenerate `docs/sops`; full local suite; PR, squash merge; record the entry identically in the four CF-247 files; update this page.
@@ -115,4 +115,5 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.3 | 13 Oct 2026 | v2.15.263: Firecrawl reads only pages found by CRICOS code, listed by the university or entered by a person. |
 | 1.2 | 12 Oct 2026 | v2.15.262: Firecrawl daily budget, per-university caps, search stop, credits by university; cohort au-top-2026-10-12. |
