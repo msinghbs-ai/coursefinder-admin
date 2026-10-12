@@ -5861,3 +5861,14 @@ The brief now forbids direct table changes.
 - Added `docs/platform/UI-CATALOGUE.md` v1.0: every screen and tab (30 screens in 7 sections) with its panels, columns, actions, roles and outside services, read from the Pilot code at v2.15.260, including the six scripts in index.html that patch screens after they render. Standing rule: every UI change updates it in the same entry.
 - Added `docs/platform/UI-SIMPLIFICATION-REVIEW.md` v1.0 (PROPOSED): principles (one home per task, operations language, nothing from retired features, inline reasons, no screens a role cannot use); a proposed menu of 6 sections and about 20 screens (Today, Catalogue, Data admission, Operations, Platform settings, Guides); line-by-line questions (Layer 3 and retired-tab leftovers, code that never runs, tasks done in 2–4 places, developer-level data on screen, rarely needed panels, inconsistencies); three delivery waves; six decisions for the Platform Admin.
 - Both are listed in docs/README.md; the System reference points to them.
+
+### 12 Oct 2026 (Mon, Melbourne) – Usage audit started (measurement only; nothing changed)
+- Platform Admin (12 Oct 2026): review the UI simplification document first; "find which is not being used first, and scripts and data whose details are not changed for a few days".
+- Added `docs/platform/usage-audit/USAGE-AUDIT.md` with day-1 findings, and the table baseline `table-baseline-2026-10-12T1012Z.txt` (reads and writes per table, pg_stat_user_tables at 10:12 UTC). Day 1:
+  - 10 of 89 edge functions called in 24 hours.
+  - 91 scheduled jobs all running. Failing often: coverage-admit and coverage-admit-intakes (76 of 467), platform-health (75 of 467).
+  - Layer 3 working tables stopped 11 Oct 21:56 (layer3_interpretations 203 MB, layer3_work_items 75 MB). The OpenRouter key and profile are still fetched through two layer3_* functions by coverage-sweep, so they are needed.
+  - 42 empty tables, some still read or still taking space.
+  - About 100 tables unchanged for more than 7 days.
+  - Screens: one day of signed-in calls recorded.
+- Daily captures 13–15 Oct, then a final report with keep, retire, delete or purge per item for the Platform Admin to decide. Nothing is retired until then.
