@@ -16,6 +16,7 @@ Do not infer the current document from the highest filename version or from chat
 | **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.0, 12 Oct 2026, v2.15.260) | CURRENT |
 | UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.0, 12 Oct 2026, v2.15.260) | CURRENT |
 | UI simplification review and proposed menu (Platform Admin decisions pending) | `docs/platform/UI-SIMPLIFICATION-REVIEW.md` (v1.0) | PROPOSED |
+| Usage audit: screens, scripts, jobs and data not being used (measuring 12–15 Oct 2026; nothing retired until decided) | `docs/platform/usage-audit/USAGE-AUDIT.md` | IN PROGRESS |
 | Master Project Plan | `docs/coursefinder-master-project-plan-v1.82.md` | CURRENT |
 | Running Build | `docs/coursefinder-running-build-v2.81.md` | CURRENT |
 | Database Architecture | `docs/coursefinder-database-architecture-v2.10.50.md` | CURRENT ACCEPTED |
