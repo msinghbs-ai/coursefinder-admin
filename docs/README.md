@@ -13,6 +13,7 @@ Do not infer the current document from the highest filename version or from chat
 
 | Family | Current document | State |
 |---|---|---|
+| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.0, 12 Oct 2026, v2.15.260) | CURRENT |
 | Master Project Plan | `docs/coursefinder-master-project-plan-v1.82.md` | CURRENT |
 | Running Build | `docs/coursefinder-running-build-v2.81.md` | CURRENT |
 | Database Architecture | `docs/coursefinder-database-architecture-v2.10.50.md` | CURRENT ACCEPTED |
