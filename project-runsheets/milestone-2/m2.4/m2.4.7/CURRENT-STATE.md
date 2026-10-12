@@ -5940,3 +5940,17 @@ The brief now forbids direct table changes.
 | Migration 20261013012100 | `admin_ai_config_read()` (rank 3+): OpenRouter balance, mode, floor and warning, the one key (OPENROUTER_API_KEY, shared by 55 profiles), each AI use (scholarship pages, adapter proposals, central pages, course-page matching) with model, guard, spend and calls today and running state, central pages choices, profiles not retired (prompt version and hash), recent AI changes. `admin_ai_config(action, args)` (Platform Admin, reason): central_model (a scholarship AI model not retired), central_on. | Applied through db-apply-migration (run 38254868019); post-check passed; live md5 read 6d3579b0, write 26e51760; read returns 4 uses and balance US$29.17 |
 | App v2.15.264 / 0.1.191 | Models & services tabs: Services · AI & OpenRouter (`AiConfig.jsx`) · Toolsets & limits. The AI tab shows: OpenRouter account (balance, mode switch, credit floor, key set and verify through layer3-provider-control); AI uses with editable daily guards; central pages model and switch; adapter proposal model; scholarship AI models (the same section as Scholarships › Extraction, exported as `ModelsSection` / `ScholarshipAiModels`); model profiles; recent changes. Credit banner and Firecrawl links open Toolsets & limits. Guide and SOPs 1.7. Contract spec s28. | Full local suite 575 passed, 2 failed (a colour literal in the new CSS, and one link expectation), both fixed and re-run; PR #502, squash f6582736; Workers Builds, build-and-smoke and release-history-contract passed |
 | System reference v1.4, UI catalogue v1.2 | AI section and the tabs | Admin repo |
+
+### 13 Oct 2026 (Tue, Melbourne) – Scholarship mechanism v2.7 (changes from v2.15.262 to v2.15.264)
+- Asked by the Platform Admin (08:17): "Prepare and append changes from v2.15.263 and merge on current."
+- What the releases since the last mechanism update (v2.6, v2.15.259) change for scholarships:
+  - **v2.15.262:** every scholarship scraper call passes the Firecrawl daily budget (`svc_fc_spend`). The scholarship share is 3,500 credits a Melbourne day, and one university may use at most 150 scholarship credits in any 30 days. Cohort au-top-2026-10-12 is onboarded first.
+  - **v2.15.263:** course pages only; no change for scholarships.
+  - **v2.15.264:** the scholarship AI models (order, Qualify, Make active) are also on Models & services › AI & OpenRouter.
+- Observed on 13 Oct (Melbourne): the per-university cap refused 13,142 scholarship calls by 08:14 for top-50 universities that had used their 150 in the last 30 days. A proposal (count the cap from when a university joins onboarding) is with the Platform Admin; nothing changed.
+- No platform change in this entry.
+
+| Item | What it does | Verified |
+|---|---|---|
+| docs/scholarships/SCHOLARSHIP-MECHANISM.md v2.7 | Section 7: the top-50 cohort. Section 9: the daily share and the per-university cap. Section 10: how the budget and cap work, and what a refusal does. Section 11: where to see models and credits. Version history row. | Admin repo |
+| Docs artifact (node 850ccf76-2c03) and Drive doc v2.7 | Same text; the earlier Drive copy renamed "(superseded by v2.7)", not deleted; README row points to v2.7 | Docs artifact updated to rev 40 (version line, two settings rows, the budget bullet, the AI & OpenRouter wording, two "where to look" rows, version 2.7 note, the cohort sentence); Drive doc v2.7 id 1YAio_xt47TjowSZG0dxhKMYiHFGHQT9dpWXCO4IW7S0 read back in full; v2.6 copy renamed "(superseded by v2.7)" |
