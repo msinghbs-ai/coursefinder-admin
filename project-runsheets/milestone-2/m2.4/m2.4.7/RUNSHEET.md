@@ -5874,3 +5874,14 @@ The brief now forbids direct table changes.
   - About 100 tables unchanged for more than 7 days.
   - Screens: one day of signed-in calls recorded.
 - Daily captures 13–15 Oct, then a final report with keep, retire, delete or purge per item for the Platform Admin to decide. Nothing is retired until then.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.261: found course pages read directly first, Firecrawl only as fallback, basic proxy, second reader paused
+- Found at the 21:12 hourly pilot update: in the hour after v2.15.260, Firecrawl billed about 23,500 credits (412,941 left at 20:30, 389,542 at 21:15). That is about 7 credits per page read with the auto proxy, and 76% of found pages read through Firecrawl were the wrong page. At that rate the credits would have lasted about 16 hours; the plan renews on 2 Nov.
+- The Platform Admin first chose "Keep as is", then decided (21:21): "Read found pages directly first, and use Firecrawl only when the direct read is blocked or needs a browser. Also switch Firecrawl to its basic proxy, and turn the second reader off."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Worker coverage-sweep v0.21.3 | The Firecrawl-first read of found pages (v0.21.2) is removed. A found page is read directly; Firecrawl (rendered rawHtml) reads it only when the direct read is blocked, fails or is too thin (needs a browser). Every Firecrawl scrape in the worker sends proxy basic. | Deployed from the branch (run 38235956028) before the migration. From 21:22 to 21:39: 36 pages read directly and 15 through Firecrawl. Firecrawl balance 389,542 at 21:15, 389,030 at 21:30 (512 credits in 15 minutes, against 19,724 in 20:45–21:00). |
+| Migration 20261012011800 | `firecrawl.read_proxy` set to basic (used by Firecrawl runs); `coverage-read-2` paused with `cron.alter_job` (not removed; it stays catalogued and can be resumed); logged in admin_control_events | Applied through db-apply-migration (history md5 9cb6eb09 matches the file); post-checks passed; coverage-read-2 active = false |
+| App v2.15.261 / 0.1.188 (PR #499, squash bc9b3635) | Platform guide and both SOPs (v1.4) describe direct-first reading; release bump | Full local suite 568 passed (one older assertion updated); Workers Builds, build-and-smoke and release-history-contract passed |
+| System reference v1.1 | Read row, jobs list and worker/app line updated | Admin repo |
