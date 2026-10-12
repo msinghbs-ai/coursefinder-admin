@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.0 (12 Oct 2026, platform release v2.15.260)
+**Version:** 1.1 (12 Oct 2026, platform release v2.15.261)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -51,7 +51,7 @@ enabled on; auto_start_new on; **max_active 100**; **auto_admit on** (reason: Pl
 |---|---|---|
 | Find | Firecrawl search (`{course} site:{domain}`, 5 results; CRICOS code then title), worker mode `link_search`; only Firecrawl target universities while `target_only` is on | `course-link-search` (tick, 20) and `course-link-search-worker` (limit 120) every minute |
 | Bind | First candidate bound as the course's page (basis title_search / cricos_search); a wrong page (identity mismatch) or a page failing twice (or 404/410) moves to the next candidate | in the tick |
-| Read | Worker mode `read`. **Since v2.15.260 (worker v0.21.2) a page found by a search is read through Firecrawl** (rendered rawHtml, waitFor 2 s); direct request only when Firecrawl cannot be used. Other pages (matcher, CRICOS code, by hand): direct first, Firecrawl fallback when blocked/thin. robots.txt respected for course pages | `coverage-read` and `coverage-read-2` every 30 s, 60 a call, **up to 20 per university** (`svc_coverage_read_next`); a page is tried at most 3 times |
+| Read | Worker mode `read`. **Since v2.15.261 (worker v0.21.3) every course page is read directly first; Firecrawl (rendered rawHtml, basic proxy) reads it only when the direct read is blocked, fails or the page needs a browser** — v2.15.260 read found pages through Firecrawl first and cost about 23,500 credits in an hour. robots.txt respected for course pages | `coverage-read` every 30 s, 60 a call, **up to 20 per university** (`svc_coverage_read_next`); `coverage-read-2` **paused** (can be resumed on Scheduled jobs › Automations); a page is tried at most 3 times |
 | Identify | Code or title on the page, or the university adapter's identity; otherwise identity_mismatch | — |
 | Discover (matcher) | Worker mode `discover` | `coverage-discover` (20) and `coverage-discover-2` (8) every minute |
 
@@ -70,7 +70,7 @@ OpenRouter: balance read every 15 min (`openrouter-balance`, worker mode `openro
 
 ## 4. Scheduled jobs that drive admission (all in `pipeline.automation_catalogue`)
 
-provider-onboarding (1 min) · onboarding-pilot-snapshot (hourly :07) · layer2-onboarding-snapshot (53 */2) · course-link-search, course-link-search-worker (1 min) · coverage-discover, coverage-discover-2 (1 min) · coverage-read, coverage-read-2 (30 s) · adapter-overwrite (10 min) · firecrawl-runs, firecrawl-targets (1 min) · firecrawl-credit (15 min) · firecrawl-panel-figures (5 min) · openrouter-balance (15 min) · central-ai · scholarship-discover (10 min) · scholarship-discover-refill (hourly :23). Scholarship jobs: `docs/scholarships/SCHOLARSHIP-MECHANISM.md` §6.
+provider-onboarding (1 min) · onboarding-pilot-snapshot (hourly :07) · layer2-onboarding-snapshot (53 */2) · course-link-search, course-link-search-worker (1 min) · coverage-discover, coverage-discover-2 (1 min) · coverage-read (30 s), coverage-read-2 (paused) · adapter-overwrite (10 min) · firecrawl-runs, firecrawl-targets (1 min) · firecrawl-credit (15 min) · firecrawl-panel-figures (5 min) · openrouter-balance (15 min) · central-ai · scholarship-discover (10 min) · scholarship-discover-refill (hourly :23). Scholarship jobs: `docs/scholarships/SCHOLARSHIP-MECHANISM.md` §6.
 
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
@@ -86,7 +86,7 @@ provider-onboarding (1 min) · onboarding-pilot-snapshot (hourly :07) · layer2-
 | security.central_ai_fire_v1() | 0a6dba98… | 11400 |
 | public.admin_toolsets_read() | 75ed6d4d… | 11400 |
 
-Worker: coverage-sweep v0.21.2. App: v2.15.260 / 0.1.187.
+Worker: coverage-sweep v0.21.3. App: v2.15.261 / 0.1.188. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
 
 ## 6. How a change is made (for the next change)
 Migration generated with guard blocks (live md5 must equal the definition replaced) and post-checks; plpgsql syntax-checked on a local PostgreSQL 16; applied through the `db-apply-migration` workflow from the branch (worker first through `deploy-edge-functions` when both change); anything that drops or deletes goes to the Platform Admin as a paste file. Release: bump release manifest, guide and SOP review versions, package.json, CHANGELOG, persistence-contract test; regenerate `docs/sops`; full local suite; PR, squash merge; record the entry identically in the four CF-247 files; update this page.
@@ -95,3 +95,4 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
+| 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
