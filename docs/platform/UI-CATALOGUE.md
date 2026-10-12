@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.2 (13 Oct 2026, platform release v2.15.264)
+**Version:** 1.3 (13 Oct 2026, platform release v2.15.265)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -248,7 +248,7 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
   - Key and plan.
   - OpenRouter balance, floor, daily guards, spend by day.
   - Settings by section: key and plan limits, use, daily guards, target universities, read pages, find pages, runs, daily budget (Firecrawl, v2.15.262: on/off, credits a day, share per purpose, search stop, scholarship cap per university, central pages refresh).
-- Firecrawl credits by university (v2.15.262, collapsed card, rank ≥3 to view): today's budget per purpose (used, share, %, refused) and billed today; window last hour / 24 h / 7 days; Flagged only; per university credits by purpose, correct pages, wrong Firecrawl pages, credits per correct page, flag (Search stopped, No pages from 100+ credits, Mostly wrong pages, High scholarship use); Search again (Platform Admin, reason) on a stopped university. Reads `admin_firecrawl_credits`, writes `admin_firecrawl_search_resume`.
+- Firecrawl credits by university (v2.15.262, collapsed card, rank ≥3 to view): today's budget per purpose (used, share, %, refused) and billed today; window last hour / 24 h / 7 days; Flagged only; per university credits by purpose, correct pages, wrong Firecrawl pages, credits per correct page, flag (Search stopped, No pages from 100+ credits, Mostly wrong pages, High scholarship use); Search again (Platform Admin, reason) on a stopped university. **Refused today, by university** (v2.15.265): university, country, search order (Top 50 / Australia, 30+ courses / Overseas / Small provider), refused count, why (directory site, fewer than 30 courses, scholarship cap, central pages not due, search stopped, share or day's total used, by purpose), Search held chip with Search again. Reads `admin_firecrawl_credits`, writes `admin_firecrawl_search_resume`.
 - Firecrawl credits and support report; search pass; sample runs.
 
 ### Data model — `dataModel`, rank 5
@@ -278,5 +278,6 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.3 | 13 Oct 2026 | v2.15.265: Refused today, by university on the Firecrawl credits card. |
 | 1.2 | 13 Oct 2026 | v2.15.264: Models & services tabs; AI & OpenRouter. |
 | 1.1 | 12 Oct 2026 | v2.15.262: Firecrawl daily budget settings and the Firecrawl credits by university card. |
