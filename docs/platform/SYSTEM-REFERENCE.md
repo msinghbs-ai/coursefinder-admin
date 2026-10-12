@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.3 (13 Oct 2026, platform release v2.15.263)
+**Version:** 1.4 (13 Oct 2026, platform release v2.15.264)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -84,6 +84,8 @@ Firecrawl targets (`firecrawl_target_cache`): countries AU/NZ/CA; name contains 
 | Central pages (English policy, calendar) | GPT-4.1 mini | US$5 |
 | Course-page matching | — | US$5 (observed) |
 
+Where it is set (since v2.15.264): **Models & services › AI & OpenRouter** — one read `admin_ai_config_read()`; the OpenRouter key (one secret, OPENROUTER_API_KEY, shared by every profile) is set and verified there through the `layer3-provider-control` edge function (Platform Admin); guards, floor, mode and the adapter proposal model through `admin_toolsets_write`; central pages model and on/off through `admin_ai_config('central_model'|'central_on')` (`pipeline.central_ai_settings`; a scholarship AI model that is not retired); scholarship models (order, qualify, make active) through `admin_scholarship_ai` (same section as Scholarships › Extraction). Course-page matching uses `AI_MATCH_MODEL` fixed in the worker. Model profiles (`pipeline.layer3_model_profiles`, not retired) are listed read-only with prompt version and hash.
+
 OpenRouter: balance read every 15 min (`openrouter-balance`, worker mode `openrouter_balance`); credit floor US$5; enforcement **observe** (notices only; "stop" makes `security.ai_use_allowed_v1` refuse scholarship AI and central pages AI). Spend today: `security.ai_spend_today_v1()`.
 
 ## 4. Scheduled jobs that drive admission (all in `pipeline.automation_catalogue`)
@@ -115,5 +117,6 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.4 | 13 Oct 2026 | v2.15.264: AI configuration on Models & services › AI & OpenRouter. |
 | 1.3 | 13 Oct 2026 | v2.15.263: Firecrawl reads only pages found by CRICOS code, listed by the university or entered by a person. |
 | 1.2 | 12 Oct 2026 | v2.15.262: Firecrawl daily budget, per-university caps, search stop, credits by university; cohort au-top-2026-10-12. |

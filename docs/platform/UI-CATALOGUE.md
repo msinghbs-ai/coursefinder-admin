@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.1 (12 Oct 2026, platform release v2.15.262)
+**Version:** 1.2 (13 Oct 2026, platform release v2.15.264)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -239,7 +239,9 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 - Fetch service registry: adapter, base URL, credential, concurrency, rate, timeout, Firecrawl monthly limit and reserve, capabilities.
 - Edit (Platform Admin, including raw JSON templates); set or rotate key; add provider.
 
-### Models & services — `services`, rank 4 (`ModelsServices.jsx`, `Toolsets.jsx`, `FirecrawlCredits.jsx`, `FirecrawlWork.jsx`)
+### Models & services — `services`, rank 4 (`ModelsServices.jsx`, `AiConfig.jsx`, `Toolsets.jsx`, `FirecrawlCredits.jsx`, `FirecrawlWork.jsx`)
+Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter** (`?tab=ai`) · **Toolsets & limits** (`?tab=limits`; the credit banner and Firecrawl links open it).
+- AI & OpenRouter (`AiConfig.jsx`, reads `admin_ai_config_read`): OpenRouter account card (balance, floor, warning, mode switch, credit floor edit, key set and verify — Platform Admin); AI uses card (use, model, calls and spend today, editable daily guard, state; central pages model select and switch; adapter proposal model); Scholarship AI models card (`ScholarshipAiModels`: order editor, qualify, make active); Model profiles and prompts card; Recent AI changes.
 - On/off switches for page-fetching services and AI models (7-day calls and cost, tests); retired models; recent changes.
 - Toolsets and limits: one card per toolset.
   - Mode: Observe only, or Stop at limits.
@@ -276,4 +278,5 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.2 | 13 Oct 2026 | v2.15.264: Models & services tabs; AI & OpenRouter. |
 | 1.1 | 12 Oct 2026 | v2.15.262: Firecrawl daily budget settings and the Firecrawl credits by university card. |
