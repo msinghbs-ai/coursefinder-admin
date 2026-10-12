@@ -19,7 +19,7 @@ Do not infer the current document from the highest filename version or from chat
 | Platform Design Reference (single decision authority) | `docs/coursefinder-design-reference-v1.4.md` | CURRENT |
 | Course and scholarship attributes, ingestion and refresh (Decision 162) | `docs/coursefinder-course-attribute-ingestion-v1.0.md` | CURRENT |
 | Scholarship countries in scope and how a new country joins (CF-247, 9 Oct 2026) | `docs/scholarships/scholarship-countries-v1.md` | CURRENT |
-| How scholarships work: finding, reading, course links, publishing, on-demand tasks and Task manager (CF-247; updated with every scholarship change) | `docs/scholarships/SCHOLARSHIP-MECHANISM.md` (v1.0); Docs: https://claude.ai/artifact/21BcQNe8bdjGYM9Rg9TwMQ; Word copy in Google Drive: https://drive.google.com/file/d/1L5kRJFx41TKSiE3mQPoFtlrlgnJhbkH0/view | CURRENT |
+| How scholarships work: finding, reading, course links, publishing, on-demand tasks and Task manager (CF-247; updated with every scholarship change) | `docs/scholarships/SCHOLARSHIP-MECHANISM.md` (v2.4, 12 Oct 2026); Docs: https://claude.ai/artifact/21BcQNe8bdjGYM9Rg9TwMQ; Google Doc copy: https://docs.google.com/document/d/1ak7wDRtDCk-Zpu8gGwfzRejXrc10T2yAiECPiKcZymk | CURRENT |
 | Complete-coverage delivery plan (Decisions 163–164; go-live 3 Oct 2026) | `docs/coursefinder-complete-coverage-delivery-plan-v1.1.md` | ACTIVE |
 | University adapters: report, decision and design (Decision 254) | `docs/coursefinder-university-adapters-v1.0.md`; register and configurations `docs/adapters/` | CURRENT |
 | Adapter coverage wave plan: 980 providers without adapters (proposed) | `docs/adapters/ADAPTER-COVERAGE-WAVE-PLAN.md` | PROPOSED |
@@ -33,7 +33,9 @@ Do not infer the current document from the highest filename version or from chat
 | Admin/PIM Design Decisions (history, v1.0–v1.36) | `docs/coursefinder-admin-pim-design-decisions-v1.36.md` | HISTORY — see Design Reference |
 | Attribute & Admission Register (history) | `docs/coursefinder-attribute-admission-register-v1.0.md` | HISTORY — see Design Reference §3 |
 | Admin Navigation / Information Architecture | `docs/coursefinder-admin-navigation-information-architecture-v1.6.md` | CURRENT |
-| Platform guide (operators and Platform Admins; in the app under Help › Platform guide) | Pilot `src/guide/platformGuide.js` | CURRENT — reviewed every release (Decision 209) |
+| Platform guide (operators and Platform Admins; in the app under Guides › Platform guide) | Pilot `src/guide/platformGuide.js` | CURRENT — reviewed every release (Decision 209) |
+| Platform Admin SOP: daily, weekly and as-needed duties, how the platform automates and where a person decides (in the app under Guides › Platform Admin SOP) | `docs/sops/admin-sop.md` (generated from Pilot `src/guide/sops.js`) | CURRENT — reviewed every release (CF-247 v2.15.257) |
+| Operator SOP: Curator, Pipeline Operator and PIM Admin daily routine, review queues, interventions (in the app under Guides › Operator SOP) | `docs/sops/operator-sop.md` (generated from Pilot `src/guide/sops.js`) | CURRENT — reviewed every release (CF-247 v2.15.257) |
 | PIM Admin Guide | `docs/coursefinder-pim-admin-guide-v1.22.md` | CURRENT |
 | Operations Runbook | `docs/coursefinder-operations-runbook-v1.8.md` | CURRENT |
 | Data Operations Admin Guide | `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` | CURRENT |

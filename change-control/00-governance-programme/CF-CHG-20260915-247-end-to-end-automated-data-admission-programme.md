@@ -5818,3 +5818,14 @@ The brief now forbids direct table changes.
 | Paste file paste-cf247-catalogue-cleanup.sql | Removes 12 automation catalogue rows of retired jobs (only rows with no matching job) | Sent to the Platform Admin |
 
 - Seen while checking: Qwen3 30B calls failed 121 times in 30 minutes with HTTP 504 from its provider (Nebius); each failure goes to the next model in the order, so pages are still read. Humber College's recorded website, humberetc.ca, is the student newspaper Humber Et Cetera; the official site needs entering by a person. NZIST's course pages are on its subsidiaries' sites. Six retired Layer 3 edge functions are still deployed and wait for deletion by the Platform Admin.
+
+### 12 Oct 2026 (Mon, Melbourne) – v2.15.257: Guides with a Platform Admin SOP and an Operator SOP, versioned
+- Platform Admin request (12 Oct 2026, 15:36): "Create SOPs for Platform Admin and operators to manage the platform, as separate platform guides: their daily tasks, how the platform automates and what to pay attention to; keep them up to date with each iteration of the UI and the data admission mechanism, and where a person needs to intervene. Keep them under Guides in the UI and as versioned docs."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| App v2.15.257 / 0.1.184 (PR #495) | The Help menu becomes Guides, with tabs Platform guide (Viewer and above), Platform Admin SOP and Operator SOP (Curator and above). Each SOP covers: purpose and what the role owns; the seven-stage automation table (what runs by itself, its scheduled jobs, where a person decides); rules that never change; the daily routine (start of day, morning, afternoon), each step with who, why, done when and a button to its screen; weekly checks; where a person intervenes; what to watch; escalation; version history; download as Markdown | Full suite passed (554); Workers Builds, build-and-smoke, release-history-contract, Deployed UAT and deployed-release-currentness passed; live screenshot of Guides › Operator SOP reviewed |
+| Versioned documents | `docs/sops/admin-sop.md` and `docs/sops/operator-sop.md` (v1.0), generated from the same source as the app (`src/guide/sops.js`, `node scripts/export-sops.mjs`) and copied here; docs/README.md lists them (and the scholarship mechanism is now listed at v2.4 with its Google Doc copy) | Copies match the Pilot repo byte for byte |
+| Keeping them current | Contract tests in the Pilot repo fail a release unless SOP_REVIEWED_FOR equals the release, every step opens a real screen and tab, and docs/sops/*.md equal what the source generates | Tests in place (cf-247-s22-sops-contract) |
+
+- Standing rule from this entry: every release that changes a screen, an automation or where a person decides also updates `src/guide/sops.js`, raises the affected SOP's version with a line in its version history, regenerates docs/sops/*.md, and copies them to this repository in the same change-control entry.
