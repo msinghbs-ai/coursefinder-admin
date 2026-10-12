@@ -4,7 +4,7 @@
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
-Where else to look first: change history `change-control/00-governance-programme/CF-CHG-20260915-247-…md` (newest entries at the end); scholarships `docs/scholarships/SCHOLARSHIP-MECHANISM.md`; daily duties `docs/sops/`; code in the Pilot repository (`supabase/migrations/`, `supabase/functions/coverage-sweep/index.ts`, `src/`).
+Screens: `docs/platform/UI-CATALOGUE.md` (every screen, read from the code); proposed simplification `docs/platform/UI-SIMPLIFICATION-REVIEW.md`. Where else to look first: change history `change-control/00-governance-programme/CF-CHG-20260915-247-…md` (newest entries at the end); scholarships `docs/scholarships/SCHOLARSHIP-MECHANISM.md`; daily duties `docs/sops/`; code in the Pilot repository (`supabase/migrations/`, `supabase/functions/coverage-sweep/index.ts`, `src/`).
 
 ---
 
