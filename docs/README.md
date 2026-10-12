@@ -34,8 +34,8 @@ Do not infer the current document from the highest filename version or from chat
 | Attribute & Admission Register (history) | `docs/coursefinder-attribute-admission-register-v1.0.md` | HISTORY — see Design Reference §3 |
 | Admin Navigation / Information Architecture | `docs/coursefinder-admin-navigation-information-architecture-v1.6.md` | CURRENT |
 | Platform guide (operators and Platform Admins; in the app under Guides › Platform guide) | Pilot `src/guide/platformGuide.js` | CURRENT — reviewed every release (Decision 209) |
-| Platform Admin SOP: daily, weekly and as-needed duties, how the platform automates and where a person decides (in the app under Guides › Platform Admin SOP) | `docs/sops/admin-sop.md` (generated from Pilot `src/guide/sops.js`) | CURRENT — v1.2, reviewed every release (CF-247 v2.15.259) |
-| Operator SOP: Curator, Pipeline Operator and PIM Admin daily routine, review queues, interventions (in the app under Guides › Operator SOP) | `docs/sops/operator-sop.md` (generated from Pilot `src/guide/sops.js`) | CURRENT — v1.2, reviewed every release (CF-247 v2.15.259) |
+| Platform Admin SOP: daily, weekly and as-needed duties, how the platform automates and where a person decides (in the app under Guides › Platform Admin SOP) | `docs/sops/admin-sop.md` (generated from Pilot `src/guide/sops.js`) | CURRENT — v1.3, reviewed every release (CF-247 v2.15.260) |
+| Operator SOP: Curator, Pipeline Operator and PIM Admin daily routine, review queues, interventions (in the app under Guides › Operator SOP) | `docs/sops/operator-sop.md` (generated from Pilot `src/guide/sops.js`) | CURRENT — v1.3, reviewed every release (CF-247 v2.15.260) |
 | PIM Admin Guide | `docs/coursefinder-pim-admin-guide-v1.22.md` | CURRENT |
 | Operations Runbook | `docs/coursefinder-operations-runbook-v1.8.md` | CURRENT |
 | Data Operations Admin Guide | `docs/coursefinder-m2-4-data-operations-admin-guide-v1.6.md` | CURRENT |
