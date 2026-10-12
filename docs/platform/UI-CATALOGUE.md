@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.0 (12 Oct 2026, platform release v2.15.260)
+**Version:** 1.1 (12 Oct 2026, platform release v2.15.262)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -239,13 +239,14 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 - Fetch service registry: adapter, base URL, credential, concurrency, rate, timeout, Firecrawl monthly limit and reserve, capabilities.
 - Edit (Platform Admin, including raw JSON templates); set or rotate key; add provider.
 
-### Models & services — `services`, rank 4 (`ModelsServices.jsx`, `Toolsets.jsx`, `FirecrawlWork.jsx`)
+### Models & services — `services`, rank 4 (`ModelsServices.jsx`, `Toolsets.jsx`, `FirecrawlCredits.jsx`, `FirecrawlWork.jsx`)
 - On/off switches for page-fetching services and AI models (7-day calls and cost, tests); retired models; recent changes.
 - Toolsets and limits: one card per toolset.
   - Mode: Observe only, or Stop at limits.
   - Key and plan.
   - OpenRouter balance, floor, daily guards, spend by day.
-  - Settings by section: key and plan limits, use, daily guards, target universities, read pages, find pages, runs.
+  - Settings by section: key and plan limits, use, daily guards, target universities, read pages, find pages, runs, daily budget (Firecrawl, v2.15.262: on/off, credits a day, share per purpose, search stop, scholarship cap per university, central pages refresh).
+- Firecrawl credits by university (v2.15.262, collapsed card, rank ≥3 to view): today's budget per purpose (used, share, %, refused) and billed today; window last hour / 24 h / 7 days; Flagged only; per university credits by purpose, correct pages, wrong Firecrawl pages, credits per correct page, flag (Search stopped, No pages from 100+ credits, Mostly wrong pages, High scholarship use); Search again (Platform Admin, reason) on a stopped university. Reads `admin_firecrawl_credits`, writes `admin_firecrawl_search_resume`.
 - Firecrawl credits and support report; search pass; sample runs.
 
 ### Data model — `dataModel`, rank 5
@@ -275,3 +276,4 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.1 | 12 Oct 2026 | v2.15.262: Firecrawl daily budget settings and the Firecrawl credits by university card. |
