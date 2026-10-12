@@ -1,6 +1,6 @@
 # StudySearch – How scholarships work
 
-**Version:** 2.1 (12 Oct 2026, platform release v2.15.251)
+**Version:** 2.2 (12 Oct 2026, platform release v2.15.254)
 **Owner:** Platform Admin
 **Change control:** CF-247
 **Rule:** this document is updated with every change to how scholarships are found, read, linked, published or controlled. The change-control entry for that change says which version of this document it produced.
@@ -36,9 +36,9 @@ StudySearch takes scholarships only from each university's own website, in every
 | 6. Facts read | AI (when on): name, who it's for, offered, value (percentage, amount, tiers, full tuition), study levels, courses named and dates, each with its quote. Fixed rules still read nationalities, who qualifies and how long. Each fact keeps the page's words. | Scholarship record rows; Evidence & extraction, step 5; Scholarships › Extraction |
 | 7. Facts applied | New values update the record unless a person has locked them. Every change is logged with its evidence. | Evidence & extraction, step 6; record History |
 | 8. Courses linked | See section 4. | Courses it applies to › Show the courses and why each is linked |
-| 9. Publishing checks | See section 5. Passing scholarships are published hourly as a batch named auto-publish. | Layer 4 › Scholarship publishing; Scholarships › Coverage (review) |
+| 9. Publishing checks | See section 5. Passing scholarships are published hourly as a batch named auto-publish. | Scholarships › Coverage (review) |
 | 10. Delivered | Published scholarships go to the website, Wix and Zoho, through the course API and the scholarship APIs. | Scholarships list (published only) |
-| 11. Kept current | Published and ready pages are read again at least every 30 days (a setting). A change on the page flows through. A scholarship that stops passing a check is withdrawn at the daily review. | Jobs; Layer 4 › Scholarship publishing |
+| 11. Kept current | Published and ready pages are read again at least every 30 days (a setting). A change on the page flows through. A scholarship that stops passing a check is withdrawn at the daily review. | Jobs; Scholarships › Coverage |
 
 ## 4. How courses are linked
 
@@ -110,6 +110,8 @@ Retired on 11 Oct 2026: register feeds (ETL scheduler), weekly scope maintenance
 | Scholarships › Extraction | Re-check the watch list with AI | Reads every refused and known page of the watch-list universities with the active model |
 | Scholarships › Extraction | Try a page | Reads one address with a model and shows the answer; changes nothing |
 
+**Automatically, for a university being onboarded (v2.15.253).** Every university without an admitting adapter, and every new university, is onboarded a step at a time by the scheduled job provider-onboarding (Providers › Onboarding). Once its adapter is built and qualified and its central pages are attached, onboarding runs the same Find scholarships now task for that university; the scholarships found then follow the journey above (AI reading, publishing checks, hourly publish). Onboarding stops at Ready to admit for the adapter; scholarships are not held back by that step. The row shows how many new scholarships were found. A slim banner on every page (Curator and above) warns when Firecrawl credits, the OpenRouter credit, the adapter AI allowance or the scholarship scraper cap run low.
+
 Each button starts a **task**. The task puts its pages first in the reader's queue, sends the scraper worker the next step each minute (map, screen, read), shows progress on the button and in Task manager, and finishes when nothing in scope is left. Courses are attached by the same evidence rules as scheduled reading. Cancel stops the task. Pages already read keep their results, and the rest go back to their normal turn. A task for the same target can't be started twice. Unpublished or archived providers can't be scanned until restored.
 
 ## 8. Task manager and controls
@@ -151,7 +153,7 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 - When the scholarship credit cap is reached, pages wait. There is no direct read. Raise the cap in Settings.
 - Credits used show on Layer 2 › Scholarships, on each scholarship record (Evidence & extraction) and in Task manager.
 - AI reading of a stored page uses no scraper credit. Measured on the 41-page sample: Qwen3 30B about US$0.0003 a page; GPT-4.1 mini about US$0.0014 a page (instructions v2). Cost today shows on Scholarships › Extraction.
-- AI calls are paid from the OpenRouter key shared with Layer 3; when the key's credit limit is reached every AI call fails until it is raised.
+- AI calls are paid from the OpenRouter key kept by layer3-provider-control (Layer 3 itself was retired on 12 Oct 2026) and shared with the adapter builder; when the key's credit limit is reached every AI call fails until it is raised.
 
 ## 11. Where to look
 
@@ -161,7 +163,7 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | Why isn't this scholarship published, and where did each value come from? | Scholarship record (rows, Evidence & extraction) |
 | Does our list match the university's own listing page? | Scholarships › Coverage |
 | What is discovery finding and refusing? | Layer 2 › Scholarships |
-| What was published or withdrawn, and when? | Layer 4 › Scholarship publishing |
+| What was published or withdrawn, and when? | Scholarships › Coverage (Layer 4 › Scholarship publishing was retired on 12 Oct 2026, v2.15.253; its old address opens Coverage) |
 | What is running right now? | Scheduled jobs › Task manager |
 | What did the AI read on a page, and was each fact proven? | Scholarships › Extraction (recent answers, with the stored copy) |
 | Which AI model is used, and how well did it qualify? | Scholarships › Extraction |
@@ -174,3 +176,4 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | 1.0 | 11 Oct 2026 | First issue: scraper-only reading, evidence journey, dates, evidence-based course links, Study Australia retired (v2.15.243); on-demand tasks and Task manager running now (v2.15.244). |
 | 2.0 | 11 Oct 2026 | v2.15.248: every page a task reads is recorded and shown as a journey; a copy of every page is kept; skip rules; listing page suggestions; an automatically published scholarship that fails a check is held. v2.15.249: a pinned, qualified AI model reads every scholarship page with quotes checked against the page (Scholarships › Extraction); AI admission, model activation and instructions are separate, reasoned steps. |
 | 2.1 | 12 Oct 2026 | v2.15.250: models read in order (Qwen3 30B, then GPT-4.1 mini, then Layer 4 › AI could not decide); parked Layer 4 course items rerouted to university adapters and parked scholarships to the AI. v2.15.251: the audience quote must name international or domestic students; a second model confirms each admission. |
+| 2.2 | 12 Oct 2026 | v2.15.253: onboarding runs a scholarship search for each university it onboards; credit and limit banner; Layer 4 › Scholarship publishing retired (Scholarships › Coverage). |
