@@ -5929,3 +5929,18 @@ The brief now forbids direct table changes.
 - Still open:
   - Course search is now limited to small providers (tier 3), because nothing is queued in the higher tiers. A floor on small providers is a possible next lever; not changed.
   - Scholarship mechanism v2.8 follows in its own entry.
+
+### 13 Oct 2026 (Tue, Melbourne) – Scholarship mechanism v2.8 (v2.15.265)
+- Kept current under the standing rule: the scholarship mechanism document is updated with every change to how scholarships are found, read, linked, published or controlled.
+- What v2.15.265 changes for scholarships:
+  - No Firecrawl credit is spent on a directory site, whatever the purpose. 190 scholarship discovery rows that pointed at directory sites were switched off, not deleted.
+  - Scholarship discovery runs for Australian providers with 30 or more active CRICOS courses, and for overseas universities. Discovery order: top 50, then Australian 30+, then overseas. Scholarships already on record are still read again.
+  - The 150-credit cap counts from when a university joined onboarding. 49 of the top 50 started afresh.
+  - Held universities are not picked, so refused reads no longer repeat every minute.
+  - Refusals are counted per university and shown in Refused today, by university.
+- No platform change in this entry.
+
+| Item | What it does | Verified |
+|---|---|---|
+| docs/scholarships/SCHOLARSHIP-MECHANISM.md v2.8 | Section 7: discovery order. Section 9: cap window; which providers are searched. Section 10: directory guard, held universities, refusals by university. Section 11: where refusals show. Version history row. | Admin repo |
+| Docs artifact (node 850ccf76-2c03) and Drive doc v2.8 | Same text. The v2.7 Drive copy is renamed "(superseded by v2.8)", not deleted. The README row points to v2.8. | Docs artifact updated to rev 44 (version line, cap cell, cap bullet, new directory-guard bullet, 2.8 history). Drive doc v2.8 (id 1HUQ3OOPATqUhibXVkVSnB-JG14V3Be_f3guXtL1A5iA) read back in full: 12 sections and the 2.8 row. The v2.7 copy is renamed. |
