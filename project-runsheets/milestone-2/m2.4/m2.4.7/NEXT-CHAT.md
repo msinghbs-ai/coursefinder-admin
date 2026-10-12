@@ -5801,3 +5801,8 @@ The brief now forbids direct table changes.
 
 - Cost: about one Firecrawl credit per found page read; 412,941 of 500,000 credits left this month at 20:30.
 - The adapter AI allowance (400 proposals a day) was used up today; 46 universities wait for it and carry on after midnight Melbourne time. Raising it is a setting under Adapter builder (Platform Admin's choice).
+
+### 12 Oct 2026 (Mon, Melbourne) – System reference in the repository; questions answered from the repository
+- Platform Admin (12 Oct 2026, 20:38): "All design and doc updates are regularly done on the repo… make sure all queries are answered from repo read. Maintain whatever is necessary at the repo." 
+- Added `docs/platform/SYSTEM-REFERENCE.md` v1.0 (listed first in docs/README.md): the onboarding journey and its statuses and phases, stop reasons and which carry on by themselves, the admit rule, onboarding settings, the pilot, how course pages are found and read (Firecrawl), AI models and limits, the scheduled jobs that drive admission, live function checksums, and how a change is made.
+- Standing rule from this entry: questions about how the platform works are answered from this repository (System reference first, then the change-control record, the scholarship mechanism and the SOPs). Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates the System reference in the same entry. The live database is read only for live numbers (counts, balances, progress) and to verify a deploy.
