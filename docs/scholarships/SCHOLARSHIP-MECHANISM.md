@@ -1,6 +1,6 @@
 # StudySearch – How scholarships work
 
-**Version:** 2.8 (13 Oct 2026, platform release v2.15.265)
+**Version:** 2.9 (13 Oct 2026, platform release v2.15.266)
 **Owner:** Platform Admin
 **Change control:** CF-247
 **Rule:** this document is updated with every change to how scholarships are found, read, linked, published or controlled. The change-control entry for that change says which version of this document it produced.
@@ -115,16 +115,17 @@ Retired on 11 Oct 2026: register feeds (ETL scheduler), weekly scope maintenance
 
 Each button starts a **task**. The task puts its pages first in the reader's queue, sends the scraper worker the next step each minute (map, screen, read), shows progress on the button and in Task manager, and finishes when nothing in scope is left. Courses are attached by the same evidence rules as scheduled reading. Cancel stops the task. Pages already read keep their results, and the rest go back to their normal turn. A task for the same target can't be started twice. Unpublished or archived providers can't be scanned until restored.
 
-## 8. Task manager and controls
+## 8. Task manager, Progress and controls
 
-**Scheduled jobs › Task manager** shows everything using resources right now:
+Since v2.15.266 the work is shown in two places:
 
-| What | Shown | Controls |
+| Where | What | Controls |
 |---|---|---|
-| Tasks (on-demand and admin tasks) | Title, state, progress, what it found, who started it | Cancel (all); Pause and resume where the task type supports it |
-| Scheduled jobs running this moment | Job, area, how long it has run, schedule on or paused | Pause the schedule (the run in progress finishes), Resume, Run now |
-| Worker calls on their way | Work type, number of calls, age of the oldest | Shown only; they finish on their own |
-| Credits used in the last hour | By purpose | — |
+| Scheduled jobs › Task manager | Tasks (on-demand and admin tasks): title, state, progress, what it found, who started it | Cancel (all); Pause and resume where the task type supports it |
+| Coverage & completeness › Progress › Running now | Every scheduled job by journey stage (6 Scholarship adapter: find scholarship pages, listing pages; 7 Admit scholarships: read with AI, publish automatically and the rest), its state and last result; a job opens to the universities it worked on in the last hour (credits, refusals, pages waiting for the AI, published today), each linking to its journey; worker errors; Firecrawl used and refused in the last hour | Pause the schedule (the run in progress finishes), Resume, Run now (Platform Admin); Mark a worker error as seen |
+| Coverage & completeness › Progress › Journeys | Each university's stage, scholarships published / found and pages with the AI, and what holds it up (for example the scholarship credits) | Find scholarships now; Retry; Search again |
+
+Task manager's own "Running now" board was retired in v2.15.266 (Platform Admin, 13 Oct 2026); Progress replaces it.
 
 Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs work in the background is registered as a task type (pipeline.admin_job_kinds) or a scheduled job, and appears in Task manager with its controls.**
 
@@ -171,7 +172,8 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | Does our list match the university's own listing page? | Scholarships › Coverage |
 | What is discovery finding and refusing? | Layer 2 › Scholarships |
 | What was published or withdrawn, and when? | Scholarships › Coverage (Layer 4 › Scholarship publishing was retired on 12 Oct 2026, v2.15.253; its old address opens Coverage) |
-| What is running right now? | Scheduled jobs › Task manager |
+| What is running right now? | Coverage & completeness › Progress › Running now (scheduled jobs, by journey stage); Scheduled jobs › Task manager (tasks people started) |
+| How far has each university got with its scholarships, hour by hour? | Coverage & completeness › Progress (Overview for the pilot and the top 50; Journeys for one university) |
 | What did the AI read on a page, and was each fact proven? | Scholarships › Extraction (recent answers, with the stored copy) |
 | Which AI model is used, and how well did it qualify? | Scholarships › Extraction, or Models & services › AI & OpenRouter › Scholarship AI models (since v2.15.264; the same order, Qualify and Make active) |
 | How many Firecrawl credits did scholarships use today, and how many calls were refused? | Models & services › Toolsets & limits › Firecrawl credits by university |
@@ -192,3 +194,4 @@ Standing rule (Platform Admin, 11 Oct 2026): **every future feature that runs wo
 | 2.6 | 12 Oct 2026 | v2.15.259: Admit is automatic for the fields that pass (switched on by the Platform Admin), so admitted universities go on to enrich their courses and search their scholarships by themselves; a pilot of 100 universities (60 AU, 25 NZ, 15 CA) is measured hourly. |
 | 2.7 | 13 Oct 2026 | v2.15.262: scholarship scraper calls pass the Firecrawl daily budget (scholarship share 3,500 a day) and a cap of 150 credits per university in 30 days; cohort au-top-2026-10-12 (top 50 Australian providers by CRICOS courses) onboarded first. v2.15.264: the scholarship AI models (order, Qualify, Make active) also on Models & services › AI & OpenRouter. |
 | 2.8 | 13 Oct 2026 | v2.15.265: no credit on directory sites; scholarships searched for Australian providers with 30+ CRICOS courses and overseas universities, top 50 first; the 150 cap counts from joining onboarding; held universities not picked; refusals by university. |
+| 2.9 | 13 Oct 2026 | v2.15.266: scholarship work followed on Coverage & completeness › Progress (Running now by journey stage, with the universities each job works on; Journeys; hourly snapshots kept 90 days); Task manager keeps the tasks people start. |

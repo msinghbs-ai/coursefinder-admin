@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.5 (13 Oct 2026, platform release v2.15.265)
+**Version:** 1.6 (13 Oct 2026, platform release v2.15.266)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -87,6 +87,13 @@ Order (since worker v0.21.6, v2.15.265): 1 the CRICOS register's Website column 
 
 Firecrawl targets (`firecrawl_target_cache`): countries AU/NZ/CA; name contains "university"; AU/NZ ≥100 courses, CA ≥30; excludes college/pathway/…; plus every university onboarding works on (`pipeline.firecrawl_targets`). Firecrawl key settings: read/find credits per run 15,000; run concurrency 12; low-balance warning 10,000. Plan 500,000 credits a month (period starts the 2nd); balance read every 15 min (`firecrawl-credit`).
 
+## 2a. Progress (Coverage & completeness › Progress, since v2.15.266)
+- **Read:** `public.admin_progress_read(view, args)`, rank 3+. Views: `overview` (`security.progress_overview_v1(group)` + notices from `platform_notices_v1` for Firecrawl and OpenRouter + the hourly trend), `journeys` (onboarding rows with stage `provider_onboarding_stage_v1`, facts, pages with the AI, held up by: stop reason, search held, search stopped, scholarship cap), `running` (`security.admin_live_activity_v1()` jobs with a journey stage from `security.progress_job_stage_v1(job, area)`, credits and refusals in the last hour), `running_unis` (the universities one job worked on in the last hour: onboarding events, course-link searches, page reads, website finds, scholarship credits and refusals, pages waiting for the AI, published today, central pages, enrichment), `levers` (onboarding settings, Firecrawl Daily budget settings and AI guards with what each did today).
+- **Groups:** all (every `pipeline.provider_onboarding` row), pilot (`pilot-2026-10-12`), top (`au-top-2026-10-12`); `security.progress_cohort_v1`.
+- **Snapshots:** job `progress-snapshot` (hourly at :09, catalogued, `security.progress_snapshot_v1()`): refreshes `pipeline.progress_provider_facts` (each onboarding or cohort university's courses, intakes, English, fee, delivery and scholarships, via `provider_fill_counts_v1`, about 0.6 s) and records one Overview per group in `pipeline.progress_snapshots`; snapshots older than 90 days are removed by the same function. `onboarding-pilot-snapshot` is paused (its Pilot panel is retired).
+- **Retired screens:** Live activity (old addresses open Progress › Running now), the Pilot panel on Layer 2 › Onboarding, the Dashboard health strip, Layers and Recent activity, Task manager's Running now.
+- **Chat updates:** the hourly pilot updates ended at update 17 (13 Oct, 12:50 pm); summaries at 8 am, 1 pm and 6 pm Melbourne until 14 Oct 6 pm.
+
 ## 3. AI and limits
 
 | Use | Model(s) | Daily guard |
@@ -102,7 +109,7 @@ OpenRouter: balance read every 15 min (`openrouter-balance`, worker mode `openro
 
 ## 4. Scheduled jobs that drive admission (all in `pipeline.automation_catalogue`)
 
-provider-onboarding (1 min) · onboarding-pilot-snapshot (hourly :07) · layer2-onboarding-snapshot (53 */2) · course-link-search, course-link-search-worker (1 min) · coverage-discover, coverage-discover-2 (1 min) · coverage-read (30 s), coverage-read-2 (paused) · adapter-overwrite (10 min) · firecrawl-runs, firecrawl-targets (1 min) · firecrawl-credit (15 min) · firecrawl-panel-figures (5 min) · openrouter-balance (15 min) · central-ai · scholarship-discover (10 min) · scholarship-discover-refill (hourly :23). Scholarship jobs: `docs/scholarships/SCHOLARSHIP-MECHANISM.md` §6.
+provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilot-snapshot (paused since v2.15.266) · layer2-onboarding-snapshot (53 */2) · course-link-search, course-link-search-worker (1 min) · coverage-discover, coverage-discover-2 (1 min) · coverage-read (30 s), coverage-read-2 (paused) · adapter-overwrite (10 min) · firecrawl-runs, firecrawl-targets (1 min) · firecrawl-credit (15 min) · firecrawl-panel-figures (5 min) · openrouter-balance (15 min) · central-ai · scholarship-discover (10 min) · scholarship-discover-refill (hourly :23). Scholarship jobs: `docs/scholarships/SCHOLARSHIP-MECHANISM.md` §6.
 
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
@@ -126,8 +133,13 @@ provider-onboarding (1 min) · onboarding-pilot-snapshot (hourly :07) · layer2-
 | public.svc_scholarship_listing_next(integer) | f8184295… | 12200 (replaces 133c192d) |
 | public.svc_scholarship_read_next(integer) | 89879c6d… | 12200 (replaces bd0b48fc) |
 | public.admin_firecrawl_credits(integer) | 21ae40b4… | 12400 (replaces 356e6842) |
+| public.admin_progress_read(text, jsonb) | 16ff4919… | 12600 (12500 was 79d2c159) |
+| security.progress_overview_v1(text) | c2d80cb0… | 12500 |
+| security.progress_snapshot_v1() | d2b01fca… | 12500 |
+| security.progress_job_stage_v1(text, text) | 5c919602… | 12500 |
+| security.progress_cohort_v1(text) | 089db028… | 12500 |
 
-Worker: coverage-sweep v0.21.6, deployed version 149 (every Firecrawl spend through svc_fc_spend; Firecrawl reads only trusted page bases; official websites from training.gov.au and TEQSA first). App: v2.15.265 / 0.1.192. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
+Worker: coverage-sweep v0.21.6, deployed version 149 (every Firecrawl spend through svc_fc_spend; Firecrawl reads only trusted page bases; official websites from training.gov.au and TEQSA first). App: v2.15.266 / 0.1.193. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
 
 ## 6. How a change is made (for the next change)
 Migration generated with guard blocks (live md5 must equal the definition replaced) and post-checks; plpgsql syntax-checked on a local PostgreSQL 16; applied through the `db-apply-migration` workflow from the branch (worker first through `deploy-edge-functions` when both change); anything that drops or deletes goes to the Platform Admin as a paste file. Release: bump release manifest, guide and SOP review versions, package.json, CHANGELOG, persistence-contract test; regenerate `docs/sops`; full local suite; PR, squash merge; record the entry identically in the four CF-247 files; update this page.
@@ -137,6 +149,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.6 | 13 Oct 2026 | v2.15.266: Progress (section 2a): admin_progress_read, hourly snapshots kept 90 days, retired screens. |
 | 1.5 | 13 Oct 2026 | v2.15.265: directory guard at spend, refusals by university, search order tiers, scholarship eligibility (30+ courses) and cap from joining onboarding, search holds, official website from training.gov.au and TEQSA first. |
 | 1.4 | 13 Oct 2026 | v2.15.264: AI configuration on Models & services › AI & OpenRouter. |
 | 1.3 | 13 Oct 2026 | v2.15.263: Firecrawl reads only pages found by CRICOS code, listed by the university or entered by a person. |

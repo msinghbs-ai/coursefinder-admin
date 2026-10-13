@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.3 (13 Oct 2026, platform release v2.15.265)
+**Version:** 1.4 (13 Oct 2026, platform release v2.15.266)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -13,7 +13,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 
 | Part | What it shows / does | Source |
 |---|---|---|
-| Sidebar | Sections: (top) Dashboard, Live activity · Catalogue · Data pipeline · Operations · Platform settings · Administration · Guides. A page shows only if the role can open one of its tabs. Health dot on Platform health. Account box (role, email, Sign out) | `nav-map.js` SECTIONS; `mature-main.jsx` |
+| Sidebar | Sections: (top) Dashboard · Catalogue · Data pipeline · Operations · Platform settings · Administration · Guides. A page shows only if the role can open one of its tabs. Health dot on Platform health. Account box (role, email, Sign out) | `nav-map.js` SECTIONS; `mature-main.jsx` |
 | Header | Breadcrumbs, title and subtitle from nav-map; Health pill (rank ≥3, re-read every 5 min); version pill (made a "Release notes" button by `pim-version-entry.js`); role pill | `mature-main.jsx` |
 | Credit banner | Firecrawl, OpenRouter, adapter AI allowance, scholarship scraper cap when low (rank ≥3; every 5 min); link to Models & services; × hides until reload | `CreditBanner.jsx` |
 | Layer notices | On Layer 1/2/4 pages: notices from toolsets the layer depends on; Acknowledge (Platform Admin, reason) | `Toolsets.jsx` LayerNotices |
@@ -26,17 +26,11 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 ### Dashboard — `dashboard`, rank 1 (`Dashboard.jsx`)
 - **Waiting for you:** one line per queue (count, oldest, Open); "All clear" list.
 - **Tiles:** Providers, Courses, Scholarships, Open reviews.
-- **Platform health strip:** status, running jobs, failed in 24 h, pages saved in 24 h, security.
-- **Layers:** Layer 1 sources running, Layer 2 pages read in 24 h, Layer 4 waiting.
-- **Recent activity:** last 10.
-- Read only (`admin_waiting_read`, `admin_read` dashboard / layer_status_summary / platform_health).
+- A link to Coverage & completeness › Progress. (The health strip, Layers and Recent activity were retired in v2.15.266.)
+- Read only (`admin_waiting_read`, `admin_read` dashboard).
 
-### Live activity — `activity`, rank 1 (`LiveActivity.jsx`, refresh 20 s)
-- **Summary:** running, working, need attention, paused, worker error replies, calls in flight.
-- **Waiting for a person:** fee schedules to approve, scholarships ready to publish, domestic-only to check, Layer 4 reviews, ranking links to review.
-- **Workers sending back errors:** job, reply, meaning and what to do, how often, last. "Mark as seen" (rank ≥4).
-- **One table per area:** job, now, last run, last result, next run.
-- Checkbox "Only what is busy or needs attention".
+### Live activity — retired in v2.15.266
+- `#live-activity` and `activity` open Coverage & completeness › Progress › Running now (worker errors with Mark as seen moved there).
 
 ## 2. Catalogue
 
@@ -138,6 +132,11 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
   - Completeness by attribute (9 states; click to list courses).
   - Coverage by pipeline stage (10 states).
   - "By area" fold (providers, courses, campuses, scholarships; exceptions list).
+- **Progress** (rank 3, `Progress.jsx`, v2.15.266; read `admin_progress_read(view, args)`), four views (`?view=`):
+  - **Overview:** group picker (all universities, pilot, top 50 Australia); tiles (universities and done, need a person, scholarships published and found, course pages in the last hour, Firecrawl today); Needs attention (stopped universities by reason, each opening Journeys; Firecrawl and OpenRouter notices); the seven journey stages and Done (each opening Journeys); courses with intakes, English, fee and delivery (when picked → now for a group); Firecrawl shares and AI spend today; every hour of the last 24 (snapshots kept 90 days).
+  - **Journeys:** filters (group, stage, held up, country, search); one row per university: journey stepper, fields %, scholarships published / found and pages with the AI, held up by, next step. A row opens its journey (the Layer 2 › Onboarding journey) with Retry onboarding (Platform Admin, reason), Search again (Platform Admin, reason), Find scholarships now (rank ≥4) and links.
+  - **Running now:** tiles (running, failing in 24 h, paused, Firecrawl last hour and refused); every scheduled job by journey stage with how often, Running / Waiting / Failing / Paused, last 24 h, last result, Pause / Resume / Run now (Platform Admin); a job opens to the universities it worked on in the last hour, each with Open journey; Workers sending back errors with Mark as seen (rank ≥4). Refreshes every 20 s; filter "Only what is busy or needs attention".
+  - **Levers:** onboarding pace, Firecrawl daily budget and AI guards: value now, what it did today, Change (opens the screen where it is changed); Run on demand links.
 
 ### Layer 1 Register — `layer1`
 - **Sources** (rank 4, `layer1-operations-entry.jsx`):
@@ -168,7 +167,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
   3. Model proposes the adapter; save in testing and apply; qualify; admit.
   4. Adjust by hand (editor; validate and admit).
 - **Onboarding** (rank 3; actions Platform Admin, `ProviderOnboarding.jsx`):
-  - Auto-admit note; Pilot panel; 7-stage strip with pace and estimate.
+  - Auto-admit note; a link to Progress for the pilot and the top 50 (the Pilot panel was retired in v2.15.266); 7-stage strip with pace and estimate.
   - Tiles; list with filters, journey drawer, retry/stop, onboard universities not yet queued.
   - Onboarding settings (on, auto-admit, start new ones, how many at once, run as me); approvals waiting (fee schedules, English policies, calendars).
 - **Scholarships** (rank 4, `ScholarshipLayer layer=2`):
@@ -211,7 +210,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
   - Expandable detail: register run batches; admin task result with Admit the passing fields; or generic run detail with evidence and hashes.
 - **Task manager** (rank 4, `AdminTasks.jsx`):
   - Tasks running or waiting (pause, resume, cancel with reason).
-  - Running now and the last 15 minutes: jobs, database time, worker and API calls, AI cost, scraper credits, work waiting; pause, resume, run now.
+  - A link to Coverage & completeness › Progress › Running now (Task manager's own Running now board was retired in v2.15.266).
   - Task detail.
 
 ### Evidence — `evidence`, rank 3 (`EvidenceWorkspace.jsx`)
@@ -278,6 +277,7 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.4 | 13 Oct 2026 | v2.15.266: Coverage & completeness › Progress; Live activity, the Pilot panel, the Dashboard health strip, Layers and Recent activity, and Task manager's Running now retired. |
 | 1.3 | 13 Oct 2026 | v2.15.265: Refused today, by university on the Firecrawl credits card. |
 | 1.2 | 13 Oct 2026 | v2.15.264: Models & services tabs; AI & OpenRouter. |
 | 1.1 | 12 Oct 2026 | v2.15.262: Firecrawl daily budget settings and the Firecrawl credits by university card. |
