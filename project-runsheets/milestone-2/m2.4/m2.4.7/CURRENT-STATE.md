@@ -6012,3 +6012,18 @@ The brief now forbids direct table changes.
 | Chat updates | Hourly pilot updates ended at 17 of 48 (12:50 pm). Summaries now come at 8 am, 1 pm and 6 pm Melbourne until 14 Oct 6 pm, with a final before → after summary. | Next scheduled 6 pm today |
 | Scholarship mechanism v2.9 | Section 8: Task manager, Progress and controls. Section 11: where to see what is running and how far each university has got. Version row. | Admin repo; Docs artifact rev 49; Drive doc v2.9 (id 1BlEleAiNuh3Xtn__Gu95BkQH5k8lkzLEa8-1WrkjAuA); v2.8 copy renamed "(superseded by v2.9)", not deleted; README row |
 | System reference v1.6, UI catalogue v1.4, SOPs 1.9 | Section 2a Progress, job list, checksums; Progress and the retired screens | Admin repo |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.267: Progress › Journeys as the approved mock-up; Running now universities for every job
+- Raised by the Platform Admin (14:23, with two screenshots): "progress mock-up and actual implementation for Journey is very different. Even Running now is all tasks are empty."
+- Found:
+  - The Journeys table used the onboarding stepper. Its styles exist only inside Layer 2 › Onboarding, so it rendered as a numbered list from 1 to 7.
+  - The columns, filters and selected-journey panel did not follow the mock-up.
+  - Running now listed universities for only a few jobs. Every other job said "not working on a particular university".
+  - Schedules showed as raw cron, and the last result showed as "1 row".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012700 | `admin_progress_read`:<br>- **journeys:** sorted by courses; held-up filters and Only held up; total count; scholarships searched or not.<br>- **journey (new):** steps by stage from the onboarding events.<br>- **running_unis:** more jobs report the universities they touched; when a job touched none, it lists the universities now at its stage. | Applied (run 38341705265); live md5 e526fbba. Top-50 journeys return 50 rows. Journey steps read for UNSW. provider-facts falls back to the universities at Prepare. scholarship-read lists RMIT, Sydney and others. |
+| App v2.15.267 / 0.1.194 | **Journeys:** filter panel; seven stage pills; fields filled; scholarship journey; held up by; Next step.<br>**Selected journey:** steps, plus Find scholarships now, Read course pages again, Qualify adapter, scholarship pages with AI again, Search again, Retry and links.<br>**Running now:** schedules in words, last result text, the universities under every job.<br>SOPs and guide 1.10; S30 updated. | Full local suite 590 passed. PR #506 (squash 8ee75286); checks passed. Live screenshots (run 27): Journeys for the top 50 and Running now. |
+| System reference v1.7, UI catalogue v1.5, SOPs 1.10 | Journeys, journey and running_unis; checksum | Admin repo |
+- Scholarship mechanism unchanged (v2.9). The per-university AI re-read already existed on Scholarships › Extraction (`admin_scholarship_ai` backfill); it now has a button on the selected journey too.
