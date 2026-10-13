@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.8 (13 Oct 2026, platform release v2.15.268)
+**Version:** 1.9 (13 Oct 2026, platform release v2.15.269)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -99,7 +99,7 @@ Firecrawl targets (`firecrawl_target_cache`): countries AU/NZ/CA; name contains 
 | Use | Model(s) | Daily guard |
 |---|---|---|
 | Scholarship pages | Qwen3 30B, then GPT-4.1 mini (GPT-4.1 qualified, not in the order) | US$20 |
-| Adapter proposals | qwen/qwen3-30b-a3b-instruct-2507 (pinned) | US$5; also the Adapter builder allowance: **400 proposals a day**, US$5 |
+| Adapter proposals | qwen/qwen3-30b-a3b-instruct-2507 (pinned) | US$5; also the Adapter builder allowance: **1,000 proposals a day** (from 13 Oct, 18:04), US$5 |
 | Central pages (English policy, calendar) | GPT-4.1 mini | US$5 |
 | Course-page matching | — | US$5 (observed) |
 
@@ -111,22 +111,50 @@ OpenRouter: balance read every 15 min (`openrouter-balance`, worker mode `openro
 
 provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilot-snapshot (paused since v2.15.266) · layer2-onboarding-snapshot (53 */2) · course-link-search, course-link-search-worker (1 min) · coverage-discover, coverage-discover-2 (1 min) · coverage-read (30 s), coverage-read-2 (paused) · adapter-overwrite (10 min) · firecrawl-runs, firecrawl-targets (1 min) · firecrawl-credit (15 min) · firecrawl-panel-figures (5 min) · openrouter-balance (15 min) · central-ai · scholarship-discover (10 min) · scholarship-discover-refill (hourly :23). Scholarship jobs: `docs/scholarships/SCHOLARSHIP-MECHANISM.md` §6.
 
+## 4a. Settings register and the rule against fixed values (since v2.15.269)
+- **G2:** no operational value is written into code.
+- **The register.** Every job size, re-read and retry time and onboarding rule is a row of toolset `pipeline` in `pipeline.platform_toolset_settings`.
+  - It holds 60 settings: 33 job sizes, 19 re-read and retry times and 8 onboarding rules.
+  - Each has a range, a unit and a `used_by` line.
+  - Code reads it with `security.pipeline_num_v1(key, default)`. Every default is the value used before 13 Oct 2026.
+- **Jobs.** Every scheduled job passes its size as a setting call (31 jobs converted in migration 12900).
+  - The Automations batch box changes the setting.
+  - Pipeline settings rows (matcher, searches, reads) change it too, through `admin_pipeline_settings_write`.
+- **Worker.** It reads the Firecrawl proxy, site map sizes and search result counts through `svc_worker_settings_v1`. These are 10 Firecrawl settings, including `search_stop_window_days`. The proxy is used by every Firecrawl read.
+- **Policy tables.** These are edited on Pipeline settings through `admin_policy_tables_read` and `admin_policy_tables_write`, with a reason, logged in `admin_control_events` area `policies`.
+  - Capacity thresholds and evidence storage thresholds.
+  - Retention days and delete limits.
+  - Provider fee profiles and basis rules: active and review date.
+  - The allowed columns are listed in `security.policy_columns_v1()`.
+- **Guards.**
+  - `security.controls_check_v1()` lists running jobs with a number written into them. It shows on Pipeline settings and raises the notice `pipeline:0:fixed_value:<job>`.
+  - Test S32 fails any migration from 12900 on that writes a number into a job, or a day, hour, week or month interval or a limit of 100 or more into a non-screen function, unless the line is marked `-- fixed: <why>`.
+  - The repo `CLAUDE.md` states G1 and G2.
+- **Kept in code on purpose:** lease and claim timers (minutes), fire guards, the Firecrawl month roll-over, API time-outs, and the pinned AI models.
+- **Not controls:** `scholarship_ai_settings` (old scholarship AI runs), `acquisition_policies` (read only by reset functions) and `admission_lifecycle_policy` (its job is not scheduled). These run nothing today.
+- **Unused:** `publication_control_settings` and `scholarship_runtime_settings` are read by nothing. A paste file retires them.
+
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
 | Function | md5 | Since |
 |---|---|---|
-| security.provider_onboarding_step_v1(uuid) | 1ce3f7b6… | 11700 |
-| security.provider_onboarding_tick_v1() | 5196a85f… | 11700 |
+| security.provider_onboarding_step_v1(uuid) | 85977406… | 12900 (replaces 1ce3f7b6) |
+| security.provider_onboarding_tick_v1() | 924761ef… | 12900 (replaces 5196a85f) |
 | security.provider_onboarding_event_v1() | a3e685cd… | 11500 |
 | public.admin_provider_onboarding(text, jsonb) | dcec0b55… | 11600 |
 | public.svc_coverage_read_next(integer) | 2e177089… | 11700 |
 | security.scholarship_ai_fire_v1() | 0a432552… | 11400 |
 | security.central_ai_fire_v1() | 0a6dba98… | 11400 |
-| public.admin_toolsets_read() | 75ed6d4d… | 11400 |
+| public.admin_toolsets_read() | c54f956c… | 12900 (replaces 75ed6d4d) |
 | public.svc_course_link_search_next(integer) | 2c4d4055… | 12200 (replaces 6867d7ed) |
-| security.platform_notices_v1() | 08076626… | 12800 (replaces d1869f4f) |
+| security.platform_notices_v1() | eb994869… | 12900 (replaces 08076626) |
 | public.svc_fc_spend(numeric, text, uuid, text) | b49dd1f2… | 12200 (replaces d6c215dd) |
-| security.fc_search_stopped_v1() | 52f4f34e… | 12200 (replaces 5d549edd) |
+| security.fc_search_stopped_v1() | 672e614c… | 12900 (replaces 52f4f34e) |
+| public.admin_pipeline_settings_read() / _write(text, jsonb) | 6a192ef1… / 47491f59… | 12900 |
+| security.automation_batch(text) / admin_automation_control_v1(text, text, jsonb) | fe2d14f9… / 8d5a6f10… | 12900 |
+| svc_coverage_read_record / discovery_record / site_next / site_record | e0437f03… / ff0454e1… / bdac9ab9… / aa8a8565… | 12900 |
+| svc_scholarship_read_record / candidate_record / listing_record / ai_record | ece91393… / 2bfb43c3… / a72f798f… / b047f8d2… | 12900 |
+| svc_provider_facts_search_next / read_next, svc_cricos_peo_next | 14c68d37… / 5125d179… / 9b7675ad… | 12900 |
 | security.scholarship_discovery_refill_v1(integer) | ef694f93… | 12200 (replaces db4f9875) |
 | public.svc_scholarship_discover_next(integer) | e95b75ee… | 12200 (replaces cf7cd3c0) |
 | public.svc_scholarship_candidate_next(integer) | 5034833c… | 12200 (replaces e712f443) |
@@ -139,7 +167,7 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 | security.progress_job_stage_v1(text, text) | 5c919602… | 12500 |
 | security.progress_cohort_v1(text) | 089db028… | 12500 |
 
-Worker: coverage-sweep v0.21.6, deployed version 149 (every Firecrawl spend through svc_fc_spend; Firecrawl reads only trusted page bases; official websites from training.gov.au and TEQSA first). App: v2.15.267 / 0.1.194. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
+Worker: coverage-sweep v0.21.7, deployed version 151 (Firecrawl proxy, map sizes and search results from settings; every Firecrawl spend through svc_fc_spend; Firecrawl reads only trusted page bases; official websites from training.gov.au and TEQSA first). App: v2.15.267 / 0.1.194. Firecrawl read proxy: basic (setting firecrawl.read_proxy; every worker scrape sends proxy basic).
 
 ## 6. How a change is made (for the next change)
 Migration generated with guard blocks (live md5 must equal the definition replaced) and post-checks; plpgsql syntax-checked on a local PostgreSQL 16; applied through the `db-apply-migration` workflow from the branch (worker first through `deploy-edge-functions` when both change); anything that drops or deletes goes to the Platform Admin as a paste file. Release: bump release manifest, guide and SOP review versions, package.json, CHANGELOG, persistence-contract test; regenerate `docs/sops`; full local suite; PR, squash merge; record the entry identically in the four CF-247 files; update this page.
@@ -149,6 +177,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.9 | 13 Oct 2026 | v2.15.269: settings register and rule G2 (section 4a); jobs and 14 functions read settings; worker v0.21.7; checksums. |
 | 1.8 | 13 Oct 2026 | v2.15.268: notices list the universities to act on (`items`); search stopped excludes held. |
 | 1.7 | 13 Oct 2026 | v2.15.267: Progress journeys filters and journey steps; running_unis for every job. |
 | 1.6 | 13 Oct 2026 | v2.15.266: Progress (section 2a): admin_progress_read, hourly snapshots kept 90 days, retired screens. |

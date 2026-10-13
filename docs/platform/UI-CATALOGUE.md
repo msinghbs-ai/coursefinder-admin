@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.6 (13 Oct 2026, platform release v2.15.268)
+**Version:** 1.7 (13 Oct 2026, platform release v2.15.269)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -224,7 +224,12 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 ## 5. Platform settings
 
 ### Settings — `environment`, rank 6 (`PipelineSettings.jsx`, `EnvironmentMigrationWorkspace` integrations, `PlatformResourcesPanel.jsx`)
-- Pipeline numbers: find (matcher rates, searches a minute, search cap), read (batch), identify (country × attribute rules), budgets (read-only Firecrawl limit and reserve); recent changes.
+- Pipeline numbers: find (queue counts, search cap), identify (country × attribute rules), budgets (read-only Firecrawl limit and reserve); recent changes.
+- **Settings register (v2.15.269, `SettingsRegister.jsx`):**
+  - **Controls check banner:** it says every running job reads its sizes from settings, or lists the jobs that do not.
+  - **Cards:** Job sizes (33), Re-read and retry (19) and Onboarding (8).
+  - **Each setting** shows its value, unit and range, what uses it, and the last change and reason. Save needs an inline reason (Platform Admin).
+  - **Policy cards:** capacity thresholds, evidence storage thresholds, retention rules, and provider fee profiles and basis rules (on or off, review date). Each value is edited in its cell with a reason.
 - External services overview and stored key names.
 - Platform resources and cost (database, cache, jobs, storage, monthly toolset cost; editable cost model).
 - Keys:
@@ -277,6 +282,7 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.7 | 13 Oct 2026 | v2.15.269: settings register and policy tables on Pipeline settings; Firecrawl Find pages settings (map sizes, search results, search-stop window); proxy for every read. |
 | 1.6 | 13 Oct 2026 | v2.15.268: notices say what to do, open the exact card, act in place; information-only notices on Toolsets and limits. |
 | 1.5 | 13 Oct 2026 | v2.15.267: Progress › Journeys as the mock-up; Running now universities for every job. |
 | 1.4 | 13 Oct 2026 | v2.15.266: Coverage & completeness › Progress; Live activity, the Pilot panel, the Dashboard health strip, Layers and Recent activity, and Task manager's Running now retired. |

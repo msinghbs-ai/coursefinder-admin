@@ -6078,3 +6078,16 @@ The brief now forbids direct table changes.
 | Worker | The Firecrawl proxy is fixed at "basic" in 13 reads; the Proxy setting only affects manual runs. AI models are pinned on purpose |
 | Settings that do nothing | Layer 3 items on Pipeline settings |
 | Report | `docs/platform/SETTINGS-CONTROL-AUDIT.md` v1.0, with a home in the mock-up for each value; README row added |
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.269: every control in the UI; guards against fixed values
+- Raised by the Platform Admin (21:43): "Bring all controls to UI and make sure in future it's not getting hard coded. All controls need to be reflected and control in UI. Use current recommended settings and choices."
+- This follows the settings control audit v1.0 (e117). Every default is today's value, so nothing changed on the day. Scholarship pages keep 90 days, as recommended.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012900 | Settings register: toolset `pipeline` with 60 settings (33 job sizes, 19 re-read and retry, 8 onboarding), each with a range, a unit and `used_by`. `pipeline_num_v1` reads it.<br>31 jobs read their size from settings; 14 functions read their timing and onboarding rules.<br>10 Firecrawl worker settings.<br>Policy tables editable through `admin_policy_tables_read` / `_write`.<br>`controls_check_v1` plus a notice; the Layer 3 items removed from Pipeline settings.<br>Automations batch box and Pipeline settings write the register | Applied (run 38386355191) after the first try was refused cleanly (a help text was null).<br>All 20 replaced functions match by md5. Controls check 0. 311 job runs in 20 minutes, none failed |
+| Worker v0.21.7 | Reads the Firecrawl proxy (every read), site map sizes and search result counts from settings | Deployed version 151; index.ts md5 580078ff matches the repo |
+| App v2.15.269 / 0.1.196 | Settings › Pipeline settings: controls check, register cards, policy cards (Platform Admin); Toolsets › Firecrawl shows the new Find pages settings; notice plan for `pipeline:fixed_value`; repo `CLAUDE.md` rule G2; test S32 guard; SOPs 1.12 | Full suite 598 passed; the 2 outdated worker assertions were fixed and re-run. PR #508 merged; checks passed.<br>Live screenshots (run 29): v2.15.269 and the Firecrawl Find pages settings. Pipeline settings is Platform Admin only, so the UAT operator sees "Not authorised"; the register was checked through `admin_settings_register_read` as the Platform Admin and in the mocked browser test |
+| Paste file | Retires `publication_control_settings` and `scholarship_runtime_settings`, read by nothing; each is checked for references first | Sent to the Platform Admin |
+| Docs | System reference v1.9 (section 4a), UI catalogue v1.7, settings audit v1.1 (done; corrects the schedule claim), SOPs 1.12 | Admin repo |
+- Mock-up: added "6 · Settings › Pipeline settings (every control)".
