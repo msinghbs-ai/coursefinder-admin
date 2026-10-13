@@ -174,3 +174,4 @@ Migration 20261013012900. Verified live: all 20 replaced functions match by md5;
 
 ## 12. Correction (14 Oct 2026)
 The v1.0 search for readers missed functions in the `l4_api` and `admin_api` schemas. `publication_control_settings` is still read by the Layer 4 publish preview, so the paste file `PASTE-20261013-retire-unused-settings-tables.sql` must not be run. It would stop itself (its own check finds the reader) and drop nothing, but it is withdrawn. `scholarship_runtime_settings` can be retired together with its one uncalled write function, in a new paste file.
+- **14 Oct 2026, v2.15.272:** the flag in `publication_control_settings` switched nothing on (the Layer 4 publish preview only printed it), so the preview stopped reading it (migration 20261014013400). `PASTE-20261014-retire-unused-settings-tables-v2.sql` retires both tables and the uncalled write function.
