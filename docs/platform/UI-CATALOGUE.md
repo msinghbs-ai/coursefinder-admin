@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.4 (13 Oct 2026, platform release v2.15.266)
+**Version:** 1.5 (13 Oct 2026, platform release v2.15.267)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -134,8 +134,8 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
   - "By area" fold (providers, courses, campuses, scholarships; exceptions list).
 - **Progress** (rank 3, `Progress.jsx`, v2.15.266; read `admin_progress_read(view, args)`), four views (`?view=`):
   - **Overview:** group picker (all universities, pilot, top 50 Australia); tiles (universities and done, need a person, scholarships published and found, course pages in the last hour, Firecrawl today); Needs attention (stopped universities by reason, each opening Journeys; Firecrawl and OpenRouter notices); the seven journey stages and Done (each opening Journeys); courses with intakes, English, fee and delivery (when picked → now for a group); Firecrawl shares and AI spend today; every hour of the last 24 (snapshots kept 90 days).
-  - **Journeys:** filters (group, stage, held up, country, search); one row per university: journey stepper, fields %, scholarships published / found and pages with the AI, held up by, next step. A row opens its journey (the Layer 2 › Onboarding journey) with Retry onboarding (Platform Admin, reason), Search again (Platform Admin, reason), Find scholarships now (rank ≥4) and links.
-  - **Running now:** tiles (running, failing in 24 h, paused, Firecrawl last hour and refused); every scheduled job by journey stage with how often, Running / Waiting / Failing / Paused, last 24 h, last result, Pause / Resume / Run now (Platform Admin); a job opens to the universities it worked on in the last hour, each with Open journey; Workers sending back errors with Mark as seen (rank ≥4). Refreshes every 20 s; filter "Only what is busy or needs attention".
+  - **Journeys** (as the approved mock-up since v2.15.267): filter panel (group, country, stage, held up by: needs a person, waiting for course pages, scholarship credits used, search stopped or held, AI reading pages; Only held up; find; count, sorted by courses); one row per university: courses, adapter journey as seven stage pills (amber when held), fields filled (intakes, English, fee, delivery %), scholarship journey (found, with the AI, published; or not searched yet), held up by (or Nothing), Next step button. A selected university shows its steps (stage, from–to, last note) and now, and its run-on-demand actions: Find scholarships now, Read course pages again, Qualify adapter (rank ≥4, tasks with progress), Read the scholarship pages with AI again, Search again, Retry onboarding when stopped (Platform Admin, reason); links to its adapter, the Adapter builder and Scholarships.
+  - **Running now:** tiles (running, failing in 24 h, paused, Firecrawl last hour and refused); every scheduled job by journey stage with how often (in words since v2.15.267), Running / Waiting / Failing / Paused, last 24 h, last result (what the worker reported, or succeeded / failed and when), Pause / Resume / Run now (Platform Admin); a job opens to the universities it worked on in the last hour or, when it touched none, the universities now at its stage (marked), each with Open journey; Workers sending back errors with Mark as seen (rank ≥4). Refreshes every 20 s; filter "Only what is busy or needs attention".
   - **Levers:** onboarding pace, Firecrawl daily budget and AI guards: value now, what it did today, Change (opens the screen where it is changed); Run on demand links.
 
 ### Layer 1 Register — `layer1`
@@ -277,6 +277,7 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.5 | 13 Oct 2026 | v2.15.267: Progress › Journeys as the mock-up; Running now universities for every job. |
 | 1.4 | 13 Oct 2026 | v2.15.266: Coverage & completeness › Progress; Live activity, the Pilot panel, the Dashboard health strip, Layers and Recent activity, and Task manager's Running now retired. |
 | 1.3 | 13 Oct 2026 | v2.15.265: Refused today, by university on the Firecrawl credits card. |
 | 1.2 | 13 Oct 2026 | v2.15.264: Models & services tabs; AI & OpenRouter. |
