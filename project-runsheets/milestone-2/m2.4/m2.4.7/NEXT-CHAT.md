@@ -6076,3 +6076,18 @@ The brief now forbids direct table changes.
 | Migration 20261014013400 | `l4_api.publication_control_preview` no longer reads the flag or returns it | Applied (run 38483335805); md5 40e7fe6c matches. Afterwards only `admin_api.scholarship_runtime_settings_write` names either table; no view, trigger, policy, foreign key or job does |
 | App v2.15.272 / 0.1.199 | The publish confirmation no longer prints "Automatic publication"; test S35 | Full suite 607 passed; the SOP export and one timing-sensitive archived test passed on re-run (twice). PR #511 merged |
 | Paste file `PASTE-20261014-retire-unused-settings-tables-v2.sql` | Drops the uncalled write function, then both tables, after copying their rows into `pipeline.admin_control_events`; stops and drops nothing if any reference has appeared | Tested on a local copy: rows saved (1 and 3), tables gone; with a reader added it stopped and nothing was dropped. Sent to the Platform Admin |
+
+### 14 Oct 2026 (Wed, Melbourne) – Field gaps by country and the field enrichment job: plan v1.0
+- Raised by the Platform Admin (10:41): cover provider and campus addresses, link campuses to courses, use pages already scraped, find how many can be filled, find the gaps in fields Layer 1 does not capture, and plan a simple job to enrich chosen fields across universities or countries with the scraper (Layer 2) and AI (Layer 3), controlled from the screen.
+- Plan: `docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` v1.0. Read live; nothing changed.
+
+| Finding | New Zealand | Canada |
+|---|---|---|
+| Fields at 0% (Australia gets them from CRICOS) | Campus, duration, field of study, international, street address | Same; level 50% |
+| Courses with a stored own page | 5,543 (86%) | 4,506 (95%) |
+| Campus named in adapter reads, never admitted | 1,286 courses, 50 universities | 522 courses, 13 universities |
+| Duration in adapter reads | 1,174 courses | 402 courses |
+| Stored pages never read by an adapter | 3,003 | 2,790 |
+| Addresses | Need one contact or campus page per university: about 290 universities, about 600 Firecrawl credits | |
+
+- Proposed order: release 1 uses stored data only (campus lists approved per university, then course links; duration, level, delivery); release 2 adds the `enrich_fields` job (stored pages and AI) and a Field sources card in Settings; release 3 adds address page reads. Three decisions are open (section 7).
