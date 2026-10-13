@@ -6006,3 +6006,12 @@ The brief now forbids direct table changes.
 |---|---|---|
 | Setting `firecrawl.builder_proposals_per_day` | 400 → 1,000, set through `admin_toolsets_write` with the request as the reason (logged). Its upper bound (`max_value`) was raised from 500 to 2,000 so the value could be accepted. The US$5 daily spend limit is unchanged (1,000 proposals is about US$0.37 at today's rate). | `adapter_builder_budget()` shows limit 1,000. Within 6 minutes no university waited on the allowance; proposals rose from 403 to 412 with 20 in flight. No separate run was needed: `provider-onboarding` runs every minute. |
 - No code or migration change. Scholarship mechanism unchanged (v2.9).
+
+### 13 Oct 2026 (Tue, Melbourne) – Document: platform operational limits v1.0
+- Raised by the Platform Admin (18:17): "Give me all budgets and their correspondence usage and jobs and their schedules"; 18:20: "Save the above as platform operational limits in google docs and in admin docs as well."
+
+| Item | What it holds | Verified |
+|---|---|---|
+| `docs/platform/OPERATIONAL-LIMITS.md` v1.0 | Every budget and limit with its usage at 6:17 pm: the Firecrawl daily budget and its five shares, other Firecrawl limits, OpenRouter guards, Serper and ScrapingBee. Also all 91 scheduled jobs with Melbourne-time schedules (89 running, 2 paused), and watch points. Read from the live database. | Admin repo; README row added (and the System reference and UI catalogue rows brought up to v1.8 and v1.6) |
+| Google Doc copy | Same content, in the same Drive folder as the scholarship mechanism doc (id 1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw) | Read back from Drive; content matches |
+- No system change.
