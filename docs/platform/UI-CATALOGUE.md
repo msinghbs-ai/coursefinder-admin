@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.7 (13 Oct 2026, platform release v2.15.269)
+**Version:** 1.8 (14 Oct 2026, platform release v2.15.270)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -278,10 +278,43 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
 
 ---
 
+## 7. Drop-down options by country (checked live 14 Oct 2026, v2.15.270)
+
+Raised by the Platform Admin (14 Oct 2026, 07:13): "Courses > state filter is not showing options for nz and Canada. Cross check all filters across all pages." Counts are the options each list offers for Australia / New Zealand / Canada, read live through the same calls the screens make.
+
+| Page › filter | AU | NZ | CA | Status |
+|---|---|---|---|---|
+| Courses › Country | 3 countries | | | OK |
+| Courses › State / Region / Province | 8 | 15 | 10 | **Fixed in v2.15.270** (was 0 for NZ and CA). A course without a campus region takes its university's region |
+| Courses › Provider | 1,556 | 287 | 82 | OK; now also follows the region |
+| Courses › Study level | 20 | 5 | 4 | OK |
+| Courses › Delivery | 4 | 4 | 4 | **Fixed**: was "on_campus" only; now On campus, Online, Blended, On campus and online from the course itself |
+| Courses › University group | 4 | 0 | 0 | Groups exist for Australia only; the empty list now says so |
+| Courses › Field | 79 | 0 | 0 | Data gap: NZ and Canadian courses have no field classification yet; the empty list says so |
+| Courses › list column State / Region, Has state | | | | **Fixed**: NZ and CA rows show the university's region (was "—") |
+| Providers › Country, State / Region | 8 | 15 | 12 | OK (read from providers) |
+| Campuses › Region | 8 | (15) | (12) | Regions list, but no NZ or Canadian campuses are recorded |
+| Scholarships › Country, Provider | yes | yes | yes | OK |
+| Provider contacts › Country | 6 countries | | | OK; **fixed**: the Provider picker now follows the country |
+| Rankings › Country, State | 8 | 5 | 8 | OK |
+| Coverage, Evidence, Pipeline, Link refresh › Country | yes | yes | yes | OK |
+| Progress › Country | yes | yes | yes | OK |
+| Websites to find › Country | yes | yes | yes | **Fixed**: the list kept only the chosen country |
+| Priority queue › State | 8 | 15 | 12 | OK; label now "State or region" |
+| Data Quality › Scope | yes | yes | yes | **Fixed**: Canada was refused; it is computed when opened (about 2 s). "All" stays Australia and New Zealand (stored snapshots) |
+| Key dates › Country | yes | yes | yes | **Fixed**: Canada added |
+| Layer 1 › Regulatory sources | yes | yes | yes | **Fixed**: Canada is in scope |
+| Layer 4 › fee Currency | AUD | NZD | CAD | **Fixed**: CAD added |
+| Enrichment operations, Provider assets › Country | yes | yes | yes | **Fixed**: Canada was refused or left out (logo cohort AU 39, NZ 8, CA 32) |
+| Scholarship record › amount | | | | **Fixed**: no longer labelled A$ (the university's own currency is used) |
+
+Found while checking, not changed: about half of Canadian courses (5,250 of 10,394) hold a long source identifier in "CRICOS / course code"; PRISMS and QILT are Australian data sets.
+
 ## Version history
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.8 | 14 Oct 2026 | v2.15.270: section 7, drop-down options by country; region, delivery and country fixes. |
 | 1.7 | 13 Oct 2026 | v2.15.269: settings register and policy tables on Pipeline settings; Firecrawl Find pages settings (map sizes, search results, search-stop window); proxy for every read. |
 | 1.6 | 13 Oct 2026 | v2.15.268: notices say what to do, open the exact card, act in place; information-only notices on Toolsets and limits. |
 | 1.5 | 13 Oct 2026 | v2.15.267: Progress › Journeys as the mock-up; Running now universities for every job. |

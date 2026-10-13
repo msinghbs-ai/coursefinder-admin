@@ -6114,3 +6114,15 @@ The brief now forbids direct table changes.
 | Paste file | Retires `publication_control_settings` and `scholarship_runtime_settings`, read by nothing; each is checked for references first | Sent to the Platform Admin |
 | Docs | System reference v1.9 (section 4a), UI catalogue v1.7, settings audit v1.1 (done; corrects the schedule claim), SOPs 1.12 | Admin repo |
 - Mock-up: added "6 · Settings › Pipeline settings (every control)".
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.270: filters for every catalogue country
+- Raised by the Platform Admin (07:13, two screenshots): "Bug/fix: Courses > state filter is not showing options for nz and Canada. Cross check all filters across all pages and report all relevant drop down options are visible."
+- Cause: the region and delivery filters read campuses only. No NZ or Canadian campuses are recorded, and every campus row says on campus. Several screens and functions also listed only AU and NZ.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013000 | Region: campus region, else the provider's region (options, filter, list column, Has state, `region_source`).<br>Delivery: the course's own mode first, readable labels.<br>Empty filters say why (university group, field, region, delivery).<br>Data Quality (Canada computed when opened), Enrichment operations and Provider assets accept every catalogue country (`security.catalogue_country_codes_v1`) | Applied (run 38463657248). Region options AU 8, NZ 15, CA 10; delivery 4 for each country; NZ Auckland 1,992 courses, CA Ontario 3,323; every call under 1 s |
+| Migration 20261014013100 | Provider assets read the country list once (the first version refused with `text = text[]` for about 10 minutes) | Applied (run 38464461030). Logo cohort AU 39, NZ 8, CA 32. All 6 replaced functions match by md5 |
+| App v2.15.270 / 0.1.197 | Data Quality scope from the server; Canada on Key dates, Regulatory sources and the Layer 4 currency (CAD); the contacts Provider picker follows the country; Websites to find keeps every country; scholarship amount not labelled A$; Priority queue "State or region"; test S33; SOPs 1.13 | Full suite 604 passed. PR #509 merged; checks passed. Live screenshot (run 30): v2.15.270, NZ and Canadian rows show their region |
+| Docs | UI catalogue 1.8, section 7: every drop-down by country (AU / NZ / CA) | Admin repo |
+- Not changed (data gaps): NZ and Canadian courses have no field classification; university groups are Australian only; no NZ or Canadian campuses are recorded; 5,250 of 10,394 Canadian courses hold a long source identifier as their course code. Data Quality "All" stays Australia and New Zealand, because the snapshot table's check allows only AU+NZ, AU and NZ.
