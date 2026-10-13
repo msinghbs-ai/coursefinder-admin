@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.8 (14 Oct 2026, platform release v2.15.270)
+**Version:** 1.9 (14 Oct 2026, platform release v2.15.271)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -37,10 +37,11 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 ### Courses — `courses`, rank 1 (`Catalogue type=course`, drawer `CourseDetailPolish.jsx` and `RecordEditor.jsx`)
 - **List:** search (course, provider, code, stable key).
   - Filters: country, state, provider, group, level; advanced: field, delivery, has fee/intake/English, international, has scholarship, min legacy presence, freshness, status, publication.
-  - Columns: course, provider, code, state, level, field, CRICOS tuition, legacy presence, verified.
+  - Columns: course, provider, course code (the printed code, else the StudySearch code marked SS; v2.15.271), state, level, field, CRICOS tuition, legacy presence, verified.
+  - Search also finds StudySearch codes (e.g. UBC-MA-014).
   - Buttons: Compare, Add course (rank ≥5), Edit in list (rank ≥3).
 - **Drawer:**
-  - Pills and fact cards: tuition used and its source, CRICOS cost, intakes, English, campuses, last checked.
+  - Pills and fact cards: the course code with its kind (CRICOS course code, program code, StudySearch code), tuition used and its source, CRICOS cost, intakes, English, campuses, last checked.
   - Course editor: page, title, duration, delivery, description, tuition, intakes, English, finder address; reason; release lock; archive/restore.
   - Scholarships for the course; "Check scholarships for this course" (task).
   - "More about this course" fold: Layer 4 correction and publishing decision, insights, additional information.
@@ -49,9 +50,11 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 - **Providers** (rank 1):
   - List filters: country, state, group, status, publication.
   - Columns: provider, Adapter (Platform Admin: open/create adapter and its state), country, state, city, courses, group, Evidence count, lifecycle, Published switch (rank ≥5: hides from Wix, Zoho and the website and pauses background work), verified.
+  - Scholarship search column (v2.15.271): On, or Off · directory site.
   - Drawer:
     - Logo upload (rank ≥5).
     - Summary: courses, scholarships, contacts, campuses.
+    - Scholarship search flag (v2.15.271): On or Off (Off automatically when the only website known is a directory site); rank ≥4 turns it on with the own website and a reason, or off with a reason.
     - "Fill in from website" (Firecrawl) and "Find scholarships now" (tasks).
     - Provider editor (values; archive checklist and restore; regulatory contact; internal-only block).
     - World rankings.
@@ -314,6 +317,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.9 | 14 Oct 2026 | v2.15.271: course code column and StudySearch codes; Scholarship search flag on Providers and in the provider panel. |
 | 1.8 | 14 Oct 2026 | v2.15.270: section 7, drop-down options by country; region, delivery and country fixes. |
 | 1.7 | 13 Oct 2026 | v2.15.269: settings register and policy tables on Pipeline settings; Firecrawl Find pages settings (map sizes, search results, search-stop window); proxy for every read. |
 | 1.6 | 13 Oct 2026 | v2.15.268: notices say what to do, open the exact card, act in place; information-only notices on Toolsets and limits. |

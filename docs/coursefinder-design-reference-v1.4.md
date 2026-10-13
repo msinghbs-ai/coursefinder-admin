@@ -1464,6 +1464,28 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 256 — Scholarship search flag per provider; directory sites never searched
+**Status:** Current (14 October 2026, v2.15.271, migration 20261014013200) · **Recorded in:** this reference
+- **Why.** On 14 Oct 2026 the AI reader retried 1,391 queued pages on directory sites (australiancourses.com.au, oneuedu.com) for 17 small colleges every 30 minutes. Each read was refused before any credit was spent, but the retry was never counted, so it looped (about 13,500 refusals a day). The 30-course rule guards site mapping and search, not pages already queued.
+- **Platform Admin (08:33):** "skip scholarship search for any provider whose website is a directory site ... I need visible flag in provider for such rows. Which we can toggle to enable." Chosen: auto off, operator can enable; close the queued reads and stop the loop.
+- **The flag.** `pipeline.provider_scholarship_search` (with a log). Off automatically when the only website known for the provider is a directory site (85 providers on the day). It shows on Providers (Scholarship search column) and in the provider panel.
+- **Switching.** A Pipeline Operator or above turns it On with a reason and the provider's own website (saved as entered by a person; a directory address is refused), which starts a fresh search; or Off with a reason. An automatic Off never overrides a person's choice.
+- **Readers.** Discovery, the refill, page reading and the AI reader skip providers that are Off. The AI reader closes reads of directory pages and of Off providers (`skip_reason`). A read refused for credits counts toward its 3 tries.
+- The 30-course rule and the per-university credit cap still apply after a provider is switched on.
+
+### Decision 255 — Course codes: the printed code, else a StudySearch code
+**Status:** Current (14 October 2026, v2.15.271, migrations 20261014013200–3300) · **Recorded in:** this reference
+- **Why.** Canada has no national course code. Canadian courses came from provincial portals and college sites, so the code column held portal record IDs (long GUIDs), page IDs and address slugs for about half of them.
+- **Platform Admin (08:33):** "fill the real program code and if missing generate the studysearch code, create something not too long and meaningful with uni/campus/Degree based, it will be applicable to upcoming countries as well."
+- **Printed or not.** `ref.course_code_schemes` lists each identifier type as a printed code (CRICOS, NZQA, Quebec and Ontario program codes, college program codes) or a source ID (portal GUIDs, page and post IDs, slugs). A new country adds rows. A printed code always wins, so marking a type printed takes effect at once.
+- **StudySearch code.** A course with no printed code gets `<university>-<level>-<number>`, for example `UBC-MA-014`:
+  - university: its own short name when the name carries one in brackets, else the initials of three or more words, else four letters of its distinctive word; unique within the country;
+  - level: two letters from the study level (`ref.study_levels.short_code`), else read from the title (CO when neither says);
+  - number: per university and level, in title order.
+- **Rules.** The code is a typed identifier (scheme `studysearch`, issued by StudySearch), never written into `course_code`, which stays the source's value that importers match on (Decision 149). A code never changes. It is never used as evidence that a page belongs to a course (Decision 220 needs a printed code). The campus is not part of the code: NZ and Canadian courses have no campus records, and adding a campus would otherwise change the code.
+- **Where it shows.** The course list (Course code column, marked SS), the course record and search. The hourly job `studysearch-codes` codes new courses (setting `batch.studysearch_codes`).
+- On the day: 7,082 Canadian courses were coded; 6,313 show the StudySearch code (769 Ontario courses show their printed program code).
+
 ### Decision 254 — University adapters are the admission path for course fields: page roles, waves of five, a visual builder
 **Status:** Current (4 October 2026, migrations 20261004001280–20261004001330, worker coverage-sweep v0.16.2, releases v2.15.183–v2.15.185, Pilot PRs #302–#305) · **Recorded in:** this reference; full report and design in `docs/coursefinder-university-adapters-v1.0.md`; register and configurations in `docs/adapters/` · **Amends:** Decision 253 (adapters) · **Source:** Platform Admin, 4 Oct 2026 21:50, 22:43 and 23:30
 - **Why.** The general reader missed fields because each university prints them differently. For example, it found start dates on 25 of 262 Flinders study pages. The Flinders adapter read 173, with no Firecrawl credits.
