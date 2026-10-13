@@ -6066,3 +6066,17 @@ The brief now forbids direct table changes.
 | `docs/platform/OPERATIONAL-LIMITS.md` v1.0 | Every budget and limit with its usage at 6:17 pm: the Firecrawl daily budget and its five shares, other Firecrawl limits, OpenRouter guards, Serper and ScrapingBee. Also all 91 scheduled jobs with Melbourne-time schedules (89 running, 2 paused), and watch points. Read from the live database. | Admin repo; README row added (and the System reference and UI catalogue rows brought up to v1.8 and v1.6) |
 | Google Doc copy | Same content, in the same Drive folder as the scholarship mechanism doc (id 1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw) | Read back from Drive; content matches |
 - No system change.
+
+### 13 Oct 2026 (Tue, Melbourne) – Audit: can the platform be run from its settings (no system change)
+- Raised by the Platform Admin (21:34): "Validate that mocked up UI can control the platform from settings and variable available and no hard coded or further settings are in the code that drives the platform."
+- Read from the live database and the deployed worker (`coverage-sweep` v0.21.6). Nothing was changed.
+
+| Finding | Detail |
+|---|---|
+| Controllable today | Firecrawl daily budget and shares, per-university and monthly caps, search stop rule, OpenRouter guards and floor, adapter allowance, scholarship and onboarding settings, AI models (11 settings stores with screens) |
+| Batch sizes fixed in job schedules | 26 jobs; only 4 can be changed on Pipeline settings |
+| Timing rules fixed in functions | About 30 values in 14 functions. Example: scholarship pages are read again after 90 days, while the setting says 30 |
+| Settings tables with no screen | 10 (2 of them unused) |
+| Worker | The Firecrawl proxy is fixed at "basic" in 13 reads; the Proxy setting only affects manual runs. AI models are pinned on purpose |
+| Settings that do nothing | Layer 3 items on Pipeline settings |
+| Report | `docs/platform/SETTINGS-CONTROL-AUDIT.md` v1.0, with a home in the mock-up for each value; README row added |
