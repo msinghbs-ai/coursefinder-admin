@@ -5997,3 +5997,12 @@ The brief now forbids direct table changes.
 | App v2.15.268 / 0.1.195 | Each notice shows Action needed, Action outside StudySearch, Optional or Nothing to do, with the one thing to do.<br>**Go to** opens and scrolls to the exact card or setting: Daily budget settings, Credits by university, Websites to find, scholarship credits, course-page search budget, Daily guards, Jobs.<br>Search again and Save website work inside the notice.<br>Information-only notices are on Toolsets and limits; the layer page links to them.<br>SOPs 1.11; S31 added. | Full local suite 594 passed. PR #507 merged; checks passed. Live screenshots (run 28): Layer 2 › Onboarding shows 3 action notices and "3 information-only notices"; the Toolsets and limits deep link opened its card, showing all 6 with Nothing to do on the daily budgets and shared website. |
 | System reference v1.8, UI catalogue v1.6, SOPs 1.11 | Notice items; checksum; Layer notices row | Admin repo |
 - Scholarship mechanism unchanged (v2.9).
+
+### 13 Oct 2026 (Tue, Melbourne) – Setting: adapter AI allowance raised from 400 to 1,000 proposals a day
+- Raised by the Platform Admin (18:04): "Increase adapter daily limits from 400 to 1000 and fire or run it now."
+- The 6 pm progress summary showed onboarding paused after 403 of 400 proposals (US$0.15 of the US$5 daily limit).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Setting `firecrawl.builder_proposals_per_day` | 400 → 1,000, set through `admin_toolsets_write` with the request as the reason (logged). Its upper bound (`max_value`) was raised from 500 to 2,000 so the value could be accepted. The US$5 daily spend limit is unchanged (1,000 proposals is about US$0.37 at today's rate). | `adapter_builder_budget()` shows limit 1,000. Within 6 minutes no university waited on the allowance; proposals rose from 403 to 412 with 20 in flight. No separate run was needed: `provider-onboarding` runs every minute. |
+- No code or migration change. Scholarship mechanism unchanged (v2.9).
