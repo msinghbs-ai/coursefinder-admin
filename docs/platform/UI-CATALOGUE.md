@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.5 (13 Oct 2026, platform release v2.15.267)
+**Version:** 1.6 (13 Oct 2026, platform release v2.15.268)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -16,7 +16,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 | Sidebar | Sections: (top) Dashboard · Catalogue · Data pipeline · Operations · Platform settings · Administration · Guides. A page shows only if the role can open one of its tabs. Health dot on Platform health. Account box (role, email, Sign out) | `nav-map.js` SECTIONS; `mature-main.jsx` |
 | Header | Breadcrumbs, title and subtitle from nav-map; Health pill (rank ≥3, re-read every 5 min); version pill (made a "Release notes" button by `pim-version-entry.js`); role pill | `mature-main.jsx` |
 | Credit banner | Firecrawl, OpenRouter, adapter AI allowance, scholarship scraper cap when low (rank ≥3; every 5 min); link to Models & services; × hides until reload | `CreditBanner.jsx` |
-| Layer notices | On Layer 1/2/4 pages: notices from toolsets the layer depends on; Acknowledge (Platform Admin, reason) | `Toolsets.jsx` LayerNotices |
+| Layer notices | On Layer 1/2/4 pages: notices that need a person (Action needed, Action outside StudySearch, Optional), each with the one thing to do, a Go to button that opens and scrolls to the exact card or setting (`card=` and `at=` in the address), and the universities listed with Search again or a website box; Acknowledge (Platform Admin, reason). Information-only notices (Nothing to do) are on Toolsets and limits, linked from the layer page (v2.15.268) | `Toolsets.jsx` LayerNotices, Notice, noticePlan; `mature-main.jsx` focusTarget |
 | Scripts outside React that patch the page after it renders | `StatisticsDatasetEnhancer.js` (Rankings cards and dataset registry), `ranking-dataset-header.js`, `evidence-acquisition-provenance-entry.js`, `layer4-mass-operations-entry.jsx`, `pim-version-entry.js` (version text, release notes), `release-currentness-entry.js` | `index.html` |
 
 ---
@@ -277,6 +277,7 @@ Tabs (v2.15.264): **Services** (`?tab=services`, default) · **AI & OpenRouter**
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.6 | 13 Oct 2026 | v2.15.268: notices say what to do, open the exact card, act in place; information-only notices on Toolsets and limits. |
 | 1.5 | 13 Oct 2026 | v2.15.267: Progress › Journeys as the mock-up; Running now universities for every job. |
 | 1.4 | 13 Oct 2026 | v2.15.266: Coverage & completeness › Progress; Live activity, the Pilot panel, the Dashboard health strip, Layers and Recent activity, and Task manager's Running now retired. |
 | 1.3 | 13 Oct 2026 | v2.15.265: Refused today, by university on the Firecrawl credits card. |

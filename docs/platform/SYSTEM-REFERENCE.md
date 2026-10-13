@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.7 (13 Oct 2026, platform release v2.15.267)
+**Version:** 1.8 (13 Oct 2026, platform release v2.15.268)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -78,7 +78,7 @@ Every Firecrawl spend of the worker goes through `public.svc_fc_spend(units, pur
 - **Search order** (`security.fc_provider_tier_v1`): 0 top-50 cohort, 1 Australian with 30+ active CRICOS courses, 2 overseas, 3 small Australian providers. Used by `svc_course_link_search_next` (tier, then CRICOS stage before title, then priority), `scholarship_discovery_refill_v1`, `svc_scholarship_discover_next` and `svc_scholarship_candidate_next`.
 - **Held scholarship work:** `security.fc_sch_held_v1(provider, discovery)` (past the cap, or not eligible for discovery) keeps a university out of `svc_scholarship_candidate_next`, `svc_scholarship_listing_next` and `svc_scholarship_discover_next`; `svc_scholarship_read_next` (scholarships on record) skips only universities past the cap. Refused reads no longer repeat every minute.
 - **Search holds:** `pipeline.firecrawl_search_holds` (provider, reason, held_at, set_by) is part of `fc_search_stopped_v1` until a Search again after `held_at`. Held 13 Oct 2026: Victoria University (676 credits for 1 correct page) and Adelaide University (1,048 credits for 23 correct, 219 wrong).
-- **Notices:** search held (by name); Australian providers with no official website found; providers sharing a website with another provider.
+- **Notices:** search held (by name); Australian providers with no official website found; providers sharing a website with another provider. Since v2.15.268 the search held, search stopped and no-website notices carry `items` (provider_id, name, website, and reason or searches), and search stopped counts only universities stopped after searching (not those held).
 
 Groups: `security.fc_purpose_group_v1(purpose)`. Today: `security.fc_budget_status_v1()`. Report: `security.firecrawl_credits_report_v1(hours)` (per university credits by group, fc_ok / fc_wrong / direct_ok course pages read in the window, credits per correct page, flag search_stopped / no_pages / mostly_wrong / scholarships_high), shown on Models & services › Firecrawl credits by university (`admin_firecrawl_credits`; Search again `admin_firecrawl_search_resume`, Platform Admin). Notices (`platform_notices_v1`): a share or the day's total at 80% (warning) or 100% (high); universities with search stopped. Not gated (recorded after the call): adapter sample captures (bounded by 25 builds a day), fc_probe, the extra pages of provider_facts_scrape. Wrong pages: the next stored candidate is tried first, read directly (`course_link_search_tick_v1` step 2), before a new search.
 
@@ -124,7 +124,7 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 | security.central_ai_fire_v1() | 0a6dba98… | 11400 |
 | public.admin_toolsets_read() | 75ed6d4d… | 11400 |
 | public.svc_course_link_search_next(integer) | 2c4d4055… | 12200 (replaces 6867d7ed) |
-| security.platform_notices_v1() | d1869f4f… | 12200 (replaces 67bb25da) |
+| security.platform_notices_v1() | 08076626… | 12800 (replaces d1869f4f) |
 | public.svc_fc_spend(numeric, text, uuid, text) | b49dd1f2… | 12200 (replaces d6c215dd) |
 | security.fc_search_stopped_v1() | 52f4f34e… | 12200 (replaces 5d549edd) |
 | security.scholarship_discovery_refill_v1(integer) | ef694f93… | 12200 (replaces db4f9875) |
@@ -149,6 +149,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.8 | 13 Oct 2026 | v2.15.268: notices list the universities to act on (`items`); search stopped excludes held. |
 | 1.7 | 13 Oct 2026 | v2.15.267: Progress journeys filters and journey steps; running_unis for every job. |
 | 1.6 | 13 Oct 2026 | v2.15.266: Progress (section 2a): admin_progress_read, hourly snapshots kept 90 days, retired screens. |
 | 1.5 | 13 Oct 2026 | v2.15.265: directory guard at spend, refusals by university, search order tiers, scholarship eligibility (30+ courses) and cap from joining onboarding, search holds, official website from training.gov.au and TEQSA first. |

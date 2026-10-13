@@ -6050,3 +6050,22 @@ The brief now forbids direct table changes.
 | App v2.15.267 / 0.1.194 | **Journeys:** filter panel; seven stage pills; fields filled; scholarship journey; held up by; Next step.<br>**Selected journey:** steps, plus Find scholarships now, Read course pages again, Qualify adapter, scholarship pages with AI again, Search again, Retry and links.<br>**Running now:** schedules in words, last result text, the universities under every job.<br>SOPs and guide 1.10; S30 updated. | Full local suite 590 passed. PR #506 (squash 8ee75286); checks passed. Live screenshots (run 27): Journeys for the top 50 and Running now. |
 | System reference v1.7, UI catalogue v1.5, SOPs 1.10 | Journeys, journey and running_unis; checksum | Admin repo |
 - Scholarship mechanism unchanged (v2.9). The per-university AI re-read already existed on Scholarships › Extraction (`admin_scholarship_ai` backfill); it now has a button on the selected journey too.
+
+### 13 Oct 2026 (Tue, Melbourne) – v2.15.268: notices say what to do, open the exact card and can be acted on in place
+- Raised by the Platform Admin (14:56, with a screenshot of Layer 2 › Onboarding): "these notification are asking for cant be fixed and if followed the link its doesnt open the specific card to adjust the values if required."
+- Chose all four:
+  1. Open the exact card or setting.
+  2. Say plainly whether action is needed.
+  3. Act inside the notice.
+  4. Keep information-only notices on Toolsets and limits.
+- Found:
+  - Every notice linked to the whole Models & services page, not the card or setting it was about.
+  - Expected states (a daily share used up, which carries on after midnight) looked like faults.
+  - "Search stopped for 29" also counted the 2 universities held for an adapter check, which have their own notice.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261013012800 | `platform_notices_v1`:<br>- Search held, search stopped and no official website now list their universities (`items`).<br>- Search stopped counts only universities stopped after searching.<br>- Hints say what to do. | Applied (run 38349657128); live md5 08076626. Returns stopped 27 (was 29), held 2 and no website 108, each with its universities. |
+| App v2.15.268 / 0.1.195 | Each notice shows Action needed, Action outside StudySearch, Optional or Nothing to do, with the one thing to do.<br>**Go to** opens and scrolls to the exact card or setting: Daily budget settings, Credits by university, Websites to find, scholarship credits, course-page search budget, Daily guards, Jobs.<br>Search again and Save website work inside the notice.<br>Information-only notices are on Toolsets and limits; the layer page links to them.<br>SOPs 1.11; S31 added. | Full local suite 594 passed. PR #507 merged; checks passed. Live screenshots (run 28): Layer 2 › Onboarding shows 3 action notices and "3 information-only notices"; the Toolsets and limits deep link opened its card, showing all 6 with Nothing to do on the daily budgets and shared website. |
+| System reference v1.8, UI catalogue v1.6, SOPs 1.11 | Notice items; checksum; Layer notices row | Admin repo |
+- Scholarship mechanism unchanged (v2.9).
