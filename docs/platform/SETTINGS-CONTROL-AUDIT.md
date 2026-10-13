@@ -1,6 +1,6 @@
 # Can the platform be run from its settings? Audit of settings against hard-coded values
 
-**Version:** 1.1 (13 Oct 2026, platform release v2.15.269). **Status: done in v2.15.269** (section 11)
+**Version:** 1.2 (14 Oct 2026, correction to sections 3 and 8; platform release v2.15.271). **Status: done in v2.15.269** (section 11)
 **Change control:** CF-247
 **Asked by:** Platform Admin, 13 Oct 2026 21:34: "Validate that mocked up UI can control the platform from settings and variable available and no hard coded or further settings are in the code that drives the platform."
 **Basis:** read from the live database (project fxcwkweaxjtknorudmwp) and the deployed worker code (`coverage-sweep` v0.21.6), 13 Oct 2026. Measurement only; nothing was changed.
@@ -57,8 +57,8 @@ These are read by the platform but can only be changed by a database change.
 | `evidence_capacity_policy` | Evidence capacity | Storage & capacity |
 | `acquisition_policies` | 2 functions | Check use; retire if Layer 2 trials only |
 | `admission_lifecycle_policy` | 1 function | Check use; retire or Pipeline settings |
-| `publication_control_settings` | nothing | Retire (unused) |
-| `scholarship_runtime_settings` | nothing | Retire (unused) |
+| `publication_control_settings` | `l4_api.publication_control_preview` (Layer 4 publish preview in each record panel) reads `auto_publication_enabled` (false) | Keep. **Corrected 14 Oct 2026:** v1.0 said nothing reads it |
+| `scholarship_runtime_settings` | only `admin_api.scholarship_runtime_settings_write`, which no screen, job or function calls | Retire together with that function |
 
 ## 4. Batch sizes written into job schedules
 
@@ -136,7 +136,8 @@ These decide how often things are read again and how long a university waits. Th
 |---|---|---|---|
 | Layer 3 route limit, concurrency, requests a day, daily US$ and credit floor | Settings › Pipeline settings | Layer 3 retired 12 Oct; the jobs they change no longer exist | Remove from the screen |
 | Read pages: proxy, wait, time-out, location, formats; Runs: calls at once, batch | Toolsets › Firecrawl | Only manual Firecrawl runs use them | Label "Manual Firecrawl runs" or apply them everywhere (section 6) |
-| `publication_control_settings`, `scholarship_runtime_settings` | No screen | Nothing reads them | Retire |
+| `publication_control_settings` | No screen | The Layer 4 publish preview reads it (corrected 14 Oct 2026) | Keep; show the flag in Settings |
+| `scholarship_runtime_settings` | No screen | Only an uncalled write function | Retire with that function |
 
 ## 9. How this maps to the mock-up
 
@@ -170,3 +171,6 @@ These decide how often things are read again and how long a university waits. Th
 | Guard for the future | Rule G2 in the repo `CLAUDE.md`; test S32 on every later migration; the live controls check raises a notice |
 
 Migration 20261013012900. Verified live: all 20 replaced functions match by md5; 311 job runs in the first 20 minutes, none failed. The worker deployed matches the repo byte for byte (version 151).
+
+## 12. Correction (14 Oct 2026)
+The v1.0 search for readers missed functions in the `l4_api` and `admin_api` schemas. `publication_control_settings` is still read by the Layer 4 publish preview, so the paste file `PASTE-20261013-retire-unused-settings-tables.sql` must not be run. It would stop itself (its own check finds the reader) and drop nothing, but it is withdrawn. `scholarship_runtime_settings` can be retired together with its one uncalled write function, in a new paste file.
