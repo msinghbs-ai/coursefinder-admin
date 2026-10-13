@@ -89,3 +89,39 @@
 
 ## Daily captures
 (appended below each day)
+
+### Day 2 (13 Oct, captured 21:16 Melbourne; last 24 hours)
+Table counters: `table-day2-2026-10-13T1016Z.txt` (compared with the 12 Oct baseline). Only changes from day 1 are listed.
+
+**Edge functions: 8 called (day 1: 10)**
+- Called: `coverage-sweep` (15,182), `provider-asset-access` (114), `evidence-link-index` (110), `layer1-operations-control` (45), `qilt-au-etl` (6), `prisms-au-etl` (6), `platform-environment-control` (2), `zoho-course-api` (1).
+- `layer3-model-routing` and `layer3-work-dispatch`: no calls for the second day (they stopped 11 Oct).
+- `evidence-storage-dedupe`: not called this window. It runs once a day, so this is timing.
+- Still no calls: `website-course-api`, `wix-course-api`, all `layer1-ca-*` readers, probes and audits, the other `layer3-*` functions, `ranking-*`, `statcan-ca-psis-etl`, `provider-contact-*`, `admin-user-management`, `toolset-runner`.
+
+**Scheduled jobs**
+- Failures fell sharply. `coverage-admit`, `coverage-admit-intakes` and `platform-health` (about 75 failures each over day 1's 7 days) had none in 24 hours.
+- `firecrawl-targets` failed 30 times in 1,440 runs, and `firecrawl-panel-figures` once: database deadlocks with another job.
+- Not run in 24 hours, by design: `provider-document-check-monthly` (2nd of the month) and `statistics-edition-discovery` (5th of the month).
+
+**Screens (signed-in calls)**
+- New since day 1: Progress (60 calls), Firecrawl credits by university (5), the scholarship skip rules (5), the retention screen (2), key dates and reference sources (1–2 each).
+- Most used: Onboarding (1,194), `admin_read` (1,003), the credit banner (291).
+- Still no call in 2 days: Datasets registry editing, Pipeline settings, Priority queue, Users & roles, Go-live checklist, Data model.
+
+**Tables: no reads and no writes in 24 hours (128 of 393)**
+- **Retired features:** the whole `workflow` schema except `review_queue`; `claims`; `onboarding_cases` and `onboarding_lifecycle_events`; `layer4_scope_rules`, `layer4_mass_operations`, `layer4_quality_findings`, `layer4_field_registry`; `scholarship_ai_run_items`.
+- **Layer 2 trials and earlier phases:** `layer2_auto_discovery_*`, `layer2_completeness_trial*`, `layer2_fanout_tasks`, `layer2_field_admissions`, `layer2_scale_qualification_runs`, `layer2_shared_fetches`, `layer2_tuning_events`, `layer2_provider_probe_requests`, `layer2_provider_catalogue_submissions`, `layer2_scholarship_discovery_candidates`, `coverage_identity_*`, `directory_*`, `night_run_*`, `ca_*`.
+- **Layer 3 benchmarks:** `layer3_benchmark_jobs`, `layer3_holdout_sets`, `layer3_intake_*`, `layer3_profile_activation_events`, `layer3_task_contract_freezes`, `layer3_work_item_rebinds`, `layer3_provider_credential_audit`.
+- **Contacts import:** `provider_contact_import_*`, `provider_contact_observations`, `provider_contact_audit_events`, `provider_contact_dispositions`, `provider_contact_enrichment_attempts`, `provider_contact_provider_mappings`, `provider_directory_observations`.
+- **Scholarship pipeline leftovers:** `scholarship_catalogue_runs`, `scholarship_coverage_benchmarks`, `scholarship_etl_schedules`, `scholarship_maintenance_runs`, `scholarship_page_searches`, `scholarship_reread_snapshots`, `scholarship_scope_acquisition_requests`, `scholarship_source_*`, `scholarship.registers` and `register_listings`.
+- **One-off and scratch:** `reading_restores_20261005`, `zz_qualify_scratch_v1`, `public._layer1_depth_uat_control`, `register_replay_*`, `rule6_page_checks`, `site_hint_checks`, `refused_host_changes`, `retention_file_queue`, `retention_evidence_skips`.
+- **Search features never used:** `search.course_embeddings`, `embedding_jobs`, `query_embedding_cache`, `intent_aliases`, `profiles`.
+- **Static reference tables, expected to be idle:** `ref.languages`, `ref.regions`, `ref.provider_types`, `ref.ranking_sources`, `ref.identifier_schemes`, `ref.study_level_source_mappings`, `catalogue.course_collections`, `catalogue.outcome_benchmarks`, `catalogue.provider_rankings`, `catalogue.provider_associations`.
+- **Also idle, worth a check before deciding:** `evidence_links` (2.2 million rows written in its life, untouched today), `layer1_register_row_state`, `layer1_course_retirements`, `catalogue.course_identifiers`, `catalogue.course_field_observations`, `source_provider_mappings`.
+
+**Tables read but not written (154): the ones that matter**
+- **Retired Layer 3 tables are still read heavily:** `layer3_interpretations` (8.2 million reads in 24 hours), `layer3_fact_handoffs` (3.6 million) and `layer3_work_items` (2.0 million). Something (a screen, job or view) still queries them. They must be traced before they can be purged.
+- `layer4_block_decisions`: 19.7 million reads in a day against 11 rows ever written. It is a lookup on a hot path and cheap; keep it.
+- `layer2_course_discovery_candidates` is empty but was read 806,000 times: an old query still runs against it.
+- Reference and settings tables (countries, English tests, registrations, toolset settings) are read but rarely written, as expected.
