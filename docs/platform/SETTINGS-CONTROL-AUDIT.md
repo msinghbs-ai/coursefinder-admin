@@ -1,6 +1,6 @@
 # Can the platform be run from its settings? Audit of settings against hard-coded values
 
-**Version:** 1.0 (13 Oct 2026, platform release v2.15.268)
+**Version:** 1.1 (13 Oct 2026, platform release v2.15.269). **Status: done in v2.15.269** (section 11)
 **Change control:** CF-247
 **Asked by:** Platform Admin, 13 Oct 2026 21:34: "Validate that mocked up UI can control the platform from settings and variable available and no hard coded or further settings are in the code that drives the platform."
 **Basis:** read from the live database (project fxcwkweaxjtknorudmwp) and the deployed worker code (`coverage-sweep` v0.21.6), 13 Oct 2026. Measurement only; nothing was changed.
@@ -23,7 +23,7 @@ There are also settings on screen that do nothing today:
 - the Layer 3 items on Pipeline settings;
 - two settings tables that nothing reads.
 
-Job schedules (how often each job runs) can be paused and resumed but not changed on any screen.
+Correction in v1.1: how often a job runs can already be changed on Scheduled jobs › Automations (every 1 minute to 24 hours, with the job's role rule).
 
 Some values should stay in code. These are the safety timers that free a stuck claim (5–20 minutes) and the pinned AI models. Section 7 explains why.
 
@@ -147,7 +147,7 @@ These decide how often things are read again and how long a university waits. Th
 | Settings › Pipeline settings | Matcher, link search, course read | Throughput for the other 26 jobs (section 4); timing rules (section 5); fee profiles and basis rules |
 | Onboarding (page header) | Universities at once, auto-admit, auto-start | Re-check interval, proposal attempts, sample size |
 | Discovery & reading › Scholarships | Scholarship settings | Listing, candidate and AI re-read days; resolve the 30 or 90 days conflict |
-| Jobs & schedules | Pause, resume, run now | Change how often a job runs (with a reason) |
+| Jobs & schedules | Pause, resume, run now, how often a job runs (Automations) | — |
 | Storage & capacity | Purge | Capacity, retention and evidence policies |
 
 ## 10. Recommended next steps
@@ -155,5 +155,18 @@ These decide how often things are read again and how long a university waits. Th
 1. Decide the scholarship re-read rule: 30 days (the setting) or 90 days (the code).
 2. Build one settings register (key, section, value, range, unit, which job or function uses it, last change and reason) behind Pipeline settings. Move sections 4 and 5 into it, so every business value has one home and an audit trail.
 3. Remove the Layer 3 items from Pipeline settings, and relabel or apply the Firecrawl read settings.
-4. Add a "Change schedule" action on Jobs & schedules (Platform Admin, with a reason).
+4. ~~Add a "Change schedule" action~~: already on Automations (see the correction in section 1).
 5. Retire the two unused settings tables (a paste file, as they drop tables).
+
+## 11. Outcome: v2.15.269 (13 Oct 2026, Platform Admin 21:43: "Bring all controls to UI ... Use current recommended settings and choices")
+
+| Gap | Done |
+|---|---|
+| Batch sizes in job schedules | All 31 jobs read their size from the settings register (toolset `pipeline`, 33 job-size settings). The Automations batch box and the Pipeline settings rows change the setting. The controls check returns 0 jobs |
+| Timing rules in functions | 14 functions read 27 re-read, retry and onboarding values from the register. The defaults are today's values. Scholarship pages keep 90 days, labelled apart from the published re-read cycle (30 days) |
+| Settings tables with no screen | Capacity, evidence storage, retention and provider fee profiles and basis rules are editable on Pipeline settings with a reason. `scholarship_ai_settings`, `acquisition_policies` and `admission_lifecycle_policy` run nothing today, so they are not controls. The 2 unused tables go in a paste file |
+| Worker values | The Firecrawl proxy (used by every read), site map sizes and search result counts are settings (worker v0.21.7) |
+| Settings that did nothing | The Layer 3 items are removed from Pipeline settings and its read |
+| Guard for the future | Rule G2 in the repo `CLAUDE.md`; test S32 on every later migration; the live controls check raises a notice |
+
+Migration 20261013012900. Verified live: all 20 replaced functions match by md5; 311 job runs in the first 20 minutes, none failed. The worker deployed matches the repo byte for byte (version 151).

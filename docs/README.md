@@ -13,10 +13,10 @@ Do not infer the current document from the highest filename version or from chat
 
 | Family | Current document | State |
 |---|---|---|
-| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.8, 13 Oct 2026, v2.15.268) | CURRENT |
-| UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.6, 13 Oct 2026, v2.15.268) | CURRENT |
+| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.9, 13 Oct 2026, v2.15.269) | CURRENT |
+| UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.7, 13 Oct 2026, v2.15.269) | CURRENT |
 | Platform operational limits — every budget and limit with its usage, and every scheduled job with its schedule (Melbourne time) | `docs/platform/OPERATIONAL-LIMITS.md` (v1.0, 13 Oct 2026, figures as at 6:17 pm); Google Doc copy: https://docs.google.com/document/d/1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw/edit | CURRENT |
-| Settings control audit — what can be run from screens, what is fixed in code, and where each value should live | `docs/platform/SETTINGS-CONTROL-AUDIT.md` (v1.0, 13 Oct 2026, v2.15.268) | CURRENT |
+| Settings control audit — what can be run from screens, what is fixed in code, and where each value should live | `docs/platform/SETTINGS-CONTROL-AUDIT.md` (v1.1, 13 Oct 2026, v2.15.269: done) | CURRENT |
 | UI simplification review and proposed menu (Platform Admin decisions pending) | `docs/platform/UI-SIMPLIFICATION-REVIEW.md` (v1.0) | PROPOSED |
 | Usage audit: screens, scripts, jobs and data not being used (measuring 12–15 Oct 2026; nothing retired until decided) | `docs/platform/usage-audit/USAGE-AUDIT.md` | IN PROGRESS |
 | Master Project Plan | `docs/coursefinder-master-project-plan-v1.82.md` | CURRENT |
