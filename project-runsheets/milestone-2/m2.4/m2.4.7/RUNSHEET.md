@@ -6117,3 +6117,13 @@ The brief now forbids direct table changes.
 | App v2.15.271 / 0.1.198 | Course code column (marked SS) and course record label; Scholarship search column on Providers; flag panel in the provider record (rank 4 turns on with website and reason); test S34; SOPs 1.14 | Full suite 607 passed; the course summary label test was updated and re-run. PR #510 merged; checks passed. Live screenshots (run 31): v2.15.271, SS codes on Courses, Scholarship search column on Providers |
 | Docs | Design reference Decisions 255 (course codes) and 256 (scholarship search flag); UI catalogue 1.9; SOPs 1.14 | Admin repo |
 - Note: about 2,600 coded Canadian courses have no study level and no level word in the title, so their level part is CO (course). Their codes stay the same if a level is added later.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.272: unused automatic publication flag retired; replacement paste file
+- Raised by the Platform Admin (09:30): "Can I run this now PASTE-20261013-retire-unused-settings-tables.sql". Answer: no. `publication_control_settings` was still read by the Layer 4 publish preview, so the 13 Oct paste file is withdrawn (it would have stopped itself and dropped nothing). Settings control audit corrected to v1.2.
+- Platform Admin (10:14): "Proceed". The flag (off since 5 Sep 2026) switched nothing on; the preview only printed it in its confirmation. Rather than show a control that changes nothing, the preview stops reading it and the table is retired.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013400 | `l4_api.publication_control_preview` no longer reads the flag or returns it | Applied (run 38483335805); md5 40e7fe6c matches. Afterwards only `admin_api.scholarship_runtime_settings_write` names either table; no view, trigger, policy, foreign key or job does |
+| App v2.15.272 / 0.1.199 | The publish confirmation no longer prints "Automatic publication"; test S35 | Full suite 607 passed; the SOP export and one timing-sensitive archived test passed on re-run (twice). PR #511 merged |
+| Paste file `PASTE-20261014-retire-unused-settings-tables-v2.sql` | Drops the uncalled write function, then both tables, after copying their rows into `pipeline.admin_control_events`; stops and drops nothing if any reference has appeared | Tested on a local copy: rows saved (1 and 3), tables gone; with a reader added it stopped and nothing was dropped. Sent to the Platform Admin |
