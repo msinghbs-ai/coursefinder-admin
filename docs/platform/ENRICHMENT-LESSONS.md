@@ -1,6 +1,6 @@
 # StudySearch – Field enrichment: lessons learnt
 
-**Version:** 1.1 (14 Oct 2026, platform release v2.15.275) · **Change control:** CF-CHG-20260915-247 · **Related:** `FIELD-GAPS-AND-ENRICHMENT-PLAN.md`
+**Version:** 1.2 (14 Oct 2026, platform release v2.15.275 and its hotfix) · **Change control:** CF-CHG-20260915-247 · **Related:** `FIELD-GAPS-AND-ENRICHMENT-PLAN.md`
 
 Raised by the Platform Admin (14 Oct 2026, 12:04): "record any lesson learnt". These come from building the Enrich fields job (v2.15.273–275), the trial on the University of Waikato and the start of the New Zealand and Canada run. New lessons are added at the end with their date.
 
@@ -22,3 +22,7 @@ Raised by the Platform Admin (14 Oct 2026, 12:04): "record any lesson learnt". T
 | 14 | AI spend falls on misses too (14 Oct 2026, batch 1) | After 7,581 items: US$1.57 of US$2.30 went on items the page did not answer (duration skipped on 1,235 of 1,780 pages read) | Expected cost per filled value is about 1.5× the per-course guide; the guard and telemetry count both |
 | 15 | Free sources first make the AI share small (14 Oct 2026, batch 1) | Of 5,284 values filled, 4,622 came from the adapter or the institution rule at no cost; 662 from AI | Field sources keep adapter and rule ahead of AI; change the order only with a reason |
 | 16 | A failure count can include old errors (14 Oct 2026) | Telemetry showed 2 failed AI calls; both were from the trial before migration 013600, not the batch | Check the time of each failure before acting; the card counts the last 24 hours |
+| 17 | An item must always settle, even when its call fails (14 Oct 2026, batch 1) | One AI reply held a null character the database rejects; its 30 items used their three tries while still "leased" and were never settled. Batch 1 could not finish, batch 2 could not start, and five universities' campus lists (541 course links) waited | Hotfix: each pass settles an item that has used its tries as failed (migration 013900); worker v0.23.1 removes null characters before recording |
+| 18 | Coverage lags behind the work by up to an hour (14 Oct 2026) | Campus links were made at about 04:20 (2,174 NZ and 2,101 Canadian courses) but the 04:07 snapshot still showed NZ 3% and Canada 0% | Check the live tables before concluding a field did not move; the snapshot is hourly at :07 |
+| 19 | A home page rarely gives a street address (14 Oct 2026, batch 1) | 9 of 50 universities' home pages gave one (all Canadian); 41 skipped | Addresses need the contact or campuses page (plan step 4), one read per university |
+| 20 | Free sources and title-only AI do most of the work (14 Oct 2026, batch 1 final) | Field of study: 8,297 filled for US$0.62 from titles. International: 4,155 of 5,837 from the IRCC rule. Duration cost the most (US$4.23) and filled 41% | Spend AI page reads where the page is likely to answer; consider limiting duration to pages with a stated length |
