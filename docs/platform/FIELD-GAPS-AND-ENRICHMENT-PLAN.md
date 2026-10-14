@@ -1,6 +1,6 @@
 # StudySearch – Field gaps by country and the field enrichment job (plan)
 
-**Version:** 1.3 (14 Oct 2026, platform release v2.15.276) · **Status:** NZ and Canada run done; pending data-enrichment tasks in section 10 · **Change control:** CF-CHG-20260915-247
+**Version:** 1.4 (14 Oct 2026, platform release v2.15.277) · **Status:** NZ and Canada run done; pending data-enrichment tasks in section 10 · **Change control:** CF-CHG-20260915-247
 
 Raised by the Platform Admin (14 Oct 2026, 10:41): "We need to cover the address and also include the campuses with address to be read if not available. Assign them to courses in specific countries/unis. Use already scraped pages. Find out how many can be filled. Eventually to be controlled and defined by UI. Same things goes for rest of fields which is not getting captured by layer 1. Find the gaps. Additionally plan the feature to create a job to enrich data for specific or multiple fields across uni or countries using scraper and ai in layer 2 and layer 3. Keep it simple."
 
@@ -157,7 +157,7 @@ Until a task is attended, the value stays empty: the website API returns null (n
 | PE-1 | Institution type for Canada | `institution_type` null | 52 Canadian providers with courses | Platform Admin choice of source (for example the IRCC list of designated learning institutions and provincial registers), then a Layer 1 mapping | O2 | 14 Oct 2026 |
 | PE-2 | Confirm Australian VET providers against training.gov.au | No RTO confirmation in the institution type basis | Australian VET providers (types come from CRICOS and TEQSA today) | Credentials for the training.gov.au web services, or a decision not to use it | O3 | 14 Oct 2026 |
 | PE-3 | Institution type for five Australian providers, and two TAFE edge cases | `institution_type` null for: Advance English (2 courses), Girton Grammar School (1), Inspire College (2), Nova Institute of Technology (16), St Peters International College (6). Aviation Australia (9) and Canning College (10) are typed TAFE / Polytechnic by the rule "CRICOS Government provider offering VET" | 7 Australian providers | A person sets each type on Providers › Type, or the rules on Settings › Pipeline settings › Institution type rules are changed (Providers already shows "Needs type" for the five) | O4 | 14 Oct 2026 |
-| PE-4 | Rankings and logos usage terms | Values held and returned, but `terms_status` is `management_decision_pending`; the website must not display them | 79 providers with rankings, 49 with logos | Management decision on usage terms (no build) | O5 | 14 Oct 2026 |
+| PE-4 | ~~Rankings and logos usage terms~~ **Done 14 Oct 2026 (v2.15.277)**: approved for display by the Platform Admin; `terms_status` approved, changed on Settings › Pipeline settings › Website API | — | — | — | O5 | 14 Oct 2026 |
 
 Other enrichment items already open (raised during the NZ and Canada run, not yet decided):
 
