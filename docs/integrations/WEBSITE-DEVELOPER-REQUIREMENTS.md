@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.1 (14 Oct 2026, platform release v2.15.276, O1 done)
+**Version:** 1.2 (14 Oct 2026, platform release v2.15.276, O1 and O7 done)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/coursefinder-wix-api-handover-v2.md` (Version 2; the Word copy beside it is what the developer receives).
@@ -48,11 +48,12 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | O4 | Five Australian providers have no institution type; Aviation Australia and Canning College are typed TAFE / Polytechnic | Visible to the website as null or as TAFE | Platform Admin to review; set by hand on Providers › Type, or change the rules on Settings › Pipeline settings |
 | O5 | Rankings and logos usage terms | The developer must not display them until management decides | No build; `terms_status` changes when decided |
 | O6 | Filtered search timings | Institution type filter about 2.3 s cold (about 1.6 s without it) | Watch; optimise only if the developer reports slowness |
-| O7 | Duration quality | Two New Zealand durations were read from fee lines ("fee displayed is for 1 year of study"); 294 New Zealand and Canadian durations are stated in semesters, so `duration_months` is null for them | Platform Admin to decide: undo the two values (and tighten the duration quote rule as was done for international), and whether semesters stay null |
+| O7 | ~~Duration quality~~ **Done 14 Oct (migration 20261014100000, worker v0.23.2)** | Platform Admin decisions: "Undo and tighten rule" and "Keep null". The two New Zealand durations read from a fee line are withdrawn (items kept, reversible); the Enrich fields worker no longer admits a duration quote about the fee basis; 294 semester durations stay null in `duration_months` | Handover reissued: section 14 NZ duration 2,929, known data-quality line, change-log line |
 
 ## History
 
 | Version | Date | Change |
 |---|---|---|
+| 1.2 | 14 Oct 2026 | O7 done: two fee-line durations withdrawn, worker rule tightened, semesters stay null. |
 | 1.1 | 14 Oct 2026 | O1 done: New Zealand and Canadian campuses and Enrich fields values in the API, New Zealand campus regions only where proven; O7 added (duration quality). |
 | 1.0 | 14 Oct 2026 | First issue: rules, requests R1–R14 with status, open work O1–O6 (after v2.15.276 institution type). |

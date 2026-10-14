@@ -6306,3 +6306,16 @@ The brief now forbids direct table changes.
 - Checked through the API functions: search NZ city Hamilton 272, Auckland 616; Canada Vancouver 445; region NZ-WKO 272, CA-ON 996; NZ delivery online 392; no filter left unapplied. A Dunedin course now returns its campus with region null (was NZ-AUK), with study area, delivery and level.
 - Open item O7 added to the register: two New Zealand durations read from fee lines; 294 durations in semesters return `duration_months` null. Lessons 21–23 added (`ENRICHMENT-LESSONS.md` v1.3).
 - Documents: register v1.1 (O1 done, O7), System reference v1.12 (§4b campuses and regions, projection refresh, checksums), handover Version 2 reissued. O2–O5 untouched.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.276 O7 and Deployed UAT green again
+- Platform Admin (14 Oct 2026, 20:04): "Ask me questions with recommended choices, also the branch is not green." Decisions (multiple choice, recommended options): "Exact source names", "Undo and tighten rule", "Keep null".
+- **Deployed UAT** had been red on Pilot main since 5e5b81c6 (institution-type release, before O1). `layer1-operations-deployed.spec.mjs` chose the first Australian source whose label contains CRICOS (and NZ: NZQA); today's institution-type registers "CRICOS Institutions: institution type" and "NZQA provider search: organisation type" match too, so the CRICOS test validated the provider register, which reports providers, not active courses. The test now picks "CRICOS Providers, Courses and Locations" and "NZQA Education Organisations" by exact name. No platform change.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014100000 | Withdraws the two New Zealand durations read from a fee line (courses course:nzqa:6017:2212 and course:nzqa:6014:3072), only where the course still held the job's value and no hand lock; items marked skipped with the reason, value and quote kept | Applied; post-check (exactly 2) passed; both courses return `duration_months` null through the API |
+| Worker v0.23.2 | A duration quote about the fee basis is not admitted (reason "the quote is about the fee basis, not the course length"); the rule matches exactly the 2 of 4,544 filled durations | Deployed version 157; index.ts md5 5a7e6236 matches the repo |
+| Tests | S38 O7 test; S36 and S37 pins accept the new worker; deployed Layer 1 spec by exact source name | Related contracts 32 passed; full suite 634 passed (S36 pin, since fixed). PR #523 merged. On cb63a2f7: Deployed UAT (targeted), build-and-smoke and Workers Builds all success |
+| Developer document | Handover Version 2 reissued: section 14 NZ duration 2,929; known data-quality line; change-log line | Word file validated; Markdown regenerated from it |
+
+- Semester durations (294) stay null in `duration_months` (decision "Keep null"). Register v1.2 (O7 done); lessons v1.4 (lesson 24).
