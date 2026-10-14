@@ -125,3 +125,38 @@ Table counters: `table-day2-2026-10-13T1016Z.txt` (compared with the 12 Oct base
 - `layer4_block_decisions`: 19.7 million reads in a day against 11 rows ever written. It is a lookup on a hot path and cheap; keep it.
 - `layer2_course_discovery_candidates` is empty but was read 806,000 times: an old query still runs against it.
 - Reference and settings tables (countries, English tests, registrations, toolset settings) are read but rarely written, as expected.
+
+### Day 3 (14 Oct, captured 21:32 Melbourne; last 24 hours to 21:16)
+Table counters: `table-day3-2026-10-14T1032Z.txt` (compared with day 2; schemas `ranking` and `publishing` added). Only changes from earlier days are listed.
+
+**Edge functions: 10 called (day 2: 8)**
+- `coverage-sweep` 16,109; `evidence-link-index` 121; `layer1-operations-control` 89; `zoho-course-api` **86** (day 2: 1); `provider-asset-access` 44; new `layer1-provider-facts` 21 and `layer1-operations-scheduled` 4 (institution type, v2.15.276); `qilt-au-etl` and `prisms-au-etl` 9 each; `evidence-storage-dedupe` 1 (daily, as expected).
+- **`wix-course-api`: still no calls.** The website has not started calling the API on Pilot (v1 or v2), although v2 was released on 8 Oct and the sync action added on 14 Oct. `website-course-api` also has none.
+- `platform-environment-control` not called this window (it was called twice on day 2).
+
+**Scheduled jobs: 97 (6 added on 14 Oct), 33,277 runs, 65 failures**
+- Every failure is a deadlock between `firecrawl-targets` (58, day 2: 30) and `firecrawl-panel-figures` (7, day 2: 1). They are getting worse, not better.
+- Switched off on purpose: `coverage-read-2` (second reader, paused 12 Oct) and `onboarding-pilot-snapshot` (replaced by progress snapshots, 13 Oct).
+- New daily `provider-type-classify` (03:47 UTC) has not run yet: it was created after that time on 14 Oct.
+
+**Screens (signed-in calls)**
+- New: Enrich fields (14), Scholarship search flag (13), Layer 1 statistics candidates (98).
+- Progress fell from 60 calls to 16; the credit banner (300) and `admin_read` (887) remain the most used.
+- Several Layer 4 screens were opened once each (review desk, batches, mass operations, quality findings, departures).
+- Still no call in 3 days: Pipeline settings register, Priority queue, Users & roles, Go-live checklist, Data model, Datasets registry editing.
+
+**Tables: no reads and no writes in 24 hours: 132 of 399 (day 2: 128 of 393)**
+- 17 of day 2's idle tables moved, mostly because of the 14 Oct releases (`ref.identifier_schemes`, `ref.provider_types`, `catalogue.course_identifiers`) or a screen opened once (`layer4_mass_operations`, `layer4_quality_findings`, `layer4_field_registry`). `register_replay_*`, `scholarship_etl_schedules` and `source_record_staging` had a few reads.
+- Newly idle (21): the remaining Layer 3 routing tables (`layer3_route_budget`, `layer3_route_events`, `layer3_route_tiers`, `layer3_tier_audits`, `layer3_holdout_cases`, `layer3_profile_environment_gates`); environment and gate tables (`environment_source_gates`, `layer2_provider_environment_gates`, `layer2_profile_provider_routes`); `firecrawl_calls`, `integration_secret_registry`, `performance_workload_profiles`, `platform_uat_catalogue`, `production_migration_manifest`, `provider_document_checks`, `provider_fee_rows`, `statistics_dataset_registry`, `toolset_sample_items`, `uni_adapter_models`, `uni_adapter_previews`, `ref.currencies`.
+- The day 2 groups (retired features, Layer 2 trials, Layer 3 benchmarks, contacts import, scholarship leftovers, one-off and scratch, unused search features) are still idle on day 3.
+
+**Tables read but not written: 158**
+- `layer3_interpretations` 8.35 million reads, `layer3_fact_handoffs` 3.57 million, `layer3_work_items` 2.00 million, `layer2_course_discovery_candidates` 0.81 million: the same as day 2, with no writes.
+- `layer4_block_decisions` 20.1 million reads (hot-path lookup, 11 rows): keep.
+
+**What still reads the retired tables (traced on day 3)**
+- No view reads any of the four tables. `pg_stat_statements` shows only screen and one-off queries, because the reads happen inside functions called by jobs.
+- `layer2_course_discovery_candidates` (13 functions): the steady reads match `course-coverage-build` (hourly, `security.course_coverage_build_v1`). About 33,600 reads a run against about 37,000 courses suggests a per-course lookup. Also `retention-worker` (`retention_tick_v1`, every 2 minutes) and the Layer 2 operations screen.
+- `layer3_work_items` (32 functions) and `layer3_interpretations` (35 functions): the jobs that call them are `adapter-overwrite` (every 10 minutes), `provider-basis-rule-admit` (every 10 minutes), `provider-rule-admit` and `provider-fee-profiles-apply` (hourly), `course-coverage-build` (hourly), `platform-health` (every 10 minutes), `platform-resource-observe` (hourly) and `coursefinder-m2-3-refresh-intelligence-tick` (hourly). Screens: Layer 4 review desk and context, course field states, Task manager running-now and live activity, Services.
+- `layer3_fact_handoffs` (6 functions): the requeue screen and its action, `provider_english_plan_v1`, and the retired Layer 3 fact services.
+- Before any of these tables is retired, each function above must stop reading it (the rule jobs check "is there a Layer 3 item for this course"). Day 4 can pin the exact job by comparing the table's read counter before and after one run of each.
