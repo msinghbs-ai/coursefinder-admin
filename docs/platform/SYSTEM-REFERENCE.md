@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.11 (14 Oct 2026, platform release v2.15.276; institution type, Decision 258, migrations 20261014060746–20261014070622)
+**Version:** 1.12 (14 Oct 2026, platform release v2.15.276; website requirements O1, migration 20261014090000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -143,6 +143,8 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 - **Tuition.** Provider current fee first, else the CRICOS registered total; amounts under 1,000 are placeholders and not held; basis always stated; annual derived from a total only for courses of 12 months or more; no currency conversion.
 - **QILT.** Gate `search.enrichment_gates` courses/provider_outcomes (approved 14 Oct 2026) releases QILT rows of `catalogue.provider_outcomes` (provider grain, status current, surveys `qilt_*`) on provider and course detail. The course-grain gate courses/qilt stays blocked.
 - **Institution type.** `institution_type {code, name, basis}` on every provider (list and detail) and on the provider of every course; filter `institution_types` on search and providers (a course matches through its provider, `api.website_v2_institution_type_code`); `reference` lists the active types with published provider counts. null when not held (section 4c).
+- **Campuses and regions (O1, 14 Oct 2026).** `campuses[]` and the city filter read `catalogue.course_campuses` and `catalogue.campuses` live. Australia: CRICOS locations. New Zealand (168) and Canada (78): campuses made by Enrich fields from the providers' own course pages (`stable_key` `campus:studysearch:…`); city where the page names one, postcode mostly null, metro area and regional category Australia only. A New Zealand campus carries the provider's region only when it is in the provider's own city (`primary_city`); otherwise null (132 cleared, old values in `pipeline.campus_region_cleared`). A Canadian campus carries the province. `security.enrich_campus_list_apply_v1` applies the same rule to new campuses.
+- **Projection refresh.** Study area, study level, course regions (`subdivision_codes`, the state filter) and delivery modes come from `search.course_documents`, refreshed by `search-refresh-requested` (every 10 minutes) only when a row is in `search.refresh_requests`. An Enrich fields task requests one when it finishes (`security.enrich_fields_slice_v1`). Delivery modes are the campus links' modes, else the course's own mode (`search.refresh_course_base_v3`). Duration and campuses are read live.
 - **Logos and rankings.** Logos leave the private `provider-assets` bucket only as 24-hour signed links made by the edge function (`storage_path` is removed). Rankings and logos carry `terms_status: management_decision_pending` until management decides usage terms.
 - **Developer document.** `docs/integrations/coursefinder-wix-api-handover-v2.md` (router `docs/integrations/README.md`). One document per contract: additive changes reissue Version 2 with a dated change-log line.
 - **Measured 14 Oct 2026 (warm, database time).** Filtered search 0.1–0.6 s; whole-country tuition sort about 2 s; course detail under 0.1 s; scholarships 50 a page 0.2–0.5 s; providers 50 a page about 1.5 s; reference 2–4 s. The first call after a quiet period takes 2–4 s.
@@ -170,6 +172,9 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 | public.website_v2_reference() | c8f3256c… | 20261014060746 (replaces 0204f433) |
 | api.website_v2_institution_type(uuid) | 42563a41… | 20261014060746 |
 | api.website_v2_institution_type_code(uuid) | 1541a9c8… | 20261014060746 |
+| search.refresh_course_base_v3(boolean) | a3737e58… | 20261014090000 (replaces bbb65ede) |
+| security.enrich_campus_list_apply_v1(bigint) | 2617420b… | 20261014090000 (replaces adecd776) |
+| security.enrich_fields_slice_v1(uuid, integer) | 03cc5526… | 20261014090000 (replaces aa68e9a8) |
 | security.admin_providers_page(…10 args) | bb66c64c… | 20261014060746 (replaces 4d07ec59) |
 | public.svc_layer1_apply_register_records(text, uuid, uuid, text, jsonb) | d8e3ed69… | 20261014060746 (replaces 081d6a57) |
 | security.provider_type_classify_v1() | 06e35dec… | 20261014060746 |
@@ -220,6 +225,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.12 | 14 Oct 2026 | Website requirements O1 (section 4b): campuses and regions for New Zealand and Canada, New Zealand regions only where proven, projection refreshed when an Enrich fields task finishes, course delivery mode as fallback; checksums. |
 | 1.11 | 14 Oct 2026 | v2.15.276, Decision 258: institution type (section 4c): types, register facts, ordered rules, classifier and daily job, three Layer 1 sources (TEQSA, CRICOS Institutions, NZQA search), Providers Type column, website API v2 field, filter and reference list; checksums. |
 | 1.10 | 14 Oct 2026 | Website API v2 (section 4b): actions, provider Published switch as the API control, display codes, QILT at provider grain, tuition, logos, timings; v2 checksums. |
 | 1.9 | 13 Oct 2026 | v2.15.269: settings register and rule G2 (section 4a); jobs and 14 functions read settings; worker v0.21.7; checksums. |

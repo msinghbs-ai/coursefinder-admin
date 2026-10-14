@@ -519,7 +519,7 @@ All filters are optional and combined with AND.
 | regional_categories                                       | int\[\]             | **New.** Home Affairs category 1, 2 or 3 at campus grain                                                                                                                                        |
 | provider_ids / university_groups                          | string\[\]          | Groups: go8, atn, iru, run                                                                                                                                                                      |
 | institution_types                                         | string\[\]          | Institution type codes from reference: university, university_college, higher_education_institute, tafe_polytechnic, private_vet, school, wananga, other. A course matches through its provider |
-| delivery_modes                                            | string\[\]          | Mostly on_campus today                                                                                                                                                                          |
+| delivery_modes                                            | string\[\]          | on_campus for most courses; online, blended and on_campus_and_online where the course page states it                                                                                            |
 | tuition_annual_min / tuition_annual_max                   | number              | Stated or derived annual figure, in the course's own currency (AUD, NZD or CAD; no conversion). Combine with country_codes                                                                      |
 | intake_months                                             | int\[\]             | **New.** 1–12; any intake month held                                                                                                                                                            |
 | english_test_codes + english_score_max                    | string\[\] + number | **New.** Courses whose minimum overall score for that test is at or below the score. english_score_max needs exactly one test code                                                              |
@@ -666,19 +666,26 @@ Rank values are returned exactly as published, including bands and ties; nothing
 
 Counts are courses or records the v2 API returns holding a value now. Coverage grows as automated admission runs; nulls elsewhere are expected.
 
-| **Course field**                           | **Australia (26,103)** | **New Zealand (6,474)** | **Canada (4,723)** |
-|--------------------------------------------|------------------------|-------------------------|--------------------|
-| Official course page                       | 18,385                 | 3,000                   | 2,678              |
-| English requirements                       | 13,895                 | 1,810                   | 1,593              |
-| Intake months                              | 9,269                  | 1,967                   | 848                |
-| Official page + English + intakes together | 7,255                  | 1,259                   | 599                |
-| Registered tuition (regulator)             | 25,707                 | —                       | —                  |
-| Provider-page tuition                      | 7,465                  | 966 (NZD)               | 326 (CAD)          |
-| Any tuition (has_tuition)                  | 25,716                 | 966                     | 326                |
-| At least one linked scholarship            | 9,397                  | 1,060                   | 846                |
-| Providers with courses                     | 1,546                  | 287                     | 52                 |
+| **Course field**                              | **Australia (26,103)** | **New Zealand (6,474)** | **Canada (4,723)** |
+|-----------------------------------------------|------------------------|-------------------------|--------------------|
+| Official course page                          | 18,385                 | 3,000                   | 2,678              |
+| English requirements                          | 13,895                 | 1,810                   | 1,593              |
+| Intake months                                 | 9,269                  | 1,967                   | 848                |
+| Official page + English + intakes together    | 7,255                  | 1,259                   | 599                |
+| Registered tuition (regulator)                | 25,707                 | —                       | —                  |
+| Provider-page tuition                         | 7,465                  | 966 (NZD)               | 326 (CAD)          |
+| Any tuition (has_tuition)                     | 25,716                 | 966                     | 326                |
+| At least one linked scholarship               | 9,397                  | 1,060                   | 846                |
+| Study area (field of study)                   | 26,103                 | 6,053                   | 4,601              |
+| Study level                                   | 26,103                 | 6,233                   | 2,671              |
+| Duration (duration_months)                    | 26,103                 | 2,931                   | 1,319              |
+| Delivery mode                                 | 26,078                 | 3,868                   | 3,204              |
+| At least one campus                           | 26,069                 | 2,603                   | 2,332              |
+| Campus with a city                            | 26,068                 | 1,928                   | 1,807              |
+| Region held (subdivision_codes, state filter) | 26,068                 | 1,111                   | 2,332              |
+| Providers with courses                        | 1,546                  | 287                     | 52                 |
 
-Since 8 October: Canada roughly doubled (new provincial and college sources), and official pages, English and intakes grew in every country.
+Since 8 October: Canada roughly doubled (new provincial and college sources), and official pages, English and intakes grew in every country. On 14 October New Zealand and Canadian courses gained study area, duration, delivery mode and campuses read from their own course pages.
 
 | **Scholarships (published only)** | **Now**                                           |
 |-----------------------------------|---------------------------------------------------|
@@ -699,7 +706,7 @@ Since 8 October: Canada roughly doubled (new provincial and college sources), an
 | Other                                         | 98            | 1               | —          |
 | Not held (null)                               | 5             | —               | 52         |
 
-Campuses held: 3,984 (Australia; New Zealand and Canadian courses have no campus records yet). QILT statistics are returned for 116 Australian providers.
+Campuses held: Australia 3,984 (registered locations, with city, postcode, metro area and regional category); New Zealand 168 and Canada 78, named on the providers’ own course pages and linked to courses on 14 October 2026. A New Zealand or Canadian campus carries a city where the page names one (NZ 95 of 168, Canada 44 of 78); postcode is mostly null; metro area and regional category apply to Australia only. A New Zealand campus carries a region (subdivision_code) only where it is in the provider’s own city, otherwise null; a Canadian campus carries its province. Duration stated in semesters returns duration_months null (294 New Zealand and Canadian courses). QILT statistics are returned for 116 Australian providers.
 
 | **Rankings and logos**                                   | **Held now**               |
 |----------------------------------------------------------|----------------------------|
@@ -824,3 +831,4 @@ Never include the raw API key in support evidence.
 |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 8 Oct 2026  | website-search-v2 released on Pilot: eight actions, rankings and logos (usage terms pending management), requested scholarship fields, Canada opened, operator-entered course links released                                                                                                                                                                                                                                                                               |
 | 14 Oct 2026 | Course display_code added and accepted by the course action; course publication_status follows the provider Published switch; scholarships published only and read from provider pages (reference_code null); platform renamed StudySearch; QILT provider statistics admitted (provider and course detail); institution_type added to providers and course providers, with the institution_types filter and the reference list; coverage and acceptance values re-measured |
+| 14 Oct 2026 | Section 14 re-measured after New Zealand and Canadian courses were enriched from their own course pages: study area, study level, duration, delivery mode and campuses added for New Zealand and Canada; a New Zealand campus region is returned only where it is proven (otherwise null); campus sentence and the delivery_modes note in 13.1 updated. No field, filter or action changed                                                                                 |

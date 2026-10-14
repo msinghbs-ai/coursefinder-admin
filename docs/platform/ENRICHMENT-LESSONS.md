@@ -1,6 +1,6 @@
 # StudySearch – Field enrichment: lessons learnt
 
-**Version:** 1.2 (14 Oct 2026, platform release v2.15.275 and its hotfix) · **Change control:** CF-CHG-20260915-247 · **Related:** `FIELD-GAPS-AND-ENRICHMENT-PLAN.md`
+**Version:** 1.3 (14 Oct 2026, platform release v2.15.276) · **Change control:** CF-CHG-20260915-247 · **Related:** `FIELD-GAPS-AND-ENRICHMENT-PLAN.md`
 
 Raised by the Platform Admin (14 Oct 2026, 12:04): "record any lesson learnt". These come from building the Enrich fields job (v2.15.273–275), the trial on the University of Waikato and the start of the New Zealand and Canada run. New lessons are added at the end with their date.
 
@@ -26,3 +26,6 @@ Raised by the Platform Admin (14 Oct 2026, 12:04): "record any lesson learnt". T
 | 18 | Coverage lags behind the work by up to an hour (14 Oct 2026) | Campus links were made at about 04:20 (2,174 NZ and 2,101 Canadian courses) but the 04:07 snapshot still showed NZ 3% and Canada 0% | Check the live tables before concluding a field did not move; the snapshot is hourly at :07 |
 | 19 | A home page rarely gives a street address (14 Oct 2026, batch 1) | 9 of 50 universities' home pages gave one (all Canadian); 41 skipped | Addresses need the contact or campuses page (plan step 4), one read per university |
 | 20 | Free sources and title-only AI do most of the work (14 Oct 2026, batch 1 final) | Field of study: 8,297 filled for US$0.62 from titles. International: 4,155 of 5,837 from the IRCC rule. Duration cost the most (US$4.23) and filled 41% | Spend AI page reads where the page is likely to answer; consider limiting duration to pages with a stated length |
+| 21 | A value copied from a parent is an inference (14 Oct 2026, website O1) | Campuses made by the job took the provider's head-office region: Dunedin coded Auckland, Tauranga and Rotorua coded Marlborough; the website filters on it | A New Zealand campus keeps a region only where it is in the provider's own city (132 cleared, old values kept); Canada keeps the province |
+| 22 | Written is not published (14 Oct 2026, website O1) | Study area, level and delivery written by the job did not reach the website API: the search projection refreshes only when asked, and the job never asked (NZ study area 6,053 held, 0 returned) | A task requests a refresh when it finishes; check the API, not the tables, before saying a field reached the website |
+| 23 | A unit with no fixed length stays null (14 Oct 2026) | 294 durations are in semesters; `duration_months` cannot convert them without guessing | Left null (not held); listed as open item O7 |
