@@ -6194,3 +6194,30 @@ The brief now forbids direct table changes.
 - Platform Admin decision (multiple choice, 14 Oct): admit QILT to the API. Gate `courses/provider_outcomes` approved (read only by the two v2 detail actions); the course-grain gate `courses/qilt` (Zoho, admin) stays blocked, so provider statistics are never shown as course facts. Migration 20261014040646 (applied live through the connector, guarded by the md5 of both functions, migration-history md5 31b20fbf matches the file): only QILT surveys are returned under the gate; course detail had filtered outcome rows on status active/accepted while every row is current, so it returned none (fixed); each row adds study_level_name, survey_name and national_benchmark. Verified: UQ provider detail and course 082960F return 48 QILT rows with state admitted; New Zealand courses return state admitted with no rows; 116 visible providers hold QILT. New checksums `public.website_v2_course` ad9ba388, `public.website_v2_provider` 2411c7e4.
 - Institution type (asked by the website developer on 1 Oct): chosen by the Platform Admin on 14 Oct, but not built: `catalogue.providers.provider_type_id` is empty for all 1,885 providers in search and the stored register records carry no type. It needs a Layer 1 mapping first (CRICOS institution type, NZQA organisation type, Canadian lists); the handover states it is not held.
 - Open item: `reference_code` is null now that national registers are not used.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.275 hotfix: Enrich fields items always settle; batch 1 finished
+- Found by the scheduled check of the NZ and Canada run (15:24 Melbourne): one AI reply held a null character the database rejects; its 30 items used their three tries while "leased" and were never settled, so batch 1 could not finish and batch 2 (queued behind it) could not start.
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013900 | Each pass settles an item that has used its AI tries and is no longer being worked on, as failed, with the reason | Applied; `security.enrich_fields_slice_v1` md5 aa68e9a8 as intended. The 30 items settled on the next pass; the five waiting campus lists then ran |
+| Worker v0.23.1 | Removes null characters before an Enrich fields result is recorded | Deployed version 156; index.ts md5 8b6234b7 matches the repo |
+| Tests | S37 hotfix test | Full suite 616 passed (the r5-archived timing flake passes on re-run). PR #516 merged |
+
+**Batch 1 final (top 50 NZ and Canadian universities, 44,539 items, AI US$14.05):**
+
+| Field | Filled | For review | Skipped | Failed | AI US$ |
+|---|---|---|---|---|---|
+| Campus (course links) | 4,113 | 475 | 4,145 | 6 | 3.46 |
+| Campus lists | 45 | 1 | 4 | 0 | 0.06 |
+| Delivery | 3,520 | 0 | 3,667 | 5 | 3.13 |
+| Duration | 3,563 | 0 | 5,180 | 5 | 4.23 |
+| Field of study | 8,297 | 0 | 332 | 8 | 0.62 |
+| Open to international | 5,837 | 0 | 2,912 | 7 | 2.30 |
+| Study level | 314 | 0 | 2,052 | 1 | 0.16 |
+| Provider street address | 9 | 0 | 41 | 0 | 0.08 |
+| **Total** | **25,698** | **476** | **18,333** | **32** | **14.05** |
+
+- Courses now linked to a campus: New Zealand 2,174 (was 162), Canada 2,101 (was 0). Coverage (04:07 snapshot, before the campus links): Canada field of study 80%, international 88%, delivery 52%, duration 25%; New Zealand field of study 65%, delivery 42%, duration 37%, international 27%.
+- Batch 2 (other 289 providers, 12,202 items) started at about 15:40 Melbourne. Expected AI cost about US$4; OpenRouter balance US$11.06.
+- Lessons 17–20 added: `docs/platform/ENRICHMENT-LESSONS.md` v1.2.
