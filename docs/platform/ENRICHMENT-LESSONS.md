@@ -1,6 +1,6 @@
 # StudySearch – Field enrichment: lessons learnt
 
-**Version:** 1.3 (14 Oct 2026, platform release v2.15.276) · **Change control:** CF-CHG-20260915-247 · **Related:** `FIELD-GAPS-AND-ENRICHMENT-PLAN.md`
+**Version:** 1.4 (14 Oct 2026, platform release v2.15.276) · **Change control:** CF-CHG-20260915-247 · **Related:** `FIELD-GAPS-AND-ENRICHMENT-PLAN.md`
 
 Raised by the Platform Admin (14 Oct 2026, 12:04): "record any lesson learnt". These come from building the Enrich fields job (v2.15.273–275), the trial on the University of Waikato and the start of the New Zealand and Canada run. New lessons are added at the end with their date.
 
@@ -29,3 +29,4 @@ Raised by the Platform Admin (14 Oct 2026, 12:04): "record any lesson learnt". T
 | 21 | A value copied from a parent is an inference (14 Oct 2026, website O1) | Campuses made by the job took the provider's head-office region: Dunedin coded Auckland, Tauranga and Rotorua coded Marlborough; the website filters on it | A New Zealand campus keeps a region only where it is in the provider's own city (132 cleared, old values kept); Canada keeps the province |
 | 22 | Written is not published (14 Oct 2026, website O1) | Study area, level and delivery written by the job did not reach the website API: the search projection refreshes only when asked, and the job never asked (NZ study area 6,053 held, 0 returned) | A task requests a refresh when it finishes; check the API, not the tables, before saying a field reached the website |
 | 23 | A unit with no fixed length stays null (14 Oct 2026) | 294 durations are in semesters; `duration_months` cannot convert them without guessing | Left null (not held); listed as open item O7 |
+| 24 | A fee basis is not a course length (14 Oct 2026, O7) | Two durations were admitted from "International fee displayed is for 1 year of study" | Worker v0.23.2 rejects duration quotes about the fee basis; the two values were withdrawn (items kept) |
