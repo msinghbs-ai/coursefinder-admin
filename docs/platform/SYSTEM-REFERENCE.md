@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.14 (15 Oct 2026; website API keys by identity, reference cache, sync pages by cost; migrations 20261015000100–000400; developer pack)
+**Version:** 1.15 (15 Oct 2026; platform releases v2.15.278 and v2.15.279: waste rules for enrichment, central pages for the top providers, fee cross-check; migrations 20261015010000 and 20261015020000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -163,10 +163,41 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 - **Layer 1 sources** (source_system `PROVIDER_FACTS`, read by edge function `layer1-provider-facts` v1.3.0, service key or one-time nonce, approved hosts only, file kept as evidence by hash): TEQSA National Register providers file (data.gov.au CKAN package `0c4f6591-…`, resource `providers_<date>.csv`, key column CRICOS Registration, several codes per row allowed, an Active row wins); CRICOS Institutions.csv (data.gov.au package `cricos`); NZQA provider search per organisation type (`nzqa.govt.nz`; the search number is the NZQA number followed by a five-digit site number, `code_from_id`). Verified and applied through `layer1-operations-control` v1.9.0 and `layer1-operations-scheduled` v1.5.0; cadence 7 days, applied when the file changes (settings on Layer 1 › Sources).
 - **First live read (14 Oct 2026).** TEQSA 200 codes from 272 rows (78 rows have no CRICOS code), 200 matched; CRICOS Institutions 1,542 of 1,545 matched; NZQA 415 of 415 by number. Providers with courses: Australia 1,541 of 1,546 typed, New Zealand 287 of 287, Canada 0 of 52.
 
+## 4d. Waste rules, focus providers and central pages (v2.15.278 and v2.15.279, 15 Oct 2026)
+
+Platform Admin, 15 Oct 2026 09:18: "If we are wasting resources on multiple tries then tighten rules around it, recording, flagging and moving on." Settings: Pipeline settings › Waste rules and › Admission checks.
+
+- **Records.** `pipeline.enrichment_flags` holds what a rule stopped and why (`reason_code`: idle_paused, flip_flop, outside_focus, page_not_found, fee_crosscheck, adapter_fee_fails_check, policy_disagrees); `cleared_at` is set when it no longer applies. Notices: a paused job, and the count of frozen values.
+- **Idle jobs.** Job `waste-guard` (hourly at :17) runs `security.waste_guard_v1()`: for each job in `pipeline.job_idle_watch` (output and waiting-work queries), a job with no output for `waste.idle_pause_hours` (24) and nothing waiting is paused (`cron.alter_job` active false) and flagged; a job it paused is switched on again when work waits. Watched: course-link-reverse (paused 15 Oct; last page read 30 Sep, 2 courses bound ever).
+- **Admit jobs on new input.** coverage-admit, coverage-admit-intakes and adapter-overwrite call `security.coverage_admission_gated_v1` / `security.adapter_overwrite_gated_v1`: they skip unless `security.admit_input_mark_v1()` (newest page read, adapter change, validated value, exclusion, lock, review decision, course or provider change) moved since their last run, the last run filled its batch, or `waste.admit_full_check_hours` (6) passed. `pipeline.job_input_marks` keeps the marks and run counts. A run went from about 53 s to 0.9 s when skipped.
+- **Retry cap by yield.** `security.retry_cap_v1('ai_match')`: AI course-page matching makes attempt k only while attempt k found a page in at least `waste.retry_min_yield_pct` (15%) of cases in the last `waste.retry_window_days` (14), with at least `waste.retry_min_sample` (200) cases, up to `waste.retry_max_attempts` (3). On 15 Oct: 2 (attempt 2 17%, attempt 3 9%). Courses past the cap are flagged page_not_found.
+- **Flip-flops.** Exit awards no longer overwrite a delivery, intake or fee the course's own page gives (`security.own_page_value_v1`). `security.waste_flipflop_guard_v1()` freezes a course value changed automatically more than `waste.flipflop_max_changes` (3) in `waste.flipflop_window_days` (7) through the adapter exclusions and flags it (counting from 15 Oct). The admission job does not raise a review item identical to one superseded within the window.
+- **Stored pages.** `svc_scholarship_ai_next` uses a copy of the same page stored within `waste.page_reuse_hours` (24), for a candidate too.
+- **Focus providers.** `pipeline.enrich_focus_providers` ranks Australian providers by missing English plus intakes (`security.enrich_focus_refresh_v1`, job `enrich-focus-refresh` weekly); `in_focus` = top `enrich.focus_top_n` (50). Course-page search (`svc_course_link_search_next`), site mapping (`svc_coverage_discovery_next`) and AI page matching (`coverage_ai_match_prepare_v1`) take Australian providers only when `security.enrich_focus_v1` is true (New Zealand and Canada unlimited; 0 = all). Other Australian courses lacking a page, English or intakes are flagged outside_focus (register data only).
+- **Firecrawl.** `firecrawl_panel_refresh_v1` takes the target-refresh lock, so the two no longer deadlock.
+- **Fees (v2.15.279).** Wollongong, Tasmania, TAFE NSW and Notre Dame adapters admit fee (fee only for the last two). Before adapter-overwrite runs, `security.fee_crosscheck_guard_v1()` holds back (adapter exclusion) and flags an adapter fee not yet held whose annual amount times the course years is more than `admit.fee_crosscheck_pct` (25%) from the CRICOS registered course total. Victoria University, Academies Australasia and Torrens flagged adapter_fee_fails_check.
+- **Central pages (v2.15.279).** The focus providers' English policies and calendars are read with the pinned central AI model (worker v0.24.0 also asks for the research-degree requirement). Job `policy-auto-approve` (every 10 minutes) runs `security.policy_auto_approve_v1()`: with `central.auto_approve` Yes, an AI proposal of a focus provider is approved (decided_by null, note "Automatic: …") unless, for English, at least `central.min_compare` (10) courses show their own score and more than `central.max_disagree_pct` (50%) disagree (then flagged policy_disagrees for a person). The recorder (`svc_central_ai_record`) still never approves. University calendars still answer only semester names on course pages (Decision 241 unchanged).
+- **English plan.** `provider_english_plan_v1`: a double degree whose awards are all at the course's level takes that level's default (`security.double_degree_same_group_v1`); research masters and doctorates take a `research` default only where the policy states one; other Decision 227 holds stay. The applied note says whether the policy was approved by a person or automatically.
+
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
 | Function | md5 | Since |
 |---|---|---|
+| security.coverage_admission_apply_v1(integer, text, text[]) | 9667b916… | 20261015010000 (replaces c5ce945a) |
+| security.coverage_ai_match_prepare_v1(integer, integer) | 01ad8260… | 20261015010000 (replaces 744dda6c) |
+| public.svc_course_link_search_next(integer) | 8b6c6f82… | 20261015010000 (replaces 2c4d4055) |
+| public.svc_coverage_discovery_next(integer) | d7a00f49… | 20261015010000 (replaces 7d6ae2fa) |
+| security.exit_awards_apply_v2(uuid) | 8d4e5f7b… | 20261015010000 (replaces 53c4064a) |
+| security.firecrawl_panel_refresh_v1() | 098c8d6d… | 20261015010000 (replaces 89ce4d05) |
+| public.svc_scholarship_ai_next(integer) | 11de2cc8… | 20261015010000 (replaces 3f1c5858) |
+| security.platform_notices_v1() | 7580ed33… | 20261015010000 (replaces eb994869) |
+| security.waste_guard_v1() / waste_idle_guard_v1() / waste_flipflop_guard_v1() / enrichment_flags_refresh_v1() | 101d6fbf… / 2fff04de… / 2de1d43b… / 2044836d… | 20261015010000 |
+| security.retry_cap_v1(text) / enrich_focus_v1(uuid) / enrich_focus_refresh_v1() / own_page_value_v1(uuid, text) / admit_input_mark_v1() | 56e6d020… / 73e1bcfd… / 0588c931… / 540051c7… / 8a282bf1… | 20261015010000 |
+| security.coverage_admission_gated_v1(text, integer, text, text[]) | 4e4e7f9a… | 20261015010000 |
+| security.adapter_overwrite_gated_v1(integer) | ef72b386… | 20261015020000 (replaces 62780a64 of 20261015010000) |
+| security.provider_english_plan_v1(uuid) | 6f331c06… | 20261015020000 (replaces a14d3730) |
+| security.provider_english_apply_v1(uuid) | 760c173d… | 20261015020000 (replaces af9a96c9) |
+| security.double_degree_same_group_v1(text, text) / fee_crosscheck_guard_v1() / policy_auto_approve_v1() | b797d4e1… / d15c6fc5… / ebf52656… | 20261015020000 |
 | public.website_v2_course(text) | ad9ba388… | 20261014040646 (replaces 9872c3ef, a22d40c8) |
 | public.website_v2_provider(text) | 2411c7e4… | 20261014040646 (replaces 70ccdc9b) |
 | api.website_v2_course_item(uuid, text[], text[]) | 15129314… | 20261014060746 (replaces c9fcc242, 600bc47a) |
@@ -240,6 +271,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.15 | 15 Oct 2026 | Section 4d: waste rules (idle jobs, admit on new input, retry cap by yield, flip-flops, stored pages, focus providers, records), fee cross-check, central pages approved automatically when checked, English plan double degrees and research defaults; checksums. |
 | 1.14 | 15 Oct 2026 | Section 4b: keys by identity (developer key, v2 only), one path with v1 marked for retirement, reference cache, sync pages by cost, developer pack; checksums. |
 | 1.13 | 14 Oct 2026 | v2.15.277 (section 4b): sync action and change check, display terms from settings (approved), logo links 365 days; checksums. |
 | 1.12 | 14 Oct 2026 | Website requirements O1 (section 4b): campuses and regions for New Zealand and Canada, New Zealand regions only where proven, projection refreshed when an Enrich fields task finishes, course delivery mode as fallback; checksums. |
