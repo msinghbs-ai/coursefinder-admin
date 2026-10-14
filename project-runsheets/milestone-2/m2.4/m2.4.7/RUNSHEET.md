@@ -6142,3 +6142,25 @@ The brief now forbids direct table changes.
 | Addresses | Need one contact or campus page per university: about 290 universities, about 600 Firecrawl credits | |
 
 - Proposed order: release 1 uses stored data only (campus lists approved per university, then course links; duration, level, delivery); release 2 adds the `enrich_fields` job (stored pages and AI) and a Field sources card in Settings; release 3 adds address page reads. Three decisions are open (section 7).
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.273–274: Enrich fields job built and trialled
+- Platform Admin decisions (14 Oct 2026, after plan v1.0): "Build the full job first"; campus lists "Auto when sources agree"; international "Institution rule".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migrations 20261014013500–3700 | Field sources per country; job kind `enrich_fields` with one item per course and missing field; adapter values, institution rule, AI on stored pages and titles, one scraper read when allowed; campus lists admitted when course pages agree; only missing values, hand locks kept; AI spend under "Enrich fields with AI" | All applied; replaced functions match by md5. 013600 fixed a grouping error the trial found; 013700 puts a course's fields in one AI call |
+| Worker v0.22.0–0.22.2 | Mode `enrich_ai` (pinned gpt-4.1-mini); 0.22.1 reads plain or gzip stored copies; 0.22.2 needs a quote about the course's students or fees for "international" | Deployed versions 152–154; index.ts md5 5a1f71b9 matches the repo |
+| App v2.15.273–274 | Layer 2 › Enrich fields: start with preview and reason, tasks with results per field and value, Field sources (Platform Admin); test S36; SOPs 1.15 | Full suites 605 and 612 passed; updated version-pin, tab-list and S36 tests re-run. PRs #512 and #513 merged. Live screenshot (run 33): v2.15.273 and the task with results by field |
+
+**Live trial, University of Waikato (278 courses, AI US$0.44):**
+
+| Field | Filled | For review | Skipped (page does not say) |
+|---|---|---|---|
+| Campus | 162 courses linked to 2 campuses (Hamilton, Tauranga; 231 links) | 4 | 112 |
+| Duration | 153 | 0 | 125 |
+| Field of study | 264 | 0 | 14 |
+| Open to international | 144 (after 39 footer-based values were undone) | 0 | 134 |
+| Delivery | 48 | 0 | 130 |
+| Provider address | 0 (the stored contact page has no street address; scraper was off) | 0 | 1 |
+
+- Cost guide: about US$0.0016 a course for six fields, so all New Zealand and Canadian active courses (11,197) would be about US$18 of AI. The new daily guard is US$2, but OpenRouter is in observe mode, so the guard is shown, not enforced.

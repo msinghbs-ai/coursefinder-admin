@@ -1,6 +1,6 @@
 # StudySearch – Field gaps by country and the field enrichment job (plan)
 
-**Version:** 1.0 (14 Oct 2026, platform release v2.15.272) · **Status:** plan for decision · **Change control:** CF-CHG-20260915-247
+**Version:** 1.1 (14 Oct 2026, platform release v2.15.273) · **Status:** job built (section 8) · **Change control:** CF-CHG-20260915-247
 
 Raised by the Platform Admin (14 Oct 2026, 10:41): "We need to cover the address and also include the campuses with address to be read if not available. Assign them to courses in specific countries/unis. Use already scraped pages. Find out how many can be filled. Eventually to be controlled and defined by UI. Same things goes for rest of fields which is not getting captured by layer 1. Find the gaps. Additionally plan the feature to create a job to enrich data for specific or multiple fields across uni or countries using scraper and ai in layer 2 and layer 3. Keep it simple."
 
@@ -111,3 +111,22 @@ Campuses work per university, not per course. The AI reader turns the university
 1. Start with release 1 (stored data only, no credits)?
 2. Campus lists: approved by a person per university (recommended), or admitted when the AI and the course pages agree?
 3. Open to international students: use the institution rule (IRCC list, NZQA code of practice), or only what each course page states?
+
+## 8. Built in v2.15.273 (14 Oct 2026)
+
+Decisions (Platform Admin, 14 Oct 2026): build the full job first; campus lists admitted when the AI list and the course pages agree; open to international by the institution rule.
+
+| Part | As built |
+|---|---|
+| Screen | Layer 2 › Enrich fields: scope (countries or universities), fields, AI on or off, scraper on or off, preview, start with a reason (Pipeline Operator and above); tasks with results by field and each value with its source and quote. Field sources is a card on the same tab (Platform Admin), not on Settings. |
+| Rules | `pipeline.field_source_rules`, one row per field for All countries, a country row replaces it. Changes are logged. |
+| Task | Job kind `enrich_fields`, one item per course and missing field (`pipeline.field_enrich_items`), settled each minute through the job system. Only missing values are written; hand locks are respected. |
+| AI | Worker v0.22.0 mode `enrich_ai`, the pinned central-pages model (gpt-4.1-mini). Each value read from a page must quote it. Titles are classified to the ASCED narrow fields. Spend shows as "Enrich fields with AI" with its own daily guard (US$2 to start). |
+| Scraper | Course pages without a stored copy are asked to be read again; a provider's address may use one read of its home page (purpose `enrich_address`, the "other" Firecrawl share). |
+| Campuses | One AI list per university from its campus names; a campus is admitted when at least `enrich.campus_min_pages` (2) course pages name it; course links follow. |
+| International | Canada: IRCC-listed institution. New Zealand: no code-of-practice record is held yet, so the course page decides (adapter or AI). |
+| Settings | `batch.enrich_fields`, `enrich.ai_calls_at_once`, `enrich.ai_items_per_call`, `enrich.campus_min_pages`, `enrich.wait_page_hours`. |
+
+Not in this release: fee, intakes and English (the adapters and central pages already fill them); campus and address review screens (items marked "For review" are listed in the task results).
+
+**Live trial (University of Waikato, 278 courses, AI US$0.44):** campus 162 courses linked to Hamilton and Tauranga; duration 153; field of study 264; international 144 (39 footer-based values undone, rule tightened in worker v0.22.2); delivery 48; address 0 (no street on the stored contact page; scraper off). About US$0.0016 a course for six fields.
