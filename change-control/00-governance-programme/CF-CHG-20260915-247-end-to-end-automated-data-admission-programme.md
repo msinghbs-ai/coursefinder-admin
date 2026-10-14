@@ -6280,3 +6280,29 @@ The brief now forbids direct table changes.
 - New `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` v1.0: the rules for any change the website reads (additive only; the provider Published switch is the control; nothing inferred; md5 guards and the two contract tests; reissue handover Version 2 with a change-log line), requests R1–R14 with status, and open work O1–O6. Listed in `docs/README.md` and `docs/integrations/README.md`.
 - Open work for the build chat, in order: O1 recheck New Zealand and Canadian campus coverage in the API after today's Enrich fields campus links and update handover section 14; O4 Platform Admin review of the five untyped Australian providers and the two TAFE edge cases; O2 Canada institution type and O3 training.gov.au wait for Platform Admin decisions; O5 rankings and logos wait for management.
 - Pilot repository `CLAUDE.md` gains a short "Website API v2" rule pointing to the register, so a coding chat sees it on start (code repo PR #521).
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.276 website requirements O1: New Zealand and Canadian campuses in the API; Enrich fields values reach the website
+- Platform Admin (14 Oct 2026, 18:44): "O1 – recheck NZ and Canadian campus coverage in the website API after today's Enrich fields campus links, then update handover section 14 and the campus sentence if the numbers changed. Leave O2–O5 alone."
+- Found while measuring: (1) the 246 campuses made by Enrich fields (NZ 168, Canada 78) took the provider's head-office region, wrong for New Zealand campuses away from head office (for example Dunedin coded NZ-AUK, Tauranga and Rotorua NZ-MBH); (2) study area, study level and delivery written by Enrich fields were not reaching the API, because the search projection is refreshed only on request and the job never requested one (NZ study area 6,053 held, 0 returned). Platform Admin decisions (multiple choice): "Clear unproven NZ, keep CA" and "Refresh + delivery fix".
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014090000 | New Zealand campus regions kept only where the campus is in the provider's own city (132 cleared, old values in `pipeline.campus_region_cleared`); new campuses follow the rule; Canada keeps the province. An Enrich fields task requests a projection refresh when it finishes; one refresh requested now. Delivery modes fall back to the course's own mode when no campus mode is held | Applied; md5 guards and post-checks passed: `security.enrich_campus_list_apply_v1` 2617420b, `security.enrich_fields_slice_v1` 03cc5526, `search.refresh_course_base_v3` a3737e58. Refresh ran at 19:26: 10,958 courses updated |
+| Tests | New S38; website API v2 and institution type contracts pass | Full suite 634 passed. PR #522 merged |
+| Developer document | Handover Version 2 reissued (14 Oct): section 14 gains study area, level, duration, delivery, campus, city and region rows; campus sentence rewritten; 13.1 delivery note; change-log line | Word file validated and rendered (section 14 on pages 17–18); Markdown regenerated from it |
+
+**What the website API returns now (courses of published providers):**
+
+| Course field | Australia (26,103) | New Zealand (6,474) | Canada (4,723) |
+|---|---|---|---|
+| Study area | 26,103 | 6,053 (was 0) | 4,601 (was 0) |
+| Study level | 26,103 | 6,233 (was 6,182) | 2,671 (was 2,382) |
+| Duration (months) | 26,103 | 2,931 | 1,319 |
+| Delivery mode | 26,078 | 3,868 (was 0) | 3,204 (was 0) |
+| At least one campus | 26,069 | 2,603 | 2,332 |
+| Campus with a city | 26,068 | 1,928 | 1,807 |
+| Region held (state filter) | 26,068 | 1,111 | 2,332 |
+
+- Checked through the API functions: search NZ city Hamilton 272, Auckland 616; Canada Vancouver 445; region NZ-WKO 272, CA-ON 996; NZ delivery online 392; no filter left unapplied. A Dunedin course now returns its campus with region null (was NZ-AUK), with study area, delivery and level.
+- Open item O7 added to the register: two New Zealand durations read from fee lines; 294 durations in semesters return `duration_months` null. Lessons 21–23 added (`ENRICHMENT-LESSONS.md` v1.3).
+- Documents: register v1.1 (O1 done, O7), System reference v1.12 (§4b campuses and regions, projection refresh, checksums), handover Version 2 reissued. O2–O5 untouched.
