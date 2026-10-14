@@ -6172,3 +6172,33 @@ The brief now forbids direct table changes.
 - Courses now linked to a campus: New Zealand 2,174 (was 162), Canada 2,101 (was 0). Coverage (04:07 snapshot, before the campus links): Canada field of study 80%, international 88%, delivery 52%, duration 25%; New Zealand field of study 65%, delivery 42%, duration 37%, international 27%.
 - Batch 2 (other 289 providers, 12,202 items) started at about 15:40 Melbourne. Expected AI cost about US$4; OpenRouter balance US$11.06.
 - Lessons 17–20 added: `docs/platform/ENRICHMENT-LESSONS.md` v1.2.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.276: institution type from the registers (Decision 258)
+- Raised by the website developer on 1 Oct; Platform Admin decisions of 14 Oct (multiple choice): map institution type; types mirror the registers (University, University College, Higher Education Institute, TAFE / Polytechnic, Private VET college, School, Wānanga, Other); Australian universities from the TEQSA National Register on data.gov.au; a CRICOS Government provider that offers VET is TAFE (school courses only is School); New Zealand from NZQA; Canada left empty; training.gov.au left for later (its web services need credentials).
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014060746 | Types (tafe and college retired, kept); `catalogue.provider_register_facts`; ordered `pipeline.provider_type_rules`; classifier and daily job `provider-type-classify` (catalogued); two Layer 1 sources; NZQA applier keeps the organisation type; Providers type, basis and lock; `admin_provider_set_type`, `admin_provider_type_rules`; website API v2 `institution_type`, `institution_types` filter and reference list | Applied through the connector, every replaced function md5-guarded; migration-history md5 10058770 matches the file. First attempt stopped at a guard (anchors present, length check too strict) and rolled back; the guard was made per step |
+| Migration 20261014063911 | Facts writer in one statement | The first CRICOS Institutions apply passed the 8 s statement limit (per-code loop); md5 75600e65 matches |
+| Migrations 20261014064736, 20261014070622 | NZQA provider search source; the three sources resumed (weekly, applied when the file changes); NZQA number taken from the search number | md5 3fe216d2 and 0e4d932b match. The NZQA search number is the NZQA number plus a five-digit site number: 415 of 415 search numbers in the stored register evidence give a registered number |
+| Migrations 20261014065115, 20261014070026, 20261014070327 | Name match as a fallback only (a listed name used when every row with it has the same type) | md5 1d3c14d4, d5a3cbad, 3da37ccd match. 070026 passed the time limit on its first run (not materialised) and was replaced by 070327 (0.15 s on 415 rows, tested in a rolled-back transaction) |
+| Edge functions | `layer1-provider-facts` v1.3.0 (new; service key or one-time nonce; approved hosts; evidence by hash), `layer1-operations-control` v1.9.0, `layer1-operations-scheduled` v1.5.0 | Deployed by the deploy workflow from main; live version strings read back; unauthenticated calls refused (403) |
+| UI v2.15.276 | Providers › Type column (Needs type with the reason; PIM Admin sets by hand or back to Auto, no reason asked); Settings › Pipeline settings › Institution type rules; guide and SOPs 1.17 | New contract test passes (static and mocked browser); full suite with the installed Chromium 1,278 passed, the 146 failures are all `@deployed` specs that need a live sign-in; release:verify PASS; build OK. PRs #517–#520 merged |
+
+**First live read:** TEQSA providers file (9 Oct) 272 rows, 200 CRICOS codes, all matched; CRICOS Institutions 1,542 of 1,545 matched; NZQA 415 of 415 by number.
+
+| Institution type (providers with courses) | Australia | New Zealand | Canada |
+|---|---|---|---|
+| University | 45 | 8 | — |
+| University College | 8 | — | — |
+| Higher Education Institute | 137 | — | — |
+| TAFE / Polytechnic | 16 | 17 | — |
+| Private VET college | 935 | 258 | — |
+| School | 302 | — | — |
+| Wānanga | — | 3 | — |
+| Other | 98 | 1 | — |
+| Not held | 5 | — | 52 |
+
+- Website API v2 verified live: providers with country AU and type university returns 45; the wānanga filter returns items with `institution_type` {wananga, Wānanga, NZQA: wānanga}; course search accepts `institution_types` (filters_not_applied empty; 12,047 Australian university courses); provider detail and course provider carry the field. Filtered search took about 2.3 s cold.
+- Points for the Platform Admin: Aviation Australia and Canning College are typed TAFE / Polytechnic (CRICOS Government providers offering VET); five Australian providers show Needs type (no CRICOS type, no TEQSA category); a dual-sector university is a University because the TEQSA rule comes first. Change either by hand on Providers or on the rules card.
+- Documents: Decision 258 in the design reference (Decision 257 updated); System reference v1.11 (§4c and checksums); developer handover Version 2 reissued 14 Oct with `institution_type`, the filter, a coverage table, acceptance test 9b and a change-log line.

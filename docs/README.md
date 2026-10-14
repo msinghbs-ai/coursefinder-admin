@@ -13,7 +13,7 @@ Do not infer the current document from the highest filename version or from chat
 
 | Family | Current document | State |
 |---|---|---|
-| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.10, 14 Oct 2026, v2.15.275; §4b website API v2) | CURRENT |
+| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.11, 14 Oct 2026, v2.15.276; §4b website API v2; §4c institution type) | CURRENT |
 | UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.7, 13 Oct 2026, v2.15.269) | CURRENT |
 | Platform operational limits — every budget and limit with its usage, and every scheduled job with its schedule (Melbourne time) | `docs/platform/OPERATIONAL-LIMITS.md` (v1.0, 13 Oct 2026, figures as at 6:17 pm); Google Doc copy: https://docs.google.com/document/d/1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw/edit | CURRENT |
 | Settings control audit — what can be run from screens, what is fixed in code, and where each value should live | `docs/platform/SETTINGS-CONTROL-AUDIT.md` (v1.1, 13 Oct 2026, v2.15.269: done) | CURRENT |

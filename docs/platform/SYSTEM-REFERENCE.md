@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.10 (14 Oct 2026, platform release v2.15.275; website API v2 migrations 20261014032122, 20261014034927 and 20261014040646)
+**Version:** 1.11 (14 Oct 2026, platform release v2.15.276; institution type, Decision 258, migrations 20261014060746–20261014070622)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -142,9 +142,20 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 - **Course codes.** `course_code` is the source value. `display_code` / `display_code_kind` / `display_code_label` come from `security.course_display_code_v1` (Decision 255): the printed code, else the StudySearch code. The course action also finds a course by its StudySearch code.
 - **Tuition.** Provider current fee first, else the CRICOS registered total; amounts under 1,000 are placeholders and not held; basis always stated; annual derived from a total only for courses of 12 months or more; no currency conversion.
 - **QILT.** Gate `search.enrichment_gates` courses/provider_outcomes (approved 14 Oct 2026) releases QILT rows of `catalogue.provider_outcomes` (provider grain, status current, surveys `qilt_*`) on provider and course detail. The course-grain gate courses/qilt stays blocked.
+- **Institution type.** `institution_type {code, name, basis}` on every provider (list and detail) and on the provider of every course; filter `institution_types` on search and providers (a course matches through its provider, `api.website_v2_institution_type_code`); `reference` lists the active types with published provider counts. null when not held (section 4c).
 - **Logos and rankings.** Logos leave the private `provider-assets` bucket only as 24-hour signed links made by the edge function (`storage_path` is removed). Rankings and logos carry `terms_status: management_decision_pending` until management decides usage terms.
 - **Developer document.** `docs/integrations/coursefinder-wix-api-handover-v2.md` (router `docs/integrations/README.md`). One document per contract: additive changes reissue Version 2 with a dated change-log line.
 - **Measured 14 Oct 2026 (warm, database time).** Filtered search 0.1–0.6 s; whole-country tuition sort about 2 s; course detail under 0.1 s; scholarships 50 a page 0.2–0.5 s; providers 50 a page about 1.5 s; reference 2–4 s. The first call after a quiet period takes 2–4 s.
+
+## 4c. Institution type (Decision 258, since 14 Oct 2026)
+
+- **Types** (`ref.provider_types`, active): university, university_college, higher_education_institute, tafe_polytechnic, private_vet, school, wananga, other. `tafe` and `college` are retired (kept). The type is `catalogue.providers.provider_type_id`, with `provider_type_basis` (the rule label, "Set by a person", or "No rule matched: …" with the facts seen) and `provider_type_set_at`.
+- **Register facts.** `catalogue.provider_register_facts (provider_id, fact_code, value, source_id, evidence_id, observed_at)`: `teqsa_category`, `teqsa_status`, `teqsa_provider_id` (TEQSA National Register), `cricos_institution_type` (Government / Private), `nzqa_org_type` (UNI, POLLY, WANA, PTE, GTE). Written by `public.svc_provider_register_facts_put(source, evidence, scheme, rows)` (service role, one statement): a row's codes match `catalogue.provider_registrations` in the scheme, else the stable key; only when a code matches nothing, the listed name (`security.register_name_key_v1`, a question mark is any one letter) among that register's providers, and only when every listed row with that name has the same facts. The NZQA register applier (`svc_layer1_apply_register_records`) also writes `nzqa_org_type` when it applies.
+- **Rules.** `pipeline.provider_type_rules` (ordered by position; first enabled match wins; text fields are case-insensitive patterns; `course_profile` vet / school_no_vet / non_aqf_only from `security.provider_course_profile_v1`, active courses and `ref.study_levels`). Seeded order: 10 TEQSA Australian University (Active) → university; 20 CRICOS Government + VET → tafe_polytechnic; 30 TEQSA University College → university_college; 40 TEQSA Institute of Higher Education → higher_education_institute; 50 CRICOS + school courses only → school; 60 CRICOS Private + VET → private_vet; 70 CRICOS + non-AQF only → other; 110–150 NZQA UNI / POLLY / WANA / PTE / GTE → university / tafe_polytechnic / wananga / private_vet / other. Canada has no rules. Changed on Settings › Pipeline settings › Institution type rules (`admin_provider_type_rules`: list any role; save and run Platform Admin; each change logged in `pipeline.manual_edit_log` and the rules run at once).
+- **Classifier.** `security.provider_type_classify_v1()` (set-based; skips providers with a manual lock on `provider_type_id`). Runs daily (`provider-type-classify`, 03:47 UTC, catalogued, area Layer 1 register) and after every register read. `public.svc_provider_type_classify()` for the service role.
+- **By hand.** Providers › Type column; `admin_provider_set_type(provider, code)` PIM Admin and above, no reason asked: a type adds a manual lock and is kept; `auto` removes the lock and reruns the rules.
+- **Layer 1 sources** (source_system `PROVIDER_FACTS`, read by edge function `layer1-provider-facts` v1.3.0, service key or one-time nonce, approved hosts only, file kept as evidence by hash): TEQSA National Register providers file (data.gov.au CKAN package `0c4f6591-…`, resource `providers_<date>.csv`, key column CRICOS Registration, several codes per row allowed, an Active row wins); CRICOS Institutions.csv (data.gov.au package `cricos`); NZQA provider search per organisation type (`nzqa.govt.nz`; the search number is the NZQA number followed by a five-digit site number, `code_from_id`). Verified and applied through `layer1-operations-control` v1.9.0 and `layer1-operations-scheduled` v1.5.0; cadence 7 days, applied when the file changes (settings on Layer 1 › Sources).
+- **First live read (14 Oct 2026).** TEQSA 200 codes from 272 rows (78 rows have no CRICOS code), 200 matched; CRICOS Institutions 1,542 of 1,545 matched; NZQA 415 of 415 by number. Providers with courses: Australia 1,541 of 1,546 typed, New Zealand 287 of 287, Canada 0 of 52.
 
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
@@ -152,11 +163,21 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 |---|---|---|
 | public.website_v2_course(text) | ad9ba388… | 20261014040646 (replaces 9872c3ef, a22d40c8) |
 | public.website_v2_provider(text) | 2411c7e4… | 20261014040646 (replaces 70ccdc9b) |
-| api.website_v2_course_item(uuid, text[], text[]) | c9fcc242… | 20261014034927 (replaces 600bc47a, 3b9f4f5d) |
-| public.website_v2_course_search(jsonb, integer, integer, text) | 19b602f5… | 9300 |
-| public.website_v2_providers(jsonb, integer, integer, text) | 2d4d1909… | 6800 |
+| api.website_v2_course_item(uuid, text[], text[]) | 15129314… | 20261014060746 (replaces c9fcc242, 600bc47a) |
+| public.website_v2_course_search(jsonb, integer, integer, text) | dcefed12… | 20261014060746 (replaces 19b602f5) |
+| public.website_v2_providers(jsonb, integer, integer, text) | 73ba533e… | 20261014060746 (replaces 2d4d1909) |
 | public.website_v2_rankings(jsonb, integer, integer) | abb2fd42… | 6800 |
-| public.website_v2_reference() | 0204f433… | 20261008033739 |
+| public.website_v2_reference() | c8f3256c… | 20261014060746 (replaces 0204f433) |
+| api.website_v2_institution_type(uuid) | 42563a41… | 20261014060746 |
+| api.website_v2_institution_type_code(uuid) | 1541a9c8… | 20261014060746 |
+| security.admin_providers_page(…10 args) | bb66c64c… | 20261014060746 (replaces 4d07ec59) |
+| public.svc_layer1_apply_register_records(text, uuid, uuid, text, jsonb) | d8e3ed69… | 20261014060746 (replaces 081d6a57) |
+| security.provider_type_classify_v1() | 06e35dec… | 20261014060746 |
+| security.provider_course_profile_v1(uuid) | d7362f92… | 20261014060746 |
+| public.svc_provider_register_facts_put(uuid, uuid, text, jsonb) | 97519fab… | 20261014070327 (replaces 7f33287c, 72017d2b, d1b4e3b2) |
+| security.register_name_key_v1(text) | 2e8b1d5f… | 20261014070327 |
+| public.admin_provider_set_type(uuid, text) | 9d515548… | 20261014060746 |
+| public.admin_provider_type_rules(text, jsonb) | efcbd576… | 20261014060746 |
 | public.website_v2_scholarships(jsonb, integer, integer) | b3a616d8… | 7100 |
 | public.website_v2_scholarship(text) | 79131c22… | 7100 |
 | api.website_v2_scholarship_item(uuid) | d1792cc7… | 8400 |
@@ -199,6 +220,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.11 | 14 Oct 2026 | v2.15.276, Decision 258: institution type (section 4c): types, register facts, ordered rules, classifier and daily job, three Layer 1 sources (TEQSA, CRICOS Institutions, NZQA search), Providers Type column, website API v2 field, filter and reference list; checksums. |
 | 1.10 | 14 Oct 2026 | Website API v2 (section 4b): actions, provider Published switch as the API control, display codes, QILT at provider grain, tuition, logos, timings; v2 checksums. |
 | 1.9 | 13 Oct 2026 | v2.15.269: settings register and rule G2 (section 4a); jobs and 14 functions read settings; worker v0.21.7; checksums. |
 | 1.8 | 13 Oct 2026 | v2.15.268: notices list the universities to act on (`items`); search stopped excludes held. |
