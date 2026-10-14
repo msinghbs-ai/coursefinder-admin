@@ -1,6 +1,6 @@
 # StudySearch – Field gaps by country and the field enrichment job (plan)
 
-**Version:** 1.1 (14 Oct 2026, platform release v2.15.273) · **Status:** job built (section 8) · **Change control:** CF-CHG-20260915-247
+**Version:** 1.2 (14 Oct 2026, platform release v2.15.275) · **Status:** New Zealand and Canada run started (section 9) · **Change control:** CF-CHG-20260915-247
 
 Raised by the Platform Admin (14 Oct 2026, 10:41): "We need to cover the address and also include the campuses with address to be read if not available. Assign them to courses in specific countries/unis. Use already scraped pages. Find out how many can be filled. Eventually to be controlled and defined by UI. Same things goes for rest of fields which is not getting captured by layer 1. Find the gaps. Additionally plan the feature to create a job to enrich data for specific or multiple fields across uni or countries using scraper and ai in layer 2 and layer 3. Keep it simple."
 
@@ -130,3 +130,18 @@ Decisions (Platform Admin, 14 Oct 2026): build the full job first; campus lists 
 Not in this release: fee, intakes and English (the adapters and central pages already fill them); campus and address review screens (items marked "For review" are listed in the task results).
 
 **Live trial (University of Waikato, 278 courses, AI US$0.44):** campus 162 courses linked to Hamilton and Tauranga; duration 153; field of study 264; international 144 (39 footer-based values undone, rule tightened in worker v0.22.2); delivery 48; address 0 (no street on the stored contact page; scraper off). About US$0.0016 a course for six fields.
+
+## 9. New Zealand and Canada run (v2.15.275, 14 Oct 2026)
+
+Platform Admin (14 Oct 2026, 12:04): "make sure all config and limits can be controlled through UI. go for NZ and CA enrichment. record any lesson learnt and start with top tier 50 uni batch. maintain stats and telemetry. raise and use the scraper and AI accordingly."
+
+| Part | As done |
+|---|---|
+| Limits on screen | The last two worker values (page text read, titles per call) are settings `enrich.page_chars` and `enrich.title_batch`. Every Enrich fields limit is now on Settings, and the Enrich fields tab lists each one with where it is changed. |
+| Stats | `pipeline.enrich_coverage_snapshots`, taken hourly by the catalogued job `enrich-coverage-snapshot` (per country and field). |
+| Telemetry | Layer 2 › Enrich fields › Coverage and telemetry: coverage now, first and a day ago; last 24 hours (settled, filled, AI calls and failures, AI spend, scraper credits); model and limits in force. |
+| Raised (with reasons, Settings) | AI daily guard US$2 → 25; AI calls at once 2 → 6; items settled a minute 400 → 1,200. Firecrawl shares unchanged (today: other 0 of 1,000, reads 76 of 3,000). |
+| Batch 1 | Top 50: 17 world-ranked first, then by course count (27 NZ, 23 CA); 8,901 courses, 44,539 items; AI and scraper on. |
+| Batch 2 | The other 289 NZ and Canadian providers, 12,202 items, queued behind batch 1. |
+
+Lessons: `ENRICHMENT-LESSONS.md`.

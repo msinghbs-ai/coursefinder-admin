@@ -6185,3 +6185,22 @@ The brief now forbids direct table changes.
 | Provider address | 0 (the stored contact page has no street address; scraper was off) | 0 | 1 |
 
 - Cost guide: about US$0.0016 a course for six fields, so all New Zealand and Canadian active courses (11,197) would be about US$18 of AI. The new daily guard is US$2, but OpenRouter is in observe mode, so the guard is shown, not enforced.
+
+### 14 Oct 2026 (Wed, Melbourne) – v2.15.275: limits on screen, stats and telemetry, NZ and Canada enrichment started
+- Platform Admin (14 Oct 2026, 12:04): "make sure all config and limits can be controller through UI. go for NZ and CA enrichment. record any lesson learnt and start with top tier 50 uni batch. maintain stats and telemetry. raise and use the scrapper and AI accordingly."
+
+| Item | What it does | Verified live |
+|---|---|---|
+| Migration 20261014013800 | Settings `enrich.page_chars` and `enrich.title_batch` (moved from the worker); `svc_worker_settings_v1` returns `enrich.*`; hourly coverage snapshots (`enrich-coverage-snapshot`, catalogued under Reports); `admin_enrich_fields` 'stats' | Applied; replaced functions match by md5 |
+| Worker v0.23.0 | Reads page text size and titles per call from settings | Deployed version 155; index.ts md5 606a9e30 matches the repo |
+| App v2.15.275 | Enrich fields › Coverage and telemetry card with the limits in force and where each is changed; test S37; SOPs 1.16 | Full suite passed; PR #514 merged. Live screenshot (run 34): coverage by country and field, last hour 6,825 settled, 4,371 filled, 109 AI calls |
+
+| Setting raised (with reason, on Settings) | From | To |
+|---|---|---|
+| OpenRouter guard, Enrich fields with AI (observe mode: shown, not enforced) | US$2 | US$25 |
+| `enrich.ai_calls_at_once` | 2 | 6 |
+| `batch.enrich_fields` | 400 | 1,200 |
+
+- Batch 1 (job 3ff8d4f7): top 50 NZ and Canadian universities (17 by world ranking, then by course count), 8,901 courses, 44,539 items, AI and scraper on. At 7,581 settled: 5,284 filled (4,622 from adapter values or the IRCC rule, 662 by AI), 2,297 skipped, US$2.30.
+- Batch 2 (job 235adc3e): the other 289 providers, 12,202 items, queued.
+- Lessons recorded: `docs/platform/ENRICHMENT-LESSONS.md` v1.1 (16 lessons). Plan `FIELD-GAPS-AND-ENRICHMENT-PLAN.md` v1.2 section 9.
