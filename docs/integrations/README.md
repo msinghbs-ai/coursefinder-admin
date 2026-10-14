@@ -1,15 +1,17 @@
 # CourseFinder Integration Handover Router
 
 **Status:** CURRENT ROUTER  
-**Effective:** 14 October 2026
+**Effective:** 15 October 2026
 
 Use this file to identify the current developer handover. Do not infer currentness from filename ordering alone.
 
 ## Wix / Website
 
-**Requirements register:** `WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.4, 14 Oct 2026, sync action added, O1/O5/O7 done): every website request, its status and the open work.
+**Requirements register:** `WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.5, 15 Oct 2026, developer pack issued, v1 marked for retirement): every website request, its status and the open work.
 
-**Current:** `coursefinder-wix-api-handover-v2.md` (Version 2, contract website-search-v2, live on Pilot; StudySearch name; issued 14 October 2026, reissued the same day with institution type, then with New Zealand and Canadian coverage (O1), then with the sync action and display approval (v2.15.277))  
+**Send to the developer (current, 15 October 2026):** `developer-pack/` — `StudySearch-Website-API-Developer-Guide` (.docx and .pdf; master .md), `StudySearch-Website-API.openapi.json`, `StudySearch-Website-API.postman_collection.json`. Rebuild with `developer-pack/build.sh`. The key goes separately by a secure channel.
+
+**Internal history (no longer sent):** `coursefinder-wix-api-handover-v2.md` (Version 2, contract website-search-v2, live on Pilot; StudySearch name; issued 14 October 2026, reissued the same day with institution type, then with New Zealand and Canadian coverage (O1), then with the sync action and display approval (v2.15.277))  
 **Previous:** `coursefinder-wix-api-handover-v1.1.md`, `coursefinder-wix-api-handover-v1.0.md`  
 **Version 2 rule (Platform Admin, 14 October 2026):** one document per contract. Additive changes reissue Version 2 with a new date and a change-log line (its section 21); a breaking change starts Version 3. The 3 and 8 October drafts were not filed.
 

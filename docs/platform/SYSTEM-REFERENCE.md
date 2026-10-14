@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.13 (14 Oct 2026, platform release v2.15.277; website sync action, display terms, logo links; migrations 20261014110000 and 20261014111500)
+**Version:** 1.14 (15 Oct 2026; website API keys by identity, reference cache, sync pages by cost; migrations 20261015000100–000400; developer pack)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -136,7 +136,8 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 
 ## 4b. Website API v2 (Wix consumer, since 8 Oct 2026)
 
-- **Endpoint and contract.** Edge function `wix-course-api` (version 5, `verify_jwt` off, own key check). A request with `"contract": "website-search-v2"` reaches the v2 actions; without it the v1 path answers unchanged. Key: `private.website_integration_credentials` (identity `coursefinder_website_wix_pilot_v1`), checked by `public.website_edge_auth_v1(sha256)`. Rate limit: `zoho_edge_rate_check_v1`, identity `coursefinder_wix_pilot_v1`, 60 a minute per action (`v2:<action>`).
+- **Endpoint and contract.** Edge function `wix-course-api` (`verify_jwt` off, own key check; source md5 29864613, 15 Oct 2026). A request with `"contract": "website-search-v2"` reaches the v2 actions; without it the v1 path (`wix-cache-v1`) answers the Wix key only. Keys: `private.website_integration_credentials` (sha256 only); `public.website_edge_identity_v1(sha256)` → `api.website_integration_identity_v1` returns the credential name of an enabled key. Keys now: `coursefinder_website_wix_pilot_v1` (Wix, v1 and v2), `coursefinder_website_developer_pilot_v1` (developer, v2 only, 15 Oct 2026); a temporary verification key was disabled the same day. Rate limit: `zoho_edge_rate_check_v1`, 60 a minute per action (`v2:<action>`) per identity (the Wix key keeps identity `coursefinder_wix_pilot_v1`; other keys use their credential name). A key is never in git or documents; a new key is a row added directly and handed over once.
+- **One path (Platform Admin, 15 Oct 2026).** v2 is the website's only path. The v1 path and edge function `website-course-api` are marked for retirement once the developer is live on v2 (register, "One path for the website"); nothing removed yet.
 - **Actions → database functions** (all `public`, security definer, search path pinned, execute for service_role only): reference → `website_v2_reference()`; search → `website_v2_course_search(filters, page, page_size, sort)`; course → `website_v2_course(identifier)`; providers → `website_v2_providers(filters, page, page_size, sort)`; provider → `website_v2_provider(provider_id)`; rankings → `website_v2_rankings(filters, page, page_size)`; scholarships → `website_v2_scholarships(filters, page, page_size)`; scholarship → `website_v2_scholarship(scholarship_id)`. sync → `website_v2_sync(cursor, full_load, entities, page_size)` (v2.15.277). Helpers are in `api.website_v2_*` (public execute revoked).
 - **What is returned.** Courses come from `search.course_documents`, minus `security.layer4_search_blocked_courses` (inactive courses and every course of a hidden provider). Providers hidden by `security.provider_hidden_v1` (not published or not active) are left out of every action with their campuses and scholarships. Scholarships are published and active only, always. The provider Published switch is the Platform Admin's control: switched off, the provider and its courses are not returned to any API query. A returned course reads `publication_status: published` (follows its provider). Country and per-source gates for the projection: `search.projection_country_gates` (AU, NZ, CA approved) and `search.enrichment_source_gates`.
 - **Course codes.** `course_code` is the source value. `display_code` / `display_code_kind` / `display_code_label` come from `security.course_display_code_v1` (Decision 255): the printed code, else the StudySearch code. The course action also finds a course by its StudySearch code.
@@ -147,8 +148,10 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 - **Projection refresh.** Study area, study level, course regions (`subdivision_codes`, the state filter) and delivery modes come from `search.course_documents`, refreshed by `search-refresh-requested` (every 10 minutes) only when a row is in `search.refresh_requests`. An Enrich fields task requests one when it finishes (`security.enrich_fields_slice_v1`). Delivery modes are the campus links' modes, else the course's own mode (`search.refresh_course_base_v3`). Duration and campuses are read live.
 - **Logos and rankings.** Logos leave the private `provider-assets` bucket only as signed links made by the edge function (`storage_path` is removed), valid `website.logo_link_days` (365) read through `public.svc_website_settings_v1()`. `terms_status` comes from `security.website_terms_status_v1(kind)`: `approved` while the Yes/No settings `website.rankings_display_approved` / `website.logos_display_approved` are Yes (Platform Admin decision 14 Oct 2026), otherwise `management_decision_pending`.
 - **Sync (v2.15.277).** `pipeline.website_sync_items` holds one row per item the API returns (entities reference, provider, logo, rankings, scholarship, course; course is the search item), with the md5 of the item as built (`security.website_sync_item_v1`, `generated_at` left out) and a sequence number. Job `website-sync-check` (every minute, catalogued, size `batch.website_sync_check` 600; a provider counts 8, reference 200) walks the entities in a rolling pass (`pipeline.website_sync_scan`, one pass about 90 minutes): a new, changed or removed item takes the next number; a logo also does when `seq_at` is older than its link life less `website.logo_renew_before_days`. `website_v2_sync` pages rows by number: no cursor = full load of the items numbered up to now; the cursor (base64 JSON v, m, a, s, e) then returns rows numbered after it, removals included; `checked_through` is null until every chosen entity has finished a pass. Page size at most `website.sync_page_max` (50).
-- **Developer document.** `docs/integrations/coursefinder-wix-api-handover-v2.md` (router `docs/integrations/README.md`). One document per contract: additive changes reissue Version 2 with a dated change-log line.
-- **Measured 14 Oct 2026 (warm, database time).** Filtered search 0.1–0.6 s; whole-country tuition sort about 2 s; course detail under 0.1 s; scholarships 50 a page 0.2–0.5 s; providers 50 a page about 1.5 s; reference 2–4 s. The first call after a quiet period takes 2–4 s.
+- **Reference cache (15 Oct 2026).** `website_v2_reference()` returns the copy in `pipeline.website_reference_cache` (id 1, with `built_at` as `generated_at`), built by `api.website_v2_reference_build()` (the former body, 5.5–6.6 s) through `security.website_reference_cache_refresh_v1()`; job `website-reference-cache` every 15 minutes (catalogued, Search and API). With no copy it builds live.
+- **Sync pages by cost (15 Oct 2026).** A page is filled by build cost against the page size: provider 16, scholarship 2, others 1, so a page holds 3 provider details; the first row is always taken. `has_more` is true when fewer rows than chosen were sent. Provider detail is slow (it builds the providers list for one provider): register O8.
+- **Developer document.** `docs/integrations/developer-pack/` (guide master .md, Word, PDF, OpenAPI, Postman; `build.sh` rebuilds). The Version 2 handover is internal history (router `docs/integrations/README.md`).
+- **Measured 14 Oct 2026 (warm, database time).** Filtered search 0.1–0.6 s; whole-country tuition sort about 2 s; course detail under 0.1 s; scholarships 50 a page 0.2–0.5 s; providers 50 a page about 1.5 s; reference 2–4 s to build, under 0.1 s from the copy (15 Oct). The first call after a quiet period takes 2–4 s.
 
 ## 4c. Institution type (Decision 258, since 14 Oct 2026)
 
@@ -170,13 +173,17 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 | public.website_v2_course_search(jsonb, integer, integer, text) | dcefed12… | 20261014060746 (replaces 19b602f5) |
 | public.website_v2_providers(jsonb, integer, integer, text) | 73ba533e… | 20261014060746 (replaces 2d4d1909) |
 | public.website_v2_rankings(jsonb, integer, integer) | 9c5f725e… | 20261014110000 (replaces 9a9e9598) |
-| public.website_v2_reference() | 28ea2093… | 20261014110000 (replaces c8f3256c) |
+| public.website_v2_reference() | 4f3bc6db… | 20261015000200 (replaces 28ea2093) |
+| api.website_v2_reference_build() | a3d1dfa9… | 20261015000200 |
+| security.website_reference_cache_refresh_v1() | 6286e941… | 20261015000200 |
+| public.website_edge_identity_v1(text) | e26ead8c… | 20261015000100 |
+| api.website_integration_identity_v1(text) | a0c8147c… | 20261015000100 |
 | api.website_v2_institution_type(uuid) | 42563a41… | 20261014060746 |
 | api.website_v2_institution_type_code(uuid) | 1541a9c8… | 20261014060746 |
 | api.website_v2_provider_logo(uuid) | ed09e7d2… | 20261014110000 (replaces 37fe1dcd) |
 | api.website_v2_ranking_summary(uuid) | 889a4c7f… | 20261014110000 (replaces 5e5b2d19) |
 | public.website_v2_provider_rankings(uuid) | 173e3a9f… | 20261014110000 (replaces 4b50d415) |
-| public.website_v2_sync(text, boolean, text[], integer) | 92414ce7… | 20261014111500 (replaces abeece26 of 20261014110000) |
+| public.website_v2_sync(text, boolean, text[], integer) | 42b7597b… | 20261015000400 (replaces 70890025 of 20261015000300, 92414ce7) |
 | security.website_sync_check_v1(integer) | 2a8d3e59… | 20261014110000 |
 | security.website_sync_item_v1(text, uuid, text) | cd15a2cb… | 20261014110000 |
 | security.website_terms_status_v1(text) | 9e92654c… | 20261014110000 |
@@ -233,6 +240,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.14 | 15 Oct 2026 | Section 4b: keys by identity (developer key, v2 only), one path with v1 marked for retirement, reference cache, sync pages by cost, developer pack; checksums. |
 | 1.13 | 14 Oct 2026 | v2.15.277 (section 4b): sync action and change check, display terms from settings (approved), logo links 365 days; checksums. |
 | 1.12 | 14 Oct 2026 | Website requirements O1 (section 4b): campuses and regions for New Zealand and Canada, New Zealand regions only where proven, projection refreshed when an Enrich fields task finishes, course delivery mode as fallback; checksums. |
 | 1.11 | 14 Oct 2026 | v2.15.276, Decision 258: institution type (section 4c): types, register facts, ordered rules, classifier and daily job, three Layer 1 sources (TEQSA, CRICOS Institutions, NZQA search), Providers Type column, website API v2 field, filter and reference list; checksums. |

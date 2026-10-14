@@ -1,5 +1,7 @@
 # StudySearch Wix Developer API Handover
 
+> **Internal history, not sent (15 Oct 2026).** Superseded for the developer by `developer-pack/StudySearch-Website-API-Developer-Guide` and its OpenAPI and Postman files. Kept as the long-form reference and change history as at 14 Oct 2026. Known stale lines here: 13.4 logo link "24 hours" (now 365 days); 13.2 duration and delivery "From the register" (register or course page).
+
 **Version 2 • Pilot • LIVE**
 
 | **Date**            | 14 October 2026                                                                                                                                                                                                            |

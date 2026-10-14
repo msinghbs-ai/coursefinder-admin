@@ -1,0 +1,405 @@
+{
+  "info": {
+    "name": "StudySearch Website API (website-search-v2)",
+    "description": "Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "syncCursor",
+      "value": ""
+    },
+    {
+      "key": "scholarshipId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "reference",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"reference\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "search – example (35)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"search\",\n  \"filters\": {\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"keyword\": \"business\",\n    \"cities\": [\n      \"Melbourne\"\n    ],\n    \"study_level_codes\": [\n      \"masters_coursework\"\n    ],\n    \"intake_months\": [\n      2\n    ],\n    \"english_test_codes\": [\n      \"IELTS\"\n    ],\n    \"english_score_max\": 6.5,\n    \"tuition_annual_max\": 45000\n  },\n  \"page\": 1,\n  \"page_size\": 6\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "search – nursing Melbourne (109)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"search\",\n  \"filters\": {\n    \"keyword\": \"nursing\",\n    \"cities\": [\n      \"Melbourne\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20,\n  \"sort\": \"relevance\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "search – Canada (4,723)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"search\",\n  \"filters\": {\n    \"country_codes\": [\n      \"CA\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "course – 082960F",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"course\",\n  \"course_code\": \"082960F\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "course – display code UNBC-BA-019",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"course\",\n  \"course_code\": \"UNBC-BA-019\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "providers – Go8 by QS (8)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"providers\",\n  \"filters\": {\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"university_groups\": [\n      \"go8\"\n    ]\n  },\n  \"sort\": \"qs_rank_asc\",\n  \"page\": 1,\n  \"page_size\": 6\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "providers – AU universities (45)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"providers\",\n  \"filters\": {\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"institution_types\": [\n      \"university\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "providers – with logo (49)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"providers\",\n  \"filters\": {\n    \"has_logo\": true\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "provider – UQ detail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"provider\",\n  \"provider_id\": \"provider:cricos:00025b\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "rankings – QS 2027 AU (38)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"rankings\",\n  \"filters\": {\n    \"system_codes\": [\n      \"qs_wur\"\n    ],\n    \"edition_year\": 2027,\n    \"country_codes\": [\n      \"AU\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "scholarships – international (1,096)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"scholarships\",\n  \"filters\": {\n    \"student_types\": [\n      \"international\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.items && r.items[0]) pm.collectionVariables.set('scholarshipId', r.items[0].scholarship_id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "scholarship – detail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"scholarship\",\n  \"scholarship_id\": \"{{scholarshipId}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      }
+    },
+    {
+      "name": "sync – full load, first page",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"sync\",\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);",
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "sync – next page or delta (uses syncCursor)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/wix-course-api"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);",
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

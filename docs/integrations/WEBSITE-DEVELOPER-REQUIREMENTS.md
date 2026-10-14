@@ -1,9 +1,9 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.4 (14 Oct 2026, platform release v2.15.277; sync action; rankings and logos approved; O1, O5 and O7 done; O2–O4 parked)
+**Version:** 1.5 (15 Oct 2026; developer pack issued: guide, OpenAPI, Postman, developer key; v2 is the one path for the website, v1 marked for retirement)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
-**Developer document:** `docs/integrations/coursefinder-wix-api-handover-v2.md` (Version 2; the Word copy beside it is what the developer receives).
+**Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
 **How it works now:** `docs/platform/SYSTEM-REFERENCE.md` §4b (website API v2) and §4c (institution type).
 
 This page is the single list of what the website developer has asked for, what the platform returns today, and what is still open. Start here before changing anything the website reads.
@@ -14,8 +14,8 @@ This page is the single list of what the website developer has asked for, what t
 2. **The provider Published switch is the control.** A provider switched off or archived is not returned by any action, with its courses, campuses and scholarships (`security.provider_hidden_v1`).
 3. **Nothing is inferred.** null means not held. No defaults, no estimates, no currency conversion.
 4. **Guard and record.** Every replaced website function is md5-guarded in its migration. `tests/uat/cf-247-website-api-v2-contract.spec.mjs` and `cf-247-institution-type-contract.spec.mjs` must pass.
-5. **Reissue the developer document** for any change the developer can see: Version 2, same file, new date and a line in section 21 (change log). Update this register and System reference §4b in the same entry.
-6. Keep repository names, commit hashes and internal tools out of the developer document.
+5. **Reissue the developer pack** for any change the developer can see: edit the guide master, add a line to its section 13 (Changes to this guide), update `gen_api.py` if a field, filter or action changed, run `build.sh`, and check every example live. Update this register and System reference §4b in the same entry.
+6. Keep repository names, commit hashes, internal tools and keys out of the developer pack. Keys go to the developer by a secure channel only.
 
 ## Requests and status
 
@@ -39,6 +39,18 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R14 | Website prototype table shapes | **Not provided by decision**; the website maps v2 fields once | — |
 | R15 | Logos as file links Wix can store, with the longest practical validity (Platform Admin, 14 Oct 2026) | **Done** (14 Oct): signed links valid 365 days (`website.logo_link_days`), resent in the sync delta 30 days before they end | `logo.url`, `url_expires_at` (13.7); Step B2 |
 | R16 | After a full load, later calls return only what changed, unless a full load is asked for (Platform Admin, 14 Oct 2026) | **Done** (14 Oct): action `sync` with a cursor; full load in pages, then new, changed and removed items | `sync` (13.8); acceptance tests 12a, 12b |
+| R17 | A clean developer pack to send to the developers (Platform Admin, 15 Oct 2026) | **Done** (15 Oct): developer guide (Word, PDF), OpenAPI 3.1 file and Postman collection with no key; a separate developer key (`coursefinder_website_developer_pilot_v1`, own rate limit, v2 only), handed to the Platform Admin once | `docs/integrations/developer-pack/` |
+
+## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
+
+`website-search-v2` is the only path the website should use. These are **marked for retirement once the developer is live on v2**; nothing is removed now:
+
+| Path | What it is | Retire when |
+|---|---|---|
+| `wix-course-api` without a contract (contract `wix-cache-v1`: sync_courses, reference_bundle, lookup, search, scholarships) | The first Wix path; answers the Wix key only | The website runs on v2 in Production and v1 calls have been zero for 14 days |
+| Edge function `website-course-api` (contract `website-integration-v3.1-pilot`) | An earlier website path | Same; the usage audit showed no calls |
+
+Removal is a separate change: a paste file for the Platform Admin, never an applied migration.
 
 ## Open work (for the build chat)
 
@@ -49,13 +61,15 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | O3 | training.gov.au (national VET register) — **Parked: pending data-enrichment task PE-2** (left empty, Platform Admin 14 Oct 20:39) | Would confirm RTO status for Australian VET providers | Legacy web services need credentials; Platform Admin chose to ship without it |
 | O4 | Five Australian providers have no institution type; Aviation Australia and Canning College are typed TAFE / Polytechnic — **Parked: pending data-enrichment task PE-3** (left empty, Platform Admin 14 Oct 20:39) | Visible to the website as null or as TAFE | Platform Admin to review; set by hand on Providers › Type, or change the rules on Settings › Pipeline settings |
 | O5 | ~~Rankings and logos usage terms~~ **Done 14 Oct (v2.15.277)**: Platform Admin decision "Yes, approved to display" | Closed PE-4 | `terms_status` approved for rankings and logos; changed by a Yes/No setting with a reason |
-| O6 | Filtered search timings | Institution type filter about 2.3 s cold (about 1.6 s without it) | Watch; optimise only if the developer reports slowness |
+| O6 | Filtered search timings | Institution type filter about 2.3 s cold (about 1.6 s without it). `reference` passed the 8 s limit under load (5.5–6.6 s): fixed 15 Oct with a copy rebuilt every 15 minutes | Watch; optimise only if the developer reports slowness |
+| O8 | Provider detail is slow (about 0.5 s, up to 2.3 s in a sync page) | It builds the providers list to answer for one provider; sync pages hold 3 provider details so a page stays under the limit | Follow-up: build the provider detail directly by id; then raise the page back up |
 | O7 | ~~Duration quality~~ **Done 14 Oct (migration 20261014100000, worker v0.23.2)** | Platform Admin decisions: "Undo and tighten rule" and "Keep null". The two New Zealand durations read from a fee line are withdrawn (items kept, reversible); the Enrich fields worker no longer admits a duration quote about the fee basis; 294 semester durations stay null in `duration_months` | Handover reissued: section 14 NZ duration 2,929, known data-quality line, change-log line |
 
 ## History
 
 | Version | Date | Change |
 |---|---|---|
+| 1.5 | 15 Oct 2026 | Developer pack (R17): guide, OpenAPI, Postman, developer key; rule 5 now reissues the pack; v1 and `website-course-api` marked for retirement; O6 note, O8 added. |
 | 1.4 | 14 Oct 2026 | v2.15.277: R15 logo links 365 days, R16 sync action with cursor, R6 rankings and logos approved for display; O5 closed (PE-4). |
 | 1.3 | 14 Oct 2026 | O2–O5 parked as pending data-enrichment tasks PE-1 to PE-4 (`docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` section 10); values stay empty until attended. |
 | 1.2 | 14 Oct 2026 | O7 done: two fee-line durations withdrawn, worker rule tightened, semesters stay null. |
