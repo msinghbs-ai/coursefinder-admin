@@ -2,15 +2,15 @@
 
 **Version 2 • Pilot • LIVE**
 
-| **Date**            | 14 October 2026                                                                                                                                                                                                                               |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Environment**     | Pilot (a separate Production credential is issued at go-live; the endpoint address does not change)                                                                                                                                           |
-| **Consumer**        | Wix / StudySearch website — Australia study page: Course Finder, University Finder, Scholarship Finder                                                                                                                                        |
-| **Source of truth** | StudySearch platform (Pilot)                                                                                                                                                                                                                  |
-| **Contract**        | website-search-v2 (new major version). v1 contracts wix-cache-v1 and website-search-v1 remain available unchanged                                                                                                                             |
-| **Status**          | LIVE ON PILOT — website-search-v2 released 8 October 2026; this issue checked against the live Pilot platform on 14 October 2026. FULL INDEPENDENT HANDOVER. Display of rankings and logos is subject to management's decision on usage terms |
-| **Supersedes**      | v1.1 (5 September 2026) and all earlier v2 drafts                                                                                                                                                                                             |
-| **Platform name**   | StudySearch (formerly CourseFinder). The endpoint, function name, key, credential identity and contract names are unchanged                                                                                                                   |
+| **Date**            | 14 October 2026                                                                                                                                                                                                            |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Environment**     | Pilot (a separate Production credential is issued at go-live; the endpoint address does not change)                                                                                                                        |
+| **Consumer**        | Wix / StudySearch website — Australia study page: Course Finder, University Finder, Scholarship Finder                                                                                                                     |
+| **Source of truth** | StudySearch platform (Pilot)                                                                                                                                                                                               |
+| **Contract**        | website-search-v2 (new major version). v1 contracts wix-cache-v1 and website-search-v1 remain available unchanged                                                                                                          |
+| **Status**          | LIVE ON PILOT — website-search-v2 released 8 October 2026; this issue checked against the live Pilot platform on 14 October 2026. FULL INDEPENDENT HANDOVER. Rankings and logos are approved for display (14 October 2026) |
+| **Supersedes**      | v1.1 (5 September 2026) and all earlier v2 drafts                                                                                                                                                                          |
+| **Platform name**   | StudySearch (formerly CourseFinder). The endpoint, function name, key, credential identity and contract names are unchanged                                                                                                |
 
 # Changes since v1.1
 
@@ -38,7 +38,7 @@
 
 - Adds current data coverage, so the website can plan which fields will often be empty (section 14).
 
-- Adds **university rankings** (QS World University Rankings 2021–2027 and Times Higher Education World University Rankings 2016–2026, with indicator scores and edition history) and **university logos**. Every ranking and logo carries its source attribution and a terms_status; whether and how the website displays them is for management to decide.
+- Adds **university rankings** (QS World University Rankings 2021–2027 and Times Higher Education World University Rankings 2016–2026, with indicator scores and edition history) and **university logos**. Every ranking and logo carries its source attribution and a terms_status; both are approved for display with their attribution (14 October 2026).
 
 - Returns the **scholarship fields requested by the website team** on 15 September and 1 October under the requested names, mapped to platform data, with nulls where the provider page does not state a value (section 13.5).
 
@@ -62,7 +62,7 @@ Rules that apply to every v2 response:
 
 4.  The key is used from Wix backend code only. No browser calls.
 
-5.  Rankings and logos are third-party material. They are delivered with attribution and terms_status (management_decision_pending until management confirms usage terms). Do not display them publicly until the status changes or management instructs otherwise.
+5.  Rankings and logos are third-party material. They are delivered with attribution and terms_status (approved, 14 October 2026). Both may be displayed with their attribution; if terms_status ever reads management_decision_pending, stop displaying them.
 
 # 2. Developer quick start
 
@@ -92,10 +92,10 @@ Rules that apply to every v2 response:
 
 Edge Function: wix-course-api. One endpoint, two contracts:
 
-| **Contract**                     | **Selected by**                                     | **Actions**                                                                         |
-|----------------------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------|
-| website-search-v2                | "contract": "website-search-v2" in the request body | reference, search, course, providers, provider, rankings, scholarships, scholarship |
-| wix-cache-v1 / website-search-v1 | no contract field (default)                         | reference_bundle, sync_courses, lookup, search, scholarships                        |
+| **Contract**                     | **Selected by**                                     | **Actions**                                                                               |
+|----------------------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------------|
+| website-search-v2                | "contract": "website-search-v2" in the request body | reference, search, course, providers, provider, rankings, scholarships, scholarship, sync |
+| wix-cache-v1 / website-search-v1 | no contract field (default)                         | reference_bundle, sync_courses, lookup, search, scholarships                              |
 
 v2 is live on Pilot. A request with no contract field, or any value other than website-search-v2, is answered by v1 exactly as before.
 
@@ -268,7 +268,7 @@ Page providers for each country in scope and upsert by provider_id. Store the la
 
 ## Step B2 — logos
 
-Logo links are signed and expire after 24 hours (logo.url_expires_at). Copy each logo into Wix Media during the provider refresh and serve the Wix copy. Re-copy only when logo.content_hash changes. Never hotlink the signed link from visitor pages. If signing ever fails, logo.url is null for that call and the rest of the response is unaffected; retry at the next refresh.
+Logo links are signed and valid for 365 days (logo.url_expires_at gives the end). Copy each logo into Wix Media and serve the Wix copy. Re-copy when logo.content_hash changes, or when the sync action sends the logo again with a new link (it does so 30 days before the old link ends). Never hotlink the signed link from visitor pages. If signing ever fails, logo.url is null for that call and the rest of the response is unaffected; retry at the next refresh.
 
 ## Step B3 — rankings
 
@@ -284,7 +284,7 @@ Page scholarships (published only, or all with the website applying publication_
 
 # 7. Incremental refresh
 
-After a full load, store the completed sync timestamp in CF_SyncState. On the next run, pass changed_since and page all results before advancing the stored cursor.
+After a full load, store the completed sync timestamp in CF_SyncState. On the next run, pass changed_since and page all results before advancing the stored cursor. Recommended from 14 October 2026: the sync action (13.8), which returns everything once and then only what changed, including removals, by a cursor.
 
 Use an overlap window, recommended 5 minutes, so timestamp-boundary changes are not missed. Upserts must be idempotent by stable ID, so replay is safe. Do not advance the cursor on a partially failed run.
 
@@ -297,7 +297,7 @@ A record counts as changed when its source data or its search projection changes
 | Reference refresh                       | Daily                     | Vocabularies and counts for filters                                          |
 | Provider refresh                        | Daily                     | University Finder list and detail cache; logo copy when content_hash changes |
 | Rankings refresh                        | Weekly                    | Ranking editions and indicator scores                                        |
-| Course delta refresh (cache-first path) | Hourly where plan permits | Changed courses only, via changed_since                                      |
+| Course delta refresh (cache-first path) | Hourly where plan permits | Changed items only, via the sync action (13.8) or changed_since              |
 | Scholarship refresh                     | Daily                     | Scholarship list, eligibility and linked courses                             |
 
 A manual admin refresh may call the same backend functions. Do not create one job per provider or filter.
@@ -648,7 +648,7 @@ Filters: system_codes (qs_wur, the_wur), edition_year (default latest accepted),
 | Times Higher Education World University Rankings | 2016–2026 (11 editions)       | overall, teaching, research, citations, international outlook, industry income                                                                                                                        |
 | ShanghaiRanking ARWU                             | registered, no edition loaded | returned once an edition is loaded                                                                                                                                                                    |
 
-Rank values are returned exactly as published, including bands and ties; nothing is re-ranked or interpolated. Each item's attribution names the publisher, ranking and edition. terms_status is management_decision_pending until management confirms usage terms.
+Rank values are returned exactly as published, including bands and ties; nothing is re-ranked or interpolated. Each item's attribution names the publisher, ranking and edition. terms_status is approved: rankings may be displayed with their attribution (14 October 2026).
 
 ## 13.7 Logos
 
@@ -656,11 +656,43 @@ Rank values are returned exactly as published, including bands and ties; nothing
 
 - Formats: SVG, PNG or JPEG as published by the provider; no recolouring or resizing by the platform.
 
-- logo.url is a signed link valid for 24 hours; copy to Wix Media at refresh and re-copy when content_hash changes.
+- logo.url is a signed link valid for 365 days; copy the file to Wix Media and re-copy when content_hash changes or when sync sends the logo again with a new link.
 
 - logo_url_dark and brand_color are not held and return null.
 
-- Each logo carries source_url, attribution and terms_status (management_decision_pending until management confirms usage terms).
+- Each logo carries source_url, attribution and terms_status (approved: logos may be displayed, 14 October 2026).
+
+## 13.8 Sync — full load, then only what changed
+
+Use sync to keep the Wix collections current with the fewest calls. The first call (no cursor, or full_load true) returns every item the API returns, in pages. Each reply carries next_cursor: send it back on the next call. When the full load is finished, the same cursor returns only what changed since: new and changed items, and removals.
+
+> {
+>
+> "contract": "website-search-v2",
+>
+> "action": "sync",
+>
+> "cursor": "\<next_cursor from the last reply; omit for a full load\>",
+>
+> "entities": \["reference", "provider", "logo", "rankings", "scholarship", "course"\],
+>
+> "page_size": 50
+>
+> }
+
+- Request: cursor (omit or null for a full load), full_load (true starts a full load again), entities (optional; all six by default; a cursor keeps the entities it started with), page_size (50 at most).
+
+- Reply: items\[\] { entity, id, seq, change (upsert or remove), item }, has_more, next_cursor, mode (full or delta), full_load_complete (on a full load), checked_through, as_of.
+
+- Item shapes: course is the search item (CF_Courses, 13.2); provider is the provider detail (13.4); logo is { provider_id, logo } (13.7); rankings is { provider_id, rankings\[\] } (13.6); scholarship is the scholarship detail (13.5); reference is the reference action.
+
+- Store next_cursor in CF_SyncState only after the page is written to Wix. If a write fails, send the same cursor again: the same items come back, and an upsert by id makes the replay safe.
+
+- change remove: delete the record by id (for example a provider switched off, with its courses, or a scholarship no longer published).
+
+- Freshness: the platform checks items every minute in a rolling pass; a full pass takes about 90 minutes. checked_through is when the last full pass finished (null until the first pass has finished); a change made after it appears in a later delta.
+
+- Size: a full load is about 40,400 items (14 October 2026), about 810 calls at 50 a page, within the limit of 60 calls a minute.
 
 # 14. Data coverage at handover (live Pilot, 14 Oct 2026)
 
@@ -718,8 +750,8 @@ Campuses held: Australia 3,984 (registered locations, with city, postcode, metro
 
 | **Item**                                     | **Position in v2**                                                                                                                                                                                                                                                                                                                   |
 |----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Rankings (QS, THE)                           | Included (13.6). Display is subject to management's decision on usage terms; terms_status shows the position                                                                                                                                                                                                                         |
-| University logos                             | Included (13.7). Display is subject to management's decision on usage terms; keep the initials fallback for providers without a logo                                                                                                                                                                                                 |
+| Rankings (QS, THE)                           | Included (13.6). Approved for display (14 October 2026); show the attribution; terms_status reads approved                                                                                                                                                                                                                           |
+| University logos                             | Included (13.7). Approved for display (14 October 2026); keep the initials fallback for providers without a logo                                                                                                                                                                                                                     |
 | Logo dark variant, brand colour              | Not held; null                                                                                                                                                                                                                                                                                                                       |
 | Academic entry requirements, specialisations | Not held; not returned                                                                                                                                                                                                                                                                                                               |
 | Average tuition per provider                 | Not returned (no sound basis)                                                                                                                                                                                                                                                                                                        |
@@ -777,9 +809,11 @@ On 429 or 5xx, do not clear Wix caches; serve last-known-good.
 | 9b     | Institution type       | providers with country_codes \[AU\] and institution_types \[university\] returns 45 providers, each with institution_type code university; reference lists the eight types with counts |
 | 10     | Scholarship Finder     | scholarships with student_types \[international\] returns 1,096 records with the requested fields in 13.5 under their requested names, nulls where not held                            |
 | 10a    | Rankings               | rankings with system_codes \[qs_wur\], edition_year 2027, country_codes \[AU\] returns 38 providers with rank_display, indicators, attribution and terms_status                        |
-| 10b    | Logos                  | providers with has_logo true returns 49 providers whose logo.url opens within 24 hours; the copy in Wix Media is served to visitors                                                    |
+| 10b    | Logos                  | providers with has_logo true returns 49 providers whose logo.url opens and whose url_expires_at is about 365 days ahead; the copy in Wix Media is served to visitors                   |
 | 11     | Nulls                  | A field not held is null or empty, never a placeholder value                                                                                                                           |
 | 12     | Delta sync             | changed_since with sort updated_asc returns only changed records; replay creates no duplicates                                                                                         |
+| 12a    | Sync full load         | sync with no cursor and page_size 50: mode full, 50 items, has_more true; following next_cursor to the end gives full_load_complete true (about 40,400 items on 14 Oct)                |
+| 12b    | Sync changes           | the last next_cursor sent again returns only what changed since (often nothing); a provider switched off comes back as change remove for the provider and its courses                  |
 | 13     | Rate limit             | 429 handling honours Retry-After                                                                                                                                                       |
 | 14     | Frontend secret scan   | Key absent from browser bundles, page source, public CMS and client-side requests                                                                                                      |
 | 15     | Schema tolerance       | An unknown optional field is ignored safely                                                                                                                                            |
@@ -833,3 +867,4 @@ Never include the raw API key in support evidence.
 | 14 Oct 2026 | Course display_code added and accepted by the course action; course publication_status follows the provider Published switch; scholarships published only and read from provider pages (reference_code null); platform renamed StudySearch; QILT provider statistics admitted (provider and course detail); institution_type added to providers and course providers, with the institution_types filter and the reference list; coverage and acceptance values re-measured |
 | 14 Oct 2026 | Section 14 re-measured after New Zealand and Canadian courses were enriched from their own course pages: study area, study level, duration, delivery mode and campuses added for New Zealand and Canada; a New Zealand campus region is returned only where it is proven (otherwise null); campus sentence and the delivery_modes note in 13.1 updated. No field, filter or action changed                                                                                 |
 | 14 Oct 2026 | Two New Zealand course durations that had been read from a fee line were withdrawn (duration_months now null for them; New Zealand total 2,929); durations stated in semesters stay null. No field, filter or action changed                                                                                                                                                                                                                                               |
+| 14 Oct 2026 | Rankings and logos approved for display (terms_status approved); logo links valid 365 days; new action sync (13.8): a full load in pages, then only what changed, with removals, by a cursor; acceptance tests 12a and 12b; Step B2, section 7 and section 15 updated. Every earlier field, filter and action is unchanged                                                                                                                                                 |

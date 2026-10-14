@@ -1464,6 +1464,14 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 259 — Website sync by cursor; rankings and logos approved for display; logo links a year
+**Status:** Current (14 October 2026, release v2.15.277; migrations 20261014110000 and 20261014111500; edge function wix-course-api version 6) · **Recorded in:** this reference; System reference §4b; website requirements register R15, R16
+- **Platform Admin (14 Oct, 20:43):** "For ranking, we can pass it on v2 api and for logos we can pass it on as file links to be stored in wix platform with maximun validity. And subsequent api requests only pass changed data unless queried for full load." Chosen (multiple choice): approved to display; logo links one year, renewed in the delta; a new sync action with a cursor.
+- **Display approval is a setting.** `terms_status` reads `approved` from two Yes/No settings on Settings › Pipeline settings › Website API (changed with a reason, logged). Switching one off returns `management_decision_pending` again. This supersedes the rankings-and-logos line of Decision 257.
+- **Logo links.** Signed links valid `website.logo_link_days` (365); the bucket stays private. A logo is resent in the sync delta `website.logo_renew_before_days` (30) before its link ends.
+- **Sync, additive.** A new action; every earlier action answers as before. No cursor (or `full_load`) returns everything in pages; the cursor then returns only new, changed and removed items. The website keeps the cursor, so a failed write is retried by sending the same cursor again. Change detection is a rolling check of each item as the API builds it (job `website-sync-check`), not timestamps, so a change in a joined record (a provider's name in its courses, a scholarship closing by date) is seen.
+- **Course items in sync are the search items** (the website's CF_Courses), not the course detail: the detail repeats provider-grain QILT rows on every course and is 25 times slower to build.
+
 ### Decision 258 — Institution type from the registers; ordered rules; a person's choice is kept
 **Status:** Current (14 October 2026, release v2.15.276; migrations 20261014060746, 20261014063911, 20261014064736, 20261014065115, 20261014070026, 20261014070327 and 20261014070622; edge functions layer1-provider-facts v1.3.0, layer1-operations-control v1.9.0, layer1-operations-scheduled v1.5.0) · **Recorded in:** this reference; System reference §4c; developer handover Version 2 (14 Oct reissue); CF-CHG-20260915-247 entry of 14 Oct 2026.
 - **Why.** The website developer asked for institution type (1 Oct). The platform held none: `provider_type_id` was empty for every provider.
@@ -1485,7 +1493,7 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Institution type (14 Oct).** Returned since v2.15.276 from the registers by the rules of Decision 258; null when not held (Canada). No value is inferred.
 - **Tuition.** The basis is always stated. A whole-course total is never shown as per year. An annual figure is derived only for courses of 12 months or more. Amounts under 1,000 are placeholders and are treated as not held. There is no currency conversion.
 - **Course display code (14 Oct).** Every course carries `display_code` (the printed code, else the StudySearch code of Decision 255) with its kind and label. `course_code` stays the source value. The course action accepts a StudySearch code.
-- **Rankings and logos.** Delivered with attribution and `terms_status: management_decision_pending`. Display is a management decision. Logos leave the private bucket only as 24-hour signed links.
+- **Rankings and logos.** Delivered with attribution and `terms_status`. Approved for display since 14 Oct 2026 and logo links valid a year (Decision 259).
 - **Security.** v2 database functions are security definer with a pinned search path, and execute for service_role only. The edge function checks the key, limits each action to 60 a minute, and never returns storage paths.
 - **Operator links released and Canada opened (Platform Admin, 8 Oct).** The "Manual entry (platform operators)" source is approved for the website projection on official link, intakes, English and provider fee. The Canada country gate is approved.
 
