@@ -6296,3 +6296,18 @@ The brief now forbids direct table changes.
 | Developer document | Handover Version 2 reissued: section 14 NZ duration 2,929; known data-quality line; change-log line | Word file validated; Markdown regenerated from it |
 
 - Semester durations (294) stay null in `duration_months` (decision "Keep null"). Register v1.2 (O7 done); lessons v1.4 (lesson 24).
+
+### 14 Oct 2026 (Wed, Melbourne) – O2–O5 parked as pending data-enrichment tasks
+- Platform Admin (14 Oct 2026, 20:39): "Let it empty and flag it as Pending task for data enrichment and record it somewhere as to be attended."
+- No platform change: the values stay empty and the website API keeps returning null (not held).
+- New backlog: `docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` v1.3 section 10, listed in `docs/README.md` as "Pending data-enrichment tasks".
+
+| # | Task | Empty now | Unblocked by | Register |
+|---|---|---|---|---|
+| PE-1 | Institution type for Canada | 52 providers | Platform Admin choice of source | O2 |
+| PE-2 | training.gov.au confirmation for VET providers | RTO basis | Credentials, or a decision not to use it | O3 |
+| PE-3 | Five untyped Australian providers (Advance English, Girton Grammar School, Inspire College, Nova Institute of Technology, St Peters International College); Aviation Australia and Canning College typed TAFE by rule | 5 null, 2 to confirm | A person on Providers › Type, or the rules | O4 |
+| PE-4 | Rankings and logos usage terms | Display not allowed yet | Management decision | O5 |
+| PE-5 to PE-7 | Street addresses for NZ and Canada (about 600 credits); NZ code-of-practice list; campus names for review (476 + 1 from batch 1, 105 from batch 2) | — | Platform Admin decisions | — |
+
+- Website requirements register v1.3 (O2–O5 marked parked with their PE numbers). Next chat: treat section 10 as the to-do list for data enrichment; do not attend a PE item without the Platform Admin's go-ahead.

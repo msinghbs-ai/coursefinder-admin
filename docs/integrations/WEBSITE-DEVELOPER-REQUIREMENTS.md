@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.2 (14 Oct 2026, platform release v2.15.276, O1 and O7 done)
+**Version:** 1.3 (14 Oct 2026, platform release v2.15.276; O1 and O7 done; O2–O5 parked as pending data-enrichment tasks)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/coursefinder-wix-api-handover-v2.md` (Version 2; the Word copy beside it is what the developer receives).
@@ -43,10 +43,10 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | # | Item | Why it matters | Notes |
 |---|---|---|---|
 | O1 | ~~Recheck campus coverage for New Zealand and Canada in the API~~ **Done 14 Oct (v2.15.276, migration 20261014090000)** | Measured through the API: courses with a campus NZ 2,603, Canada 2,332 (with a city 1,928 and 1,807). Found and fixed on the way (Platform Admin decisions "Clear unproven NZ, keep CA" and "Refresh + delivery fix"): New Zealand campuses had taken the provider's head-office region (132 cleared; kept where the campus is in the provider's city); the search projection had not been refreshed, so study area, level and delivery from Enrich fields were not reaching the API (now NZ study area 6,053, delivery 3,868; Canada 4,601 and 3,204) | Handover section 14, the campus sentence and the 13.1 delivery note updated; reissued with a change-log line |
-| O2 | Institution type for Canada | Canada is null (Platform Admin chose to leave it empty on 14 Oct) | Needs a Platform Admin decision on the source (for example IRCC DLI list and provincial registers) before any build |
-| O3 | training.gov.au (national VET register) | Would confirm RTO status for Australian VET providers | Legacy web services need credentials; Platform Admin chose to ship without it |
-| O4 | Five Australian providers have no institution type; Aviation Australia and Canning College are typed TAFE / Polytechnic | Visible to the website as null or as TAFE | Platform Admin to review; set by hand on Providers › Type, or change the rules on Settings › Pipeline settings |
-| O5 | Rankings and logos usage terms | The developer must not display them until management decides | No build; `terms_status` changes when decided |
+| O2 | Institution type for Canada — **Parked: pending data-enrichment task PE-1** (left empty, Platform Admin 14 Oct 20:39) | Canada is null (Platform Admin chose to leave it empty on 14 Oct) | Needs a Platform Admin decision on the source (for example IRCC DLI list and provincial registers) before any build |
+| O3 | training.gov.au (national VET register) — **Parked: pending data-enrichment task PE-2** (left empty, Platform Admin 14 Oct 20:39) | Would confirm RTO status for Australian VET providers | Legacy web services need credentials; Platform Admin chose to ship without it |
+| O4 | Five Australian providers have no institution type; Aviation Australia and Canning College are typed TAFE / Polytechnic — **Parked: pending data-enrichment task PE-3** (left empty, Platform Admin 14 Oct 20:39) | Visible to the website as null or as TAFE | Platform Admin to review; set by hand on Providers › Type, or change the rules on Settings › Pipeline settings |
+| O5 | Rankings and logos usage terms — **Parked: pending data-enrichment task PE-4** (no change; display still waits for management, Platform Admin 14 Oct 20:39) | The developer must not display them until management decides | No build; `terms_status` changes when decided |
 | O6 | Filtered search timings | Institution type filter about 2.3 s cold (about 1.6 s without it) | Watch; optimise only if the developer reports slowness |
 | O7 | ~~Duration quality~~ **Done 14 Oct (migration 20261014100000, worker v0.23.2)** | Platform Admin decisions: "Undo and tighten rule" and "Keep null". The two New Zealand durations read from a fee line are withdrawn (items kept, reversible); the Enrich fields worker no longer admits a duration quote about the fee basis; 294 semester durations stay null in `duration_months` | Handover reissued: section 14 NZ duration 2,929, known data-quality line, change-log line |
 
@@ -54,6 +54,7 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 
 | Version | Date | Change |
 |---|---|---|
+| 1.3 | 14 Oct 2026 | O2–O5 parked as pending data-enrichment tasks PE-1 to PE-4 (`docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` section 10); values stay empty until attended. |
 | 1.2 | 14 Oct 2026 | O7 done: two fee-line durations withdrawn, worker rule tightened, semesters stay null. |
 | 1.1 | 14 Oct 2026 | O1 done: New Zealand and Canadian campuses and Enrich fields values in the API, New Zealand campus regions only where proven; O7 added (duration quality). |
 | 1.0 | 14 Oct 2026 | First issue: rules, requests R1–R14 with status, open work O1–O6 (after v2.15.276 institution type). |
