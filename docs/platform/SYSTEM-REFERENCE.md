@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.9 (13 Oct 2026, platform release v2.15.269)
+**Version:** 1.10 (14 Oct 2026, platform release v2.15.275; website API v2 migrations 20261014032122, 20261014034927 and 20261014040646)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -134,10 +134,32 @@ provider-onboarding (1 min) · progress-snapshot (hourly :09) · onboarding-pilo
 - **Not controls:** `scholarship_ai_settings` (old scholarship AI runs), `acquisition_policies` (read only by reset functions) and `admission_lifecycle_policy` (its job is not scheduled). These run nothing today.
 - **Unused:** `publication_control_settings` and `scholarship_runtime_settings` are read by nothing. A paste file retires them.
 
+## 4b. Website API v2 (Wix consumer, since 8 Oct 2026)
+
+- **Endpoint and contract.** Edge function `wix-course-api` (version 5, `verify_jwt` off, own key check). A request with `"contract": "website-search-v2"` reaches the v2 actions; without it the v1 path answers unchanged. Key: `private.website_integration_credentials` (identity `coursefinder_website_wix_pilot_v1`), checked by `public.website_edge_auth_v1(sha256)`. Rate limit: `zoho_edge_rate_check_v1`, identity `coursefinder_wix_pilot_v1`, 60 a minute per action (`v2:<action>`).
+- **Actions → database functions** (all `public`, security definer, search path pinned, execute for service_role only): reference → `website_v2_reference()`; search → `website_v2_course_search(filters, page, page_size, sort)`; course → `website_v2_course(identifier)`; providers → `website_v2_providers(filters, page, page_size, sort)`; provider → `website_v2_provider(provider_id)`; rankings → `website_v2_rankings(filters, page, page_size)`; scholarships → `website_v2_scholarships(filters, page, page_size)`; scholarship → `website_v2_scholarship(scholarship_id)`. Helpers are in `api.website_v2_*` (public execute revoked).
+- **What is returned.** Courses come from `search.course_documents`, minus `security.layer4_search_blocked_courses` (inactive courses and every course of a hidden provider). Providers hidden by `security.provider_hidden_v1` (not published or not active) are left out of every action with their campuses and scholarships. Scholarships are published and active only, always. The provider Published switch is the Platform Admin's control: switched off, the provider and its courses are not returned to any API query. A returned course reads `publication_status: published` (follows its provider). Country and per-source gates for the projection: `search.projection_country_gates` (AU, NZ, CA approved) and `search.enrichment_source_gates`.
+- **Course codes.** `course_code` is the source value. `display_code` / `display_code_kind` / `display_code_label` come from `security.course_display_code_v1` (Decision 255): the printed code, else the StudySearch code. The course action also finds a course by its StudySearch code.
+- **Tuition.** Provider current fee first, else the CRICOS registered total; amounts under 1,000 are placeholders and not held; basis always stated; annual derived from a total only for courses of 12 months or more; no currency conversion.
+- **QILT.** Gate `search.enrichment_gates` courses/provider_outcomes (approved 14 Oct 2026) releases QILT rows of `catalogue.provider_outcomes` (provider grain, status current, surveys `qilt_*`) on provider and course detail. The course-grain gate courses/qilt stays blocked.
+- **Logos and rankings.** Logos leave the private `provider-assets` bucket only as 24-hour signed links made by the edge function (`storage_path` is removed). Rankings and logos carry `terms_status: management_decision_pending` until management decides usage terms.
+- **Developer document.** `docs/integrations/coursefinder-wix-api-handover-v2.md` (router `docs/integrations/README.md`). One document per contract: additive changes reissue Version 2 with a dated change-log line.
+- **Measured 14 Oct 2026 (warm, database time).** Filtered search 0.1–0.6 s; whole-country tuition sort about 2 s; course detail under 0.1 s; scholarships 50 a page 0.2–0.5 s; providers 50 a page about 1.5 s; reference 2–4 s. The first call after a quiet period takes 2–4 s.
+
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
 | Function | md5 | Since |
 |---|---|---|
+| public.website_v2_course(text) | ad9ba388… | 20261014040646 (replaces 9872c3ef, a22d40c8) |
+| public.website_v2_provider(text) | 2411c7e4… | 20261014040646 (replaces 70ccdc9b) |
+| api.website_v2_course_item(uuid, text[], text[]) | c9fcc242… | 20261014034927 (replaces 600bc47a, 3b9f4f5d) |
+| public.website_v2_course_search(jsonb, integer, integer, text) | 19b602f5… | 9300 |
+| public.website_v2_providers(jsonb, integer, integer, text) | 2d4d1909… | 6800 |
+| public.website_v2_rankings(jsonb, integer, integer) | abb2fd42… | 6800 |
+| public.website_v2_reference() | 0204f433… | 20261008033739 |
+| public.website_v2_scholarships(jsonb, integer, integer) | b3a616d8… | 7100 |
+| public.website_v2_scholarship(text) | 79131c22… | 7100 |
+| api.website_v2_scholarship_item(uuid) | d1792cc7… | 8400 |
 | security.provider_onboarding_step_v1(uuid) | 85977406… | 12900 (replaces 1ce3f7b6) |
 | security.provider_onboarding_tick_v1() | 924761ef… | 12900 (replaces 5196a85f) |
 | security.provider_onboarding_event_v1() | a3e685cd… | 11500 |
@@ -177,6 +199,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.10 | 14 Oct 2026 | Website API v2 (section 4b): actions, provider Published switch as the API control, display codes, QILT at provider grain, tuition, logos, timings; v2 checksums. |
 | 1.9 | 13 Oct 2026 | v2.15.269: settings register and rule G2 (section 4a); jobs and 14 functions read settings; worker v0.21.7; checksums. |
 | 1.8 | 13 Oct 2026 | v2.15.268: notices list the universities to act on (`items`); search stopped excludes held. |
 | 1.7 | 13 Oct 2026 | v2.15.267: Progress journeys filters and journey steps; running_unis for every job. |

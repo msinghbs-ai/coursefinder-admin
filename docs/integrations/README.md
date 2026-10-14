@@ -1,14 +1,15 @@
 # CourseFinder Integration Handover Router
 
 **Status:** CURRENT ROUTER  
-**Effective:** 5 September 2026
+**Effective:** 14 October 2026
 
 Use this file to identify the current developer handover. Do not infer currentness from filename ordering alone.
 
 ## Wix / Website
 
-**Current:** `coursefinder-wix-api-handover-v1.1.md`  
-**Previous:** `coursefinder-wix-api-handover-v1.0.md`
+**Current:** `coursefinder-wix-api-handover-v2.md` (Version 2, contract website-search-v2, live on Pilot; StudySearch name; issued 14 October 2026)  
+**Previous:** `coursefinder-wix-api-handover-v1.1.md`, `coursefinder-wix-api-handover-v1.0.md`  
+**Version 2 rule (Platform Admin, 14 October 2026):** one document per contract. Additive changes reissue Version 2 with a new date and a change-log line (its section 21); a breaking change starts Version 3. The 3 and 8 October drafts were not filed.
 
 ### Versioning rule
 
