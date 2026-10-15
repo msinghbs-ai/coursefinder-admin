@@ -6388,3 +6388,20 @@ The brief now forbids direct table changes.
 
 - Paste file for the Platform Admin (drops a constraint, so not applied by migration): widen the `pipeline.component_register` kind check to include `function`, then record `search.refresh_course_documents_v2(boolean)` as retiring (retire after 29 Oct 2026).
 - Next: unchanged from the previous entry.
+
+### 15 Oct 2026 (Thu, Melbourne) – v2.15.281: logo upload fixed; logo finder job
+
+**Asked by:** Platform Admin, 15 Oct 2026 12:55: "Bug/fix: i'm unable to upload Uni Logos or request to find it". **Decisions (multiple choice):** upload by the Platform Admin; "make it background Job to find and attached + Plus admin to upload by clicking on logo from provider details blade or list editing".
+
+**Found:** no upload reached the server in 24 hours. The provider panel's logo was made clickable by a page watcher that only noticed new tables and panels; when the provider's details arrived after the panel opened (a direct link, a slow load) the logo never became clickable. Reproduced in a test browser. The upload path itself worked (database apply checked in a rolled-back run). The old logo finder was retired on 10 Oct; 49 of 3,091 providers had a logo (Canada none).
+
+| Change | What | Checked |
+|---|---|---|
+| Screens | Logo clickable in the provider panel, providers list and Logos list for the role in Pipeline settings › Logos (Platform Admin); editor: upload, image address, or "Find it on the provider's website"; server reasons shown; page watcher retired | S44 browser tests: late-loading panel, upload, find request, lower role read-only |
+| Migration 20261015050000 | Settings (Logos: role, run size, retry days, smallest logo); `pipeline.provider_logo_finds`; capability, request, next and record functions; `svc_logo_upload_allowed`; job logo-find (every 10 minutes) catalogued and registered; old logo-finder functions marked retiring | Dry run, then applied |
+| Worker coverage-sweep v0.25.0 → v0.25.2 (mode logo_find) | Logo from the provider's home page: header logo, declared logo, SVG icon, touch icon; type from the bytes; SVG only when a plain drawing; size by the longer side; white logos never used; attached only when the provider has no logo; not found flagged `logo_not_found` | Deployed byte-identical (15 files). First run took a campus photo (folder named "new-brand") and a white logo, and refused wide wordmarks; fixed in v0.25.1 and v0.25.2, those picks set aside (kept) and re-checked (migrations 20261015060000, 070000). After: 19 of 23 found, all the providers' own logos; 4 flagged (blocked site, no logo on the home page) |
+| Edge function provider-asset-upload | Role from the setting; on the deploy allow-list (was deployed by hand) | Deployed byte-identical |
+| Release | v2.15.281 / 0.1.208; SOPs 1.22; System reference 1.18 (§4f) | Full suite 665 passed; release:verify PASS; build OK. PRs #531, #532 merged (deployed logo checks updated for the new editor) |
+
+- Pace: 2,244 providers have a website and no logo; at 12 a run every 10 minutes the first pass takes about 31 hours. Providers with no website (about 850, mostly Canadian) are left for upload.
+- Next: unchanged from the previous entry.

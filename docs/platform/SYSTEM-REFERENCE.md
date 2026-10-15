@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.17 (15 Oct 2026; bug fix: one active intake per course and month; Canadian provinces from the provider; migration 20261015040000)
+**Version:** 1.18 (15 Oct 2026; v2.15.281: logo upload fixed, logo finder job; migrations 20261015050000–070000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -189,6 +189,11 @@ How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL
 - **Build rule.** `tests/uat/cf-247-s42-housekeeping-contract.spec.mjs`: migrations from 20261015030000 have `-- Replaces:` and `-- Retires:` lines, a `comment on table` for each new table, a catalogue row for each new job, and no drop or delete outside function bodies.
 - **First check (15 Oct 2026).** Registered: 102 jobs, 450 tables, 24 views, 80 edge functions (11 called in the last day), 63 screens. 39 tables without row-level security; 420 tables without a stated purpose; definer functions all have a search path; no public function open to anonymous callers. Unused-component findings start once 14 days of snapshots exist.
 
+## 4f. Provider logos (v2.15.281, 15 Oct 2026)
+
+- **Editing:** the logo is clickable in the provider panel, the providers list and the Logos list (Providers › Logos & assets) for roles at or above `logo.upload_min_rank` (Pipeline settings › Logos; Platform Admin). The screens ask `public.admin_provider_logo_capability()`; the upload edge function `provider-asset-upload` asks `public.svc_logo_upload_allowed(user)` (same setting). The editor uploads a file, downloads an image address, or queues the logo finder (`public.admin_provider_logo_find_request`).
+- **Logo finder:** job `logo-find` (every 10 minutes) → coverage-sweep mode `logo_find` (worker v0.25.2, `logo.ts`). Providers with a website and no logo, asked-for first, then by course count; `batch.logo_find` a run. Candidates from the home page: header logo image (named by file or label, not folder), declared logo (schema.org, og:logo), SVG icon, touch icon, mask icon. Type from the bytes; SVG only when a plain drawing; raster longer side at least `logo.min_pixels`; white (reverse) logos never used. Stored at `provider-assets/providers/<id>/logo/auto/<sha256>`; attached (approved, primary, `source_class` website_logo_finder) by `public.svc_logo_find_record` only when the provider still has no logo. Not found: `pipeline.enrichment_flags` reason `logo_not_found`, tried again after `logo.retry_after_days`. Record per provider: `pipeline.provider_logo_finds`.
+
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
 | Function | md5 | Since |
@@ -233,6 +238,12 @@ How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL
 | security.admin_read_impl(text, jsonb) | 2c2da9ac… | 20261015040000 (replaces 056bef9a) |
 | security.region_fallback_countries_v1() | c2780379… | 20261015040000 |
 | security.course_intake_same_month_guard() (trigger `course_intake_same_month_guard` on catalogue.course_intakes) | 44e23d4a… | 20261015040000 |
+| security.logo_upload_min_rank_v1() | be39894d… | 20261015050000 |
+| public.admin_provider_logo_capability() | 19859676… | 20261015050000 |
+| public.admin_provider_logo_find_request(uuid) | 7aa52ef4… | 20261015050000 |
+| public.svc_logo_find_next(integer) | 0117c645… | 20261015050000 |
+| public.svc_logo_find_record(uuid, text, text, text, text, text, text, integer, integer, text, text, jsonb) | f41cc650… | 20261015050000 |
+| public.svc_logo_upload_allowed(uuid) | 539f0f8f… | 20261015050000 |
 | security.enrich_campus_list_apply_v1(bigint) | 2617420b… | 20261014090000 (replaces adecd776) |
 | security.enrich_fields_slice_v1(uuid, integer) | 03cc5526… | 20261014090000 (replaces aa68e9a8) |
 | security.admin_providers_page(…10 args) | bb66c64c… | 20261014060746 (replaces 4d07ec59) |
@@ -285,6 +296,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.18 | 15 Oct 2026 | Section 4f: provider logo editing and the logo finder; checksums. |
 | 1.17 | 15 Oct 2026 | Bug fix: intake guard, Canadian provinces from the provider (projection and course detail); checksums. |
 | 1.16 | 15 Oct 2026 | Section 4e: component register, daily register workflow, weekly hygiene check, housekeeping build rule (Decision 260); checksums. |
 | 1.15 | 15 Oct 2026 | Section 4d: waste rules (idle jobs, admit on new input, retry cap by yield, flip-flops, stored pages, focus providers, records), fee cross-check, central pages approved automatically when checked, English plan double degrees and research defaults; checksums. |
