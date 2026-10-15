@@ -1464,6 +1464,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - Layer 4 items that Layer 3 raised because a model could not settle a page return to Layer 3, and are retried through the cascade (tuition through its qualified route).
 - Items where the page differs from a value already held stay with a person.
 
+### Decision 260 — Data pipeline operating model: gates between Layers 1–4, new countries, and housekeeping
+**Status:** Current (15 October 2026) · **Recorded in:** `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` v1.0; System reference
+- **Platform Admin (15 Oct, 11:06):** "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach."
+- **Choices (multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change and its data kept 14 days; gates pass automatically everywhere, including a country's first publish to the website; a live component register with a generated document.
+- **Gates.** Source, provider, AI, admission and country publish gates are measured settings; a pass moves on by itself, a stop is flagged with its reason and the pipeline moves on. The Platform Admin can close any provider or country at any time.
+- **Housekeeping.** Every change names what it replaces and retires; new components are registered in the same change; retired tables, functions and edge functions are dropped by paste file after 14 days; documents keep one current version per topic.
+
 ### Decision 259 — Website sync by cursor; rankings and logos approved for display; logo links a year
 **Status:** Current (14 October 2026, release v2.15.277; migrations 20261014110000 and 20261014111500; edge function wix-course-api version 6) · **Recorded in:** this reference; System reference §4b; website requirements register R15, R16
 - **Platform Admin (14 Oct, 20:43):** "For ranking, we can pass it on v2 api and for logos we can pass it on as file links to be stored in wix platform with maximun validity. And subsequent api requests only pass changed data unless queried for full load." Chosen (multiple choice): approved to display; logo links one year, renewed in the delta; a new sync action with a cursor.

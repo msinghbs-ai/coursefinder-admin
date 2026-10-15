@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.15 (15 Oct 2026; platform releases v2.15.278 and v2.15.279: waste rules for enrichment, central pages for the top providers, fee cross-check; migrations 20261015010000 and 20261015020000)
+**Version:** 1.16 (15 Oct 2026; v2.15.280: component register, hygiene check, housekeeping rule (Decision 260); migration 20261015030000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -179,10 +179,22 @@ Platform Admin, 15 Oct 2026 09:18: "If we are wasting resources on multiple trie
 - **Central pages (v2.15.279).** The focus providers' English policies and calendars are read with the pinned central AI model (worker v0.24.0 also asks for the research-degree requirement). Job `policy-auto-approve` (every 10 minutes) runs `security.policy_auto_approve_v1()`: with `central.auto_approve` Yes, an AI proposal of a focus provider is approved (decided_by null, note "Automatic: …") unless, for English, at least `central.min_compare` (10) courses show their own score and more than `central.max_disagree_pct` (50%) disagree (then flagged policy_disagrees for a person). The recorder (`svc_central_ai_record`) still never approves. University calendars still answer only semester names on course pages (Decision 241 unchanged).
 - **English plan.** `provider_english_plan_v1`: a double degree whose awards are all at the course's level takes that level's default (`security.double_degree_same_group_v1`); research masters and doctorates take a `research` default only where the policy states one; other Decision 227 holds stay. The applied note says whether the policy was approved by a person or automatically.
 
+## 4e. Housekeeping: component register and hygiene check (Decision 260, v2.15.280, 15 Oct 2026)
+
+How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` §6. Settings: Pipeline settings › Housekeeping.
+
+- **Register.** `pipeline.component_register` (kind job, table, view, edge_function, screen; name; layer; area; purpose; status active, retiring or retired; replaces, replaced_by; introduced_in; retire_after; last_used_at; usage; size). `security.component_register_sync_v1()` brings jobs (purpose from the job catalogue), tables and views (purpose from `comment on table`, size) up to date; what no longer exists is marked retired, never removed. Layer from the job area or the name (`security.component_layer_v1`).
+- **Repository side.** GitHub workflow "Component register" (daily 21:40 UTC, and on demand): `scripts/component-register-collect.mjs` lists the edge functions (`supabase/functions`) and screens (`src/nav-map.js` pages and tabs) and reads edge function calls for the last 24 hours from the Supabase logs endpoint; `security.component_register_ingest_v1(payload)` records them; the generated document (`security.component_register_markdown_v1()`) is committed to the branch `component-register-snapshot` and copied to `docs/platform/COMPONENT-REGISTER.md` here with change-control entries.
+- **Hygiene check.** Job `hygiene-check` (Sundays 16:23 UTC = Monday morning Melbourne) runs `security.hygiene_check_v1()`: records counters in `pipeline.component_usage_snapshots` (table reads and writes, index scans); compares with the snapshot at least `hygiene.idle_days` (14) old; lists unused tables, indexes and edge functions, uncatalogued jobs, switched-off jobs, tables without row-level security, definer functions without a pinned search path, public definer functions open to anonymous callers, tables without a purpose, and retiring components past `retire_after` (ready to drop). Result in `pipeline.hygiene_reports`; notice "Housekeeping" while it finds something.
+- **Build rule.** `tests/uat/cf-247-s42-housekeeping-contract.spec.mjs`: migrations from 20261015030000 have `-- Replaces:` and `-- Retires:` lines, a `comment on table` for each new table, a catalogue row for each new job, and no drop or delete outside function bodies.
+- **First check (15 Oct 2026).** Registered: 102 jobs, 450 tables, 24 views, 80 edge functions (11 called in the last day), 63 screens. 39 tables without row-level security; 420 tables without a stated purpose; definer functions all have a search path; no public function open to anonymous callers. Unused-component findings start once 14 days of snapshots exist.
+
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
 | Function | md5 | Since |
 |---|---|---|
+| security.platform_notices_v1() | 81bf986b… | 20261015030000 (replaces 7580ed33 of 20261015010000) |
+| security.component_register_sync_v1() / component_register_ingest_v1(jsonb) / hygiene_check_v1() / component_register_markdown_v1() / component_layer_v1(text, text, text) | 62c2396a… / 8ffd7d6a… / 2499ec0f… / cf4963c2… / 2ba39fa3… | 20261015030000 |
 | security.coverage_admission_apply_v1(integer, text, text[]) | 9667b916… | 20261015010000 (replaces c5ce945a) |
 | security.coverage_ai_match_prepare_v1(integer, integer) | 01ad8260… | 20261015010000 (replaces 744dda6c) |
 | public.svc_course_link_search_next(integer) | 8b6c6f82… | 20261015010000 (replaces 2c4d4055) |
@@ -190,7 +202,6 @@ Platform Admin, 15 Oct 2026 09:18: "If we are wasting resources on multiple trie
 | security.exit_awards_apply_v2(uuid) | 8d4e5f7b… | 20261015010000 (replaces 53c4064a) |
 | security.firecrawl_panel_refresh_v1() | 098c8d6d… | 20261015010000 (replaces 89ce4d05) |
 | public.svc_scholarship_ai_next(integer) | 11de2cc8… | 20261015010000 (replaces 3f1c5858) |
-| security.platform_notices_v1() | 7580ed33… | 20261015010000 (replaces eb994869) |
 | security.waste_guard_v1() / waste_idle_guard_v1() / waste_flipflop_guard_v1() / enrichment_flags_refresh_v1() | 101d6fbf… / 2fff04de… / 2de1d43b… / 2044836d… | 20261015010000 |
 | security.retry_cap_v1(text) / enrich_focus_v1(uuid) / enrich_focus_refresh_v1() / own_page_value_v1(uuid, text) / admit_input_mark_v1() | 56e6d020… / 73e1bcfd… / 0588c931… / 540051c7… / 8a282bf1… | 20261015010000 |
 | security.coverage_admission_gated_v1(text, integer, text, text[]) | 4e4e7f9a… | 20261015010000 |
@@ -271,6 +282,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.16 | 15 Oct 2026 | Section 4e: component register, daily register workflow, weekly hygiene check, housekeeping build rule (Decision 260); checksums. |
 | 1.15 | 15 Oct 2026 | Section 4d: waste rules (idle jobs, admit on new input, retry cap by yield, flip-flops, stored pages, focus providers, records), fee cross-check, central pages approved automatically when checked, English plan double degrees and research defaults; checksums. |
 | 1.14 | 15 Oct 2026 | Section 4b: keys by identity (developer key, v2 only), one path with v1 marked for retirement, reference cache, sync pages by cost, developer pack; checksums. |
 | 1.13 | 14 Oct 2026 | v2.15.277 (section 4b): sync action and change check, display terms from settings (approved), logo links 365 days; checksums. |
