@@ -156,7 +156,7 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 **Good to know**
 
 - A page may hold fewer than `page_size` items when they are large (a page of provider details holds 3). Keep going while `has_more` is true.
-- A full load is about 40,400 items (15 October 2026): about 1,400 calls, roughly 25 minutes within the limit of 60 calls a minute.
+- A full load is about 40,600 items (15 October 2026): about 1,400 calls, roughly 25 minutes within the limit of 60 calls a minute.
 - The platform checks every item for changes every minute in a rolling pass; a full pass takes about 90 minutes. A change appears in a later delta.
 - A removal comes as `change: "remove"`: for example a provider switched off (with its courses, logo and rankings) or a scholarship no longer published.
 - **Logos:** each logo link is valid for 365 days (`url_expires_at`). Copy the file into Wix Media and serve your copy; never link to the signed URL from a visitor page. The platform sends a logo again with a new link 30 days before the old one ends, and whenever the file changes (`content_hash`).
@@ -204,7 +204,7 @@ Per country (AU, NZ, CA): study levels, study areas, subdivisions (states, provi
 }
 ```
 
-This returned 35 courses on 15 October 2026. All filters are optional and combine with AND.
+This returned 78 courses on the evening of 15 October 2026; the count grows as English and intake data are added. All filters are optional and combine with AND.
 
 | Filter | Type | Notes |
 |---|---|---|
@@ -375,14 +375,14 @@ Send: the action and request body (no key), the `request_id`, the HTTP status, t
 
 # 12. Acceptance tests
 
-Counts are as measured on Pilot on 15 October 2026 and grow as data is added.
+Counts are as measured on Pilot on the evening of 15 October 2026 and grow as data is added.
 
 | # | Test | Expected |
 |---|---|---|
 | 1 | Key | `reference` with your key returns 200 with `contract_version: "website-search-v2"` |
 | 2 | Wrong key | An invalid key returns 401 and no data |
 | 3 | Reference | Vocabularies for AU, NZ and CA; eight institution types |
-| 4 | Course search | The example in 7.2 returns 35 courses; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
+| 4 | Course search | The example in 7.2 returns 78 courses or more; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
 | 5 | Keyword | `keyword` nursing with `cities` Melbourne returns 109 courses, nursing titles first, the same total on every page |
 | 6 | Canada | `country_codes` CA returns 4,723 courses, each with a `display_code` |
 | 7 | Display code | `course` with `course_code` UNBC-BA-019 returns that course; `display_code_kind` is `studysearch` |
@@ -392,7 +392,7 @@ Counts are as measured on Pilot on 15 October 2026 and grow as data is added.
 | 11 | Institution type | `providers` with `country_codes` AU and `institution_types` university returns 45 providers |
 | 12 | Scholarships | `scholarships` with `student_types` international returns 1,096 records |
 | 13 | Rankings | `rankings` with QS, edition 2027, AU returns 38 entries, each with `attribution` and `terms_status: "approved"` |
-| 14 | Logos | `providers` with `has_logo` true returns 49 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
+| 14 | Logos | `providers` with `has_logo` true returns 265 providers or more (more each day as logos are found); each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
 | 15 | Sync full load | `sync` with no cursor: `mode` full and `has_more` true; following `next_cursor` to the end gives `full_load_complete: true` |
 | 16 | Sync changes | The last `next_cursor` sent again returns only what changed since (often nothing); sending it twice gives the same items |
 | 17 | Errors | An unknown action returns 400 `INVALID_ACTION`; a 429 is handled by waiting for `Retry-After` |
@@ -407,3 +407,4 @@ Changes within `website-search-v2` are additive. Each one reissues this guide wi
 |---|---|
 | 15 October 2026 | First issue of the developer guide, with the OpenAPI file and Postman collection. It replaces the Version 2 handover of 14 October 2026; the contract is unchanged. Developer key added; `reference` now rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |
 | 15 October 2026 (afternoon) | A Canadian course with no campus now lists its provider's province in `subdivision_codes` (all 4,723 Canadian courses have one; 2,332 before). Intake months are no longer repeated in `intakes[]` (a month was listed twice for 410 courses) |
+| 15 October 2026 (evening) | Each city in `reference` is now listed under the metro area most of its campuses have (Sydney was listed under Brisbane), and two campuses registered under the wrong state now carry the state their address names. More providers have a logo (49 that morning, 265 now, rising daily as logos are found on providers' own websites): copy each new logo into Wix Media as before. Acceptance test counts refreshed. No field added, renamed or removed |
