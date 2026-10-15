@@ -1,6 +1,6 @@
 # StudySearch – Usage audit: what is not being used (screens, scripts, jobs, data)
 
-**Status:** IN PROGRESS. Day 1 taken 12 Oct 2026, 21:12 Melbourne. Daily captures follow on 13, 14 and 15 Oct; the final report and the list to retire come on 15 Oct.
+**Status:** COMPLETE (15 Oct 2026). Captured 12, 13, 14 and 15 Oct. The final report and the decision list are at the end of this page. Nothing has been changed or removed: each item waits for the Platform Admin's decision.
 **Change control:** CF-247
 **Asked by:** Platform Admin, 12 Oct 2026: "Find which is not being used first, and scripts and data whose details are not changed for a few days."
 **Rule:** nothing is changed or retired because of this audit until the Platform Admin decides on the final list. This page only measures.
@@ -160,3 +160,70 @@ Table counters: `table-day3-2026-10-14T1032Z.txt` (compared with day 2; schemas 
 - `layer3_work_items` (32 functions) and `layer3_interpretations` (35 functions): the jobs that call them are `adapter-overwrite` (every 10 minutes), `provider-basis-rule-admit` (every 10 minutes), `provider-rule-admit` and `provider-fee-profiles-apply` (hourly), `course-coverage-build` (hourly), `platform-health` (every 10 minutes), `platform-resource-observe` (hourly) and `coursefinder-m2-3-refresh-intelligence-tick` (hourly). Screens: Layer 4 review desk and context, course field states, Task manager running-now and live activity, Services.
 - `layer3_fact_handoffs` (6 functions): the requeue screen and its action, `provider_english_plan_v1`, and the retired Layer 3 fact services.
 - Before any of these tables is retired, each function above must stop reading it (the rule jobs check "is there a Layer 3 item for this course"). Day 4 can pin the exact job by comparing the table's read counter before and after one run of each.
+
+### Day 4 (15 Oct, captured 21:37 Melbourne; last 24 hours)
+Table counters: `table-day4-2026-10-15T1037Z.txt` (compared with day 3). Only changes from earlier days are listed.
+
+**Edge functions: 9 called (day 3: 10)**
+- `coverage-sweep` 12,441; `provider-asset-access` 261; `evidence-link-index` 121; `layer1-operations-control` 71; `prisms-au-etl` 9; `zoho-course-api` 9 (day 3: 86); `qilt-au-etl` 8; `evidence-storage-dedupe` 1.
+- **`wix-course-api`: first calls.** 44 calls in one burst, 15 Oct 08:00–08:16 Melbourne: 37 succeeded, 3 refused for a missing or wrong key (401), 2 service busy (503), 1 bad request (400), 1 not found (404). This looks like the developer trying the API. There is no regular sync yet (no calls in the 13 hours since).
+- `website-course-api` (the older API): still no calls in 4 days.
+
+**Scheduled jobs: 92 active, 33,250 runs, 61 failures**
+- Failures are all deadlocks between `firecrawl-targets` (54) and `firecrawl-panel-figures` (7), as on days 2 and 3.
+- Paused on purpose by the flag unit (Decision 261, 15 Oct): `coverage-read`, `coverage-reidentify`, `scholarship-read` and `coverage-find-site`. They restart by themselves when a trial run finds work.
+- Switched off earlier: `course-link-reverse`, `onboarding-pilot-snapshot` and `coverage-read-2`.
+- Not run in 24 hours, by design: the monthly and fourth-quarter document checks, `statistics-edition-discovery` (5th of the month), `enrich-focus-refresh` and `hygiene-check` (weekly).
+
+**Screens (signed-in calls)**
+- Most used: `admin_read` 771, the credit banner 143, Layer 1 statistics candidates 98, the dashboard waiting list 45, Jobs 39, Layer notices 38. New: the logo editor (8 calls).
+- Still no call in 4 days: Pipeline settings register, Priority queue, Users & roles, Go-live checklist, Data model, Datasets registry editing.
+
+**Tables: 433 (10 new on 15 Oct: flags, logos, register); 154 with no reads and no writes in 24 hours; 177 read but not written**
+- **106 tables have had no reads and no writes at all since the 12 Oct baseline.** Together they take about 32 MB. The largest: `layer1_register_row_state` 9.7 MB, `layer2_scholarship_discovery_candidates` 2.8 MB, `adapter_shadow_reads` 2.4 MB, `directory_pages` 2.1 MB, `ca_course_scope_keys` 1.7 MB. 20 of them are named by no database function, and 15 of those by no screen or edge function either.
+- Newly idle (48 idle on day 4 that were not idle all 3 windows): the remaining Layer 3 routing tables, the Layer 4 screen tables (screens not opened today), `register_replay_*`, `publishing.*` and several scholarship settings tables.
+
+**What reads the retired tables: pinned on day 4**
+Counters read just before and just after each scheduled run.
+
+| Table | Size | Reads a day | Reader | How it was pinned |
+|---|---|---|---|---|
+| `layer3_fact_handoffs` | 18 MB | 4.4–5.2 million | `provider-english-defaults` (every 10 min, `provider_english_plan_v1`): about 36,000 reads a run; `policy-auto-approve` about 1,300 a run | 144 runs × 36,000 = 5.2 million, matching the daily growth |
+| `layer3_work_items` | 75 MB | 2.0–2.6 million | `provider-english-defaults` about 18,000 a run; `policy-auto-approve` about 900; `provider-fee-profiles-apply` about 950 | Same |
+| `layer3_interpretations` | 203 MB | 5.2–8.4 million, in bursts | `adapter-overwrite` (every 10 min, `adapter_overwrite_v1`) when it has a batch: 88 long runs (up to 70 s) from 14 Oct 21:50 to 15 Oct 16:40 Melbourne, then quiet. Only 17 reads between 21:37 and 21:47 | No other job touching the table runs long; reads stop when its long runs stop |
+| `layer2_course_discovery_candidates` | 3 MB, empty | 0.8 million | `course-coverage-build` (hourly at :47, `course_coverage_build_v1`): 22,380 reads a run, about 540,000 a day; the rest from `retention-worker` (`retention_tick_v1`) | Before and after the 21:47 run |
+| `layer2_scope_wave_items` | 37 MB, empty | none | nothing | No reads in 4 days |
+
+## Final report (15 Oct 2026)
+
+**How to read it:** *Keep* = in use or needed on demand. *Retire* = switch off and mark `retiring` in the component register; dropped by paste file after 14 days if nothing used it (Decision 260). *Delete* = nothing uses it; goes on the next paste file. *Purge* = keep the table but empty it (after an export to Storage), because its rows are large and no longer read. Nothing below has been done.
+
+### Decisions for the Platform Admin
+| # | Item | Recommendation | Why |
+|---|---|---|---|
+| D1 | 12 one-off probe and audit edge functions: `layer1-ca-*-probe` (7: cpic, mb-designation, sk-sitemap, qc-pdf, qc-pdf2, ab-alis, ircc-nvit), `layer1-ca-qc-audit`, `-qc-parse-audit`, `-qc-prefix-audit`, `-qc-strict-audit`, `layer1-ca-northern-code-audit` | **Delete** | Investigation scripts from August; no calls in 4 days; no job, function or screen calls them; Decision 260 says probes are not left deployed |
+| D2 | Retired Layer 3 edge functions: `layer3-model-routing`, `layer3-work-dispatch`, `layer3-work-interpret`, `layer3-cf245-tuition-benchmark`, `layer3-intake-benchmark`, `layer3-contact-benchmark` | **Delete** | Layer 3 retired 11 Oct; no calls since; three are no longer in the repository |
+| D3 | `layer3-provider-control` edge function | **Retire** | No calls; one screen still links to it, so the link goes first |
+| D4 | Contacts import: `provider-contact-discover-scheduled`, `provider-contact-enrich-apollo`, `provider-contact-import`, `provider-contact-control` and the 9 `provider_contact_*` / `provider_directory_observations` tables | **Retire** | Unused since late August; no job calls them. Keep only if contact discovery is planned |
+| D5 | `website-course-api` (the first website API) | **Retire** after the website owner confirms | No calls in 4 days; `wix-course-api` (v2) has replaced it and has started receiving calls |
+| D6 | Read of `layer3_fact_handoffs` and `layer3_work_items` by `provider-english-defaults` and `policy-auto-approve` | **Change, then purge** | About 7.5 million reads a day of retired tables to answer "is there a Layer 3 item for this course". A code change to stop the reads; then export and purge the two tables (93 MB) |
+| D7 | Read of `layer3_interpretations` by `adapter-overwrite` | **Change, then purge** | Same question, in bursts of up to 70 s a run. After the change, export and purge (203 MB) |
+| D8 | Read of the empty `layer2_course_discovery_candidates` by `course-coverage-build` and `retention-worker` | **Change, then delete** | 0.8 million reads a day of an empty table (a per-course lookup that always finds nothing) |
+| D9 | `layer2_scope_wave_items` (37 MB, empty, no reads) | **Delete** | Nothing reads or writes it; frees 37 MB |
+| D10 | 15 tables named by no function, screen or edge function: `zz_qualify_scratch_v1`, `reading_restores_20261005`, `public._layer1_depth_uat_control`, `layer2_fanout_tasks`, `night_run_queue`, `night_run_rebatch`, `refused_host_changes`, `scholarship_reread_snapshots`, `layer2_provider_benchmark_observations`, `pilot_edge_execution_queue`, `scholarship_coverage_benchmarks`, `search.intent_aliases`, `evidence_links` (empty), `layer2_domain_refresh_policies`, `layer3_work_item_rebinds` | **Delete** | Untouched for 4 days and nothing can reach them |
+| D11 | Idle groups still named by functions: the `workflow` schema (9 tables), Layer 2 trials and earlier phases (about 20: `layer2_auto_discovery_*`, `layer2_completeness_trial*`, `layer2_scale_qualification_runs`, `layer2_tuning_events`, `coverage_identity_*`, `directory_*`, `ca_course_scope_keys`), Layer 3 benchmarks (7), scholarship leftovers (9), `onboarding_cases` and its events, unused search embeddings (`search.course_embeddings`, `embedding_jobs`, `query_embedding_cache`, `profiles`) | **Retire** (tables with their functions) | No reads or writes in 4 days; their functions go with them, so each group is one paste file after 14 days |
+| D12 | Jobs switched off: `course-link-reverse`, `onboarding-pilot-snapshot`, `coverage-read-2` | **Delete** (unschedule) | Off since 12–13 Oct and replaced |
+| D13 | `coursefinder-m2-3-refresh-intelligence-tick` (hourly) | **Retire** | Belongs to the retired Layer 3 refresh scheduler; reads `layer3_interpretations` |
+| D14 | `firecrawl-targets` and `firecrawl-panel-figures` deadlocks (about 60 failures a day) | **Fix** (separate change) | The only failing jobs; they deadlock with each other every day |
+
+### Keep (no action)
+- **Screens not opened in 4 days** (Pipeline settings register, Priority queue, Users & roles, Go-live checklist, Data model, Datasets registry editing): keep. They are admin tools used when something changes; one person's 4 days is not enough to judge them. Go-live checklist is needed for production.
+- **On-demand or seasonal edge functions:** the Canadian college catalogue readers (`layer1-ca-*-programs`, `-catalogue`), `ranking-*`, `statcan-ca-psis-etl`, `statistics-edition-discovery`, `fee-schedule-etl` (monthly document checks), `layer1-register-etl`, `layer1-au-depth`, `layer1-nz-live`, `layer1-ca-live`, `layer1-au-cricos-facts`, `layer2-provider-control`, `admin-user-management`, `admin-evidence-access`, `toolset-runner`, `platform-environment-control`.
+- **Jobs paused by the flag unit** (`coverage-read`, `coverage-reidentify`, `scholarship-read`, `coverage-find-site`): keep; they restart by themselves.
+- **Idle reference, settings and audit tables:** `ref.*`, `catalogue.course_collections`, `provider_associations`, `outcome_benchmarks`, policies and cost model, `statistics_edition_rules` (monthly), the scholarship registers, `security.user_access_events` and `service_permissions`, rule admission history, `adapter_shadow_*` and `retention_*`.
+- **`layer1_register_row_state` (9.7 MB):** keep until the register re-read is next run; it is how a re-read knows what changed.
+- **`layer4_block_decisions`:** 20 million reads a day on 11 rows; a cheap hot-path lookup.
+- **`layer3_openrouter_observations`, `layer3_provider_credential_resolve_service`, `layer3_routing_profile_service`:** in use despite the name (OpenRouter balance, key and model profile). Rename later.
+
+### Space
+D6, D7, D9 and D10 together free about 335 MB (Layer 3 tables 296 MB, `layer2_scope_wave_items` 37 MB, the small tables about 2 MB). D11 adds about 25 MB.

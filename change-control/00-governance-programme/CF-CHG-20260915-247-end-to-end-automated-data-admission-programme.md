@@ -6483,3 +6483,21 @@ The brief now forbids direct table changes.
 
 - Storage: about 100 MB more in `pipeline.website_sync_items` once every item is stored (about 90 minutes after the change, through the rolling check); until then an item not yet stored is built on the fly as before.
 - Next: confirm the stored count and a real full load once storage completes (scheduled follow-up).
+
+### 15 Oct 2026 (Thu, Melbourne) – Usage audit complete: final report and decision list (measurement only)
+
+**Asked by:** Platform Admin, 12 Oct 2026: "Find which is not being used first, and scripts and data whose details are not changed for a few days." Day 4 capture and final report run by the scheduled task "Usage audit capture day 4 (final)".
+
+**Done:** day 4 captured (edge function and signed-in calls, cron runs, table counters `table-day4-2026-10-15T1037Z.txt`); the readers of the retired tables pinned by reading counters before and after each scheduled run; final report written in `docs/platform/usage-audit/USAGE-AUDIT.md` (status COMPLETE). **Nothing in the platform was changed or removed.**
+
+| Finding | Detail |
+|---|---|
+| Website API | `wix-course-api` received its first calls: 44 in one burst, 15 Oct 08:00–08:16 Melbourne (37 succeeded, 3 key refused, 2 busy, 1 bad request, 1 not found). No regular sync yet. `website-course-api` (first API): no calls in 4 days |
+| Edge functions | 91 deployed; 14 called at least once in 4 days |
+| Tables | 106 of 433 had no reads or writes since the 12 Oct baseline (about 32 MB); 15 of them are named by no function, screen or edge function |
+| Retired tables still read | `layer3_fact_handoffs` and `layer3_work_items`: `provider-english-defaults` (about 36,000 and 18,000 reads a run) and `policy-auto-approve`. `layer3_interpretations`: `adapter-overwrite` in bursts (88 long runs, then quiet). Empty `layer2_course_discovery_candidates`: `course-coverage-build` (22,380 reads a run) and `retention-worker` |
+| Failing jobs | Only `firecrawl-targets` and `firecrawl-panel-figures` (deadlocks, about 60 a day) |
+
+**Decision list (for the Platform Admin; recommendations only):** D1 delete 12 one-off probe and audit edge functions; D2 delete 6 retired Layer 3 edge functions; D3 retire `layer3-provider-control`; D4 retire contacts import (4 edge functions, 9 tables); D5 retire `website-course-api` once the website owner confirms; D6–D8 change the jobs that still read retired tables, then purge `layer3_fact_handoffs`, `layer3_work_items`, `layer3_interpretations` and delete `layer2_course_discovery_candidates`; D9 delete `layer2_scope_wave_items` (37 MB, empty); D10 delete 15 unreferenced tables; D11 retire idle groups with their functions (workflow schema, Layer 2 trials, Layer 3 benchmarks, scholarship leftovers, onboarding cases, search embeddings); D12 unschedule 3 switched-off jobs; D13 retire the m2-3 refresh tick; D14 fix the Firecrawl deadlocks. About 335 MB freed by D6, D7, D9 and D10.
+
+- Drops and deletes, once decided, go to the Platform Admin as paste files (no applied migration drops anything).
