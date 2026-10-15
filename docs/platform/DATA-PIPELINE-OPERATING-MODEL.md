@@ -1,6 +1,6 @@
 # StudySearch – Data pipeline operating model (Layers 1–4) and housekeeping standard
 
-**Version:** 1.0 (15 Oct 2026) · **Change control:** CF-247 · **Decision:** 260
+**Version:** 1.1 (15 Oct 2026) · **Change control:** CF-247 · **Decisions:** 260, 261
 **Owner:** Platform Admin. **Applies to:** every country, every change to the pipeline, every change to code, jobs, screens or database.
 **Asked by:** Platform Admin, 15 Oct 2026: "There will be new countries onboarding ... We need to settle on approach between layer1-layer4 ... stop, move on gates and steps defined ... housekeeping is very important so we are not increasing code liabilities ... always keep the snapshot/documentation what corresponds to what and decommission as we create new approach. Outcome is code/platform and database are always streamlined and secure."
 **Decisions (15 Oct 2026, multiple choice):** next countries United Kingdom, Ireland, Germany, France, Sweden, Finland, Netherlands; the old approach is retired in the same change, its data kept 14 days; gates pass automatically everywhere, including a country's first publish; the record of what corresponds to what is a live register with a generated document.
@@ -27,6 +27,18 @@
 ## 3. Gates
 
 Each gate is a set of settings (Pipeline settings) and a measurement. "Pass" moves on automatically; "Stop" records a flag (`pipeline.enrichment_flags`, reason code) and moves on. The Platform Admin can switch off any provider (Published) or any country gate at any time.
+
+### 3.0 Flags: stop, record, move on, re-join (Decision 261, v2.15.282)
+
+Platform Admin, 15 Oct 2026: "we don't keep burning the toolset on repetitive waste and produce nothing ... have flag unit that can be removed or raised manually and automatically by tried burn ... the said entry or provider get re-entered in queue."
+
+| What is held | Hard reasons (held at once) | Soft reasons (held after 2 tries) | Released and re-queued when |
+|---|---|---|---|
+| Provider | Website does not answer; central pages not due; no credit today; held by a person | Logo not on the home page | A free check (direct read, no Firecrawl, no AI) finds the site answering: after 3, 7, 14, then every 30 days; or its due date comes; or a person releases it |
+| Course field | Held by a person | The stored page gives no value (Enrich fields); a second try is made only on new input | The course page is read again with new content; or a value is found; or a person releases it |
+| Job | Its last 30 runs found nothing to do; held by a person | — | A trial run after 1, 2, 4, then every 6 hours; or a person releases it |
+
+Every flag keeps who or what raised and released it, why, and the evidence (Coverage & completeness › Flags; settings in Pipeline settings › Flags). A person's release is not undone by an automatic job.
 
 ### 3.1 Source gate (Layer 1, once per source)
 
@@ -86,6 +98,10 @@ A country is returned by the website API when all of these hold (settings per co
 | C7 Keep current | Register reload cadence; re-read cadence; scorecard (5) | Ongoing |
 
 **Lessons carried over from Australia, New Zealand and Canada:** values such as English and intakes are usually on central university pages, not course pages; a page found by title search is often the wrong page (read only pages found by code or listed by the provider); one adapter per university, qualified per field; universities' calendars are not every course's intakes; small providers rarely repay page hunting.
+
+### 4.0 How the provider list is built (Decision 261, 15 Oct 2026: "Registers first, search fills gaps")
+
+The official register is the master list: downloaded where it is published as data, otherwise its institution pages are read (Firecrawl map, then crawl of the detail pages with a fixed schema: about 2,000–5,000 credits for 400–1,000 institutions). Firecrawl search limited to the country (`country`, `location`; up to 100 results per query, 2 credits per 10 results) is used only to find providers the register misses, and each one found passes the source gate (3.1) before entry. The Firecrawl agent (`/agent`, which replaces `/extract`; about 150–200 rows a run) is not used for the master list, because its documentation describes results as best-effort and they may be missing rows. Its rows may enrich a record but never create one. Firecrawl's crawl follows robots.txt; reuse of a register's data still needs its licence or permission (3.1).
 
 ### 4.1 The next countries: Layer 1 sources (research 15 Oct 2026; licences to confirm before use)
 
@@ -147,4 +163,5 @@ The usage audit's final report (15 Oct, evening) gives the first retire list. Re
 ## History
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 15 Oct 2026 | 3.0 Flags (Decision 261, v2.15.282); 4.0 how the provider list is built for new countries (registers first, search fills gaps). |
 | 1.0 | 15 Oct 2026 | First issue: principles, layers, gates, country onboarding with the next seven countries' sources, assessment, housekeeping standard and starting point (Decision 260). |
