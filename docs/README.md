@@ -1,7 +1,7 @@
 # CourseFinder Documentation — Current Document Index
 
 **Status:** AUTHORITATIVE CURRENT-DOCUMENT ROUTER  
-**Effective:** 15 September 2026  
+**Effective:** 15 October 2026  
 **Governance:** `PROJECT_INSTRUCTIONS.md`, `docs/01-governance/coursefinder-pim-operating-principles-v1.0.md`, `docs/01-governance/coursefinder-troubleshooting-bugfix-recovery-protocol-v1.0.md`, `docs/01-governance/coursefinder-release-version-control-recovery-v1.0.md`  
 **Change Control:** CF-CHG-20260903-086; CF-234 recovery-protocol batch; CF-CHG-20260910-093 CLOSED/PASS historical; CF-CHG-20260915-245 CLOSED/PASS M2.4.5 predecessor; CF-CHG-20260915-246 CLOSED/PASS M2.4.6 operations contract; CF-CHG-20260915-247 ACTIVE end-to-end automated admission programme
 
@@ -13,8 +13,9 @@ Do not infer the current document from the highest filename version or from chat
 
 | Family | Current document | State |
 |---|---|---|
-| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.13, 14 Oct 2026, v2.15.277; §4b website API v2; §4c institution type) | CURRENT |
-| **Website developer requirements — what the website asked for, what the API returns, open work (read before changing anything the website reads)** | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.4, 14 Oct 2026, v2.15.277, sync action, O1/O5/O7 done, O2–O4 parked); developer document `docs/integrations/coursefinder-wix-api-handover-v2.md` | CURRENT |
+| **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.16, 15 Oct 2026, v2.15.280; §4b website API v2; §4c institution type; §4d waste rules, focus providers, central pages; §4e housekeeping) | CURRENT |
+| **Data pipeline operating model — gates between Layers 1–4, onboarding a country, continuous assessment, housekeeping standard (read before any pipeline or platform change)** | `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` (v1.0, 15 Oct 2026, Decision 260); generated `docs/platform/COMPONENT-REGISTER.md` (what corresponds to what) | CURRENT |
+| **Website developer requirements — what the website asked for, what the API returns, open work (read before changing anything the website reads)** | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.5, 15 Oct 2026); developer pack `docs/integrations/developer-pack/` (guide, OpenAPI, Postman) | CURRENT |
 | **Pending data-enrichment tasks — empty values to be attended (PE-1 to PE-7), with what unblocks each** | `docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` section 10 (v1.4, 14 Oct 2026; PE-4 done); lessons `docs/platform/ENRICHMENT-LESSONS.md` | PENDING — TO BE ATTENDED |
 | UI catalogue — every screen, tab, panel, column, action and setting, read from the code (updated with every UI change) | `docs/platform/UI-CATALOGUE.md` (v1.7, 13 Oct 2026, v2.15.269) | CURRENT |
 | Platform operational limits — every budget and limit with its usage, and every scheduled job with its schedule (Melbourne time) | `docs/platform/OPERATIONAL-LIMITS.md` (v1.0, 13 Oct 2026, figures as at 6:17 pm); Google Doc copy: https://docs.google.com/document/d/1pd6q3BdqIbKygn2Kvalz3aKk64rrm4wq6fL5eVsUgkw/edit | CURRENT |
