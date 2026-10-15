@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.18 (15 Oct 2026; v2.15.281: logo upload fixed, logo finder job; migrations 20261015050000–070000)
+**Version:** 1.19 (15 Oct 2026; v2.15.282: the flag unit; migration 20261015080000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -194,6 +194,13 @@ How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL
 - **Editing:** the logo is clickable in the provider panel, the providers list and the Logos list (Providers › Logos & assets) for roles at or above `logo.upload_min_rank` (Pipeline settings › Logos; Platform Admin). The screens ask `public.admin_provider_logo_capability()`; the upload edge function `provider-asset-upload` asks `public.svc_logo_upload_allowed(user)` (same setting). The editor uploads a file, downloads an image address, or queues the logo finder (`public.admin_provider_logo_find_request`).
 - **Logo finder:** job `logo-find` (every 10 minutes) → coverage-sweep mode `logo_find` (worker v0.25.2, `logo.ts`). Providers with a website and no logo, asked-for first, then by course count; `batch.logo_find` a run. Candidates from the home page: header logo image (named by file or label, not folder), declared logo (schema.org, og:logo), SVG icon, touch icon, mask icon. Type from the bytes; SVG only when a plain drawing; raster longer side at least `logo.min_pixels`; white (reverse) logos never used. Stored at `provider-assets/providers/<id>/logo/auto/<sha256>`; attached (approved, primary, `source_class` website_logo_finder) by `public.svc_logo_find_record` only when the provider still has no logo. Not found: `pipeline.enrichment_flags` reason `logo_not_found`, tried again after `logo.retry_after_days`. Record per provider: `pipeline.provider_logo_finds`.
 
+## 4g. Flags (v2.15.282, 15 Oct 2026, Decision 261)
+
+- **Table:** `pipeline.enrichment_flags` (one row per held provider, course field or job and reason; state raised, counting or released; kind hard or soft; tries, checks, evidence, next check, input mark, who released and why). History: `pipeline.enrichment_flag_events`. Triggers `enrichment_flags_sync` and `enrichment_flags_log` keep state and history in step for every writer; a person's release is not re-raised by an automatic writer.
+- **Functions:** `security.flag_raise_v1`, `security.flag_release_v1` (calls `security.flag_requeue_v1`: logo finder, central pages, job switched on), `security.flag_provider_held_v1`, `security.worker_call_work_v1`, `security.flag_jobs_v1`, `security.flag_recheck_v1` (job `flag-recheck`, every 10 minutes), `public.svc_flag_check_next` / `svc_flag_check_record` (coverage-sweep v0.26.0 mode `flag_check`), `public.admin_flags` (screen).
+- **Queues that respect flags:** Enrich fields (trigger `field_enrich_items_gate`: held items, and items tried once on unchanged input, are not queued; trigger `field_enrich_items_flag`: a skip counts a try, a fill releases); logo finder; central-page finder (held until due instead of being picked again).
+- **Settings (Pipeline settings › Flags):** `flag.soft_tries` 2, `flag.recheck_days` [3, 7, 14, 30], `flag.job_recheck_hours` [1, 2, 4, 6], `flag.empty_calls_to_pause` 30, `flag.never_pause_modes`, `flag.manage_min_rank` 6, `batch.flag_check` 20, `batch.flag_change_scan` 2000.
+
 ## 5. Live function checksums (md5 of pg_get_functiondef without \r), as last deployed
 
 | Function | md5 | Since |
@@ -241,9 +248,23 @@ How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL
 | security.logo_upload_min_rank_v1() | be39894d… | 20261015050000 |
 | public.admin_provider_logo_capability() | 19859676… | 20261015050000 |
 | public.admin_provider_logo_find_request(uuid) | 7aa52ef4… | 20261015050000 |
-| public.svc_logo_find_next(integer) | 0117c645… | 20261015050000 |
-| public.svc_logo_find_record(uuid, text, text, text, text, text, text, integer, integer, text, text, jsonb) | f41cc650… | 20261015050000 |
+| public.svc_logo_find_next(integer) | e12ffbf8… | 20261015080000 (replaces 0117c645 of 20261015050000) |
+| public.svc_logo_find_record(uuid, text, text, text, text, text, text, integer, integer, text, text, jsonb) | 7d65a466… | 20261015080000 (replaces f41cc650 of 20261015050000) |
 | public.svc_logo_upload_allowed(uuid) | 539f0f8f… | 20261015050000 |
+| public.svc_central_find_next(integer) | 3f35e4af… | 20261015080000 (replaces db562771) |
+| public.svc_central_find_record(uuid, jsonb, jsonb) | f5a359b2… | 20261015080000 (replaces b94f89ea) |
+| security.flag_raise_v1(…12 args) | 3b010ca4… | 20261015080000 |
+| security.flag_release_v1(bigint, text, text, text, jsonb, boolean) | 4ea7ab64… | 20261015080000 |
+| security.flag_requeue_v1(bigint) | 09003b3f… | 20261015080000 |
+| security.flag_jobs_v1() | 90379a09… | 20261015080000 |
+| security.flag_recheck_v1() | c772071d… | 20261015080000 |
+| security.field_enrich_items_gate_v1() | 6a12c0ee… | 20261015080000 |
+| security.field_enrich_items_flag_v1() | d2180b8b… | 20261015080000 |
+| security.enrichment_flags_sync_v1() | 9ce926a3… | 20261015080000 |
+| security.enrichment_flags_log_v1() | e1990f45… | 20261015080000 |
+| public.svc_flag_check_next(integer) | 304b71d6… | 20261015080000 |
+| public.svc_flag_check_record(bigint, boolean, integer, text, jsonb) | 85c436ad… | 20261015080000 |
+| public.admin_flags(text, jsonb) | 89a074e6… | 20261015080000 |
 | security.enrich_campus_list_apply_v1(bigint) | 2617420b… | 20261014090000 (replaces adecd776) |
 | security.enrich_fields_slice_v1(uuid, integer) | 03cc5526… | 20261014090000 (replaces aa68e9a8) |
 | security.admin_providers_page(…10 args) | bb66c64c… | 20261014060746 (replaces 4d07ec59) |
@@ -296,6 +317,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.19 | 15 Oct 2026 | Section 4g: the flag unit; checksums. |
 | 1.18 | 15 Oct 2026 | Section 4f: provider logo editing and the logo finder; checksums. |
 | 1.17 | 15 Oct 2026 | Bug fix: intake guard, Canadian provinces from the provider (projection and course detail); checksums. |
 | 1.16 | 15 Oct 2026 | Section 4e: component register, daily register workflow, weekly hygiene check, housekeeping build rule (Decision 260); checksums. |
