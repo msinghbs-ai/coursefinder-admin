@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.20 (15 Oct 2026; reference city metro areas; migration 20261015090000)
+**Version:** 1.21 (15 Oct 2026; sync serves stored items, pages up to 200; migrations 20261015100000–110000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -237,8 +237,8 @@ How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL
 | api.website_v2_provider_logo(uuid) | ed09e7d2… | 20261014110000 (replaces 37fe1dcd) |
 | api.website_v2_ranking_summary(uuid) | 889a4c7f… | 20261014110000 (replaces 5e5b2d19) |
 | public.website_v2_provider_rankings(uuid) | 173e3a9f… | 20261014110000 (replaces 4b50d415) |
-| public.website_v2_sync(text, boolean, text[], integer) | 42b7597b… | 20261015000400 (replaces 70890025 of 20261015000300, 92414ce7) |
-| security.website_sync_check_v1(integer) | 2a8d3e59… | 20261014110000 |
+| public.website_v2_sync(text, boolean, text[], integer) | a30f1b45… | 20261015100000 (replaces 42b7597b of 20261015000400) |
+| security.website_sync_check_v1(integer) | 5c4ed59d… | 20261015100000 (replaces 2a8d3e59 of 20261014110000) |
 | security.website_sync_item_v1(text, uuid, text) | cd15a2cb… | 20261014110000 |
 | security.website_terms_status_v1(text) | 9e92654c… | 20261014110000 |
 | search.refresh_course_base_v3(boolean) | d9b021b2… | 20261015040000 (replaces a3737e58 of 20261014090000) |
@@ -320,6 +320,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.21 | 15 Oct 2026 | Sync serves the items the change check stored (`website_sync_items.item`); pages up to 200, unit 3 KB (settings); checksums. |
 | 1.20 | 15 Oct 2026 | Reference: most common metro area per city; campus state from the postcode when the address names it; checksums. |
 | 1.19 | 15 Oct 2026 | Section 4g: the flag unit; checksums. |
 | 1.18 | 15 Oct 2026 | Section 4f: provider logo editing and the logo finder; checksums. |

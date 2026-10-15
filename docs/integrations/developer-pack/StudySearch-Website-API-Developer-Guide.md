@@ -59,7 +59,7 @@ Authorization: Bearer <your key>
 }
 ```
 
-- `page` starts at 1. `page_size` is 1–50 (default 20).
+- `page` starts at 1. For the list actions `page_size` is 1–50 (default 20); `sync` pages are covered in section 6.
 - Every response carries `contract_version: "website-search-v2"` and a `request_id`. Quote the `request_id` when you report a problem.
 - List actions return `{ total, page, page_size, items, filters_not_applied }`. A filter key the API does not recognise is listed in `filters_not_applied`; it is never silently ignored.
 - Detail actions return `{ item }`.
@@ -111,7 +111,7 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
   "contract": "website-search-v2",
   "action": "sync",
   "cursor": "<next_cursor from your last reply; leave out for a full load>",
-  "page_size": 50
+  "page_size": 200
 }
 ```
 
@@ -128,7 +128,7 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 | `cursor` | The `next_cursor` from your last reply. Leave it out (or `null`) for a full load |
 | `full_load` | `true` starts a full load again |
 | `entities` | Optional, on a full load only: any of `reference`, `provider`, `logo`, `rankings`, `scholarship`, `course` (all six by default). A cursor keeps the entities it started with |
-| `page_size` | 1–50 (default 50) |
+| `page_size` | 1–200 (default 200). A page also stops at about 550 KB, so large items (provider details, scholarships) come fewer to a page |
 
 **Reply fields**
 
@@ -155,11 +155,32 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 
 **Good to know**
 
-- A page may hold fewer than `page_size` items when they are large (a page of provider details holds 3). Keep going while `has_more` is true.
-- A full load is about 40,600 items (15 October 2026): about 1,400 calls, roughly 25 minutes within the limit of 60 calls a minute.
+- A page may hold fewer than `page_size` items when they are large. Keep going while `has_more` is true.
 - The platform checks every item for changes every minute in a rolling pass; a full pass takes about 90 minutes. A change appears in a later delta.
 - A removal comes as `change: "remove"`: for example a provider switched off (with its courses, logo and rankings) or a scholarship no longer published.
 - **Logos:** each logo link is valid for 365 days (`url_expires_at`). Copy the file into Wix Media and serve your copy; never link to the signed URL from a visitor page. The platform sends a logo again with a new link 30 days before the old one ends, and whenever the file changes (`content_hash`).
+
+## 6.1 Full load: what to expect
+
+Measured on Pilot on 15 October 2026.
+
+| Measure | Full load |
+|---|---|
+| Items | About 40,600 (courses 37,300; providers 1,885; scholarships 1,100; logos 275; ranking sets 56; reference 1) |
+| Calls | About 250 at the default page size |
+| Data | About 100 MB of JSON in total; the largest page about 550 KB |
+| Reply time | Under a second a page |
+| Elapsed time | About 5 minutes, paced at the limit of 60 calls a minute |
+| After the full load | A delta is usually one call; the platform checks every item for changes within about 90 minutes, and a change appears in the next delta after that |
+
+## 6.2 What we expect from your sync job
+
+1. **Run it as a scheduled backend job that can resume.** Save `next_cursor` after each page is written. If the job stops (for example at a Wix time limit), the next run carries on from the saved cursor.
+2. **One cursor at a time.** Each call needs the previous reply's cursor; do not start a second full load while one is running.
+3. **Stay within 60 calls a minute.** On 429, wait for `Retry-After` and send the same cursor again.
+4. **Write each page in one bulk save,** upserting by `id`; delete by `id` on `remove`.
+5. **After the full load, run a delta every 5 to 15 minutes.** Run a full load again only to rebuild your collections.
+6. **Copy each new or renewed logo into Wix Media** in the run that receives it.
 
 # 7. Actions and data
 
@@ -406,3 +427,4 @@ Changes within `website-search-v2` are additive. A change to the API (a new fiel
 | Date | Change |
 |---|---|
 | 15 October 2026 | First issue, with the OpenAPI file and Postman collection. Changes from the Version 2 handover of 14 October 2026: a developer key; `reference` rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |
+| 15 October 2026 (issue 2) | `sync` pages hold up to 200 items (was 50; default 200), and a page also stops at about 550 KB. A full load is about 250 calls, about 5 minutes (was about 1,400 calls, about 25 minutes). Sections 6.1 and 6.2 added: what to expect from a full load, and what we expect from your sync job |

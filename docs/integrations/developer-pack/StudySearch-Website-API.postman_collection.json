@@ -343,7 +343,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"sync\",\n  \"page_size\": 50\n}",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"sync\",\n  \"page_size\": 200\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -378,7 +378,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 50\n}",
+          "raw": "{\n  \"contract\": \"website-search-v2\",\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 200\n}",
           "options": {
             "raw": {
               "language": "json"

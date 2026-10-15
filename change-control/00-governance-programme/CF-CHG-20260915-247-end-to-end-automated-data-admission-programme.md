@@ -6468,3 +6468,18 @@ The brief now forbids direct table changes.
 | Developer guide | Section 13 holds the first-issue line only (changes from the 14 Oct handover: developer key, `reference` every 15 minutes, `sync` page sizes); the two data-fix lines of 15 Oct removed; section 8 coverage re-measured on 15 Oct (English AU 15,901, NZ 1,927, CA 1,688; tuition AU 25,922; duration NZ 3,073, CA 1,469; delivery AU 26,087, NZ 3,870; logos 265); examples and acceptance counts stated as measures on the date; Word and PDF rebuilt (11 pages); OpenAPI and Postman unchanged | No platform fixes, repository names or internal tools in the developer documents |
 | Rule | Register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.8 and Pilot CLAUDE.md: section 13 lists API changes only (new field, filter, action or behaviour) against the previous issue; measured figures refreshed with each issue | Pilot PR merged |
 | Email | Replaces the 17:02 draft: the pack and how to use it, no platform fixes | — |
+
+### 15 Oct 2026 (Thu, Melbourne) – Faster Wix full load (prepared items, bigger pages); developer guide issue 2 with expectations
+
+**Asked by:** Platform Admin, 15 Oct 2026 17:44: "With api limit how many api calls wix developers have to make to fetch all data and seed it in wix"; 17:46: "How can we burst it for wix" (decision, multiple choice: "Prepared items + bigger pages"); 18:37: "Incorporate expectations in the handover document and email reply."
+
+**Found:** a full load was 1,426 `sync` calls, about 25 minutes. Each call needs the previous cursor, and every item was built again on each call (about 15 ms a course, 150 ms a provider) although the change check had already built it, so raising the rate limit alone would not have helped.
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015100000 | `pipeline.website_sync_items.item`: the change check keeps the item it built (its hash is of that copy); `sync` serves it, fills pages by size, pages up to 200 (setting `website.sync_page_max` 50 → 200; new `website.sync_item_unit_bytes`) | Dry run: a 200-item page 54 ms (was about 3 s); stored copy identical to a fresh build. Applied; checksums `public.website_v2_sync` a30f1b45 (replaces 42b7597b), `security.website_sync_check_v1` 5c4ed59d (replaces 2a8d3e59). S47; full suite 672 passed. PR #536 |
+| Migration 20261015110000 | Page unit 3 KB (measured course item about 2.1 KB) | Simulated over all 40,617 items: 2 KB 412 calls (pages ≤ 380 KB), 3 KB 252 calls (≤ 540 KB), 4 KB 235 calls (≤ 723 KB). Applied |
+| Developer guide issue 2 | `page_size` for `sync` 1–200 (default 200); 6.1 Full load: what to expect (about 40,600 items, about 250 calls, about 100 MB, about 5 minutes at 60 calls a minute); 6.2 What we expect from your sync job (resumable job saving the cursor, one cursor at a time, 60 a minute and `Retry-After`, bulk upsert, delta every 5–15 minutes, logos to Wix Media); section 13 line for the API change; OpenAPI (`page_size` up to 200) and Postman (sync examples 200) regenerated; Word and PDF rebuilt (12 pages) | Developer documents carry API use and changes only; register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.9 |
+
+- Storage: about 100 MB more in `pipeline.website_sync_items` once every item is stored (about 90 minutes after the change, through the rolling check); until then an item not yet stored is built on the fly as before.
+- Next: confirm the stored count and a real full load once storage completes (scheduled follow-up).

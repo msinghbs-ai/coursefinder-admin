@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.8 (15 Oct 2026; developer documents carry API changes only)
+**Version:** 1.9 (15 Oct 2026; faster full load: sync pages up to 200; guide issue 2 with expectations)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -69,6 +69,7 @@ Removal is a separate change: a paste file for the Platform Admin, never an appl
 
 | Version | Date | Change |
 |---|---|---|
+| 1.9 | 15 Oct 2026 | Faster Wix full load (Platform Admin 17:46, "Prepared items + bigger pages"): `sync` serves items stored by the change check; pages up to 200 items and about 550 KB; full load about 250 calls, about 5 minutes (was 1,426 calls, about 25 minutes). Guide issue 2: 6.1 what to expect, 6.2 what we expect from the sync job (Platform Admin 18:37); OpenAPI and Postman regenerated. |
 | 1.8 | 15 Oct 2026 | Platform Admin 17:24: "Wix consumer developer Dont need to know fixes on the platform ... only detials about api changes from last version." Rule: the developer guide's section 13 lists API changes only (new field, filter, action or behaviour) against the previous issue; platform fixes and data corrections are not described to the developer; measured figures (section 8, examples, acceptance counts) are refreshed with each issue. Guide reissued: section 13 holds the first-issue line only; section 8 re-measured (15 Oct 2026). |
 | 1.7 | 15 Oct 2026 | Developer pack refreshed and reissued (Platform Admin 17:02). Found while re-measuring: `reference` listed Sydney under Brisbane; each city now takes the metro area most of its campuses have, and two campuses with a wrong register state take the state their address names (migration 20261015090000). Acceptance counts refreshed (course example 78; providers with a logo 265 and rising). Contract unchanged. |
 | 1.6 | 15 Oct 2026 | Bug fix (Platform Admin 12:31): Canadian courses with no campus take the provider's province in `subdivision_codes` (setting `search.region_from_provider_countries`, CA); intake months no longer repeated (guard on the table). Developer guide reissued with a change line. |
