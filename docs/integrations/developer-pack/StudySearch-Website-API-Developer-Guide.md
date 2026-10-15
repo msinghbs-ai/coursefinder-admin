@@ -204,7 +204,7 @@ Per country (AU, NZ, CA): study levels, study areas, subdivisions (states, provi
 }
 ```
 
-This returned 78 courses on the evening of 15 October 2026; the count grows as English and intake data are added. All filters are optional and combine with AND.
+This returned 78 courses on 15 October 2026. All filters are optional and combine with AND.
 
 | Filter | Type | Notes |
 |---|---|---|
@@ -332,23 +332,23 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 
 # 8. What is held now
 
-Courses or records the API returns holding a value (14 October 2026; coverage grows daily).
+Courses or records the API returns holding a value (15 October 2026; coverage grows daily).
 
 | Course field | Australia (26,103) | New Zealand (6,474) | Canada (4,723) |
 |---|---|---|---|
 | Official course page | 18,385 | 3,000 | 2,678 |
-| English requirements | 13,895 | 1,810 | 1,593 |
+| English requirements | 15,901 | 1,927 | 1,688 |
 | Intake months | 9,269 | 1,967 | 848 |
-| Any tuition | 25,716 | 966 | 326 |
+| Any tuition | 25,922 | 966 | 326 |
 | Study area | 26,103 | 6,053 | 4,601 |
 | Study level | 26,103 | 6,233 | 2,671 |
-| Duration (months) | 26,103 | 2,929 | 1,319 |
-| Delivery mode | 26,078 | 3,868 | 3,204 |
+| Duration (months) | 26,103 | 3,073 | 1,469 |
+| Delivery mode | 26,087 | 3,870 | 3,204 |
 | At least one campus | 26,069 | 2,603 | 2,332 |
 | At least one linked scholarship | 9,397 | 1,060 | 846 |
 | Providers with courses | 1,546 | 287 | 52 |
 
-Scholarships returned: 1,100 (Australia 901, New Zealand 141, Canada 58); 1,096 open to international students. Providers with an approved logo: 49. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
+Scholarships returned: 1,100 (Australia 901, New Zealand 141, Canada 58); 1,096 open to international students. Providers with an approved logo: 265. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
 
 # 9. Your Wix collections (suggested)
 
@@ -375,14 +375,14 @@ Send: the action and request body (no key), the `request_id`, the HTTP status, t
 
 # 12. Acceptance tests
 
-Counts are as measured on Pilot on the evening of 15 October 2026 and grow as data is added.
+Counts are as measured on Pilot on 15 October 2026; expect the same or more.
 
 | # | Test | Expected |
 |---|---|---|
 | 1 | Key | `reference` with your key returns 200 with `contract_version: "website-search-v2"` |
 | 2 | Wrong key | An invalid key returns 401 and no data |
 | 3 | Reference | Vocabularies for AU, NZ and CA; eight institution types |
-| 4 | Course search | The example in 7.2 returns 78 courses or more; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
+| 4 | Course search | The example in 7.2 returns 78 courses; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
 | 5 | Keyword | `keyword` nursing with `cities` Melbourne returns 109 courses, nursing titles first, the same total on every page |
 | 6 | Canada | `country_codes` CA returns 4,723 courses, each with a `display_code` |
 | 7 | Display code | `course` with `course_code` UNBC-BA-019 returns that course; `display_code_kind` is `studysearch` |
@@ -392,7 +392,7 @@ Counts are as measured on Pilot on the evening of 15 October 2026 and grow as da
 | 11 | Institution type | `providers` with `country_codes` AU and `institution_types` university returns 45 providers |
 | 12 | Scholarships | `scholarships` with `student_types` international returns 1,096 records |
 | 13 | Rankings | `rankings` with QS, edition 2027, AU returns 38 entries, each with `attribution` and `terms_status: "approved"` |
-| 14 | Logos | `providers` with `has_logo` true returns 265 providers or more (more each day as logos are found); each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
+| 14 | Logos | `providers` with `has_logo` true returns 265 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
 | 15 | Sync full load | `sync` with no cursor: `mode` full and `has_more` true; following `next_cursor` to the end gives `full_load_complete: true` |
 | 16 | Sync changes | The last `next_cursor` sent again returns only what changed since (often nothing); sending it twice gives the same items |
 | 17 | Errors | An unknown action returns 400 `INVALID_ACTION`; a 429 is handled by waiting for `Retry-After` |
@@ -401,10 +401,8 @@ Counts are as measured on Pilot on the evening of 15 October 2026 and grow as da
 
 # 13. Changes to this guide
 
-Changes within `website-search-v2` are additive. Each one reissues this guide with a new date and a line here.
+Changes within `website-search-v2` are additive. A change to the API (a new field, filter, action or behaviour) reissues this guide with a new date and a line here. Data grows between issues; the counts in this guide are measures on the date shown.
 
 | Date | Change |
 |---|---|
-| 15 October 2026 | First issue of the developer guide, with the OpenAPI file and Postman collection. It replaces the Version 2 handover of 14 October 2026; the contract is unchanged. Developer key added; `reference` now rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |
-| 15 October 2026 (afternoon) | A Canadian course with no campus now lists its provider's province in `subdivision_codes` (all 4,723 Canadian courses have one; 2,332 before). Intake months are no longer repeated in `intakes[]` (a month was listed twice for 410 courses) |
-| 15 October 2026 (evening) | Each city in `reference` is now listed under the metro area most of its campuses have (Sydney was listed under Brisbane), and two campuses registered under the wrong state now carry the state their address names. More providers have a logo (49 that morning, 265 now, rising daily as logos are found on providers' own websites): copy each new logo into Wix Media as before. Acceptance test counts refreshed. No field added, renamed or removed |
+| 15 October 2026 | First issue, with the OpenAPI file and Postman collection. Changes from the Version 2 handover of 14 October 2026: a developer key; `reference` rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |

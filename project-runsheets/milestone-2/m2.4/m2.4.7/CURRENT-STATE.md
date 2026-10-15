@@ -6435,3 +6435,13 @@ The brief now forbids direct table changes.
 
 - Known limit, unchanged: a city name used in two states (Kensington NSW and SA) is one entry in `reference`; it takes the metro area most of its campuses have (Sydney).
 - Next: unchanged.
+
+### 15 Oct 2026 (Thu, Melbourne) – Developer documents carry API changes only; guide reissued
+
+**Asked by:** Platform Admin, 15 Oct 2026 17:24: "Wix consumer developer Dont need to know fixes on the platform. We should keep it simple for them and only demonstrate api to fullfill theor request. Platform data measure is good to include but other than the day of api release, we should keep only detials about api changes from last version."
+
+| Change | What | Checked |
+|---|---|---|
+| Developer guide | Section 13 holds the first-issue line only (changes from the 14 Oct handover: developer key, `reference` every 15 minutes, `sync` page sizes); the two data-fix lines of 15 Oct removed; section 8 coverage re-measured on 15 Oct (English AU 15,901, NZ 1,927, CA 1,688; tuition AU 25,922; duration NZ 3,073, CA 1,469; delivery AU 26,087, NZ 3,870; logos 265); examples and acceptance counts stated as measures on the date; Word and PDF rebuilt (11 pages); OpenAPI and Postman unchanged | No platform fixes, repository names or internal tools in the developer documents |
+| Rule | Register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.8 and Pilot CLAUDE.md: section 13 lists API changes only (new field, filter, action or behaviour) against the previous issue; measured figures refreshed with each issue | Pilot PR merged |
+| Email | Replaces the 17:02 draft: the pack and how to use it, no platform fixes | — |
