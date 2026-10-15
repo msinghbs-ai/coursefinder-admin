@@ -6372,3 +6372,19 @@ The brief now forbids direct table changes.
 - Starting point (15 Oct): 81 edge functions in the repository (about 10 called a day), 101 jobs, 491 tables (94 empty), 180 indexes never scanned (13 MB), 306 MB of retired Layer 3 data still read by 8 jobs, 37–39 tables without row-level security, 1,397 database functions, 875 admin documents (81 versions of the master project plan).
 - Left as is by rule: "a passing qualification never switches anything on by itself" still holds for AI tasks; Decision 260's automatic gates apply to data moving between steps and to a country's first publish.
 - Next: usage audit day 4 (tonight) gives the first retire list, handled by the 6.2 rules; enable row-level security on the 39 tables; give the 420 tables a purpose (comments) as features are touched; move superseded admin document versions to `docs/archive/`; confirm the European register licences (HRK partnership for Germany) before building Layer 1 readers; additive EU/non-EU fee audience in the website API before the European countries publish.
+
+### 15 Oct 2026 (Thu, Melbourne) – Bug fix: duplicate intakes; Canadian provinces not listed
+
+**Asked by:** Platform Admin, 15 Oct 2026 12:31 (screenshot: Athabasca University, Bachelor of Arts Women's and Gender Studies): "Bug/Fix: intake are duplicated and state is not listed for CA courses."
+
+**Found:** 410 courses (Australia 60, New Zealand 182, Canada 168) held the same intake month twice. Four writers key a course's intakes differently (CRICOS code, course id, or the source code), so the same month from the same page was stored as two rows. Canada: 2,391 courses have no campus, so the search projection (website state filter and API) held no province, and the course detail header never showed one. Every one of their providers has its province (the 14 Oct decision "keep CA" accepts it). The admin course list already fell back to the provider's province.
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015040000 | Guard trigger on `catalogue.course_intakes`: one active row per course, month, year, campus and start date, whichever writer sends it; 3,289 repeated rows withdrawn (status, kept); setting `search.region_from_provider_countries` (["CA"], Website API); `search.refresh_course_base_v3` and `security.admin_read_impl` replaced (md5-guarded); `search.refresh_course_documents_v2` marked retiring | Dry run then applied; duplicates 0; Athabasca 12 months (was 24 rows); Canadian courses with a province 4,723 of 4,723 (was 2,332); Australia 26,068 and New Zealand 1,111 unchanged; md5 d9b021b2 and 2c2da9ac as intended; trigger present; guard refused a test duplicate; projection refresh processed (2,391 rows changed) |
+| Build rule S43 | Guard, withdrawal, post-check, province fallback, course detail, nothing dropped | Full suite 660 passed. PR #530 merged |
+| Website API developer guide | `subdivision_codes`: Canadian courses with no campus take the provider's province; section 13 change line; Word and PDF rebuilt | Additive only: no field renamed or removed. Register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.6 |
+| System reference 1.17 | Checksums and the region and intake rules | — |
+
+- Paste file for the Platform Admin (drops a constraint, so not applied by migration): widen the `pipeline.component_register` kind check to include `function`, then record `search.refresh_course_documents_v2(boolean)` as retiring (retire after 29 Oct 2026).
+- Next: unchanged from the previous entry.

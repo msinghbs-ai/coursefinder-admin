@@ -242,7 +242,7 @@ This returned 35 courses on 15 October 2026. All filters are optional and combin
 | `entry_requirements { summary, basis }`, `english_requirements[] { test_code, test_name, min_overall_score, min_band_score, source }` | English only. Academic entry is not held and never implied |
 | `official_url` | The provider's own course page |
 | `scholarship_count` | Linked published scholarships |
-| `subdivision_codes[]`, `publication_status`, `freshness` | |
+| `subdivision_codes[]`, `publication_status`, `freshness` | `subdivision_codes` are the course's states or provinces from its campuses; a Canadian course with no campus (often online) takes its provider's province. The `subdivision_codes` filter uses the same values |
 
 ## 7.3 course (detail)
 
@@ -406,3 +406,4 @@ Changes within `website-search-v2` are additive. Each one reissues this guide wi
 | Date | Change |
 |---|---|
 | 15 October 2026 | First issue of the developer guide, with the OpenAPI file and Postman collection. It replaces the Version 2 handover of 14 October 2026; the contract is unchanged. Developer key added; `reference` now rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |
+| 15 October 2026 (afternoon) | A Canadian course with no campus now lists its provider's province in `subdivision_codes` (all 4,723 Canadian courses have one; 2,332 before). Intake months are no longer repeated in `intakes[]` (a month was listed twice for 410 courses) |
