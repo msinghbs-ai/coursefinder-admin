@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.5 (15 Oct 2026; developer pack issued: guide, OpenAPI, Postman, developer key; v2 is the one path for the website, v1 marked for retirement)
+**Version:** 1.6 (15 Oct 2026; Canadian provinces for courses with no campus; repeated intake months removed)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -69,6 +69,7 @@ Removal is a separate change: a paste file for the Platform Admin, never an appl
 
 | Version | Date | Change |
 |---|---|---|
+| 1.6 | 15 Oct 2026 | Bug fix (Platform Admin 12:31): Canadian courses with no campus take the provider's province in `subdivision_codes` (setting `search.region_from_provider_countries`, CA); intake months no longer repeated (guard on the table). Developer guide reissued with a change line. |
 | 1.5 | 15 Oct 2026 | Developer pack (R17): guide, OpenAPI, Postman, developer key; rule 5 now reissues the pack; v1 and `website-course-api` marked for retirement; O6 note, O8 added. |
 | 1.4 | 14 Oct 2026 | v2.15.277: R15 logo links 365 days, R16 sync action with cursor, R6 rankings and logos approved for display; O5 closed (PE-4). |
 | 1.3 | 14 Oct 2026 | O2–O5 parked as pending data-enrichment tasks PE-1 to PE-4 (`docs/platform/FIELD-GAPS-AND-ENRICHMENT-PLAN.md` section 10); values stay empty until attended. |
