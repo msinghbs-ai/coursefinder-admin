@@ -6420,3 +6420,18 @@ The brief now forbids direct table changes.
 | Records | Operating model 1.1 (§3.0 Flags, §4.0 provider lists); design reference Decision 261; System reference 1.19 (§4g); router updated | Full suite 670 passed; release:verify PASS; build OK. PR #533 merged |
 
 - Next: watch the first trial runs and Enrich fields results; wire the flag check into more queues (provider phone and email, provider facts, scholarship discovery) as they are touched; Canadian and New Zealand gaps need new sources (adapters, central pages, registers), not repeat reads.
+
+### 15 Oct 2026 (Thu, Melbourne) – Website API developer pack refreshed and reissued; reference city metro areas corrected
+
+**Asked by:** Platform Admin, 15 Oct 2026 17:02: "refresh and repost deliverables for Developer for Website v2 API with email".
+
+**Found while re-measuring the acceptance tests against the live API:** the `reference` reply listed the city Sydney (2,484 courses) under the metro area Brisbane. A city took the alphabetically first metro area of its campuses, and one campus registered with the wrong state (Berkeley Business Institute, "SYDNEY NSW 2000", registered as Queensland) decided it. Five campuses have a register state that disagrees with their postcode; in two the campus address names the postcode's state (that one, and International Institute of Australia, "Springvale VIC 3171", registered as NSW); in the other three the postcode is wrong and the state right.
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015090000 | Reference: each city's metro area is the one most of its campuses have; campus classification: the postcode's state when the register state disagrees and the address names it; `security.au_state_from_postcode_v1`; reference cache and projection refreshed | Dry run, then applied; Sydney → Sydney, Springvale → Melbourne, no capital city under another metro; checksums `api.website_v2_reference_build` e33efde1 (replaces a3d1dfa9), `security.campus_regional_class_refresh_v1` 87893742 (replaces c0055549), `security.au_state_from_postcode_v1` fd162268. S46. PR #534 merged |
+| Acceptance figures re-measured (live functions) | Course example 78 (35 that morning; English and intake data admitted during the day, all 78 meet the filters); keyword nursing Melbourne 109; Canada 4,723; Go8 8; provider detail 48 QILT rows; AU universities 45; international scholarships 1,096; QS 2027 AU 38; providers with a logo 265 (49 that morning) | Unchanged tests confirmed |
+| Developer pack | Guide: full load about 40,600 items; tests 4 and 14 updated; change line "15 October 2026 (evening)"; Word and PDF rebuilt (12 pages); OpenAPI and Postman regenerated, byte-identical (contract unchanged) | No repository names, hashes or internal tools in the developer documents; register WEBSITE-DEVELOPER-REQUIREMENTS.md v1.7 |
+
+- Known limit, unchanged: a city name used in two states (Kensington NSW and SA) is one entry in `reference`; it takes the metro area most of its campuses have (Sydney).
+- Next: unchanged.

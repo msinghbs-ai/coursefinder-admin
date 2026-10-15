@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.6 (15 Oct 2026; Canadian provinces for courses with no campus; repeated intake months removed)
+**Version:** 1.7 (15 Oct 2026; reference city metro areas corrected; developer pack refreshed and reissued)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -69,6 +69,7 @@ Removal is a separate change: a paste file for the Platform Admin, never an appl
 
 | Version | Date | Change |
 |---|---|---|
+| 1.7 | 15 Oct 2026 | Developer pack refreshed and reissued (Platform Admin 17:02). Found while re-measuring: `reference` listed Sydney under Brisbane; each city now takes the metro area most of its campuses have, and two campuses with a wrong register state take the state their address names (migration 20261015090000). Acceptance counts refreshed (course example 78; providers with a logo 265 and rising). Contract unchanged. |
 | 1.6 | 15 Oct 2026 | Bug fix (Platform Admin 12:31): Canadian courses with no campus take the provider's province in `subdivision_codes` (setting `search.region_from_provider_countries`, CA); intake months no longer repeated (guard on the table). Developer guide reissued with a change line. |
 | 1.5 | 15 Oct 2026 | Developer pack (R17): guide, OpenAPI, Postman, developer key; rule 5 now reissues the pack; v1 and `website-course-api` marked for retirement; O6 note, O8 added. |
 | 1.4 | 14 Oct 2026 | v2.15.277: R15 logo links 365 days, R16 sync action with cursor, R6 rankings and logos approved for display; O5 closed (PE-4). |

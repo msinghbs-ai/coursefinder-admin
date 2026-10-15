@@ -1,6 +1,6 @@
 # StudySearch – System reference (how it works now)
 
-**Version:** 1.19 (15 Oct 2026; v2.15.282: the flag unit; migration 20261015080000)
+**Version:** 1.20 (15 Oct 2026; reference city metro areas; migration 20261015090000)
 **Change control:** CF-247
 **Rule (Platform Admin, 12 Oct 2026 20:38):** questions about how the platform works are answered from this repository, starting with this page. Every change that alters a mechanism, setting, schedule, stage, stop reason or function updates this page in the same change-control entry and raises its version. The live database is read only for live numbers (counts, balances, progress), which this page does not hold, and to verify a deploy.
 
@@ -265,6 +265,9 @@ How the platform stays streamlined: `docs/platform/DATA-PIPELINE-OPERATING-MODEL
 | public.svc_flag_check_next(integer) | 304b71d6… | 20261015080000 |
 | public.svc_flag_check_record(bigint, boolean, integer, text, jsonb) | 85c436ad… | 20261015080000 |
 | public.admin_flags(text, jsonb) | 89a074e6… | 20261015080000 |
+| api.website_v2_reference_build() | e33efde1… | 20261015090000 (replaces a3d1dfa9) |
+| security.campus_regional_class_refresh_v1() | 87893742… | 20261015090000 (replaces c0055549) |
+| security.au_state_from_postcode_v1(text) | fd162268… | 20261015090000 |
 | security.enrich_campus_list_apply_v1(bigint) | 2617420b… | 20261014090000 (replaces adecd776) |
 | security.enrich_fields_slice_v1(uuid, integer) | 03cc5526… | 20261014090000 (replaces aa68e9a8) |
 | security.admin_providers_page(…10 args) | bb66c64c… | 20261014060746 (replaces 4d07ec59) |
@@ -317,6 +320,7 @@ Migration generated with guard blocks (live md5 must equal the definition replac
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue (v2.15.260): onboarding journey, stop reasons, admit rule, settings, pilot, course-page find and read, AI limits, jobs, function checksums, change method. |
 | 1.1 | 12 Oct 2026 | v2.15.261: found pages read directly first, Firecrawl only as fallback, basic proxy; second reader paused. |
+| 1.20 | 15 Oct 2026 | Reference: most common metro area per city; campus state from the postcode when the address names it; checksums. |
 | 1.19 | 15 Oct 2026 | Section 4g: the flag unit; checksums. |
 | 1.18 | 15 Oct 2026 | Section 4f: provider logo editing and the logo finder; checksums. |
 | 1.17 | 15 Oct 2026 | Bug fix: intake guard, Canadian provinces from the provider (projection and course detail); checksums. |
