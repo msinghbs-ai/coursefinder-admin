@@ -6429,3 +6429,18 @@ The brief now forbids direct table changes.
 **Decision list (for the Platform Admin; recommendations only):** D1 delete 12 one-off probe and audit edge functions; D2 delete 6 retired Layer 3 edge functions; D3 retire `layer3-provider-control`; D4 retire contacts import (4 edge functions, 9 tables); D5 retire `website-course-api` once the website owner confirms; D6–D8 change the jobs that still read retired tables, then purge `layer3_fact_handoffs`, `layer3_work_items`, `layer3_interpretations` and delete `layer2_course_discovery_candidates`; D9 delete `layer2_scope_wave_items` (37 MB, empty); D10 delete 15 unreferenced tables; D11 retire idle groups with their functions (workflow schema, Layer 2 trials, Layer 3 benchmarks, scholarship leftovers, onboarding cases, search embeddings); D12 unschedule 3 switched-off jobs; D13 retire the m2-3 refresh tick; D14 fix the Firecrawl deadlocks. About 335 MB freed by D6, D7, D9 and D10.
 
 - Drops and deletes, once decided, go to the Platform Admin as paste files (no applied migration drops anything).
+
+### 15 Oct 2026 (Thu, Melbourne) – Usage audit D6, D7, D9 and D10: live jobs moved off retired tables, rows exported, purge paste file
+
+**Asked by:** Platform Admin, 15 Oct 2026 22:12: "Proceed with D6, D7, D9 and D10."
+
+**Found while tracing the readers (scope changed):** not every Layer 3 row is dead. 1,119 tuition work items are still worked by the fee-rule jobs, the course field states screen shows a fee's Layer 3 source, and about 15,000 interpretations are linked to Layer 4 review history: these are kept. Adapter overwrite uses validated Layer 3 readings as corroboration: the rule is kept on a copy. `scholarship_coverage_benchmarks` is read by the scholarship operations screen through a view, so it was taken off D10 (14 tables).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261015120000 | Copies `pipeline.layer3_validated_readings` (15,852) and `pipeline.layer3_call_costs_hourly` (150 hours). English plan no longer waits for retired Layer 3 (54 courses). Adapter overwrite, admit input mark and platform resources read the copies. Reads of the empty `layer2_scope_wave_items` replaced by an empty set. 7 retention and resource settings (G2). 15 tables marked retiring | Dry run: plans change only for 2 of the 54 courses ("waiting" to "write"); Layer 2 screens and month-to-date AI spend (US$43.41) unchanged. Applied; 10 function checksums and history md5 match. S48; full suite 675 passed. PR #538 |
+| Migration 20261015130000 | Index `layer4_review_items(layer3_interpretation_id)`: the purge dry run timed out without it | Applied; history md5 matches. PR #540 |
+| Workflow "Database archive export" (`scripts/archive_export.py`) | Exports row sets to the private Storage bucket `archive`, downloads each file again and checks sha256, lines and key hash; can show an earlier manifest. PR #539 | Run 38729659914: 18 sets (53,805 fact handoffs, 47,454 work items, 64,395 interpretations, 15 tables' rows), about 44 MB, all checked; counts and key hashes compared again with the live database: all match |
+| Paste file `PASTE-20261015-usage-audit-d6-d7-d9-d10.sql` (admin repo `docs/platform/usage-audit/`) | One transaction: checks the export and every set, checks nothing names the 15 tables, drops them, purges the Layer 3 rows, marks the tables retired, records the purge. Then three `vacuum full` lines, one at a time | Dry run on the live database (rolled back): rows and tables removed as expected, tuition items unchanged, about 30 seconds. Sent to the Platform Admin; not yet run |
+
+- Expected after the paste and vacuum: about 270 MB returned; 14,216 work items and 19,126 interpretations kept.

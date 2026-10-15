@@ -1,6 +1,6 @@
 # StudySearch – Usage audit: what is not being used (screens, scripts, jobs, data)
 
-**Status:** COMPLETE (15 Oct 2026). Captured 12, 13, 14 and 15 Oct. The final report and the decision list are at the end of this page. Nothing has been changed or removed: each item waits for the Platform Admin's decision.
+**Status:** COMPLETE (15 Oct 2026). Captured 12, 13, 14 and 15 Oct. The final report and the decision list are near the end of this page. Decisions taken so far are under "Decisions taken" (D6, D7, D9, D10 on 15 Oct).
 **Change control:** CF-247
 **Asked by:** Platform Admin, 12 Oct 2026: "Find which is not being used first, and scripts and data whose details are not changed for a few days."
 **Rule:** nothing is changed or retired because of this audit until the Platform Admin decides on the final list. This page only measures.
@@ -227,3 +227,19 @@ Counters read just before and just after each scheduled run.
 
 ### Space
 D6, D7, D9 and D10 together free about 335 MB (Layer 3 tables 296 MB, `layer2_scope_wave_items` 37 MB, the small tables about 2 MB). D11 adds about 25 MB.
+
+## Decisions taken
+### D6, D7, D9 and D10 (Platform Admin, 15 Oct 2026 22:12: "Proceed with D6, D7, D9 and D10")
+Tracing the readers before the purge changed the scope in three places:
+- **Not all Layer 3 rows are dead.** The four fee-rule jobs still admit 1,119 tuition work items. The course field states screen shows a fee's Layer 3 source from admitted tuition items. About 15,000 interpretations are linked to Layer 4 review history. These rows are kept; only rows nothing live uses are purged.
+- **Adapter overwrite uses validated Layer 3 readings as corroboration** (a course value that agrees with a validated reading lets the adapter overwrite it). The rule is kept: the 15,852 validated readings were copied to `pipeline.layer3_validated_readings`.
+- **`scholarship_coverage_benchmarks` was taken off D10.** The scholarship operations screen reads it through the view `scholarship_provider_stats`. D10 is 14 tables.
+
+| Step | What | Checked |
+|---|---|---|
+| Migration 20261015120000 | English plan no longer waits for Layer 3 (54 courses were waiting for nothing; in the current English policy plans 2 of them move from "waiting" to "write", nothing else changes). Adapter overwrite and the admit input mark read the validated readings copy. Platform resources reads hourly Layer 3 AI cost from `pipeline.layer3_call_costs_hourly` (same totals). Every read of `layer2_scope_wave_items` is replaced by an empty set. Retention and resource windows and sizes become 7 settings (G2). The 15 tables are marked retiring. | Dry run on the live database: plans, Layer 2 screens and month-to-date AI spend (US$43.41) the same as before. Applied; all 10 function checksums and the history md5 match |
+| Migration 20261015130000 | Index on `layer4_review_items.layer3_interpretation_id`. Without it, the purge's dry run timed out (each removal read the whole review table) | Applied; history md5 matches |
+| Export (workflow "Database archive export", run 38729659914) | 18 row sets to the private Storage bucket `archive`, folder `cf247-usage-audit-2026-10-15/38729659914`: 53,805 fact handoffs, 47,454 work items, 64,395 interpretations and the 15 tables' rows (about 44 MB compressed) | Every file downloaded again and checked (sha256, line count, key hash against the database); manifest uploaded last |
+| Paste file `PASTE-20261015-usage-audit-d6-d7-d9-d10.sql` | Checks the export is in Storage and every set still matches it, checks nothing names the 15 tables, then drops them and purges the Layer 3 rows in one transaction. Followed by three `vacuum full` lines, run one at a time | Dry run on the live database (rolled back): 53,805, 47,454 and 64,395 rows removed, 15 tables gone, tuition items unchanged, about 30 seconds. **Waiting for the Platform Admin to paste** |
+
+Kept after the purge: 14,216 work items and 19,126 interpretations. Expected space returned after the vacuum: about 270 MB.
