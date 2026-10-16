@@ -1,0 +1,515 @@
+{
+  "info": {
+    "name": "StudySearch Zoho API v2",
+    "description": "Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    },
+    {
+      "key": "syncCursor",
+      "value": ""
+    },
+    {
+      "key": "scholarshipId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "reference",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"reference\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "search – nursing, IELTS 7 / 6.5, Feb or Jul (107)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"search\",\n  \"filters\": {\n    \"keyword\": \"nursing\",\n    \"country_codes\": [\n      \"AU\"\n    ],\n    \"english_test_codes\": [\n      \"IELTS\"\n    ],\n    \"english_score_max\": 7,\n    \"english_band_max\": 6.5,\n    \"intake_months\": [\n      2,\n      7\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "search – provider name 'Queensland'",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"search\",\n  \"filters\": {\n    \"provider_name\": \"Queensland\"\n  },\n  \"page\": 1,\n  \"page_size\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "search – 00025B, tuition ≤ 45,000 (59)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"search\",\n  \"filters\": {\n    \"provider_cricos_codes\": [\n      \"00025B\"\n    ],\n    \"tuition_annual_max\": 45000\n  },\n  \"page\": 1,\n  \"page_size\": 20,\n  \"sort\": \"tuition_annual_asc\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "course – 082960F",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"course\",\n  \"cricos_course_code\": \"082960F\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "courses – batch with one not found",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"courses\",\n  \"identifiers\": [\n    \"082960F\",\n    \"0100879\",\n    \"NOPE\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "providers – 'RMIT' (3)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"providers\",\n  \"filters\": {\n    \"provider_name\": \"RMIT\"\n  },\n  \"page\": 1,\n  \"page_size\": 5\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "provider – 00025B with campuses and contacts",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"provider\",\n  \"cricos_provider_code\": \"00025B\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "campuses – 00025B",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"campuses\",\n  \"filters\": {\n    \"provider_cricos_codes\": [\n      \"00025B\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "contacts – 00025B",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"contacts\",\n  \"filters\": {\n    \"provider_cricos_codes\": [\n      \"00025B\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "statistics – QILT 00025B (48)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"statistics\",\n  \"kind\": \"qilt\",\n  \"filters\": {\n    \"provider_cricos_codes\": [\n      \"00025B\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "statistics – PRISMS AU-QLD",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"statistics\",\n  \"kind\": \"prisms\",\n  \"filters\": {\n    \"subdivision_codes\": [\n      \"AU-QLD\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "rankings – QS, Australia",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"rankings\",\n  \"filters\": {\n    \"system_codes\": [\n      \"qs_wur\"\n    ],\n    \"country_codes\": [\n      \"AU\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 20\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "scholarships – international",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"scholarships\",\n  \"filters\": {\n    \"student_types\": [\n      \"international\"\n    ]\n  },\n  \"page\": 1,\n  \"page_size\": 10\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.items && r.items[0]) pm.collectionVariables.set('scholarshipId', r.items[0].scholarship_id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "scholarship – detail (uses scholarshipId)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"scholarship\",\n  \"scholarship_id\": \"{{scholarshipId}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "export – providers CSV (1,546 rows)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"export\",\n  \"entity\": \"provider\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "export – courses CSV, page 2 of 9",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"export\",\n  \"entity\": \"course\",\n  \"page\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "export – courses CSV inside JSON",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"export\",\n  \"entity\": \"course\",\n  \"format\": \"json\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
+    },
+    {
+      "name": "sync – full load, first page",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"sync\",\n  \"full_load\": true,\n  \"page_size\": 200\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);",
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "sync – next page or changes (uses syncCursor)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 200\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);",
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
