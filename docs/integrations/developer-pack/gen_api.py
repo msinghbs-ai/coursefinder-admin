@@ -80,7 +80,7 @@ oas={"openapi":"3.1.0",
      "400":er("INVALID_INPUT or INVALID_ACTION"),"401":er("AUTHENTICATION_REQUIRED"),"404":er("NOT_FOUND"),"429":er("RATE_LIMITED",1),"503":er("SERVICE_UNAVAILABLE")}}}},
  "components":{"securitySchemes":{"bearerKey":{"type":"http","scheme":"bearer","description":"Your StudySearch key, issued separately"}},
    "schemas":{"Request":req,"Filters":filters,"ListResponse":lst,"DetailResponse":det,"SyncResponse":syn,"Error":errs}}}
-json.dump(oas,open("StudySearch-Website-API.openapi.json","w"),indent=2,ensure_ascii=False)
+json.dump(oas,open("StudySearch-Website-API-v2.openapi.json","w"),indent=2,ensure_ascii=False)
 items=[]
 names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (109)","search_canada":"search – Canada (4,723)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (49)","provider":"provider – UQ detail","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,096)","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
 for k,v in ex.items():
@@ -95,5 +95,5 @@ pm={"info":{"name":"StudySearch Website API v2 (website-api-v2)","description":"
  "auth":{"type":"bearer","bearer":[{"key":"token","value":"{{apiKey}}","type":"string"}]},
  "variable":[{"key":"baseUrl","value":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"},{"key":"apiKey","value":""},{"key":"syncCursor","value":""},{"key":"scholarshipId","value":""}],
  "item":items}
-json.dump(pm,open("StudySearch-Website-API.postman_collection.json","w"),indent=2,ensure_ascii=False)
+json.dump(pm,open("StudySearch-Website-API-v2.postman_collection.json","w"),indent=2,ensure_ascii=False)
 

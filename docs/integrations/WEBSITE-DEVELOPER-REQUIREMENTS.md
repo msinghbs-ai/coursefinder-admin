@@ -3,7 +3,7 @@
 **Version:** 1.9 (15 Oct 2026; faster full load: sync pages up to 200; guide issue 2 with expectations)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
-**Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
+**Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
 **How it works now:** `docs/platform/SYSTEM-REFERENCE.md` §4b (website API v2) and §4c (institution type).
 
 This page is the single list of what the website developer has asked for, what the platform returns today, and what is still open. Start here before changing anything the website reads.

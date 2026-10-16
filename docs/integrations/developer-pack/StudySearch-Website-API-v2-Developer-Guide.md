@@ -1,5 +1,5 @@
 ---
-title: "StudySearch Website API — Developer Guide"
+title: "StudySearch Website API v2 — Developer Guide"
 subtitle: "website-api-v2 · Version 2 · Issue 3 · 16 October 2026 · Pilot"
 ---
 
@@ -9,7 +9,7 @@ subtitle: "website-api-v2 · Version 2 · Issue 3 · 16 October 2026 · Pilot"
 | **API** | One HTTPS address for Website API v2, nine actions |
 | **Environment** | Pilot (live). Production uses the same endpoint address with a separate key, issued at go-live |
 | **Your key** | Sent to you separately by a secure channel. It is never written in this guide or the files that come with it |
-| **Files with this guide** | `StudySearch-Website-API.openapi.json` (OpenAPI 3.1) and `StudySearch-Website-API.postman_collection.json` (Postman; set the variable `apiKey`) |
+| **Files with this guide** | `StudySearch-Website-API-v2.openapi.json` (OpenAPI 3.1) and `StudySearch-Website-API-v2.postman_collection.json` (Postman; set the variable `apiKey`) |
 
 # 1. What the API gives you
 
