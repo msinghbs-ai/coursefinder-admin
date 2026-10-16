@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "StudySearch Website API",
-    "version": "website-api-v2 (Version 2, issue 3, 16 October 2026)",
+    "version": "website-api-v2 (Version 2, issue 4, 17 October 2026)",
     "description": "One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."
   },
   "servers": [
@@ -191,7 +191,7 @@
                   "summary": "sync full",
                   "value": {
                     "action": "sync",
-                    "page_size": 200
+                    "page_size": 600
                   }
                 }
               }
@@ -325,8 +325,8 @@
           "page_size": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 200,
-            "description": "Lists: 1-50, default 20. Sync: 1-200, default 200; a sync page also stops at about 550 KB"
+            "maximum": 600,
+            "description": "Lists: 1-50, default 20. Sync: 1-600 size units, default 600; a sync page holds at most about 1.7 MB of JSON (send Accept-Encoding: gzip)"
           },
           "sort": {
             "type": "string",

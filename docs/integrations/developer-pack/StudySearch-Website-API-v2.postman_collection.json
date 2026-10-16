@@ -343,7 +343,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"action\": \"sync\",\n  \"page_size\": 200\n}",
+          "raw": "{\n  \"action\": \"sync\",\n  \"page_size\": 600\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -378,7 +378,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 200\n}",
+          "raw": "{\n  \"action\": \"sync\",\n  \"cursor\": \"{{syncCursor}}\",\n  \"page_size\": 600\n}",
           "options": {
             "raw": {
               "language": "json"

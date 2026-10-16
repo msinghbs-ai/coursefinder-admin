@@ -15,8 +15,8 @@ ex={
  "rankings":{"action":"rankings","filters":{"system_codes":["qs_wur"],"edition_year":2027,"country_codes":["AU"]},"page":1,"page_size":20},
  "scholarships":{"action":"scholarships","filters":{"student_types":["international"]},"page":1,"page_size":10},
  "scholarship":{"action":"scholarship","scholarship_id":"{{scholarshipId}}"},
- "sync_full":{"action":"sync","page_size":200},
- "sync_next":{"action":"sync","cursor":"{{syncCursor}}","page_size":200},
+ "sync_full":{"action":"sync","page_size":600},
+ "sync_next":{"action":"sync","cursor":"{{syncCursor}}","page_size":600},
 }
 s=lambda t,**k:dict(type=t,**k)
 arr=lambda t="string":{"type":"array","items":{"type":t}}
@@ -44,7 +44,7 @@ req={"type":"object","required":["action"],"properties":{
  "action":{"type":"string","enum":["reference","search","course","providers","provider","rankings","scholarships","scholarship","sync"]},
  "filters":{"$ref":"#/components/schemas/Filters"},
  "page":{"type":"integer","minimum":1,"default":1},
- "page_size":{"type":"integer","minimum":1,"maximum":200,"description":"Lists: 1-50, default 20. Sync: 1-200, default 200; a sync page also stops at about 550 KB"},
+ "page_size":{"type":"integer","minimum":1,"maximum":600,"description":"Lists: 1-50, default 20. Sync: 1-600 size units, default 600; a sync page holds at most about 1.7 MB of JSON (send Accept-Encoding: gzip)"},
  "sort":{"type":"string","enum":["relevance","title_asc","tuition_annual_asc","tuition_annual_desc","duration_asc","updated_asc","name_asc","qs_rank_asc","the_rank_asc","course_count_desc"],"description":"Course sorts for search; provider sorts for providers"},
  "course_id":s("string"),"course_code":{"type":"string","description":"A source code, a StudySearch display code or a course_id"},
  "provider_id":s("string"),"scholarship_id":s("string"),
@@ -67,7 +67,7 @@ def er(d,h=None):
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 3, 16 October 2026)",
+ "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 4, 17 October 2026)",
    "description":"One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot (Production uses the same address with its own key)"}],
  "security":[{"bearerKey":[]}],

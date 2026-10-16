@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Website API v2 — Developer Guide"
-subtitle: "website-api-v2 · Version 2 · Issue 3 · 16 October 2026 · Pilot"
+subtitle: "website-api-v2 · Version 2 · Issue 4 · 17 October 2026 · Pilot"
 ---
 
 | | |
@@ -61,6 +61,7 @@ Authorization: Bearer <your key>
 ```
 
 - `page` starts at 1. For the list actions `page_size` is 1–50 (default 20); `sync` pages are covered in section 6.
+- Send `Accept-Encoding: gzip` (most HTTP clients do this by default). Replies are then compressed to about a ninth of their size.
 - Every response carries `api_version: "website-v2"` and a `request_id`. Quote the `request_id` when you report a problem.
 - An error reply is `{ api_version, error: { code, message, detail }, request_id }`; `detail` says what was wrong where it can.
 - List actions return `{ total, page, page_size, items, filters_not_applied }`. A filter key the API does not recognise is listed in `filters_not_applied`; it is never silently ignored.
@@ -113,7 +114,7 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 {
   "action": "sync",
   "cursor": "<next_cursor from your last reply; leave out for a full load>",
-  "page_size": 200
+  "page_size": 600
 }
 ```
 
@@ -130,7 +131,7 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 | `cursor` | The `next_cursor` from your last reply. Leave it out (or `null`) for a full load |
 | `full_load` | `true` starts a full load again |
 | `entities` | Optional, on a full load only: any of `reference`, `provider`, `logo`, `rankings`, `scholarship`, `course` (all six by default). A cursor keeps the entities it started with |
-| `page_size` | 1–200 (default 200). A page also stops at about 550 KB, so large items (provider details, scholarships) come fewer to a page |
+| `page_size` | 1–600 (default 600). A page holds at most about 1.7 MB of JSON (about 0.15 MB compressed), so large items (provider details, scholarships) come fewer to a page |
 
 **Reply fields**
 
@@ -164,15 +165,15 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 
 ## 6.1 Full load: what to expect
 
-Measured on Pilot on 16 October 2026.
+Measured on Pilot on 17 October 2026.
 
 | Measure | Full load |
 |---|---|
-| Items | About 41,700 (courses 37,300; providers 1,885; scholarships 1,100; logos 1,399; ranking sets 56; reference 1) |
-| Calls | About 260 at the default page size |
-| Data | About 100 MB of JSON in total; the largest page about 550 KB |
-| Reply time | Under a second a page |
-| Elapsed time | About 5 minutes (one page at a time) |
+| Items | About 41,900 (courses 37,300; providers 1,885; scholarships 1,100; logos 1,550; ranking sets 56; reference 1) |
+| Calls | About 86 at the default page size (600) |
+| Data | About 113 MB of JSON in total, about 15 MB compressed with `Accept-Encoding: gzip`; the largest page about 1.7 MB (the first page 150 KB compressed) |
+| Reply time | Under a second a page; the platform builds a page in under 0.3 seconds |
+| Elapsed time | About 1 to 2 minutes (one page at a time) |
 | After the full load | A delta is usually one call; the platform checks every item for changes within about 90 minutes, and a change appears in the next delta after that |
 
 ## 6.2 What we expect from your sync job
@@ -241,7 +242,7 @@ This returned 35 courses on 16 October 2026. All filters are optional and combin
 | `institution_types` | list | From `reference`: `university`, `university_college`, `higher_education_institute`, `tafe_polytechnic`, `private_vet`, `school`, `wananga`, `other` |
 | `delivery_modes` | list | `on_campus`, `online`, `blended`, `on_campus_and_online` |
 | `intake_months` | list of numbers | 1–12 |
-| `english_test_codes` + `english_score_max` | list + number | Courses whose minimum overall score for that test is at or below the score. Give exactly one test code with a score |
+| `english_test_codes` + `english_score_max` | list + number | Courses whose minimum overall score for that test is at or below the score, on that test's own scale. Give exactly one test code with a score. Test codes: `IELTS`, `PTE`, `TOEFL_IBT`, `CAE`, `DET` (Duolingo English Test, 10–160); `reference` lists the codes held for each country with course counts |
 | `tuition_annual_min`, `tuition_annual_max` | number | Annual tuition in the course's own currency; use with `country_codes` |
 | `has_intake`, `has_english`, `has_official_url`, `has_tuition`, `has_scholarship` | true/false | Only courses holding that value |
 | `changed_since` | timestamp | Courses changed since then (`sync` is the simpler way to keep a copy) |
@@ -354,12 +355,13 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 
 # 8. What is held now
 
-Courses or records the API returns holding a value (16 October 2026; coverage grows daily).
+Courses or records the API returns holding a value (16 October 2026, Duolingo row 17 October 2026; coverage grows daily).
 
 | Course field | Australia (26,103) | New Zealand (6,474) | Canada (4,723) |
 |---|---|---|---|
 | Official course page | 18,385 | 3,000 | 2,678 |
 | English requirements | 15,901 | 1,929 | 1,688 |
+| of which Duolingo English Test (DET) | 347 | 0 | 184 |
 | Intake months | 9,269 | 1,967 | 848 |
 | Any tuition | 25,716 | 966 | 326 |
 | Study area | 26,103 | 6,053 | 4,601 |
@@ -430,3 +432,4 @@ Changes within Website API v2 are additive. A change to the API (a new field, fi
 | 15 October 2026 | First issue, with the OpenAPI file and Postman collection. Changes from the Version 2 handover of 14 October 2026: a developer key; `reference` rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |
 | 15 October 2026 (issue 2) | `sync` pages hold up to 200 items (was 50; default 200), and a page also stops at about 550 KB. A full load is about 250 calls, about 5 minutes (was about 1,400 calls, about 25 minutes). Sections 6.1 and 6.2 added: what to expect from a full load, and what we expect from your sync job |
 | 16 October 2026 (issue 3) | Website API v2 at its own address, `website-api-v2`, with its own key: no `contract` field; responses carry `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail` (and `INVALID_JSON`); 300 calls a minute per key, all actions together. Same actions, fields and answers. The earlier address keeps working until you have moved |
+| 17 October 2026 (issue 4) | `sync` pages hold up to 600 size units (was 200; default 600): a full load is about 86 calls, about 1 to 2 minutes (was about 260 calls, about 5 minutes); a caller that sends a smaller `page_size` keeps getting smaller pages. Replies are compressed when you send `Accept-Encoding: gzip` (about 15 MB for a full load instead of about 113 MB). New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |

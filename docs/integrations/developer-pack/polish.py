@@ -7,7 +7,7 @@ for s in d.sections:
     s.page_width,s.page_height=Cm(21),Cm(29.7)
     s.left_margin=s.right_margin=Cm(2); s.top_margin=s.bottom_margin=Cm(2)
     s.header.paragraphs[0].text="StudySearch Website API v2 — Developer Guide"
-    s.footer.paragraphs[0].text="website-api-v2 · Version 2 · Issue 3 · 16 October 2026 · Pilot"
+    s.footer.paragraphs[0].text="website-api-v2 · Version 2 · Issue 4 · 17 October 2026 · Pilot"
     for p in (s.header.paragraphs[0],s.footer.paragraphs[0]):
         for r in p.runs: r.font.size=Pt(8); r.font.color.rgb=RGBColor(0x60,0x60,0x60)
 for name in ['Verbatim Char']:

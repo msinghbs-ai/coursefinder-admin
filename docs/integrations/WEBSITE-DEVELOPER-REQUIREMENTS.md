@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 2.1 (16 Oct 2026; developer requests R18–R22 planned, with a build plan)
+**Version:** 2.2 (17 Oct 2026; R22 and R18 done; developer guide issue 4)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -40,11 +40,11 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R15 | Logos as file links Wix can store, with the longest practical validity (Platform Admin, 14 Oct 2026) | **Done** (14 Oct): signed links valid 365 days (`website.logo_link_days`), resent in the sync delta 30 days before they end | `logo.url`, `url_expires_at` (13.7); Step B2 |
 | R16 | After a full load, later calls return only what changed, unless a full load is asked for (Platform Admin, 14 Oct 2026) | **Done** (14 Oct): action `sync` with a cursor; full load in pages, then new, changed and removed items | `sync` (13.8); acceptance tests 12a, 12b |
 | R17 | A clean developer pack to send to the developers (Platform Admin, 15 Oct 2026) | **Done** (15 Oct): developer guide (Word, PDF), OpenAPI 3.1 file and Postman collection with no key; a separate developer key (`coursefinder_website_developer_pilot_v1`, own rate limit, v2 only), handed to the Platform Admin once | `docs/integrations/developer-pack/` |
-| R18 | Duolingo English Test (DET) scores on courses (Raghav, 16 Oct 2026) | **Planned** (build plan below) | `english` on `course` and `search`, filter `english_test` DET (additive) |
+| R18 | Duolingo English Test (DET) scores on courses (Raghav, 16 Oct 2026) | **Done** (17 Oct, migrations 20261017020000 and 030000, worker v0.27.1, policy parser v0.2.4): DET is an English test (10–160, overall only); read from approved English policy pages (job `policy-add-tests`, hourly, stored pages only) where the page's IELTS for the level matches the approved policy; 531 courses (Australia 347, Canada 184) at 4 universities on 17 Oct. Coverage grows as policies are approved and read; course pages and adapters do not read DET yet | `english_requirements` (`test_code` DET), filter `english_test_codes`, `reference` |
 | R19 | Academic entry requirements by country of previous study (Raghav, 16 Oct 2026; replaces R12's academic part) | **Planned**; waits for one university example from Raghav and the Platform Admin's choice of countries | new `academic_entry` on `course` (additive) |
 | R20 | Scholarship eligibility by nationality, searchable (Raghav, 16 Oct 2026) | **Planned**; 104 of 2,047 scholarships name nationalities today | `nationalities` (held) plus filter `nationality` on `scholarships` (additive) |
 | R21 | Lighter logos for the full load (from Raghav's measures: 1,550 logos, 131 MB, 283 WebP) | **Planned**; waits for the formats Wix accepts | `logo.url` points to a standard copy; original kept |
-| R22 | Fewer, faster full-load calls (from Raghav's measures: 257 calls, 2 min 53 s, largest page 628 KB) | **Planned** (closes O8) | `sync` pages; no field change |
+| R22 | Fewer, faster full-load calls (from Raghav's measures: 257 calls, 2 min 53 s, largest page 628 KB) | **Done** (17 Oct, migration 20261017010000): sync pages up to 600 size units (`website.sync_page_max`); full load about 86 calls, about 1–2 minutes; replies compressed with `Accept-Encoding: gzip` (about 15 MB instead of 113 MB). O8 closed | `sync` (6, 6.1) |
 
 ## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
 
@@ -60,7 +60,7 @@ Removal is a separate change: a paste file for the Platform Admin, never an appl
 
 ## Build plan for R18–R22 (16 Oct 2026, Platform Admin 23:44: "Start planning developer latest request & create feature number for each of them. Keep all pending tasks, housekeeping and production readiness in mind. All operation and functions needs to be adhered while planning new features and bug fixes. Platform has to be self sustainable and improving.")
 
-Status: **planned, not started**. Each feature is built, tested and released on its own, in the order below. Figures measured live on 16 Oct 2026.
+Status (17 Oct 2026): **R22 and R18 done**; R21 waits for the formats Wix accepts; R20 next; R19 waits for Raghav's example and the country choice. Each feature is built, tested and released on its own, in the order below. Figures measured live on 16 Oct 2026.
 
 ### Standard every feature meets (self-sustaining, production-ready)
 
@@ -104,13 +104,14 @@ Status: **planned, not started**. Each feature is built, tested and released on 
 | O4 | Five Australian providers have no institution type; Aviation Australia and Canning College are typed TAFE / Polytechnic — **Parked: pending data-enrichment task PE-3** (left empty, Platform Admin 14 Oct 20:39) | Visible to the website as null or as TAFE | Platform Admin to review; set by hand on Providers › Type, or change the rules on Settings › Pipeline settings |
 | O5 | ~~Rankings and logos usage terms~~ **Done 14 Oct (v2.15.277)**: Platform Admin decision "Yes, approved to display" | Closed PE-4 | `terms_status` approved for rankings and logos; changed by a Yes/No setting with a reason |
 | O6 | Filtered search timings | Institution type filter about 2.3 s cold (about 1.6 s without it). `reference` passed the 8 s limit under load (5.5–6.6 s): fixed 15 Oct with a copy rebuilt every 15 minutes | Watch; optimise only if the developer reports slowness |
-| O8 | Provider detail is slow (about 0.5 s, up to 2.3 s in a sync page) | It builds the providers list to answer for one provider; sync pages hold 3 provider details so a page stays under the limit | Follow-up: build the provider detail directly by id; then raise the page back up. **Planned as R22** (16 Oct 2026) |
+| O8 | Provider detail is slow (about 0.5 s, up to 2.3 s in a sync page) | It builds the providers list to answer for one provider; sync pages hold 3 provider details so a page stays under the limit | Follow-up: build the provider detail directly by id; then raise the page back up. **Closed 17 Oct 2026 (R22)**: items are served from the stored copy; one provider detail builds in about 0.13 s |
 | O7 | ~~Duration quality~~ **Done 14 Oct (migration 20261014100000, worker v0.23.2)** | Platform Admin decisions: "Undo and tighten rule" and "Keep null". The two New Zealand durations read from a fee line are withdrawn (items kept, reversible); the Enrich fields worker no longer admits a duration quote about the fee basis; 294 semester durations stay null in `duration_months` | Handover reissued: section 14 NZ duration 2,929, known data-quality line, change-log line |
 
 ## History
 
 | Version | Date | Change |
 |---|---|---|
+| 2.2 | 17 Oct 2026 | R22 done (sync pages 600, gzip, about 86 calls); R18 done (DET from approved English policy pages, 531 courses; parser v0.2.4 also fixes "105 Overall ; 110 Speaking" read as 110); O8 closed; developer guide issue 4 (section 13 line, 6.1 measures, DET in 7.2 and section 8). |
 | 2.1 | 16 Oct 2026 | Developer requests from Raghav's email numbered R18–R22 (Duolingo, academic entry by country, nationality eligibility, lighter logos, faster full load) with a build plan, the standard each feature meets, and the order and gates. R12's academic part moves to R19. |
 | 2.0 | 16 Oct 2026 | Website API v2 at its own address, `website-api-v2` (Pilot PR #544, migration 20261016050000): its own key `website_developer_v2`, 300 calls a minute per key (setting `website.rate_per_minute`), every call logged on Operations › API usage; same nine actions and answers as the contract path, which is unchanged. Developer guide issue 3 (address, no contract field, `api_version`, error `message` and `detail`; figures re-measured) |
 | 1.9 | 15 Oct 2026 | Faster Wix full load (Platform Admin 17:46, "Prepared items + bigger pages"): `sync` serves items stored by the change check; pages up to 200 items and about 550 KB; full load about 250 calls, about 5 minutes (was 1,426 calls, about 25 minutes). Guide issue 2: 6.1 what to expect, 6.2 what we expect from the sync job (Platform Admin 18:37); OpenAPI and Postman regenerated. |
