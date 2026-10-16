@@ -6517,3 +6517,16 @@ The brief now forbids direct table changes.
 | Release v2.15.285 | Scheduled jobs › Task manager: Tasks started by people, then Background jobs (the same component and read as Progress › Running now: running this moment, failing in 24 h, paused, Firecrawl credits in the last hour, Pause, Resume, Run now, worker errors). Platform guide, SOPs 1.26 | S51 browser test; full suite 698 passed; release contract PASS; deployed release check passed. PR #549 |
 
 - Frontend only; no database or edge function change.
+
+### 16 Oct 2026 (Fri, Melbourne) – Storage sizes recorded daily (release v2.15.286)
+
+**Asked by:** Platform Admin, 16 Oct 2026 23:18: "Prepare and record all db and tables data and sizes also prepare total bucket usage. Keep the stat's simple and recoed on daily basis. Advise on housekeeping, how to bring the db size under 2gb."
+
+| Change | What | Checked |
+|---|---|---|
+| Migration `20261016100000_cf247_storage_size_daily` | Table `pipeline.storage_size_daily` (one row a day for the database, each schema, each table with estimated rows and table, index and long-value bytes, and each bucket with files and bytes); `security.storage_size_snapshot_v1`; `admin_storage_sizes` (Pipeline Operator and above) and `admin_storage_sizes_measure` (Platform Admin); job `storage-size-daily` at 00:25 Melbourne (catalogued, registered); setting `storage.size_keep_days` 365 (table rows only; daily totals kept always). Nothing dropped or deleted | Dry run rolled back (508 tables, 4 buckets). Applied; live function bodies match the file (md5); job, catalogue and register rows present; first record taken |
+| Release v2.15.286 | Settings › Storage & retention starts with Storage sizes: Database, File storage and Tables tiles; By day, Buckets, Schemas, Tables (filter; largest 25 or All); Measure now. Platform guide, SOPs 1.27 | S52 (contract and browser); s32 and s42 guards pass; full suite 700 passed; release contract PASS; deployed release check passed. PR #550 |
+
+- First record (16 Oct 2026): database 4.62 GB (pipeline 2.78 GB, storage 0.57 GB, catalogue 0.39 GB, search 0.23 GB, scholarship 0.17 GB, ranking 0.13 GB); file storage 28.1 GB in 200,761 files (evidence 21.0 GB, adapter-captures 7.0 GB, provider-assets 0.11 GB, archive 0.04 GB).
+- Largest tables: `storage.objects` 566 MB, `coverage_provider_urls` 332 MB, `evidence_artifacts` 319 MB, `register_replay_keys` 237 MB, `search.course_documents` 231 MB, `layer3_interpretations` 203 MB, `website_sync_items` 162 MB.
+- Housekeeping advice to get the database under 2 GB was given to the Platform Admin; any purge goes by paste file or Settings › Storage & retention, not by migration.
