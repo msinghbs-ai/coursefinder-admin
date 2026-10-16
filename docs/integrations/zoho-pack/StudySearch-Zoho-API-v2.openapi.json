@@ -1,0 +1,824 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StudySearch Zoho API v2",
+    "version": "zoho-api-v2 (first issue, 16 October 2026)",
+    "description": "One address for Zoho API v2, fifteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."
+  },
+  "servers": [
+    {
+      "url": "https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1",
+      "description": "Pilot"
+    }
+  ],
+  "security": [
+    {
+      "bearerKey": []
+    }
+  ],
+  "paths": {
+    "/zoho-api-v2": {
+      "post": {
+        "operationId": "zohoApiV2",
+        "summary": "Call an action of Zoho API v2",
+        "description": "Actions: reference, search, course, courses, providers, provider, campuses, contacts, statistics, rankings, scholarships, scholarship, sync, export, report. 120 requests a minute per key.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              },
+              "examples": {
+                "reference": {
+                  "summary": "reference",
+                  "value": {
+                    "action": "reference"
+                  }
+                },
+                "search_nursing": {
+                  "summary": "search nursing",
+                  "value": {
+                    "action": "search",
+                    "filters": {
+                      "keyword": "nursing",
+                      "country_codes": [
+                        "AU"
+                      ],
+                      "english_test_codes": [
+                        "IELTS"
+                      ],
+                      "english_score_max": 7,
+                      "english_band_max": 6.5,
+                      "intake_months": [
+                        2,
+                        7
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 10
+                  }
+                },
+                "search_provider_name": {
+                  "summary": "search provider name",
+                  "value": {
+                    "action": "search",
+                    "filters": {
+                      "provider_name": "Queensland"
+                    },
+                    "page": 1,
+                    "page_size": 2
+                  }
+                },
+                "search_provider_cricos": {
+                  "summary": "search provider cricos",
+                  "value": {
+                    "action": "search",
+                    "filters": {
+                      "provider_cricos_codes": [
+                        "00025B"
+                      ],
+                      "tuition_annual_max": 45000
+                    },
+                    "page": 1,
+                    "page_size": 20,
+                    "sort": "tuition_annual_asc"
+                  }
+                },
+                "course": {
+                  "summary": "course",
+                  "value": {
+                    "action": "course",
+                    "cricos_course_code": "082960F"
+                  }
+                },
+                "courses": {
+                  "summary": "courses",
+                  "value": {
+                    "action": "courses",
+                    "identifiers": [
+                      "082960F",
+                      "0100879",
+                      "NOPE"
+                    ]
+                  }
+                },
+                "providers": {
+                  "summary": "providers",
+                  "value": {
+                    "action": "providers",
+                    "filters": {
+                      "provider_name": "RMIT"
+                    },
+                    "page": 1,
+                    "page_size": 5
+                  }
+                },
+                "provider": {
+                  "summary": "provider",
+                  "value": {
+                    "action": "provider",
+                    "cricos_provider_code": "00025B"
+                  }
+                },
+                "campuses": {
+                  "summary": "campuses",
+                  "value": {
+                    "action": "campuses",
+                    "filters": {
+                      "provider_cricos_codes": [
+                        "00025B"
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 50
+                  }
+                },
+                "contacts": {
+                  "summary": "contacts",
+                  "value": {
+                    "action": "contacts",
+                    "filters": {
+                      "provider_cricos_codes": [
+                        "00025B"
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 50
+                  }
+                },
+                "statistics_qilt": {
+                  "summary": "statistics qilt",
+                  "value": {
+                    "action": "statistics",
+                    "kind": "qilt",
+                    "filters": {
+                      "provider_cricos_codes": [
+                        "00025B"
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 50
+                  }
+                },
+                "statistics_prisms": {
+                  "summary": "statistics prisms",
+                  "value": {
+                    "action": "statistics",
+                    "kind": "prisms",
+                    "filters": {
+                      "subdivision_codes": [
+                        "AU-QLD"
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 50
+                  }
+                },
+                "rankings": {
+                  "summary": "rankings",
+                  "value": {
+                    "action": "rankings",
+                    "filters": {
+                      "system_codes": [
+                        "qs_wur"
+                      ],
+                      "country_codes": [
+                        "AU"
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 20
+                  }
+                },
+                "scholarships": {
+                  "summary": "scholarships",
+                  "value": {
+                    "action": "scholarships",
+                    "filters": {
+                      "student_types": [
+                        "international"
+                      ]
+                    },
+                    "page": 1,
+                    "page_size": 10
+                  }
+                },
+                "export_provider": {
+                  "summary": "export provider",
+                  "value": {
+                    "action": "export",
+                    "entity": "provider"
+                  }
+                },
+                "export_course_page2": {
+                  "summary": "export course page2",
+                  "value": {
+                    "action": "export",
+                    "entity": "course",
+                    "page": 2
+                  }
+                },
+                "export_course_json": {
+                  "summary": "export course json",
+                  "value": {
+                    "action": "export",
+                    "entity": "course",
+                    "format": "json"
+                  }
+                },
+                "sync_full": {
+                  "summary": "sync full",
+                  "value": {
+                    "action": "sync",
+                    "full_load": true,
+                    "page_size": 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lists return ListResponse; details return DetailResponse; sync returns SyncResponse; export returns text/csv (headers x-rows, x-page, x-pages, x-total-rows, x-has-more, x-complete and x-sync-cursor) unless format is json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ListResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/DetailResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SyncResponse"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  ]
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_JSON, INVALID_INPUT or INVALID_ACTION",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTHENTICATION_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds to wait"
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Your StudySearch Zoho key, issued separately"
+      }
+    },
+    "schemas": {
+      "Request": {
+        "type": "object",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "reference",
+              "search",
+              "course",
+              "courses",
+              "providers",
+              "provider",
+              "campuses",
+              "contacts",
+              "statistics",
+              "rankings",
+              "scholarships",
+              "scholarship",
+              "sync",
+              "export",
+              "report"
+            ]
+          },
+          "filters": {
+            "$ref": "#/components/schemas/Filters"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "Lists: 1-50, default 20. Sync: 1-200"
+          },
+          "sort": {
+            "type": "string",
+            "description": "search: relevance, title_asc, tuition_annual_asc, tuition_annual_desc, duration_asc, updated_asc"
+          },
+          "course_id": {
+            "type": "string"
+          },
+          "cricos_course_code": {
+            "type": "string"
+          },
+          "identifiers": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "type": "string"
+            }
+          },
+          "provider_id": {
+            "type": "string"
+          },
+          "cricos_provider_code": {
+            "type": "string"
+          },
+          "scholarship_id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "qilt",
+              "prisms"
+            ]
+          },
+          "entity": {
+            "type": "string",
+            "enum": [
+              "provider",
+              "campus",
+              "contact",
+              "course"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "json"
+            ]
+          },
+          "cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "full_load": {
+            "type": "boolean"
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "provider",
+                "campus",
+                "contact",
+                "course"
+              ]
+            }
+          },
+          "field": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "reporter": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "ref": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Filters": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "All optional, combined with AND. Unknown keys are listed in filters_not_applied. Which keys apply depends on the action (guide, sections 5 and 7).",
+        "properties": {
+          "keyword": {
+            "type": "string"
+          },
+          "provider_name": {
+            "type": "string",
+            "description": "Part of the provider's name"
+          },
+          "provider_cricos_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "provider_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "country_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AU",
+                "NZ",
+                "CA"
+              ]
+            }
+          },
+          "subdivision_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "postcodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "regional_categories": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          "study_level_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "study_area_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "institution_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "university_groups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "delivery_modes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "on_campus",
+                "online",
+                "blended",
+                "on_campus_and_online"
+              ]
+            }
+          },
+          "intake_months": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            }
+          },
+          "english_test_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "english_score_max": {
+            "type": "number"
+          },
+          "english_band_max": {
+            "type": "number"
+          },
+          "tuition_annual_min": {
+            "type": "number"
+          },
+          "tuition_annual_max": {
+            "type": "number"
+          },
+          "has_intake": {
+            "type": "boolean"
+          },
+          "has_english": {
+            "type": "boolean"
+          },
+          "has_official_url": {
+            "type": "boolean"
+          },
+          "has_tuition": {
+            "type": "boolean"
+          },
+          "has_scholarship": {
+            "type": "boolean"
+          },
+          "has_logo": {
+            "type": "boolean"
+          },
+          "changed_since": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contact_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "head_of_institution",
+                "general",
+                "team",
+                "staff"
+              ]
+            }
+          },
+          "sectors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "system_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "edition_year": {
+            "type": "integer"
+          },
+          "rank_max": {
+            "type": "integer"
+          },
+          "student_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "international",
+                "domestic",
+                "both"
+              ]
+            }
+          },
+          "open_only": {
+            "type": "boolean"
+          },
+          "nationality_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "course_id": {
+            "type": "string"
+          }
+        }
+      },
+      "ListResponse": {
+        "type": "object",
+        "properties": {
+          "api_version": {
+            "type": "string",
+            "const": "zoho-v2"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "page_size": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "filters_not_applied": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DetailResponse": {
+        "type": "object",
+        "properties": {
+          "api_version": {
+            "type": "string",
+            "const": "zoho-v2"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "item": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "SyncResponse": {
+        "type": "object",
+        "properties": {
+          "api_version": {
+            "type": "string",
+            "const": "zoho-v2"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "entity",
+                "id",
+                "seq",
+                "change"
+              ],
+              "properties": {
+                "entity": {
+                  "type": "string",
+                  "enum": [
+                    "provider",
+                    "campus",
+                    "contact",
+                    "course"
+                  ]
+                },
+                "id": {
+                  "type": "string"
+                },
+                "seq": {
+                  "type": "integer"
+                },
+                "change": {
+                  "type": "string",
+                  "enum": [
+                    "upsert",
+                    "remove"
+                  ]
+                },
+                "item": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "type": "string",
+            "description": "Store as is after the page is written"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "api_version": {
+            "type": "string",
+            "const": "zoho-v2"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "INVALID_JSON",
+                  "INVALID_INPUT",
+                  "INVALID_ACTION",
+                  "AUTHENTICATION_REQUIRED",
+                  "NOT_FOUND",
+                  "RATE_LIMITED",
+                  "SERVICE_UNAVAILABLE"
+                ]
+              },
+              "message": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
