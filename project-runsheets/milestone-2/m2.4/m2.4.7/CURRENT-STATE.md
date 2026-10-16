@@ -6609,3 +6609,15 @@ The brief now forbids direct table changes.
 
 - Register `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.2: R18 and R22 done, O8 closed. Next: R20; R21 waits for the formats Wix accepts; R19 waits for Raghav's example and the country choice.
 - Not yet reading DET: course pages and adapters (most Canadian colleges state DET on course or policy pages not yet approved; 60 English policy proposals wait for a person).
+
+### 17 Oct 2026 (Sat, Melbourne) – First run of the daily housekeeping job
+
+**Check:** first scheduled run of `housekeeping-daily` (e147), 03:47 Melbourne.
+
+| Measure | Result |
+|---|---|
+| Run | Succeeded, 22 seconds (16:47:00–16:47:22 UTC) |
+| Removed | 275,704 expired one-time request codes; 17,187 job run records older than 3 days; recorded in the admin events (area retention, action housekeeping) |
+| After | `pipeline.pilot_edge_nonces` 7,130 rows (one day of codes); `cron.job_run_details` 92,069 rows, oldest 14 Oct 03:47 Melbourne (3 days) |
+
+- The tables stop growing; their disk space is reused rather than returned until step 8 (rebuild at a quiet time). Job `policy-add-tests` (R18) also ran on schedule at 01:17, 02:17 and 03:17, all succeeded.
