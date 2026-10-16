@@ -6554,3 +6554,15 @@ The brief now forbids direct table changes.
 - Platform health after the changes: overall OK; 0 critical, 0 warning, 1 info (database 4,399 MB, over the 4 GB watch level; the D6–D10 paste file, not yet run, returns about 270 MB).
 - 80 more requested Sydney and RMIT pages are read on their next retry.
 - Governance gap closed: `admin-user-management` was deployed by hand and is now on the deploy allow-list.
+
+### 16 Oct 2026 (Fri, Melbourne) – Task manager shows background jobs again (release v2.15.285)
+
+**Asked by:** Platform Admin, 16 Oct 2026 22:51: "Task manager doesnt show any job running in the background."
+
+**Found:** since v2.15.266 (13 Oct) the background board (scheduled jobs running, failing, paused, Firecrawl credits) was only on Coverage & completeness › Progress › Running now, with a link from Task manager; Task manager listed only tasks people start, and none were running. At the time about 280 scheduled runs and 70 worker calls ran every 15 minutes. That broke the standing rule of 11 Oct 2026: "All background jobs using resources at any given time should be visible under task manager".
+
+| Change | What | Checked |
+|---|---|---|
+| Release v2.15.285 | Scheduled jobs › Task manager: Tasks started by people, then Background jobs (the same component and read as Progress › Running now: running this moment, failing in 24 h, paused, Firecrawl credits in the last hour, Pause, Resume, Run now, worker errors). Platform guide, SOPs 1.26 | S51 browser test; full suite 698 passed; release contract PASS; deployed release check passed. PR #549 |
+
+- Frontend only; no database or edge function change.
