@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "StudySearch Website API",
-    "version": "website-search-v2 (Version 2, 15 October 2026)",
-    "description": "One endpoint, nine actions chosen by the body field `action`. Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."
+    "version": "website-api-v2 (Version 2, issue 3, 16 October 2026)",
+    "description": "One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."
   },
   "servers": [
     {
@@ -17,11 +17,11 @@
     }
   ],
   "paths": {
-    "/wix-course-api": {
+    "/website-api-v2": {
       "post": {
-        "operationId": "websiteSearchV2",
-        "summary": "Call an action of website-search-v2",
-        "description": "Actions: reference, search, course, providers, provider, rankings, scholarships, scholarship, sync. 60 requests a minute per action per key.",
+        "operationId": "websiteApiV2",
+        "summary": "Call an action of Website API v2",
+        "description": "Actions: reference, search, course, providers, provider, rankings, scholarships, scholarship, sync. 300 requests a minute per key, all actions together.",
         "requestBody": {
           "required": true,
           "content": {
@@ -33,14 +33,12 @@
                 "reference": {
                   "summary": "reference",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "reference"
                   }
                 },
                 "search": {
                   "summary": "search",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "search",
                     "filters": {
                       "country_codes": [
@@ -69,7 +67,6 @@
                 "search_nursing_melbourne": {
                   "summary": "search nursing melbourne",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "search",
                     "filters": {
                       "keyword": "nursing",
@@ -85,7 +82,6 @@
                 "search_canada": {
                   "summary": "search canada",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "search",
                     "filters": {
                       "country_codes": [
@@ -99,7 +95,6 @@
                 "course": {
                   "summary": "course",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "course",
                     "course_code": "082960F"
                   }
@@ -107,7 +102,6 @@
                 "course_display_code": {
                   "summary": "course display code",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "course",
                     "course_code": "UNBC-BA-019"
                   }
@@ -115,7 +109,6 @@
                 "providers": {
                   "summary": "providers",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "providers",
                     "filters": {
                       "country_codes": [
@@ -133,7 +126,6 @@
                 "providers_universities": {
                   "summary": "providers universities",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "providers",
                     "filters": {
                       "country_codes": [
@@ -150,7 +142,6 @@
                 "providers_with_logo": {
                   "summary": "providers with logo",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "providers",
                     "filters": {
                       "has_logo": true
@@ -162,7 +153,6 @@
                 "provider": {
                   "summary": "provider",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "provider",
                     "provider_id": "provider:cricos:00025b"
                   }
@@ -170,7 +160,6 @@
                 "rankings": {
                   "summary": "rankings",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "rankings",
                     "filters": {
                       "system_codes": [
@@ -188,7 +177,6 @@
                 "scholarships": {
                   "summary": "scholarships",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "scholarships",
                     "filters": {
                       "student_types": [
@@ -202,7 +190,6 @@
                 "sync_full": {
                   "summary": "sync full",
                   "value": {
-                    "contract": "website-search-v2",
                     "action": "sync",
                     "page_size": 200
                   }
@@ -310,14 +297,9 @@
       "Request": {
         "type": "object",
         "required": [
-          "contract",
           "action"
         ],
         "properties": {
-          "contract": {
-            "type": "string",
-            "const": "website-search-v2"
-          },
           "action": {
             "type": "string",
             "enum": [
@@ -638,9 +620,9 @@
       "ListResponse": {
         "type": "object",
         "properties": {
-          "contract_version": {
+          "api_version": {
             "type": "string",
-            "const": "website-search-v2"
+            "const": "website-v2"
           },
           "request_id": {
             "type": "string"
@@ -672,9 +654,9 @@
       "DetailResponse": {
         "type": "object",
         "properties": {
-          "contract_version": {
+          "api_version": {
             "type": "string",
-            "const": "website-search-v2"
+            "const": "website-v2"
           },
           "request_id": {
             "type": "string"
@@ -688,9 +670,9 @@
       "SyncResponse": {
         "type": "object",
         "properties": {
-          "contract_version": {
+          "api_version": {
             "type": "string",
-            "const": "website-search-v2"
+            "const": "website-v2"
           },
           "request_id": {
             "type": "string"
@@ -771,9 +753,9 @@
       "Error": {
         "type": "object",
         "properties": {
-          "contract_version": {
+          "api_version": {
             "type": "string",
-            "const": "website-search-v2"
+            "const": "website-v2"
           },
           "request_id": {
             "type": "string"
@@ -784,6 +766,7 @@
               "code": {
                 "type": "string",
                 "enum": [
+                  "INVALID_JSON",
                   "INVALID_INPUT",
                   "INVALID_ACTION",
                   "AUTHENTICATION_REQUIRED",
@@ -793,6 +776,9 @@
                 ]
               },
               "message": {
+                "type": "string"
+              },
+              "detail": {
                 "type": "string"
               }
             }

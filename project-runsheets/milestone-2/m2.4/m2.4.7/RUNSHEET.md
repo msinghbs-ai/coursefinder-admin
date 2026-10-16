@@ -6511,3 +6511,18 @@ The brief now forbids direct table changes.
 - Keys handed to the Platform Admin once, outside the repositories. Zoho v1 (`zoho-course-api`) and the website API are unchanged.
 - Full test suite 683 passed before each deploy.
 - Open: website v2 at its own URL and website call logging (decision "Later"); the D6–D10 paste file still waits to be run; `public.zoho_v2_export(text)` to be dropped by paste file once retiring ends.
+
+### 16 Oct 2026 (Fri, Melbourne) – Website API v2 at its own URL (website-api-v2), in parallel with the contract path; developer guide issue 3
+
+**Asked by:** Platform Admin, 16 Oct 2026 11:43: "Can we build the Website v2 URL as parallel without disturbing api v2 through v1 url with contract?"
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016050000 | Key `website_developer_v2` in `private.api_keys` (SHA-256 only); setting `website.rate_per_minute` (300 a minute per key, all actions); service functions `public.website_api_v2_auth`, `website_api_v2_rate`, `website_api_v2_log`; register row for the edge function | Dry run then applied: the website key authenticates, a Zoho key does not. PR #544 |
+| Edge function `website-api-v2` | One URL for website v2, no contract field: the same nine actions from the same `public.website_v2_*` functions as `wix-course-api` with `website-search-v2`; `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail`; every call logged (Operations › API usage) | Edge drift check: live `website-api-v2`, `zoho-api-v2` and `wix-course-api` identical to the branch. Live: search example 35 with the same course ids as the database function; nursing Melbourne 109; course, provider and sync answer; logos signed, no storage path; Zoho key 401; a v1 action 400. PR #544 |
+| `wix-course-api` | Not changed and not redeployed; the website keeps working on the old address and key until its developer moves | Drift check above |
+| Developer guide issue 3 (admin repo `docs/integrations/developer-pack/`) | New address and key, no contract field, `api_version`, 300 a minute per key, how to move (the stored sync cursor carries over); figures re-measured on 16 Oct; OpenAPI and Postman regenerated; requirements register 2.0 | No key in any file |
+
+- Full test suite 684 passed before the deploy.
+- Key handed to the Platform Admin once, outside the repositories.
+- Open: retire the contract path on `wix-course-api` once the developer has moved and a switch-off date is agreed (paste file); the edge drift snapshot branch from this check could not be deleted from here (no write access to branch refs through the proxy).
