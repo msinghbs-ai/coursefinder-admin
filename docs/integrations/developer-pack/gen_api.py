@@ -1,22 +1,22 @@
 import json
-URL="https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1/wix-course-api"
+URL="https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1/website-api-v2"
 C="website-search-v2"
 ex={
- "reference":{"contract":C,"action":"reference"},
- "search":{"contract":C,"action":"search","filters":{"country_codes":["AU"],"keyword":"business","cities":["Melbourne"],"study_level_codes":["masters_coursework"],"intake_months":[2],"english_test_codes":["IELTS"],"english_score_max":6.5,"tuition_annual_max":45000},"page":1,"page_size":6},
- "search_nursing_melbourne":{"contract":C,"action":"search","filters":{"keyword":"nursing","cities":["Melbourne"]},"page":1,"page_size":20,"sort":"relevance"},
- "search_canada":{"contract":C,"action":"search","filters":{"country_codes":["CA"]},"page":1,"page_size":20},
- "course":{"contract":C,"action":"course","course_code":"082960F"},
- "course_display_code":{"contract":C,"action":"course","course_code":"UNBC-BA-019"},
- "providers":{"contract":C,"action":"providers","filters":{"country_codes":["AU"],"university_groups":["go8"]},"sort":"qs_rank_asc","page":1,"page_size":6},
- "providers_universities":{"contract":C,"action":"providers","filters":{"country_codes":["AU"],"institution_types":["university"]},"page":1,"page_size":50},
- "providers_with_logo":{"contract":C,"action":"providers","filters":{"has_logo":True},"page":1,"page_size":50},
- "provider":{"contract":C,"action":"provider","provider_id":"provider:cricos:00025b"},
- "rankings":{"contract":C,"action":"rankings","filters":{"system_codes":["qs_wur"],"edition_year":2027,"country_codes":["AU"]},"page":1,"page_size":20},
- "scholarships":{"contract":C,"action":"scholarships","filters":{"student_types":["international"]},"page":1,"page_size":10},
- "scholarship":{"contract":C,"action":"scholarship","scholarship_id":"{{scholarshipId}}"},
- "sync_full":{"contract":C,"action":"sync","page_size":200},
- "sync_next":{"contract":C,"action":"sync","cursor":"{{syncCursor}}","page_size":200},
+ "reference":{"action":"reference"},
+ "search":{"action":"search","filters":{"country_codes":["AU"],"keyword":"business","cities":["Melbourne"],"study_level_codes":["masters_coursework"],"intake_months":[2],"english_test_codes":["IELTS"],"english_score_max":6.5,"tuition_annual_max":45000},"page":1,"page_size":6},
+ "search_nursing_melbourne":{"action":"search","filters":{"keyword":"nursing","cities":["Melbourne"]},"page":1,"page_size":20,"sort":"relevance"},
+ "search_canada":{"action":"search","filters":{"country_codes":["CA"]},"page":1,"page_size":20},
+ "course":{"action":"course","course_code":"082960F"},
+ "course_display_code":{"action":"course","course_code":"UNBC-BA-019"},
+ "providers":{"action":"providers","filters":{"country_codes":["AU"],"university_groups":["go8"]},"sort":"qs_rank_asc","page":1,"page_size":6},
+ "providers_universities":{"action":"providers","filters":{"country_codes":["AU"],"institution_types":["university"]},"page":1,"page_size":50},
+ "providers_with_logo":{"action":"providers","filters":{"has_logo":True},"page":1,"page_size":50},
+ "provider":{"action":"provider","provider_id":"provider:cricos:00025b"},
+ "rankings":{"action":"rankings","filters":{"system_codes":["qs_wur"],"edition_year":2027,"country_codes":["AU"]},"page":1,"page_size":20},
+ "scholarships":{"action":"scholarships","filters":{"student_types":["international"]},"page":1,"page_size":10},
+ "scholarship":{"action":"scholarship","scholarship_id":"{{scholarshipId}}"},
+ "sync_full":{"action":"sync","page_size":200},
+ "sync_next":{"action":"sync","cursor":"{{syncCursor}}","page_size":200},
 }
 s=lambda t,**k:dict(type=t,**k)
 arr=lambda t="string":{"type":"array","items":{"type":t}}
@@ -40,8 +40,7 @@ filters={"type":"object","additionalProperties":True,
   "open_only":s("boolean"),"student_types":{"type":"array","items":{"type":"string","enum":["international","domestic","both"]}},
   "study_stages":{"type":"array","items":{"type":"string","enum":["commencing","current"]}},
   "automatic_consideration":s("boolean"),"nationality_codes":arr(),"course_id":s("string")}}
-req={"type":"object","required":["contract","action"],"properties":{
- "contract":{"type":"string","const":C},
+req={"type":"object","required":["action"],"properties":{
  "action":{"type":"string","enum":["reference","search","course","providers","provider","rankings","scholarships","scholarship","sync"]},
  "filters":{"$ref":"#/components/schemas/Filters"},
  "page":{"type":"integer","minimum":1,"default":1},
@@ -52,7 +51,7 @@ req={"type":"object","required":["contract","action"],"properties":{
  "cursor":{"type":["string","null"],"description":"sync: next_cursor from the last reply; omit or null for a full load"},
  "full_load":{"type":"boolean","description":"sync: true starts a full load again"},
  "entities":{"type":"array","items":{"type":"string","enum":["reference","provider","logo","rankings","scholarship","course"]},"description":"sync, full load only; default all six"}}}
-base={"contract_version":{"type":"string","const":C},"request_id":s("string")}
+base={"api_version":{"type":"string","const":"website-v2"},"request_id":s("string")}
 lst={"type":"object","properties":dict(base,total=s("integer"),page=s("integer"),page_size=s("integer"),items={"type":"array","items":{"type":"object","additionalProperties":True}},filters_not_applied=arr())}
 det={"type":"object","properties":dict(base,item={"type":"object","additionalProperties":True})}
 syn={"type":"object","properties":dict(base,
@@ -62,18 +61,18 @@ syn={"type":"object","properties":dict(base,
   has_more=s("boolean"),next_cursor={"type":"string","description":"Opaque; store as is after the page is written"},
   mode={"type":"string","enum":["full","delta"]},full_load_complete=s("boolean"),
   checked_through={"type":["string","null"],"format":"date-time"},as_of=s("string",format="date-time"))}
-errs={"type":"object","properties":dict(base,error={"type":"object","properties":{"code":{"type":"string","enum":["INVALID_INPUT","INVALID_ACTION","AUTHENTICATION_REQUIRED","NOT_FOUND","RATE_LIMITED","SERVICE_UNAVAILABLE"]},"message":s("string")}})}
+errs={"type":"object","properties":dict(base,error={"type":"object","properties":{"code":{"type":"string","enum":["INVALID_JSON","INVALID_INPUT","INVALID_ACTION","AUTHENTICATION_REQUIRED","NOT_FOUND","RATE_LIMITED","SERVICE_UNAVAILABLE"]},"message":s("string"),"detail":s("string")}})}
 def er(d,h=None):
     r={"description":d,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Website API","version":"website-search-v2 (Version 2, 15 October 2026)",
-   "description":"One endpoint, nine actions chosen by the body field `action`. Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."},
+ "info":{"title":"StudySearch Website API","version":"website-api-v2 (Version 2, issue 3, 16 October 2026)",
+   "description":"One address for Website API v2, nine actions chosen by the body field `action` (no contract field). Read the Developer Guide for field meanings and integration. Null means not held. Additive only: ignore unknown fields. Call from Wix backend code only; keep the key in Wix Secrets Manager."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot (Production uses the same address with its own key)"}],
  "security":[{"bearerKey":[]}],
- "paths":{"/wix-course-api":{"post":{"operationId":"websiteSearchV2","summary":"Call an action of website-search-v2",
-   "description":"Actions: reference, search, course, providers, provider, rankings, scholarships, scholarship, sync. 60 requests a minute per action per key.",
+ "paths":{"/website-api-v2":{"post":{"operationId":"websiteApiV2","summary":"Call an action of Website API v2",
+   "description":"Actions: reference, search, course, providers, provider, rankings, scholarships, scholarship, sync. 300 requests a minute per key, all actions together.",
    "requestBody":{"required":True,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/Request"},
      "examples":{k:{"summary":k.replace("_"," "),"value":v} for k,v in ex.items() if "{{" not in json.dumps(v)}}}},
    "responses":{"200":{"description":"List actions return ListResponse; course, provider and scholarship return DetailResponse; reference returns the vocabularies; sync returns SyncResponse",
@@ -86,13 +85,13 @@ items=[]
 names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (109)","search_canada":"search – Canada (4,723)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (49)","provider":"provider – UQ detail","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,096)","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
 for k,v in ex.items():
     it={"name":names[k],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],
-      "body":{"mode":"raw","raw":json.dumps(v,indent=2,ensure_ascii=False),"options":{"raw":{"language":"json"}}},"url":"{{baseUrl}}/wix-course-api"}}
+      "body":{"mode":"raw","raw":json.dumps(v,indent=2,ensure_ascii=False),"options":{"raw":{"language":"json"}}},"url":"{{baseUrl}}/website-api-v2"}}
     if k=="sync_full" or k=="sync_next":
         it["event"]=[{"listen":"test","script":{"type":"text/javascript","exec":["const r = pm.response.json();","if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);","pm.test('status 200', () => pm.response.to.have.status(200));"]}}]
     if k=="scholarships":
         it["event"]=[{"listen":"test","script":{"type":"text/javascript","exec":["const r = pm.response.json();","if (r.items && r.items[0]) pm.collectionVariables.set('scholarshipId', r.items[0].scholarship_id);"]}}]
     items.append(it)
-pm={"info":{"name":"StudySearch Website API (website-search-v2)","description":"Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+pm={"info":{"name":"StudySearch Website API v2 (website-api-v2)","description":"Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
  "auth":{"type":"bearer","bearer":[{"key":"token","value":"{{apiKey}}","type":"string"}]},
  "variable":[{"key":"baseUrl","value":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"},{"key":"apiKey","value":""},{"key":"syncCursor","value":""},{"key":"scholarshipId","value":""}],
  "item":items}

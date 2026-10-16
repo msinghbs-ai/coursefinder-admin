@@ -1,12 +1,12 @@
 ---
 title: "StudySearch Website API — Developer Guide"
-subtitle: "Contract website-search-v2 · Version 2 · 15 October 2026 · Pilot"
+subtitle: "website-api-v2 · Version 2 · Issue 3 · 16 October 2026 · Pilot"
 ---
 
 | | |
 |---|---|
 | **For** | The developers of the StudySearch website (Wix): Course Finder, University Finder and Scholarship Finder |
-| **API** | One HTTPS endpoint, contract `website-search-v2`, nine actions |
+| **API** | One HTTPS address for Website API v2, nine actions |
 | **Environment** | Pilot (live). Production uses the same endpoint address with a separate key, issued at go-live |
 | **Your key** | Sent to you separately by a secure channel. It is never written in this guide or the files that come with it |
 | **Files with this guide** | `StudySearch-Website-API.openapi.json` (OpenAPI 3.1) and `StudySearch-Website-API.postman_collection.json` (Postman; set the variable `apiKey`) |
@@ -19,7 +19,7 @@ Four rules apply to every response:
 
 1. **Null means not held.** A value the platform does not hold is `null` or an empty list. Nothing is filled with a default, an estimate or a value from another record.
 2. **Only published data is returned.** A provider the platform has switched off is not returned, with its courses and scholarships. Every record you receive reads `publication_status: "published"`.
-3. **Additive only.** Fields, filters and actions are added, never renamed or removed, within this contract. Ignore fields you do not use. A breaking change would come as a new contract with its own guide.
+3. **Additive only.** Fields, filters and actions are added, never renamed or removed, within v2. Ignore fields you do not use. A breaking change would come as `website-api-v3` at a new address, with its own guide, and v2 would keep running alongside it.
 4. **Third-party material carries attribution.** Rankings and logos come with `attribution` and `terms_status`. Both are approved for display (`terms_status: "approved"`). Show the attribution with them. If `terms_status` ever reads `management_decision_pending`, stop displaying that item.
 
 # 2. Quick start
@@ -34,15 +34,17 @@ Four rules apply to every response:
 # 3. Endpoint and key
 
 ```
-POST https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1/wix-course-api
+POST https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1/website-api-v2
 Content-Type: application/json
 Authorization: Bearer <your key>
 ```
 
-- Every request body includes `"contract": "website-search-v2"` and an `action`.
+- Every request body includes an `action`. There is no `contract` field: the address is the version.
 - Keep the key in backend-only configuration. Never put it in browser code, page source, CMS records, repositories, screenshots, tickets or ordinary logs.
-- Each key has its own limit: **60 requests a minute per action**. Over the limit you get HTTP 429 with a `Retry-After` header.
-- Your key works with this contract only. If a key is exposed, tell us: we disable it and issue a new one (a key cannot be recovered, only replaced).
+- Each key has its own limit: **300 requests a minute, all actions together**. Over the limit you get HTTP 429 with a `Retry-After` header.
+- Your key works with this address only. If a key is exposed, tell us: we disable it and issue a new one (a key cannot be recovered, only replaced).
+
+**Moving from the earlier address.** Until now the API was reached at `wix-course-api` with `"contract": "website-search-v2"` in every body. That address and its key keep working, unchanged, until you have moved; we will agree the switch-off date with you. The answers are the same at both addresses. To move: store the new key, change the address, drop the `contract` field, and read `api_version` instead of `contract_version`. Your stored sync cursor works at the new address, so no new full load is needed.
 
 # 4. Requests and responses
 
@@ -50,7 +52,6 @@ Authorization: Bearer <your key>
 
 ```json
 {
-  "contract": "website-search-v2",
   "action": "search",
   "filters": { "country_codes": ["AU"] },
   "page": 1,
@@ -60,7 +61,8 @@ Authorization: Bearer <your key>
 ```
 
 - `page` starts at 1. For the list actions `page_size` is 1–50 (default 20); `sync` pages are covered in section 6.
-- Every response carries `contract_version: "website-search-v2"` and a `request_id`. Quote the `request_id` when you report a problem.
+- Every response carries `api_version: "website-v2"` and a `request_id`. Quote the `request_id` when you report a problem.
+- An error reply is `{ api_version, error: { code, message, detail }, request_id }`; `detail` says what was wrong where it can.
 - List actions return `{ total, page, page_size, items, filters_not_applied }`. A filter key the API does not recognise is listed in `filters_not_applied`; it is never silently ignored.
 - Detail actions return `{ item }`.
 
@@ -69,10 +71,11 @@ Authorization: Bearer <your key>
 | HTTP | Code | Meaning |
 |---|---|---|
 | 400 | `INVALID_INPUT` | A malformed filter, page, page size, sort, cursor or missing identifier |
-| 400 | `INVALID_ACTION` | The action is not in the contract |
+| 400 | `INVALID_JSON` | The body is not a JSON object |
+| 400 | `INVALID_ACTION` | The action is not one of the nine |
 | 401 | `AUTHENTICATION_REQUIRED` | Missing or invalid key |
 | 404 | `NOT_FOUND` | The course, provider or scholarship identifier was not found |
-| 429 | `RATE_LIMITED` | Over 60 a minute for that action; wait for `Retry-After` |
+| 429 | `RATE_LIMITED` | Over 300 a minute for your key; wait for `Retry-After` |
 | 503 | `SERVICE_UNAVAILABLE` | A bounded service failure; retry later |
 
 On 429 or 5xx keep serving your last good copy and retry on the next run.
@@ -108,7 +111,6 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 
 ```json
 {
-  "contract": "website-search-v2",
   "action": "sync",
   "cursor": "<next_cursor from your last reply; leave out for a full load>",
   "page_size": 200
@@ -162,22 +164,22 @@ Measured on Pilot (database time): filtered search 0.1–0.6 s; a search sorted 
 
 ## 6.1 Full load: what to expect
 
-Measured on Pilot on 15 October 2026.
+Measured on Pilot on 16 October 2026.
 
 | Measure | Full load |
 |---|---|
-| Items | About 40,600 (courses 37,300; providers 1,885; scholarships 1,100; logos 275; ranking sets 56; reference 1) |
-| Calls | About 250 at the default page size |
+| Items | About 41,700 (courses 37,300; providers 1,885; scholarships 1,100; logos 1,399; ranking sets 56; reference 1) |
+| Calls | About 260 at the default page size |
 | Data | About 100 MB of JSON in total; the largest page about 550 KB |
 | Reply time | Under a second a page |
-| Elapsed time | About 5 minutes, paced at the limit of 60 calls a minute |
+| Elapsed time | About 5 minutes (one page at a time) |
 | After the full load | A delta is usually one call; the platform checks every item for changes within about 90 minutes, and a change appears in the next delta after that |
 
 ## 6.2 What we expect from your sync job
 
 1. **Run it as a scheduled backend job that can resume.** Save `next_cursor` after each page is written. If the job stops (for example at a Wix time limit), the next run carries on from the saved cursor.
 2. **One cursor at a time.** Each call needs the previous reply's cursor; do not start a second full load while one is running.
-3. **Stay within 60 calls a minute.** On 429, wait for `Retry-After` and send the same cursor again.
+3. **Stay within 300 calls a minute.** On 429, wait for `Retry-After` and send the same cursor again.
 4. **Write each page in one bulk save,** upserting by `id`; delete by `id` on `remove`.
 5. **After the full load, run a delta every 5 to 15 minutes.** Run a full load again only to rebuild your collections.
 6. **Copy each new or renewed logo into Wix Media** in the run that receives it.
@@ -199,7 +201,7 @@ Measured on Pilot on 15 October 2026.
 ## 7.1 reference
 
 ```json
-{ "contract": "website-search-v2", "action": "reference" }
+{ "action": "reference" }
 ```
 
 Per country (AU, NZ, CA): study levels, study areas, subdivisions (states, provinces, regions), cities with metro areas, intake months and English tests, each with course counts. Also: regional categories, institution types with provider counts, university groups, ranking systems with editions, scholarship amount types, study stages and student types, and the sort values for courses and providers. `generated_at` says when the counts were built (every 15 minutes).
@@ -208,7 +210,6 @@ Per country (AU, NZ, CA): study levels, study areas, subdivisions (states, provi
 
 ```json
 {
-  "contract": "website-search-v2",
   "action": "search",
   "filters": {
     "country_codes": ["AU"],
@@ -225,7 +226,7 @@ Per country (AU, NZ, CA): study levels, study areas, subdivisions (states, provi
 }
 ```
 
-This returned 78 courses on 15 October 2026. All filters are optional and combine with AND.
+This returned 35 courses on 16 October 2026. All filters are optional and combine with AND.
 
 | Filter | Type | Notes |
 |---|---|---|
@@ -268,7 +269,7 @@ This returned 78 courses on 15 October 2026. All filters are optional and combin
 ## 7.3 course (detail)
 
 ```json
-{ "contract": "website-search-v2", "action": "course", "course_code": "082960F" }
+{ "action": "course", "course_code": "082960F" }
 ```
 
 `course_code` accepts a source code, a StudySearch display code (e.g. `UNBC-BA-019`) or a `course_id`. The detail has every search field plus: `description`, `tuition_history[]` (every year held, latest first), `scholarships[] { scholarship_id, name, official_url, amount_note, amount_is_maximum, application_deadline, saving_per_year, saving_currency }`, `english_note`, `other_matches` (other courses sharing the same source code), and `provider_outcomes_state` with `provider_outcomes[]` (the provider's QILT statistics, as in 7.4).
@@ -276,10 +277,10 @@ This returned 78 courses on 15 October 2026. All filters are optional and combin
 ## 7.4 providers and provider (University Finder)
 
 ```json
-{ "contract": "website-search-v2", "action": "providers",
+{ "action": "providers",
   "filters": { "country_codes": ["AU"], "university_groups": ["go8"] },
   "sort": "qs_rank_asc", "page": 1, "page_size": 6 }
-{ "contract": "website-search-v2", "action": "provider", "provider_id": "provider:cricos:00025b" }
+{ "action": "provider", "provider_id": "provider:cricos:00025b" }
 ```
 
 **Filters:** `keyword`, `country_codes`, `subdivision_codes`, `cities`, `regional_categories`, `university_groups`, `institution_types`, `study_level_codes` and `study_area_codes` (offered), `has_scholarship`, `ranked_in` (`qs_wur`, `the_wur`), `qs_rank_max`, `the_rank_max`, `has_logo`, `provider_ids`. **Sort:** `name_asc` (default), `qs_rank_asc`, `the_rank_asc`, `course_count_desc`.
@@ -301,9 +302,9 @@ An average tuition per provider is not returned: there is no sound basis for one
 ## 7.5 scholarships and scholarship (Scholarship Finder)
 
 ```json
-{ "contract": "website-search-v2", "action": "scholarships",
+{ "action": "scholarships",
   "filters": { "student_types": ["international"] }, "page": 1, "page_size": 10 }
-{ "contract": "website-search-v2", "action": "scholarship", "scholarship_id": "<scholarship_id from the list>" }
+{ "action": "scholarship", "scholarship_id": "<scholarship_id from the list>" }
 ```
 
 **Filters:** `keyword`, `country_codes`, `provider_ids`, `cities`, `subdivision_codes`, `university_groups`, `amount_types` (`fixed_amount`, `percentage_tuition`, `full_tuition`), `open_only`, `study_level_codes`, `study_area_codes`, `student_types` (`international`, `domestic`, `both`), `study_stages` (`commencing`, `current`), `automatic_consideration`, `nationality_codes`, `course_id`. Results are ordered by name. Every scholarship returned is published.
@@ -323,7 +324,7 @@ An average tuition per provider is not returned: there is no sound basis for one
 ## 7.6 rankings
 
 ```json
-{ "contract": "website-search-v2", "action": "rankings",
+{ "action": "rankings",
   "filters": { "system_codes": ["qs_wur"], "edition_year": 2027, "country_codes": ["AU"] },
   "page": 1, "page_size": 20 }
 ```
@@ -353,23 +354,23 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 
 # 8. What is held now
 
-Courses or records the API returns holding a value (15 October 2026; coverage grows daily).
+Courses or records the API returns holding a value (16 October 2026; coverage grows daily).
 
 | Course field | Australia (26,103) | New Zealand (6,474) | Canada (4,723) |
 |---|---|---|---|
 | Official course page | 18,385 | 3,000 | 2,678 |
-| English requirements | 15,901 | 1,927 | 1,688 |
+| English requirements | 15,901 | 1,929 | 1,688 |
 | Intake months | 9,269 | 1,967 | 848 |
-| Any tuition | 25,922 | 966 | 326 |
+| Any tuition | 25,716 | 966 | 326 |
 | Study area | 26,103 | 6,053 | 4,601 |
 | Study level | 26,103 | 6,233 | 2,671 |
-| Duration (months) | 26,103 | 3,073 | 1,469 |
+| Duration (months) | 26,103 | 2,929 | 1,319 |
 | Delivery mode | 26,087 | 3,870 | 3,204 |
 | At least one campus | 26,069 | 2,603 | 2,332 |
 | At least one linked scholarship | 9,397 | 1,060 | 846 |
 | Providers with courses | 1,546 | 287 | 52 |
 
-Scholarships returned: 1,100 (Australia 901, New Zealand 141, Canada 58); 1,096 open to international students. Providers with an approved logo: 265. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
+Scholarships returned: 1,100 (Australia 901, New Zealand 141, Canada 58); 1,096 open to international students. Providers with an approved logo: 1,445. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
 
 # 9. Your Wix collections (suggested)
 
@@ -396,14 +397,14 @@ Send: the action and request body (no key), the `request_id`, the HTTP status, t
 
 # 12. Acceptance tests
 
-Counts are as measured on Pilot on 15 October 2026; expect the same or more.
+Counts are as measured on Pilot on 16 October 2026; expect the same or more.
 
 | # | Test | Expected |
 |---|---|---|
-| 1 | Key | `reference` with your key returns 200 with `contract_version: "website-search-v2"` |
+| 1 | Key | `reference` with your key at the new address returns 200 with `api_version: "website-v2"` |
 | 2 | Wrong key | An invalid key returns 401 and no data |
 | 3 | Reference | Vocabularies for AU, NZ and CA; eight institution types |
-| 4 | Course search | The example in 7.2 returns 78 courses; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
+| 4 | Course search | The example in 7.2 returns 35 courses; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
 | 5 | Keyword | `keyword` nursing with `cities` Melbourne returns 109 courses, nursing titles first, the same total on every page |
 | 6 | Canada | `country_codes` CA returns 4,723 courses, each with a `display_code` |
 | 7 | Display code | `course` with `course_code` UNBC-BA-019 returns that course; `display_code_kind` is `studysearch` |
@@ -413,7 +414,7 @@ Counts are as measured on Pilot on 15 October 2026; expect the same or more.
 | 11 | Institution type | `providers` with `country_codes` AU and `institution_types` university returns 45 providers |
 | 12 | Scholarships | `scholarships` with `student_types` international returns 1,096 records |
 | 13 | Rankings | `rankings` with QS, edition 2027, AU returns 38 entries, each with `attribution` and `terms_status: "approved"` |
-| 14 | Logos | `providers` with `has_logo` true returns 265 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
+| 14 | Logos | `providers` with `has_logo` true returns 1,445 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
 | 15 | Sync full load | `sync` with no cursor: `mode` full and `has_more` true; following `next_cursor` to the end gives `full_load_complete: true` |
 | 16 | Sync changes | The last `next_cursor` sent again returns only what changed since (often nothing); sending it twice gives the same items |
 | 17 | Errors | An unknown action returns 400 `INVALID_ACTION`; a 429 is handled by waiting for `Retry-After` |
@@ -422,9 +423,10 @@ Counts are as measured on Pilot on 15 October 2026; expect the same or more.
 
 # 13. Changes to this guide
 
-Changes within `website-search-v2` are additive. A change to the API (a new field, filter, action or behaviour) reissues this guide with a new date and a line here. Data grows between issues; the counts in this guide are measures on the date shown.
+Changes within Website API v2 are additive. A change to the API (a new field, filter, action or behaviour) reissues this guide with a new date and a line here. Data grows between issues; the counts in this guide are measures on the date shown.
 
 | Date | Change |
 |---|---|
 | 15 October 2026 | First issue, with the OpenAPI file and Postman collection. Changes from the Version 2 handover of 14 October 2026: a developer key; `reference` rebuilt every 15 minutes; `sync` pages may hold fewer items than `page_size` |
 | 15 October 2026 (issue 2) | `sync` pages hold up to 200 items (was 50; default 200), and a page also stops at about 550 KB. A full load is about 250 calls, about 5 minutes (was about 1,400 calls, about 25 minutes). Sections 6.1 and 6.2 added: what to expect from a full load, and what we expect from your sync job |
+| 16 October 2026 (issue 3) | Website API v2 at its own address, `website-api-v2`, with its own key: no `contract` field; responses carry `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail` (and `INVALID_JSON`); 300 calls a minute per key, all actions together. Same actions, fields and answers. The earlier address keeps working until you have moved |

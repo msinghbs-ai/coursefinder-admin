@@ -43,12 +43,13 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 
 ## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
 
-`website-search-v2` is the only path the website should use. These are **marked for retirement once the developer is live on v2**; nothing is removed now:
+Website API v2 is the only path the website should use. From 16 Oct 2026 it has its own address, `website-api-v2` (own key, no contract field, every call logged; Platform Admin 11:43: "build the Website v2 URL as parallel without disturbing api v2 through v1 url with contract"). These are **marked for retirement once the developer is live on the new address**; nothing is removed now:
 
 | Path | What it is | Retire when |
 |---|---|---|
 | `wix-course-api` without a contract (contract `wix-cache-v1`: sync_courses, reference_bundle, lookup, search, scholarships) | The first Wix path; answers the Wix key only | The website runs on v2 in Production and v1 calls have been zero for 14 days |
 | Edge function `website-course-api` (contract `website-integration-v3.1-pilot`) | An earlier website path | Same; the usage audit showed no calls |
+| `wix-course-api` with contract `website-search-v2` | The same answers as `website-api-v2` (same database functions), through the old address and key; not logged on Operations › API usage | The developer has moved to `website-api-v2` and the switch-off date is agreed |
 
 Removal is a separate change: a paste file for the Platform Admin, never an applied migration.
 
@@ -69,6 +70,7 @@ Removal is a separate change: a paste file for the Platform Admin, never an appl
 
 | Version | Date | Change |
 |---|---|---|
+| 2.0 | 16 Oct 2026 | Website API v2 at its own address, `website-api-v2` (Pilot PR #544, migration 20261016050000): its own key `website_developer_v2`, 300 calls a minute per key (setting `website.rate_per_minute`), every call logged on Operations › API usage; same nine actions and answers as the contract path, which is unchanged. Developer guide issue 3 (address, no contract field, `api_version`, error `message` and `detail`; figures re-measured) |
 | 1.9 | 15 Oct 2026 | Faster Wix full load (Platform Admin 17:46, "Prepared items + bigger pages"): `sync` serves items stored by the change check; pages up to 200 items and about 550 KB; full load about 250 calls, about 5 minutes (was 1,426 calls, about 25 minutes). Guide issue 2: 6.1 what to expect, 6.2 what we expect from the sync job (Platform Admin 18:37); OpenAPI and Postman regenerated. |
 | 1.8 | 15 Oct 2026 | Platform Admin 17:24: "Wix consumer developer Dont need to know fixes on the platform ... only detials about api changes from last version." Rule: the developer guide's section 13 lists API changes only (new field, filter, action or behaviour) against the previous issue; platform fixes and data corrections are not described to the developer; measured figures (section 8, examples, acceptance counts) are refreshed with each issue. Guide reissued: section 13 holds the first-issue line only; section 8 re-measured (15 Oct 2026). |
 | 1.7 | 15 Oct 2026 | Developer pack refreshed and reissued (Platform Admin 17:02). Found while re-measuring: `reference` listed Sydney under Brisbane; each city now takes the metro area most of its campuses have, and two campuses with a wrong register state take the state their address names (migration 20261015090000). Acceptance counts refreshed (course example 78; providers with a logo 265 and rising). Contract unchanged. |
