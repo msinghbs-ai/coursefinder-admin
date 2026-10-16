@@ -6475,3 +6475,16 @@ The brief now forbids direct table changes.
 - Full test suite 684 passed before the deploy.
 - Key handed to the Platform Admin once, outside the repositories.
 - Open: retire the contract path on `wix-course-api` once the developer has moved and a switch-off date is agreed (paste file); the edge drift snapshot branch from this check could not be deleted from here (no write access to branch refs through the proxy).
+
+### 16 Oct 2026 (Fri, Melbourne) – API usage console for Zoho API v2 and Website API v2 (release v2.15.283)
+
+**Asked by:** Platform Admin, 16 Oct 2026 14:31: "Create me a ui to check stats on Both APIs with relevant metrics/API calls or statistics, success & failure, last login, full sync, delta sync, bandwidth, load size etc. be able to rotate their keys. and on Demand fresh statistics by pressing a button, otherwise get refresh daily basis."
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016060000 | Statistics per key for 24 hours, 7 days and 30 days (`pipeline.api_usage_summary`, `security.api_key_stats_v1`): calls, success rate, failures (client, rate limited, server, last error), last call and last success, bandwidth, average and largest reply, times, last completed full load (start, finish, pages, items, size), deltas, CSV exports, searches, old-key use. Refresh daily (job `api-usage-rollup`, was every 15 minutes) and on demand (`admin_api_usage_refresh`, rank 4+), each recorded (`pipeline.api_usage_refreshes`). Key rotation with an overlap (setting `api.key_rotate_overlap_hours`, 24), end old key, switch off and on (`admin_api_key_*`, Platform Admin), recorded in `pipeline.api_key_events` (no key or hash kept). `zoho_v2_auth` and `website_api_v2_auth` accept the old key until its overlap ends | md5-guarded; dry run with a simulated rotation (new key accepted; old key accepted in overlap, refused after End old key; switched-off key refused; a non-admin refused); applied; post-check passed. PR #545 |
+| Edge functions `zoho-api-v2`, `website-api-v2` | Sync calls logged as `sync_full_start`, `sync_full`, `sync_full_end`, `sync_delta`; calls with an old key during an overlap logged as `<key>#previous`; rate limit stays on the key | Edge drift check: live identical to the branch. Live on the test key `zoho_live_check_v2` (real keys untouched): rotated, calls logged with the new labels and `#previous`, old key refused after End old key, refreshed on demand, switched off again. PR #545 |
+| Screen Operations › API usage (release v2.15.283) | Per API: calls, success rate, failures, bandwidth, last call. Keys: status, last call and last success, calls, failures, bandwidth, reply sizes, times, rotated; Rotate (new key shown once), End old key, Switch off and on. Full loads and deltas. By day and By key and action with bandwidth. Latest errors. Key changes. Statistics as of, with Refresh statistics now | S50 (6 tests, mocked browser); full suite 690 then 684 passed (after the release bump); release contract PASS; deployed release check passed. PRs #545, #546 |
+
+- Correction: the Zoho v2 keys message on 16 Oct said a key could be switched off on Operations › API usage; that screen was read-only until this change.
+- Real keys (`zoho_creator_v2`, `zoho_crm_sync_v2`, `website_developer_v2`) were not rotated or changed.
