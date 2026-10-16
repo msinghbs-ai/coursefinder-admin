@@ -6488,3 +6488,20 @@ The brief now forbids direct table changes.
 
 - Correction: the Zoho v2 keys message on 16 Oct said a key could be switched off on Operations › API usage; that screen was read-only until this change.
 - Real keys (`zoho_creator_v2`, `zoho_crm_sync_v2`, `website_developer_v2`) were not rotated or changed.
+
+### 16 Oct 2026 (Fri, Melbourne) – Platform health matches reality, scholarship reading restarted, dashboard icons, delete users (release v2.15.284)
+
+**Asked by:** Platform Admin, 16 Oct 2026 15:25: "Platform health: CRITICAL, with 5 critical issues and 1 warning. Most are stale or mis-labelled. The real one is scholarships: none published or read for two days." "Dashboard should display Icons ... missing icon for "Review items to decide" and so on" "Platform Users - can't be deleted, only disabled (only Platform admin should be able to delete the user from UI, Platform admins roles user can't be deleted form the UI".
+
+**Found:** no scholarship page read since 14 Oct. The only pages due belonged to The University of Sydney (83) and RMIT (27), held by the per-university Firecrawl cap (150 credits in 30 days, used during onboarding on 12 Oct; it frees on 11 Nov); 86 were re-reads asked for on 12 Oct. The reader then ran empty and the flag unit paused it. Discovery has been through every eligible provider; the 106 "waiting" are Australian providers under 30 courses, which scholarship searches skip by design. Nothing new was found, so nothing new was published. The other alerts were stale: the retired tuition hand-off, a job back from a trial-run pause counted as overdue, the scholarship allowance hard-coded as 3,000 (setting 60,000) with a wrong "direct reads" message, and the database judged against the old Micro profile (60 connections; levels 1/2/4 GB from 1 Sep).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration 20261016070000 | A scholarship read asked for is not held by the per-university cap (`svc_scholarship_read_next`); reader switched on again. Health: claimable work only (held work shown apart), tuition hand-off retired, trial-run restarts not overdue, scholarship allowance from its setting, live connection limit (120), compute profile Medium, size levels 4/6/7 GB | md5-guarded; dry run (health down to the one real issue); applied. PR #547 |
+| Migration 20261016090000 | `svc_fc_spend`: a requested scholarship page read may spend past the per-university cap (the day share and the scholarship allowance still apply) | First run after 070000 claimed 40 pages but the spend check refused them; after 090000 the next run read 21 pages (first reads since 14 Oct, 21 credits). PR #548 |
+| Migration 20261016080000 and edge function `admin-user-management` | Delete user (Platform Admin): database guard refuses Platform Admins (current or expired role), your own account and the system automation account; a user named on recorded work is soft-deleted by Supabase Auth so history stays linked; roles end; recorded in `security.user_deletions`. The function is now deployed from the repository (live copy differed only in line breaks; verify_jwt true as live) | Dry run: guard refuses a Platform Admin, self and the system account; allows a Curator test user (no references, removed fully). Edge drift check: live identical to main. PR #547 |
+| Release v2.15.284 | Dashboard: an icon for each queue in Waiting for you. Users & roles: Delete button (type the email to confirm), Deleted users list. Version pill notes, SOPs 1.25, Platform guide | S51; full suite 695 and 696 passed; release contract PASS; deployed release check passed. PRs #547, #548 |
+
+- Platform health after the changes: overall OK; 0 critical, 0 warning, 1 info (database 4,399 MB, over the 4 GB watch level; the D6–D10 paste file, not yet run, returns about 270 MB).
+- 80 more requested Sydney and RMIT pages are read on their next retry.
+- Governance gap closed: `admin-user-management` was deployed by hand and is now on the deploy allow-list.
