@@ -1,6 +1,6 @@
 # StudySearch – Website developer requirements register
 
-**Version:** 1.9 (15 Oct 2026; faster full load: sync pages up to 200; guide issue 2 with expectations)
+**Version:** 2.1 (16 Oct 2026; developer requests R18–R22 planned, with a build plan)
 **Change control:** CF-247 · **Decisions:** 257 (website API v2), 258 (institution type)
 **Owner:** Platform Admin. **Who updates it:** any chat that changes the website API or the data behind it, in the same change-control entry.
 **Developer document:** `docs/integrations/developer-pack/StudySearch-Website-API-v2-Developer-Guide.md` (the master; Word, PDF, OpenAPI and Postman files beside it are what the developer receives, rebuilt with `build.sh`). The Version 2 handover (`coursefinder-wix-api-handover-v2.md`) is now the internal history and long-form reference as at 14 Oct 2026; it is no longer sent.
@@ -34,12 +34,17 @@ Sources: the website team's requests of 15 September and 1 October 2026, and lat
 | R9 | Institution type (university, TAFE, college) | **Done** (14 Oct) for Australia and New Zealand; Canada null | `institution_type {code, name, basis}`; filter `institution_types`; list in `reference` |
 | R10 | Unpublished providers and courses must not reach the website | **Done** | Provider Published switch (rule 2) |
 | R11 | Logo dark variant, brand colour | **Not held** | null |
-| R12 | Academic entry requirements, specialisations | **Not held** | not returned |
+| R12 | Academic entry requirements, specialisations | **Not held**; academic entry by country of previous study is planned as **R19** (16 Oct 2026); specialisations stay not held | not returned |
 | R13 | Average tuition per provider | **Not returned by decision** (no sound basis) | — |
 | R14 | Website prototype table shapes | **Not provided by decision**; the website maps v2 fields once | — |
 | R15 | Logos as file links Wix can store, with the longest practical validity (Platform Admin, 14 Oct 2026) | **Done** (14 Oct): signed links valid 365 days (`website.logo_link_days`), resent in the sync delta 30 days before they end | `logo.url`, `url_expires_at` (13.7); Step B2 |
 | R16 | After a full load, later calls return only what changed, unless a full load is asked for (Platform Admin, 14 Oct 2026) | **Done** (14 Oct): action `sync` with a cursor; full load in pages, then new, changed and removed items | `sync` (13.8); acceptance tests 12a, 12b |
 | R17 | A clean developer pack to send to the developers (Platform Admin, 15 Oct 2026) | **Done** (15 Oct): developer guide (Word, PDF), OpenAPI 3.1 file and Postman collection with no key; a separate developer key (`coursefinder_website_developer_pilot_v1`, own rate limit, v2 only), handed to the Platform Admin once | `docs/integrations/developer-pack/` |
+| R18 | Duolingo English Test (DET) scores on courses (Raghav, 16 Oct 2026) | **Planned** (build plan below) | `english` on `course` and `search`, filter `english_test` DET (additive) |
+| R19 | Academic entry requirements by country of previous study (Raghav, 16 Oct 2026; replaces R12's academic part) | **Planned**; waits for one university example from Raghav and the Platform Admin's choice of countries | new `academic_entry` on `course` (additive) |
+| R20 | Scholarship eligibility by nationality, searchable (Raghav, 16 Oct 2026) | **Planned**; 104 of 2,047 scholarships name nationalities today | `nationalities` (held) plus filter `nationality` on `scholarships` (additive) |
+| R21 | Lighter logos for the full load (from Raghav's measures: 1,550 logos, 131 MB, 283 WebP) | **Planned**; waits for the formats Wix accepts | `logo.url` points to a standard copy; original kept |
+| R22 | Fewer, faster full-load calls (from Raghav's measures: 257 calls, 2 min 53 s, largest page 628 KB) | **Planned** (closes O8) | `sync` pages; no field change |
 
 ## One path for the website (Platform Admin, 15 Oct 2026: "API first, platform after")
 
@@ -53,6 +58,42 @@ Website API v2 is the only path the website should use. From 16 Oct 2026 it has 
 
 Removal is a separate change: a paste file for the Platform Admin, never an applied migration.
 
+## Build plan for R18–R22 (16 Oct 2026, Platform Admin 23:44: "Start planning developer latest request & create feature number for each of them. Keep all pending tasks, housekeeping and production readiness in mind. All operation and functions needs to be adhered while planning new features and bug fixes. Platform has to be self sustainable and improving.")
+
+Status: **planned, not started**. Each feature is built, tested and released on its own, in the order below. Figures measured live on 16 Oct 2026.
+
+### Standard every feature meets (self-sustaining, production-ready)
+
+| Area | Rule |
+|---|---|
+| Settings | Every number (batch size, re-read days, AI budget, limits) is a setting on Settings › Pipeline settings (G2); nothing hard-coded |
+| Jobs | Every background step is a catalogued job or task type, visible in Task manager with Pause, Resume and Run now |
+| Flags and move-on | Unreadable or unclear pages raise a flag with evidence (Decision 261); hard reasons hold at once, soft after 2 tries; no endless retries |
+| Evidence | Values are read from stored pages (evidence first); the quote and page are kept and shown in the UI |
+| Keeping current | Re-read when the stored page changes, and at least yearly; never a blind overwrite; manual values are never overwritten |
+| Housekeeping | Each new table has a `comment on table`, a retention rule decided at build, a component register row, and its size on the daily storage record; the old approach is retired in the same change (Decision 260) |
+| API | Additive only on v2 (rule 1); null means not held; contract tests extended; developer guide section 13 gets one line per API change |
+| Release | Full test suite, dry run on live, md5-guarded functions, version pill notes for screen changes, change-control entry |
+| Production | Tuned in Pilot; data admitted in Production only (operational data never flows back) |
+
+### Features
+
+| # | What gets built | Database change | How values are filled | Effort and running cost | Growth (database) | Waits on |
+|---|---|---|---|---|---|---|
+| R22 | Provider detail built directly by id (O8); sync page size raised back by setting; page byte cap kept | None | Not applicable | About 1 day; no running cost | None | Nothing |
+| R21 | A standard logo copy per provider (one format and size, setting-driven), made by a job; `logo.url` serves it; original kept | Copy path on the logo record | Job converts new or changed logos; Task manager shows it | About 1 day; no AI | Under 1 MB (files about 30–50 MB in `provider-assets`) | Raghav: formats Wix accepts (PNG only, or PNG and WebP; SVG?) |
+| R18 | DET added as an English test; rule reads DET scores from the stored English policy pages; AI re-read only where the rule is unsure | One row in `ref.english_tests`; DET rows in `catalogue.course_english_requirements` (27,225 rows, 14 MB today) | Text rule first, cheapest vetted model second, from stored pages (no new scraping) | About 1 day; under US$5 | About 5–10 MB | Nothing |
+| R20 | Nationality list read for every published scholarship; filter `nationality` on `scholarships` | None (`scholarship.scholarships.nationalities` exists) | Existing jobs `scholarship-nationality` and `scholarship-audience` widened, then AI re-read of stored pages where the wording is unclear | About 2 days; about US$3–8 | Negligible | Nothing |
+| R19 | Academic entry requirements by country of previous study: page finder, table parser plus AI with quote checks, Layer 4 review screen for unclear rows, API field | New table `catalogue.course_entry_requirements` (course, country of study, qualification, minimum, evidence) | Focus universities first; pages found and read through Firecrawl, then stored and parsed | About 4–5 days build, 1–2 weeks to fill; about 1,000–3,000 Firecrawl credits and US$10–30 | About 40–60 MB for focus universities | Raghav: one university example; Platform Admin: which countries of previous study come first |
+
+### Order and gates
+
+1. **Housekeeping headroom first:** run the D6–D10 paste file (about 270 MB) before R19 adds its table; register replay keys (step 3), discovery links (step 4) and Layer 3 history (step 5) are decided alongside.
+2. **R22, then R21:** they make the developer's full load lighter with no new data (R21 once Raghav confirms formats).
+3. **R18, then R20:** small, read from pages already stored.
+4. **R19:** after Raghav's example and the country choice; build in Pilot, measure on a handful of universities, then fill.
+5. After each: developer guide issue with a section 13 line (API changes only), this register updated, change-control entry.
+
 ## Open work (for the build chat)
 
 | # | Item | Why it matters | Notes |
@@ -63,13 +104,14 @@ Removal is a separate change: a paste file for the Platform Admin, never an appl
 | O4 | Five Australian providers have no institution type; Aviation Australia and Canning College are typed TAFE / Polytechnic — **Parked: pending data-enrichment task PE-3** (left empty, Platform Admin 14 Oct 20:39) | Visible to the website as null or as TAFE | Platform Admin to review; set by hand on Providers › Type, or change the rules on Settings › Pipeline settings |
 | O5 | ~~Rankings and logos usage terms~~ **Done 14 Oct (v2.15.277)**: Platform Admin decision "Yes, approved to display" | Closed PE-4 | `terms_status` approved for rankings and logos; changed by a Yes/No setting with a reason |
 | O6 | Filtered search timings | Institution type filter about 2.3 s cold (about 1.6 s without it). `reference` passed the 8 s limit under load (5.5–6.6 s): fixed 15 Oct with a copy rebuilt every 15 minutes | Watch; optimise only if the developer reports slowness |
-| O8 | Provider detail is slow (about 0.5 s, up to 2.3 s in a sync page) | It builds the providers list to answer for one provider; sync pages hold 3 provider details so a page stays under the limit | Follow-up: build the provider detail directly by id; then raise the page back up |
+| O8 | Provider detail is slow (about 0.5 s, up to 2.3 s in a sync page) | It builds the providers list to answer for one provider; sync pages hold 3 provider details so a page stays under the limit | Follow-up: build the provider detail directly by id; then raise the page back up. **Planned as R22** (16 Oct 2026) |
 | O7 | ~~Duration quality~~ **Done 14 Oct (migration 20261014100000, worker v0.23.2)** | Platform Admin decisions: "Undo and tighten rule" and "Keep null". The two New Zealand durations read from a fee line are withdrawn (items kept, reversible); the Enrich fields worker no longer admits a duration quote about the fee basis; 294 semester durations stay null in `duration_months` | Handover reissued: section 14 NZ duration 2,929, known data-quality line, change-log line |
 
 ## History
 
 | Version | Date | Change |
 |---|---|---|
+| 2.1 | 16 Oct 2026 | Developer requests from Raghav's email numbered R18–R22 (Duolingo, academic entry by country, nationality eligibility, lighter logos, faster full load) with a build plan, the standard each feature meets, and the order and gates. R12's academic part moves to R19. |
 | 2.0 | 16 Oct 2026 | Website API v2 at its own address, `website-api-v2` (Pilot PR #544, migration 20261016050000): its own key `website_developer_v2`, 300 calls a minute per key (setting `website.rate_per_minute`), every call logged on Operations › API usage; same nine actions and answers as the contract path, which is unchanged. Developer guide issue 3 (address, no contract field, `api_version`, error `message` and `detail`; figures re-measured) |
 | 1.9 | 15 Oct 2026 | Faster Wix full load (Platform Admin 17:46, "Prepared items + bigger pages"): `sync` serves items stored by the change check; pages up to 200 items and about 550 KB; full load about 250 calls, about 5 minutes (was 1,426 calls, about 25 minutes). Guide issue 2: 6.1 what to expect, 6.2 what we expect from the sync job (Platform Admin 18:37); OpenAPI and Postman regenerated. |
 | 1.8 | 15 Oct 2026 | Platform Admin 17:24: "Wix consumer developer Dont need to know fixes on the platform ... only detials about api changes from last version." Rule: the developer guide's section 13 lists API changes only (new field, filter, action or behaviour) against the previous issue; platform fixes and data corrections are not described to the developer; measured figures (section 8, examples, acceptance counts) are refreshed with each issue. Guide reissued: section 13 holds the first-issue line only; section 8 re-measured (15 Oct 2026). |

@@ -6581,3 +6581,18 @@ The brief now forbids direct table changes.
 - First record (16 Oct 2026): database 4.62 GB (pipeline 2.78 GB, storage 0.57 GB, catalogue 0.39 GB, search 0.23 GB, scholarship 0.17 GB, ranking 0.13 GB); file storage 28.1 GB in 200,761 files (evidence 21.0 GB, adapter-captures 7.0 GB, provider-assets 0.11 GB, archive 0.04 GB).
 - Largest tables: `storage.objects` 566 MB, `coverage_provider_urls` 332 MB, `evidence_artifacts` 319 MB, `register_replay_keys` 237 MB, `search.course_documents` 231 MB, `layer3_interpretations` 203 MB, `website_sync_items` 162 MB.
 - Housekeeping advice to get the database under 2 GB was given to the Platform Admin; any purge goes by paste file or Settings › Storage & retention, not by migration.
+
+### 16 Oct 2026 (Fri, Melbourne) – Daily housekeeping job; developer requests R18–R22 planned
+
+**Asked by:** Platform Admin, 16 Oct 2026 23:44: "Keep the pending job and these housekeeping job in memory. Run 1,2,6,7. Remind me after starting following task with other pending tasks about 3,4,5. Start planning developer latest request & create feature number for each of them. Keep all pending tasks, housekeeping and production readiness in mind. All operation amd functions needs to be adhered while planning new features and bug fixes. Platform has to be self sustainable and improving."
+
+| Step | What happened | Checked |
+|---|---|---|
+| 1 D6–D10 paste file (about 270 MB) | Run directly against the database was cancelled at the approval step; nothing removed. Stays a paste file for the Platform Admin (`PASTE-20261015-usage-audit-d6-d7-d9-d10.sql`; it checks the archive copy and every row set first, then removes) | Not run |
+| 2 Expired one-time request codes | Migration `20261016110000_cf247_housekeeping_daily`: job `housekeeping-daily` (03:47 Melbourne, catalogued, in Task manager) runs `security.housekeeping_daily_v1`: request codes expired more than `retention.nonce_keep_days` (1) ago; up to `batch.housekeeping_rows` (400,000) a run; each run recorded in the admin events | Dry run rolled back: 274,186 codes and 11,680 run records in 13 s. Applied; live function body matches the file (md5); job on; settings 1 / 400,000 / 3. PR #551, full suite 701 passed |
+| 6 Sync item history | Nothing to remove: `pipeline.website_sync_items` (41,893) and `zoho_sync_items` (34,394) hold one current row per item, the live feeds; 1 removed row. The earlier estimate was wrong | Measured live |
+| 7 Job run log | Was already kept 3 days by two jobs made outside git with numbers in their commands (`cron-history-retention` 14 days, `cron-history-trim` 3 days). Both switched off and marked retiring (replaced_by `housekeeping-daily`, removed by paste file after 14 days); `retention.job_log_keep_days` 7 → 3, now used by the daily job | Live: both old jobs inactive, register rows retiring |
+
+- Space: deleted rows are reused by the table rather than returned; the tables stop growing. Shrinking them needs step 8 (`vacuum full` or repack) at a quiet time.
+- Steps 3 (register replay keys), 4 (discovery links) and 5 (Layer 3 history) wait for the Platform Admin.
+- Developer requests from Raghav's email numbered and planned in `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` v2.1: **R18** Duolingo English Test, **R19** academic entry requirements by country of previous study (R12's academic part), **R20** scholarship eligibility by nationality, **R21** lighter logos, **R22** fewer, faster full-load calls (closes O8). Each with the self-sustaining standard (settings, catalogued jobs, flags, evidence, re-reads, retention, additive API, production-only admission) and the order: housekeeping headroom, R22, R21, R18, R20, R19. Not started.
