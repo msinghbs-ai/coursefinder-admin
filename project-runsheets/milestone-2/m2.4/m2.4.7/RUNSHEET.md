@@ -6652,3 +6652,20 @@ The brief now forbids direct table changes.
 
 - For a person: TAFE Queensland 4 courses in Layer 4; RMIT undergraduate policy in force is the domestic page (same 6.5); Australian University College of Divinity has only course pages approved.
 - Next: band reader for universities that publish English by course or band (ANU, Melbourne, UWA, Wollongong, James Cook, ACU, Torrens), chosen by the Platform Admin.
+
+### 17 Oct 2026 (Sat, Melbourne) – Layer 4: 271 of 440 waiting items settled by rule; English and link approvals fixed
+
+**Asked by:** Platform Admin, 17 Oct 2026 16:19: "Bring everything from layer 4 and assess either for rule or ai extraction and proceed or give me recomemded choices".
+
+**Found:** approving an English item in Layer 4 always failed ("field is not enabled for scalar Layer 4 editing"; no English item had ever been approved), and approving a course link stored as `course_url` failed (all 244 "course page that shows the CRICOS code" items).
+
+| Change | What | Checked |
+|---|---|---|
+| Migration `20261017050000` (md5-guarded) | `security.layer4_course_english_apply_impl`: Approve or Edit and approve writes each decided test (key `l4:<item>:<test>`, the item's evidence, the reviewer's reason) and locks the course's English as a person's decision; `layer4_review_decide_impl` routes `course_english`; `layer4_course_link_apply_impl` reads `url` or `course_url` | Dry run with the full batch (271, 0 errors; approved link served to the website; English written); applied; PR #555; full suite 707 passed; S54 |
+| Rejected 160 | Course directory pages (oneuedu, findthecourses, australiancourses, ACIR, topaustraliauniversities, higherstudy): never used (10 Oct rule); 8 of these courses already hold their own page | Recorded as the Platform Admin through `layer4_review_decide`, rule named in each reason |
+| Rejected 24 | Firecrawl/ZenRows discovery route of 13 Sep, retired; courses stay with the current course page search | Same |
+| Rejected 63 | The provider's own course page stays official; the handbook page showing the CRICOS code is a reference page (CQUniversity 60, Western Sydney 2, UQ 1) | Same |
+| Approved 13 | Held page was the handbook, the provider's course page proposed (Flinders, Newcastle); held page was a course listing, the course's own page under it proposed (Torrens professional doctorates) | Approved links now served |
+| English (12) | Notre Dame Master of Primary and Secondary Teaching: IELTS 7.5 from the course page (2 approved, 2 duplicates rejected); TAFE Queensland per its equivalencies table: 2 bachelor degrees 6.5 (no score below 6.0) approved, 2 associate degrees keep 6.0; Massey Bachelor of Nursing IELTS 6.5 all bands and Thompson Rivers MSc Data Science IELTS 6.5 (6.0) and TOEFL iBT 88 (20) edited and approved (the AI was right; the page wrote "IETLS" and "iBT"); Vision College rejected (PTE 29 is for a work visa) | Values written and locked |
+
+- Left for the Platform Admin (169): ANU handbook pages by year and code (102); two pages on a provider's own site, which one is this course (64); held page is a fees or search page (2); University of Auckland Foundation Certificate in EAP English (1).
