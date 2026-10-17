@@ -6636,3 +6636,17 @@ The brief now forbids direct table changes.
 - Found: automatic approval of AI readings (15 Oct) does not close a university's earlier approved policies. 32 universities hold more than one approved English policy, 19 with differing IELTS defaults (QUT 6, UTas 3). Raised with the Platform Admin as a follow-up.
 - Found: the policy parser treats a bullet under "courses with alternative English language requirements" as a default (UTas); the add-tests guard caught it. Follow-up parser fix.
 - The largest English gaps sit with universities whose policy page gave no default (ANU 423 courses, Melbourne 285, UWA 155, Wollongong 117, James Cook 111, ACU 96, Torrens 75); they publish English by course or band.
+
+### 17 Oct 2026 (Sat, Melbourne) – Decision 262: one English policy in force per university and level
+
+**Asked by:** Platform Admin, 17 Oct 2026 15:01 (multiple choice): "One policy per uni and report it as well, also record it in admin repo." and, for universities that publish English by course or band, "Band reader".
+
+| Change | What | Checked |
+|---|---|---|
+| Migration `20261017040000` (job command md5-guarded) | `security.english_policy_in_force_v1` / `_all_v1` and `security.english_level_group`: for each level held by more than one approved English policy, one is in force (real admission page, quoted values, most courses, latest); the others give up the level (kept in `superseded_defaults`); a policy with no level left is closed. Rows move to the policy in force when the value is the same; otherwise a Layer 4 item. Job `provider-english-defaults` runs it first every 10 minutes | Dry run rolled back; applied; live function bodies match the file (md5); post-check: no university has two approved policies for one level |
+| Result | 27 universities, 88 level overlaps, 630 course rows moved, 4 courses to Layer 4 (TAFE Queensland), 40 duplicate policies closed | Admin events (policies, in_force) |
+| Parser v0.2.5, worker v0.27.2 | A section for courses with alternative or higher English requirements gives no default (UTas) | Deployed; edge drift check identical; re-read of 129 approved policies; DET now 568 courses at 5 universities |
+| Records | Design Reference Decision 262; report `docs/platform/ENGLISH-POLICY-IN-FORCE-REPORT.md` | PR #554; full suite 706 passed |
+
+- For a person: TAFE Queensland 4 courses in Layer 4; RMIT undergraduate policy in force is the domestic page (same 6.5); Australian University College of Divinity has only course pages approved.
+- Next: band reader for universities that publish English by course or band (ANU, Melbourne, UWA, Wollongong, James Cook, ACU, Torrens), chosen by the Platform Admin.
