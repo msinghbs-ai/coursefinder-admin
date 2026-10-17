@@ -1477,6 +1477,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 263 — Course page rules decide automatically; a decided proposal is never raised again
+**Status:** Current (17 October 2026) · **Recorded in:** migrations `20261017050000`, `20261017060000`; change control e152, e153
+- **Platform Admin (17 Oct, 16:19):** "Bring everything from layer 4 and assess either for rule or ai extraction and proceed or give me recomemded choices." Choices (multiple choice): ANU rule; title match, then AI; "Yes, automate"; "You check and decide".
+- **Never raised twice.** A value a person or a rule has decided (rejected, approved, edited and approved) is not sent to Layer 4 again while the proposal is the same.
+- **Official course page rules.** Keep the held page when the proposed one is a course directory or search site, a handbook page while the held page is the course page, or a listing, not-found, scholarship, minor or domestic-only page. Take the proposed page when the held page is the handbook, when it is the course's own page under a held listing, or when it is the same program code in a newer handbook year. Rule decisions are recorded under the system automation account with the rule as the reason and show in Layer 4 history.
+- **ANU.** The official page is ANU's current-year handbook page for the program code when it shows the course's CRICOS code; a program with no current-year page is not offered and its course is flagged for archive.
+- **Layer 4 approvals.** Approving an English item writes the course's English requirement and locks it as a person's decision; course links are read from `url` or `course_url`.
+- **Left to a person:** two genuine pages on the provider's own site where the course title cannot tell them apart.
+
 ### Decision 262 — One English policy in force per university and study level
 **Status:** Current (17 October 2026) · **Recorded in:** `docs/platform/ENGLISH-POLICY-IN-FORCE-REPORT.md`; migration `20261017040000`; change control e151
 - **Platform Admin (17 Oct, 15:01):** "One policy per uni and report it as well, also record it in admin repo." (asked after 32 universities were found holding more than one approved English policy, 19 with different IELTS defaults).

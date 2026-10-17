@@ -6690,3 +6690,18 @@ The brief now forbids direct table changes.
 | English (12) | Notre Dame Master of Primary and Secondary Teaching: IELTS 7.5 from the course page (2 approved, 2 duplicates rejected); TAFE Queensland per its equivalencies table: 2 bachelor degrees 6.5 (no score below 6.0) approved, 2 associate degrees keep 6.0; Massey Bachelor of Nursing IELTS 6.5 all bands and Thompson Rivers MSc Data Science IELTS 6.5 (6.0) and TOEFL iBT 88 (20) edited and approved (the AI was right; the page wrote "IETLS" and "iBT"); Vision College rejected (PTE 29 is for a work visa) | Values written and locked |
 
 - Left for the Platform Admin (169): ANU handbook pages by year and code (102); two pages on a provider's own site, which one is this course (64); held page is a fees or search page (2); University of Auckland Foundation Certificate in EAP English (1).
+
+### 17 Oct 2026 (Sat, Melbourne) – Layer 4 cleared to 15; Decision 263: course page rules automatic
+
+**Asked by:** Platform Admin, 17 Oct 2026 (multiple choice after e152): ANU rule; "Title match, then AI"; "Yes, automate"; "You check and decide".
+
+| Change | What | Checked |
+|---|---|---|
+| Found | `coverage_admission_apply_v1` re-raised items a person had rejected (only superseded items were remembered): 63 rejected at 16:2x came back at 16:40 | Live |
+| Migration `20261017060000` (md5-guarded) | `security.course_page_rule_v1` and the admission step: a decided proposal is never raised again; official course page differences are decided by rule (keep or take) under the system automation account with the rule as reason; anything else reaches Layer 4 | Dry run rolled back (rule tests and one admission batch, 0 errors); applied; PR #556; full suite 708 passed; S54 |
+| 3 singles | UQ Study Abroad: UQ's own Study Abroad page; USC: both pages are the fees list, rejected (no current page for this degree found); Auckland Foundation Certificate in EAP: no English score stated, rejected | Recorded as the Platform Admin (choice "You check and decide"); UQ and USC again after a re-raise at 16:50 |
+| Title match (non-ANU) | 116 decided: 98 keep the held page (CQUniversity course pages over handbook, honours over pass degree, listing or scholarship pages, title fits the held page), 18 take the proposed page (Fraser Valley current program site, SFU current calendar, UTS Master of Finance, JMC, Manukau course delivered by Unitec) | Recorded under the system automation account; reasons name the rule |
+| ANU rule | 2026 handbook page fetched for each of 112 program codes: 49 courses take the 2026 page that shows their CRICOS code; 49 have no 2026 page for either code (no longer offered): rejected and flagged `not_offered` for archive | 63 ANU 2026 pages now served; 49 flags raised |
+| Left for the Platform Admin | 15: Alphacrucis 3 (Korean-language "-k" pages or the main page), AICBT 1, ANU 4 (2026 page found but without the course's CRICOS code), Sydney 3 (Master of Science variants, Bachelor of Design), Auckland conjoint Design/Laws 1, Lethbridge 1, Western Sydney Bachelor of Laws 2 (held page is the inherent requirements page) | Layer 4 |
+
+- Design Reference: Decision 263.
