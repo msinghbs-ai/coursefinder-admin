@@ -6621,3 +6621,18 @@ The brief now forbids direct table changes.
 | After | `pipeline.pilot_edge_nonces` 7,130 rows (one day of codes); `cron.job_run_details` 92,069 rows, oldest 14 Oct 03:47 Melbourne (3 days) |
 
 - The tables stop growing; their disk space is reused rather than returned until step 8 (rebuild at a quiet time). Job `policy-add-tests` (R18) also ran on schedule at 01:17, 02:17 and 03:17, all succeeded.
+
+### 17 Oct 2026 (Sat, Melbourne) – English policies: waiting decisions cleared
+
+**Asked by:** Platform Admin, 17 Oct 2026 14:56: "Let figure out the English requirement and stuck english policies what is expected from me to sort?"; 15:01: "go with your recommendations".
+
+| Item | Decision (recorded as the Platform Admin through `admin_provider_policy_decide` and `admin_flags`, each with a note) |
+|---|---|
+| Approved (4) | Capilano University, Douglas College, Durham College (6.5 degrees, 6.0 graduate certificates), Mount Royal University: every value quoted on the page; about 96 courses filled by the 10-minute apply job |
+| Rejected (7) | UNSW main page (one faculty's row, 429 course pages differ) and UNSW Bengaluru page (India campus); Edith Cowan (Band 5 nursing rule); MacEwan and CIBT (duplicates of approved policies); Sunraysia TAFE (vocational courses); Cambrian (named courses only) |
+| Flags released (6) | Sydney and UNSW `policy_disagrees` (English set per course or faculty: course pages are the source). UTas `policy_reading_differs` x2: the stored page's minimums table gives postgraduate coursework 6.0 (no band below 6.0), so the approved 6.0 stands; the parser read 7.0 from the list of courses with alternative requirements. QUT: courses hold 6.5 (no band below 6) from the approved how-to-apply policy, correct; the 6.0 came from the English for Academic Purposes course page |
+| Left | 0 English policies waiting; 0 English flags raised; 8 course English items in Layer 4 |
+
+- Found: automatic approval of AI readings (15 Oct) does not close a university's earlier approved policies. 32 universities hold more than one approved English policy, 19 with differing IELTS defaults (QUT 6, UTas 3). Raised with the Platform Admin as a follow-up.
+- Found: the policy parser treats a bullet under "courses with alternative English language requirements" as a default (UTas); the add-tests guard caught it. Follow-up parser fix.
+- The largest English gaps sit with universities whose policy page gave no default (ANU 423 courses, Melbourne 285, UWA 155, Wollongong 117, James Cook 111, ACU 96, Torrens 75); they publish English by course or band.
