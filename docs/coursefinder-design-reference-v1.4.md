@@ -1477,6 +1477,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 264 — English levels named on course pages
+**Status:** Current (17 October 2026) · **Recorded in:** migrations `20261017070000`, `20261017080000`; worker v0.28.0; change control e154
+- **Platform Admin (17 Oct):** "Band reader (Recommended)"; 18:56 "Proceed with band reader". Choices: level map first; ready fields admitted by one admin click; rebinding by learnt rules.
+- **Levels.** Some universities publish English as named levels: the course page names the level ("Band 2", "This course has higher ELC requirements") and one central table gives each level's scores. An approved English policy may hold these levels, each value quoted from the stored page; a person approves it as any policy (Decision 227).
+- **Course values.** Where the course page names a level the approved policy holds, the course gets that level's scores. A course's own reading, a value set by hand or a pending Layer 4 item is never replaced. When the course page prints its own score and it differs from the level, the course keeps its own reading only. A level name the policy does not hold is reported, not guessed.
+- **Hand-written policies** (written out from the central page when the parser cannot read its tables) are not re-read by the parser.
+
 ### Decision 263 — Course page rules decide automatically; a decided proposal is never raised again
 **Status:** Current (17 October 2026) · **Recorded in:** migrations `20261017050000`, `20261017060000`; change control e152, e153
 - **Platform Admin (17 Oct, 16:19):** "Bring everything from layer 4 and assess either for rule or ai extraction and proceed or give me recomemded choices." Choices (multiple choice): ANU rule; title match, then AI; "Yes, automate"; "You check and decide".

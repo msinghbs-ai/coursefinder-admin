@@ -6682,3 +6682,20 @@ The brief now forbids direct table changes.
 | Left for the Platform Admin | 15: Alphacrucis 3 (Korean-language "-k" pages or the main page), AICBT 1, ANU 4 (2026 page found but without the course's CRICOS code), Sydney 3 (Master of Science variants, Bachelor of Design), Auckland conjoint Design/Laws 1, Lethbridge 1, Western Sydney Bachelor of Laws 2 (held page is the inherent requirements page) | Layer 4 |
 
 - Design Reference: Decision 263.
+
+### 17 Oct 2026 (Sat, Melbourne) – Decision 264: English levels named on course pages (band reader); 567 courses gain English
+
+**Asked by:** Platform Admin, 17 Oct 2026 ("Band reader (Recommended)"; 18:56 "Proceed with band reader"; choices "Level map first", "One admin click", "Yes, by rule"; "Approve all three (Recommended)").
+
+| Change | What | Checked |
+|---|---|---|
+| Survey | 7 universities, about 1,270 courses without English. Only JCU (Schedule II bands) and UWA (minimum or higher standard) name a level on the course page; ANU program pages only refer to the policy; Melbourne levels sit on a sub-page the reader does not store; Wollongong, ACU and Torrens are binding problems (old handbook, student hub pages) | Stored pages and policy copies |
+| Migration `20261017070000` (md5-guarded) | An English policy may carry levels; adapter field `english_level`; `security.english_level_apply_v1` writes a level's scores where the course page names it (own readings, locks and pending Layer 4 kept; other policy rows withdrawn, not deleted); job provider-english-defaults: in force, levels, refresh, defaults; policy-add-tests skips hand-written policies; three written-out policies inserted as proposed | Dry run rolled back (ANU 400 to write, UWA 81); applied; PR #557; full suite 711 passed; S55 |
+| Worker v0.28.0 | `english_level` read as an adapter pattern field | Deployed; drift check identical (10 files) |
+| Adapters | JCU and UWA `english_level` patterns saved; my first save left them switched off for about 2 minutes (the save treats a missing "enabled" as off); switched back on at once, no values changed | Live |
+| Approval | JCU, UWA and ANU written-out policies approved by the Platform Admin (Decision 227 and 264) | `admin_provider_policy_decide` |
+| Migration `20261017080000` (md5-guarded) | Found on the first run: 5 courses print their own score that differs from their level (UWA Juris Doctor and two Education degrees 7.5 vs higher 7.0; JCU Pharmacy (Honours) 7.5 vs Band 3a; JCU Exercise Science/Physiology 7.0 vs Band 2). Such a course keeps its own reading only; 14 level rows withdrawn | Dry run; applied; PR #558; full suite 712 passed |
+| Result | Courses with English: ANU 0 → 400, JCU 16 → 102 (93 by band), UWA 172 → 253 (17 by higher standard) | Live counts |
+| Still open | Melbourne (285, entry sub-page read needed), Wollongong (117, 94 bound to 2016 handbook), ACU (96), Torrens (75): next, through the adapter generator's binding rules and a companion page read | — |
+
+- Design Reference: Decision 264.
