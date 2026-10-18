@@ -6927,3 +6927,18 @@ The brief now forbids direct table changes.
 | Tests | S65 and S66 new; dry runs passed; full suite 757 passed |
 | Consumer API | Unchanged (no drift) |
 | Next | Report the yield per university when the relink finishes (about 8,700 courses at 200 a run); then rebuild weak adapters on the corrected links and shrink the provider address lists |
+
+### 19 Oct 2026 (Mon, Melbourne) – Relink progress; provider address lists compacted; database 3.92 GB → 3.59 GB
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 05:42: "Proceed with next steps" |
+| Relink (05:45) | 4,607 of 8,700 courses decided or in progress: 7 found, 3,896 absent, 704 trying; 4,093 not started (about 200 every 10 minutes). Only 1,068 courses had any candidate address, and most candidates answered 404: the courses the reader refused are mostly not on the university's site under their register name. The reader's identity check stopped every wrong page. The job continues; nothing to decide |
+| Adelaide University | Website on record is already https://adelaideuni.edu.au (course search uses it). Its 237 verified pages are on the pre-merger adelaide.edu.au site, which is where the address pattern came from; worth a review of whether those pages still describe current courses |
+| Unasked course searches | The 897 queued searches nobody asked for are all at universities that are not Firecrawl targets, so a daily share would run nothing; the gate is the Firecrawl target list (Toolsets & limits › Firecrawl). No change made |
+| Asked-for searches waiting | 9, all Strathfield College (asked 16 Oct): its course search is stopped; Search again on Firecrawl credits by university releases it |
+| Provider address lists | Still read by 8 functions and jobs (course matching, binding, onboarding, coverage build, catalogue candidates, Adapter builder suggestions, relink), all rows current (seen within 30 days), so no rows are removed. The tables held 3× their data in free space: VACUUM FULL (rows unchanged, checked): coverage_provider_urls 332 → 104 MB (279,012 rows), provider_discovery_links 103 → 72 MB (197,388 rows, row hash unchanged) |
+| Also compacted | pipeline.website_sync_items 163 → 88 MB (41,895 rows unchanged) |
+| Database | 3.92 GB → 3.59 GB |
+| 2 GB goal | Needs a decision: the largest remaining items are file metadata (storage.objects 567 MB), evidence records (pipeline.evidence_artifacts 320 MB, of which 200 MB indexes), the website search table (search.course_documents 234 MB; part of what the website reads, so not compacted while live) and course fees (135 MB). Evidence retention is the main lever |
+| Consumer API | Unchanged |
