@@ -6840,3 +6840,35 @@ The brief now forbids direct table changes.
 | 5 | Housekeeping steps 3, 4, 5 (register replay keys about 237 MB, provider URL tables about 250–330 MB, Layer 3 history about 100–150 MB) and paste files after 29 Oct to 1 Nov (retiring components, `zoho_v2_export`, cron history) | Claude prepares; Platform Admin pastes | Database 4.40 GB against a 2 GB goal |
 | 6 | Website developer requests R20 (scholarship nationality), R21 (lighter logos, needs Wix formats), R19 (needs an example) | Claude after the developer's input; any API change needs approval (Decision 266) | Consumer API frozen; additions only with approval |
 | 7 | English: RMIT and AUCD policies; 6 Torrens professional doctorates; 15 Layer 4 items | Platform Admin decides; Claude prepares | Small, waiting on decisions |
+
+### 18 Oct 2026 (Sun, Melbourne) – Easier steps closed (1, 2, 5, 7); updated approach
+
+**Asked by:** Platform Admin, 18 Oct 2026 18:53 ("First close the easier steps 1, 2, 5, 7 and suggest updated approach and next steps"). Choices: held fees "Split by group (Recommended)"; Torrens "Yes, from their own pages (Recommended)"; calendars "Review and recommend (Recommended)", then "Apply as recommended (Recommended)"; Layer 4 "List with my picks (Recommended)", then "Apply as picked (Recommended)".
+
+| Step | What was done | Checked |
+|---|---|---|
+| 1 Wave 3 | Every university with Ready values left (70): one click under the Platform Admin account after a dry run. Written on their 1,729 active courses: fees 294 → 506 (+212), English 582 → 622 (+40), duration +20, intakes +11, delivery +4; no new fee held. The three waves together wrote about 900 values | Live counts; every admit run succeeded |
+| 2 Held fees (136) | 8 pages printing the whole-course fee: Layer 4 items (migration `20261018120000`, PR #572), approved under the Platform Admin account: annual fee = CRICOS registered total / course years (indicative annual). 92 per term, partial or above the total: hold settled, page fee stays out (exclusion kept), the course keeps its CRICOS registered total. 36 whose page shows no fee now: hold settled | Live: 0 fees held; 8 fees written |
+| 7 English | Torrens: the 6 professional doctorates get IELTS 7.0 from their own pages (CRICOS code match), as Layer 4 decisions, locked. RMIT already holds English on 498 of 507 courses (its approved policy). "AUCD" matches no provider in the catalogue (PSC Creative College has an approved policy); left as a question | Live: 6 requirements, 6 locks |
+| 7 Calendars (51 waiting since 3–12 Oct) | Approved 18 (start dates for 2026 or later quoted; 4 more superseded automatically by the approved page of the same university), rejected 27 (23 extra pages where an approved calendar is in force, 4 that are course, fee or short-course pages). None waiting. Effect on intakes small (+26 courses in the first runs): the calendar rules fill intakes only for colleges and for courses whose page names a term | Live |
+| 7 Layer 4 (20) | 16 approved (the proposed page shows the CRICOS code or is the current page: Alphacrucis 3, AICBT, ANU 3, Sydney Design, Lethbridge, Wollongong 5, Western Sydney 2); 3 rejected (keep the held page: Sydney Master of Science 2, Auckland conjoint); 1 left for the Platform Admin (ANU Flexible Double Degree) | Live: 1 pending |
+| 5 Housekeeping | Step 3: the register replay keys (one-off checks of 8 Oct; 790,000 rows, 237 MB) exported to Storage for a paste file that empties the table. Step 5 and step 8: the four tables emptied this week hold about 250 MB of free space; paste file `PASTE-20261018-compact-emptied-tables.sql` (VACUUM FULL, one line at a time). Step 4 (provider URL lists, about 435 MB) deferred: they are the candidate pages for relinking the 8,691 mismatched pages | Export run 39109625621; paste file prepared |
+| Consumer API | Unchanged | consumer-api-guard: no drift |
+
+**Updated approach (as at 18 Oct 2026 20:00)**
+- The one-click admits have taken what the current adapters can give (about 900 values). From here the gain comes from reading more pages correctly, not from admitting.
+- The order changes to: relink first (pages read as another course), then rebuild weak adapters on the corrected links, then admit again. Rebuilding before relinking would build on wrong pages.
+- Intakes: calendars help only colleges and term-named courses. A university-level rule ("a course whose page names no intake takes the main intakes of its university's approved calendar") would fill far more, but it states something the course page does not; it is a Platform Admin decision.
+- Database: compaction and the replay keys bring it to about 3.9 GB; the 2 GB goal needs the provider URL lists slimmed after relinking.
+
+**Consolidated next steps**
+
+| # | Next step | Who |
+|---|---|---|
+| 1 | Run the two paste files (compaction now; replay keys when sent) | Platform Admin |
+| 2 | Relink by rule: the 8,691 pages read as another course, using the CRICOS code on the page and the university's URL list | Claude designs; Platform Admin chooses the rule |
+| 3 | Decide the university-calendar intake rule (yes, no, or only for undergraduate coursework) | Platform Admin |
+| 4 | Rebuild weak adapters on the corrected links, biggest universities first, then admit again | Claude proposes a wave; Platform Admin approves |
+| 5 | Slim the provider URL lists after relinking (step 4 of housekeeping) | Claude prepares; Platform Admin pastes |
+| 6 | ANU Flexible Double Degree (Layer 4); confirm what "AUCD" refers to | Platform Admin |
+| 7 | Website developer requests R20, R21, R19 | Claude after the developer's input; API changes need approval (Decision 266) |
