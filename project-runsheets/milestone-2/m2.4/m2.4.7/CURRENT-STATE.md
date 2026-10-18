@@ -6849,3 +6849,14 @@ The brief now forbids direct table changes.
 | 5 | Slim the provider URL lists after relinking (step 4 of housekeeping) | Claude prepares; Platform Admin pastes |
 | 6 | ANU Flexible Double Degree (Layer 4); confirm what "AUCD" refers to | Platform Admin |
 | 7 | Website developer requests R20, R21, R19 | Claude after the developer's input; API changes need approval (Decision 266) |
+
+### 18 Oct 2026 (Sun, Melbourne) – Bug 18/10-01 logged: check or change a university's website in the Adapter builder
+
+**Raised by:** Platform Admin, 18 Oct 2026 20:35 (screenshot: Layer 2 › Adapter builder, step 1.1 Website, Sydney Film School): "add to bug/fix: Website - should have to feature to validate or change the website in the adapter builder."
+
+| Item | Detail |
+|---|---|
+| Found | Step 1.1 Website shows the address on record and "Fill in from website again", but a person cannot check whether the address is right or replace it there. Everything in the builder depends on that address. Sydney Film School holds two sites in one field ("https://www.sydneyfilmschool.com.au, www.sydneyactorsschool.edu.au"); 2 providers are like this. The notices above it point the same way: course-page search stopped for 28 universities and held for 2 (Adelaide University after the 2026 merger, Victoria University), usually because the website on record is wrong |
+| Already there | `public.admin_provider_website_set(provider, url)`: sets a website by hand (Curator and above, locked, logged); used today only on Layer 4 › Websites to find |
+| Fix to build | In step 1.1: **Check website** (reads the home page now: answers, not a third-party host, and for Australia shows the provider's CRICOS code or is the site the register lists; result and evidence shown) and **Change website** (enter one address with a reason; checked the same way before it is saved; saved through `admin_provider_website_set`, locked). After a change: course-page search, Fill in from website and the stopped or held searches for that university start again. Multi-site providers: keep one main website; the second site is kept as an extra source |
+| Status | Logged; to be built with the next interface release (version bump), with a test. Consumer API not affected |
