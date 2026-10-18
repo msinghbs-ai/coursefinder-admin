@@ -6770,3 +6770,14 @@ The brief now forbids direct table changes.
 | Not in this change | Relinking pages by rule: 8,691 pages read as another course are counted on each university's page for now; the interface (Layer 2 › Adapters) follows with its version bump | — |
 
 - Design Reference: Decision 267.
+
+### 18 Oct 2026 (Sun, Melbourne) – v2.15.287: Layer 2 › Build adapter screens; unused pieces retired
+
+**Asked by:** Platform Admin, 18 Oct 2026 14:05 ("Proceed with next step"); earlier 11:58 (Build adapter beside Adapters, the Adapter builder kept; "retire what is not used").
+
+| Change | What | Checked |
+|---|---|---|
+| Screen | Layer 2 › Build adapter, between Adapters and Adapter builder. Universities: stage, a bar of Ready, Review and Not ready fields, what Ready fields would add, tick universities to build them into a named wave (PIM Operator and above). A university's page: the eight fields measured on opening, why each is where it is, how each would be admitted, and one Admit button for Ready fields only (Platform Admin, with a reason). Waves: universities grouped by wave | S60 (mocked browser: list, admit asks only for Ready fields, build into a wave, Curator reads only); screenshots reviewed |
+| Retired | `src/RegulatorySettings.jsx` (nothing imported it); the separate page script for Layer 4 mass operations (Layer 4 › Batches loads it); worker modes directory_capture, fc_extract_qualify, id_qualify, openrouter_key, page_codes, reference_capture and site_hint_verify (no call, job or function in 30 days), worker v0.30.1 | Live check: no function, job or call names the modes |
+| Release | UI v2.15.287, package 0.1.214; CHANGELOG; Platform guide; SOPs 1.28 (copied here) | release:verify PASS; build; full suite 734 passed; PR #567; Release Currentness Deployed passed on main |
+| Live | Worker v0.30.1 deployed | Drift check: 98 function files identical, including the five consumer edge functions (Decision 266 baseline unchanged) |

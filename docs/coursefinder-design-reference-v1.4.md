@@ -1484,6 +1484,7 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **One click.** A Platform Admin admits a university's Ready fields with a reason. Review and Not ready fields are never admitted by the click. Each field goes through its existing route: the adapter's admission for intakes, fee, English and delivery; an Enrichment task that fills only what the catalogue lacks for duration, campus and study level; the course's majors and specialisations list for majors.
 - **Building** reuses onboarding (website, course pages, capture, AI proposal, apply, qualify). A passing measurement never admits anything by itself.
 - **Majors and specialisations** are held in their own table. The website API does not send them until an approved API change (Decision 266).
+- **Where it lives (v2.15.287).** Layer 2 › Build adapter, between Adapters and the Adapter builder: Universities, a university's page with the one Admit button, and Waves.
 
 ### Decision 266 — The consumer API is frozen
 **Status:** Current (18 October 2026) · **Recorded in:** migration `20261018050000`; CLAUDE.md G3; test S57; change control e156
