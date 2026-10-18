@@ -6885,3 +6885,16 @@ The brief now forbids direct table changes.
 | Still to do | 3 more providers hold two addresses in one field (Sarina Russo Institute, IH Brisbane - ALS, International Institute of Management & American College); each can be fixed the same way |
 | Consumer API | Unchanged (consumer-api-guard: no drift; 73 functions, 48 relations) |
 | SOPs | Platform Admin SOP and Operator SOP 1.29 |
+
+### 18 Oct 2026 (Sun, Melbourne) – Adapter builder guide: clear next step and what runs by itself (v2.15.289)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 18 Oct 2026 22:03 (screenshot: Adapter builder, Sydney Film School after the website change): "flow was not clear ... Then i have to click Fill in from website again ... It also asked 1.3 to attach fees schedule. After this no movement or clear indication for next step ... find course pages are running 0-4 without me pressing anything. this has to be intutive ... fix and procced" |
+| Found | The website change already queued contacts, central pages and the course-page search, but the screen did not say so: the person pressed Fill in from website again (not needed), read 1.3 as a required step, and saw the course-page search start with no explanation and no next step |
+| Fixed | A guide at the top of the builder: every step with its state (Done, Running by itself, Your turn, Optional, Later), the one next thing for a person ("Now: nothing to press ..." or "Next for you: press ..."), Go to step, and a list of what runs by itself now. The page refreshes every 15 seconds while work runs, so the next step appears without pressing anything. Steps 1.2, 1.3 and 2.1 show a spinner and "nothing to press" while they run; contacts and central pages are marked optional for the adapter and done in parallel with step 2; the website-change result and step 1.1 say everything restarts by itself |
+| Release | v2.15.289 (package 0.1.216), PR #575. No database or worker change. Deployed: Pilot Frontend Build, Release Currentness Deployed and CourseFinder Deployed UAT passed on e9edbf3 |
+| Tests | S63 new (searching by itself → "Now: nothing to press"; 3 read pages → "Next for you: Capture samples" with Go to step; nothing found → "Find the missing course pages"; refresh by itself); full suite 749 passed; build OK |
+| Sydney Film School now | Website verified; contacts read (phone found); fee page attached and waiting to be read; course pages for its 4 courses being searched. Next for the Platform Admin: nothing until 3 pages are read, then Capture samples (2.2) |
+| Consumer API | Unchanged |
+| SOPs | Platform Admin SOP and Operator SOP 1.30 |
