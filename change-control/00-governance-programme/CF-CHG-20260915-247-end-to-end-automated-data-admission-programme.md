@@ -6978,3 +6978,17 @@ The brief now forbids direct table changes.
 | Evidence removal | Migration `20261019020000_cf247_evidence_purge_prepare.sql` (PR #580): prepares only, nothing removed. 70,611 replaced course-page snapshots listed; job evidence-purge-prepare checks them against every column that refers to evidence (except cascade-only index and statistics tables). Dry run of the first 3,000: 371 removable, 2,629 kept, because older snapshots still back live catalogue values (fees, links, intakes, campuses, Layer 4 items). The removable share is much smaller than the first estimate; the archive and paste file follow when the check finishes (about 2 hours) |
 | Checked | Applied history md5 = main for both migrations (9ea74ed7…, f599a944…); tests S67, S68 new; dry runs passed; full suite 761 passed |
 | Consumer API | Unchanged (no drift) |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 08:13: two blockers found and cleared; searches and reading running again
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 08:13: "Updates" |
+| Found 1 | 642 asked-for course searches picked by nobody for an hour. 237 were Adelaide University's re-find, whose search was held since 13 Oct (credit waste after the merger); 405 belonged to 73 universities with no active course-page search: 39 had their own website on record but the search pointed at a directory site, switched off on 13 Oct; 33 had no website |
+| Cleared | Adelaide: Search again (as the Platform Admin, with a reason). The 39: Check website (free) gave 37 Verified and 1 Likely, then Change website with the same address (checked again) moved each search from the directory to the university's own site and switched it on. The 33 without a website: Fill in from website started for each (31 done within minutes) |
+| Found 2 | The page reader had paused itself at 20:30 (30 empty runs, correctly: nothing was due), and switched itself on again at the next flag check once retries came due (the wake rule of 18 Oct working) |
+| Live at 08:23 | Reader on (119 pages read in 10 minutes); 527 course searches sent in 10 minutes; asked-for searches today: 439 verified, 341 found, 203 none, 128 queued |
+| Calendar intakes | 876 courses now carry calendar intakes (colleges and, since this morning, universities' undergraduate courses) |
+| Relink | 52 found, 7,875 absent, 879 waiting for their second read |
+| Evidence check | 30,000 of 70,611 checked: 3,621 removable, 26,379 kept (they back live catalogue values). About 12% removable, so roughly 8,500 in all; archive and paste file when the check ends |
+| Consumer API | Unchanged |
