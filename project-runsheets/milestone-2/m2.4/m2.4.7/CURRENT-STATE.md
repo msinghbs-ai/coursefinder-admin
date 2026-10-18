@@ -6898,3 +6898,17 @@ The brief now forbids direct table changes.
 | Sydney Film School now | Website verified; contacts read (phone found); fee page attached and waiting to be read; course pages for its 4 courses being searched. Next for the Platform Admin: nothing until 3 pages are read, then Capture samples (2.2) |
 | Consumer API | Unchanged |
 | SOPs | Platform Admin SOP and Operator SOP 1.30 |
+
+### 18 Oct 2026 (Sun, Melbourne) – Asked-for course-page searches go first, for any university (v2.15.290)
+
+| Item | Detail |
+|---|---|
+| Decision | Platform Admin, 18 Oct 2026 22:25: "proceed with recommended choice" (course-page searches started from the Adapter builder jump the queue) |
+| Found | Since the focus rule of 15 Oct (`security.enrich_focus_v1`, the 50 Australian focus providers), the worker took no course-page search for any other Australian provider, even one a person asked for. No course-page search had been sent since 13 Oct; 905 searches were queued and none could run, including Sydney Film School's 4 from the website change at 21:47 |
+| Fixed | Migration `20261018140000_cf247_asked_searches_first.sql` (PR #576; guarded edits, each live definition md5-checked and each edit applied once): `svc_course_link_search_next` lets a search a person asked for (Find course pages, a website change) run for any provider and takes those first, oldest request first. All other checks stay: Firecrawl target universities, stopped or held searches, directory sites, the monthly cap and the day's share. Searches nobody asked for keep the focus rule. A website change marks the provider's queued searches as asked for. New `admin_course_search_queue(provider)` |
+| Screen | v2.15.290 (package 0.1.217): the Adapter builder guide shows course-page searches as running only when they will run; otherwise it says why (outside the focus providers, stopped or held, not a Firecrawl target, today's share used) and marks it Your turn |
+| Checked live | Applied history md5 = main (1207fce1…). Within 3 minutes: 20 searches sent; Sydney Film School 4 of 4 found (pages bound, now being read); 9 asked-for searches left in the queue. Deploy checks passed on 1ef025d |
+| Tests | S63 extended (searches waiting on a rule), S64 new; dry run passed; full suite 752 passed |
+| Note | The other 896 queued searches (outside the focus providers, nobody asked) still wait under the focus rule, as designed; Find course pages in the builder puts any university first |
+| Consumer API | Unchanged (no drift) |
+| SOPs | 1.31 |
