@@ -1477,6 +1477,13 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 266 — The consumer API is frozen
+**Status:** Current (18 October 2026) · **Recorded in:** migration `20261018050000`; CLAUDE.md G3; test S57; change control e156
+- **Platform Admin (18 Oct, 11:58):** "From here on, make sure the consumer api are not affected by any decision or design." Choice: "Frozen-surface guard (Recommended)".
+- **What is frozen.** Everything the website and Zoho read: the five consumer edge functions, the consumer database functions (`website_v2_*`, `website_edge_*`, `website_api_v2_*`, `zoho_edge_*`, `svc_website_settings_v1`, schema `api`) and the tables, views and columns they read. Nothing is altered, dropped, renamed or retyped. New work reads from it or writes beside it (new tables or columns).
+- **How it is held.** A baseline taken from live; a daily check raises a hard flag on any difference; the build fails on a migration or edge function change that touches it without a recorded approval.
+- **Changing it.** Only with the Platform Admin's explicit approval, recorded in the change as `-- Consumer API change approved:`, with the baseline re-taken in the same change. Decision 257's additive-only rule for Website API v2 still applies and is now enforced.
+
 ### Decision 265 — Companion pages, course group rules and courses not on the university's site
 **Status:** Current (18 October 2026) · **Recorded in:** migrations `20261018010000` to `20261018040000`; worker v0.29.0; change control e155
 - **Platform Admin (18 Oct):** "Help resolve 'still to do for english'". Choices: Melbourne "Yes, build and read"; Wollongong and Torrens "Check CRICOS first"; ACU "Yes, UAC for ACU"; both written-out policies approved.

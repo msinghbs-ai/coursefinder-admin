@@ -6718,3 +6718,16 @@ The brief now forbids direct table changes.
 | Left | Wollongong 111, Torrens 68, Melbourne 34 still CRICOS-registered but not on the university's current site (soft flags for a person); Melbourne research degrees state no level; ACU diplomas and most postgraduate courses not listed by UAC; 6 Torrens professional doctorates read IELTS 7.0 but are not yet admitted; scratch table `public._tmp_cf265_fetch` to remove by paste file | — |
 
 - Design Reference: Decision 265.
+
+### 18 Oct 2026 (Sun, Melbourne) – Decision 266: the consumer API is frozen; daily guard and build check
+
+**Asked by:** Platform Admin, 18 Oct 2026 11:58 ("From here on, make sure the consumer api are not affected by any decision or design"); choice "Frozen-surface guard (Recommended)".
+
+| Change | What | Checked |
+|---|---|---|
+| Survey | The consumer API is what the website and Zoho read: 5 edge functions (website-api-v2, wix-course-api, website-course-api, zoho-api-v2, zoho-course-api), 30 database functions in `public` (`website_v2_*`, `website_edge_*`, `website_api_v2_*`, `zoho_edge_*`, `svc_website_settings_v1`) and 43 in schema `api`, and the tables and views they read. Three functions have no full definition in the current migrations (`website_v2_course` and `website_v2_provider` only in the archive and live capture, `website_edge_course_search_v3_1` only in live capture, `zoho_edge_course_search_v2` nowhere in git): the baseline is taken from live for that reason | Edge drift check: all 5 live functions identical to the repo |
+| Migration `20261018050000` | `pipeline.consumer_api_baseline` (73 function checksums, columns of 48 tables and views, taken from live); `security.consumer_api_check_v1` (function changed or missing, table missing, column missing or retyped, new consumer function: hard flag `consumer_api_drift` and an event; a clean check releases it); `security.consumer_api_rebaseline_v1` (a migration only); job consumer-api-guard daily 18:23 UTC, catalogued; 6 register rows. Nothing changed in the API itself; nothing dropped or deleted | Dry run clean (no drift); second dry run with a simulated change raised the hard flag; applied; live history md5 equals main; PR #563; full suite 722 passed |
+| Build check (S57) | Edge function sha256 baseline (`tests/uat/consumer-api-baseline.json`); any later migration that replaces or drops a consumer function, drops, renames or retypes what it reads, or re-takes the baseline fails the build unless it carries `-- Consumer API change approved: <who, when, why>` | 3 tests pass |
+| Rule | CLAUDE.md G3: no design or change alters, drops, renames or retypes the consumer API; new work reads from it or writes beside it | — |
+
+- Design Reference: Decision 266.
