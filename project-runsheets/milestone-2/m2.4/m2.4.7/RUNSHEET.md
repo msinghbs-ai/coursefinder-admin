@@ -6862,3 +6862,13 @@ The brief now forbids direct table changes.
 | Already there | `public.admin_provider_website_set(provider, url)`: sets a website by hand (Curator and above, locked, logged); used today only on Layer 4 › Websites to find |
 | Fix to build | In step 1.1: **Check website** (reads the home page now: answers, not a third-party host, and for Australia shows the provider's CRICOS code or is the site the register lists; result and evidence shown) and **Change website** (enter one address with a reason; checked the same way before it is saved; saved through `admin_provider_website_set`, locked). After a change: course-page search, Fill in from website and the stopped or held searches for that university start again. Multi-site providers: keep one main website; the second site is kept as an extra source |
 | Status | Logged; to be built with the next interface release (version bump), with a test. Consumer API not affected |
+
+### 18 Oct 2026 (Sun, Melbourne) – Housekeeping: compaction and register replay keys done; database 4.40 GB → 3.92 GB
+
+| Change | What | Checked |
+|---|---|---|
+| Compaction (step 8) | VACUUM FULL on the four tables emptied this week, run one at a time from the session (the SQL editor runs a pasted file as one transaction, where VACUUM cannot run): Layer 3 interpretations 203 → 54 MB, Layer 3 work items 75 → 16 MB, adapter results 48 → 13 MB, adapter previews 10 → 4 MB. Rows unchanged | Live sizes and row counts |
+| Register replay keys (step 3) | The first export (whole table, 1,000 rows a page re-sorted each time) was too slow and was cancelled; re-run per replay run (14 sets, run 39113323288, PR #573), every set read back and checked. Paste file run by the Platform Admin at 21:23: 789,809 rows removed after the count and row-hash checks; the 85 replay runs and their results kept | Live: 0 keys, 85 runs, purge event |
+| Database | 4.40 GB → 3.92 GB | Live |
+| Still open | Step 4 (provider URL lists, about 435 MB) after relinking; the 2 GB goal needs it and a review of the largest remaining tables | — |
+| Consumer API | Unchanged | consumer-api-guard: no drift |
