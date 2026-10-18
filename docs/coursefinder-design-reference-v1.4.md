@@ -1477,6 +1477,15 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 265 — Companion pages, course group rules and courses not on the university's site
+**Status:** Current (18 October 2026) · **Recorded in:** migrations `20261018010000` to `20261018040000`; worker v0.29.0; change control e155
+- **Platform Admin (18 Oct):** "Help resolve 'still to do for english'". Choices: Melbourne "Yes, build and read"; Wollongong and Torrens "Check CRICOS first"; ACU "Yes, UAC for ACU"; both written-out policies approved.
+- **Companion pages.** A university may keep a course fact on a page beside the course page (Melbourne: the English level on Entry and participation requirements). The page is the bound address plus a suffix, read on a schedule (scraper or direct, set per university), kept as a stored copy and read with the university's own patterns. Values are used only through an approved policy.
+- **Course group rules.** When no page names a level, an approved policy may assign one by the course's title and study level, in a fixed order. A course whose own page prints a score keeps it.
+- **Admissions-centre pages.** A page an admissions centre publishes for a university (UAC for ACU) may be the source when the university's own pages print no scores and it is approved by the Platform Admin for that university.
+- **Not on the university's site.** A course still on the CRICOS register but on none of the university's current course pages stays active with a soft flag for a person (no archive). A course with no current-year handbook page where the register no longer lists it remains under Decision 263 (not offered).
+- **Person-added sources** are read when found, without waiting for the central-page refresh interval; the daily budget still applies.
+
 ### Decision 264 — English levels named on course pages
 **Status:** Current (17 October 2026) · **Recorded in:** migrations `20261017070000`, `20261017080000`; worker v0.28.0; change control e154
 - **Platform Admin (17 Oct):** "Band reader (Recommended)"; 18:56 "Proceed with band reader". Choices: level map first; ready fields admitted by one admin click; rebinding by learnt rules.

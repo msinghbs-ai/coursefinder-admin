@@ -6699,3 +6699,22 @@ The brief now forbids direct table changes.
 | Still open | Melbourne (285, entry sub-page read needed), Wollongong (117, 94 bound to 2016 handbook), ACU (96), Torrens (75): next, through the adapter generator's binding rules and a companion page read | — |
 
 - Design Reference: Decision 264.
+
+### 18 Oct 2026 (Sun, Melbourne) – Decision 265: English for the last four universities; companion pages; 207 more courses with English
+
+**Asked by:** Platform Admin, 18 Oct 2026 09:27 ("Help resolve 'still to do for english'"); choices: Melbourne "Yes, build and read (Recommended)"; Wollongong and Torrens "Check CRICOS first"; ACU "Yes, UAC for ACU (Recommended)"; Melbourne policy "Approve (Recommended)"; ACU policy "Approve (Recommended)".
+
+| Change | What | Checked |
+|---|---|---|
+| Survey | Melbourne names each course's level on a handbook sub-page (Entry and participation requirements) that refuses quick direct reads. Wollongong and Torrens courses without English are mostly not on the university's current site: 6 of 111 and 7 of 75 codes appear on the 206 and 186 current course pages (76% and 92% for courses that have English). The CRICOS register (loaded 26 Sep 2026) still lists all of them. ACU course pages print no scores and refer to a schedule ACU has rescinded; UAC publishes ACU's requirements by course group | Direct reads of both sitemaps; stored pages |
+| Migration `20261018010000` (md5-guarded) | Companion pages (`pipeline.uni_adapter_companions`, `pipeline.course_companion_pages`, job companion-read, 4 settings); level from the companion page or by course group rules (title and study level, in order); `security.course_page_rebind_v1` (logged with the old page); 13 courses relinked or read again by CRICOS code; 32 Melbourne courses moved to the 2026 handbook; 179 soft `not_on_provider_site` flags; Melbourne level policy proposed; UAC ACU page added as a source | Dry run (45 rebinds, 207 companion pages, 179 flags, JCU unchanged); applied; PR #559; full suite 716 passed; S56 |
+| Worker v0.29.0 | Mode `companion_read` (scraper or direct per university; stored copy; patterns) | Deployed; drift check identical (10 files) |
+| Migration `20261018020000` | "band 7.0" read as band 7; "band 7+" read (overall scores of IELTS 7.0) | Dry run; applied; PR #560 |
+| Jobs | coverage-read and provider-facts had been paused by the idle-job check overnight; released with a reason (new work queued) | `admin_flags release` |
+| Migration `20261018030000` | A source a person added is read when found (not held by the 30-day central refresh; budget still applies); 34 Melbourne courses with no 2026 handbook page flagged soft | Rebuilt `svc_fc_spend` matches live line by line apart from the added clause; applied; PR #561 |
+| Migration `20261018040000` | ACU English by course group from the stored UAC page (10 groups, ordered title rules; Education groups give skill minimums only); null-safe overall compare in the level step | 29 of 29 ACU courses with their own IELTS match their group; dry run 107 written then 0; applied; PR #562; full suite 719 passed |
+| Approvals | Melbourne level policy (122 courses) and ACU course-group policy (107 courses, 77 newly with English) approved by the Platform Admin | `admin_provider_policy_decide` |
+| Result | Courses with English: Melbourne 156 → 280, ACU 53 → 130, Wollongong 250 → 255, Torrens 107 → 108 | Live counts |
+| Left | Wollongong 111, Torrens 68, Melbourne 34 still CRICOS-registered but not on the university's current site (soft flags for a person); Melbourne research degrees state no level; ACU diplomas and most postgraduate courses not listed by UAC; 6 Torrens professional doctorates read IELTS 7.0 but are not yet admitted; scratch table `public._tmp_cf265_fetch` to remove by paste file | — |
+
+- Design Reference: Decision 265.
