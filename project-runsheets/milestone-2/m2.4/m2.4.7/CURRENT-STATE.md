@@ -6940,3 +6940,18 @@ The brief now forbids direct table changes.
 | Database | 3.92 GB → 3.59 GB |
 | 2 GB goal | Needs a decision: the largest remaining items are file metadata (storage.objects 567 MB), evidence records (pipeline.evidence_artifacts 320 MB, of which 200 MB indexes), the website search table (search.course_documents 234 MB; part of what the website reads, so not compacted while live) and course fees (135 MB). Evidence retention is the main lever |
 | Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Next steps together: websites, searches, Firecrawl targets, calendar intakes, Adelaide re-find, evidence removal prepared
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 06:34: "Proceed with next steps together to finish then sooner". Choices: evidence "Archive, then remove (Recommended)"; Adelaide "Re-find on new site (Recommended)"; targets "Add them all to firecrawl target"; calendar "Undergraduate only (Recommended)" |
+| Two-address providers | Changed through Change website (checked first, as the Platform Admin, with a reason): Sarina Russo Institute → www.sri.edu.au (Verified, CRICOS 00607B; srienglish.edu.au extra source); IH Brisbane - ALS → alscollege.com.au (Verified, CRICOS 02885G, where ihbrisbane.com.au now goes; alscertificates.com extra source); International Institute of Management & American College → americancollege.edu.au (Verified, CRICOS 03149K; americancollege.com.au extra source). No provider holds two addresses now |
+| Strathfield College | Search resumed (Search again, with a reason): 9 asked-for searches found pages |
+| Relink | All 8,700 courses started (batches run by hand to finish sooner): 52 found, 7,875 absent, 879 still being read |
+| Firecrawl targets | 176 universities with queued course searches added as targets (admin_firecrawl_write target, logged, reason given); their 840 queued searches marked as asked for so they run. First 3 hours: 267 verified, 31 found, 158 none, 642 queued |
+| Calendar intakes | Migration `20261019010000_cf247_calendar_undergrad_and_refind.sql` (PR #579, guarded edits): Decision 241 extended to universities' undergraduate courses (setting calendar.university_levels: bachelor, bachelor honours, associate degree, diploma, advanced diploma) with no intake, no lock and no pending Layer 4 item. First live run: 500 filled, 0 refused (job provider-calendar-defaults, 500 a run) |
+| Adelaide re-find | Same migration: pipeline.page_refind; the old page stays until a page on the current website passes the identity check, and goes back when none does. Started for Adelaide University: 237 pages on the pre-merger adelaide.edu.au, searched on adelaideuni.edu.au |
+| Evidence removal | Migration `20261019020000_cf247_evidence_purge_prepare.sql` (PR #580): prepares only, nothing removed. 70,611 replaced course-page snapshots listed; job evidence-purge-prepare checks them against every column that refers to evidence (except cascade-only index and statistics tables). Dry run of the first 3,000: 371 removable, 2,629 kept, because older snapshots still back live catalogue values (fees, links, intakes, campuses, Layer 4 items). The removable share is much smaller than the first estimate; the archive and paste file follow when the check finishes (about 2 hours) |
+| Checked | Applied history md5 = main for both migrations (9ea74ed7…, f599a944…); tests S67, S68 new; dry runs passed; full suite 761 passed |
+| Consumer API | Unchanged (no drift) |
