@@ -6893,3 +6893,18 @@ The brief now forbids direct table changes.
 | Database | 4.40 GB → 3.92 GB | Live |
 | Still open | Step 4 (provider URL lists, about 435 MB) after relinking; the 2 GB goal needs it and a review of the largest remaining tables | — |
 | Consumer API | Unchanged | consumer-api-guard: no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Bug 18/10-01 fixed: check or change a website in the Adapter builder (v2.15.288)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 18 Oct 2026 20:35: "add to bug/fix: Website - should have to feature to validate or change the website in the adapter builder." |
+| Screen | Layer 2 › Adapter builder, step 1.1 Website. **Check website** (Curator and above) reads the home page now and shows whether it answers, whether it is a third-party site, whether the provider's CRICOS code or name is on it and whether it is the site the register lists, with a verdict: Verified (CRICOS code, register-listed site or DLI number), Likely (name on the home page or the address fits the name), Failed. **Change website** (Platform Admin, with a reason) is checked the same way and saved only when Verified or Likely. A record holding two addresses is pointed out; a second site can be kept as an extra source |
+| After a change | Saved through `admin_provider_website_set` (locked, logged) as the person who asked; the generic course-page recipe moves to the new address (or is created); course-page searches that found nothing are queued again; a stopped or held search is resumed (as Search again does); contacts and central pages are queued. Course pages on the old address are counted and left for the relink step |
+| Database | Migration `20261018130000_cf247_website_check_change.sql` (md5-guarded, PR #574): table `pipeline.provider_website_checks`, `public.admin_provider_website_check` (list, check, change), `svc_provider_website_check_next` and `_record`, `security.provider_website_change_apply_v1`, verdict and address-list helpers, job `provider-website-check` (every 5 minutes, starts the worker only when a check waits; the request also starts it at once), setting `batch.website_check` (5). Catalogue and component register rows. Nothing dropped or deleted. Applied history md5 = main (5de78733…) |
+| Worker | coverage-sweep v0.31.0, mode `site_check` (home page read directly; about 1 Firecrawl credit only when the site refuses a direct read). Live source = main (edge drift check run 39120711590) |
+| Tests | S62 new (server, worker, browser: verdict and evidence, change with other site and reason, PIM Admin can check but not change); S55 and S59 worker-version patterns widened; full suite 745 passed; dry run on `cf247-zoho-dryrun` (Sydney Film School change end to end, rolled back) |
+| Live use | The Platform Admin changed Sydney Film School at 21:47 from "https://www.sydneyfilmschool.com.au, www.sydneyactorsschool.edu.au" to https://sydneyfilmschool.edu.au: Verified (CRICOS code 03361F on the home page); recipe created, 4 course-page searches queued, search resumed, central pages queued, website locked. A follow-up Check at 21:47 also Verified. Sydney Actors School was not added as an extra source |
+| Still to do | 3 more providers hold two addresses in one field (Sarina Russo Institute, IH Brisbane - ALS, International Institute of Management & American College); each can be fixed the same way |
+| Consumer API | Unchanged (consumer-api-guard: no drift; 73 functions, 48 relations) |
+| SOPs | Platform Admin SOP and Operator SOP 1.29 |
