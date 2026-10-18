@@ -6752,3 +6752,19 @@ The brief now forbids direct table changes.
 | Scratch table | `public._tmp_cf265_fetch` dropped | Live: gone |
 | Space | Freed space is reused inside the tables (database 4.44 GB → 4.40 GB); handing it back to the disk would need a table rewrite with a lock, not done | — |
 | Consumer API | Unchanged | consumer-api-guard: no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Logos & assets reviewed; Decision 267: Build adapter backend
+
+**Asked by:** Platform Admin, 18 Oct 2026 12:43 ("proceed with Phase 2, and see if UI Providers > Logo & asset provides any benefits otherwise retire and save DB space or functions/scripts"); earlier 17 Oct 18:56 and 18 Oct 11:58 (Build adapter choices).
+
+| Change | What | Checked |
+|---|---|---|
+| Logos & assets: kept | The screen is the only place a person sees which universities have no logo and adds one (upload, image address or the logo finder), and approved logos are what the website API sends. Its counts still looked at the retired logo-discovery candidates; now they read approved logos only (a university has a logo or not). The leftovers are about 1 MB, so the gain is fewer functions, not space | Migration `20261018060000` (md5-guarded), PR #565; dry run AU 39 of 39 universities with a logo, 75 of 79 overall; S58 |
+| Logos & assets: retiring | `pipeline.provider_asset_candidates` (582 rows) and `public.layer2_hotcourses_directory_apply` (no caller, no job) marked retiring, to drop by paste file after 1 Nov 2026 | Live: register rows retiring; no other function reads the candidates |
+| Build adapter: readiness | Eight fields per university: intakes, fee, English, delivery (existing qualification) and duration, campus, study level, majors (new, same read and agreement shares). Ready, Review or Not ready, and what each would add (active courses only). Kept current hourly by job adapter-build-readiness (catalogued; 100 universities a run, a setting) | Live: 1,154 universities measured; 2,333 fields Ready, 969 Review, 5,930 Not ready; Ready fields would add 2,143 values (fee 1,024, intakes 390, campus 347, delivery 190, English 130, duration 62) |
+| Build adapter: actions | `public.admin_adapter_build`: list and waves (stage per university: tested, admitted, building, needs pages, stopped, no adapter), read (measured now), build (starts or retries onboarding), set wave, admit (Platform Admin with a reason; Ready fields only: adapter fields through the adapter admit, duration, campus and study level through an Enrichment task, majors into the new `catalogue.course_specialisations`) | Dry run: one click on a college started an Enrichment task for 115 campus links and left Review fields alone |
+| Worker v0.30.0 | `majors` is an adapter pattern field (every match kept); the builder proposes it. No adapter reads majors yet: they appear as adapters are built or rebuilt | Deployed; drift check identical (10 files) |
+| Migration `20261018070000` | The above; `security.uni_adapter_pattern_fields` adds majors (md5-guarded). Nothing dropped; consumer API checked in the migration | Applied; live history md5 equals main; PR #566; full suite 729 passed; S59; consumer-api-guard: no drift |
+| Not in this change | Relinking pages by rule: 8,691 pages read as another course are counted on each university's page for now; the interface (Layer 2 › Adapters) follows with its version bump | — |
+
+- Design Reference: Decision 267.

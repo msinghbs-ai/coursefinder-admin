@@ -1477,6 +1477,14 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 267 — Build adapter: one click per university
+**Status:** Current (18 October 2026) · **Recorded in:** migration `20261018070000`; worker v0.30.0; change control e159
+- **Platform Admin (17 Oct, 18:56):** "click and generate the adapter and configure it for all fields available in the db and seek value for enrichment or foundation fill." Choices: one admin click; fields duration, campus, majors and specialisations, study level; rebinding by learnt rules. 18 Oct 11:58: Build adapter added to Layer 2 › Adapters, the Adapter builder kept; 12:43 "proceed with Phase 2".
+- **Readiness.** Eight fields per university: intakes, fee, English, delivery, duration, campus, study level, majors. A field is Ready when the adapter reads it on enough of the university's pages and, where the catalogue already holds a value, agrees with it (the qualify shares already in Settings); Review when it reads it but on too few pages or disagreeing; Not ready when it does not read it. Each field shows what it would add.
+- **One click.** A Platform Admin admits a university's Ready fields with a reason. Review and Not ready fields are never admitted by the click. Each field goes through its existing route: the adapter's admission for intakes, fee, English and delivery; an Enrichment task that fills only what the catalogue lacks for duration, campus and study level; the course's majors and specialisations list for majors.
+- **Building** reuses onboarding (website, course pages, capture, AI proposal, apply, qualify). A passing measurement never admits anything by itself.
+- **Majors and specialisations** are held in their own table. The website API does not send them until an approved API change (Decision 266).
+
 ### Decision 266 — The consumer API is frozen
 **Status:** Current (18 October 2026) · **Recorded in:** migration `20261018050000`; CLAUDE.md G3; test S57; change control e156
 - **Platform Admin (18 Oct, 11:58):** "From here on, make sure the consumer api are not affected by any decision or design." Choice: "Frozen-surface guard (Recommended)".
