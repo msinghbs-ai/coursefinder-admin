@@ -6754,3 +6754,14 @@ The brief now forbids direct table changes.
 | Rule | CLAUDE.md G3: no design or change alters, drops, renames or retypes the consumer API; new work reads from it or writes beside it | — |
 
 - Design Reference: Decision 266.
+
+### 18 Oct 2026 (Sun, Melbourne) – Clean-up ahead of Build adapter: unused tables, Layer 3 rows and adapter history
+
+**Asked by:** Platform Admin, 18 Oct 2026 11:58 ("retire what is not used and cleaup db along the way"); choices "Latest only, export rest (Recommended)" and "Paste file now (Recommended)".
+
+| Change | What | Checked |
+|---|---|---|
+| Unused tables and Layer 3 rows | The usage-audit paste file of 15 Oct (D6, D7, D9, D10) still applies unchanged: it drops the 15 tables marked retiring that nothing uses and removes 53,805 Layer 3 handoffs, 47,454 work items and 64,395 interpretations nothing live reads (exported 15 Oct). The Layer 3 tables themselves stay: 34 live functions still read them (Layer 4 review evidence, tuition rules, health and status screens), and 7,111 work items back Layer 4 items | Dry run of the paste file today: every export, count, key hash and reference check passed; rolled back |
+| Adapter history, latest only | Export definition `supabase/archive/cf247-adapter-history-2026-10-18.json` (PR #564); export run 39086387140: 43,079 course results replaced by a later result, 820 test previews and 280 drafts replaced by a later one (drafts carrying AI cost kept so spend reports do not change). Paste file removes exactly those rows after checking the export | Export read back and checked by the workflow; dry run of the paste file removed 43,079, 820 and 280 and rolled back |
+| Not yet retired | Interface items (the unused regulatory settings screen, an unused script tag) and seven worker modes nothing runs are retired with the Build adapter release, so the interface version changes once. Five components marked retiring are not due until 29 and 30 Oct | — |
+| Consumer API | Nothing above is read by the website or Zoho (checked against the Decision 266 baseline) | consumer-api-guard: no drift |
