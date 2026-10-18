@@ -6863,3 +6863,16 @@ The brief now forbids direct table changes.
 | Note | The other 896 queued searches (outside the focus providers, nobody asked) still wait under the focus rule, as designed; Find course pages in the builder puts any university first |
 | Consumer API | Unchanged (no drift) |
 | SOPs | 1.31 |
+
+### 19 Oct 2026 (Mon, Melbourne) – Relink of refused course pages started (A+B, then D); paused worker jobs now wake when work waits
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 18 Oct 2026 22:44: "Lets start on point 5"; choice "A+B, then D (Recommended)" |
+| Measured (read-only) | 8,691 courses with a refused page: 182 dead pages; 1,449 pages belong to another course of the same university, but only 12 of those courses lack a page; the rest are unrelated search hits. 7,890 were already searched with nothing correct found. Free sources: the university's address pattern about 943 courses at 53 universities; stored address lists about 135 (low, which supports shrinking those lists later) |
+| Built | Migration `20261018150000_cf247_course_relink.sql` (PR #577): table `pipeline.course_relink`; job `course-relink` (every 10 minutes, catalogued) with settings `batch.course_relink` (200), `relink.pattern_min_pages` (10), `relink.pattern_min_share` (0.5). Candidates (another course's refused page with exactly this title, the address pattern, the stored lists; at most 3) are bound through the existing course-page search flow and read directly with no Firecrawl; the reader's identity check decides; then the next candidate, then none. D: no candidate, or every candidate refused, is recorded as absent; its unasked queued search is closed; asked-for searches are untouched |
+| Found live, fixed | Migration `20261018160000_cf247_relink_levels_and_wake.sql` (PR #578, guarded edits). (1) Universities split addresses by level (Sydney courses/pc/ and courses/uc/; Swinburne course/undergraduate/ and course/postgraduate/), so the single-form rule recorded 199 Sydney and 158 Swinburne courses as absent: every form with enough verified pages now counts, the course's own study level first; first-rule absents are relinked again (rule 2). (2) The idle-job flag had paused the reader (coverage-read) and the course-page search worker (30 empty runs) shortly before the relink bound its pages, and only retried after 6 hours: `security.flag_jobs_v1` now switches a paused job on at the next flag check when `security.worker_mode_waiting_v1` finds work waiting (read, link_search) |
+| Checked live | Applied history md5 = main for both (f77bd6ab…, fee7b751…). The reader switched itself on at the next flag check and read 218 pages in 20 minutes. First results (Adelaide University, 207 candidates from the adelaide.edu.au pattern): 2 confirmed, about 100 did not answer (the merged university's courses are on adelaideuni.edu.au), the rest refused, so recorded as absent: the identity check works as the safeguard. The relink continues every 10 minutes, largest universities first |
+| Tests | S65 and S66 new; dry runs passed; full suite 757 passed |
+| Consumer API | Unchanged (no drift) |
+| Next | Report the yield per university when the relink finishes (about 8,700 courses at 200 a run); then rebuild weak adapters on the corrected links and shrink the provider address lists |
