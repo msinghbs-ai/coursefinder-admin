@@ -6744,3 +6744,13 @@ The brief now forbids direct table changes.
 | Adapter history, latest only | Export definition `supabase/archive/cf247-adapter-history-2026-10-18.json` (PR #564); export run 39086387140: 43,079 course results replaced by a later result, 820 test previews and 280 drafts replaced by a later one (drafts carrying AI cost kept so spend reports do not change). Paste file removes exactly those rows after checking the export | Export read back and checked by the workflow; dry run of the paste file removed 43,079, 820 and 280 and rolled back |
 | Not yet retired | Interface items (the unused regulatory settings screen, an unused script tag) and seven worker modes nothing runs are retired with the Build adapter release, so the interface version changes once. Five components marked retiring are not due until 29 and 30 Oct | — |
 | Consumer API | Nothing above is read by the website or Zoho (checked against the Decision 266 baseline) | consumer-api-guard: no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Clean-up paste files run by the Platform Admin
+
+| Change | What | Checked |
+|---|---|---|
+| Usage audit D6, D7, D9, D10 (paste file of 15 Oct) | 15 unused tables dropped and marked retired in the register; 53,805 Layer 3 handoffs, 47,454 work items and 64,395 interpretations removed (14,216 work items and 19,126 interpretations kept: tuition, open work and Layer 4 links) | Live: none of the 15 tables exists; 15 register rows retired; event 17241 |
+| Adapter history, latest only | 43,079 course results, 820 previews and 280 drafts removed (21,582 results, 849 previews and 1,181 drafts kept) | Live counts; event 17242 |
+| Scratch table | `public._tmp_cf265_fetch` dropped | Live: gone |
+| Space | Freed space is reused inside the tables (database 4.44 GB → 4.40 GB); handing it back to the disk would need a table rewrite with a lock, not done | — |
+| Consumer API | Unchanged | consumer-api-guard: no drift |
