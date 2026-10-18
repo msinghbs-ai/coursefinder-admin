@@ -6743,3 +6743,28 @@ The brief now forbids direct table changes.
 | Fix 1: active courses only | Readiness was partly measured on pages of inactive courses (Okanagan College 111 of 114), which are not admitted. All eight fields are now measured on active courses; the four adapter fields with the same rules as qualification (unchanged) | Migration `20261018080000` (md5-guarded), PR #568; would-add total 2,143 → 1,717 |
 | Fix 2: approvals and campus | coverage-admit and coverage-admit-intakes start in the same minute; both tried to create Loyalist's new intake approval and one failed once (05:40 UTC; next run fine). One click now creates the approvals its fields need first (on conflict do nothing). A campus reading agrees only when it names one of the university's own campuses; a university with no campus list is Review | Migration `20261018090000` (md5-guarded), PR #569; dry run: campus Ready would-add 347 → 1; the approval carries Decision 267 |
 | Checks | Readiness now: 1,154 universities, 2,293 Ready fields, about 1,075 values to add | Live history md5s equal main; full suite 736 passed; consumer-api-guard no drift |
+
+### 18 Oct 2026 (Sun, Melbourne) – Second Build adapter wave (30 universities); readiness now matches admission; consolidated next steps
+
+**Asked by:** Platform Admin, 18 Oct 2026 17:20 ("Proceed and always consolidate next steps").
+
+| Change | What | Checked |
+|---|---|---|
+| Follow-up 3 | Enrichment took an adapter's value from the Apply history (`pipeline.uni_adapter_results`) only; the current page reading has more (Te Wānanga o Raukawa: "1 Year" on 23 pages, none in the history). The adapter source now reads the current page reading first, the history for what it lacks (one line of the live function replaced, md5-guarded, exactly once). One click also releases "no value" holds for courses whose page reading now gives a value, with the reason | Migration `20261018100000`, PR #570; dry run filled all 23 |
+| Wave 2 admitted | The next 30 universities by values to add (mostly Australian colleges, also Victoria University of Wellington, Yoobee, Canberra Institute of Technology, UTS College). Dry run first | Event `build_admit` |
+| Written (910 active courses) | International fees 77 → 300 (+223); duration 675 → 718 (+43, Raukawa 23 and Victoria University of Wellington 20); intakes 247 → 257 (+10). English unchanged: the courses already held English through their approved policies | Live counts at 06:52 UTC; every admit run succeeded |
+| Held back safely | 122 fees held by the admit cross-check (the fee read is more than 25% from the CRICOS registered course total, for example 8,000 a year over 24 months against 24,600); each is flagged for a person | `fee_crosscheck` flags |
+| Follow-up 4 | Readiness now uses the same rules as admission: a fee the cross-check would hold back counts as differing; a course holding any English requirement counts as held | Migration `20261018110000`, PR #571; full suite 738 passed; consumer API no drift |
+| Where it stands | Two waves wrote about 620 values (344 + 276). Readiness now: 2,229 Ready fields; about 330 values left to add (fees 212, English 84, duration 19, intakes 11, delivery 3, campus 1). 1,070 fields for Review, 5,933 Not ready | Live |
+
+**Consolidated next steps (as at 18 Oct 2026 18:10)**
+
+| # | Next step | Who | Why now |
+|---|---|---|---|
+| 1 | Wave 3: admit the remaining Ready fields (about 330 values) in one pass | Claude, after a dry run | Readiness now matches admission, so the remaining values are real |
+| 2 | Review the 136 fees held by the cross-check (Layer 4 or Flags), by university: most are colleges printing a per-term or per-year figure that does not match the registered total | Platform Admin | Largest block of values waiting on a person |
+| 3 | Rebuild adapters whose fields are Review or Not ready (1,070 and 5,933 fields), starting with the universities with most courses; rebuilds also add majors | Claude proposes a wave; Platform Admin approves | Biggest remaining gain; needs AI proposals (small cost) |
+| 4 | Relink by rule the 8,691 pages read as another course | Claude designs, Platform Admin chooses the rule | Pages read but unusable |
+| 5 | Housekeeping steps 3, 4, 5 (register replay keys about 237 MB, provider URL tables about 250–330 MB, Layer 3 history about 100–150 MB) and paste files after 29 Oct to 1 Nov (retiring components, `zoho_v2_export`, cron history) | Claude prepares; Platform Admin pastes | Database 4.40 GB against a 2 GB goal |
+| 6 | Website developer requests R20 (scholarship nationality), R21 (lighter logos, needs Wix formats), R19 (needs an example) | Claude after the developer's input; any API change needs approval (Decision 266) | Consumer API frozen; additions only with approval |
+| 7 | English: RMIT and AUCD policies; 6 Torrens professional doctorates; 15 Layer 4 items | Platform Admin decides; Claude prepares | Small, waiting on decisions |
