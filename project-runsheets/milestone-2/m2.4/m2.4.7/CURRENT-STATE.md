@@ -7054,3 +7054,15 @@ The brief now forbids direct table changes.
 | 4 Indexes | Paste file `docs/platform/evidence-purge/PASTE-20261019-evidence-indexes.sql`: drops 6 indexes (about 14 MB) used a handful of times in 87 days or repeating another (evidence_job_idx, evidence_entity_links_provider_idx, layer2_evidence_review_idx, evidence_layer2_profile_version_idx, layer2_items_batch_status_idx, idx_l2_course_discovery_trial); nothing the consumer API's tables use. Its checks passed (definition md5, still barely used, backs no constraint). Not yet run. The evidence table's other indexes are in use and stay |
 | Checked | Full suites 781 and 784 passed; dry runs passed; applied history md5 = main (746a93ac…, 84dbeaa2…, cf5d31bb…); drift check zero drift after the worker deploy (run 39234399177); summary read live for an Adelaide page; anon cannot run the new functions; consumer_api_check_v1 drift [] |
 | Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 21:58: orphan evidence files removed, 6 indexes dropped
+
+| Item | Detail |
+|---|---|
+| Ran | Platform Admin, 19 Oct 2026 21:58: `PASTE-20261019-orphan-evidence-files.sql` "file_removal_request 326148"; `PASTE-20261019-evidence-indexes.sql` "Success. No rows returned" |
+| Found | Request 326148 answered 400: `svc_evidence_dedupe_next: canceling statement due to statement timeout`. The dedupe log had 28,938 new rows but old statistics, so the planner expected one row and chose nested loops. `analyze` of the dedupe log, `evidence_lineage_reconciliations` and `provider_contact_import_batches` (never analysed) took the lookup to 0.5 s. No code change |
+| Removed | evidence-storage-dedupe runs 326165, 326183, 326196, 326210, 326224, 326238: all 28,938 files (1,641,126,550 bytes) status deleted; none left in Storage by id or name; no evidence record names any of them. Evidence bucket now 158,895 files, 18 GB. `pipeline.orphan_files` is retiring (drop by paste file after 14 days) |
+| Indexes | The 6 indexes are gone; `pipeline.pipeline_evidence_job_idx` stays |
+| Space | `vacuum (analyze) storage.objects`: 0 dead rows. Its 569 MB on disk is reused, not handed back (plain vacuum); database 3.68 GB |
+| Lesson | A paste file that queues many rows for a worker runs `analyze` on the queue table after the insert |
+| Consumer API | Unchanged; consumer_api_check_v1 drift 0 |
