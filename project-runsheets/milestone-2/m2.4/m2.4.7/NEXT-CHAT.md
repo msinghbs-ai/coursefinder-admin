@@ -6981,3 +6981,14 @@ The brief now forbids direct table changes.
 | Also fixed | Test s69 still asserted the old deploy-script line after the #586 fix (one failing test on main); corrected in PR #587 |
 | Checked | Full suite 777 passed (1 flaky, passes on rerun) + s69 fixed; dry runs passed; consumer_api_check_v1 drift []; re-finds now kept_old 7, open 13, replaced 217 |
 | Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 18:57: evidence purge paste file run; files removed; Adelaide re-finds settled
+
+| Item | Detail |
+|---|---|
+| Done | Platform Admin, 19 Oct 2026 18:57: "ran sucess - file_removal_request - 324945" (`docs/platform/evidence-purge/PASTE-20261019-evidence-purge-replaced-snapshots.sql`) |
+| Checked live | The 8,531 replaced snapshots are gone (0 left) with their 223 link-index rows; job evidence-purge-prepare unscheduled and retired in the component register; consumer_api_check_v1 drift [] |
+| Files | evidence-storage-dedupe removed 8,464 of the 8,517 files (the paste file's request, then one more run: 1,764 removed, 0 failed, nothing more to do). The other 53 are still used by a kept snapshot of another record (the files had been shared after the dedupe of Decision 155), so they stay; the removal skips them for as long as they are used |
+| Space | Storage: about 240 MB handed back. Database: about 8 MB; `vacuum (analyze) pipeline.evidence_artifacts` run (MCP, one statement); database 3.66 GB |
+| Adelaide re-finds | Of the 13 opened from stored results: 12 replaced, each accepted by the reader (exact title for the 8 online and English pages, CRICOS code on the 4 international pages); Graduate Certificate in Education (Catholic Education) refused (the general Graduate Certificate in Education page is not this course), old page kept. Adelaide University re-find overall: 229 replaced, 8 kept their old page |
+| Consumer API | Unchanged |
