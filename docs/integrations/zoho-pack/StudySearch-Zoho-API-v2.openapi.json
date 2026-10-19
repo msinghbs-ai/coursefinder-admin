@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "StudySearch Zoho API v2",
-    "version": "zoho-api-v2 (first issue, 16 October 2026)",
+    "version": "zoho-api-v2 (issue 2, 19 October 2026)",
     "description": "One address for Zoho API v2, fifteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."
   },
   "servers": [

@@ -6943,3 +6943,14 @@ The brief now forbids direct table changes.
 | Done | Platform Admin, 19 Oct 2026 12:55: "Ran #1 - Success. No rows returned" (`docs/platform/phase5/PASTE-20261019-phase5-drop-zz-probe.sql`) |
 | Checked live | security.zz_probe_v1 gone; no function named zz* left; component register shows it retired; pipeline.course_field_source still holds 37,300 rows (untouched) |
 | Consumer API | Unchanged (consumer_api_check_v1 drift []) |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 14:08: Zoho API v2 Developer Guide issue 2 (Creator search options, seed and delta)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 14:08: "explain if Zoho can ingest data like website- seed it first and get delta. how would the course search would work in Zoho Creator. also Refresh Zoho creator and CRM V2 API handover docs." |
+| Answer | Yes: Zoho API v2 already has the website's pattern. CSV `export` in pages (with the `sync_cursor` to continue from) or a `sync` full load seeds a copy; `sync` with the stored cursor then returns only what changed. About 800–950 items a day have changed since the first seed |
+| Guide issue 2 | `docs/integrations/zoho-pack/` (md, docx, pdf, OpenAPI, Postman) reissued 19 Oct 2026. Section 5 rewritten for Zoho Creator: 5.1 two ways to search (A live `search`, B a copy in Creator) and the recommendation (both, as the website does: live search on the search screen, a copy of Institutes and Courses for detail, proposals, lead links and reports); 5.2 live search and how the screen works; 5.3 the copy: forms, CSV seed, scheduled `sync`, field mapping, searching the copy, sizes and Creator limits (5,000 Deluge statements a run, 5 MB `invokeUrl` answer; plan allowances to check). Section 13 (API changes only): English test code `DET`. Counts measured 19 Oct: 1,546 / 26,103 / 3,957 / 2,794; intakes 9,977; English 16,788 (DET 427); tuition 25,720; official link 18,593; nursing example 118; "Queensland" 1,068 |
+| Not changed | The API itself (no code or database change); the CSV columns (IELTS overall and band, PTE overall only; other tests come through `sync`) |
+| Usage | No Zoho call to v2 yet other than StudySearch's own live checks (16 Oct) |
+| Consumer API | Unchanged |

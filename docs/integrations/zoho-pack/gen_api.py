@@ -67,7 +67,7 @@ def er(d,h=None):
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Zoho API v2","version":"zoho-api-v2 (first issue, 16 October 2026)",
+ "info":{"title":"StudySearch Zoho API v2","version":"zoho-api-v2 (issue 2, 19 October 2026)",
    "description":"One address for Zoho API v2, fifteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot"}],
  "security":[{"bearerKey":[]}],
@@ -82,7 +82,7 @@ oas={"openapi":"3.1.0",
  "components":{"securitySchemes":{"bearerKey":{"type":"http","scheme":"bearer","description":"Your StudySearch Zoho key, issued separately"}},
    "schemas":{"Request":req,"Filters":filters,"ListResponse":lst,"DetailResponse":det,"SyncResponse":syn,"Error":errs}}}
 json.dump(oas,open("StudySearch-Zoho-API-v2.openapi.json","w"),indent=2,ensure_ascii=False)
-names={"reference":"reference","search_nursing":"search – nursing, IELTS 7 / 6.5, Feb or Jul (107)","search_provider_name":"search – provider name 'Queensland'","search_provider_cricos":"search – 00025B, tuition ≤ 45,000 (59)",
+names={"reference":"reference","search_nursing":"search – nursing, IELTS 7 / 6.5, Feb or Jul (118)","search_provider_name":"search – provider name 'Queensland'","search_provider_cricos":"search – 00025B, tuition ≤ 45,000 (59)",
  "course":"course – 082960F","courses":"courses – batch with one not found","providers":"providers – 'RMIT' (3)","provider":"provider – 00025B with campuses and contacts",
  "campuses":"campuses – 00025B","contacts":"contacts – 00025B","statistics_qilt":"statistics – QILT 00025B (48)","statistics_prisms":"statistics – PRISMS AU-QLD",
  "rankings":"rankings – QS, Australia","scholarships":"scholarships – international","scholarship":"scholarship – detail (uses scholarshipId)",

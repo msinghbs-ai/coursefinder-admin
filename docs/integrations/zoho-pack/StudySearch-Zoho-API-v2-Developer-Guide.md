@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Zoho API v2 — Developer Guide"
-subtitle: "zoho-api-v2 · First issue · 16 October 2026 · Pilot"
+subtitle: "zoho-api-v2 · Issue 2 · 19 October 2026 · Pilot"
 ---
 
 | | |
@@ -10,7 +10,8 @@ subtitle: "zoho-api-v2 · First issue · 16 October 2026 · Pilot"
 | **Environment** | Pilot (live). Production will have its own address and keys, issued at go-live |
 | **Keys** | Two keys, one for Zoho Creator and one for the Zoho CRM sync, sent separately by a secure channel. They are never written in this guide or the files that come with it |
 | **Files with this guide** | `StudySearch-Zoho-API-v2.openapi.json` (OpenAPI 3.1) and `StudySearch-Zoho-API-v2.postman_collection.json` (Postman; set the variable `apiKey`) |
-| **Replaces** | The Zoho Developer Handover v1.0 (1 September 2026) for new work. The v1 address keeps working until you have moved (section 11) |
+| **Replaces** | Issue 1 of this guide (16 October 2026), and the Zoho Developer Handover v1.0 (1 September 2026) for new work. The v1 address keeps working until you have moved (section 11) |
+| **New in issue 2** | Section 5 now sets out the two ways to give Zoho Creator course search: live search through the API, or a copy held in Creator (seeded from CSV, then kept current with `sync`), and which to use when. English test code `DET` (Duolingo). Counts measured on 19 October 2026 |
 
 # 1. What the API gives you
 
@@ -29,9 +30,9 @@ Five rules apply to every response:
 **Zoho Creator (counsellor search)**
 
 1. Put the Creator key in a Zoho Connection (custom service, API key in the `Authorization` header as `Bearer <key>`). Never in Deluge source or widget JavaScript.
-2. Call `reference` once a day and cache the vocabularies (section 7.1).
-3. Call `search` live with the student's filters (section 5). Each result already carries intakes, English requirements, tuition, campuses and the scholarship count: no `course` call per result.
-4. Call `course` or `courses` when a counsellor opens a course or a lead lists CRICOS codes.
+2. Call `reference` once a day and cache the vocabularies (section 7).
+3. Choose how search works (section 5.1). Recommended: search live with `search` (section 5.2); keep a copy of Institutes and Courses in Creator for lookups, proposals and reports (section 5.3).
+4. Call `course` or `courses` when a counsellor opens a course or a lead lists CRICOS codes (or read them from the copy).
 
 **Zoho CRM (Institutes and Courses kept current)**
 
@@ -78,7 +79,25 @@ Every JSON answer carries `api_version: "zoho-v2"` and a `request_id`. Lists ret
 
 Quote the `request_id` when you report a problem.
 
-# 5. Zoho Creator: live course search
+# 5. Zoho Creator: course search
+
+## 5.1 Two ways to search, and which to use
+
+Zoho Creator can take StudySearch data the same way the website does: seed a copy once, then fetch only what changed. Course search can then run in one of two ways.
+
+| | A. Live search (recommended for the search screen) | B. Search a copy held in Creator |
+|---|---|---|
+| How it works | The search screen sends the counsellor's filters to `search` and shows the page that comes back | Courses and Institutes are stored as Creator records (seeded from CSV, kept current with `sync`); the search screen filters those records |
+| Matching | StudySearch relevance: words in the title, provider name and course codes, ranked; English score and band per test, intake months and tuition worked out on our side | Creator's own filters: exact or "contains" matches on fields, no ranking by relevance |
+| English and intakes | Every test (IELTS, PTE, TOEFL iBT, CAE, DET), overall and lowest band | Only the columns you store (the CSV holds IELTS overall and band, PTE overall, intake months) |
+| Freshness | Always current | As current as the last `sync` run (every 15–60 minutes) |
+| Calls | One call per search (cache 15 minutes) | No call per search; one scheduled `sync` run every 15–60 minutes |
+| Storage in Creator | None | About 34,400 records for Australia (1,546 Institutes, 26,103 Courses, 3,957 Campuses, 2,794 Contacts); check your plan's record allowance |
+| Works when StudySearch is unreachable | No (show a short message) | Yes, from the copy |
+
+**Recommendation:** use both, as the website does. Search live (A) on the counsellor's search screen, because it gives the full English, intake and relevance logic with no extra build. Keep a copy (B) of Institutes and Courses for everything that is not a search: opening a course, building a student proposal, linking a lead to a course, and Creator reports. If a fully offline search is required, B works with the limits in the table.
+
+## 5.2 Live search
 
 This answers the two questions in your email of 14 October.
 
@@ -100,7 +119,7 @@ This answers the two questions in your email of 14 October.
 | `institution_types`, `university_groups` | list | From `reference` |
 | `delivery_modes` | list | `on_campus`, `online`, `blended`, `on_campus_and_online` |
 | `intake_months` | list of 1–12 | Courses with an intake in any of these months |
-| `english_test_codes` | list | `IELTS`, `PTE`, `TOEFL_IBT`, `CAE` |
+| `english_test_codes` | list | `IELTS`, `PTE`, `TOEFL_IBT`, `CAE`, `DET` (Duolingo, overall 10–160) |
 | `english_score_max` | number | The student's overall score: courses whose overall requirement is at or below it (needs exactly one test) |
 | `english_band_max` | number | The student's lowest band: courses whose every band requirement is at or below it (needs exactly one test) |
 | `tuition_annual_min`, `tuition_annual_max` | number | Annual tuition range in the course's currency |
@@ -109,7 +128,7 @@ This answers the two questions in your email of 14 October.
 
 `sort`: `relevance` (default with a keyword), `title_asc` (default without), `tuition_annual_asc`, `tuition_annual_desc`, `duration_asc`, `updated_asc`. `page_size` is 1–50.
 
-Example: Nursing in Australia, IELTS 7.0 overall with no band under 6.5, intake in February or July (107 courses on 16 October):
+Example: Nursing in Australia, IELTS 7.0 overall with no band under 6.5, intake in February or July (118 courses on 19 October):
 
 ```json
 { "action": "search", "filters": { "keyword": "nursing", "country_codes": ["AU"], "english_test_codes": ["IELTS"],
@@ -120,18 +139,38 @@ Course detail: `{"action": "course", "cricos_course_code": "082960F"}` (or `cour
 
 Recommended cache: `reference` once a day (it holds countries, states, cities, study levels and areas, institution types, university groups, ranking systems and scholarship vocabularies, with counts). Do not cache search results for more than 15 minutes.
 
+**How the screen works in Creator**
+
+1. The counsellor fills the search form (keyword, provider, state or city, study level and area, intake months, English test with score and lowest band, tuition range). Build the drop-downs from the cached `reference`.
+2. On Search, a Deluge function sends one `search` call through the Connection with those filters, `page` and `page_size` (20 is a good default).
+3. Show the returned `items` in a page or widget: title, provider, CRICOS code, campuses, intakes, English, tuition, scholarship count. Use `total` for "N courses" and next and previous page buttons (send `page` + 1).
+4. On a course, show the detail from the copy (5.3) or call `course` with its `cricos_course_code`.
+5. "Report a problem" on a course sends `report` with the counsellor's note.
+
+## 5.3 A copy in Creator: seed once, then only what changed
+
+Use this for Institutes and Courses (and optionally Campuses and Contacts), whether or not search runs on it.
+
+1. **Forms.** Create forms Institutes, Courses (with a lookup to Institutes), and optionally Campuses and Contacts, with fields named after the CSV columns (section 6.1). Make `cricos_provider_code` and `cricos_course_code` unique. Add a hidden form, Sync State, with one record holding the cursor, the time of the last run and the last `request_id`.
+2. **Seed from CSV.** Call `export` for each entity (`provider` first, then `course`, `campus`, `contact`), page by page while `has_more` is true, and import each file into its form with Creator's import (match on the CRICOS code). The course file is nine files of up to 3,000 rows. Save the `sync_cursor` from the first file you export into Sync State.
+3. **Keep current with `sync`.** A scheduled Deluge function, every 15 to 60 minutes: read the cursor; call `sync` with it and `page_size` 50; for each item, `upsert` updates the record with that key or adds it, `remove` marks it inactive (do not delete; a course can come back); save `next_cursor` in Sync State only after the page is written; repeat while `has_more` is true and the run has statement budget left (the next run carries on from the saved cursor).
+4. **Map fields.** A `sync` course item holds more than the CSV. Fill the same Creator fields from it: lists (states, campus cities, intake months, delivery modes) joined with `; ` as in the CSV; `ielts_overall`, `ielts_band` and `pte_overall` from `english_requirements` (the entry with that `test_code`: `min_overall_score`, `min_band_score`); `tuition_annual` from `tuition.annual_amount`. Add more columns (for example TOEFL or DET) the same way if you search on them.
+5. **Searching the copy.** Creator report filters, or a Deluge fetch with criteria, on the stored fields: for example IELTS overall at or below 7.0 and lowest band at or below 6.5 (`ielts_overall <= 7.0 && ielts_band <= 6.5`). Keep intake months in a multi-select field (1 to 12) rather than text, so a filter for February does not also match December ("12"). A course with no IELTS value is "not held", not "no requirement": leave it out of an English filter rather than treat it as a pass.
+
+**Sizes to plan for.** Since the first seed about 800–950 items have changed a day (mostly courses), so a delta run usually takes one or two calls. A `sync` page holds up to 200 size units (about 600 KB, well under the 5 MB a Deluge `invokeUrl` answer may hold). Deluge allows 5,000 statements in one function run, so write a page of 50 items per call rather than 200, and let a long catch-up continue over several runs. Check your Creator plan's allowances for records, scheduled runs a month and `invokeUrl` calls a day before choosing B for search: each live search (A) is one `invokeUrl` call.
+
 # 6. Zoho CRM: Institutes and Courses kept current
 
 Australia is in the CRM feed now; New Zealand and Canada can be switched on later without a change to your side (the `reference` answer lists the countries under `sync.countries`).
 
-| CRM module | Entity | Key to match on | Count (16 Oct) |
+| CRM module | Entity | Key to match on | Count (19 Oct) |
 |---|---|---|---|
 | Institutes | `provider` | `cricos_provider_code` (also `provider_id`) | 1,546 |
 | Courses | `course` | `cricos_course_code` (also `course_id`); link to the institute by `provider.cricos_provider_code` | 26,103 |
 | Campuses (optional) | `campus` | `campus_id`; link by `cricos_provider_code` | 3,957 |
-| Contacts (optional) | `contact` | `contact_id`; link by `cricos_provider_code` | 2,788 |
+| Contacts (optional) | `contact` | `contact_id`; link by `cricos_provider_code` | 2,794 |
 
-Contacts are of four types: `head_of_institution` (the principal executive officer from the public CRICOS register, 1,537), `general` (the international or general enquiry contact from the provider's own website, 1,224), and `team` and `staff` (international recruitment contacts held by StudySearch, 27).
+Contacts are of four types: `head_of_institution` (the principal executive officer from the public CRICOS register, 1,537), `general` (the international or general enquiry contact from the provider's own website, 1,230), and `team` and `staff` (international recruitment contacts held by StudySearch, 27).
 
 ## 6.1 First import: CSV
 
@@ -161,9 +200,9 @@ Lists inside a cell are separated by `; `. Import Institutes first, then Courses
 
 `sync` returns items in order, each with `entity`, `id`, `seq`, `change` (`upsert` with the full `item`, or `remove`) and a `next_cursor`.
 
-1. **Full load (only if you did not seed from CSV):** `{"action": "sync", "full_load": true}`. Repeat with `{"action": "sync", "cursor": "<next_cursor>"}` while `has_more` is true. About 34,400 items for Australia; a page holds up to `page_size` items (at most 200) and is also limited by size, so a page of large items holds fewer. Always follow `has_more`, never count items.
+1. **Full load (only if you did not seed from CSV):** `{"action": "sync", "full_load": true}`. Repeat with `{"action": "sync", "cursor": "<next_cursor>"}` while `has_more` is true. About 34,400 items for Australia (about 76 MB in about 200 pages); a page holds up to `page_size` size units (at most 200, about 600 KB), so a page of large items holds fewer. Always follow `has_more`, never count items.
 2. **After a CSV seed:** use the `sync_cursor` from the first page you exported as your cursor. Changes made after that file was read then come through `sync` (some may repeat what a later file already holds; upserts by key make that harmless).
-3. **Every 15–60 minutes:** send the stored cursor; apply each upsert by key and each remove (mark the record inactive in Zoho rather than deleting it); store the new `next_cursor` only after the page is written. Repeat while `has_more`.
+3. **Every 15–60 minutes:** send the stored cursor; apply each upsert by key and each remove (mark the record inactive in Zoho rather than deleting it); store the new `next_cursor` only after the page is written. Repeat while `has_more`. Since the first seed about 800–950 items have changed a day, so a run usually takes one or two calls.
 4. `entities` limits a full load to some of `provider`, `campus`, `contact`, `course`.
 
 What we expect from the sync job: one cursor at a time (never two runs in parallel), honour `Retry-After`, write pages in bulk, and keep the cursor in Zoho so a failed run resumes where it stopped.
@@ -173,7 +212,7 @@ What we expect from the sync job: one cursor at a time (never two runs in parall
 | Action | Send | Returns |
 |---|---|---|
 | `reference` | — | Vocabularies with counts; `sync` (entities, countries, item counts) |
-| `search` | `filters`, `page`, `page_size`, `sort` | Courses (section 5) |
+| `search` | `filters`, `page`, `page_size`, `sort` | Courses (section 5.2) |
 | `course` | `cricos_course_code` or `course_id` | One course in full |
 | `courses` | `identifiers` (up to 50) | Those courses, and `not_found` |
 | `providers` | `filters` (`provider_name`, `provider_cricos_codes`, `country_codes`, `subdivision_codes`, `cities`, `institution_types`, `university_groups`, `has_logo`, ranking filters), `page`, `page_size`, `sort` | Providers with courses |
@@ -197,16 +236,16 @@ What we expect from the sync job: one cursor at a time (never two runs in parall
 - **Logos.** `logo.url` is a signed link valid for a year (`url_expires_at`). Copy the image into Zoho if you keep it; providers are sent again in `sync` before their link ends.
 - **Canada** has fewer fields held than Australia and New Zealand. Show what is held.
 
-# 9. What is held now (16 October 2026)
+# 9. What is held now (19 October 2026)
 
 | | Australia |
 |---|---|
-| Providers / courses / campuses / contacts | 1,546 / 26,103 / 3,957 / 2,788 |
-| Courses with intakes | 9,269 |
-| Courses with English requirements | 15,901 |
-| Courses with tuition | 25,716 |
+| Providers / courses / campuses / contacts | 1,546 / 26,103 / 3,957 / 2,794 |
+| Courses with intakes | 9,977 |
+| Courses with English requirements | 16,788 (427 accept DET) |
+| Courses with tuition | 25,720 |
 | Courses with a matched scholarship | 9,397 |
-| Courses with an official course link | 18,385 |
+| Courses with an official course link | 18,593 |
 | QILT measures (all providers) / PRISMS rows | 3,068 / 2,270 |
 
 Coverage grows as data is admitted; the CSV and `sync` carry it to you.
@@ -216,8 +255,8 @@ Coverage grows as data is admitted; the CSV and `sync` carry it to you.
 | # | Send | Expect |
 |---|---|---|
 | 1 | `{"action":"reference"}` | 200; `sync.countries` is `["AU"]` |
-| 2 | Section 5 example | 200; `total` about 107; every item has `cricos_course_code` and `english_requirements` |
-| 3 | `{"action":"search","filters":{"provider_name":"Queensland"},"page_size":2}` | 200; two items, `total` above 1,000 |
+| 2 | Section 5.2 example | 200; `total` about 118; every item has `cricos_course_code` and `english_requirements` |
+| 3 | `{"action":"search","filters":{"provider_name":"Queensland"},"page_size":2}` | 200; two items, `total` above 1,000 (1,068 on 19 October) |
 | 4 | `{"action":"course","cricos_course_code":"082960F"}` | 200; Bachelor of Nursing (Honours), The University of Queensland |
 | 5 | `{"action":"courses","identifiers":["082960F","0100879","NOPE"]}` | 200; two items; `not_found` is `["NOPE"]` |
 | 6 | `{"action":"provider","cricos_provider_code":"00025B"}` | 200; campuses and contacts listed |
@@ -253,3 +292,4 @@ Send the action, the JSON body (without the key), the HTTP status, the full resp
 | Issue | Date | API change |
 |---|---|---|
 | First issue | 16 Oct 2026 | Zoho API v2 at its own address with its own keys: fifteen actions; search results with intakes, English (overall and bands) and tuition; provider name and CRICOS filters; CRICOS codes on every Australian course and provider; campuses, contacts and statistics; CSV export in pages (with the cursor to continue from) and sync for the CRM (Australia) |
+| Issue 2 | 19 Oct 2026 | New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |
