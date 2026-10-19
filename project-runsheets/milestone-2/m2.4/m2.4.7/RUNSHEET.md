@@ -7094,3 +7094,12 @@ The brief now forbids direct table changes.
 | CF-208, CF-209, CF-210 | Closure records appended (208 and 209 already closed; 210 closed as superseded: managed records, H5–H6, Decision 181 Add course/provider) |
 | Checked | Dry runs passed; full suites 792 and 793 passed; build and release:verify PASS (v2.15.295 / 0.1.222); deploy workflows passed; four migrations applied; worker v0.33.1 answering; consumer_api_check_v1 drift 0 |
 | Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 01:45: scholarship re-check finished; re-find wave 1 result
+
+| Item | Detail |
+|---|---|
+| Scholarship re-check | All 512 held pages re-checked (cost US$0.06): 299 international students not mentioned, 139 not settled, 50 international students named with the value (check and publish), 16 domestic only, 7 international with the value unclear, 1 with no result. 40 universities finished onboarding after the re-check; 2 still wait (held pages without a re-check). Every held page stays in Layer 4 › AI could not decide for a person; nothing was published or refused |
+| Re-find wave 1 (56 providers) | Site map: 42 failed again (the Firecrawl map returned almost nothing for these small college sites, 189 addresses in all), 14 mapped (3,168 addresses). AI page matching did not run for them: their courses were already settled by earlier searches and the 18 Oct relink (not on the site), which the matcher skips. Pages read: 21 for 3 providers. Onboarding: 54 stopped again on too few pages, 2 built an adapter with nothing ready. Finding: for this tail, more automated searching yields almost nothing; the remaining routes are a person's page list or the CRICOS-only tier |
+| Pages kept once | The Melbourne day restarted at 01:00; no course page read yet today. Yesterday's reading (4 kept of 492) was the first day; each page stores one more copy before reuse starts |
+| Consumer API | Unchanged |
