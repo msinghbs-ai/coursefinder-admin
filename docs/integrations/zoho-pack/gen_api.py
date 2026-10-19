@@ -70,7 +70,7 @@ def er(d,h=None):
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Zoho API v2","version":"zoho-api-v2 (issue 3, 19 October 2026)",
+ "info":{"title":"StudySearch Zoho API v2","version":"zoho-api-v2 (issue 4, 19 October 2026)",
    "description":"One address for Zoho API v2, sixteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot"}],
  "security":[{"bearerKey":[]}],

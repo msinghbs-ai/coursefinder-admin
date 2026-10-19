@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Zoho API v2 — Developer Guide"
-subtitle: "zoho-api-v2 · Issue 3 · 19 October 2026 · Pilot"
+subtitle: "zoho-api-v2 · Issue 4 · 19 October 2026 · Pilot"
 ---
 
 | | |
@@ -10,7 +10,8 @@ subtitle: "zoho-api-v2 · Issue 3 · 19 October 2026 · Pilot"
 | **Environment** | Pilot (live). Production will have its own address and keys, issued at go-live |
 | **Keys** | Two keys, one for Zoho Creator and one for the Zoho CRM sync, sent separately by a secure channel. They are never written in this guide or the files that come with it |
 | **Files with this guide** | `StudySearch-Zoho-API-v2.openapi.json` (OpenAPI 3.1) and `StudySearch-Zoho-API-v2.postman_collection.json` (Postman; set the variable `apiKey`) |
-| **Replaces** | Issues 1 and 2 of this guide (16 and 19 October 2026), and the Zoho Developer Handover v1.0 (1 September 2026) for new work. The v1 address keeps working until you have moved (section 11) |
+| **Replaces** | Issues 1 to 3 of this guide (16 and 19 October 2026), and the Zoho Developer Handover v1.0 (1 September 2026) for new work. The v1 address keeps working until you have moved (section 11) |
+| **New in issue 4** | Section 5.4: an Online / Local switch on the Creator search screen, with automatic fall-back to the local copy when StudySearch cannot be reached, and the number of calls each way. No API change |
 | **New in issue 3** | Counsellor reports (section 6.3): a counsellor in Creator or CRM reports a missing, wrong or out-of-date value on a course, institute, campus or contact, and reads back the outcome with the new action `report_status`. A course can be named by its CRICOS code alone |
 | **New in issue 2** | Section 5 now sets out the two ways to give Zoho Creator course search: live search through the API, or a copy held in Creator (seeded from CSV, then kept current with `sync`), and which to use when. English test code `DET` (Duolingo). Counts measured on 19 October 2026 |
 
@@ -159,6 +160,51 @@ Use this for Institutes and Courses (and optionally Campuses and Contacts), whet
 5. **Searching the copy.** Creator report filters, or a Deluge fetch with criteria, on the stored fields: for example IELTS overall at or below 7.0 and lowest band at or below 6.5 (`ielts_overall <= 7.0 && ielts_band <= 6.5`). Keep intake months in a multi-select field (1 to 12) rather than text, so a filter for February does not also match December ("12"). A course with no IELTS value is "not held", not "no requirement": leave it out of an English filter rather than treat it as a pass.
 
 **Sizes to plan for.** Since the first seed about 800–950 items have changed a day (mostly courses), so a delta run usually takes one or two calls. A `sync` page holds up to 200 size units (about 600 KB, well under the 5 MB a Deluge `invokeUrl` answer may hold). Deluge allows 5,000 statements in one function run, so write a page of 50 items per call rather than 200, and let a long catch-up continue over several runs. Check your Creator plan's allowances for records, scheduled runs a month and `invokeUrl` calls a day before choosing B for search: each live search (A) is one `invokeUrl` call.
+
+## 5.4 Online and Local search with one switch
+
+Give the search screen a switch: **Online** (live `search`, section 5.2) or **Local** (the copy in Creator, section 5.3). Online is the default; Local keeps counsellors working when StudySearch cannot be reached, and costs no calls.
+
+| Switch | What Search does | Calls |
+|---|---|---|
+| **Online** (default) | Sends the counsellor's filters to `search`: relevance ranking, every English test (overall and lowest band), intakes and tuition, always current | 1 a search, 1 a further page |
+| **Local** | Filters the courses held in Creator (section 5.3) | None |
+| **Automatic fall-back** | An Online search that answers 503, times out or does not answer runs again on the local copy, with a banner | The 1 failed call |
+
+1. **One form for both.** The same filters feed both paths: Online sends them as `filters`; Local turns them into Creator criteria.
+2. **Remember the choice** per counsellor (a user preference), Online by default.
+3. **Fall back by itself.** Do not spend calls on a separate "is it up?" check: try Online; on 503 or no answer, run the same search locally, show "StudySearch is unavailable: results from the local copy (updated [time])", and stay on Local for 10 minutes before trying Online again.
+4. **On 429 do not fall back.** Wait the `Retry-After` seconds and try again; the platform is up, the key is busy.
+5. **Show the mode and freshness** on every results page: "Online", or "Local copy, updated [time of the last `sync` run]" (from Sync State).
+6. **Say what Local cannot do:** results come in title order, not by relevance; English filters cover only the stored columns (the CSV holds IELTS overall and lowest band and PTE overall); a course with no value held is left out of a filter on that value.
+
+Outline of the Search function (Deluge; the form, field and Connection names are yours):
+
+```
+if (mode == "Online")
+{
+    body = {"action":"search","filters":filters,"page":page,"page_size":20};
+    resp = invokeurl [ url: "<zoho-api-v2 address>" type: POST parameters: body.toString()
+                       headers: {"Content-Type":"application/json"} connection: "studysearch_v2" detailed: true ];
+    if (resp.get("responseCode") == 200) { show(resp.get("responseText").get("items"), "Online"); return; }
+    if (resp.get("responseCode") == 429) { info "StudySearch is busy, try again in a moment"; return; }
+    setFallback(10);   // stay on Local for 10 minutes
+}
+rows = Courses[ title.contains(keyword) && ielts_overall <= score && ielts_band <= band && status == "Active" ]
+       sort by title range from 1 to 20;
+show(rows, "Local copy, updated " + Sync_State[ID != 0].last_run);
+```
+
+**Calls with the switch (Australia, 19 October 2026)**
+
+| Part | Calls |
+|---|---|
+| First load from CSV (once) | 13 (Institutes 1, Courses 9, Campuses 2, Contacts 1) |
+| Keeping the copy current | About 45 a day (sync every hour) to 120 a day (every 15 minutes) |
+| Online searches | 1 a search or page; for example 20 counsellors × 30 searches is about 600 a day |
+| Local searches, and searches after a fall-back | None |
+
+Check your Zoho plan's daily `invokeUrl` allowance and monthly schedule runs before choosing how often to sync.
 
 # 6. Zoho CRM: Institutes and Courses kept current
 
