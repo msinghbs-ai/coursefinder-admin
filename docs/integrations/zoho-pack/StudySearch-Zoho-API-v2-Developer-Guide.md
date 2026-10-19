@@ -1,16 +1,17 @@
 ---
 title: "StudySearch Zoho API v2 — Developer Guide"
-subtitle: "zoho-api-v2 · Issue 2 · 19 October 2026 · Pilot"
+subtitle: "zoho-api-v2 · Issue 3 · 19 October 2026 · Pilot"
 ---
 
 | | |
 |---|---|
 | **For** | The Zoho developers: the Zoho Creator counsellor app (course search) and the Zoho CRM sync (Institutes and Courses modules) |
-| **API** | One HTTPS address for Zoho API v2, fifteen actions |
+| **API** | One HTTPS address for Zoho API v2, sixteen actions |
 | **Environment** | Pilot (live). Production will have its own address and keys, issued at go-live |
 | **Keys** | Two keys, one for Zoho Creator and one for the Zoho CRM sync, sent separately by a secure channel. They are never written in this guide or the files that come with it |
 | **Files with this guide** | `StudySearch-Zoho-API-v2.openapi.json` (OpenAPI 3.1) and `StudySearch-Zoho-API-v2.postman_collection.json` (Postman; set the variable `apiKey`) |
-| **Replaces** | Issue 1 of this guide (16 October 2026), and the Zoho Developer Handover v1.0 (1 September 2026) for new work. The v1 address keeps working until you have moved (section 11) |
+| **Replaces** | Issues 1 and 2 of this guide (16 and 19 October 2026), and the Zoho Developer Handover v1.0 (1 September 2026) for new work. The v1 address keeps working until you have moved (section 11) |
+| **New in issue 3** | Counsellor reports (section 6.3): a counsellor in Creator or CRM reports a missing, wrong or out-of-date value on a course, institute, campus or contact, and reads back the outcome with the new action `report_status`. A course can be named by its CRICOS code alone |
 | **New in issue 2** | Section 5 now sets out the two ways to give Zoho Creator course search: live search through the API, or a copy held in Creator (seeded from CSV, then kept current with `sync`), and which to use when. English test code `DET` (Duolingo). Counts measured on 19 October 2026 |
 
 # 1. What the API gives you
@@ -145,7 +146,7 @@ Recommended cache: `reference` once a day (it holds countries, states, cities, s
 2. On Search, a Deluge function sends one `search` call through the Connection with those filters, `page` and `page_size` (20 is a good default).
 3. Show the returned `items` in a page or widget: title, provider, CRICOS code, campuses, intakes, English, tuition, scholarship count. Use `total` for "N courses" and next and previous page buttons (send `page` + 1).
 4. On a course, show the detail from the copy (5.3) or call `course` with its `cricos_course_code`.
-5. "Report a problem" on a course sends `report` with the counsellor's note.
+5. "Report a problem" on a course sends `report` (section 6.3).
 
 ## 5.3 A copy in Creator: seed once, then only what changed
 
@@ -207,6 +208,46 @@ Lists inside a cell are separated by `; `. Import Institutes first, then Courses
 
 What we expect from the sync job: one cursor at a time (never two runs in parallel), honour `Retry-After`, write pages in bulk, and keep the cursor in Zoho so a failed run resumes where it stopped.
 
+## 6.3 Counsellor reports (Creator and CRM)
+
+A counsellor who sees a missing, wrong or out-of-date value on a course, institute, campus or contact reports it from the record. The StudySearch Platform Admin checks it, corrects the value where it is held and closes the report as **fixed** or **not changed** with a reason. Your app reads the outcome back with `report_status`; a corrected value reaches you through `sync` and `search` as usual.
+
+**Build in Zoho (Creator and CRM alike)**
+
+1. A **Report a problem** button on the course, institute, campus and contact records.
+2. A short form: Field (drop-down from the table below), Problem (`missing`, `wrong`, `out_of_date`), Correct value if known, Source link (for example the provider's page), and Note. Fill the counsellor's name and email from the signed-in user.
+3. A Deluge function sends `report` and saves the answer's `flag_id`, with the record and status `open`, in a list (for example a Creator form or a CRM module "StudySearch reports"), so counsellors see what they reported.
+4. Once or twice a day, a scheduled function sends the open `flag_id`s to `report_status` (up to 100 in one call) and updates each status, reason and date.
+
+**Send**
+
+```json
+{ "action": "report", "entity": "course", "cricos_course_code": "082960F", "field": "tuition", "issue": "wrong",
+  "suggested_value": "45000", "source_url": "https://...", "note": "The 2027 fee on the course page is 45,000",
+  "reporter": { "name": "Counsellor name", "email": "counsellor@example.com", "ref": "your record id" } }
+```
+
+| Entity (`entity`) | Name the record by | Fields (`field`) |
+|---|---|---|
+| `course` (default) | `course_id` or `cricos_course_code` | `official_url`, `intakes`, `english`, `tuition` (also `fees`), `scholarship`, `title`, `duration`, `delivery`, `campus`, `study_level`, `study_area`, `entry_requirements`, `cricos_code`, `other` |
+| `provider` (institute) | `provider_id` or `cricos_provider_code` | `name`, `website`, `phone`, `email`, `address`, `logo`, `institution_type`, `cricos_code`, `other` |
+| `campus` | `campus_id` | `name`, `address`, `phone`, `website`, `other` |
+| `contact` | `contact_id` | `name`, `title`, `email`, `phone`, `other` |
+
+- `note` is required (3 to 1,000 characters). `issue` defaults to `wrong`; an unknown `field` is kept as `other`. `suggested_value` up to 500 characters; `source_url` must be a web address.
+- The answer: `flag_id`, `entity`, `id` (the record's id), `field`, `issue`, `status: "open"` (and `course_id` for a course). The same report sent again by the same counsellor within a day returns the same `flag_id`, so a retry or a double click is harmless.
+- `404 NOT_FOUND`: the record is not held or not published. `400 INVALID_INPUT`: `error.detail` says what is missing.
+
+**Read the outcome**
+
+```json
+{ "action": "report_status", "flag_ids": ["<flag_id>", "<flag_id>"] }
+```
+
+Each item: `flag_id`, `entity`, `id`, `field`, `status` (`open`, `fixed` or `not_changed`), `reason` (the Platform Admin's words, shown to the counsellor), `reported_at`, `closed_at`. Ids not known are listed in `not_found`.
+
+**Calls:** one per report, and one `report_status` call per 100 open reports per refresh.
+
 # 7. Actions
 
 | Action | Send | Returns |
@@ -225,7 +266,8 @@ What we expect from the sync job: one cursor at a time (never two runs in parall
 | `scholarship` | `scholarship_id` | One scholarship |
 | `sync` | `cursor`, `full_load`, `entities`, `page_size` | Changes (section 6.2) |
 | `export` | `entity`, `page`, optional `format: "json"` | One page of the CSV file and the sync cursor to continue from (section 6.1) |
-| `report` | `cricos_course_code` or `course_id`, `field`, `note`, `reporter` (`name`, `email`, `ref`) | Records a counsellor's report of a value that looks wrong; StudySearch reviews it |
+| `report` | `entity` and the record's id or CRICOS code, `field`, `issue`, `suggested_value`, `source_url`, `note`, `reporter` (`name`, `email`, `ref`) | Records a counsellor's report of a missing or wrong value; StudySearch reviews it (section 6.3) |
+| `report_status` | `flag_ids` (up to 100) | The outcome of those reports: open, fixed or not changed, with the reason (section 6.3) |
 
 # 8. Data notes
 
@@ -266,6 +308,9 @@ Coverage grows as data is admitted; the CSV and `sync` carry it to you.
 | 10 | `{"action":"search","page_size":500}` | 400 `INVALID_INPUT` |
 | 11 | `{"action":"export","entity":"course","page":9}` | 200; 2,103 rows; `x-has-more` false |
 | 12 | A wrong key | 401 `AUTHENTICATION_REQUIRED` |
+| 13 | `{"action":"report","cricos_course_code":"082960F","note":"x"}` | 400 `INVALID_INPUT` (note too short; nothing is recorded) |
+| 14 | `{"action":"report","cricos_course_code":"NOPE","note":"acceptance test"}` | 404 `NOT_FOUND` |
+| 15 | `{"action":"report_status","flag_ids":["00000000-0000-0000-0000-000000000000"]}` | 200; `items` empty; the id in `not_found` |
 
 # 11. Moving from v1
 
@@ -292,4 +337,5 @@ Send the action, the JSON body (without the key), the HTTP status, the full resp
 | Issue | Date | API change |
 |---|---|---|
 | First issue | 16 Oct 2026 | Zoho API v2 at its own address with its own keys: fifteen actions; search results with intakes, English (overall and bands) and tuition; provider name and CRICOS filters; CRICOS codes on every Australian course and provider; campuses, contacts and statistics; CSV export in pages (with the cursor to continue from) and sync for the CRM (Australia) |
+| Issue 3 | 19 Oct 2026 | Counsellor reports: `report` takes institutes (`provider_id` or `cricos_provider_code`), campuses (`campus_id`) and contacts (`contact_id`) as well as courses, a course by its CRICOS code alone, and `issue`, `suggested_value` and `source_url`; new action `report_status` for the outcome |
 | Issue 2 | 19 Oct 2026 | New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |

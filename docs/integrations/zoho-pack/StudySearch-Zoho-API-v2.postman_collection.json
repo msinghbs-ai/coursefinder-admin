@@ -30,6 +30,10 @@
     {
       "key": "scholarshipId",
       "value": ""
+    },
+    {
+      "key": "flagId",
+      "value": ""
     }
   ],
   "item": [
@@ -510,6 +514,62 @@
           }
         }
       ]
+    },
+    {
+      "name": "report – creates a real report (test note)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"report\",\n  \"entity\": \"course\",\n  \"cricos_course_code\": \"082960F\",\n  \"field\": \"tuition\",\n  \"issue\": \"wrong\",\n  \"suggested_value\": \"45000\",\n  \"source_url\": \"https://example.org/fees\",\n  \"note\": \"TEST - please ignore\",\n  \"reporter\": {\n    \"name\": \"Test\",\n    \"email\": \"test@example.com\",\n    \"ref\": \"postman\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const r = pm.response.json();",
+              "if (r.flag_id) pm.collectionVariables.set('flagId', r.flag_id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "report_status – outcome (uses flagId)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"report_status\",\n  \"flag_ids\": [\n    \"{{flagId}}\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/zoho-api-v2"
+      }
     }
   ]
 }

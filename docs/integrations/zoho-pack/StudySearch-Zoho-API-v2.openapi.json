@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "StudySearch Zoho API v2",
-    "version": "zoho-api-v2 (issue 2, 19 October 2026)",
-    "description": "One address for Zoho API v2, fifteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."
+    "version": "zoho-api-v2 (issue 3, 19 October 2026)",
+    "description": "One address for Zoho API v2, sixteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."
   },
   "servers": [
     {
@@ -21,7 +21,7 @@
       "post": {
         "operationId": "zohoApiV2",
         "summary": "Call an action of Zoho API v2",
-        "description": "Actions: reference, search, course, courses, providers, provider, campuses, contacts, statistics, rankings, scholarships, scholarship, sync, export, report. 120 requests a minute per key.",
+        "description": "Actions: reference, search, course, courses, providers, provider, campuses, contacts, statistics, rankings, scholarships, scholarship, sync, export, report, report_status. 120 requests a minute per key.",
         "requestBody": {
           "required": true,
           "content": {
@@ -234,6 +234,24 @@
                     "full_load": true,
                     "page_size": 200
                   }
+                },
+                "report": {
+                  "summary": "report",
+                  "value": {
+                    "action": "report",
+                    "entity": "course",
+                    "cricos_course_code": "082960F",
+                    "field": "tuition",
+                    "issue": "wrong",
+                    "suggested_value": "45000",
+                    "source_url": "https://example.org/fees",
+                    "note": "TEST - please ignore",
+                    "reporter": {
+                      "name": "Test",
+                      "email": "test@example.com",
+                      "ref": "postman"
+                    }
+                  }
                 }
               }
             }
@@ -363,7 +381,8 @@
               "scholarship",
               "sync",
               "export",
-              "report"
+              "report",
+              "report_status"
             ]
           },
           "filters": {
@@ -448,6 +467,34 @@
                 "contact",
                 "course"
               ]
+            }
+          },
+          "campus_id": {
+            "type": "string"
+          },
+          "contact_id": {
+            "type": "string"
+          },
+          "issue": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "wrong",
+              "out_of_date"
+            ]
+          },
+          "suggested_value": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "flag_ids": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "string"
             }
           },
           "field": {

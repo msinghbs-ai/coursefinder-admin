@@ -22,6 +22,8 @@ ex={
  "export_course_json":{"action":"export","entity":"course","format":"json"},
  "sync_full":{"action":"sync","full_load":True,"page_size":200},
  "sync_next":{"action":"sync","cursor":"{{syncCursor}}","page_size":200},
+ "report":{"action":"report","entity":"course","cricos_course_code":"082960F","field":"tuition","issue":"wrong","suggested_value":"45000","source_url":"https://example.org/fees","note":"TEST - please ignore","reporter":{"name":"Test","email":"test@example.com","ref":"postman"}},
+ "report_status":{"action":"report_status","flag_ids":["{{flagId}}"]},
 }
 s=lambda t,**k:dict(type=t,**k)
 arr=lambda t="string":{"type":"array","items":{"type":t}}
@@ -40,7 +42,7 @@ filters={"type":"object","additionalProperties":True,
   "changed_since":s("string",format="date-time"),"contact_types":{"type":"array","items":{"type":"string","enum":["head_of_institution","general","team","staff"]}},
   "sectors":arr(),"system_codes":arr(),"edition_year":s("integer"),"rank_max":s("integer"),
   "student_types":{"type":"array","items":{"type":"string","enum":["international","domestic","both"]}},"open_only":s("boolean"),"nationality_codes":arr(),"course_id":s("string")}}
-ACTIONS=["reference","search","course","courses","providers","provider","campuses","contacts","statistics","rankings","scholarships","scholarship","sync","export","report"]
+ACTIONS=["reference","search","course","courses","providers","provider","campuses","contacts","statistics","rankings","scholarships","scholarship","sync","export","report","report_status"]
 req={"type":"object","required":["action"],"properties":{
  "action":{"type":"string","enum":ACTIONS},
  "filters":{"$ref":"#/components/schemas/Filters"},
@@ -52,6 +54,7 @@ req={"type":"object","required":["action"],"properties":{
  "kind":{"type":"string","enum":["qilt","prisms"]},
  "entity":{"type":"string","enum":["provider","campus","contact","course"]},"format":{"type":"string","enum":["csv","json"]},
  "cursor":{"type":["string","null"]},"full_load":s("boolean"),"entities":{"type":"array","items":{"type":"string","enum":["provider","campus","contact","course"]}},
+ "campus_id":s("string"),"contact_id":s("string"),"issue":{"type":"string","enum":["missing","wrong","out_of_date"]},"suggested_value":s("string"),"source_url":s("string",format="uri"),"flag_ids":{"type":"array","maxItems":100,"items":{"type":"string"}},
  "field":s("string"),"note":s("string"),"reporter":{"type":"object","properties":{"name":s("string"),"email":s("string"),"ref":s("string")}}}}
 base={"api_version":{"type":"string","const":"zoho-v2"},"request_id":s("string")}
 lst={"type":"object","properties":dict(base,total=s("integer"),page=s("integer"),page_size=s("integer"),items={"type":"array","items":{"type":"object","additionalProperties":True}},filters_not_applied=arr())}
@@ -67,8 +70,8 @@ def er(d,h=None):
     if h: r["headers"]={"Retry-After":{"schema":{"type":"integer"},"description":"Seconds to wait"}}
     return r
 oas={"openapi":"3.1.0",
- "info":{"title":"StudySearch Zoho API v2","version":"zoho-api-v2 (issue 2, 19 October 2026)",
-   "description":"One address for Zoho API v2, fifteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."},
+ "info":{"title":"StudySearch Zoho API v2","version":"zoho-api-v2 (issue 3, 19 October 2026)",
+   "description":"One address for Zoho API v2, sixteen actions chosen by the body field `action`. Read the Developer Guide for field meanings. Null means not held. Within v2 the API is additive only: ignore unknown fields. Keep the key in a Zoho Connection."},
  "servers":[{"url":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1","description":"Pilot"}],
  "security":[{"bearerKey":[]}],
  "paths":{"/"+FN:{"post":{"operationId":"zohoApiV2","summary":"Call an action of Zoho API v2",
@@ -86,18 +89,20 @@ names={"reference":"reference","search_nursing":"search – nursing, IELTS 7 / 6
  "course":"course – 082960F","courses":"courses – batch with one not found","providers":"providers – 'RMIT' (3)","provider":"provider – 00025B with campuses and contacts",
  "campuses":"campuses – 00025B","contacts":"contacts – 00025B","statistics_qilt":"statistics – QILT 00025B (48)","statistics_prisms":"statistics – PRISMS AU-QLD",
  "rankings":"rankings – QS, Australia","scholarships":"scholarships – international","scholarship":"scholarship – detail (uses scholarshipId)",
- "export_provider":"export – providers CSV (1,546 rows)","export_course_page2":"export – courses CSV, page 2 of 9","export_course_json":"export – courses CSV inside JSON","sync_full":"sync – full load, first page","sync_next":"sync – next page or changes (uses syncCursor)"}
+ "export_provider":"export – providers CSV (1,546 rows)","export_course_page2":"export – courses CSV, page 2 of 9","export_course_json":"export – courses CSV inside JSON","sync_full":"sync – full load, first page","report":"report – creates a real report (test note)","report_status":"report_status – outcome (uses flagId)","sync_next":"sync – next page or changes (uses syncCursor)"}
 items=[]
 for k,v in ex.items():
     it={"name":names[k],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],
       "body":{"mode":"raw","raw":json.dumps(v,indent=2,ensure_ascii=False),"options":{"raw":{"language":"json"}}},"url":"{{baseUrl}}/"+FN}}
     if k in("sync_full","sync_next"):
         it["event"]=[{"listen":"test","script":{"type":"text/javascript","exec":["const r = pm.response.json();","if (r.next_cursor) pm.collectionVariables.set('syncCursor', r.next_cursor);","pm.test('status 200', () => pm.response.to.have.status(200));"]}}]
+    if k=="report":
+        it["event"]=[{"listen":"test","script":{"type":"text/javascript","exec":["const r = pm.response.json();","if (r.flag_id) pm.collectionVariables.set('flagId', r.flag_id);"]}}]
     if k=="scholarships":
         it["event"]=[{"listen":"test","script":{"type":"text/javascript","exec":["const r = pm.response.json();","if (r.items && r.items[0]) pm.collectionVariables.set('scholarshipId', r.items[0].scholarship_id);"]}}]
     items.append(it)
 pm={"info":{"name":"StudySearch Zoho API v2","description":"Set the collection variable apiKey to your key (kept out of this file). Run 'scholarships' before 'scholarship', and 'sync – full load' before 'sync – next page'.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
  "auth":{"type":"bearer","bearer":[{"key":"token","value":"{{apiKey}}","type":"string"}]},
- "variable":[{"key":"baseUrl","value":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"},{"key":"apiKey","value":""},{"key":"syncCursor","value":""},{"key":"scholarshipId","value":""}],
+ "variable":[{"key":"baseUrl","value":"https://fxcwkweaxjtknorudmwp.supabase.co/functions/v1"},{"key":"apiKey","value":""},{"key":"syncCursor","value":""},{"key":"scholarshipId","value":""},{"key":"flagId","value":""}],
  "item":items}
 json.dump(pm,open("StudySearch-Zoho-API-v2.postman_collection.json","w"),indent=2,ensure_ascii=False)

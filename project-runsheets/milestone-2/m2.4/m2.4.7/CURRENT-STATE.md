@@ -7003,3 +7003,16 @@ The brief now forbids direct table changes.
 | Not changed | The API itself (no code or database change); the CSV columns (IELTS overall and band, PTE overall only; other tests come through `sync`) |
 | Usage | No Zoho call to v2 yet other than StudySearch's own live checks (16 Oct) |
 | Consumer API | Unchanged |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 14:51: counsellor reports from Zoho (v2.15.292; Zoho guide issue 3); deploy-script fault fixed
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 14:51: "Can I add some control for counsellor in zohoncreator or crm to flag or comment to pass on to studsearch platform admin for specific record. For example, missing field value, correct english requirement or fees or any fields reportable." Choice: "Approve all (Recommended)" |
+| Consumer API change approved | Platform Admin, 19 Oct 2026 14:51 (Decision 266): Zoho API v2 `report` extended and `report_status` added, additive only; no consumer API function altered (zoho_edge_report_v1, used by Zoho v1, unchanged); `tests/uat/consumer-api-baseline.json` updated for zoho-api-v2 |
+| Fault found | A Zoho report naming a course only by its CRICOS code (e.g. 082960F) was refused as not found, although the guide said it worked. Fixed |
+| Built (PR #585) | Migration `20261019040000_cf247_zoho_counsellor_reports.sql`: `zoho_v2_report` (course by id or CRICOS code, institute by id or CRICOS provider code, campus, contact; issue missing / wrong / out of date; suggested value; source link; the value held at the time kept with the report; the same report within a day returns the first), `zoho_v2_report_status` (open / fixed / not_changed with the reason), `admin_counsellor_reports`; settings `reports.resolve_min_rank` (4) and `reports.status_batch_max` (100). Reports are rows of pipeline.data_flags (flag_code reported). Screen v2.15.292: Coverage & completeness › Counsellor reports, close as Fixed or Not changed with a reason. SOPs 1.33 (Operator SOP morning step) |
+| Deploy-script fault (PR #586) | deploy-on-merge applied the migration but refused zoho-api-v2: `scripts/ci/deploy-function.sh` (Phase 3) read verify_jwt with jq `//`, which treats false as missing, so every function deployed with verify_jwt false was refused. Fixed with `has()`, with a test that runs jq on the real list; zoho-api-v2 then deployed through the deploy workflow (run 39202287956) |
+| Zoho guide issue 3 | `docs/integrations/zoho-pack/`: section 6.3 Counsellor reports (what Zoho builds, request, fields per record type, answers, report_status, calls); actions table (sixteen actions); acceptance tests 13–15 (none records a report); OpenAPI and Postman with report and report_status |
+| Checked | Dry run passed (rolled back); full suite 778 passed; release:verify PASS; applied history md5 = main (c59338a5…); drift check after deploy: zero drift (run 39202373548); consumer_api_check_v1 drift []; zoho_v2_report not executable by anon or authenticated; admin_counsellor_reports for signed-in staff only; no report recorded yet |
+| Consumer API | Changed as approved (additive); website API unchanged |
