@@ -6935,3 +6935,11 @@ The brief now forbids direct table changes.
 | Not changed | pipeline.completeness_daily and pipeline.layer2_enrichment_hourly_admin_cache_v1 have no primary key but a unique index; a key would need a column change, not worth it |
 | Checked | Dry run passed; applied history md5 = main (8ecd9e24…); consumer_api_check_v1 drift [] before and after (73 functions, 48 relations), consumer function grants unchanged; anon default privileges gone; 2 functions without search_path left (the consumer helpers); drift check after deletion and after pinning: zero drift, nothing live outside the list (runs 39173807635, 39175257023); full suite 769 passed (Phase 5) and 774 passed (UI, run independently of the build agent); release:verify PASS; Release Currentness Deployed passed for v2.15.291 |
 | Consumer API | Unchanged (no drift; no consumer function, table, column, grant or edge function touched) |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 12:55: zz_probe paste file run; checked live
+
+| Item | Detail |
+|---|---|
+| Done | Platform Admin, 19 Oct 2026 12:55: "Ran #1 - Success. No rows returned" (`docs/platform/phase5/PASTE-20261019-phase5-drop-zz-probe.sql`) |
+| Checked live | security.zz_probe_v1 gone; no function named zz* left; component register shows it retired; pipeline.course_field_source still holds 37,300 rows (untouched) |
+| Consumer API | Unchanged (consumer_api_check_v1 drift []) |
