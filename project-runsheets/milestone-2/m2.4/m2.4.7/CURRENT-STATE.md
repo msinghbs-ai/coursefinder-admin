@@ -7066,3 +7066,14 @@ The brief now forbids direct table changes.
 | Space | `vacuum (analyze) storage.objects`: 0 dead rows. Its 569 MB on disk is reused, not handed back (plain vacuum); database 3.68 GB |
 | Lesson | A paste file that queues many rows for a worker runs `analyze` on the queue table after the insert |
 | Consumer API | Unchanged; consumer_api_check_v1 drift 0 |
+
+### 19 Oct 2026 (Mon, Melbourne) – Update 22:13: View page fixed; Evidence rows say which copy is which (v2.15.294)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin, 19 Oct 2026 22:13 (captures of the Evidence list for course 477dac16, Vancouver Island University, and its panel): "evidence still duplicated"; "tried opening view page and error Preview_not_allowed" |
+| Found | The four rows were two copies of the course page (2 and 5 Oct, before worker v0.32.0), the provider's facts page (markdown) and the provincial catalogue file. The older copy still supplies the live fee, intakes and link, so it is kept, but the panel called it "Replaced". View page: `admin-evidence-access` previewed PDF, images, text and JSON only; course pages (text/html) and markdown are saved gzip-compressed (about 117,000 files), so preview was refused and Download gave a .gz. Across the platform 19,291 of 32,710 course pages have more than one copy (95,060 copies); 48,840 older copies are kept only because internal logs name them (evidence_audit_refs 17,966; coverage_reidentify_done 16,268; provider_discovery_links 9,722; layer3_work_items 4,884), about 2.2 GB of files |
+| Change (PR #592, v2.15.294 / 0.1.221) | Migration `20261019100000_cf247_evidence_copy_roles.sql`: `public.admin_evidence_copy_roles(uuid[])` (staff, read-only). Evidence rows say: Course page in use, Older copy · its values are in use, or Older copy, with copy n of m; Provider's facts page; Register or catalogue file. The panel says "Older copy · its values are in use" when that is so. `admin-evidence-access` v1.1 unpacks saved web pages, markdown and gzip files and returns their text; the panel shows HTML in a sandboxed frame (no scripts, forms or same-origin; content policy blocks scripts) and Download saves the unpacked file. SOPs 1.35 (reviewed, no steps changed) |
+| Checked | Full suite 787 passed; build, release:verify PASS; PR checks and deploy workflows passed (Deploy on merge 39245048037); migration applied; deployed function source matches main; copy roles read live for the four rows (in use 2 of 2, older with live values 1 of 2, provider facts, register file); anon cannot run it; consumer_api_check_v1 drift 0 |
+| Open | Removing the 48,840 older copies kept only by internal logs needs the Platform Admin's decision (archive, then a paste file) |
+| Consumer API | Unchanged |
