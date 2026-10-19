@@ -1,6 +1,6 @@
 # Layer 4: one inbox for everything that needs a person
 
-**Status:** DRAFT for Platform Admin decision · **Change control:** CF-CHG-20260915-247 · **As at:** 20 Oct 2026, 07:40 AEDT
+**Status:** BUILT (v2.15.298, 20 Oct 2026); decisions taken 07:40 · **Change control:** CF-CHG-20260915-247 · **As at:** 20 Oct 2026, 07:40 AEDT
 **Asked by:** Platform Admin, 20 Oct 2026 07:02: "work out the logic and streamline the intended operation by layer 4, Flagged Unis should come here for unflag as well, rethink and make it fulfil its tasks, think around what we have got and anything that needs attention or intervention should come to Layer 4, define its return path etc."
 
 ## 1. The rule
@@ -83,3 +83,5 @@ Seven kinds of work that need a person are spread over five screens, and three o
 2. Scope: include the 305 adapters with nothing ready and the ~120 universities with too few pages (recommended), or keep those on Build adapter.
 3. Low-priority items (221 courses not on the provider's site): in the inbox (recommended, at the bottom), or a monthly review list only.
 4. Website not answering: into Layer 4 after 30 days held (recommended), or never (Flags only).
+
+**Decided (Platform Admin, 20 Oct 2026 07:40):** 1 "By university (Recommended)"; 2 "Yes, all of them (Recommended)"; 3 "Inbox, at the bottom (Recommended)"; 4 "After 30 days held (Recommended)". Built in v2.15.298 (migration `20261020040000_cf247_layer4_inbox.sql`, Layer 4 › Inbox). The older tabs retire 14 days after the Inbox went live (3 Nov 2026) if unused.
