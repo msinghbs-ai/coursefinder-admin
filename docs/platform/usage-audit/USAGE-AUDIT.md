@@ -270,3 +270,14 @@ Measured from the API logs for 14–20 Oct (signed-in people, test runs left out
 | Scrapers & fetchers | through `admin_read` only | Retired as a page | Models & services › Fetchers |
 | Layer 2 › Onboarding and Adapters | daily | Joined | Layer 2/3 › Universities (and Operations for the stages, settings, pace and approvals) |
 | Read-only cards on Adapters (how an adapter goes live, what each university needs next, page-fee dry run) | | Retired | Not needed: the Inbox and Operations carry what needs doing |
+
+### D11 drop: references cross-checked (Platform Admin, 20 Oct 2026 20:54: "Why do we need to wait for 3 Nov ... cross check all references"; choice "Drop 34 now, fix 23 (Recommended)")
+
+The 14-day wait (Decision 260, setting `hygiene.retire_after_days`) is waived for tables with no live reader. Every reference to the 57 retiring tables was checked: functions (and what calls them, down to scheduled jobs, triggers, admin screens and edge workers), views, policies, foreign keys and scheduled job commands; read and write counters were compared over the session.
+
+| Group | Tables | Size | What happens |
+|---|---|---|---|
+| No live reader | 33 | 49.5 MB | Exported (archive/cf247-d11-drop-34-2026-10-20/39405000377), then dropped by `PASTE-20261020-d11-drop-33-tables.sql` with the 61 functions that only served them, the view `pipeline.scholarship_provider_stats` and three foreign keys into the Layer 2 trial tables. Dry run passed and was rolled back |
+| Still read by something live | 24 | 17.0 MB | Readers changed first, then exported and dropped: Storage & retention job; Models & services test evidence; Canadian register functions (Alberta, BC); Task manager board; health and resource jobs; wave-request trigger; Layer 2/3 › Scholarships and Scholarships › Coverage; AI key set and verify; Layer 4 panel; Dashboard tiles, Evidence, Jobs and Sources lists, data quality, onboarding step, fee rules; user-deletion check; the shared admin read (`layer2_tuning_events`) |
+
+Total saving 66.5 MB (about 1.8% of 3,694 MB). The largest of the 33: `pipeline.evidence_purge` 31.0 MB and `pipeline.orphan_files` 13.2 MB, the work lists of the 19 Oct evidence purge and orphan-file removal (both done: no listed evidence row or file remains).

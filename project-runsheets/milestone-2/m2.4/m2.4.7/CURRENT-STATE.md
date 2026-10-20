@@ -7198,3 +7198,15 @@ The brief now forbids direct table changes.
 | Change (PR #605) | Migration `20261020130000_cf247_ca_dli_international_flag.sql`: `security.ca_dli_apply_v1()` sets a Canadian provider with a current DLI number to Yes, basis "IRCC Designated Learning Institution (DLI <number>)"; only blank or rule-set values are touched (a person's value never changes); an ended DLI goes back to blank. Daily job `ca-dli-flag` (catalogued). Each change logged in admin_control_events |
 | Checked | Dry run (1,130 Yes; second run changes nothing; rolled back); contract tests passed; PR checks and post-merge workflows passed; migration applied; CA 1,130 Yes, 0 blank, all with the DLI basis; job active and catalogued; run logged; consumer_api_check_v1 drift 0 |
 | Consumer API | Shape unchanged; only values of enrols_international change (as for New Zealand) |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 21:16: D11 references cross-checked; paste file for 33 tables ready (14-day wait waived)
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 20:54: "Why do we need to wait for 3 Nov. Fore all the tasks and cross check all references. List all the tables and their sizes that can be retired, how much space is going to be saved." 3 Nov is the 14-day housekeeping wait (Decision 260), not a technical limit |
+| Found | 57 tables retiring, 66.5 MB in all. 33 (49.5 MB) have no live reader: only dead functions name them (no scheduled job, trigger, admin screen, edge worker or live function calls those), and none was read or written during the check. 24 (17.0 MB) are still read by something live (listed in docs/platform/usage-audit/USAGE-AUDIT.md) |
+| Decided | Platform Admin: "Drop 34 now, fix 23 (Recommended)"; layer2_tuning_events joined the 23 (the shared admin read names it), so 33 and 24 |
+| Change | Archive definition (PR #606) and export run 39405000377 (34 tables, read back and checked). Paste file `docs/platform/usage-audit/PASTE-20261020-d11-drop-33-tables.sql`: checks the export and each table's count and key hash, drops 61 dead functions, the view pipeline.scholarship_provider_stats and three foreign keys into the Layer 2 trial tables, checks nothing else names the tables, drops the 33, marks them retired and logs it |
+| Checked | Dry run against the live database through the migration workflow (raise at the end): every check passed, 24 left retiring, sample functions gone; nothing kept (tables, view and functions still present afterwards). The first dry run stopped on a third foreign key (layer2_provider_trial_results → layer2_completeness_trials), added before the second |
+| Next | Platform Admin runs the paste file; then the 24: readers changed in a migration, export, second paste file |
+| Consumer API | Not touched |
