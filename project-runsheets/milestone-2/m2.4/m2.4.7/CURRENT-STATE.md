@@ -7286,3 +7286,13 @@ The brief now forbids direct table changes.
 | Live | Platform health raised: Australia 1 field not moving (official course page 71.3%), Canada 8, New Zealand 12, and 4 fields with no reader; 15 not moving, 6 behind in all. First standing Fill the gaps run finished: 932 items, 189 values filled |
 | Delivery modes (found) | Pages use the words two ways: a choice of modes ("On campus, Online, Blended": Torrens 78, Collarts 28, Canberra, ACPE, Royal Roads, UVic) means on campus and online; a mix inside one course ("14 hours face to face and 6 hours online", "67%/33%": Rockford 23, Entrepreneur Education 24, Berkeley 12, SGSCC 12, Abbey) means blended; own wording (UNSW "Face-to-face (includes blended)", USC, SIT). The reader takes "blended" first, so lists become blended. Recommended to the Platform Admin: keep two modes, teach the reader lists against mixes, a per-university wording list in the Builder, and on campus for international students where online is domestic only (decision pending) |
 | Consumer API | Not touched |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 10:30: v2.15.305 live – delivery modes: blended is a mix in one course, on campus or online is a choice; university wording
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin: choice "Keep two, fix reader (Recommended)" for blended and on campus and online |
+| Change | Migration `20261021150000_cf247_delivery_modes.sql` and release v2.15.305 / 0.1.232 (PR #612): the delivery reader reads shares or hours each way, or online with block or onsite weeks, as blended; a list of two or more modes as on campus and online; online for domestic students only is left out; `pipeline.delivery_wording` (a university's own phrase, seeded UNSW "Face-to-face (includes blended)" = on campus) applied first by `security.delivery_mode_read_v1`; Enrich fields and the cross-check use it; open differences that no longer differ close themselves; Coverage › Attributes › Delivery wording (PIM Admin and above, with a reason); coverage-sweep worker v0.34.2 (AI prompt gets the two meanings). Held course values not changed. SOPs 1.46 |
+| Checked | Dry runs passed and rolled back (all 20 real page phrases read as intended); full suite 1,648 passed; release:verify PASS; PR checks and post-merge workflows passed (Deploy on merge, Release Currentness Deployed, Deployed UAT); migration applied (run 39512520080); deployed worker v0.34.2 confirmed; consumer_api_check_v1 drift 0 |
+| Live | Delivery cross-check differences 845 → 693 open (647 closed as no longer differing); the 693 are real disagreements between the held mode and the page, for a person (for example 192 held as on campus or online whose page describes an hours mix) |
+| Consumer API | Not touched |
