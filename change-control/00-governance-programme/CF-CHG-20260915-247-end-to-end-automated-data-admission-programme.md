@@ -7211,3 +7211,13 @@ The brief now forbids direct table changes.
 | Change (PR #604) | Migration `20261020120000_cf247_discovery_stall_eligible_only.sql`: md5-guarded edit of `security.platform_health_check_v1` (47a4adf1… → a7efe398…); `coverage_queues:discover` counts with the job's own rules (focus, not hidden, not held). Live, through Build adapter as the Platform Admin (logged in admin_control_events): the 34 in re-find wave `refind-2` (25 onboarding retried, 9 started) |
 | Checked | Dry run (edit applies once, rolled back); contract tests passed; PR checks and post-merge workflows passed; migration applied, live md5 a7efe398… as in the dry run; all 34 sites mapped within minutes; health check coverage_queues ok (discover moving); consumer_api_check_v1 drift 0 |
 | Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:42: Canada international-enrolment flag from the IRCC DLI list
+
+| Item | Detail |
+|---|---|
+| Found | All 1,130 Canadian providers came from the IRCC Designated Learning Institutions (DLI) list and each holds a verified DLI number (last verified 8 Oct 2026), but their international-enrolment flag was blank. In Canada only a DLI may enrol study-permit students: the DLI list is to Canada what CRICOS is to Australia |
+| Decided | Platform Admin, 20 Oct 2026: "All DLIs Yes (Recommended)" |
+| Change (PR #605) | Migration `20261020130000_cf247_ca_dli_international_flag.sql`: `security.ca_dli_apply_v1()` sets a Canadian provider with a current DLI number to Yes, basis "IRCC Designated Learning Institution (DLI <number>)"; only blank or rule-set values are touched (a person's value never changes); an ended DLI goes back to blank. Daily job `ca-dli-flag` (catalogued). Each change logged in admin_control_events |
+| Checked | Dry run (1,130 Yes; second run changes nothing; rolled back); contract tests passed; PR checks and post-merge workflows passed; migration applied; CA 1,130 Yes, 0 blank, all with the DLI basis; job active and catalogued; run logged; consumer_api_check_v1 drift 0 |
+| Consumer API | Shape unchanged; only values of enrols_international change (as for New Zealand) |
