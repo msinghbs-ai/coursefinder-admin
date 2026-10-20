@@ -7202,3 +7202,12 @@ The brief now forbids direct table changes.
 | Checked | Full suite 807 passed (new spec s81 for the menu); release contract PASS; PR checks and all post-merge workflows passed (Deploy on merge, Frontend build, Deployed UAT, Release currentness); migration applied live; register 12 retired / 4 added; consumer_api_check_v1 drift 0 |
 | Discovery alarm | Health check "Coverage provider discovery has stopped: 85 waiting" is a false alarm. svc_coverage_discovery_next only takes focus providers that are not hidden or held; the check counts without those rules. The 85 are 42 held as Course pages not found (all 42 in the Inbox) and 43 small Australian providers outside the top-50 focus (343 courses, at most 23 each). Nothing changed yet; options put to the Platform Admin |
 | Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:35: discovery stall alarm fixed; 34 small Australian providers re-found (refind-2)
+
+| Item | Detail |
+|---|---|
+| Decided | Platform Admin, 20 Oct 2026: "Also search the 43 small": the health check counts only what the discovery job may take, and the small Australian providers outside the top-50 focus are searched. Under the 19 Oct rule (5+ courses re-find; 1-4 CRICOS-only) that is 34 of the 43; the 9 with 1-4 courses stay CRICOS-only |
+| Change (PR #604) | Migration `20261020120000_cf247_discovery_stall_eligible_only.sql`: md5-guarded edit of `security.platform_health_check_v1` (47a4adf1… → a7efe398…); `coverage_queues:discover` counts with the job's own rules (focus, not hidden, not held). Live, through Build adapter as the Platform Admin (logged in admin_control_events): the 34 in re-find wave `refind-2` (25 onboarding retried, 9 started) |
+| Checked | Dry run (edit applies once, rolled back); contract tests passed; PR checks and post-merge workflows passed; migration applied, live md5 a7efe398… as in the dry run; all 34 sites mapped within minutes; health check coverage_queues ok (discover moving); consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
