@@ -7192,7 +7192,7 @@ The brief now forbids direct table changes.
 | Checked | Contract tests (settings, housekeeping, consumer API) passed; PR checks and post-merge workflows passed; migration applied; NZ now 197 Yes (189 stated signatories + 8 universities), 218 blank; 99 Yes providers have 5 or more courses; consumer_api_check_v1 drift 0 |
 | Consumer API | Unchanged |
 
-### 20 Oct 2026 (Tue, Melbourne) – Update 21:10: v2.15.301 menu review built; discovery "stopped" alarm explained
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:05: v2.15.301 menu review built; discovery "stopped" alarm explained
 
 | Item | Detail |
 |---|---|
@@ -7203,7 +7203,7 @@ The brief now forbids direct table changes.
 | Discovery alarm | Health check "Coverage provider discovery has stopped: 85 waiting" is a false alarm. svc_coverage_discovery_next only takes focus providers that are not hidden or held; the check counts without those rules. The 85 are 42 held as Course pages not found (all 42 in the Inbox) and 43 small Australian providers outside the top-50 focus (343 courses, at most 23 each). Nothing changed yet; options put to the Platform Admin |
 | Consumer API | Unchanged |
 
-### 20 Oct 2026 (Tue, Melbourne) – Update 20:35: discovery stall alarm fixed; 34 small Australian providers re-found (refind-2)
+### 20 Oct 2026 (Tue, Melbourne) – Update 20:28: discovery stall alarm fixed; 34 small Australian providers re-found (refind-2)
 
 | Item | Detail |
 |---|---|
