@@ -243,3 +243,30 @@ Tracing the readers before the purge changed the scope in three places:
 | Paste file `PASTE-20261015-usage-audit-d6-d7-d9-d10.sql` | Checks the export is in Storage and every set still matches it, checks nothing names the 15 tables, then drops them and purges the Layer 3 rows in one transaction. Followed by three `vacuum full` lines, run one at a time | Dry run on the live database (rolled back): 53,805, 47,454 and 64,395 rows removed, 15 tables gone, tuition items unchanged, about 30 seconds. **Waiting for the Platform Admin to paste** |
 
 Kept after the purge: 14,216 work items and 19,126 interpretations. Expected space returned after the vacuum: about 270 MB.
+
+### D11 (Platform Admin, 19 Oct 2026: "Retire all but embeddings"; started 20 Oct 2026, v2.15.300)
+The search embeddings (`search.course_embeddings`, `embedding_jobs`, `query_embedding_cache`, `profiles`) are kept. The other 55 idle tables (about 22 MB) are marked `retiring` in `pipeline.component_register` (migration `20261020080000`, `retire_after` 3 Nov 2026), each with the database functions that still name it in its note. Tracing them found live readers, so the drop needs those changed first:
+
+| Group | Tables | Live readers to change before the drop |
+|---|---|---|
+| workflow schema | 11 | Evidence (`admin_evidence_detail`, `admin_evidence_page`, `admin_evidence_has_unresolved_conflict`), the data quality refresh (`data_quality_*`), `ui_dashboard`, `admin_pipeline_ops_read`, user deletion (`svc_admin_access_guard_delete`), onboarding's step function (`provider_onboarding_step_v1` reads `workflow.suggestions`), `admin_fee_rules_read` |
+| Layer 2 trials | 9 | `retention_tick_v1` (retention-worker job), `admin_layer2_dispatcher_tuning_read_v1` (through `admin_read`) |
+| Identity and directory sets | 6 | `admin_running_now_v1` (through `admin_jobs`) reads `coverage_identity_results` |
+| Canadian scope | 2 | the Layer 1 Canadian scope functions (`svc_layer1_*_course_scope*`); confirm the Canadian readers are retired first |
+| Layer 3 benchmarks | 11 | the platform health check and resource observer jobs (`layer3_quality_benchmark_runs`), Models & services (`admin_services_read` → `layer3_tier_evidence` → holdout cases and results), `layer3_routing_profile_service` (holdout results) |
+| Onboarding cases | 2 | none live (the case screens were retired in v2.15.224) |
+| Scholarship leftovers | 14 | Scholarships › Layer 1 and Layer 2 (`admin_scholarship_layer_read`), Scholarships › Coverage (`scholarship_coverage_checks`), the platform health check (`scholarship_ai_runs`, `scholarship_ai_settings`) |
+
+Next: one change moves or removes each live reader (no behaviour visible on screen changes), then the drop paste file after 3 Nov 2026 with an archive first.
+
+### Screens retired (Platform Admin, 20 Oct 2026 10:35: "suggest not used navigation items ... Only actionable and operation relative information and items should be retained"; v2.15.300)
+Measured from the API logs for 14–20 Oct (signed-in people, test runs left out); screens that read through `admin_read` cannot be told apart in the logs, so from v2.15.300 every page and tab opened is counted (`pipeline.admin_screen_opens`, Platform health › Screen use).
+
+| Screen | Use 14–20 Oct | Decision | Where its work is now |
+|---|---|---|---|
+| Layer 4 › Review queue, AI could not decide, Websites to find | 5, 4 and 3 days with opens | Retired now ("Old Layer 4 tabs now") | Layer 4 › Inbox kinds (course link, held scholarship, website needed); provider departures (10 waiting) added as a kind; Decided lists the decisions |
+| Scheduled jobs › Priority queue | none | Retired | The focus list and Build adapter waves order the work; the search cap is on Models & services › Toolsets & limits |
+| Coverage › Counsellor reports | none (0 reports) | Retired | Layer 4 › Inbox (Counsellor report: Fixed, Not changed) |
+| Scrapers & fetchers | through `admin_read` only | Retired as a page | Models & services › Fetchers |
+| Layer 2 › Onboarding and Adapters | daily | Joined | Layer 2/3 › Universities (and Operations for the stages, settings, pace and approvals) |
+| Read-only cards on Adapters (how an adapter goes live, what each university needs next, page-fee dry run) | | Retired | Not needed: the Inbox and Operations carry what needs doing |

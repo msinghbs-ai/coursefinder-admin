@@ -1,6 +1,6 @@
 # Layer 4: one inbox for everything that needs a person
 
-**Status:** BUILT (v2.15.298, 20 Oct 2026); decisions taken 07:40 · **Change control:** CF-CHG-20260915-247 · **As at:** 20 Oct 2026, 07:40 AEDT
+**Status:** BUILT (v2.15.298, 20 Oct 2026); old tabs retired v2.15.300 (20 Oct 2026); decisions taken 07:40 · **Change control:** CF-CHG-20260915-247 · **As at:** 20 Oct 2026, 07:40 AEDT
 **Asked by:** Platform Admin, 20 Oct 2026 07:02: "work out the logic and streamline the intended operation by layer 4, Flagged Unis should come here for unflag as well, rethink and make it fulfil its tasks, think around what we have got and anything that needs attention or intervention should come to Layer 4, define its return path etc."
 
 ## 1. The rule
@@ -85,3 +85,5 @@ Seven kinds of work that need a person are spread over five screens, and three o
 4. Website not answering: into Layer 4 after 30 days held (recommended), or never (Flags only).
 
 **Decided (Platform Admin, 20 Oct 2026 07:40):** 1 "By university (Recommended)"; 2 "Yes, all of them (Recommended)"; 3 "Inbox, at the bottom (Recommended)"; 4 "After 30 days held (Recommended)". Built in v2.15.298 (migration `20261020040000_cf247_layer4_inbox.sql`, Layer 4 › Inbox). The older tabs retire 14 days after the Inbox went live (3 Nov 2026) if unused.
+
+**Old tabs retired early (Platform Admin, 20 Oct 2026, "Old Layer 4 tabs now"; v2.15.300):** the Review queue, AI could not decide and Websites to find tabs and Coverage › Counsellor reports were removed instead of waiting to 3 Nov. Their addresses open the Inbox on their kind (`?kind=`), a university opens with `?provider=`. Added: counsellor reports are closed in the Inbox (Fixed, Not changed, through `admin_counsellor_reports('close')`); providers that left the register (`layer1_provider_departures`, 10 waiting, previously only on the Review queue) are a kind with Closed, Merged (successor by exact name or CRICOS/NZQA code) and Still operating, through `layer4_provider_departure_decide` (Platform Admin); Decided lists the decisions taken in the Inbox. The bulk AI re-read of every held scholarship page (old AI could not decide) is not carried over: it supersedes all held items and their re-check at once.
