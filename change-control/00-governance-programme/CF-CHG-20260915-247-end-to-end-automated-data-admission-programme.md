@@ -7170,3 +7170,14 @@ The brief now forbids direct table changes.
 | Checked | Dry runs passed (operations 5 stages; universities 1,885 rows; decided; departure merge refuses an unknown successor; nz_cop file selection = latest run's 21 files); full suite 798 passed; build and release:verify PASS; PR checks and all five post-merge workflows passed (Deployed UAT included); three migrations applied; anon cannot run `admin_layer23`; 62 jobs staged; 13 screens marked retired; job `nz-cop` active, first 3 files read (60 providers, 29 signatories); consumer_api_check_v1 drift 0 |
 | Open | NZ flag is applied by `nz-cop` once the 21 files are read (about 70 minutes); D11 drop waits on moving the live readers (listed in USAGE-AUDIT.md) and 3 Nov 2026 |
 | Consumer API | Unchanged (only the value of `enrols_international` for NZ providers changes) |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 15:15: NZ international flag checked; No values cleared (No only when stated)
+
+| Item | Detail |
+|---|---|
+| Checked | Scheduled check of job `nz-cop` (v2.15.300): all 21 NZQA files read, 0 errors, 415 providers; applied 03:50 UTC: 189 Yes (page says it is a signatory), 226 No |
+| Found | All eight New Zealand universities were among the No. Their NZQA pages do not carry the sentence "This Education Organisation is a Signatory to the Code of Practice ..."; non-signatory pages do not mention the Code at all, so a missing sentence does not prove a provider is not a signatory |
+| Change (PR #601) | Migration `20261020090000_cf247_nz_cop_no_only_when_stated.sql` (md5-guarded): Yes when the page says signatory, No only when the page says it is not, otherwise blank; values a person set never change. The 226 No values were cleared to blank; the 189 Yes stay. `nz_cop_status` keeps the NZQA type, an explicit-No mark and the words around "Code"; `svc_nz_cop_record` takes the reader (3-argument form retiring); the files are read again once by worker coverage-sweep v0.34.1 |
+| Checked after | Full suite 798 passed; PR checks and post-merge workflows passed; migration applied; NZ now 189 Yes, 226 blank; consumer_api_check_v1 drift 0; re-read started (polytechnics 16 of 16 signatories with the sentence) |
+| Open | When the re-read reaches the universities, read their wording and propose a rule for them (universities are expected to be signatories, but only on evidence) |
+| Consumer API | Unchanged |
