@@ -7233,3 +7233,12 @@ The brief now forbids direct table changes.
 | Checked | Dry run of migration + paste file (passed, rolled back); full suite 807 passed; PR checks and post-merge workflows passed (Deployed UAT after #608); migration applied; no live reader left; 9 retiring, 15 kept; no scheduled job failed; consumer_api_check_v1 drift 0 |
 | Next | Platform Admin runs the paste file |
 | Consumer API | Not touched |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 22:11: D11 second paste file run; 9 tables dropped; D11 closed
+
+| Item | Detail |
+|---|---|
+| Run | Platform Admin ran `docs/platform/usage-audit/PASTE-20261020-d11-drop-9-tables.sql` ("Success. No rows returned") |
+| Checked live | The 9 tables and 31 functions are gone; no table is left retiring; drop logged (31 functions); database 3,646 → 3,634 MB (3,694 MB before D11 today); platform health check runs; no scheduled job or edge call failed in the 10 minutes after; consumer_api_check_v1 drift 0 |
+| D11 result | 42 tables dropped (33 + 9), 92 dead functions removed, 15 tables kept (in use); 60 MB returned |
+| Next | Platform Admin, 22:11: production goes to new GitHub, Supabase and toolset accounts under the customer's name; plan the data migration between Supabase projects and the code copy between GitHub accounts |
