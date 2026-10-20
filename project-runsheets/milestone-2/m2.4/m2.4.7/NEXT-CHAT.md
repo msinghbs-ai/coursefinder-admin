@@ -7170,3 +7170,17 @@ The brief now forbids direct table changes.
 | Checked live | None of the 33 tables remains; all 33 marked retired in the component register; 24 still retiring; the 61 functions and the view pipeline.scholarship_provider_stats are gone; the drop is logged in admin_control_events (61 functions); database 3,694 MB → 3,646 MB; platform health check runs; no scheduled job failed in the 10 minutes after; consumer_api_check_v1 drift 0 |
 | Next | The 24 tables still read by something live: change the readers (one migration and release), export, second paste file |
 | Consumer API | Not touched |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 22:03: D11 second step: v2.15.302 live, 15 tables kept, paste file for 9 ready
+
+| Item | Detail |
+|---|---|
+| Asked | Platform Admin 21:29: "proceed with task 1 and bring out any task relating to prod readiness that i may have left in the middle" |
+| Found | Reading the readers of the 24: 15 hold something still in use (Layer 3 holdout evidence of the pinned models, AI key audit trail, scholarship job list, ETL schedules and source qualification, Scholarships › Coverage "mark checked", Canadian register course-scope keys, six empty workflow tables read by 18 live functions) |
+| Decided | Platform Admin: "Drop the 9, keep the 15 (Recommended)"; D11 reversed for the 15 |
+| Change (PR #607, v2.15.302) | Migration `20261020140000_cf247_d11_readers_off_nine.sql`: nine live functions stop reading the 9 tables (md5-guarded edits: retention estimate and tick, wave parent stamp, Task manager running now, platform health check, resource observe, platform health summary, scholarship layer read, dispatcher tuning read); old scholarship AI control read answers "retired"; the 15 back to active. Layer 4 drawer: unused "Suggest a new record from a source" panel retired. Archive export run 39409708653. Paste file `docs/platform/usage-audit/PASTE-20261020-d11-drop-9-tables.sql` (9 tables, 31 dead functions; 5-second lock limit). SOPs 1.43 |
+| Incident | Platform health warning 21:48 "coverage-sweep: 6 of 212 calls failed" (5 × svc_coverage_firecrawl statement timeout at 21:44): caused by a dry run (21:43:48–21:44:35) whose test drop of layer2_provider_trial_results locked pipeline.layer2_acquisition_providers (foreign key) while it ran the full health check. No other coverage-sweep failure in 24 hours; 0 failures in the 50 calls after. Paste file now has lock_timeout 5s; dry runs no longer run long checks while holding locks |
+| Also (PR #608) | The A16 deployed test (runs only when Layer4Intervention.jsx changes) had failed since v2.15.272: Layer 4 corrections sit under the closed More panel and contacts moved to the Provider contacts page. Fixed; 4 passed on the live site |
+| Checked | Dry run of migration + paste file (passed, rolled back); full suite 807 passed; PR checks and post-merge workflows passed (Deployed UAT after #608); migration applied; no live reader left; 9 retiring, 15 kept; no scheduled job failed; consumer_api_check_v1 drift 0 |
+| Next | Platform Admin runs the paste file |
+| Consumer API | Not touched |

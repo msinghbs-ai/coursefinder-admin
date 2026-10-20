@@ -281,3 +281,9 @@ The 14-day wait (Decision 260, setting `hygiene.retire_after_days`) is waived fo
 | Still read by something live | 24 | 17.0 MB | Readers changed first, then exported and dropped: Storage & retention job; Models & services test evidence; Canadian register functions (Alberta, BC); Task manager board; health and resource jobs; wave-request trigger; Layer 2/3 › Scholarships and Scholarships › Coverage; AI key set and verify; Layer 4 panel; Dashboard tiles, Evidence, Jobs and Sources lists, data quality, onboarding step, fee rules; user-deletion check; the shared admin read (`layer2_tuning_events`) |
 
 Total saving 66.5 MB (about 1.8% of 3,694 MB). The largest of the 33: `pipeline.evidence_purge` 31.0 MB and `pipeline.orphan_files` 13.2 MB, the work lists of the 19 Oct evidence purge and orphan-file removal (both done: no listed evidence row or file remains).
+
+### D11 second step (Platform Admin, 20 Oct 2026 21:29: "proceed with task 1"; choice "Drop the 9, keep the 15 (Recommended)")
+
+Reading the 24 live readers showed 15 of the tables still hold something in use, so D11 is reversed for them (back to active): `layer3_holdout_cases`, `_results`, `_sets` (qualification evidence of the pinned models), `layer3_provider_credential_audit` (AI key audit trail), `scholarship_jobs`, `scholarship_etl_schedules`, `scholarship_source_qualifications` (Layer 2/3 › Scholarships), `scholarship_coverage_checks` (Scholarships › Coverage "mark checked"), `ca_course_scope_keys` (Canadian register course scope), and six empty `workflow.*` tables read by 18 live functions (Evidence, data quality, Jobs and Sources lists, user deletion check).
+
+The other 9 (about 13.4 MB): migration `20261020140000` (v2.15.302) moved nine live functions off them; they are exported (archive/cf247-d11-drop-9-2026-10-20/39409708653) and dropped with 31 dead functions by `PASTE-20261020-d11-drop-9-tables.sql`.
