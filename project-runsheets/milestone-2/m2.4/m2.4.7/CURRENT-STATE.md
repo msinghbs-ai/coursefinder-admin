@@ -7158,3 +7158,13 @@ The brief now forbids direct table changes.
 | Checked after | Full suite 798 passed; PR checks and post-merge workflows passed; migration applied; NZ now 189 Yes, 226 blank; consumer_api_check_v1 drift 0; re-read started (polytechnics 16 of 16 signatories with the sentence) |
 | Open | When the re-read reaches the universities, read their wording and propose a rule for them (universities are expected to be signatories, but only on evidence) |
 | Consumer API | Unchanged |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 16:50: NZ universities set Yes (international-enrolment flag)
+
+| Item | Detail |
+|---|---|
+| Found | The NZQA re-read (coverage-sweep v0.34.1, 21 files, reader v2) by type: polytechnics 17 of 17 signatories, private providers 171 of 383, wānanga 1 of 3, government establishments 0 of 4, universities 0 of 8. The pages of the eight universities and of Te Wānanga o Aotearoa and Te Wānanga o Raukawa say nothing about international students (no sentence either way) |
+| Decided | Platform Admin, 20 Oct 2026: "Universities Yes (Recommended)": the eight universities Yes, with the basis that a New Zealand university must be a signatory to the Code to enrol international students; the two wānanga stay blank until their own sites show it |
+| Change (PR #602) | Migration `20261020100000_cf247_nz_universities_yes.sql` (md5-guarded edit of `security.nz_cop_apply_v1`): NZQA type UNI without a sentence is Yes with that basis; values a person set never change; applied at once |
+| Checked | Contract tests (settings, housekeeping, consumer API) passed; PR checks and post-merge workflows passed; migration applied; NZ now 197 Yes (189 stated signatories + 8 universities), 218 blank; 99 Yes providers have 5 or more courses; consumer_api_check_v1 drift 0 |
+| Consumer API | Unchanged |
