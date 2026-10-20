@@ -7244,3 +7244,24 @@ The brief now forbids direct table changes.
 | Checked live | The 9 tables and 31 functions are gone; no table is left retiring; drop logged (31 functions); database 3,646 → 3,634 MB (3,694 MB before D11 today); platform health check runs; no scheduled job or edge call failed in the 10 minutes after; consumer_api_check_v1 drift 0 |
 | D11 result | 42 tables dropped (33 + 9), 92 dead functions removed, 15 tables kept (in use); 60 MB returned |
 | Next | Platform Admin, 22:11: production goes to new GitHub, Supabase and toolset accounts under the customer's name; plan the data migration between Supabase projects and the code copy between GitHub accounts |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 22:45: production migration plan written (customer-owned accounts)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin, 22:11: "For production, i'll create github repo and rest under customer name, plan that data migration between supbase and code copy between github accounts"; 22:33: "Why both repo are required? Only pilot will turn into production, there will new cloudflare worker deployed with studysearch.ai domain" |
+| Plan | Doc "StudySearch Production Migration Plan" (Claude doc, private to the Platform Admin): only Coursefinder-Pilot moves (mirror with full history to a private customer repository); coursefinder-admin stays with the developer as the internal record; database by schema and data dump (3.6 GB, 420 tables), files by rclone (24.7 GB, 4 buckets), 72 edge functions deployed from git, 14 Vault secrets and every toolset key re-entered (never copied), 117 schedules recreated paused; new Cloudflare Worker on admin.studysearch.ai, consumer API on api.studysearch.ai; 4–6 hour cutover window, pilot frozen 30 days for rollback; about 50 MSP hours (60 with allowance) |
+| Found | Four workflows hold the pilot workers.dev address as their default (deployed-uat, m2-4-ux-audit, release-currentness-deployed, ui-review-screenshots): to read a repository variable before the copy. A Worker custom domain needs studysearch.ai's DNS in the customer's Cloudflare account (website records recreated there first) |
+| Decisions open | Region (Sydney recommended), api.studysearch.ai, full history, adapter captures within retention, daily backups, go-live evening; where studysearch.ai's DNS is managed today |
+| Consumer API | Shape unchanged; address change to be recorded as an approved consumer API change before cutover |
+
+### 21 Oct 2026 (Wed, Melbourne) – Update 07:30: NZ Destination Page review – Maori provider names, campus cities, single-campus links
+
+| Item | Detail |
+|---|---|
+| Request | Website developer feedback (NZ Destination Page review, 12 items; open data items 2, 4, 5, 7, 8, 9, 10); Platform Admin choice "Quick fixes first (Recommended)" |
+| Change | Migration `20261021090000_cf247_nz_names_campus_cities.sql` (PR #609): 10 Maori provider names restored with macrons (the NZQA page sends "?" for each macron vowel; guarded so only that difference can change; manual locks); 65 of 73 blank NZ campus cities set from the published campus name (8 multi-town or placeless names left blank; manual locks); 290 courses at single-campus providers linked to that campus (online-only excluded; 81 Lincoln) |
+| Checked live | Dry run passed and rolled back (run 39490337028); applied (run 39490579629); NZ courses with a city 1,984 → 2,898 of 6,474 (31% → 45%); Lincoln University 196 of 199; no provider name holds "?"; 85 manual locks; event logged; search refresh processed (generation 159); consumer_api_check_v1 drift 0 |
+| Found | QS history is already held: QS 2021–2027 and THE 2016–2026 for all 8 NZ universities (the website reads the latest edition unless it passes edition_year). No NZ outcome data held (AU only). Scholarships: none for Victoria University of Wellington, AUT, Lincoln or any polytechnic. International fees: 1,022 of 6,474 NZ courses; Otago 0 of 252; 29 fees under NZD 10,000 (3 doctoral fees match the NZ rule that international PhD students pay domestic fees; the rest are whole-course fees for short courses or domestic/industry-training fees, for review). Course details: Massey intakes 18 and English 21 of 265; Canterbury English 12 of 280 |
+| Next | Adapter work: Otago international fees; Massey and Canterbury intakes, English and duration; multi-campus course links (2,013 courses); scholarships for VUW, AUT, Lincoln and the polytechnics. "Last reviewed" date and scholarships page link per institution would be a consumer API addition (needs approval) |
+| Consumer API | Not touched (values only) |
