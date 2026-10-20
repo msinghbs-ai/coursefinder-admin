@@ -7161,3 +7161,12 @@ The brief now forbids direct table changes.
 | Checked | Dry run against the live database through the migration workflow (raise at the end): every check passed, 24 left retiring, sample functions gone; nothing kept (tables, view and functions still present afterwards). The first dry run stopped on a third foreign key (layer2_provider_trial_results → layer2_completeness_trials), added before the second |
 | Next | Platform Admin runs the paste file; then the 24: readers changed in a migration, export, second paste file |
 | Consumer API | Not touched |
+
+### 20 Oct 2026 (Tue, Melbourne) – Update 21:24: D11 paste file run; 33 tables dropped
+
+| Item | Detail |
+|---|---|
+| Run | Platform Admin ran `docs/platform/usage-audit/PASTE-20261020-d11-drop-33-tables.sql` ("Success. No rows returned") |
+| Checked live | None of the 33 tables remains; all 33 marked retired in the component register; 24 still retiring; the 61 functions and the view pipeline.scholarship_provider_stats are gone; the drop is logged in admin_control_events (61 functions); database 3,694 MB → 3,646 MB; platform health check runs; no scheduled job failed in the 10 minutes after; consumer_api_check_v1 drift 0 |
+| Next | The 24 tables still read by something live: change the readers (one migration and release), export, second paste file |
+| Consumer API | Not touched |
