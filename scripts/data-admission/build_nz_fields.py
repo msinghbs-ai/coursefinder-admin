@@ -5,7 +5,8 @@ before and at present" and "Produce it daily please").
 Input: a file holding the JSON object returned by the query in docs/data-admission/NZ-FIELDS-README.md (it may be wrapped in other text,
 for example a saved tool result; the object is found by its "rows" key). It reads pipeline.provider_field_daily (StudySearch Pilot,
 read-only): today, the previous day and the start of 21 Oct 2026.
-Output: docs/data-admission/nz-fields/NZ-course-data-<date>.xlsx with sheets Read me, NZ summary, Per provider, Long list.
+Output: docs/data-admission/nz-fields/NZ-course-data-<date>.xlsx with sheets Read me, NZ summary, Per provider, Long list and, when the
+result has "tools" (pipeline.toolset_use_daily, from 22 Oct 2026), Toolset use.
 Usage: python3 scripts/data-admission/build_nz_fields.py result.txt
 """
 import html, json, os, re, sys
@@ -70,6 +71,45 @@ def hdr(ws, row, last):
         x = ws.cell(row, c); x.font = FH; x.fill = HF; x.alignment = C; x.border = B
 
 
+TOOL_NAMES = {'course_search': 'Course-page search', 'page_reads': 'Course page reads', 'ai_page_match': 'AI page match', 'ai_field_reader': 'AI field reader',
+              'fee_reader': 'Fee reader (AI)', 'scholarship_ai': 'Scholarship AI', 'other_credits': 'Other scraper credits', 'flags_raised': 'Flags raised'}
+
+
+def toolset_sheet(wb, d):
+    """22 Oct 2026 (Platform Admin "keep the stat how much of toolset we used used successfully and failed"): per provider and tool."""
+    tools = d.get('tools') or []
+    if not tools: return
+    ts = wb.create_sheet('Toolset use')
+    order = list(TOOL_NAMES)
+    tools = sorted(tools, key=lambda t: (html.unescape(t.get('name') or '').lower(), order.index(t['tool']) if t['tool'] in order else 99))
+    ts.cell(1, 1, f"Toolset use by New Zealand providers: {d.get('tools_day') or ''} and the 7 days to it").font = FB
+    h = ['Tool', 'Used (day)', 'Worked (day)', 'Did not work (day)', 'Credits (day)', 'AI US$ (day)', 'Used (7 days)', 'Worked (7 days)', 'Did not work (7 days)', 'Credits (7 days)', 'AI US$ (7 days)', 'Worked share (7 days)']
+    for j, t in enumerate(h, 1): ts.cell(3, j, t)
+    hdr(ts, 3, len(h))
+    first = 4 + len(order) + 3; last = first + len(tools) - 1
+    for i, key in enumerate(order, 4):
+        ts.cell(i, 1, TOOL_NAMES[key])
+        for j in range(2, 12):
+            ts.cell(i, j, f'=SUMIF($B${first}:$B${last},$A{i},{L(j + 1)}${first}:{L(j + 1)}${last})')
+        ts.cell(i, 12, f'=IF(G{i}=0,"",H{i}/G{i})'); ts.cell(i, 12).number_format = '0%'
+        for j in range(1, 13): ts.cell(i, j).font = F; ts.cell(i, j).border = B
+        for j in (6, 11): ts.cell(i, j).number_format = '0.000'
+    h2 = ['Provider', 'Tool'] + h[1:]
+    for j, t in enumerate(h2, 1): ts.cell(first - 1, j, t)
+    hdr(ts, first - 1, len(h2))
+    for i, t in enumerate(tools, first):
+        vals = [html.unescape(t.get('name') or ''), TOOL_NAMES.get(t['tool'], t['tool']), t.get('used') or 0, t.get('ok') or 0, t.get('failed') or 0, float(t.get('credits') or 0), float(t.get('cost') or 0),
+                t.get('w_used') or 0, t.get('w_ok') or 0, t.get('w_failed') or 0, float(t.get('w_credits') or 0), float(t.get('w_cost') or 0)]
+        for j, v in enumerate(vals, 1): ts.cell(i, j, v).font = F
+        ts.cell(i, 13, f'=IF(H{i}=0,"",I{i}/H{i})').number_format = '0%'
+        for j in (7, 12): ts.cell(i, j).number_format = '0.000'
+    ts.cell(first - 1, 13, 'Worked share (7 days)'); hdr(ts, first - 1, 13)
+    ts.column_dimensions['A'].width = 44; ts.column_dimensions['B'].width = 22
+    for c in range(3, 14): ts.column_dimensions[L(c)].width = 12
+    ts.freeze_panes = ts.cell(first, 1)
+    ts.auto_filter.ref = f'A{first - 1}:M{last}'
+
+
 def main():
     d = load(sys.argv[1])
     today, prev, base = d['today'], d.get('previous') or '', d.get('baseline') or '2026-10-20'
@@ -86,7 +126,8 @@ def main():
              ('Sheets', FB),
              ('NZ summary: each field across New Zealand at the start, the previous day and today, with the changes and % filled.', F),
              ('Per provider: one row per provider; for each course field, the number of courses holding it at the start, the previous day and today, the change today and the change since the start. Provider fields show Yes or No.', F),
-             ('Long list: the same figures as one row per provider and field, for filtering and pivot tables.', F), ('', F),
+             ('Long list: the same figures as one row per provider and field, for filtering and pivot tables.', F),
+             ('Toolset use: each tool per provider for the last recorded day and the last 7 days: times used, worked, did not work, scraper credits and AI US$, with a summary by tool at the top. "Worked" means: a correct course page (search, page match), a page read, a field filled, a fee page with fee rows, a scholarship applied.', F), ('', F),
              ('Notes', FB),
              ('Application deadline, academic entry requirements and course description have no reader yet.', F),
              ('Six provider records are named "New Zealand Institute of Skills and Technology"; the website column tells them apart.', F),
@@ -172,6 +213,7 @@ def main():
         for x in row: x.font = F
     for c, w in (('A', 48), ('B', 30), ('D', 18), ('E', 30)): lg.column_dimensions[c].width = w
     lg.freeze_panes = 'A2'; lg.auto_filter.ref = f'A1:J{i - 1}'
+    toolset_sheet(wb, d)
     wb.save(out)
 
     # three-line summary for the run's report
