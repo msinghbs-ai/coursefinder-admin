@@ -7405,3 +7405,12 @@ The brief now forbids direct table changes.
 | Checked | Dry run replayed AUT's page and rolled back: the 4 certificates came out at NZ$39,860 to 45,060 a year and were admitted; applied before merge (run 39719676557); deployed worker confirmed v0.36.1; full test suite passes except the 4 known legacy CF-091/CF-103 tests |
 | Lesson | A unit the AI chooses is checked against the quote: when the page states the points next to the amount, the database decides, not the model |
 | Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 15:45: v2.15.314 Fee reader shows how each yearly figure was worked out
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 15:21: "AUT fix - how can we make that available in the UI?" |
+| Change | PR #628, release v2.15.314 (package 0.1.241). Enrich fields › Fee reader (AI), a provider's rows: the quote under each qualification; "for 60 points" when the fee is for a number of points; the yearly figure says how it was worked out (amount ÷ points × the country's full-time year); rows replaced by a newer read hidden behind a count; findings show what a row was read as and what it is. Frontend only; SOPs 1.55 |
+| Checked | Release contract, build and full test suite pass except the 4 known legacy CF-091/CF-103 tests |
+| Consumer API | Not touched |
