@@ -7536,3 +7536,12 @@ The brief now forbids direct table changes.
 | Still open | The finder keeps one course folder per university (UNSW: postgraduate site map only); several folders per university is the next finder change. Seven universities with no source found (Monash, Canberra, Waikato, Wintec, Otago Polytechnic, Simon Fraser, Manitoba) |
 | Lesson | Lesson 40: every new database function gets a realistic sample call in its dry run before it ships (three faults here were in functions whose dry run only checked that they were created) |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 06:45: CRICOS resume confirmed by Deployed UAT
+
+| Item | Detail |
+|---|---|
+| Background | The three data.gov.au sources were resumed at 07:16Z on 22 Oct and validated (CRICOS courses Active 25,540, institutions 1,545, TEQSA 200 after its file rule was widened for providers_16102026a.csv). The Deployed UAT CRICOS validation test carried a dated skip until 2026-10-22T13:00Z (data.gov.au maintenance) |
+| Checked | "CourseFinder Deployed UAT" started on main by workflow_dispatch (run 39841453381, 19:35Z): Deployed UAT (targeted) succeeded, 6 passed, none skipped. The targeted set always includes `tests/uat/layer1-operations-deployed.spec.mjs`, so "authorised Layer 1 operator performs real CRICOS authority, shape and active-count validation" ran and passed (earlier runs: 5 passed, 1 skipped) |
+| Status | CRICOS, institutions and TEQSA sources resumed and checked end to end; no further action |
+| Consumer API | Not touched (Decision 266) |
