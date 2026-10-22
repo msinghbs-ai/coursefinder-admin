@@ -7382,3 +7382,13 @@ The brief now forbids direct table changes.
 | Hotfix (PR #625) | `20261022018000_cf247_pause_hotfix.sql`: in the onboarding and plan ticks the pause check compared the pause list with itself, so for about 40 minutes no queued onboarding started and no automatic plan moved. Fixed; onboarding started 100 providers, plans started 7 and finished 2 at once |
 | Checked | Each migration dry-run and rolled back, then applied before merge (runs 39702097353, 39702259322, 39702911386, 39702985861, 39705808807); 15 paused functions confirmed live; full local suite 1,680 passed (failures fixed: colour tokens, housekeeping scan of a temporary-table edit; only the 4 legacy CF-091/CF-103 remain); post-merge workflows passed; deployed admin-user-management carries Last active; consumer_api_check_v1 drift 0 |
 | Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 14:30: NZ review resolutions finished; search gates pass only a person's request; daily Resolutions & lessons sheet
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 13:28: "Include resolution to be programmed after everyday report with lesson learnt. Implement - program following resolution" (the nine gaps of the NZ enrichment review) |
+| Change | PR #626. Migration `20261022019000_cf247_nz_resolutions_finish.sql`: providers in the check-first countries without a site map get one before any search (`security.site_not_checked_v1`; 117 NZ providers); pages refused by robots.txt listed with one provider flag `pages_refuse_reading` (15 providers); provider-level facts when a course page is silent (`security.enrich_fallback_v1`: campus = the provider's only campus; international = yes with an international fee or CRICOS registration, no when the provider does not enrol international students); `security.nz_resolution_measures_v1` (one daily figure per resolution). Migration `20261022020000_cf247_search_gates_automatic_requests.sql`: bulk onboarding asked for searches like a person and passed every gate (374 wrong title-search pages for 4 right since the gates went live); now only a person's request passes (`security.search_asked_by_person_v1`; 854 of 2,197 queued requests count as a person's). Admin repo: `nz-resolutions.json` (resolutions, status, measures, lessons learnt), Resolutions & lessons sheet in the daily NZ report, README query adds the measures |
+| Not programmed | Fix 5 (campus lists) is person time in Layer 4; delivery has no sound provider-level fact |
+| Checked | Both migrations dry-run and rolled back, then applied before merge (runs 39711949840, 39712283596); contract and governance tests pass; report builder tested with the live measures (6 sheets, 0 formula errors) |
+| Consumer API | Not touched |

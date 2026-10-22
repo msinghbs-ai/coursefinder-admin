@@ -6,7 +6,8 @@ Input: a file holding the JSON object returned by the query in docs/data-admissi
 for example a saved tool result; the object is found by its "rows" key). It reads pipeline.provider_field_daily (StudySearch Pilot,
 read-only): today, the previous day and the start of 21 Oct 2026.
 Output: docs/data-admission/nz-fields/NZ-course-data-<date>.xlsx with sheets Read me, NZ summary, Per provider, Long list and, when the
-result has "tools" (pipeline.toolset_use_daily, from 22 Oct 2026), Toolset use.
+result has "tools" (pipeline.toolset_use_daily, from 22 Oct 2026), Toolset use; and Resolutions & lessons (docs/data-admission/nz-resolutions.json
+with the result's "measures", security.nz_resolution_measures_v1).
 Usage: python3 scripts/data-admission/build_nz_fields.py result.txt
 """
 import html, json, os, re, sys
@@ -110,6 +111,42 @@ def toolset_sheet(wb, d):
     ts.auto_filter.ref = f'A{first - 1}:M{last}'
 
 
+
+def resolutions_sheet(wb, d):
+    """22 Oct 2026 (Platform Admin 13:28: "Include resolution to be programmed after everyday report with lesson learnt")."""
+    path = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data-admission', 'nz-resolutions.json')
+    if not os.path.exists(path): return
+    r = json.load(open(path, encoding='utf-8')); m = d.get('measures') or {}
+    ws = wb.create_sheet('Resolutions & lessons', 1)
+    ws.cell(1, 1, f"Resolutions programmed after the NZ enrichment review, with yesterday's figures ({m.get('day', 'no figures yet')})").font = FB
+    h = ['#', 'Gap', 'Resolution', 'Status', 'Release', 'Measure', 'Yesterday / now']
+    for j, t in enumerate(h, 1): ws.cell(3, j, t)
+    hdr(ws, 3, len(h))
+    i = 4
+    for x in r['resolutions']:
+        ms = x.get('measures') or [['', '']]
+        first = i
+        for k, (key, label) in enumerate(ms):
+            if k == 0:
+                for j, v in enumerate([x['n'], x['gap'], x['resolution'], x['status'], x.get('release', '')], 1): ws.cell(i, j, v)
+            ws.cell(i, 6, label); ws.cell(i, 7, m.get(key, '—') if key else '—')
+            for j in range(1, 8):
+                c = ws.cell(i, j); c.font = F; c.border = B; c.alignment = Alignment(wrap_text=True, vertical='top')
+            i += 1
+        if i - 1 > first:
+            for j in range(1, 6): ws.merge_cells(start_row=first, start_column=j, end_row=i - 1, end_column=j)
+    i += 1
+    ws.cell(i, 1, 'Lessons learnt').font = FB; i += 1
+    for j, t in enumerate(['Date', 'Lesson', 'What changed'], 1): ws.cell(i, j, t)
+    hdr(ws, i, 3); i += 1
+    for x in r.get('lessons', []):
+        for j, v in enumerate([x['date'], x['lesson'], x['action']], 1):
+            c = ws.cell(i, j, v); c.font = F; c.border = B; c.alignment = Alignment(wrap_text=True, vertical='top')
+        i += 1
+    for col, w in zip('ABCDEFG', (6, 40, 60, 10, 18, 42, 14)): ws.column_dimensions[col].width = w
+    ws.freeze_panes = 'A4'
+
+
 def main():
     d = load(sys.argv[1])
     today, prev, base = d['today'], d.get('previous') or '', d.get('baseline') or '2026-10-20'
@@ -127,6 +164,7 @@ def main():
              ('NZ summary: each field across New Zealand at the start, the previous day and today, with the changes and % filled.', F),
              ('Per provider: one row per provider; for each course field, the number of courses holding it at the start, the previous day and today, the change today and the change since the start. Provider fields show Yes or No.', F),
              ('Long list: the same figures as one row per provider and field, for filtering and pivot tables.', F),
+             ('Resolutions & lessons: each gap found in the NZ enrichment review, what was programmed for it, its status and one or more figures from yesterday that show whether it works; then the lessons learnt.', F),
              ('Toolset use: each tool per provider for the last recorded day and the last 7 days: times used, worked, did not work, scraper credits and AI US$, with a summary by tool at the top. "Worked" means: a correct course page (search, page match), a page read, a field filled, a fee page with fee rows, a scholarship applied.', F), ('', F),
              ('Notes', FB),
              ('Application deadline, academic entry requirements and course description have no reader yet.', F),
@@ -214,6 +252,7 @@ def main():
     for c, w in (('A', 48), ('B', 30), ('D', 18), ('E', 30)): lg.column_dimensions[c].width = w
     lg.freeze_panes = 'A2'; lg.auto_filter.ref = f'A1:J{i - 1}'
     toolset_sheet(wb, d)
+    resolutions_sheet(wb, d)
     wb.save(out)
 
     # three-line summary for the run's report

@@ -3,7 +3,8 @@
 Platform Admin, 21 Oct 2026: "Prepare the nz data per uni including all fields before and at present" and "Produce it daily please".
 
 - **Source:** `pipeline.provider_field_daily` on the StudySearch Pilot database (read-only). Job `provider-field-daily` records one row per provider every day at about 6:55 am Melbourne time. 20 Oct 2026 for New Zealand was worked out afterwards (held on 21 Oct minus what Enrich fields tasks and enrichment plans filled that day). It is the start line.
-- **Output:** `nz-fields/NZ-course-data-<date>.xlsx`. It shows each provider's 14 course fields and 9 provider fields at the start, the previous day and today, with the changes. The workbook has five sheets: Read me, NZ summary, Per provider, Long list and Toolset use.
+- **Output:** `nz-fields/NZ-course-data-<date>.xlsx`. It shows each provider's 14 course fields and 9 provider fields at the start, the previous day and today, with the changes. The workbook has six sheets: Read me, Resolutions & lessons, NZ summary, Per provider, Long list and Toolset use.
+- **Resolutions & lessons (from 22 Oct 2026):** the gaps found in the NZ enrichment review, what was programmed for each (`nz-resolutions.json`, kept up to date with each release) and yesterday's figure for each from `security.nz_resolution_measures_v1('NZ')`; then the lessons learnt.
 - **Toolset use (from 22 Oct 2026):** `pipeline.toolset_use_daily`, job `toolset-use-daily` at about 6:58 am Melbourne, records the day before per provider and tool (course-page search, page reads, AI page match, AI field reader, fee reader, scholarship AI, other scraper credits, flags raised): used, worked, did not work, credits and AI US$. The sheet shows the last recorded day and the 7 days to it.
 - **Produced by:** a daily scheduled task (7:15 am Melbourne). It runs the query below and `python3 scripts/data-admission/build_nz_fields.py <saved result>`, then recalculates the workbook, commits it here and sends it to the Platform Admin.
 
@@ -13,6 +14,7 @@ Platform Admin, 21 Oct 2026: "Prepare the nz data per uni including all fields b
 with d as (select max(snapshot_date) dd from pipeline.provider_field_daily where country_code='NZ' and source='job'),
 p as (select max(x.snapshot_date) pd from pipeline.provider_field_daily x, d where x.country_code='NZ' and x.snapshot_date < d.dd)
 select jsonb_build_object('today', d.dd, 'previous', p.pd, 'baseline', '2026-10-20',
+  'measures', security.nz_resolution_measures_v1('NZ'),
   'tools_day', (select max(snapshot_date) from pipeline.toolset_use_daily where country_code = 'NZ'),
   'tools', (select jsonb_agg(z) from (
      select coalesce(pr2.display_name, pr2.canonical_name) name, u.tool,
