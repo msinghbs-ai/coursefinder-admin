@@ -7384,3 +7384,12 @@ The brief now forbids direct table changes.
 | Checked | Dry run with live checks rolled back; applied before merge (run 39731124096); live after the next onboarding run: 536 stopped `no_courses`, published adapter status no_courses 1,206 / admitting 273 / testing 97 / none 192; full test suite passes except the 4 known legacy CF-091/CF-103 tests |
 | Next | v2.15.317 course list page per provider with a weekly retry of providers stopped for too few pages; v2.15.318 Sydney course data file reader (fees and English) |
 | Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 17:40: University of Sydney course data file read for fees and English (recorded, not admitted)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:44 "sydney website is difficult" (fee drawn in by the browser after a student-type and year choice); 15:51 found the data file behind the fee box (`<page>.coredata.json`, checked in a private window); 16:30 choice "Yes: fees and English", tried on courses first and admitted only after approval |
+| Change | PR #631: migration `20261022024000_cf247_sydney_course_data_file.sql` (companion address made by replacement, `pipeline.uni_adapter_companions.url_replace`; `security.companion_sync_v1` md5-guarded; Sydney companion read directly, patterns for the international fee and year, IELTS overall and band, TOEFL iBT, PTE; 575 data files lined up). PR #632: worker v0.36.2, the direct reader reads an address ending in .json as JSON (the first trial of 20 was refused as not HTML). PR #633: migration `20261022025000_cf247_sydney_latest_fee_year.sql`, fee and year from the newest year with an international fee (files list 2026 and 2027) |
+| Checked | Patterns tested on the real file structure; trial runs: 37 of 40 read with every value (for example Bachelor of Social Work 2027 A$59,100, IELTS 7.0; Master of Public Health 2027 A$64,800, IELTS 6.5), 11 answered with something other than a data file; deployed worker confirmed v0.36.2. Nothing written to courses: values are on `pipeline.course_companion_pages` until the Platform Admin approves admitting them. The hourly job companion-read reads the remaining 527 |
+| Consumer API | Not touched |
