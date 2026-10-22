@@ -7525,3 +7525,16 @@ The brief now forbids direct table changes.
 | Waiting | Job `source-find` stays off until the Platform Admin chooses to switch it on. No programme list is approved, so no programme-list course is shown |
 | Lesson | Lessons 32 to 39 added to the enrichment lessons document (v1.6) |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 06:30: finder switched on; hand lists replaced where the finder found more; three faults fixed after switch-on
+
+| Item | Detail |
+|---|---|
+| Decision | Platform Admin 23 Oct: "Switch on for AU, NZ, CA (Recommended)" and "Use finder's where it found more (Recommended)" |
+| Applied | Job `source-find` switched on (logged). For 17 of the 34 test universities the finder's source gave more course addresses than the hand list, so the hand lists were stopped and the finder's added (16 course lists, 13 read by Firecrawl map; Université de Montréal a programme list read by map). The other 10 keep their hand list (equal or larger: UBC, Humber, Lincoln, Calgary, Curtin and others); the 7 with nothing found keep theirs |
+| Found and fixed | (1) Ledger: list-page scrapes were recorded as `fcx_course_list` and counted 5 units each; now `list_scrape`, 1 unit, page reads group (PR #657, worker v0.40.4, migration `20261023002000_cf247_list_scrape_purpose.sql`, md5 6b6fb66cc287a168a94f336c332f5226). (2) The idle guard (`flag_jobs_v1`) paused `source-find` at 18:30 UTC: the finder's replies used keys it does not count as work; `source_find`, `programme_discover` and `course_list_read` now reply with `items`, `done` and `read` (PR #658, worker v0.40.5); flag released with the reason and the job switched on again. (3) The programme list recorder failed on every read (`found` clashes with PL/pgSQL FOUND), and the programme page recorder on every page (`chr(0)` is refused by PostgreSQL); both replaced (PR #658 migration `20261023003000_cf247_programme_record_found_fix.sql`, md5 20c315fc1e3909218f4025f2ef0fe64e; PR #659, worker v0.40.6, migration `20261023004000_cf247_programme_record_null_fix.sql`, md5 2341883a91e201b723a2f0054ed701f2) |
+| Checked | Each migration dry-run with a realistic call, applied before merge, history md5 equals the file; full suite before each deploy (4 known legacy failures only). Université de Montréal programme list recorded: 1,095 programme pages (Firecrawl map, 1 credit). Sample of 40 pages read: 34 bachelor, 1 master, 5 with no level (skipped). First scheduled finder run 19:16 UTC succeeded |
+| Running now | `programme-read` (40 pages every 10 minutes), `programme-create` (hourly; courses created inactive and unpublished), `source-find` (every 20 minutes). No programme-list course is shown until the Platform Admin approves Université de Montréal's list on Layer 2/3 › Course sources |
+| Still open | The finder keeps one course folder per university (UNSW: postgraduate site map only); several folders per university is the next finder change. Seven universities with no source found (Monash, Canberra, Waikato, Wintec, Otago Polytechnic, Simon Fraser, Manitoba) |
+| Lesson | Lesson 40: every new database function gets a realistic sample call in its dry run before it ships (three faults here were in functions whose dry run only checked that they were created) |
+| Consumer API | Not touched (Decision 266) |
