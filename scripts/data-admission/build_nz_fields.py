@@ -9,13 +9,17 @@ Output: docs/data-admission/nz-fields/NZ-course-data-<date>.xlsx with sheets Rea
 result has "tools" (pipeline.toolset_use_daily, from 22 Oct 2026), Toolset use; and Resolutions & lessons (docs/data-admission/nz-resolutions.json
 with the result's "measures", security.nz_resolution_measures_v1).
 Usage: python3 scripts/data-admission/build_nz_fields.py result.txt
+22 Oct 2026 (Platform Admin 22:56: "prepare Excel sheet like nz to include au and ca as well daily"): the result's "country" (NZ when absent)
+picks the country: docs/data-admission/<cc>-fields/<CC>-course-data-<date>.xlsx; the query is in docs/data-admission/COUNTRY-FIELDS-README.md.
 """
 import html, json, os, re, sys
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
 
-ROOT = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data-admission', 'nz-fields')
+BASE_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data-admission')
+COUNTRY = {'NZ': 'New Zealand', 'AU': 'Australia', 'CA': 'Canada'}
+CC = 'NZ'
 CF = [('official_url', 'Official course page'), ('level', 'Study level'), ('field_of_study', 'Field of study'), ('duration', 'Duration'),
       ('delivery', 'Delivery mode'), ('campus', 'Campus linked'), ('campus_city', 'Campus city'), ('international', 'Open to international students'),
       ('provider_tuition', 'Tuition fee'), ('intakes', 'Intakes / start dates'), ('deadline', 'Application deadline'), ('english', 'English requirements'),
@@ -83,7 +87,7 @@ def toolset_sheet(wb, d):
     ts = wb.create_sheet('Toolset use')
     order = list(TOOL_NAMES)
     tools = sorted(tools, key=lambda t: (html.unescape(t.get('name') or '').lower(), order.index(t['tool']) if t['tool'] in order else 99))
-    ts.cell(1, 1, f"Toolset use by New Zealand providers: {d.get('tools_day') or ''} and the 7 days to it").font = FB
+    ts.cell(1, 1, f"Toolset use by {COUNTRY.get(CC, CC)} providers: {d.get('tools_day') or ''} and the 7 days to it").font = FB
     h = ['Tool', 'Used (day)', 'Worked (day)', 'Did not work (day)', 'Credits (day)', 'AI US$ (day)', 'Used (7 days)', 'Worked (7 days)', 'Did not work (7 days)', 'Credits (7 days)', 'AI US$ (7 days)', 'Worked share (7 days)']
     for j, t in enumerate(h, 1): ts.cell(3, j, t)
     hdr(ts, 3, len(h))
@@ -114,11 +118,11 @@ def toolset_sheet(wb, d):
 
 def resolutions_sheet(wb, d):
     """22 Oct 2026 (Platform Admin 13:28: "Include resolution to be programmed after everyday report with lesson learnt")."""
-    path = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data-admission', 'nz-resolutions.json')
+    path = os.path.join(BASE_DIR, f'{CC.lower()}-resolutions.json')
     if not os.path.exists(path): return
     r = json.load(open(path, encoding='utf-8')); m = d.get('measures') or {}
     ws = wb.create_sheet('Resolutions & lessons', 1)
-    ws.cell(1, 1, f"Resolutions programmed after the NZ enrichment review, with yesterday's figures ({m.get('day', 'no figures yet')})").font = FB
+    ws.cell(1, 1, f"Resolutions programmed after the {CC} enrichment review, with yesterday's figures ({m.get('day', 'no figures yet')})").font = FB
     h = ['#', 'Gap', 'Resolution', 'Status', 'Release', 'Measure', 'Yesterday / now']
     for j, t in enumerate(h, 1): ws.cell(3, j, t)
     hdr(ws, 3, len(h))
@@ -148,27 +152,32 @@ def resolutions_sheet(wb, d):
 
 
 def main():
+    global CC
     d = load(sys.argv[1])
+    CC = (d.get('country') or 'NZ').upper(); name = COUNTRY.get(CC, CC)
     today, prev, base = d['today'], d.get('previous') or '', d.get('baseline') or '2026-10-20'
+    ROOT = os.path.join(BASE_DIR, f'{CC.lower()}-fields')
     rows = sorted(d['rows'], key=lambda r: (-int(r.get('courses') or 0), html.unescape(r.get('name') or '').lower()))
     os.makedirs(ROOT, exist_ok=True)
-    out = os.path.join(ROOT, f'NZ-course-data-{today}.xlsx')
+    out = os.path.join(ROOT, f'{CC}-course-data-{today}.xlsx')
     wb = Workbook()
 
     r = wb.active; r.title = 'Read me'
-    notes = [(f'New Zealand course data by provider: {today}', FB), ('', F),
-             (f'Start: values held at the start of 21 Oct 2026, before the NZ enrichment run ({base}; worked out from what was filled that day).', F),
+    start = (f'Start: values held at the start of 21 Oct 2026, before the NZ enrichment run ({base}; worked out from what was filled that day).' if CC == 'NZ'
+             else f'Start: values held on {base}, the first day recorded for {name}.')
+    notes = [(f'{name} course data by provider: {today}', FB), ('', F),
+             (start, F),
              (f'Previous: the day before ({prev or "none yet"}). Today: {today}. Each day is recorded at about 6:55 am Melbourne time.', F),
-             (f'Scope: {len(rows)} NZ providers with active courses, {sum(int(x.get("courses") or 0) for x in rows):,} active courses.', F), ('', F),
+             (f'Scope: {len(rows)} {CC} providers with active courses, {sum(int(x.get("courses") or 0) for x in rows):,} active courses.', F), ('', F),
              ('Sheets', FB),
-             ('NZ summary: each field across New Zealand at the start, the previous day and today, with the changes and % filled.', F),
+             (f'{CC} summary: each field across {name} at the start, the previous day and today, with the changes and % filled.', F),
              ('Per provider: one row per provider; for each course field, the number of courses holding it at the start, the previous day and today, the change today and the change since the start. Provider fields show Yes or No.', F),
              ('Long list: the same figures as one row per provider and field, for filtering and pivot tables.', F),
-             ('Resolutions & lessons: each gap found in the NZ enrichment review, what was programmed for it, its status and one or more figures from yesterday that show whether it works; then the lessons learnt.', F),
+             *([] if CC != 'NZ' else [('Resolutions & lessons: each gap found in the NZ enrichment review, what was programmed for it, its status and one or more figures from yesterday that show whether it works; then the lessons learnt.', F)]),
              ('Toolset use: each tool per provider for the last recorded day and the last 7 days: times used, worked, did not work, scraper credits and AI US$, with a summary by tool at the top. "Worked" means: a correct course page (search, page match), a page read, a field filled, a fee page with fee rows, a scholarship applied.', F), ('', F),
              ('Notes', FB),
              ('Application deadline, academic entry requirements and course description have no reader yet.', F),
-             ('Six provider records are named "New Zealand Institute of Skills and Technology"; the website column tells them apart.', F),
+             *([('Six provider records are named "New Zealand Institute of Skills and Technology"; the website column tells them apart.', F)] if CC == 'NZ' else []),
              ('A provider with no figure for a day had no active courses recorded that day.', F)]
     for i, (t, f) in enumerate(notes, 1):
         c = r.cell(i, 1, t); c.font = f; c.alignment = Alignment(wrap_text=True, vertical='top')
@@ -209,7 +218,7 @@ def main():
     ws.freeze_panes = 'A3'  # rows only: frozen columns hide the provider name in some phone viewers
     ws.auto_filter.ref = f'A2:{L(last)}{nrow}'
 
-    sm = wb.create_sheet('NZ summary', 1)
+    sm = wb.create_sheet(f'{CC} summary', 1)
     h = ['Field', 'Level', 'Total', 'Start', 'Previous', 'Today', 'Change today', 'Change since start', '% start', '% today']
     for j, t in enumerate(h, 1): sm.cell(1, j, t)
     hdr(sm, 1, len(h))
@@ -260,7 +269,7 @@ def main():
     moved = [(lab, tot('t', k) - tot('y', k), tot('t', k) - tot('b', k)) for k, lab in CF]
     print(out)
     print('Change today: ' + (', '.join(f'{lab} {a:+,}' for lab, a, _ in moved if a) or 'none'))
-    print('Change since 21 Oct: ' + (', '.join(f'{lab} {b:+,}' for lab, _, b in moved if b) or 'none'))
+    print(f'Change since {base}: ' + (', '.join(f'{lab} {b:+,}' for lab, _, b in moved if b) or 'none'))
 
 
 if __name__ == '__main__':
