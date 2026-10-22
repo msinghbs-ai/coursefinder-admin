@@ -7591,3 +7591,14 @@ The brief now forbids direct table changes.
 | Data | Before the release, on Settings: `fees.pages_per_run` 8 to 10 (the old maximum) and `fees.course_pages_per_tick` 40 to 200, both logged |
 | Checked | Migration dry-run on the live database (Read with AI and a changed official page each recorded a request; the requested course was taken first; fields waited for the new page; the job ran), applied before merge, history md5 equals the file (b2fab9d8…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker confirmed by version |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 10:00: course page fee backlog cleared; fix for fee pages linked from course pages (PR #663)
+
+| Item | Detail |
+|---|---|
+| Found | First runs at full speed: 5 course pages failed to record because the AI named other fee pages linked from the course page and they were added with linked_from set to the course page's queue key, which the foreign key to `pipeline.provider_fact_sources` refused, so those readings were lost |
+| Change | PR #663 (migration `20261023011000_cf247_fee_course_page_linked_pages.sql`): a fee page found from a course page is added with no linked_from ("linked from a course page"); the failed course pages were queued again |
+| Data | By 09:59 all 250 queued NZ course pages were read: 108 international fee rows admitted (96 courses now hold a fee), 52 sent to Layer 4 review, 120 domestic rows kept (not admitted), 14 not yearly, 1 with no matching course; no errors; AI cost US$0.57 |
+| Checked | Dry-run on the live database (a linked page from a course page recorded with no linked_from), applied before merge, history md5 equals the file (88006045af664ca520d26bdffa8fdcf1). Full suite before deploy: only the 4 known legacy deployed-UAT failures |
+| Waiting | The 52 fees in Layer 4 review (outside the usual range, or match not sure enough) |
+| Consumer API | Not touched (Decision 266) |
