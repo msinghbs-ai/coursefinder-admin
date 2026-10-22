@@ -7415,3 +7415,14 @@ The brief now forbids direct table changes.
 | Not programmed | Fix 5 (campus lists) is person time in Layer 4; delivery has no sound provider-level fact |
 | Checked | Both migrations dry-run and rolled back, then applied before merge (runs 39711949840, 39712283596); contract and governance tests pass; report builder tested with the live measures (6 sheets, 0 formula errors) |
 | Consumer API | Not touched |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 15:00: v2.15.313 fee reader reads a fee printed for a number of points correctly
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:35: "proceed with AUT fee fix" |
+| Problem | Fees printed for a number of points, such as AUT's "$19,929.84 (for 60 points)" and Lincoln and Canterbury's "$27,300 (60 points)", were read as a fee per point and multiplied by a full-time year: NZ$2.4 to 3.4 million a year (51 rows, held in Layer 4 by the range check, none published). 52 more rows with the same wording, read as a whole-course fee, had no yearly figure |
+| Change | PR #627, release v2.15.313 (package 0.1.240). Migration `20261022021000_cf247_fee_reader_units_covered.sql`: `security.fee_row_units_v1` takes the points or credits from the quote; `svc_fee_ai_record` works out yearly = amount / points x the country's full-time load (NZ 120), keeps `units_covered` on the row, records a "fee unit not understood" finding when the reader called it per point, and marks a page's earlier rows `replaced` when it is read again (md5-guarded). Worker v0.36.1: the fee reader prompt and schema carry `units_covered`. The affected fee pages are queued to be read again |
+| Checked | Dry run replayed AUT's page and rolled back: the 4 certificates came out at NZ$39,860 to 45,060 a year and were admitted; applied before merge (run 39719676557); deployed worker confirmed v0.36.1; full test suite passes except the 4 known legacy CF-091/CF-103 tests |
+| Lesson | A unit the AI chooses is checked against the quote: when the page states the points next to the amount, the database decides, not the model |
+| Consumer API | Not touched |
