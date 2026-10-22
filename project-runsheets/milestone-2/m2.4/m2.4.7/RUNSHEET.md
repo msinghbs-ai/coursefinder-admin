@@ -7559,3 +7559,14 @@ The brief now forbids direct table changes.
 | Checked | Each migration dry-run on the live database with a realistic call, then applied before merge; history md5 equals each file. Dry runs: 40 course pages queued on the first tick; Diploma in Arts NZ$48,133 admitted end to end; a PhD fee of NZ$8,847 sent to review (outside the usual range). Full suite before each deploy: only the 4 known legacy deployed-UAT failures. Deployed worker confirmed by version |
 | Waiting | Results of the first course-page fee reads (admitted and review counts) and the 2027 Auckland re-reads; the 4 Auckland diplomas with no page (finder and AI page match continue) |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 09:45: fee reader at full speed from Settings; a course first in line from its page (v2.15.324)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 09:03: "Can we increase the fee reader setting, to get through faster and procced what maximum system can handle. Does the change course url goes to ai, can we push it as priority from course page." 09:07: "Make sure its all avaible to change from ui with maximum values displayed." |
+| Found | 8 course pages were read by the AI fee reader in 11 seconds (about US$0.003 a page); the limit was the job (every 10 minutes, at most 10 pages a run, 2 at a time), about 60 pages an hour against about 250 NZ course pages waiting. A course page changed by a person was read again at once, but its fee went to the AI fee reader only when no fee was held and no AI fill followed; Read with AI could fill fields from the old copy of a page being read again. The run frequency was not a setting |
+| Change | PR #662 (v2.15.324 / 0.1.251, worker v0.41.1, migration `20261023010000_cf247_fee_reader_speed_and_course_priority.sql`): settings `fees.run_every_minutes` (1 to 10, 2), `fees.concurrency` (1 to 8, 4), `fees.pages_per_run` range 1 to 40 (40); job fee-reader called each minute and runs every `fees.run_every_minutes`; `pipeline.fee_course_requests` and queue priority: Read with AI and a changed official page put the course's fee first in line once the page has been read again, even when a fee is held; the AI fill waits for the new page. All settings are on Settings › Pipeline settings with their ranges. SOPs 1.65 |
+| Data | Before the release, on Settings: `fees.pages_per_run` 8 to 10 (the old maximum) and `fees.course_pages_per_tick` 40 to 200, both logged |
+| Checked | Migration dry-run on the live database (Read with AI and a changed official page each recorded a request; the requested course was taken first; fields waited for the new page; the job ran), applied before merge, history md5 equals the file (b2fab9d8…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker confirmed by version |
+| Consumer API | Not touched (Decision 266) |
