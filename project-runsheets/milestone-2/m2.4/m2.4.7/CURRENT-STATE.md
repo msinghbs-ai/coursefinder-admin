@@ -7490,3 +7490,12 @@ The brief now forbids direct table changes.
 | Canada now | Active Canadian courses 3,806 (from 4,723): bachelor and above 2,614, diploma 507, certificate 379, graduate certificate 176, advanced diploma 123, associate degree 7. Still to come: about 1,560 courses of the college catalogues not read since August have no course page yet, and 837 active courses had no read page (now hidden until a page and a credential are found); the course page search and a Layer 1 re-read of those colleges bring them in, and the gate shows them once a level is read |
 | Lesson | A Layer 1 re-read can undo a scope decision made outside the reader; the scope must be a rule that runs after every read, not a one-off correction |
 | Consumer API | Not touched (shape unchanged; which Canadian courses are active changes only through the scope gate, by the Platform Admin's decision) |
+
+### 22 Oct 2026 (Thu, Melbourne) – Update 21:50: watchdog false Stuck fixed; Canadian website copy refreshed
+
+| Item | Detail |
+|---|---|
+| Found | The watchdog's second run (21:19) called Read course pages Stuck while 18 pages were read in the hour: its last-finished time counted only pages read as the right page, its finished count all pages read |
+| Change | PR #646, migration `20261022037000_cf247_watchdog_finished_counts_as_progress.sql` (md5-guarded; applied before merge, history md5 795bab4954a8c4159cd9ccf76a435892 equals the file): a queue that finished anything in the window is never Stuck, Waiting or Out of toolset; the reader's last-finished time counts every page read. The one alert raised was withdrawn before the hourly delivery sent it, and its health issue closed |
+| Checked | Next run: no queue Stuck, Failing or Out of toolset (4 Nothing left to try, the rest Moving or Done). Website search copy refreshed at 21:46: 3,806 active Canadian courses, no inactive one left in it |
+| Consumer API | Not touched |
