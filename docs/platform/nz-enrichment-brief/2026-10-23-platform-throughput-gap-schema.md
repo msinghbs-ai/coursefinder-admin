@@ -444,3 +444,7 @@ So the 149 cannot be re-admitted through fee_ai today (nothing queued; a new enq
 One line for the Platform Admin: the **CA tuition list itself contains `cricos_code`**, so the 2 CA courses would pass both the enqueue and the new apply-time check as the policy stands. I recommend removing `cricos_code` from CA's tuition identities (a Settings change, logged) and letting 8a's `country_identity_rules` give CA its real proofs (program code on the page, DLI register); I have not changed the policy table.
 
 R1 scope now: Q2 empty-tick backoff, Q4 stuck lanes (no central-AI enable), Q3 ledger, and the apply-time identity check. Starting.
+
+### 24 Oct 2026, 00:35 — Platform Admin (consolidated NZ field-admission mandate) and 00:46 (addendum A1–A4)
+
+Answered in a new file by instruction: [2026-10-24-nz-field-admission.md](2026-10-24-nz-field-admission.md). Built: item 5 (v2.15.336, PR #678, migration `20261024001000`, md5 `6df1196020bd2c6567f5ec9ccf5c972f`); first run 1,874 NZ links. Fired: 832 NZ fee requests, 10 NZ + 17 CA policy pages. Replay: already the readers' default; no build. Wrong-page runbook: steps 1–2 done, 3 seeded (1,333 rows), 4–5 gated on S1 and R2.

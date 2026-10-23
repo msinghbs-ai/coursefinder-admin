@@ -7674,3 +7674,15 @@ The brief now forbids direct table changes.
 | F7 / F8 lists | `docs/platform/wrong-page-values/LIST-20261023-sweep-identity-not-admitted-and-mismatch.csv` (324: NZ 229, CA 92; AU label `cricos_code` on 63 NZ pages, NZ label `nzqa_code` on 57 CA pages → section 6 item 1 pulled forward as item 8a); `SEED-20261023-page-rejections-attempts-exhausted.csv` (1,870: AU 1,563, CA 237, NZ 70) for S1 |
 | Verification | Dry run clean; full suite 1,804 passed (4 known legacy failures); history md5 equals the file; worker version confirmed live after the deploy workflow; admin-repo files verified against a fresh clone |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 01:40: NZ/CA field admission mandate; identity-basis quarantine; item 5 live (v2.15.336, PR #678)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 00:21 (8a re-verification), 00:26 (quarantine the 160), 00:32 (pre-R1 fee_ai check), 00:35 consolidated NZ field-admission mandate, 00:46 addendum A1–A4 (CA in scope, stored-page inventory, replay, wrong-page runbook). Records: `docs/platform/nz-enrichment-brief/2026-10-24-nz-field-admission.md` (deliverable) and `2026-10-23-platform-throughput-gap-schema.md` section 10 (audit trail) |
+| Quarantine (ran live 00:35) | 149 courses / 158 international fees admitted on mislabelled bindings set `unverified`, one Layer 4 row each (`source = identity_basis_reverify`, separate from the 22 fee-floor rows); control event logged; search refresh requested. `docs/platform/wrong-page-values/PASTE-20261024-identity-basis-reverify-quarantine.sql` |
+| Verification | fee_ai enforces the identity policy at enqueue only; `coverage_apply_course_v1` never; R1 extended with the apply-time check. CA tuition list contains `cricos_code` (decision open) |
+| Fired (existing lanes) | 832 NZ fee requests (69 providers) queued to the fee reader; 10 NZ and 17 CA central-policy pages enqueued. CA fee requests not fired (gated on 8a). `PASTE-20261024-nz-field-admission-fire.sql` |
+| Change | PR #678 (v2.15.336 / 0.1.263). Migration `20261024001000_cf247_course_url_fill.sql` applied live (history md5 `6df1196020bd2c6567f5ec9ccf5c972f` = file): `pipeline.course_url_fills`, `security.course_url_fill_v1` (four guards), `security.course_url_retraction_30d_v1`, four settings, job `course-url-fill` 02:23 UTC. First run: 1,874 NZ official links filled (NZ with a link 899 → 2,773). Test s90; full suite 1,810 passed (4 known legacy); SOPs 1.77 |
+| A2–A4 | Stored-page inventory for NZ top-20 and CA top-10 (every bound page has a copy ≤ 30 days); replay already runs by default in every reader (no build); wrong-page runbook: 1,333 NZ top-20 mismatch pages listed, 1,287 verified under the current rule, seed `SEED-20261024-page-rejections-nz-top20-wrong-pages.csv`; steps 4–5 gated on S1 and R2 |
+| Consumer API | Not touched (Decision 266): `course_url` is an existing nullable field |
