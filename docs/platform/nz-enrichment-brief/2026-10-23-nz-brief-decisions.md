@@ -368,3 +368,15 @@ select count(*) filled,
 | O3 | **Item 5 retraction-rate check at 30 days:** the monitoring query's figure after 30 days of fills; tighten eligibility if above `course_url.max_retraction_pct` | Claude, hourly report; Platform Admin decides | 30 days after the fill job's first run |
 | O4 | NZQA directory cadence back to 30 days after 31 Mar 2027 unless the transition is extended (C2) | Platform Admin | 1 Apr 2027 |
 | O5 | Signatory list page URL confirmed and robots-checked (item 3 dependency) | Claude, at build | before Release 1 build |
+
+---
+
+## 7. Thread (every later comment and reply on this brief is appended here, in order)
+
+### 23 Oct 2026, 20:49 — Platform Admin
+
+> Next time any following comments and response dump it in the file as well.
+
+### 23 Oct 2026, 20:52 — Claude
+
+Understood. From here on, every comment on this thread and the reply to it are appended to this section with the time, committed through the normal process (admin repo `main`, change control untouched unless a decision changes), before the reply is sent in chat. Decisions that change the plan are also reflected in sections 1 to 6 so the document stays the single record; the thread keeps the wording as given.
