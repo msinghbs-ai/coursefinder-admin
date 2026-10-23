@@ -70,7 +70,8 @@ Conventions for every migration: `-- Replaces:` and `-- Retires:` lines; `commen
 ```sql
 -- CF-247 (Oct 2026). NZ brief decisions C1 (Platform Admin 23 Oct 2026 20:42): the NZ polytechnic transition is recorded per provider
 -- from the Government's published list, with its source; a monthly job re-checks each flagged provider's website and re-runs the
--- source finder for it, because domains and brands move during the transition. Seed data ships in a later migration once C1 clears.
+-- source finder for it, because domains and brands move during the transition. C1 closed 23 Oct 2026 20:52 (Beehive 31 Mar 2026, TEC
+-- NZIST page 20 Jul 2026, MoE VET redesign page): the seed ships as the next migration, every row with its Government source.
 -- Replaces: nothing
 -- Retires: nothing
 create table pipeline.provider_transitions (
@@ -285,6 +286,8 @@ insert into pipeline.admin_control_events(area, action, target, detail, actor)
 values ('layer4', 'fee_floor_pass', 'NZ', jsonb_build_object('withdrawn', 20, 'kept_flagged', 2, 'reason', 'Platform Admin 23 Oct 2026 20:42: NZ brief C4'), '<applier uuid, verified at build>');
 ```
 
+F2 (21:00): the C4 pass is NZ-only. The 109 AU and 66 CA annual international fees under the new floor stay live until they are read again, because the guarded edits apply at admission only; they are reviewed deliberately after the CA per-term normalisation work (open item O6). Build check: the adapter path inserts `basis` as `nullif(btrim(p_payload->>'fee_basis'), '')`, which can be null; before apply, the share of adapter-read international fees with a null basis is measured per country, and `fee_below_floor_v1` is called with the real basis (a null basis is not treated as annual; it is logged as a gap instead).
+
 Dry-run steps (C4 spot-check): before the rows move, the dry run prints, for one MITO row and two Tai Poutini rows, the stored page copy's fee line and the adapter's quote, so the Platform Admin sees whether the figure is the domestic fee; the result is recorded in change control with the release. Settings UI: the country row on Settings › Pipeline settings shows the floor with its currency; the website is unaffected (a `review` row is not returned, as today). G3: none.
 
 ### 3.5 Item 10: NZ code proof for English and intakes (effort 1 hour; no migration)
@@ -408,6 +411,7 @@ select count(*) filled,
 | O3 | **Item 5 retraction-rate check at 30 days:** the monitoring query's figure after 30 days of fills; tighten eligibility if above `course_url.max_retraction_pct` | Claude, hourly report; Platform Admin decides | 30 days after the fill job's first run |
 | O4 | NZQA directory cadence back to 30 days after 31 Mar 2027 unless the transition is extended (C2) | Platform Admin | 1 Apr 2027 |
 | O5 | Signatory list page URL confirmed and robots-checked (item 3 dependency) | Claude, at build | before Release 1 build |
+| O6 | **AU/CA sub-floor rows (F2):** the 109 AU and 66 CA annual international fees under the 8,000 floor stay live until re-read; review them deliberately after the CA per-term normalisation (O2), not as part of the NZ C4 pass | Platform Admin decides; Claude lists them | with O2 |
 
 ---
 
@@ -484,3 +488,14 @@ Understood. From here on, every comment on this thread and the reply to it are a
 ### 23 Oct 2026, 21:20 — Claude
 
 Done: section 8 (addendum) added; sections 2.2, 2.3, 3.1, 3.2, 3.3, 3.4, 3.6, 5 and 6 updated in place; O1 closed. N1's "corrected SQL above" was not in the message, so the query in section 5 is Claude's corrected form, confirmed at build. One note on N3: migrations applied through the management API run without a JWT, so the actor cannot be `auth.uid()`; it is the applier's uuid, verified against `auth.users` and written into the file before apply. The final apply order is section 8.5. Still nothing applied, deployed or seeded.
+
+### 23 Oct 2026, 20:56 — Platform Admin
+
+> Two pre-apply flags on the Release 1 artefacts (append to the thread):
+> F1. Fix the stale header comment in ..._cf247_nz_provider_transitions.sql ("ships in a later migration once C1 clears") — C1 is closed; the comment is the audit trail.
+> F2. Record a decision on existing AU/CA sub-floor rows: the C4 pass is NZ-only (22 rows); the 109 AU + 66 CA rows under the new floor stay live until re-read because the guarded edits only apply at admission. Decision: keep the pass NZ-only; add an open item to review AU/CA rows deliberately after the CA per-term normalisation work (O2). Also confirm at build that the adapter admission path passes the real fee basis (never null) into fee_below_floor_v1, since the floor checks annual basis only.
+> Proceed with apply order 8.5 otherwise unchanged.
+
+### 23 Oct 2026, 21:30 — Claude
+
+F1 fixed in section 3.1 (the header now records C1's closure and its sources). F2 recorded: the pass stays NZ-only; open item O6 added for the 109 AU and 66 CA rows, tied to O2; the null-basis check is written into section 3.4 as a build step (the adapter path can insert a null basis today, so `fee_below_floor_v1` will be called with the real basis and a null basis is logged as a gap rather than treated as annual). Build of Release 1 starts now in the 8.5 order; each step is appended here as it lands.
