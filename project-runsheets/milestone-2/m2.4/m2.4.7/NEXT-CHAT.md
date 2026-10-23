@@ -7554,3 +7554,14 @@ The brief now forbids direct table changes.
 | Checked | Each migration dry-run on the live database (CA exact-title pages admit tuition for 2,227 courses; Auckland diplomas list Arts NZ$48,133 for 2026), applied before merge; history md5 equals each file (015000 789c270e…, 016000 a100e95f…). Full suite before each deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.2 confirmed |
 | Waiting | Auckland campus and city readings from v0.42.2; English rules read and approved for universities that had none |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 14:05: Courses list column names; notice Go to links open their settings (v2.15.327, PR #669)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 13:24: "in - Catalogue "Courses" change column name - CRICOS tuition to Tuition Only and Legacy presence - to completeness or enrichment or something relevant". 13:26: "bug/fix cant setup or change limit - go to openrouter settings doesn't open, check rest of the link and streamline it made sure all limits can be configured from UI" |
+| Found | The notice Go to for the OpenRouter balance pointed at the screen already open and carried no card, so nothing opened or scrolled; the course-page search budget and website notices pointed at retired screens. Every limit those notices name is already a setting on Toolsets & limits or Settings › Pipeline settings |
+| Change | PR #669 (v2.15.327 / 0.1.254, no migration): Courses list columns Tuition Only and Completeness; every notice Go to opens its card (and the Toolsets & limits card it sits in) and scrolls to it, also when that screen is already open; search budget and website links point to their live settings. SOPs 1.68 |
+| Checked | Full suite before deploy: 1,780 passed, only the 4 known legacy deployed-UAT failures. After merge: Pilot Frontend Build, Deployed UAT, Release Currentness and Release History all passed |
+| Waiting | OpenRouter top-up (balance US$2.22) by the Platform Admin, outside StudySearch |
+| Consumer API | Not touched (Decision 266) |
