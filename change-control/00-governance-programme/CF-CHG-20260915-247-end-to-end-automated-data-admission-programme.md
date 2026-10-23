@@ -7679,3 +7679,13 @@ The brief now forbids direct table changes.
 |---|---|
 | Data | Platform Admin ran `docs/platform/wrong-page-values/PASTE-20261023-older-wrong-page-campus-links.sql`: links_left 0, 33 campus re-read jobs for 375 courses. Live check: every campus value taken back is cleared; 8,854 values recorded in `pipeline.enrich_value_retractions` in all; 145 re-read jobs (5 done, 140 queued) |
 | Waiting | The re-read jobs; progress shows in the hourly report |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 17:15: Task manager runs up to 40 tasks a minute and shows it is alive (v2.15.331, PR #673)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:38: "nothing seems moving, first one launched at 4:24pm". 16:40: "Yes, maximise to speed it up". 16:43: "can you dry run 40 task in a minute". 16:47: "i can't trust the task manager even after refreshing it nothing seems moving. UI should be responsive and refresh, otherwise there is no trust on the platform" |
+| Found | The 145 re-read tasks were moving one per lane a minute (the task runner took one task per lane each minute). The Task manager refreshed every 5 seconds but showed nothing that changed: finished tasks left the list without a trace, waiting Enrich fields tasks showed 0 of 0, and nothing said when the runner last ran or where a task was in line |
+| Change | PR #673 (v2.15.331 / 0.1.258, migration `20261023020000_cf247_tasks_per_lane_per_minute.sql`): setting `jobs.per_lane_per_tick` (1 to 40, set to 40, logged); `security.admin_jobs_tick_v1` moves up to that many tasks per lane each minute, stops taking more after 40 seconds; `public.admin_jobs_pulse()` (read only); Task manager live line (refreshed time, runner last run, red when late, waiting, running, finished in 15 minutes, AI reader backlog), each waiting task's place in line, start estimate and items. SOPs 1.72 |
+| Checked | Dry runs on the live database (20 tasks, then 40 tasks moved in 1.3 seconds, 34 finished; pulse 226 ms), applied before merge; history md5 equals the file (7fe5542c…). Full suite before deploy: only the 4 known legacy deployed-UAT failures (the en-AU formats contract, failed by a local time format, fixed with the shared formatter and re-run). Task manager screenshot checked. After deploy: re-read tasks 38 done before, 105 done, 25 running, 15 queued within minutes |
+| Consumer API | Not touched (Decision 266) |
