@@ -7700,3 +7700,14 @@ The brief now forbids direct table changes.
 | Produced | Decision record; C1 action and citation design; draft migrations and settings writes for items 1, 2, 3, 4, 10 and the cadence change with live md5s (as at 20:50) and effort; pre-binding-push checklist with the finder run order (83 partly-covered providers first); item 5 Option A build spec with the four guards and the retraction query; open items O1 to O5 |
 | Applied | Nothing. No migration, deploy, settings write or seed |
 | Consumer API | Not touched (Decision 266); the plan confirms Release 1 has no G3 change |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 21:29: NZ brief Release 1 live (v2.15.334, PR #676)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin decisions 20:42 (Release 1 GO, C1 to C4), addendum 20:52 (O1 closed, N1 to N5), flags 20:56 (F1, F2). Record: `docs/platform/nz-enrichment-brief/2026-10-23-nz-brief-decisions.md` |
+| Change | PR #676 (v2.15.334 / 0.1.261). Migrations: `20261023023000_cf247_nz_provider_transitions.sql` (table, `security.transition_recheck_v1`, job `transition-recheck` daily 03:41, settings), `20261023024000_cf247_nz_provider_transitions_seed.sql` (17 rows with Government sources), `20261023025000_cf247_provider_domain_moved.sql` (`public.admin_provider_domain_moved`, same host refused), `20261023026000_cf247_fee_floor.sql` (`min_annual_international` per country, `security.fee_below_floor_v1`, quarantine in `coverage_apply_course_v1` as `unverified` plus a Layer 4 item, AI fee reader review below floor, Settings UI). Logged settings changes before the release: NZQA directory 30 → 7 days (C2, until 31 Mar 2027); NZ English and intakes accept the page-code proof (item 10). SOPs 1.75 |
+| Data | Transitions: 11 re-established 2026, 3 standalone from 2027, Tai Poutini operations transfer 2027 (re-check every 14 days), 2 NZIST entity rows. Floors NZ/AU/CA 8,000. C4: 20 NZ fees quarantined to Layer 4, 2 kept and flagged (22 Layer 4 items). F2: AU (109) and CA (66) rows below the floor stay live until read again (open item O6) |
+| Checked | All four migrations dry-run together on the live database (re-check queued 5; same host refused; a NZ$3,000 test fee quarantined with its reason), applied in order before merge; history md5 equals each file (e6897c96…, 47953b0b…, 2b6e876a…, bbfeed53…). Full suite before deploy: 1,802 passed, only the 4 known legacy deployed-UAT failures. Deploy workflows passed |
+| Waiting | Item 3 (signatory list: URL, worker v0.44.0, migration) as the next release |
+| Consumer API | Not touched (Decision 266): the website reads only `active` fees |

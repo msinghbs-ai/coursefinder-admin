@@ -520,3 +520,7 @@ F1 fixed in section 3.1 (the header now records C1's closure and its sources). F
 ### 23 Oct 2026, 21:18 — Claude
 
 Yes. Every comment and reply since 20:49 has been appended to this one file (section 7, Thread), in the admin repo on `main`. The decisions themselves were also updated in place in sections 1 to 6 and the addendum (section 8). No other file holds the thread; the change-control entries in the four runsheet files only record releases.
+
+### 23 Oct 2026, 21:29 — Claude (Release 1 live)
+
+Release 1 is live as v2.15.334 (PR #676), apply order 8.5 steps 1 to 6 and 8. The four migrations were applied in order after the full suite (1,802 passed, only the 4 known legacy failures); each history md5 equals its file. Live: 17 transition rows (11 / 3 / 1 / 2), Tai Poutini re-check 14 days, floors NZ/AU/CA 8,000, 20 NZ fees quarantined and 2 flagged (22 Layer 4 items), job `transition-recheck` at 03:41. Step 7 (item 3, signatory list) is the next release. Correction: the progress entry above stamped "21:55" was written at about 21:15.
