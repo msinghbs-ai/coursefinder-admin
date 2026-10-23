@@ -363,3 +363,30 @@ Theoretical ceiling at the time: 120 pages a minute; measured 100.
 The two-lane rate could not be measured: by 23:13 the sweep's readable pages were done (3,320 of 3,675 re-read: 2,964 read, 278 fetch failed, 157 blocked, 177 need a browser, 80 identity mismatch, 12 robots). The 1,917 pages still "due" have used their 3 attempts (1,323 dead links, 291 blocked, 106 robots): that is the S1 negative-evidence population, not read-lane capacity. The stepped capacity test (60/8 → 120/8 → 120/16 → 200/16 → 200/24, 5 minutes each) runs the next time the lane has more than 500 pages due, and its result sets the recommended values here.
 
 Fee reader at 23:20: 1,551 pages read, 1,924 queued, 37 fees admitted, 12 to Layer 4.
+
+### 23 Oct 2026, 23:35 — Platform Admin (F6–F8)
+
+> F6. Prioritise R3 (health-hourly) before any further throughput change — the read lane doubled with no tripwire live. Provisional target acceptable.
+> F7. The 250 not_admitted (identity basis not allowed for tuition) are the next data-quality finding: quantify by country (expect CA-heavy), and pull the section 6 item 1 move (identity rules out of coverage-sweep into `pipeline.country_identity_rules` seed rows) forward ahead of items 9/11. List the 80 identity-mismatch re-reads with them.
+> F8. The 1,917 exhausted pages (1,323 dead links, 291 blocked, 106 robots): confirm the picker excludes attempts-exhausted pages rather than re-selecting them, and seed them into S1's `page_rejections` as the first negative-evidence population. Run the stepped capacity test at the next >500-due opportunity and record the recommended values here.
+
+### 23 Oct 2026, 23:48 — Claude (F6–F8 answered)
+
+**F6 — accepted.** v2.15.335 ships the *capability* only: `batch.coverage_read` stays 60 and `reading.pages_at_once` stays 8, so throughput is unchanged by the release. No value is raised and the stepped test does not run until R3 (health-hourly, provisional target) is live. Order now: R1 (Q2 + Q4 + Q3) → **R3** → audit sign-off → R2 (Q1 at cap 100) → stepped read-lane test → the rest.
+
+**F7 — quantified (the count grew to 321 as the 690 "open" requests were read and queued).** Not CA-heavy: NZ 229 (20 providers), CA 92 (8 providers). The 80 identity-mismatch re-reads are NZ 54, CA 26, and 77 of them are inside the 321 (3 are mismatch only). Full list (324 rows): `docs/platform/wrong-page-values/LIST-20261023-sweep-identity-not-admitted-and-mismatch.csv`.
+
+| Country | Identity basis on the page row | Courses | What it tells us |
+|---|---|---|---|
+| NZ | `degree_name` | 99 | a proof the tuition policy does not accept (Auckland 79, Canterbury 69 are mostly here) |
+| NZ | none recorded | 67 | bound with no proof label |
+| NZ | `cricos_code` | 63 | **an AU label on NZ pages**: the proof vocabulary is country-shaped and misapplied |
+| CA | `nzqa_code` | 57 | **a NZ label on CA pages** (all College of the North Atlantic) |
+| CA | none recorded | 24 | |
+| CA | `adapter_title` | 11 | |
+
+So section 6 item 1 is not only "move the rules to seed rows": the labels themselves need a per-country vocabulary (`pipeline.country_identity_rules`: country, basis, proof regex or register, allowed_for[]), and `coverage_identity_allowed` reads that table. **Pulled forward**: it becomes item 8a, straight after S1 (item 8) and ahead of items 9 and 11, 1.5 days, one migration plus a worker change in the identity check; the 324 rows are its acceptance test (each must either pass under its country's rule or be listed with the rule that refuses it).
+
+**F8 — confirmed and seeded.** The picker (`svc_coverage_read_next`) selects only `read_attempts < 3`, so exhausted pages are never re-selected; they sit as "due" in my earlier count only because that count ignored attempts. Live now: **1,870** exhausted pages (dead links 1,323, blocked 291, robots 106, no status 116, read 33, needs render 1), by country **AU 1,563, CA 237, NZ 70** — so most are older AU pages, not the sweep's. Seed file written for S1 (`page_rejections` does not exist yet; the file is the first population, loaded by the S1 migration's dry run and checked row for row): `docs/platform/wrong-page-values/SEED-20261023-page-rejections-attempts-exhausted.csv` (1,870 rows: country, provider, course_id, read_status, attempts, http status, url). The 33 "read" and 116 "no status" rows are not negative evidence; S1 lists them for a re-read with a fresh attempt count instead.
+
+Stepped capacity test: scheduled for the first check-in after R3 is live where more than 500 pages are due with attempts left; values recorded here.
