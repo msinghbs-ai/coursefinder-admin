@@ -759,3 +759,7 @@ CA as the test case: CA has admission and floor rows, but the readers and identi
 ### 23 Oct 2026, 22:11 — Platform Admin (consolidated mandate) and 22:40 — Claude (plan)
 
 The consolidated mandate (throughput, gap detection at hours, schema additions) supersedes the sequencing in the 21:56 entry above. Mandate and plan are in their own file by instruction: [2026-10-23-platform-throughput-gap-schema.md](2026-10-23-platform-throughput-gap-schema.md). Plan and estimate only; nothing built until approved.
+
+### 23 Oct 2026, 22:24 — Platform Admin (hours-scale re-sequence) and 22:31 — Claude (sweep run)
+
+Recorded in section 10 of [2026-10-23-platform-throughput-gap-schema.md](2026-10-23-platform-throughput-gap-schema.md). Sweep run live: 3,675 courses, 2,735 fee reads queued at once.

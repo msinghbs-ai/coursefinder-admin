@@ -304,3 +304,28 @@ Measured against "a third country in a week with settings and seed data only". C
 > **5. Constraints:** every tunable is a settings key with min/max/unit/section or the change is rejected; no new admin panels; no new SOPs or guides (runbook addition is one section in the new file); the hourly job must not displace reader work.
 >
 > **Output:** ordered work plan with effort and dependencies; the `bound_at` finding; Q1 release design; three-speed trigger/cron design; five schema changes as draft migrations; CA answer; open items O1–O5 plus the metric target and the plan tiers as awaiting input. Reply in chat with the 5-line summary.
+
+---
+
+## 10. Re-sequence and sweep log
+
+### 23 Oct 2026, 22:24 — Platform Admin (hours-scale execution)
+
+> NOW: run the bound-but-empty sweep (3,675 courses) through existing mechanisms; report admissions per hour within 24 h. SAME DAY, one release: items 1, 2 (no central-AI enable) and 3 together; then the `target_only` audit paste file for sign-off; on sign-off apply Q1 settings and the picker change and release at `search.daily_picked_cap = 100` immediately (the ledger week gates only the cap raise). SAME DAY: build health-hourly (item 7, dependency on item 5 dropped) with a provisional `health.headline_target` from its first hours; recalibrate daily, lock at day 7. Unchanged, own releases: items 5, 6 (`handoff.on_bind` off until the Q1 ramp is stable), 8, 9, 10, 11. Cap stays 100 until 3 days of ledger evidence. Audit sign-off (O10) precedes any release. If anything conflicts with the sweep, the sweep wins.
+
+### 23 Oct 2026, 22:31 — Claude (sweep run)
+
+Ran live, one transaction, SQL kept at `docs/platform/wrong-page-values/PASTE-20261023-bound-but-empty-sweep.sql`.
+
+| Step | Result |
+|---|---|
+| Set | 3,675 courses (CA 2,499, NZ 1,176; AU 0) |
+| Fee requests inserted | 3,675; pages already read (2,985) dated just before their read so they queue without a re-read |
+| First enqueue tick | 2,735 queued to the fee reader, 250 `not_admitted` (identity basis not allowed for tuition), 690 wait for the page read |
+| Fee reader queue | 2,703 queued (was 0) |
+| Page re-reads | 3,675 reset first in line (`next_read_at = now()`, `read_attempts = 0`, priority row); the read lane did 2,132 pages in the previous 24 h with 2,349 already due, so the re-reads (which feed English and intakes) take 2–3 days at today's rate |
+| Baseline | 0 fees admitted in the hour before the sweep |
+
+Admissions per hour are reported back at about 02:30 and 22:00 on 24 Oct. The 250 `not_admitted` courses are the first S1-style list: their providers' identity basis is not accepted for tuition, which no re-read fixes.
+
+**Re-sequenced order (supersedes section 1's order; efforts unchanged):** R1 = items 1 + 2 + 3 one release → audit paste file → sign-off → R2 = Q1 at cap 100 → R3 = health-hourly with a provisional target → items 5, 6, 8, 9, 10, 11 as their own releases.
