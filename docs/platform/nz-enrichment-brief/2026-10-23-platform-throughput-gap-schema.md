@@ -448,3 +448,7 @@ R1 scope now: Q2 empty-tick backoff, Q4 stuck lanes (no central-AI enable), Q3 l
 ### 24 Oct 2026, 00:35 — Platform Admin (consolidated NZ field-admission mandate) and 00:46 (addendum A1–A4)
 
 Answered in a new file by instruction: [2026-10-24-nz-field-admission.md](2026-10-24-nz-field-admission.md). Built: item 5 (v2.15.336, PR #678, migration `20261024001000`, md5 `6df1196020bd2c6567f5ec9ccf5c972f`); first run 1,874 NZ links. Fired: 832 NZ fee requests, 10 NZ + 17 CA policy pages. Replay: already the readers' default; no build. Wrong-page runbook: steps 1–2 done, 3 seeded (1,333 rows), 4–5 gated on S1 and R2.
+
+### 24 Oct 2026, 01:48 — Claude (v2.15.336 live)
+
+PR #678 merged (aa2468d9); all five workflows passed first time (Deploy on merge, Pilot Frontend Build, Release History Contract, Release Currentness Deployed, CourseFinder Deployed UAT). Change control appended to the four runsheet files and verified in a fresh clone (998afaa); SOPs 1.77 copied.
