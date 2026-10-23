@@ -425,3 +425,22 @@ R1 (Q2 + Q4 + Q3) starts now.
 ### 24 Oct 2026, 00:35 — Claude (quarantined)
 
 Run live in one transaction, SQL kept at `docs/platform/wrong-page-values/PASTE-20261024-identity-basis-reverify-quarantine.sql`. The live set was **149 courses / 158 fee rows** (NZ 147 / 156, CA 2 / 2), not 160: the 00:30 figure counted manual bindings, which are never touched; the guard in the SQL is the live count. Result, verified after commit: 158 fee rows `unverified`, 149 Layer 4 rows with `layer2_state.source = 'identity_basis_reverify'` (state `quarantined`, country and the page's label kept on the row), 0 such fees still live, the 22 fee-floor rows untouched as their own population; control event `identity_basis_reverify_quarantine` logged; a search refresh requested so the website drops them. Reversal path as stated: reidentify under `identity-v0.6.0` re-binds the page → re-read → fee re-admits. 8a proceeds in the stated sequence after R1; R1 starts now.
+
+### 24 Oct 2026, 00:32 — Platform Admin
+
+> Pre-R1 verification: confirm both fee admission paths (coverage_apply_course_v1 AND the fee_ai path) enforce the identity-basis policy that refused the 321. If fee_ai bypasses it, those 149 quarantined courses can be re-admitted from their still-bound mislabelled pages before 8a ships — extend the check to that path in R1. If both enforce, record one line in the log and proceed.
+
+### 24 Oct 2026, 00:45 — Claude (verified: not both; R1 extended)
+
+Read from the live definitions. The policy is `security.coverage_identity_allowed(provider, basis, 'tuition')`, which reads the country's `coverage_admission_countries.identities->'tuition'` list (NZ: adapter_title, exact_title, manual, nzqa_code, title_level; CA: **cricos_code**, exact_title, field_award, manual; AU: empty, AU tuition comes from the CRICOS register).
+
+| Path | Where the policy is checked | Verdict |
+|---|---|---|
+| fee_ai (`fee_course_pages_enqueue_v1` → `fee_reader_queue` → `svc_fee_ai_record` → `coverage_apply_course_v1`) | at **enqueue only** (both enqueue branches check it); `svc_fee_ai_record` and `coverage_apply_course_v1` do not | **enforced late, not at the write**: a queue row that predates a label change is read and applied without a re-check. Live now: 0 queue rows for the 149, so no re-admission is in flight |
+| `coverage_apply_course_v1` (the common write point, md5 `d6287accb0ee955048978427b59c1ca2`) | **never**; it trusts its callers. Callers that check: `coverage_admission_plan_v1` (the plan `coverage_admission_apply_v1` applies), `enrich_apply_v1`, `adapter_overwrite_v1`, `layer3_fact_admit_v1`. Callers that do not: `svc_fee_ai_record`, `provider_credit_fee_apply_v1`, the admin fee functions (manual, by design) | **not enforced at the write** |
+
+So the 149 cannot be re-admitted through fee_ai today (nothing queued; a new enqueue is refused for NZ because `cricos_code` is not in the NZ tuition list), but the guarantee lives in the wrong place. **R1 is extended:** `coverage_apply_course_v1` gets the check at the fee write — when the course's bound page carries an `identity_basis` the country's tuition list does not allow, the fee is written `unverified` with a Layer 4 row (`source = 'identity_basis_reverify'`, state `quarantined`), the same shape as tonight's quarantine, and the result reports `fee_quarantined_identity`. Manual bindings (`basis = 'manual'`) and admin writes are exempt. Every caller is then covered, whatever it checked before.
+
+One line for the Platform Admin: the **CA tuition list itself contains `cricos_code`**, so the 2 CA courses would pass both the enqueue and the new apply-time check as the policy stands. I recommend removing `cricos_code` from CA's tuition identities (a Settings change, logged) and letting 8a's `country_identity_rules` give CA its real proofs (program code on the page, DLI register); I have not changed the policy table.
+
+R1 scope now: Q2 empty-tick backoff, Q4 stuck lanes (no central-AI enable), Q3 ledger, and the apply-time identity check. Starting.
