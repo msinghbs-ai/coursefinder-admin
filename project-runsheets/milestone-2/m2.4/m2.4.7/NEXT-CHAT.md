@@ -7600,3 +7600,10 @@ The brief now forbids direct table changes.
 | Checked | Dry run on the live database, applied before merge; history md5 equals the file (9d966458…); live figures equal the dry run (3,462 taken back, 2,023 read again, 4,153 cleared, 112 jobs, Architectural Studies and Sport lengths empty, Diploma in Arts linked to City and South Auckland). Full suite before deploy: only the 4 known legacy deployed-UAT failures |
 | Waiting | Second paste file run by the Platform Admin; 112 re-read jobs |
 | Consumer API | Shape not touched (Decision 266); field values taken back |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 17:55: second wrong-page paste file run
+
+| Item | Detail |
+|---|---|
+| Data | Platform Admin ran `docs/platform/wrong-page-values/PASTE-20261023-older-wrong-page-campus-links.sql`: links_left 0, 33 campus re-read jobs for 375 courses. Live check: every campus value taken back is cleared; 8,854 values recorded in `pipeline.enrich_value_retractions` in all; 145 re-read jobs (5 done, 140 queued) |
+| Waiting | The re-read jobs; progress shows in the hourly report |
