@@ -7678,3 +7678,14 @@ The brief now forbids direct table changes.
 | Change | PR #674 (v2.15.332 / 0.1.259, migration `20261023021000_cf247_tasks_per_lane_100.sql`): `jobs.per_lane_per_tick` range 1 to 2,000, set to 1,000 (logged); runner and pulse cap at 2,000; the 40-second stop stays. SOPs 1.73 |
 | Checked | Applied before merge; history md5 equals the file (37376748…); live setting 1,000, maximum 2,000. Full suite on the 100 version: only the 4 known legacy deployed-UAT failures; after the numbers changed to 2,000/1,000 the affected specs re-run and pass. Deploy workflows passed |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 20:10: AI reader load settings; OpenRouter load test (v2.15.333, PR #675)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 19:27: "Lets test openrouter where it goes bottleneck, and make that settings configurable in ui as well." |
+| Found | The AI reader (Enrich fields) ran at most `enrich.ai_calls_at_once` (1 to 6) worker calls, each reading 3 pages at once (fixed in the worker): at most 18 OpenRouter requests together. Nothing recorded rate limits or answer times |
+| Change | PR #675 (v2.15.333 / 0.1.260, worker v0.43.0, migration `20261023022000_cf247_openrouter_load_settings.sql`): `enrich.ai_calls_at_once` 1 to 40, new `enrich.ai_pages_at_once` (1 to 12), `fees.concurrency` 1 to 16, all on Settings › Pipeline settings; the worker counts every OpenRouter request (answered, 429, 5xx, timed out, answer times) and returns them; the Task manager live line shows the last 15 minutes and turns red when more than 5% are pushed back. SOPs 1.74 |
+| Load test | Real gaps only (campus, delivery, duration, international on 1,206 courses with their own readable page; Read with AI tasks, values checked as usual). Step 1, 4 calls × 3 pages (12 at once): 150 requests, 0 rate-limited or failed, typical 0.9 s, slowest 6.4 s, US$0.25. Step 2, 10 × 6 (60 at once), 40 items a call: 326 requests, 0 failed, typical 0.85 s, slowest 2.2 s, US$0.56. Step 3, 20 × 10 (200 at once): about 335 requests a minute at peak, 681 in all, 0 rate-limited, 0 server errors, 0 timeouts, typical 0.9 s, slowest 8.4 s, US$1.16. OpenRouter did not push back; the test ran out of work (every course with a readable page and a gap was read). 1,683 values filled, 76 to review. Settings left at 20 calls × 10 pages, 40 items a call (logged) |
+| Checked | Dry run on the live database, applied before merge; history md5 equals the file (21eacc51…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.43.0 confirmed |
+| Consumer API | Not touched (Decision 266) |
