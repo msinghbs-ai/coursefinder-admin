@@ -7626,3 +7626,14 @@ The brief now forbids direct table changes.
 | Checked | Migration dry-run on the live database (3,371 recorded, 2,790 cleared, Dance diploma delivery empty), applied before merge; history md5 equals the file (dc586222…); slice definition md5 as in the dry run. Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.3 confirmed. Read with AI run again on the 8 Auckland diplomas with a bound page |
 | Waiting | Paste file run by the Platform Admin; Auckland diploma readings from v0.42.3 |
 | Consumer API | Shape not touched (Decision 266); field values taken back |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 16:30: Read with AI links a campus the university already has (v2.15.329, PR #671)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:52 (Courses list, Auckland diplomas): "Still no city or fees on these." Follow-up of Update 15:20 |
+| Found | With worker v0.42.3 the Auckland diplomas got delivery (Campus Experience: on campus) and length where the page gives it (Arts, Fine Arts: 1 year; Commerce and Design leave the full-time length empty and give only 120 points). Campus was still not linked: the campus list step kept only names given exactly (the page gives ["City","South Auckland"] as one name), and a campus needed `enrich.campus_min_pages` (2) course pages while Read with AI reads one course, so even the existing City campus was never linked |
+| Change | PR #671 (v2.15.329 / 0.1.256, worker v0.42.4, migration `20261023018000_cf247_campus_list_existing_campus_one_page.sql`): a campus name found inside a listed name is kept; `security.enrich_campus_list_apply_v1` links an active campus of the same name from one course page; a new campus (South Auckland) still needs the setting's pages or a person. SOPs 1.70 |
+| Checked | Dry run on the live database replaying the Diploma in Arts: City admitted, South Auckland to a person, course linked to City (Auckland, on campus). Applied before merge; history md5 equals the file (c7675472…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.4 confirmed. Read with AI run again for campus on the 8 Auckland diplomas with a bound page |
+| Waiting | Dance Studies, Science, Architectural Studies, Sport Health and Physical Education diplomas: no correct course page yet (page search continues) |
+| Consumer API | Not touched (Decision 266) |
