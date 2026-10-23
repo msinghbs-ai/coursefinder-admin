@@ -7614,3 +7614,15 @@ The brief now forbids direct table changes.
 | Checked | Full suite before deploy: 1,780 passed, only the 4 known legacy deployed-UAT failures. After merge: Pilot Frontend Build, Deployed UAT, Release Currentness and Release History all passed |
 | Waiting | OpenRouter top-up (balance US$2.22) by the Platform Admin, outside StudySearch |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 15:20: AI reader reads labelled page data and only the course's own page; wrong-page values taken back (v2.15.328, PR #670)
+
+| Item | Detail |
+|---|---|
+| Request | Scheduled check (13:39) of Read with AI on the 12 University of Auckland diplomas, gap causes and central English rules. Platform Admin decision 14:40 on values filled from another course's page: "Take them all back" |
+| Found | Every campus, duration and delivery reading came back "not stated": the Auckland catalogue holds them as display items (P5_CAMPUS ["City","South Auckland"], P5_DURATION_FULL_TIME "1 Year", P5_DELIVERY_MODE "Campus Experience") outside the main page text the AI reader reads. The Diploma in Dance Studies took its delivery from the Master of Dance Studies page: the AI reader read whatever page was last tried for a course, also pages already found to be another course's (status mismatch): 3,369 values on about 2,370 courses in AU, CA and NZ since 14 Oct. Gap causes (:55) and central-attach (:48) ran; 14 English rules approved automatically, 9 waiting for a person (named courses only, level not stated, course-specific) |
+| Change | PR #670 (v2.15.328 / 0.1.255, worker v0.42.3, migration `20261023017000_cf247_ai_reader_bound_pages_only.sql`): enrich_ai reads a page's short labelled data items first as "Label: value"; `security.enrich_fields_slice_v1` gives the AI only a bound page (or ambiguous with an identity proof), otherwise "no correct course page"; wrong-page values recorded in `pipeline.enrich_value_retractions` (value, quote, page kept to check or restore) and taken back: 2,788 course fields emptied (delivery, duration, international), 1 intake withdrawn. SOPs 1.69 |
+| Paste file | `docs/platform/wrong-page-values/PASTE-20261023-wrong-page-campus-links.sql`: removes 717 campus links on 581 courses read from those pages (no delete in a migration) |
+| Checked | Migration dry-run on the live database (3,371 recorded, 2,790 cleared, Dance diploma delivery empty), applied before merge; history md5 equals the file (dc586222…); slice definition md5 as in the dry run. Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.3 confirmed. Read with AI run again on the 8 Auckland diplomas with a bound page |
+| Waiting | Paste file run by the Platform Admin; Auckland diploma readings from v0.42.3 |
+| Consumer API | Shape not touched (Decision 266); field values taken back |
