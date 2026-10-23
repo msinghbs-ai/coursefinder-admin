@@ -3,6 +3,7 @@
 **Date:** 23 Oct 2026 (Fri, Melbourne), 20:42 (decisions) / 21:05 (this record)
 **Follows:** `2026-10-23-nz-enrichment-brief-assessment.md` and `2026-10-23-nz-brief-verification-and-release-plan.md`
 **Status:** plans and artefacts only. Nothing in this document has been applied, deployed or seeded. Every migration below is a draft to be dry-run on the live database, md5-checked and suite-tested through the normal process before it ships.
+**Addendum 21:20 (section 8):** O1 closed by the Platform Admin's sources; C1 fully unblocked; build nits N1 to N5 applied to the artefacts below; final apply order in section 8.5.
 
 ---
 
@@ -37,13 +38,13 @@
 
 - **Resolved:** the Open Polytechnic is re-established on 1 Jan 2026 as the federation anchor (risk `re_established_2026`, note "federation anchor"). Otago Polytechnic and UCOL are standalone within the federation. Unitec and MIT merge into one standalone entity (two register codes, 6004 and 6010, one entity: the platform keeps both provider rows until the register merges them; the transition row notes the merger).
 - **Resolved:** the brief's "~14" is right as entities: 10 standalone (11 register codes) + 4 remaining in Te Pūkenga = 14; the register's 17 `POLLY` rows add the two NZIST entity rows (6683 and 6044).
-- **Still open (blocks the seed for 4 rows):** the first-half-2026 decision on NorthTec, WITT, Whitireia/WelTec and Tai Poutini. The brief's dates ("still in NZIST until ~1 Jan 2027; NZIST disestablished by 31 Mar 2027") are not on either Government page; they may come from the 2026 decision, which could not be fetched from this environment. Until the Platform Admin or a later session supplies that page, those four rows are seeded with risk `in_te_pukenga_decision_pending`, `as_at` 26 Sep 2025, and the TEC update as `source_url`; they are updated, not replaced, when the 2026 page is cited.
+- **Resolved at 20:52 (addendum, section 8):** the 31 Mar 2026 Beehive release, the TEC NZIST page (20 Jul 2026) and the Ministry's VET redesign page give the 2026 decision: NorthTec, WITT and Whitireia and WelTec stand alone from 1 Jan 2027 (legally established 1 Oct 2026, Federation support); Tai Poutini transfers its operations to the Open Polytechnic from 1 Jan 2027; NZIST is disestablished on or before 31 Mar 2027. The seed below is the final one.
 
 ### 2.3 How `source_url` is cited
 
 Each row of `pipeline.provider_transitions` carries `source_url` (the page), `source_quote` (the sentence copied from it), `as_at` (the page's publication date) and `decided_by` (the Platform Admin who approved the seed). A row with no `source_url` cannot be inserted (check constraint). The re-check job never changes `risk`; only a person does, with a new source.
 
-Seed as it would stand once C1 clears (**not applied**):
+Seed, final after the 20:52 addendum (**not applied**; ships as its own migration after the table):
 
 | Provider (register code) | risk | note | source_url | as_at |
 |---|---|---|---|---|
@@ -51,8 +52,10 @@ Seed as it would stand once C1 clears (**not applied**):
 | Unitec 6004, MIT 6010 | `re_established_2026` | merged into one standalone entity; two register codes until NZQA merges them | education.govt.nz | 2025-07-14 |
 | Otago Polytechnic 6013, UCOL 6009 | `re_established_2026` | standalone within the federation | education.govt.nz; tec.govt.nz (26 Sep 2025) | 2025-07-14 |
 | Open Polytechnic 6022 | `re_established_2026` | anchor of the federation | education.govt.nz; tec.govt.nz | 2025-07-14 |
-| NorthTec 6012, WITT 6017, Whitireia and WelTec 6014, Tai Poutini 6024 | `in_te_pukenga_decision_pending` | remained in Te Pūkenga; decision due first half 2026; **2026 decision page still to be cited** | tec.govt.nz (26 Sep 2025) | 2025-09-26 |
-| NZIST 6683, NZIST Work-Based Learning 6044 | `nzist_entity` | transitional entity, not a polytechnic | education.govt.nz | 2025-07-14 |
+| NorthTec 6012, WITT 6017, Whitireia and WelTec 6014 | `standalone_from_2027` | stand-alone from 1 Jan 2027; legally established 1 Oct 2026; Federation support; exits NZIST 1 Jan 2027 | beehive.govt.nz (31 Mar 2026); tec.govt.nz NZIST page (20 Jul 2026) | 2026-03-31 |
+| Tai Poutini 6024 | `operations_transfer_2027` | operations transfer to Open Polytechnic from 1 Jan 2027; brand/domain migration expected; **recheck_days 14** (highest migration risk in the register) | beehive.govt.nz (31 Mar 2026); education.govt.nz VET redesign page | 2026-03-31 |
+| NZIST 6683 | `nzist_entity` | disestablished on or before 31 Mar 2027 | education.govt.nz VET redesign page | 2026-03-31 |
+| NZIST Work-Based Learning 6044 | `nzist_entity` | transitional entity, not a polytechnic; follows NZIST's disestablishment | education.govt.nz (14 Jul 2025) | 2025-07-14 |
 
 ---
 
@@ -72,8 +75,10 @@ Conventions for every migration: `-- Replaces:` and `-- Retires:` lines; `commen
 -- Retires: nothing
 create table pipeline.provider_transitions (
   provider_id uuid primary key references catalogue.providers(id) on delete cascade,
-  risk text not null check (risk in ('none', 're_established_2026', 'in_te_pukenga_decision_pending', 'nzist_federation_until_2027', 'nzist_entity')),
+  -- addendum 20:52: standalone_from_2027 and operations_transfer_2027 added; the three 2027 standalones are not federation members
+  risk text not null check (risk in ('none', 're_established_2026', 'standalone_from_2027', 'operations_transfer_2027', 'nzist_federation_until_2027', 'nzist_entity')),
   note text,
+  recheck_days int check (recheck_days between 7 and 180),  -- per-provider override of transition.recheck_days (Tai Poutini 14)
   source_url text not null check (source_url ~* '^https://'),
   source_quote text,
   as_at date not null,
@@ -99,7 +104,7 @@ declare v_n int := 0; r record;
 begin
   for r in select t.provider_id from pipeline.provider_transitions t
             where t.risk <> 'none'
-              and coalesce(t.last_checked_at, 'epoch') < now() - make_interval(days => security.pipeline_num_v1('transition.recheck_days', 30)::int)
+              and coalesce(t.last_checked_at, 'epoch') < now() - make_interval(days => coalesce(t.recheck_days, security.pipeline_num_v1('transition.recheck_days', 30)::int))
             order by t.last_checked_at nulls first limit security.pipeline_num_v1('batch.transition_recheck', 5)::int loop
     -- the website check and the source finder already exist (worker modes site_check and source_find); this queues them
     perform security.site_check_enqueue_v1(r.provider_id, 'transition re-check');   -- existing enqueue, name to confirm at build
@@ -126,7 +131,7 @@ insert into pipeline.component_register(kind, name, layer, purpose, status, repl
 on conflict (kind, name) do nothing;
 ```
 
-Notes: the two `*_enqueue_v1` names are placeholders for the existing enqueue paths of the `site_check` and `source_find` modes; their exact names are taken from the live catalogue at build time (no new worker mode). UI: a "Transition" column on Layer 1 › Providers for NZ, read-only, showing risk, note and the source link. Seed migration (separate file) blocked on C1.
+Notes: the two `*_enqueue_v1` names are placeholders for the existing enqueue paths of the `site_check` and `source_find` modes; their exact names are taken from the live catalogue at build time (no new worker mode). UI: a "Transition" column on Layer 1 › Providers for NZ, read-only, showing risk, note, recheck days and the source link. Seed migration (separate file, second in the apply order) is unblocked by the addendum; its rows are the section 2.3 table, each with `source_quote` copied from the cited page at build.
 
 ### 3.2 Item 2: domain-moved action (effort ½ day; ships with item 1)
 
@@ -144,6 +149,7 @@ begin
   if p_new_host !~* '^[a-z0-9.-]+\.[a-z]{2,}$' then raise exception 'give the new host only, e.g. www.example.ac.nz'; end if;
   select lower(regexp_replace(website, '^https?://([^/]+).*$', '\1')) into v_old from catalogue.providers where id = p_provider_id;
   if v_old is null then raise exception 'the provider has no website to move from'; end if;
+  if v_old = lower(p_new_host) then raise exception 'the website already is %: nothing to move', v_old; end if;  -- N5: no-op refused, nothing logged
   update pipeline.coverage_course_pages g
      set url = regexp_replace(g.url, '^(https?://)' || regexp_replace(v_old, '\.', '\\.', 'g'), '\1' || lower(p_new_host), 'i'),
          next_read_at = now(), read_attempts = 0, leased_until = null
@@ -164,7 +170,7 @@ revoke execute on function public.admin_provider_domain_moved(uuid, text, text) 
 grant execute on function public.admin_provider_domain_moved(uuid, text, text) to authenticated;
 ```
 
-UI: Adapter builder › 1.1 Change website gains a tick "Move the course pages too" that calls this after the website check passes. Pages whose new address does not answer fall to `fetch_failed` and the page search takes over, as today. Contract test: the regex moves only the host, keeps the path and query, never touches `mismatch` pages.
+UI: Adapter builder › 1.1 Change website gains a tick "Move the course pages too" that calls this after the website check passes. Pages whose new address does not answer fall to `fetch_failed` and the page search takes over, as today. Contract test: the regex moves only the host, keeps the path and query, never touches `mismatch` pages, and the same host raises 'nothing to move' (N5).
 
 ### 3.3 Item 3: signatory authority from the NZQA list (effort 1 day; dependency: the list page URL confirmed and robots-checked before build)
 
@@ -183,19 +189,46 @@ alter table pipeline.nz_cop_list_rows enable row level security;
 -- security.nz_cop_apply_v1 (live md5 b3be6eb8e63cddd2d23f9cffdd221c89 at 20:50 23 Oct): the list decides first
 select pg_temp.edit_once('security.nz_cop_apply_v1()', '<md5 at build>', array[
   array[$o$           case when s.signatory then true when s.explicit_no then false when s.nzqa_type = 'UNI' then true end val,$o$,
-        $n$           case when l.provider_name is not null then true when s.signatory then true when s.explicit_no then false end val,$n$],
+        $n$           -- N4: a list row matched by provider_code applies; a list row older than 45 days is ignored here (the provider page decides);
+           -- a name-only match never applies here: it becomes a Layer 4 proposal (see below)
+           case when l.provider_code is not null then true when s.signatory then true when s.explicit_no then false end val,$n$],
   array[$o$           case when s.signatory then 'NZQA Code of Practice signatory' when s.explicit_no then 'NZQA Code of Practice: not a signatory'
                 when s.nzqa_type = 'UNI' then 'NZQA Code of Practice: NZ university (must be a signatory to enrol international students; Platform Admin 20 Oct 2026)' end basis$o$,
-        $n$           case when l.provider_name is not null then 'NZQA Code of Practice signatory list (' || l.read_at::date || ')' when s.signatory then 'NZQA Code of Practice signatory'
+        $n$           case when l.provider_code is not null then 'NZQA Code of Practice signatory list (' || l.read_at::date || ')' when s.signatory then 'NZQA Code of Practice signatory'
                 when s.explicit_no then 'NZQA Code of Practice: not a signatory' end basis$n$],
   array[$o$      join catalogue.providers p on p.id = r.provider_id$o$,
         $n$      join catalogue.providers p on p.id = r.provider_id
-      left join lateral (select x.provider_name, x.read_at from pipeline.nz_cop_list_rows x
-                          where (x.provider_code = s.provider_code or security.provider_name_matches_v1(x.provider_name, p.canonical_name))
-                            and x.read_at > now() - interval '45 days' order by x.read_at desc limit 1) l on true$n$]]);
+      left join lateral (select x.provider_code, x.read_at from pipeline.nz_cop_list_rows x
+                          where x.provider_code = s.provider_code
+                            and x.read_at > now() - make_interval(days => security.pipeline_num_v1('nz.cop_list_max_age_days', 45)::int)
+                          order by x.read_at desc limit 1) l on true$n$]]);
+
+-- N4: name-only matches become proposals for a person (never applied here); a stale list is logged, not silently held
+create or replace function security.nz_cop_list_proposals_v1() returns int
+ language plpgsql security definer set search_path to '' as $f$
+declare v_n int := 0;
+begin
+  insert into pipeline.layer4_review_items(entity_type, entity_id, field_code, evidence_id, before_value, proposed_value, layer2_state, layer3_state, status, escalation_reason, change_control_ref)
+  select 'providers', p.id, 'enrols_international', null, to_jsonb(p.enrols_international), 'true'::jsonb, 'proposed', 'none', 'open',
+         'NZQA signatory list names "' || x.provider_name || '" (name match only, no code): confirm it is this provider', 'CF-CHG-20260915-247 NZ brief item 3 (N4)'
+    from pipeline.nz_cop_list_rows x
+    join catalogue.providers p on security.provider_name_matches_v1(x.provider_name, p.canonical_name) and security.coverage_country(p.id) = 'NZ'
+   where x.provider_code is null and x.read_at > now() - make_interval(days => security.pipeline_num_v1('nz.cop_list_max_age_days', 45)::int)
+     and not exists (select 1 from pipeline.layer4_review_items l where l.entity_type = 'providers' and l.entity_id = p.id and l.field_code = 'enrols_international' and l.status = 'open');
+  get diagnostics v_n = row_count;
+  if not exists (select 1 from pipeline.nz_cop_list_rows x where x.read_at > now() - make_interval(days => security.pipeline_num_v1('nz.cop_list_max_age_days', 45)::int)) then
+    insert into pipeline.admin_control_events(area, action, target, detail, actor)
+    values ('layer1', 'nz_cop_list_stale', 'NZ', jsonb_build_object('note', 'no signatory list read within nz.cop_list_max_age_days; provider pages decide until the next read'), null);
+  end if;
+  return v_n;
+end $f$;
+revoke execute on function security.nz_cop_list_proposals_v1() from public, anon, authenticated;
+insert into pipeline.platform_toolset_settings(toolset_key, key, label, help, kind, value, min_value, max_value, unit, sort, section, used_by, reason)
+values ('pipeline', 'nz.cop_list_max_age_days', 'NZQA signatory list: valid for', 'A signatory list read older than this no longer decides; the provider''s own register page decides until the next list read (logged).', 'number', '45'::jsonb, '7', '120', 'days', 152, 'Job sizes', 'job nz-cop', 'NZ brief item 3 (N4), 23 Oct 2026')
+on conflict (toolset_key, key) do nothing;
 ```
 
-Effect: the eight universities move from the 20 Oct decision basis to a register fact; a provider on neither the list nor its page as a signatory keeps "No only when stated" (a blank is never a No). The hard filter stays: `enrols_international = false` or null never shows as open to international students. `security.provider_name_matches_v1` is the existing name matcher from Layer 1 (name confirmed at build).
+Effect: the eight universities move from the 20 Oct decision basis to a register fact once their codes appear on the list; a provider on neither the list nor its page as a signatory keeps "No only when stated" (a blank is never a No). The hard filter stays: `enrols_international = false` or null never shows as open to international students. `security.provider_name_matches_v1` is the existing name matcher from Layer 1 (name confirmed at build). `security.nz_cop_list_proposals_v1()` is called by `nz_cop_fire_v1` after each apply.
 
 ### 3.4 Item 4: fee floor (effort 1 day; dependency: live md5s of both admission functions)
 
@@ -209,7 +242,7 @@ comment on column pipeline.coverage_admission_countries.min_annual_international
 update pipeline.coverage_admission_countries a set min_annual_international = 8000, updated_at = now()
   from ref.countries k where k.id = a.country_id and k.iso_alpha2 in ('NZ', 'AU', 'CA');
 insert into pipeline.admin_control_events(area, action, target, detail, actor) values
- ('toolsets', 'setting', 'pipeline.min_annual_international', jsonb_build_object('NZ', 8000, 'AU', 8000, 'CA', 8000, 'reason', 'Platform Admin 23 Oct 2026 20:42: NZ brief C3, quarantine floors'), '63ba56cb-48d4-4169-98c2-7c4d1f72925b');
+ ('toolsets', 'setting', 'pipeline.min_annual_international', jsonb_build_object('NZ', 8000, 'AU', 8000, 'CA', 8000, 'reason', 'Platform Admin 23 Oct 2026 20:42: NZ brief C3, quarantine floors'), '<applier uuid, verified at build>');  -- N3
 
 create or replace function security.fee_below_floor_v1(p_course_id uuid, p_amount numeric, p_basis text) returns numeric
  language sql stable security definer set search_path to '' as $f$
@@ -242,9 +275,14 @@ select 'courses', f.id, 'provider_current_tuition', x.evidence_id, null, jsonb_b
 -- withdraw to review (20): off the website until decided; restored on approval
 update catalogue.course_fees f set status = 'review', updated_at = now()
   from _floor x where f.id = x.id and x.provider not in ('New Zealand College of Chinese Medicine Limited', 'University of Waikato');
-insert into pipeline.layer4_review_items(...) select ... 'withdrawn to review: international fee below the country floor (NZ$8,000 a year)' ... from _floor x where x.provider not in (...);
+insert into pipeline.layer4_review_items(entity_type, entity_id, field_code, evidence_id, before_value, proposed_value, layer2_state, layer3_state, status, escalation_reason, change_control_ref)
+select 'courses', f.id, 'provider_current_tuition', x.evidence_id, jsonb_build_object('amount', x.amount, 'status', 'active'), jsonb_build_object('amount', x.amount, 'status', 'review'), 'withdrawn', 'none', 'open',
+       'withdrawn to review: international fee below the country floor (NZ$8,000 a year)', 'CF-CHG-20260915-247 NZ brief C4'
+  from _floor x join catalogue.course_fees f on f.id = x.id
+ where x.provider not in ('New Zealand College of Chinese Medicine Limited', 'University of Waikato');
+-- N3: the actor is the person applying the migration; the uuid is re-verified against auth.users at build (migrations run without a JWT, so auth.uid() is null)
 insert into pipeline.admin_control_events(area, action, target, detail, actor)
-values ('layer4', 'fee_floor_pass', 'NZ', jsonb_build_object('withdrawn', 20, 'kept_flagged', 2, 'reason', 'Platform Admin 23 Oct 2026 20:42: NZ brief C4'), '63ba56cb-48d4-4169-98c2-7c4d1f72925b');
+values ('layer4', 'fee_floor_pass', 'NZ', jsonb_build_object('withdrawn', 20, 'kept_flagged', 2, 'reason', 'Platform Admin 23 Oct 2026 20:42: NZ brief C4'), '<applier uuid, verified at build>');
 ```
 
 Dry-run steps (C4 spot-check): before the rows move, the dry run prints, for one MITO row and two Tai Poutini rows, the stored page copy's fee line and the adapter's quote, so the Platform Admin sees whether the figure is the domestic fee; the result is recorded in change control with the release. Settings UI: the country row on Settings › Pipeline settings shows the floor with its currency; the website is unaffected (a `review` row is not returned, as today). G3: none.
@@ -274,7 +312,7 @@ Done on Layer 1 › Source operations (the Platform Admin changes the cadence wi
 update pipeline.layer1_source_operations
    set ingestion_cadence_days = 7, verification_cadence_days = 7, updated_by = auth.uid(), updated_at = now(),
        change_reason = 'Platform Admin 23 Oct 2026 20:42 (NZ brief C2): weekly until 31 Mar 2027 during the NZIST transition. Previous: ' || change_reason
- where source_id = 'e410b159-614e-45ef-b8f4-902c7b516257';  -- NZQA Education Organisations provider directory
+ where source_id = '<NZQA provider directory source_id, re-verified at build>';  -- live value e410b159-614e-45ef-b8f4-902c7b516257 at 20:50 23 Oct (N3)
 insert into pipeline.admin_control_events(area, action, target, detail, actor)
 values ('layer1', 'cadence', 'NZQA provider directory', jsonb_build_object('before_days', 30, 'after_days', 7, 'until', '2027-03-31', 'reason', 'NZ brief C2'), auth.uid());
 ```
@@ -341,12 +379,14 @@ Targets: 75% (about 4,855 bound) by 22 Nov 2026; 85% (about 5,500) by 31 Dec 202
 **Retraction monitoring query** (the figure the hourly report prints as "course_url fills: n filled in 30 days, n taken back (x%)"):
 
 ```sql
+-- N1 (addendum): counts fills, not grouped rows. The Platform Admin's message referred to "the corrected SQL above" without the text,
+-- so this is the corrected form written at 21:20; it is confirmed at build.
+with f as (select retracted_at, retract_reason from pipeline.course_url_fills where filled_at > now() - interval '30 days')
 select count(*) filled,
        count(*) filter (where retracted_at is not null) retracted,
        round(100.0 * count(*) filter (where retracted_at is not null) / nullif(count(*), 0), 2) retraction_pct,
-       jsonb_object_agg(coalesce(retract_reason, 'kept'), n) by_reason
-  from (select retract_reason, retracted_at, count(*) n from pipeline.course_url_fills
-         where filled_at > now() - interval '30 days' group by 1, 2) z;
+       (select jsonb_object_agg(coalesce(retract_reason, 'kept'), n) from (select retract_reason, count(*) n from f group by 1) r) by_reason
+  from f;
 ```
 
 **Settings:** `course_url.fill_enabled` (0/1, 1), `course_url.max_retraction_pct` (1 to 20, 5), `batch.course_url_fill` (100 to 5,000, 2,000). All on Settings › Pipeline settings.
@@ -363,11 +403,63 @@ select count(*) filled,
 
 | # | Item | Owner | Due |
 |---|---|---|---|
-| O1 | **C1 list fetch, part 2:** the Government's first-half-2026 decision on NorthTec, WITT, Whitireia and WelTec, and Tai Poutini (and any NZIST end date). The 14 Jul 2025 Ministry page and the 26 Sep 2025 TEC update are cited (section 2); the 2026 page could not be fetched from this environment. The four rows seed as `in_te_pukenga_decision_pending` until it is cited. | Platform Admin to supply the page, or the next session with web access to news sites | before the item 1 seed migration |
+| O1 | **Closed 20:52:** the Platform Admin supplied the Beehive release (31 Mar 2026), the TEC NZIST page (20 Jul 2026) and the Ministry's VET redesign page; seed finalised (section 2.3, addendum section 8) | — | closed |
 | O2 | **CA floor 30-day review** (C3): Layer 4 volume for CA fees below CA$8,000 after 30 days of the floor; if flooding, fix per-term and per-credit normalisation in the fee reader (worker), not the floor | Claude, hourly report flags it; Platform Admin decides | 30 days after Release 1 lands |
 | O3 | **Item 5 retraction-rate check at 30 days:** the monitoring query's figure after 30 days of fills; tighten eligibility if above `course_url.max_retraction_pct` | Claude, hourly report; Platform Admin decides | 30 days after the fill job's first run |
 | O4 | NZQA directory cadence back to 30 days after 31 Mar 2027 unless the transition is extended (C2) | Platform Admin | 1 Apr 2027 |
 | O5 | Signatory list page URL confirmed and robots-checked (item 3 dependency) | Claude, at build | before Release 1 build |
+
+---
+
+## 8. Addendum, 23 Oct 2026 21:20: O1 closed, C1 fully unblocked, build nits N1 to N5
+
+### 8.1 Sources supplied by the Platform Admin (20:52)
+
+| # | Source | What it states | Used for |
+|---|---|---|---|
+| 1 | Beehive, Minister Simmonds, 31 Mar 2026: https://www.beehive.govt.nz/release/new-chapter-remaining-four-polytechnics-2027 | NorthTec, WITT, Whitireia and WelTec stand alone from 1 Jan 2027 with Federation support; Tai Poutini transfers its operations to The Open Polytechnic of New Zealand from 1 Jan 2027 | `source_url` for the four rows |
+| 2 | TEC NZIST page, updated 20 Jul 2026 | The three legally established 1 Oct 2026 by Orders in Council, operational 1 Jan 2027; NZIST disestablished by 31 Mar 2027 | second citation for the three standalones |
+| 3 | Ministry of Education, redesign-of-VET page | Tai Poutini transfer confirmed; NZIST disestablished on or before 31 Mar 2027 | second citation for Tai Poutini; `source_url` for NZIST 6683 |
+
+### 8.2 Schema change before the seed
+
+`pipeline.provider_transitions.risk` gains `standalone_from_2027` and `operations_transfer_2027` (section 3.1 updated). The three 2027 standalones are **not** federation members and never carry `nzist_federation_until_2027`. A per-provider `recheck_days` override is added so Tai Poutini re-checks every 14 days (the global `transition.recheck_days` stays 30).
+
+### 8.3 Final seed rows (section 2.3 updated; ships as the second migration in the apply order)
+
+| Provider | risk | note | source | as_at | recheck |
+|---|---|---|---|---|---|
+| NorthTec 6012, WITT 6017, Whitireia and WelTec 6014 | `standalone_from_2027` | stand-alone from 1 Jan 2027; legally established 1 Oct 2026; Federation support; exits NZIST 1 Jan 2027 | Beehive 31 Mar 2026; TEC NZIST page | 2026-03-31 | setting (30) |
+| Tai Poutini 6024 | `operations_transfer_2027` | operations transfer to Open Polytechnic from 1 Jan 2027; brand/domain migration expected | Beehive 31 Mar 2026; MoE VET redesign | 2026-03-31 | **14** |
+| NZIST 6683 | `nzist_entity` | disestablished on or before 31 Mar 2027 | MoE VET redesign | 2026-03-31 | setting |
+| the ten re-established, NZIST WBL 6044 | as in section 2.3 | | | | |
+
+### 8.4 Build nits applied
+
+| Nit | Where | Change |
+|---|---|---|
+| N1 | section 5 | Retraction-monitoring query rewritten to count fills (a 30-day CTE of fills; retraction % over fills; reasons as a sub-aggregate). The message said "the corrected SQL above" without the text, so the form in section 5 is Claude's and is confirmed at build. |
+| N2 | section 3.4 | The second `layer4_review_items` insert (the 20 withdrawn rows) written out in full: before/proposed values, `layer2_state` 'withdrawn', reason text, change-control ref. |
+| N3 | sections 3.4 and 3.6 | Hard-coded uuids replaced by `<applier uuid, verified at build>` and `<source_id, re-verified at build>`; the actor is the person applying the migration (migrations run without a JWT, so `auth.uid()` cannot be used there), checked against `auth.users` before apply. |
+| N4 | section 3.3 | `nz_cop_apply_v1` applies a list row only when it matches by `provider_code` and is within `nz.cop_list_max_age_days` (45, a setting); older rows fall back to the provider-page basis; name-only matches become Layer 4 proposals through `security.nz_cop_list_proposals_v1()`, never applied; a stale list (no read within the window) is logged in `admin_control_events`. |
+| N5 | section 3.2 | `admin_provider_domain_moved` raises "the website already is <host>: nothing to move" when the new host equals the current one, logging nothing; added to the contract test. |
+
+### 8.5 Final apply order for Release 1 (nothing applied yet)
+
+Each migration: dry run on the live database with its tail check → md5 of the edited functions re-taken and compared with the file → full suite (only the 4 known legacy failures) → apply → history md5 equals the file → merge → deployed workflows → change control in the four files, verified in a fresh clone.
+
+| Order | Artefact | Kind | Depends on |
+|---|---|---|---|
+| 1 | `..._cf247_nz_provider_transitions.sql` (table with the final enum and `recheck_days`, `transition_recheck_v1`, settings, catalogue row, job) | migration | enqueue function names confirmed from the live catalogue |
+| 2 | `..._cf247_nz_provider_transitions_seed.sql` (the rows of 8.3 and 2.3 with `source_quote`) | migration | 1; quotes copied from the cited pages at build |
+| 3 | `..._cf247_provider_domain_moved.sql` + Adapter builder tick + contract test (incl. N5) | migration + UI | 1 (ships in the same release) |
+| 4 | C2: NZQA directory cadence 30 → 7 (logged change on Layer 1 › Source operations) | settings | none |
+| 5 | Item 10: two `admin_pipeline_settings_write` calls for NZ `english` and `intakes` + UI label | settings + UI | none |
+| 6 | `..._cf247_fee_floor.sql` (column, `fee_below_floor_v1`, two md5-guarded edits, C4 pass with the MITO and Tai Poutini spot-check in the dry run) + Settings UI | migration + UI | live md5s of `svc_fee_ai_record` and `coverage_apply_course_v1` at build |
+| 7 | Item 3: Layer 1 source row for the signatory list (URL confirmed, robots-checked) → worker v0.44.0 (`nz_cop` list read) → `..._cf247_nz_cop_signatory_list.sql` (columns, `nz_cop_list_rows`, `nz_cop_apply_v1` edit, `nz_cop_list_proposals_v1`, `nz.cop_list_max_age_days`) | source + worker + migration | O5; live md5 of `nz_cop_apply_v1` at build |
+| 8 | Release bump (one release for 1 to 7, or two if item 3's list URL is not ready: items 1, 2, 4, 5, 6 first, item 3 after), SOPs, change control | release | all above |
+
+Items 4 and 5 are settings-only and can go first on their own if the Platform Admin wants the NZ English and intake gaps moving before the migrations land.
 
 ---
 
@@ -380,3 +472,15 @@ select count(*) filled,
 ### 23 Oct 2026, 20:52 — Claude
 
 Understood. From here on, every comment on this thread and the reply to it are appended to this section with the time, committed through the normal process (admin repo `main`, change control untouched unless a decision changes), before the reply is sent in chat. Decisions that change the plan are also reflected in sections 1 to 6 so the document stays the single record; the thread keeps the wording as given.
+
+### 23 Oct 2026, 20:52 — Platform Admin
+
+> Addendum to the NZ brief decisions file (O1 CLOSED — C1 fully unblocked).
+> SOURCES (fetched by Platform Admin via web, 23 Oct 2026): (1) beehive.govt.nz/release/new-chapter-remaining-four-polytechnics-2027 (Minister Simmonds, 31 Mar 2026): NorthTec, WITT, Whitireia and WelTec stand-alone from 1 Jan 2027 with Federation support; Tai Poutini transfers its operations to The Open Polytechnic of New Zealand from 1 Jan 2027. (2) tec.govt.nz NZIST page (updated 20 Jul 2026): the three legally established 1 Oct 2026 via Orders in Council, operational 1 Jan 2027; NZIST disestablished by 31 Mar 2027. (3) education.govt.nz redesign-of-VET page: Tai Poutini transfer confirmed; NZIST disestablished on or before 31 Mar 2027.
+> SCHEMA CHANGE REQUIRED before the seed: the risk enum on pipeline.provider_transitions needs two new values — 'standalone_from_2027' and 'operations_transfer_2027' — because the three standalones are NOT federation members (do not use 'nzist_federation_until_2027' for them). Seed rows: NorthTec 6012, WITT 6017, Whitireia & WelTec 6014: 'standalone_from_2027', note "stand-alone from 1 Jan 2027; legally established 1 Oct 2026; Federation support; exits NZIST 1 Jan 2027", source beehive 31 Mar 2026, as_at 2026-03-31. Tai Poutini 6024: 'operations_transfer_2027', note "operations transfer to Open Polytechnic from 1 Jan 2027; brand/domain migration expected", sources beehive + MoE, as_at 2026-03-31. Set its transition.recheck_days to 14 — highest migration risk in the register. NZIST 6683: keep 'nzist_entity', note "disestablished on or before 31 Mar 2027", source MoE redesign page, as_at 2026-03-31.
+> BUILD NITS to fix in the draft artefacts: N1. Replace the item-5 retraction monitoring query (counts grouped rows, not fills) with: [the corrected SQL above]. N2. Complete the literal '...' placeholder in the second layer4_review_items insert in section 3.4 — it is incomplete SQL today. N3. Re-verify the hardcoded UUIDs (actor 63ba56cb-..., layer1 source e410b159-...) at build time; the actor must be the person applying the migration. N4. Item 3 signatory join: provider_code matches admit automatically; name-match-only candidates go to Layer 4 as proposals, never auto-applied. A list row older than 45 days downgrades to the provider-page basis instead of holding silently. N5. admin_provider_domain_moved: raise a no-op exception when p_new_host equals the current host; add to the contract test.
+> Update the decisions file (addendum section + seed table now unblocked), re-issue the Release 1 artefacts with N1–N5 applied, and report back with the final apply order.
+
+### 23 Oct 2026, 21:20 — Claude
+
+Done: section 8 (addendum) added; sections 2.2, 2.3, 3.1, 3.2, 3.3, 3.4, 3.6, 5 and 6 updated in place; O1 closed. N1's "corrected SQL above" was not in the message, so the query in section 5 is Claude's corrected form, confirmed at build. One note on N3: migrations applied through the management API run without a JWT, so the actor cannot be `auth.uid()`; it is the applier's uuid, verified against `auth.users` and written into the file before apply. The final apply order is section 8.5. Still nothing applied, deployed or seeded.
