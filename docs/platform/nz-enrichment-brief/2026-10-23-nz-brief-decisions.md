@@ -499,3 +499,16 @@ Done: section 8 (addendum) added; sections 2.2, 2.3, 3.1, 3.2, 3.3, 3.4, 3.6, 5 
 ### 23 Oct 2026, 21:30 — Claude
 
 F1 fixed in section 3.1 (the header now records C1's closure and its sources). F2 recorded: the pass stays NZ-only; open item O6 added for the 109 AU and 66 CA rows, tied to O2; the null-basis check is written into section 3.4 as a build step (the adapter path can insert a null basis today, so `fee_below_floor_v1` will be called with the real basis and a null basis is logged as a gap rather than treated as annual). Build of Release 1 starts now in the 8.5 order; each step is appended here as it lands.
+
+### 23 Oct 2026, 21:55 — Claude (build progress, apply order 8.5)
+
+| Step | State | Detail |
+|---|---|---|
+| 1 Transition table, re-check job, settings | built, dry-run clean | migration `20261023023000_cf247_nz_provider_transitions.sql`; the re-check queues the existing website check and the finder's "find again" (the same path as Course sources › Find again) |
+| 2 Transition seed | built, dry-run clean (17 rows) | `20261023024000_cf247_nz_provider_transitions_seed.sql`; the MoE VET redesign page was fetched (published 1 Jan 2026, updated 26 Jun 2026) and quoted for Tai Poutini and NZIST; the Beehive page redirects the fetch, so its three rows carry the Platform Admin's summary as the quote, marked as such |
+| 3 Domain-moved action | built, dry-run clean (same host refused: "the website already is www.auckland.ac.nz: nothing to move") | `20261023025000_cf247_provider_domain_moved.sql`; Adapter builder tick "Move the course pages too" |
+| 4 C2 cadence | **applied and logged** | NZQA provider directory 30 → 7 days (ingestion and verification); next ingestion 30 Oct |
+| 5 Item 10 | **applied and logged** | NZ `english` and `intakes` identities now include the page-code proof; UI label follows in the release |
+| 6 Fee floor | built, dry-run clean | `20261023026000_cf247_fee_floor.sql`; quarantine status is the existing `unverified` (the website reads `active` only, so no constraint or G3 change); a NZ$3,000 test fee through the apply path went to Layer 4 with "international fee below the country floor (NZD 8,000 a year): NZD 3,000.00"; F2 basis check: 0 active international fees have a null basis |
+| 7 Item 3 signatory list | not started | needs the list URL and worker v0.44.0; second release |
+| 8 Release | v2.15.334 / 0.1.261 in the full suite now | SOPs 1.75 |
