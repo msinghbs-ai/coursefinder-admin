@@ -755,3 +755,7 @@ CA as the test case: CA has admission and floor rows, but the readers and identi
 
 1. Approve, change or reorder the fix plan; nothing is built until you do.
 2. The Firecrawl and OpenRouter plan tiers and monthly caps (Q5).
+
+### 23 Oct 2026, 22:11 — Platform Admin (consolidated mandate) and 22:40 — Claude (plan)
+
+The consolidated mandate (throughput, gap detection at hours, schema additions) supersedes the sequencing in the 21:56 entry above. Mandate and plan are in their own file by instruction: [2026-10-23-platform-throughput-gap-schema.md](2026-10-23-platform-throughput-gap-schema.md). Plan and estimate only; nothing built until approved.
