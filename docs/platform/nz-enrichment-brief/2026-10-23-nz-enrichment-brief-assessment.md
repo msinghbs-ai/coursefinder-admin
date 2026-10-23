@@ -96,7 +96,7 @@ Quality flags found:
 |---|---|---|---|---|
 | 1 | International fee | 80.5% | The first question asked | Fee reader on course pages (running since today); central fee pages for universities |
 | 2 | Intakes | 67.4% | Decides the application window | Calendar mapping (today); university calendars for the 439 "not found" |
-| 3 | English requirement | 64.5% | Eligibility | University rules (central pages; 429 universities without one) |
+| 3 | English requirement | 64.5% | Eligibility | University rules (central pages; 429 NZ courses whose institution has no rule page found yet) |
 | 4 | Campus and city | 65.3% | Where they will live | Existing-campus link from one page (today); 868 pages name none |
 | 5 | Duration | 64.9% | Visa length and cost | Labelled page data (today) |
 | 6 | Open to international | 76.4% | Hard filter | Provider rule where the page is silent (signatory + course level) |
@@ -117,3 +117,10 @@ The 46.5% of NZ courses with no bound page cap every field from 1 to 7. The gap 
 ## 8. Interview (one question at a time, per the brief)
 
 The first question is in the chat reply: whether to proceed with items 1, 3, 4 and 10 (small, no consumer-API change) as one release, and to park 2, 5, 6 and 7 for separate decisions.
+
+## 9. Verification (20:30, Platform Admin's four checks)
+
+1. **Polytechnics.** The register lists 17 `POLLY` codes, all Code signatories: 10 re-established 1 Jan 2026 (Ara, EIT, MIT, NMIT, Otago, SIT, Toi Ohomai, UCOL, Unitec, Wintec), 5 still inside NZIST (Open Polytechnic, NorthTec, Tai Poutini, WITT, Whitireia and WelTec; their register name is "New Zealand Institute of Skills and Technology"), and 2 NZIST entity rows (NZIST itself, code 6683, and NZIST Work-Based Learning, code 6044). The brief's "~14" omits the Open Polytechnic and the two NZIST rows.
+2. **Backbone cadence.** The NZQA provider directory is ingested every 30 days (Platform Admin decision 8 Oct 2026, "Monthly for both"), verified every 30 days; NZQA organisation types every 7 days; the Code-signatory reader (`nz-cop`, every 10 minutes) reads only new batch files within `nz.cop_window_days` (3) of capture. Last captures 3 to 10 Oct, last read 20 Oct. Not weekly: flagged; recommended weekly for NZ until 31 Mar 2027 (Release 1).
+3. **Scope.** Admission is active for AU, NZ and CA (AUD, NZD, CAD). The 429 figure is 429 NZ courses, not universities (corrected above). The fee floor is designed per country on `pipeline.coverage_admission_countries`, so it covers every admitted country.
+4. **Fee floor semantics.** Advisory quarantine: below the floor goes to Layer 4 with the reason, never rejected or dropped. The 22 NZ rows below NZ$8,000 are all adapter-read, the course's only fee row; disposition in the chat reply of 20:30 (2 kept and flagged, 20 withdrawn to review).
