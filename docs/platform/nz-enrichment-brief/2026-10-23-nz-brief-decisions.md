@@ -524,3 +524,234 @@ Yes. Every comment and reply since 20:49 has been appended to this one file (sec
 ### 23 Oct 2026, 21:29 — Claude (Release 1 live)
 
 Release 1 is live as v2.15.334 (PR #676), apply order 8.5 steps 1 to 6 and 8. The four migrations were applied in order after the full suite (1,802 passed, only the 4 known legacy failures); each history md5 equals its file. Live: 17 transition rows (11 / 3 / 1 / 2), Tai Poutini re-check 14 days, floors NZ/AU/CA 8,000, 20 NZ fees quarantined and 2 flagged (22 Layer 4 items), job `transition-recheck` at 03:41. Step 7 (item 3, signatory list) is the next release. Correction: the progress entry above stamped "21:55" was written at about 21:15.
+
+### 23 Oct 2026, 21:49 — Platform Admin (diagnostic and direction mandate)
+
+> You are the senior data engineer for this platform. This is a DIAGNOSTIC AND DIRECTION
+> mandate, not a build mandate. Produce findings with evidence (queries + results), a
+> prioritised fix plan, and the questions in PART 6 answered or flagged. Nothing new is
+> built, no UI is added, no SOP is written until the Platform Admin approves the plan.
+> Follow-up prompts stop here: everything I would re-ask manually must become a standing
+> job or report after this.
+>
+> ## PART 1 — Throughput: why admission is slow (numbers, not impressions)
+>
+> For each active worker mode (40-odd): runs/day, items processed, success %, median queue
+> wait, and where its output lands. Then:
+> 1. QUEUE AUTOPSY: which work queues empty, when, and WHY — no eligible work, blocked by
+>    budget/lease/rate limit, or starved upstream. Empty is only healthy if the eligible
+>    work is genuinely done; prove it per queue.
+> 2. BOTTLENECK DECOMPOSITION: values admitted per day per field per country (NZ, AU, CA),
+>    30-day trend. The Platform Admin has already raised job counts and AI limits and
+>    admission stayed slow — so locate the real constraint: worker concurrency, Firecrawl
+>    daily budget (svc_fc_spend vs cap), OpenRouter concurrency/cost caps, lease/lock waits,
+>    upstream binding coverage, or review-queue drain. Show the stage that binds.
+> 3. BUDGET HEADROOM: actual Firecrawl + OpenRouter daily usage vs limits for the last 30
+>    days. If headroom exists while queues starve, the scheduler — not budget — is the bug.
+>
+> ## PART 2 — Retry pathology: wrong pages tried over and over
+>
+> 1. Distribution of read_attempts on course pages: how many URLs have failed 5+, 10+, 20+
+>    times. List the top 20 by attempts with provider, URL, last failure cause.
+> 2. For each: is the failure recorded as negative evidence? Does the source finder / page
+>    search / AI match consume negative evidence to exclude or deprioritise it? Is there a
+>    circuit breaker (attempts cap → different mode → human task)? If not, propose the
+>    minimal one: escalating backoff, exclusion list consumed by all modes, and a
+>    "stuck pages" weekly report instead of silent retries.
+> 3. Prove learning: a provider where the finder previously chose wrong pages — did the
+>    pattern change after failure data existed?
+>
+> ## PART 3 — Freshness: latest-year fees and requirements
+>
+> 1. Courses with multiple fee rows across years: which year is active, and what rule
+>    chose it? Audit 50 random multi-year courses: is the latest fee_year active?
+>    Find cases where an older year is live.
+> 2. Same for English requirements and intakes: is there an as_at/supersession rule, and
+>    does the reader prefer the newest when a page states multiple? Show mismatches.
+> 3. Where the rule is wrong or absent, propose the fix as a READER behaviour with
+>    provenance, not a one-off SQL patch.
+>
+> ## PART 4 — Config-over-code audit
+>
+> 1. Every hardcoded constant introduced into worker/edge function code in the last 90
+>    days: value, file/function, and whether a platform_toolset_settings key exists.
+>    List the ones a Platform Admin should control but can't.
+> 2. Rule: from now on, any new tunable ships as a settings key with min/max/unit/section
+>    (the existing convention), or the PR is rejected. State the acceptance check.
+> 3. UI bloat inventory: admin components/panels added in 90 days, each with its named
+>    human consumer and usage; flag those with no consumer or duplicated purpose for
+>    retirement. No new panel without a consumer in the PR description.
+> 4. Docs budget: count and 90-day growth of SOPs, user guides, Layer 4 escalation reasons.
+>    Propose the consolidation rule (e.g. Layer 4 reasons capped to a canonical catalogue;
+>    a new SOP must merge or retire an existing one; the repo docs folder needs an owner
+>    and a quarterly prune job).
+>
+> ## PART 5 — Self-sustainability package (the point of this exercise)
+>
+> Convert my manual review patterns into standing platform jobs + reports. Propose, with
+> effort: (a) a weekly self-audit job that regenerates the field coverage matrix, gap-cause
+> breakdown, binding %, queue health and budget burn, written to a report table the admin
+> app already renders; (b) a stuck-work report (circuit-breaker victims, Layer 4 aging,
+> quarantine volume per country); (c) a freshness report (multi-year fee mismatches,
+> stale as_at on requirements); (d) a country-readiness checklist generator — given a new
+> country, list exactly which settings/identities/floors/calendars/currencies must be
+> seeded, so onboarding is config + data, no code. CA is live: use it as the test case for
+> "could we onboard a third country in a week with zero migrations?"
+>
+> ## PART 6 — Answer or flag these
+>
+> 1. Which queues does the Platform Admin mean by "getting empty"? (name them and show
+>    their last 7 days)
+> 2. Two or three concrete "wrong page tried over and over" examples (course, URL, attempts)
+> 3. Two concrete "latest-year fee not picked" examples (course, rows, what's active)
+> 4. CA onboarding: what is still NZ/AU-shaped in code that would block the next country?
+> 5. Current Firecrawl + OpenRouter plan tiers and monthly spend vs cap.
+> 6. Who uses the admin UI besides the Platform Admin? (determines how much UI config is
+>    justified vs dangerous)
+>
+> ## OUTPUT
+> 1. Findings 1–5 with evidence and the single bottleneck named.
+> 2. Prioritised fix plan: QUICK WIN (this week, unblocks admission volume) vs
+>    STRUCTURAL (circuit breakers, self-audit, config rule) vs LATER (UI prune, docs
+>    budget enforcement). Effort on each.
+> 3. The answers to Part 6, or the exact data you need from me.
+> 4. One number to rule them all: proposed as the platform's standing health metric,
+>    reported hourly, that tells me at a glance whether admission is healthy.
+> Append this and the response to the thread file per the standing convention.
+
+### 23 Oct 2026, 21:56 — Claude (diagnostic findings and fix plan; nothing built)
+
+All evidence below came from read-only queries against the live project on 23 Oct 2026. Nothing was changed, built or scheduled.
+
+#### The single bottleneck
+
+**Course-page binding, held back by the course-page search scheduler, not by budget.** Values can only be admitted for courses that have a proven own page. The search lane that finds those pages picked **0** courses today while **12,916** search credits were left in its daily share and **2,816** courses were queued. Every downstream reader (fees, English, intakes) is starved of new pages, so raising job counts and AI limits could not move admission.
+
+#### Finding 1 — Throughput
+
+**1a. Per-mode outcomes are not measurable for more than a few hours.** Worker responses are kept about 6 hours and `edge_request_log` is capped at 50,000 rows, so there is no durable per-mode ledger of runs, items, success % and queue wait. That gap is itself finding 1a; the per-mode table the mandate asks for can only be produced once a ledger exists (quick win Q3).
+
+**1b. Empty ticks, from the logs that do exist (calls per day):**
+
+| Mode | Calls/day | Typical result |
+|---|---|---|
+| discover | ~1,334 | `providers []` |
+| reextract | ~747 | nothing to do |
+| cricos_peo | ~746 | nothing to do |
+| link_search | ~737 | picked 0 |
+| reidentify | ~587 | nothing to do |
+
+**1c. Queue autopsy (live `admin_queue_watch` and picker gates):**
+
+| Queue | Pending | State | Why it is empty or slow | Healthy? |
+|---|---|---|---|---|
+| Course-page search | 2,816 | picks 0 | gates, see table below | **No**: blocked by the scheduler |
+| Source find | 1,596 | 1 per hour | one lease at a time, slow step | **No**: starved by design |
+| Central AI | 99 | stuck | no progress in the window | **No** |
+| Onboarding | 12 | stuck | no progress in the window | **No** |
+| Companion read | — | failing | errors on every run | **No** |
+| Fee / English / intake readers | low | "empty" | no new bound pages upstream | Empty, but **starved upstream**, not done |
+
+**Course-page search gates (where the 2,816 sit):**
+
+| Gate that holds them | Courses | Providers |
+|---|---|---|
+| Stopped: 30 searches with no correct page (`fc_search_stopped_v1`) | 1,483 | 22 |
+| Not a Firecrawl target (`target_only`) | 1,130 | 136 |
+| No active recipe | 128 | 33 |
+| Provider unpublished | 16 | 1 |
+| Eligible | 59 | 36 (all NZ) |
+
+Even the 59 eligible courses were not picked: the focus gate (`enrich_focus_v1`) and site-list gate run after these, so the lane spends every tick on a list that filters to zero.
+
+**1d. Bottleneck decomposition (weekly, what was admitted):**
+
+| Week of | AU international fees admitted | NZ page bindings that stuck |
+|---|---|---|
+| 28 Sep | 3,574 | 2,128 |
+| 5 Oct | 4,142 | 945 |
+| 12 Oct | 746 | 141 |
+| 19 Oct | 11 | 255 of 1,810 tried |
+
+Admission fell with binding, a week ahead of it each time. CA has no meaningful admission series yet. Worker concurrency, OpenRouter concurrency and lease waits are not the binding stage: the AI lane was load-tested to 20 calls at once with no errors, and enrich AI spent only US$3.23 in 7 days.
+
+**1e. Budget headroom:**
+
+| Budget | Limit | Used | Headroom |
+|---|---|---|---|
+| Firecrawl daily total | 25,000 units | — | per share below |
+| Course-search daily share | 13,000 | 21 Oct 15,962; 22 Oct 7,994; 23 Oct **0** (12,916 left at check) | large |
+| Course-search monthly cap | 200,000 credits | 97,662 | 102,338 |
+| Firecrawl balance | — | 338,002 above reserve | large |
+| OpenRouter (enrich AI) | low-balance warning at US$10 | US$3.23 in 7 days (plus ~US$2 load test) | large |
+
+Headroom exists while queues starve, so by the mandate's own test **the scheduler is the bug**.
+
+#### Finding 2 — Retry pathology
+
+- **Read attempts per URL are capped at about 3**, so no URL reaches 5+. The real retry problem is one level up: the **course** keeps getting new wrong pages. 2,555 courses have had 5–9 different pages tried and 27 have had 10 or more.
+- **No negative evidence is kept.** A rejected page is not recorded anywhere that search, AI match or the source finder reads, so the same kind of wrong page (listings, theses, news) is offered again.
+- **No circuit breaker beyond the blunt 30-search stop**, which then parks the whole provider (1,483 courses) instead of sending the course to a different mode or a human.
+- **No proof of learning.** For SIT and Massey (below) the wrong-page pattern continued after earlier failures existed; nothing consumed them.
+
+Proposed minimal breaker: (1) escalating backoff per course (1, 3, 7, 30 days), (2) a `page_rejections` exclusion list read by search, AI match and the finder, (3) after N distinct wrong pages the course moves to "needs a person" in the existing Layer 4 queue, and (4) a weekly stuck-pages report instead of silent retries.
+
+#### Finding 3 — Freshness
+
+- **Fees:** 397 AU and 121 NZ courses hold more than one active fee year; the website shows the newest, so most are cosmetic, but **34 AU courses have an older year live and no newer active row** (e.g. TAFE Queensland Diploma of Travel and Tourism Management; Charles Sturt Bachelor of Social Science (Psychology)). Canterbury Diploma in Commerce carries a 2028 fee that looks wrong. There is no supersession rule in the reader: a new year is added, the old one is not retired.
+- **Intakes:** 100% have no year or date. **English:** 99.9% have no validity or as_at date. So there is no basis for "newest wins" today.
+- **Fix as reader behaviour:** when the reader admits a fee for year Y with provenance, it marks older active years for the same course and basis `superseded` with a pointer to the new row; a fee year more than one year ahead goes to review. English and intake readers record `as_at` (the page's stated year or the read date) and prefer the newest stated year when a page lists several.
+
+#### Finding 4 — Config over code
+
+- Worker code holds **36 literal pool concurrencies, 49 literal timeouts and several `max_tokens` literals**; only 11 values read settings (`wsNum`). Most of these a Platform Admin should be able to tune (pool sizes, timeouts, tokens per call) but cannot.
+- **Rule:** any new tunable ships as a `platform_toolset_settings` key with min, max, unit and section, or carries a `-- fixed:` / `// fixed:` comment saying why it is a safety constant. **Acceptance check:** a CI script scans the diff of `worker/` and `supabase/functions/` for new numeric literals in pool, timeout, limit, retry, batch and token positions and fails the PR unless the line reads a setting or has a `fixed:` comment.
+- **UI:** 84 admin jsx files, 112 added or changed in 90 days. Only **one human** acted in the admin app in 30 days (the Platform Admin, 20,142 actions), so every panel's named consumer is the same person; the test for retirement becomes "used in 30 days" and "duplicates another panel".
+- **Docs:** 770 admin-repo docs, all but one added in 90 days; 418 are versioned copies. RUNSHEET and NEXT-CHAT are about 1.07 MB each; the change-control file has 409 entries. SOPs are 79 KB with 154 history lines. Layer 4 has 22,422 items with **72 distinct reason shapes** and 112 pending.
+
+#### Finding 5 — Self-sustainability package (proposed, with effort)
+
+| Item | What it does | Effort |
+|---|---|---|
+| (a) Weekly self-audit job | Writes field coverage matrix, gap causes, binding %, queue health and budget burn to one report table; one existing report panel renders it | 1.5 days |
+| (b) Stuck-work report | Circuit-breaker victims, Layer 4 ageing, quarantine volume per country | 1 day (after S1) |
+| (c) Freshness report | Courses with an older fee year live, future-dated fees, missing as_at on English and intakes | 0.5 day |
+| (d) Country-readiness generator | Given a country code, lists every setting, identity, floor, calendar, currency and admission row that exists or is missing | 1.5 days |
+
+CA as the test case: CA has admission and floor rows, but the readers and identities were shaped on NZ and AU (see Q4), so the honest answer to "a third country in a week with zero migrations" is **not yet**: (d) will list the code-shaped blockers precisely.
+
+#### Prioritised fix plan
+
+| Priority | Fix | Why | Effort |
+|---|---|---|---|
+| **Quick win** Q1 | Review the `target_only` gate (1,130 courses) and replace the 30-search provider stop with a per-course stop | Releases up to 2,600 queued courses to the search lane that has unused credit | 0.5–1 day |
+| Quick win Q2 | Stop empty-tick modes firing every minute: back off when the last N ticks found nothing | ~4,000 empty calls a day; frees worker slots | 0.5 day |
+| Quick win Q3 | Durable per-mode outcome ledger (mode, items, ok, failed, wait, landed) kept 90 days | Makes Finding 1's table and the health metric possible | 1 day |
+| Quick win Q4 | Clear the stuck central AI (99), onboarding (12) and failing companion read | Three queues at zero progress | 0.5 day |
+| **Structural** S1 | Negative-evidence exclusion list plus escalating backoff plus hand-off to Layer 4 | Ends wrong-page loops | 2 days |
+| Structural S2 | Fee-year supersession and as_at in the readers (Finding 3) | Latest year wins with provenance | 1.5 days |
+| Structural S3 | Settings acceptance check in CI and move the top pool, timeout and token literals to settings | Config over code | 1.5 days |
+| Structural S4 | Self-audit, stuck-work and freshness reports (a)–(c) | Replaces manual review prompts | 3 days |
+| Structural S5 | Country-readiness generator (d), run on CA | Proves or disproves the one-week onboarding | 1.5 days |
+| **Later** L1 | UI prune: retire panels unused in 30 days or duplicated | One human user | 1–2 days |
+| Later L2 | Docs budget: split RUNSHEET and NEXT-CHAT, archive versioned copies, Layer 4 reasons capped to a canonical catalogue, a new SOP must merge or retire one, quarterly prune job | Docs at 1 MB per file | 2 days |
+
+#### Part 6 answers
+
+| # | Answer |
+|---|---|
+| Q1 | The "empty" queues are the **fee, English and intake readers** (starved: no new bound pages), and the **course-page search lane** (2,816 queued, picks 0). Last 7 days: course-search units 21 Oct 15,962, 22 Oct 7,994, 23 Oct 0; NZ bindings that stuck 255 of 1,810 tried this week; AU fees admitted 11 this week. A per-day 7-day table per queue needs the Q3 ledger, because detailed logs only go back about 6 hours. |
+| Q2 | SIT Bachelor of Applied Management: 15 different pages tried. Massey Master of Veterinary Science: 14. SIT NZ Certificate in Retail: 13 (Auckland Bachelor of Urban Planning: 11; UTas Master of Fine Arts was bound to a figshare thesis). |
+| Q3 | TAFE Queensland Diploma of Travel and Tourism Management and Charles Sturt Bachelor of Social Science (Psychology): an older fee year is the only active row; no newer year was admitted or the newer read was not applied. |
+| Q4 | NZ/AU-shaped: identity rules that use NZQA and CRICOS codes; the CRICOS/PEO worker mode; country-specific fee basis words; directory sources that exist only for NZQA and CRICOS. These need to become per-country rows; (d) will list each. |
+| Q5 | **Needs you.** Firecrawl and OpenRouter plan tiers and monthly caps are not stored in the platform. Known: Firecrawl daily budget 25,000 units, monthly search cap 200,000 (97,662 used), balance 338,002 above reserve; OpenRouter spend about US$5 in 7 days with a US$10 low-balance warning. Please send the two plan names and their monthly limits. |
+| Q6 | Nobody else in practice: 9 accounts, 6 signed in within 30 days, but only the Platform Admin performed actions. UI config is therefore justified only where you use it; a wrong setting has no second reviewer, so range limits on every setting matter more than more panels. |
+
+#### One number to rule them all
+
+**Proven course pages per 24 hours that went on to admit at least one value**, reported hourly, with the target set as a setting. It moves only when binding works and the readers consume it, so it catches both today's failure (search picks 0) and any downstream stall. It needs the Q3 ledger to report it.
+
+#### Asked of you
+
+1. Approve, change or reorder the fix plan; nothing is built until you do.
+2. The Firecrawl and OpenRouter plan tiers and monthly caps (Q5).
