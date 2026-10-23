@@ -7666,3 +7666,13 @@ The brief now forbids direct table changes.
 | Change | PR #673 (v2.15.331 / 0.1.258, migration `20261023020000_cf247_tasks_per_lane_per_minute.sql`): setting `jobs.per_lane_per_tick` (1 to 40, set to 40, logged); `security.admin_jobs_tick_v1` moves up to that many tasks per lane each minute, stops taking more after 40 seconds; `public.admin_jobs_pulse()` (read only); Task manager live line (refreshed time, runner last run, red when late, waiting, running, finished in 15 minutes, AI reader backlog), each waiting task's place in line, start estimate and items. SOPs 1.72 |
 | Checked | Dry runs on the live database (20 tasks, then 40 tasks moved in 1.3 seconds, 34 finished; pulse 226 ms), applied before merge; history md5 equals the file (7fe5542c…). Full suite before deploy: only the 4 known legacy deployed-UAT failures (the en-AU formats contract, failed by a local time format, fixed with the shared formatter and re-run). Task manager screenshot checked. After deploy: re-read tasks 38 done before, 105 done, 25 running, 15 queued within minutes |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 19:20: task manager up to 2,000 tasks per lane each minute (v2.15.332, PR #674)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 18:42: "We should try higher setting lets try 100". 18:45: "Keep incrementing to higher i want to test the limits if the system, we can decrease if it start failing or stalled by system" |
+| Found | Dry runs on the live database (one minute's run of one-course Read with AI tasks, rolled back): 100 in 1.6 s, 250 in 3.5 s, 500 in 4.4 s, 1,000 in 12.4 s, 2,000 in 25.2 s; about 12 ms a task, so the runner's 40-second stop is reached near 3,000. The next limit is the AI reader (Enrich fields: AI calls at once 4 of 6, items per call 30 of 40) |
+| Change | PR #674 (v2.15.332 / 0.1.259, migration `20261023021000_cf247_tasks_per_lane_100.sql`): `jobs.per_lane_per_tick` range 1 to 2,000, set to 1,000 (logged); runner and pulse cap at 2,000; the 40-second stop stays. SOPs 1.73 |
+| Checked | Applied before merge; history md5 equals the file (37376748…); live setting 1,000, maximum 2,000. Full suite on the 100 version: only the 4 known legacy deployed-UAT failures; after the numbers changed to 2,000/1,000 the affected specs re-run and pass. Deploy workflows passed |
+| Consumer API | Not touched (Decision 266) |
