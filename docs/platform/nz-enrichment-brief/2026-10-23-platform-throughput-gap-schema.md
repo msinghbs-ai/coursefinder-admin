@@ -394,3 +394,26 @@ Stepped capacity test: scheduled for the first check-in after R3 is live where m
 ### 23 Oct 2026, 23:58 — Claude (v2.15.335 live)
 
 PR #677 merged (squash d394e239). Migration `20261023027000` applied live before the merge; history md5 `b40b2a974769f345d379064cfac7d9fa` equals the file; `reading.pages_at_once` = 8 live; the picker takes up to 200; `svc_worker_settings_v1` returns `reading.*`. Worker `coverage-sweep-worker-v0.44.0` confirmed answering live at 23:40 (fee_ai, ai_match, reidentify replies carry the version). Workflows: Deploy on merge, Pilot Frontend Build, Release History Contract and Release Currentness Deployed passed; CourseFinder Deployed UAT failed its first attempt in "Run deployed governed validation — desktop" and passed unchanged on the re-run (attempt 2), so it is recorded as a flaky deployed check, not a defect. Values stay 60 / 8 until R3 (F6). Change control appended to the four runsheet files and verified in a fresh clone (a5f4f9e); SOPs 1.76 copied.
+
+### 24 Oct 2026, 00:21 — Platform Admin (item 8a addition)
+
+> The acceptance test must close the re-verification gap — bound pages whose proof basis is not in their country's `allowed_for[]` (e.g. NZ pages bound with `cricos_code` proofs) must be re-verified through the existing reidentify mode against the correct country's register BEFORE tuition is admitted from them. Otherwise 8a admits on the strength of a mislabelled binding. Add one query driving reidentify for that set; count expected rows in the file. Proceed with R1 next per the standing order.
+
+### 24 Oct 2026, 00:30 — Claude (8a re-verification query; the gap is already open)
+
+**Why the labels are wrong (read from the worker).** `identity()` in `coverage-sweep/extract.ts` returns `cricos_code` whenever the course's own code (6+ characters) is printed on the page, whatever the country, and `nzqa_code` whenever a 3–5 digit code follows a "programme number" style label — so an NZ page showing its NZQA programme code is labelled `cricos_code`, and a College of the North Atlantic page showing its program number is labelled `nzqa_code`. The evidence (a code on the page) may be real; the label and the register it implies are not. 8a therefore changes the worker too: `identity()` takes the country's rows from `pipeline.country_identity_rules` and the rule name bumps to `identity-v0.6.0`, so `coverage_reidentify_done` (keyed by rule) lets every page be re-verified once under the new rule.
+
+**The set, across all bound pages (not only the sweep):**
+
+| Country | Label on the bound page | Pages | Already carry a live international fee |
+|---|---|---|---|
+| NZ | `cricos_code` | 301 | **158** |
+| CA | `cricos_code` | 63 | 2 |
+| CA | `nzqa_code` | 57 | 0 |
+| **Total** | | **421** | **160** |
+
+(NZ `nzqa_code` 16 rows are legitimate for NZ and stay.) The gap the addition guards against has already materialised: 160 courses have an international fee admitted on a mislabelled binding today. **Decision for the Platform Admin:** leave those 160 fees live until reidentify re-binds the page (the fee is then re-read), or set them `unverified` now (quarantined, with a Layer 4 row each, same path as the fee floor). I have not touched them.
+
+**The driving query** is written at `docs/platform/wrong-page-values/PASTE-20261024-8a-reverify-mislabelled-bindings.sql` (not run). Mechanism: the 421 bound pages go back to `mismatch` / `identity_mismatch`, which removes them from tuition admission at once (the fee enqueue and `coverage_apply_course_v1` take `status = 'bound'` only) and hands them to the existing `coverage-reidentify` job (every minute, `batch.coverage_reidentify`), which re-binds a page only when the correct country's proof is on it. The migration raises unless the live count is 421, so the file's expected count is the guard. Manual bindings are never touched. Sequence inside 8a: table and seed rows → worker v0.45 (`identity-v0.6.0`) deployed and answering → this query → contract test over the 324-row list and the 421 set (each row re-bound with an allowed basis, or still mismatch with the refusing rule named; none admitted for tuition in between).
+
+R1 (Q2 + Q4 + Q3) starts now.
