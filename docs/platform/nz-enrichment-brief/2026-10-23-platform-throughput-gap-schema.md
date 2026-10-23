@@ -329,3 +329,37 @@ Ran live, one transaction, SQL kept at `docs/platform/wrong-page-values/PASTE-20
 Admissions per hour are reported back at about 02:30 and 22:00 on 24 Oct. The 250 `not_admitted` courses are the first S1-style list: their providers' identity basis is not accepted for tuition, which no re-read fixes.
 
 **Re-sequenced order (supersedes section 1's order; efforts unchanged):** R1 = items 1 + 2 + 3 one release → audit paste file → sign-off → R2 = Q1 at cap 100 → R3 = health-hourly with a provisional target → items 5, 6, 8, 9, 10, 11 as their own releases.
+
+### 23 Oct 2026, 22:57 — Platform Admin
+
+> How do increase the capacity, can you dry run and test maximum capacity to be configured by UI?
+
+### 23 Oct 2026, 23:08 — Claude (read lane capacity test)
+
+Correction first: the "2–3 days" for the re-reads was wrong. The read lane was starved before the sweep (nothing due), not slow: it read about 100 pages a minute once the sweep gave it work (2,900 pages 22:31–23:02) and finished the sweep's readable pages in 42 minutes.
+
+| Lever | Value | UI-controllable before this change |
+|---|---|---|
+| `reading.read_batch_per_30s` → `batch.coverage_read` (10–200) | 60 | Shown, but the worker capped a call at 60 (`Math.min(limit, 60)`) and so did the picker (`least(p_limit, 60)`): set to 120 for 3 minutes (23:58–00:02 UTC), no change in the rate |
+| Pages fetched at once inside a call | 8 | No: `pool(items, 8)` fixed in the worker |
+| Time budget per call | 110 s | No: `BUDGET_MS`, a safety value |
+| Calls per minute | 2 (`coverage-read` every 30 s); `coverage-read-2` identical, switched off | Cron only |
+| `pages.render_countries` | NZ, AU | Yes; CA was missing, so CA pages needing a browser were never read |
+
+Theoretical ceiling at the time: 120 pages a minute; measured 100.
+
+### 23 Oct 2026, 23:13 — Platform Admin
+
+> Go
+
+### 23 Oct 2026, 23:14 — Claude (applied live, and the release)
+
+| Change | How | Result |
+|---|---|---|
+| `pages.render_countries` = NZ, AU, CA | `admin_toolsets_write('setting')`, reason logged | applied 23:14 |
+| Job `coverage-read-2` on | `cron.alter_job(active => true)` | 4 read calls a minute from 23:14 |
+| Release v2.15.335 / 0.1.262, worker v0.44.0 | migration `20261023027000_cf247_read_lane_settings.sql`: setting `reading.pages_at_once` (1–32, 8; Settings › Pipeline settings › Job sizes), `svc_worker_settings_v1` returns `reading.*`, `svc_coverage_read_next` takes up to 200 (md5-guarded edits, dry run clean); worker read mode up to 200 a call, `reading.pages_at_once` at once; test s89; SOPs 1.76 | in the full suite at 23:30 |
+
+The two-lane rate could not be measured: by 23:13 the sweep's readable pages were done (3,320 of 3,675 re-read: 2,964 read, 278 fetch failed, 157 blocked, 177 need a browser, 80 identity mismatch, 12 robots). The 1,917 pages still "due" have used their 3 attempts (1,323 dead links, 291 blocked, 106 robots): that is the S1 negative-evidence population, not read-lane capacity. The stepped capacity test (60/8 → 120/8 → 120/16 → 200/16 → 200/24, 5 minutes each) runs the next time the lane has more than 500 pages due, and its result sets the recommended values here.
+
+Fee reader at 23:20: 1,551 pages read, 1,924 queued, 37 fees admitted, 12 to Layer 4.
