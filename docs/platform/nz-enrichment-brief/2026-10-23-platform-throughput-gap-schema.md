@@ -452,3 +452,16 @@ Answered in a new file by instruction: [2026-10-24-nz-field-admission.md](2026-1
 ### 24 Oct 2026, 01:48 — Claude (v2.15.336 live)
 
 PR #678 merged (aa2468d9); all five workflows passed first time (Deploy on merge, Pilot Frontend Build, Release History Contract, Release Currentness Deployed, CourseFinder Deployed UAT). Change control appended to the four runsheet files and verified in a fresh clone (998afaa); SOPs 1.77 copied.
+
+### 24 Oct 2026, 02:30 — Claude (sweep check-in 1, 4 h)
+
+The fee reader **drained fully**: 4,159 pages read since the sweep, 0 queued, 0 errors, US$4.77; the 832 NZ requests of 00:40 are through as well. Of the 3,679 pages read for the swept courses, 1,348 returned fee rows and 2,331 printed no fee amount at all; the admission filter then kept 103.
+
+| Hour (UTC) | Fees admitted (swept courses) | English verified |
+|---|---|---|
+| 23 Oct 11 | 26 | 5 |
+| 23 Oct 12 | 38 | 40 |
+| 23 Oct 13 | 22 | 0 |
+| 23 Oct 14 | 17 | 0 |
+
+Totals for the 3,675 swept courses: 3,360 pages re-read; **103 fees admitted (all active), 118 courses now carry an international fee**; 45 English rows verified; 0 Layer 4 fee items. The 832 NZ requests gave **75 fees** in their first 90 minutes. Requests still open: 617 (pages with no stored copy, waiting on a read that failed or needs a browser). Nothing to flag on the lane; the yield is the pages (63% print no international fee), which is the provider fee-schedule question, not throughput.
