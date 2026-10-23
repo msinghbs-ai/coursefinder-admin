@@ -512,3 +512,11 @@ F1 fixed in section 3.1 (the header now records C1's closure and its sources). F
 | 6 Fee floor | built, dry-run clean | `20261023026000_cf247_fee_floor.sql`; quarantine status is the existing `unverified` (the website reads `active` only, so no constraint or G3 change); a NZ$3,000 test fee through the apply path went to Layer 4 with "international fee below the country floor (NZD 8,000 a year): NZD 3,000.00"; F2 basis check: 0 active international fees have a null basis |
 | 7 Item 3 signatory list | not started | needs the list URL and worker v0.44.0; second release |
 | 8 Release | v2.15.334 / 0.1.261 in the full suite now | SOPs 1.75 |
+
+### 23 Oct 2026, 21:17 — Platform Admin
+
+> Are you amending the same repo file?
+
+### 23 Oct 2026, 21:18 — Claude
+
+Yes. Every comment and reply since 20:49 has been appended to this one file (section 7, Thread), in the admin repo on `main`. The decisions themselves were also updated in place in sections 1 to 6 and the addendum (section 8). No other file holds the thread; the change-control entries in the four runsheet files only record releases.
