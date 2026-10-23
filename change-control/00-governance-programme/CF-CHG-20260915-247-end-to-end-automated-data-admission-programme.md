@@ -7660,3 +7660,15 @@ The brief now forbids direct table changes.
 | Checked | Dry run on the live database replaying the Diploma in Arts: City admitted, South Auckland to a person, course linked to City (Auckland, on campus). Applied before merge; history md5 equals the file (c7675472…). Full suite before deploy: only the 4 known legacy deployed-UAT failures. Deployed worker v0.42.4 confirmed. Read with AI run again for campus on the 8 Auckland diplomas with a bound page |
 | Waiting | Dance Studies, Science, Architectural Studies, Sport Health and Physical Education diplomas: no correct course page yet (page search continues) |
 | Consumer API | Not touched (Decision 266) |
+
+### 23 Oct 2026 (Fri, Melbourne) – Update 17:40: values from an older wrong page taken back or read again; South Auckland campus (v2.15.330, PR #672)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:02: first paste file run ("581 Campus cleared"), OpenRouter topped up; "recomend for other 2". Decisions: "Take back 3,462, re-read 2,023" and South Auckland "Add it, Auckland region" |
+| Found | The Diploma in Architectural Studies (3 years) and the Diploma in Sport, Health and Physical Education (3 years) took their length on 14 Oct from the Bachelor's page; the 17000 take-back missed them because it covered only the course's current page copy, not an earlier page later replaced. Same gap: 3,462 values on 1,856 courses whose page is now another course's, and 2,023 values on about 1,450 courses that now have their own page but took values from an earlier, different page. South Auckland (Te Papa Ako o Tai Tonga, 6 Osterley Way, Manukau) confirmed on the university's campus page |
+| Change | PR #672 (v2.15.330 / 0.1.257, migration `20261023019000_cf247_older_wrong_page_values_and_south_auckland.sql`): both groups recorded in `pipeline.enrich_value_retractions` and taken back (4,153 course fields emptied); the 2,023 read again from the course's own page (112 Read with AI jobs, one per university, campus excluded); South Auckland campus added and linked to the Diploma in Arts. SOPs 1.71 |
+| Paste file | `docs/platform/wrong-page-values/PASTE-20261023-older-wrong-page-campus-links.sql`: removes 1,572 campus links from those pages, then queues 375 campus re-reads (a re-read does not link a campus already linked, so it follows the removal) |
+| Checked | Dry run on the live database, applied before merge; history md5 equals the file (9d966458…); live figures equal the dry run (3,462 taken back, 2,023 read again, 4,153 cleared, 112 jobs, Architectural Studies and Sport lengths empty, Diploma in Arts linked to City and South Auckland). Full suite before deploy: only the 4 known legacy deployed-UAT failures |
+| Waiting | Second paste file run by the Platform Admin; 112 re-read jobs |
+| Consumer API | Shape not touched (Decision 266); field values taken back |
