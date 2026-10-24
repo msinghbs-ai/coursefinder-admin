@@ -156,10 +156,10 @@ The only fixed value is `next_attempt_at` = the next minute (the runner's and th
 
 | Step | State | Evidence |
 |---|---|---|
-| 1 Post-merge verification (section 9) | **Waiting: PR #686 not merged** (13:58 check: GitHub state open, merged false; live last migration `20261024006000`, hotfix functions absent, settings rows 0) | — |
-| 2 E2E via the browser extension | Waiting on step 1 | — |
-| 3 Resume coverage-admit, watch first run | Waiting on step 1 (resume after the hotfix is live, per instruction order) | — |
-| 4 Rebase and renumber the stack | Waiting on step 1 (rebases onto the merged main) | — |
+| 1 Post-merge verification (section 9) | **Pass** — PR #686 squash-merged 14:19 (`3c3f218b`) on the Platform Admin's instruction ("make sure all PRs are merged", 14:18); Deploy on merge succeeded | Live last migration `20261024009000`; applied text md5 `968426215ee8b0e44f575c13b6a65952` = repo file md5 (byte for byte). All eight edited functions carry the hotfix lines (`svc_course_link_search_next`, `worker_mode_waiting_v1`, `provider_task_fire_v1`, `provider_task_prepare_v1` incl. the target-only refusal, `admin_job_watch_v1`, `admin_jobs`, `admin_layer4_inbox`, `gap_causes_snapshot_v1`); the four new functions exist; settings `search.person_task_bypass` = 1 and `tasks.stall_seconds` = 60 |
+| 2 E2E | **Run through the screens' server calls, as the Platform Admin.** The session had no browser link, so the browser-extension view itself is still to be looked at. Otago: **failed, then fixed by hotfix 2** (section 12). AUT: **pass** | **Otago** — before: task e43e47de closed 02:25 UTC "0 of 50… wait their turn". Re-find task `a4ec5237` accepted 03:19:28.98 UTC; the worker was asked in the same second and **picked 58** (forwarding within one minute: yes). But it searched 0 each minute: the credit check refused every credit (section 12). Status showed "Last forwarded 03:33, not blocked", so the stall was still invisible. **AUT** item `c62b431b` (Postgraduate Certificate in Science). Before: pending, in the Inbox, page `/courses/graduate-certificate-in-science` (the sibling course's page; the two pages are swapped between the two courses) ai_match / mismatch / identity_mismatch, fee $48,059.68 unverified. Entered `https://www.aut.ac.nz/courses/postgraduate-certificate-in-science` (an AUT page we already hold) 03:27:38. After: `edited_approved`, **gone from the Inbox**, page manual / bound, locks `official_url` + `course_url`, official link active; read 03:30:43 (`read`); fee reader done 03:32; **fee $48,059.68 active 03:32:26** (bind → re-read → fee re-admit, end to end) |
+| 3 Resume coverage-admit | **Pass** | Resumed 14:28 by the Platform Admin control (reason recorded). First run 03:30:00–03:31:35 UTC **succeeded** (before: every run failed since 23 Oct 11:40 UTC). Result `{written 92, layer4 39, decided_by_rule 21, errors 0, more false}`: the batch completed with nothing left. **29 http:// official-page rows went to Layer 4**, not 187. The 187 counted every http:// row in the 45,314-row plan; under the v2.15.341 fix only rows a "take" rule would have applied are sent to a person, and the rest are decided as before. Matches the rolled-back test (86 written, layer4 39, 0 errors) |
+| 4 Rebase and renumber the stack | **Renumbered again**: hotfix 2 takes v2.15.343 (no two releases share a version), so #684 → **v2.15.344**, #685 → **v2.15.345**, Phase 1 → **v2.15.346** | After hotfix 2 merges |
 | 5 Re-open paste file | Ready; applied by the Platform Admin after step 1 (D-stopped) | Dry run above |
 
 ### Open items (logged, not for now)
@@ -169,3 +169,13 @@ The only fixed value is `next_attempt_at` = the next minute (the runner's and th
 | CRICOS legal-name capture | Platform (later) | Layer 1 change; needs a coverage-reidentify-delta decision first. Do not implement now |
 | Torrens University display name | Platform Admin | Set on the Providers screen |
 | Two ECU near-duplicate scholarships | Scholarship owner | Owner decision, not a platform change |
+
+## 12 Hotfix 2 — v2.15.343 (found by the step 2 E2E)
+
+| | |
+|---|---|
+| Defect | The Otago re-find task was forwarded at accept and each minute (picked 58) but **searched 0**. The worker asks the database for every credit (`public.svc_fc_spend`), and that check carries a **third copy of the search-stop gate**: it refused every course-search credit for a stopped university (`firecrawl_refusals_by_provider`: Otago, course_search, `search_stopped`, 918 on 24 Oct). The worker then returned each row to the queue as "credit budget". The v2.15.342 dry run proved accept → picker but did not run the worker's spend step, a test gap. Every function that reads the stop was listed: only `svc_fc_spend` enforced it beyond the two already fixed; the rest report it |
+| Second gap (D3) | "Forwarded" alone hid the stall: the Task manager showed Last forwarded every minute and no block |
+| Fix | Migration `20261024010000_cf247_hotfix2_person_task_spend_gate.sql`, md5-guarded. `svc_fc_spend`: a person's waiting or running Find course pages task for the university passes the stop (same setting `search.person_task_bypass`); the day share, day total, month cap, reserve and target-only rules are unchanged. `admin_job_status_v1`: for Find course pages the stall clock follows credits spent (`last_spent_at`), and a refusal since the task started is the blocking reason (`credit_refused`: "Sent to the search, but its credits were refused (search stopped, n time(s) today)") |
+| Dry run (live, rolled back) | Otago credit allowed (task running); Humber (stopped, no task) still refused; Otago status before the fix shows `credit_refused` |
+| Release | v2.15.343, PR (see change control); test s99 (4th test) |
