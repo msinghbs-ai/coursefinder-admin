@@ -85,6 +85,8 @@ Every lane is a `pg_cron` job and every one runs on a minute, 2-, 3-, 5-, 10-, 1
 
 ---
 
+**Correction (24 Oct 2026 10:05, recorded in [2026-10-24-au-builds-and-enrichment-jobs.md](2026-10-24-au-builds-and-enrichment-jobs.md) section 1).** The line above — no sleep windows — was wrong. The idle guard (flag unit) pauses a worker lane after 30 empty calls and tries it again after six hours and more, waking it early only for three modes. At 10:05 coverage-read and coverage-read-2 had been paused since 09:40 with a next trial at 15:40; central-find, find-site and the contact-page lane were paused the same way. R1 (v2.15.339) caps the wait at `tick.backoff_max_minutes` (15) and gives 13 lanes a "work is waiting" wake-up test; the four lanes paused before the release had their next trial brought forward to the cap (logged).
+
 ## 5. Hourly lag
 
 **Where the hourly report reads from:** the scheduled task "StudySearch hourly stats" at :03 reads `pipeline.stats_15m` (written at :01, :16, :31, :46) and `pipeline.gap_cause_snapshots` (written at :55). Its figures are therefore at most **2 minutes old for the stats and 8 minutes old for the gap causes** when it runs — the report itself does not lag an hour. What lags is the *work*: a value admitted in the hour is counted, but work queued in the hour is often still waiting. Measured from queue timestamps (the ledger, Q3, replaces this measurement):
