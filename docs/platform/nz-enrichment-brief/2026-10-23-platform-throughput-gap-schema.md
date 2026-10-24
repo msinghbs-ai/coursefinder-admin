@@ -477,3 +477,42 @@ Answered in a new file by instruction: [2026-10-24-au-quick-wins-and-247-ingesti
 ### 24 Oct 2026, 09:55–11:30 — Platform Admin (all builds and enrichment jobs; R1 for real) and Claude
 
 Answered in a new file by instruction: [2026-10-24-au-builds-and-enrichment-jobs.md](2026-10-24-au-builds-and-enrichment-jobs.md). **R1 shipped as v2.15.339 (PR #681; migration `20261024004000`, md5 `b7b335d953c94bc79213ef0a31d0eca3`)** — the backoff existed in the flag unit with a six-hour wait and a wake-up test for three modes only (coverage-read was paused 09:40 → 15:40 with pages due); now capped at `tick.backoff_max_minutes` (15) with wake-up tests for 13 lanes, the per-mode ledger (`mode_outcome_ledger`, `lane_queue_wait_v1`), the why-idle line, the Sydney companion data files fixed, and the apply-time identity check in `coverage_apply_course_v1`. Observed live at 10:50: the recheck switched coverage-read, coverage-read-2 and find-site on again because work waited. **R3 shipped as v2.15.340 (PR #682; migration `20261024005000`, md5 `307754643ae40fec4bd49b85ca5c29dd`)** — `health_snapshots`, `health_hourly_v1` at :11, `stats.countries` (AU joins the 15-minute stats); the hourly report reads it; headline target 0 until a week of rows. Items 1, 2 (narrowed), 3 and 7 of the plan are done; the order continues: B1 entry requirements → B5 ∥ → B2/B3/B7 → B4 → B6, with R2 after the audit sign-off. E5: 95 quarantine rows closed, 4 MIT pages reset (paste file `PASTE-20261024-e5-fee-follow-through.sql`). Decisions open: E2 calendar, zero-yield auto_reset, UoA.
+
+### 24 Oct 2026, 21:35 — Claude (sweep: 24-hour admissions report, as promised at 22:31 on 23 Oct)
+
+Set: the 3,675 courses swept at 23 Oct 22:31 AEDT (11:31 UTC), found again by their fee-request reason (all 3,675 still carry it; none open). Window 23 Oct 22:31 → 24 Oct 21:30 AEDT. Fee = an active international fee row created in the window; English = an active English requirement whose `last_verified_at` falls in the window (that table keeps no creation time); Layer 4 = review items raised for these courses; re-read = page `read_at` in the window. Read-only.
+
+| Hour (AEDT) | Fees NZ | Fees CA | English NZ | English CA | Layer 4 raised | Pages re-read |
+|---|---|---|---|---|---|---|
+| 23 Oct 22:00 | 7 | 19 | 5 | 0 | 7 | 2,251 |
+| 23 Oct 23:00 | 34 | 4 | 40 | 0 | 7 | 521 |
+| 24 Oct 00:00 | 17 | 5 | 0 | 0 | 5 | 0 |
+| 01:00 | 7 | 10 | 0 | 0 | 4 | 2 |
+| 02:00–03:00 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 04:00 | 0 | 1 | 0 | 0 | 0 | 245 |
+| 05:00 | 0 | 2 | 0 | 1 | 0 | 0 |
+| 06:00–07:00 | 0 | 0 | 0 | 0 | 0 | 1 |
+| 08:00 | 31 | 0 | 1 | 15 | 0 | 125 |
+| 09:00–10:00 | 0 | 0 | 0 | 0 | 0 | 181 |
+| 11:00 | 0 | 0 | 1 | 0 | 0 | 12 |
+| 12:00–13:00 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 14:00 | 0 | 1 | 0 | 6 | 54 | 8 |
+| 15:00–21:00 | 0 | 0 | 0 | 0 | 0 | 20 |
+| **Total** | **96** | **42** | **47** | **22** | **77** | **3,366** |
+
+| Measure | NZ | CA | Total |
+|---|---|---|---|
+| Fee requests: queued to the fee reader | 669 | 2,068 | 2,737 |
+| Fee requests: page never read (`page_not_read`) | 278 | 339 | 617 |
+| Fee requests: identity basis not allowed for tuition (`not_admitted`) | 229 | 92 | 321 |
+| Courses holding an active international fee now | 94 | 59 | 153 (4.2%) |
+| Courses holding an active English requirement now | 47 | 22 | 69 (1.9%) |
+| Page now `read` | 783 | 2,108 | 2,891 |
+| Page now identity mismatch / fetch failed / needs a browser / robots / blocked | 100 / 177 / 98 / 12 / 0 | 192 / 98 / 91 / 0 / 9 | 292 / 275 / 189 / 12 / 9 |
+| Fee reader queue remaining (all courses, queued or leased) | | | **0** |
+
+Reading:
+- **The sweep's yield came in the first three hours and has stopped.** 138 fees and 69 English were admitted in the window (153 courses now hold a fee and 69 English, out of 3,675). After 01:00 there were three small bursts: 08:00 (the AU quick-wins and E5 fee follow-through work), and 14:00, when the 54 Layer 4 items are `coverage-admit`'s first run after its resume (official-page items).
+- **The fee reader read everything it was given and found little.** Of 2,737 queued requests, 153 courses ended with a fee. The rest of the 2,891 read pages state no single international yearly fee to the reader: section 6's fee-schedule-page route and the per-university fee pages (E5) are where the remaining fees are, not more re-reads.
+- **The no-progress population is the S1 / 8a list:** 321 identity-not-allowed (item 8a, per-country identity vocabulary), 617 never read (dead links, blocked, needs a browser), 292 identity mismatch — none of which another sweep fixes.
+- No further sweep is recommended; the next lift comes from S1 (negative evidence + re-find), 8a, and the fee-schedule route.
