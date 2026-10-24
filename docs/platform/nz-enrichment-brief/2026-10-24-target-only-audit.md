@@ -8,6 +8,8 @@
 | Audit file | `docs/platform/wrong-page-values/PASTE-20261024-target-only-audit.csv` (one row per provider, with evidence) |
 | Write-back | `docs/platform/wrong-page-values/PASTE-20261024-target-only-audit-writeback.sql` — records the reason in `override_reason` on the 87 group-A cache rows; **releases nothing**; count-guarded (exactly 87); dry run on live passed (rolled back) |
 
+> **KEY FINDING — 951 overrides (recorded prominently on the Platform Admin's instruction, 24 Oct 23:07).** Of the universities Firecrawl may use, **951 are included only by hand-set override rows** in `pipeline.firecrawl_targets`, not by the targets rule (`rule_reason` shows the condition each fails). The rule describes almost none of today's real target list. **The (b) rule-settings proposal MUST start from this: "align the rule with what the overrides already do"** — derive the name words, minimums and registers from the 951, then check the tranche ledger evidence against it.
+
 ## Populations (re-counted 24 Oct; section 3.1 counted 23 Oct)
 
 | Group | Definition | Providers | Courses with no bound page |
@@ -71,3 +73,14 @@ Under the O10 conditions any release flows through the standard search → AI-ma
 | D1.3 (b) proposal after about two weeks of ledger data, paired with the O8/O9 budget review | Due about two weeks after the tranche is applied |
 | **D1.4 Rule reports the failing condition** (own release) | **v2.15.349, PR #691, merged and live.** Column `firecrawl_target_cache.rule_reason`, filled each minute; screens say "not matched by the rule: <reason>". Live: all 87 excluded carry a reason (25 excluded word, 57 under 30 courses (CA), 5 under 100 (AU)). Migration md5 `ebdcaf97…` = repo file. Suite 1,896 passed (4 legacy). Finding: 951 of the included targets are included by hand-set overrides, not the rule |
 | Weekly line until (b): correct-page rate + credit burn for tranche providers | Scheduled task "Tranche 1 weekly report", Mondays 08:36 Melbourne (first 26 Oct; says "not applied yet" until the tranche is in); appends under "## Weekly tranche 1 line" in this file |
+
+### 4 Platform Admin approvals 24 Oct 23:07
+
+| # | Decision | Recorded / done |
+|---|---|---|
+| 1 | **Tranche 1 approved for application as part of the R2 release, not before** (the file's guard is right). 3 polytechnics + 22 largest private providers is the correct shape. **Tai Poutini Polytechnic is the highest-attention row**: its 8a re-check and the operations-transfer risk. TAFEs, wānanga and ITOs stay OUT; they are Tranche-2 candidates only after the weekly line shows the tranche's correct-page rate | Applied in the R2 release; Tai Poutini watched separately in the R2 verification |
+| 2 | Weekly line approved as configured; its polytechnic-vs-private split is the evidence base for (b) — keep it exactly | Scheduled task updated 23:07 |
+| 3 | 951-override finding recorded prominently; (b) starts from it | Key-finding box at the top of this file |
+| 4 | Sweep conclusion accepted — no further sweeps; empty fee-reader queue logged as the baseline for the next admission lever | Throughput record section 10 |
+| 5 | Defect 1 order approved (wrong-page signal first → extraction-noise fix → aliases quoted from page); Defect 2 waits for R2 | Mandate file |
+| Standing | If the tranche's correct-page rate is poor for a provider TYPE, the weekly line names that type's worst providers; Tranche 2 selection starts from that list, not from size | Scheduled task prompt, with the working definition: poor = under 60%, or 15+ points below the other type; names the 5 worst with ≥5 completed searches |

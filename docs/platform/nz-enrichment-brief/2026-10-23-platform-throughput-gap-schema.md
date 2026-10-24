@@ -516,3 +516,7 @@ Reading:
 - **The fee reader read everything it was given and found little.** Of 2,737 queued requests, 153 courses ended with a fee. The rest of the 2,891 read pages state no single international yearly fee to the reader: section 6's fee-schedule-page route and the per-university fee pages (E5) are where the remaining fees are, not more re-reads.
 - **The no-progress population is the S1 / 8a list:** 321 identity-not-allowed (item 8a, per-country identity vocabulary), 617 never read (dead links, blocked, needs a browser), 292 identity mismatch — none of which another sweep fixes.
 - No further sweep is recommended; the next lift comes from S1 (negative evidence + re-find), 8a, and the fee-schedule route.
+
+### 24 Oct 2026, 23:10 — Platform Admin: sweep conclusion accepted; baseline logged
+
+No further sweeps. **Baseline for the next admission lever (S1 / 8a / fee-schedule route / target tranche 1), 24 Oct 2026 21:30 AEDT:** fee reader queue **0** (none queued or leased); the 3,675 swept courses: 153 with an active international fee, 69 with active English; fee requests 2,737 queued-and-read / 617 page never read / 321 identity not allowed for tuition; pages 2,891 read, 292 identity mismatch, 275 fetch failed, 189 need a browser, 12 robots, 9 blocked. Each later lever reports its admissions against this.
