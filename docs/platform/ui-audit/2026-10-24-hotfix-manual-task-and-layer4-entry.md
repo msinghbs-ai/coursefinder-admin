@@ -179,3 +179,13 @@ The only fixed value is `next_attempt_at` = the next minute (the runner's and th
 | Fix | Migration `20261024010000_cf247_hotfix2_person_task_spend_gate.sql`, md5-guarded. `svc_fc_spend`: a person's waiting or running Find course pages task for the university passes the stop (same setting `search.person_task_bypass`); the day share, day total, month cap, reserve and target-only rules are unchanged. `admin_job_status_v1`: for Find course pages the stall clock follows credits spent (`last_spent_at`), and a refusal since the task started is the blocking reason (`credit_refused`: "Sent to the search, but its credits were refused (search stopped, n time(s) today)") |
 | Dry run (live, rolled back) | Otago credit allowed (task running); Humber (stopped, no task) still refused; Otago status before the fix shows `credit_refused` |
 | Release | v2.15.343, PR (see change control); test s99 (4th test) |
+
+## 13 Hotfix 3 — v2.15.347, PR #689 (Platform Admin 15:51: Task manager "could not be read", ref 9F5R4H)
+
+| | |
+|---|---|
+| Cause (measured live) | The stall cause from v2.15.342 (`security.link_search_block_v1`) worked out the search stop for **every** university (`fc_search_stopped_v1()`, 1.7 s) plus the month and day credit totals (0.3 s) once per stalled task. After the re-open paste started 22 tasks, 10 stalled at once, so the Task manager read took about 8 s and hit the signed-in 8-second limit. The task runner's watcher asks the same every minute, so `admin-jobs` ticks took 16–41 s instead of about 1 s. My v2.15.342 tests ran it for one or two tasks, never for many at once |
+| Fix | Migration `20261024011000` (md5-guarded): stop for the one university (`fc_search_stopped_for_v1`, 0.09 s); month and day totals worked out once per statement and reused; "a person's task?" in one query. Gates, order and words unchanged (the stop's words no longer carry the stop date) |
+| Verified live | Merged `cd0efff0`; applied migration md5 `0d42b28b…` = repo file. Task manager read as the Platform Admin **365 ms**; `admin-jobs` ticks 4–6 s. Suite before merge 1,886 passed, only the 4 known legacy failures |
+| Re-open tasks | 17 of 22 finished by 05:00 UTC. **5 cannot run: the universities are on `search.skip_providers`** (NZQA 7502 Skills Group Training, 6044 NZIST Work-Based Learning, 6683 NZIST, 9646 Te Rūnanga-o-Tūranganui-a-Kiwa, 9328 Skills Update; 429 courses). The Task manager says "Blocked: this university is on the search skip list"; the watcher closes them after 45 minutes with that note. The paste file did not check the skip list (my miss) |
+| Decision for the Platform Admin | Refuse Find course pages at start for a skip-listed university too, like target-only (D-target_only)? |

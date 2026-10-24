@@ -7799,3 +7799,13 @@ The brief now forbids direct table changes.
 | Open items (step 6) | CRICOS legal-name capture (Layer 1; needs a coverage-reidentify-delta decision; not now) · Torrens display name (Platform Admin, Providers screen) · two ECU near-duplicate scholarships (scholarship owner) |
 | Next | Follow-on mandate resumes: completeness surfaces (course-detail-blade Fields section + Providers-panel strip), field-admission map + regeneration job, then Coverage & completeness retirement after the blade section is accepted; INDEX.md release rows after each merge |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 16:15: HOTFIX 3 — Task manager read timed out (v2.15.347, PR #689, merged); re-open paste applied
+
+| Item | Detail |
+|---|---|
+| Re-open paste | Applied by the Platform Admin 15:39: 22 Find course pages tasks, 1,247 courses (236 held rows are of inactive courses and stay queued; Nova 16 unpublished). First minute: 137 searches, 0 refusals. By 05:00 UTC 17 of 22 done; 5 blocked by `search.skip_providers` (429 courses, NZ providers) |
+| Defect | Platform Admin 15:51: Task manager "could not be read" (ref 9F5R4H). The v2.15.342 stall cause worked out the stop for every university (1.7 s) per stalled task; the read reached the 8 s limit and admin-jobs ticks took 16–41 s |
+| Fix | Migration `20261024011000` (md5-guarded) on `security.link_search_block_v1`: one university's stop (0.09 s), totals once per statement, one person-task query. Suite 1,886 passed (4 legacy failures). Live: migration md5 `0d42b28b…` matches; read 365 ms; ticks 4–6 s |
+| Decision open | Refuse Find course pages at start for a skip-listed university (as D-target_only)? |
+| Consumer API | Not touched (Decision 266) |
