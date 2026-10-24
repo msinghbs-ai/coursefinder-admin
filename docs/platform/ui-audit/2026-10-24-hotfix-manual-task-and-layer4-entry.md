@@ -141,3 +141,31 @@ The only fixed value is `next_attempt_at` = the next minute (the runner's and th
 ## 10 Found on the way
 
 - The Phase 1 branch's full suite (v2.15.344 as numbered before this hotfix) has one real failure besides the four known legacy ones: `cf-247-ui-standard-contract` "provider panel: pills and fact cards; no raw identifier or evidence lists" (both viewports). Fixed on that branch (`248f62bb`: the identifiers block renders only when opened).
+
+## 11 Thread — Platform Admin decisions and execution (24 Oct 2026 13:55)
+
+### Decisions (Platform Admin, verbatim intent)
+
+| Decision | What it means | Done |
+|---|---|---|
+| **D-target_only** | A person's task that hits the target-only gate is **refused at start**, with the gate named in the message. No task bypasses target_only; releasing that gate is R2's audit decision, not this hotfix | Added to v2.15.342 (PR #686 commit `ec997366`, after the 13:55 review): `provider_task_prepare_v1` raises "Not started: this university is not a search target, and course page search is for target universities only (Toolsets & limits › targets)." (under the 160-character plain-error limit, so the gate name survives). It uses the picker's own check. The enrichment plan runner catches the refusal (step not started). Dry run: Griffith College, QIBT refused; Otago still forwarded 58. Test s99 asserts it |
+| **D-stopped** | Re-open the 24 stopped universities' 1,549 queued rows in **one** count-guarded paste file, applied by the Platform Admin after the hotfix merge. Until S1 lands, stall visibility plus a paste file is the accepted handling | `docs/platform/ui-audit/PASTE-20261024-hotfix-reopen-stopped-rows.sql`: one Find course pages task per university for exactly its held rows, as the Platform Admin. Guards: hotfix live, ≤1,549 rows at ≤24 universities, skip a university with a task already waiting or running, skip and name unpublished ones. Dry run on the hotfix: **23 tasks, 1,533 courses**; Nova Institute of Technology (16 rows) not started, because it is unpublished; picker took 200 at once (its per-call limit) |
+| **S1 is the permanent fix** | A per-course stop plus negative evidence (a course whose search failed is remembered per course, not by stopping the whole university) replaces the university-wide stop and the paste-file handling | Recorded; S1 stays in the standing order after R2 |
+
+### Execution log
+
+| Step | State | Evidence |
+|---|---|---|
+| 1 Post-merge verification (section 9) | **Waiting: PR #686 not merged** (13:58 check: GitHub state open, merged false; live last migration `20261024006000`, hotfix functions absent, settings rows 0) | — |
+| 2 E2E via the browser extension | Waiting on step 1 | — |
+| 3 Resume coverage-admit, watch first run | Waiting on step 1 (resume after the hotfix is live, per instruction order) | — |
+| 4 Rebase and renumber the stack | Waiting on step 1 (rebases onto the merged main) | — |
+| 5 Re-open paste file | Ready; applied by the Platform Admin after step 1 (D-stopped) | Dry run above |
+
+### Open items (logged, not for now)
+
+| Item | Owner | Note |
+|---|---|---|
+| CRICOS legal-name capture | Platform (later) | Layer 1 change; needs a coverage-reidentify-delta decision first. Do not implement now |
+| Torrens University display name | Platform Admin | Set on the Providers screen |
+| Two ECU near-duplicate scholarships | Scholarship owner | Owner decision, not a platform change |
