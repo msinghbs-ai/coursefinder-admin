@@ -7819,3 +7819,13 @@ The brief now forbids direct table changes.
 | Change | Presentation only: Campuses list Provider filter (reset with country or state), first column "Location name"; Provider details campus pills = location name · course count (city in the hover); nameless providers read "Unnamed on the register". Test s100. Suite 1,890 passed (4 legacy failures; M2.4.5 expectation updated and re-run green). Merged `7d7d100f`; frontend build and deployed-release checks passed |
 | Noted | Monash Peninsula links 48 courses, CRICOS shows 50 (two registered since the last register import) — register refresh, not a screen fix |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 19:45: `target_only` audit produced; title/international-intent mandate recorded (queued)
+
+| Item | Detail |
+|---|---|
+| Audit | Read-only, per throughput record section 3.2. Record `docs/platform/nz-enrichment-brief/2026-10-24-target-only-audit.md`; CSV `docs/platform/wrong-page-values/PASTE-20261024-target-only-audit.csv`. Group A (cache, excluded) 87: 85 `rule_false_no_reason` (published; AU 13, CA 72; 58 unbound courses), 2 `deliberate_list`. Group B (not in cache) 455: 334 unpublished/archived (held), 120 `never_evaluated` (published; 891 unbound courses), 1 `robots`. `past_failure` 0 |
+| Write-back | `PASTE-20261024-target-only-audit-writeback.sql`: reason into `override_reason` on the 87 group-A rows; releases nothing; count-guarded; dry run on live passed |
+| O10 (Platform Admin) | Apply the write-back; approve the domain-rule re-run + release of passing `rule_false_no_reason` providers and `firecrawl-targets` for the 120 `never_evaluated`; then R2 (Q1 at `search.daily_picked_cap = 100`) |
+| New mandate | `docs/platform/ui-audit/2026-10-24-title-and-international-intent-mandate.md` (Platform Admin 19:05): NZ title verification and AU international-intent pages; no deletion, quarantine via count-guarded paste only, no auto-quarantine; division of labour vs zero-yield drafted. Queued behind audit → O10 → R2 |
+| Consumer API | Not touched (Decision 266) |
