@@ -1,5 +1,5 @@
 -- PASTE FILE — CF-247 HOTFIX v2.15.342, decision D-stopped (Platform Admin 24 Oct 2026 13:55)
--- Applied by: the Platform Admin, in the Supabase SQL editor of project fxcwkweaxjtknorudmwp, AFTER v2.15.342 (PR #686) is merged and live.
+-- Applied by: the Platform Admin, in the Supabase SQL editor of project fxcwkweaxjtknorudmwp, AFTER v2.15.343 (hotfix 2: the credit check) is merged and live; v2.15.342 alone hands the rows to the search but every credit is refused.
 -- Record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (section 11).
 --
 -- What it does: re-opens the person-requested course page searches that the search-stop list held (1,549 rows at 24 universities on
@@ -29,6 +29,9 @@ begin
   if to_regprocedure('security.link_search_person_task_v1(uuid,uuid)') is null
      or coalesce((select (value #>> '{}')::numeric from pipeline.platform_toolset_settings where toolset_key = 'pipeline' and key = 'search.person_task_bypass'), 0) < 1 then
     raise exception 'v2.15.342 is not live (or search.person_task_bypass is off): merge PR #686 first';
+  end if;
+  if pg_get_functiondef('public.svc_fc_spend(numeric,text,uuid,text)'::regprocedure) not like '%hotfix 2%' then
+    raise exception 'v2.15.343 (hotfix 2) is not live: without it every search credit of these tasks is refused';
   end if;
   select count(*), count(distinct s.provider_id) into v_rows, v_provs
     from pipeline.course_link_search s
