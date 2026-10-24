@@ -1,5 +1,5 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-24 15:05 AEDT by the data-engineering agent.
+Last updated: 2026-10-24 15:50 AEDT by the data-engineering agent.
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
@@ -58,8 +58,9 @@ v2.15.338 zero-yield flow detect-only · v2.15.339 R1 backoff/ledger/why-idle/id
 v2.15.340 R3 health-hourly · v2.15.341 UI audit Phase 0 (plain errors, coverage-admit http fix; PR #683) ·
 v2.15.342 HOTFIX manual task / stall visibility / Layer 4 held-fee address / target-only refused at start (PR #686) ·
 v2.15.343 HOTFIX 2 person task passes the stop in the credit check; credits-refused status (PR #687) ·
-v2.15.344 UI audit Phase 2 course list fee basis and sorts (PR #684).
-Pending merge (stack, in order): v2.15.345 Phase 3 (PR #685) · v2.15.346 Phase 1 (PR opens after #685).
+v2.15.344 UI audit Phase 2 course list fee basis and sorts (PR #684) ·
+v2.15.345 UI audit Phase 3 dedupe and data-quality leaks (PR #685) · v2.15.346 UI audit Phase 1 list internals stripped (PR #688).
+No open PRs (24 Oct 15:50).
 Hotfix record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (re-open paste file with the Platform Admin).
 Key metric: course-page binding % (NZ baseline 53.5%) — every field's ceiling.
 R1 live evidence: worker v0.46.0 writes the per-mode ledger; 15-minute backoff cap;

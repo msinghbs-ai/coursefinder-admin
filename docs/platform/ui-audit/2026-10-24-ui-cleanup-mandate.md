@@ -2,7 +2,7 @@
 
 **Date:** 24 Oct 2026, 11:27 → 13:00 AEDT (in progress; each phase says what is open)
 **Mandate:** Platform Admin, 24 Oct 2026 11:27 (section 9). Audit: [2026-10-24-admin-ui-audit.md](2026-10-24-admin-ui-audit.md) (19 panels, exported 11:13).
-**Merge order (each PR's base is the one before):** #683 Phase 0 → #684 Phase 2 → #685 Phase 3 → #686 Phase 1. **Until #683 merges, `coverage-admit` keeps failing every 10 minutes live** (the fix is in that PR).
+**Merged 24 Oct 2026 (renumbered after two hotfixes; no two releases share a version):** #683 Phase 0 **v2.15.341** → HOTFIX #686 **v2.15.342** → HOTFIX 2 #687 **v2.15.343** → #684 Phase 2 **v2.15.344** → #685 Phase 3 **v2.15.345** → #688 Phase 1 **v2.15.346**. Originally planned as #683 → #684 (342) → #685 (343) → #686 (344); the hotfix took #686 and v2.15.342 (record: `2026-10-24-hotfix-manual-task-and-layer4-entry.md`). **Until #683 merges, `coverage-admit` keeps failing every 10 minutes live** (the fix is in that PR).
 
 **Rules:** CF-247 (CLAUDE.md) — additive Website API v2, frozen consumer API (Decision 266), no drops, catalogued jobs, settings not code, decisions before code. **This file is the decision record.** Work is PRs against Coursefinder-Pilot; **nothing merges without Platform Admin review** — none of the PRs below is merged. Net direction: less surface, not more; no new panels.
 
@@ -34,7 +34,7 @@
 
 ---
 
-## 2. Phase 1 — strip internals from list views (PR #686, branch `cf247-ui-audit-phase1`, v2.15.344 — stacked last so the version chain stays linear)
+## 2. Phase 1 — strip internals from list views (PR #688, branch `cf247-ui-audit-phase1`, **v2.15.346**, renumbered from v2.15.344; merged `3f2e6dba`)
 
 Presentation layer only: no migration, no RPC or schema change. Every value that left a list row stays reachable — a closed **Identifiers (for support)** block in the detail drawer (Curator and above), a hover title, or a `data-*` attribute. Built by a delegated pass against a written brief, then reviewed here (role context wired at the shell, identifiers gated at rank 3, no hard-coded colours).
 
@@ -56,11 +56,11 @@ Presentation layer only: no migration, no RPC or schema change. Every value that
 
 **Out of scope, left for a later pass:** Layer 1 › Sources still prints the uploaded filename; Scheduled runtime health prints a profile key; a scheduled target with no label still falls back to its technical id (its only identity). **Known limit:** `balanceWords` says "Near the limit" only where a floor is known; without one it reads "Within budget" until "Used up".
 
-**PR #686 contents:** 18 source files, `src/lib/viewer.js` (new), `fmtPeriod` in `src/lib/format.js`, test s98 (10 tests), five specs' expectations updated, v2.15.344, SOPs 1.85. Full suite SUITE_344.
+**PR #688 contents:** 18 source files, `src/lib/viewer.js` (new), `fmtPeriod` in `src/lib/format.js`, test s98 (10 tests), five specs' expectations updated, v2.15.346, SOPs 1.87. The ui-standard provider-panel test failed on the first run (identifiers in the DOM while collapsed); fixed by rendering them only when opened. Full suite before merge: 1,884 passed, only the 4 known legacy failures.
 
 ---
 
-## 3. Phase 2 — course-list enrichment (PR #684, branch `cf247-ui-audit-phase2`, v2.15.342)
+## 3. Phase 2 — course-list enrichment (PR #684, branch `cf247-ui-audit-phase2`, **v2.15.344**, renumbered from v2.15.342; merged `42e3d2d6`; suite 1,858 passed, 4 legacy failures; migration md5 `864c8f32…` verified live)
 
 **What the audit missed.** The Courses list already carries the columns the mandate asks for — International fee (`intl_fee_amount`, currency, year), Tuition Only (CRICOS registered total, AU only), City (`city_names`) and State / Region — added 23 Oct (v2.15.330) and read from the **same path as the blade** (`security.admin_course_page_fast_base` behind `admin_read('courses_page')`). Read live on 24 Oct for the first 200 rows per country: AU 44 with an international fee, 200 with a CRICOS total, 200 with a city and state; NZ 76 fees, 93 cities, 200 states; CA 16 fees, 32 cities, 200 states. The 07:22 report "list not showing tuition fees" was a stale tab (rows loaded before the fees were admitted). What was missing: the **fee basis**, and **sorting** on the two columns (only course, provider, field, modified and verified sorted).
 **Fix (migration `20261024007000`, md5-guarded edit of the list function, additive on the admin read path only).** `intl_fee_basis` joins the row; sort keys `intl_fee` and `city` sort the filtered set with one indexed lookup per course (dry run: three sorted pages in 771 ms). Screen: the International fee column shows "AUD 38,000 (2026) · per year" with the basis as the blade prints it, sorts, and renders "—" when empty; City sorts; existing filters (country, fee, freshness, state) are untouched. The CRICOS column stays AU-only (Platform Admin 23 Oct 13:24).
@@ -69,7 +69,7 @@ Presentation layer only: no migration, no RPC or schema change. Every value that
 
 ---
 
-## 4. Phase 3 — dedupe and data-quality leaks (PR #685, branch `cf247-ui-audit-phase3`, v2.15.343)
+## 4. Phase 3 — dedupe and data-quality leaks (PR #685, branch `cf247-ui-audit-phase3`, **v2.15.345**, renumbered from v2.15.343; merged `70462968`; suite 1,864 passed, 4 legacy failures; migration md5 `12a7bd0a…` verified live)
 
 | Audit row | Finding (live, 24 Oct) | Fix | Justification |
 |---|---|---|---|
