@@ -1,5 +1,5 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-24 19:20 AEDT by the data-engineering agent.
+Last updated: 2026-10-24 23:10 AEDT by the data-engineering agent.
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
@@ -63,8 +63,9 @@ v2.15.343 HOTFIX 2 person task passes the stop in the credit check; credits-refu
 v2.15.344 UI audit Phase 2 course list fee basis and sorts (PR #684) ·
 v2.15.345 UI audit Phase 3 dedupe and data-quality leaks (PR #685) · v2.15.346 UI audit Phase 1 list internals stripped (PR #688) ·
 v2.15.347 HOTFIX 3 Task manager read speed (PR #689) ·
-v2.15.348 Campuses by CRICOS location name + Provider filter (PR #690).
-No open PRs (24 Oct 19:20).
+v2.15.348 Campuses by CRICOS location name + Provider filter (PR #690) ·
+v2.15.349 Firecrawl targets rule reports the failing condition (PR #691).
+No open PRs (24 Oct 23:10). Tranche 1 override paste (25 providers) for review; applies after R2.
 Hotfix record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (re-open paste file with the Platform Admin).
 Key metric: course-page binding % (NZ baseline 53.5%) — every field's ceiling.
 R1 live evidence: worker v0.46.0 writes the per-mode ledger; 15-minute backoff cap;

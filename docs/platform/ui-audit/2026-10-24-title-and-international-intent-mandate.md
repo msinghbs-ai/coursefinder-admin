@@ -92,3 +92,15 @@ Neither new flow decides that a page is wrong on its own evidence: a wrong page 
 4. **Some low scores are title-extraction noise** ("Skip to main content", "Level 3"): the verify pass reads the page heading from the stored copy, not the site-map title.
 5. **The bigger "not offered" question is the 3,131 NZ courses with no bound page at all** (48%). They have nothing to compare; whether they are offered to internationals is answered by search (and the zero-yield/S1 flow), not by this title pass.
 6. **Suggested threshold to start:** 0.7 (setting, adjustable), which puts 157 measurable + 290 unreadable = 447 courses into the verify pass; budget: stored copies first (no Firecrawl), AI judgement on the page heading and body — design and cost estimate follow once the Platform Admin has seen this.
+
+## B. Platform Admin decisions on the measure (24 Oct 2026 19:23)
+
+| # | Decision | Effect on the design |
+|---|---|---|
+| D2.1 | Threshold **0.7** approved for the 447-course verify pass | Setting `titles.verify_threshold` (0.7) |
+| D2.2 | **Wrong-page signal first** (the 12-of-20 lesson): below-threshold courses are checked against the wrong-page signal before any AI; confirmed wrong pages go straight to the wrong-page flow (`page_rejections` + re-find), no AI call. Title-verify only the remainder | Step 1 of the pass, no AI cost |
+| D2.3 | Fix the title-extraction noise ("Skip to main content" class) as a data-quality fix so it never enters the pass; report how many of the 447 were noise | Fixed where titles are taken; count reported |
+| D2.4 | Genuine renames (Māori-language register titles published in English, level shorthand): record the published title as an alias, keep the binding; quote-on-page | Alias record with provenance (who, quote, when) |
+| D2.5 | The 3,131 NZ courses with no bound page are **out of scope for Defect 1 by definition**: they are the search problem (target route D1 and the zero-yield/S1 re-find), not the title problem | Division recorded below |
+
+**Division, confirmed:** Defect 1 = courses with a bound page whose published title diverges from the register (447 at 0.7). No-page courses = search (target tranches, S1 re-find). Wrong pages = zero-yield/S1 (`page_rejections`). Defect 2 (international variant) waits for R2.

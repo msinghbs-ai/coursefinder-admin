@@ -7836,3 +7836,15 @@ The brief now forbids direct table changes.
 | O10 | Approved with conditions; measured: **0 of the 205 pass the current target rule** (85: 25 excluded word, 60 below the course minimum; 120: name lacks "university"). No release paste written (it would change nothing). Options a keep / b change rule settings / c named override rows — Platform Admin decision; R2 does not depend on it |
 | Defect 1 (parallel, read-only) | NZ bound courses 3,343 of 6,474: 88% of measurable titles match exactly; 157 below 0.7; 290 need the stored copy. Worst 20: 12 are wrong pages (zero-yield/S1 territory), the rest variants (Māori register titles published in English, level shorthand) or title-extraction noise. Record: mandate file section A; list `2026-10-24-d1-nz-title-below-threshold.csv` |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 23:10: target route staged (c)-then-(b); v2.15.349 rule reasons (PR #691); Defect 1 decisions; sweep 24 h report
+
+| Item | Detail |
+|---|---|
+| Decisions (19:23) | D1 staged (c)-then-(b): tranche 1 override paste (≤25), normal search only, (b) after two weeks of ledger data, rule-reason release; D2 Defect 1: threshold 0.7, wrong-page signal first (no AI for confirmed wrong pages), title-noise fix, aliases for genuine renames, no-page courses out of scope |
+| Tranche 1 | `docs/platform/nz-enrichment-brief/PASTE-20261024-target-tranche-1-overrides.sql`, for review, not applied; 3 polytechnics + 22 private providers (12 NZ polytechnics already targets); guard requires R2's cap; dry run 25/25 included |
+| v2.15.349 (PR #691) | `firecrawl_target_cache.rule_reason` filled each minute; merged and live; migration md5 matches; 87 excluded all carry a reason; suite 1,896 (4 legacy) |
+| Weekly line | Scheduled task "Tranche 1 weekly report", Mondays 08:36 Melbourne |
+| Sweep 24 h report | Throughput record section 10: 138 fees and 69 English admitted for the 3,675 swept courses, almost all in the first three hours; fee reader queue 0; remaining blockers are S1 / 8a / fee-schedule route |
+| Next | R2 (Q1, `search.daily_picked_cap` = 100); then Defect 1 build (wrong-page first, noise fix, aliases); Defect 2 after R2 |
+| Consumer API | Not touched (Decision 266) |
