@@ -7809,3 +7809,13 @@ The brief now forbids direct table changes.
 | Fix | Migration `20261024011000` (md5-guarded) on `security.link_search_block_v1`: one university's stop (0.09 s), totals once per statement, one person-task query. Suite 1,886 passed (4 legacy failures). Live: migration md5 `0d42b28b…` matches; read 365 ms; ticks 4–6 s |
 | Decision open | Refuse Find course pages at start for a skip-listed university (as D-target_only)? |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 19:20: Campuses by their CRICOS location name, Provider filter (v2.15.348, PR #690, merged)
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 18:27 "Bug/Fix — Campus name and UI filter": the Campuses list should read as the CRICOS institution page's Location Name list (examples UoW 00102E, Monash 00008C); no provider filter; Provider details campuses did not show the location name |
+| Finding | Stored names already equal the CRICOS location names (3,984 of 3,984; UoW and Monash 9/9 with counts). Provider details showed the city (`c.city||c.name`); the list had no provider filter although `admin_campus_page_fast` already accepted `provider_id` |
+| Change | Presentation only: Campuses list Provider filter (reset with country or state), first column "Location name"; Provider details campus pills = location name · course count (city in the hover); nameless providers read "Unnamed on the register". Test s100. Suite 1,890 passed (4 legacy failures; M2.4.5 expectation updated and re-run green). Merged `7d7d100f`; frontend build and deployed-release checks passed |
+| Noted | Monash Peninsula links 48 courses, CRICOS shows 50 (two registered since the last register import) — register refresh, not a screen fix |
+| Consumer API | Not touched (Decision 266) |
