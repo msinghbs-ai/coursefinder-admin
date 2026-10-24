@@ -7827,3 +7827,12 @@ The brief now forbids direct table changes.
 | O10 (Platform Admin) | Apply the write-back; approve the domain-rule re-run + release of passing `rule_false_no_reason` providers and `firecrawl-targets` for the 120 `never_evaluated`; then R2 (Q1 at `search.daily_picked_cap = 100`) |
 | New mandate | `docs/platform/ui-audit/2026-10-24-title-and-international-intent-mandate.md` (Platform Admin 19:05): NZ title verification and AU international-intent pages; no deletion, quarantine via count-guarded paste only, no auto-quarantine; division of labour vs zero-yield drafted. Queued behind audit → O10 → R2 |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 20:00: target_only write-back applied (overwritten by the minute refresh), O10 finding, Defect 1 title measure
+
+| Item | Detail |
+|---|---|
+| Write-back | Applied ~19:11 on the Platform Admin's decision; 87 rows, ids verified against the CSV. Overwritten at 08:14 UTC by `firecrawl-targets` (the cache is rebuilt from the rule each minute; `override_reason` comes from `pipeline.firecrawl_targets.reason`). Nothing released, no harm. Durable reason needs a small migration (rule clause as the reason) — proposed, not done |
+| O10 | Approved with conditions; measured: **0 of the 205 pass the current target rule** (85: 25 excluded word, 60 below the course minimum; 120: name lacks "university"). No release paste written (it would change nothing). Options a keep / b change rule settings / c named override rows — Platform Admin decision; R2 does not depend on it |
+| Defect 1 (parallel, read-only) | NZ bound courses 3,343 of 6,474: 88% of measurable titles match exactly; 157 below 0.7; 290 need the stored copy. Worst 20: 12 are wrong pages (zero-yield/S1 territory), the rest variants (Māori register titles published in English, level shorthand) or title-extraction noise. Record: mandate file section A; list `2026-10-24-d1-nz-title-below-threshold.csv` |
+| Consumer API | Not touched (Decision 266) |

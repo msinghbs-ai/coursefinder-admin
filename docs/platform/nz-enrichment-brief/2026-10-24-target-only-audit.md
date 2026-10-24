@@ -34,3 +34,30 @@ AU group-A universities (rule false, no reason, published): Murdoch College (17 
 
 1. Apply the write-back paste file (reasons only, nothing released).
 2. Sign O10: approve (a) re-running the domain rule for the 85 `rule_false_no_reason` providers and releasing those that pass, and (b) running `firecrawl-targets` for the 120 `never_evaluated` providers. Both go out as one count-guarded paste file after sign-off, then R2 (Q1 at `search.daily_picked_cap = 100`).
+
+## Thread — Platform Admin decisions 24 Oct 19:12, and what happened
+
+### 1 Write-back — applied, then overwritten by design (no harm; nothing released)
+
+- **Applied** 24 Oct ~19:11 (08:11 UTC) through the database tool, text as in the paste file (md5 `d9195b7f…`). Guards held: 87 rows annotated. Verified at 08:13:39 UTC: the provider ids per reason match the audit CSV exactly (deliberate_list 2 `0c424b41…`, rule_false_no_reason 85 `20de5c97…`); `included` unchanged on all 87.
+- **Overwritten at 08:14:00 UTC by job `firecrawl-targets`** (every minute): `security.firecrawl_targets_refresh_v1` rebuilds every cache row from `security.firecrawl_targets_v1()`, writing `override_reason = pipeline.firecrawl_targets.reason` — null for these 87, which have no override row. The cache is derived; a reason written to it cannot persist. Section 3.2's write-back design ("written back as `override_reason` on the cache row") was wrong. My error in not reading the refresh before proposing it.
+- **Durable alternative (needs a small migration, not done):** `firecrawl_targets_v1()` returns the rule clause that failed as the reason when there is no override (e.g. "rule: name has an excluded word", "rule: fewer than 100 active courses"), so every exclusion carries its reason from then on — the audit's intent — without writing override rows.
+
+### 2 O10 — approved with conditions; **none of the 205 passes the current target rule**
+
+The target rule (`firecrawl_targets_v1`, settings in Toolsets & limits › Firecrawl): country in AU/NZ/CA, name matches `universit(y|ies)`, name does not match `college|pathway|senior|language cent|divinity|theology`, active courses ≥ AU 100 / NZ 100 / CA 30, international registration (CRICOS, NZQA, IRCC DLI) or enrols internationals. It is re-checked every minute already.
+
+| Group | Providers | Pass now | Fails on |
+|---|---|---|---|
+| A rule-blocked (published) | 85 (AU 13, CA 72) | 0 | 25 excluded word in the name (college, pathway, divinity, theology); 60 below the course minimum |
+| B never evaluated (published) | 120 (AU 52, NZ 63, CA 5) | 0 | 120 the name does not contain "university" (colleges, institutes, polytechnics, NZ private training establishments) |
+
+So "release those that pass" releases **nobody**, and a release paste file would change nothing. I have not written one. Releasing any of them needs one of:
+
+| Option | How | Effect |
+|---|---|---|
+| a. Keep the rule | Nothing | 949 unbound courses at these 205 stay off Firecrawl search; R2 proceeds with today's targets |
+| b. Change the rule's settings | Platform Admin edits the settings with a reason (e.g. add institute/polytechnic/wānanga to the name pattern; lower a minimum) | Every provider that then passes is included at the next minute, through the standard search → AI-match path, cap and stops |
+| c. Named overrides | Count-guarded paste inserting `pipeline.firecrawl_targets(provider_id, included = true, reason, set_by)` rows for chosen providers | Exactly those providers, durable, each with its reason |
+
+Under the O10 conditions any release flows through the standard search → AI-match path with negative evidence, the 100/day cap and the same per-course stops; none of the options bypasses those. **Decision needed: a, b (which settings) or c (which providers).** R2 does not depend on it and can proceed.

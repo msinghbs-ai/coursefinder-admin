@@ -32,7 +32,7 @@ Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs
 R1 (Q2 backoff, Q4 narrowed, Q3 ledger, apply-time identity check) — **LANDED** as one
 release, v2.15.339 / PR #681. R3 (`health-hourly`) — **LANDED** as v2.15.340 / PR #682;
 provisional headline target remains unset until its first full week of rows.
-target_only audit — **PRODUCED 24 Oct 19:40** (`2026-10-24-target-only-audit.md`; write-back paste reasons-only) → Platform Admin sign-off (O10). Then R2 (Q1 at
+target_only audit — **PRODUCED 24 Oct 19:40; O10 APPROVED 19:12 with conditions** — 0 of 205 pass the current rule, so nothing releases until the Platform Admin chooses keep / change rule settings / named overrides (`2026-10-24-target-only-audit.md` thread); R2 proceeds regardless. Then R2 (Q1 at
 search.daily_picked_cap = 100; raise only on ledger evidence). Then stepped read-lane
 test. Then S1 full (absorbs zero-yield table; contract test: search, AI match AND
 finder all consume rejections). Then 8a remainder (country_identity_rules table).
@@ -49,7 +49,7 @@ not bypass O10/R2 or any approval gate.
    (E2 analysis; do not infer course-page facts from a provider calendar).
 5. O5: NZQA signatory-list page URL.
 6. O8/O9: Firecrawl plan tier + monthly credit cap; OpenRouter plan + monthly spend cap.
-7. O10: sign the target_only audit (produced 24 Oct; apply the reasons-only write-back, then approve releases + firecrawl-targets for 120 never-evaluated).
+7. target_only release route: keep / change rule settings / named overrides (0 of 205 pass today's rule).
 8. R3 provisional headline target after its first full week of hourly rows; 0 means
    not yet set and must not be treated as a throughput target.
 
