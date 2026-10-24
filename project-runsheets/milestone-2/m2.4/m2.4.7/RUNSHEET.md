@@ -7784,3 +7784,18 @@ The brief now forbids direct table changes.
 | Not changed / decisions | Target-only (1,130 rows at 136 non-target universities): refuse at start, or let a person's task pass? Re-open the 24 stopped universities' falsely closed tasks by paste file, or leave to plans? `coverage-admit` paused by the Platform Admin at 12:18 — v2.15.341 fix verified live, resume when ready |
 | After merge | Platform Admin E2E (browser extension): Otago re-find moves past 0; one AUT item accepts a manual address. UI audit PRs rebase and renumber: #684 → v2.15.343, #685 → v2.15.344, Phase 1 → v2.15.345 |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 15:50: hotfix live and verified, hotfix 2, UI audit stack merged and renumbered (v2.15.342–346)
+
+| Item | Detail |
+|---|---|
+| Instruction | Platform Admin 13:55 (decisions D-target_only, D-stopped; execute steps 1–6) and 14:18 ("make sure all PRs are merged") |
+| Decisions | **D-target_only:** a task the target-only gate holds is refused at start with the gate named; no task passes target-only (R2's audit decides its release); added to v2.15.342 before merge. **D-stopped:** one count-guarded paste file re-opens the stop-held rows, applied by the Platform Admin; until S1 (per-course stop + negative evidence, the permanent fix) this is the accepted handling |
+| Merged | #686 v2.15.342 HOTFIX (`3c3f218b`) · #687 v2.15.343 HOTFIX 2 (`c5749a9c`) · #684 v2.15.344 Phase 2 (`42e3d2d6`) · #685 v2.15.345 Phase 3 (`70462968`) · #688 v2.15.346 Phase 1 (`3f2e6dba`). Full suite before each: 1,852 / 1,854 / 1,858 / 1,864 / 1,884 passed, only the 4 known legacy failures. Each migration's applied text md5 = repo file (`96842621…`, `d8f18f4f…`, `864c8f32…`, `12a7bd0a…`). No open PRs |
+| Post-merge (step 1) | All eight v2.15.342 functions carry the hotfix lines; four new functions; settings `search.person_task_bypass` 1, `tasks.stall_seconds` 60 |
+| E2E (step 2) | Through the screens' server calls as the Platform Admin; the session had no browser link, so the extension view is still to be looked at. **AUT** item `c62b431b`: manual https:// address 03:27:38 UTC → left the Inbox, page manual/bound/locked, read 03:30:43, **fee $48,059.68 active 03:32:26**. **Otago**: forwarded within the second of accept (picked 58) but searched 0 — found **a third stop gate in the credit check `svc_fc_spend`** (918 refusals) and a status that still looked alive → **HOTFIX 2 v2.15.343**; then 58/58 searched 03:50:21–03:51:00, 41 pages found |
+| coverage-admit (step 3) | Resumed 14:28; first run 03:30 UTC succeeded `{written 92, layer4 39, decided_by_rule 21, errors 0, more false}`; 29 http:// official-page rows to Layer 4 (the 187 counted every http:// row in the plan; only take-rule rows go to a person) |
+| Paste (step 5) | `docs/platform/ui-audit/PASTE-20261024-hotfix-reopen-stopped-rows.sql` with the Platform Admin; rolled back on live after v2.15.343: 22 tasks, 1,483 courses; Nova (16, unpublished) not started |
+| Open items (step 6) | CRICOS legal-name capture (Layer 1; needs a coverage-reidentify-delta decision; not now) · Torrens display name (Platform Admin, Providers screen) · two ECU near-duplicate scholarships (scholarship owner) |
+| Next | Follow-on mandate resumes: completeness surfaces (course-detail-blade Fields section + Providers-panel strip), field-admission map + regeneration job, then Coverage & completeness retirement after the blade section is accepted; INDEX.md release rows after each merge |
+| Consumer API | Not touched (Decision 266) |
