@@ -5,9 +5,9 @@
 | Raised | Platform Admin, 24 Oct 2026 13:17 (Melbourne) with four screenshots: Layer 4 AUT item ("field is not enabled for scalar Layer 4 editing"), Task manager "Find course pages — University of Otago (50 courses)" running · 0 of 50, Adapter builder Otago, PR #683 |
 | Priority | Over everything, including the UI audit Phase 3 suite (resumes after this lands) |
 | Change control | CF-CHG-20260915-247 |
-| Release | **v2.15.342**, PR against Coursefinder-Pilot, branch `cf247-hotfix-manual-task-layer4` from `main` at `c201a728` (v2.15.341 merged). **Not merged**: Platform Admin review first |
+| Release | **v2.15.342**, PR **#686** against Coursefinder-Pilot, branch `cf247-hotfix-manual-task-layer4` from `main` at `c201a728` (v2.15.341 merged). **Not merged**: Platform Admin review first |
 | Migration | `supabase/migrations/20261024009000_cf247_hotfix_manual_task_and_layer4_entry.sql` (md5-guarded edits; dry run against live passed, rolled back) |
-| Test | `tests/uat/cf-247-s99-hotfix-manual-task-layer4-entry-contract.spec.mjs` |
+| Test | `tests/uat/cf-247-s99-hotfix-manual-task-layer4-entry-contract.spec.mjs`; full suite 1,852 passed, only the 4 known legacy failures (cf-091, cf-103) |
 | Consumer API | Not touched (Decision 266) |
 | Gates, budgets, caps | **Not changed** (constraint). One on-demand bypass for a person's task, behind setting `search.person_task_bypass` |
 
@@ -136,8 +136,8 @@ The only fixed value is `next_attempt_at` = the next minute (the runner's and th
 3. **E2E (browser extension), Platform Admin:**
    - Adapter builder › University of Otago › Find course pages › start. Within a minute the Task manager shows "Last forwarded hh:mm (n sent)" and the count moves past 0 of 58.
    - Layer 4 › Inbox › an AUT held-fee item › Enter another address › the course's own https:// page › reason › confirm. The item leaves the Inbox and the course shows the page as a person's value, read first in line.
-4. Then rebase the UI audit PRs on the new main and renumber them: #684 → v2.15.343, #685 → v2.15.344, Phase 1 → v2.15.345 (PR #686 to open). The Phase 3 suite resumes.
+4. Then rebase the UI audit PRs on the new main and renumber them: #684 → v2.15.343, #685 → v2.15.344, Phase 1 → v2.15.345 (its PR opens after this one). The Phase 3 suite resumes.
 
 ## 10 Found on the way
 
-- The Phase 1 branch's full suite (v2.15.344 as numbered before this hotfix) has one real failure besides the four known legacy ones: `cf-247-ui-standard-contract` "provider panel: pills and fact cards; no raw identifier or evidence lists" (both viewports). To be fixed on that branch before its PR.
+- The Phase 1 branch's full suite (v2.15.344 as numbered before this hotfix) has one real failure besides the four known legacy ones: `cf-247-ui-standard-contract` "provider panel: pills and fact cards; no raw identifier or evidence lists" (both viewports). Fixed on that branch (`248f62bb`: the identifiers block renders only when opened).
