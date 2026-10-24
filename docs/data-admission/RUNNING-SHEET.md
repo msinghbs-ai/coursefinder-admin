@@ -1,6 +1,6 @@
 # Data admission running sheet
 
-**As at:** 2026-10-24 (generated daily from the StudySearch Pilot database, `security.admission_sheet_v1`). **Change control:** CF-CHG-20260915-247. Full sheet: `daily/2026-10-24.csv`.
+**As at:** 2026-10-25 (generated daily from the StudySearch Pilot database, `security.admission_sheet_v1`). **Change control:** CF-CHG-20260915-247. Full sheet: `daily/2026-10-25.csv`.
 
 ## Summary
 
@@ -8,13 +8,13 @@
 |---|---:|
 | Universities with active courses | 563 (AU 224, CA 52, NZ 287) |
 | Active courses | 25,218 |
-| Courses with an official page | 16,859 (66.9%) |
-| Courses with intakes | 11,760 (46.6%) |
-| Courses with English | 16,079 (63.8%) |
-| Courses with a page fee | 8,379 (33.2%) |
+| Courses with an official page | 16,911 (67.1%) |
+| Courses with intakes | 11,792 (46.8%) |
+| Courses with English | 16,122 (63.9%) |
+| Courses with a page fee | 8,426 (33.4%) |
 | Courses with a scholarship | 11,634 (46.1%) |
-| Scholarships published | 1,106 |
-| Waiting for a person | 284 Layer 4 items, 831 held scholarship pages |
+| Scholarships published | 1,107 |
+| Waiting for a person | 229 Layer 4 items, 829 held scholarship pages |
 
 ## Universities by stage
 
@@ -27,161 +27,30 @@
 | Onboarding running | 3 | 367 |
 | stopped_adapter_off | 1 | 13 |
 
-## Change since 2026-10-23
+## Change since 2026-10-24
 
 | University | Country | Change |
 |---|---|---|
 | UNSW Sydney | AU | intakes +1 |
-| The University of Sydney | AU | intakes +36 |
-| University of British Columbia (UBC) | CA | intakes +2 |
-| Adelaide University | AU | intakes +9 |
-| Flinders University | AU | intakes +4 |
-| Macquarie University | AU | intakes +5; english +2 |
-| University of Auckland | NZ | page +1; english +32; fee -9 |
-| The University of Newcastle (UoN), The University of Newcastle Language Centre, Sydney | AU | intakes +3 |
-| The University of Melbourne (UniMelb) | AU | intakes +8 |
-| Australian National University | AU | intakes +1 |
-| Swinburne University of Technology | AU | intakes +2; english +1 |
-| The University of Queensland | AU | intakes +1 |
-| Curtin University | AU | intakes +1 |
-| University of Wollongong | AU | intakes +1 |
-| The University of Western Australia | AU | intakes +34; english +1 |
-| Western Sydney University | AU | intakes +1 |
-| Griffith University | AU | page +1; intakes +1; fee +1 |
-| Queensland University of Technology | AU | intakes +3 |
-| University of Canterbury | NZ | intakes +1; english +1; fee +16 |
-| University of Waikato | NZ | fee +9 |
-| Victoria University of Wellington | NZ | english +5; fee +19 |
-| Conestoga College | CA | intakes +132; fee +16 |
-| Massey University | NZ | intakes +10; english +2; fee +38 |
-| Auckland University of Technology | NZ | intakes +10; english +4; fee -5 |
-| Deakin University (Deakin) | AU | intakes +1 |
-| University of Otago | NZ | english +3; fee +25 |
-| La Trobe University | AU | intakes +2 |
-| University of Victoria | CA | intakes +1; fee +1 |
-| University of Tasmania (UTas) | AU | intakes +4 |
-| University of Canberra | AU | intakes +3 |
-| Simon Fraser University (SFU) | CA | stage adapter_testing → building; intakes +28; english +74; fee +4 |
-| Southern Institute of Technology | NZ | fee +1 |
-| Federation University Australia | AU | intakes +3 |
-| Eastern Institute of Technology | NZ | intakes +32; english +4 |
-| Torrens University Australia; Torrens University Language Centre; Chifley Business School at Torrens University Australia CBS at Torrens University Australia Blue Mountains International Hotel Management School at Torrens University Australia BMIHMS at To | AU | intakes +1; english +3 |
-| Otago Polytechnic | NZ | intakes +10; english +5; fee +30 |
-| Bond University Limited | AU | intakes +6 |
-| University of Calgary | CA | intakes +2; fee +1 |
-| Ara Institute of Canterbury | NZ | intakes +2; english +2; fee +3 |
-| Charles Darwin University | AU | intakes +4 |
-| Edith Cowan University | AU | intakes +3 |
-| Southern Cross University | AU | intakes +9 |
-| Australian Catholic University | AU | english +1 |
-| Durham College | CA | intakes +4 |
-| Manukau Institute of Technology and Unitec - MIT | NZ | intakes +10; fee +1 |
-| Waikato Institute of Technology | NZ | intakes +1; english +1; fee +2 |
-| The University of Notre Dame Australia | AU | page +2; intakes +46 |
-| University of New England | AU | intakes +2 |
-| James Cook University | AU | intakes +4 |
-| NorthTec | NZ | page +1; intakes +35; english +12; fee +11 |
-| Whitireia and WelTec | NZ | fee +3 |
-| Universal College of Learning (UCOL) | NZ | intakes +2; fee +8 |
-| Central Queensland University | AU | intakes +3; english +1 |
-| College of the North Atlantic | CA | intakes +49; english +1; fee +34 |
-| Sheridan College | CA | intakes +1; fee +4 |
-| TAFE Queensland | AU | english +1 |
-| The Open Polytechnic of New Zealand | NZ | intakes +2 |
-| Camosun College | CA | intakes +21 |
-| Western Institute of Technology at Taranaki (WITT) | NZ | english +8; fee +2 |
-| University of Manitoba | CA | stage adapter_testing → building; english +26 |
-| Melbourne Polytechnic | AU | page +1; intakes +16; fee +1 |
-| Te Wānanga o Aotearoa | NZ | fee -2 |
-| Okanagan College | CA | page +1; intakes +15; english +2; fee +2 |
-| Manukau Institute of Technology and Unitec - Unitec | NZ | english +1; fee +11 |
-| Thompson Rivers University | CA | english +1; fee +6 |
-| University of Northern British Columbia | CA | intakes +2 |
-| Cambrian College of Applied Arts and Technology | CA | stage adapter_testing → building; intakes +72; english +16; fee +54 |
-| Charles Sturt University | AU | intakes +1 |
-| Te Wānanga o Raukawa | NZ | fee +1 |
-| University of Southern Queensland | AU | intakes +2 |
-| La Cité collégiale | CA | fee +1 |
-| Algonquin College | CA | intakes +1 |
-| SAE University College | AU | intakes +3 |
-| Loyalist College | CA | fee +16 |
-| Canadore College | CA | intakes +9; english +1; fee +17 |
-| Te Whare Wānanga o Awanuiārangi | NZ | intakes +9 |
-| Yoobee Colleges Limited | NZ | fee +1 |
-| George Brown College | CA | intakes +32; english +1; fee +9 |
-| Excelsia University College | AU | intakes +4; english +2 |
-| Holmesglen, Holmesglen Institute | AU | intakes +2 |
-| Langara College | CA | intakes +1; english +3 |
-| New Zealand School of Education Limited | NZ | english +1; fee +8 |
-| Tai Poutini Polytechnic | NZ | fee -5 |
-| College of the Rockies | CA | intakes +31; fee +10 |
-| Humber College | CA | stage adapter_testing → admitting; intakes +11; english +30 |
-| The Australian Institute of Music | AU | intakes +3 |
-| Mount Royal University | CA | intakes +2 |
-| Box Hill Institute | AU | intakes +4 |
-| JMC Academy | AU | intakes +1 |
-| William Angliss Institute | AU | intakes +2 |
-| Future Skills Academy Limited | NZ | fee +5 |
-| Stott's Colleges, Australian Surf Industry Training School, Front Cooking School, Melbourne Language Centre, Affectors Academy | AU | intakes +1; english +1 |
-| Kaplan Business School Pty Ltd | AU | english +22 |
-| BCITO Limited | NZ | page +14 |
-| Chisholm Institute | AU | intakes +14 |
-| Whitecliffe Education Limited | NZ | fee +4 |
-| Royal Roads University | CA | intakes +1; fee +2 |
-| MITO Limited | NZ | fee -8 |
-| UTS College | AU | english +2 |
-| AIH Higher Education | AU | english +1 |
-| The King’s University | CA | english +28 |
-| ICHM | AU | intakes +1; english +1 |
-| Burman University | CA | english +27 |
-| CIHE Australia | AU | intakes +3; english +8 |
-| Sunraysia Institute of TAFE | AU | english +2 |
-| The Australian College of Physical Education | AU | english +15 |
-| UNSW College | AU | english +6 |
-| Laidlaw College Incorporated | NZ | intakes +1 |
-| Avondale University | AU | intakes +1 |
-| UOW College Australia | AU | english +3 |
-| Niagara College Canada | CA | intakes +1; fee +12 |
-| Gordon Institute of TAFE | AU | intakes +3 |
-| La Trobe College Australia | AU | english +2 |
-| Vision College Limited | NZ | intakes +4 |
-| New Zealand Tertiary College Limited | NZ | intakes +3; fee +1 |
-| Media Design School at Strayer Limited | NZ | fee +4 |
-| Selkirk College | CA | intakes +1; fee +7 |
-| Auckland Institute of Studies Limited | NZ | intakes +3; english +3; fee +3 |
-| Edith Cowan College | AU | intakes +1 |
-| National Academy of Professional Studies | AU | intakes +1 |
-| Adventure Works Limited | NZ | intakes +1 |
-| Cavalli College Limited | NZ | fee +4 |
-| Monash University English Language Centre; Monash College | AU | intakes +2; english +1 |
-| Nan Tien Institute, NTI English Language Centre, NTI Business | AU | english +8 |
-| Aurora College | CA | intakes +9 |
-| BPP Institute Pty Ltd | AU | intakes +1; english +1 |
-| National Institute of Dramatic Art | AU | intakes +1; english +1 |
-| Perth Bible College, Asia-Pacific School of Pastoral Care and Counselling | AU | intakes +3 |
-| Le Cordon Bleu New Zealand Institute Limited Partnership | NZ | fee +2 |
-| Sunshine Coast International College | AU | english +1 |
-| Target Training Centre Limited | NZ | page +2 |
-| Techtorium New Zealand Institute of Information Technology Limited | NZ | fee +1 |
-| Westport Deep Sea Fishing Limited | NZ | fee +3 |
-| Moore College | AU | intakes +3; english +2 |
-| Queenstown Resort College Limited (QRC) | NZ | intakes +1 |
-| Servilles Academy Limited | NZ | intakes +1 |
-| Te Kura Toi Whakaari O Aotearoa: New Zealand Drama School Incorporated | NZ | intakes +1 |
-| The Baptist Union of New Zealand | NZ | fee +5 |
-| National Art School | AU | intakes +1 |
-| Sydney Institute of Traditional Chinese Medicine | AU | intakes +3 |
-| AcademyEx Education Limited Partnership | NZ | fee +1 |
-| New Zealand Institute of Studies Limited | NZ | intakes +1 |
-| Universal English College | AU | english +1 |
-| UWS College, Western Sydney University The College,UWS Enterprises Pty Limited | AU | english +1 |
-| ATMC NZ Limited | NZ | fee +1 |
-| Seafield School of English Limited | NZ | english +1 |
-| The Learning Connexion Limited | NZ | fee -4 |
-| Real Estate Institute New Zealand Incorporated | NZ | intakes +1 |
-| Amtech Institute | AU | intakes +1 |
-| International Institute of Business and Technology Australia | AU | english +1 |
-| … | | 10 more in the CSV |
+| Flinders University | AU | intakes +1 |
+| Macquarie University | AU | page +1; intakes +2 |
+| University of Auckland | NZ | english +1; fee +34; scholarships published +1 |
+| Victoria University | AU | page +1 |
+| Auckland University of Technology | NZ | page +1; intakes +1; english +8; fee +10 |
+| University of Otago | NZ | fee +1 |
+| University of Canberra | AU | page +2; intakes +2 |
+| Eastern Institute of Technology | NZ | page +1 |
+| Ara Institute of Canterbury | NZ | intakes +5 |
+| Nelson Marlborough Institute of Technology (NMIT) | NZ | intakes +1 |
+| Algonquin College | CA | page +24; intakes +4; english +21 |
+| George Brown College | CA | page +14; intakes +10; fee +1 |
+| New Zealand School of Education Limited | NZ | page +1 |
+| JMC Academy | AU | page +2; intakes +2; english +2 |
+| Kaplan Business School Pty Ltd | AU | page +1; intakes +1 |
+| Royal Roads University | CA | page +1 |
+| AIH Higher Education | AU | english +9 |
+| Monash University English Language Centre; Monash College | AU | page +1 |
+| Mohawk College | CA | page +2; intakes +2; english +2; fee +1 |
 
 ## Needs a person (largest first)
 
@@ -196,10 +65,10 @@
 | Adelaide University | AU | 498 | Decide 6 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Flinders University | AU | 476 | Decide 22 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Macquarie University | AU | 461 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
-| University of Auckland | NZ | 458 | Decide 15 item(s) in Layer 4 |
+| University of Auckland | NZ | 458 | Decide 16 item(s) in Layer 4 |
 | The University of Newcastle (UoN), The University of Newcastle Language Centre, Sydney | AU | 457 | Decide 12 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The University of Melbourne (UniMelb) | AU | 441 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Australian National University | AU | 423 | Decide 2 item(s) in Layer 4 |
+| Australian National University | AU | 423 | Decide 1 item(s) in Layer 4 |
 | Swinburne University of Technology | AU | 412 | Decide 10 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The University of Queensland | AU | 383 | Decide 25 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Alberta | CA | 379 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -215,7 +84,7 @@
 | Conestoga College | CA | 270 | Decide 3 item(s) in Layer 4 |
 | Murdoch University | AU | 267 | Decide 16 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Massey University | NZ | 265 | Decide 33 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Auckland University of Technology | NZ | 257 | Decide 119 item(s) in Layer 4 |
+| Auckland University of Technology | NZ | 257 | Decide 38 item(s) in Layer 4 |
 | Deakin University (Deakin) | AU | 252 | Decide 10 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Otago | NZ | 252 | Decide 8 item(s) in Layer 4 |
 | La Trobe University | AU | 248 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -223,7 +92,7 @@
 | NZIST Work-Based Learning (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn) | NZ | 231 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | University of Tasmania (UTas) | AU | 221 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Canberra | AU | 212 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Simon Fraser University (SFU) | CA | 208 | Decide 3 item(s) in Layer 4 |
+| Simon Fraser University (SFU) | CA | 208 | Decide 32 item(s) in Layer 4 |
 | Southern Institute of Technology | NZ | 207 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Lethbridge | CA | 199 | Decide 25 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Lincoln University | NZ | 199 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -231,7 +100,7 @@
 | Eastern Institute of Technology | NZ | 184 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Bond University Limited | AU | 180 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Calgary | CA | 179 | Decide 15 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Ara Institute of Canterbury | NZ | 178 | Decide 10 item(s) in Layer 4 |
+| Ara Institute of Canterbury | NZ | 178 | Decide 1 item(s) in Layer 4 |
 | Charles Darwin University | AU | 175 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Edith Cowan University | AU | 172 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Toi Ohomai Institute of Technology | NZ | 156 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -239,8 +108,8 @@
 | Australian Catholic University | AU | 149 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of the Sunshine Coast | AU | 148 | Decide 16 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | Decide 2 item(s) in Layer 4 |
-| Manukau Institute of Technology and Unitec - MIT | NZ | 144 | Decide 3 item(s) in Layer 4 |
-| Waikato Institute of Technology | NZ | 144 | Decide 44 item(s) in Layer 4 |
+| Manukau Institute of Technology and Unitec - MIT | NZ | 144 | Decide 4 item(s) in Layer 4 |
+| Waikato Institute of Technology | NZ | 144 | Decide 45 item(s) in Layer 4 |
 | University of New England | AU | 130 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | James Cook University | AU | 127 | Decide 6 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Universal College of Learning (UCOL) | NZ | 115 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -252,7 +121,7 @@
 | Te Wānanga o Aotearoa | NZ | 85 | Decide 2 item(s) in Layer 4 |
 | TAFE South Australia | AU | 81 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Manukau Institute of Technology and Unitec - Unitec | NZ | 80 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Thompson Rivers University | CA | 76 | Decide 8 item(s) in Layer 4 |
+| Thompson Rivers University | CA | 76 | Decide 10 item(s) in Layer 4 |
 | University of Northern British Columbia | CA | 76 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Cambrian College of Applied Arts and Technology | CA | 72 | Decide 3 item(s) in Layer 4 |
 | New Zealand Institute of Skills and Technology (NZIST) | NZ | 72 | Too few course pages read: add page addresses (Adapter builder 2.1) |
@@ -301,6 +170,7 @@
 | The Australian College of Physical Education | AU | 23 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Georgian College | CA | 22 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Avondale University | AU | 21 | Decide 11 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Polytechnic Institute Australia; Australian Polytechnic Institute | AU | 21 | Decide 3 item(s) in Layer 4 |
 | National Trade Academy Limited | NZ | 21 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Bendigo TAFE; and Kangan Institute | AU | 20 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Holmes Institute | AU | 20 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
@@ -386,24 +256,23 @@
 | Taranaki Educare Training Trust | NZ | 6 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Tauranga Hair Design Academy Limited | NZ | 6 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Teach First NZ Charitable Trust | NZ | 6 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| Transformation Academy Trust | NZ | 6 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| … | | | 64 more in the CSV |
+| … | | | 65 more in the CSV |
 
 ## Every university
 
 | University | Country | Courses | Stage | Page | Intakes | English | Fee | Scholarships published | Next action |
 |---|---|---:|---|---:|---:|---:|---:|---:|---|
-| UNSW Sydney | AU | 667 | Admitting (adapter on, fields admitted) | 467 | 464 | 431 | 298 | 8 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
+| UNSW Sydney | AU | 667 | Admitting (adapter on, fields admitted) | 467 | 465 | 431 | 298 | 8 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The University of Sydney | AU | 655 | Admitting (adapter on, fields admitted) | 402 | 70 | 613 | 0 | 160 | Decide 139 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Monash University | AU | 582 | Admitting (adapter on, fields admitted) | 392 | 322 | 561 | 309 | 61 | Decide 5 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Technology Sydney (UTS) | AU | 530 | Admitting (adapter on, fields admitted) | 361 | 302 | 479 | 281 | 20 | Decide 17 held scholarship page(s) (Layer 4 › AI could not decide) |
 | RMIT University (RMIT) | AU | 507 | Admitting (adapter on, fields admitted) | 407 | 327 | 498 | 372 | 52 | Decide 25 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Adelaide University | AU | 498 | Admitting (adapter on, fields admitted) | 255 | 254 | 464 | 205 | 52 | Decide 6 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Flinders University | AU | 476 | Admitting (adapter on, fields admitted) | 390 | 243 | 358 | 208 | 52 | Decide 22 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Macquarie University | AU | 461 | Admitting (adapter on, fields admitted) | 271 | 91 | 371 | 0 | 21 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Flinders University | AU | 476 | Admitting (adapter on, fields admitted) | 390 | 244 | 358 | 208 | 52 | Decide 22 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Macquarie University | AU | 461 | Admitting (adapter on, fields admitted) | 272 | 93 | 371 | 0 | 21 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The University of Newcastle (UoN), The University of Newcastle Language Centre, Sydney | AU | 457 | Admitting (adapter on, fields admitted) | 207 | 195 | 426 | 182 | 23 | Decide 12 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The University of Melbourne (UniMelb) | AU | 441 | Admitting (adapter on, fields admitted) | 386 | 182 | 281 | 316 | 66 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Australian National University | AU | 423 | Admitting (adapter on, fields admitted) | 421 | 21 | 400 | 365 | 34 | Decide 2 item(s) in Layer 4 |
+| Australian National University | AU | 423 | Admitting (adapter on, fields admitted) | 421 | 21 | 400 | 365 | 34 | Decide 1 item(s) in Layer 4 |
 | Swinburne University of Technology | AU | 412 | Admitting (adapter on, fields admitted) | 239 | 219 | 388 | 212 | 11 | Decide 10 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The University of Queensland | AU | 383 | Admitting (adapter on, fields admitted) | 355 | 333 | 371 | 315 | 63 | Decide 25 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Curtin University | AU | 373 | Admitting (adapter on, fields admitted) | 302 | 246 | 367 | 260 | 10 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -412,12 +281,12 @@
 | Western Sydney University | AU | 325 | Admitting (adapter on, fields admitted) | 301 | 188 | 307 | 186 | 6 | Decide 10 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Griffith University | AU | 297 | Admitting (adapter on, fields admitted) | 265 | 265 | 294 | 265 | 15 | Decide 12 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Queensland University of Technology | AU | 294 | Admitting (adapter on, fields admitted) | 211 | 192 | 279 | 162 | 17 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Victoria University | AU | 280 | Admitting (adapter on, fields admitted) | 133 | 120 | 242 | 0 | 1 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Victoria University | AU | 280 | Admitting (adapter on, fields admitted) | 134 | 120 | 242 | 0 | 1 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Murdoch University | AU | 267 | Admitting (adapter on, fields admitted) | 224 | 181 | 234 | 160 | 10 | Decide 16 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Deakin University (Deakin) | AU | 252 | Admitting (adapter on, fields admitted) | 212 | 205 | 245 | 197 | 16 | Decide 10 held scholarship page(s) (Layer 4 › AI could not decide) |
 | La Trobe University | AU | 248 | Admitting (adapter on, fields admitted) | 242 | 170 | 233 | 178 | 16 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Tasmania (UTas) | AU | 221 | Admitting (adapter on, fields admitted) | 123 | 104 | 214 | 95 | 8 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
-| University of Canberra | AU | 212 | Admitting (adapter on, fields admitted) | 129 | 118 | 195 | 1 | 6 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
+| University of Canberra | AU | 212 | Admitting (adapter on, fields admitted) | 131 | 120 | 195 | 1 | 6 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Federation University Australia | AU | 195 | Admitting (adapter on, fields admitted) | 117 | 98 | 159 | 110 | 36 | Decide 3 item(s) in Layer 4 |
 | Torrens University Australia; Torrens University Language Centre; Chifley Business School at Torrens University Australia CBS at Torrens University Australia Blue Mountains International Hotel Management School at Torrens University Australia BMIHMS at To | AU | 182 | Admitting (adapter on, fields admitted) | 121 | 113 | 111 | 0 | 0 | None: kept current by the scheduled jobs |
 | Bond University Limited | AU | 180 | Admitting (adapter on, fields admitted) | 163 | 142 | 69 | 0 | 7 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -451,15 +320,15 @@
 | The Australian Institute of Music | AU | 39 | Admitting (adapter on, fields admitted) | 16 | 16 | 0 | 13 | 1 | None: kept current by the scheduled jobs |
 | AAPoly, AMI Education | AU | 37 | Admitting (adapter on, fields admitted) | 10 | 0 | 0 | 5 | 0 | None: kept current by the scheduled jobs |
 | Box Hill Institute | AU | 37 | Admitting (adapter on, fields admitted) | 20 | 18 | 21 | 10 | 0 | None: kept current by the scheduled jobs |
-| JMC Academy | AU | 37 | Admitting (adapter on, fields admitted) | 29 | 29 | 26 | 0 | 0 | None: kept current by the scheduled jobs |
+| JMC Academy | AU | 37 | Admitting (adapter on, fields admitted) | 31 | 31 | 28 | 0 | 0 | None: kept current by the scheduled jobs |
 | William Angliss Institute | AU | 37 | Admitting (adapter on, fields admitted) | 30 | 29 | 19 | 0 | 1 | None: kept current by the scheduled jobs |
 | Stott's Colleges, Australian Surf Industry Training School, Front Cooking School, Melbourne Language Centre, Affectors Academy | AU | 35 | Admitting (adapter on, fields admitted) | 22 | 18 | 20 | 4 | 0 | None: kept current by the scheduled jobs |
 | Victoria University | AU | 35 | Admitting (adapter on, fields admitted) | 25 | 20 | 22 | 0 | 1 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Kaplan Business School Pty Ltd | AU | 34 | Admitting (adapter on, fields admitted) | 28 | 24 | 26 | 0 | 0 | Decide 11 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Kaplan Business School Pty Ltd | AU | 34 | Admitting (adapter on, fields admitted) | 29 | 25 | 26 | 0 | 0 | Decide 11 held scholarship page(s) (Layer 4 › AI could not decide) |
 | TasTAFE | AU | 34 | Admitting (adapter on, fields admitted) | 27 | 12 | 11 | 11 | 0 | None: kept current by the scheduled jobs |
 | Chisholm Institute | AU | 32 | Admitting (adapter on, fields admitted) | 26 | 24 | 15 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | UTS College | AU | 30 | Admitting (adapter on, fields admitted) | 21 | 20 | 8 | 17 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| AIH Higher Education | AU | 29 | Admitting (adapter on, fields admitted) | 29 | 28 | 15 | 24 | 0 | None: kept current by the scheduled jobs |
+| AIH Higher Education | AU | 29 | Admitting (adapter on, fields admitted) | 29 | 28 | 24 | 24 | 0 | None: kept current by the scheduled jobs |
 | Australian University of Theology Limited | AU | 29 | Admitting (adapter on, fields admitted) | 11 | 0 | 21 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian College of Applied Professions, ACAP University College | AU | 27 | Admitting (adapter on, fields admitted) | 21 | 21 | 21 | 21 | 0 | None: kept current by the scheduled jobs |
 | ICHM | AU | 27 | Admitting (adapter on, fields admitted) | 8 | 8 | 11 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -476,7 +345,7 @@
 | VIT (Victorian Institute of Technology) | AU | 22 | Admitting (adapter on, fields admitted) | 22 | 9 | 20 | 2 | 0 | None: kept current by the scheduled jobs |
 | Avondale University | AU | 21 | Admitting (adapter on, fields admitted) | 20 | 2 | 19 | 0 | 11 | Decide 11 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Kent Institute Australia | AU | 21 | Admitting (adapter on, fields admitted) | 13 | 0 | 13 | 0 | 0 | None: kept current by the scheduled jobs |
-| Polytechnic Institute Australia; Australian Polytechnic Institute | AU | 21 | Admitting (adapter on, fields admitted) | 15 | 0 | 18 | 0 | 0 | None: kept current by the scheduled jobs |
+| Polytechnic Institute Australia; Australian Polytechnic Institute | AU | 21 | Admitting (adapter on, fields admitted) | 15 | 0 | 18 | 0 | 0 | Decide 3 item(s) in Layer 4 |
 | Bendigo TAFE; and Kangan Institute | AU | 20 | Adapter built, not admitting yet | 14 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Christian Heritage College | AU | 20 | Admitting (adapter on, fields admitted) | 19 | 19 | 19 | 0 | 0 | None: kept current by the scheduled jobs |
 | Holmes Institute | AU | 20 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
@@ -507,7 +376,7 @@
 | Melbourne Institute of Technology | AU | 12 | Admitting (adapter on, fields admitted) | 12 | 12 | 12 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | National Academy of Professional Studies | AU | 12 | Admitting (adapter on, fields admitted) | 11 | 11 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian Performing Arts Conservatory | AU | 11 | Admitting (adapter on, fields admitted) | 9 | 9 | 9 | 8 | 0 | None: kept current by the scheduled jobs |
-| Monash University English Language Centre; Monash College | AU | 11 | Admitting (adapter on, fields admitted) | 10 | 9 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
+| Monash University English Language Centre; Monash College | AU | 11 | Admitting (adapter on, fields admitted) | 11 | 9 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
 | Nan Tien Institute, NTI English Language Centre, NTI Business | AU | 11 | Admitting (adapter on, fields admitted) | 11 | 0 | 11 | 9 | 0 | None: kept current by the scheduled jobs |
 | Sheridan Institute of Higher Education | AU | 11 | Admitting (adapter on, fields admitted) | 9 | 8 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | BPP Institute Pty Ltd | AU | 10 | Admitting (adapter on, fields admitted) | 10 | 10 | 8 | 7 | 0 | None: kept current by the scheduled jobs |
@@ -621,7 +490,7 @@
 | University of Alberta | CA | 379 | Admitting (adapter on, fields admitted) | 222 | 1 | 337 | 0 | 0 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Conestoga College | CA | 270 | Admitting (adapter on, fields admitted) | 264 | 132 | 0 | 16 | 0 | Decide 3 item(s) in Layer 4 |
 | University of Victoria | CA | 234 | Admitting (adapter on, fields admitted) | 140 | 96 | 193 | 2 | 3 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Simon Fraser University (SFU) | CA | 208 | Onboarding running | 153 | 68 | 74 | 4 | 0 | Decide 3 item(s) in Layer 4 |
+| Simon Fraser University (SFU) | CA | 208 | Onboarding running | 153 | 68 | 74 | 4 | 0 | Decide 32 item(s) in Layer 4 |
 | University of Lethbridge | CA | 199 | Admitting (adapter on, fields admitted) | 164 | 169 | 184 | 0 | 31 | Decide 25 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Calgary | CA | 179 | Adapter built, not admitting yet | 33 | 5 | 60 | 1 | 5 | Decide 15 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Durham College | CA | 144 | Admitting (adapter on, fields admitted) | 138 | 137 | 32 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -630,15 +499,15 @@
 | Camosun College | CA | 91 | Admitting (adapter on, fields admitted) | 91 | 76 | 12 | 49 | 0 | None: kept current by the scheduled jobs |
 | University of Manitoba | CA | 87 | Onboarding running | 2 | 0 | 26 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Okanagan College | CA | 80 | Admitting (adapter on, fields admitted) | 80 | 47 | 5 | 29 | 0 | None: kept current by the scheduled jobs |
-| Thompson Rivers University | CA | 76 | Admitting (adapter on, fields admitted) | 48 | 36 | 1 | 6 | 2 | Decide 8 item(s) in Layer 4 |
+| Thompson Rivers University | CA | 76 | Admitting (adapter on, fields admitted) | 48 | 36 | 1 | 6 | 2 | Decide 10 item(s) in Layer 4 |
 | University of Northern British Columbia | CA | 76 | Admitting (adapter on, fields admitted) | 47 | 21 | 71 | 2 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Cambrian College of Applied Arts and Technology | CA | 72 | Onboarding running | 72 | 72 | 18 | 54 | 0 | Decide 3 item(s) in Layer 4 |
 | La Cité collégiale | CA | 61 | Admitting (adapter on, fields admitted) | 57 | 0 | 0 | 55 | 0 | None: kept current by the scheduled jobs |
-| Algonquin College | CA | 58 | Admitting (adapter on, fields admitted) | 30 | 1 | 27 | 0 | 0 | None: kept current by the scheduled jobs |
+| Algonquin College | CA | 58 | Admitting (adapter on, fields admitted) | 54 | 5 | 48 | 0 | 0 | None: kept current by the scheduled jobs |
 | Loyalist College | CA | 57 | Admitting (adapter on, fields admitted) | 56 | 51 | 0 | 16 | 0 | Decide 2 item(s) in Layer 4 |
 | Canadore College | CA | 52 | Adapter built, not admitting yet | 51 | 9 | 1 | 17 | 0 | Decide 9 item(s) in Layer 4 |
 | Athabasca University | CA | 50 | Admitting (adapter on, fields admitted) | 50 | 49 | 48 | 39 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| George Brown College | CA | 49 | Adapter built, not admitting yet | 33 | 32 | 3 | 9 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| George Brown College | CA | 49 | Adapter built, not admitting yet | 47 | 42 | 3 | 10 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | MacEwan University | CA | 44 | Adapter built, not admitting yet | 43 | 0 | 44 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | University of the Fraser Valley | CA | 44 | Admitting (adapter on, fields admitted) | 39 | 37 | 44 | 0 | 3 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Vancouver Island University | CA | 44 | Admitting (adapter on, fields admitted) | 32 | 30 | 43 | 25 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -647,7 +516,7 @@
 | Humber College | CA | 40 | Admitting (adapter on, fields admitted) | 11 | 11 | 30 | 0 | 0 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
 | Mount Royal University | CA | 38 | Adapter built, not admitting yet | 33 | 16 | 38 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Kwantlen Polytechnic University | CA | 37 | Admitting (adapter on, fields admitted) | 16 | 10 | 37 | 0 | 3 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Royal Roads University | CA | 31 | Admitting (adapter on, fields admitted) | 17 | 15 | 0 | 2 | 3 | Decide 24 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Royal Roads University | CA | 31 | Admitting (adapter on, fields admitted) | 18 | 15 | 0 | 2 | 3 | Decide 24 held scholarship page(s) (Layer 4 › AI could not decide) |
 | British Columbia Institute of Technology | CA | 30 | Adapter built, not admitting yet | 7 | 5 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | The King’s University | CA | 28 | Adapter built, not admitting yet | 6 | 0 | 28 | 0 | 0 | Admit its Ready fields (Layer 2 › Build adapter) |
 | Burman University | CA | 27 | Stopped: too few course pages | 0 | 0 | 27 | 0 | 1 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
@@ -664,28 +533,28 @@
 | Northwestern Polytechnic | CA | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | North Island College | CA | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 2 | 2 | 0 | None: kept current by the scheduled jobs |
 | Justice Institute of British Columbia | CA | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 2 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Mohawk College | CA | 2 | Admitting (adapter on, fields admitted) | 0 | 0 | 0 | 0 | 0 | Decide 2 item(s) in Layer 4 |
+| Mohawk College | CA | 2 | Admitting (adapter on, fields admitted) | 2 | 2 | 2 | 1 | 0 | Decide 1 item(s) in Layer 4 |
 | Yukon University | CA | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Coast Mountain College | CA | 1 | Adapter built, not admitting yet | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | College of New Caledonia | CA | 1 | Adapter built, not admitting yet | 0 | 0 | 0 | 0 | 0 | Decide 5 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Olds College | CA | 1 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| University of Auckland | NZ | 458 | Admitting (adapter on, fields admitted) | 330 | 283 | 209 | 211 | 90 | Decide 15 item(s) in Layer 4 |
+| University of Auckland | NZ | 458 | Admitting (adapter on, fields admitted) | 330 | 283 | 210 | 245 | 91 | Decide 16 item(s) in Layer 4 |
 | University of Canterbury | NZ | 280 | Admitting (adapter on, fields admitted) | 216 | 203 | 13 | 157 | 3 | Decide 5 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Waikato | NZ | 278 | Admitting (adapter on, fields admitted) | 109 | 111 | 227 | 61 | 10 | Decide 3 item(s) in Layer 4 |
 | Victoria University of Wellington | NZ | 273 | Admitting (adapter on, fields admitted) | 152 | 92 | 225 | 96 | 0 | None: kept current by the scheduled jobs |
 | Massey University | NZ | 265 | Admitting (adapter on, fields admitted) | 166 | 28 | 22 | 119 | 19 | Decide 33 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Auckland University of Technology | NZ | 257 | Admitting (adapter on, fields admitted) | 202 | 166 | 226 | 104 | 2 | Decide 119 item(s) in Layer 4 |
-| University of Otago | NZ | 252 | Adapter built, not admitting yet | 171 | 2 | 206 | 93 | 19 | Decide 8 item(s) in Layer 4 |
+| Auckland University of Technology | NZ | 257 | Admitting (adapter on, fields admitted) | 203 | 167 | 234 | 114 | 2 | Decide 38 item(s) in Layer 4 |
+| University of Otago | NZ | 252 | Adapter built, not admitting yet | 171 | 2 | 206 | 94 | 19 | Decide 8 item(s) in Layer 4 |
 | NZIST Work-Based Learning (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn) | NZ | 231 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Southern Institute of Technology | NZ | 207 | Admitting (adapter on, fields admitted) | 120 | 104 | 95 | 1 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Lincoln University | NZ | 199 | Admitting (adapter on, fields admitted) | 93 | 88 | 119 | 77 | 1 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Eastern Institute of Technology | NZ | 184 | Admitting (adapter on, fields admitted) | 97 | 92 | 106 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Eastern Institute of Technology | NZ | 184 | Admitting (adapter on, fields admitted) | 98 | 92 | 106 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Otago Polytechnic | NZ | 182 | Admitting (adapter on, fields admitted) | 92 | 81 | 86 | 77 | 0 | None: kept current by the scheduled jobs |
-| Ara Institute of Canterbury | NZ | 178 | Admitting (adapter on, fields admitted) | 86 | 58 | 105 | 30 | 0 | Decide 10 item(s) in Layer 4 |
+| Ara Institute of Canterbury | NZ | 178 | Admitting (adapter on, fields admitted) | 86 | 63 | 105 | 30 | 0 | Decide 1 item(s) in Layer 4 |
 | Toi Ohomai Institute of Technology | NZ | 156 | Admitting (adapter on, fields admitted) | 93 | 89 | 93 | 35 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | Admitting (adapter on, fields admitted) | 68 | 60 | 65 | 0 | 0 | Decide 2 item(s) in Layer 4 |
-| Manukau Institute of Technology and Unitec - MIT | NZ | 144 | Admitting (adapter on, fields admitted) | 68 | 67 | 49 | 26 | 0 | Decide 3 item(s) in Layer 4 |
-| Waikato Institute of Technology | NZ | 144 | Admitting (adapter on, fields admitted) | 76 | 71 | 72 | 2 | 0 | Decide 44 item(s) in Layer 4 |
+| Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | Admitting (adapter on, fields admitted) | 68 | 61 | 65 | 0 | 0 | Decide 2 item(s) in Layer 4 |
+| Manukau Institute of Technology and Unitec - MIT | NZ | 144 | Admitting (adapter on, fields admitted) | 68 | 67 | 49 | 26 | 0 | Decide 4 item(s) in Layer 4 |
+| Waikato Institute of Technology | NZ | 144 | Admitting (adapter on, fields admitted) | 76 | 71 | 72 | 2 | 0 | Decide 45 item(s) in Layer 4 |
 | NorthTec | NZ | 122 | Admitting (adapter on, fields admitted) | 44 | 35 | 55 | 11 | 0 | None: kept current by the scheduled jobs |
 | Whitireia and WelTec | NZ | 116 | Admitting (adapter on, fields admitted) | 53 | 24 | 51 | 23 | 0 | None: kept current by the scheduled jobs |
 | Universal College of Learning (UCOL) | NZ | 115 | Admitting (adapter on, fields admitted) | 41 | 40 | 37 | 35 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -699,7 +568,7 @@
 | Te Wānanga o Raukawa | NZ | 63 | Admitting (adapter on, fields admitted) | 51 | 49 | 0 | 1 | 0 | Decide 1 item(s) in Layer 4 |
 | Te Whare Wānanga o Awanuiārangi | NZ | 52 | Adapter built, not admitting yet | 36 | 24 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Yoobee Colleges Limited | NZ | 52 | Admitting (adapter on, fields admitted) | 17 | 13 | 15 | 12 | 0 | None: kept current by the scheduled jobs |
-| New Zealand School of Education Limited | NZ | 42 | Admitting (adapter on, fields admitted) | 23 | 0 | 16 | 8 | 0 | None: kept current by the scheduled jobs |
+| New Zealand School of Education Limited | NZ | 42 | Admitting (adapter on, fields admitted) | 24 | 0 | 16 | 8 | 0 | None: kept current by the scheduled jobs |
 | Tai Poutini Polytechnic | NZ | 42 | Admitting (adapter on, fields admitted) | 11 | 9 | 11 | 4 | 0 | Decide 5 item(s) in Layer 4 |
 | Skills Active Te Mahi Ako Limited | NZ | 41 | Adapter built, not admitting yet | 11 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Future Skills Academy Limited | NZ | 36 | Admitting (adapter on, fields admitted) | 15 | 15 | 8 | 5 | 0 | Decide 1 item(s) in Layer 4 |
