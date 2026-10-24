@@ -7799,3 +7799,13 @@ The brief now forbids direct table changes.
 | Sweep 24 h report | Throughput record section 10: 138 fees and 69 English admitted for the 3,675 swept courses, almost all in the first three hours; fee reader queue 0; remaining blockers are S1 / 8a / fee-schedule route |
 | Next | R2 (Q1, `search.daily_picked_cap` = 100); then Defect 1 build (wrong-page first, noise fix, aliases); Defect 2 after R2 |
 | Consumer API | Not touched (Decision 266) |
+
+### 24 Oct 2026 (Sat, Melbourne) – Update 23:40: R2 landed (v2.15.350, PR #692) with tranche 1; Layer 4 triage Phase 0; approvals 23:07 recorded
+
+| Item | Detail |
+|---|---|
+| Approvals 23:07 | Tranche 1 applies with R2; Tai Poutini highest attention; TAFEs/wānanga/ITOs out until the weekly line; weekly line as configured plus poor-type rule (worst providers named; definition: < 60% or 15+ points below the other type); 951-override finding recorded prominently — (b) starts from it; no further sweeps, baseline logged; Defect 1 order approved |
+| R2 | `search.daily_picked_cap` 100, `search.stop_per_course_after` 6; picker counts today's picks (UTC), a person's running task counted not held, per-course stop from `page_rejections`; stall cause `daily_cap`. Merged `441aaa8a`; migration md5 matches; suite 1,902 (4 legacy) |
+| Tranche 1 | 25 override rows applied 12:35 UTC; 25/25 included at 12:36. The day's cap is already used (877 sent today), so searching starts 00:00 UTC |
+| Layer 4 triage | New mandate (23:17), record `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`: Phase 0 census 2,011 items (1,258 aged), classification per kind, Phase 1 designs ≈ 1,000 credits / < US$1.50 AI, Phase 2 learning loop; three questions open |
+| Consumer API | Not touched (Decision 266) |

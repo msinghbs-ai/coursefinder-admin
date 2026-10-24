@@ -84,3 +84,12 @@ Under the O10 conditions any release flows through the standard search → AI-ma
 | 4 | Sweep conclusion accepted — no further sweeps; empty fee-reader queue logged as the baseline for the next admission lever | Throughput record section 10 |
 | 5 | Defect 1 order approved (wrong-page signal first → extraction-noise fix → aliases quoted from page); Defect 2 waits for R2 | Mandate file |
 | Standing | If the tranche's correct-page rate is poor for a provider TYPE, the weekly line names that type's worst providers; Tranche 2 selection starts from that list, not from size | Scheduled task prompt, with the working definition: poor = under 60%, or 15+ points below the other type; names the 5 worst with ≥5 completed searches |
+
+### 5 R2 released and tranche 1 applied (24 Oct 2026, 23:30–23:36)
+
+| Step | Evidence |
+|---|---|
+| **R2 = v2.15.350, PR #692, merged** (`441aaa8a`) | Deploy on merge succeeded; applied migration md5 `12af6bb7…` = repo file; `search.daily_picked_cap` 100 and `search.stop_per_course_after` 6 present; picker and stall-cause functions carry the R2 lines. Suite before merge 1,902 passed (4 legacy) |
+| **Tranche 1 applied** 12:35 UTC, text as in the paste file (md5 `710c52ca…`) | Guards held (R2 live, 25 eligible, 25 inserted). At the 12:36 refresh **25 of 25 included** |
+| Cap holding | 877 courses already sent today (UTC) — the re-opened tasks and Otago — so the automatic search, tranche included, is at its cap until 00:00 UTC (11:00 AEDT). Stall cause shown, e.g. Tai Poutini: "Today's course search cap (100 courses) is reached; searching resumes at 00:00 UTC". Tai Poutini has 31 queued searches |
+| Weekly line | From Monday 26 Oct, scheduled task "Tranche 1 weekly report" |

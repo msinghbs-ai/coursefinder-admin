@@ -1,5 +1,5 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-24 23:10 AEDT by the data-engineering agent.
+Last updated: 2026-10-24 23:40 AEDT by the data-engineering agent.
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
@@ -33,7 +33,7 @@ Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs
 R1 (Q2 backoff, Q4 narrowed, Q3 ledger, apply-time identity check) — **LANDED** as one
 release, v2.15.339 / PR #681. R3 (`health-hourly`) — **LANDED** as v2.15.340 / PR #682;
 provisional headline target remains unset until its first full week of rows.
-target_only audit — **PRODUCED 24 Oct 19:40; O10 APPROVED 19:12 with conditions** — 0 of 205 pass the current rule, so nothing releases until the Platform Admin chooses keep / change rule settings / named overrides (`2026-10-24-target-only-audit.md` thread); R2 proceeds regardless. Then R2 (Q1 at
+target_only audit — PRODUCED; O10 APPROVED; route staged (c)-then-(b) — **R2 LANDED v2.15.350 (PR #692) with tranche 1 applied** (`2026-10-24-target-only-audit.md` sections 3–5); (b) rule-settings proposal after ~2 weeks of the weekly line, starting from the 951-override finding. Then R2 (Q1 at
 search.daily_picked_cap = 100; raise only on ledger evidence). Then stepped read-lane
 test. Then S1 full (absorbs zero-yield table; contract test: search, AI match AND
 finder all consume rejections). Then 8a remainder (country_identity_rules table).
@@ -65,8 +65,9 @@ v2.15.344 UI audit Phase 2 course list fee basis and sorts (PR #684) ·
 v2.15.345 UI audit Phase 3 dedupe and data-quality leaks (PR #685) · v2.15.346 UI audit Phase 1 list internals stripped (PR #688) ·
 v2.15.347 HOTFIX 3 Task manager read speed (PR #689) ·
 v2.15.348 Campuses by CRICOS location name + Provider filter (PR #690) ·
-v2.15.349 Firecrawl targets rule reports the failing condition (PR #691).
-No open PRs (24 Oct 23:10). Tranche 1 override paste (25 providers) for review; applies after R2.
+v2.15.349 Firecrawl targets rule reports the failing condition (PR #691) ·
+v2.15.350 R2: daily picked-courses cap 100 + per-course stop 6 (PR #692); tranche 1 (25 overrides) applied.
+No open PRs (24 Oct 23:40).
 Hotfix record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (re-open paste file with the Platform Admin).
 Key metric: course-page binding % (NZ baseline 53.5%) — every field's ceiling.
 R1 live evidence: worker v0.46.0 writes the per-mode ledger; 15-minute backoff cap;
