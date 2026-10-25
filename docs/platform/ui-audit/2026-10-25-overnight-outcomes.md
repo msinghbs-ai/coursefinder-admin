@@ -230,6 +230,6 @@ No lane has been paused by this mandate. Any pause made under it will be added h
 | #695 | v2.15.355 | Track C entry requirements step A (reader off) | Merging after this report, gates below |
 
 **For you in Layer 4 this morning:**
-- **60 first runs:** 45 "no page published" with 5 samples each, and 15 conjoint rules, all universities.
+- **60 first runs:** 41 "no page published" with 5 samples each, and 19 conjoint rules, all universities.
 - **Approve when none of the samples has its own page**; otherwise edit with `{"has_page_course_ids": [...]}`.
 - At 60% confirmed, the university's later cases are recorded automatically; every recorded course re-opens if a page is ever found.
