@@ -40,3 +40,17 @@ It is then dry-run, suite-checked and merged under rule 9 (its reader stays off 
 ## Rule 10 from here
 
 Every response from 23:16 on is lodged before the reply; this file is the first under the rule. Tonight's earlier records (overnight outcomes, speed reconfiguration, Track C) were already in the repo.
+
+## Activation (Platform Admin 23:24 "ACTIVATE NOW")
+
+| # | Instruction | Done |
+|---|---|---|
+| 1 | Merge #694, then #696, under the new rule, with merge records | Already done at 23:17 / 23:21 (above), in that order. The suite state you accepted matches the gates applied |
+| 2 | After #696: `bind.no_page_on` = 1 (logged) | **23:27**, `admin_toolsets_write` as the Platform Admin, reason logged in `admin_control_events`. The first run of `no-page-propose` is at 23:37 (hourly at :37); result below |
+| 3 | Leave `bind.match_scope_top_n` at its default | Left at 100; the AU AI match scope is live (AI only) |
+| 4 | Tranche 2 Part A: applied by the Platform Admin now; verify at 00:30 | Verification at the 00:30 checkpoint: 7 override rows, the 7 colleges included in the target cache, 18 fee pages re-queued and then fetched |
+
+Carried to 08:00 (no action now):
+- the ~60 matching-miss titles at the 8 NZ universities;
+- Tranche 2 Part B from Monday's worst-named list;
+- O8 / O9 from the Platform Admin.
