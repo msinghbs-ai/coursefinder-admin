@@ -290,3 +290,25 @@ All three are rendered in a browser check with the feed stopped deliberately for
 | D-S1-3 | **"No page published by the provider" gap cause: APPROVED exactly as designed**: first case per provider to Layer 4, then the 60% rule, re-opened by any later map that finds a page, never deleted. **Conjoint rule per provider in Layer 4: approved.** "These two convert a permanent search tax into a recorded fact" | Both go in SP-1 with S1 items 1–2 and the S4-3 mislabel fix |
 | D-S6 | **S5 / S6 ship inside Track B release 1**, on one condition: if bundling would push release 1 past its estimate by more than a day, S5 / S6 split into **release 1.1, merged immediately after**, not later | The release 1 plan states its estimate with and without S5 / S6; the split is decided against that line, not later |
 | D-T2 | **Tranche 2 Part A: the Platform Admin applies the paste now** (7 Canadian colleges). Part B stays empty until Monday's worst-named list | Verification of the applied rows and of the 18 fee pages fetched follows in the overnight record |
+
+## Correction 25 Oct 2026 22:50: S1 item 1 (fresh maps) withdrawn; SP-1 rescoped
+
+While building SP-1 I checked the discovery lane behind the "no / thin inventory" queue (`pipeline.coverage_provider_discovery`, the `discover` mode: free site maps first, then a Firecrawl map). **Every one of those providers has already been mapped.** A fresh map would spend credits to learn nothing new.
+
+| Queue row in S1 | Discovery status | Real cause |
+|---|---|---|
+| NZ, no inventory (19 providers, 426 courses) | `failed`: maps ran (e.g. NZIST: site maps 3 + map 235 + search map 249 = 702 addresses), **0 kept** | The courses are not on the recorded website. NZIST Work-Based Learning's 231 and NZIST's 72 courses live on the transitioned ITO / business-division domains (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn), not on `nzist.ac.nz`. Several small PTEs answer a map with 0–4 addresses (site down or one-page sites) |
+| NZ, thin (197 providers, 884 courses) | `mapped` (196 of 197) | Small sites genuinely have few pages: a PTE with 3 courses has a thin inventory by nature |
+| AU none / thin (75 providers, 500 courses) | `failed` (10) / `mapped` (65) | Same pattern; 59 of the thin ones are outside the focus set, so the AI match never reads their inventory |
+| CA (10 providers, 110 courses) | `failed` / `mapped` | Same pattern |
+
+**What replaces item 1 in SP-1, all inside the approved design and at zero or near-zero credits:**
+1. **Provider domains for multi-domain providers.** A provider may hold extra course domains, recorded per provider. The discovery `keepUrl` host check and the AI match then accept them. The first set comes from the NZ provider-transition records already in the database (NZIST → ITO / business-division domains). **Each extra domain is a Layer 4 first-run item per provider; nothing is trusted unseen.** Credits: one map per added domain, once.
+2. **Discovery `failed` with 0 addresses** (site not answering) gets the gap cause `site_unreachable` (with the date), not "no page". It is re-tried on the existing schedule.
+3. **AI match gate widened** to tranche + top-N by unbound courses (`bind.match_scope_top_n`, 100), reading the inventories that already exist: AU 59 thin-but-mapped providers outside focus, plus the rest. This is AI only (about US$0.002 a course), no credits.
+
+**Unchanged and approved (22:27):** the "no page published by the provider" gap cause, the conjoint rule, the mislabel fix. These are now the core of SP-1.
+
+**Budget effect:** S1's "300–600 credits once" falls to about the number of extra domains approved, likely under 50 credits.
+
+**Ceiling effect:** S1 still does not reach NZ 75% on today's definition. The approved no-page cause is what moves the honest number. I said this in the 22:05 response, and it now matters more. The S1 PR will show the projected curve.
