@@ -7966,3 +7966,11 @@ The brief now forbids direct table changes.
 | SP-1 (#696, v2.15.353) | No page published by the provider + conjoint rule (Layer 4 first run per provider, 60% rule, universities first, at most 10 new first runs an hour), extra course domains, AI match scope (AU), named Firecrawl refusals. Rebased on main after #694. Live md5 of all 8 edited functions verified. Live dry run on top of #694 passed (rolled back). Suite 1,910 passed (4 legacy; 4 older contract tests updated to the renamed spend-check calls). Activation `bind.no_page_on` stays 0 |
 | Track C (#695) | Not merged tonight: the Platform Admin's 18:54 instruction for Track C was "NO merge" tonight. It is rebased after SP-1 (decide/desk md5, worker v0.48.0) and merged under rule 9 on 26 Oct |
 | Consumer API | Not touched (Decision 266) |
+
+### 26 Oct 2026 (Mon, Melbourne) – Update 04:30: SP-1.1 pending cap on Layer 4 first runs (rule 9 merge)
+
+| Item | Detail |
+|---|---|
+| Defect | SP-1 capped first runs per hourly run (10) but not the number waiting: 50 pending at 04:00, heading for about 177 |
+| SP-1.1 (v2.15.354) | `bind.no_page_pending_max` (60, 5–500): a new first run opens only while fewer are waiting. md5-guarded edit of `security.no_page_propose_v1` (live md5 `0b68723d…` verified before merge). Live dry run passed (cap 50 → 0 new first runs). Suite 1,920 passed, only the 4 legacy failures. Test s118 |
+| Consumer API | Not touched (Decision 266) |
