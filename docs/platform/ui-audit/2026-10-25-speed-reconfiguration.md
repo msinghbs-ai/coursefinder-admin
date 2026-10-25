@@ -71,7 +71,7 @@ The inventories are full. What is mostly missing is **a published page for that 
 
 S1 (#694) merges first. This programme is then the **primary track**; Track B release 1 and Track C (#695) keep their merge positions.
 
-**Merge queue as I read it:** #694 → Track B R1 (with S5 + S6, below) → #695 → speed release SP-1 → SP-2 …
+**Merge queue as I read it (22:05):** #694 → Track B R1 (with S5 + S6, below) → #695 → speed release SP-1 → SP-2 … (superseded at 22:27, see Decisions below)
 
 **One question for you (D-S0):** should SP-1 (the mislabel fix + map-then-match widening, small and mostly settings and SQL) go **before** #695, given it is now the primary track? Track C has no running dependency (its reader is off), so moving SP-1 ahead of it costs nothing. My recommendation is **yes**. Until you say so, the queue stays as written.
 
@@ -279,3 +279,14 @@ All three are rendered in a browser check with the feed stopped deliberately for
 2. **D-S1-3:** the "no page published by provider" gap cause, verified per provider in Layer 4 and then trusted at the 60% rule. Is this the right way to stop counting unbindable courses?
 3. **D-S6:** S5 + S6 inside Track B R1 (recommended), or R1.1 right after?
 4. **Tranche 2 Part A:** apply when ready. Part B follows Monday's weekly line.
+
+## Decisions 25 Oct 2026 22:27 (Platform Admin)
+
+**Naming (recorded everywhere):** PR #694 is **"gate consolidation"**, never "S1", so it no longer collides with this programme's S1. Speed releases are named **SP-x** only.
+
+| # | Decision (as given, in short) | Consequence |
+|---|---|---|
+| D-S0 | **SP-1 goes ahead of #695: YES.** Queue: #694 (gate consolidation, the Platform Admin's first review on 26 Oct) → SP-1 → #695 | Merge queue: **#694 → SP-1 → #695**. Track B release 1 keeps its place and takes the release slot when it is ready; one release at a time |
+| D-S1-3 | **"No page published by the provider" gap cause: APPROVED exactly as designed**: first case per provider to Layer 4, then the 60% rule, re-opened by any later map that finds a page, never deleted. **Conjoint rule per provider in Layer 4: approved.** "These two convert a permanent search tax into a recorded fact" | Both go in SP-1 with S1 items 1–2 and the S4-3 mislabel fix |
+| D-S6 | **S5 / S6 ship inside Track B release 1**, on one condition: if bundling would push release 1 past its estimate by more than a day, S5 / S6 split into **release 1.1, merged immediately after**, not later | The release 1 plan states its estimate with and without S5 / S6; the split is decided against that line, not later |
+| D-T2 | **Tranche 2 Part A: the Platform Admin applies the paste now** (7 Canadian colleges). Part B stays empty until Monday's worst-named list | Verification of the applied rows and of the 18 fee pages fetched follows in the overnight record |

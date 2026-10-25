@@ -32,7 +32,7 @@ Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs
 | ../ui-audit/2026-10-24-title-and-international-intent-mandate.md | MANDATE (queued after audit → O10 → R2): NZ title verification, AU international-intent pages |
 
 ## Standing order
-**25 Oct 22:05 (Platform Admin): the speed programme (`../ui-audit/2026-10-25-speed-reconfiguration.md`) is the new primary track.** The standing order's Track A completes first (S1 #694 merges first); then the speed programme leads. Track B release 1 and Track C (#695) keep their merge positions. Merge queue: #694 → Track B R1 (with S5 + S6 if approved) → #695 → SP-1 (or SP-1 before #695 if D-S0 says so).
+**25 Oct 22:05 / 22:27 (Platform Admin): the speed programme (`../ui-audit/2026-10-25-speed-reconfiguration.md`) is the primary track.** Merge queue: **#694 gate consolidation → SP-1 → #695**; Track B release 1 keeps its place (with S5/S6 inside, or split to 1.1 straight after if bundling adds more than a day). Naming: #694 is "gate consolidation", never "S1"; speed releases are SP-x only.
 
 R1 (Q2 backoff, Q4 narrowed, Q3 ledger, apply-time identity check) — **LANDED** as one
 release, v2.15.339 / PR #681. R3 (`health-hourly`) — **LANDED** as v2.15.340 / PR #682;
@@ -48,8 +48,8 @@ not bypass O10/R2 or any approval gate.
 (Pruned 25 Oct 2026 15:15 to the next human gates, per the Platform Admin's 14:50 decisions.)
 1. **SIT 3954 extract**: shown in `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md` ("SIT 3954 stored register extract"). The register itself titles 3954 "--", which points to the one-row quarantine paste. Say the word and the file is written; also delete branch `cf247-sit3954-extract` (deletion refused from this session).
 2. **Track B release 1 PR**: review before merge (Fields section, Pipeline strip on `pipeline.course_events`, Read-with-AI v2, calendar retirement tidy, lineage test).
-3. **Track A PRs** (S1 + 8a), as they come: **#694 open for review**.
-4. **Speed programme decisions** (record, section "Decisions for the Platform Admin"): D-S0 SP-1 before #695; D-S1-3 "no page published by provider" gap cause; D-S6 S5+S6 inside Track B R1; Tranche 2 Part A paste (`PASTE-20261026-target-tranche-2-overrides.sql`), Part B after Monday's weekly line; O8/O9 plan tiers for S3.
+3. **Track A PRs**: **#694 gate consolidation** open, the Platform Admin's first review on 26 Oct; 8a as it comes.
+4. **Speed programme**: decided 22:27 (SP-1 before #695; no-page gap cause and conjoint rule approved; S5/S6 inside Track B R1 with the one-day split rule; Tranche 2 Part A applied by the Platform Admin). Open: Tranche 2 Part B after Monday's weekly line; O8/O9 plan tiers for S3; **SP-1 PR** when built.
 
 Parked, not gates today: policy proposals paste (65 rows, mark when ready); zero_yield.auto_reset; UoA catalogue-host; O5 / O8 / O9; R3 headline target.
 Closed 25 Oct: #693 accepted (live re-check is the verification); Track B release 1 approved as specified; 2.2–2.4 specs accepted (queued behind Track A); `reading.read_attempts_max` open row; real-tables rule (AGENT-OPERATING-MODEL rule 7); entry-requirements feed confirmed (additive in existing payloads); Sydney 2026 edition current plus a quarterly re-check; entry build plan approved; case-by-case rendering rule.
