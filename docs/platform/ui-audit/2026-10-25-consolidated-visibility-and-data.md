@@ -264,3 +264,4 @@ Design:
 | 12:50 | Live dry run of `20261025001000` (rolled back) | NZ sorted by Completeness: fee 0 → 50 of 50, city 0 → 49 of 50; LI4245 `37000.00`, Lincoln |
 | 13:20 | Full suite | 1,906 passed; only the 4 known legacy failures (cf-091, cf-103 desktop and mobile); `release:verify` PASS v2.15.351; build OK |
 | 13:25 | PR #693 opened | **Not merged: awaiting Platform Admin review.** After merge: the migration's md5 is checked against `schema_migrations`, the live NZ Completeness page is re-run, and the on-screen before/after is taken. The browser pane is not linked to this session, so the screenshot evidence is the Platform Admin's, or comes when the pane is linked |
+| 01:44 UTC | PR #693 merged (D-693; record `2026-10-25-lineage-verify-and-trackb.md`) | Deploy on merge success; migration md5 `8d291885…` = repo; live NZ Completeness 50 fee / 49 city; LI4245 NZD 37000 Lincoln. Browser before/after: Platform Admin |

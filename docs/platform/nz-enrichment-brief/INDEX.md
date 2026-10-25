@@ -41,16 +41,17 @@ Then items 9, 10, 11. B1 entry requirements remains first among the AU builds an
 not bypass O10/R2 or any approval gate.
 
 ## Decisions awaiting Platform Admin
-(Pruned 25 Oct 2026 to what genuinely awaits; full record: `docs/platform/ui-audit/2026-10-25-consolidated-visibility-and-data.md`.)
-1. Review and merge PR #693 (v2.15.351, Part A hotfix: International fee and City on every sort).
-2. Part C: SIT NZQA 3954 (the only unnamed NZ course): fill the title from the stored register (a) or quarantine it (b).
-3. Policy proposals: mark the 65 rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql` (calendar rows actionable under D-calendar). `central.auto_approve` kept (D-auto-approve; conditions are Part D work items).
-4. Track B R1 review point: stored-copy replay default `read_now.stored_copy_max_age_days` = 14 (replaces the 23 Oct "fields wait for the new page").
-5. zero_yield.auto_reset → 1 (after reading the UoA pilot in the zero-yield file).
-6. UoA catalogue-host: refreshed map pending; else a per-provider catalogue-host allowance vs manual bindings for the 45 catalogue-only courses.
-7. O5 NZQA signatory-list URL; O8/O9 Firecrawl and OpenRouter plan tiers and caps.
-8. R3 provisional headline target after its first full week (0 means not set).
-Closed: provider-calendar-defaults stays off and retires (D-calendar, 25 Oct); target_only route settled (tranche 1 applied 24 Oct; (b) after about two weeks of ledger data).
+(Pruned 25 Oct 2026 13:00. Records: `docs/platform/ui-audit/2026-10-25-lineage-verify-and-trackb.md` and `…-consolidated-visibility-and-data.md`.)
+1. D-SIT3954: route to the stored NZQA register extract — (a) you open Evidence `d0ff24c6…` and search "3954", or (b) authorise a one-off workflow read of that one object; then apply the one-row fill or quarantine file.
+2. Visual check of v2.15.351 (merged): NZ list sorted by Completeness, LI4245 shows NZ$37,000 / Lincoln.
+3. Policy proposals: mark the 65 rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql`.
+4. zero_yield.auto_reset → 1 (after reading the UoA pilot in the zero-yield file).
+5. UoA catalogue-host: refreshed map pending; else a per-provider allowance vs manual bindings for the 45 catalogue-only courses.
+6. O5 NZQA signatory-list URL; O8/O9 Firecrawl and OpenRouter plan tiers and caps.
+7. R3 provisional headline target after its first full week (0 means not set).
+Closed 25 Oct: PR #693 merged (D-693); stored-copy replay approved (D-stored-copy, `read.stored_copy_max_age_days` 14); calendar-defaults retire (D-calendar); central.auto_approve kept (D-auto-approve).
+
+Order now: Track B release 1 (Fields + Pipeline strip + course_events + stored-copy replay) → Track A (S1 + 8a) → Track B releases 2 and 3 → 2.2 → 2.3 → 2.4 → Defect 1 → Part E with Track B release 3. PIPELINE-LINEAGE.md is verified 1.1 (16 flips, 11 corrections); doc-as-code is a standing check.
 
 ## Live platform state (key releases)
 v2.15.334 Release 1 · v2.15.335 read-lane capability ·

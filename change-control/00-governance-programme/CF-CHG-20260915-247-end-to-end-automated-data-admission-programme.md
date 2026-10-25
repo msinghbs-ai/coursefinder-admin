@@ -7914,3 +7914,16 @@ The brief now forbids direct table changes.
 | Part C | One unnamed NZ course (SIT NZQA 3954 "--"), not 3,954; fill-or-quarantine proposal awaits approval |
 | Part D / E | D1–D4 specified with settings and estimates. E: 0 AU/NZ/CA providers have a description; no about page held; reader spec; UOW source confirmed live, acceptance test runs on the first build |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 13:10: lineage verified (PIPELINE-LINEAGE.md 1.1), #693 merged and checked live, D-stored-copy recorded, Track B release 1 planned on course_events
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:44 combined mandate; record `docs/platform/ui-audit/2026-10-25-lineage-verify-and-trackb.md` |
+| D-693 | PR #693 merged 01:44 UTC (`a7fe02d1`); all workflows green; migration `20261025001000` md5 = repo; live NZ Completeness 50 fee / 49 city, LI4245 NZD 37000 Lincoln; browser check is the Platform Admin's |
+| D-SIT3954 | Stored copy located (evidence `d0ff24c6…`, NZQA batch-5 JSON, 647 records; register row `6015|3954` seen 23 Oct) but not readable from this session; route (a) Platform Admin evidence preview or (b) one-off workflow read awaits choice; no file written |
+| D-stored-copy | `read.stored_copy_max_age_days` 14 (0–30) approved; corrects the 23 Oct 09:03 "fields wait for the new page"; ships in Track B release 1 (`admin_course_read_now_v2`) |
+| Part 1 | PIPELINE-LINEAGE.md verified in place: 16 [T] marks resolved (8 flipped, 6 flipped with correction, 2 verified absent); 11 corrections, including: the page read re-fetches (only downstream readers are stored-first), the real gate order, the read-attempt cap being a literal (G2 finding), `extraction_runs` / `field_change_log` absent, queued-at present in the queue but not in the ledger |
+| Part 2 | 2.1 `pipeline.course_events` specified as the single data source of Track B release 1; 2.2 version stamps, 2.3 task items and resume, 2.4 queued-at into the ledger specified with settings, retention, tests and estimates — queued behind Track A |
+| Part 3 | Doc-as-code standing rule recorded in PIPELINE-LINEAGE.md section 7; contract test s104 lands with Track B release 1 |
+| Consumer API | Not touched (Decision 266) |
