@@ -54,3 +54,18 @@ Carried to 08:00 (no action now):
 - the ~60 matching-miss titles at the 8 NZ universities;
 - Tranche 2 Part B from Monday's worst-named list;
 - O8 / O9 from the Platform Admin.
+
+### First run of `no-page-propose` (23:37, verified 23:39)
+
+- The job succeeded and opened **10 Layer 4 first runs** (cap 10), universities first:
+  - 9 "no page published": Newcastle, UTS, VU, Victoria University of Wellington, UNSW, Lincoln, RMIT, Auckland, Monash;
+  - 1 conjoint rule: Waikato, 111 conjoint courses.
+- Course rows: 45 no-page sample courses (5 per provider) and 111 conjoint courses, all `proposed`. **Nothing is recorded or held from search until a person decides**, and nothing is published by this lane.
+- AI match scope: 104 Australian providers.
+- The next 10 first runs open at 00:37, universities first (Otago, Massey, Canterbury, AUT and the remaining AU universities come next).
+
+**For the Platform Admin:** each first run is in Layer 4 (task "No Page First Run" / "Conjoint Rule First Run") with its 5 sample courses and the provider's inventory size:
+- approve if none of the samples has its own page;
+- otherwise edit and approve with `{"has_page_course_ids": [...]}`.
+
+At 60% confirmed, the provider is trusted.
