@@ -103,13 +103,26 @@ Across AU's 20: 5 provider-wide, 5 band ladders, 7 per course, 2 unreadable (New
 | Otago Polytechnic | One big table (+ procedure document); NCEA L2 / L3 | China: L2 65 %, L3 80 % | "Senior High School Graduate Certificate with 80% average" |
 | Wintec | One page, table per country; Cert L4 / Dip L5 (academic, vocational) / Degree | China Diploma L5 academic 60–69 % | "Graduation certificate from a Senior High School with an average of 60-69% in core subjects in year 12." |
 | Ara | One big table; Diploma / Degree | China Degree: Gaokao tier-two cut-off (yearly external table) | "National University Entrance Examination (Gaokao) Tier two cut-off scores as per the current year approved Gaokao table" |
-| NMIT | One big table; Cert & Diploma / Degree | China Degree: graduation certificate with B average | "Senior High School Graduation Certificate with B average." |
+| NMIT | One big table; Cert & Diploma / Degree | China Degree: graduation certificate with B average | "Senior High School Graduation Certificate with B average." (byte-check 25 Oct: the page splits the first letter in markup, so tag-stripped text reads "S enior …"; the reader joins markup-split words before the quote check) |
 | SIT | One big table; Diploma / Bachelor | China: qualification only, no grade ("only a guide") | "High school graduates" |
 | Whitireia and WelTec | JavaScript (only the heading loads) | — | — |
-| EIT | Course pages / prospectus only | — | "Please refer to the specific entry criteria for your programme which can be found in the International Prospectus." |
+| EIT | Course pages / prospectus only | — | "Please refer to the specific entry criteria for your programme which can be found in the International Prospectus" (byte-check 25 Oct: corrected, the page has no final full stop) |
 | NorthTec | Course pages / prospectus (likely) | — | — |
 | UCOL | Site refused the fetch | — | — |
 | Toi Ohomai | Site refused; regulations PDF has IELTS only | — | — |
+
+### 1.3a Byte-check of the Part 1 quotes (25 Oct 2026, Track C)
+
+The Part 1 quotes came through the fetch summariser, so each was checked against the raw page text before it became the reader's test data. A one-off workflow on the scratch branch fetched each source page, stripped tags, and compared the quote. The workflow was removed in the same flow (rule 8).
+
+| Result | Count | Providers |
+|---|---|---|
+| Exact | 17 | UNSW, Sydney, UQ, UWA, UTS, Flinders, Macquarie, Wollongong, VU, Waikato, Victoria University of Wellington, Massey, Unitec, MIT, Otago Polytechnic, Ara, SIT |
+| Exact after whitespace normalisation | 6 | Adelaide, ANU, RMIT, Curtin, Auckland, Wintec |
+| Corrected | 2 | EIT (no final full stop on the page); NMIT (first letter split in markup; text is verbatim once words are joined) |
+| Fetch refused (not verified; kept as "unverified" in the fixtures) | 7 | Monash 403, Melbourne 403, Swinburne network unreachable, Western Sydney 406, AUT 403, Otago 403, Lincoln 403 |
+
+The 25 verified quotes are the reader's test data (`tests/fixtures/entry-matrix/part1-quotes.json` on branch `cf247-entry-matrix`). The 7 refused ones are carried as `unverified` and are not used as pass/fail cases. The tables above already show the corrected text.
 
 ### 1.4 Deviations the model must carry (reality wins)
 

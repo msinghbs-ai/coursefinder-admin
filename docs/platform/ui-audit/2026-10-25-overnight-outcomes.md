@@ -78,6 +78,40 @@ Of the pages read:
 
 So the correct-page rate is **67 %** (14 of 21 decided), but the search yield is **1.4 %** (14 pages from 977 searches). See O6.
 
+## Track C: entry requirements (opened 18:54, Platform Admin)
+
+Platform Admin, 18:54: "Entry requirements — run as TRACK C in parallel, with boundaries". Recorded as given:
+
+- **Tonight: read-only and branch work only.**
+  - Byte-check the Part 1 quotes against raw page text and make them the reader's test data.
+  - Draft the Step A migrations, the matrix reader and the catalogued job on branch `cf247-entry-matrix`.
+  - **No merge.**
+- **File boundary (declared).** Entry work touches only:
+  - the matrix and course-requirement tables (`catalogue.provider_entry_matrix`, `catalogue.course_entry_requirements`) and their `entry.*` settings;
+  - the new reader (worker mode `entry_ai`, `supabase/functions/coverage-sweep/entry.ts`, its svc next/record functions);
+  - central-page discovery's page-type list (adds `entry_requirements`);
+  - Layer 4 first-run items for matrix rows.
+
+  It touches **nothing** in the search picker, the stop gates, `course_events`, or the blade.
+- **Merge position (fixed):** Track A (S1, PR #694) → Track B release 1 → Track C Step A. The Track C PR waits in that queue even if it is ready earlier.
+- **Extraction runs** (AI over the stored pages of the 19 HTML providers) start only after Track B release 1 lands. The catalogued job ships **inactive**. Tonight is code, test data and byte-checks only.
+- **Budget:** within the existing AI stop (US$15) and the Firecrawl balance. The runs are stored-pages-first, so they are mostly AI-only.
+
+### Byte-check results (19:00)
+
+32 Part 1 quotes were checked against the raw page text: 25 verified, 7 not reachable.
+
+| Result | Count | Providers |
+|---|---|---|
+| Exact | 17 | UNSW, Sydney, UQ, UWA, UTS, Flinders, Macquarie, Wollongong, VU, Waikato, VUW, Massey, Unitec, MIT, Otago Polytechnic, Ara, SIT |
+| Exact after whitespace | 6 | Adelaide, ANU, RMIT, Curtin, Auckland, Wintec |
+| **Corrected** | 2 | EIT: the page has no final full stop. NMIT: the first letter is split in markup ("S enior"), so the reader joins markup-split words, which the worker's existing `flat()` quote check already does |
+| Fetch refused | 7 | Monash 403, Melbourne 403, AUT 403, Otago 403, Lincoln 403, Western Sydney 406, Swinburne network unreachable. These stay `unverified` in the fixtures and are not pass/fail cases |
+
+The corrections are made in `ENTRY-REQUIREMENTS-IMPLEMENTATION.md` (section 1.3 table and new section 1.3a) in this same commit, as doc-as-code.
+
+The byte-check workflow ran on the scratch branch `cf247-zoho-dryrun` and was removed in the same flow. The scratch tree has 0 byte-check files (rule 8).
+
 ## Execution log
 
 (Entries appended through the night: time, initiative, action, spend.)
@@ -92,3 +126,4 @@ So the correct-page rate is **67 %** (14 of 21 decided), but the search yield is
 | 18:15 | O3, O4, O7 | Need new readers; release work, not an overnight lever | Reported in the tracker as "blocked: reader not built", with the release order above | — |
 | 18:55 | Track A S1 part 1 (release slot) | PR #694, v2.15.352: one refused-page predicate (rejections ∪ blocks) asked by every automatic binding path; one course-search stop gate for the picker, the credit check and the stall walk | Live dry run (rolled back): 0 of 1,822 queued rows behave differently under the new gate; a planted rejection was skipped by the search result and refused by the binder. Suite 1,912 passed (4 legacy). **Not merged: for the morning review.** The next release (O4 NZ entry matrices, step A) starts only after #694 merges (one release at a time) | — |
 | 18:55 | Progress since 18:00 | O1: 345 new fee-schedule sources (307 waiting to be fetched, 38 read with no values); 77 schedule pages through the fee reader so far, giving 102 domestic rows, 36 with no matching course and 11 to Layer 4 review. O2: 15 courses gained intakes. O5: 12 re-checks done or leased, 312 queued. O6: 200 searches sent today (cap 200) | Firecrawl 243, AI US$0.23 |
+| 19:02 | Track C opened | Byte-check of the Part 1 quotes (scratch-branch workflow, removed after use); design doc corrected (EIT, NMIT); branch `cf247-entry-matrix` created from main | 17 exact, 6 after whitespace, 2 corrected, 7 fetch refused. Boundary and merge position recorded above. No merge | Firecrawl 0 (direct GET from the runner), AI 0 |
