@@ -7858,3 +7858,15 @@ The brief now forbids direct table changes.
 | Tranche 1 | 25 override rows applied 12:35 UTC; 25/25 included at 12:36. The day's cap is already used (877 sent today), so searching starts 00:00 UTC |
 | Layer 4 triage | New mandate (23:17), record `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`: Phase 0 census 2,011 items (1,258 aged), classification per kind, Phase 1 designs ≈ 1,000 credits / < US$1.50 AI, Phase 2 learning loop; three questions open |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 12:15: central policy approval queue located (defect D-L4-1), 65 proposals exported, count-guarded approval paste file
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 11:34: "Settings › Provider policies" does not exist; give the exact navigation or confirm no surface (record the defect); export the proposals and a count-guarded paste file; no new panel |
+| Where | Layer 2/3 Build & enrich › Operations › collapsed panel "Approvals waiting (all universities): 65" (English policies / Academic calendars, Show: Waiting); per university in Build adapter (1.3). Verified live as the Platform Admin (count 65, list reads < 0.2 s) |
+| Defect D-L4-1 | Every signpost is wrong: INDEX said Settings › Provider policies (never existed, corrected); the Inbox item text says Providers › Onboarding (retired); the gap cause says Layer 4 › Attributes (retired v2.15.253); the Inbox counted 2 while 65 waited; the panel is collapsed with no age. Fix goes in the follow-on UI mandate |
+| Export | Triage record section "Central policy approvals": R01-R65 with policy, courses it would fill, plan, quote, page and id (md5-checked transcription). English 16 (fills 140; 7 BLOCKED by the disagreement gate), calendars 49 (21 with an Intake 1 month, fill 42; 28 add nothing) |
+| Paste file | `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql`: mark approve / reject, set the two counts; calls `admin_provider_policy_decide` as the Platform Admin, all or nothing. Dry runs against live (rolled back): unmarked stops; 3 approve + 1 reject applied; no-month calendar refused; BLOCKED row refused with full rollback |
+| Findings for the Platform Admin | `provider-calendar-defaults` is OFF since 22 Oct 11:43 UTC, so calendar approvals fill no course until it is on (INDEX decision 4). `policy-auto-approve` is ON (`central.auto_approve`, `central.auto_approve_english_all`): AI-read English policies approve with no person, against the 23:17 "nothing auto-resolves" mandate; left as decided 15 and 23 Oct, decision requested |
+| Consumer API | Not touched (Decision 266) |

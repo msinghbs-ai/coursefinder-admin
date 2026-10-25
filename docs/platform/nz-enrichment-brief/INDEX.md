@@ -41,8 +41,12 @@ Then items 9, 10, 11. B1 entry requirements remains first among the AU builds an
 not bypass O10/R2 or any approval gate.
 
 ## Decisions awaiting Platform Admin
-1. Approve provider-policy proposals — Settings › Provider policies (E1; automatic
-   approval only where the already-approved checked-AI path applies).
+1. Approve provider-policy proposals (65 waiting on 25 Oct: 16 English, 49 calendars). Screen: Layer 2/3 Build &
+   enrich › Operations › "Approvals waiting (all universities)" (collapsed panel below the stage table). No screen
+   needed: mark rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql` (list R01-R65 in
+   `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`, "Central policy approvals"). Also decide: keep
+   `policy-auto-approve` (central.auto_approve on, no person) or switch it off. (Corrected 25 Oct: "Settings ›
+   Provider policies" never existed; defect D-L4-1.)
 2. zero_yield.auto_reset → 1 (after reading UoA pilot in the zero-yield file).
 3. UoA catalogue-host: refreshed map pending; else per-provider catalogue-host
    allowance vs manual bindings for the 45 catalogue-only courses.
