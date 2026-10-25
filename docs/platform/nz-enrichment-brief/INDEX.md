@@ -41,24 +41,16 @@ Then items 9, 10, 11. B1 entry requirements remains first among the AU builds an
 not bypass O10/R2 or any approval gate.
 
 ## Decisions awaiting Platform Admin
-1. Approve provider-policy proposals (65 waiting on 25 Oct: 16 English, 49 calendars). Screen: Layer 2/3 Build &
-   enrich › Operations › "Approvals waiting (all universities)" (collapsed panel below the stage table). No screen
-   needed: mark rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql` (list R01-R65 in
-   `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`, "Central policy approvals"). `central.auto_approve`
-   KEPT 25 Oct 11:58 with conditions (a) automatic decider visible, (b) outcomes in the acceptance report — both
-   open. Calendar rows wait for decision 4. (Corrected 25 Oct: "Settings › Provider policies" never existed; D-L4-1.)
-2. zero_yield.auto_reset → 1 (after reading UoA pilot in the zero-yield file).
-3. UoA catalogue-host: refreshed map pending; else per-provider catalogue-host
-   allowance vs manual bindings for the 45 catalogue-only courses.
-4. provider-calendar-defaults (and -intakes) on/off: E2 analysis delivered 25 Oct (triage file, "Calendar lane
-   analysis"): both off and retiring since the 22 Oct page-only decision; on would write ≈ 78 calendar-default
-   months (≈ 0.5 pt of the AU gap) that course pages do not state. Recommendation: leave off; approve calendars only
-   for the course-page period route (22 of 49 usable). Platform Admin decides, then actions the 49 rows.
-5. O5: NZQA signatory-list page URL.
-6. O8/O9: Firecrawl plan tier + monthly credit cap; OpenRouter plan + monthly spend cap.
-7. target_only release route: keep / change rule settings / named overrides (0 of 205 pass today's rule).
-8. R3 provisional headline target after its first full week of hourly rows; 0 means
-   not yet set and must not be treated as a throughput target.
+(Pruned 25 Oct 2026 to what genuinely awaits; full record: `docs/platform/ui-audit/2026-10-25-consolidated-visibility-and-data.md`.)
+1. Review and merge PR #693 (v2.15.351, Part A hotfix: International fee and City on every sort).
+2. Part C: SIT NZQA 3954 (the only unnamed NZ course): fill the title from the stored register (a) or quarantine it (b).
+3. Policy proposals: mark the 65 rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql` (calendar rows actionable under D-calendar). `central.auto_approve` kept (D-auto-approve; conditions are Part D work items).
+4. Track B R1 review point: stored-copy replay default `read_now.stored_copy_max_age_days` = 14 (replaces the 23 Oct "fields wait for the new page").
+5. zero_yield.auto_reset → 1 (after reading the UoA pilot in the zero-yield file).
+6. UoA catalogue-host: refreshed map pending; else a per-provider catalogue-host allowance vs manual bindings for the 45 catalogue-only courses.
+7. O5 NZQA signatory-list URL; O8/O9 Firecrawl and OpenRouter plan tiers and caps.
+8. R3 provisional headline target after its first full week (0 means not set).
+Closed: provider-calendar-defaults stays off and retires (D-calendar, 25 Oct); target_only route settled (tranche 1 applied 24 Oct; (b) after about two weeks of ledger data).
 
 ## Live platform state (key releases)
 v2.15.334 Release 1 · v2.15.335 read-lane capability ·

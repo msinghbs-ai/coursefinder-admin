@@ -7879,3 +7879,15 @@ The brief now forbids direct table changes.
 | Decision 1 / E2 | Calendar rows wait for the on/off decision. Analysis: `provider-calendar-defaults` gives calendar months to courses whose page states none (AU/NZ/CA, universities undergraduate only); off and retiring since the 22 Oct page-only decision (2,166 rows withdrawn); on now ≈ 36 + 42 = 78 courses, ≈ 0.5 pt of the AU gap, shown to the website as ordinary months. Recommendation: leave off; approved calendars still serve the course-page period route (Enrich fields, Decision 228) — 22 of the 49 rows usable |
 | Correction | Earlier record and paste text said calendar approvals fill courses once the job runs; corrected: the job is retiring, approval writes nothing by itself. Paste calendar guard now follows `enrich_parse_intake_periods_v1` (R60 approvable, 27 refused); dry runs against live rolled back (unmarked stops; R60 + R64 approve, R07 reject applied; R17 refused) |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 13:30: consolidated mandate recorded (D-calendar, D-auto-approve); Part A hotfix v2.15.351 (PR #693, not merged); Parts B–E specified; Part C quantified
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 12:15 consolidated mandate; record `docs/platform/ui-audit/2026-10-25-consolidated-visibility-and-data.md`. List structure frozen; blade and existing panels only; one release at a time; nothing merges without review |
+| Decisions | D-calendar: provider-calendar-defaults stays off and retires (replaced by the course-page period route); paste calendar check kept. D-auto-approve: stays on; decider display and acceptance report are Part D work items |
+| Part A | Root cause: the Completeness / Tuition Only sorts use the older `ui_courses_decision_page`, which has no International fee or City. Fix: `20261025001000` edits `admin_course_page_search_state` (md5-guarded). Dry run NZ Completeness 0 → 50 fee, 0 → 49 city. Suite 1,906 passed (4 legacy). PR #693 awaiting review. SIT 2935 / UCOL 2664 genuinely empty (blade empty too) |
+| Part B | Spec: Fields chips from the existing gap-cause vocabulary (per-course classifier lifted, snapshot totals unchanged); pipeline strip with real follow-paths (no `extraction_runs` table exists). Stored-copy check: NOT met: Read with AI always re-fetches (42 of 57) — fix in R1 with `read_now.stored_copy_max_age_days` 14 |
+| Part C | One unnamed NZ course (SIT NZQA 3954 "--"), not 3,954; fill-or-quarantine proposal awaits approval |
+| Part D / E | D1–D4 specified with settings and estimates. E: 0 AU/NZ/CA providers have a description; no about page held; reader spec; UOW source confirmed live, acceptance test runs on the first build |
+| Consumer API | Not touched (Decision 266) |
