@@ -164,3 +164,72 @@ No lane has been paused by this mandate. Any pause made under it will be added h
 | 01:00 | Track C (#695) prepared for merge | Rebased on SP-1 (`7cc55c3b`): worker v0.48.0; decide/desk md5 re-pinned to the live post-SP-1 values (`d9d8d79e…`, `049688a9…`); the entry fetch now names its Firecrawl refusal. Live dry run on the post-SP-1 database passed (rolled back; reader flow, Layer 4 approve/reject, no re-read, spend line, reader-off stop). Suite 1,938 passed, only the 4 legacy failures. **Held until morning** per the 18:54 "TONIGHT … NO merge"; merged under rule 9 after the 08:00 report with the v2.15.354 bump | — |
 | 04:01 | Checkpoint | **Spend:** Firecrawl 516 credits since 18:00 (about 335,570 left; floor 313,589); AI US$0.53 on the UTC day (stop US$15). **Tranche 2 Part A: still not applied** (0 override rows); the 7 colleges' 18 fee pages stay failed, so no new fees (49 since 18:00). **O6:** cap used; resets 11:00 AEDT. No new official pages bound overnight. **SP-1:** 50 first runs now waiting in Layer 4 (10 an hour since 23:37, all universities: 41 no-page, 9 conjoint), none decided. **Defect found and being fixed:** SP-1 capped first runs per run but not the number waiting, heading for about 177. SP-1.1 (v2.15.354, branch `cf247-sp1-1`) adds `bind.no_page_pending_max` (60); live dry run passed (with the cap at 50: 0 new first runs); suite running; merged under rule 9 when green. AI match since SP-1: 2 calls (both "none"), so the widened scope has barely started. 196 `target_list_refused` today (non-target CA fee pages, now named) | Firecrawl 516, AI US$0.53 |
 | 04:24 | SP-1.1 merged (rule 9) | PR #697 merged `1d7d0b14` (v2.15.354); migration `20261025004000` applied (history md5 matches); release currentness passed; live `no_page_propose_v1` carries the cap (md5 `cf8647b8…`). 50 first runs waiting, so the 04:37 run opens at most 10 more (cap 60), then none until decisions are made | — |
+
+---
+
+## 08:00 report: 26 Oct 2026 (prepared 07:20 AEDT)
+
+**Tracker:** `docs/platform/COURSE-WISE-TRACKER.md` edition 2 (deltas against edition 1). **No cause = 0 in every country and field.**
+
+### The night in one paragraph
+
+- **Values moved little:** +35 courses with an international fee (NZ +30, CA +5) and 0 new bindings.
+- **The structure moved a lot.** Four releases were merged and are live under the new rule 9:
+  - #694 gate consolidation;
+  - SP-1 (no page published + conjoint rule + named refusals + AI match scope);
+  - SP-1.1 (Layer 4 cap);
+  - Track C (entry reader, switched off).
+- 60 university first runs wait for decisions. Deciding them is what turns about 2,000 "no page found" NZ courses into either bound pages or a named, honest "no page published by the provider".
+- **Spend:** 545 Firecrawl credits and US$0.54 AI, against stops of 22,500 and US$15.
+
+### Outcomes, cause and lever
+
+| Outcome | Result overnight | Where the empties stand | Lever / next step |
+|---|---|---|---|
+| **O1 fees** | Fee reader widened to every provider type (18:09). 364 new fee-schedule pages; 165 through the AI reader; 49 new active fee rows on 49 courses (35 net new courses with a fee); 36 to Layer 4 | NZ 22% / CA 18%. Biggest cause: "no page found" (NZ 2,100). Fee reader found no fee on the page: NZ 829, CA 704. Page shows no single international fee: CA 824 | **Tranche 2 Part A (not yet applied):** the 7 CA colleges' 18 fee pages are refused as `target_list_refused` until it lands; the rest of CA's 256 pages belong to providers without courses (no value). Binding is the lever under NZ |
+| **O2 intakes** | Done: 354 items, **15 admitted**, 24 refused by the AI (no month, no intake stated, proof not admitted for the country), 315 skipped because the course's bound page is for another course | NZ 33%: "no page found" 2,111 | **The 315 are a binding defect, not a reader one:** they feed the no-page / wrong-page work (SP-1 first runs; Defect 1) |
+| **O3 descriptions** | Not run: reader not built | 0% NZ / CA, 1% AU | Description reader is release work (B2), queued behind Track B release 1 |
+| **O4 NZ entry matrices** | Track C step A built: byte-check (17 exact, 6 whitespace, 2 corrected, 7 unreachable), tables, reader, Layer 4 first run; **merging this morning, switched off** | 0% everywhere | Extraction runs start after Track B release 1 (18:54 rule); the Platform Admin seeds the 18 HTML providers then (`admin_entry_matrix_seed`) |
+| **O5 scholarships** | **288 AI re-checks done** (US$0.03): 234 audience not stated, 26 unsettled, 10 international check-and-publish, 10 international value unclear, 8 not for international. 84 wait at unpublished providers | Recommendations held on the Layer 4 items (nothing published by the AI) | The **10 "international, check and publish"** are the fastest wins for a person |
+| **O6 searches** | Cap 100 → 200 (18:07); 200 used on the UTC day by 18:00 AEDT; **0 new bindings overnight** | NZ link 47% (tracker definition) | Speed record S2: 77% of searches return results the URL picker refuses; 28% are no-own-page shapes. SP-1 removes those as Layer 4 first runs are decided. **Cap resets 11:00 AEDT**, and O6 runs at 200 from then |
+| **O7 titles** | One NZ course without a title (SIT 3954 "--") | — | Quarantine paste awaits the Platform Admin's word (unchanged) |
+
+### Carried items (as instructed, for this report)
+
+1. **The ~60 matching-miss titles at the 8 NZ universities** (titles on the university's own current list but unbound). By the last AI match:
+   - 12 had the right list page chosen, but 7 of those were refused by the identity check ("mismatch");
+   - 47 were judged "none": in 21 the list page was among the candidates and the AI declined it; in 26 the pre-match never shortlisted it.
+   - The "on its own list" test is a loose title-contained-in-link-text match, so some are near-names ("Bachelor of Arts" in "Bachelor of Arts and Social Sciences").
+
+   **Lever (SP-2 candidate):** an exact-title binder over the university's own list links (title equal after the level is removed; identity still checked on read), plus a look at the 7 identity refusals.
+2. **Unpublished AU** (for the publish/hold decision per provider type). 1,322 providers, all `unpublished/active`, 11,173 active courses:
+
+   | Type | Site answers (discovery mapped) | Site gave no course pages | No website on record | Not checked |
+   |---|---|---|---|---|
+   | private_vet | 727 providers / 8,376 courses | 102 / 975 | 96 / 543 | 9 / 23 |
+   | school | 264 / 743 | 37 / 96 | — | — |
+   | other | 64 / 326 | 8 / 30 | 9 / 24 | 1 / 3 |
+   | higher education institute / no type | 3 / 12 | 1 / 16 | 1 / 6 | — |
+
+   Applying your criteria:
+   - "registered + live site → publish": the **site answers** column, 1,058 providers / 9,457 courses;
+   - "registered + no site → hold with cause": 106 providers / 573 courses;
+   - the "site gave no course pages" group (148 / 1,117) needs a closer look before publishing.
+
+   **Registration status cannot be read from the database today:** CRICOS identifiers carry no end dates, and there is no register table holding deregistration. So "deregistered" is not separable yet. That is a register-sync question for you, and I recommend it before any bulk publish.
+3. **Tranche 2 Part B:** from Monday's worst-named weekly line (08:36 today), then it comes to you.
+4. **O8 / O9:** waiting for your plan tiers; then the calibrated stops proposal (speed S3).
+
+### Releases tonight (rule 9; review is retrospective)
+
+| PR | Version | What | Live check |
+|---|---|---|---|
+| #694 | v2.15.352 | Gate consolidation: one refused-page predicate, one stop gate | Migration applied (md5 match), release currentness passed |
+| #696 | v2.15.353 | SP-1: no page published + conjoint rule (Layer 4 first runs, 60% rule, universities first), extra course domains, AU AI match scope, named Firecrawl refusals | Worker v0.47.0 live; 196 named refusals by 04:00; `bind.no_page_on` = 1 at 23:27 |
+| #697 | v2.15.354 | SP-1.1: first runs open only while fewer than 60 wait | Live; 60 waiting, so no new first runs until decisions |
+| #695 | v2.15.355 | Track C entry requirements step A (reader off) | Merging after this report, gates below |
+
+**For you in Layer 4 this morning:**
+- **60 first runs:** 45 "no page published" with 5 samples each, and 15 conjoint rules, all universities.
+- **Approve when none of the samples has its own page**; otherwise edit with `{"has_page_course_ids": [...]}`.
+- At 60% confirmed, the university's later cases are recorded automatically; every recorded course re-opens if a page is ever found.

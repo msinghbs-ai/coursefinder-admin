@@ -70,7 +70,82 @@ Gap-cause snapshot 06:00 UTC. Active courses: AU 26,103 · NZ 6,474 · CA 3,814.
 - **AU:** the big blocked blocks are **unpublished providers** (6,037 English, 9,848 intakes, 3,767 links). Enrichment is paused for them by design. The lever is a person's publish decision, not a lane.
 - **CA:** fees are the gap (18%). The fee reader did not cover CA at all until tonight (O1 widened its scope).
 
-## Spend to date (mandate budget: 30,000 Firecrawl credits, $25 AI; working AI stop $15, see the record)
+---
+
+## Edition 2: 26 Oct 2026 07:20 AEDT (24 h deltas against edition 1, 25 Oct 18:15)
+
+Gap-cause snapshot 19:00 UTC (06:00 AEDT). Active courses unchanged: AU 26,103 · NZ 6,474 · CA 3,814. **No cause: 0 in every country and field.**
+
+### New Zealand
+
+| Field | Filled | Δ filled | Empty, lane working | Blocked | No cause | Top causes now |
+|---|---|---|---|---|---|---|
+| fee | 1,414 (22%) | **+30** | 4,332 | 728 | 0 | no page: search and AI page match found none (2,100, automatic); fee reader found no fee on the page (829, automatic); web search stopped for this university (469, needs a person) |
+| English | 2,355 (36%) | +1 | 2,727 | 1,392 | 0 | no page found (1,727, automatic); web search stopped (469, needs a person); web search queued (464, automatic) |
+| intakes | 2,139 (33%) | 0 | 3,019 | 1,316 | 0 | no page found (2,111, automatic); web search stopped (469); queued (464) |
+| duration | 2,337 (36%) | 0 | 3,656 | 481 | 0 | no page found (2,097); page does not state it (714); search stopped (469) |
+| campus | 2,334 (36%) | +2 | 3,665 | 475 | 0 | no page found (1,904); page does not state it (781); search stopped (469) |
+| delivery | 2,974 (46%) | +2 | 3,434 | 66 | 0 | no page found (2,082); page does not state it (517); search stopped (469) |
+| link | 3,042 (47%) | 0 | 2,950 | 482 | 0 | no page found (2,082); search stopped (469); queued (464) |
+| description | 0 | 0 | 0 | 6,474 | 0 | no course-description reader yet (O3) |
+| entry | 0 | 0 | 0 | 6,474 | 0 | entry reader built and merging this morning, switched off (Track C, v2.15.355); runs after Track B release 1 |
+| title | 6,473 | 0 | 0 | 1 | 0 | SIT NZQA 3954 "--" (quarantine paste awaiting the Platform Admin) |
+
+### Australia
+
+| Field | Filled | Δ filled | Empty, lane working | Blocked | No cause | Top causes now |
+|---|---|---|---|---|---|---|
+| fee | 26,103 (100%) | 0 | 0 | 0 | 0 | CRICOS register |
+| English | 16,917 (65%) | 0 | 1,627 | 7,559 | 0 | **provider not published (6,037, needs a person)**; page gives no IELTS, rule covers other levels (1,140, needs a person); no page found (506, automatic) |
+| intakes | 9,390 (36%) | 0 | 3,991 | 12,722 | 0 | **provider not published (9,848)**; page gives no start dates, calendar covers other levels (1,963); no page found (1,597) |
+| duration | 26,103 (100%) | 0 | 0 | 0 | 0 | CRICOS register |
+| campus | 26,072 (100%) | 0 | 29 | 2 | 0 | not tried yet / no page (automatic) |
+| delivery | 26,083 (100%) | 0 | 20 | 0 | 0 | — |
+| link | 18,622 (71%) | 0 | 3,636 | 3,845 | 0 | **provider not published (3,767)**; no page found (1,584); fetch failed (1,031) |
+| description | 163 (1%) | 0 | 0 | 25,940 | 0 | no description reader yet |
+| entry | 0 | 0 | 0 | 26,103 | 0 | entry reader (AU after NZ) |
+| title | 26,103 | 0 | 0 | 0 | 0 | — |
+
+### Canada
+
+| Field | Filled | Δ filled | Empty, lane working | Blocked | No cause | Top causes now |
+|---|---|---|---|---|---|---|
+| fee | 677 (18%) | **+5** | 2,926 | 211 | 0 | page shows no single international fee (824); no page found (722); fee reader found no fee (704) |
+| English | 2,010 (53%) | 0 | 529 | 1,275 | 0 | rule covers other levels (531, needs a person); rule not found (344, needs a person); no page found (328) |
+| intakes | 1,613 (42%) | 0 | 1,198 | 1,003 | 0 | no page found (725); calendar covers other levels (396); calendar not found (377) |
+| duration | 1,324 (35%) | 0 | 2,485 | 5 | 0 | page does not state it (1,409); no page found (725) |
+| campus | 2,083 (55%) | +1 | 1,728 | 3 | 0 | page does not state it (671); no page found (657) |
+| delivery | 2,502 (66%) | 0 | 1,312 | 0 | 0 | no page found (723); page does not state it (452) |
+| link | 2,664 (70%) | 0 | 1,092 | 58 | 0 | no page found (723); fetch failed (173) |
+| description, entry | 0 | 0 | 0 | 3,814 | 0 | readers not built / off |
+| title | 3,814 | 0 | 0 | 0 | 0 | — |
+
+### What moved overnight, and why so little
+
+- **Fees +35 courses (NZ +30, CA +5)** from the widened fee reader (O1). The 49 new fee rows include 14 that refreshed a course already holding a fee.
+- **Bindings: 0 new official pages.** The search cap was already used for the UTC day (200 by 18:00 AEDT; it resets 11:00 AEDT). The AI match ran 19 times after SP-1 went live (12 none, 4 chosen, 3 no candidates).
+- **The structural changes landed but act through Layer 4:**
+  - 60 university first runs (no page / conjoint) wait for decisions;
+  - when decided, recorded no-page courses leave the "lane working" column for a named "no page published by the provider" cause, and the binding % gets an honest denominator.
+- **The 7 Canadian colleges' fee pages wait for Tranche 2 Part A** (not yet applied).
+
+## Spend, edition 2 (since 25 Oct 18:00 AEDT)
+
+| Initiative | Firecrawl credits | AI (US$) | Line |
+|---|---|---|---|
+| O1 fees (fee-schedule pages 214, fee reader) | 214 | 0.45 | 3–6k credits |
+| O2 intakes (job `cc7f0ae4…`) | 0 | 0.04 | — |
+| O3 descriptions | 0 | 0 | reader not built |
+| O4 NZ entry matrices | 0 | 0 | reader merging today, off |
+| O5 scholarships (288 re-checks) | 1 | 0.03 | ~500 |
+| O6 searches | 200 | 0 | — |
+| O7 titles | 0 | 0 | — |
+| Other lanes (maps 61, course-page reads 56, list reads 13) | 130 | 0.03 (AI match, enrich) | — |
+| **Total** | **545** | **0.54** (rounded per line: 0.55) | stop 22,500 / US$15 |
+
+Balances: Firecrawl about 335,540 remaining; OpenRouter US$20.23 (was US$20.77).
+
+## Edition 1 spend (mandate budget: 30,000 Firecrawl credits, $25 AI; working AI stop $15, see the record)
 
 | Initiative | Firecrawl credits | AI (US$) | Line |
 |---|---|---|---|
