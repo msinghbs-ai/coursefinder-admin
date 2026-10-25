@@ -7937,3 +7937,13 @@ The brief now forbids direct table changes.
 | Attempts | `git push --delete` and `git push :refs/heads/…`: proxy disconnect (ordinary pushes work); refs API DELETE: HTTP 403 "Write access to this GitHub API path is not permitted through this proxy" |
 | Result | Branch not deletable from this session (stated once); the Platform Admin deletes it. It is harmless: identical tree, no workflow |
 | Standing | AGENT-OPERATING-MODEL rule 8: no orphaned branches; temporary branches deleted in the same flow after the result is recorded. Because this session cannot delete refs, one-off reads now run on the existing scratch branch `cf247-zoho-dryrun` instead of new branches |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 19:05: overnight outcomes mandate running; S1 part 1 PR #694 for review; Track C (entry requirements) opened on a branch
+
+| Item | Detail |
+|---|---|
+| Overnight mandate (18:02, clarified 18:05) | Record: `docs/platform/ui-audit/2026-10-25-overnight-outcomes.md`. Additive to Tracks A and B. Budget: 30,000 Firecrawl credits and $25 AI, stop at 75%. Working AI stop is US$15 because the balance is US$20.77. Levers applied through existing mechanisms: O6 cap 100→200, O1 fee reader widened to all provider types, O2 intakes task, O5 re-check queue. Tracker: `docs/platform/COURSE-WISE-TRACKER.md` edition 1 |
+| Track A, S1 part 1 | PR #694 (v2.15.352): one refused-page predicate and one course-search stop gate. Dry run: 0 of 1,822 rows differ. Suite 1,912 (4 legacy). **Not merged**: waiting for Platform Admin review |
+| Track C opened (18:54) | Entry requirements Step A, drafted on branch `cf247-entry-matrix`. Boundary: matrix and course-requirement tables, the new reader, central-page discovery's page-type list, Layer 4 first-run items only. It touches nothing in the search picker, stop gates, course_events or the blade. Merge order is fixed: #694 → Track B R1 → Track C Step A. Extraction runs start after Track B R1 lands |
+| Byte-check | Part 1 quotes checked against raw page text: 17 exact, 6 exact after whitespace, 2 corrected (EIT, NMIT; design doc corrected in the same commit), 7 fetch refused (kept as unverified). The workflow was removed after use (rule 8) |
+| Consumer API | Not touched (Decision 266) |
