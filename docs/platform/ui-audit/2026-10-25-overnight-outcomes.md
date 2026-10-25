@@ -227,7 +227,7 @@ No lane has been paused by this mandate. Any pause made under it will be added h
 | #694 | v2.15.352 | Gate consolidation: one refused-page predicate, one stop gate | Migration applied (md5 match), release currentness passed |
 | #696 | v2.15.353 | SP-1: no page published + conjoint rule (Layer 4 first runs, 60% rule, universities first), extra course domains, AU AI match scope, named Firecrawl refusals | Worker v0.47.0 live; 196 named refusals by 04:00; `bind.no_page_on` = 1 at 23:27 |
 | #697 | v2.15.354 | SP-1.1: first runs open only while fewer than 60 wait | Live; 60 waiting, so no new first runs until decisions |
-| #695 | v2.15.355 | Track C entry requirements step A (reader off) | Merging after this report, gates below |
+| #695 | v2.15.355 | Track C entry requirements step A (reader off) | Merged `31769521` 07:36; migration `20261026001000` applied (history md5 matches); release currentness passed; worker v0.48.0 answering; `entry.matrix_enabled` 0, `entry-matrix-read` inactive |
 
 **For you in Layer 4 this morning:**
 - **60 first runs:** 41 "no page published" with 5 samples each, and 19 conjoint rules, all universities.

@@ -1,5 +1,5 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-25 22:40 AEDT by the data-engineering agent.
+Last updated: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08:00 report: ../ui-audit/2026-10-25-overnight-outcomes.md ("08:00 report").
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
@@ -48,7 +48,7 @@ not bypass O10/R2 or any approval gate.
 (Pruned 25 Oct 2026 15:15 to the next human gates, per the Platform Admin's 14:50 decisions.)
 1. **SIT 3954 extract**: shown in `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md` ("SIT 3954 stored register extract"). The register itself titles 3954 "--", which points to the one-row quarantine paste. Say the word and the file is written; also delete branch `cf247-sit3954-extract` (deletion refused from this session).
 2. **Track B release 1 PR**: review before merge (Fields section, Pipeline strip on `pipeline.course_events`, Read-with-AI v2, calendar retirement tidy, lineage test).
-3. **#694 gate consolidation merged and live 23:17** (rule 9: the agent merges its own PRs; review is retrospective). #695 Track C rebased and merged 26 Oct.
+3. **#694 gate consolidation merged and live 23:17** (rule 9: the agent merges its own PRs; review is retrospective). #695 Track C merged 26 Oct 07:36 (reader off).
 4. **Speed programme**: decided 22:27 (SP-1 before #695; no-page gap cause and conjoint rule approved; S5/S6 inside Track B R1 with the one-day split rule; Tranche 2 Part A applied by the Platform Admin). **SP-1 #696 merged and live 23:21** (rule 9; switch `bind.no_page_on` when ready); Tranche 2 Part B after Monday's weekly line; O8/O9 plan tiers for S3.
 
 Parked, not gates today: policy proposals paste (65 rows, mark when ready); zero_yield.auto_reset; UoA catalogue-host; O5 / O8 / O9; R3 headline target.
@@ -67,7 +67,7 @@ v2.15.347 HOTFIX 3 Task manager read speed (PR #689) ·
 v2.15.348 Campuses by CRICOS location name + Provider filter (PR #690) ·
 v2.15.349 Firecrawl targets rule reports the failing condition (PR #691) ·
 v2.15.350 R2: daily picked-courses cap 100 + per-course stop 6 (PR #692); tranche 1 (25 overrides) applied ·
-v2.15.351 list columns on every sort (PR #693) · v2.15.352 gate consolidation (PR #694) · v2.15.353 SP-1 (PR #696, worker v0.47.0) · v2.15.354 SP-1.1 first-run pending cap (PR #697).
+v2.15.351 list columns on every sort (PR #693) · v2.15.352 gate consolidation (PR #694) · v2.15.353 SP-1 (PR #696, worker v0.47.0) · v2.15.354 SP-1.1 first-run pending cap (PR #697) · v2.15.355 Track C entry requirements step A, reader off (PR #695, worker v0.48.0).
 No open PRs (24 Oct 23:40).
 Hotfix record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (re-open paste file with the Platform Admin).
 Key metric: course-page binding % — every field's ceiling. Tracker definition (official link active, published providers), 25 Oct 22:20: NZ 47.0% · AU 75.1% · CA 69.8% (the earlier "NZ 53.5%" could not be reproduced from current tables; see the speed record).
