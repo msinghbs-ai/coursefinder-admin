@@ -7855,3 +7855,15 @@ The brief now forbids direct table changes.
 | Part 2 | 2.1 `pipeline.course_events` specified as the single data source of Track B release 1; 2.2 version stamps, 2.3 task items and resume, 2.4 queued-at into the ledger specified with settings, retention, tests and estimates — queued behind Track A |
 | Part 3 | Doc-as-code standing rule recorded in PIPELINE-LINEAGE.md section 7; contract test s104 lands with Track B release 1 |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 15:00: academic entry requirements — Part 1 verified against 40 live providers; design corrected (1.1); build planned after Track B release 1
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 14:36 mandate; record `docs/platform/ENTRY-REQUIREMENTS-IMPLEMENTATION.md` |
+| Part 1 | Top 20 per country fetched today. Publishing shape: 19 HTML, 10 PDF only, 6 JavaScript only, 5 none / course-only / refused. Grain: NZ is provider-wide (12 of 13 readable matrices); the AU Group of Eight is mostly per-course (5 of 8) or band ladders (ANU, UWA); RMIT, Flinders and UOW are band ladders. One sample row with quote per provider; quotes are near-verbatim and re-checked at build |
+| Corrections | `ENTRY-REQUIREMENTS.md` 1.1: matrix gains course_id, matrix_kind, benchmark_band, conditions, edition, min_value, quote; plural `course_entry_requirements` (B1's table); resolution order override → course row → band → provider → contact; scholarship min-academic is NOT an existing field (B4); both mermaid diagrams corrected and rendered |
+| Merge | B1 spec (field-admission section 5) extended, not replaced — noted in both files |
+| Part 2 plan | Steps A (HTML reader, 19 providers) → B (PDF, +10) → C (JavaScript rendered or contact provider, 6); Layer 4 first-run review per provider; settings `entry.matrix_*`; consumer API additive under an explicit approval line; developer-pack worked example (India, RMIT BEng) written at release from admitted rows |
+| Decisions | Consumer API placement; Sydney 2027 robots-disallowed |
+| Consumer API | Not touched (Decision 266) |

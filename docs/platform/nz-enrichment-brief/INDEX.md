@@ -49,9 +49,10 @@ not bypass O10/R2 or any approval gate.
 5. UoA catalogue-host: refreshed map pending; else a per-provider allowance vs manual bindings for the 45 catalogue-only courses.
 6. O5 NZQA signatory-list URL; O8/O9 Firecrawl and OpenRouter plan tiers and caps.
 7. R3 provisional headline target after its first full week (0 means not set).
+8. Entry requirements: confirm the consumer API placement (additive keys in the existing course and provider payloads vs a new function), and Sydney 2027 (robots-disallowed: keep the 2026 edition flagged). Record: `docs/platform/ENTRY-REQUIREMENTS-IMPLEMENTATION.md`.
 Closed 25 Oct: PR #693 merged (D-693); stored-copy replay approved (D-stored-copy, `read.stored_copy_max_age_days` 14); calendar-defaults retire (D-calendar); central.auto_approve kept (D-auto-approve).
 
-Order now: Track B release 1 (Fields + Pipeline strip + course_events + stored-copy replay) → Track A (S1 + 8a) → Track B releases 2 and 3 → 2.2 → 2.3 → 2.4 → Defect 1 → Part E with Track B release 3. PIPELINE-LINEAGE.md is verified 1.1 (16 flips, 11 corrections); doc-as-code is a standing check.
+Order now: Track B release 1 (Fields + Pipeline strip + course_events + stored-copy replay) → entry-requirements build (queued after it, not displacing Track A) → Track A (S1 + 8a) → Track B releases 2 and 3 → 2.2 → 2.3 → 2.4 → Defect 1 → Part E with Track B release 3. PIPELINE-LINEAGE.md is verified 1.1 (16 flips, 11 corrections); doc-as-code is a standing check.
 
 ## Live platform state (key releases)
 v2.15.334 Release 1 · v2.15.335 read-lane capability ·

@@ -94,7 +94,9 @@ Order by well-covered providers: the fee requests cover 69 providers; the fee re
 
 **Settings:** `entry.max_rows_per_course` (1–10, 6), `entry.min_confidence` (0.5–1, 0.8), `entry.countries` (list).
 
-**Estimate:** 2.5 days (table and admission function 1; reader prompt and item plumbing 1; contract test, source rules, SOP line 0.5). Cost: one AI call per bound page, about US$0.004 a page at the current model, about NZ$15 for the NZ bound set. **Weekly matrix:** listed at 0% under "defined but never populated" until approved and built.
+**Estimate:** 2.5 days (table and admission function 1; reader prompt and item plumbing 1; contract test, source rules, SOP line 0.5).
+
+**Merge note (25 Oct 2026):** this spec is EXTENDED, not replaced, by `docs/platform/ENTRY-REQUIREMENTS.md` (1.1) and `docs/platform/ENTRY-REQUIREMENTS-IMPLEMENTATION.md`. The table stays `catalogue.course_entry_requirements` with these columns and validation rules. It gains the kinds `override` / `general_note`, `min_entry_score`, `benchmark_band` and `provenance`. The provider-level country matrix (`catalogue.provider_entry_matrix`) is added beside it. Exposure: the Platform Admin's 25 Oct 14:36 mandate asks for additive fields on the existing course and provider payloads; this supersedes "a new website function" above, pending confirmation (decision 1 in the implementation file). Cost: one AI call per bound page, about US$0.004 a page at the current model, about NZ$15 for the NZ bound set. **Weekly matrix:** listed at 0% under "defined but never populated" until approved and built.
 
 ---
 
