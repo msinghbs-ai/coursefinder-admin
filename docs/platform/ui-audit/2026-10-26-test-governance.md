@@ -124,4 +124,11 @@ What I expect from here: the number fell this week (runs halved, every red and s
 
 ## 6 Merge record
 
-(Filled in at merge: PR, suite result, register regenerated.)
+Merged under rule 9 as **#699** (`f5bc071c`), 26 Oct 2026.
+
+- Full local suite on the branch: **990 passed, 0 skipped, 0 failed** (7.2 min), with no `node:test` output left in the log.
+- No migration or function in the change, so `deploy-on-merge` correctly did not run.
+- Post-merge workflows on `f5bc071c` all succeeded: Release Currentness Deployed, Release History Contract, Scheduled Tasks Runtime Health Contract, CourseFinder Deployed UAT and Pilot Frontend Build.
+- Register regenerated from `main` after the merge.
+
+From this merge, rule 9's gate is the full suite green with no exceptions.
