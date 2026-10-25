@@ -67,7 +67,7 @@ v2.15.347 HOTFIX 3 Task manager read speed (PR #689) ·
 v2.15.348 Campuses by CRICOS location name + Provider filter (PR #690) ·
 v2.15.349 Firecrawl targets rule reports the failing condition (PR #691) ·
 v2.15.350 R2: daily picked-courses cap 100 + per-course stop 6 (PR #692); tranche 1 (25 overrides) applied ·
-v2.15.351 list columns on every sort (PR #693) · v2.15.352 gate consolidation (PR #694) · v2.15.353 SP-1 (PR #696, worker v0.47.0).
+v2.15.351 list columns on every sort (PR #693) · v2.15.352 gate consolidation (PR #694) · v2.15.353 SP-1 (PR #696, worker v0.47.0) · v2.15.354 SP-1.1 first-run pending cap (PR #697).
 No open PRs (24 Oct 23:40).
 Hotfix record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (re-open paste file with the Platform Admin).
 Key metric: course-page binding % — every field's ceiling. Tracker definition (official link active, published providers), 25 Oct 22:20: NZ 47.0% · AU 75.1% · CA 69.8% (the earlier "NZ 53.5%" could not be reproduced from current tables; see the speed record).
