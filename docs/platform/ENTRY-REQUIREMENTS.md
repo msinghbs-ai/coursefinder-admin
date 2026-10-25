@@ -167,3 +167,6 @@ This design EXTENDS, not replaces, the B1 spec in nz-enrichment-brief/2026-10-24
 course-level rows use B1's table `catalogue.course_entry_requirements` (plural, B1's columns and validation rules),
 gaining the kinds override/general_note, min_entry_score, benchmark_band and provenance; the provider matrix is new.
 Implementation and build order: ENTRY-REQUIREMENTS-IMPLEMENTATION.md.
+Website feed CONFIRMED (Platform Admin 25 Oct 2026 14:50): additive fields on the EXISTING course and provider payloads,
+no separate function; the mandate is the explicit frozen-API approval. A matrix row with no minimum renders as "this
+qualification is considered case by case" — never "no data", never an automatic pass.

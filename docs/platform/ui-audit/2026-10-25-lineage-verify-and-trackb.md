@@ -216,3 +216,18 @@ Recorded in PIPELINE-LINEAGE.md section 7. Enforced from Track B release 1 by co
    - the R3 headline target after its first week.
 
 **Next:** Track B release 1 starts now (Fields + Pipeline strip + `course_events` + stored-copy replay). Its PR comes for your review before merge.
+
+---
+
+## Decisions 25 Oct 2026 14:50 (Platform Admin; recorded before code)
+
+| # | Decision | Effect |
+|---|---|---|
+| 1 | **SIT 3954, route (b).** "authorise the one-off workflow run. Constraints: reads ONLY the evidence file d0ff24c6…, prints ONLY the 3954 record, workflow deleted after use, run log + extract recorded in the triage file. Show me the extract before either one-row paste file is written." | Run on a temporary branch (push-triggered workflow), then the branch is deleted. Run log and extract go in the triage file (`2026-10-24-layer4-parked-triage.md`, section "SIT 3954 stored register extract"). No paste file is written until the Platform Admin has seen the extract |
+| 2 | **#693 accepted.** "the live re-check (50/50 fees, LI4245 = NZD 37,000, Lincoln) is the verification; my browser glance is confirmation only." | Part A closed |
+| 3 | **Track B release 1 approved as specified:** `pipeline.course_events` append-only as the single data source; Fields section with dashboard-total parity; Read-with-AI v2 (replay per `read.stored_copy_max_age_days` = 14, plus an explicit "Fetch again"); calendar retirement tidy; the test blocking pipeline PRs without a lineage update. "PR to me before merge." | Build starts; PR for review, not merged without approval |
+| 4 | **Items 2.2, 2.3, 2.4:** specs accepted; builds queue behind Track A (S1 / 8a) | Standing order unchanged |
+| 5 | **New settings key, open row:** `reading.read_attempts_max` (default 3, min 1, max 10) replaces the hardcoded 3-attempt limit the next time the picker is touched | PIPELINE-LINEAGE.md section 4 and section 6 rows renamed from the provisional `reading.max_attempts` |
+| 6 | **Operating model:** agents cite REAL tables only. `extraction_runs` and `field_change_log` do not exist; the authority is PIPELINE-LINEAGE.md sections 5–6 | Added as rule 7 of `AGENT-OPERATING-MODEL.md` |
+
+**Standing order:** Track A (S1 + 8a) runs uninterrupted. Next human gates: Track A PRs, the Track B release 1 PR, the SIT 3954 extract.

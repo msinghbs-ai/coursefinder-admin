@@ -42,3 +42,8 @@ any approval gate exists below.
 5. Website-developer-facing docs live only in admin docs/integrations/developer-pack/;
    internal fixes are never described there.
 6. Australian English throughout.
+7. Cite REAL objects only (Platform Admin 25 Oct 2026 14:50). `extraction_runs` and `field_change_log` do not exist.
+   The authority for what exists is `docs/platform/PIPELINE-LINEAGE.md` sections 5–6 (verified against code and the live
+   database). Check a table, function or job against those sections, or against the live database, before naming it
+   in a spec, a decision record or a UI follow-path. Where they disagree, the code wins and the lineage file is
+   corrected in the same PR.

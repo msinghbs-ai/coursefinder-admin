@@ -138,7 +138,7 @@ After search, fees pass `fee_below_floor_v1`, and every field kind passes `cover
 ## 4. Stop / start / retry semantics — what exists today
 
 - **Read attempts** [V]: picked while `read_attempts < 3`; `needs_render` gives the attempt back (`public.svc_coverage_read_next`, `svc_coverage_read_record`).
-  - **Corrected:** the cap 3 is a literal in the picker, not a setting. This is a G2 finding: a setting `reading.max_attempts` is to be added with the next change to that picker.
+  - **Corrected:** the cap 3 is a literal in the picker, not a setting. This is a G2 finding. **Open row (Platform Admin 25 Oct 2026 14:50):** settings key `reading.read_attempts_max` (default 3, min 1, max 10) replaces the literal the next time `svc_coverage_read_next` is touched.
   - **Corrected:** exhausted pages are excluded from picking but do **not** feed `page_rejections`. Only `security.zero_yield_reset_v1` writes it. Exhausted-page rejections are part of S1.
 - **Search stop** [V]: per course after 6 rejected pages, with the university stop behind it. A person's task passes the stop in the picker and in the credit check (hotfix 2). `credit_refused` and `daily_cap` blocking reasons show in the Task manager (`security.admin_job_status_v1`).
 - **Backoff** [V]: empty-tick pause with event-driven wake; `tick.backoff_max_minutes` 15.
@@ -220,7 +220,7 @@ Deterministic re-admission (replaying a stored copy through the current readers)
 - acceptance report and auto-admit (off by default);
 - task resume (2.3);
 - D-L4-1 pointer integrity check;
-- `reading.max_attempts` setting (section 4 finding).
+- `reading.read_attempts_max` setting (default 3, 1–10; open row, section 4 finding).
 
 ---
 

@@ -260,3 +260,16 @@ They are kept current in each build PR.
 
 1. **Consumer API placement:** confirm additive keys inside the existing course and provider payloads (as the mandate reads), rather than a new website function (as B1 had said).
 2. **Sydney 2027:** the guide is robots-disallowed. Keep the 2026 edition with a "superseded edition" flag until the provider's page allows it, or a person enters it.
+
+---
+
+## Decisions 25 Oct 2026 14:50 (Platform Admin; recorded before code)
+
+| # | Decision | Effect |
+|---|---|---|
+| 7 | **Website feed confirmed:** "additive fields on the EXISTING course and provider payloads; no separate function. The mandate is the explicit frozen-API approval." | Part 2.4 stands as written. The migration's approval line quotes the 14:36 mandate and this confirmation. The B1 note in `nz-enrichment-brief/2026-10-24-nz-field-admission.md` section 5 and the merge note in `ENTRY-REQUIREMENTS.md` section E are updated, so the question is closed |
+| 8 | **Sydney:** "keep the 2026 edition as CURRENT (not "superseded" — nothing has replaced it; the 2027 guide is unavailable, not released-over). Edition + as_at stored as normal; display shows "2026 admissions guide". Add a catalogued quarterly re-check for the 2027 guide (robots-respected; logs still-blocked). Normal supersession applies when a later edition lands." | Sydney rows: `status` active, `edition` '2026', display label "2026 admissions guide". New catalogued job `entry-matrix-edition-check`: quarterly, robots.txt respected, logs "still blocked" to `admin_control_events`. Setting `entry.edition_check_days` (90, range 30–180, days) |
+| 9 | **Part 2 build plan approved as planned:** Step A (tables + HTML reader + Layer 4 first run, 19 providers); B (PDF tables, +10); C (JavaScript only, +6); about 6 days, after Track B release 1; Track A not displaced | Queued in the standing order |
+| 10 | **Rendering rule for the developer pack:** "a matrix row WITHOUT a minimum (the "case by case" rows — SIT/China, NMIT/India, Ara's Gaokao pointer) must render as "this qualification is considered case by case", never as "no data" and never as an automatic pass." | Line recorded in `docs/integrations/developer-pack/ENTRY-REQUIREMENTS-RENDERING-NOTE.md` now. It is folded into the Developer Guide (section on entry fields, plus section 13 API changes) when the fields ship. The API marks such rows with `min_grade` null and `scale` 'none', and the resolution order returns them as a case-by-case result, not as "contact the provider" and not as met |
+
+These close decision items 1 and 2 of this file.
