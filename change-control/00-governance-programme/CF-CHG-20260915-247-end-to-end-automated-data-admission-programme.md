@@ -7997,3 +7997,11 @@ The brief now forbids direct table changes.
 | Defect | SP-1 capped first runs per hourly run (10) but not the number waiting: 50 pending at 04:00, heading for about 177 |
 | SP-1.1 (v2.15.354) | `bind.no_page_pending_max` (60, 5–500): a new first run opens only while fewer are waiting. md5-guarded edit of `security.no_page_propose_v1` (live md5 `0b68723d…` verified before merge). Live dry run passed (cap 50 → 0 new first runs). Suite 1,920 passed, only the 4 legacy failures. Test s118 |
 | Consumer API | Not touched (Decision 266) |
+
+### 26 Oct 2026 (Mon, Melbourne) – Update 07:50: overnight outcomes 08:00 report; Track C step A (#695) merged under rule 9
+
+| Item | Detail |
+|---|---|
+| 08:00 report | `docs/platform/ui-audit/2026-10-25-overnight-outcomes.md` ("08:00 report") and `docs/platform/COURSE-WISE-TRACKER.md` edition 2: fees +35 courses (NZ +30, CA +5), bindings 0 (cap used before 18:00; resets 11:00 AEDT); no cause = 0 everywhere; spend 545 Firecrawl credits / US$0.54 AI. 60 university first runs (41 no page, 19 conjoint) wait in Layer 4. Tranche 2 Part A not yet applied. Unpublished AU quantified by type and site status (1,322 providers / 11,173 courses; registration status not readable from the database) |
+| Track C step A (#695, v2.15.355) | Rebased on SP-1.1; decide/desk/spend md5 verified live 07:45; live dry run on the post-SP-1 database passed (01:00); suite 1,940 passed (4 legacy only). Reader off (`entry.matrix_enabled` 0), job `entry-matrix-read` inactive; extraction runs after Track B release 1 |
+| Consumer API | Not touched (Decision 266) |
