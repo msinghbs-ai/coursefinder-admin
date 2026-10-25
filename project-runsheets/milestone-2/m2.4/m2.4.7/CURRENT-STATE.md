@@ -7956,3 +7956,13 @@ The brief now forbids direct table changes.
 | S4 | CA fee gap into Tranche 2 (Part A paste written, dry-run 7 overrides / 18 fee pages); Part B (TAFE/wānanga/ITO) from Monday's weekly line; unpublished AU first cut 1,332 providers / 11,173 courses; mislabel `target_list_refused` specified for SP-1 |
 | Queue | #694 → Track B R1 (S5+S6 proposed inside) → #695 → SP-1 (D-S0: SP-1 before #695 recommended) |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 23:30: standing rules 9 and 10; #694 gate consolidation merged and live; SP-1 (#696) merging
+
+| Item | Detail |
+|---|---|
+| Standing rules (23:16) | AGENT-OPERATING-MODEL rule 9: the agent merges its own PRs once the gates hold (suite green except the named legacy failures, live md5 of every edited function verified just before merge, live dry run where applicable, change control written), confirms the live version and records the merge. Destructive and consumer-API shape changes stay paste files. Rule 10: every mandate response is lodged in the admin repo before the chat reply |
+| #694 gate consolidation | Merged `c478404e` (v2.15.352). Live md5 of all 8 edited functions verified before merge. deploy-on-merge applied `20261025002000` (history md5 matches the file). Release currentness on the deployed site passed. Post-merge md5s of the gate and the AI-match prepare equal the values SP-1 edits |
+| SP-1 (#696, v2.15.353) | No page published by the provider + conjoint rule (Layer 4 first run per provider, 60% rule, universities first, at most 10 new first runs an hour), extra course domains, AI match scope (AU), named Firecrawl refusals. Rebased on main after #694. Live md5 of all 8 edited functions verified. Live dry run on top of #694 passed (rolled back). Suite 1,910 passed (4 legacy; 4 older contract tests updated to the renamed spend-check calls). Activation `bind.no_page_on` stays 0 |
+| Track C (#695) | Not merged tonight: the Platform Admin's 18:54 instruction for Track C was "NO merge" tonight. It is rebased after SP-1 (decide/desk md5, worker v0.48.0) and merged under rule 9 on 26 Oct |
+| Consumer API | Not touched (Decision 266) |
