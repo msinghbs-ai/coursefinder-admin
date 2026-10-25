@@ -54,3 +54,13 @@ any approval gate exists below.
      25 Oct 2026). So one-off reads and extracts are run on the existing scratch branch `cf247-zoho-dryrun`,
      force-pushed per run and left identical to a known state afterwards, instead of a new branch.
    - A new temporary branch is created only where deletion is possible, and is then deleted in the same flow.
+9. **Merge your own PRs** (Platform Admin 25 Oct 2026 23:16, standing). A PR merges when:
+   - the full suite is green (the known legacy failures, listed by name, excepted);
+   - the md5 of every live function the migration edits has been verified against live just before the merge;
+   - a live dry run has passed, where applicable;
+   - the change-control entries are written.
+
+   Then: merge, let `deploy-on-merge` apply the migration and deploy the functions, confirm the live version string (release currentness check plus the worker version answered live), and record the merge in the mandate file. PRs are not left waiting: the Platform Admin's review is retrospective, from the repo files.
+
+   **Exception, unchanged from CF-247:** destructive changes (drops, deletes) and consumer-API shape changes come to the Platform Admin as paste files. They are never auto-merged, with no exception for speed.
+10. **Lodge every response in the admin repo before replying** (Platform Admin 25 Oct 2026 23:16, standing). Each mandate's full response is written as a dated md in the right `docs/platform` folder before the chat reply. The chat reply is a pointer: the file path plus a three-line summary, never the report itself. Review happens in the repo; chat is transport. This tightens rule 3.
