@@ -312,3 +312,49 @@ While building SP-1 I checked the discovery lane behind the "no / thin inventory
 **Budget effect:** S1's "300–600 credits once" falls to about the number of extra domains approved, likely under 50 credits.
 
 **Ceiling effect:** S1 still does not reach NZ 75% on today's definition. The approved no-page cause is what moves the honest number. I said this in the 22:05 response, and it now matters more. The S1 PR will show the projected curve.
+
+## Universities first (Platform Admin 22:34: "top tiered universities like Auckland, Victoria, Otago ... map and finish them first")
+
+The eight NZ universities hold **822 of the 3,432** unbound NZ courses. Every one of them has already been mapped (1–5 Oct), has its course list read (22–24 Oct) and has been through the source finder and the AI page match. Live at 23:00:
+
+| University | Unbound | Conjoint / double | Research | Other | Addresses held | Unbound titles on its own current list* |
+|---|---|---|---|---|---|---|
+| Waikato | 169 | **112** | 3 | 54 | 490 | 4 of 57 |
+| Auckland | 128 | 39 | 5 | 84 | 3,271 | 0 of 89 |
+| Victoria (Wellington) | 121 | 2 | 7 | 112 | 12,635 | 15 of 119 |
+| Lincoln | 106 | 0 | 0 | 106 | 1,080 | 0 of 106† |
+| Massey | 99 | 5 | 7 | 87 | 12,188 | 8 of 94 |
+| Otago | 81 | 0 | 2 | 79 | 258 | 26 of 81 |
+| Canterbury | 64 | 13 | 2 | 49 | 1,508 | 5 of 51 |
+| AUT | 54 | 3 | 3 | 48 | 145 | 2 of 51 |
+
+\* The course title (without its level) appears in the link text of the university's own course list as read. † Lincoln's recorded list text is mostly site navigation (its programme search is a script app), so 0 is not evidence for Lincoln. A Lincoln sample has real programmes, e.g. Master of Disaster Risk and Resilience. The first-run sample is the check.
+
+**Spot checks:**
+- Otago's current list of about 190 qualifications ([otago.ac.nz/study/qualifications](https://www.otago.ac.nz/study/qualifications)) omits the sampled unbound courses (no Master of Accounting and Finance, no Bachelor of Education (Teaching)).
+- StudySpy lists the Master of Accounting and Finance as a [discontinued programme](https://studyspy.ac.nz/courses/20805/discontinued-programme-master-of-accounting-and-finance-maccfin).
+
+These are register entries the university no longer advertises.
+
+**So the universities finish through what was approved at 22:27, not through more maps:**
+1. **Conjoint rule:** Waikato 112 + Auckland 39 = 151 courses, one Layer 4 decision each.
+2. **No-page first runs, universities first** (the SP-1 job orders universities ahead of everything else, at most `bind.no_page_first_runs_per_run` (10) new first runs an hour so Layer 4 is not flooded). Each first run shows the university's own course list beside the sample.
+3. **About 60 university courses whose titles are on their own lists** (Otago 26, Victoria 15, Massey 8, Canterbury 5, Waikato 4, AUT 2) are page-match misses, not no-page cases. They are the first target for the matcher review in the 08:00 report.
+4. **A fresh map only where a university's site changed:** Otago's list now lives under `/study/qualifications/` while its bound pages and the list read use `/courses/qualifications/`. Otago's list page is re-pointed through the course-list mechanism once the new address is confirmed as the canonical list.
+
+## SP-1 built (23:00, branch `cf247-sp1`, on top of #694)
+
+- Migration `20261025003000_cf247_sp1_no_page_conjoint_domains_mislabel.sql`, worker v0.47.0, test s117, release v2.15.353.
+- Live dry run, applied on top of #694 and rolled back:
+  - with `bind.no_page_on` 0 the job does nothing;
+  - switched on, the first run opened 9 no-page and 1 conjoint first runs (cap 10), universities first (Newcastle, UTS, VU, Waikato conjoint, Victoria Wellington, UNSW …);
+  - a first run approved with 1 of 5 marked "has a page" made the provider trusted (4/5 ≥ 60%), and the next run recorded 192 of its courses;
+  - the one stop gate then returns `no_page_by_provider` (null for the course that has a page);
+  - an AI-chosen page re-opened a recorded course;
+  - the Waikato conjoint rule approved held 111 conjoint courses;
+  - a rejected first run returned its 5 sample courses to search;
+  - a `target_list_refused` refusal was recorded by name; an extra course domain was added (discovery back to pending);
+  - AI match scope 104 Australian providers; job catalogued and scheduled.
+- Nothing left behind; scratch branch clean.
+- **Activation stays the Platform Admin's step:** `bind.no_page_on` 0 → 1 after merge.
+- **The widened AI match scope works from merge.** It is AI only, about US$0.002 a course; set `bind.match_scope_top_n` to 0 to hold it.
