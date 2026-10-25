@@ -8021,3 +8021,17 @@ The brief now forbids direct table changes.
 - Merged under rule 9 as `5aa3ede2`. Suite 1,948 passed (legacy cf-091, cf-103 only); migration `20261026002000` applied with history md5 matching the file; live function bodies match the file byte for byte; `no_page_review_apply_v1` unchanged.
 - First run by hand straight after deploy: 0 auto-admitted (no shape approved by a person yet), 0 audits, 16 new-shape, 26 course list not verified, 10 sample not confirmed, 8 no course list.
 - Six shapes have leaders waiting in Layer 4 (CDU/Flinders/Griffith/SCU/UQ; RMIT/Auckland; Massey; Federation/UTS; Canterbury; Otago). One approval per shape unlocks 10 waiting first runs on the next hourly run.
+
+### 26 Oct 2026 11:00 AEDT — Test governance: register, retirements, G4 (Platform Admin mandate 09:36)
+
+- Records: `docs/platform/TEST-REGISTER.md` (the register) and `docs/platform/ui-audit/2026-10-26-test-governance.md` (decisions). Standing: AGENT-OPERATING-MODEL rule 11 and Pilot `CLAUDE.md` G4. Rule 9 amended: the suite must be green with no exceptions (the cf-091 / cf-103 carve-out ended).
+- Retired 16 tests:
+  - 8 deployed browser halves that skipped locally and were in no deployed tier;
+  - CF-103 browser theme test (red in every local run);
+  - A13 retired-screen test;
+  - 6 `node:test` tests that were red but never counted (CF-208 ×3, CF-209 ×2, CF-210 ×1).
+
+  Every retired rule is still guarded by a named spec.
+- Fixed: CF-091 source contract (Provider Assets now under Providers › Assets). Converted 11 passing `node:test` tests to Playwright. The legacy baseline is now asserted once (S70).
+- Phone viewport: runs only `@responsive` tests and the deployed gate. Local runs per pass 1,968 → 990. Local result: 990 passed, 0 skipped, 0 failed.
+- Added `s120` (G4): Guards line on every spec, no `node:test`, no unconditional skip, no environment skip outside `@deployed`, phone filter kept. Added `scripts/test-register.mjs`.

@@ -19,11 +19,12 @@ Source: every file in `tests/uat`, the last full local run (`uat-artifacts/resul
 | Deployed track | 45 spec files tagged `@deployed`. They run against the live site through `deployed-uat` (one targeted spec per push, desktop only; full tiers by dispatch) |
 | Specs naming what they guard | 205 had a header comment; 76 had none; none in a fixed, checkable form |
 
-Three findings drive the decisions.
+Four findings drive the decisions.
 
 1. **The phone run duplicated everything and checked nothing about phones.** Every local test ran twice, once per project. 793 of the 1,096 parsed tests are source contracts: they read files and never open a browser, so the second run is the same check again. The 6 local browser tests that set a viewport all set a desktop width (1,280–1,900 px), so even their phone run was a desktop run. No local test asserts anything about phone width. Phone and tablet behaviour is checked only in the deployed track (A10, A13 tablet filter, A22 responsive blades, CF-080 contacts containment), which keeps its own phone gate.
 2. **The 16 skipped were 8 tests × 2 viewports.** They were browser halves of deployed checks living in local specs (CF-088, CF-091, CF-102 ×2, CF-103 logo ×2, CF-104 ×2). Each skipped itself when the UAT login was absent, which is always, locally. None of them is in any `deployed-uat` tier list, so they ran nowhere. In the deployed track itself, one more test was hard-skipped since 6 Oct (A13 "Layer 2 explains governed Firecrawl…", a screen retired by Decision 254). One stale date-skip remained in the Layer 1 CRICOS check (the maintenance window ended 22 Oct).
 3. **Central rules were re-asserted per change.** The legacy release baseline (2.15.78) was asserted in 6 specs. The housekeeping lines and "no drop or delete" checks appear in 163 assertion lines across 86 specs, all already enforced for every migration by `s42`. Settings were re-checked in 35 specs beside `s32`.
+4. **Six failing tests were invisible.** Five specs (CF-205, CF-208, CF-209, CF-210, CF-211; 17 tests) were written on `node:test`, not Playwright. Playwright loaded each file, and `node:test` ran the tests at import time and printed the result into the log. Playwright never counted them and never failed the suite on them. Six of the 17 were red: CF-208 ×3, CF-209 ×2 and CF-210 ×1, all pinned to screen text from before the scholarship, scheduling and reference-data screens were rebuilt. The 25 Oct suite reported 1,948 passed while these six failed underneath. This came out while building the register, which counts tests from Playwright's own list.
 
 ## 2 Decisions (Part 2)
 
@@ -36,6 +37,18 @@ Three findings drive the decisions.
 | CF-103 "Provider insight cards and Compare metrics render the shared navy theme" (red) | Contextual theme colour | Yes, as a token rule | **Retired.** It had no environment guard and needs the UAT login, so it failed in every local run, and it is in no deployed tier. The colour rule is guarded by its own source half (`--cf-insight-navy:var(--cf-slate-750)`, the CSS selectors), which passes |
 
 With these, rule 9's "known failures" exception ends. AGENT-OPERATING-MODEL rule 9 now reads "the full suite is green, with no exceptions".
+
+### 2.1a The six hidden failures (node:test specs)
+
+| Test | Decision | Reason | Rule still guarded by |
+|---|---|---|---|
+| CF-208 ×3: Scholarships shell wiring, operator controls, publication vs eligibility wording | Retire (the spec file is removed) | Pinned to the pre-rebuild Scholarships screen (`item('Scholarships',Sparkles,1)`, a Lifecycle filter, old wording) | `cf-247-s14-scholarship-journey`, `cf-247-scholarship-screens-mockup`, `cf-247-scholarship-layers`, `cf-247-s9-scholarship-evidence-journey` |
+| CF-209 "Scheduling remains a bounded governed read surface" | Retire | The Scheduling menu key and screen were replaced by Scheduled jobs (Decision 254) | `cf-093-scheduled-workflow-operator`, `cf-247-s12-sources-task-board`, `m2-5-jobs-workspace-read-path` |
+| CF-209 "Jobs stays server-paged, telemetry-rich and mutation-free" | Retire | Pinned to the retired Pipeline Ops console text | `m2-5-jobs-workspace-read-path`, `cf-209-scheduler-jobs-operations-deployed` |
+| CF-210 "governed operational reference records retain sourced manual registration" | Retire | Pinned to old button text on the reference-data screen | `cf-247-record-editing` (Decision 179: values entered by hand win), `cf-247-reference-sources` |
+| The other 11 (CF-205 ×2, CF-209 ×1, CF-210 ×2, CF-211 ×6) | Keep, converted to Playwright | They pass, and are now counted and can fail the build | (themselves) |
+
+`s120` now fails any spec that imports `node:test`.
 
 ### 2.2 Every skipped test
 
@@ -84,11 +97,11 @@ Result: 0 skipped in the local suite. The only skip pattern allowed from now on 
 
 | | Before | After this change |
 |---|---|---|
-| Spec files | 281 | 282 (`s120` added) |
-| Test definitions | 1,079 | 1,073 (10 retired, 4 added in `s120`; the stale CRICOS skip line removed, its test kept) |
-| Local suite runs per pass | 1,968 | 980 |
-| Local skipped / failing | 16 / 4 | 0 / 0 (see section 6 for the confirming run) |
-| Specs that say what they guard | 205 informally | 282 in the checked `// Guards:` form |
+| Spec files | 281 | 281 (`s120` added, CF-208 removed) |
+| Test definitions Playwright counts | 1,079 (plus 17 uncounted `node:test` tests) | 1,084: 10 retired, 4 added in `s120`, 11 converted from `node:test` (6 more retired); the stale CRICOS skip line removed, its test kept |
+| Local suite runs per pass | 1,968 (plus 17 uncounted) | 990 |
+| Local skipped / failing | 16 / 4 counted, plus 6 failing uncounted | 0 / 0 (see section 6 for the confirming run) |
+| Specs that say what they guard | 205 informally | 281 in the checked `// Guards:` form |
 | Standing rules with a central guard | 5 | 6 (G4 added) |
 
 By category (after; detail and per-spec rows in the register):
@@ -96,13 +109,13 @@ By category (after; detail and per-spec rows in the register):
 | Category | Meaning | Specs |
 |---|---|---|
 | Rule guards | A standing rule that applies to every change: G2 `s32`; G3 `s57`; housekeeping and G1 `s42`; Website API v2 (`website-api-v2`, `institution-type`); release contract (`m245`, `s70`, `release-notes-deployed`); G4 `s120` | 9 specs for 6 rules |
-| Regression guards | One decision or change each (CF-xxx, CF-247 Sxx, M2.x, Decision nnn) | 229 |
-| Deployed track | The same decisions checked on the live site | 44 |
+| Regression guards | One decision or change each (CF-xxx, CF-247 Sxx, M2.x, Decision nnn) | 230 |
+| Deployed track | The same decisions checked on the live site | 42 (plus `release-notes-deployed`, counted as a rule guard) |
 | Duplicated (remaining) | Assertion lines repeating a central rule, not separate tests | 163 lines in 86 specs (housekeeping); 35 specs (settings) |
 
 The true count is 6 standing rules plus one regression guard per decision. The test count stays a property of how much each decision needs, not a target.
 
-What I expect from here: the number fell this week (runs halved, every red and skipped test resolved). It should stay flat, because new specs come only with new decisions and leave with them.
+What I expect from here: the number fell this week (runs halved, every red and skipped test resolved, the six hidden failures found and closed). It should stay flat, because new specs come only with new decisions and leave with them.
 
 ## 5 Judgement calls for the Platform Admin
 
