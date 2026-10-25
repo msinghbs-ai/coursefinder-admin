@@ -41,18 +41,13 @@ Then items 9, 10, 11. B1 entry requirements remains first among the AU builds an
 not bypass O10/R2 or any approval gate.
 
 ## Decisions awaiting Platform Admin
-(Pruned 25 Oct 2026 13:00. Records: `docs/platform/ui-audit/2026-10-25-lineage-verify-and-trackb.md` and `…-consolidated-visibility-and-data.md`.)
-1. D-SIT3954: route to the stored NZQA register extract — (a) you open Evidence `d0ff24c6…` and search "3954", or (b) authorise a one-off workflow read of that one object; then apply the one-row fill or quarantine file.
-2. Visual check of v2.15.351 (merged): NZ list sorted by Completeness, LI4245 shows NZ$37,000 / Lincoln.
-3. Policy proposals: mark the 65 rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql`.
-4. zero_yield.auto_reset → 1 (after reading the UoA pilot in the zero-yield file).
-5. UoA catalogue-host: refreshed map pending; else a per-provider allowance vs manual bindings for the 45 catalogue-only courses.
-6. O5 NZQA signatory-list URL; O8/O9 Firecrawl and OpenRouter plan tiers and caps.
-7. R3 provisional headline target after its first full week (0 means not set).
-8. Entry requirements: confirm the consumer API placement (additive keys in the existing course and provider payloads vs a new function), and Sydney 2027 (robots-disallowed: keep the 2026 edition flagged). Record: `docs/platform/ENTRY-REQUIREMENTS-IMPLEMENTATION.md`.
-Closed 25 Oct: PR #693 merged (D-693); stored-copy replay approved (D-stored-copy, `read.stored_copy_max_age_days` 14); calendar-defaults retire (D-calendar); central.auto_approve kept (D-auto-approve).
+(Pruned 25 Oct 2026 15:15 to the next human gates, per the Platform Admin's 14:50 decisions.)
+1. **SIT 3954 extract**: shown in `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md` ("SIT 3954 stored register extract"). The register itself titles 3954 "--", which points to the one-row quarantine paste. Say the word and the file is written; also delete branch `cf247-sit3954-extract` (deletion refused from this session).
+2. **Track B release 1 PR**: review before merge (Fields section, Pipeline strip on `pipeline.course_events`, Read-with-AI v2, calendar retirement tidy, lineage test).
+3. **Track A PRs** (S1 + 8a), as they come.
 
-Order now: Track B release 1 (Fields + Pipeline strip + course_events + stored-copy replay) → entry-requirements build (queued after it, not displacing Track A) → Track A (S1 + 8a) → Track B releases 2 and 3 → 2.2 → 2.3 → 2.4 → Defect 1 → Part E with Track B release 3. PIPELINE-LINEAGE.md is verified 1.1 (16 flips, 11 corrections); doc-as-code is a standing check.
+Parked, not gates today: policy proposals paste (65 rows, mark when ready); zero_yield.auto_reset; UoA catalogue-host; O5 / O8 / O9; R3 headline target.
+Closed 25 Oct: #693 accepted (live re-check is the verification); Track B release 1 approved as specified; 2.2–2.4 specs accepted (queued behind Track A); `reading.read_attempts_max` open row; real-tables rule (AGENT-OPERATING-MODEL rule 7); entry-requirements feed confirmed (additive in existing payloads); Sydney 2026 edition current plus a quarterly re-check; entry build plan approved; case-by-case rendering rule.
 
 ## Live platform state (key releases)
 v2.15.334 Release 1 · v2.15.335 read-lane capability ·

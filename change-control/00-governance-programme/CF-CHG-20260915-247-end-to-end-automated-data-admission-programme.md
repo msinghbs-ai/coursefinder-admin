@@ -7939,3 +7939,12 @@ The brief now forbids direct table changes.
 | Part 2 plan | Steps A (HTML reader, 19 providers) → B (PDF, +10) → C (JavaScript rendered or contact provider, 6); Layer 4 first-run review per provider; settings `entry.matrix_*`; consumer API additive under an explicit approval line; developer-pack worked example (India, RMIT BEng) written at release from admitted rows |
 | Decisions | Consumer API placement; Sydney 2027 robots-disallowed |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 15:15: decisions 14:50 recorded (lineage / Track B + entry requirements); SIT 3954 stored extract obtained (register title "--")
+
+| Item | Detail |
+|---|---|
+| Decisions | 1 SIT 3954 route (b); 2 #693 accepted; 3 Track B release 1 approved as specified; 4 items 2.2–2.4 queued behind Track A; 5 `reading.read_attempts_max` (3, 1–10) open row; 6 real-tables rule (AGENT-OPERATING-MODEL rule 7); 7 entry feed additive in the EXISTING course and provider payloads (B1 notes updated); 8 Sydney 2026 edition current plus quarterly `entry-matrix-edition-check`; 9 entry build plan approved; 10 case-by-case rendering rule (developer-pack note) |
+| SIT 3954 | One-off workflow runs 40159801364 / 40159842215 read only the evidence object (SHA-256 = content_hash) and printed only the 3954 record: `{"code": "3954", "title": "--", "status": "Current", "level": null, "credits": "60"}`. The register has no title, which points to the quarantine paste; not written until the Platform Admin has seen the extract. Workflow removed from the branch; branch deletion refused by the session proxy, so the Platform Admin deletes it |
+| INDEX | Pruned to the next gates: SIT 3954 extract, Track B release 1 PR, Track A PRs |
+| Consumer API | Not touched (Decision 266) |

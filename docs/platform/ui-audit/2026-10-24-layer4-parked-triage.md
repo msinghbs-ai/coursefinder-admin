@@ -345,3 +345,34 @@ The paste file's calendar guard now enforces the route's rule.
 |---|---|---|
 | (a) Visible row with "automatic" as decider | 111 automatic approvals since 14 Oct 23:34 UTC (52 English, 59 calendars). Each keeps `decided_by` null and a note starting "Automatic: AI reading of the central page …"; the control log row has no actor. The Decided view shows "Approved" and a date only, so an automatic approval looks like a person's | **Not met.** The read and the Decided view (Layer 2/3 › Operations › Approvals waiting › Show: Decided) mark the decider as "Automatic: disagreement check passed (N agree, M differ)" and name the person otherwise; the Operations approvals log shows the same. Display only, no API change. First item of the follow-on UI mandate |
 | (b) Automatic outcomes in the acceptance report | No acceptance report yet (Phase 2 awaits approval). The data exists per approval: `apply_summary` (written, refused, flagged) and the plan's agree / differ counts, re-worked as course pages are read | **Not met.** Added to the Phase 2 design: each automatic approval is a decision with decider "automatic". The weekly report shows, per kind:<br>• automatic approvals;<br>• how many a person later reversed;<br>• course pages read since that disagree with the written default;<br>• Layer 4 English reviews opened against them.<br>That measures the disagreement check like any other proposal. Revisit trigger as decided: the report shows the check failing |
+
+## SIT 3954 stored register extract (25 Oct 2026, decision 1 route (b))
+
+Platform Admin 25 Oct 14:50: "authorise the one-off workflow run. Constraints: reads ONLY the evidence file d0ff24c6…, prints ONLY the 3954 record, workflow deleted after use, run log + extract recorded in the triage file. Show me the extract before either one-row paste file is written."
+
+**The run:**
+- **Where it ran:** a temporary branch `cf247-sit3954-extract` in Coursefinder-Pilot, with a push-triggered workflow `sit3954-extract-oneoff.yml`.
+- **What it read:** the service key for the storage request, through the existing `SUPABASE_ACCESS_TOKEN` secret (masked in the log). Then exactly one object: `evidence/regulatory/NZ/nzqa/2026-09-26T13-19-33-648Z-offset-45-batch-5.json`.
+- **What it printed:** only the record whose code is 3954.
+
+**Run log:**
+- **Run 40159801364** (commit `40ec6837`): success, but its output went to the job log, which this session cannot fetch (the logs host is outside the proxy).
+- **Run 40159842215** (commit `f18fec4a`): success. The same read, emitting the output as annotations, which are readable.
+- **Clean-up:** the workflow file was removed by commit on the branch (the branch now differs from `main` by 0 files). Deleting the branch itself is refused by this session's proxy (HTTP 403, policy), so **the Platform Admin deletes branch `cf247-sit3954-extract` in GitHub**.
+
+**Extract (verbatim annotation output):**
+
+```
+FILE_BYTES: 1199562
+FILE_SHA256: 2cc714340b5e0f776ad298d8581a1cbeaf3f7b82a251ebacc1b08c37cbe73063 MATCHES_CONTENT_HASH
+RECORDS_FOUND: 1
+RECORD_PATH: [1]/quals[139]
+RECORD: {"code": "3954", "title": "--", "status": "Current", "level": null, "credits": "60"}
+```
+
+**Reading:**
+- The file is the stored copy: its SHA-256 equals the evidence `content_hash`.
+- **The NZQA register itself carries the title "--"** for qualification 3954, status Current, 60 credits, no level.
+- The platform copied the register faithfully; the register has no title to fill from.
+
+Under D-SIT3954 that points to the **one-row quarantine paste**: a status change, reversible, applied by the Platform Admin. Live, the course row is `course:nzqa:6015:3954`, unpublished, with one regulator-listing link. **No paste file is written until the Platform Admin has seen this extract and says so.**
