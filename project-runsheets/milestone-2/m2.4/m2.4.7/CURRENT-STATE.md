@@ -7992,3 +7992,9 @@ The brief now forbids direct table changes.
 - Bootstrap: no person-approved first run exists yet, so the first provider of each shape stays in Layer 4 and is marked with the number of waiting first runs it unlocks.
 - Dry run on live (rolled back): 0 auto-admitted before any approval; after one simulated approval of shape `map|university|d3`, 5 auto-admitted with 5 decisions and 5 Decided rows; 30 seconds.
 - Consumer API not touched. Nothing dropped or deleted.
+
+### 26 Oct 2026 09:45 AEDT — SP-2a merged and live (#698, v2.15.356)
+
+- Merged under rule 9 as `5aa3ede2`. Suite 1,948 passed (legacy cf-091, cf-103 only); migration `20261026002000` applied with history md5 matching the file; live function bodies match the file byte for byte; `no_page_review_apply_v1` unchanged.
+- First run by hand straight after deploy: 0 auto-admitted (no shape approved by a person yet), 0 audits, 16 new-shape, 26 course list not verified, 10 sample not confirmed, 8 no course list.
+- Six shapes have leaders waiting in Layer 4 (CDU/Flinders/Griffith/SCU/UQ; RMIT/Auckland; Massey; Federation/UTS; Canterbury; Otago). One approval per shape unlocks 10 waiting first runs on the next hourly run.

@@ -38,16 +38,31 @@ No first run has been approved by a person yet, so on day one no shape is "alrea
 
 Dry run on live (26 Oct, rolled back): of the 60 waiting, 0 auto-admitted before any approval (as designed). After simulating one person approval of the commonest shape (`map|university|d3`), the next run auto-admitted 5 (Southern Cross, Flinders, Griffith and two more), wrote 5 decisions and 5 Decided rows, and 6 providers became trusted. Run time 30 seconds.
 
-What holds the rest back today (dry run, 60 waiting):
+### Live first run of the job (09:3x, after merge)
 
-| Outcome | First runs | Why |
+Release v2.15.356 merged as #698 (`5aa3ede`); deploy-on-merge applied the migration (history md5 matches the file); the live bodies of the three new functions match the file byte for byte; `security.no_page_review_apply_v1` is unchanged (`55c019a7…`). The job was run once by hand straight after deploy.
+
+| Outcome | First runs | Who |
 |---|---|---|
-| Novel shape (waiting for a leader approval) | about 17 | shape not yet approved by a person |
-| Course list not verified | about 23 | list links hold less than 70% of bound pages (e.g. Monash 2%, Melbourne 11%, Curtin 4%); these lists are partial or are search pages |
-| Sample not confirmed | about 7 | look-alike addresses on the list (Deakin, UTas, Sydney 2 of 5) — exactly where errors live |
-| No course list read | 8 | Adelaide, CQU, Murdoch, Notre Dame, UWA, AUT (theology): no list page yet |
+| Auto-approved | 0 | none yet: no shape has a person's approval (bootstrap) |
+| Sampling audit | 0 | — |
+| New shape, waiting for one person approval | 16 | see the leaders table below |
+| Course list not verified | 26 | AUT, Curtin, Lincoln, Macquarie, Monash, Otago Polytechnic, Swinburne, Melbourne, Sydney, Canberra, Waikato, UNSW, Victoria University (2), Victoria University of Wellington (0.69, just under 0.7), Wintec, Western Sydney. Their lists hold under 70% of their bound pages: partial lists or search pages |
+| Sample not confirmed | 10 | Deakin, ECU, Newcastle, Torrens, UTas, Wollongong (no page); CDU, Flinders, Griffith, RMIT (conjoint). Look-alike pages exist on their lists, which is where errors live, so a person decides |
+| No course list read | 8 | Adelaide, AUT (theology), CQU, Murdoch, Notre Dame, UWA |
 
-The leaders to approve are listed at the next check (by shape, with the count each unlocks), after the release is live.
+### Leaders: one approval per shape unlocks the rest
+
+| Shape | Waiting | First runs | Approve one to unlock the others |
+|---|---|---|---|
+| map, university, depth 3 | 6 | Charles Darwin, Flinders, Griffith, Southern Cross, Queensland (no page and conjoint) | 5 |
+| map, university, depth 5 | 3 | RMIT, Auckland (no page and conjoint) | 2 |
+| direct, university, depth 3 | 2 | Massey (no page and conjoint) | 1 |
+| map, university, depth 2 | 2 | Federation, UTS | 1 |
+| map, university, depth 4 | 2 | Canterbury (no page and conjoint) | 1 |
+| firecrawl, university, depth 3 | 1 | Otago | 0 (Otago's shape is unique today) |
+
+Six approvals (one per shape) let the job admit the other 10 on its next hourly run, minus 1 in 10 kept for the audit. Every later first run with a verified list and a confirmed sample in those shapes then goes straight through.
 
 ## 4 Values admitted per day (item 5; also in the speed record)
 

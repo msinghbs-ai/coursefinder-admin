@@ -379,6 +379,6 @@ Logged each check from the live tables. English and intake rows have no creation
 | 23 Oct | 24 | 339 | 383 | 0 | — |
 | 24 Oct | 72 | 174 | 189 | 0 | — |
 | 25 Oct | 2 | 49 | 52 | 0 | — |
-| 26 Oct (to 08:45) | 0 | 1 | 4 | 0 | 0 / 60 waiting (SP-2a not yet live) |
+| 26 Oct (to 09:45) | 0 | 1 | 4 | 0 | 0 auto / 60 to a person (SP-2a live 09:40; no shape approved yet) |
 
 Binding at the SP-2a change: AU 71.3%, NZ 47.0%, CA 69.8% (active courses with an official page).

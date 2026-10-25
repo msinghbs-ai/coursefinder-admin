@@ -69,3 +69,9 @@ Carried to 08:00 (no action now):
 - otherwise edit and approve with `{"has_page_course_ids": [...]}`.
 
 At 60% confirmed, the provider is trusted.
+
+## Merge under rule 9, 26 Oct 2026 (Platform Admin decision 08:25)
+
+| PR | Gates checked | Merge | Live confirmation |
+|---|---|---|---|
+| **#698 SP-2a** (v2.15.356) | Suite 1,948 passed (4 legacy: cf-091, cf-103). No existing function edited; the one it calls (`no_page_review_apply_v1`) verified unchanged at `55c019a7…` before merge. Live dry run passed (0 before approval; 5 auto-admitted after one simulated approval; 30 s). Change control written (26 Oct 09:00) | `5aa3ede2` (squash) | deploy-on-merge: `20261026002000` applied, history md5 `a6259617` matches the file. Release currentness passed. Live bodies of `no_page_auto_admit_v1`, `course_list_check_v1` and `no_page_sample_check_v1` match the file byte for byte. 8 settings (on 1, audit 1 in 10), job `layer4-auto-admit` at :47, catalogued. First run by hand: 0 auto, 16 new-shape, 26 list not verified, 10 sample not confirmed, 8 no list |
