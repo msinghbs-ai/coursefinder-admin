@@ -7945,3 +7945,14 @@ The brief now forbids direct table changes.
 | Track C opened (18:54) | Entry requirements Step A, drafted on branch `cf247-entry-matrix`. Boundary: matrix and course-requirement tables, the new reader, central-page discovery's page-type list, Layer 4 first-run items only. It touches nothing in the search picker, stop gates, course_events or the blade. Merge order is fixed: #694 → Track B R1 → Track C Step A. Extraction runs start after Track B R1 lands |
 | Byte-check | Part 1 quotes checked against raw page text: 17 exact, 6 exact after whitespace, 2 corrected (EIT, NMIT; design doc corrected in the same commit), 7 fetch refused (kept as unverified). The workflow was removed after use (rule 8) |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 22:45: speed reconfiguration mandate recorded; primary track changes after S1 #694
+
+| Item | Detail |
+|---|---|
+| Mandate (22:05) | Speed programme replaces the throughput model: map-then-match binding (S1), search-query quality (S2), calibrated stops (S3, awaits O8/O9), decisions S4, velocity (S5) and live visibility in the existing UI (S6). Accuracy gates unchanged. Record: `docs/platform/ui-audit/2026-10-25-speed-reconfiguration.md` |
+| Finding | Map-then-match exists (`coverage_ai_match`) and has run over almost every unbound course. Residue: NZ 47.0% bound (tracker definition; "53.5%" not reproducible), mostly courses without a page of their own or with no page published by the provider. S1 = fresh maps for 301 providers with missing or thin inventories + no-page gap cause + conjoint rule (Layer 4 first runs) |
+| S2 baseline | Since R2: 9% found, 14% no results, 77% results refused by the URL picker (recipes). Queries already site-scoped. Iteration 1: skip no-own-page shapes, per-result verdict log, recipe widening from evidence (person-decided), title variants, provider low-yield → map lane |
+| S4 | CA fee gap into Tranche 2 (Part A paste written, dry-run 7 overrides / 18 fee pages); Part B (TAFE/wānanga/ITO) from Monday's weekly line; unpublished AU first cut 1,332 providers / 11,173 courses; mislabel `target_list_refused` specified for SP-1 |
+| Queue | #694 → Track B R1 (S5+S6 proposed inside) → #695 → SP-1 (D-S0: SP-1 before #695 recommended) |
+| Consumer API | Not touched (Decision 266) |

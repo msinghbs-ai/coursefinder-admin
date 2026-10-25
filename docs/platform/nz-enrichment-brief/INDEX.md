@@ -1,5 +1,5 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-24 23:40 AEDT by the data-engineering agent.
+Last updated: 2026-10-25 22:40 AEDT by the data-engineering agent.
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
@@ -27,9 +27,13 @@ Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs
 | 2026-10-24-r1-release-plan-and-verification.md | R1 full plan, PR #681 / v2.15.339, independent tests and read-only live verification |
 | 2026-10-24-target-only-audit.md | target_only audit result (A 87 / B 455 providers), write-back paste, O10 decision |
 | ../ui-audit/2026-10-24-layer4-parked-triage.md | MANDATE + Phase 0 census: 2,011 Layer 4 items, classification, Phase 1 designs and budget, Phase 2 learning loop |
+| ../ui-audit/2026-10-25-speed-reconfiguration.md | **PRIMARY TRACK from 25 Oct 22:05:** speed programme (map-then-match binding, search quality, calibrated stops, Tranche 2, velocity + live visibility S5/S6) |
+| ../ui-audit/2026-10-25-overnight-outcomes.md | Overnight outcomes mandate O1–O7, Track C, paused-lanes table |
 | ../ui-audit/2026-10-24-title-and-international-intent-mandate.md | MANDATE (queued after audit → O10 → R2): NZ title verification, AU international-intent pages |
 
 ## Standing order
+**25 Oct 22:05 (Platform Admin): the speed programme (`../ui-audit/2026-10-25-speed-reconfiguration.md`) is the new primary track.** The standing order's Track A completes first (S1 #694 merges first); then the speed programme leads. Track B release 1 and Track C (#695) keep their merge positions. Merge queue: #694 → Track B R1 (with S5 + S6 if approved) → #695 → SP-1 (or SP-1 before #695 if D-S0 says so).
+
 R1 (Q2 backoff, Q4 narrowed, Q3 ledger, apply-time identity check) — **LANDED** as one
 release, v2.15.339 / PR #681. R3 (`health-hourly`) — **LANDED** as v2.15.340 / PR #682;
 provisional headline target remains unset until its first full week of rows.
@@ -44,7 +48,8 @@ not bypass O10/R2 or any approval gate.
 (Pruned 25 Oct 2026 15:15 to the next human gates, per the Platform Admin's 14:50 decisions.)
 1. **SIT 3954 extract**: shown in `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md` ("SIT 3954 stored register extract"). The register itself titles 3954 "--", which points to the one-row quarantine paste. Say the word and the file is written; also delete branch `cf247-sit3954-extract` (deletion refused from this session).
 2. **Track B release 1 PR**: review before merge (Fields section, Pipeline strip on `pipeline.course_events`, Read-with-AI v2, calendar retirement tidy, lineage test).
-3. **Track A PRs** (S1 + 8a), as they come.
+3. **Track A PRs** (S1 + 8a), as they come: **#694 open for review**.
+4. **Speed programme decisions** (record, section "Decisions for the Platform Admin"): D-S0 SP-1 before #695; D-S1-3 "no page published by provider" gap cause; D-S6 S5+S6 inside Track B R1; Tranche 2 Part A paste (`PASTE-20261026-target-tranche-2-overrides.sql`), Part B after Monday's weekly line; O8/O9 plan tiers for S3.
 
 Parked, not gates today: policy proposals paste (65 rows, mark when ready); zero_yield.auto_reset; UoA catalogue-host; O5 / O8 / O9; R3 headline target.
 Closed 25 Oct: #693 accepted (live re-check is the verification); Track B release 1 approved as specified; 2.2–2.4 specs accepted (queued behind Track A); `reading.read_attempts_max` open row; real-tables rule (AGENT-OPERATING-MODEL rule 7); entry-requirements feed confirmed (additive in existing payloads); Sydney 2026 edition current plus a quarterly re-check; entry build plan approved; case-by-case rendering rule.
@@ -64,7 +69,7 @@ v2.15.349 Firecrawl targets rule reports the failing condition (PR #691) ·
 v2.15.350 R2: daily picked-courses cap 100 + per-course stop 6 (PR #692); tranche 1 (25 overrides) applied.
 No open PRs (24 Oct 23:40).
 Hotfix record: docs/platform/ui-audit/2026-10-24-hotfix-manual-task-and-layer4-entry.md (re-open paste file with the Platform Admin).
-Key metric: course-page binding % (NZ baseline 53.5%) — every field's ceiling.
+Key metric: course-page binding % — every field's ceiling. Tracker definition (official link active, published providers), 25 Oct 22:20: NZ 47.0% · AU 75.1% · CA 69.8% (the earlier "NZ 53.5%" could not be reproduced from current tables; see the speed record).
 R1 live evidence: worker v0.46.0 writes the per-mode ledger; 15-minute backoff cap;
 90-day ledger retention; apply-time identity quarantine; Work queues why-idle line.
 R3 target: 0 (not set) until a week of rows; then Platform Admin sets the provisional target.
