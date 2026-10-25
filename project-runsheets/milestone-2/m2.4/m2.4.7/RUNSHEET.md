@@ -7927,3 +7927,13 @@ The brief now forbids direct table changes.
 | SIT 3954 | One-off workflow runs 40159801364 / 40159842215 read only the evidence object (SHA-256 = content_hash) and printed only the 3954 record: `{"code": "3954", "title": "--", "status": "Current", "level": null, "credits": "60"}`. The register has no title, which points to the quarantine paste; not written until the Platform Admin has seen the extract. Workflow removed from the branch; branch deletion refused by the session proxy, so the Platform Admin deletes it |
 | INDEX | Pruned to the next gates: SIT 3954 extract, Track B release 1 PR, Track A PRs |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 16:35: temporary branch cf247-sit3954-extract — verified identical to main, deletion attempted, refused by the session proxy; standing rule added
+
+| Item | Detail |
+|---|---|
+| Request | Platform Admin 16:28: delete the branch yourself after confirming zero difference; record it; make branch hygiene standing |
+| Verified | compare main...branch: 0 files changed; branch tree = merge-base tree (`509fcfc7…`) |
+| Attempts | `git push --delete` and `git push :refs/heads/…`: proxy disconnect (ordinary pushes work); refs API DELETE: HTTP 403 "Write access to this GitHub API path is not permitted through this proxy" |
+| Result | Branch not deletable from this session (stated once); the Platform Admin deletes it. It is harmless: identical tree, no workflow |
+| Standing | AGENT-OPERATING-MODEL rule 8: no orphaned branches; temporary branches deleted in the same flow after the result is recorded. Because this session cannot delete refs, one-off reads now run on the existing scratch branch `cf247-zoho-dryrun` instead of new branches |

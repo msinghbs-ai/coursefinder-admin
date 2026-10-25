@@ -47,3 +47,10 @@ any approval gate exists below.
    database). Check a table, function or job against those sections, or against the live database, before naming it
    in a spec, a decision record or a UI follow-path. Where they disagree, the code wins and the lineage file is
    corrected in the same PR.
+8. No orphaned branches (Platform Admin 25 Oct 2026 16:28). Any temporary branch created for a one-off read or extract is
+   deleted by the agent in the same flow, after its result is recorded: no orphaned branches, no handbacks.
+   - Verify before deleting: compare with `main` shows 0 files changed.
+   - This session's GitHub proxy refuses ref deletion (git push --delete disconnects; the refs API returns 403, verified
+     25 Oct 2026). So one-off reads and extracts are run on the existing scratch branch `cf247-zoho-dryrun`,
+     force-pushed per run and left identical to a known state afterwards, instead of a new branch.
+   - A new temporary branch is created only where deletion is possible, and is then deleted in the same flow.

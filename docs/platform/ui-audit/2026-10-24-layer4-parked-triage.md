@@ -376,3 +376,18 @@ RECORD: {"code": "3954", "title": "--", "status": "Current", "level": null, "cre
 - The platform copied the register faithfully; the register has no title to fill from.
 
 Under D-SIT3954 that points to the **one-row quarantine paste**: a status change, reversible, applied by the Platform Admin. Live, the course row is `course:nzqa:6015:3954`, unpublished, with one regulator-listing link. **No paste file is written until the Platform Admin has seen this extract and says so.**
+
+**Branch deletion attempt (25 Oct 2026 16:30, Platform Admin "take ownership").**
+
+The branch was confirmed identical to `main` before any attempt:
+- compare `main...cf247-sit3954-extract`: 0 files changed (3 commits ahead: add workflow, re-emit, remove workflow);
+- the branch tree and the merge-base tree are the same SHA (`509fcfc7…`).
+
+Deletion was attempted three ways, each refused at the session's GitHub proxy:
+- `git push origin --delete cf247-sit3954-extract`: proxy disconnect ("unexpected disconnect while reading sideband packet"). Ordinary pushes from this session succeed, so this is a refusal of ref deletion, not a network fault.
+- `git push origin :refs/heads/cf247-sit3954-extract`: the same.
+- `DELETE /repos/…/git/refs/heads/cf247-sit3954-extract`: HTTP 403, "Write access to this GitHub API path is not permitted through this proxy."
+
+**The session genuinely cannot delete branches.** The branch is harmless (identical tree, no workflow) but remains; the Platform Admin deletes it in GitHub.
+
+To keep the standing rule without handbacks, future one-off reads run on the existing scratch branch `cf247-zoho-dryrun` (force-pushed per run, as dry runs already are), so no new branch is created (AGENT-OPERATING-MODEL rule 8).
