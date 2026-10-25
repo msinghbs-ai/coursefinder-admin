@@ -73,7 +73,7 @@ This file is the single map of WHAT feeds each catalogue field, HOW the pipeline
 
 **Corrected:** the draft said "read (stored copy first, fetch only when silent)". That holds for the downstream readers, not for the page read. "Read with AI" (`public.admin_course_read_now`) also forces a fresh fetch today. That changes in Track B release 1 under D-stored-copy: `read.stored_copy_max_age_days`, default 14.
 
-**Worker modes** (`coverage-sweep-worker-v0.46.0`, one edge function; each mode is `if (mode === …)` in `cs:index.ts`), with ledger calls over 7 days to 25 Oct:
+**Worker modes** (`coverage-sweep-worker-v0.47.0` since SP-1, 25 Oct 2026 23:20; one edge function; each mode is `if (mode === …)` in `cs:index.ts`), with ledger calls over 7 days to 25 Oct:
 
 | Group | Modes (calls) |
 | --- | --- |
@@ -102,9 +102,22 @@ This file is the single map of WHAT feeds each catalogue field, HOW the pipeline
 
 The per-course stop (6 rejected pages, `search.stop_per_course_after`) is a row filter in the picker, not a step of the walk.
 
+**Updated 25 Oct 2026 (v2.15.352, #694 gate consolidation, and v2.15.353, SP-1) [V: live after merge]:**
+- The university stop with the person bypass and the per-course stops now live in one function, `security.search_stop_gate_v1(provider, course, stopped, person)`. It is called by the picker, `svc_fc_spend` and the stall walk, and returns `search_stopped`, `no_page_by_provider` or `course_stopped`.
+- `no_page_by_provider` (SP-1) holds a course recorded in `pipeline.course_no_page` (no page published by the provider, or a conjoint degree under an approved rule) until a newer map exists.
+- Every automatic binding path asks one negative-evidence predicate, `security.page_refused_v1(course, url)` (page_rejections ∪ course_page_blocks): search result, binder, AI match prepare and reidentify.
+
 After search, fees pass `fee_below_floor_v1`, and every field kind passes `coverage_identity_allowed`.
 
 **Corrected:** the draft put the target rule first and the stop before the cap; the code order is as above. Gate consolidation is the S1 item.
+
+**Binding model, SP-1 (v2.15.353, 25 Oct 2026):** map, then AI match (`coverage_ai_match`) is the binding lane. Its AU scope is widened by `pipeline.bind_match_scope` (tranche overrides plus the top `bind.match_scope_top_n` providers by courses without a page; refreshed hourly by `no-page-propose`). Discovery also maps each provider's approved extra course domains (`pipeline.provider_extra_domains`, added by the Platform Admin).
+
+Courses still without a page after `bind.no_page_after_passes` AI passes on a fresh inventory are proposed by job `no-page-propose` (inert while `bind.no_page_on` is 0):
+- the first run per provider goes to Layer 4 (`no_page_first_run` / `conjoint_rule_first_run`), universities first, at most `bind.no_page_first_runs_per_run` an hour;
+- `pipeline.no_page_trust` keeps the 60% result;
+- trusted providers' later cases are recorded automatically;
+- any page found later re-opens a course (triggers on `course_links` and `coverage_ai_match`). Nothing is deleted.
 
 **Write paths (the only ways values reach the catalogue):**
 - `security.coverage_apply_course_v1` (fees: floor + identity);
@@ -119,7 +132,7 @@ After search, fees pass `fee_below_floor_v1`, and every field kind passes `cover
 
 | Gap | Mechanism fighting it | Status |
 | --- | --- | --- |
-| Binding ceiling (NZ 53.5%) | R2 cap + tranche overrides + zero-yield re-acquire + person tasks | Live, ramping |
+| Binding ceiling (NZ 47.0% on the tracker definition, 25 Oct 22:20; the earlier 53.5% was not reproducible) | R2 cap + tranche overrides + zero-yield re-acquire + person tasks; SP-1 no-page cause and conjoint rule (Layer 4 first runs, 60% rule), AI match scope, extra course domains | Live; SP-1 merged 25 Oct, no-page proposals off until `bind.no_page_on` |
 | Wrong pages | Zero-yield flow (`security.zero_yield_detect_v1`; reset `zero_yield_reset_v1` is the only writer of `pipeline.page_rejections` today) + S1 rejections (queued) | Detect live |
 | Identity mislabel (421) | identity-v0.6.0 re-verify; 8a per-kind country identity rules (queued) [V-absent: no `country_identity_rules` table yet] | Re-verify live |
 | Fees on separate schedule pages | `fee_schedule` sources + `fee-reader` + `fee_ai` (4 calls in 7 days) [V] | Live, low volume |
@@ -141,6 +154,7 @@ After search, fees pass `fee_below_floor_v1`, and every field kind passes `cover
   - **Corrected:** the cap 3 is a literal in the picker, not a setting. This is a G2 finding. **Open row (Platform Admin 25 Oct 2026 14:50):** settings key `reading.read_attempts_max` (default 3, min 1, max 10) replaces the literal the next time `svc_coverage_read_next` is touched.
   - **Corrected:** exhausted pages are excluded from picking but do **not** feed `page_rejections`. Only `security.zero_yield_reset_v1` writes it. Exhausted-page rejections are part of S1.
 - **Search stop** [V]: per course after 6 rejected pages, with the university stop behind it. A person's task passes the stop in the picker and in the credit check (hotfix 2). `credit_refused` and `daily_cap` blocking reasons show in the Task manager (`security.admin_job_status_v1`).
+- **Firecrawl refusals are named** (SP-1, worker v0.47.0) [V]: `target_list_refused`, `credits_reserve`, `scholarship_share`, `no_firecrawl_key` are recorded in `firecrawl_budget_refusals` / `firecrawl_refusals_by_provider` by `svc_fc_refusal_note_v1`; the database's own refusals stay in `svc_fc_spend` (worker label `credits_refused`). A target-list refusal in course search is counted as an attempt, not re-queued.
 - **Backoff** [V]: empty-tick pause with event-driven wake; `tick.backoff_max_minutes` 15.
 - **Person tasks** [V]: `pipeline.admin_jobs` (state, `cursor`, `progress`, `cancel_requested`, `pause_requested`), driven by `security.admin_jobs_tick_v1` and watched by `security.admin_job_watch_v1`. Cancel sets `cancel_requested` (or `cancelled` when not started). Finished tasks leave the running list.
 - **Recovery patterns in use** [V]:

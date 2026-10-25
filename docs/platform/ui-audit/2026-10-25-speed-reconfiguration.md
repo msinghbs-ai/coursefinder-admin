@@ -358,3 +358,11 @@ These are register entries the university no longer advertises.
 - Nothing left behind; scratch branch clean.
 - **Activation stays the Platform Admin's step:** `bind.no_page_on` 0 → 1 after merge.
 - **The widened AI match scope works from merge.** It is AI only, about US$0.002 a course; set `bind.match_scope_top_n` to 0 to hold it.
+
+## SP-1 merged and live (rule 9, 23:21)
+
+- PR #696 merged `859d2a7a` (v2.15.353).
+- Migration `20261025003000` applied (history md5 matches).
+- Worker `coverage-sweep-worker-v0.47.0` answering live.
+- First named refusals recorded (`target_list_refused`).
+- `bind.no_page_on` stays 0 until the Platform Admin switches it on. Record: `2026-10-25-standing-rules-and-merges.md`.
