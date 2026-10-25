@@ -93,3 +93,7 @@ Under the O10 conditions any release flows through the standard search → AI-ma
 | **Tranche 1 applied** 12:35 UTC, text as in the paste file (md5 `710c52ca…`) | Guards held (R2 live, 25 eligible, 25 inserted). At the 12:36 refresh **25 of 25 included** |
 | Cap holding | 877 courses already sent today (UTC) — the re-opened tasks and Otago — so the automatic search, tranche included, is at its cap until 00:00 UTC (11:00 AEDT). Stall cause shown, e.g. Tai Poutini: "Today's course search cap (100 courses) is reached; searching resumes at 00:00 UTC". Tai Poutini has 31 queued searches |
 | Weekly line | From Monday 26 Oct, scheduled task "Tranche 1 weekly report" |
+
+## Weekly tranche 1 line
+
+- Week to 26 Oct 2026 (first 33 hours; tranche applied 24 Oct 12:35 UTC): tranche 1 — 200 searches, 400 credits; correct-page rate 31% (polytechnics 47%, private 1%; AU n/a — no AU searches yet, NZ 31%); 6.6 credits per correct page; 1 wrong page to the re-find (1 search still waiting; 18 of 22 private providers, all 14 AU ones among them, not yet searched — cap reached on 24 Oct); POOR polytechnics: worst — Tai Poutini Polytechnic 0% (31 searches), The Open Polytechnic of New Zealand 36% (22 searches), Universal College of Learning (UCOL) 70% (74 searches); POOR private: worst — Yoobee Colleges Limited 0% (35 searches), New Zealand School of Education Limited 0% (11 searches), New Zealand Management Academies Limited 4% (26 searches) (only 3 providers of each type have 5+ completed searches).
