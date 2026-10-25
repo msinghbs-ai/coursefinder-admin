@@ -366,3 +366,19 @@ These are register entries the university no longer advertises.
 - Worker `coverage-sweep-worker-v0.47.0` answering live.
 - First named refusals recorded (`target_list_refused`).
 - `bind.no_page_on` stays 0 until the Platform Admin switches it on. Record: `2026-10-25-standing-rules-and-merges.md`.
+
+## Values admitted per day (Platform Admin 26 Oct 2026 08:25, item 5)
+
+Logged each check from the live tables. English and intake rows have no creation time and are not counted per day.
+
+| Day (AEDT) | Official pages bound | Fee rows written | Fee reader admitted | Courses recorded no page / conjoint | First runs auto / to a person |
+|---|---|---|---|---|---|
+| 20 Oct | 4 | 0 | 0 | 0 | — |
+| 21 Oct | 61 | 156 | 150 | 0 | — |
+| 22 Oct | 38 | 157 | 212 | 0 | — |
+| 23 Oct | 24 | 339 | 383 | 0 | — |
+| 24 Oct | 72 | 174 | 189 | 0 | — |
+| 25 Oct | 2 | 49 | 52 | 0 | — |
+| 26 Oct (to 08:45) | 0 | 1 | 4 | 0 | 0 / 60 waiting (SP-2a not yet live) |
+
+Binding at the SP-2a change: AU 71.3%, NZ 47.0%, CA 69.8% (active courses with an official page).

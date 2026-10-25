@@ -119,6 +119,13 @@ Courses still without a page after `bind.no_page_after_passes` AI passes on a fr
 - trusted providers' later cases are recorded automatically;
 - any page found later re-opens a course (triggers on `course_links` and `coverage_ai_match`). Nothing is deleted.
 
+**Auto-admit of first runs, SP-2a (v2.15.356, Platform Admin 26 Oct 2026 08:25):** job `layer4-auto-admit` (hourly at :47, while `layer4.auto_admit_on` is 1) checks each waiting first run against stored data and approves it through `security.no_page_review_apply_v1` (same 60% rule) when:
+- the provider's course list is verified (`security.course_list_check_v1`: read within `layer4.auto_admit_list_days`, holding at least `layer4.auto_admit_list_recall` of its bound official pages);
+- the sample is confirmed (`security.no_page_sample_check_v1`: at least `layer4.auto_admit_sample_pct` with no look-alike unbound list address; look-alikes are kept as "has a page");
+- the list shape (read method | provider type | page depth | pdf | extra-domain) matches a first run a person approved.
+
+New shapes stay in Layer 4; 1 in `layer4.auto_admit_sample_rate` that pass is kept for a person. Outcomes and evidence: `pipeline.layer4_auto_admissions`; auto-admissions also in `pipeline.layer4_decisions` (system account) and Layer 4 › Decided ("Auto: <reason>").
+
 **Write paths (the only ways values reach the catalogue):**
 - `security.coverage_apply_course_v1` (fees: floor + identity);
 - `svc_enrich_ai_record` (English, intakes, duration, delivery, level, field, campus, international);

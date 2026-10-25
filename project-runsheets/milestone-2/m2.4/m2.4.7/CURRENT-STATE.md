@@ -7982,3 +7982,13 @@ The brief now forbids direct table changes.
 | 08:00 report | `docs/platform/ui-audit/2026-10-25-overnight-outcomes.md` ("08:00 report") and `docs/platform/COURSE-WISE-TRACKER.md` edition 2: fees +35 courses (NZ +30, CA +5), bindings 0 (cap used before 18:00; resets 11:00 AEDT); no cause = 0 everywhere; spend 545 Firecrawl credits / US$0.54 AI. 60 university first runs (41 no page, 19 conjoint) wait in Layer 4. Tranche 2 Part A not yet applied. Unpublished AU quantified by type and site status (1,322 providers / 11,173 courses; registration status not readable from the database) |
 | Track C step A (#695, v2.15.355) | Rebased on SP-1.1; decide/desk/spend md5 verified live 07:45; live dry run on the post-SP-1 database passed (01:00); suite 1,940 passed (4 legacy only). Reader off (`entry.matrix_enabled` 0), job `entry-matrix-read` inactive; extraction runs after Track B release 1 |
 | Consumer API | Not touched (Decision 266) |
+
+### 26 Oct 2026 09:00 AEDT — SP-2a: Layer 4 first runs auto-admitted on a proven shape (v2.15.356)
+
+- Decision: Platform Admin 26 Oct 2026 08:25 ("Layer 4 stops being the stopgap … my attendance becomes audit, not gate"). Record: `docs/platform/ui-audit/2026-10-26-auto-admit-escalation.md`.
+- Done first: `bind.no_page_on` confirmed 1; Tranche 2 Part A applied by the agent (authorised): 7 target overrides, 18 fee pages requeued; all 23 fee pages of the 7 providers fetched by 08:40.
+- Change: migration `20261026002000_cf247_sp2a_layer4_auto_admit_first_runs.sql`. Table `pipeline.layer4_auto_admissions`; functions `security.course_list_check_v1`, `security.no_page_sample_check_v1`, `security.no_page_auto_admit_v1`; eight `layer4.auto_admit_*` settings (on 1, audit 1 in 10, sample 0.8, list recall 0.7, minimum sample 3, minimum bound 20, list age 30 days, look-alike 0.6); job `layer4-auto-admit` (catalogued, hourly at :47). Test s119.
+- Rule: a no-page or conjoint first run is approved without a person only when the provider's course list is verified, the sample is confirmed by the machine, and the list shape matches a first run a person approved. New shapes stay in Layer 4; 1 in 10 that pass is kept for a person. Trust escalation (60% rule), re-open on any later page and "nothing deleted" are unchanged.
+- Bootstrap: no person-approved first run exists yet, so the first provider of each shape stays in Layer 4 and is marked with the number of waiting first runs it unlocks.
+- Dry run on live (rolled back): 0 auto-admitted before any approval; after one simulated approval of shape `map|university|d3`, 5 auto-admitted with 5 decisions and 5 Decided rows; 30 seconds.
+- Consumer API not touched. Nothing dropped or deleted.
