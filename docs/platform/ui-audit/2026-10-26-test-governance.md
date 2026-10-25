@@ -109,8 +109,8 @@ By category (after; detail and per-spec rows in the register):
 | Category | Meaning | Specs |
 |---|---|---|
 | Rule guards | A standing rule that applies to every change: G2 `s32`; G3 `s57`; housekeeping and G1 `s42`; Website API v2 (`website-api-v2`, `institution-type`); release contract (`m245`, `s70`, `release-notes-deployed`); G4 `s120` | 9 specs for 6 rules |
-| Regression guards | One decision or change each (CF-xxx, CF-247 Sxx, M2.x, Decision nnn) | 230 |
-| Deployed track | The same decisions checked on the live site | 42 (plus `release-notes-deployed`, counted as a rule guard) |
+| Regression guards | One decision or change each (CF-xxx, CF-247 Sxx, M2.x, Decision nnn) | 233 (including 3 specs that mix local and deployed tests) |
+| Deployed track | The same decisions checked on the live site | 39 (plus `release-notes-deployed`, counted as a rule guard) |
 | Duplicated (remaining) | Assertion lines repeating a central rule, not separate tests | 163 lines in 86 specs (housekeeping); 35 specs (settings) |
 
 The true count is 6 standing rules plus one regression guard per decision. The test count stays a property of how much each decision needs, not a target.
@@ -132,3 +132,5 @@ Merged under rule 9 as **#699** (`f5bc071c`), 26 Oct 2026.
 - Register regenerated from `main` after the merge.
 
 From this merge, rule 9's gate is the full suite green with no exceptions.
+
+Follow-up **#700** (`4377c869`): the register committed with #699 had been generated after a two-spec check, so 236 specs showed "not run", and S120 showed as deployed. The generator now takes the deployed flag from the collected tests' tags and states which run the statuses come from, flagging a partial run. Full suite again 990 passed, 0 skipped, 0 failed. The register is regenerated from that run: 241 passing specs, 40 in the deployed track.
