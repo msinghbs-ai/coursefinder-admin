@@ -119,6 +119,7 @@ Ordered by age × count. AI cost from the live lanes' 14-day averages: scholarsh
 2. **Weekly accuracy report per kind**: AI-proposal acceptance rate, split by provider type (university / polytechnic / private / TAFE) and country; the rejected proposals with their quotes are the material for prompt refinement and few-shot examples (no fine-tuning).
 3. **Auto-admit escalation (settings, off by default):** `layer4.auto_admit_threshold` (0.95), `layer4.auto_admit_min_decisions` (50), `layer4.auto_admit_cycle_days` (7), `layer4.auto_admit_sample_one_in` (10), and per kind `layer4.auto_admit.<kind>` (0). When a kind holds ≥ threshold over ≥ min decisions for a full cycle, the platform **proposes** auto-admit for that kind with 1-in-N sampling to Layer 4; the Platform Admin switches it on. A passing rate never switches anything on by itself.
 4. The 1,258 aged items go first; age is itself signal (aged items that are still not stale are the human-only pool).
+5. **Automatic central-policy approvals are decisions too** (Platform Admin 25 Oct 11:58, condition (b)). Each `policy-auto-approve` approval is recorded with decider "automatic". The weekly report gives, per kind: automatic approvals; reversals by a person; course pages read since that disagree with the written default; Layer 4 English reviews opened against them. The disagreement check's accuracy is measured with every other proposal. `central.auto_approve` is revisited only if this shows the check failing.
 
 ## The queue after (expected)
 
@@ -176,8 +177,10 @@ Fix for the follow-on UI mandate (a chip or tab on an existing surface, as instr
 | | Rows | Courses it would fill | Note |
 |---|---|---|---|
 | English | 16 | 140 | 7 are **BLOCKED** (most course pages disagree: R01 R02 R03 R04 R07 R15 R16). The function refuses to approve them (30 of the 140). 3 have no default (R05 R12 R13), so approving fills 0 |
-| Calendar | 49 | 42 | 21 give an Intake 1 month; 8 of them fill courses (R18 R28 R35 R39 R59 R61 R64 R65). 28 say "no Intake 1 month found": approving adds nothing, and the paste refuses them |
+| Calendar | 49 | 42 (via the retiring job only; see correction below) | 21 give an Intake 1 month; 8 of them fill courses through the job (R18 R28 R35 R39 R59 R61 R64 R65). 22 have a study period the course-page route can use (the 21 plus R60). 27 add nothing: the paste refuses them |
 | **Total** | **65** | **182** | Calendar fills happen only when job `provider-calendar-defaults` runs. **It is OFF** (last run 22 Oct 11:43 UTC; INDEX decision 4) |
+
+> **Correction (25 Oct 12:30).** `provider-calendar-defaults` is not merely off. It was switched off and marked retiring by the Platform Admin's 22 Oct "page-only months" decision (migration `20261022042000`), which withdrew 2,166 calendar-made intake rows. An approved calendar therefore writes nothing to a course by itself. It is used only where a course's own page names its study period (see "Calendar lane analysis" below). The calendar "courses it would fill" figures in the table are what that job would write, not what approval writes.
 
 "Courses it would fill":
 - **English:** the plan's "Will be added" count, worked out 24 Oct about 22:xx UTC and worked out again at approval. It covers active courses with no English requirement, and holds back research degrees, double degrees and named courses.
@@ -299,4 +302,46 @@ Dry runs against live, all rolled back:
 - R17 approve was refused: no Intake 1 month.
 - R01 approve was refused and everything rolled back: "This default does not match most course pages (5 agree, 49 differ)".
 
-For the calendar approvals to fill courses, `provider-calendar-defaults` must also be switched on (Scheduled jobs, or Layer 2/3 › Operations › job list). That is INDEX decision 4 and stays your call.
+~~For the calendar approvals to fill courses, `provider-calendar-defaults` must also be switched on.~~ Corrected 25 Oct 12:30: the job is retiring under the 22 Oct page-only decision. The paste's calendar guard now follows the course-page route's own rule (a "semester / trimester / term / quarter / block N" period with a month), so R60 can be approved and the other 27 are refused. Dry runs against live, rolled back: unmarked stops; R60 + R64 approve with R07 reject applied; R17 refused.
+
+## Decisions 25 Oct 2026 11:58
+
+Platform Admin, verbatim in substance:
+1. **Calendar lane (INDEX decision 4):** "I will not approve calendar rows until I have your one-paragraph on/off analysis of provider-calendar-defaults — what it writes, for which providers, the risk, and what the 21 Intake-1 months would mean for the developer's intake gap. … I will decide on/off from it, then action the 49 calendar rows in the paste file." **Status: analysis below; decision open.**
+2. **`central.auto_approve`: KEEP**, with two conditions:
+   - (a) "every auto-approval writes a visible row (Decided tab or the Operations approvals log with auto_approve marked as decider) — auditability, not silence";
+   - (b) "auto-approval outcomes feed the learning-loop acceptance report, so the disagreement-check's accuracy is measured like every other proposal."
+
+   "The bounded design (auto UNLESS most course pages disagree) is sound; the queue exists precisely because the check holds. Revisit only if the acceptance report shows the check failing." **Status: kept; conditions recorded; (a) and (b) are not met today (below).**
+
+### Calendar lane analysis (E2, due; for decision 1)
+
+**What `provider-calendar-defaults` writes.** Every 10 minutes, `security.calendar_default_intakes_apply_v1` gives Intake 1 (and Intake 2 where it differs) to active courses. The months come from the first period kind of the university's approved calendar (trimester, then semester, then term …). It covers every provider with an approved calendar in AU, NZ or CA (`calendar.countries`); its catalogue description still says "Australian college", which is stale. At universities it covers undergraduate levels only (`calendar.university_levels`). It writes only where the course has an official page and no intake at all, no hand lock and no waiting intake review, up to 500 a run. The evidence it records is the calendar page, not the course page.
+
+**State.** You switched it off on 22 Oct and it is marked retiring ("Intakes … must match the official university website": migration `20261022042000` withdrew 2,166 calendar-made intake rows). Switched back on today, it would write about 36 courses at once from the 58 usable approved calendars: Top Education Institute 35, Victoria University 1. Approving the 21 calendar rows with an Intake 1 month would add 42 more, about 78 in all.
+
+**What that means for the developer's intake gap.** AU has 6,884 active courses without start months (54% have them); NZ has 32.7%. About 78 courses moves AU by roughly half a point. Every one would reach the website as an ordinary intake month that the course page does not state. The consumer API is frozen and has no "derived" marker. That is the inference E2 forbids and the 22 Oct decision withdrew.
+
+**The risk.** The month is a provider default, not the course's start. Courses with their own starts would show a wrong month, and nothing on the website would show it. Examples in this batch:
+- R34 JMC numbers its trimesters from June, so it would write June and September;
+- R28 EQUALS is a 2023 PDF;
+- R22 Charles Sturt starts Term 1 in January.
+
+**Recommendation: leave it off and let it retire** (dropped by paste file after `hygiene.retire_after_days`).
+
+**What calendar approvals still do without the job.** Since 23 Oct, the Enrich fields lane (`svc_enrich_ai_record` → `security.enrich_parse_intake_periods_v1`) uses the latest approved calendar only when the course's own page names its period ("Semester 1", "Trimester 2"). It turns that into the calendar's month, and the course page stays the evidence (Decision 228; consistent with page-only). Up to 100 intakes filled since 23 Oct at approved-calendar universities had a quote naming a study period. That is an upper bound for this route.
+
+Of the 49 waiting calendar rows, 22 have a period this route can use. Approving them helps every future read at those universities. Today 10 courses at 6 of them were skipped because their page names only a period; they fill on their next read.
+
+**So, if you agree:** keep `provider-calendar-defaults` off. Approve calendars on the route's merits:
+- approve the 22 usable rows you trust, choosing one per university (see "My read");
+- reject or leave the other 27.
+
+The paste file's calendar guard now enforces the route's rule.
+
+### `central.auto_approve` conditions: where they stand
+
+| Condition | Today (checked live 25 Oct 12:20) | Gap and where it is closed |
+|---|---|---|
+| (a) Visible row with "automatic" as decider | 111 automatic approvals since 14 Oct 23:34 UTC (52 English, 59 calendars). Each keeps `decided_by` null and a note starting "Automatic: AI reading of the central page …"; the control log row has no actor. The Decided view shows "Approved" and a date only, so an automatic approval looks like a person's | **Not met.** The read and the Decided view (Layer 2/3 › Operations › Approvals waiting › Show: Decided) mark the decider as "Automatic: disagreement check passed (N agree, M differ)" and name the person otherwise; the Operations approvals log shows the same. Display only, no API change. First item of the follow-on UI mandate |
+| (b) Automatic outcomes in the acceptance report | No acceptance report yet (Phase 2 awaits approval). The data exists per approval: `apply_summary` (written, refused, flagged) and the plan's agree / differ counts, re-worked as course pages are read | **Not met.** Added to the Phase 2 design: each automatic approval is a decision with decider "automatic". The weekly report shows, per kind:<br>• automatic approvals;<br>• how many a person later reversed;<br>• course pages read since that disagree with the written default;<br>• Layer 4 English reviews opened against them.<br>That measures the disagreement check like any other proposal. Revisit trigger as decided: the report shows the check failing |

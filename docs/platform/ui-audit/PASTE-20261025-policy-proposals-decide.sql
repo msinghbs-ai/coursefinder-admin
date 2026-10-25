@@ -18,13 +18,17 @@
 --   English: the default is written within about 10 minutes to courses with no English requirement (the "fills" number, as planned
 --     24 Oct 22:xx UTC; re-worked at approval). Courses with a requirement, research degrees, double degrees and named courses are not
 --     changed. A row marked BLOCKED in the record cannot be approved (most course pages disagree): the function refuses it.
---   Calendar: Intake 1/2 are written to courses with an official page and no intake (universities: undergraduate levels only) by the
---     job provider-calendar-defaults. THAT JOB IS SWITCHED OFF (last run 22 Oct 2026 11:43 UTC; INDEX decision 4), so a calendar
---     approval fills 0 courses until you switch the job on. The notice at the end says whether it is on.
+--   Calendar (corrected 25 Oct 12:30, see the record's "Calendar lane analysis"): an approved calendar writes nothing to any course by
+--     itself. It is used only when a course's own page names its study period ("Semester 1", "Trimester 2"): the Enrich fields lane
+--     turns that period into the calendar's month, with the course page as the evidence (Decision 228). The job that gave calendar
+--     months to courses whose page says nothing, provider-calendar-defaults, has been off and retiring since your 22 Oct "page-only
+--     months" decision; the notice at the end says whether it is still off. The "courses it would fill" figure in the record's
+--     calendar rows is what that job would write, not what approval writes.
 --
 -- Guards: decisions are only 'approve', 'reject' or ''; the marked counts match v_expect_*; every marked row is still waiting
--- (status proposed); at most one approval per university and kind; a calendar marked approve must have an Intake 1 month
--- (rows saying "no Intake 1 month found" would add nothing: reject them or leave them).
+-- (status proposed); at most one approval per university and kind; a calendar marked approve must have at least one study period
+-- the course-page route can use ("semester N", "trimester N", "term N", "quarter N" or "block N" with a month). 22 of the 49 do: the 21
+-- with an Intake 1 month plus R60 (Eastern Institute of Technology, "term 3"); the other 27 add nothing: reject them or leave them.
 
 do $p$
 declare
@@ -122,9 +126,9 @@ begin
     from _pp_marks m join pipeline.provider_policy_proposals x on x.id = m.id
    where m.decision = 'approve' and x.kind = 'intake_calendar'
      and not exists (select 1 from jsonb_array_elements(coalesce(x.proposal->'periods', '[]')) e
-                      where e->>'period' in ('trimester 1', 'semester 1', 'term 1', 'session 1', 'study_period 1', 'teaching_period 1')
+                      where lower(btrim(e->>'period')) ~ '^(semester|trimester|term|quarter|block) [0-9]$'  -- the rule of security.enrich_parse_intake_periods_v1
                         and jsonb_typeof(e->'months') = 'array' and jsonb_array_length(e->'months') >= 1);
-  if v_bad is not null then raise exception 'calendar with no Intake 1 month, approving adds nothing: % — reject or leave', v_bad; end if;
+  if v_bad is not null then raise exception 'calendar with no study period the course-page route can use, approving adds nothing: % — reject or leave', v_bad; end if;
 
   perform set_config('request.jwt.claims', json_build_object('sub', v_admin, 'role', 'authenticated')::text, true);
   perform set_config('request.jwt.claim.sub', v_admin::text, true);
@@ -137,8 +141,8 @@ begin
   end loop;
   if v_failed <> '' then raise exception 'not applied (rolled back, nothing decided): % — set these rows to '''' and run again', v_failed; end if;
   select coalesce(bool_or(active), false) into v_job from cron.job where jobname = 'provider-calendar-defaults';
-  raise notice 'Decided % approve, % reject: %. Calendar defaults job provider-calendar-defaults is %.', v_a, v_r, v_done,
-    case when v_job then 'ON (approved calendars fill courses within 10 minutes)' else 'OFF (approved calendars fill no course until it is switched on)' end;
+  raise notice 'Decided % approve, % reject: %. Approved calendars are used only where a course page names its study period. provider-calendar-defaults is %.', v_a, v_r, v_done,
+    case when v_job then 'ON: it also gives calendar months to courses whose page states none (against the 22 Oct page-only decision)' else 'OFF (retiring since 22 Oct): no course gets a month its page does not state' end;
   drop table _pp_marks;
 end $p$;
 

@@ -44,14 +44,16 @@ not bypass O10/R2 or any approval gate.
 1. Approve provider-policy proposals (65 waiting on 25 Oct: 16 English, 49 calendars). Screen: Layer 2/3 Build &
    enrich › Operations › "Approvals waiting (all universities)" (collapsed panel below the stage table). No screen
    needed: mark rows in `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql` (list R01-R65 in
-   `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`, "Central policy approvals"). Also decide: keep
-   `policy-auto-approve` (central.auto_approve on, no person) or switch it off. (Corrected 25 Oct: "Settings ›
-   Provider policies" never existed; defect D-L4-1.)
+   `docs/platform/ui-audit/2026-10-24-layer4-parked-triage.md`, "Central policy approvals"). `central.auto_approve`
+   KEPT 25 Oct 11:58 with conditions (a) automatic decider visible, (b) outcomes in the acceptance report — both
+   open. Calendar rows wait for decision 4. (Corrected 25 Oct: "Settings › Provider policies" never existed; D-L4-1.)
 2. zero_yield.auto_reset → 1 (after reading UoA pilot in the zero-yield file).
 3. UoA catalogue-host: refreshed map pending; else per-provider catalogue-host
    allowance vs manual bindings for the 45 catalogue-only courses.
-4. provider-calendar-intakes: leave off / provider-level typical-start field / switch on
-   (E2 analysis; do not infer course-page facts from a provider calendar).
+4. provider-calendar-defaults (and -intakes) on/off: E2 analysis delivered 25 Oct (triage file, "Calendar lane
+   analysis"): both off and retiring since the 22 Oct page-only decision; on would write ≈ 78 calendar-default
+   months (≈ 0.5 pt of the AU gap) that course pages do not state. Recommendation: leave off; approve calendars only
+   for the course-page period route (22 of 49 usable). Platform Admin decides, then actions the 49 rows.
 5. O5: NZQA signatory-list page URL.
 6. O8/O9: Firecrawl plan tier + monthly credit cap; OpenRouter plan + monthly spend cap.
 7. target_only release route: keep / change rule settings / named overrides (0 of 205 pass today's rule).

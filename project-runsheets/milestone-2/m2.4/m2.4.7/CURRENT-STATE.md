@@ -7870,3 +7870,12 @@ The brief now forbids direct table changes.
 | Paste file | `docs/platform/ui-audit/PASTE-20261025-policy-proposals-decide.sql`: mark approve / reject, set the two counts; calls `admin_provider_policy_decide` as the Platform Admin, all or nothing. Dry runs against live (rolled back): unmarked stops; 3 approve + 1 reject applied; no-month calendar refused; BLOCKED row refused with full rollback |
 | Findings for the Platform Admin | `provider-calendar-defaults` is OFF since 22 Oct 11:43 UTC, so calendar approvals fill no course until it is on (INDEX decision 4). `policy-auto-approve` is ON (`central.auto_approve`, `central.auto_approve_english_all`): AI-read English policies approve with no person, against the 23:17 "nothing auto-resolves" mandate; left as decided 15 and 23 Oct, decision requested |
 | Consumer API | Not touched (Decision 266) |
+
+### 25 Oct 2026 (Sun, Melbourne) – Update 12:40: decisions 11:58 recorded (central.auto_approve kept with conditions; calendar lane waits on E2), E2 calendar analysis delivered, paste file calendar rule corrected
+
+| Item | Detail |
+|---|---|
+| Decision 2 | `central.auto_approve` KEPT, conditions: (a) every automatic approval visible with "automatic" as decider; (b) automatic outcomes in the learning-loop acceptance report; revisit only if the report shows the disagreement check failing. Live: 111 automatic approvals since 14 Oct (52 English, 59 calendars), decider null, Decided view shows no decider — (a) and (b) not met; (a) first item of the follow-on UI mandate, (b) added to Phase 2 design |
+| Decision 1 / E2 | Calendar rows wait for the on/off decision. Analysis: `provider-calendar-defaults` gives calendar months to courses whose page states none (AU/NZ/CA, universities undergraduate only); off and retiring since the 22 Oct page-only decision (2,166 rows withdrawn); on now ≈ 36 + 42 = 78 courses, ≈ 0.5 pt of the AU gap, shown to the website as ordinary months. Recommendation: leave off; approved calendars still serve the course-page period route (Enrich fields, Decision 228) — 22 of the 49 rows usable |
+| Correction | Earlier record and paste text said calendar approvals fill courses once the job runs; corrected: the job is retiring, approval writes nothing by itself. Paste calendar guard now follows `enrich_parse_intake_periods_v1` (R60 approvable, 27 refused); dry runs against live rolled back (unmarked stops; R60 + R64 approve, R07 reject applied; R17 refused) |
+| Consumer API | Not touched (Decision 266) |
