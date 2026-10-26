@@ -8618,3 +8618,56 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B: D4 as one s
   - Pakistan and Philippines: the held reads, replayed, lose only their six "Not applicable" rows and are complete (5/5, 7/7);
   - the other six held reads, replayed, stay held. Nothing incomplete passes without a new read.
 - **Gates:** suite 1,050 passed, 0 failed, 0 skipped; worker build OK. No database change, so no database dry run applies; the stored-page tests and replays are the pre-merge evidence.
+
+### 27 Oct 2026 06:59 — D4 (#714) verified; controlled RMIT recovery; AER stopped at new defect classes
+
+Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B and C).
+
+**D4 post-merge (#714, squash `ba1cce46`, merged 06:49:32):**
+- `deploy-on-merge` succeeded (run 40390185784), worker only.
+- Worker version 214: all 17 deployed files byte for byte the repo's at `ba1cce46` (`coverage-sweep-worker-v0.48.7`).
+- Release currentness, run by hand on `ba1cce46` (run 40390267777): passed.
+- The entry-matrix functions were unchanged just before the merge.
+
+**Recovery (all logged in `admin_control_events`):**
+- 06:54:10: the re-read function's md5 was checked (`ca394b60…`, as guarded). D3 re-read Kuwait and Mexico (D5) and Denmark and Colombia (D4). Their earlier failed results were kept with state, error and attempts used (1, 1, 3, 3), each linked by `earlier_index`. These four failed reads proposed nothing, so nothing was superseded.
+- In the same transaction:
+  - `entry-matrix-read` was switched off;
+  - RMIT was put back in `entry.providers`.
+- The last scheduled call (fired 06:54:00) reached the worker after the commit and took the first four runs.
+- Hand-started calls at 06:54:39 (2) and 06:55:45 (3), limit 4 each. Qatar was enqueued at 06:55:51 through the existing `entry_matrix_enqueue_v1`.
+- The 12 complete pages were not re-read. The 3 D2 pages stayed terminal, with no retry.
+- Reads ended about 06:57. RMIT queue: 0 leased.
+
+**Outcome: 36 RMIT pages**
+
+| Outcome | Pages | Detail |
+|---|---|---|
+| **Complete, in review (earlier, not re-read)** | 12 | Bangladesh 11, Cambodia 11, Canada 24, China 22, Germany 11, Hong Kong 11, India 33, Japan 11, Kenya 9, Malaysia 22, Mauritius 13, New Zealand 11 |
+| **Complete, in review (this recovery)** | 13 | Colombia 11, Denmark 22, Indonesia 25, Kuwait 11, Mexico 6, Nepal 11, Pakistan 5, Philippines 7, Saudi Arabia 2, South Korea 22, Taiwan 26, UAE 2, USA 24 |
+| **Non-country, terminal hold (D2)** | 3 | Foundation equivalencies, International Baccalaureate, Global Assessment Certificate. No retry |
+| **Legitimate source hold** | 0 | |
+| **Still defective: guard (new class G1)** | 3 | Sri Lanka, Thailand, United Kingdom. The guard's column match ignores one-character words, so two columns that differ only by one tie, and a correctly read row is refused as `qualification_not_resolved`. Examples: "Sri Lanka **O** Levels" vs "**A** Levels", "Matayom **5**" vs "**6**", Scottish Higher "(**3** subjects)" vs "(**4**)". The held rows were checked and name the right column. Held, with attempts left (2, 2, 2) |
+| **Still defective: parser (new class P2)** | 1 | Singapore. A repeated header row in the table body ("Level of study \| Australian standard \| …", with an empty last cell) is counted as 2 data cells. Expected 11, published 9; the reader read the 9. This predates D5: Singapore's manifest is in the s133 unchanged-34 set. Held, 1 attempt left |
+| **Still defective: reader, scale (new class R2)** | 1 | Norway. The page prints bare numbers (1, 2.0 … 5.0). The reader now quotes all 11 cells correctly, but gives a numeric value with scale "none", which the reader check refuses as `value_without_scale`. Failed (3 attempts) |
+| **Still defective: reader, D4 class not resolved on this page** | 2 | Nigeria: the merged case-by-case column (6 cells) was left out on all 3 attempts despite the cell list; failed. Vietnam: 18 of 31 listed cells returned (short read, held by the guard); 2 attempts left |
+| **Not read (lane paused before its turn)** | 1 | Qatar: enqueued 06:55:51, 0 attempts |
+
+**Checks:**
+- **Silent partial reads: 0.** Every page that is not complete is held by the guard or terminal.
+- 363 proposed rows, 363 distinct identities, 0 duplicate identities across RMIT runs.
+- Active entry-matrix rows (any provider): 0. Review items: 25 pending; none approved.
+- Cost of the recovery reads: at most US$0.157 (the sum over the 21 runs touched, which includes earlier attempts on the retried runs).
+
+**Stop under the mandate.** The recovery exposed three new defect classes (G1 guard column tie, P2 repeated header row, R2 bare-number scale). D4 also did not resolve Nigeria or Vietnam. The mandate authorises D5 and D4 only: no D6+ was started.
+- The lane stays paused.
+- The 6 held pages are not given further attempts.
+- Qatar is not read.
+- AER expansion is frozen under this mandate.
+- The fixes these classes need are named here, for a Platform Admin decision.
+
+**Lane state at 06:59:**
+- `entry-matrix-read` is off.
+- UTS and WSU have 0 queued runs (drained), so this does not stall them.
+- The change returning `entry.providers` to UTS and WSU only was attempted three times from 06:56 and cancelled each time before it ran. RMIT is therefore still listed in the setting, but nothing reads it: the job is off and no call is started by hand.
+- The job goes back on only after RMIT is out of scope.
