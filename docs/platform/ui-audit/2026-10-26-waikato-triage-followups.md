@@ -80,3 +80,16 @@ The rule is recorded in `PIPELINE-LINEAGE.md` (mechanism table). The build queue
 The run is logged in the auto-admit record's acceptance evidence, which feeds the review of `layer4.auto_admit_sample_rate`:
 - 4 decisions, all rule-correct: 2 skips of click-map entries (NCUK, Summer Research) and 2 keeps (Social Work, Academic English);
 - 2 pieces of evidence for the rules themselves: the Social Work rename that the 0.6 look-alike share would miss (section 1), and the redirect case (section 2).
+
+## 5 Platform Admin decisions, 26 Oct 2026 12:50
+
+- **Inbox fix now, as a hotfix release under rule 9.** Scope, exactly: first-run items (no page and conjoint) carry their university in the Layer 4 inbox, appear under "By university", and offer approve / edit / reject on the card. Nothing else in the release. Built as v2.15.357 (S122); the merge record is below.
+- **The Platform Admin rejects the two fees in Layer 4.** At 12:5x both items were still pending:
+  - WI0858, "Graduate Certificate in Postgraduate, $15,320" (title similarity 0.000), item `8889d2f0…` or `44b8f7c6…`;
+  - WI0911, $6,483 proposed as the 2027 fee where it is the 2026 figure.
+
+  I will check them at the next check.
+- Recorded:
+  1. **The identity check stopping the WI0194 redirect binding is positive gate evidence.** It is logged in the acceptance data (auto-admit record).
+  2. **The near-twin rename check joins the Defect 1 batch as a designed check, not a threshold tweak.** The evidence: 40 Waikato courses with no page have a published neighbour sharing at least half their title words, and the 60% look-alike threshold misses renames.
+  3. **Academic English (WI0911) may not be a no-page course at all.** The fees schedule has its own row (exact name, 2026 and 2027 figures), which suggests the course is offered. This is noted for the first-run review rather than assumed: when WI0911 comes up in a no-page sample, it is ticked "has a page" or routed to Defect 1. It is not in Waikato's current no-page sample (WI0003, WI0918, WI0072, WI1007, WI0157). No hold row was added, because the Platform Admin asked for a note, not a hold.

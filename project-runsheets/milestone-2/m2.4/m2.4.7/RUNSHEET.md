@@ -8032,3 +8032,22 @@ The brief now forbids direct table changes.
 - Correction to the premise: WI0911's $6,483 came from its own fees-schedule row, not from the CAEL page. The pending Layer 4 item has it as the 2027 fee where it is the 2026 one. Recommend reject.
 - Found: all 60 first runs sit in the Layer 4 Inbox with no university (provider-entity items). Proposed Inbox fix, not made tonight.
 - The extension run is logged as acceptance evidence (4 of 4 rule-correct).
+
+### 26 Oct 2026 13:20 AEDT — Hotfix v2.15.357: Layer 4 first runs under their university (Platform Admin 12:50)
+
+- Scope, exactly as decided: first-run items (no page and conjoint) carry their university in the Layer 4 inbox, show under "By university", and offer approve / edit / reject on the card. Nothing else.
+- Migration `20261026003000_cf247_hotfix_l4_first_runs_inbox.sql`, md5-guarded:
+  - `layer4_inbox_items_v1` (`c5f4f34c…`): first runs get their university and their own kind;
+  - `layer4_inbox_kinds_v1` (`1703346f…`): two kinds with approve / edit / reject choices;
+  - `admin_layer4_inbox` (`2e2225b0…`): routes to `layer4_review_decide`. The 60% rule is unchanged.
+- UI: `Layer4Inbox.jsx` shows the sample and ticks the courses that have a page. Test s122.
+- Live dry run (rolled back):
+  - Waikato lists both first runs under By university;
+  - all 60 first runs carry their university;
+  - a tick outside the sample is refused;
+  - edit and approve with one course ticked: 4 of 5 confirmed, trusted;
+  - reject: not trusted.
+- Also recorded:
+  - identity-gate evidence for WI0911 / WI0194, in the acceptance data;
+  - the near-twin rename check, joining the Defect 1 batch;
+  - WI0911 noted for the first-run review (it has its own fees-schedule row).
