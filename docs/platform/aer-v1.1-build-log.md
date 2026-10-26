@@ -392,3 +392,57 @@ Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT 
   1. **Completeness risk.** The model can leave out a whole qualification column, and no gate detects it. Proposed guard (needs a go): compare the rows a read gives with the table's band rows and qualification columns, and hold a read that falls short. Until then, reviewers should count the rows against the page.
   2. The 6 Canada rows that quote only their cell.
   3. PDF reader for VU, Federation and WSU's linked table.
+
+### 26 Oct 2026 23:35 — AER v1.1: source-anchored completeness guard (#709), written before merge
+
+Authority: Platform Admin 26 Oct 2026 23:16 ("Build and release the source-anchored completeness guard … merge under rule 9 when every gate passes").
+
+- **Containment, 23:16:49 (logged):** `entry.providers` was narrowed from RMIT, UTS and WSU to UTS and WSU. RMIT is paused at provider level; UTS and WSU are unchanged.
+  - Before the pause, the 23:14 cycle read 3 RMIT pages: Germany 11 rows, Colombia 2, Mexico 6. Their review items have no verdict; the new guard refuses them.
+  - 12 RMIT runs queued at 23:14 are frozen without being read.
+- **Why:** after #708, a China read gave 13 of 22 published minimums (the whole Gao Kao column left out). Nothing was dropped, and it was proposed for review. Separately, 6 Canada rows quoted only their cell.
+- **Fix (PR #709, branch `cf247-entry-completeness`):**
+  - **Worker v0.48.3, prompt `entry-matrix-v0.1.3`:**
+    - `entryManifest` builds, from the stored page, every minimum its band tables publish: qualification columns and headings, the band column, carried level labels, merged cells. Grading and calculation rows count as footnotes; a repeated copy of a table counts once.
+    - `entryCompleteness` matches each kept row to exactly one entry. The quote must be the entry's table line, showing the level and the band; the grade must be in the entry's own cell; the level, band and column must be right; the country must be named on the page.
+    - Any omitted column or row, misplaced cell, cell-only quote, duplicate or unexplained row holds the whole read. A band table the guard cannot read is held before any AI read.
+  - **Migration `20261026010000_cf247_entry_matrix_completeness_guard.sql`:**
+    - setting `entry.completeness_providers` (RMIT);
+    - new function `security.entry_completeness_required_v1`;
+    - md5-guarded edits:
+
+      | Function | Guarded md5 | Change |
+      |---|---|---|
+      | `svc_entry_matrix_next` | `4b5a59da…` | each item says whether its provider is under the guard |
+      | `svc_entry_matrix_record` | `d80183c6…` | a read under the guard without a complete verdict proposes nothing; the read is kept in `previous_results` and retried within `entry.matrix_attempts`; an unreadable page is failed, not re-read |
+      | `entry_matrix_review_apply_v1` | `76cce959…` | approval (and the changed-page auto-admit) refused without a complete verdict |
+
+    - No new states or statuses. Nothing dropped.
+  - **Tests:** s129 is new. It covers:
+    - China with Gao Kao omitted: 13 rows, held;
+    - China complete: 22 rows, passes;
+    - Cambodia's merged cell and carried labels;
+    - Canada's footnote quote refused, and its whole-line OSSD rows passing;
+    - cell-only quotes refused (6, `level_not_evidenced`);
+    - wrong level and wrong column;
+    - duplicates;
+    - an unreadable table;
+    - a repeated table.
+
+    s127 and s128 now accept the new versions. The test register is regenerated.
+- **Gates:**
+  - suite 1,024 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back):
+    - 13-row China read held: 0 proposed, read kept, re-queued;
+    - a read with no verdict held;
+    - third held attempt failed;
+    - complete 22-row read proposed and approved (22 active);
+    - pre-guard Germany RMIT run refused;
+    - UTS still approvable.
+- **Next:**
+  1. Verify live md5s just before the merge.
+  2. Merge, then verify the deployed functions and worker and check release currentness.
+  3. Re-read the four RMIT pages.
+  4. Live negative and positive guard tests.
+  5. Restart RMIT only if all four pass.
