@@ -132,3 +132,11 @@ Order of work:
 6. delivery classification.
 
 Status at 06:00 here.
+
+**22:0x — paste lane HALTED (red line).**
+- The guards were re-checked on live and passed:
+  - publish list 1,056, md5 `a37d52ad…`;
+  - fee pairs 372, md5 `26a3bb63…`;
+  - retirements 563, md5 `78357842…`.
+- My call to apply paste 1 (retirements) was **declined by the session's permission layer**. Nothing was written, and I have not retried.
+- The three pastes stay as lodged, for the Platform Admin to apply. The other lanes continue.
