@@ -292,3 +292,14 @@ Firecrawl refusals today: reads 17, scholarships 96, central 39. No spend stop h
   - AER is stopped at new defect classes (no D6+ without a Platform Admin decision).
   - `entry-matrix-read` is off. UTS and WSU are drained.
   - The change taking RMIT out of `entry.providers` was cancelled before it ran, three times. Detail: build log, 27 Oct 06:59.
+
+## 27 Oct 07:3x: AU measurement and source-recovery checkpoint (mandate 05:46, checkpoint 3)
+
+Full record: `docs/platform/ui-audit/2026-10-27-mandate-0546-response.md`.
+- Intakes −596: all explained (supersession by the 22 Oct page-only withdrawal; no writer defect).
+- Delivery 72.6% → 63.5%: baseline verified; the fall is the 23 Oct take-back.
+- Five inventories done.
+- Fee residue: cleared or assigned to the Platform Admin.
+- **Admitted AU values moved under the mandate: 0.** Every lever is gated.
+- **Red:** morning pastes pending (08:00); target-list proposal awaiting a decision; UNSW English approved from the India-campus page; AER frozen at new defect classes.
+- Half-hourly heartbeat stood down under the mandate's three-checkpoint rule; the scheduled 07:00 check-in was not rescheduled.
