@@ -824,3 +824,47 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B and C).
 - 07:02:15: `entry.providers` was set back to UTS and WSU only (event 21716). The three earlier attempts from 06:56 had been cancelled before they ran.
 - 07:02:22: `entry-matrix-read` was switched back on, for UTS and WSU only (logged).
 - RMIT is paused, with 6 held runs and Qatar left as they stand. No further attempts are made under this mandate.
+
+## Layer 4 Triage — 26 Oct Night Run
+
+Lodged 27 Oct 2026 08:49 AEDT. Triage results approved by the Platform Admin on 27 Oct at 08:47. The decisions were made through the extension on 26 Oct, 20:46–21:51 AEDT.
+
+| University | Items | Decisions | Queue |
+|---|---|---|---|
+| University of Auckland | 45 | 15 course links: keep held page. 1 course link: use new page (Master of Civil Engineering). 10 scholarships: publish. 1 not a scholarship (Manaaki story page). 16 not for international. 2 first-run approvals | Empty |
+| Massey University | 35 | 5 scholarships: publish. 28 not for international. 2 first-run approvals | Empty |
+| University of Canterbury | 7 | 1 scholarship: publish (Manaaki). 4 not for international. 2 first-run approvals | Empty |
+| University of Otago | 16 | 8 course links: keep held page. 3 scholarships: publish. 3 not for international. 1 adapter: rebuild. 1 first-run approval | Empty |
+| University of Queensland | 27 | 2 scholarships: publish. 23 not for international. 2 first-run approvals | Empty |
+| RMIT University | 22 | 1 scholarship: publish (Vietnam PhD). 18 not for international. 2 first-run approvals. **1 blocked** (below) | 21 of 22 decided |
+| UTS | 18 | 10 scholarships: publish. 7 not for international. 1 first-run approval | Empty |
+| AUT | 40 | 34 course links: keep held page. 4 course links: use new page (conjoints and paramedic). 2 first-run approvals | Empty |
+| Lincoln University | 3 | 1 scholarship: publish (CSC China). 1 not for international. 1 first-run approval | Empty |
+| **Total** | **213** | 33 scholarships published; 100 not for international; 1 not a scholarship; 57 course links kept; 5 moved to a new page; 1 adapter rebuild; 15 first-run approvals; 1 blocked | |
+
+**Checked against live (27 Oct, 08:4x):**
+- 134 scholarship review decisions were recorded on 26 Oct, 20:46–21:51 AEDT. That equals the scholarship decisions above, and each university matches: Auckland 27, Massey 33, Canterbury 5, Otago 6, Queensland 25, RMIT 19, UTS 17, Lincoln 2.
+- In the same window, 217 Layer 4 inbox decisions were recorded.
+- None of these universities has a pending scholarship review, apart from the RMIT item below.
+
+**Blocked: RMIT Australia Awards Scholarships** (scholarship review 1965, https://www.rmit.edu.au/scholarships/international-scholarships/australia-awards-scholarships)
+- Publish is the right decision: the scholarship is explicitly for international students and covers full tuition and benefits.
+- The publish path returned HTTP 500 timeouts on 8 tries. The failure is specific to this record, not to the session.
+- **Not retried** through the extension.
+- Logged in the audit trail as **"approved pending technical resolution"** (`admin_control_events` 21727, 27 Oct 08:49). The review stays `pending` until the platform fix.
+- Owner: the platform team, at the Wednesday morning platform health check.
+
+**Auto-admit bootstrap:**
+- 6 shapes proven across 7 universities, through the 15 first-run approvals.
+- About 10 remaining first runs per shape release automatically on the next hourly run. About 60–90 more courses are expected to be auto-approved; this is to be measured on that run, not assumed.
+
+**Scholarship pattern:** about 74% of held scholarships were "not for international", which is expected (domestic-targeted awards). International eligibility detection is working, and no tuning is needed.
+
+**Found during the check, not in the triage scope:**
+- 23 scholarship reviews are pending under the provider record **"RMIT University Pathways, RMIT UP"**. 22 of them are rmit.edu.au scholarship pages, such as the Vietnam PhD (STEM) page, the UniLodge page and CPP.
+- These are RMIT's own scholarship pages filed under the RMIT UP record. They are an identity question about which provider owns them, for the Platform Admin, not a triage miss.
+
+**Next actions in the 08:47 note that this record does not act on:** "Continue AER schema PR (additive columns to `provider_entry_matrix`)" and "Continue stored copies for 5 pilot providers".
+- The Platform Admin mandate of 27 Oct 08:15 froze AER: no D6+, RMIT paused, no recovery reads, and no change to `entry-matrix-read`.
+- The entry-matrix schema has been live since #706.
+- These two actions look like they come from an earlier plan, so they wait for the Platform Admin to confirm.
