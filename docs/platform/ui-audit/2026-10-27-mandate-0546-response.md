@@ -162,3 +162,19 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
 | **Reader** | AER G1, P2 and R2, plus D4 unresolved on Nigeria and Vietnam (frozen; new decision needed). The fee-reader lease-settle gap (named; no change) |
 | **Platform Admin decision** | The three morning pastes; the target-list proposal; the two MARK-FILEs; UNSW Bengaluru English; the 19 items waiting for retired Layer 3; any D6+ |
 | **Governance gaps logged** | `catalogue.course_intakes` has no timestamps or writer; `svc_fee_ai_next` does not settle an expired lease at the limit |
+
+### 07:25 pre-apply check of the morning pastes (scheduled)
+
+- Combined rolled-back dry run of the three pastes, applied in order on live and rolled back. Run 40395838726, branch `cf247-zoho-dryrun` at `aa169687`.
+- Files checked (md5): retirements `0b1a26d2…`, publish `936ce8b4…`, fee re-apply `a360d3e1…`.
+- **Every guard passed:**
+  - 563 courses retired;
+  - all 1,056 providers published (0 eligible left unpublished);
+  - fee re-apply: 372 fees live (its guard 2), and its control event written.
+- Afterwards, at 07:28:50, live was unchanged:
+  - run b8a541af departures still held, with 0 retirement rows;
+  - 1,056 providers still eligible and unpublished;
+  - 0 re-apply events;
+  - the dry-run version is not in the migration history.
+- The dry-run branch was reset to `main`.
+- **No paste changed; all three are ready for 08:00.**
