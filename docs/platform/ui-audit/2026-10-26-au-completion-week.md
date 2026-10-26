@@ -275,3 +275,14 @@ AU published providers: 224 (the paste is not applied yet).
   - new fees go live through the normal checks (confidence, title similarity, outlier ratio, no conflicting fee);
   - the 436 held items need a count-guarded re-apply. I prepare it as a paste after your decision, because it writes live fees in bulk.
 - Until you decide, I leave the reader running. Its results stay in Layer 4, which is safe but adds review load. The alternative is to switch AU back out of `fees.countries` tonight; say if you want that.
+
+**Decision applied (Platform Admin 19:1x, "Strong proofs only"):**
+- AU international tuition now accepts `cricos_code`, `adapter_code` and `manual`. It does not accept `exact_title` or `adapter_title`.
+- Logged in `admin_control_events` (`identity.attribute`).
+- Verified live:
+  - the list reads as set;
+  - `tuition_chase_enabled` is true for AU;
+  - a CRICOS proof is allowed and an exact-title proof is refused.
+- 260 AU fee-schedule pages under published providers are now eligible for job `provider-facts`, at 20 pages every 10 minutes.
+- The 400 held Layer 4 items whose proof is now accepted (395 CRICOS code, 5 adapter code) still need a count-guarded re-apply. It writes live fees in bulk, so it comes to you as a paste for the morning.
+- The 36 items proved by title stay with a person.
