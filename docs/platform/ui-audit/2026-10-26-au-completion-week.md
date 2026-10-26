@@ -286,3 +286,42 @@ AU published providers: 224 (the paste is not applied yet).
 - 260 AU fee-schedule pages under published providers are now eligible for job `provider-facts`, at 20 pages every 10 minutes.
 - The 400 held Layer 4 items whose proof is now accepted (395 CRICOS code, 5 adapter code) still need a count-guarded re-apply. It writes live fees in bulk, so it comes to you as a paste for the morning.
 - The 36 items proved by title stay with a person.
+
+## 11 Tuesday 27 Oct AM handover: status (lodged 26 Oct 21:5x)
+
+Mandate: Platform Admin 26 Oct 21:12. Approved for the 08:00 apply: the publish paste, the fee re-apply paste, and the 563 retirements. Thursday targets accepted: all 11 = 5,600; automatic per lane; blocked = no row without a cause and owner.
+
+**Three pastes, in your order. All three were trial-run together on live in one rolled-back transaction at 21:5x:**
+
+| Order | File | What it does | Count to check after it |
+|---|---|---|---|
+| 1 | `docs/platform/pastes/PASTE-20261027-au-register-retirements.sql` (new) | Approves run `b8a541af`'s held departures through the platform's own path (`layer1_plan_finish_v1`, as the Layer 1 button) | **+563** retirement rows; AU active courses 26,103 → **25,540**; **6** "provider left the register" items in Layer 4 |
+| 2 | `PASTE-20261026-au-publish-eligible-providers.sql` (unchanged) | Publishes the eligible providers | **1,056** providers published by the paste. Net AU published 224 → **1,279**: Inspire College, the one published provider whose every course left the register, is archived by its departure in paste 1 |
+| 3 | `PASTE-20261026-au-fee-reapply.sql` (**regenerated: now 372, not 386**) | Puts the held fees live | **372** fees made live and 372 items approved. Net live fee rows **+315**, because the one-current rule keeps one of each of the 57 same-amount duplicates |
+
+**Why the fee paste changed:** 15 of the held AU fee items were rejected in Layer 4 at 20:46 under the Platform Admin's account. The reason given was "Held page and fee kept; the NZ re-verification re-binds the course and re-admits the fee". These are AU items; the reason text reads as written for NZ, so please confirm the rejection was intended. 14 of them were in the 386-pair file, which would now stop at its own guard. The regenerated file holds:
+- 79 courses with no live fee;
+- 57 same-amount duplicates;
+- 236 rows for another fee year.
+
+Pair-list md5 `26a3bb63…`. The values were checked against the generator's list byte for byte. One of the 372 fees belongs to a course retired by paste 1; it goes live on an inactive course and is not shown.
+
+**Your counts to check after each paste** (corrected from your list):
+- retirements +563;
+- providers published by the paste 1,056 (net +1,055);
+- fees made live 372 (net +315).
+
+I verify each against the lists after you apply them.
+
+**My actions Tuesday, in order:**
+
+| Time | Action |
+|---|---|
+| 07:00 | Check-ins start, every 30 minutes |
+| 07:30 | Re-check that the three pastes' guards still pass on live, and regenerate any that drifted before 08:00 |
+| about 08:30 | After the publish paste is verified: entry-matrix reader on for the AU top 20 (`entry.matrix_enabled` 1, job `entry-matrix-read` active, both logged); first runs go to Layer 4 |
+| by 10:00 | Calendar mark-file for the top 20 AU providers by active course count, in your format (provider, proposed calendar source, courses filled, evidence quote, confidence) |
+| by 12:00 | Delivery classification report on the 3,390 rows: truly silent, recoverable by a tighter prompt or re-run, or needing a new reader. It decides fix or build |
+| ongoing | Description reader: draft branch continued; Wollongong acceptance test |
+
+**Blocked on you:** the calendar mark-file approval (target 14:00).

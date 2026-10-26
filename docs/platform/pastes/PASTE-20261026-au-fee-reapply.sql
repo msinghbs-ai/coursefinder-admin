@@ -1,21 +1,23 @@
 -- PASTE FILE — AU fees held by the identity check, re-admitted under the new AU tuition rule (CF-247 AU completion week)
--- For: Platform Admin, to apply in the Supabase SQL editor of project fxcwkweaxjtknorudmwp (NOT coursefinder-demo), with the publish paste.
--- Never applied by the agent. Decision: Platform Admin 26 Oct 2026 19:1x ("Strong proofs only": AU tuition accepts cricos_code, adapter_code,
--- manual) and 19:27 ("The 400-fee paste: prepare it tonight; I apply it tomorrow with the publish paste").
--- Record: admin docs/platform/ui-audit/2026-10-26-au-wave-checkins.md.
+-- For: Platform Admin, to apply in the Supabase SQL editor of project fxcwkweaxjtknorudmwp (NOT coursefinder-demo). Order: after the retirements
+-- paste and the publish paste. Never applied by the agent. Decision: Platform Admin 26 Oct 2026 19:1x ("Strong proofs only": AU tuition accepts
+-- cricos_code, adapter_code, manual), 19:27 (prepare tonight) and 21:12 (approved for the 08:00 apply).
+-- Record: admin docs/platform/ui-audit/2026-10-26-au-wave-checkins.md and 2026-10-26-au-completion-week.md.
 --
--- Of the 400 held AU fee items whose course page proof is now accepted, 386 are in this paste:
---   80  the course has no live fee: the fee goes live (fills international tuition for that course);
---   70  the course already shows the same amount for the same year: the duplicate goes live and the one-current rule keeps one (no visible change);
+-- Regenerated 26 Oct 2026 21:5x AEDT against live: 15 held items were rejected in Layer 4 at 20:46 (14 were in the first list of 386 pairs),
+-- so the first file would have failed its own guard. Of the AU fee items still held whose course page proof is now accepted, 372 are in this paste:
+--   79  the course has no live fee: the fee goes live (fills international tuition for that course);
+--   57  the course already shows the same amount for the same year: the duplicate goes live and the one-current rule keeps one (no visible change);
 --   236  the course shows a fee for another year: this year's row goes live beside it.
--- Not in this paste (stay with a person in Layer 4): 10 where the course already shows a different amount for the same year; 4 with no stored fee row.
--- Pair list md5: ccff9166df96f1bb1a49d370ae5f612f
+-- Not in this paste (stay with a person in Layer 4): 10 where the course already shows a different amount for the same year, and those with no
+-- stored fee row. If more items are decided before you apply it, guard 1 stops it unchanged; the agent re-checks it at the 07:30 check-in.
+-- Pair list md5: 26a3bb63aecfb73e5df1927095dcac06
 --
 -- One transaction, all or nothing:
 --   guard 1  every item is still pending, every fee is still unverified, and every course page proof is accepted by the AU tuition list now;
---   apply    the 386 fees go live; the identity gate at the table (v2.15.359, if merged) re-checks each write and would hold any that fails;
---   guard 2  exactly 386 fees are live afterwards (else everything rolls back);
---   close    the 386 Layer 4 items are approved, with a decision row each under the Platform Admin; one search refresh; one control event.
+--   apply    the 372 fees go live; the identity gate at the table (v2.15.359, live) re-checks each write;
+--   guard 2  exactly 372 fees are live afterwards (else everything rolls back);
+--   close    the 372 Layer 4 items are approved, with a decision row each under the Platform Admin; one search refresh; one control event.
 
 begin;
 
@@ -39,7 +41,6 @@ begin
     ('0997cb57-9162-41b6-b9c1-b40311ed99c7'::uuid,'38eecad7-5e56-4bad-ad70-b1798e173309'::uuid,'a'),
     ('0a27c9d0-d0dd-4c8d-84dd-33ed01bd9862'::uuid,'6d08e318-f1af-4528-bad4-96621f2e5b55'::uuid,'d'),
     ('0aaa92be-e332-4596-805c-f886a562d35c'::uuid,'3ce3042e-20e7-4d99-8b1d-0d9d1ef7eedc'::uuid,'d'),
-    ('0ac602bf-8fd6-4abd-ac28-73e8f63468a3'::uuid,'b456de41-b23c-43ca-9ce4-69a86199e499'::uuid,'b'),
     ('0bc4c9c6-4bf6-4004-8da8-424a32a69caa'::uuid,'e209556c-a7ae-48c8-97f2-473a87b01f34'::uuid,'d'),
     ('0f266a95-8157-431f-b595-751b00e82696'::uuid,'60690507-ec9c-4f87-8306-6b7367236c05'::uuid,'d'),
     ('101064c6-2bb0-49dd-9dec-bc2f55450928'::uuid,'b854a6fa-7f51-4cc7-9ef3-871a0e321478'::uuid,'d'),
@@ -63,11 +64,9 @@ begin
     ('18bb8435-28ac-46f4-adea-5daf51768111'::uuid,'c298b365-5dfc-4748-a098-a1a0508ee382'::uuid,'d'),
     ('19cef156-fa05-4dc1-b7e4-15b2c8a6eef8'::uuid,'41303271-2745-4dd9-839f-3fe7806c3763'::uuid,'d'),
     ('1c221d20-a00d-4289-b8dd-e90229680886'::uuid,'4be7e326-d988-4ce7-be26-5595e10c053a'::uuid,'d'),
-    ('1cb44383-7f54-4ec9-bc10-11cf0b71adaa'::uuid,'d1e1fa2f-e043-41bd-a52f-3dfa6b9c5c0c'::uuid,'b'),
     ('1d29bfb6-b84b-4035-9947-7d3b1ad7f38a'::uuid,'8e254a6d-dc32-47da-98e1-e7ac53b95179'::uuid,'a'),
     ('1d6aa4eb-9706-4077-98ca-b38b7749f3fd'::uuid,'0c4f95c5-8b4c-4175-b8fa-755105c44f3a'::uuid,'d'),
     ('1db49d5f-4676-473e-820d-9728d88bee5e'::uuid,'34708e5a-d221-4ec0-9baa-6c11082875b9'::uuid,'d'),
-    ('1e3e62a6-fdbe-4c58-967b-a241a1113674'::uuid,'7ab4e5f3-8ff1-4ef9-badb-e8291e74e9e8'::uuid,'a'),
     ('1e73090e-8f30-46a2-996a-c366ef069dbf'::uuid,'709b4bf0-f503-412c-b985-fb55bbd9ea7f'::uuid,'d'),
     ('1fa2f517-dacc-4530-8a54-c8a6927f0495'::uuid,'a0b37f67-403c-4caa-bc67-b20529155984'::uuid,'d'),
     ('20ffb4eb-3e90-4b1d-92c8-81d0b027b92e'::uuid,'9a26bba5-4d80-4398-9eae-9f19c348a064'::uuid,'b'),
@@ -103,7 +102,6 @@ begin
     ('36c7d92d-1b17-48ba-8fa6-00589b58d81d'::uuid,'b63578ba-06be-4de2-b38c-ef775b020bd5'::uuid,'d'),
     ('370002c8-c6a0-4441-803e-b8af456124c8'::uuid,'9c622780-f2ee-4b1e-a04c-7a34dbc6c9b2'::uuid,'d'),
     ('37a4351f-66fa-4a5f-91af-33f09fd918b4'::uuid,'ca4eaeb6-a4eb-436c-9ddd-1a8c63784b7a'::uuid,'d'),
-    ('37f17be6-8069-494d-82e0-548063fde82e'::uuid,'fc795de7-7cd6-46de-88f4-fc8a797f0843'::uuid,'b'),
     ('381fa7a9-dd60-4f66-9bb4-4779d4a6b0c1'::uuid,'cd34c05b-a909-4ee0-9123-98c0f1380a43'::uuid,'a'),
     ('392b701a-7502-49aa-9268-a6687c5ce366'::uuid,'4d9ea623-04c9-43a9-b69a-1bf2aa960708'::uuid,'d'),
     ('396b7547-c127-419e-937d-b39a4a233ee8'::uuid,'b10d84af-3766-4971-a7ad-99a5d60b06d8'::uuid,'d'),
@@ -144,11 +142,9 @@ begin
     ('4c912491-9aaf-4355-bc55-ecd1e306c8c2'::uuid,'06d84b39-a46c-474f-9518-540db001946f'::uuid,'d'),
     ('4ca2c577-ff99-4164-af71-c2f833903e5e'::uuid,'c25bed02-8efd-4cd0-94b1-21ce40d9e3d8'::uuid,'a'),
     ('4ca6cf16-d119-4323-96d0-eeadce042595'::uuid,'0ba2f1ee-fb51-4f19-bc64-b6066c89f80b'::uuid,'d'),
-    ('4d435ec2-6284-4611-bfce-577c154ef8f1'::uuid,'c0237baf-82b9-478d-a689-9a77777e8c87'::uuid,'b'),
     ('4d50ad6f-510d-411b-8923-476ba0268f4a'::uuid,'c1c4a93e-2f30-4b6e-9219-46ab88ca7ea5'::uuid,'b'),
     ('4ec702ff-1062-440c-a302-7d4a2a5e978d'::uuid,'89e5d311-f6d8-4858-aa4d-62fa4c15b23e'::uuid,'b'),
     ('4f0ebeb6-2243-4691-86bc-c6ab5c1afa0d'::uuid,'e72d4fe3-b334-4b63-b485-05e137f7b7ef'::uuid,'d'),
-    ('4f44c3f4-2d76-4fe9-a087-2f56210f1a0d'::uuid,'7b8d9efb-fdd8-4743-a2e4-0682eeb41293'::uuid,'b'),
     ('4f918e04-5e75-4c20-a5d7-e447023b0efd'::uuid,'f682d329-50b1-476b-8d4f-7d46a902c3e9'::uuid,'d'),
     ('4faa2ab9-ea96-4fc2-a0ba-42e2a4b74823'::uuid,'fac17cf8-e00e-45a4-b89c-e392c7052d73'::uuid,'d'),
     ('50b3ce06-9757-418f-8aa7-3d0f2c6b5f17'::uuid,'0935b6e6-4705-4d89-a358-5aab043b6fa6'::uuid,'d'),
@@ -156,13 +152,11 @@ begin
     ('52888aba-4616-4b1e-a100-e99b42966be2'::uuid,'16cc1640-ad7a-48e9-821f-66b9ca468f48'::uuid,'d'),
     ('52e3dfb1-2950-41ec-a6e5-ba84cab184e7'::uuid,'ccdf7ee5-1600-4407-aa01-1163e4cf6bb3'::uuid,'d'),
     ('530a8d64-1936-46f0-864f-88d89665d15b'::uuid,'5f246c3e-446f-42e7-9d1f-d69182a084a3'::uuid,'d'),
-    ('538d2f2e-d9a0-4bba-9b64-a3537733004e'::uuid,'ebfce763-73f3-436f-97de-3e6e67d44cf6'::uuid,'b'),
     ('53a3da72-abec-47bd-b222-38b0cd37b7cc'::uuid,'384323c6-2b22-4ef9-9694-365c2ef0af1b'::uuid,'b'),
     ('5467a5f5-d83e-4b0a-aa7e-8b460eba4873'::uuid,'9f613c63-bae9-4475-935c-8f2c03aa070d'::uuid,'b'),
     ('54992bcf-709a-41e4-b01c-0e6713ba7397'::uuid,'89b8355b-06c3-456b-bbc8-ebc516a064e2'::uuid,'d'),
     ('58a12e9a-8af0-410b-9f5e-79f2bc57c292'::uuid,'8dc109dc-50e7-4be7-a18a-690072a3755b'::uuid,'d'),
     ('5bf4c321-22af-4fa6-94ee-922a512b6cc9'::uuid,'4165e0dc-37e9-4680-8a63-0abc23b9a2d0'::uuid,'d'),
-    ('5c85e427-b506-475c-9d2c-f6c316b54a7c'::uuid,'5b03195d-15db-4323-8725-8c97d3197998'::uuid,'b'),
     ('5db426f0-1e3f-428f-aec2-732d6be6d788'::uuid,'9bde16a0-d551-40c3-8b20-fe8c1893f97e'::uuid,'a'),
     ('5ea1fdfc-76bf-4fa8-b6f1-5912aaa8071f'::uuid,'451e876e-ab26-4d73-bb18-b25b67feadcc'::uuid,'d'),
     ('601af872-2cda-4cdc-a1d7-0565cf246711'::uuid,'fd9b0627-cf9b-431a-8782-dae2c2087694'::uuid,'b'),
@@ -210,7 +204,6 @@ begin
     ('7a3e249d-ca2b-463f-b34a-fa635eb55b36'::uuid,'568c882f-1e8b-4c9f-b3ae-52d20d0d3119'::uuid,'d'),
     ('7c6a00b3-53b7-4ceb-9e87-e57ff4949876'::uuid,'88f5547c-7f82-4a2a-8eb2-4665aba64e1b'::uuid,'d'),
     ('7d76c1ff-cadf-4a7c-826a-de721c2f272b'::uuid,'a805b998-dbb5-47e4-8b3e-05fcb1c3d71f'::uuid,'d'),
-    ('7da58bb8-4698-4004-a507-3e54e54a70ba'::uuid,'37a11952-f1c2-41fd-8d69-16280f5a6ea0'::uuid,'b'),
     ('7de8b352-7bcb-4801-93a8-d7e38415b071'::uuid,'3728b816-8a68-4c79-a5c7-1ef14fb6791a'::uuid,'d'),
     ('7e3dbcd7-aa70-4349-ac81-aa122fa69357'::uuid,'b2cef5a7-7649-40de-98d7-ef6d70586d47'::uuid,'a'),
     ('7e5405c0-a9f4-4fc0-b083-72d8cae25f81'::uuid,'9d8619d4-13d1-46bc-821d-9630ac7f01c6'::uuid,'d'),
@@ -285,7 +278,6 @@ begin
     ('a63cfee1-0004-450a-82f2-99074bf0ed5b'::uuid,'d59e9825-9397-4b59-8dbf-bf010fc5e1b7'::uuid,'d'),
     ('a6574b66-87d1-4a09-b0f0-fb93873c8353'::uuid,'9290da6c-4224-47a2-a14d-7bf2499e5894'::uuid,'d'),
     ('a70a85aa-e2cc-4cd9-8d52-49b9cc3d4cb9'::uuid,'e93cd2bb-f9e6-43e4-8db6-3177b88bfe58'::uuid,'d'),
-    ('a73e5133-dfa7-4be8-9d94-5b4b768a891c'::uuid,'046f664d-9421-43ee-b3da-186eacfe2b06'::uuid,'b'),
     ('a8ef12a6-c7da-462d-ae6f-978595588ebc'::uuid,'d394c917-9bbc-4321-81fc-eea04673afe2'::uuid,'d'),
     ('a905808a-4b22-445d-a824-c534b9bc60dd'::uuid,'2e50f351-d837-4416-99ed-e665ebb311ef'::uuid,'a'),
     ('ab096fdf-11a8-4fbf-add1-e6dae5e8ad1d'::uuid,'6e4675f5-c5b7-4b5c-b04e-3f572faf9e99'::uuid,'d'),
@@ -343,10 +335,8 @@ begin
     ('cdbe72cb-2bed-413b-a18b-749e6d98c3d1'::uuid,'febf7ecb-970c-4076-b1a7-c24408584cd4'::uuid,'d'),
     ('cdec98ef-811b-458e-b476-073d59fb56f6'::uuid,'ad609b31-e6ae-4743-9eb8-553edc968a86'::uuid,'d'),
     ('cffb0af1-1dff-4247-a9a7-c58cc74dfe07'::uuid,'f2f35709-3320-4837-8ab6-c07dc42e1be7'::uuid,'d'),
-    ('d194a883-061b-410e-a91a-66ae1b7d4b44'::uuid,'c74fb387-2c71-4db2-bdf3-6f60ec6b8f61'::uuid,'b'),
     ('d2514cd6-7cdb-47cb-b425-88e48a72132e'::uuid,'6d75c57f-420c-4d19-af99-a219ddc0b5c6'::uuid,'d'),
     ('d30be1c5-ad57-485d-8b7f-98969b1fe46d'::uuid,'c983620e-ab0e-413b-ae5f-868b352d54d4'::uuid,'d'),
-    ('d392577f-d833-4737-8193-c0f0db227e0a'::uuid,'8a14dbb0-30b2-4816-a658-669e0cff6a62'::uuid,'b'),
     ('d3e35307-b018-48a7-b63b-2071fde6631b'::uuid,'87c350d8-bef5-4a45-831c-2a3ad336cf03'::uuid,'d'),
     ('d48ceae2-7f6f-4018-99ee-e66b88790369'::uuid,'ee0663b4-9158-4d20-9450-3c59ce4190b8'::uuid,'d'),
     ('d62d3d53-c088-40cf-9fc7-e0a9953a1085'::uuid,'d2ab1bc5-f77e-4c9c-be07-1b5a747336c6'::uuid,'d'),
@@ -373,7 +363,6 @@ begin
     ('e5bf167a-1f78-4a10-ad23-b9bc7800a12c'::uuid,'66023a2b-dd15-427f-8e4e-785fa3bb0f4f'::uuid,'d'),
     ('e5e6b27d-6b7b-4956-810b-fe0668864e51'::uuid,'1fe4b351-8c2f-459d-ac24-897fa6cb14e4'::uuid,'d'),
     ('e635420b-08d4-415b-b433-5d84265aea71'::uuid,'e0dd4599-0895-4c92-a78e-fbf94dee7a4b'::uuid,'d'),
-    ('e7365bc6-d9ad-4319-b86c-10ac9b7ed07b'::uuid,'06cd2884-3bc0-42cd-9fba-b5789ab7a1b8'::uuid,'b'),
     ('e8bf6593-fb67-42de-b4a4-c835b8f1162d'::uuid,'43e458ee-d142-42e3-bffc-d4f259c1ef45'::uuid,'d'),
     ('e8df00e9-adc5-4421-9aa9-51fb4540c5ea'::uuid,'55545074-765d-43c4-8698-8428ff13c1f9'::uuid,'d'),
     ('e9a3cfe7-e6f0-4908-80a0-21bdd2834a45'::uuid,'1c41eba1-dee0-4e55-a3ca-217235e5acf8'::uuid,'d'),
@@ -389,7 +378,6 @@ begin
     ('efa33d86-83ef-4dad-ae7e-5ebb271a5272'::uuid,'741955b8-1f7b-4251-80c3-10d494d85cb2'::uuid,'d'),
     ('eff080b1-052c-42ab-aea2-ae4ce22b038d'::uuid,'8f211336-c0c1-489d-84ac-c55e06320529'::uuid,'d'),
     ('f00a6c9b-9a17-41ec-a0bc-c4ecfa3ad70a'::uuid,'41fd97b2-b33a-45c4-b67e-17b806aa35b1'::uuid,'d'),
-    ('f1034391-4bae-4e47-b2bb-6ea88623bfb1'::uuid,'76b966d2-0c69-48e3-bf5e-7ae61c0f5039'::uuid,'b'),
     ('f2271675-ff00-4ff0-be47-45d9eadc741c'::uuid,'f01c3df8-3fcc-43f0-9dd1-0fdb669083f6'::uuid,'d'),
     ('f2705596-0b11-4328-8309-60701d9c70e8'::uuid,'c08b7618-b0f3-4e5c-89bd-96a801d63b05'::uuid,'b'),
     ('f29ec412-d32a-4d3d-964e-8fd6988a2dd0'::uuid,'25f1fa3b-e9d0-4480-be11-5334af63dd65'::uuid,'d'),
@@ -410,8 +398,8 @@ begin
     ('fcd52fcd-faff-49ce-b3a1-a5df48066497'::uuid,'7478d29f-3f4a-425c-b137-f86242830489'::uuid,'d'),
     ('fd132788-4ee5-494b-a84a-e9c4d97aa3f0'::uuid,'6e4b0915-801b-4270-8d26-8a1f8e43b436'::uuid,'d'),
     ('ff634358-8858-4ee8-9a37-0b37bbf8eeb3'::uuid,'ff493d91-f1b8-4485-ab4b-9eb779686ff1'::uuid,'b');
-  if (select count(*) from _p) <> 386 then raise exception 'list holds % pairs, expected 386', (select count(*) from _p); end if;
-  if md5((select string_agg(item::text||':'||fee::text||':'||cls, ',' order by item) from _p)) <> 'ccff9166df96f1bb1a49d370ae5f612f' then raise exception 'pair list changed (md5)'; end if;
+  if (select count(*) from _p) <> 372 then raise exception 'list holds % pairs, expected 372', (select count(*) from _p); end if;
+  if md5((select string_agg(item::text||':'||fee::text||':'||cls, ',' order by item) from _p)) <> '26a3bb63aecfb73e5df1927095dcac06' then raise exception 'pair list changed (md5)'; end if;
 
   select count(*) into v_n from _p
     join pipeline.layer4_review_items l on l.id = _p.item and l.status = 'pending' and l.field_code = 'provider_current_tuition'
@@ -419,13 +407,13 @@ begin
     join catalogue.courses c on c.id = l.entity_id
     join pipeline.coverage_course_pages cp on cp.course_id = c.id and cp.status = 'bound'
    where security.coverage_identity_allowed(c.provider_id, cp.identity_basis, 'tuition');
-  if v_n <> 386 then raise exception 'guard 1: % of 386 pairs still pending, unverified and accepted; nothing changed. Ask the agent to regenerate.', v_n; end if;
+  if v_n <> 372 then raise exception 'guard 1: % of 372 pairs still pending, unverified and accepted; nothing changed. Ask the agent to regenerate.', v_n; end if;
 
   update catalogue.course_fees f set status = 'active', last_verified_at = now(), updated_at = now(),
          notes = coalesce(f.notes, '') || ' | re-admitted 27 Oct 2026: AU tuition accepts cricos_code / adapter_code (Platform Admin 26 Oct 2026)'
     from _p where f.id = _p.fee and f.status = 'unverified';
   select count(*) into v_n from catalogue.course_fees f join _p on _p.fee = f.id where f.status = 'active';
-  if v_n <> 386 then raise exception 'guard 2: % fees live, expected 386; rolled back', v_n; end if;
+  if v_n <> 372 then raise exception 'guard 2: % fees live, expected 372; rolled back', v_n; end if;
 
   update pipeline.layer4_review_items l set status = 'approved', decided_at = now() from _p where l.id = _p.item and l.status = 'pending';
   insert into pipeline.layer4_decisions(review_item_id, action, actor_id, reason, proposed_value, final_value, change_control_ref)
@@ -433,12 +421,12 @@ begin
          'Re-admitted by paste: AU tuition now accepts the page''s proof (Platform Admin 26 Oct 2026 "Strong proofs only")', l.proposed_value, l.proposed_value,
          'CF-CHG-20260915-247 AU completion week fee re-apply paste'
     from pipeline.layer4_review_items l join _p on _p.item = l.id;
-  insert into search.refresh_requests(requested_by) values ('AU fee re-apply paste: 386 fees');
+  insert into search.refresh_requests(requested_by) values ('AU fee re-apply paste: 372 fees');
   insert into pipeline.admin_control_events(area, action, target, detail, actor)
   values ('fees', 'reapply_paste', 'AU fees held by identity_basis_reverify',
-          jsonb_build_object('fees', 386, 'no_live_fee', 80, 'same_amount', 70, 'other_year', 236, 'pair_list_md5', 'ccff9166df96f1bb1a49d370ae5f612f'),
+          jsonb_build_object('fees', 372, 'no_live_fee', 79, 'same_amount', 57, 'other_year', 236, 'pair_list_md5', '26a3bb63aecfb73e5df1927095dcac06'),
           '63ba56cb-48d4-4169-98c2-7c4d1f72925b'::uuid);
-  raise notice 're-admitted % fees', 386;
+  raise notice 're-admitted % fees', v_n;
 end $paste$;
 
 commit;
