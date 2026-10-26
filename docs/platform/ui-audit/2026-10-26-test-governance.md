@@ -174,3 +174,51 @@ The student website's course search and results are listed in the register as **
 - **Course catalogue on a fresh phone session.**
   - The filter panel opens fully. Fourteen filters push the first course to 1,063 px down the page, below the first screen (839 px).
   - **Proposal**: start with the filters closed on phone widths (the Filters button opens them).
+
+## 8 First weekly deployed run (dispatched 26 Oct 2026 11:06, live-acting off): the deployed track had rotted
+
+Run 40247726101 on `7dbccbfa`. The workflow worked end to end:
+- the safe tests ran on desktop and phone;
+- the 10 live-acting tests were held;
+- the results were written to `deployed-weekly-results/weekly/2026-10-26.md` with the JSON;
+- the job failed, as designed, because tests failed.
+
+| | Desktop | Phone |
+|---|---|---|
+| Safe tests run | 84 | 84 |
+| Passed | 42 | 43 |
+| Failed | 42 | 41 |
+| Live-acting held | 10 | — |
+
+**Why they fail.** I read every failure. They fall into four groups:
+
+| Cause | Tests (desktop) | Examples | What it means |
+|---|---|---|---|
+| Screens and menus renamed or moved since the spec was written | about 30 | Menu items "Layer 2 Discovery & reading" and "Scrapers & fetchers" no longer exist (menu review S81, Decision 254); `#layer-2-discovery` now opens `?tab=universities`; the "Reference sources" and "Onboarding" tabs moved; the "Layers" dashboard panel, the "Layer 4 status" heading, the Jobs header text, the Coverage "by area" block and the "Acquire Evidence →" wording are gone | The rule each guarded (route, label, layout) belongs to a screen that has since been redesigned. Current local source contracts (S81 menu review, admin-simplify, S12, S96) guard the current screens |
+| Pinned to an old release | 1 | "accepted Pilot UI reports one synchronised v2.15.74 release" expects the title `v2.15.73` | Superseded by `release-notes-deployed` (release currentness on every merge) |
+| Live data moved | about 9 | Federation's official page address changed; "Current Provider tuition" label; the THE 2015 import row; the RMIT QILT/scholarship count; `provider_context` missing in the A12/CF-061 course payload; the CF-080 parked-contacts message (none parked) | Some may be real regressions (`provider_context` should be checked); the rest pinned to data that has since changed |
+| **A live server error** | 1 | The navigation audit saw **HTTP 500 from `admin_read('course_coverage')`** at 00:23:35 UTC | See below |
+
+**The 500 is worth acting on.**
+- `course_coverage` answered in 2.6 seconds when I called it on its own.
+- At 00:23 four hourly jobs had just started together (`field-gap-queue`, which ran 94 s, `scholarship-discover-refill`, `provider-english-defaults` and `website-sync-check`).
+- The signed-in role has an 8-second statement limit.
+- The likely cause is the Coverage read timing out under that load at :23 past each hour. That is likely, not proven.
+- It is the Coverage screen, so an operator opening Coverage at that minute gets an error.
+
+**What I propose (your decision, since it is about 40 tests):**
+1. **Retire the ~31 tests guarding renamed or moved screens and the old release pin**, each logged with its reason and the current spec that guards the screen today. Rule 11 says nothing is carried red, and these cannot be fixed without rewriting them for screens they were not written for.
+2. **Fix the ~9 data-dependent tests** so they check shape rather than one university's data. Check the missing `provider_context` first, because it may be a real API regression in the course payload.
+3. **Replace what is retired with a slim, current deployed acceptance set**, one test per operated area:
+   - sign-in and the menu load without a 5xx;
+   - the Course catalogue;
+   - the Course detail blade;
+   - Layer 4;
+   - Coverage;
+   - Jobs;
+   - the performance budgets.
+
+   Desktop and phone, safe only.
+4. **Investigate the Coverage 500**: confirm it in the API logs, then spread the :23 jobs or speed up the read.
+
+Until you decide, the weekly run stays on. It will fail again on Monday 2 Nov with the same list, which is the honest state of the deployed track.
