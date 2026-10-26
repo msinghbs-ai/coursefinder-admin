@@ -140,3 +140,13 @@ Status at 06:00 here.
   - retirements 563, md5 `78357842…`.
 - My call to apply paste 1 (retirements) was **declined by the session's permission layer**. Nothing was written, and I have not retried.
 - The three pastes stay as lodged, for the Platform Admin to apply. The other lanes continue.
+
+**22:1x — Platform Admin 21:48 "HALT — Schema PR contains destructive operations". Correction of fact, and the schema SQL for review.**
+- **No schema PR had been opened or run.** The statement declined at 22:0x was **paste 1 (the 563 retirements)**, run as one DO block. It is destructive by design:
+  - it calls `security.layer1_plan_finish_v1`, which sets 563 courses inactive, writes retirement rows, and `delete`s the 563 departed keys from `pipeline.layer1_register_row_state`;
+  - it then updates `pipeline.layer1_run_queue` (with a WHERE) and inserts a control event.
+- That is why it was a paste for the Platform Admin. The decline was correct. Nothing was written, and the paste lane stays halted.
+- **The schema SQL, written for review and not executed:** `20261026007000_cf247_aer_v11_entry_matrix_columns.sql`. It holds only the 6 approved `add column if not exists` statements and the 3 approved `create index if not exists`. There is no DROP, DELETE, TRUNCATE, UPDATE, trigger or function. It runs only after the Platform Admin's go.
+- **Two points to settle before running it:**
+  1. A plain unique `row_hash` blocks Track C's change runs: a changed page inserts the new rows and marks the old ones `superseded`, so the same identity briefly exists twice. The alternative is a partial unique `(row_hash) where status = 'active'`.
+  2. With no trigger, `row_hash` stays empty. The identity function is a separate, later item for approval.
