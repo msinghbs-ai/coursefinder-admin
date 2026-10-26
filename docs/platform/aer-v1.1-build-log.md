@@ -668,3 +668,15 @@ D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has
 3. Any other width mismatch stays `unparsed` (fail closed): a data row wider than the header, or a short row whose missing cells are not trailing.
 4. Completeness, identity, whole-run approval, D1 and D2 are untouched.
 - Regression: every complete RMIT page's manifest must give the same entries before and after. This is checked on the stored copies of the 12 complete pages and against their proposed rows in the database, without re-reading them.
+
+### 27 Oct 2026 06:05 — AER tooling: read-only `entry_inspect` (#712), written before merge
+
+Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tests "must use the stored source pages"). Decision recorded 05:50, before code.
+- **Worker v0.48.5:** read-only mode `entry_inspect`. For at most 12 entry-matrix sources it returns the stored copy's `<h1>`, `<title>` and raw `<table>` markup (capped at 120,000 characters), the content hash and the sha256 of the stored text. No AI call, no web fetch, no write.
+- **Migration `20261027002000_cf247_entry_matrix_inspect_paths.sql`:** `public.svc_entry_matrix_inspect_paths(uuid[])`, read-only, service role only. Nothing dropped; the consumer API is not touched.
+- **Test:** s132 (read-only: no AI, fetch, upload or record call; service role only). Test register regenerated.
+- **Gates:**
+  - suite 1,034 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back): the paths for Kuwait and Mexico are returned with their content hashes.
+- Kept apart from D5, so the parser PR stays one change with attributable evidence.
