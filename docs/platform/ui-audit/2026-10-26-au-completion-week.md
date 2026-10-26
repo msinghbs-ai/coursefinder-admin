@@ -79,4 +79,61 @@ An unpublished, active AU provider is **eligible to publish** when all hold:
 1. its CRICOS registration is current (not ended) and at least `publish.eligible_min_current_courses` (1) of its courses is on the latest edition;
 2. its site answers: provider discovery `mapped`, with at least `publish.eligible_min_site_pages` (1) course page kept.
 
+Live dry run (26 Oct 17:1x, rolled back): 1,372 course end dates (563 last listed 28 Sep; 809 already retired, found gone 27 Sep), 16 provider registrations ended (6 with no course on the register, 10 archived including UniSA and the old University of Adelaide), 1,540 current. A second run in the same transaction changed nothing. Eligibility: 1,056 providers / 9,454 courses to publish; 266 held with a cause.
+
 Every other unpublished AU provider gets a named cause and owner: registration ended (owner: register; nothing to publish), no website on record (owner: website check), site gave no course pages (owner: discovery review), site not checked yet (owner: discovery). The check is a read-only function, `security.au_publish_eligibility_v1()`.
+
+## 5 Step 3: fee reader AU scope (done 17:1x, overnight running)
+
+**Decision.**
+- `fees.countries` gains AU.
+- `fees.provider_types` gains `higher_education_institute` and `university_college`. Both exist only in AU (136 and 8 published providers).
+- `private_vet` and `school` stay out tonight. The setting is shared with NZ, and adding `private_vet` would also start NZ's 383 private providers.
+  - AU's private_vet and school providers are unpublished anyway, so automatic work skips them until the publish paste is applied.
+  - Widening the setting to them is a Tuesday decision, with the numbers (section 8).
+- Both changes are logged in `admin_control_events` under the mandate.
+
+**First 15 minutes (the NZ precedent was 338 schedule pages in 15 minutes):**
+- 217 new AU fee-schedule pages were found by the central-page search.
+- 267 stored AU fee pages are queued for the AI fee reader. These are the CRICOS-code reader's 543 pages, most of them "no values" for that reader. 40 have been read already.
+- 94 AU fee rows have been read so far.
+
+**Spend, against the existing stops:**
+
+| Measure | Used | Limit |
+|---|---|---|
+| Firecrawl credits today | 884 | 25,000 |
+| Central-pages share of Firecrawl | well inside | 2,500 |
+| Fee reader AI | US$0.11 for 15 pages (about US$0.0074 a page) | US$5 a day |
+
+- The new pages are fetched by job `provider-facts` under the central-pages share. 217 pages is well inside that share.
+- AI cost: about 480 pages × US$0.0074 is about US$3.60, inside the cap.
+- If the queue grows past the cap, the reader stops at US$5 and resumes after midnight AEDT. That is the existing stop working as designed, not a throttle. It is reported at the next check with numbers.
+
+## 6 Step 4: MARK-FILE (lodged)
+
+File: `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx`. It holds every AU proposal waiting today, 35 rows:
+- 5 English policies;
+- 30 intake calendars.
+
+Columns: provider, proposed value, courses filled if approved now, courses at the provider still missing the field, evidence quote, system check, proposal id. Mark column B approve or reject.
+
+**Plain finding: this file fills few courses now, 27 at most.**
+- English: 10.
+- Calendars: 17.
+
+Why so few:
+- 4 of the 5 English defaults will be **refused by the system's own check**: the default disagrees with most of the provider's course pages.
+  - Deakin: 0 agree, 239 differ.
+  - CSU: 5 agree, 49 differ.
+  - ECU: 75 agree, 78 differ.
+  - Excelsia: 12 agree, 24 differ.
+
+  Those rows are marked "recommend reject".
+- Most calendars either have no "trimester / semester / term 1" period (no default months) or are for providers whose courses have no bound official page yet.
+- Several calendars carry only 2023–2025 dates; those are marked "likely out of date".
+
+**How the marks are applied:**
+- one row at a time, through the same decision as the Policies screen;
+- count-guarded: the total applied must equal the marks, or nothing is applied;
+- logged under the Platform Admin with the note "MARK-FILE 26 Oct 2026".
