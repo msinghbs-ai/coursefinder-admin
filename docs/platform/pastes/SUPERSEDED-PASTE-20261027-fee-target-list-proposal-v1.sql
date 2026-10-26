@@ -1,3 +1,4 @@
+-- SUPERSEDED 27 Oct 2026 08:3x by PASTE-20261027-fee-target-window-open.sql / -close.sql (Platform Admin 08:15 item 5: not authorised in this form). Do not apply.
 -- PASTE-20261027-fee-target-list-proposal.sql
 -- CF-247, Priority 2B of the Platform Admin mandate of 27 Oct 2026 05:46. PROPOSAL ONLY: prepared by the agent, NOT applied.
 -- It runs only if the Platform Admin decides to apply it (SQL editor, as postgres). Workbook: AU-fee-target-list-proposal-2026-10-27.xlsx.
