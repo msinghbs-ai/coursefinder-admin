@@ -8599,3 +8599,9 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B and C).
 - UTS and WSU have 0 queued runs (drained), so this does not stall them.
 - The change returning `entry.providers` to UTS and WSU only was attempted three times from 06:56 and cancelled each time before it ran. RMIT is therefore still listed in the setting, but nothing reads it: the job is off and no call is started by hand.
 - The job goes back on only after RMIT is out of scope.
+
+### 27 Oct 2026 07:02 — RMIT lane paused, scheduled reader restored for UTS and WSU
+
+- 07:02:15: `entry.providers` was set back to UTS and WSU only (event 21716). The three earlier attempts from 06:56 had been cancelled before they ran.
+- 07:02:22: `entry-matrix-read` was switched back on, for UTS and WSU only (logged).
+- RMIT is paused, with 6 held runs and Qatar left as they stand. No further attempts are made under this mandate.
