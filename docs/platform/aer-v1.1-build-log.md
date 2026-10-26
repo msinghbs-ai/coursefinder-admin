@@ -650,3 +650,21 @@ D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has
 - `entry-matrix-read` active again at 05:29 for UTS and WSU only; 2 providers enabled.
 - VU and Federation excluded.
 - RMIT AI spend to date: US$0.21.
+
+## 27 Oct 2026 05:50 — Consolidated mandate (Platform Admin 05:46): decisions before code
+
+**Read-only stored-page inspection (tooling, before D5).**
+- The mandate requires D5 and D4 tests to use the stored source pages.
+- The stored copies are in private storage, and no existing mode returns an entry-matrix page's raw tables. `provider_facts_inspect` and `scholarship_inspect` cover other page kinds.
+- **Decision:** add one read-only worker mode, `entry_inspect`, following the existing inspect-mode pattern, plus one service-role path function:
+  - it returns, for at most 12 entry sources, the stored copy's `<h1>`, `<title>` and raw `<table>` markup (size-capped), with the content hash;
+  - no AI call, no fetch from the web, no write;
+  - it ships as its own small PR, so D5 stays one parser-only PR and its deployment evidence stays attributable.
+- The fixtures are then saved from the stored copies, each recorded with its content hash.
+
+**D5 design (decided before code), to be confirmed against the stored Kuwait and Mexico tables:**
+1. A footnote row (grading or calculation) is recognised before any width check. It publishes no minimum, whatever its width.
+2. A data row narrower than the header is accepted only when the missing cells are trailing **and** no merged cell from an earlier row covers those columns. The parser already carries merged cells, so a missing cell there means real loss. Each padded cell is blank and publishes nothing.
+3. Any other width mismatch stays `unparsed` (fail closed): a data row wider than the header, or a short row whose missing cells are not trailing.
+4. Completeness, identity, whole-run approval, D1 and D2 are untouched.
+- Regression: every complete RMIT page's manifest must give the same entries before and after. This is checked on the stored copies of the 12 complete pages and against their proposed rows in the database, without re-reading them.
