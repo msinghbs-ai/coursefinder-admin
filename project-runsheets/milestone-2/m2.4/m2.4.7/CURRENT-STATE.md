@@ -8459,3 +8459,62 @@ D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has
   - suite 1,032 passed, 0 failed, 0 skipped;
   - worker build OK;
   - live dry run (rolled back): country refs 249. The real Colombia run, set failed after three held reads, came back through the re-read: queued, attempts 0, history 3 → 4 (state failed, error, attempts_used 3, earlier_index 3), 0 proposed.
+
+### 27 Oct 2026 05:30 — #711 merged and verified live; D1 and D2 proven live; new parser defect D5; RMIT paused again
+
+**#711, merged 05:24:24** (squash `de31e8c1`).
+- Live md5s just before merge:
+  - `admin_entry_matrix_reread` `cec71585…`, equal to the guard;
+  - `svc_entry_matrix_next` `f992b7fc…`, `svc_entry_matrix_record` `e1a130e2…` and `entry_matrix_review_apply_v1` `f1152d19…`, unchanged since #710;
+  - `svc_entry_country_refs_v1` absent.
+- `deploy-on-merge` applied `20261027001000`; history md5 `7328012c` matches the file.
+- The re-read function with its edits reversed equals `cec71585…` byte for byte. The body of `svc_entry_country_refs_v1` equals the file's (md5 `28125f63…`). It returns 249 countries and is executable by `service_role` only.
+- Worker version 211: all 17 deployed files byte for byte the repo's (the coverage-sweep modules and the `_shared` register modules).
+- Release currentness, run by hand on `de31e8c1` (run 40377612045): passed.
+
+**Acceptance reads, 05:27 (scheduled job off; RMIT in scope for one hand-started call, then out at 05:27:47; all logged):**
+
+| Check | Result |
+|---|---|
+| **D1 (Hong Kong)** | **11 of 11 complete** on its third attempt. Foundation and Fast Track carry no band, their quotes keep "… \| Not applicable \| …", and they have 2 distinct identities |
+| **D1 (Denmark)** | The `wrong_band` refusals are gone: the HHX/HTX and Folkeskolens Foundation and Fast Track rows now read. The run is still held, for a different reason: the reader skipped 8 band rows whose cell repeats the band above ("Average of 7" at both 70% and 75%). Failed after 3 attempts; recoverable through D3 |
+| **D2 (Global Assessment Certificate)** | `held_unparsed: not a country table: no country named in the page heading`. Held before any AI read, terminal (state failed), 0 retries left |
+| **D2 (International Baccalaureate)** | Same reason; held before any AI read, terminal |
+| **D2 (Foundation equivalencies)** | `held_unparsed: not a country table: requirement-type columns, not qualifications (English Requirement 1; Academic Requirement; Prerequisites)`. Terminal |
+| **India / Japan / China** | Unchanged and still complete: 33/33, 11/11, 22/22 (Gao Kao 9 included), identities equal rows, items pending |
+| **Newly complete under the guard** | Germany 11/11, Kenya 9/9, Malaysia 22/22, Mauritius 13/13, New Zealand 11/11. Each verdict now records its heading (for example "Germany \| Germany \| Academic Entry Requirements") |
+
+**New parser defect D5 (mine, in the manifest; recorded before any code).**
+- **What:** `entryManifest` checks every row's cell count against the header *before* it recognises a footnote row, and refuses a data row shorter than the header.
+- **Kuwait:** held as `held_unparsed: a row has 4 cells, the header 3: Grading / Calculation System | …`. The footnote row is wider than the header.
+- **Mexico:** held as `held_unparsed: a row has 3 cells, the header 4: Bachelor degrees | 80% | Not applicable`. Probably trailing empty cells left out of the HTML.
+- Both are genuine country tables, now terminally held. D3 can bring them back once D5 is fixed.
+- **Fix to propose (not built):**
+  - recognise footnote rows before the width check;
+  - pad a short row with blanks only when the missing cells are trailing and no merged cell from above spans them; otherwise stay `unparsed`. Padding the wrong way would make the manifest under-count, and a short read could then pass.
+- **RMIT taken out of scope at 05:27:47 (logged)** so no further page can be falsely held while D5 is open.
+
+**Reader defect D4 (recorded at 05:15), wider than first seen.**
+- **Merged "+ first year at university" case-by-case column left out or misread:** Colombia (failed after 3 attempts), Nepal and Nigeria (held, 1 attempt used).
+- **Column misassignment:** Indonesia (held, 2 attempts used) and Norway (`grade_not_in_cell`, held, 1 attempt used).
+- **Repeated values across bands skipped:** Denmark (see above).
+- Pakistan and Philippines are held with "6 rows not explained (not_a_table_row)": rows from outside the band table. Still to be triaged against their stored pages.
+- Every one of these was held whole by the guard. **No silent partial read; 0 rows active.** No proposed row lacks a complete verdict.
+
+**Per-page state, RMIT (36 pages):**
+
+| State | Count | Pages |
+|---|---|---|
+| Passed (complete, in review) | 12 | Bangladesh, Cambodia, Canada, China, Germany, Hong Kong, India, Japan, Kenya, Malaysia, Mauritius, New Zealand |
+| Source-held (D2, terminal by decision) | 3 | Foundation equivalencies, International Baccalaureate, Global Assessment Certificate |
+| Parser defect D5 (terminal; recoverable by D3) | 2 | Kuwait, Mexico |
+| Reader defect D4 (failed; recoverable by D3) | 2 | Colombia, Denmark |
+| Held, attempts remaining (queued) | 7 | Indonesia (2 used), Nepal, Nigeria, Norway, Pakistan, Philippines (1 used each), Singapore (0; returned for time budget) |
+| Not yet attempted (queued) | 9 | Saudi Arabia, South Korea, Sri Lanka, Taiwan, Thailand, United Arab Emirates, United Kingdom, USA, Vietnam |
+| Stored, not yet queued | 1 | Qatar |
+
+**Lanes:**
+- RMIT out of scope (D5).
+- `entry-matrix-read` active again at 05:29 for UTS and WSU only; 2 providers enabled.
+- VU and Federation excluded.
+- RMIT AI spend to date: US$0.21.

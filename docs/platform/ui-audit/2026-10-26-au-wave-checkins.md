@@ -258,3 +258,19 @@ Firecrawl refusals today: reads 17, scholarships 96, central 39. No spend stop h
 - **RMIT entry-matrix lane halted** (D1, since 00:06), unchanged.
 - **Pastes awaiting you at 08:00:** retirements, then publish, then fee re-apply.
 - **Decision for you:** 110 AU fee-schedule pages refused by the Firecrawl target list. The cause is named, so this is not a stalled-lane red. It is the only remaining source of overnight fee growth.
+
+## RMIT entry-matrix lane — 27 Oct 05:30 (after #711)
+
+| State | Pages |
+|---|---|
+| Passed (complete, in review) | 12 |
+| Source-held, terminal (D2: Foundation equivalencies, IB, Global Assessment Certificate) | 3 |
+| Parser defect D5, terminal (Kuwait, Mexico) | 2 |
+| Reader defect D4, failed (Colombia, Denmark) | 2 |
+| Held, attempts left | 7 |
+| Not attempted | 9 |
+| Stored, not queued | 1 |
+
+**Silent partial reads: 0. Active rows: 0.**
+
+**Red:** RMIT out of scope since 05:27:47 for parser defect D5 (fix to propose; awaiting the Platform Admin's go). UTS and WSU running.
