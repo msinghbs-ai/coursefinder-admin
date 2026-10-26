@@ -225,3 +225,94 @@ First runs, 21:59–22:05: 6 runs, 12 rows proposed (RMIT Canada 8, UTS 4), 2 La
 3. I check the countries extracted per RMIT page against the page's own table.
 
 The RMIT lane stays halted until then. UTS and WSU likewise. VU and Federation wait for the PDF reader (step B).
+
+### 26 Oct 2026 22:38–23:0x — AER v1.1: countries paste applied; six pages re-read; RMIT band-ladder defect found; extraction stays paused
+
+Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, exactly as written … keep extraction paused until every acceptance check passes … stop and record the defect before coding").
+
+**Pause time reconciled.** The first reads ran 21:59–22:05 and the reader was paused at 22:05:15 (control event). Earlier notes saying "23:2x" or "23:0x" are clock errors on my part. That includes the pause reason and the paste header, which is left unedited because the paste is applied as written.
+
+**1. Countries paste: applied once, 22:42:00.** `docs/platform/pastes/PASTE-20261026-ref-countries-for-entry-matrix.sql`, file md5 `edc5ffa8…`, applied exactly as written. Its control event records the Platform Admin's id, as the paste is written; the agent ran it under the 22:38 authority.
+- Guards checked first: exactly AU,CA,DE,GB,IE,IN,NZ,US; no earlier `countries_paste` event.
+- After:
+
+  | Check | Result |
+  |---|---|
+  | Countries | 249 (8 + 241) |
+  | Code-list md5 | `8c4bd9d5…` |
+  | All 241 rows: code, alpha-3, numeric, name, official name | md5 `8469d52f…`, the same as the file byte for byte |
+  | Bangladesh, China, Cambodia, Malaysia (and Viet Nam) | present, `seed_only` |
+  | Ingestion or student-search flags on for the new rows | 0 |
+
+- **Consumers (G3):** the shape fingerprints match before and after for the Zoho country filter, the Zoho reference bundle, the Zoho AU provider search, website scholarships and website rankings.
+  - The country lists still return the same 3 countries (AU, NZ, CA): they list only countries with courses.
+  - Content hashes differ only by `generated_at`.
+  - `consumer_api_check_v1`: no drift (73 functions, 48 relations).
+
+**2. Six pages re-read** through `admin_entry_matrix_reread` (logged).
+- 6 runs re-queued; 12 earlier proposed rows and 2 pending items superseded; each earlier result kept in `previous_results`. No row was ever active.
+- The scheduled job `entry-matrix-read` was switched off (logged), and `entry.matrix_enabled` was set to 1 only for the hand-started worker call, then back to 0 (both logged). No new runs were queued.
+- Every row carries worker v0.48.1 and prompt `entry-matrix-v0.1.1`. Re-read cost US$0.029.
+- Side effect: the worker's fetch step stored 6 more RMIT pages (stored copies only, no AI read). 10 RMIT pages now hold stored copies with no run.
+
+| Page | Before (proposed / dropped) | After (proposed / rejected) | Published on the page | Reconciliation |
+|---|---|---|---|---|
+| RMIT Bangladesh | 0 / 11 | 11 / 0 | 11 minimums (HSC: Foundation, Fast Track, 3 diploma bands, 6 bachelor bands) | 11 = 11 |
+| RMIT China | 0 / 8 | 22 / 0 | 22 (Gao Er 2, Gao San 11, Gao Kao 9) | 22 = 22 |
+| RMIT Canada | 8 / 14 | 22 / 2 | 24 (Year 11 2, OSSD 11, Dogwood 11) | 22 + 2 rejected = 24. The OSSD Foundation and Fast Track rows ("Completion of Ontario Secondary School Diploma") were quoted from the footnote row, so they were rejected as `grade_not_in_quote`. That is correct |
+| RMIT Cambodia | 0 / 2 | 4 / 0 | 2 minimums + 1 merged "case-by-case, C grade average" cell spanning both level groups | 2 + 1 rule per level group (2) = 4 |
+| UTS | 4 / 19 | 40 / 5 | One page, many countries | 40 rows across 39 countries, 40 distinct identities |
+| WSU | 0 / 0 | 0 / 0 | — | Not published |
+
+- **Countries per RMIT page:** each page names one country and gives one. Bangladesh, China and Cambodia went from 0 to 1. Parity holds on all four.
+- **Carry-down:** every one of the 59 RMIT rows quotes its whole table line, starting with its level label ("Bachelor degrees | 70% | Not applicable | Minimum CGPA of 4.2"). Every band row's Australian-standard band is in its quote.
+- **UTS rejections stay rejected:**
+  - Malaysia UEC and Viet Nam: paraphrased quotes, `quote_not_on_page`;
+  - GB A Levels and US: grade not in the quote, `grade_not_in_quote`;
+  - "International Baccalaureate": not a country, `unknown_country`.
+- **WSU:** "not published", not an extraction miss. The HTML page states no country minimums ("International students are required to meet the same standards as Australian residents"). It links a "Download Entry Qualifications Table" PDF, which is likely where WSU's minimums are. That PDF is not seeded: adding it would widen scope. It is noted for the PDF reader.
+
+**3. Defect found (separate from #707). RMIT lane fails acceptance.** Recorded before any code.
+- **What:** the model leaves `benchmark_band` empty on every RMIT band-ladder row (0 of 59), although each quote holds the Australian-standard band (50%…90%). The rows are typed `provider_minimum`, not `band_ladder`.
+- **Effect:** rows of one level and qualification share an identity:
+
+  | Page | Rows | Identities |
+  |---|---|---|
+  | Bangladesh | 11 | 3 |
+  | China | 22 | 6 |
+  | Canada | 22 | 6 |
+  | Cambodia | 4 | 3 |
+
+  Approving any RMIT Layer 4 item would break the active-row identity rule: the approval fails, and nothing is admitted wrongly. Without the band, the rows also cannot say which RMIT score each grade equals.
+- **Do not approve** the 4 pending RMIT items (Bangladesh, China, Canada, Cambodia). The UTS item can be reviewed.
+- **Fix proposed (not built; needs your go):**
+  - tell the reader that a column of Australian-standard scores is the benchmark band for each row;
+  - check in the worker that a band given is in the quote, and drop a row whose quote shows a band it did not give (`band_missing`);
+  - test on the four RMIT pages;
+  - re-read through `admin_entry_matrix_reread`.
+
+**4. Lanes.**
+- Not re-enabled. The acceptance condition (all non-PDF pilot checks pass) is not met, because RMIT fails on the band defect.
+- UTS and WSU pass their checks. Re-enabling them would read nothing new tonight: one page each, already read, unchanged.
+- State: `entry.matrix_enabled` 0, job `entry-matrix-read` inactive, 0 open runs.
+- VU and Federation stay halted for the PDF reader (`pdf_step_b`).
+
+## 06:00 status — draft as at 26 Oct 23:0x (final line written at 06:00)
+
+- [x] Schema merged and live (additive, switched off): #706.
+- [~] Stored copies for all 5 pilots:
+  - RMIT: 16 of 36 pages stored;
+  - UTS and WSU: stored;
+  - VU and Federation: PDF, waiting for step B.
+- [~] RMIT extraction run, rows in the Layer 4 queue:
+  - 4 pages re-read;
+  - 59 rows proposed, and quote parity holds;
+  - **held by the band-ladder defect: do not approve.**
+- [~] UTS and VU runs:
+  - UTS complete (40 rows, item pending review);
+  - VU halted (PDF).
+- [x] Calendar mark-file exported. No high-confidence row to approve (all 20 already approved).
+- [x] Delivery classification report delivered.
+- [ ] All three pastes applied with verified counts: yours at 08:00 (retirements, publish, fee re-apply). The countries paste was applied 22:42 under your 22:38 authority.
+
+**Status line (to stand at 06:00 unless changed overnight): halted — RMIT band-ladder defect (benchmark band not captured; fix proposed, awaiting go). VU and Federation are halted for the PDF reader.**
