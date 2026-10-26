@@ -8481,3 +8481,34 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tes
   - worker build OK;
   - live dry run (rolled back): the paths for Kuwait and Mexico are returned with their content hashes.
 - Kept apart from D5, so the parser PR stays one change with attributable evidence.
+
+### 27 Oct 2026 06:23 — #712 merged and verified; stored pages captured; D5 (#713) written before merge
+
+**#712 (read-only `entry_inspect`), merged 05:59:18** (squash `0c04c703`).
+- Before the merge, the new function was absent live.
+- `deploy-on-merge` applied `20261027002000`; history md5 `a510d9f9` matches the file. The function body is byte for byte the file's (md5 `ce67bb7d…`), and it is not executable by `authenticated`.
+- Worker version 212: all 17 files byte for byte the repo's.
+- Release currentness, run by hand on `0c04c703` (run 40382939223): passed.
+
+**Stored pages captured (06:00):** `entry_inspect` returned the title, h1 and table markup of all 36 RMIT stored copies. Each was written to `tests/fixtures/entry-matrix/rmit-stored/` and its md5 checked against the database copy (36 of 36). With the live parser, every complete page reproduces its live expected count, and the D2 pages their holds.
+
+**D5 design addendum (06:1x, before the final code):**
+- Browsers show a short row's cells from the left. A cell missing in the middle therefore shifts the others; s129's "broken" case shows this.
+- So a padded row is accepted only when its band cell is blank, "Not applicable", or the same shape as the band cells of the table's full rows ("80%").
+- With no full row to compare, a short row is not understood (fail closed).
+- Pre-existing behaviour noted, not changed: a blank label on the first data row is carried down from the header row (#707). It cannot pass silently, because no reader gives that level; out of D5's scope.
+
+**D5 (PR #713, branch `cf247-entry-d5`), parser only, no migration:**
+- Worker v0.48.6: a footnote row is recognised before any width check (Kuwait: `colspan="3"` under a three-column header).
+- A data row whose trailing cells were left out is read with them blank (Mexico 80%), unless:
+  - a merged cell from above spans a column past its end (new `covered` flag from `entryTables`), or
+  - its band cell does not read as a band.
+
+  Both stay `unparsed`, as does a wider data row.
+- **Evidence (s133, on the stored copies):**
+  - Kuwait reads 11 minimums, footnote recognised; Mexico reads 6, as printed;
+  - a short read, an omitted column, an omitted band and a footnote row cannot pass;
+  - 34 other pages keep their manifest and page text byte for byte (pre-D5 fingerprints);
+  - the 12 runs complete under the guard stay complete with their own 189 proposed rows, one identity per row;
+  - D1 and D2 unchanged.
+- Suite 1,042 passed, 0 failed, 0 skipped; worker build OK. No database change, so no database dry run applies; the stored-page tests are the pre-merge evidence.
