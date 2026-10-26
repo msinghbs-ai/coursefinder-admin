@@ -61,3 +61,68 @@ Mandate: Platform Admin, 26 Oct 2026 19:19 ("Heartbeat mandate — AU completion
     - setting `fees.identity_gate_on`;
   - plus the adapter's fee branch checks tuition identity before superseding anything;
   - contract test: every fee writer, the adapter included, passes the same check.
+
+## 26 Oct 19:45 check-in, with the gate fix merged, the fee paste ready and the rebaseline
+
+**Gate hole: fixed and live.** v2.15.359, #705 (`054cfcda`), merged under rule 9.
+- Before the merge:
+  - suite 1,005 passed;
+  - the live md5 of `adapter_overwrite_v1` matched the guard;
+  - live dry run: a title-proved AU fee becomes unverified with a Layer 4 item; a CRICOS-proved fee stays active; a person's edit stays active; a full adapter run admits 0 gate-failing fees.
+- After the merge:
+  - history md5 `d3ab7249` matches the file;
+  - release currentness passed;
+  - the trigger body is live byte for byte (`19946970…`);
+  - the adapter edit is live; `fees.identity_gate_on` is 1.
+- **Cause, as found:** the adapter fee branch had no tuition check, and the CRICOS-code write path bypassed R1's check. Now every writer goes through one gate at the table; test s125.
+
+**Fee re-apply paste, ready for the morning:** `docs/platform/pastes/PASTE-20261026-au-fee-reapply.sql`.
+- 386 of the 400 held items (pair-list md5 `ccff9166…`):
+
+  | Case | Items |
+  |---|---|
+  | Course has no live fee | 80 |
+  | Same amount already live | 70 |
+  | Other fee year | 236 |
+
+- 14 stay with a person: 10 where the same year already shows a different amount, and 4 with no stored fee row.
+- Rolled-back dry run: 386 live, 386 items approved, 386 decision rows, 1 control event.
+- Completes 27 courses (international tuition was their only missing field).
+
+**Check-in values:**
+- **Values admitted since 19:22, AU:**
+
+  | Field | Admitted | Total now |
+  |---|---|---|
+  | Fees | +113 courses | 8,427 |
+  | English | 0 | 16,917 |
+  | Intakes | 0 | 9,390 |
+  | Links | 0 | 18,622 |
+
+- **Wave status:**
+  - Published providers in lanes: 0 of 1,056; courses touched 0 of 9,454 (paste not applied).
+  - Fee schedules found / read: 244 / 37. Reading started after the tuition-list change.
+  - Entry matrix: off, staged.
+- **Queue health:** all AU lanes moving. Fee queue: 576 done, 1 leased, 0 queued, 4 failed.
+  - `scholarship-course-attribute-full` (not AU) last run failed on a database deadlock. It will be looked at tomorrow.
+- **Spend:** Firecrawl 1,040 / 25,000; fee AI US$1.89 / 5.
+
+**Rebaseline: proposed Thursday targets, with the arithmetic**
+
+| Outcome | Now | Proposed for Thu 29 Oct | Arithmetic |
+|---|---|---|---|
+| All 11 fields | 5,439 | **5,600** (floor 5,540; up to about 6,100 only if top-20 calendars are approved on Tuesday) | Floor: +27 from the fee paste, plus tuition at the 14-day pace (56 a day; about 45% of tuition fills complete a course) for 3 days = about 76 |
+| | | | Upside: fee-schedule wave at today's observed rate (about 200 fees a day) = about +270; delivery reader (Wednesday) up to the 116 published courses missing only delivery; top-20 calendars could reach some of the 740 published courses missing only intakes |
+| | | | Intakes stay the binding field: 7.9 a day over 14 days |
+| Automatic work | 310 | **Stated per lane**, no single number | Measured Tuesday after the paste, from the eligible providers' current states: official page 2,349, fees 2,907, English 2,522, intakes 2,664, delivery 0 (no lane until the reader lands). The Thursday test is that each lane drains at a measured rate, with its own date at that rate |
+| Blocked | 20,354 | **0 rows without a named cause and owner** (not a size target) | The Thursday workbook re-run gives every not-complete, not-automatic course its cause and owner; the 10,000 line is retired, as you decided |
+
+**Lever stack (your order):**
+1. AU fee schedules: found / read reported in each check-in.
+2. Delivery reader: build this week. First finding: the "Enrich fields" AI already reads delivery from course pages; the 3,390 eligible "not on page" rows are pages it found silent. Before building, I check whether those pages really are silent or the reader misses a pattern, so the build targets the real gap.
+3. Calendar mark-file for the AU top 20 by course count: tomorrow.
+4. English mark-file: with you already.
+
+**Red / awaiting you:**
+- two paste files for the morning: the publish paste and the fee re-apply paste;
+- the 563 held register departures (Layer 1 operations).

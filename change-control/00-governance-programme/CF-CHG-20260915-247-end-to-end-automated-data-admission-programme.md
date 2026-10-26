@@ -8112,3 +8112,24 @@ The brief now forbids direct table changes.
 - **Step 5, description reader: started.**
   - Draft branch `cf247-provider-description-reader`: settings, table, queue, and a worker interface with server-side rule checks. Not merged.
   - It lands Wednesday with the worker mode and the Wollongong acceptance test.
+
+### 26 Oct 2026 19:45 AEDT — Gate hotfix v2.15.359 (#705): tuition identity check at the table for every fee writer (Platform Admin 19:27)
+
+- **Found:** Swinburne 087852C's 2027 fee ($36,300) was written live by `security.adapter_overwrite_v1` from an `exact_title` binding.
+  - The adapter's fee branch had no tuition identity check.
+  - For AU courses with CRICOS codes, it writes through `svc_coursefacts_apply_record`, past R1's check in `coverage_apply_course_v1`.
+  - 23 functions write `catalogue.course_fees`; 2 checked.
+  - The fee was quarantined at 19:27 under the Platform Admin's decision.
+- **Fix (migration `20261026006000_cf247_fee_identity_gate_all_writers.sql`):**
+  - trigger `course_fee_identity_gate` (BEFORE INSERT OR UPDATE): an international provider fee written live for a course whose bound page proof the country does not accept is stored unverified, with a Layer 4 item;
+  - a person's write and the manual-edit flag are exempt; setting `fees.identity_gate_on`;
+  - the `adapter_overwrite_v1` fee branch checks tuition identity first (md5-guarded `c96ca02c…`);
+  - test s125.
+- **Checks:**
+  - live dry run passed;
+  - suite 1,005 passed;
+  - history md5 `d3ab7249`;
+  - trigger body and adapter edit live byte for byte;
+  - release currentness v2.15.359.
+- AU tuition now accepts `cricos_code`, `adapter_code` and `manual` (Platform Admin 19:1x).
+- **Fee re-apply paste lodged:** `docs/platform/pastes/PASTE-20261026-au-fee-reapply.sql`, 386 items. Verified by a rolled-back dry run. Platform Admin to apply with the publish paste.
