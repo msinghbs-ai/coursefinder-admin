@@ -39,9 +39,9 @@ The completed count lags as lanes fill. Pace is reported as measured; no date is
 | 2 | Eligibility re-run, then ONE count-guarded publish paste | **ready for 08:00**: `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql`, 1,056 providers | section 7 |
 | 3 | Fee reader AU scope + AU fee-schedule discovery overnight | **running** | section 5 |
 | 4 | MARK-FILE: AU English-policy and calendar approvals | **lodged**: `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx` | section 6 |
-| 5 | Description reader: build started | pending | lands Wednesday with the Wollongong acceptance test |
-| 6 | Entry-matrix reader: AU top 20 switch staged, off | pending | on at the Platform Admin's confirmation Tuesday |
-| — | Workbook generator as a catalogued weekly job (Fridays) | pending | |
+| 5 | Description reader: build started | **started**: draft branch `cf247-provider-description-reader` (not for merge yet) | section 9 |
+| 6 | Entry-matrix reader: AU top 20 switch staged, off | **staged** (#704, live, off) | section 9 |
+| — | Workbook generator as a catalogued weekly job (Fridays) | pending (Tuesday) | section 9 |
 
 ## 4 Step 1: register-sync fix (decisions before code)
 
@@ -193,8 +193,46 @@ Before the merge:
 | Item | State |
 |---|---|
 | Publish paste | Ready, verified (section 7). After you apply it, I verify every row against the list and record the counts here |
-| Entry-matrix reader, AU top 20 | Staging migration written (`entry.providers` = the 20 provider ids from the Track C verification, re-confirmed against today's ranking; `security.entry_matrix_enabled_v1` honours it, md5-guarded). Reader off. It goes out as its own PR tonight; on your confirmation: `entry.matrix_enabled` 1 and job `entry-matrix-read` active |
+| Entry-matrix reader, AU top 20 | Staged live (#704): `entry.providers` holds the 20, the gate honours it, 0 providers enabled. On your confirmation: `entry.matrix_enabled` 1 and job `entry-matrix-read` active |
 | Fee reader AU | Running overnight; morning numbers in section 5 |
 | MARK-FILE | Waiting for your marks; applied count-guarded on return |
 | Layer 4 first runs | 60 waiting; six shape leaders to approve still unlock the rest (auto-admit record) |
 | Decision Tuesday | Whether `fees.provider_types` adds `private_vet` and `school` once the paste is applied: it brings AU's ~1,000 newly published private providers into the fee reader, and NZ's 383 private providers with them |
+
+## 9 Steps 5 and 6, and the workbook job
+
+**Step 6, merged under rule 9 as #704 (`7a6f73cd`).**
+- Before the merge:
+  - suite 1,003 passed;
+  - the live md5 of `security.entry_matrix_enabled_v1` was `a238a2c2…`, matching the guard;
+  - the live dry run with the switch simulated on gave exactly 20 providers and NZ 0.
+- After the merge:
+  - history md5 `59df4a0c` matches the file;
+  - the edit is live;
+  - `entry.providers` holds 20, `entry.matrix_enabled` is 0, and the job is inactive.
+- **0 providers are enabled now.** This is the Platform Admin's switch on Tuesday.
+
+**Step 5, description reader: build started.**
+- Draft branch `cf247-provider-description-reader` (migration `20261027001000`, not merged) holds:
+  - the settings (`description.enabled` 0, 400 characters, banned words, pinned model, AU universities);
+  - `pipeline.provider_descriptions`;
+  - the queue;
+  - the worker interface. The record function re-checks every rule itself: length, words not allowed, at least one quote, quotes on the stored page.
+- Reality versus the spec (doc-as-code):
+  - the about page gets its own table, rather than a new kind in `provider_fact_sources`, because that check constraint cannot change without a drop;
+  - provenance lives in that table, not in new columns on `catalogue.providers` (G3).
+- Still to build:
+  - the `provider_description` worker mode, patterned on `entry_ai`;
+  - the AI spend guard row (`security.ai_spend_today_v1`, md5 `f18af72f…`);
+  - the inactive job;
+  - test s125.
+- It lands Wednesday with the Wollongong acceptance test.
+
+**Workbook generator as a weekly job:** Tuesday. Proposed shape: a scheduled GitHub workflow on Fridays that runs the two generators against live and commits the workbooks to `docs/platform/reports/<date>/`, catalogued in `pipeline.automation_catalogue`.
+
+**Fee reader at 18:3x (step 3, overnight):**
+- 153 of 267 stored AU fee pages read;
+- 194 rows admitted, 27 to Layer 4, 20 conflicts, 93 with no matching course;
+- fee AI spend US$0.55 of 5;
+- Firecrawl 908 of 25,000.
+- The 231 newly found schedule pages are fetched by job `provider-facts` at 20 pages every 10 minutes (`batch.provider_facts_read`), so about 2 hours. No setting was changed.

@@ -8080,3 +8080,14 @@ The brief now forbids direct table changes.
 - **Step 3:** `fees.countries` gains AU; `fees.provider_types` gains `higher_education_institute` and `university_college`. Logged.
   - In the first 15 minutes: 217 new AU fee-schedule pages, 267 stored pages queued for the AI reader.
 - **Step 4:** MARK-FILE `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx` (35 rows). It fills at most 27 courses now, and 4 of the 5 English defaults would be refused by the system's own check.
+
+### 26 Oct 2026 18:4x AEDT — AU completion week step 6 staged (#704); step 5 started
+
+- **#704 (`7a6f73cd`, rule 9): migration `20261026005000_cf247_entry_matrix_au_top20_staged.sql`.**
+  - Setting `entry.providers` holds the AU top 20: the Group of Eight plus the 12 largest other universities.
+  - `security.entry_matrix_enabled_v1` honours it (md5-guarded `a238a2c2…`).
+  - Test s124. Suite 1,003 passed. History md5 `59df4a0c`.
+  - Live: 20 listed, 0 enabled. `entry.matrix_enabled` stays 0 and `entry-matrix-read` stays inactive until the Platform Admin confirms.
+- **Step 5, description reader: started.**
+  - Draft branch `cf247-provider-description-reader`: settings, table, queue, and a worker interface with server-side rule checks. Not merged.
+  - It lands Wednesday with the worker mode and the Wollongong acceptance test.
