@@ -192,3 +192,36 @@ Status at 06:00 here.
 - 2,305 (68%) need the right course page first.
 
 **FIX, not BUILD.** Recoverable is under 20%, so no re-run was queued.
+
+## 26 Oct 22:3x — Red line: extraction lane halted; fix merged (#707); countries paste lodged
+
+**Red line hit: "Extraction produces fewer countries than the provider's page lists".** The reader was paused at **22:05** (`entry.matrix_enabled` 0, logged). The job `entry-matrix-read` stays scheduled but does nothing while the switch is 0. (The pause reason I logged says "23:2x"; that was a clock error on my part. The event time is 22:05:15.)
+
+First runs, 21:59–22:05: 6 runs, 12 rows proposed (RMIT Canada 8, UTS 4), 2 Layer 4 items, US$0.02.
+
+| Cause | Rows dropped | What fixes it | Whose |
+|---|---|---|---|
+| `ref.countries` holds only 8 countries (AU, CA, NZ, IN, DE, GB, IE, US), so Bangladesh, China, Cambodia, Malaysia and others have no country to attach to | 30 | Paste `docs/platform/pastes/PASTE-20261026-ref-countries-for-entry-matrix.sql`: 241 ISO countries, seed-only, every flag false. **Yours**: the Zoho and website filter lists read `ref.countries` unfiltered, so this is consumer-visible (G3) | Platform Admin |
+| RMIT names the level once per group of table rows, so the model's whole-row quote was not on the plain text | 21 of 22 RMIT rows | **Merged #707**: worker v0.48.1 reads each table row as one line, carrying the level down. Quotes are checked against the same text | Done |
+| UTS: 2 quotes not on the page, 1 grade not in its quote | 3 | Correct drops (paraphrased quotes). No change | — |
+| WSU: the page gave 0 rows | — | The page lists no country minimums (it points to course pages). Treated as "not published", not a miss | — |
+
+**Countries paste** (trial-run and rolled back on live):
+- guards: exactly 8 existing countries, 241 inserted, code md5 `8c4bd9d5e0388eb838086364e17836fc`;
+- result: 249 countries;
+- no consumer function's shape changes. The filter lists gain countries, every one with flags false.
+
+**#707** (`b0a0e0a9`): worker v0.48.1, prompt `entry-matrix-v0.1.1`, `public.admin_entry_matrix_reread`.
+- Checks:
+  - suite 1,012 passed;
+  - live dry run passed;
+  - history md5 `bff1c614`;
+  - worker live byte for byte.
+- Re-read keeps every earlier result in `previous_results`. It supersedes proposed rows and pending items only.
+
+**Once you apply the countries paste:**
+1. I re-read the 6 runs (`admin_entry_matrix_reread`).
+2. I switch the reader back on for the pilots.
+3. I check the countries extracted per RMIT page against the page's own table.
+
+The RMIT lane stays halted until then. UTS and WSU likewise. VU and Federation wait for the PDF reader (step B).

@@ -8133,3 +8133,20 @@ The brief now forbids direct table changes.
   - release currentness v2.15.359.
 - AU tuition now accepts `cricos_code`, `adapter_code` and `manual` (Platform Admin 19:1x).
 - **Fee re-apply paste lodged:** `docs/platform/pastes/PASTE-20261026-au-fee-reapply.sql`, 386 items. Verified by a rolled-back dry run. Platform Admin to apply with the publish paste.
+
+### 26 Oct 2026 (night) — AER v1.1: schema live (#706); entry reader reads table rows whole, admin re-read (#707)
+
+- **#706 (`0dc6086d`), migration `20261026007000_cf247_aer_v11_entry_matrix_columns.sql`** (Platform Admin 21:50 "Schema approved"):
+  - six additive columns on `catalogue.provider_entry_matrix` (routes, valid_to, withdrawal_reason, row_hash, version, aer_level);
+  - indexes: row_hash unique where status = 'active', status, lookup (provider_id, country_code, study_level_id, benchmark_band, status);
+  - row identity `security.entry_matrix_row_hash_v1` filled by trigger `provider_entry_matrix_identity`; test s126;
+  - history md5 `c4efbc41`; live 31 → 37 columns, 3 indexes, trigger. Nothing dropped, renamed or updated.
+- **First reader runs (21:59–22:05), reader paused 22:05** (`entry.matrix_enabled` 0; the pause reason logged it as "23:2x", a clock error on my part — the event time is 22:05:15): 6 runs, 12 rows proposed, 2 Layer 4 items, US$0.02.
+  - 30 rows dropped `unknown_country`: `ref.countries` holds 8 countries. Adding countries is consumer-visible (G3), so it is a paste: `docs/platform/pastes/PASTE-20261026-ref-countries-for-entry-matrix.sql` (241 rows, trial-run and rolled back).
+  - 23 dropped `quote_not_on_page`: RMIT names the level once per group of table rows, so the whole-row quote was not on the plain text.
+- **#707 (`b0a0e0a9`), worker v0.48.1 + migration `20261026008000_cf247_entry_matrix_reread.sql`:**
+  - stored HTML is read with each table row as one line, a merged or blank first cell carried down inside its table; quotes are checked against the same text (prompt `entry-matrix-v0.1.1`, `page_basis` table-rows-v1);
+  - `public.admin_entry_matrix_reread(uuid[], text)`: Platform Admin (or database owner), reason required, logged; proposed rows and pending items superseded, earlier result kept in `previous_results` (new additive column); active rows never touched;
+  - test s127.
+- **Checks:** suite 1,012 passed; live dry run (rolled back) re-queued 2 runs, superseded 8 Canada rows and their item, kept the previous result; history md5 `bff1c614` matches the file; worker version 208, `index.ts` and `entry.ts` live byte for byte.
+- **Next:** after the countries paste is applied, re-read the 6 runs and switch the reader on again. VU and Federation wait for the PDF reader (step B).
