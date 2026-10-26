@@ -728,3 +728,23 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tes
 - Release currentness, run by hand on `b94c2df7` (run 40386670555): passed.
 - **Recovery reads wait** (mandate C: after D4 and D5 are both verified). Kuwait and Mexico stay failed, and RMIT stays out of scope.
 - **Recovery mechanism gap, recorded:** the queue takes RMIT runs in creation order, so a hand-started call cannot be aimed at named runs. It would also take the 7 held and 9 unread pages, which the mandate forbids before D4. Targeted recovery needs either a run filter on the hand-started call (a small tooling change, decided separately) or waiting for D4 so that every queued RMIT page may run.
+
+## 27 Oct 2026 06:35 — D4 triage on the stored pages and design (decided before code)
+
+**Triage** (manifests from the stored copies; held reads from `previous_results`):
+
+| Page | Pattern | Evidence |
+|---|---|---|
+| Denmark | repeated band values skipped | 8 of 22 omitted: band rows whose cell repeats the row above ("Average of 7" at 70% and 75%) |
+| Colombia, Nepal, Nigeria | merged "case-by-case" column misread or left out | Colombia's 9 case-by-case cells: grades outside the quote, then bands missing; Nepal's and Nigeria's case-by-case columns (6 cells each) left out |
+| Indonesia | grades placed under the wrong printed column | 4-column table; SMA2 given the band-row grades of the Ijazah columns |
+| Norway | grades not matching their cells | single column of bare numbers (1, 2.0 … 5.0); 9 rows `grade_not_in_cell` |
+| Pakistan, Philippines | **rows returned for cells that publish no minimum** | every published minimum read correctly (5 of 5, 7 of 7), plus 6 rows for Bachelor lines that are all "Not applicable" (`not_a_table_row`) |
+
+All are one defect class: the reader's rows do not correspond one to one with the table's published cells (omitted, misplaced or extra). Pakistan and Philippines are included because their evidence is this class (extra rows).
+
+**Design (one reader-correctness PR, structure-driven, no country-specific code):**
+1. **Cell list.** When the stored page has a band table the manifest can read, the worker adds the table's published cells to the reader's request, deterministically from the manifest: for each cell, its level, band, printed column and whole table line, in printed order. The prompt asks for exactly one row per listed cell (that column as the qualification, that level and band, the line as the quote) and no row for any other cell of that table. The quote basis and the page text are unchanged.
+2. **No-minimum filter.** A row whose quoted table line publishes no minimum at all (every qualification cell blank or "Not applicable") is dropped before the guard as `no_minimum_published`. Nothing is proposed from it, and nothing expected is removed.
+3. **Unchanged:** the completeness guard (still the independent check), whole-run approval, identity, D1, D2, D3 and D5. Expected counts are not lowered.
+- Regression on the stored pages: the cell list for every named pattern, and a replay of the actual held reads of Pakistan and Philippines through the no-minimum filter and the guard.
