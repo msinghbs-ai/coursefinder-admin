@@ -1,105 +1,15 @@
-# Test register
-
-The list of every test spec in the Pilot repo (`tests/uat`), with the rule or decision each one guards. This register is how test changes are tracked: a PR that adds a test, removes one or changes what it guards regenerates this file in the same PR (doc-as-code, like `PIPELINE-LINEAGE.md`).
-
-- Standing rule: AGENT-OPERATING-MODEL rule 11; Pilot `CLAUDE.md` G4; enforced by `tests/uat/cf-247-s120-test-governance-contract.spec.mjs`.
-- Set up by: Platform Admin mandate 26 Oct 2026 09:36. Record: `ui-audit/2026-10-26-test-governance.md`.
-
-## How to update it
-
-1. Every spec's first line is `// Guards: <rule or decision>`. Name a standing rule (`G1`–`G4`, `Housekeeping`, `Website API v2`, `Release contract`) or the decision or change it guards (`CF-247 S119 (Platform Admin 26 Oct 2026 08:25): …`).
-2. Run `node scripts/test-register.mjs` in the Pilot repo after a full local run, so the Status column comes from `uat-artifacts/results.json`. Replace the "Register" section below with its output.
-3. A retired test gets a line in the retirement log: the test, the reason, and what still guards the rule (or "rule retired").
-4. The Monday line reports tests added, retired and net for the week. The quarterly prune (with the docs budget) adds a line to the prune log.
-
-## Format
-
-| Column | Meaning |
-|---|---|
-| Id | Spec file name without `.spec.mjs` |
-| Category | `rule`: guards a standing rule for every change. `regression`: guards one decision or change. `deployed`: checks a decision on the live site (`@deployed`, run by `deployed-uat`) |
-| Guards | The spec's `// Guards:` line |
-| Tests (source / browser) | Tests Playwright collects: source contracts (read files, no browser) and browser tests (mocked or local page) |
-| Viewports | `desktop`; `phone` for `@responsive` tests (phone project only, each asserts phone width first); `desktop + phone (deployed gate)` for the deployed track |
-| Acts on live | `yes (n of m)` when a deployed test changes live data or the UAT user's saved settings (tagged `@live-acting`): it runs only when the live-acting switch is on (default off). `no` otherwise |
-| Added | The PR (or commit) that added the spec, and its date |
-| Status | Result in the last full local run, or `deployed track` |
-
-## Standing rules and their single guard
-
-| Rule | Guard spec(s) |
-|---|---|
-| G1 jobs catalogued, with housekeeping (Decision 260) and "nothing dropped by a migration" | `cf-247-s42-housekeeping-contract` |
-| G2 no operational value in code | `cf-247-s32-controls-in-settings-contract` |
-| G3 consumer API frozen (Decision 266) | `cf-247-s57-consumer-api-frozen` |
-| G4 tests governed | `cf-247-s120-test-governance-contract` |
-| Website API v2 additive (Decisions 257, 258) | `cf-247-website-api-v2-contract`, `cf-247-institution-type-contract` |
-| Release contract | `m245-release-history-v21575-persistence-contract`, `cf-247-s70-patch-scripts-retired`, `release-notes-deployed` |
-
-Per-change specs do not re-assert these rules. Existing repeats (163 housekeeping lines in 86 specs, settings re-checks in 35) are stripped when a spec is next touched, and counted at each prune.
-
-## Phone-width coverage
-
-| Screen | Guard | Status |
-|---|---|---|
-| Course catalogue list | `cf-247-s121-phone-screens-contract` (phone project; asserts width ≤ 480 px) | Live from 26 Oct 2026 (Platform Admin 10:49: operated from a phone) |
-| Course detail blade | `cf-247-s121-phone-screens-contract` | Live from 26 Oct 2026 |
-| Layer 4 Review | `cf-247-s121-phone-screens-contract` | Live from 26 Oct 2026 |
-| Student website: course search and results | Planned: a phone test is added when the deployed track next touches the website search (Platform Admin 26 Oct 2026 10:49) | Planned, not built |
-
-`s120` fails the build if the phone filter goes, if these three tests go or stop asserting phone width first.
-
-## Live-acting deployed specs (held unless switched on)
-
-Tagged `@live-acting`. Held by the weekly run and by `deployed-uat` unless the switch is on. The Monday line reports safe specs run and live-acting specs held as separate counts.
-
-| Spec | Tests | What it changes on the live site |
-|---|---|---|
-| `layer1-operations-deployed` | NZQA validation; CRICOS validation; QILT / PRISMS validation | Runs a real source validation and records a governed job (and fetches the register sources) |
-| `cf-068-qs-xhr-layer1-deployed` | QS 2026 validation; QS 2027 challenge | Same, for the QS sources |
-| `cf-076-ranking-import-ux-deployed` | Parse an uploaded import; validate a retained edition | Records a governed parse / validation job |
-| `cf-090-ranking-import-recovery-deployed` | Recover, validate and apply THE 2026 | Applies a ranking edition when it is not yet applied |
-| `course-detail-polish-deployed` | Decision-card order persists | Changes the UAT user's saved section order (restored at the end) |
-| `screen-state-persistence-deployed` | Filters survive reload and sign-out | Changes the UAT user's saved filters (cleared at the end) |
-
-## Retirement log
-
-| Date | Test | Reason | Rule still guarded by |
-|---|---|---|---|
-| 26 Oct 2026 | CF-088 deployed Administration map | Skipped locally, in no deployed tier: never ran | CF-088 source half; `cf-247-admin-simplify`; `cf-247-package7a` |
-| 26 Oct 2026 | CF-091 deployed Provider Assets | Same | CF-091 source half (fixed the same day) |
-| 26 Oct 2026 | CF-102 deployed logos; Provider list bulk logo access | Same | CF-102 source half; `cf-150`; `cf-247-s44` |
-| 26 Oct 2026 | CF-103 deployed list logo space; Provider detail bold / editor | Same | CF-103 source half; `cf-247-s44` |
-| 26 Oct 2026 | CF-104 deployed statistics cards; dataset display controls | Same | CF-104 source half; `cf-247-package7a` |
-| 26 Oct 2026 | CF-103 navy theme in the browser (red) | No environment guard, so it failed in every local run; in no deployed tier | CF-103 contextual theme source half |
-| 26 Oct 2026 | A13 "Layer 2 explains governed Firecrawl…" (skipped since v2.15.203) | Screen retired by Decision 254 | Layer 2 › Adapters and Jobs specs |
-| 26 Oct 2026 | CF-208 ×3 (spec removed) | `node:test`, red unseen; pinned to the pre-rebuild Scholarships screen | `cf-247-s14`, `cf-247-scholarship-screens-mockup`, `cf-247-scholarship-layers`, `cf-247-s9` |
-| 26 Oct 2026 | CF-209 Scheduling surface; Jobs mutation-free | `node:test`, red unseen; screens replaced (Decision 254) | `cf-093-scheduled-workflow-operator`, `cf-247-s12`, `m2-5-jobs-workspace-read-path` |
-| 26 Oct 2026 | CF-210 sourced manual registration | `node:test`, red unseen; old button text | `cf-247-record-editing`, `cf-247-reference-sources` |
-| 26 Oct 2026 | Legacy baseline 2.15.78 assertions in CF-061, CF-065, M2.5 ×3 (assertions, not tests) | Duplicate of one rule | `cf-247-s70-patch-scripts-retired` |
-
-## Prune log
-
-| Date | Added | Retired | Net | Note |
-|---|---|---|---|---|
-| 26 Oct 2026 | 4 (`s120`) and 11 counted for the first time (converted from `node:test`) | 16 | −1 spec file; local runs 1,968 → 990 | Mandate pass: phone duplication stopped, every red and skipped test fixed or retired |
-| 26 Oct 2026 (10:49 follow-up) | 5 (`s121` ×3, `s120` ×2) | 0 | +1 spec file; local runs 995 (992 desktop, 3 phone) | Phone tests for the three operated screens; live-acting marks; weekly deployed run |
-| 26 Oct 2026 (hotfix v2.15.357) | 2 (`s122`) | 0 | +1 spec file; local runs 997 | Layer 4 first runs under their university (Platform Admin 12:50) |
-
-## Register
-
-Status from the local run started 26/10/2026, 1:02:33 pm: 997 passed, 0 skipped, 0 failed.
+Status from the local run started 26/10/2026, 5:13:06 pm: 1001 passed, 0 skipped, 0 failed.
 
 Generated by `node scripts/test-register.mjs` on 26 Oct 2026.
 
 | Category | Specs | Tests |
 |---|---|---|
 | Rule guards (standing rules) | 9 | 39 |
-| Regression guards (one decision or change each) | 235 | 959 |
+| Regression guards (one decision or change each) | 236 | 963 |
 | Deployed track (run against the live site by deployed-uat) | 39 | 93 |
-| **Total** | **283** | **1091** |
+| **Total** | **284** | **1095** |
 
-Local suite (`--grep-invert @deployed`): 997 tests, one run each (desktop; phone only for `@responsive`). Phone-width tests (`@responsive`, phone project only): 3. Deployed track: 94 tests, desktop plus the phone gate; 10 of them act on the live site (`@live-acting`) and run only when the live-acting switch is on (default off), so 84 safe tests run each week.
+Local suite (`--grep-invert @deployed`): 1001 tests, one run each (desktop; phone only for `@responsive`). Phone-width tests (`@responsive`, phone project only): 3. Deployed track: 94 tests, desktop plus the phone gate; 10 of them act on the live site (`@live-acting`) and run only when the live-acting switch is on (default off), so 84 safe tests run each week.
 
 | Id | Category | Guards | Tests (source / browser) | Viewports | Acts on live | Added | Status |
 |---|---|---|---|---|---|---|---|
@@ -242,6 +152,7 @@ Local suite (`--grep-invert @deployed`): 997 tests, one run each (desktop; phone
 | cf-247-s120-test-governance-contract | rule | G4 test governance (CLAUDE.md, Platform Admin 26 Oct 2026 09:36 and 10:49): every spec names what it guards, nothing carried skipped, phone runs only where needed and never silently lost, live-acting deployed specs held unless switched on | 6 / 0 | desktop | no | #699 2026-10-26 | passing |
 | cf-247-s121-phone-screens-contract | regression | CF-247 S121 (Platform Admin 26 Oct 2026 10:49): the three screens the Platform Admin operates from a phone work at phone width — Course catalogue list, Course detail blade, Layer 4 Review | 0 / 3 | phone | no | #701 2026-10-26 | passing |
 | cf-247-s122-l4-first-runs-inbox-contract | regression | CF-247 S122 hotfix (Platform Admin 26 Oct 2026 12:50): no-page and conjoint first runs carry their university in the Layer 4 inbox, show under By university, and offer approve / edit / reject on the card | 1 / 1 | desktop | no | #702 2026-10-26 | passing |
+| cf-247-s123-au-register-end-dates-contract | regression | CF-247 AU completion week step 1 (Platform Admin 26 Oct 2026 17:01): CRICOS end dates recorded so a deregistered provider is separable from a current one; publish eligibility is registered + live site | 4 / 0 | desktop | no | ? ? | passing |
 | cf-247-s13-task-start-coverage-contract | regression | CF-247 v2.15.247 (S13): Platform Admin bugs 11/10-4. "On demand run for scholarship never runs, it ask for reason which is not required and nothing happened afterwards."… | 2 / 1 | desktop | no | #480 2026-10-11 | passing |
 | cf-247-s14-scholarship-journey-contract | regression | CF-247 v2.15.248 (S14): Platform Admin bugs 11/10-5. "Manually ran 4 unis scholarship, job completed and scholarship didn't show up ... | 3 / 3 | desktop | no | #482 2026-10-11 | passing |
 | cf-247-s15-scholarship-ai-extraction-contract | regression | CF-247 v2.15.249 (S15): Platform Admin bugs 11/10-6. "Just like courses adapter i need scholarship to be read by code using Firecrawl but then use AI to extract attributes. | 2 / 2 | desktop | no | #483 2026-10-11 | passing |

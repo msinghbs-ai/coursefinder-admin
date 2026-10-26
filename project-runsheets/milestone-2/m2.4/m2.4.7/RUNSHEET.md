@@ -8051,3 +8051,32 @@ The brief now forbids direct table changes.
   - identity-gate evidence for WI0911 / WI0194, in the acceptance data;
   - the near-twin rename check, joining the Defect 1 batch;
   - WI0911 noted for the first-run review (it has its own fees-schedule row).
+
+### 26 Oct 2026 17:3x AEDT — AU completion week opened (Platform Admin 17:01): v2.15.358 register end dates; publish paste; fee reader AU scope; MARK-FILE
+
+- Record: `docs/platform/ui-audit/2026-10-26-au-completion-week.md`. This is the week's primary track.
+- **Step 1, v2.15.358 (#703, `3e31bacd`, rule 9).** Migration `20261026004000_cf247_au_register_end_dates.sql`:
+  - `security.layer1_register_end_dates_v1` records CRICOS end dates. A course registration not on the latest register edition gets `valid_to`, the last date it was listed. A provider registration none of whose courses is listed is `ended`, and is restored if listed again.
+  - Guard `layer1.register_end_dates_min_share` (0.9). Job `layer1-register-end-dates` is catalogued and runs daily at 04:41 UTC.
+  - `security.au_publish_eligibility_v1` is read-only.
+  - Course retirement is unchanged. Consumer API shape untouched. Test s123.
+- **Post-fix verification passed:**
+  - suite 1,001 passed;
+  - history md5 `c9bdaeb0` matches the file;
+  - both function bodies are live byte for byte;
+  - 1,372 course end dates and 16 provider registrations ended (mirrored to identifiers); 1,540 current;
+  - 0 inconsistencies (ended but listed, or current with nothing listed);
+  - AU active courses unchanged at 26,103.
+- **Step 2, publish paste:** `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql`. It publishes 1,056 providers (9,454 courses), with id-list md5 `a37d52ad…`.
+  - Two guards: still eligible now, and exactly 1,056 changed.
+  - Verified by a rolled-back dry run: 1,056 published; AU courses under published providers go from 14,930 to 24,384.
+  - Platform Admin to apply. Never applied by the agent.
+- **Held, each with a cause and owner:**
+  - 5 registration ended;
+  - 104 with no website;
+  - 147 whose site gave no course pages;
+  - 10 whose site has not been checked.
+- **Separate decision for the Platform Admin:** the 30 Sep held retirement of 563 courses no longer on the register (run `b8a541af`). 318 of them sit under the providers in the paste.
+- **Step 3:** `fees.countries` gains AU; `fees.provider_types` gains `higher_education_institute` and `university_college`. Logged.
+  - In the first 15 minutes: 217 new AU fee-schedule pages, 267 stored pages queued for the AI reader.
+- **Step 4:** MARK-FILE `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx` (35 rows). It fills at most 27 courses now, and 4 of the 5 English defaults would be refused by the system's own check.

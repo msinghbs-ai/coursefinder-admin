@@ -35,10 +35,10 @@ The completed count lags as lanes fill. Pace is reported as measured; no date is
 
 | Step | What | Status | Detail |
 |---|---|---|---|
-| 1 | Register-sync fix: CRICOS end dates recorded | in progress | section 4 |
-| 2 | Eligibility re-run, then ONE count-guarded publish paste | waiting for step 1 | no paste exists before the post-fix verification passes |
-| 3 | Fee reader AU scope + AU fee-schedule discovery overnight | pending | budget numbers before any overrun |
-| 4 | MARK-FILE: AU English-policy and calendar approvals | pending | |
+| 1 | Register-sync fix: CRICOS end dates recorded | **done**: v2.15.358 merged (#703), post-fix verification passed | section 4 |
+| 2 | Eligibility re-run, then ONE count-guarded publish paste | **ready for 08:00**: `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql`, 1,056 providers | section 7 |
+| 3 | Fee reader AU scope + AU fee-schedule discovery overnight | **running** | section 5 |
+| 4 | MARK-FILE: AU English-policy and calendar approvals | **lodged**: `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx` | section 6 |
 | 5 | Description reader: build started | pending | lands Wednesday with the Wollongong acceptance test |
 | 6 | Entry-matrix reader: AU top 20 switch staged, off | pending | on at the Platform Admin's confirmation Tuesday |
 | — | Workbook generator as a catalogued weekly job (Fridays) | pending | |
@@ -137,3 +137,64 @@ Why so few:
 - one row at a time, through the same decision as the Policies screen;
 - count-guarded: the total applied must equal the marks, or nothing is applied;
 - logged under the Platform Admin with the note "MARK-FILE 26 Oct 2026".
+
+## 7 Step 1 merged; step 2 publish paste ready
+
+**v2.15.358 merged under rule 9 as #703 (`3e31bacd`).**
+
+Before the merge:
+- full local suite: 1,001 passed, 0 skipped, 0 failed;
+- the new objects were confirmed absent live (no existing function is edited);
+- the live dry run was run twice; the second run changed nothing.
+
+**Post-fix verification, against live, before any paste existed:**
+- `deploy-on-merge` applied `20261026004000`; its history md5 `c9bdaeb0` matches the file.
+- Release currentness passed (v2.15.358).
+- Both function bodies are live byte for byte (md5 `da069bff…`, `9af271a1…`).
+- First run:
+  - 1,372 course end dates (563 last listed 28 Sep; 809 found gone 27 Sep);
+  - 16 provider registrations ended, mirrored to `provider_identifiers`;
+  - 1,540 current.
+- Consistency: 0 ended providers with a listed course, and 0 current providers with no listed course.
+- AU active courses unchanged at 26,103. Job catalogued and active.
+- The 16 ended providers:
+  - 10 archived (incl. UniSA and the old University of Adelaide);
+  - 5 unpublished: Nova Institute of Technology, Advance English, Infiniti College, Girton Grammar School, St Peters International College;
+  - **1 published: Inspire College**. It has 2 active courses, both off the register since 28 Sep. They leave with the held retirement below.
+
+**Eligibility re-run (after verification):** 1,322 unpublished AU providers.
+
+| Verdict | Cause | Owner | Providers | Courses |
+|---|---|---|---|---|
+| Publish | registered and site answers | Platform Admin: publish paste | 1,056 | 9,454 |
+| Hold | site gave no course pages | Discovery review | 147 | 1,101 |
+| Hold | no website on record | Website check | 104 | 564 |
+| Hold | site not checked yet | Discovery | 10 | 26 |
+| Hold | CRICOS registration ended | Register: nothing to publish | 5 | 28 |
+
+**The paste:** `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql`.
+- One transaction, publishing exactly 1,056 providers. Provider id-list md5 `a37d52ad…`.
+- Guard 1: every provider is still unpublished and eligible at apply time.
+- Guard 2: exactly 1,056 rows change, or everything rolls back.
+- It writes the manual edit log, one search refresh and one control event.
+- **Verified by a rolled-back dry run on live:**
+  - 1,056 published;
+  - AU hidden providers 276 (the 266 held + 10 archived);
+  - AU active courses under published providers go from 14,930 to **24,384**.
+- It is the Platform Admin's to apply. The agent never applies it.
+
+**Separate, the Platform Admin's: the held retirement.**
+- The 30 Sep register run left 563 courses that are no longer on the register still active (run `b8a541af`, held over the automatic limit).
+- 318 of them sit under providers in the paste, so publishing makes them visible until the retirement is approved.
+- The approval is the existing Layer 1 operations "approve departures" action. It is not in the paste, because it retires courses and the mandate asked for one publish paste.
+
+## 8 Tuesday 08:00 readiness
+
+| Item | State |
+|---|---|
+| Publish paste | Ready, verified (section 7). After you apply it, I verify every row against the list and record the counts here |
+| Entry-matrix reader, AU top 20 | Staging migration written (`entry.providers` = the 20 provider ids from the Track C verification, re-confirmed against today's ranking; `security.entry_matrix_enabled_v1` honours it, md5-guarded). Reader off. It goes out as its own PR tonight; on your confirmation: `entry.matrix_enabled` 1 and job `entry-matrix-read` active |
+| Fee reader AU | Running overnight; morning numbers in section 5 |
+| MARK-FILE | Waiting for your marks; applied count-guarded on return |
+| Layer 4 first runs | 60 waiting; six shape leaders to approve still unlock the rest (auto-admit record) |
+| Decision Tuesday | Whether `fees.provider_types` adds `private_vet` and `school` once the paste is applied: it brings AU's ~1,000 newly published private providers into the fee reader, and NZ's 383 private providers with them |
