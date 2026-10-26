@@ -8368,3 +8368,45 @@ RMIT review items pending: 6 (Bangladesh, China, Canada, Cambodia, India, Japan)
 - **D3:** the logged re-read also takes `failed` runs, earlier results kept.
 - **D2:** the manifest counts only qualification columns, not requirement-type columns (English, prerequisites). Special non-country pages are held as `unparsed`, not retried. Or they are taken out of the RMIT pilot by your decision.
 - Then re-read the held pages under the guard and restart RMIT.
+
+### 27 Oct 2026 05:15 — AER v1.1: RMIT D1–D3 (#711), written before merge; triage of Colombia, Denmark and Indonesia
+
+Authority: Platform Admin 27 Oct 2026 04:58 ("Build D1–D3 and merge under rule 9 … Keep the three D2 pages in the pilot's evidence history, but hold them as non-country/unreadable sources without further automatic retries").
+
+**Triage against the stored pages** (the manifest is built from each stored page, so it shows what the source publishes):
+
+| Page | Column in the source? | What happened | Classification |
+|---|---|---|---|
+| Denmark | Yes (HHX/HTX and Folkeskolens: Foundation and Fast Track cells) | The reader read both columns but gave "Not applicable" as the band; the guard refused them (`wrong_band`) | **D1**: resolved by this change |
+| Colombia | Yes: one merged "Assessed on a case-by-case basis…" cell across the 9 band rows | The reader gave 9 rows for it. On attempt 2 every grade was outside its quote (`grade_not_in_quote`); on attempt 3 every row lacked its band (`band_missing`). Both refusals are correct | **D4 (reader defect, recorded): merged case-by-case column misread.** Held with this evidence; not forced |
+| Indonesia | Yes: 4 qualification columns, 25 minimums | The reader put band-row grades under the wrong qualification column (11 rows under SMA2, whose band cells are "Not applicable") and dropped others (`band_missing` 9, `band_mismatch` 11, `grade_not_in_cell` 9) | **D4 (reader defect, recorded): column misassignment on a 4-column table.** Held with this evidence; not forced |
+
+D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has 1 attempt left and Indonesia 2. The guard refuses any partial read, and D3 brings them back once D4 is fixed.
+
+**Fix (PR #711, branch `cf247-entry-d1-d3`):**
+- **D1 (worker v0.48.4):**
+  - a band given as the page's own "Not applicable" (or N/A, or a dash) is no band where the quoted line prints none in its band column; the quote keeps the source text;
+  - on a line that prints a band, "Not applicable" or an absent band is `band_missing` (the missing-band guard is not weakened);
+  - the #708 identity is unchanged: Foundation and Fast Track stay distinct by their level labels, with no band manufactured.
+- **D2:**
+  - under the completeness guard, a table that is not one country's is held as `held_unparsed` before any AI read:
+    - requirement-type columns (English requirement, academic requirement, prerequisites: Foundation equivalencies);
+    - or a heading (h1 and title) that names no country of `ref.countries` (International Baccalaureate, Global Assessment Certificate). The longest name wins ("Nigeria" over "Niger"); an alpha-3 code counts only as its own word ("USA");
+  - the record function (#709) already makes `held_unparsed` terminal: state failed, no retry, the read kept;
+  - new `public.svc_entry_country_refs_v1()` (service role) gives the worker the list;
+  - from now on, verdicts record the page heading.
+- **D3:** `admin_entry_matrix_reread` (md5-guarded `cec71585…`) also takes failed runs. The earlier result keeps its state, error, the attempts it used and `earlier_index` (its link to what came before). The run starts its own attempts again. Proposed rows and pending items are superseded as before, so nothing is proposed or admitted twice.
+- **Tests:** s131 is new. It covers:
+  - D1 "Not applicable" becoming no band, with the source text kept;
+  - an absent band (null, empty, "Not applicable", "N/A") on a band line still refused;
+  - Foundation and Fast Track identity separation with no band;
+  - the D2 shapes (IB, GAC, Foundation equivalencies held; the RMIT country headings checked against the live 249-country list, fixture md5 `e5698bb8…`, equal to live);
+  - D2 before the AI read and terminal;
+  - D3 history and attempts;
+  - #709 and #710 still enforced.
+
+  s129 now accepts v0.48.4. The test register is regenerated.
+- **Gates:**
+  - suite 1,032 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back): country refs 249. The real Colombia run, set failed after three held reads, came back through the re-read: queued, attempts 0, history 3 → 4 (state failed, error, attempts_used 3, earlier_index 3), 0 proposed.
