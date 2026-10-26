@@ -8175,3 +8175,50 @@ Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT 
   2. Merge, then verify the deployed migration and worker.
   3. Re-read the four RMIT pages and run the acceptance checks.
   4. Restore only the eligible non-PDF lanes, if the controls allow it without the PDF lanes.
+
+### 26 Oct 2026 23:4x — #708 merged and verified live; RMIT acceptance passed; RMIT, UTS, WSU lanes restored
+
+- **Merge:** #708 squash `832b5717`.
+  - Gates: suite 1,017 passed (0 failed, 0 skipped); live dry run passed; change control written before merge.
+  - Live md5s just before merge: `entry_matrix_review_apply_v1` `e3f02aaa…`, `entry_matrix_identity_tg` `86ddafc3…`, both equal to the guards.
+- **Deployed, checked against the repo:**
+  - `deploy-on-merge` applied `20261026009000`; history md5 `8dd0ceba` matches the file;
+  - `entry_matrix_identity_tg` live md5 `915df18e…` equals the guarded original with the edit applied, byte for byte;
+  - `entry_matrix_review_apply_v1` live md5 `76cce959…`: reverting the edit gives `e3f02aaa…`;
+  - `entry_matrix_row_hash_v1` unchanged (`a5127baf…`);
+  - worker version 209: `index.ts`, `entry.ts` and `extract.ts` byte for byte.
+- **Re-read of the four RMIT pages only** (`admin_entry_matrix_reread`, logged): the 59 earlier proposed rows and the 4 unsafe items were superseded, and each earlier result was kept in `previous_results`. The scheduled job stayed off and the reader setting was 1 only for the hand-started call.
+- **First post-fix read of China: 13 of 22.** The whole Gao Kao column (9 rows) was left out by the model; nothing was dropped. One repeat read (logged) gave 22 of 22. **The omission does not repeat reliably, which makes it a completeness risk** (open item below).
+- **Acceptance (live, worker v0.48.2 on every row):**
+
+  | Page | Published (table rows with a minimum) | Proposed | Distinct identities | With band | Rejected |
+  |---|---|---|---|---|---|
+  | Bangladesh | 11 | 11 | 11 (3 before) | 9 band rows + 2 non-band | 0 |
+  | China | 22 | 22 | 22 (6 before) | 18 + 4 | 0 (repeat read) |
+  | Canada | 24 | 24 | 24 (6 before) | 18 + 6 | 0 |
+  | Cambodia | 11 | 11 | 11 (3 before) | 9 + 2 | 1 (`band_missing`) |
+  | **Total** | **68** | **68** | **68** | **54 + 14** | 1 |
+
+  - **Canada** is now 24 proposed, not 22 + 2. The two OSSD rows the earlier read quoted from the footnote are now quoted from their own cells.
+  - **Cambodia** is 11 rows, not the 4 expected. The merged "case-by-case, C grade average" cell spans all 9 band rows, and the fixed reader gives one row per band, each with its band in the quote: 9 rows plus Foundation and Fast Track. That matches the source table row for row. The earlier 4 was one row per level group with no band.
+  - **No collapse remains** through a missing band or level: 68 rows, 68 identities, 0 rows whose quote shows a band they lack.
+  - **Missing-band guard, live:** one Cambodia row ("Diploma/Associate degrees | 50% | … Assessed on a case-by-case basis …") came back without its band and was rejected as `band_missing` before it could be proposed.
+- **Evidence:**
+  - every proposed row's quote was checked on the stored page by the worker;
+  - all 54 band rows quote their whole line, starting with the level label (the carry-down holds);
+  - 6 Canada Foundation and Fast Track rows quote only their cell ("Completion of Ontario Secondary School Diploma"). Those quotes are on the page, but they do not prove which level. The reviewer should check those 6.
+- **Unsafe items:**
+  - the 4 pre-fix RMIT items, the 2 from the first re-read and China's 13-row interim item are superseded (7 in all);
+  - a rolled-back probe tried to approve each of the 7: all were refused ("no entry matrix run for this review item");
+  - the new approval guard refuses any run whose rows share an identity;
+  - active rows: 0.
+- **Lanes restored (logged):**
+  - `entry.providers` narrowed to RMIT, UTS and WSU. Both VU records and Federation were taken out, so search discovery cannot add HTML pages for them;
+  - `entry.matrix_enabled` 1; job `entry-matrix-read` active;
+  - `entry_matrix_enabled_v1` is true for exactly 3 providers: RMIT, UTS and WSU.
+  - VU and Federation stay halted for the PDF reader. WSU's linked Entry Qualifications Table PDF is not added.
+- **Pending review:** 5 items (UTS 40 rows; RMIT Bangladesh, China, Canada, Cambodia). New RMIT pages will land as proposed rows with a Layer 4 item each. Nothing is admitted without review.
+- **Open:**
+  1. **Completeness risk.** The model can leave out a whole qualification column, and no gate detects it. Proposed guard (needs a go): compare the rows a read gives with the table's band rows and qualification columns, and hold a read that falls short. Until then, reviewers should count the rows against the page.
+  2. The 6 Canada rows that quote only their cell.
+  3. PDF reader for VU, Federation and WSU's linked table.
