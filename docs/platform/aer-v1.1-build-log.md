@@ -711,3 +711,20 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tes
   - the 12 runs complete under the guard stay complete with their own 189 proposed rows, one identity per row;
   - D1 and D2 unchanged.
 - Suite 1,042 passed, 0 failed, 0 skipped; worker build OK. No database change, so no database dry run applies; the stored-page tests are the pre-merge evidence.
+
+### 27 Oct 2026 06:28 — Checkpoint 1: D5 merged and verified (#713)
+
+- **Merged 06:24:57** (squash `b94c2df7`).
+- Just before the merge, the entry-matrix functions it runs against were unchanged:
+
+  | Function | md5 |
+  |---|---|
+  | `svc_entry_matrix_next` | `f992b7fc…` |
+  | `svc_entry_matrix_record` | `e1a130e2…` |
+  | `entry_matrix_review_apply_v1` | `f1152d19…` |
+  | `admin_entry_matrix_reread` | `ca394b60…` (#711) |
+
+- `deploy-on-merge` succeeded (worker only, no migration). Worker version 213: all 17 files byte for byte the repo's, `index.ts` at v0.48.6.
+- Release currentness, run by hand on `b94c2df7` (run 40386670555): passed.
+- **Recovery reads wait** (mandate C: after D4 and D5 are both verified). Kuwait and Mexico stay failed, and RMIT stays out of scope.
+- **Recovery mechanism gap, recorded:** the queue takes RMIT runs in creation order, so a hand-started call cannot be aimed at named runs. It would also take the 7 held and 9 unread pages, which the mandate forbids before D4. Targeted recovery needs either a run filter on the hand-started call (a small tooling change, decided separately) or waiting for D4 so that every queued RMIT page may run.
