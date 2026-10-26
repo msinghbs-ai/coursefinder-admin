@@ -8348,3 +8348,49 @@ Authority: Platform Admin 26 Oct 2026 23:16 ("Build and release the source-ancho
   3. Re-read the four RMIT pages.
   4. Live negative and positive guard tests.
   5. Restart RMIT only if all four pass.
+
+### 27 Oct 2026 00:02 — #709 merged and verified live; RMIT acceptance under the guard passed; RMIT restarted; #710 (complete admission) written before merge
+
+**#709, merged 23:36:33** (squash `e15166bc`).
+- Live md5s just before merge equalled the guards (`svc_entry_matrix_next` `4b5a59da…`, `svc_entry_matrix_record` `d80183c6…`, `entry_matrix_review_apply_v1` `76cce959…`), and the new objects were absent.
+- `deploy-on-merge` applied `20261026010000`; history md5 `7b712633` matches the file.
+- Each of the three edited functions, with its edits reversed, equals its guarded original byte for byte. The setting `entry.completeness_providers` holds RMIT.
+- Worker version 210: every coverage-sweep file is byte for byte the repo's.
+- **Release currentness:** it runs only when release files change, so it had not run for #706–#709. Run by hand on `e15166bc` (run 40325241884): passed.
+
+**Acceptance reads, under the guard, 23:44–23:49.** The scheduled job was off. RMIT was in scope only for one hand-started call, and only the 4 re-read runs (the oldest) were taken. RMIT was out of scope again once they were leased. All logged.
+
+| Page | Published (manifest from the stored page) | Matched | Proposed | Identities | Held or rejected |
+|---|---|---|---|---|---|
+| Bangladesh | 11 | 11 | 11 | 11 | 0 |
+| China | 22 (Gao Er 2, Gao San 11, Gao Kao 9) | 22 | 22 | 22 | 0 |
+| Canada | 24 (Year 11 2, OSSD 11, Dogwood 11) | 24 | 24 | 24 | 0 |
+| Cambodia | 11 (2 + 9 rows of the merged case-by-case cell) | 11 | 11 | 11 | 0 |
+
+- All 68 rows came in on the first attempt, with verdict `complete` (`manifest-v1`).
+- **Canada's six short quotes are resolved.** All six Foundation and Fast Track rows now quote their whole table line, which starts with the level. Every quote of all 68 rows starts with its level label.
+- **Cambodia's rejected row:** the read at 23:08 (before #709) rejected one row as `band_missing`. It repeated the Diploma 50% case-by-case row without its band, and the same row came in again with its band. That read is kept in `previous_results`. The acceptance read rejected nothing.
+
+**Live rolled-back tests on the real China run (deployed functions).**
+- **Negative:**
+  - the Gao Kao column removed, 13 rows: held, 0 proposed, run re-queued, no item;
+  - the same 13 rows with no verdict: held ("no complete verdict (missing)"), 0 proposed;
+  - the superseded earlier item: approval refused.
+- **Positive:** the complete 22-row read was proposed, and approval made 22 rows active with 22 distinct identities.
+- **Gap found:** approving the complete read with the Gao Kao rows *excluded by the reviewer* admitted 13 rows. A complete read could be admitted in part. Closed by #710 below.
+
+**RMIT restarted at 23:51** (logged):
+- the 3 pages read at 23:14 before the guard (Germany, Colombia, Mexico) were re-read under it;
+- `entry.providers` = RMIT, UTS, WSU; job `entry-matrix-read` active;
+- 3 providers enabled; VU (both records) and Federation off;
+- 15 RMIT runs queued. No approvals are pending tonight.
+
+**#710 (PR, branch `cf247-entry-complete-admission`), written before merge.**
+- Migration `20261026011000_cf247_entry_matrix_complete_admission.sql`, an md5-guarded edit of `entry_matrix_review_apply_v1` (`9386a7be…`): under the guard, approval admits only when the rows it would make active are exactly the rows the complete verdict matched. Excluding rows, or rows missing since the verdict, refuses the approval; the reviewer rejects the whole run instead. UTS is unchanged.
+- Test s130; test register regenerated.
+- Suite 1,025 passed, 0 failed, 0 skipped.
+- Live dry run (rolled back, real China run):
+  - Gao Kao excluded at approval: refused ("13 of the 22 rows the complete read matched would be admitted");
+  - Gao Kao rows removed since the verdict: refused;
+  - whole read: 22 active;
+  - UTS: approvable.
