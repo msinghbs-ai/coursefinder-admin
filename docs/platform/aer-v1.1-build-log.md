@@ -118,3 +118,17 @@ Counts to check after each 08:00 paste:
   This is a sixth added column, beyond the five in decision 2.
 - **R3 — "delta webhook spec" (decision 10).** The existing feed is pull, by cursor; there is no webhook transport today. **Proposal:** the handoff gives the cursor-pull delta spec (same as courses and fees); a webhook would be a new consumer API surface, needing its own decision.
 - **R4 — your file is cut off again.** It ends at "WEDNESDAY 28 OCT (Day 2): … 14:00: Federation + WSU reader configs mapped (generic postgrad)." Thursday 29 Oct to Friday 7 Nov are missing. I work to the plan as far as it goes plus the dated items in the decisions (consumer notice Fri 30 Oct, seed Mon 3 Nov, Zoho handoff Thu 6 Nov, pilot sign-off Fri 7 Nov). Please resend the rest.
+
+## 26 Oct 2026 21:5x: "EXECUTE NOW" received (Platform Admin 21:45). Executing
+
+Full execution authority overnight; a red line halts only its own lane. The Platform Admin delegates the three pastes ("APPLY COUNT-GUARDED WHEN READY"). Until now the standing rule had been "the paste is mine to apply"; this message changes that for these three files tonight.
+
+Order of work:
+1. pastes: re-check the guards on live, then retirements → publish → fees, verified after each;
+2. schema PR (6 columns, indexes, identity) → suite → merge;
+3. reader on for the 5 pilots, with stored copies first;
+4. extractions (RMIT first);
+5. calendar mark-file with auto-approval at confidence > 0.8;
+6. delivery classification.
+
+Status at 06:00 here.
