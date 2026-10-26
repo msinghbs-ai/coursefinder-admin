@@ -85,8 +85,8 @@ The run is logged in the auto-admit record's acceptance evidence, which feeds th
 
 - **Inbox fix now, as a hotfix release under rule 9.** Scope, exactly: first-run items (no page and conjoint) carry their university in the Layer 4 inbox, appear under "By university", and offer approve / edit / reject on the card. Nothing else in the release. Built as v2.15.357 (S122); the merge record is below.
 - **The Platform Admin rejects the two fees in Layer 4.** At 12:5x both items were still pending:
-  - WI0858, "Graduate Certificate in Postgraduate, $15,320" (title similarity 0.000), item `8889d2f0…` or `44b8f7c6…`;
-  - WI0911, $6,483 proposed as the 2027 fee where it is the 2026 figure.
+  - WI0858, "Graduate Certificate in Postgraduate, $15,320" (title similarity 0.000), item `44b8f7c6…`;
+  - WI0911, $6,483 proposed as the 2027 fee where it is the 2026 figure, item `8889d2f0…`.
 
   I will check them at the next check.
 - Recorded:
