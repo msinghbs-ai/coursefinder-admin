@@ -233,3 +233,7 @@ No lane has been paused by this mandate. Any pause made under it will be added h
 - **60 first runs:** 41 "no page published" with 5 samples each, and 19 conjoint rules, all universities.
 - **Approve when none of the samples has its own page**; otherwise edit with `{"has_page_course_ids": [...]}`.
 - At 60% confirmed, the university's later cases are recorded automatically; every recorded course re-opens if a page is ever found.
+
+## Input lodged 26 Oct 2026 12:29: Waikato triage follow-ups
+
+Four items from the extension's Layer 4 run, recorded in `2026-10-26-waikato-triage-followups.md`. None is a paused lane. One live data hold was applied: WI0858 is held from no-page proposals.

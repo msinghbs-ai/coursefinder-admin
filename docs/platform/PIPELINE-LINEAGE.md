@@ -148,6 +148,8 @@ New shapes stay in Layer 4; 1 in `layer4.auto_admit_sample_rate` that pass is ke
 | Intakes beyond page-stated | Period→month route only (calendar-defaults retiring, D-calendar) | Live |
 | Unnamed courses | **Corrected:** one NZ course (SIT NZQA 3954 "--"), not 3,954. Stored-register read, then a one-row fill or quarantine paste (D-SIT3954) | Awaiting the register extract |
 | Title variants / renames | Defect 1 (wrong-page first, aliases quoted) | Build queued |
+| Redirect to a different course's page (Waikato, 26 Oct 2026: the Certificate of Attainment in Academic English address redirects to the Certificate of Attainment in English Language page, WI0194) | **Rule (Platform Admin 26 Oct 2026 12:29):** a page reached by a redirect that lands on a different course's page is a wrong page, with S1 semantics: rejected for that course, never a binding, and no value is read from it for that course. Spec: `ui-audit/2026-10-26-waikato-triage-followups.md` section 2 | Spec written; build queues with the search-quality / Defect 1 batch |
+| Register course renamed on the provider's site (Waikato Bachelor of Social Work WI0858 vs the published Bachelor of Social Sciences) | Routed to the Defect 1 title-verify flow (alias after verification), never to the no-page cause. WI0858 is held from no-page proposals (`course_no_page` hold row, 26 Oct). The general near-twin check is designed with the Defect 1 batch | Hold live; check queued |
 | AU international variants | Defect 2 (quantify now, build later) | Queued |
 | Scholarships thin fields | B4 second pass + Layer 4 de-parking | Queued |
 | Provider descriptions | Part E reader (Wollongong acceptance test) | Rides with Track B release 3 |

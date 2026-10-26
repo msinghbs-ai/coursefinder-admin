@@ -87,3 +87,11 @@ Binding at the change (official page bound, active courses): AU 71.3% (18,622 of
 - Binding % and resolved % movement.
 - Tranche 2: fee reader outcome for the Okanagan schedule PDFs and the rest.
 - Leaders per shape for the Platform Admin to approve (each unlocks its shape).
+
+## Acceptance evidence for the sample-rate review (`layer4.auto_admit_sample_rate`)
+
+Every independent check of first-run decisions is logged here: sampling audits, your retrospective reviews and extension runs. The sample rate is reviewed against this table.
+
+| Date | Source | Decisions checked | Rule-correct | Notes |
+|---|---|---|---|---|
+| 26 Oct 2026 | Browser extension, Layer 4 run on the University of Waikato (Platform Admin 12:29; verbatim quotes in the extension's report) | 4: 2 click-map skips (NCUK, Summer Research), 2 keeps (Bachelor of Social Work WI0858, Certificate of Attainment in Academic English WI0911) | 4 of 4 | **Evidence against the current look-alike threshold:** Social Work against the published Bachelor of Social Sciences shares 0.5 of the title words, under `layer4.auto_admit_match_share` (0.6), so the machine check would have "confirmed" it as no page. Academic English: the AI match had chosen another course's page through a redirect, held only by the identity gate. Detail: `2026-10-26-waikato-triage-followups.md` |

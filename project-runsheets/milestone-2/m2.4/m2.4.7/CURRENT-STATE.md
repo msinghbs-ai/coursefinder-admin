@@ -8021,3 +8021,12 @@ The brief now forbids direct table changes.
 - `s120` now guards the phone filter, the three screen tests, the `@live-acting` tags and both workflows' holds.
 - Findings, not changed: Layer 4 choice buttons are 25 px high on a phone and Filters is 31 px (both above the WCAG AA 24 px, below the 44 px platform guidance). The catalogue opens with all filters expanded on a phone, so the first course sits at 1,063 px.
 - Full local suite: 995 passed, 0 skipped, 0 failed. PR #701.
+
+### 26 Oct 2026 12:50 AEDT — Waikato triage follow-ups lodged (Platform Admin 12:29)
+
+- Record: `docs/platform/ui-audit/2026-10-26-waikato-triage-followups.md`.
+- WI0858 is held from no-page proposals: a `course_no_page` hold row (`rejected`, basis "title-verify (Defect 1)"), logged in `admin_control_events`. It stays in the course search.
+- Redirect-to-other-course rule: wrong page, S1 semantics. Spec written and added to the `PIPELINE-LINEAGE.md` mechanism table; build queued with the search-quality / Defect 1 batch.
+- Correction to the premise: WI0911's $6,483 came from its own fees-schedule row, not from the CAEL page. The pending Layer 4 item has it as the 2027 fee where it is the 2026 one. Recommend reject.
+- Found: all 60 first runs sit in the Layer 4 Inbox with no university (provider-entity items). Proposed Inbox fix, not made tonight.
+- The extension run is logged as acceptance evidence (4 of 4 rule-correct).

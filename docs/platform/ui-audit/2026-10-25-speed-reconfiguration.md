@@ -382,3 +382,11 @@ Logged each check from the live tables. English and intake rows have no creation
 | 26 Oct (to 09:45) | 0 | 1 | 4 | 0 | 0 auto / 60 to a person (SP-2a live 09:40; no shape approved yet) |
 
 Binding at the SP-2a change: AU 71.3%, NZ 47.0%, CA 69.8% (active courses with an official page).
+
+## Inputs lodged 26 Oct 2026 12:29 (Waikato triage from the extension's Layer 4 run)
+
+Record: `2026-10-26-waikato-triage-followups.md`.
+- WI0858 Bachelor of Social Work is a rename, not a no-page course. It is held from no-page proposals and routed to Defect 1 title-verify.
+- Redirect to a different course's page = wrong page (S1). The spec is written; the build is with the search-quality / Defect 1 batch.
+- Waikato's conjoint (and no-page) first runs are pending. They are invisible "by university" because provider-entity items have no provider in the Inbox; this affects all 60 first runs and blocks the auto-admit leader approvals.
+- The extension's 4 decisions were rule-correct and are logged as acceptance evidence.
