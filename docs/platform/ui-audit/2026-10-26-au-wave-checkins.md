@@ -274,3 +274,21 @@ Firecrawl refusals today: reads 17, scholarships 96, central 39. No spend stop h
 **Silent partial reads: 0. Active rows: 0.**
 
 **Red:** RMIT out of scope since 05:27:47 for parser defect D5 (fix to propose; awaiting the Platform Admin's go). UTS and WSU running.
+
+## RMIT entry-matrix lane — 27 Oct 06:59 (after D5 #713, D4 #714 and the controlled recovery)
+
+| Outcome | Pages |
+|---|---|
+| Complete, in review (12 earlier + 13 this recovery) | 25 |
+| Non-country, terminal (D2) | 3 |
+| Still defective: guard column tie G1 (Sri Lanka, Thailand, UK) | 3 |
+| Still defective: repeated header row P2 (Singapore) | 1 |
+| Still defective: bare-number scale R2 (Norway) | 1 |
+| Still defective: D4 class unresolved (Nigeria, Vietnam) | 2 |
+| Not read, lane paused (Qatar) | 1 |
+
+- **Silent partial reads: 0.** 363 proposed rows with 363 identities, 0 duplicates. Active rows: 0. Recovery cost at most US$0.157.
+- **Red:**
+  - AER is stopped at new defect classes (no D6+ without a Platform Admin decision).
+  - `entry-matrix-read` is off. UTS and WSU are drained.
+  - The change taking RMIT out of `entry.providers` was cancelled before it ran, three times. Detail: build log, 27 Oct 06:59.
