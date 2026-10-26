@@ -44,3 +44,20 @@ Mandate: Platform Admin, 26 Oct 2026 19:19 ("Heartbeat mandate — AU completion
 - **Paste-ready files awaiting the Platform Admin:**
   - `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql` (08:00);
   - the fee re-apply paste for the 400 held items, being prepared tonight.
+
+## 26 Oct 19:3x: Platform Admin decisions (19:27), Swinburne fee quarantined, the gate hole's cause
+
+- **Quarantined** at 19:27: fee `ba434cf0…` (Swinburne 087852C, $36,300 for 2027). Status `unverified`, logged in `admin_control_events` (`fees / quarantine`).
+  - Its 2026 fee ($34,200, written 8 Oct, before R1) has the same proof. It is not touched, since the decision named one row; it is reported here.
+- **Cause of the hole (two parts):**
+  1. **The adapter fee branch never checks tuition identity.** `security.adapter_overwrite_v1` (job `adapter-overwrite`, every 10 minutes) checks `coverage_identity_allowed(…, 'intakes')` and `(…, 'english')` before admitting those values, but has no tuition check before admitting the fee.
+  2. **Courses with CRICOS codes bypass the write-time check.** For AU courses that have both CRICOS codes, `adapter_overwrite_v1` writes through `public.svc_coursefacts_apply_record`, not `security.coverage_apply_course_v1`. R1's write-time check lives only in `coverage_apply_course_v1`.
+  - The adapter also **supersedes the course's current fee before writing**, so a refused write would leave the course with no fee.
+- **The same class exists elsewhere:** 23 functions write `catalogue.course_fees`. Only 2 check tuition identity, and 3 jobs write fees without the check (`fee-period-settle`, `provider-rule-admit`, `provider-basis-rule-admit`). Fixing one path is not enough.
+- **Fix decided (CF-247 gate hotfix, own PR tonight):**
+  - one write-time gate at the table, a trigger on `catalogue.course_fees`, for every writer:
+    - an international provider fee written or changed to `active`, for a course whose bound page proof the country's tuition list does not accept, is stored `unverified` with one Layer 4 item (the R1 shape);
+    - exempt: manual bindings and a person's own decision (signed-in admin call, or the manual-edit flag);
+    - setting `fees.identity_gate_on`;
+  - plus the adapter's fee branch checks tuition identity before superseding anything;
+  - contract test: every fee writer, the adapter included, passes the same check.
