@@ -126,3 +126,19 @@ Mandate: Platform Admin, 26 Oct 2026 19:19 ("Heartbeat mandate — AU completion
 **Red / awaiting you:**
 - two paste files for the morning: the publish paste and the fee re-apply paste;
 - the 563 held register departures (Layer 1 operations).
+
+## RMIT entry-matrix lane — for the 00:30 check (as at 00:06, lane paused; numbers unchanged while paused)
+
+| Measure | Count |
+|---|---|
+| Pages (besides the 4 acceptance pages) | 32 |
+| Attempted | 8 pages, 12 AI reads |
+| Complete | 2 (India 33/33, Japan 11/11) |
+| Guard-held | 6 (Hong Kong, IB: D1 "Not applicable" as a band; Colombia, Denmark, Indonesia: column left out; Foundation equivalencies: D2) |
+| Retried | 4, once each |
+| Failed | 0 |
+| Admitted | 0 |
+| In review | 6 RMIT items, all complete verdicts |
+| Silent partial reads | **0** |
+
+**Red: RMIT lane halted at 00:06** for defect D1. Fix proposed; awaiting the Platform Admin's go.

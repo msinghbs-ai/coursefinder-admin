@@ -304,7 +304,11 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
   - RMIT: 16 of 36 pages stored;
   - UTS and WSU: stored;
   - VU and Federation: PDF, waiting for step B.
-- [x] RMIT extraction run, rows in the Layer 4 queue: 4 pages re-read after #708, 68 rows and 68 identities, items pending review. The remaining RMIT pages are queued by the restored lane.
+- [~] RMIT extraction run, rows in the Layer 4 queue:
+  - 6 pages complete under the guard (4 acceptance, India, Japan), items pending;
+  - 6 held;
+  - 24 unread;
+  - lane paused 00:06 (D1).
 - [~] UTS and VU runs:
   - UTS complete (40 rows, item pending review);
   - VU halted (PDF).
@@ -314,11 +318,13 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
 
 ~~Status line (to stand at 06:00 unless changed overnight): halted — RMIT band-ladder defect (benchmark band not captured; fix proposed, awaiting go). VU and Federation are halted for the PDF reader.~~ (superseded 23:11)
 
-**Status line, 23:11 (to stand at 06:00 unless changed overnight): complete for the non-PDF pilots.**
-- RMIT band-ladder defect fixed (#708, live). RMIT acceptance passed: 68 rows, 68 identities.
-- RMIT, UTS and WSU lanes are running. Rows land as proposed and go to Layer 4 review.
-- **Halted:** VU and Federation, for the PDF reader.
-- **Open:** completeness guard (a read can leave out a whole qualification column).
+~~Status line, 23:11: complete for the non-PDF pilots.~~ (withdrawn 00:08: a read could be incomplete without detection, and six Canada rows lacked level evidence)
+
+**Status line, 00:08 (to stand at 06:00 unless changed overnight): halted — RMIT lane paused for defect D1 (band "Not applicable" kept as a band; guard holds those reads).**
+- Completeness guard live (#709, #710). RMIT acceptance under the guard: 68 of 68.
+- Canada's six short quotes are resolved (whole lines).
+- UTS and WSU running. VU and Federation halted for the PDF reader.
+- **Not complete:** RMIT 24 pages unread, 6 held (D1 2, column omissions 3, D2 1); fixes for D1, D2 and D3 await your go.
 
 ### 26 Oct 2026 23:05 — AER v1.1: RMIT benchmark-band fix (#708), written before merge (merged 23:06)
 
@@ -492,3 +498,49 @@ Authority: Platform Admin 26 Oct 2026 23:16 ("Build and release the source-ancho
   - Gao Kao rows removed since the verdict: refused;
   - whole read: 22 active;
   - UTS: approvable.
+
+### 27 Oct 2026 00:08 — #710 merged and verified live; RMIT lane under the guard; RMIT paused 00:06 for a band-normalisation defect
+
+**#710, merged 00:03:50** (squash `cb062640`).
+- Live md5 of `entry_matrix_review_apply_v1` just before merge equalled the guard (`9386a7be…`).
+- `deploy-on-merge` applied `20261026011000`; history md5 `9cee3b80` matches the file. With the edit reversed, the live function equals the guarded original byte for byte (live md5 `f1152d19…`).
+- Release currentness, run by hand on `cb062640` (run 40327511679): passed.
+- **Live rolled-back tests on the real complete China run (deployed functions):**
+  - negative, Gao Kao column excluded at approval: refused ("13 of the 22 rows the complete read matched would be admitted");
+  - negative, Gao Kao rows removed since the verdict: refused;
+  - positive, the whole read: 22 active, 22 identities.
+  - Active rows after the tests: 0.
+
+**RMIT lane, 23:51–00:06 (restart to pause).** Of the 32 RMIT pages besides the four acceptance pages:
+
+| Measure | Count |
+|---|---|
+| Attempted (AI reads) | 8 pages, 12 reads |
+| Complete | 2 (India 33 of 33, Japan 11 of 11). Items pending review |
+| Held by the guard | 6 pages, 10 held reads, each kept whole in `previous_results` |
+| Retried | 4 pages, once each (Colombia, Denmark, Foundation equivalencies, Hong Kong) |
+| Failed | 0 (no run reached `entry.matrix_attempts`) |
+| Admitted | 0 (no approvals; active rows 0) |
+| Not yet attempted | 24 pages (23 queued runs, 1 stored page not yet queued) |
+| **Silent partial reads** | **0**. Every read either matched its whole manifest or was held |
+
+RMIT review items pending: 6 (Bangladesh, China, Canada, Cambodia, India, Japan), all with complete verdicts. RMIT AI spend to date: US$0.16.
+
+**Holds, by cause:**
+1. **Defect D1: "Not applicable" kept as a band** (Hong Kong, International Baccalaureate).
+   - The reader gives `benchmark_band` = "Not applicable" for Foundation and Fast Track rows. The page prints that in the Australian-standard column to mean no band.
+   - The #708 band check keeps it, because it is in the quote. The guard then correctly refuses the rows (`wrong_band`).
+   - Every retry repeats it, so these pages would exhaust their attempts and end `failed`.
+2. **Column left out by the reader** (Colombia, Denmark, Indonesia): whole qualification columns missing. These are the omission the guard exists to catch. Whether each column is a genuine minimum, or a column the manifest should not expect (for example a case-by-case column), is still to be checked against the stored pages.
+3. **Defect D2: special pages that are not country equivalency tables.**
+   - "Foundation equivalencies" has a table headed with "Australian standard" whose other columns are English requirement, academic requirement and prerequisites. The manifest counts them as qualification columns; the reader rightly skips English rows. That page will always be held.
+   - The International Baccalaureate and Global Assessment Certificate pages name a qualification, not a country.
+4. **Gap D3:** `admin_entry_matrix_reread` re-reads only `done` runs. A run that exhausts its attempts and ends `failed` cannot be brought back through the logged mechanism.
+
+**Containment:** RMIT out of `entry.providers` at 00:06 (logged). All its runs stay `queued` with their attempts intact. UTS and WSU are unchanged; VU and Federation are out.
+
+**Proposed (needs a go; not built):**
+- **D1:** a band printed as "Not applicable" (or blank) is no band. It is normalised to null in the reader's band check, deterministically: no inference, and the guard's comparison is unchanged.
+- **D3:** the logged re-read also takes `failed` runs, earlier results kept.
+- **D2:** the manifest counts only qualification columns, not requirement-type columns (English, prerequisites). Special non-country pages are held as `unparsed`, not retried. Or they are taken out of the RMIT pilot by your decision.
+- Then re-read the held pages under the guard and restart RMIT.
