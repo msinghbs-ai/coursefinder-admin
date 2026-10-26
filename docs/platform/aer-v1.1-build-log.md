@@ -79,3 +79,42 @@ Counts to check after each 08:00 paste:
 - retirements: +563;
 - providers published by the paste: 1,056, with AU published net 224 → 1,279;
 - fees made live: 372, net +315 after the one-current rule.
+
+## 26 Oct 2026 21:4x: red-line decisions received (Platform Admin 21:39)
+
+**Recorded as decided:**
+
+| # | Decision | Status |
+|---|---|---|
+| 1 | Spreadsheet: you are sourcing it. Diff framework (schema, query, expected columns) by **Wed 28 Oct 12:00** | Planned |
+| 2 | Extend the live tables. Add `routes` jsonb, `valid_to` date, `withdrawal_reason` varchar(500), `row_hash` char(64), `version` int default 1; indexes `row_hash` unique, `status`, composite. Additive, switched off | Schema PR Tue 09:00 |
+| 3 | No staging: PR against live, additive and off; no merge until your schema review | Accepted |
+| 4 | Reader for the **5 pilot providers only**; the top 20 waits for pilot sign-off (Fri 7 Nov) | **Done 21:4x:** `entry.providers` set to the pilot. `entry.matrix_enabled` stays 0 and the job stays inactive until 14:00 Tue after calendar approval. Logged in `admin_control_events` |
+| 5 | Identity = SHA-256(provider + country + level + band + sorted condition keys); a grade edit bumps `version` | See red line R1 |
+| 6 | Levels `foundation \| diploma \| bachelor \| postgrad`; grid columns Foundation / Diploma / Bachelor / Postgrad | Accepted |
+| 7 | Status mapping: `quarantined` → `unverified` with a provenance flag; `withdrawn` → `inactive` with `valid_to` | The check constraint can only be widened by a drop and re-create, which migrations do not do. **Mapping used**, documented here |
+| 8 | Monthly register sync stands. Weekly AER liveness = edition probe (page hash plus a suspension-notice scan) | Accepted |
+| 9 | Feed collection pre-approved: definition now; consumer notice Fri 30 Oct; seed not before **Mon 3 Nov** | The approval is recorded in the migration (`-- Consumer API change approved: Platform Admin 26 Oct 2026 21:39 …`); the baseline is re-taken; the developer guide is reissued with the notice |
+| 10 | Platform delivers data layer, reference resolver, seed format and delta spec; Zoho builds the form; handoff **Thu 6 Nov** | Accepted |
+| 11 | Fee paste: 372 made live, net +315 | Accepted |
+
+**Pilot provider ids** (`entry.providers`):
+
+| Provider | Id(s) |
+|---|---|
+| RMIT | `8e1adb6c…` |
+| UTS | `9d22a19e…` |
+| **Victoria University** | **two catalogue records**: `bac82321…` (280 active courses, `vu.edu.au`) and `0f5373c8…` (35 courses, `vu.edu.au/international`). Both included; one equivalency page serves both |
+| Federation | `9cc8ef21…` (added) |
+| WSU | `1719c3ba…` |
+
+**Red lines in the decisions (proposals; say if you disagree before 09:00):**
+- **R1 — identity must include `course_id`.** Decision 5's hash leaves out `course_id`, and decision 2 makes `row_hash` unique. UTS publishes per-course rows: two courses with the same country, level and board would get the same hash, and the second insert would fail. **Proposal:** identity = provider + **course_id (empty for provider-wide rows)** + country + level + band + sorted condition keys. A grade edit still only bumps `version`.
+- **R2 — the composite index uses the live column names.** The live table has `study_level_id` (platform levels) and `benchmark_band`, not `study_level` / `band`. **Proposal:**
+  - index `(provider_id, country_code, study_level_id, benchmark_band, status)`;
+  - the AER level (decision 6) is a new column `aer_level` with a check for the four values, filled from `study_level_id` / `level_label`;
+  - nothing renamed.
+
+  This is a sixth added column, beyond the five in decision 2.
+- **R3 — "delta webhook spec" (decision 10).** The existing feed is pull, by cursor; there is no webhook transport today. **Proposal:** the handoff gives the cursor-pull delta spec (same as courses and fees); a webhook would be a new consumer API surface, needing its own decision.
+- **R4 — your file is cut off again.** It ends at "WEDNESDAY 28 OCT (Day 2): … 14:00: Federation + WSU reader configs mapped (generic postgrad)." Thursday 29 Oct to Friday 7 Nov are missing. I work to the plan as far as it goes plus the dated items in the decisions (consumer notice Fri 30 Oct, seed Mon 3 Nov, Zoho handoff Thu 6 Nov, pilot sign-off Fri 7 Nov). Please resend the rest.
