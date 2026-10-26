@@ -748,3 +748,20 @@ All are one defect class: the reader's rows do not correspond one to one with th
 2. **No-minimum filter.** A row whose quoted table line publishes no minimum at all (every qualification cell blank or "Not applicable") is dropped before the guard as `no_minimum_published`. Nothing is proposed from it, and nothing expected is removed.
 3. **Unchanged:** the completeness guard (still the independent check), whole-run approval, identity, D1, D2, D3 and D5. Expected counts are not lowered.
 - Regression on the stored pages: the cell list for every named pattern, and a replay of the actual held reads of Pakistan and Philippines through the no-minimum filter and the guard.
+
+### 27 Oct 2026 06:48 — D4 (#714), written before merge
+
+Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B: D4 as one separate reader-correctness PR). Triage and design recorded 06:35, before code.
+- **Worker v0.48.7, prompt `entry-matrix-v0.1.4`:**
+  - **Cell list:** when a one-slice stored page has a band table the manifest can read, the reader's request lists the published cells in printed order (level, band, printed column, cell, whole line) and asks for exactly one row per listed cell. A cell list in each slice of a multi-slice page would ask for cells twice, so multi-slice pages are read as before.
+  - **No-minimum filter:** `entryDropNoMinimum` drops, before the guard, a row whose quoted table line publishes no minimum (every qualification cell blank or "Not applicable"), as `no_minimum_published`.
+  - `entryManifestDetail` returns the manifest unchanged plus those empty lines (s133 fingerprints still pass).
+- **Unchanged:** the completeness guard (the independent check), whole-run approval, identity, D1–D3 and D5. No expected count is lowered.
+- **Evidence (s134, on the stored pages and the actual held reads):**
+  - Denmark: all 22 cells listed, including "Average of 7" on three band rows (65/70/75%);
+  - Colombia, Nepal and Nigeria: the merged case-by-case cells listed on each band row (9/6/6);
+  - Indonesia: three printed columns at 50%. Norway: its 11 cells;
+  - a read that follows the list passes the guard on all eight pages;
+  - Pakistan and Philippines: the held reads, replayed, lose only their six "Not applicable" rows and are complete (5/5, 7/7);
+  - the other six held reads, replayed, stay held. Nothing incomplete passes without a new read.
+- **Gates:** suite 1,050 passed, 0 failed, 0 skipped; worker build OK. No database change, so no database dry run applies; the stored-page tests and replays are the pre-merge evidence.
