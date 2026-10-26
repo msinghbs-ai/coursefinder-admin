@@ -669,7 +669,7 @@ D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has
 4. Completeness, identity, whole-run approval, D1 and D2 are untouched.
 - Regression: every complete RMIT page's manifest must give the same entries before and after. This is checked on the stored copies of the 12 complete pages and against their proposed rows in the database, without re-reading them.
 
-### 27 Oct 2026 06:05 — AER tooling: read-only `entry_inspect` (#712), written before merge
+### 27 Oct 2026 05:57 — AER tooling: read-only `entry_inspect` (#712), written before merge
 
 Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tests "must use the stored source pages"). Decision recorded 05:50, before code.
 - **Worker v0.48.5:** read-only mode `entry_inspect`. For at most 12 entry-matrix sources it returns the stored copy's `<h1>`, `<title>` and raw `<table>` markup (capped at 120,000 characters), the content hash and the sha256 of the stored text. No AI call, no web fetch, no write.

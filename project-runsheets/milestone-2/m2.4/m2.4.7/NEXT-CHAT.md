@@ -8470,7 +8470,7 @@ D4 is not built (not authorised). Colombia and Indonesia stay held. Colombia has
 - VU and Federation excluded.
 - RMIT AI spend to date: US$0.21.
 
-### 27 Oct 2026 06:05 — AER tooling: read-only `entry_inspect` (#712), written before merge
+### 27 Oct 2026 05:57 — AER tooling: read-only `entry_inspect` (#712), written before merge
 
 Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate: D5 and D4 tests "must use the stored source pages"). Decision recorded 05:50, before code.
 - **Worker v0.48.5:** read-only mode `entry_inspect`. For at most 12 entry-matrix sources it returns the stored copy's `<h1>`, `<title>` and raw `<table>` markup (capped at 120,000 characters), the content hash and the sha256 of the stored text. No AI call, no web fetch, no write.
