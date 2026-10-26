@@ -50,3 +50,32 @@ No code tonight. This entry reconciles the mandate with what is already live, be
 | 8 | Feed collection (D6, with your approval), seed and delta; admin grid; reference resolver for the website and Zoho developers | Your feed integration check |
 
 **Status:** week 0 — decisions lodged; awaiting D1–D10 and the spreadsheet.
+
+## 26 Oct 2026 21:3x: sprint mandate received (AU wave + AER pilot, Tue 27 Oct to Fri 7 Nov)
+
+Mandate: Platform Admin 21:29. The 8-week AER timeline is compressed into a 10-working-day sprint.
+- **The file as received ends mid-sentence:** "THURSDAY 29 OCT (Day 3): … 12:00: Victoria University reader config mapped (post". Days 3 (from 12:00) to 10 are missing; please resend them.
+- The plan below covers Tuesday and Wednesday as written, and Thursday to 12:00.
+
+**What the sprint mandate settles from week 0:**
+- **D9 (Tuesday's top-20 switch):** option (a), conditional. The entry-matrix reader goes on for the AU top 20 at **14:00 Tuesday, if you approve the calendar mark-file**. Rows land `proposed` and reach no one until approved in Layer 4.
+- **Pilot readers:** RMIT config Tuesday 17:00 and first run Wednesday 08:00 to Layer 4, with a 20% sampling audit Wednesday 14:00. UTS config Wednesday 17:00 and first run Thursday 08:00. VU config Thursday 12:00.
+
+**Still open, and how I proceed so the 09:00 schema PR is not blocked:**
+- **D1–D4 (extend the live tables; status mapping; levels; row identity):** the 09:00 PR is built on my week-0 recommendations:
+  - additive columns on `catalogue.provider_entry_matrix` and `catalogue.course_entry_requirements`;
+  - `quarantined` / `withdrawn` mapped onto the live statuses, with `valid_to` and `withdrawal_reason`;
+  - `masters` / `doctorate` added to the AER level set;
+  - `row_hash` over the condition keys.
+
+  It is **not merged until your schema review** (your action "review schema PR, verify additive-only"). Change any of D1–D4 in that review.
+- **D5 ("staging"):** there is no staging database. The PR goes to the live project additive and switched off (no rows written, no feed change), as in week 0, unless you name another target. `coursefinder-demo` is never used.
+- **D6 (feed collection), D7 (Zoho form), D8 (register clock):** not needed before week 2 of the sprint. Your answers are still needed.
+- **Pilot ground truth:** the 24 Oct customer spreadsheet is still missing. The diff harness is built against its expected shape, so it can run the moment the file arrives.
+
+**Correction carried into the sprint:** the fee re-apply paste is now **372 fees** (regenerated 21:5x after 15 Layer 4 rejections), not 386.
+
+Counts to check after each 08:00 paste:
+- retirements: +563;
+- providers published by the paste: 1,056, with AU published net 224 → 1,279;
+- fees made live: 372, net +315 after the one-current rule.
