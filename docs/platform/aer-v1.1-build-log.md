@@ -150,3 +150,45 @@ Status at 06:00 here.
 - **Two points to settle before running it:**
   1. A plain unique `row_hash` blocks Track C's change runs: a changed page inserts the new rows and marks the old ones `superseded`, so the same identity briefly exists twice. The alternative is a partial unique `(row_hash) where status = 'active'`.
   2. With no trigger, `row_hash` stays empty. The identity function is a separate, later item for approval.
+
+## 26 Oct 2026 22:3x–23:2x: night execution (Platform Admin 21:50)
+
+**Schema: LIVE.** #706 (`0dc6086d`), migration `20261026007000`.
+- Before merge: suite 1,008 passed; live dry run passed.
+- After merge: history md5 `c4efbc41` matches the file.
+- The 6 columns are live (31 → 37 columns), as are the 3 indexes (`row_hash` unique where status = 'active') and the identity trigger. Nothing dropped or renamed.
+- **Identity, as built** (agent's note, for your review): SHA-256 of provider | course | country | study_level_id | band | sorted condition keys, **plus the row's own `qualification_name` as one of the keys**. The live reader writes one row per qualification: India "CBSE" and "State Board HSC" are two rows. Without the qualification they would share an identity and the second could never be active.
+  - A grade edit bumps `version`: tested 1 → 2.
+- **Status mapping** (decision 7; the check constraint is unchanged):
+  - quarantined = `unverified` with `provenance.aer_flag = 'quarantined'`;
+  - withdrawn = `inactive` with `valid_to` and `withdrawal_reason`.
+
+**Reader: ON for the 5 pilots** (`entry.matrix_enabled` 1, job `entry-matrix-read` every 5 minutes, scope `entry.providers` = the pilots). Logged.
+
+**Stored copies:** 40 equivalency sources seeded (`found_via` manual, logged):
+
+| Provider | Sources |
+|---|---|
+| RMIT | all **33 country pages** and 3 special pages from its own index (Foundation equivalencies, Global Assessment Certificate, IB) |
+| UTS | international entry scores page (1) |
+| WSU | international entry requirements page (1) |
+| VU | PDF (1) |
+| Federation | PDF (1) |
+
+- RMIT's index lists **33 countries, not 79**. The spreadsheet's other countries are not published by RMIT. In the diff they show as "not published by provider", not as a miss.
+- **Red line, lane halted: VU and Federation publish PDF only.** Step A reads HTML. PDFs go to `pdf_step_b` (the PDF reader, Track C step B, not built). Both PDFs are seeded and will be stored and read when step B lands. **The VU and Federation extraction lanes are halted for that reason.** RMIT, UTS and WSU continue.
+
+**Calendar mark-file:** `docs/platform/reports/2026-10-26/AU-top20-calendar-MARK-FILE.xlsx` (your format plus the levers).
+- **Finding:** all 20 already have an approved calendar, so there is nothing to approve. Intakes are held by three rules:
+  1. job `provider-calendar-defaults` is **off** (E2, 24 Oct "do not switch on"). The rule as it stands fills only 1 course in these 20.
+  2. A course that ever had an intake row is skipped, even if every row was withdrawn: **429** undergraduate courses.
+  3. Universities get default months only at undergraduate levels (your 19 Oct "Undergraduate only"): **1,291** postgraduate courses.
+- 5 providers (Monash, Macquarie, ANU, Griffith, QUT) have no default months.
+- 5 rows have confidence above 0.8, but **auto-approval had nothing to approve**. The levers are rule decisions (yours), so nothing was switched.
+
+**Delivery classification:** `docs/platform/reports/2026-10-26/AU-delivery-classification.md`. Of the 3,390:
+- 752 (22%) genuinely silent, as the reader judged;
+- 333 (10%) recoverable with a tighter prompt;
+- 2,305 (68%) need the right course page first.
+
+**FIX, not BUILD.** Recoverable is under 20%, so no re-run was queued.
