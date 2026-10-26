@@ -142,3 +142,59 @@ Mandate: Platform Admin, 26 Oct 2026 19:19 ("Heartbeat mandate — AU completion
 | Silent partial reads | **0** |
 
 **Red: RMIT lane halted at 00:06** for defect D1. Fix proposed; awaiting the Platform Admin's go.
+
+## 27 Oct 00:3x overnight check-in (since 19:45)
+
+Heartbeat run at 00:36 AEDT. Coverage figures as computed at 23:47.
+
+**Values admitted since 19:45 (AU):**
+
+| Field | Admitted | Total now |
+|---|---|---|
+| Fees (courses with a live international tuition fee) | +27 courses (47 new live fee rows; 22 more held unverified by the gate) | 8,454 |
+| English | 0 | 16,917 |
+| Intakes | +1 | 9,391 |
+| Links | 0 | 18,622 |
+
+- Gate: the trigger `course_fee_identity_gate` is enabled and `fees.identity_gate_on` is 1. Every one of the 47 live rows was written through it. The 22 held rows (and their Layer 4 items) are the gate working.
+- **No value admitted that failed a gate.** Entry matrix: 0 active rows (nothing admitted; every RMIT approval needs a complete verdict).
+
+**Wave status:**
+- **Publish paste:** not applied (yours, 08:00). 0 of 1,056 providers published by it, so no published-provider lanes yet.
+- **Fee schedules:** found 284 (was 244), read 167 (was 37). Provider-facts is reading AU fee-schedule pages. Fee reader queue: 711 done (135 new since 19:45), 1 leased, 4 failed.
+- **Fee re-apply paste:** done and lodged (`PASTE-20261026-au-fee-reapply.sql`): 372 pairs, net +315 live, regenerated after the 20:46 rejections. Waiting for you at 08:00. Nothing more to finish on it.
+- **Countries paste:** applied 22:42 under your 22:38 authority (249 countries, consumers unchanged).
+- **Entry matrix:**
+  - UTS and WSU lanes on;
+  - RMIT halted since 00:06 (defect D1, fix awaiting your go);
+  - VU and Federation halted for the PDF reader;
+  - runs: 8 done, 29 queued (RMIT, held by the pause);
+  - #708, #709 and #710 merged and verified live tonight.
+
+**Queue health:**
+- AU lanes moving.
+- Layer 4 pending: 778.
+- `scholarship-course-attribute-full` (not AU) still fails on a database deadlock, the same cause as at 19:45. Named, owner me, looked at tomorrow.
+
+**Spend (AI day from 11:00 AEDT; Firecrawl day from 00:00 AEDT):**
+
+| Item | Spent | Guard |
+|---|---|---|
+| Fee AI | US$2.32 | 5 |
+| Entry-matrix AI | US$0.18 | 2 |
+| Enrich fields | US$0.08 | 25 |
+| Course match | US$0.01 | 5 |
+| Firecrawl since midnight | 4 credits used (26 billed) | 25,000 |
+
+No spend stop hit.
+
+**ETA, Thursday targets:**
+- **All 11 fields:** 5,537 (was 5,439 at 19:45: +98 in 4 h 50 min).
+  - The floor of 5,540 needs +3, and the 08:00 fee re-apply paste completes 27. **The floor is on track.**
+  - The 5,600 target needs +63. At tonight's pace (about 20 an hour, but bursty and mostly from fee writes) it would be reached Tuesday, and at the 14-day pace (about 56 a day) by Wednesday. **On track.**
+- **Automatic:** 267 (was 310). Per-lane rates are measured after the publish paste.
+- **Blocked:** 20,299 (was 20,354). The cause-and-owner workbook re-run is due Thursday.
+
+**Red:**
+- **RMIT entry-matrix lane halted at 00:06** for defect D1 (the reader keeps "Not applicable" as a band; the completeness guard correctly holds those reads). Cause named; the fix awaits your go. No silent partial read.
+- **Pastes awaiting you at 08:00:** retirements, then publish, then fee re-apply (standing; unchanged).
