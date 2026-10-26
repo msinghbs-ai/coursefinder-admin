@@ -8014,3 +8014,12 @@ The brief now forbids direct table changes.
 - Fixed: CF-091 source contract (Provider Assets now under Providers › Assets). Converted 11 passing `node:test` tests to Playwright. The legacy baseline is now asserted once (S70).
 - Phone viewport: runs only `@responsive` tests and the deployed gate. Local runs per pass 1,968 → 990. Local result: 990 passed, 0 skipped, 0 failed.
 - Added `s120` (G4): Guards line on every spec, no `node:test`, no unconditional skip, no environment skip outside `@deployed`, phone filter kept. Added `scripts/test-register.mjs`.
+
+### 26 Oct 2026 11:30 AEDT — Weekly deployed run and phone tests for the operated screens (Platform Admin 10:49)
+
+- Weekly deployed run approved. `deployed-weekly.yml` runs Monday 05:17, desktop and phone, with results on the branch `deployed-weekly-results` for the Monday line.
+- Ten deployed tests that change live data or the UAT user's settings are tagged `@live-acting`. They are held unless the live-acting switch is on (default off), in the weekly run and in `deployed-uat`. The register has an "Acts on live" column. 84 safe tests run; 10 are held.
+- Phone-width tests (`s121`) cover the Course catalogue list, the Course detail blade and Layer 4 Review. They run on the phone project only, and each asserts phone width first. The student website's course search and results are recorded as planned.
+- `s120` now guards the phone filter, the three screen tests, the `@live-acting` tags and both workflows' holds.
+- Findings, not changed: Layer 4 choice buttons are 25 px high on a phone and Filters is 31 px (both above the WCAG AA 24 px, below the 44 px platform guidance). The catalogue opens with all filters expanded on a phone, so the first course sits at 1,063 px.
+- Full local suite: 995 passed, 0 skipped, 0 failed. PR #701.

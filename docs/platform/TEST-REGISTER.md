@@ -20,7 +20,8 @@ The list of every test spec in the Pilot repo (`tests/uat`), with the rule or de
 | Category | `rule`: guards a standing rule for every change. `regression`: guards one decision or change. `deployed`: checks a decision on the live site (`@deployed`, run by `deployed-uat`) |
 | Guards | The spec's `// Guards:` line |
 | Tests (source / browser) | Tests Playwright collects: source contracts (read files, no browser) and browser tests (mocked or local page) |
-| Viewports | `desktop`; `desktop + phone` only for `@responsive`; the deployed track's phone gate |
+| Viewports | `desktop`; `phone` for `@responsive` tests (phone project only, each asserts phone width first); `desktop + phone (deployed gate)` for the deployed track |
+| Acts on live | `yes (n of m)` when a deployed test changes live data or the UAT user's saved settings (tagged `@live-acting`): it runs only when the live-acting switch is on (default off). `no` otherwise |
 | Added | The PR (or commit) that added the spec, and its date |
 | Status | Result in the last full local run, or `deployed track` |
 
@@ -36,6 +37,30 @@ The list of every test spec in the Pilot repo (`tests/uat`), with the rule or de
 | Release contract | `m245-release-history-v21575-persistence-contract`, `cf-247-s70-patch-scripts-retired`, `release-notes-deployed` |
 
 Per-change specs do not re-assert these rules. Existing repeats (163 housekeeping lines in 86 specs, settings re-checks in 35) are stripped when a spec is next touched, and counted at each prune.
+
+## Phone-width coverage
+
+| Screen | Guard | Status |
+|---|---|---|
+| Course catalogue list | `cf-247-s121-phone-screens-contract` (phone project; asserts width ≤ 480 px) | Live from 26 Oct 2026 (Platform Admin 10:49: operated from a phone) |
+| Course detail blade | `cf-247-s121-phone-screens-contract` | Live from 26 Oct 2026 |
+| Layer 4 Review | `cf-247-s121-phone-screens-contract` | Live from 26 Oct 2026 |
+| Student website: course search and results | Planned: a phone test is added when the deployed track next touches the website search (Platform Admin 26 Oct 2026 10:49) | Planned, not built |
+
+`s120` fails the build if the phone filter goes, if these three tests go or stop asserting phone width first.
+
+## Live-acting deployed specs (held unless switched on)
+
+Tagged `@live-acting`. Held by the weekly run and by `deployed-uat` unless the switch is on. The Monday line reports safe specs run and live-acting specs held as separate counts.
+
+| Spec | Tests | What it changes on the live site |
+|---|---|---|
+| `layer1-operations-deployed` | NZQA validation; CRICOS validation; QILT / PRISMS validation | Runs a real source validation and records a governed job (and fetches the register sources) |
+| `cf-068-qs-xhr-layer1-deployed` | QS 2026 validation; QS 2027 challenge | Same, for the QS sources |
+| `cf-076-ranking-import-ux-deployed` | Parse an uploaded import; validate a retained edition | Records a governed parse / validation job |
+| `cf-090-ranking-import-recovery-deployed` | Recover, validate and apply THE 2026 | Applies a ranking edition when it is not yet applied |
+| `course-detail-polish-deployed` | Decision-card order persists | Changes the UAT user's saved section order (restored at the end) |
+| `screen-state-persistence-deployed` | Filters survive reload and sign-out | Changes the UAT user's saved filters (cleared at the end) |
 
 ## Retirement log
 

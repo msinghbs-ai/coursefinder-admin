@@ -68,5 +68,6 @@ any approval gate exists below.
    - Every new test names the rule or mandate decision it guards: in its `// Guards:` line, in the register and in the PR. No anonymous tests.
    - Growth is bounded by rules, not numbers. When a rule change obsoletes tests, they retire in the same PR, with the reason in the register's retirement log.
    - The register's Guards column is the ceiling: a rule with a central guard (G2 `s32`, G3 `s57`, housekeeping and G1 `s42`, release contract `m245` / `s70`, G4 `s120`) does not collect more per-change assertions.
-   - Nothing is carried red or skipped. Phone-viewport runs are only for `@responsive` tests and the deployed gate.
+   - Nothing is carried red or skipped. Phone-viewport runs are only for `@responsive` tests and the deployed gate. The three screens operated from a phone (Course catalogue list, Course detail blade, Layer 4 Review) keep real phone tests (`s121`).
+   - Weekly deployed run (Platform Admin 26 Oct 2026 10:49): Monday 05:17, desktop and phone. Deployed tests that change live data or the UAT user's settings are tagged `@live-acting` and held unless the live-acting switch is on (default off). The Monday line reports safe specs run and live-acting specs held separately, with the results from the `deployed-weekly-results` branch.
    - Quarterly prune alongside the docs budget. The Monday line reports tests added, retired and net for the week.

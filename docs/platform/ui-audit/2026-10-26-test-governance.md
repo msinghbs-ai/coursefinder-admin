@@ -134,3 +134,43 @@ Merged under rule 9 as **#699** (`f5bc071c`), 26 Oct 2026.
 From this merge, rule 9's gate is the full suite green with no exceptions.
 
 Follow-up **#700** (`4377c869`): the register committed with #699 had been generated after a two-spec check, so 236 specs showed "not run", and S120 showed as deployed. The generator now takes the deployed flag from the collected tests' tags and states which run the statuses come from, flagging a partial run. Full suite again 990 passed, 0 skipped, 0 failed. The register is regenerated from that run: 241 passing specs, 40 in the deployed track.
+
+## 7 Follow-up decisions (Platform Admin 26 Oct 2026 10:49)
+
+### 7.1 Weekly deployed run: approved, with a live-acting switch
+
+- **Workflow `deployed-weekly.yml`**: Monday 05:17 AEDT, before the Monday line. It runs every `@deployed` spec against the live site on desktop and phone.
+- **Live-acting tests.** Ten deployed tests change live data or the UAT user's saved settings. They are tagged `@live-acting`, listed in the register's "Acts on live" column and its live-acting table.
+- **The switch.** Live-acting tests run only when the live-acting switch is on: the dispatch input, or the repository variable `DEPLOYED_WEEKLY_LIVE_ACTING` = `on`. The default is off.
+- **`deployed-uat` holds them too.** It has the same input, default off. This matters because its targeted tier ran the Layer 1 validations on every push before this change.
+- **Results for the Monday line.** `scripts/deployed-weekly-summary.mjs` writes `weekly/LATEST.md` (plus dated copies and the JSON) to the branch `deployed-weekly-results`. It reports safe tests run and live-acting tests held as separate counts, then passed, failed and skipped per viewport, then each failure.
+- **Today's counts:** 84 safe deployed tests run each week; 10 live-acting tests held.
+
+### 7.2 Phone-width tests for the three operated screens
+
+`tests/uat/cf-247-s121-phone-screens-contract.spec.mjs` has three tests tagged `@responsive`. They run on the phone project only (Pixel 7, 412 px; the desktop project now has `grepInvert: /@responsive/`), and each first asserts that it is at phone width.
+
+| Screen | What the test checks at 412 px |
+|---|---|
+| Course catalogue list | No sideways page scroll. The search box and Filters fit and can be tapped. The first course row can be reached. A wide table scrolls inside its own frame |
+| Course detail blade | Fills at least 90% of the width and stays within it. Close is a tap target. Course values and the official course page can be reached. Closing returns to the list |
+| Layer 4 Review | The inbox shows without sideways scroll. The choice button, the reason box and Confirm fit the screen. A decision is sent with its reason |
+
+`s120` now also fails if:
+- the desktop project stops excluding `@responsive`;
+- any of the three tests goes;
+- a test stops asserting phone width first;
+- a deployed spec that acts on the live site has no `@live-acting` tag;
+- either workflow stops holding live-acting tests.
+
+The student website's course search and results are listed in the register as **planned**: a phone test is added when the deployed track next touches the website search.
+
+### 7.3 What the phone tests found (measured, not changed)
+
+- **Tap targets.**
+  - Layer 4 choice buttons are 25 px high and Filters is 31 px.
+  - Both pass the WCAG 2.2 AA minimum (24 px), which is the threshold the test enforces. Both are below the 44 px that phone platforms recommend.
+  - **Proposal**: raise the Layer 4 choice and Confirm buttons to 44 px on phone widths. It is a small CSS change, not done here because it changes the screen you use.
+- **Course catalogue on a fresh phone session.**
+  - The filter panel opens fully. Fourteen filters push the first course to 1,063 px down the page, below the first screen (839 px).
+  - **Proposal**: start with the filters closed on phone widths (the Filters button opens them).
