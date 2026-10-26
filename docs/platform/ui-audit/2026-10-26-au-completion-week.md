@@ -37,7 +37,7 @@ The completed count lags as lanes fill. Pace is reported as measured; no date is
 |---|---|---|---|
 | 1 | Register-sync fix: CRICOS end dates recorded | **done**: v2.15.358 merged (#703), post-fix verification passed | section 4 |
 | 2 | Eligibility re-run, then ONE count-guarded publish paste | **ready for 08:00**: `docs/platform/pastes/PASTE-20261026-au-publish-eligible-providers.sql`, 1,056 providers | section 7 |
-| 3 | Fee reader AU scope + AU fee-schedule discovery overnight | **running** | section 5 |
+| 3 | Fee reader AU scope + AU fee-schedule discovery overnight | **running but blocked by policy**: AU's tuition proof list is empty (decision needed) | section 10 |
 | 4 | MARK-FILE: AU English-policy and calendar approvals | **lodged**: `docs/platform/reports/2026-10-26/AU-policy-approvals-MARK-FILE.xlsx` | section 6 |
 | 5 | Description reader: build started | **started**: draft branch `cf247-provider-description-reader` (not for merge yet) | section 9 |
 | 6 | Entry-matrix reader: AU top 20 switch staged, off | **staged** (#704, live, off) | section 9 |
@@ -236,3 +236,42 @@ Before the merge:
 - fee AI spend US$0.55 of 5;
 - Firecrawl 908 of 25,000.
 - The 231 newly found schedule pages are fetched by job `provider-facts` at 20 pages every 10 minutes (`batch.provider_facts_read`), so about 2 hours. No setting was changed.
+
+## 10 Progress check, 26 Oct 19:1x, and a correction to step 3
+
+**Field rates (coverage snapshot 18:47). No measurable movement yet; none was expected before the paste:**
+
+| Field | Baseline | Now |
+|---|---|---|
+| English | 64.8% | 64.8% (16,917) |
+| International tuition | 31.6% | 31.7% (8,286) |
+| Official page | 71.3% | 71.3% (18,622) |
+| Intakes | 36.0% | 36.0% (9,390) |
+| Delivery | — | 63.5% |
+| Description | — | 0.6% (163) |
+| Academic entry, deadline | — | 0% (no reader yet) |
+
+AU published providers: 224 (the paste is not applied yet).
+
+**Correction: the fee reader's AU output is not reaching the catalogue.** I reported step 3 as "running" at 18:3x. The reader runs, but its results are held. The cause is a policy setting, not a fault:
+- `coverage_admission_countries.identities->'tuition'` for **AU is an empty list**. It was set that way when AU tuition was taken only from the CRICOS register (registered tuition, 99.3%). NZ and CA have their lists.
+- **Effect 1:** every AU fee the reader admits is written unverified with a Layer 4 item, by the apply-time identity check (R1, `identity_basis_reverify`). Since 17:16 that is **436 AU Layer 4 items across 23 providers**:
+
+  | Proof on the course's bound page | Items | Providers |
+  |---|---|---|
+  | CRICOS code | 395 | 19 |
+  | Exact title | 33 | 10 |
+  | Adapter code or title | 8 | 1 (Flinders) |
+
+  International tuition moved by +37 courses only. The Layer 4 queue is now 782, up from about 320.
+- **Effect 2:** `security.tuition_chase_enabled` is false for every AU provider. So the **243 new AU fee-schedule pages found tonight are never fetched**: job `provider-facts` skips them. My "about 2 hours" estimate in section 9 was wrong.
+- No live fee was removed or changed. Spend so far: fee AI US$1.04 of 5; Firecrawl 960 of 25,000.
+
+**Decision needed (Platform Admin): which proofs AU accepts for international tuition.**
+- Recommended: `cricos_code`, `adapter_code`, `manual`. A CRICOS code on the page is AU's strongest identity proof; it is already accepted for AU English, intakes and official page.
+- Optionally also `exact_title` and `adapter_title`. These are the same as for AU English and intakes, but carry more risk for money values.
+- Once set:
+  - the schedule pages start reading (20 every 10 minutes);
+  - new fees go live through the normal checks (confidence, title similarity, outlier ratio, no conflicting fee);
+  - the 436 held items need a count-guarded re-apply. I prepare it as a paste after your decision, because it writes live fees in bulk.
+- Until you decide, I leave the reader running. Its results stay in Layer 4, which is safe but adds review load. The alternative is to switch AU back out of `fees.countries` tonight; say if you want that.
