@@ -226,7 +226,7 @@ First runs, 21:59–22:05: 6 runs, 12 rows proposed (RMIT Canada 8, UTS 4), 2 La
 
 The RMIT lane stays halted until then. UTS and WSU likewise. VU and Federation wait for the PDF reader (step B).
 
-### 26 Oct 2026 22:38–23:0x — AER v1.1: countries paste applied; six pages re-read; RMIT band-ladder defect found; extraction stays paused
+### 26 Oct 2026 22:38–22:47 — AER v1.1: countries paste applied; six pages re-read; RMIT band-ladder defect found; extraction stays paused
 
 Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, exactly as written … keep extraction paused until every acceptance check passes … stop and record the defect before coding").
 
@@ -297,7 +297,7 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
 - State: `entry.matrix_enabled` 0, job `entry-matrix-read` inactive, 0 open runs.
 - VU and Federation stay halted for the PDF reader (`pdf_step_b`).
 
-## 06:00 status — draft as at 26 Oct 23:0x (final line written at 06:00)
+## 06:00 status — draft as at 26 Oct 22:47 (final line written at 06:00)
 
 - [x] Schema merged and live (additive, switched off): #706.
 - [~] Stored copies for all 5 pilots:
@@ -312,19 +312,19 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
 - [x] Delivery classification report delivered.
 - [ ] All three pastes applied with verified counts: yours at 08:00 (retirements, publish, fee re-apply). The countries paste was applied 22:42 under your 22:38 authority.
 
-~~Status line (to stand at 06:00 unless changed overnight): halted — RMIT band-ladder defect (benchmark band not captured; fix proposed, awaiting go). VU and Federation are halted for the PDF reader.~~ (superseded 23:4x)
+~~Status line (to stand at 06:00 unless changed overnight): halted — RMIT band-ladder defect (benchmark band not captured; fix proposed, awaiting go). VU and Federation are halted for the PDF reader.~~ (superseded 23:11)
 
-**Status line, 23:4x (to stand at 06:00 unless changed overnight): complete for the non-PDF pilots.**
+**Status line, 23:11 (to stand at 06:00 unless changed overnight): complete for the non-PDF pilots.**
 - RMIT band-ladder defect fixed (#708, live). RMIT acceptance passed: 68 rows, 68 identities.
 - RMIT, UTS and WSU lanes are running. Rows land as proposed and go to Layer 4 review.
 - **Halted:** VU and Federation, for the PDF reader.
 - **Open:** completeness guard (a read can leave out a whole qualification column).
 
-### 26 Oct 2026 23:2x — AER v1.1: RMIT benchmark-band fix (#708), written before merge
+### 26 Oct 2026 23:05 — AER v1.1: RMIT benchmark-band fix (#708), written before merge (merged 23:06)
 
 Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT benchmark-band fix … merge its PR under rule 9 when every gate passes").
 
-- **Defect (recorded 23:0x):** RMIT rows carried no benchmark band, so rows of one level and qualification shared an identity. Bangladesh had 11 rows and 3 identities.
+- **Defect (recorded 22:47):** RMIT rows carried no benchmark band, so rows of one level and qualification shared an identity. Bangladesh had 11 rows and 3 identities.
 - **Second cause, found before coding:** RMIT's Foundation Studies and University Pathways Fast Track both map to the foundation study level and print no band. With the band alone, Bangladesh would give 10 identities for 11 rows.
 - **Fix (PR #708, branch `cf247-entry-band`):**
   - **Worker v0.48.2, prompt `entry-matrix-v0.1.2`:**
@@ -346,7 +346,7 @@ Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT 
   3. Re-read the four RMIT pages and run the acceptance checks.
   4. Restore only the eligible non-PDF lanes, if the controls allow it without the PDF lanes.
 
-### 26 Oct 2026 23:4x — #708 merged and verified live; RMIT acceptance passed; RMIT, UTS, WSU lanes restored
+### 26 Oct 2026 23:11 — #708 merged and verified live; RMIT acceptance passed; RMIT, UTS, WSU lanes restored
 
 - **Merge:** #708 squash `832b5717`.
   - Gates: suite 1,017 passed (0 failed, 0 skipped); live dry run passed; change control written before merge.

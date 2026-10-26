@@ -8130,7 +8130,7 @@ The brief now forbids direct table changes.
 - **Checks:** suite 1,012 passed; live dry run (rolled back) re-queued 2 runs, superseded 8 Canada rows and their item, kept the previous result; history md5 `bff1c614` matches the file; worker version 208, `index.ts` and `entry.ts` live byte for byte.
 - **Next:** after the countries paste is applied, re-read the 6 runs and switch the reader on again. VU and Federation wait for the PDF reader (step B).
 
-### 26 Oct 2026 22:38–23:0x — AER v1.1: countries paste applied; six pages re-read; RMIT band-ladder defect found; extraction stays paused
+### 26 Oct 2026 22:38–22:47 — AER v1.1: countries paste applied; six pages re-read; RMIT band-ladder defect found; extraction stays paused
 
 Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, exactly as written … keep extraction paused until every acceptance check passes … stop and record the defect before coding").
 
@@ -8201,11 +8201,11 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
 - State: `entry.matrix_enabled` 0, job `entry-matrix-read` inactive, 0 open runs.
 - VU and Federation stay halted for the PDF reader (`pdf_step_b`).
 
-### 26 Oct 2026 23:2x — AER v1.1: RMIT benchmark-band fix (#708), written before merge
+### 26 Oct 2026 23:05 — AER v1.1: RMIT benchmark-band fix (#708), written before merge (merged 23:06)
 
 Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT benchmark-band fix … merge its PR under rule 9 when every gate passes").
 
-- **Defect (recorded 23:0x):** RMIT rows carried no benchmark band, so rows of one level and qualification shared an identity. Bangladesh had 11 rows and 3 identities.
+- **Defect (recorded 22:47):** RMIT rows carried no benchmark band, so rows of one level and qualification shared an identity. Bangladesh had 11 rows and 3 identities.
 - **Second cause, found before coding:** RMIT's Foundation Studies and University Pathways Fast Track both map to the foundation study level and print no band. With the band alone, Bangladesh would give 10 identities for 11 rows.
 - **Fix (PR #708, branch `cf247-entry-band`):**
   - **Worker v0.48.2, prompt `entry-matrix-v0.1.2`:**
@@ -8227,7 +8227,7 @@ Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT 
   3. Re-read the four RMIT pages and run the acceptance checks.
   4. Restore only the eligible non-PDF lanes, if the controls allow it without the PDF lanes.
 
-### 26 Oct 2026 23:4x — #708 merged and verified live; RMIT acceptance passed; RMIT, UTS, WSU lanes restored
+### 26 Oct 2026 23:11 — #708 merged and verified live; RMIT acceptance passed; RMIT, UTS, WSU lanes restored
 
 - **Merge:** #708 squash `832b5717`.
   - Gates: suite 1,017 passed (0 failed, 0 skipped); live dry run passed; change control written before merge.
