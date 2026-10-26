@@ -93,3 +93,18 @@ The run is logged in the auto-admit record's acceptance evidence, which feeds th
   1. **The identity check stopping the WI0194 redirect binding is positive gate evidence.** It is logged in the acceptance data (auto-admit record).
   2. **The near-twin rename check joins the Defect 1 batch as a designed check, not a threshold tweak.** The evidence: 40 Waikato courses with no page have a published neighbour sharing at least half their title words, and the 60% look-alike threshold misses renames.
   3. **Academic English (WI0911) may not be a no-page course at all.** The fees schedule has its own row (exact name, 2026 and 2027 figures), which suggests the course is offered. This is noted for the first-run review rather than assumed: when WI0911 comes up in a no-page sample, it is ticked "has a page" or routed to Defect 1. It is not in Waikato's current no-page sample (WI0003, WI0918, WI0072, WI1007, WI0157). No hold row was added, because the Platform Admin asked for a note, not a hold.
+
+## 6 Hotfix merge record (rule 9)
+
+**v2.15.357 merged as #702 (`a3e295cf`)**, 26 Oct 2026.
+
+Before the merge:
+- Full local suite: **997 passed, 0 skipped, 0 failed**. The first run had one failure: S99 checked the exact text of the inbox's URL-prefill line, which this release extends. Its rule (prefill only for non-fee course links) is unchanged; the assertion was updated and the suite run again.
+- The three live checksums matched the guards just before the merge.
+
+After the merge:
+- `deploy-on-merge` applied `20261026003000`, and its history md5 `4150d640` matches the file.
+- Release currentness passed: the site serves v2.15.357.
+- The three new blocks are live **byte for byte**: the items branch, the two kinds, and the decide branch.
+- **Live state:** all 41 no-page and all 19 conjoint first runs carry their university. Waikato lists "No page published: first run" (1) and "Conjoint or double degrees: first run" (1) under By university.
+- The two fee items the Platform Admin is rejecting (`44b8f7c6…` WI0858, `8889d2f0…` WI0911) were still **pending** at the check.
