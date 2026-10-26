@@ -198,3 +198,63 @@ No spend stop hit.
 **Red:**
 - **RMIT entry-matrix lane halted at 00:06** for defect D1 (the reader keeps "Not applicable" as a band; the completeness guard correctly holds those reads). Cause named; the fix awaits your go. No silent partial read.
 - **Pastes awaiting you at 08:00:** retirements, then publish, then fee re-apply (standing; unchanged).
+
+## 27 Oct 04:0x overnight check-in (since 00:36)
+
+Heartbeat run at 04:02 AEDT. Coverage figures as computed at 03:47.
+
+**Values admitted since 00:36 (AU):**
+
+| Field | Admitted | Total now |
+|---|---|---|
+| Fees | 0 (0 new live, 0 held by the gate) | 8,454 |
+| English | 0 | 16,917 |
+| Intakes | 0 | 9,391 |
+| Links | 0 | 18,622 |
+
+- Gate: trigger enabled, `fees.identity_gate_on` 1. No value admitted that failed a gate.
+- Entry matrix: 0 active rows.
+
+**Wave status:**
+- **Fee-schedule lane: drained, not stalled.** All 284 pages found in this wave are processed: 167 read, 117 failed, 0 left to read. Nothing has changed since 00:30:21.
+  - 110 of the 117 failures are `target_list_refused`: the direct read was blocked and the scraper is refused because the provider is not on the Firecrawl target list. **Named cause; the decision is yours** (add these providers to the target list, or leave them to the course-page fee reader).
+  - The other 7 are 404 or no content.
+- 68 older AU fee-schedule rows (found 20 Oct) remain `found` with 0 attempts, outside this wave's scope. I'll look at them tomorrow.
+- **Fee reader queue:** 711 done, 4 failed, 0 queued.
+  - 1 item has been `leased` since 19:18 (lease expired 19:35, 3 attempts, "the model returned no answer"). Stuck at its attempt limit without being settled to failed. Named; one item; I'll look at it tomorrow.
+- **Publish paste:** not applied (yours, 08:00). Fee re-apply paste: lodged and ready.
+- **Entry matrix:**
+  - UTS and WSU on;
+  - RMIT halted since 00:06 (D1, awaiting your go);
+  - VU and Federation halted (PDF);
+  - runs: 8 done, 29 queued.
+
+**Queue health:**
+- `fee-reader`, `provider-facts`, `fee-period-settle` and the other fee jobs are all succeeding on schedule.
+- Layer 4 pending: 778.
+- `scholarship-course-attribute-full` (not AU): the same deadlock, as at 19:45 and 00:3x.
+
+**Spend:**
+
+| Item | Spent | Guard / budget |
+|---|---|---|
+| Fee AI (AI day from 11:00 AEDT) | US$2.32, unchanged since 00:36 | 5 |
+| Entry-matrix AI | US$0.18 | 2 |
+| Firecrawl since midnight | 25 used (45 billed) | 25,000 |
+
+Firecrawl refusals today: reads 17, scholarships 96, central 39. No spend stop hit.
+
+**ETA, Thursday targets:**
+- **All 11 fields:** 5,539 (+2 since 00:3x; +100 since 19:45).
+  - **Floor 5,540:** 1 short, met by the 08:00 fee re-apply paste (+27).
+  - **Target 5,600:** needs +61. Overnight growth has stopped with the fee-schedule lane drained, so the target now rests on:
+    - the morning pastes (+27);
+    - the published-provider lanes after the publish paste;
+    - the 110 target-list pages, if you add them.
+  - **On track only if the morning pastes go in.**
+- **Automatic:** 266. **Blocked:** 20,298.
+
+**Red:**
+- **RMIT entry-matrix lane halted** (D1, since 00:06), unchanged.
+- **Pastes awaiting you at 08:00:** retirements, then publish, then fee re-apply.
+- **Decision for you:** 110 AU fee-schedule pages refused by the Firecrawl target list. The cause is named, so this is not a stalled-lane red. It is the only remaining source of overnight fee growth.
