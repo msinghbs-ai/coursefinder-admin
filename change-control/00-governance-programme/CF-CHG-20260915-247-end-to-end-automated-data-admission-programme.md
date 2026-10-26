@@ -8221,3 +8221,29 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
 - UTS and WSU pass their checks. Re-enabling them would read nothing new tonight: one page each, already read, unchanged.
 - State: `entry.matrix_enabled` 0, job `entry-matrix-read` inactive, 0 open runs.
 - VU and Federation stay halted for the PDF reader (`pdf_step_b`).
+
+### 26 Oct 2026 23:2x — AER v1.1: RMIT benchmark-band fix (#708), written before merge
+
+Authority: Platform Admin 26 Oct 2026 22:50 ("Build and release the narrow RMIT benchmark-band fix … merge its PR under rule 9 when every gate passes").
+
+- **Defect (recorded 23:0x):** RMIT rows carried no benchmark band, so rows of one level and qualification shared an identity. Bangladesh had 11 rows and 3 identities.
+- **Second cause, found before coding:** RMIT's Foundation Studies and University Pathways Fast Track both map to the foundation study level and print no band. With the band alone, Bangladesh would give 10 identities for 11 rows.
+- **Fix (PR #708, branch `cf247-entry-band`):**
+  - **Worker v0.48.2, prompt `entry-matrix-v0.1.2`:**
+    - each table line carries the band its "Australian standard" column prints;
+    - a row whose whole-row quote shows that band but gives none is rejected (`band_missing`);
+    - a band not in the quote (`band_not_in_quote`), different from the printed one (`band_mismatch`), or ambiguous between matching lines (`band_ambiguous`) is rejected;
+    - the band kept is the printed one, never inferred.
+  - **Migration `20261026009000_cf247_entry_matrix_band_identity.sql`** (two md5-guarded edits, nothing dropped):
+    - `entry_matrix_identity_tg` (`86ddafc3…`): the row's level label joins the condition keys of the existing identity as `level: <label>`, as the qualification name did in #706. The hash function and status values are unchanged.
+    - `entry_matrix_review_apply_v1` (`e3f02aaa…`): approval refuses a run whose proposed rows share an identity (raises; nothing changes).
+  - **Tests:** s128 is new (carried-down label, band extraction, missing-band rejection, identity separation). s127 now accepts the new worker and prompt versions. The test register is regenerated.
+- **Gates:**
+  - suite 1,017 passed, 0 failed, 0 skipped;
+  - worker build OK;
+  - live dry run (rolled back): approval of the pending Bangladesh item refused ("proposed rows share an identity"). With the printed bands, Bangladesh has 11 rows and 11 identities (3 before). 0 active rows.
+- **Next:**
+  1. Verify live md5s just before the merge.
+  2. Merge, then verify the deployed migration and worker.
+  3. Re-read the four RMIT pages and run the acceptance checks.
+  4. Restore only the eligible non-PDF lanes, if the controls allow it without the PDF lanes.
