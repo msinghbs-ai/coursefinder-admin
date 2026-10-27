@@ -51,3 +51,14 @@ PR #716 (v2.15.360):
 - nothing has run.
 
 The action **Close the AER PR A recovery** is on Layer 2/3 › Operations › Governed actions, and all ten preconditions pass live. It runs only on the Platform Admin's approval in the UI.
+
+## 4. Recovery closure completed after approval — 27 Oct 2026, 22:47
+
+- **Approval:** the Platform Admin previewed at 22:46:24 (event 22685) and approved at 22:46:54. The action ran once: task `c24fe0d7…`, `done`, audit event 22686. It is idempotent, so a repeat returns the first result.
+- **Scope:** RMIT was removed from `entry.providers`; UTS and WSU stay in scope. All five post-checks are true. The RMIT exception is closed.
+- **RMIT rows:** 343 active and 20 quarantined. The 37 proposed rows stay in four pending Layer 4 items, and none were admitted.
+- **Recovery runs:** all six keep their outcomes and history. There have been no new reads and no new cost.
+- **Recovery cost:** US$0.0268956 (US$0.027).
+- **Consumer API:** unchanged (73 functions and 48 relations, as baselined).
+- **Times:** report 2 was 22:39 and report 3 was 22:43 AEDT (earlier labels "23:3x" and "23:5x" corrected).
+- **Stopped.** The 37 proposed rows remain a separate Layer 4 review task.

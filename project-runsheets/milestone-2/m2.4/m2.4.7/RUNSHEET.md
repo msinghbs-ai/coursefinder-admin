@@ -8865,3 +8865,29 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Not run:** 0 governed-action tasks and 0 governed-action events. RMIT is still in `entry.providers` (the owned exception) until the Platform Admin approves in the UI.
 - **Live preconditions now:** all ten pass. Counts: 343 active, 37 proposed in 4 pending Layer 4 items, 20 quarantined. Recovery cost US$0.0269. Refresh risk from 25 Nov 2026 21:59 AEDT.
 - **Next:** the Platform Admin previews and approves on Layer 2/3 › Operations › Governed actions. After the closure, the verification is recorded and work stops.
+
+### 27 Oct 2026 22:47 — AER PR A recovery closed through the governed UI action (Decision 268); verified; work stopped
+
+- **Approval and closure (actual times, AEDT):**
+  - preview by the Platform Admin at 22:46:24 (event 22685, action hash `0c11d809…`; dry run rolled back with scope UTS and WSU);
+  - approved and run at 22:46:54 (reason "Approval l2l3"); task `c24fe0d7-8771-4bb9-bf7a-6f832f840169`, state `done`, audit event 22686 (`executed`).
+- **Ran exactly once:** 1 governed-action task (done) and 2 governed-action events (preview, executed); 0 refused, 0 failed, 0 queued.
+  - Idempotent: a repeat with the same approval key returns the first task marked repeated (unique index `admin_jobs_governed_idempotency_uq` live); a new approval is refused as "already done". No repeat was run against live for this check.
+- **Scope:** `entry.providers` is now UTS and WSU (before: UTS, WSU and RMIT). RMIT is out of scope; UTS and WSU are in. The setting's change reason names the governed action.
+  - **The RMIT scope exception recorded at 22:2x is closed.**
+- **Post-checks in the task result, all true:** scope restored, RMIT out of scope, UTS and WSU in scope, counts unchanged, runs unchanged.
+- **RMIT rows, unchanged:** 343 active, 20 quarantined (status `unverified`), 37 proposed, 167 superseded. No entry-matrix row changed after the preview.
+- **Nothing admitted:** the 37 proposed rows remain in their four Layer 4 items, all pending (Qatar 2, Singapore 9, Sri Lanka 13, Thailand 13). They remain a separate Layer 4 review task.
+- **The six recovery runs kept their outcomes and history.** Last changed 21:54–22:05, before the closure.
+  - Qatar, Singapore, Sri Lanka and Thailand are complete.
+  - Norway is held before any AI read.
+  - The UK is held after its third attempt (2 of 31 not read).
+  - Previous results are retained.
+- **No new read and no new cost:** 0 entry-matrix runs created or changed since the preview; 0 RMIT runs queued or being read.
+- **Recovery cost, reconciled:** US$0.0268956 (US$0.027).
+  - The cumulative cost of the six runs is US$0.0561392.
+  - Less their cost when the recovery opened at 21:50, that leaves Singapore 0.0034884, Sri Lanka 0.0037492, Thailand 0.0034916, Qatar 0.0012016, the UK 0.0149648 and Norway 0.
+- **Consumer API (G3):** unchanged. 73 functions and 48 relations match the 18 Oct baseline (0 changed, missing or new).
+- **Other activity in the same minutes:** 33 Layer 4, scholarship-review and adapter decisions by Platform Admin users between 22:46:59 and 22:49. None of them touch RMIT or the four items.
+- **Time correction:** the earlier entries labelled "23:3x" and "23:5x" were written at 22:39 (change control before merge) and 22:43 (merged, deployed and ready) AEDT. The 21:50 recovery-open time stands.
+- **Stopped:** no PR B, no further recovery, no other governed action and no new reader. Further governed actions are separate decisions.
