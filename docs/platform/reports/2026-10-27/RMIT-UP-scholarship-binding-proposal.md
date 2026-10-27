@@ -5,6 +5,17 @@ Platform Admin mandate 27 Oct 2026 12:27, item 4.
 - All 23 reviews stay pending until the Platform Admin makes the binding decision.
 - Proposed paste: `docs/platform/pastes/PASTE-20261027-rmit-up-duplicate-reviews.sql` (count-guarded, **not applied**). Its rolled-back dry run on live passed (run 40433236252): 23 closed, 0 pending left, and review 1965 still pending.
 
+> **Revised 27 Oct 2026 13:5x (Platform Admin 13:44): the closing paste now covers 22 reviews, not 23.**
+> - China pathway review **1368** is **excluded**. It stays pending under RMIT UP for a human ownership judgement.
+> - No provider ownership is changed and no admission is created.
+> - The revised file (md5 `bc39ad5b…`) adds guards that 1368 is pending before the paste and still pending after it.
+> - Rolled-back dry run on live (run of 27 Oct 13:5x) passed:
+>   - 22 closed;
+>   - 1 RMIT UP review left pending (1368);
+>   - 1965 still pending;
+>   - RMIT UP scholarships still 0.
+> - **Held for separate application.** Sections 2–3 below list all 23 as investigated. The recommendation now applies to the 22, with 1368 excluded.
+
 ## 1 The two providers
 
 | | RMIT University | RMIT University Pathways, RMIT UP |

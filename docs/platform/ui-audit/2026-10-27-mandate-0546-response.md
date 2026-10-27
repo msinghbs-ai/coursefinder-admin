@@ -178,3 +178,12 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
   - the dry-run version is not in the migration history.
 - The dry-run branch was reset to `main`.
 - **No paste changed; all three are ready for 08:00.**
+
+### 27 Oct 13:44: Platform Admin stops agent live writes. Pastes applied manually
+
+- **Agent live-write attempts:**
+  - Retirements paste: cancelled at the database approval prompt at 08:17 and twice at 12:29. None reached the database: the Postgres logs show no statement, and live was unchanged.
+  - Per the Platform Admin at 13:44, the agent makes no further live-write attempts.
+  - The Platform Admin applies the pastes by hand in the SQL editor, in this order: retirements, publish, fee re-apply, UNSW English withdrawal. The agent runs only each paste's read-only verification after being told it was applied.
+- **On hold:** fee window Paste A/B and the RMIT UP closing paste.
+- **RMIT UP closing paste revised to 22 reviews** (1368 China pathway excluded, still pending). Count guards and the rolled-back dry run passed at 13:5x. Held.
