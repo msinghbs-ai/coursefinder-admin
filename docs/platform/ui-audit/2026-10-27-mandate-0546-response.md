@@ -187,3 +187,16 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
   - The Platform Admin applies the pastes by hand in the SQL editor, in this order: retirements, publish, fee re-apply, UNSW English withdrawal. The agent runs only each paste's read-only verification after being told it was applied.
 - **On hold:** fee window Paste A/B and the RMIT UP closing paste.
 - **RMIT UP closing paste revised to 22 reviews** (1368 China pathway excluded, still pending). Count guards and the rolled-back dry run passed at 13:5x. Held.
+
+### Paste 1 (retirements): applied manually by the Platform Admin; verified
+
+- **Applied:** 27 Oct 14:01:40 AEDT, event 21736, actor Platform Admin, file `PASTE-20261027-au-register-retirements.sql` (md5 `0b1a26d2…`).
+- **Verified (read only, 14:02:38):**
+  - run b8a541af departures: `applied`;
+  - **563 retirement rows on 563 distinct courses**; course-list md5 `78357842…`, the same as the guard;
+  - all 563 courses inactive; 0 of their CRICOS registrations still active;
+  - AU active courses 26,103 → **25,540** (−563);
+  - **6 provider departures** recorded (`layer1_provider_departures`), the "closure or merger" review records for providers left with no active course. These sit in Layer 1, not in the Layer 4 inbox; the paste header said Layer 4;
+  - consumer API snapshots stored before and after ("before/after retiring 563 register departures");
+  - 1 search refresh request.
+- **Next:** stopped here. The publish paste is the Platform Admin's to apply.
