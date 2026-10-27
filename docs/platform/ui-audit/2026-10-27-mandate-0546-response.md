@@ -333,3 +333,15 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
 - **Outcome:**
   - 49 out-of-scope values are valid and stay active.
   - 1 identity defect: withdrawal proposed in `PASTE-20261027-fee-divinity-gc-identity-withdraw.sql`. It is count-guarded and the dry run passed. The course keeps its 2027 value read from its own named line, so the AU numerator does not change.
+
+## 27 Oct 2026, 21:45 — Divinity GC identity withdrawal verified (read only)
+
+`PASTE-20261027-fee-divinity-gc-identity-withdraw.sql` was applied at 21:45:31 AEDT (event 22138: 1 fee, AUD 27,072, 2026; 2027 value 90daaf42 kept).
+
+- **Withdrawn:** exactly one value, University of Divinity Graduate Certificate in Theology (053016J), fee 15802bef, 2026, AUD 27,072.
+  - It is now `inactive`, with `valid_to` 27 Oct 2026, and the withdrawal reason appended to its notes.
+  - Evidence (fba1daa8, still present), source and fee key are unchanged. The fee-reader row it came from is kept.
+  - It is the only provider-tuition value made inactive in the last four hours.
+- **Kept:** the 2027 value 90daaf42 (AUD 28,704, read from the course's own named line in the 2027 PDF) is still active, so the course keeps provider tuition.
+- **AU provider-tuition numerator:** unchanged by this paste. It is 8,556 of 25,540 now, and would be 8,556 with or without this value. The 8,546 at 17:00 has since grown through ordinary lanes.
+- **Consumer API:** shape unchanged. All 73 functions and 48 relations match the 18 Oct baseline: none changed, missing or added.
