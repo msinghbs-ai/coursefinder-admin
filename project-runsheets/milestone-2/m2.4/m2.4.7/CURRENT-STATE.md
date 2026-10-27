@@ -8709,3 +8709,30 @@ Authority: Platform Admin mandate 27 Oct 2026 14:35, P2.1. The AER freeze is lif
 - A run's Layer 4 item keeps the `proposed_value` sample from the read that created it. After later re-reads (D3, or retries), the item's sample is stale. For example, Bangladesh's item shows 12 sample rows from its first read, 6 of them with no band, from before the band fix.
 - So each decision row's `final_value` records that stale sample. The admitted rows themselves are correct: 11 active, one per published cell, from the run.
 - This is an audit-trail accuracy issue for the platform team.
+
+### 27 Oct 2026 16:10 — AER PR A (G1, P2, R2), written before merge
+
+Authority: Platform Admin 27 Oct 2026 14:35 (Priority 2: PR A covers the Sri Lanka, Thailand and UK column tie, the Singapore repeated header and the Norway scale; stored pages and regression fixtures; D1–D5 kept). Scale rule: Platform Admin answer at about 15:00: "hold every bare-number column whose scale is not printed or otherwise explicitly evidenced on the official source. Do not infer or invent a generic 'points' scale."
+
+- **Worker v0.48.8, prompt unchanged (`entry-matrix-v0.1.4`):**
+  - **G1 (guard):** when two columns tie on the word score, the tie is broken by the same score over every word, single characters included. A column is accepted only if it is then strictly the best; otherwise the row stays `qualification_not_resolved`. The first version compared the new score with the old one and never resolved; this was caught by the replay before commit.
+  - **P2 (manifest):** a body row whose non-blank cells all repeat their column headings is the header printed again, not a row of minimums.
+  - **R2 (source hold):** a qualification column whose every published cell is a bare number, with no scale printed in the heading, the column heading or a grading row, holds the page before any AI read as `held_unparsed: no printed scale: bare numbers in <columns>`. This is terminal, with no retry. No scale is inferred.
+- **Evidence (s135, stored pages and the actual held reads, nothing read again):**
+  - **Sri Lanka and Thailand:** the held reads, replayed, are complete (13/13, 13/13).
+  - **United Kingdom:** the held read is now fully explained, with 0 unexplained rows, but it is 29 of 31 because the read left 2 cells out. A new read is needed (D3).
+  - **Singapore:** 9 minimums (11 before), and its held read is complete (9/9). Page text is unchanged.
+  - **Foundation equivalencies:** P2 also removes its three repeated header rows (24 to 21). It is still held by D2.
+  - **R2 flags exactly three columns on the 36 pages:**
+    - Norway;
+    - China "Gao Kao (National College Entrance Examination, NCEE) - Beijing";
+    - Germany "Abitur/Fachhochschulreife".
+  - **Unchanged pages:** every other stored page keeps its manifest byte for byte (32 pages).
+  - **The 25 admitted runs:** all stay complete with their own rows, 363 rows, one identity per row. China and Germany are the only ones R2 would hold on a new read.
+  - **Tie negatives:** a tie no word can break stays not resolved, and a row naming the other tied column is refused as `wrong_column`.
+- **Specs:** s129, s131, s133 and s134 expectations updated where v0.48.8 changes a line they quote or a manifest they fingerprint (Singapore and Foundation equivalencies move to s135).
+- **Gates:** local suite 1,055 passed, 0 failed, 0 skipped (`@deployed` excluded). Build OK. No database change, so no database dry run applies.
+- **Not in this PR:**
+  - Nigeria and Vietnam (PR B).
+  - Recovery: D3 runs after deploy verification, for the affected runs only.
+  - The 20 China/Germany rows: these are quarantined by the separate manual paste `PASTE-20261027-aer-unscaled-quarantine.sql` (md5 `49a49ab1…`; dry run passed; not yet applied).
