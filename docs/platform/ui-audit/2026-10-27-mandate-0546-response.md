@@ -230,3 +230,23 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
   - 64 now belong to published providers and are back in the reader's scope; 4 still belong to hidden providers (the 277 held by cause).
   - Of the 64: 32 providers are Firecrawl targets; **32 are not**, so the existing lane, which reads fee pages only through Firecrawl, will refuse them as `target_list_refused`.
   - Being processed by job `provider-facts` (every 10 minutes); reconciled once that lane settles.
+
+### Paste 4 (UNSW English withdrawal): applied manually by the Platform Admin; verified
+
+- **Applied:** 27 Oct 14:07:38 AEDT, event 21743, file `PASTE-20261027-unsw-bengaluru-english-withdraw.sql` (md5 `80fece67…`).
+- **Verified (read only, 14:08):**
+  - **1,688 rows withdrawn on 422 courses.** Row-list md5 `d1203628…` and course-list md5 `39f816cd…`, both the same as the paste's guards.
+  - 0 active rows left from proposal b75bcad5. The proposal stays `superseded`, with its history kept.
+  - **English numerators (live):**
+    - UNSW Sydney: 431 → **9** of 667 active courses.
+    - AU: **16,175** active courses with English, of 25,540.
+    - Reconciliation from the 26 Oct snapshot: 16,917 − 422 withdrawn (UNSW) − 320 retired by paste 1 (which had English) = 16,175.
+    - The hourly coverage build will show these from its next run.
+- **Consumer API** (all four pastes; snapshot at 12:28 before paste 1 against one now):
+  - **Shape unchanged.** The guard's checks (run read only, with the guard's search path) show 0 of 73 functions and 0 of 48 relations drifting from the baseline.
+  - All 13 response cases still answer `ok`.
+  - 7 cases have different content, as expected from the data changes: AU search results, scholarships, tuition range, providers list, the 080729G preview and has-provider-tuition. The other 6 are byte for byte the same.
+  - Note: read with an ordinary session search path, 3 vector functions appear to differ only in how the `vector` type is written. With the guard's own empty search path they match.
+- **Next:** stopped here.
+  - Fee window Paste A/B and the RMIT UP closing paste (22 reviews) stay on hold.
+  - Reconciliation of the 68 older schedules is scheduled once, for 16:37.
