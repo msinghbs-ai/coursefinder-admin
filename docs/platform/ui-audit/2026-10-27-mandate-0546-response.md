@@ -250,3 +250,59 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
 - **Next:** stopped here.
   - Fee window Paste A/B and the RMIT UP closing paste (22 reviews) stay on hold.
   - Reconciliation of the 68 older schedules is scheduled once, for 16:37.
+
+## 27 Oct 2026, 16:54–18:15 — Manual-paste verifications and the fee reconciliation (read only)
+
+**RMIT UP 22-review closing paste (applied 16:53:59, event 21912): verified, accepted 18:03.**
+- **Closed:** exactly 22 reviews, now `superseded`, each with the paste's note; no other review carries it.
+- **Still pending:** review 1368 (RMIT UP's only pending review; the rest are 84 superseded) and review 1965 (under RMIT University).
+- **Unchanged:**
+  - RMIT UP still has 0 scholarships, 3 courses and 402 candidates, all rejected.
+  - RMIT University still has 315 scholarships.
+  - Both provider records were last updated 10 Oct.
+  - No new scholarships and no Layer 4 items.
+
+**AER unscaled quarantine paste (applied, event 21974): verified.**
+- **Quarantined:** exactly 20 rows (China Gao Kao 9, Germany Abitur 11), now `unverified` with `aer_flag = quarantined` and the "no printed scale" reason.
+- **Kept on all 20:** quote, evidence, source, content hash, run, row identity and provenance.
+- **Active rows:** RMIT 363 → 343; China 13; Germany 0; Norway 0, still held (run failed, held incomplete).
+
+**68 older fee schedules (reconciliation scheduled for 16:37, run at 17:00 on instruction).**
+- **The set:** rebuilt from the 14:03 publish list (md5 `a37d52ad…`, the publish event's): 64 schedules of providers published at 14:03 plus 4 still hidden.
+- **Overlap with the Paste A window:** none (no page among the 54, no provider among the 42).
+- **The 64, state at 17:00:**
+  - **On the Firecrawl target list (32):** 1 parsed (2 fee rows), 16 no values, 15 not yet read.
+  - **Not on the list (32):** 23 waiting, plus 9 refused by the target list (8 since reset to found).
+- **The 4 hidden:** waiting, untouched.
+- **Fee-reader queue:** none of the 68 has a queue item.
+- **Since 14:03:** 2 tuition values admitted (2 courses with their first provider tuition); 8 tuition items in Layer 4.
+
+**Paste A window (opened 15:48:42, event 21850) — settled at about 17:32.**
+
+| | In scope: the 54 pages | Out of scope: other fee pages of the 42 providers |
+|---|---|---|
+| Pages read | 54: 2 parsed, 52 no values | 31: 4 PDFs parsed, 22 no values (6 PDFs), 5 more PDFs read later |
+| Credits | 55 | 89 |
+| Tuition values admitted (live) | 38 (10 pages, 38 courses) | 50 (5 PDFs, 47 courses) |
+
+- **Window totals:**
+  - credits: 144 in 97 calls, against the 1,013 bound;
+  - values admitted: 89 (1 more not attributable to a source page);
+  - Layer 4 tuition items: 57.
+- **Withdrawals:** 5 values withdrawn since the window opened; 4 courses lost their only provider tuition.
+- **AU provider-tuition numerator at 17:00:** 8,546 of 25,540 active AU courses.
+- **Out of scope:** the window opened Firecrawl per provider, so it also read fee pages of the 42 providers beyond the 54, PDFs included. This breaks the mandate's "no PDF, no page beyond the 54" condition.
+
+**Platform Admin decision, 18:03:**
+- Hold further out-of-scope reads through the existing mechanism (`admin_fee_reader` `page_stop`).
+- Keep the 80 values admitted at 17:00 (89 at settlement) unless an evidence, identity or admission-gate defect is found.
+- Audit the 5 out-of-scope PDFs and their 50 rows separately.
+- Close with Paste B once the in-scope pages settle.
+
+**Done:**
+- **Hold:** at 18:1x nothing out of scope was left unread or queued, so the hold had nothing to act on and no write was made.
+- **Close:** the window settled, and `PASTE-20261027-fee-target-window-close-v2.sql` was presented.
+  - Before part A these providers had no target rows. v2 removes exactly the 42 rows part A inserted, restoring the original list (983 rows).
+  - v1 would have left 42 standing `included = false` overrides.
+  - The dry run (rolled back) passed: 983 rows, 0 window rows, 0 of the 42 included, 144 credits in 97 calls recorded.
+- **Not yet done:** the audit of the 5 out-of-scope PDFs.
