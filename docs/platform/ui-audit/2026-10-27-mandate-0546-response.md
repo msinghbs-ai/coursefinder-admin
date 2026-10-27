@@ -200,3 +200,16 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
   - consumer API snapshots stored before and after ("before/after retiring 563 register departures");
   - 1 search refresh request.
 - **Next:** stopped here. The publish paste is the Platform Admin's to apply.
+
+### Paste 2 (publish): applied manually by the Platform Admin; verified
+
+- **Applied:** 27 Oct 14:03:31 AEDT, event 21737, file `PASTE-20261026-au-publish-eligible-providers.sql` (md5 `936ce8b4…`).
+- **Verified (read only, 14:03:55):**
+  - **1,056 providers published.** All 1,056 have a manual-edit log row; their id-list md5 is `a37d52ad…`, the same as the paste's.
+  - **0 providers eligible and still unpublished.**
+  - AU providers published: 1,279. AU providers still hidden: 277, held with a named cause in the paste.
+  - Active courses under the 1,056: **9,136**. The paste recorded 9,454 at generation; the difference of 318 is exactly the courses retired by paste 1.
+  - AU active courses on published providers: 23,892 of 25,540.
+  - 1 search refresh request.
+- **Unblocked for the fee lane:** 64 of the 68 older `found` fee-schedule rows belong to the newly published providers. They are reconciled after the fee re-apply is verified.
+- **Next:** stopped here. The fee re-apply is the Platform Admin's to apply.
