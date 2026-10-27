@@ -950,3 +950,21 @@ Authority: Platform Admin 27 Oct 2026 14:35 (Priority 2: PR A covers the Sri Lan
   - Nigeria and Vietnam (PR B).
   - Recovery: D3 runs after deploy verification, for the affected runs only.
   - The 20 China/Germany rows: these are quarantined by the separate manual paste `PASTE-20261027-aer-unscaled-quarantine.sql` (md5 `49a49ab1…`; dry run passed; not yet applied).
+
+### 27 Oct 2026 16:40 — AER PR A (#715) verified; recovery pastes prepared (not applied)
+
+- **Merge:** squash `c9d333a2`. All checks green before merge (build-and-smoke, Workers Builds).
+- **Post-merge:** deploy-on-merge succeeded (run 40454662386), and the deployed UAT run also succeeded. Worker version 215: all 17 deployed files are byte for byte the repo's at `c9d333a2` (`coverage-sweep-worker-v0.48.8`).
+- **Recovery (D3, affected runs only):** two pastes for the Platform Admin, `PASTE-20261027-aer-pr-a-recovery-open.sql` (md5 `f9d36c13…`) and `…-close.sql` (md5 `61a2a5d6…`).
+  - **Open:**
+    - holds Vietnam until PR B (state failed with the reason, history kept);
+    - re-queues Norway through the guarded D3 function, so it will be held before any AI read under R2;
+    - adds RMIT to `entry.providers`.
+  - **Close:** restores UTS + WSU once the runs have settled.
+  - **Dry run (rolled back), with a real claim call:** the worker would take exactly Norway, Qatar, Singapore, Sri Lanka, Thailand and the UK.
+    - The 25 complete runs, the 3 D2 pages and Nigeria are not claimable.
+    - No RMIT source is due for fetching.
+    - Close restored UTS + WSU.
+- **Recorded, not acted on (new class candidate, Nigeria):** six Nigeria cells read "This qualification does not give you entry to this program". The manifest counts them as published minimums, so a complete read would propose them as minimum grades.
+  - No other stored page has such a cell, and none of the 25 admitted runs carries one.
+  - This is raised with the Platform Admin before PR B. It is not added to PR B silently.
