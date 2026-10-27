@@ -8756,3 +8756,56 @@ Authority: Platform Admin 27 Oct 2026 14:35 (Priority 2: PR A covers the Sri Lan
 - **Recorded, not acted on (new class candidate, Nigeria):** six Nigeria cells read "This qualification does not give you entry to this program". The manifest counts them as published minimums, so a complete read would propose them as minimum grades.
   - No other stored page has such a cell, and none of the 25 admitted runs carries one.
   - This is raised with the Platform Admin before PR B. It is not added to PR B silently.
+
+### 27 Oct 2026 22:2x — Decision 268 lodged (governed actions; SQL break-glass); AER PR A recovery settled; RMIT scope exception owned
+
+Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:00 (correction, and option 3). Decision: `docs/coursefinder-design-reference-v1.4.md` Decision 268, lodged before any code.
+
+**Correction to the record.** The 21:57 mandate said the AER PR A recovery had never opened. It had.
+- The open paste was applied at 21:50:00 AEDT (event 22140 re-read Norway; event 22141 opened the recovery).
+- The deployed worker v0.48.8 then read the six runs.
+- No record here says the recovery was never opened.
+
+**Recovery outcome (all six settled at 22:05:20; nothing admitted):**
+
+| Run | Outcome | Attempts | Tonight's cost (USD) |
+|---|---|---|---|
+| Norway | held before any AI read: `held_unparsed: no printed scale` (terminal) | 1 | 0 |
+| Singapore | complete 9/9; 9 rows proposed; Layer 4 item bcd9f55b pending | 3 | 0.0035 |
+| Sri Lanka | complete 13/13; 13 proposed; item 8a803c95 pending | 2 | 0.0037 |
+| Thailand | complete 13/13; 13 proposed; item f56bd767 pending | 2 | 0.0035 |
+| Qatar | complete 2/2; 2 proposed; item 9adbeada pending | 1 | 0.0012 |
+| United Kingdom | held after its third and last attempt: `held_incomplete: 2 of 31 published minimums not read` (failed, history kept: 3 earlier results). This is the reader leaving cells out (the omitted-cell class PR B addressed); no fix is started. | 3 | 0.0150 |
+
+- **Total model cost:** US$0.027.
+- **RMIT entry-matrix rows:** 343 active (none changed), 37 proposed (all tonight; 4 pending Layer 4 items), 20 quarantined (unchanged), 167 superseded.
+- **Duplicates:** 0 proposed rows duplicate an active identity, and 0 duplicate each other.
+- **Untouched:** Vietnam (held for PR B), Nigeria, the three D2 pages and the 25 earlier complete runs.
+
+**Temporary operational exception (owned; not a steady state).**
+- RMIT stays in `entry.providers` (with UTS and WSU) until the Platform Admin approves the governed closure in the UI.
+- **Verified live at 22:0x that no RMIT read can start before then:**
+  - no RMIT run is queued or leased, and none is claimable (0);
+  - all 36 sources are `read` and each has a run for its current content, so nothing is queued afresh;
+  - RMIT has 36 sources, more than the attach limit (`entry.attach_per_provider`, 3);
+  - a done run is never claimed again; only the logged D3 re-read, a Platform Admin action, can re-queue it.
+- **The one remaining path is the 30-day refresh** (`entry.matrix_refresh_days`, 30). It first falls due on 25 Nov 2026 at 21:59 AEDT (earliest direct read 26 Oct 21:59). The governed closure must be approved before then.
+- Owner: Platform Admin.
+
+**In-flight branches and PRs (actual state).** There are no open PRs on the code repo; `main` is at `c9d333a2` (#715).
+- **Remote branches:**
+  - `cf247-aer-pr-a-structure` is merged (#715) and can be deleted.
+  - `cf247-aer-v11-schema` is an earlier AER branch, not touched tonight.
+- **Lost local work:**
+  - The PR B reader changes (Nigeria no-entry cells, omitted-cell follow-up, Vietnam table keys; s137) were never committed or pushed. They were lost when the session environment was replaced.
+  - The measurement-only "awaiting Layer 3" branch (migration `20261027003000`, s136) was committed locally but never pushed, opened as a PR or merged. Its migration was only dry-run, so nothing was applied. It was lost the same way.
+  - Under the mandate neither is rebuilt; both are recorded as not built.
+
+**Retired from the active next-action lists (paste era; superseded by Decision 268):**
+- the PR A recovery close paste (`PASTE-20261027-aer-pr-a-recovery-close.sql`): replaced by the governed closure;
+- "verify after the Platform Admin applies the paste" follow-ups;
+- the plan to present PR B's D3 recovery as a paste pair (PR B is frozen);
+- the UNSW faculty-mapping build (frozen);
+- further fee-window or withdrawal pastes (separate decisions).
+
+**Next:** the governed-action vertical slice under Decision 268. Its first and only action adopts and closes this recovery on the Platform Admin's UI approval. After closure, work stops.

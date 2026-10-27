@@ -1,0 +1,37 @@
+# Response to the Platform Admin mandate of 27 Oct 2026, 21:57 (corrected 22:00) — governed actions replace manual SQL
+
+One dated response for this mandate. Reporting points:
+1. decision record lodged;
+2. PR ready with full evidence;
+3. deployed UI action ready for approval;
+4. recovery closure completed after approval.
+
+## 1. Decision record lodged — 27 Oct 2026, 22:2x AEDT
+
+**Decision 268** is in `docs/coursefinder-design-reference-v1.4.md`, lodged before any code. It decides that:
+- routine operations become governed actions in the existing admin interface;
+- Platform Admin approval stays mandatory and moves to an authenticated UI action;
+- SQL becomes break-glass only;
+- the existing controls stay intact;
+- covered paste steps are retired from the operating procedure, not duplicated.
+
+The first and only action in this slice adopts and closes the AER PR A recovery that is already open.
+
+**Correction.** The 21:57 mandate said the recovery had never opened. It was opened by paste at 21:50:00 (events 22140 and 22141) and ran under worker v0.48.8 until 22:05:20.
+
+**Settled state (verified live 22:0x):**
+- **Norway:** held before any AI read (no printed scale).
+- **Complete:** Singapore 9/9, Sri Lanka 13/13, Thailand 13/13 and Qatar 2/2. Together that is 37 proposed rows in 4 pending Layer 4 items; nothing is admitted.
+- **United Kingdom:** held after its third attempt (2 of 31 cells not read).
+- **RMIT rows:** 343 active and 20 quarantined, both unchanged.
+- **Cost:** US$0.027.
+
+**RMIT in `entry.providers`:** recorded as a temporary, owned exception until the governed closure.
+- No read can be claimed before the 30-day refresh, which first falls due on 25 Nov 2026 at 21:59 AEDT.
+- The closure must be approved before then.
+
+**In-flight work:** recorded in change control. There are no open PRs. The local PR B and measurement branches were lost unpushed and are recorded as not built.
+
+**Paste-era follow-ups:** retired from the active next-action lists.
+
+**Next:** build the slice (Pilot PR under CF-247 and G4, with change control before merge). The next report is at point 2.

@@ -1477,6 +1477,57 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Choices (multiple choice):** flags on providers, course fields and jobs; hard reasons hold at once, soft after 2 tries; re-entry when the input changes or after a free check (no Firecrawl, no AI) on a back-off of 3, 7, 14 and 30 days, a person raising or releasing any flag with a reason; for new countries the official register is the master list and Firecrawl country search only fills gaps.
 - **Why:** in 6 hours on 15 Oct about 4,000 worker calls found nothing; the central-page finder picked four universities every 5 minutes; every Canadian and New Zealand gap had already been tried. Firecrawl's agent documents its results as best-effort, and they may be missing rows, so it cannot be the master list.
 
+### Decision 268 — Routine operations become governed actions in the admin UI; SQL is break-glass only
+**Status:** Current (27 October 2026, 22:2x AEDT; decided before any code) · **Recorded in:** this entry; change control CF-CHG-20260915-247 (27 Oct 22:2x); `project-runsheets/milestone-2/m2.4/m2.4.7/` (CURRENT-STATE, RUNSHEET, NEXT-CHAT); `docs/platform/aer-v1.1-build-log.md`; mandate response `docs/platform/ui-audit/2026-10-27-mandate-2157-response.md`
+- **Platform Admin (27 Oct, 21:57, final consolidated mandate):** "The manual SQL phase is closed. Do not ask me to paste another file into Supabase. Do not prepare another open/close paste pair." Routine operations move to governed actions in the existing admin interface.
+- **Correction (Platform Admin 27 Oct, 22:00):** the 21:57 mandate said the AER PR A recovery had never opened; it had. Its open paste was applied at 21:50:00 (events 22140 re-read, 22141 open), and the recovery ran under the deployed worker v0.48.8 until 22:05:20. The decision below rests on that verified state.
+- **What changes.**
+  - Routine operations that were run as SQL pastes become governed actions in the existing Cloudflare Worker admin interface. They are added to the existing operations and review screens, not to a new standalone panel.
+  - Platform Admin approval stays mandatory for any destructive or consumer-visible action. It moves to an authenticated UI action; it is not removed.
+  - SQL becomes break-glass only.
+  - Each paste-driven step that a governed action covers is retired from the operating procedure in the same change. No parallel panel or SOP duplicates it.
+- **What stays.**
+  - The admission, identity, quote, completeness, consumer-API (Decision 266) and audit controls stay as they are.
+  - Nothing here is a new reader, status, consumer field or open-ended operation.
+- **What a governed action is.** One allowlisted action with fixed parameters, never arbitrary SQL. Each action has:
+  - authenticated Platform Admin access, authorised on the server;
+  - a before/after summary of exactly what will change;
+  - the action's current hash, its live preconditions and expected counts, and an approval that expires;
+  - a live rolled-back dry run before approval, where one applies;
+  - revalidation immediately before it runs;
+  - an idempotency key, so a repeated click or retry cannot run it twice;
+  - mandatory post-checks and a linked audit event;
+  - visible success, refusal, failure and partial-settlement evidence, without inventing consumer statuses;
+  - bounded retries and a safe paused state on failure;
+  - automatic cleanup and closure, without a second approval file;
+  - secrets kept on the server, and no change to the consumer API's shape.
+  - It is not a workflow builder, plugin framework or replacement admin system.
+- **First governed action: close the AER PR A recovery that is already open (Platform Admin 22:00).** It adopts and closes the existing recovery; it does not start another one.
+  - **The approval screen shows the live state the action will close:**
+    - the six actual outcomes (Norway held before any AI read for its unprinted scale; Singapore 9/9, Sri Lanka 13/13, Thailand 13/13 and Qatar 2/2 complete; the UK held after its third attempt with 2 of 31 cells not read);
+    - the proposed, active and quarantined counts (37 proposed in 4 pending Layer 4 items, 343 active, 20 quarantined);
+    - the actual cost;
+    - RMIT's current scope (RMIT in `entry.providers` with UTS and WSU).
+  - **On the Platform Admin's explicit approval in the UI, the action:**
+    - removes RMIT from `entry.providers`;
+    - verifies that the original scope (UTS and WSU) is restored;
+    - writes its post-checks and audit event.
+  - It is idempotent. It refuses if the live scope, the function md5s, the six runs' states or the other preconditions have changed. No second close action, SQL paste or manual database step is needed.
+  - It does not admit the 37 proposed rows. They stay with the existing Layer 4 review.
+  - It leaves untouched: Vietnam (held for PR B), Nigeria, the three D2 pages, the 25 earlier complete runs and the 20 quarantined China/Germany rows.
+  - It is not run automatically after deployment; the Platform Admin approves it in the UI.
+  - After the closure, work stops. Further governed actions (fee windows, withdrawals, future recoveries) are separate decisions.
+- **Temporary operational exception, owned until the UI closure.**
+  - RMIT stays in `entry.providers` from 21:50 on 27 Oct until the Platform Admin approves the governed closure. It is not a new steady state.
+  - **No RMIT read can start while it stays (verified live at 22:0x):**
+    - no RMIT run is queued or leased, and no retry is pending;
+    - every RMIT source is read and has a run for its current content, so nothing is queued afresh;
+    - RMIT already has more sources (36) than the attach limit (3);
+    - a completed run is never re-read without the logged D3 re-read.
+  - **The one remaining path is the 30-day refresh.** It falls due first on 25 Nov 2026 at 21:59 AEDT and would re-fetch the pages. The closure must be approved before then.
+  - Owner: Platform Admin. Recorded in CURRENT-STATE.
+- **Why.** The paste phase relied on manual application, by-hand verification and open/close file pairs. One recovery was opened while the record said it had not been, and paste pairs can be left half-applied. Governed actions keep the approval and the controls but take the transcription and sequencing errors out of a person's hands.
+
 ### Decision 267 — Build adapter: one click per university
 **Status:** Current (18 October 2026) · **Recorded in:** migration `20261018070000`; worker v0.30.0; change control e159
 - **Platform Admin (17 Oct, 18:56):** "click and generate the adapter and configure it for all fields available in the db and seek value for enrichment or foundation fill." Choices: one admin click; fields duration, campus, majors and specialisations, study level; rebinding by learnt rules. 18 Oct 11:58: Build adapter added to Layer 2 › Adapters, the Adapter builder kept; 12:43 "proceed with Phase 2".

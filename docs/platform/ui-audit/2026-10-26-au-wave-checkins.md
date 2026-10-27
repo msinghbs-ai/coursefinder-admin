@@ -303,3 +303,4 @@ Full record: `docs/platform/ui-audit/2026-10-27-mandate-0546-response.md`.
 - **Admitted AU values moved under the mandate: 0.** Every lever is gated.
 - **Red:** morning pastes pending (08:00); target-list proposal awaiting a decision; UNSW English approved from the India-campus page; AER frozen at new defect classes.
 - Half-hourly heartbeat stood down under the mandate's three-checkpoint rule; the scheduled 07:00 check-in was not rescheduled.
+- 27 Oct 2026 22:2x — Decision 268 lodged (governed actions; SQL break-glass). AER PR A recovery settled (6 of 6: 4 complete, 37 proposed in Layer 4, Norway and UK held; US$0.027). RMIT kept in entry.providers as an owned exception until the governed UI closure (refresh risk from 25 Nov 21:59). Record: docs/platform/ui-audit/2026-10-27-mandate-2157-response.md.
