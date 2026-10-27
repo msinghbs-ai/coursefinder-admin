@@ -8696,3 +8696,39 @@ Authority: Platform Admin 27 Oct 2026 12:27 ("The following are superseded, not 
   - no PDF work;
   - no VU or Federation activation.
 - The 8 defective RMIT runs stay held and Qatar stays unread. This is recorded as a bounded pilot with named defects, not a stalled lane.
+
+### 27 Oct 2026 14:38–14:39 — RMIT pilot: 25 complete runs individually reviewed and admitted
+
+Authority: Platform Admin mandate 27 Oct 2026 14:35, P2.1. The AER freeze is lifted for the RMIT pilot closure only.
+
+**Review method (each run separately):**
+- Each run's proposed rows were taken from live and recomputed offline against its stored source page. The fixtures under `tests/fixtures/entry-matrix/rmit-stored/` are the same sha256 as each run's stored copy.
+- The checks used the current code (worker v0.48.7 `entry.ts`):
+  - manifest;
+  - reader checks;
+  - completeness guard;
+  - a one-to-one match of each row with a manifest entry (same level, band and line, and grade within the cell);
+  - distinct identities;
+  - one country per run;
+  - no value without a scale;
+  - not a non-country table.
+- **Result: all 25 complete.** Rows equal expected equal matched on every run, with 0 dropped and 0 unexplained.
+- Two notes, neither a gate failure:
+  - **Kuwait:** the 11 rows are correct cell for cell, but 8 quotes leave out the "%" printed in the cell ("Minimum average of 75." for "Minimum average of 75%."). The existing quote gate compares normalised text, so it passes. Recorded; not changed.
+  - **USA:** the page heading says "USA". The run's verdict is complete with the reader's own country name. Replaying it with the reference name "United States of America" fails only the heading check, which is a replay artefact.
+
+**Admission** through the governed Layer 4 path (`layer4_review_decide`, approve; one decision each, with the per-run reason). Bangladesh was admitted at 14:38:27 and the other 24 by 14:39:26.
+
+| | |
+|---|---|
+| Runs admitted | **25 of 25** (whole-run; no exclusions, no partial admission) |
+| **Active entry-matrix rows (RMIT)** | **363** (25 countries), 363 distinct identities |
+| Duplicate active identities (any provider) | 0 |
+| Pending RMIT entry-matrix items | 0. The 1 pending item platform-wide is UTS's |
+| Consumer API | Not touched; entry-matrix tables are not in the consumer baseline |
+| Cost | US$0. No reads |
+
+**Recording defect (named, not fixed under this mandate):**
+- A run's Layer 4 item keeps the `proposed_value` sample from the read that created it. After later re-reads (D3, or retries), the item's sample is stale. For example, Bangladesh's item shows 12 sample rows from its first read, 6 of them with no band, from before the band fix.
+- So each decision row's `final_value` records that stale sample. The admitted rows themselves are correct: 11 active, one per published cell, from the run.
+- This is an audit-trail accuracy issue for the platform team.
