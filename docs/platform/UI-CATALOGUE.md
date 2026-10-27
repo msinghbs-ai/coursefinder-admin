@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.9 (14 Oct 2026, platform release v2.15.271)
+**Version:** 1.10 (27 Oct 2026, platform release v2.15.360)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -156,6 +156,13 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
   - Jobs (schedule, runs and failures over 7 days, pause).
 
 ### Layer 2 Discovery & reading — `layer2`
+- **Operations › Governed actions** (Platform Admin only, `GovernedActions.jsx`, v2.15.360, Decision 268):
+  - Operations approved here instead of run as SQL. Each action shows the live state it acts on, then **Preview against the live system**:
+    - each precondition, expected and now, pass or fail;
+    - a dry run that is rolled back;
+    - the action hash, and when the approval expires.
+  - **Approve and run** (with a reason) runs it once. A repeated click runs nothing. The result shows Done, Refused or Failed (nothing changed), with the post-checks and the audit event, and a history of every attempt.
+  - **First and only action: Close the AER PR A recovery.** It shows the six runs' outcomes and costs, the proposed, active and quarantined counts, the reading scope now and after, and the pages left as they are.
 - **Adapters** (rank 4, `AdaptersWorkspace.jsx`):
   - List filters and bulk actions: Qualify, Admit, switch on/off, read cycle, read again.
   - Open row:

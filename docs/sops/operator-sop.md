@@ -1,6 +1,6 @@
 # StudySearch – Operator SOP
 
-**Version:** 1.53 (reviewed for platform release v2.15.344)  
+**Version:** 1.53 (reviewed for platform release v2.15.360)  
 **Audience:** Curator (rank 3), Pipeline Operator (rank 4), PIM Admin (rank 5)  
 **Change control:** CF-247  
 **Rule:** this SOP is reviewed with every release; a change to a screen, an automation or where a person decides changes it, raises its version and is recorded below. The in-app copy is Guides › Operator SOP.
@@ -187,6 +187,22 @@ How operators keep the data flowing and decide what automation cannot: the revie
 | 1.80 | 24 Oct 2026 | v2.15.339 | R1: an idle lane paused by the idle guard is tried again within Idle lane: tried again within (Settings › Pipeline settings › Waste rules) and the moment work waits for it; every worker call is written to the per-mode ledger; the Work queues screen says why each queue is idle; a fee from a page whose proof the country refuses is quarantined at the write. |
 | 1.81 | 24 Oct 2026 | v2.15.340 | Health hourly: at :11 the platform writes the hour's health rows (pages read and values admitted against the headline target, field changes per country, queue wait per lane, worker calls, idle lanes with why, bound-but-empty pages, negative movers, budget burn); the hourly report reads them; the 15-minute stats cover the countries in Settings › Pipeline settings › Health report. |
 | 1.82 | 24 Oct 2026 | v2.15.341 | Errors show as one plain line with a short reference; the Platform Admin looks the reference up in the app error log. A newer release while a window is open brings a reload notice. Coverage › Fully complete counts readable attributes. |
-| 1.83 | 24 Oct 2026 | v2.15.342 | Courses list: the international fee shows its basis and the International fee and City columns sort. |
-| 1.84 | 24 Oct 2026 | v2.15.343 | Dashboard states the Inbox once and opens Layer 4 Review by kind; the Scholarships tile states published, active and retired; unnamed register records show as such with their code. |
-| 1.85 | 24 Oct 2026 | v2.15.344 | Lists show names and plain words instead of internal keys and codes; support identifiers are in the detail under Identifiers (for support); vendor balances as figures for the Platform Admin only. |
+| 1.83 | 24 Oct 2026 | v2.15.342 | Task manager: a running task shows last forwarded, next attempt and, when stalled, what holds it. Find course pages by a person runs at a university whose automatic search stopped. Layer 4: Enter another address on a held fee binds the page and reads it again. |
+| 1.84 | 24 Oct 2026 | v2.15.343 | Find course pages by a person at a university whose automatic search stopped now spends its search credits (the credit check lets the task through). |
+| 1.85 | 24 Oct 2026 | v2.15.344 | Courses list: the international fee shows its basis and the International fee and City columns sort. |
+| 1.86 | 24 Oct 2026 | v2.15.345 | Dashboard states the Inbox once and opens Layer 4 Review by kind; the Scholarships tile states published, active and retired; unnamed register records show as such with their code. |
+| 1.87 | 24 Oct 2026 | v2.15.346 | Lists show names and plain words instead of internal keys and codes; support identifiers are in the detail under Identifiers (for support); vendor balances as figures for the Platform Admin only. |
+| 1.88 | 24 Oct 2026 | v2.15.347 | Task manager opens quickly with many tasks waiting; why a task waits is worked out in a fraction of a second. |
+| 1.89 | 24 Oct 2026 | v2.15.348 | Campuses: filter by provider; campuses are listed and shown in Provider details by their CRICOS location name. |
+| 1.90 | 24 Oct 2026 | v2.15.349 | Firecrawl targets: a university the targets rule does not match shows which condition it fails. |
+| 1.91 | 24 Oct 2026 | v2.15.350 | Course page search: no more than 100 courses a day (a person's running task is counted, not held); a course with 6 wrong pages is not searched again. |
+| 1.92 | 25 Oct 2026 | v2.15.351 | Courses: International fee and City show on every sort, including Completeness and Tuition Only. |
+| 1.93 | 25 Oct 2026 | v2.15.352 | Course search: refused pages (rejected or blocked) are never bound again by any automatic path; one stop rule for search, credits and the Task manager. |
+| 1.94 | 25 Oct 2026 | v2.15.353 | Course pages: courses with no page published by the provider and conjoint degrees are decided once per provider in Layer 4 and then leave the web search; Firecrawl refusals are named. |
+| 1.95 | 26 Oct 2026 | v2.15.354 | Course pages: no-page and conjoint first runs open only while fewer than the set number wait in Layer 4. |
+| 1.96 | 26 Oct 2026 | v2.15.355 | Entry requirements: tables and reader in place, switched off; first reading per provider goes to Layer 4. |
+| 1.97 | 26 Oct 2026 | v2.15.356 | Layer 4: no-page and conjoint first runs with a verified course list, a confirmed sample and an already-approved list shape are admitted automatically; new shapes and one in ten stay with a person. |
+| 1.98 | 26 Oct 2026 | v2.15.357 | Layer 4: no-page and conjoint first runs show under their university, with their sample and Approve / Approve except / Reject. |
+| 1.99 | 26 Oct 2026 | v2.15.358 | Register: CRICOS course and provider registrations no longer on the register carry an end date; a provider with no course on the register is marked ended (daily job Register end dates). |
+| 2.00 | 26 Oct 2026 | v2.15.359 | Fees: every international fee write passes the country tuition identity check at the table; a failing fee is kept for review. |
+| 2.01 | 27 Oct 2026 | v2.15.360 | Governed actions (Decision 268): routine operations are approved on Layer 2/3 › Operations › Governed actions instead of run as SQL; SQL is break-glass only. First action: close the AER PR A recovery. |

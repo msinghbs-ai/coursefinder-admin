@@ -8809,3 +8809,47 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - further fee-window or withdrawal pastes (separate decisions).
 
 **Next:** the governed-action vertical slice under Decision 268. Its first and only action adopts and closes this recovery on the Platform Admin's UI approval. After closure, work stops.
+
+### 27 Oct 2026 23:3x — Decision 268 vertical slice (v2.15.360): governed action runner and its first action, written before merge
+
+Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:00 (correction; the first action adopts and closes the recovery already open). Decision 268 was lodged at 22:2x, before any code.
+
+- **Database** (migration `20261027003000_cf247_governed_action_aer_recovery_close.sql`, md5 `4c9f4e49…`; no new table, reader, status or consumer field):
+  - **`public.admin_governed_action(text, jsonb)`**. Only a Platform Admin can call it: the server checks the session and role rank 6. One allowlisted action (`aer_pr_a_recovery_close`) with fixed parameters; no SQL text is ever taken from a request. Three requests:
+    - `read`;
+    - `preview`: the live snapshot, a dry run of the action's own step that is rolled back, an action hash, and an approval that expires after `governed.approval_minutes` (15). The preview is logged.
+    - `approve`. It holds one lock per action and needs a reason and an idempotency key; a repeated key returns the first result and runs nothing. It then revalidates: the preview must be the same Platform Admin's, unexpired and matching the hash, and the live state must be unchanged. A refusal changes nothing and is recorded with its reason. The run itself and its five post-checks happen together, followed by a linked audit event. A failure leaves nothing changed and is recorded, and the action pauses after `governed.max_attempts` (3) failures.
+  - **`security.governed_aer_close_snapshot_v1()`** (read only): the six runs' outcomes and the cost since the recovery opened, the counts, the scope, the five held pages, and ten preconditions:
+    - the open event (22141);
+    - RMIT's scope (UTS, WSU and RMIT);
+    - the six settled runs;
+    - nothing claimable;
+    - 343 active rows;
+    - 20 quarantined;
+    - 37 proposed;
+    - the 4 pending Layer 4 items;
+    - Vietnam, Nigeria and the three D2 pages held;
+    - six entry-lane function md5s.
+  - **Task kind `governed_action`:** each approval is one `pipeline.admin_jobs` row, written only as `done`, `failed` or `cancelled` (refused). These are existing states; the row is never queued, so the task runner never takes it. A unique index on its idempotency key backs the repeated-click rule.
+  - **Settings:** `governed.approval_minutes` and `governed.max_attempts`, both shown on the Settings page.
+- **The action:** on approval it takes RMIT out of `entry.providers`, restoring UTS and WSU. It admits nothing, touches no run, row or item, and leaves the 37 proposed rows with Layer 4 review.
+- **UI:** `GovernedActions.jsx` (md5 `221e97c9…`) is a section of Layer 2/3 › Operations shown only to Platform Admins; it is not a new page. It shows:
+  - the six outcomes, attempts and cost;
+  - the proposed, active and quarantined counts;
+  - the reading scope now and after;
+  - the pages left as they are.
+
+  **Preview against the live system** lists every precondition (expected and now), the dry run, the hash and the expiry. **Approve and run** needs a reason and carries the key made with the preview. Done, Refused and Failed are shown with the post-checks, the audit event and the history.
+- **SOP:** Platform Admin SOP 1.54 replaces the "paste file" duty with "A governed action ready to review", and adds "Break-glass only: SQL for a change that drops or deletes, or an operation no governed action covers". UI catalogue v1.10.
+- **Release:** v2.15.360 / package 0.1.287 (manifest, release notes, changelog, guide and SOP review markers).
+- **Also fixed:** Edit in list saved a duration twice when its inputs were disabled while saving (a blur in current Chromium). One save at a time per cell (`ListEdit.jsx`). The list-edit spec showed it in this environment; it also failed on `main`.
+- **Spec:** s138 (`// Guards:` Decision 268); release-history spec raised to v2.15.360. G2 is covered by s32 and G3 by s57, as their central guards.
+- **Live dry run (rolled back), run as the Platform Admin on the live database:**
+  - the migration applied;
+  - the preview passed all ten checks, and its dry run gave scope UTS and WSU with RMIT out;
+  - an approval with a mismatched hash was refused ("the approval does not match the preview");
+  - the real approval ran (`done`), and all five post-checks were true: scope restored, RMIT out, UTS and WSU in, counts unchanged, runs unchanged;
+  - the same click again returned the same task, marked repeated, and ran nothing;
+  - the history showed 2 tasks, and the audit trail preview, refused, executed.
+  - Afterwards, live was unchanged: RMIT still in scope and none of the new objects present.
+- **Not run after deployment:** the action waits for the Platform Admin's approval in the UI.
