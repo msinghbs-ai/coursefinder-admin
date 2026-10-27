@@ -968,3 +968,16 @@ Authority: Platform Admin 27 Oct 2026 14:35 (Priority 2: PR A covers the Sri Lan
 - **Recorded, not acted on (new class candidate, Nigeria):** six Nigeria cells read "This qualification does not give you entry to this program". The manifest counts them as published minimums, so a complete read would propose them as minimum grades.
   - No other stored page has such a cell, and none of the 25 admitted runs carries one.
   - This is raised with the Platform Admin before PR B. It is not added to PR B silently.
+
+### 27 Oct 2026 21:51 — AER PR A recovery-open paste verified (read only)
+
+Applied at 21:50:00 AEDT (events 22140 re-read and 22141 open).
+
+- **`entry.providers`:** UTS, WSU and RMIT.
+- **Vietnam:** held (failed, "held: AER PR B…", history kept).
+- **Norway:** re-queued through the guarded D3 function (1 run; 0 rows and 0 items superseded).
+- **Claimable:** exactly the six runs, all queued: Norway, Qatar, Singapore, Sri Lanka, Thailand and the UK.
+- **Untouched:** the 25 complete runs are done; Nigeria and the 3 D2 pages are failed and not claimable.
+- **Fetching:** all 36 RMIT sources are read, so none is due for fetching.
+- **State before any read:** RMIT active rows 343, no new proposed rows, worker v0.48.8.
+- **Reads start:** at the next scheduled `entry-matrix-read` call (every 5 minutes). The close paste is applied once none of the six is queued or leased.
