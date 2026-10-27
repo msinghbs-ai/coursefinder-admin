@@ -213,3 +213,20 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
   - 1 search refresh request.
 - **Unblocked for the fee lane:** 64 of the 68 older `found` fee-schedule rows belong to the newly published providers. They are reconciled after the fee re-apply is verified.
 - **Next:** stopped here. The fee re-apply is the Platform Admin's to apply.
+
+### Paste 3 (fee re-apply): applied manually by the Platform Admin; verified
+
+- **Applied:** 27 Oct 14:04:41 AEDT, event 21739, file `PASTE-20261026-au-fee-reapply.sql` (md5 `a360d3e1…`).
+  - The event records 372 fees: 79 no live fee, 57 same amount, 236 another year.
+  - Pair-list md5 `26a3bb63…`.
+- **Verified (read only, 14:05:40):**
+  - **372 fee rows re-admitted and active**, all `provider_current_tuition`, on 372 distinct courses;
+  - 372 Layer 4 items approved, with 372 decision rows under the paste's change-control reference;
+  - 1 search refresh request.
+- **Net newly fee-bearing courses: 79**, as checkpoint 3 expected. These are courses with no other active provider fee. 78 of the 79 are active; the other was among the 563 retired by paste 1 minutes earlier.
+- **AU fee-bearing active courses, live: 8,471** (provider tuition) of 25,540 active.
+  - Reconciliation from the 26 Oct snapshot: 8,454 − 65 retired by paste 1 (which already had a fee) + 78 newly fee-bearing + 4 admitted by the normal lane since 26 Oct 18:47 = 8,471.
+- **68 older fee schedules, state at 14:06:**
+  - 64 now belong to published providers and are back in the reader's scope; 4 still belong to hidden providers (the 277 held by cause).
+  - Of the 64: 32 providers are Firecrawl targets; **32 are not**, so the existing lane, which reads fee pages only through Firecrawl, will refuse them as `target_list_refused`.
+  - Being processed by job `provider-facts` (every 10 minutes); reconciled once that lane settles.
