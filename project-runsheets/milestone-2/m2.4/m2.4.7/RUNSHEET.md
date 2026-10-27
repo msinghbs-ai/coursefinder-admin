@@ -8656,3 +8656,22 @@ Authority: Platform Admin 27 Oct 2026 05:46 (consolidated mandate B and C).
 - 07:02:15: `entry.providers` was set back to UTS and WSU only (event 21716). The three earlier attempts from 06:56 had been cancelled before they ran.
 - 07:02:22: `entry-matrix-read` was switched back on, for UTS and WSU only (logged).
 - RMIT is paused, with 6 held runs and Qatar left as they stand. No further attempts are made under this mandate.
+
+### 27 Oct 2026 12:3x — AER next actions retired (superseded, not pending)
+
+Authority: Platform Admin 27 Oct 2026 12:27 ("The following are superseded, not pending"). The current mandates are 27 Oct 08:15 (AER frozen) and 12:27.
+
+| Next action | Status | Evidence |
+|---|---|---|
+| "Continue AER schema PR (additive columns to `provider_entry_matrix`)" | **Superseded** | The schema has been live since #706, merged and verified, as recorded in this log's "06:00 status": "Schema merged and live (additive, switched off): #706". No schema PR is open or needed |
+| "Continue stored copies for 5 pilot providers" (this log's 06:00 status: "[~] Stored copies for all 5 pilots") | **Superseded** | The AER freeze (08:15, items 1 and 3). The provider scope stays as follows: RMIT paused and out of `entry.providers`; UTS and WSU only, unchanged; VU and Federation not activated; no PDF work. RMIT's 36 pages are all stored. Its outcome table is in "27 Oct 06:59" above |
+
+- Neither item is executable work.
+- The earlier entries are kept as written; only a pointer to this entry was added beside them.
+- AER remains frozen:
+  - no D6+;
+  - no further RMIT reads;
+  - no five-provider stored-copy expansion;
+  - no PDF work;
+  - no VU or Federation activation.
+- The 8 defective RMIT runs stay held and Qatar stays unread. This is recorded as a bounded pilot with named defects, not a stalled lane.

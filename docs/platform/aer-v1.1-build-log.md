@@ -300,7 +300,7 @@ Authority: Platform Admin 26 Oct 2026 22:38 ("apply the countries paste once, ex
 ## 06:00 status — draft as at 26 Oct 22:47 (final line written at 06:00)
 
 - [x] Schema merged and live (additive, switched off): #706.
-- [~] Stored copies for all 5 pilots:
+- [~] Stored copies for all 5 pilots: **— SUPERSEDED 27 Oct 2026 12:3x (Platform Admin 12:27): no five-provider stored-copy expansion under the AER freeze; see "AER next actions retired, 27 Oct 12:3x" below. Not executable work.**
   - RMIT: 16 of 36 pages stored;
   - UTS and WSU: stored;
   - VU and Federation: PDF, waiting for step B.
@@ -864,7 +864,26 @@ Lodged 27 Oct 2026 08:49 AEDT. Triage results approved by the Platform Admin on 
 - 23 scholarship reviews are pending under the provider record **"RMIT University Pathways, RMIT UP"**. 22 of them are rmit.edu.au scholarship pages, such as the Vietnam PhD (STEM) page, the UniLodge page and CPP.
 - These are RMIT's own scholarship pages filed under the RMIT UP record. They are an identity question about which provider owns them, for the Platform Admin, not a triage miss.
 
-**Next actions in the 08:47 note that this record does not act on:** "Continue AER schema PR (additive columns to `provider_entry_matrix`)" and "Continue stored copies for 5 pilot providers".
+**Next actions in the 08:47 note that this record does not act on** *(both SUPERSEDED 27 Oct 12:3x, Platform Admin 12:27; see "AER next actions retired" below)*: "Continue AER schema PR (additive columns to `provider_entry_matrix`)" and "Continue stored copies for 5 pilot providers".
 - The Platform Admin mandate of 27 Oct 08:15 froze AER: no D6+, RMIT paused, no recovery reads, and no change to `entry-matrix-read`.
 - The entry-matrix schema has been live since #706.
 - These two actions look like they come from an earlier plan, so they wait for the Platform Admin to confirm.
+
+### 27 Oct 2026 12:3x — AER next actions retired (superseded, not pending)
+
+Authority: Platform Admin 27 Oct 2026 12:27 ("The following are superseded, not pending"). The current mandates are 27 Oct 08:15 (AER frozen) and 12:27.
+
+| Next action | Status | Evidence |
+|---|---|---|
+| "Continue AER schema PR (additive columns to `provider_entry_matrix`)" | **Superseded** | The schema has been live since #706, merged and verified, as recorded in this log's "06:00 status": "Schema merged and live (additive, switched off): #706". No schema PR is open or needed |
+| "Continue stored copies for 5 pilot providers" (this log's 06:00 status: "[~] Stored copies for all 5 pilots") | **Superseded** | The AER freeze (08:15, items 1 and 3). The provider scope stays as follows: RMIT paused and out of `entry.providers`; UTS and WSU only, unchanged; VU and Federation not activated; no PDF work. RMIT's 36 pages are all stored. Its outcome table is in "27 Oct 06:59" above |
+
+- Neither item is executable work.
+- The earlier entries are kept as written; only a pointer to this entry was added beside them.
+- AER remains frozen:
+  - no D6+;
+  - no further RMIT reads;
+  - no five-provider stored-copy expansion;
+  - no PDF work;
+  - no VU or Federation activation.
+- The 8 defective RMIT runs stay held and Qatar stays unread. This is recorded as a bounded pilot with named defects, not a stalled lane.
