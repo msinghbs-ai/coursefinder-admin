@@ -306,3 +306,30 @@ Files: `docs/platform/reports/2026-10-27/AU-top5-source-inventories.xlsx` and `.
   - v1 would have left 42 standing `included = false` overrides.
   - The dry run (rolled back) passed: 983 rows, 0 window rows, 0 of the 42 included, 144 credits in 97 calls recorded.
 - **Not yet done:** the audit of the 5 out-of-scope PDFs.
+
+## 27 Oct 2026, 19:10–19:4x — Fee-window close verified; out-of-scope PDF audit (read only)
+
+**Close v2 (applied 19:10:24, event 22021): verified.**
+- **Removed:** exactly the 42 rows part A inserted, all carrying its reason and its 15:48:42 timestamp. All 42 are listed in the event.
+- **Target list:** 983 rows; none remain for the 42 providers, none carries a window reason, and none of the 42 is included.
+- **No leftover override:** the 42 have no rows at all, so no exclusion override remains.
+- **Settled before closure:** no fee page of the 42 was found or reading; the event records 0 unsettled.
+- **Credits:** 144 in 97 calls, within the 1,013 bound.
+- **No read during closure:** no fee page changed and no credit was used in the 30 minutes either side of the close. The last use was 17:30 AEDT, and no fee-reader item is queued.
+
+**Audit of the 5 out-of-scope PDFs and their 50 admitted values:**
+
+| Check | Result |
+|---|---|
+| Source and evidence | All 50 rows carry the evidence of their own provider's PDF. Each traces to an admitted fee-reader row with the same yearly amount, a non-empty quote and the stored copy's content hash. |
+| Admission gate | Every row meets match confidence ≥ 0.85 (setting 0.85) and title agreement ≥ 0.6 (setting 0.6). |
+| Fee year | All rows pass the gate (no older than the current year − 1). Two MIT rows are 2025, their line printing "n/a" for 2026 and 2027, so the course may not be offered after 2025; noted, not a defect. Two SISTC rows print no year and are kept as "current", by the rule. |
+| Course identity | 47 rows: the quote prints the course's CRICOS code or its exact title. AMPA's 2 rows ("Master of Music", "Graduate Diploma of Music") fit the only courses of those names, "(Performance)", all at one fee. **1 defect:** University of Divinity fee 15802bef (Graduate Certificate in Theology, 053016J, 2026, AUD 27,072) was read from the line "Graduate Certificate in Divinity", which does not name this course. |
+
+- **Unattributed value (Moore College Doctor of Philosophy, AUD 14,890, 2026):** not a fee-window value.
+  - Its lane was the university adapter, reading a direct snapshot of the course's own page (`moore.edu.au/course/phd/`, 16:50 AEDT, identity by CRICOS code).
+  - Moore's adapter has been approved to admit fees since 5 Oct. Its pattern requires "AUD$… (2026)", and it read the same 14,890 on 5 Oct.
+  - The change is logged in the adapter overwrite log (34189) with the evidence id. Valid; kept.
+- **Outcome:**
+  - 49 out-of-scope values are valid and stay active.
+  - 1 identity defect: withdrawal proposed in `PASTE-20261027-fee-divinity-gc-identity-withdraw.sql`. It is count-guarded and the dry run passed. The course keeps its 2027 value read from its own named line, so the AU numerator does not change.
