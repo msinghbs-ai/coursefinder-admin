@@ -35,3 +35,19 @@ The first and only action in this slice adopts and closes the AER PR A recovery 
 **Paste-era follow-ups:** retired from the active next-action lists.
 
 **Next:** build the slice (Pilot PR under CF-247 and G4, with change control before merge). The next report is at point 2.
+
+## 2. PR ready with full evidence — 27 Oct 2026, 23:3x
+
+PR #716 (v2.15.360):
+- local suite 1,061 passed, 0 failed, 0 skipped; build OK;
+- live rolled-back dry run: preview, refusal, one run, repeated click returning the first result, live unchanged;
+- change control written before merge (admin `da576091`).
+
+## 3. Deployed UI action ready for approval — 27 Oct 2026, 23:5x
+
+#716 is merged as `f33e4702` and deployed:
+- Deploy on merge, Release Currentness Deployed and Deployed UAT passed;
+- the live migration md5 matches the file;
+- nothing has run.
+
+The action **Close the AER PR A recovery** is on Layer 2/3 › Operations › Governed actions, and all ten preconditions pass live. It runs only on the Platform Admin's approval in the UI.

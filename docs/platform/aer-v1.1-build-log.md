@@ -1078,3 +1078,15 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - the history showed 2 tasks, and the audit trail preview, refused, executed.
   - Afterwards, live was unchanged: RMIT still in scope and none of the new objects present.
 - **Not run after deployment:** the action waits for the Platform Admin's approval in the UI.
+
+### 27 Oct 2026 23:5x — Decision 268 slice (#716) merged, deployed and verified; governed action ready for the Platform Admin's approval
+
+- **Merge:** squash `f33e4702`. All PR checks were green (build-and-smoke, release-history-contract, Workers Builds).
+- **Post-merge workflows, all successful:** Deploy on merge (40498032373), Release Currentness Deployed (40498032344, run automatically because the release files changed), Release History Contract, CourseFinder Deployed UAT and Pilot Frontend Build.
+- **Live database matches the repository:**
+  - the migration-history row for `20261027003000` has md5 `4c9f4e49…`, the file's;
+  - `public.admin_governed_action` and `security.governed_aer_close_snapshot_v1` are present;
+  - task kind `governed_action`, the idempotency index and the settings (`governed.approval_minutes` 15, `governed.max_attempts` 3) are in place.
+- **Not run:** 0 governed-action tasks and 0 governed-action events. RMIT is still in `entry.providers` (the owned exception) until the Platform Admin approves in the UI.
+- **Live preconditions now:** all ten pass. Counts: 343 active, 37 proposed in 4 pending Layer 4 items, 20 quarantined. Recovery cost US$0.0269. Refresh risk from 25 Nov 2026 21:59 AEDT.
+- **Next:** the Platform Admin previews and approves on Layer 2/3 › Operations › Governed actions. After the closure, the verification is recorded and work stops.
