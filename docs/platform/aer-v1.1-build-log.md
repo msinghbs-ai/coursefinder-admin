@@ -1224,3 +1224,25 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Count-guarded: at most two items ever.
   - Live dry run (rolled back): 2 items, the newest queued, flag released.
   - Suite 1,079 passed, 0 failed, 0 skipped. Guards: s139.
+
+### 28 Oct 2026 22:4x — Track C Step B: platform slice live; Layer 4 and consumer gates open; report lodged
+
+- **Report:** `docs/platform/ui-audit/2026-10-28-track-c-step-b-report.md`.
+- **#719 merged 22:16** (`3c681ac3`); history md5 `f0cffece…` equals the file.
+- **The read on worker v0.49.1 at 22:18** (US$0.0045; B1 total US$0.0069) proposed 3 rows in Layer 4 item `cf71cca1…` (pending):
+  - "2026 ATAR 73.00";
+  - the VCE mathematics prerequisite;
+  - the VCE English prerequisite.
+- **Dropped:**
+  - the 2027 Guaranteed ATAR 75.00 (the quote was paraphrased);
+  - "… equivalent to the VCE with a minimum average of 65%" (`score_without_basis`). This is flagged for the Platform Admin's judgement; nothing was mapped.
+- **BH126 / India resolves to step 5** (contact the provider).
+- **Consumer change:**
+  - held draft PR #720 (migration renumbered `20261028005000`, suite 1,082/0/0);
+  - paste `docs/platform/pastes/PASTE-20261028-entry-consumer-api.sql` (file md5 `fd69acc1…`).
+- **Unchanged:**
+  - consumer API (0 drift);
+  - RMIT matrix 343 / 37 / 167 / 20;
+  - no matrix runs today;
+  - `entry.providers` is UTS and WSU.
+- **Not claimed:** "Track C Step B RMIT vertical slice live". Open gates: the Layer 4 decision, the consumer paste plus the #720 merge, and the worked example and developer guide reissue after both. B4 is website-team work.

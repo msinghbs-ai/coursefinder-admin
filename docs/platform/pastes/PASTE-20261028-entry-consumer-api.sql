@@ -1,5 +1,7 @@
--- PASTE (Platform Admin, consumer-API change, Track C Step B B2/B3). Apply ONLY after migration 20261028001000 is live.
--- Exactly what deploy-on-merge would apply: the migration file and its history row in one transaction. md5 of the file: efe556c2fb2b6d008bef4ea20364c248
+-- PASTE (Platform Admin; consumer-API change, Track C Step B B2/B3; Decision 266 exception, paste-reviewed). Apply ONLY after reviewing
+-- held PR "CF-247 Track C Step B B2/B3" (branch cf247-track-c-step-b-consumer-api). Prerequisite: migrations 20261028001000, 003000 and 004000 are live (they are).
+-- Exactly what deploy-on-merge would apply: the migration file and its history row in one transaction. md5 of the file: fd69acc13f2e96a9e6525a1690ccda4a
+-- After the paste, the held PR is merged on your word so the website-api-v2 edge function (edu_country) deploys; its migration is then skipped (already in the history).
 begin;
 -- CF-247 Track C Step B, B2/B3: additive entry keys on the EXISTING course and provider payloads, and edu_country.
 -- Consumer API change approved: Platform Admin, 25 Oct 2026 14:36 and 14:50 (decision 7: "additive fields on the EXISTING course and provider payloads; no separate function. The mandate is the explicit frozen-API approval"); shape and edu_country per admin docs/platform/ENTRY-REQUIREMENTS-STEP-B-DECISION-2026-10-28.md section 7 (mandate 28 Oct 2026 20:36); applied by the Platform Admin through the paste-reviewed consumer-change process (paste docs/platform/pastes/PASTE-20261028-entry-consumer-api.sql), never auto-merged
@@ -107,15 +109,15 @@ grant execute on function public.website_v2_provider(text, text) to service_role
 comment on function public.website_v2_provider(text, text) is 'CF-247 Track C Step B (B3): the provider payload with entry_matrix narrowed to the student''s country of prior education (edu_country).';
 
 insert into pipeline.component_register(kind, name, layer, purpose, status, replaces, introduced_in) values
- ('function', 'security.entry_course_payload_v1', 'Search and API', 'Track C Step B (B2): course payload entry object', 'active', '{}', '20261028002000'),
- ('function', 'security.entry_matrix_payload_v1', 'Search and API', 'Track C Step B (B2): provider payload entry_matrix', 'active', '{}', '20261028002000')
+ ('function', 'security.entry_course_payload_v1', 'Search and API', 'Track C Step B (B2): course payload entry object', 'active', '{}', '20261028005000'),
+ ('function', 'security.entry_matrix_payload_v1', 'Search and API', 'Track C Step B (B2): provider payload entry_matrix', 'active', '{}', '20261028005000')
 on conflict do nothing;
 
 -- ---------------------------------------------------------------- 4: the consumer baseline re-taken (approved change)
 select security.consumer_api_rebaseline_v1('Track C Step B (28 Oct 2026): additive entry and entry_matrix keys and the edu_country forms of website_v2_course / website_v2_provider; approved 25 Oct 2026 14:36/14:50, mandate 28 Oct 2026 20:36');
 
 
-insert into supabase_migrations.schema_migrations(version, name, statements) values ('20261028002000', 'cf247_entry_step_b_consumer_api', array[$mig$-- CF-247 Track C Step B, B2/B3: additive entry keys on the EXISTING course and provider payloads, and edu_country.
+insert into supabase_migrations.schema_migrations(version, name, statements) values ('20261028005000', 'cf247_entry_step_b_consumer_api', array[$mig$-- CF-247 Track C Step B, B2/B3: additive entry keys on the EXISTING course and provider payloads, and edu_country.
 -- Consumer API change approved: Platform Admin, 25 Oct 2026 14:36 and 14:50 (decision 7: "additive fields on the EXISTING course and provider payloads; no separate function. The mandate is the explicit frozen-API approval"); shape and edu_country per admin docs/platform/ENTRY-REQUIREMENTS-STEP-B-DECISION-2026-10-28.md section 7 (mandate 28 Oct 2026 20:36); applied by the Platform Admin through the paste-reviewed consumer-change process (paste docs/platform/pastes/PASTE-20261028-entry-consumer-api.sql), never auto-merged
 -- Record: admin docs/platform/ENTRY-REQUIREMENTS-STEP-B-DECISION-2026-10-28.md (sections 5 and 7), ENTRY-REQUIREMENTS-IMPLEMENTATION.md 2.4, decision 10.
 --
@@ -221,8 +223,8 @@ grant execute on function public.website_v2_provider(text, text) to service_role
 comment on function public.website_v2_provider(text, text) is 'CF-247 Track C Step B (B3): the provider payload with entry_matrix narrowed to the student''s country of prior education (edu_country).';
 
 insert into pipeline.component_register(kind, name, layer, purpose, status, replaces, introduced_in) values
- ('function', 'security.entry_course_payload_v1', 'Search and API', 'Track C Step B (B2): course payload entry object', 'active', '{}', '20261028002000'),
- ('function', 'security.entry_matrix_payload_v1', 'Search and API', 'Track C Step B (B2): provider payload entry_matrix', 'active', '{}', '20261028002000')
+ ('function', 'security.entry_course_payload_v1', 'Search and API', 'Track C Step B (B2): course payload entry object', 'active', '{}', '20261028005000'),
+ ('function', 'security.entry_matrix_payload_v1', 'Search and API', 'Track C Step B (B2): provider payload entry_matrix', 'active', '{}', '20261028005000')
 on conflict do nothing;
 
 -- ---------------------------------------------------------------- 4: the consumer baseline re-taken (approved change)
