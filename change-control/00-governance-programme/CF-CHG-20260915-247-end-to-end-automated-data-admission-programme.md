@@ -9230,3 +9230,13 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Rolled-back live dry run as a Platform Admin user returned the sources with their latest reads.
   - s147 added.
   - Suite: 1,108 passed, 0 failed, 0 skipped. `verify-release-contract` PASS. Register regenerated.
+
+### 29 Oct 2026 03:0x — v2.15.362 live; an entry read stopped on its last try is closed (Pilot PR #728, migration `20261029006000`)
+
+- **#727 verified live** (merge `d9f5c1bb`): migration history md5 `c2df15a5…` equals the file; `admin_entry_requirements` changed as intended. Deploy on merge, Deployed UAT, Release History Contract, Release Currentness Deployed and the frontend build all succeeded. Register (s147) and UI-CATALOGUE 1.12 committed (`0bb718da`).
+- **Fault found while the reads drained:** a read whose worker stopped without reporting back, on the last of `entry.matrix_attempts`, kept its lease for ever. It was never picked again and never closed (Wollongong, leased since 14:49 UTC).
+- **Fix:** the existing fire job (`security.entry_matrix_fire_v1`, md5-guarded edit, `85d54db5…`) closes such a run as failed with "stopped after N tries without a reply: <last error>". It then shows as a hold in the Provider drawer. Nothing is re-read or spent; no new job, setting or status.
+- **Evidence:**
+  - Rolled-back live dry run closed exactly one run (Wollongong, 3 tries, time budget); the live definition was unchanged afterwards.
+  - s148 added.
+  - Suite: 1,109 passed, 0 failed, 0 skipped.
