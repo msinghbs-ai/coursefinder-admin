@@ -62,3 +62,62 @@
   - change control before merge;
   - deployed verification.
 - **Deployed acceptance** uses the existing UAT user. It opens the workspace, applies combined filters, changes columns, and opens the drawer, pills and resolution inspection, checking for no console errors and bounded reads. It is read-only by default. The live edit of a governed fixture runs only under the live-acting switch (G4 `@live-acting`).
+
+## 5. Addendum, 29 Oct 2026: course-level programme, rendered no-table note and HTML refetch
+
+**Authority:** Platform Admin decision, 29 Oct 2026 09:57 ("Continue the full AER programme — consolidated authority and remaining delivery"), items 1, 3 and 4. This addendum was recorded before code (release v2.15.364).
+
+### W12a. Read again and the parked reader settings (item 1)
+
+- Two settings are added or changed:
+  - `entry.matrix_slice_concurrency` (new, 6, range 1–12): `svc_entry_matrix_next` passes it to worker v0.51.0, which already reads slices that many at a time;
+  - `entry.matrix_slice_chars`: changed from 20,000 to 8,000.
+- **One mechanism.** Read again moves into `security.aer_reread_v1`, which is owner only. `admin_aer('reread')` calls it after the Platform Admin check, and an approved programme migration may call it too.
+- **Markdown-stored web pages.** When a web page's stored copy is Firecrawl markdown, Read again fetches the page again instead of re-reading the copy:
+  - its proposed rows and its pending Layer 4 item are superseded with the reason;
+  - the source returns to `found`;
+  - the fetch keeps the page's own HTML;
+  - the markdown copy stays as evidence.
+- **Refusals.** Every earlier refusal is kept: out of scope, AI stopped, a read waiting, held as unreadable, and robots. A page already waiting to be fetched is also refused.
+
+### W17. Course-level reading programme (item 3)
+
+- **Lane and rules.** Course-level reading runs on the existing Enrich fields lane and the B1 rules are unchanged:
+  - a stored official course page and strong identity;
+  - the quote must be on the page;
+  - a band only when printed;
+  - no English-test rows;
+  - no inferred international applicability;
+  - one Layer 4 `course_entry_first_read` item a course.
+- **Settings:**
+  - `entry.course_read_providers`: the approved plan's Australian providers in priority order. Monash and QUT come first because they publish requirements on course pages only, then RMIT for its band ladder, then the plan's other Australian providers.
+  - `entry.course_batch_size`: 50 courses a batch, range 1–200.
+  - `entry.course_read_cost_usd`: the estimate used until 20 course reads are measured.
+  - `entry.course_read_countries` stays `["AU"]`. Reading New Zealand courses needs an identity proof rule for entry requirements there, which is a separate decision.
+- **The workspace.** Course entry requirements › Course-level reading shows, by provider:
+  - eligible, read, reading, waiting in Layer 4, admitted, with no row kept, and remaining;
+  - the estimated cost left;
+  - the cost a course and the OpenRouter balance against its existing credit floor.
+- **Batches.** A Platform Admin previews the next batch (its count and estimated cost), then asks for it with a reason. A batch:
+  - is one Enrich fields task;
+  - is never larger than the batch size;
+  - only takes courses never read;
+  - is refused while an earlier course read waits, when AI is stopped, or when the estimate would take the balance below the floor.
+- **What is not added:** no job, no reader lane, no status, and no consumer API change.
+
+### W18. Step C rendered page with no requirements table (item 4)
+
+- **The note.** A page read rendered (`entry.render_hosts`) that keeps no row opens one Layer 4 note in the existing vocabulary: `entry_matrix_first_run` or `entry_matrix_change`, status `pending`, no rows.
+- **Approval** confirms "no matrix published here", and the website then says "contact the provider". It admits, quarantines and supersedes nothing.
+- **The workspace** shows the two states apart, in words:
+  - "Rendered, no table: in Layer 4" while the note waits;
+  - "No matrix published (confirmed)" once it is approved.
+- **Backfill.** The three rendered reads that already kept no row get their note: Newcastle, Griffith and Victoria University of Wellington.
+
+### Build
+
+- Release v2.15.364 contains migrations `20261029020000` and `20261029030000`, plus specs `s155` and `s156`.
+- After it is deployed, a separate count-guarded migration runs the approved programme batch:
+  - the ten named re-reads, one governed attempt each;
+  - the first bounded course batch.
+- Layer 4 decisions stay with people.
