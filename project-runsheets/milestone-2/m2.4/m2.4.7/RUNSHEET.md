@@ -9097,3 +9097,48 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Rolled-back live dry run: 3 sources reset; all three functions edited; setting reads 16,000.
   - New spec `cf-247-s141-aer-reader-limits-contract` (Guards line).
   - Suite on the PR branch: 1,085 passed, 0 failed, 0 skipped. Two specs (s131, s135) now anchor on the start of the slicing line, which gains the slice-size argument; their guards are unchanged. Register regenerated.
+
+### 29 Oct 2026 01:xx — AER programme Steps B and C: the PDF route and the rendered read (Pilot PR, migration `20261029002000`, worker v0.50.0)
+
+- **Decision record:** `ENTRY-REQUIREMENTS-PROGRAMME-DECISION-2026-10-28.md`, P4/P5 and sections 3–4 (admin `1c2b24a3`). Build order: `ENTRY-REQUIREMENTS-IMPLEMENTATION.md` 2.5, steps B and C.
+- **Step B, PDF matrices:** `pdf.ts`, method `ruled-cells-v1`. It runs before any AI read.
+  - **Extraction:** unpdf 0.12.1, the library the fee-schedule reader already uses. It keeps each text item's position and the PDF's own drawn rules: thin filled rectangles, stroked lines and the edges of filled boxes.
+  - **Columns:** the edges of each table's rule segments.
+  - **Rows:** the rules across each column. A cell merged over rows is repeated on each of those rows; a bar across the table is a heading.
+  - **Proof:** every text item must sit inside one column and between two rules of that column.
+  - **Fails closed:** an item across a column edge or a row rule, text outside the table's columns, or short cells side by side with no rules holds the **whole document** as `held_unparsed`, with the page and the text. Nothing of a held document is given to the model, and no partial table.
+  - **What the model sees:** each table row is one line; each cell is named by its column header (`Header: cell`) and the country heading is kept (`§ COUNTRY`). The model never reads a value from a column position. The quote, scale, confidence and Layer 4 gates are unchanged.
+  - **Fetch:** direct, with robots.txt respected and never through Firecrawl. Size cap `entry.pdf_max_bytes`. The PDF is stored whole (`.pdf.gz`, `application/pdf`).
+  - **Stored copies:** a PDF source takes only a stored PDF (`entry_matrix_use_stored_v1`).
+- **Proof against the stored PDFs** (fixtures from the official PDFs; source sha256 in `tests/fixtures/entry-matrix/pdf/README.md`):
+
+| PDF | Result |
+|---|---|
+| VU | read: 6 tables, 153 rows, 4 columns; Cambodia's packed rows kept apart; merged qualification cells repeated |
+| Federation | read: 55 rows; centred country cells and multi-paragraph cells in their own row (Global's IB 20 and 24 under the right columns) |
+| WSU published table | read: 11 tables, 86 rows, 7 columns |
+| Adelaide | read: 41 rows |
+| Curtin | read: 37 rows; criteria paired with their own country |
+| Macquarie postgraduate | read: two side-by-side tables split at their empty column |
+| UQ | **held**: "page 3: columns of text with no drawn rules" (the misaligned table) |
+| Macquarie undergraduate and pathways | **held**: columns of text with no drawn rules |
+| UNSW | **held**: "page 1: "ACT" is in a column without row rules" |
+| Sydney | **held**: "page 1: "38" lies inside the table but outside its columns" |
+| Auckland (2 PDFs) | **held**: page 2 cells merged across columns ("No direct entry for secondary qualifications…" crosses a column edge) |
+
+- **Step C, JavaScript-only pages:**
+  - `entry.render_hosts` names the sites whose requirements the browser draws. Their sources are read once rendered through Firecrawl (rawHtml, waiting `entry.render_wait_ms`).
+  - robots.txt is checked first, and the read is within the Firecrawl budget check.
+  - The rendered copy is stored as HTML and read like any page. A rendered page with no minimum gives no rows: the resolver's step 5, contact the provider.
+- **Switched on separately:** `entry.pdf_enabled` is 0 and `entry.render_hosts` is empty in this change (asserted). A separate change switches them on once worker v0.50.0 answers live; that is the deploy-order lesson of 28 Oct.
+- **Change:** settings `entry.pdf_enabled`, `entry.pdf_max_bytes`, `entry.pdf_max_pages`, `entry.render_hosts`, `entry.render_wait_ms`. md5-guarded edits:
+  - `entry_matrix_fire_v1` (`dd985f9a…`);
+  - `svc_entry_matrix_fetch_next` (`8fa16c87…`);
+  - `entry_matrix_use_stored_v1` (`9e411390…`);
+  - `svc_entry_matrix_next` (`c2ac766d…`).
+  - No new table, job or status. Nothing dropped or deleted. Consumer API untouched.
+- **Evidence:**
+  - Rolled-back live dry run: with the switch on, all 13 parked PDF sources return to found; the use-stored rule names PDFs; `pdf_max_pages` is passed; the render host test is true.
+  - Specs: s142 (PDF column fidelity, against the fixtures and synthetic cases) and s143 (rendered read). Worker-version patterns in s127, s134, s139 and s141 accept v0.5x.
+  - Worker-version patterns in s87, s89, s91, s128, s129 and s135 also accept v0.5x. s128 anchors on the storedText call, which now carries the PDF page limit; its guard is unchanged.
+  - Suite on the PR branch: 1,097 passed, 0 failed, 0 skipped. Register regenerated (s142, s143).
