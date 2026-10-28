@@ -8891,3 +8891,18 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Other activity in the same minutes:** 33 Layer 4, scholarship-review and adapter decisions by Platform Admin users between 22:46:59 and 22:49. None of them touch RMIT or the four items.
 - **Time correction:** the earlier entries labelled "23:3x" and "23:5x" were written at 22:39 (change control before merge) and 22:43 (merged, deployed and ready) AEDT. The 21:50 recovery-open time stands.
 - **Stopped:** no PR B, no further recovery, no other governed action and no new reader. Further governed actions are separate decisions.
+
+### 28 Oct 2026 21:2x — Track C Step B (bounded RMIT slice): decision lodged before code
+
+- **Mandate:** Platform Admin, 28 Oct 2026 20:36: deliver Track C Step B (B1–B5) as one bounded RMIT slice, under `ENTRY-REQUIREMENTS-IMPLEMENTATION.md` 2.3–2.5.
+- **Decision record:** `docs/platform/ENTRY-REQUIREMENTS-STEP-B-DECISION-2026-10-28.md`.
+- **Course:** RMIT Bachelor of Engineering (Honours) BH126 (course `09431698…`, CRICOS 0100714), India.
+  - The page prints "2027 Guaranteed ATAR 75.00" and VCE prerequisites, but no percentage band.
+  - **Platform Admin decision (28 Oct):** no mapping from the ATAR to a band. The ATAR is stored as published, and India resolves honestly to step 5 (contact RMIT). The band-ladder rule is proved by rolled-back fixtures only.
+  - **Platform Admin decision (28 Oct):** B4 is the developer pack only. The consumer course page is website-team integration, not claimed live.
+- **Build:**
+  - B1 rides the existing Enrich fields lane (new field `entry_requirements`, not in the field registry; stored page only; AU strong identity proofs). It runs one count-guarded slice read for BH126. Rows go to Layer 4 (`course_entry_first_read`, human admission).
+  - Resolver `security.entry_resolve_v1`, five rules, active rows only.
+  - B5 sections in the existing Provider drawer and Course detail blade.
+  - B2/B3 consumer keys with `edu_country`, as a paste-reviewed held PR (never auto-merged).
+- **Excluded:** PR B, other countries, quarantine work, PDF/JS/new providers, Step C, scholarship fields and the 37 proposed matrix rows.

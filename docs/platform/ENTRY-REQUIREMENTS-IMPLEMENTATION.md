@@ -286,3 +286,9 @@ They are kept current in each build PR.
 | 10 | **Rendering rule for the developer pack:** "a matrix row WITHOUT a minimum (the "case by case" rows — SIT/China, NMIT/India, Ara's Gaokao pointer) must render as "this qualification is considered case by case", never as "no data" and never as an automatic pass." | Line recorded in `docs/integrations/developer-pack/ENTRY-REQUIREMENTS-RENDERING-NOTE.md` now. It is folded into the Developer Guide (section on entry fields, plus section 13 API changes) when the fields ship. The API marks such rows with `min_grade` null and `scale` 'none', and the resolution order returns them as a case-by-case result, not as "contact the provider" and not as met |
 
 These close decision items 1 and 2 of this file.
+
+---
+
+## Decision 28 Oct 2026 — Track C Step B, bounded RMIT slice
+
+Recorded in `docs/platform/ENTRY-REQUIREMENTS-STEP-B-DECISION-2026-10-28.md`. It applies Parts 2.3–2.4 to one course (RMIT BH126, India): the B1 course read, the resolver, the admin views and the additive consumer keys. It replaces nothing in this plan. The plan's own Step B (PDF matrices, 2.5) is not part of it.
