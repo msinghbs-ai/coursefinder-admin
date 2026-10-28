@@ -157,6 +157,22 @@
                     "provider_id": "provider:cricos:00025b"
                   }
                 },
+                "course_entry": {
+                  "summary": "course entry",
+                  "value": {
+                    "action": "course",
+                    "course_code": "0100714",
+                    "edu_country": "IN"
+                  }
+                },
+                "provider_entry": {
+                  "summary": "provider entry",
+                  "value": {
+                    "action": "provider",
+                    "provider_id": "provider:cricos:00122a",
+                    "edu_country": "IN"
+                  }
+                },
                 "rankings": {
                   "summary": "rankings",
                   "value": {
@@ -356,6 +372,11 @@
           },
           "scholarship_id": {
             "type": "string"
+          },
+          "edu_country": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{2}$",
+            "description": "course and provider: the student's country of prior education (ISO 3166-1 alpha-2). course adds entry.resolution; provider narrows entry_matrix to that country. Any other value: 400 INVALID_INPUT"
           },
           "cursor": {
             "type": [

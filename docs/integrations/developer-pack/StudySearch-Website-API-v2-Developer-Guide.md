@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Website API v2 — Developer Guide"
-subtitle: "website-api-v2 · Version 2 · Issue 4 · 17 October 2026 · Pilot"
+subtitle: "website-api-v2 · Version 2 · Issue 5 · 29 October 2026 · Pilot"
 ---
 
 | | |
@@ -227,7 +227,7 @@ Per country (AU, NZ, CA): study levels, study areas, subdivisions (states, provi
 }
 ```
 
-This returned 35 courses on 16 October 2026. All filters are optional and combine with AND.
+This returned 35 courses on 29 October 2026. All filters are optional and combine with AND.
 
 | Filter | Type | Notes |
 |---|---|---|
@@ -273,7 +273,7 @@ This returned 35 courses on 16 October 2026. All filters are optional and combin
 { "action": "course", "course_code": "082960F" }
 ```
 
-`course_code` accepts a source code, a StudySearch display code (e.g. `UNBC-BA-019`) or a `course_id`. The detail has every search field plus: `description`, `tuition_history[]` (every year held, latest first), `scholarships[] { scholarship_id, name, official_url, amount_note, amount_is_maximum, application_deadline, saving_per_year, saving_currency }`, `english_note`, `other_matches` (other courses sharing the same source code), and `provider_outcomes_state` with `provider_outcomes[]` (the provider's QILT statistics, as in 7.4).
+`course_code` accepts a source code, a StudySearch display code (e.g. `UNBC-BA-019`) or a `course_id`. The detail has every search field plus: `description`, `tuition_history[]` (every year held, latest first), `scholarships[] { scholarship_id, name, official_url, amount_note, amount_is_maximum, application_deadline, saving_per_year, saving_currency }`, `english_note`, `other_matches` (other courses sharing the same source code), and `provider_outcomes_state` with `provider_outcomes[]` (the provider's QILT statistics, as in 7.4). With `edu_country` (7.9) it also carries `entry`, the course's academic entry requirements and the requirement that applies to a student from that country; without it, `entry` holds the course's own published requirements.
 
 ## 7.4 providers and provider (University Finder)
 
@@ -297,6 +297,7 @@ This returned 35 courses on 16 October 2026. All filters are optional and combin
 | `logo` | list | 7.7 |
 | `description`, `rankings[]` | detail | `rankings[]` as in 7.6, every edition held |
 | `outcomes_state`, `outcomes[]` | detail | QILT statistics for Australian providers, by study level (UG, PGC, PGR, ALL): `survey`, `survey_name`, `metric_code`, `metric_name`, `study_level`, `study_level_name`, `value`, `unit`, `ci_low`, `ci_high`, `national_benchmark`, `reference_year`, `responses`. Provider level only, never per course. Empty for New Zealand and Canada |
+| `entry_matrix[]` | detail | Academic entry requirements the provider publishes by country of prior education (7.9); narrowed to one country with `edu_country` |
 
 An average tuition per provider is not returned: there is no sound basis for one.
 
@@ -353,26 +354,118 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 - A whole-course total is never presented as per year. An amount under 1,000 is treated as not held (provider pages use $0 or $1 as placeholders).
 - Currency is the course's own (AUD, NZD or CAD). There is no conversion: filter by country before filtering by tuition.
 
+
+## 7.9 Academic entry requirements
+
+`course` and `provider` take an optional **`edu_country`**: the two-letter ISO country code of the student's country of prior education, for example `"IN"` for India. Keep the student's choice in their session and send it with both calls. Any other value is refused with `400 INVALID_INPUT`. `search` does not take it.
+
+```json
+{ "action": "course", "course_code": "0100714", "edu_country": "IN" }
+{ "action": "provider", "provider_id": "provider:cricos:00122a", "edu_country": "IN" }
+```
+
+**Course detail: `entry`** (always present; `null` means not held):
+
+| Field | Notes |
+|---|---|
+| `min_score`, `min_score_basis` | The course's minimum entry score and the words the course page prints with it, for example `75` and `"2027 Guaranteed ATAR"`. Show the basis with the number |
+| `benchmark_band` | The provider's band this course names, only where the course page prints one. Never worked out from a score |
+| `prerequisites[]`, `selection_tasks[]` | `{ text, quote }` as published |
+| `requirements_note` | Other published entry conditions |
+| `resolution` | Only when `edu_country` is sent; see below |
+
+**`resolution`**: the requirement that applies to a student from that country. It is worked out in a fixed order, and the first rule that applies is used:
+
+1. a rule the course page states for itself;
+2. the provider's row for this course and country;
+3. the course's band, looked up in the provider's table for the country;
+4. the provider's minimum for the country and the course level;
+5. otherwise, contact the provider.
+
+| Field | Notes |
+|---|---|
+| `step`, `rule` | 1–5: `course_override`, `course_country_row`, `band_ladder`, `provider_minimum`, `contact_provider` |
+| `outcome` | `minimum_published`, `case_by_case` or `contact_provider` |
+| `rows[]` | `qualification`, `study_level`, `min_grade`, `scale`, `band`, `conditions`, `quote`, `as_at`, `edition`, `case_by_case` |
+| `note` | Why no table row applied, when `step` is 5 |
+
+Show it like this:
+
+- **`minimum_published`:** show each qualification with its minimum, for example "All India Senior School Certificate: minimum average of 75%".
+- **`case_by_case`**, or a row with `case_by_case` true: show **"This qualification is considered case by case"**. Never show "no data", and never treat it as met.
+- **`contact_provider`:** show **"Requirements for your qualification aren't published — contact the provider"**, with the provider's website.
+
+The API looks requirements up. It never decides whether a student is eligible.
+
+**Provider detail: `entry_matrix[]`** (admitted rows; narrowed to `edu_country` when sent): `country`, `study_level` (the provider's own label), `qualification`, `min_grade`, `scale`, `band`, `course_code` (only on rows for one course), `conditions`, `as_at`. A row with `min_grade` null has `scale` `"none"`: it is considered case by case.
+
+**Worked example (Pilot, measured 29 October 2026, admitted rows only):** RMIT University, Bachelor of Engineering (Honours), CRICOS `0100714`, for a student from India.
+
+```json
+{ "action": "course", "course_code": "0100714", "edu_country": "IN" }
+```
+
+```json
+"entry": {
+  "min_score": null, "min_score_basis": null, "benchmark_band": null,
+  "prerequisites": [], "selection_tasks": [], "requirements_note": null,
+  "resolution": {
+    "country": "IN", "step": 5, "rule": "contact_provider", "outcome": "contact_provider", "rows": [],
+    "note": "The provider publishes a band table for this country, but the course page prints no band to enter it with.",
+    "contact": "https://www.rmit.edu.au"
+  }
+}
+```
+
+The provider publishes an India table, but this course's page prints no band to enter it with, so the answer is step 5: show "contact the provider". The same provider's table:
+
+```json
+{ "action": "provider", "provider_id": "provider:cricos:00122a", "edu_country": "IN" }
+```
+
+```json
+"entry_matrix": [
+  { "country": "IN", "study_level": "Bachelor degrees", "qualification": "All India Senior School Certificate (AISSC) – 10+2",
+    "min_grade": "Minimum average of 65%", "scale": "percentage", "band": "65%",
+    "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26" },
+  { "country": "IN", "study_level": "Bachelor degrees", "qualification": "State Boards of Education (Higher Secondary Certificate, HSC)",
+    "min_grade": "Minimum average of 70%", "scale": "percentage", "band": "65%",
+    "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26" }
+]
+```
+
+33 rows for India (343 for all countries). A course that names its band (for example "65%") resolves at step 3 to the rows of that band; this course names none.
+
+**Integrating:**
+
+- **Website (Wix):** let the student choose their country of prior education once (for example on the course page or in their profile), keep it in their session, and send it as `edu_country` with `course` and `provider` from your backend code, as for every call (the key never reaches the browser). Render `entry.resolution` with the three rules above; show `as_at` with each row. `sync` does not carry entry requirements: fetch them with `course` and `provider` when the page is shown (or cache them by course and country).
+- **Zoho:** Zoho's own API (`zoho-api-v2`) is unchanged and carries no entry requirements. A Zoho workflow that needs them for a lead calls Website API v2 `course` with the lead's country of prior education, with a key issued for that use.
+- **Other consumers:** treat `entry` and `entry_matrix` as optional; a value not held is `null` or empty, never a placeholder.
+
+Coverage grows as each provider's published table is admitted by a person (section 8).
+
 # 8. What is held now
 
-Courses or records the API returns holding a value (16 October 2026, Duolingo row 17 October 2026; coverage grows daily).
+Courses or records the API returns holding a value (29 October 2026; coverage grows daily).
 
-| Course field | Australia (26,103) | New Zealand (6,474) | Canada (4,723) |
+| Course field | Australia (23,732) | New Zealand (6,474) | Canada (3,814) |
 |---|---|---|---|
-| Official course page | 18,385 | 3,000 | 2,678 |
-| English requirements | 15,901 | 1,929 | 1,688 |
-| of which Duolingo English Test (DET) | 347 | 0 | 184 |
-| Intake months | 9,269 | 1,967 | 848 |
-| Any tuition | 25,716 | 966 | 326 |
-| Study area | 26,103 | 6,053 | 4,601 |
-| Study level | 26,103 | 6,233 | 2,671 |
-| Duration (months) | 26,103 | 2,929 | 1,319 |
-| Delivery mode | 26,087 | 3,870 | 3,204 |
-| At least one campus | 26,069 | 2,603 | 2,332 |
-| At least one linked scholarship | 9,397 | 1,060 | 846 |
-| Providers with courses | 1,546 | 287 | 52 |
+| Official course page | 17,893 | 3,043 | 2,664 |
+| English requirements | 16,032 | 2,356 | 2,009 |
+| of which Duolingo English Test (DET) | 405 | 0 | 248 |
+| Intake months | 9,374 | 2,140 | 1,613 |
+| Any tuition | 23,564 | 1,414 | 680 |
+| Study area | 23,732 | 6,225 | 3,774 |
+| Study level | 23,732 | 6,254 | 3,814 |
+| Duration (months) | 23,732 | 2,338 | 1,324 |
+| Delivery mode | 23,712 | 2,980 | 2,507 |
+| At least one campus | 23,701 | 2,339 | 2,088 |
+| At least one linked scholarship | 9,136 | 1,456 | 990 |
+| Providers with courses | 1,279 | 287 | 52 |
 
-Scholarships returned: 1,100 (Australia 901, New Zealand 141, Canada 58); 1,096 open to international students. Providers with an approved logo: 1,445. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
+Scholarships returned: 1,114 (Australia 898, New Zealand 151, Canada 65); 1,111 open to international students. Providers with an approved logo: 1,463. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
+
+Academic entry requirements (7.9): provider tables admitted for 1 provider (343 rows across its countries); more providers' tables are being read and wait for a person's approval before they are returned. Course-level entry rows admitted: none yet. A course or provider without admitted rows returns `entry` and `entry_matrix` empty, and resolution step 5.
 
 # 9. Your Wix collections (suggested)
 
@@ -399,7 +492,7 @@ Send: the action and request body (no key), the `request_id`, the HTTP status, t
 
 # 12. Acceptance tests
 
-Counts are as measured on Pilot on 16 October 2026; expect the same or more.
+Counts are as measured on Pilot on 29 October 2026; they change as data is corrected and grows.
 
 | # | Test | Expected |
 |---|---|---|
@@ -407,21 +500,24 @@ Counts are as measured on Pilot on 16 October 2026; expect the same or more.
 | 2 | Wrong key | An invalid key returns 401 and no data |
 | 3 | Reference | Vocabularies for AU, NZ and CA; eight institution types |
 | 4 | Course search | The example in 7.2 returns 35 courses; each has a February intake, an IELTS minimum at or below 6.5 and annual tuition at or below 45,000 |
-| 5 | Keyword | `keyword` nursing with `cities` Melbourne returns 109 courses, nursing titles first, the same total on every page |
-| 6 | Canada | `country_codes` CA returns 4,723 courses, each with a `display_code` |
+| 5 | Keyword | `keyword` nursing with `cities` Melbourne returns 107 courses, nursing titles first, the same total on every page |
+| 6 | Canada | `country_codes` CA returns 3,814 courses, each with a `display_code` |
 | 7 | Display code | `course` with `course_code` UNBC-BA-019 returns that course; `display_code_kind` is `studysearch` |
 | 8 | Course detail | `course_code` 082960F returns English by test, tuition with basis and linked scholarships; NOPE-XX-999 returns 404 |
 | 9 | University Finder | `providers` with `university_groups` go8 and sort `qs_rank_asc` returns 8 providers |
 | 10 | Provider detail | `provider` provider:cricos:00025b returns 48 QILT rows and its rankings |
 | 11 | Institution type | `providers` with `country_codes` AU and `institution_types` university returns 45 providers |
-| 12 | Scholarships | `scholarships` with `student_types` international returns 1,096 records |
+| 12 | Scholarships | `scholarships` with `student_types` international returns 1,111 records |
 | 13 | Rankings | `rankings` with QS, edition 2027, AU returns 38 entries, each with `attribution` and `terms_status: "approved"` |
-| 14 | Logos | `providers` with `has_logo` true returns 1,445 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
+| 14 | Logos | `providers` with `has_logo` true returns 1,463 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
 | 15 | Sync full load | `sync` with no cursor: `mode` full and `has_more` true; following `next_cursor` to the end gives `full_load_complete: true` |
 | 16 | Sync changes | The last `next_cursor` sent again returns only what changed since (often nothing); sending it twice gives the same items |
 | 17 | Errors | An unknown action returns 400 `INVALID_ACTION`; a 429 is handled by waiting for `Retry-After` |
 | 18 | Nulls and new fields | A value not held is null or empty, never a placeholder; an unknown field in a response is ignored safely |
 | 19 | Key safety | The key is absent from browser bundles, page source, CMS records and browser network requests |
+| 20 | Entry, contact provider | `course` with `course_code` 0100714 and `edu_country` IN returns `entry.resolution` with `step` 5 and `outcome` `contact_provider`; your page shows "contact the provider" |
+| 21 | Entry, provider table | `provider` with `provider_id` provider:cricos:00122a returns 343 `entry_matrix` rows; with `edu_country` IN, 33 rows, all `country` IN |
+| 22 | Entry, invalid country | `edu_country` ZZ or IND returns 400 `INVALID_INPUT` |
 
 # 13. Changes to this guide
 
@@ -433,3 +529,4 @@ Changes within Website API v2 are additive. A change to the API (a new field, fi
 | 15 October 2026 (issue 2) | `sync` pages hold up to 200 items (was 50; default 200), and a page also stops at about 550 KB. A full load is about 250 calls, about 5 minutes (was about 1,400 calls, about 25 minutes). Sections 6.1 and 6.2 added: what to expect from a full load, and what we expect from your sync job |
 | 16 October 2026 (issue 3) | Website API v2 at its own address, `website-api-v2`, with its own key: no `contract` field; responses carry `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail` (and `INVALID_JSON`); 300 calls a minute per key, all actions together. Same actions, fields and answers. The earlier address keeps working until you have moved |
 | 17 October 2026 (issue 4) | `sync` pages hold up to 600 size units (was 200; default 600): a full load is about 86 calls, about 1 to 2 minutes (was about 260 calls, about 5 minutes); a caller that sends a smaller `page_size` keeps getting smaller pages. Replies are compressed when you send `Accept-Encoding: gzip` (about 15 MB for a full load instead of about 113 MB). New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |
+| 29 October 2026 (issue 5) | `course` and `provider` take an optional `edu_country` (the student's country of prior education). The course detail gains `entry` (the course's academic entry requirements and, with `edu_country`, the requirement that applies, worked out in a fixed order with "case by case" and "contact the provider" outcomes); the provider detail gains `entry_matrix[]` (the provider's published requirements by country). Section 7.9 added; acceptance tests 20 to 22 added |

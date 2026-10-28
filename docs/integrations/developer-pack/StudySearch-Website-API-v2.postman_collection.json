@@ -78,7 +78,7 @@
       }
     },
     {
-      "name": "search – nursing Melbourne (109)",
+      "name": "search – nursing Melbourne (107)",
       "request": {
         "method": "POST",
         "header": [
@@ -100,7 +100,7 @@
       }
     },
     {
-      "name": "search – Canada (4,723)",
+      "name": "search – Canada (3,814)",
       "request": {
         "method": "POST",
         "header": [
@@ -210,7 +210,7 @@
       }
     },
     {
-      "name": "providers – with logo (49)",
+      "name": "providers – with logo (1,463)",
       "request": {
         "method": "POST",
         "header": [
@@ -254,6 +254,50 @@
       }
     },
     {
+      "name": "course – entry requirements, India (0100714)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"course\",\n  \"course_code\": \"0100714\",\n  \"edu_country\": \"IN\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
+      "name": "provider – entry table, India (RMIT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"action\": \"provider\",\n  \"provider_id\": \"provider:cricos:00122a\",\n  \"edu_country\": \"IN\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/website-api-v2"
+      }
+    },
+    {
       "name": "rankings – QS 2027 AU (38)",
       "request": {
         "method": "POST",
@@ -276,7 +320,7 @@
       }
     },
     {
-      "name": "scholarships – international (1,096)",
+      "name": "scholarships – international (1,111)",
       "request": {
         "method": "POST",
         "header": [

@@ -12,6 +12,8 @@ ex={
  "providers_universities":{"action":"providers","filters":{"country_codes":["AU"],"institution_types":["university"]},"page":1,"page_size":50},
  "providers_with_logo":{"action":"providers","filters":{"has_logo":True},"page":1,"page_size":50},
  "provider":{"action":"provider","provider_id":"provider:cricos:00025b"},
+ "course_entry":{"action":"course","course_code":"0100714","edu_country":"IN"},
+ "provider_entry":{"action":"provider","provider_id":"provider:cricos:00122a","edu_country":"IN"},
  "rankings":{"action":"rankings","filters":{"system_codes":["qs_wur"],"edition_year":2027,"country_codes":["AU"]},"page":1,"page_size":20},
  "scholarships":{"action":"scholarships","filters":{"student_types":["international"]},"page":1,"page_size":10},
  "scholarship":{"action":"scholarship","scholarship_id":"{{scholarshipId}}"},
@@ -48,6 +50,7 @@ req={"type":"object","required":["action"],"properties":{
  "sort":{"type":"string","enum":["relevance","title_asc","tuition_annual_asc","tuition_annual_desc","duration_asc","updated_asc","name_asc","qs_rank_asc","the_rank_asc","course_count_desc"],"description":"Course sorts for search; provider sorts for providers"},
  "course_id":s("string"),"course_code":{"type":"string","description":"A source code, a StudySearch display code or a course_id"},
  "provider_id":s("string"),"scholarship_id":s("string"),
+ "edu_country":{"type":"string","pattern":"^[A-Za-z]{2}$","description":"course and provider: the student's country of prior education (ISO 3166-1 alpha-2). course adds entry.resolution; provider narrows entry_matrix to that country. Any other value: 400 INVALID_INPUT"},
  "cursor":{"type":["string","null"],"description":"sync: next_cursor from the last reply; omit or null for a full load"},
  "full_load":{"type":"boolean","description":"sync: true starts a full load again"},
  "entities":{"type":"array","items":{"type":"string","enum":["reference","provider","logo","rankings","scholarship","course"]},"description":"sync, full load only; default all six"}}}
@@ -82,7 +85,7 @@ oas={"openapi":"3.1.0",
    "schemas":{"Request":req,"Filters":filters,"ListResponse":lst,"DetailResponse":det,"SyncResponse":syn,"Error":errs}}}
 json.dump(oas,open("StudySearch-Website-API-v2.openapi.json","w"),indent=2,ensure_ascii=False)
 items=[]
-names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (109)","search_canada":"search – Canada (4,723)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (49)","provider":"provider – UQ detail","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,096)","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
+names={"reference":"reference","search":"search – example (35)","search_nursing_melbourne":"search – nursing Melbourne (107)","search_canada":"search – Canada (3,814)","course":"course – 082960F","course_display_code":"course – display code UNBC-BA-019","providers":"providers – Go8 by QS (8)","providers_universities":"providers – AU universities (45)","providers_with_logo":"providers – with logo (1,463)","provider":"provider – UQ detail","course_entry":"course – entry requirements, India (0100714)","provider_entry":"provider – entry table, India (RMIT)","rankings":"rankings – QS 2027 AU (38)","scholarships":"scholarships – international (1,111)","scholarship":"scholarship – detail","sync_full":"sync – full load, first page","sync_next":"sync – next page or delta (uses syncCursor)"}
 for k,v in ex.items():
     it={"name":names[k],"request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],
       "body":{"mode":"raw","raw":json.dumps(v,indent=2,ensure_ascii=False),"options":{"raw":{"language":"json"}}},"url":"{{baseUrl}}/website-api-v2"}}
