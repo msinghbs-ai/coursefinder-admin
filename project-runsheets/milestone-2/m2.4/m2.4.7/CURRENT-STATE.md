@@ -8957,3 +8957,33 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
     - matrix: 343 rows, or 33 with IN (IN only);
     - invalid `edu_country` refused;
     - baseline re-taken: 75 functions, 48 relations.
+
+### 28 Oct 2026 21:5x — #717 merged and deployed; the slice read was taken by the old worker; follow-up #718 written before merge
+
+- **#717 merged 21:38** (squash `c6fd9207`). Post-merge workflows all passed:
+  - Deploy on merge;
+  - Release Currentness Deployed;
+  - Release History Contract;
+  - CourseFinder Deployed UAT;
+  - Pilot Frontend Build.
+- **Live matches the repository:**
+  - migration-history md5 `2f0e922a…` equals the file's;
+  - `security.entry_resolve_v1`, `public.admin_entry_requirements` and the `svc_enrich_ai_record` branch are present;
+  - the worker has answered as v0.49.0 since 21:40:06 (mode ledger).
+- **The slice read went wrong (recorded as found).** Deploy-on-merge applies migrations before it deploys functions. The count-guarded slice item was therefore taken at 21:39:10 by the **previous worker, v0.48.8**.
+  - That worker asked the field as a generic one: "the page does not state it", US$0.0024, 0 rows.
+  - No entry reader has read the page yet. Its no-value flag would also hold any new read.
+  - The stored copy does hold entry text; the adapter read "You must have successfully completed the Victorian Certificate of Education (VCE) … Prerequisites …".
+- **Unchanged:**
+  - RMIT matrix 343 active, 37 proposed, 167 superseded, 20 quarantined;
+  - `entry.providers` is UTS and WSU;
+  - `course_entry_requirements` holds 0 rows.
+- **#718 (worker v0.49.1, migration `20261028003000`), written before merge:**
+  - the entry read uses the whole page text, not only `<main>` (a precaution);
+  - `security.course_entry_read_enqueue_v1` (md5-guarded) releases the field's no-value hold and refuses loudly if the item gate drops the item;
+  - no read is enqueued in it;
+  - live dry run (rolled back): enqueue gave job queued, 2 items, flag released;
+  - suite 1,078 passed, 0 failed, 0 skipped. Guards: s139.
+- **Next:**
+  - the slice re-read goes in its own migration (`20261028004000`), merged only after v0.49.1 answers live, so the old worker cannot take it;
+  - **lesson recorded:** a migration that enqueues work for a new worker path must not ride the same merge as the worker.
