@@ -134,3 +134,19 @@ After gates 1 and 3, I verify the live payload. I then write the developer guide
 3. **The 65% sentence** (finding 2) is a possible source for a band. It is left alone unless you decide otherwise.
 4. **B4** is the website team's work.
 5. **The 37 proposed RMIT matrix rows** remain a separate Layer 4 task, untouched.
+
+---
+
+## Update 28 Oct 2026, 22:5x (after the Platform Admin's 22:44 decisions)
+
+- **Decisions recorded first:** decision record section 11 (admin `e816b590`).
+- **Consumer change: verified and live.**
+  - The paste history md5 `fd69acc1…` equals the file. `website_v2_course(text)` and `website_v2_provider(text)` equal their earlier definitions plus one key each (`entry`, `entry_matrix`). The new functions' bodies equal the PR's.
+  - Live: `IN` gives step 5; the provider matrix has 343 rows, or 33 with `in` (IN only); `ZZ` and `IND` are refused with `22023 INVALID_INPUT`.
+  - Baseline re-taken: 75 functions, 48 relations; 0 drift.
+  - #720 merged 22:46:42 (`09dca1b6`). `website-api-v2` deployed and matches the repo (edge drift check). Release currentness and Deployed UAT passed.
+- **Waiting for the Platform Admin's session** (no SQL, by decision):
+  1. Layer 4 `cf71cca1`: Approve except `dab50fa7…` (2026 ATAR 73.00).
+  2. BH126 › Read from the stored page.
+- **Expectation:** the same reader, prompt, model and copy produced the paraphrased ATAR quote and the dropped 65% row at 22:18. A repeat stops Step B at the evidence gate.
+- **Not yet claimed:** "Track C Step B platform RMIT vertical slice live".

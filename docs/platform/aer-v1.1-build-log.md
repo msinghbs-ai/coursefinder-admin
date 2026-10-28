@@ -1264,3 +1264,17 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - `ZZ` / `IND`: `22023 INVALID_INPUT`.
 - **Baseline re-taken:** 75 functions (the 4 `website_v2_course` / `_provider` forms included) and 48 relations, reason recorded. Drift now: 0 changed, 0 new, 0 relations.
 - **#720** (draft until now): checks green (build-and-smoke, Workers Builds); suite on its branch 1,082 passed, 0 failed, 0 skipped. Merged under its consumer-change authority (Platform Admin 22:44); deploy-on-merge skips the migration (already in history) and deploys `website-api-v2`.
+
+### 28 Oct 2026 22:5x — #720 merged and deployed; consumer change live; two Layer 4 / UI steps wait for a signed-in Platform Admin
+
+- **#720 merged 22:46:42** (squash `09dca1b6`).
+  - Deploy on merge: the migration was skipped (already in the history from the paste) and `website-api-v2` deployed. Live version 3 contains the `edu_country` handling.
+  - Edge drift check (run `40684090246`, by hand): success, live equals the repo.
+  - Release Currentness Deployed (run `40682704660`, by hand on `09dca1b6`): success.
+  - CourseFinder Deployed UAT: success.
+- **Not done by the agent, and why:** this session has no signed-in admin browser. Both the Layer 4 decision on item `cf71cca1` and "Read from the stored page" need the Platform Admin's own session. No SQL is used for them (decision 22:44).
+- **Order required by the controls:** a read is refused while `cf71cca1` is pending ("a read of this course is already in progress or waits in Layer 4").
+  1. **Layer 4, item `cf71cca1`:** Approve except row `dab50fa7-f931-45e2-871d-2861ae13e6c1` ("2026 ATAR 73.00"). This admits the two VCE prerequisites (`2561c0c6…`, `daa736b7…`) and marks the 2026 row inactive. (Reject is the alternative: all three inactive.)
+  2. **Course BH126 › Academic entry requirements › Read from the stored page**, with a reason. This is the one bounded re-read.
+  3. **The agent checks the read.** If it keeps the 2027 Guaranteed ATAR 75.00 and the 65% sentence with exact quotes, the Platform Admin approves that read in Layer 4 (the 2026 row excluded). Approving supersedes the reader's earlier active rows, so there are no duplicates. Otherwise it is the evidence gate.
+- **Expectation, stated in advance:** the reader, prompt, model (temperature 0) and stored copy are unchanged since the 22:18 read. That read paraphrased the ATAR sentence (`quote_not_on_page`), and the B1 basis rule dropped the 65% sentence because the model gave a score whose basis words are not in the quote (`score_without_basis`). The same outcome is likely; if it repeats, Step B stops at the evidence gate as decided.
