@@ -9257,3 +9257,16 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Rolled-back live dry run of the follow-up: 5 markdown sources to fetch again (WSU HTML page, AUT, Melbourne IB, Otago, Griffith; none waits in Layer 4); 0 re-attached to a markdown copy; the no-answer runs re-queued.
   - s149 added.
   - Suite: 1,112 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 03:4x — #729 live; bounded re-read after worker v0.50.2 (Pilot PR #730, migration `20261029007000`)
+
+- **#729 verified live** (merge `58ffd006`): Deploy on merge, Deployed UAT and the frontend build all succeeded. The deployed `coverage-sweep` bundle (version 221) carries `coverage-sweep-worker-v0.50.2` and `entryNoAnswerWhy`. No migration.
+- **Re-read, merged separately after the worker was live (28 Oct deploy-order lesson):**
+  - **No markdown copies:** an entry source no longer takes a stored markdown copy. This is an md5-guarded edit of `security.entry_matrix_use_stored_v1` (`1d009793…`).
+  - **Markdown sources fetched again:** 5 sources whose reads wait on no person, bounded at 6: the WSU HTML page, AUT, Melbourne IB, Otago and Griffith. Griffith goes rendered (Step C).
+  - **No-answer runs read once more:** 3 runs, bounded at 5: the VU PDF, the WSU PDF and Manukau. History is kept.
+  - **Left to the Platform Admin:** sources whose rows wait in Layer 4.
+- **Evidence:**
+  - Rolled-back live dry run: 5 sources found, 0 re-attached to markdown; the no-answer runs re-queued.
+  - s150 added.
+  - Suite: 1,115 passed, 0 failed, 0 skipped.
