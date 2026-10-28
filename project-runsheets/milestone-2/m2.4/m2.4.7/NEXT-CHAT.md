@@ -8938,3 +8938,13 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Next:**
   - the slice re-read goes in its own migration (`20261028004000`), merged only after v0.49.1 answers live, so the old worker cannot take it;
   - **lesson recorded:** a migration that enqueues work for a new worker path must not ride the same merge as the worker.
+
+### 28 Oct 2026 22:2x — #718 merged and verified; #719 (slice read once more) written before merge
+
+- **#718 merged 22:03** (squash `3f264dc7`). Deploy on merge and CourseFinder Deployed UAT passed.
+  - The migration-history md5 `204f3380…` equals the file's.
+  - Worker v0.49.1 has answered live since 22:06:03 (mode ledger).
+- **#719 (migration `20261028004000`):** the decided slice read once more.
+  - Count-guarded: at most two items ever.
+  - Live dry run (rolled back): 2 items, the newest queued, flag released.
+  - Suite 1,079 passed, 0 failed, 0 skipped. Guards: s139.
