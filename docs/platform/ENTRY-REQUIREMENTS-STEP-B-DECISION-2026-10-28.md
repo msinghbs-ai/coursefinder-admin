@@ -251,3 +251,20 @@ Not part of this slice:
 - new status values, parallel AER tables, new readers, uncounted jobs and arbitrary SQL.
 
 **The 37 proposed RMIT matrix rows are not touched.**
+
+## 11. Platform Admin decisions, 28 Oct 2026 22:44 (recorded before any further Pilot change)
+
+1. **BH126 65% band, accepted as source support.** The sentence "You must have successfully completed a qualification recognised by RMIT as equivalent to the Victorian Certificate of Education (VCE) with a minimum average of 65%" is accepted as explicit source support for this course's 65% Australian-standard band.
+   - This is not an ATAR conversion. Mapping Guaranteed ATAR 75.00 to a 75% band stays forbidden.
+   - A 65% band may be stored only with that exact quote, in the BH126 academic-entry context.
+   - It is not a provider-wide rule and creates no inference rule.
+2. **"2026 ATAR 73.00".** It is a previous year's figure and must not be admitted as the current 2027 course minimum. It is excluded through the existing Layer 4 decision path.
+3. **2027 Guaranteed ATAR 75.00.** Still required, with a verbatim on-page quote: no manual insert, no fixture as live data, no paraphrased quote.
+4. **One bounded BH126 re-read.** The existing "Read from the stored page" action, with the current deployed reader (v0.49.1):
+   - no reader-code change, no new provider, no RMIT matrix change, no recovery;
+   - if valid, admit it in Layer 4 excluding the 2026 ATAR row, and reconcile item `cf71cca1` through its review path (no SQL, no duplicate active rows);
+   - if one re-read cannot keep the required exact quotes, stop at the evidence gate. No repeated rereads.
+5. **Consumer paste.** Applied once by the Platform Admin. Verify it, then merge draft PR #720 under its consumer-change authority once green, and verify the edge function deploy and release currentness.
+6. **Developer pack.** Written from admitted live rows only.
+
+**Claim allowed:** "Track C Step B platform RMIT vertical slice live", only after these checks pass. Consumer course-page rendering stays website-team work.
