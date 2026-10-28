@@ -1,6 +1,6 @@
 # Data admission running sheet
 
-**As at:** 2026-10-28 (generated daily from the StudySearch Pilot database, `security.admission_sheet_v1`). **Change control:** CF-CHG-20260915-247. Full sheet: `daily/2026-10-28.csv`.
+**As at:** 2026-10-29 (generated daily from the StudySearch Pilot database, `security.admission_sheet_v1`). **Change control:** CF-CHG-20260915-247. Full sheet: `daily/2026-10-29.csv`.
 
 ## Summary
 
@@ -8,229 +8,138 @@
 |---|---:|
 | Universities with active courses | 1,618 (AU 1,279, CA 52, NZ 287) |
 | Active courses | 34,020 |
-| Courses with an official page | 23,555 (69.2%) |
-| Courses with intakes | 13,122 (38.6%) |
-| Courses with English | 20,367 (59.9%) |
-| Courses with a page fee | 10,481 (30.8%) |
-| Courses with a scholarship | 11,601 (34.1%) |
-| Scholarships published | 1,113 |
-| Waiting for a person | 261 Layer 4 items, 645 held scholarship pages |
+| Courses with an official page | 23,602 (69.4%) |
+| Courses with intakes | 13,129 (38.6%) |
+| Courses with English | 20,400 (60.0%) |
+| Courses with a page fee | 10,482 (30.8%) |
+| Courses with a scholarship | 11,582 (34.0%) |
+| Scholarships published | 1,114 |
+| Waiting for a person | 304 Layer 4 items, 636 held scholarship pages |
 
 ## Universities by stage
 
 | Stage | Universities | Courses |
 |---|---:|---:|
-| Admitting (adapter on, fields admitted) | 785 | 28,048 |
-| CRICOS data only (1-4 courses) | 385 | 953 |
-| Adapter built, not admitting yet | 331 | 3,589 |
-| Stopped: too few course pages | 107 | 1,360 |
-| Onboarding running | 7 | 44 |
+| Admitting (adapter on, fields admitted) | 790 | 28,082 |
+| CRICOS data only (1-4 courses) | 370 | 913 |
+| Adapter built, not admitting yet | 335 | 3,603 |
+| Stopped: too few course pages | 107 | 1,361 |
+| Onboarding running | 13 | 35 |
 | stopped_capture_failed | 1 | 11 |
 | stopped_error | 1 | 2 |
 | stopped_adapter_off | 1 | 13 |
 
-## Change since 2026-10-27
+## Change since 2026-10-28
 
 | University | Country | Change |
 |---|---|---|
-| UNSW Sydney | AU | english -422 |
-| RMIT University (RMIT) | AU | scholarships published -5 |
-| Flinders University | AU | fee +12 |
-| The University of Newcastle (UoN), The University of Newcastle Language Centre, Sydney | AU | fee +6 |
-| The University of Melbourne (UniMelb) | AU | fee +13 |
-| Swinburne University of Technology | AU | page -1; intakes -1; english -2 |
-| Macquarie University | AU | page -40; intakes -27; english -77 |
-| Australian National University | AU | page -49; english -47; fee -48 |
-| Western Sydney University | AU | page -28; intakes -2; english -28; fee -3 |
-| Queensland University of Technology | AU | scholarships published +1 |
-| Victoria University | AU | page -1; intakes -1; english -1 |
-| University of Wollongong | AU | page -86; intakes -2; scholarships published +2 |
-| Simon Fraser University (SFU) | CA | scholarships published +1 |
-| University of Canberra | AU | page -3; intakes -3; english -24 |
-| Edith Cowan University | AU | english -1 |
-| University of the Sunshine Coast | AU | fee +4 |
-| TAFE NSW Technical and Further Education Commission; TAFE NSW Higher Education | AU | page -2; fee -1 |
-| College of the North Atlantic | CA | fee +1 |
-| TAFE International Western Australia | AU | page -2; intakes -2; english -2 |
-| TAFE Queensland | AU | page -2; intakes -2; english -2; fee -2 |
-| Melbourne Polytechnic | AU | page -2; intakes -2; english -2 |
-| TAFE South Australia | AU | page -4; english -2 |
-| Thompson Rivers University | CA | fee +1 |
-| Cambrian College of Applied Arts and Technology | CA | fee +1 |
-| International College of Management, Sydney; Aspire English; Aspire Institute; International Sport College of Australia | AU | fee +9 |
-| Australian Pacific College, Southern Cross High School, English Unlimited Sydney, English Unlimited Melbourne | AU | new university |
-| Australia Institute of Business and Technology | AU | new university |
-| George Brown College | AU | new university |
-| Holmesglen, Holmesglen Institute | AU | page -1 |
-| Pacific College of Technology | AU | new university |
-| JMC Academy | AU | fee +1 |
-| Reach Community College Pty Ltd | AU | new university |
-| Aventia Institute Pty Ltd | AU | new university |
-| Gold Coast Learning Centre | AU | new university |
-| York Business Institute Pty. Ltd. | AU | new university |
-| Australian College of Business Intelligence | AU | new university |
-| Macquarie English, Macquarie Institute | AU | new university |
-| Lead College Pty Ltd | AU | new university |
-| Sydney Metro College | AU | new university |
-| Australian Ideal College | AU | new university |
-| Salford College | AU | new university |
-| TasTAFE | AU | page -2; intakes -1; english -1; fee -1 |
-| Australian Vocational Training Academy Pty Ltd | AU | new university |
-| Australis Institute of Technology and Education (AITE) | AU | new university |
-| Shafston International College | AU | new university |
-| The Canberra Training School Pty Ltd, Canberra Business and Technology College | AU | new university |
-| Australian Harbour International College | AU | new university |
-| AUSTRALIAN HEALTH AND MANAGEMENT INSTITUTE PTY LTD | AU | new university |
-| Chisholm Institute | AU | page -2; intakes -2 |
-| Acquire Training Solutions Pty Ltd, Laneway International College | AU | new university |
-| AIH Higher Education | AU | fee +3 |
-| Central Australian College | AU | new university |
-| Charlton Brown | AU | new university |
-| Educare College | AU | new university |
-| Education Training & Employment Australia | AU | new university |
-| Gamma Education & Training Pty Ltd | AU | new university |
-| Strathfield College, Sydney Jacaranda College | AU | new university |
-| Apex Australia Vocational Education | AU | new university |
-| Business College Online, Dragon College of Business, Australian City International College,Australian Vocational Institute, Sydney City English College | AU | new university |
-| Datum College; Fluent Education | AU | new university |
-| Institute Of Science Management And Technology | AU | new university |
-| NATIONAL POLYTECHNIC OF AUSTRALIA PTY LTD | AU | new university |
-| Supreme Business College Pty Ltd | AU | new university |
-| The Sydney Business & Travel Academy,  Sydney English Language Academy | AU | new university |
-| AUSTRA COLLEGE | AU | new university |
-| Australian Sovereign College | AU | new university |
-| Britts College Pty Ltd | AU | new university |
-| ICHM | AU | fee +3 |
-| Keystone College of Business and Technology | AU | new university |
-| Skills Institute Australia | AU | new university |
-| Academies Australasia Institute | AU | new university |
-| Australian College of Studies Co. | AU | new university |
-| Australian Institute of Language and Further Education | AU | new university |
-| Bentley College | AU | new university |
-| Cairns College of English & Business | AU | new university |
-| Invicta Technical College | AU | new university |
-| Kingston International College | AU | new university |
-| Murdoch College, The University of Adelaide College, Kaplan International College Adelaide | AU | fee +3 |
-| TrEd College | AU | new university |
-| Trinity Institute (Australia) | AU | new university |
-| West Australian Institute of Further Studies | AU | new university |
-| Abbey College Australia, Abbey Training | AU | new university |
-| Australian College of Technology | AU | new university |
-| Cass Training International College | AU | new university |
-| Entrepreneur Education | AU | new university |
-| Envirotech Education | AU | new university |
-| Imagine Education Australia | AU | new university |
-| King's Own Institute | AU | fee +14 |
-| Skyline International College | AU | new university |
-| Stanley College | AU | page -2; intakes -2; english -2; fee -2 |
-| WIN English Centre /  WIN College | AU | new university |
-| Adelaide Institute of Health | AU | new university |
-| Australian Learning Group, EDU English | AU | new university |
-| Global College Australasia | AU | new university |
-| ILSC - Australia; ILSC - Brisbane; ILSC - Sydney; ILSC Perth; ILSC Adelaide; ILSC Melbourne; Greystone College | AU | new university |
-| Sunraysia Institute of TAFE | AU | page -1; intakes -1 |
-| Auscanus Institute of Australia | AU | new university |
-| Australian International College of Skills & Education Pty Ltd | AU | new university |
-| Canberra College of Management and Technology | AU | new university |
-| Gippsland Institute of Technology | AU | new university |
-| INTERNATIONAL INSTITUTE OF EDUCATION | AU | new university |
-| Lexis TESOL Training Centres | AU | new university |
-| Nortwest Pty Ltd | AU | new university |
-| Pivot Education Pty Ltd | AU | new university |
-| The Centre of Excellence | AU | new university |
-| Albright Institute of Business and Language; Albright Institute of English | AU | new university |
-| Alliance College | AU | new university |
-| Queensland Academy of Technology | AU | new university |
-| Rockford College | AU | new university |
-| VIT (Victorian Institute of Technology) | AU | fee +7 |
-| Aboard Training Australia | AU | new university |
-| Australasian International Academy Pty Ltd | AU | new university |
-| Australian College of Technology and Business Pty Ltd | AU | new university |
-| Canterbury Technical Institute Pty Ltd | AU | new university |
-| CIBT AUSTRALIA | AU | new university |
-| Danford College | AU | new university |
-| ECA College | AU | new university |
-| English in Paradise; ELSTON EDUCATION & TRAINING | AU | new university |
-| EQUALS International | AU | page -2; intakes -2; fee -1 |
-| Fusion College of Technology Pty Ltd | AU | new university |
-| Glen Institute | AU | new university |
-| Harbourside Institute of Australia Pty Ltd | AU | new university |
-| Helix College Pty Ltd | AU | new university |
-| Opulence College Pty Ltd | AU | new university |
-| Protea College | AU | new university |
-| SOUTH SYDNEY COLLEGE (SSC) | AU | new university |
-| Times Academy Pty Ltd | AU | new university |
-| Australia-International Institute of Workplace Training | AU | new university |
-| Australian National Institute of Business & Technology | AU | new university |
-| Australian Technical College Western Australia | AU | new university |
-| Blue Lotus College | AU | new university |
-| Clarendon Business College Pty Ltd | AU | new university |
-| Elite Education Vocational Institute | AU | new university |
-| Mastery Institute Australia | AU | new university |
-| Melbourne City Institute of Education, Explore English | AU | new university |
-| NA | AU | new university |
-| Rosehill College | AU | new university |
-| Southern Academy of Health Sciences | AU | new university |
-| ABM Further Education | AU | new university |
-| Australasia Technology Institute | AU | new university |
-| Australian Health and Science Institute Pty Ltd | AU | new university |
-| Australian National Academy of Education, Ridge International College | AU | new university |
-| Australian Skills Management Institute, Australian Skills Management Institute NSW | AU | new university |
-| Bendigo TAFE; and Kangan Institute | AU | page -1 |
-| Durban International College | AU | new university |
-| Massey College | AU | new university |
-| Melbourne College of Business and Technology | AU | new university |
-| N/A | AU | new university |
-| Orange College | AU | new university |
-| Queensford College, Q Learning | AU | new university |
-| … | | 960 more in the CSV |
+| The University of Sydney | AU | scholarships published +4 |
+| Western Sydney University | AU | scholarships published -1 |
+| Queensland University of Technology | AU | scholarships published -2 |
+| JMC Academy | AU | page +1; intakes +1; english +1 |
+| Strathfield College, Sydney Jacaranda College | AU | page +1 |
+| Skills Institute Australia | AU | page +8; english +8 |
+| Kingston International College | AU | page +1; intakes +1; fee +1 |
+| Contempo College | AU | page +1; intakes +1; english +1 |
+| Harvard International College Pty Ltd | AU | page +2; intakes +2; english +2 |
+| Polytechnic Victoria Pty Ltd | AU | page +2 |
+| Eastern College Australia Limited | AU | stage building → admitting |
+| Australian Institute of Entrepreneurs Pty Ltd | AU | stage adapter_testing → admitting |
+| Charter Training, Charter Education | AU | stage building → adapter_testing |
+| Wiseman & Co. Advanced Learning Institute Pty Ltd | AU | page +1 |
+| Australian Leap College | AU | page +1; intakes +1; english +1 |
+| Sunshine College of Management Pty Ltd | AU | stage adapter_testing → admitting |
+| Victorian Academy Of Commerce and Technology Startups | AU | stage adapter_testing → admitting |
+| Accredited Education & Training Australia | AU | page +1 |
+| Advocate Training Pty Ltd | AU | stage stopped_too_few_pages → adapter_testing; page +4; english +4 |
+| Alice Spring College | AU | stage stopped_too_few_pages → adapter_testing; page +5; english +4 |
+| Australian Nursing and Training Services | AU | stage adapter_testing → admitting |
+| Centennial College | AU | stage stopped_too_few_pages → adapter_testing; page +1; english +1 |
+| Hashm Pty Ltd | AU | page +1 |
+| National Theatre | AU | stage building → stopped_too_few_pages |
+| PLC Armidale | AU | stage building → stopped_too_few_pages |
+| Scotch College | AU | stage building → stopped_too_few_pages |
+| St Michael's Collegiate School | AU | stage building → stopped_too_few_pages |
+| AU EDU INSTITUTE | AU | stage cricos_only → adapter_testing; page +2; english +2 |
+| Brunswick Institute | AU | stage cricos_only → adapter_testing; page +3; english +3 |
+| EF International Language Schools | AU | page +1 |
+| Enhance Training | AU | page +1 |
+| Sage College of Australlia | AU | stage stopped_too_few_pages → adapter_testing; page +1; intakes +1; english +1 |
+| Wissen Holdings Pty Ltd | AU | stage cricos_only → adapter_testing; page +2; english +2 |
+| Alpha English Academy | AU | stage cricos_only → building |
+| Early Learning Professional Development Pty Ltd | AU | stage adapter_testing → building |
+| Goldstone College | AU | stage cricos_only → adapter_testing; page +3; english +3 |
+| Milner International College of English | AU | stage adapter_testing → building |
+| Riverton English Academy | AU | stage cricos_only → adapter_testing; page +3 |
+| Sydney English House Pty Ltd | AU | page +1 |
+| Toowoomba Grammar School | AU | stage cricos_only → building |
+| ACT Education Directorate | AU | stage cricos_only → building |
+| Clarence Valley Anglican School | AU | stage cricos_only → building |
+| Gippsland Grammar School | AU | stage cricos_only → building |
+| Mackillop Catholic Regional College | AU | stage cricos_only → building |
+| Ormiston College | AU | stage cricos_only → building |
+| St Aloysius College | AU | stage cricos_only → building |
+| St. Catherine's School | AU | stage cricos_only → building |
+| Tintern Grammar | AU | stage cricos_only → building |
 
 ## Needs a person (largest first)
 
 | University | Country | Courses | Next action |
 |---|---|---:|---|
 | UNSW Sydney | AU | 667 | Decide 2 item(s) in Layer 4 |
-| The University of Sydney | AU | 655 | Decide 3 item(s) in Layer 4 |
+| The University of Sydney | AU | 655 | Decide 1 item(s) in Layer 4 |
 | Monash University | AU | 582 | Decide 1 item(s) in Layer 4 |
 | University of British Columbia (UBC) | CA | 575 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Technology Sydney (UTS) | AU | 530 | Decide 1 item(s) in Layer 4 |
-| RMIT University (RMIT) | AU | 507 | Decide 4 item(s) in Layer 4 |
-| Adelaide University | AU | 498 | Decide 1 item(s) in Layer 4 |
-| Flinders University | AU | 476 | Decide 6 item(s) in Layer 4 |
-| The University of Melbourne (UniMelb) | AU | 441 | Decide 3 item(s) in Layer 4 |
+| RMIT University (RMIT) | AU | 507 | Decide 5 item(s) in Layer 4 |
+| Adelaide University | AU | 498 | Decide 2 item(s) in Layer 4 |
+| Flinders University | AU | 476 | Decide 7 item(s) in Layer 4 |
+| The University of Melbourne (UniMelb) | AU | 441 | Decide 6 item(s) in Layer 4 |
+| Swinburne University of Technology | AU | 410 | Decide 1 item(s) in Layer 4 |
 | Macquarie University | AU | 380 | Decide 2 item(s) in Layer 4 |
 | University of Alberta | CA | 379 | Decide 8 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Australian National University | AU | 374 | Decide 24 item(s) in Layer 4 |
+| Curtin University | AU | 373 | Decide 1 item(s) in Layer 4 |
+| The University of Western Australia | AU | 327 | Decide 1 item(s) in Layer 4 |
 | Griffith University | AU | 297 | Decide 1 item(s) in Layer 4 |
+| Western Sydney University | AU | 297 | Decide 1 item(s) in Layer 4 |
 | Victoria University | AU | 279 | Decide 7 item(s) in Layer 4 |
-| University of Waikato | NZ | 278 | Decide 5 item(s) in Layer 4 |
+| University of Waikato | NZ | 278 | Decide 6 item(s) in Layer 4 |
 | Victoria University of Wellington | NZ | 273 | Decide 2 item(s) in Layer 4 |
 | Murdoch University | AU | 267 | Decide 5 item(s) in Layer 4 |
+| Massey University | NZ | 265 | Decide 1 item(s) in Layer 4 |
+| Auckland University of Technology | NZ | 257 | Decide 1 item(s) in Layer 4 |
 | Deakin University (Deakin) | AU | 252 | Decide 1 item(s) in Layer 4 |
-| University of Otago | NZ | 252 | Adapter built, nothing ready: review the adapter or rebuild it |
+| University of Otago | NZ | 252 | Decide 1 item(s) in Layer 4 |
 | La Trobe University | AU | 248 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Victoria | CA | 234 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | NZIST Work-Based Learning (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn) | NZ | 231 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | University of Tasmania (UTas) | AU | 221 | Decide 1 item(s) in Layer 4 |
-| Southern Institute of Technology | NZ | 207 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Southern Institute of Technology | NZ | 207 | Decide 1 item(s) in Layer 4 |
 | University of Lethbridge | CA | 199 | Decide 25 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Federation University Australia | AU | 195 | Decide 3 item(s) in Layer 4 |
+| Lincoln University | NZ | 199 | Decide 1 item(s) in Layer 4 |
+| Federation University Australia | AU | 195 | Decide 1 item(s) in Layer 4 |
 | Eastern Institute of Technology | NZ | 184 | Decide 1 item(s) in Layer 4 |
 | Torrens University Australia; Torrens University Language Centre; Chifley Business School at Torrens University Australia CBS at Torrens University Australia Blue Mountains International Hotel Management School at Torrens University Australia BMIHMS at To | AU | 182 | Decide 1 item(s) in Layer 4 |
 | University of Canberra | AU | 182 | Decide 4 item(s) in Layer 4 |
+| Otago Polytechnic | NZ | 182 | Decide 1 item(s) in Layer 4 |
 | Bond University Limited | AU | 180 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Calgary | CA | 179 | Decide 15 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Ara Institute of Canterbury | NZ | 178 | Decide 1 item(s) in Layer 4 |
 | Charles Darwin University | AU | 175 | Decide 4 item(s) in Layer 4 |
 | Edith Cowan University | AU | 171 | Decide 1 item(s) in Layer 4 |
 | Toi Ohomai Institute of Technology | NZ | 156 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Southern Cross University | AU | 153 | Decide 1 item(s) in Layer 4 |
 | Australian Catholic University | AU | 149 | Decide 6 item(s) in Layer 4 |
 | University of the Sunshine Coast | AU | 148 | Decide 1 item(s) in Layer 4 |
+| Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | Decide 1 item(s) in Layer 4 |
+| Waikato Institute of Technology | NZ | 144 | Decide 1 item(s) in Layer 4 |
 | Collarts | AU | 139 | Decide 2 item(s) in Layer 4 |
 | The University of Notre Dame Australia | AU | 131 | Decide 2 item(s) in Layer 4 |
 | University of New England | AU | 130 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | James Cook University | AU | 127 | Decide 1 item(s) in Layer 4 |
 | NorthTec | NZ | 122 | Decide 1 item(s) in Layer 4 |
-| Whitireia and WelTec | NZ | 116 | Decide 1 item(s) in Layer 4 |
+| Whitireia and WelTec | NZ | 116 | Decide 2 item(s) in Layer 4 |
 | Universal College of Learning (UCOL) | NZ | 115 | Decide 1 item(s) in Layer 4 |
 | Central Queensland University | AU | 106 | Decide 2 item(s) in Layer 4 |
 | TAFE NSW Technical and Further Education Commission; TAFE NSW Higher Education | AU | 105 | Decide 9 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -240,7 +149,7 @@
 | The Open Polytechnic of New Zealand | NZ | 92 | Decide 1 item(s) in Layer 4 |
 | Western Institute of Technology at Taranaki (WITT) | NZ | 89 | Decide 1 item(s) in Layer 4 |
 | Melbourne Polytechnic | AU | 83 | Decide 1 item(s) in Layer 4 |
-| Manukau Institute of Technology and Unitec - Unitec | NZ | 80 | Decide 1 item(s) in Layer 4 |
+| Manukau Institute of Technology and Unitec - Unitec | NZ | 80 | Decide 2 item(s) in Layer 4 |
 | TAFE South Australia | AU | 77 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Northern British Columbia | CA | 76 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | New Zealand Management Academies Limited | NZ | 76 | Decide 1 item(s) in Layer 4 |
@@ -288,6 +197,7 @@
 | Royal Roads University | CA | 31 | Decide 24 held scholarship page(s) (Layer 4 › AI could not decide) |
 | MITO Limited | NZ | 31 | Decide 9 item(s) in Layer 4 |
 | Skills Update Limited | NZ | 31 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Australian Harbour International College | AU | 30 | Decide 9 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Chisholm Institute | AU | 30 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | UTS College | AU | 30 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | British Columbia Institute of Technology | CA | 30 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -370,56 +280,43 @@
 | Griffin College | AU | 13 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Marriott Academy | AU | 13 | Decide 5 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Douglas College | CA | 13 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Aspire2 Education Limited | NZ | 13 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Aspire2 Education Limited | NZ | 13 | Decide 1 item(s) in Layer 4 |
 | Auckland Institute of Studies Limited | NZ | 13 | Onboarding stopped (adapter_off): see the university's journey |
 | Ringa Atawhai Matauranga Limited | NZ | 13 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Te Rito Maioha Early Childhood New Zealand Incorporated | NZ | 13 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Ashton College; Ashton English | AU | 12 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Emmaus Bible College | AU | 12 | Decide 8 item(s) in Layer 4 |
-| Harvard International College Pty Ltd | AU | 12 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Joan Lawman College | AU | 12 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| Kangaroo International College Pty Ltd | AU | 12 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Langports English Language College | AU | 12 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Melbourne Institute of Technology | AU | 12 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| The English Language School, The Business School | AU | 12 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Unity College Australia | AU | 12 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| YWAM Training Townsville | AU | 12 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
-| Emily Carr University of Art and Design | CA | 12 | Decide 2 item(s) in Layer 4 |
-| Adventure Works Limited | NZ | 12 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Horowhenua Learning Centre Trust | NZ | 12 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| AAAR INSTITUTE OF BUSINESS AND TECHNOLOGY | AU | 11 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Australasia International School | AU | 11 | Decide 1 item(s) in Layer 4 |
-| … | | | 383 more in the CSV |
+| … | | | 422 more in the CSV |
 
 ## Every university
 
 | University | Country | Courses | Stage | Page | Intakes | English | Fee | Scholarships published | Next action |
 |---|---|---:|---|---:|---:|---:|---:|---:|---|
 | UNSW Sydney | AU | 667 | Admitting (adapter on, fields admitted) | 467 | 465 | 9 | 298 | 9 | Decide 2 item(s) in Layer 4 |
-| The University of Sydney | AU | 655 | Admitting (adapter on, fields admitted) | 402 | 70 | 613 | 0 | 160 | Decide 3 item(s) in Layer 4 |
+| The University of Sydney | AU | 655 | Admitting (adapter on, fields admitted) | 402 | 70 | 613 | 0 | 164 | Decide 1 item(s) in Layer 4 |
 | Monash University | AU | 582 | Admitting (adapter on, fields admitted) | 392 | 322 | 561 | 309 | 61 | Decide 1 item(s) in Layer 4 |
 | University of Technology Sydney (UTS) | AU | 530 | Admitting (adapter on, fields admitted) | 361 | 302 | 479 | 281 | 20 | Decide 1 item(s) in Layer 4 |
-| RMIT University (RMIT) | AU | 507 | Admitting (adapter on, fields admitted) | 407 | 327 | 498 | 372 | 47 | Decide 4 item(s) in Layer 4 |
-| Adelaide University | AU | 498 | Admitting (adapter on, fields admitted) | 255 | 254 | 464 | 206 | 52 | Decide 1 item(s) in Layer 4 |
-| Flinders University | AU | 476 | Admitting (adapter on, fields admitted) | 390 | 245 | 358 | 257 | 52 | Decide 6 item(s) in Layer 4 |
+| RMIT University (RMIT) | AU | 507 | Admitting (adapter on, fields admitted) | 407 | 327 | 498 | 372 | 47 | Decide 5 item(s) in Layer 4 |
+| Adelaide University | AU | 498 | Admitting (adapter on, fields admitted) | 255 | 254 | 464 | 206 | 52 | Decide 2 item(s) in Layer 4 |
+| Flinders University | AU | 476 | Admitting (adapter on, fields admitted) | 390 | 245 | 358 | 257 | 52 | Decide 7 item(s) in Layer 4 |
 | The University of Newcastle (UoN), The University of Newcastle Language Centre, Sydney | AU | 457 | Admitting (adapter on, fields admitted) | 207 | 195 | 426 | 229 | 23 | None: kept current by the scheduled jobs |
-| The University of Melbourne (UniMelb) | AU | 441 | Admitting (adapter on, fields admitted) | 386 | 182 | 281 | 336 | 66 | Decide 3 item(s) in Layer 4 |
-| Swinburne University of Technology | AU | 410 | Admitting (adapter on, fields admitted) | 238 | 218 | 386 | 216 | 11 | None: kept current by the scheduled jobs |
+| The University of Melbourne (UniMelb) | AU | 441 | Admitting (adapter on, fields admitted) | 386 | 182 | 281 | 336 | 66 | Decide 6 item(s) in Layer 4 |
+| Swinburne University of Technology | AU | 410 | Admitting (adapter on, fields admitted) | 238 | 218 | 386 | 216 | 11 | Decide 1 item(s) in Layer 4 |
 | The University of Queensland | AU | 383 | Admitting (adapter on, fields admitted) | 355 | 333 | 371 | 315 | 63 | None: kept current by the scheduled jobs |
 | Macquarie University | AU | 380 | Admitting (adapter on, fields admitted) | 232 | 66 | 294 | 0 | 21 | Decide 2 item(s) in Layer 4 |
-| Australian National University | AU | 374 | Admitting (adapter on, fields admitted) | 372 | 21 | 353 | 317 | 34 | None: kept current by the scheduled jobs |
-| Curtin University | AU | 373 | Admitting (adapter on, fields admitted) | 302 | 246 | 367 | 260 | 10 | None: kept current by the scheduled jobs |
-| The University of Western Australia | AU | 327 | Admitting (adapter on, fields admitted) | 287 | 242 | 254 | 0 | 10 | None: kept current by the scheduled jobs |
+| Australian National University | AU | 374 | Admitting (adapter on, fields admitted) | 372 | 21 | 353 | 317 | 34 | Decide 24 item(s) in Layer 4 |
+| Curtin University | AU | 373 | Admitting (adapter on, fields admitted) | 302 | 246 | 367 | 260 | 10 | Decide 1 item(s) in Layer 4 |
+| The University of Western Australia | AU | 327 | Admitting (adapter on, fields admitted) | 287 | 242 | 254 | 0 | 10 | Decide 1 item(s) in Layer 4 |
 | Griffith University | AU | 297 | Admitting (adapter on, fields admitted) | 265 | 265 | 294 | 265 | 15 | Decide 1 item(s) in Layer 4 |
-| Western Sydney University | AU | 297 | Admitting (adapter on, fields admitted) | 273 | 186 | 279 | 197 | 6 | None: kept current by the scheduled jobs |
-| Queensland University of Technology | AU | 294 | Admitting (adapter on, fields admitted) | 211 | 192 | 279 | 162 | 18 | None: kept current by the scheduled jobs |
+| Western Sydney University | AU | 297 | Admitting (adapter on, fields admitted) | 273 | 186 | 279 | 197 | 5 | Decide 1 item(s) in Layer 4 |
+| Queensland University of Technology | AU | 294 | Admitting (adapter on, fields admitted) | 211 | 192 | 279 | 162 | 16 | None: kept current by the scheduled jobs |
 | Victoria University | AU | 279 | Admitting (adapter on, fields admitted) | 133 | 119 | 241 | 50 | 1 | Decide 7 item(s) in Layer 4 |
 | Murdoch University | AU | 267 | Admitting (adapter on, fields admitted) | 224 | 181 | 234 | 162 | 10 | Decide 5 item(s) in Layer 4 |
 | University of Wollongong | AU | 256 | Admitting (adapter on, fields admitted) | 256 | 248 | 255 | 182 | 17 | None: kept current by the scheduled jobs |
 | Deakin University (Deakin) | AU | 252 | Admitting (adapter on, fields admitted) | 212 | 205 | 245 | 197 | 16 | Decide 1 item(s) in Layer 4 |
 | La Trobe University | AU | 248 | Admitting (adapter on, fields admitted) | 242 | 170 | 233 | 178 | 16 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | University of Tasmania (UTas) | AU | 221 | Admitting (adapter on, fields admitted) | 123 | 104 | 214 | 97 | 8 | Decide 1 item(s) in Layer 4 |
-| Federation University Australia | AU | 195 | Admitting (adapter on, fields admitted) | 117 | 98 | 159 | 110 | 36 | Decide 3 item(s) in Layer 4 |
+| Federation University Australia | AU | 195 | Admitting (adapter on, fields admitted) | 117 | 98 | 159 | 110 | 36 | Decide 1 item(s) in Layer 4 |
 | Torrens University Australia; Torrens University Language Centre; Chifley Business School at Torrens University Australia CBS at Torrens University Australia Blue Mountains International Hotel Management School at Torrens University Australia BMIHMS at To | AU | 182 | Admitting (adapter on, fields admitted) | 121 | 113 | 111 | 3 | 0 | Decide 1 item(s) in Layer 4 |
 | University of Canberra | AU | 182 | Admitting (adapter on, fields admitted) | 128 | 117 | 171 | 1 | 6 | Decide 4 item(s) in Layer 4 |
 | Bond University Limited | AU | 180 | Admitting (adapter on, fields admitted) | 163 | 142 | 69 | 0 | 7 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -456,7 +353,7 @@
 | The Australian Institute of Music | AU | 39 | Admitting (adapter on, fields admitted) | 16 | 16 | 0 | 14 | 1 | Decide 3 item(s) in Layer 4 |
 | Canberra Institute of Technology | AU | 38 | Admitting (adapter on, fields admitted) | 19 | 19 | 19 | 0 | 0 | None: kept current by the scheduled jobs |
 | Box Hill Institute | AU | 37 | Admitting (adapter on, fields admitted) | 20 | 18 | 21 | 10 | 0 | None: kept current by the scheduled jobs |
-| JMC Academy | AU | 37 | Admitting (adapter on, fields admitted) | 31 | 31 | 28 | 1 | 0 | Decide 1 item(s) in Layer 4 |
+| JMC Academy | AU | 37 | Admitting (adapter on, fields admitted) | 32 | 32 | 29 | 1 | 0 | Decide 1 item(s) in Layer 4 |
 | Reach Community College Pty Ltd | AU | 37 | Admitting (adapter on, fields admitted) | 35 | 0 | 35 | 29 | 0 | None: kept current by the scheduled jobs |
 | William Angliss Institute | AU | 37 | Admitting (adapter on, fields admitted) | 30 | 29 | 19 | 3 | 1 | Decide 19 item(s) in Layer 4 |
 | AAPoly, AMI Education | AU | 36 | Admitting (adapter on, fields admitted) | 10 | 0 | 0 | 5 | 0 | Decide 1 item(s) in Layer 4 |
@@ -477,7 +374,7 @@
 | Australis Institute of Technology and Education (AITE) | AU | 31 | Admitting (adapter on, fields admitted) | 29 | 0 | 25 | 0 | 0 | None: kept current by the scheduled jobs |
 | Shafston International College | AU | 31 | Adapter built, not admitting yet | 18 | 1 | 13 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | The Canberra Training School Pty Ltd, Canberra Business and Technology College | AU | 31 | Adapter built, not admitting yet | 15 | 0 | 3 | 0 | 0 | Onboarding stopped (proposal_failed): see the university's journey |
-| Australian Harbour International College | AU | 30 | Admitting (adapter on, fields admitted) | 30 | 28 | 27 | 25 | 0 | None: kept current by the scheduled jobs |
+| Australian Harbour International College | AU | 30 | Admitting (adapter on, fields admitted) | 30 | 28 | 27 | 25 | 0 | Decide 9 held scholarship page(s) (Layer 4 › AI could not decide) |
 | AUSTRALIAN HEALTH AND MANAGEMENT INSTITUTE PTY LTD | AU | 30 | Admitting (adapter on, fields admitted) | 29 | 0 | 29 | 0 | 0 | None: kept current by the scheduled jobs |
 | Chisholm Institute | AU | 30 | Admitting (adapter on, fields admitted) | 24 | 22 | 15 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | UTS College | AU | 30 | Admitting (adapter on, fields admitted) | 21 | 20 | 8 | 17 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -489,7 +386,7 @@
 | Educare College | AU | 29 | Admitting (adapter on, fields admitted) | 17 | 13 | 16 | 7 | 0 | None: kept current by the scheduled jobs |
 | Education Training & Employment Australia | AU | 29 | Admitting (adapter on, fields admitted) | 28 | 11 | 22 | 0 | 0 | None: kept current by the scheduled jobs |
 | Gamma Education & Training Pty Ltd | AU | 29 | Admitting (adapter on, fields admitted) | 23 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
-| Strathfield College, Sydney Jacaranda College | AU | 29 | Adapter built, not admitting yet | 11 | 0 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Strathfield College, Sydney Jacaranda College | AU | 29 | Adapter built, not admitting yet | 12 | 0 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Apex Australia Vocational Education | AU | 28 | Admitting (adapter on, fields admitted) | 19 | 18 | 18 | 6 | 0 | None: kept current by the scheduled jobs |
 | Business College Online, Dragon College of Business, Australian City International College,Australian Vocational Institute, Sydney City English College | AU | 28 | Admitting (adapter on, fields admitted) | 24 | 0 | 21 | 13 | 0 | None: kept current by the scheduled jobs |
 | Datum College; Fluent Education | AU | 28 | Admitting (adapter on, fields admitted) | 25 | 0 | 24 | 21 | 0 | None: kept current by the scheduled jobs |
@@ -503,14 +400,14 @@
 | Britts College Pty Ltd | AU | 27 | Admitting (adapter on, fields admitted) | 24 | 0 | 23 | 0 | 0 | None: kept current by the scheduled jobs |
 | ICHM | AU | 27 | Admitting (adapter on, fields admitted) | 8 | 8 | 11 | 4 | 0 | Decide 1 item(s) in Layer 4 |
 | Keystone College of Business and Technology | AU | 27 | Admitting (adapter on, fields admitted) | 17 | 0 | 14 | 0 | 0 | None: kept current by the scheduled jobs |
-| Skills Institute Australia | AU | 27 | Admitting (adapter on, fields admitted) | 10 | 0 | 8 | 0 | 0 | Decide 1 item(s) in Layer 4 |
+| Skills Institute Australia | AU | 27 | Admitting (adapter on, fields admitted) | 18 | 0 | 16 | 0 | 0 | Decide 1 item(s) in Layer 4 |
 | Academies Australasia Institute | AU | 26 | Adapter built, not admitting yet | 18 | 1 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Australian College of Studies Co. | AU | 26 | Admitting (adapter on, fields admitted) | 20 | 0 | 17 | 13 | 0 | None: kept current by the scheduled jobs |
 | Australian Institute of Language and Further Education | AU | 26 | Admitting (adapter on, fields admitted) | 24 | 0 | 23 | 0 | 0 | None: kept current by the scheduled jobs |
 | Bentley College | AU | 26 | Admitting (adapter on, fields admitted) | 25 | 0 | 24 | 0 | 0 | None: kept current by the scheduled jobs |
 | Cairns College of English & Business | AU | 26 | Admitting (adapter on, fields admitted) | 20 | 17 | 18 | 0 | 0 | None: kept current by the scheduled jobs |
 | Invicta Technical College | AU | 26 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| Kingston International College | AU | 26 | Admitting (adapter on, fields admitted) | 24 | 0 | 23 | 21 | 0 | None: kept current by the scheduled jobs |
+| Kingston International College | AU | 26 | Admitting (adapter on, fields admitted) | 25 | 1 | 23 | 22 | 0 | None: kept current by the scheduled jobs |
 | Murdoch College, The University of Adelaide College, Kaplan International College Adelaide | AU | 26 | Admitting (adapter on, fields admitted) | 9 | 9 | 5 | 3 | 0 | Decide 2 item(s) in Layer 4 |
 | TrEd College | AU | 26 | Admitting (adapter on, fields admitted) | 20 | 0 | 1 | 0 | 0 | None: kept current by the scheduled jobs |
 | Trinity Institute (Australia) | AU | 26 | Admitting (adapter on, fields admitted) | 21 | 0 | 21 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -699,7 +596,7 @@
 | Alana Kaye College | AU | 14 | Admitting (adapter on, fields admitted) | 14 | 3 | 6 | 11 | 0 | None: kept current by the scheduled jobs |
 | Australian College of International Studies | AU | 14 | Adapter built, not admitting yet | 14 | 0 | 11 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Be Qualified | AU | 14 | Admitting (adapter on, fields admitted) | 13 | 13 | 13 | 12 | 0 | None: kept current by the scheduled jobs |
-| Contempo College | AU | 14 | Admitting (adapter on, fields admitted) | 12 | 12 | 12 | 0 | 0 | None: kept current by the scheduled jobs |
+| Contempo College | AU | 14 | Admitting (adapter on, fields admitted) | 13 | 13 | 13 | 0 | 0 | None: kept current by the scheduled jobs |
 | Engineering Institute of Technology Pty Ltd | AU | 14 | Admitting (adapter on, fields admitted) | 14 | 14 | 13 | 10 | 0 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Everest Institute of Education Pty Ltd | AU | 14 | Admitting (adapter on, fields admitted) | 14 | 0 | 10 | 13 | 0 | None: kept current by the scheduled jobs |
 | Global Leadership Institute Pty Ltd, Australian Cybersecurity Institute | AU | 14 | Admitting (adapter on, fields admitted) | 14 | 0 | 14 | 11 | 0 | None: kept current by the scheduled jobs |
@@ -770,7 +667,7 @@
 | Eynesbury College/Eynesbury Institute of Business and Technology/Eynesbury College Academy of English/Eynesbury/Eynesbury International | AU | 12 | Admitting (adapter on, fields admitted) | 7 | 7 | 7 | 4 | 0 | None: kept current by the scheduled jobs |
 | Federation Academy | AU | 12 | Admitting (adapter on, fields admitted) | 11 | 0 | 10 | 0 | 0 | None: kept current by the scheduled jobs |
 | Gen Institute Pty Ltd | AU | 12 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
-| Harvard International College Pty Ltd | AU | 12 | Adapter built, not admitting yet | 4 | 4 | 4 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Harvard International College Pty Ltd | AU | 12 | Adapter built, not admitting yet | 6 | 6 | 6 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Hillshire International College | AU | 12 | Admitting (adapter on, fields admitted) | 9 | 0 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | Hospitality Training Academy | AU | 12 | Admitting (adapter on, fields admitted) | 8 | 0 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | INSTITUTE OF BUSINESS AND MANAGEMENT (VICTORIA) | AU | 12 | Admitting (adapter on, fields admitted) | 12 | 0 | 12 | 8 | 0 | None: kept current by the scheduled jobs |
@@ -867,7 +764,7 @@
 | Pax Institute of Education Pty Ltd | AU | 10 | Admitting (adapter on, fields admitted) | 8 | 0 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | Perth Bible College, Asia-Pacific School of Pastoral Care and Counselling | AU | 10 | Admitting (adapter on, fields admitted) | 8 | 3 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | Pioneer International College | AU | 10 | Admitting (adapter on, fields admitted) | 10 | 0 | 10 | 0 | 0 | None: kept current by the scheduled jobs |
-| Polytechnic Victoria Pty Ltd | AU | 10 | Adapter built, not admitting yet | 5 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Polytechnic Victoria Pty Ltd | AU | 10 | Adapter built, not admitting yet | 7 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Quality College of Australia | AU | 10 | Adapter built, not admitting yet | 7 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | South Australian College of English Pty Ltd | AU | 10 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
 | Southern Lights International | AU | 10 | Adapter built, not admitting yet | 10 | 0 | 10 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -896,7 +793,7 @@
 | C3 College | AU | 9 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | CHOICE BUSINESS COLLEGE | AU | 9 | Admitting (adapter on, fields admitted) | 8 | 7 | 7 | 5 | 0 | None: kept current by the scheduled jobs |
 | DARWIN INSTITUTE OF TRADE | AU | 9 | Admitting (adapter on, fields admitted) | 8 | 0 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
-| Eastern College Australia Limited | AU | 9 | Onboarding running | 9 | 0 | 2 | 0 | 0 | Admit its Ready fields (Layer 2 › Build adapter) |
+| Eastern College Australia Limited | AU | 9 | Admitting (adapter on, fields admitted) | 9 | 0 | 2 | 0 | 0 | None: kept current by the scheduled jobs |
 | Elpis College | AU | 9 | Admitting (adapter on, fields admitted) | 5 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
 | Focus Language School | AU | 9 | Adapter built, not admitting yet | 9 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Harward International College | AU | 9 | Adapter built, not admitting yet | 7 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -937,14 +834,14 @@
 | Australian College of Information Technology | AU | 8 | Admitting (adapter on, fields admitted) | 7 | 0 | 7 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian College of Technical Studies Pty. Ltd. | AU | 8 | Adapter built, not admitting yet | 5 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Australian Global Institute and Australian Institute of Sport and Recreation | AU | 8 | Admitting (adapter on, fields admitted) | 3 | 3 | 3 | 0 | 0 | None: kept current by the scheduled jobs |
-| Australian Institute of Entrepreneurs Pty Ltd | AU | 8 | Adapter built, not admitting yet | 8 | 2 | 5 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Australian Institute of Entrepreneurs Pty Ltd | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 2 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian Institute of Language | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 0 | 3 | 3 | 0 | None: kept current by the scheduled jobs |
 | Australian International College | AU | 8 | Stopped: too few course pages | 1 | 0 | 1 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Barrington College Australia | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 6 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | BDMS Education Pty Ltd | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 5 | 7 | 0 | 0 | None: kept current by the scheduled jobs |
 | Business College of Sydney Pty Ltd | AU | 8 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Capstone Institute of Australia | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 0 | 8 | 5 | 0 | None: kept current by the scheduled jobs |
-| Charter Training, Charter Education | AU | 8 | Onboarding running | 8 | 0 | 1 | 0 | 0 | Running: An adapter already exists; applying it again before qualifying. |
+| Charter Training, Charter Education | AU | 8 | Adapter built, not admitting yet | 8 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | College of Skills & Knowledge Pty Ltd | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 6 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | Collins Academy Pty Ltd | AU | 8 | Admitting (adapter on, fields admitted) | 8 | 8 | 8 | 8 | 0 | None: kept current by the scheduled jobs |
 | Curtin College | AU | 8 | Admitting (adapter on, fields admitted) | 7 | 7 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
@@ -1043,7 +940,7 @@
 | The Lions Institute Pty Ltd | AU | 7 | Adapter built, not admitting yet | 7 | 0 | 7 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | United Institute Pty Ltd | AU | 7 | Adapter built, not admitting yet | 7 | 0 | 5 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Wall Street College | AU | 7 | Onboarding running | 7 | 0 | 7 | 0 | 0 | Running: Admitting scholarships: 0 found, 0 published; 36 pages waiting for the AI, 0 held for a person (Scholarships › Extraction). |
-| Wiseman & Co. Advanced Learning Institute Pty Ltd | AU | 7 | Adapter built, not admitting yet | 5 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Wiseman & Co. Advanced Learning Institute Pty Ltd | AU | 7 | Adapter built, not admitting yet | 6 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | YWAM Training | AU | 7 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Academy of English Pty Ltd | AU | 6 | Adapter built, not admitting yet | 3 | 1 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | ACCORD COLLEGE PTY LTD | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1061,7 +958,7 @@
 | Australian College of Commerce & Information Technology Pty Ltd | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 6 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian Institute of Building and Management | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian Institute of Business and Technology, Sydney International School | AU | 6 | Adapter built, not admitting yet | 6 | 0 | 0 | 0 | 0 | Onboarding stopped (capture_failed): see the university's journey |
-| Australian Leap College | AU | 6 | Adapter built, not admitting yet | 4 | 4 | 4 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Australian Leap College | AU | 6 | Adapter built, not admitting yet | 5 | 5 | 5 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Australis Vocational College Pty Ltd | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 6 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | Barton Business School; Barton Health School; Barton Nursing School; Barton School of Education | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 0 | 6 | 0 | None: kept current by the scheduled jobs |
 | Canterbury Institute of management (CIM) | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1094,10 +991,10 @@
 | PGA International Golf Institute | AU | 6 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
 | Pinnacle Institute | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | PLATINUM COLLEGE OF TECHNOLOGY AND BUSINESS | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
-| Sarina Russo Institute | AU | 6 | Adapter built, not admitting yet | 5 | 0 | 0 | 0 | 0 | Onboarding stopped (approve_central): see the university's journey |
+| Sarina Russo Institute | AU | 6 | Adapter built, not admitting yet | 5 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | South Australian Government Schools | AU | 6 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | ST MARTIN COLLEGE PTY LTD | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 6 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
-| Sunshine College of Management Pty Ltd | AU | 6 | Adapter built, not admitting yet | 6 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Sunshine College of Management Pty Ltd | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Sydney Art School | AU | 6 | Adapter built, not admitting yet | 6 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Sydney Institute of Traditional Chinese Medicine | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 3 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
 | The Friends' School | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 6 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1105,15 +1002,15 @@
 | Training Australia First | AU | 6 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
 | UHE Australia | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 5 | 6 | 6 | 0 | None: kept current by the scheduled jobs |
 | Universal Training Institute | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
-| Victorian Academy Of Commerce and Technology Startups | AU | 6 | Adapter built, not admitting yet | 6 | 0 | 6 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Victorian Academy Of Commerce and Technology Startups | AU | 6 | Admitting (adapter on, fields admitted) | 6 | 0 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | Woodstock International Pty Ltd | AU | 6 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Access Recognised Training Australia | AU | 5 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Accredited Education & Training Australia | AU | 5 | Adapter built, not admitting yet | 3 | 1 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Accredited Education & Training Australia | AU | 5 | Adapter built, not admitting yet | 4 | 1 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Ace Sports Academy | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| Advocate Training Pty Ltd | AU | 5 | Stopped: too few course pages | 1 | 0 | 1 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Advocate Training Pty Ltd | AU | 5 | Adapter built, not admitting yet | 5 | 0 | 5 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | AH & B College, AH & B College Pty Ltd | AU | 5 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | AICE Pty Ltd | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 3 | 3 | 0 | None: kept current by the scheduled jobs |
-| Alice Spring College | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Alice Spring College | AU | 5 | Adapter built, not admitting yet | 5 | 0 | 4 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | AMA College | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 4 | 4 | 2 | 0 | None: kept current by the scheduled jobs |
 | Anglican Schools Commission International; ASC International; Esperance ACS; Frederick Irwin AS; Georgiana Molloy AS; John Septimus Roe ACS; John Wollston ACS; Peter Carnley ACS; Peter Moyes ACS; St George's AGS; St James AS; St Mark's ACS; Swan Valley AC | AU | 5 | Adapter built, not admitting yet | 4 | 1 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Australia Massage and Beauty Institute | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1122,7 +1019,7 @@
 | AUSTRALIAN EDUCATION EXCELLENCE CENTRE PTY LTD | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 4 | 0 | None: kept current by the scheduled jobs |
 | Australian Institute of Design & Construction Pty Ltd | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 5 | 0 | None: kept current by the scheduled jobs |
 | AUSTRALIAN LEADING INSTITUTE OF TECHNOLOGY | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
-| Australian Nursing and Training Services | AU | 5 | Adapter built, not admitting yet | 4 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Australian Nursing and Training Services | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 0 | 1 | 0 | 0 | None: kept current by the scheduled jobs |
 | Australian Scholar's College | AU | 5 | Adapter built, not admitting yet | 5 | 0 | 5 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Australis Business School, Australis Research School, Australis Education School, Australis Health School | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 0 | 0 | 4 | 0 | None: kept current by the scheduled jobs |
 | Bayside International College | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 4 | 0 | None: kept current by the scheduled jobs |
@@ -1133,7 +1030,7 @@
 | Cambridge English College; fluency hub | AU | 5 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Canberra Grammar School | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Canterbury Language Academy | AU | 5 | Admitting (adapter on, fields admitted) | 2 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
-| Centennial College | AU | 5 | Stopped: too few course pages | 2 | 0 | 2 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Centennial College | AU | 5 | Adapter built, not admitting yet | 3 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | College of Complementary Medicine | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Course pages not found: check the website or add page addresses, then release the flag (Pipeline Operator) |
 | Danford Higher Education | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 5 | 5 | 4 | 0 | None: kept current by the scheduled jobs |
 | Dynamite Studios Academy | AU | 5 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1142,7 +1039,7 @@
 | Eton College Pty Ltd | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 0 | 0 | None: kept current by the scheduled jobs |
 | First Aid Course Experts | AU | 5 | Stopped: too few course pages | 1 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Grandford College Australia | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
-| Hashm Pty Ltd | AU | 5 | Adapter built, not admitting yet | 4 | 0 | 2 | 0 | 0 | Decide 1 item(s) in Layer 4 |
+| Hashm Pty Ltd | AU | 5 | Adapter built, not admitting yet | 5 | 0 | 2 | 0 | 0 | Decide 1 item(s) in Layer 4 |
 | Higher Education Institute | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 5 | 5 | 0 | None: kept current by the scheduled jobs |
 | HILTON ACADEMY | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 4 | 4 | 4 | 0 | None: kept current by the scheduled jobs |
 | HJ Australian Institute Pty Ltd | AU | 5 | Adapter built, not admitting yet | 5 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1155,19 +1052,19 @@
 | Mechtech Institute Pty Ltd | AU | 5 | Adapter built, not admitting yet | 3 | 3 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Moreton Bay Boys' College | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 4 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Moreton Bay College | AU | 5 | Admitting (adapter on, fields admitted) | 3 | 3 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
-| National Theatre | AU | 5 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 3 needed). |
+| National Theatre | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Optimum Training Academy | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 2 | 0 | 0 | None: kept current by the scheduled jobs |
 | Our Lady of the Sacred Heart Catholic College | AU | 5 | Adapter built, not admitting yet | 5 | 0 | 5 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Pentagon College Australia | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 4 | 0 | None: kept current by the scheduled jobs |
-| PLC Armidale | AU | 5 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 3 needed). |
+| PLC Armidale | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Presbyterian Ladies' College | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Princeton Education Group Pty Ltd | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
 | Queensland College of Music Pty Ltd | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 5 | 5 | 5 | 0 | None: kept current by the scheduled jobs |
-| Scotch College | AU | 5 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 3 needed). |
+| Scotch College | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Southern Cross Institute (SCI) Pty Ltd | AU | 5 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 3 | 0 | None: kept current by the scheduled jobs |
-| St Michael's Collegiate School | AU | 5 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 3 needed). |
+| St Michael's Collegiate School | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | St Paul's International College | AU | 5 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| SUPERIOR TRAINING CENTRE PTY LTD | AU | 5 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
+| SUPERIOR TRAINING CENTRE PTY LTD | AU | 5 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Sydney Institute of Higher Education | AU | 5 | Admitting (adapter on, fields admitted) | 5 | 0 | 0 | 3 | 0 | None: kept current by the scheduled jobs |
 | Sydney Institute of Interpreting & Translating | AU | 5 | Admitting (adapter on, fields admitted) | 4 | 2 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
 | Tasmanian Government Education International | AU | 5 | Adapter built, not admitting yet | 1 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
@@ -1187,7 +1084,7 @@
 | AEC EDUCATION GROUP PTY LTD | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | All Saints Anglican School Limited | AU | 4 | Admitting (adapter on, fields admitted) | 2 | 2 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Anglican Church Grammar School | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| AU EDU INSTITUTE | AU | 4 | CRICOS data only (1-4 courses) | 2 | 0 | 2 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| AU EDU INSTITUTE | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 4 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | AUCTUS Consulting Pty Ltd | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 2 | 3 | 2 | 0 | None: kept current by the scheduled jobs |
 | AUSTRALIA INTERNATIONAL COLLEGE OF BUSINESS & TECHNOLOGY PTY LTD | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 1 | 4 | 0 | None: kept current by the scheduled jobs |
 | Australia International Construction College Pty Ltd | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1203,7 +1100,7 @@
 | BRIGHT ENGLISH | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Brisbane Boys' College | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Brookside International College Pty Ltd | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Brunswick Institute | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Brunswick Institute | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Byron Yoga Centre | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Caloundra City Private School | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 4 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Canberra Girls' Grammar School | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1214,10 +1111,10 @@
 | Clip Joint Education | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Cranbrook School | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Department of Education and Training | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| EF International Language Schools | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| EF International Language Schools | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | English Language School for Pastoral Ministry | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | English Path Australia | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Enhance Training | AU | 4 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Enhance Training | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Gateway Business College | AU | 4 | Admitting (adapter on, fields admitted) | 3 | 2 | 3 | 3 | 0 | None: kept current by the scheduled jobs |
 | Glenhill College | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 1 | 3 | 0 | None: kept current by the scheduled jobs |
 | Goldthorn International College | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 4 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1233,7 +1130,7 @@
 | Knights College | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Lexis English | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Lexis English Byron Bay | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Lindisfarne Anglican Grammar School | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Lindisfarne Anglican Grammar School | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Onboarding stopped (approve_central): see the university's journey |
 | LYCEE CONDORCET THE INTERNATIONAL FRENCH SCHOOL OF SYDNEY | AU | 4 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Management Institute Australia Pty Ltd | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
 | MASTER COLLEGE AUSTRALIA PTY LTD | AU | 4 | CRICOS data only (1-4 courses) | 2 | 0 | 2 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1250,7 +1147,7 @@
 | Mueller College | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | N/A | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | N/A | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 1 | 4 | 4 | 0 | None: kept current by the scheduled jobs |
-| Newington College | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Newington College | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | Decide 7 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Northampton College | AU | 4 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 0 | 0 | None: kept current by the scheduled jobs |
 | Origin Institute | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 0 | 0 | None: kept current by the scheduled jobs |
 | Pembroke School Inc | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1261,9 +1158,9 @@
 | Ravenswood School for Girls | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Risen Star College of Technology & Business Pty Ltd | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Rockhampton Grammar School; The Rockhampton English Language Academy | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Sage College of Australlia | AU | 4 | Stopped: too few course pages | 1 | 1 | 1 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Sage College of Australlia | AU | 4 | Adapter built, not admitting yet | 2 | 2 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Saint Stephen's College | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| SCECGS Redlands | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| SCECGS Redlands | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Seir Pty Ltd | AU | 4 | Adapter built, not admitting yet | 3 | 3 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Skilled Up | AU | 4 | Admitting (adapter on, fields admitted) | 1 | 0 | 3 | 0 | 0 | None: kept current by the scheduled jobs |
 | SKILLS CLICK PTY LIMITED | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1272,21 +1169,21 @@
 | St Andrew's Cathedral School | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | St John's International College and St John's Anglican College | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | St Paul's School | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Decide 5 held scholarship page(s) (Layer 4 › AI could not decide) |
-| St Peters Lutheran College | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Peters Lutheran College | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Sydney Institute of Technology and Engineering | AU | 4 | Admitting (adapter on, fields admitted) | 3 | 3 | 3 | 1 | 0 | Decide 1 item(s) in Layer 4 |
 | Top End Group Training Pty Ltd | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Townsville Grammar School | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Townsville Grammar School | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Trinity College | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Trinity Grammar School | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | UQ College Limited | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 4 | 3 | 0 | 0 | Decide 10 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Victory Life International Bible Training Centre | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Western Hill College | AU | 4 | Adapter built, not admitting yet | 4 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Westminster School Inc | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Wissen Holdings Pty Ltd | AU | 4 | CRICOS data only (1-4 courses) | 1 | 0 | 1 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Westminster School Inc | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Wissen Holdings Pty Ltd | AU | 4 | Adapter built, not admitting yet | 3 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Woodcroft College | AU | 4 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Wyatt Education Group Pty Ltd | AU | 4 | Admitting (adapter on, fields admitted) | 4 | 0 | 4 | 3 | 0 | None: kept current by the scheduled jobs |
 | Xceed Security, Xceed Training | AU | 4 | Admitting (adapter on, fields admitted) | 2 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
-| A B Paterson College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| A B Paterson College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Abbotsleigh | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Agriculture Education Institute of Australia Pty Ltd | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | AIM Business School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1295,7 +1192,7 @@
 | All Saints Grammar | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | All Souls St Gabriels School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Allman College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Alpha English Academy | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Alpha English Academy | AU | 3 | Onboarding running | 2 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (2 of 3 needed). |
 | Amity College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Amtech Institute | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 3 | 2 | 2 | 0 | None: kept current by the scheduled jobs |
 | Analytics Institute of Australia Pty Ltd | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1314,12 +1211,12 @@
 | Barton International College | AU | 3 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Brisbane Adventist College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Brisbane Grammar School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Bunbury Cathedral Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Caloundra Christian College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Onboarding stopped (capture_failed): see the university's journey |
+| Bunbury Cathedral Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Caloundra Christian College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Calrossy Anglican School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Canterbury College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Catholic Schools Office Lismore Diocese | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Catholic Schools Office, Maitland-Newcastle Diocese | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Catholic Schools Office, Maitland-Newcastle Diocese | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Christ Church Grammar School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Clayfield College | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 3 | 0 | None: kept current by the scheduled jobs |
 | College Australia | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1328,29 +1225,29 @@
 | Coomera Anglican College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Department of Education | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Early Education Institute Pty Ltd | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Early Learning Professional Development Pty Ltd | AU | 3 | Adapter built, not admitting yet | 3 | 2 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Early Learning Professional Development Pty Ltd | AU | 3 | Onboarding running | 3 | 2 | 0 | 0 | 0 | Running: An adapter already exists; applying it again before qualifying. |
 | Emmanuel Anglican College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | English Direct Australia Pty Ltd | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Englishwise Global | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Fabinox welding Academy | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Fairholme College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Fairholme College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | FC Education; FIT College | AU | 3 | Adapter built, not admitting yet | 3 | 3 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Fit Education | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 0 | 0 | None: kept current by the scheduled jobs |
-| Fraser Coast Anglican College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Fraser Coast Anglican College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Decide 5 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Future English | AU | 3 | Admitting (adapter on, fields admitted) | 2 | 0 | 1 | 0 | 0 | None: kept current by the scheduled jobs |
 | Georges River Grammar | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Geraldton Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | German International School Sydney | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Goldstone College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Goldstone College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Guildford Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Haileybury Rendall School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Hale School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Heights College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Hillcrest Christian College | AU | 3 | Adapter built, not admitting yet | 1 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Hillcrest Christian College | AU | 3 | Adapter built, not admitting yet | 1 | 0 | 0 | 0 | 0 | Onboarding stopped (error): see the university's journey |
 | Hunter Christian School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | IBC Higher Education | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Ideal International Institute Pty Ltd | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 2 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Immanuel Lutheran College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Immanuel Lutheran College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Institute of Culinary Education | AU | 3 | Admitting (adapter on, fields admitted) | 2 | 0 | 2 | 0 | 0 | None: kept current by the scheduled jobs |
 | International Institute of Business and Technology Australia | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 1 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Ipswich Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1363,10 +1260,10 @@
 | Lakewood Institute | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 3 | 0 | None: kept current by the scheduled jobs |
 | Language Links | AU | 3 | Adapter built, not admitting yet | 3 | 1 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Launceston Church Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Loreto College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Loreto Normanhurst | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Loreto College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Loreto Normanhurst | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Lourdes Hill College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Macarthur Anglican School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Macarthur Anglican School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Macquarie Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Masada College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Matthew Flinders Anglican College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 2 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1374,7 +1271,7 @@
 | Media Make-Up Academy | AU | 3 | Admitting (adapter on, fields admitted) | 2 | 0 | 1 | 1 | 0 | None: kept current by the scheduled jobs |
 | Meriden School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Methodist Ladies' College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Milner International College of English | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Milner International College of English | AU | 3 | Onboarding running | 3 | 0 | 0 | 0 | 0 | Running: An adapter already exists; applying it again before qualifying. |
 | N/A | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Nambour Christian College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | New England Girls' School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1394,8 +1291,8 @@
 | Pulteney Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Pymble Ladies' College | AU | 3 | CRICOS data only (1-4 courses) | 2 | 1 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Rehoboth Christian College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Rivermount College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Riverton English Academy | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Rivermount College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
+| Riverton English Academy | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | RMIT University Pathways, RMIT UP | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Rockhampton Girls' Grammar School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Roseville College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1413,12 +1310,12 @@
 | Somerset College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Sprout Training | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | SRDITA | AU | 3 | Adapter built, not admitting yet | 3 | 3 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| St Aidan's Anglican Girls School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Aidan's Anglican Girls School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | St Aloysius College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| St Andrew's Anglican College | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Andrew's Anglican College | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | St Andrew's Grammar | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| St Augustine's College Sydney | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| St George College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Augustine's College Sydney | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
+| St George College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | St Hilda's Anglican School for Girls | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | St Hilda's School | AU | 3 | CRICOS data only (1-4 courses) | 3 | 0 | 2 | 0 | 0 | Onboarding stopped (proposal_failed): see the university's journey |
 | St James College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1428,40 +1325,40 @@
 | St Laurence's College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | St Mark's Coptic Orthodox College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | St Maroun's College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| St Marys Anglican Girls' School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Marys Anglican Girls' School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 3 held scholarship page(s) (Layer 4 › AI could not decide) |
 | St Peter's Girls' School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| St Stephen's School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Stephen's School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | St Thomas College Pty Ltd | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 3 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Sterling Australia | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Stuartholme School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Stuartholme School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Suncoast Christian College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Sunshine Coast Grammar School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Sydney Design School | AU | 3 | Adapter built, not admitting yet | 3 | 3 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Sydney English House Pty Ltd | AU | 3 | CRICOS data only (1-4 courses) | 1 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Sydney English House Pty Ltd | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Sydney Metropolitan English Institute | AU | 3 | Admitting (adapter on, fields admitted) | 2 | 0 | 0 | 0 | 0 | Decide 2 item(s) in Layer 4 |
-| Tara Anglican School for Girls | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Tara Anglican School for Girls | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The Armidale School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | The Australian Ballet School | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 0 | 2 | 0 | None: kept current by the scheduled jobs |
 | The Australian Institute of Professional Counsellors Pty Ltd, AIPC Professional | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 3 | 1 | 1 | 0 | None: kept current by the scheduled jobs |
-| The Cathedral School of St Anne and St James | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
+| The Cathedral School of St Anne and St James | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The Hills Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | The Illawarra Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | The King's School, Tudor House | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | The Management Edge Pty Ltd | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| The McDonald College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| The McDonald College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | The Scots College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | The SCOTS PGC College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| The Southport School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| The Southport School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
 | TIV Australia | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Toowoomba Anglican School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Toowoomba Grammar School | AU | 3 | CRICOS data only (1-4 courses) | 2 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Toowoomba Grammar School | AU | 3 | Onboarding running | 2 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (2 of 3 needed). |
 | Tower Australian College Pty Ltd | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 3 | 0 | None: kept current by the scheduled jobs |
 | Trinity Anglican School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Trinity Lutheran College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | TVSA Pilot Training | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Tyndale Christian School | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | University Senior College at Adelaide University Inc | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 4 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Villanova College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Villanova College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
 | Waverley Christian College | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Wenona School | AU | 3 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Wesley College | AU | 3 | Adapter built, not admitting yet | 3 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1472,7 +1369,7 @@
 | Xcelit Institute Pty Ltd | AU | 3 | Admitting (adapter on, fields admitted) | 3 | 0 | 3 | 3 | 0 | None: kept current by the scheduled jobs |
 | AAPA VICTORIA PTY LTD | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Academy of Entrepreneurs | AU | 2 | CRICOS data only (1-4 courses) | 1 | 0 | 1 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| ACT Education Directorate | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| ACT Education Directorate | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Air Gold Coast Pty Ltd, Air Gold Coast | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Alphington Grammar School | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Aranmore Catholic College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1507,7 +1404,7 @@
 | Cheers Coaching College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Christway College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Churchill Institute of Higher Education (CIHE) | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Clarence Valley Anglican School | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Clarence Valley Anglican School | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Concord English College (Australia) | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 2 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
 | Concordia Lutheran College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | East Coast College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 1 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1523,7 +1420,7 @@
 | Geelong Grammar School | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Genazzano FCJ College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Gilson College | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 0 | 0 | 2 | 0 | None: kept current by the scheduled jobs |
-| Gippsland Grammar School | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Gippsland Grammar School | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Heathdale Christian College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Immanuel College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | INSTITUTE OF MANAGEMENT LEARNING PTY LTD | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 0 | 2 | 0 | 0 | None: kept current by the scheduled jobs |
@@ -1545,7 +1442,7 @@
 | Laurus Higher Education | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 2 | 2 | 2 | 0 | None: kept current by the scheduled jobs |
 | Lead Institute of Higher Education | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Learn to Fly Australia Pty Ltd | AU | 2 | CRICOS data only (1-4 courses) | 1 | 0 | 1 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| Mackillop Catholic Regional College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Mackillop Catholic Regional College | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Marist College Ashgrove | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Matic International College | AU | 2 | CRICOS data only (1-4 courses) | 1 | 0 | 1 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Melbourne Girls Grammar | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1563,7 +1460,7 @@
 | Nexus Institute | AU | 2 | Adapter built, not admitting yet | 2 | 2 | 2 | 2 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Oakleigh Grammar | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 0 | 2 | 2 | 0 | None: kept current by the scheduled jobs |
 | Open Colleges School of Health | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 2 | 1 | 0 | 0 | Decide 1 item(s) in Layer 4 |
-| Ormiston College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Ormiston College | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Oxley Christian College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 1 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Presbyterian Ladies' College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Redeemer Lutheran College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1578,7 +1475,7 @@
 | SOUTHERN ACADEMY OF ENGLISH LEARNING | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 0 | 1 | 0 | 0 | None: kept current by the scheduled jobs |
 | Southern Academy of Higher Education | AU | 2 | Admitting (adapter on, fields admitted) | 2 | 2 | 2 | 0 | 0 | Decide 2 item(s) in Layer 4 |
 | Speak Bright English College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| St Aloysius College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St Aloysius College | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | St Augustine's College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | St Brigid's College; St Brigid's College - A Ministry of Mercy Education | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | St Leonard's College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1586,7 +1483,7 @@
 | St Patrick's College Townsville | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | St Peter's College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | St Scholastica's College Glebe Point | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
-| St. Catherine's School | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| St. Catherine's School | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Stella Maris College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Strathcona Baptist Girls Grammar School | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Study Play Care | AU | 2 | Adapter built, not admitting yet | 2 | 1 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
@@ -1605,7 +1502,7 @@
 | The Springfield Anglican College | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Think Education, APM College of Business and Communication, Australasian College of Natural Therapies, Billy Blue College of Design, Jansen Newman Institute, Southern School of Natural Therapies, William Blue College of Hospitality Management, Australian | AU | 2 | Adapter built, not admitting yet | 2 | 2 | 2 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
 | Thrive Training and Education Pty Ltd | AU | 2 | Adapter built, not admitting yet | 2 | 0 | 0 | 0 | 0 | Adapter built, nothing ready: review the adapter or rebuild it |
-| Tintern Grammar | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
+| Tintern Grammar | AU | 2 | Onboarding running | 0 | 0 | 0 | 0 | 0 | Running: Search finished; waiting for pages to be read (0 of 2 needed). |
 | Tristar Airlines | AU | 2 | CRICOS data only (1-4 courses) | 1 | 0 | 1 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Unity Grammar College | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
 | Victorian School of Commerce | AU | 2 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 0 | 0 | None: CRICOS data only (1-4 courses) |
@@ -1728,28 +1625,28 @@
 | Olds College | CA | 1 | CRICOS data only (1-4 courses) | 0 | 0 | 0 | 1 | 0 | Decide 1 item(s) in Layer 4 |
 | University of Auckland | NZ | 458 | Admitting (adapter on, fields admitted) | 330 | 283 | 210 | 245 | 94 | None: kept current by the scheduled jobs |
 | University of Canterbury | NZ | 280 | Admitting (adapter on, fields admitted) | 216 | 203 | 13 | 157 | 4 | None: kept current by the scheduled jobs |
-| University of Waikato | NZ | 278 | Admitting (adapter on, fields admitted) | 109 | 111 | 227 | 61 | 10 | Decide 5 item(s) in Layer 4 |
+| University of Waikato | NZ | 278 | Admitting (adapter on, fields admitted) | 109 | 111 | 227 | 61 | 10 | Decide 6 item(s) in Layer 4 |
 | Victoria University of Wellington | NZ | 273 | Admitting (adapter on, fields admitted) | 152 | 92 | 225 | 96 | 0 | Decide 2 item(s) in Layer 4 |
-| Massey University | NZ | 265 | Admitting (adapter on, fields admitted) | 166 | 28 | 22 | 119 | 19 | None: kept current by the scheduled jobs |
-| Auckland University of Technology | NZ | 257 | Admitting (adapter on, fields admitted) | 203 | 167 | 236 | 114 | 2 | None: kept current by the scheduled jobs |
-| University of Otago | NZ | 252 | Adapter built, not admitting yet | 171 | 17 | 206 | 94 | 21 | Adapter built, nothing ready: review the adapter or rebuild it |
+| Massey University | NZ | 265 | Admitting (adapter on, fields admitted) | 166 | 28 | 22 | 119 | 19 | Decide 1 item(s) in Layer 4 |
+| Auckland University of Technology | NZ | 257 | Admitting (adapter on, fields admitted) | 203 | 167 | 236 | 114 | 2 | Decide 1 item(s) in Layer 4 |
+| University of Otago | NZ | 252 | Adapter built, not admitting yet | 171 | 17 | 206 | 94 | 21 | Decide 1 item(s) in Layer 4 |
 | NZIST Work-Based Learning (Competenz, Connexis, Careerforce, ServiceIQ, Primary ITO, EarnLearn) | NZ | 231 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| Southern Institute of Technology | NZ | 207 | Admitting (adapter on, fields admitted) | 120 | 104 | 95 | 1 | 0 | Decide 1 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Lincoln University | NZ | 199 | Admitting (adapter on, fields admitted) | 93 | 88 | 119 | 77 | 1 | None: kept current by the scheduled jobs |
+| Southern Institute of Technology | NZ | 207 | Admitting (adapter on, fields admitted) | 120 | 104 | 95 | 1 | 0 | Decide 1 item(s) in Layer 4 |
+| Lincoln University | NZ | 199 | Admitting (adapter on, fields admitted) | 93 | 88 | 119 | 77 | 1 | Decide 1 item(s) in Layer 4 |
 | Eastern Institute of Technology | NZ | 184 | Admitting (adapter on, fields admitted) | 98 | 92 | 106 | 0 | 0 | Decide 1 item(s) in Layer 4 |
-| Otago Polytechnic | NZ | 182 | Admitting (adapter on, fields admitted) | 92 | 81 | 86 | 77 | 0 | None: kept current by the scheduled jobs |
-| Ara Institute of Canterbury | NZ | 178 | Admitting (adapter on, fields admitted) | 86 | 63 | 105 | 54 | 0 | None: kept current by the scheduled jobs |
+| Otago Polytechnic | NZ | 182 | Admitting (adapter on, fields admitted) | 92 | 81 | 86 | 77 | 0 | Decide 1 item(s) in Layer 4 |
+| Ara Institute of Canterbury | NZ | 178 | Admitting (adapter on, fields admitted) | 86 | 63 | 105 | 54 | 0 | Decide 1 item(s) in Layer 4 |
 | Toi Ohomai Institute of Technology | NZ | 156 | Admitting (adapter on, fields admitted) | 93 | 89 | 93 | 35 | 0 | Decide 2 held scholarship page(s) (Layer 4 › AI could not decide) |
-| Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | Admitting (adapter on, fields admitted) | 68 | 61 | 65 | 0 | 0 | None: kept current by the scheduled jobs |
+| Nelson Marlborough Institute of Technology (NMIT) | NZ | 148 | Admitting (adapter on, fields admitted) | 68 | 61 | 65 | 0 | 0 | Decide 1 item(s) in Layer 4 |
 | Manukau Institute of Technology and Unitec - MIT | NZ | 144 | Admitting (adapter on, fields admitted) | 68 | 67 | 49 | 26 | 0 | None: kept current by the scheduled jobs |
-| Waikato Institute of Technology | NZ | 144 | Admitting (adapter on, fields admitted) | 76 | 71 | 72 | 2 | 0 | None: kept current by the scheduled jobs |
+| Waikato Institute of Technology | NZ | 144 | Admitting (adapter on, fields admitted) | 76 | 71 | 72 | 2 | 0 | Decide 1 item(s) in Layer 4 |
 | NorthTec | NZ | 122 | Admitting (adapter on, fields admitted) | 44 | 35 | 55 | 11 | 0 | Decide 1 item(s) in Layer 4 |
-| Whitireia and WelTec | NZ | 116 | Admitting (adapter on, fields admitted) | 53 | 24 | 51 | 23 | 0 | Decide 1 item(s) in Layer 4 |
+| Whitireia and WelTec | NZ | 116 | Admitting (adapter on, fields admitted) | 53 | 24 | 51 | 23 | 0 | Decide 2 item(s) in Layer 4 |
 | Universal College of Learning (UCOL) | NZ | 115 | Admitting (adapter on, fields admitted) | 41 | 40 | 37 | 35 | 0 | Decide 1 item(s) in Layer 4 |
 | The Open Polytechnic of New Zealand | NZ | 92 | Admitting (adapter on, fields admitted) | 70 | 6 | 0 | 0 | 0 | Decide 1 item(s) in Layer 4 |
 | Western Institute of Technology at Taranaki (WITT) | NZ | 89 | Admitting (adapter on, fields admitted) | 41 | 35 | 19 | 13 | 0 | Decide 1 item(s) in Layer 4 |
 | Te Wānanga o Aotearoa | NZ | 85 | Admitting (adapter on, fields admitted) | 4 | 2 | 0 | 0 | 0 | None: kept current by the scheduled jobs |
-| Manukau Institute of Technology and Unitec - Unitec | NZ | 80 | Admitting (adapter on, fields admitted) | 52 | 47 | 58 | 47 | 0 | Decide 1 item(s) in Layer 4 |
+| Manukau Institute of Technology and Unitec - Unitec | NZ | 80 | Admitting (adapter on, fields admitted) | 52 | 47 | 58 | 47 | 0 | Decide 2 item(s) in Layer 4 |
 | New Zealand Management Academies Limited | NZ | 76 | Admitting (adapter on, fields admitted) | 7 | 6 | 4 | 4 | 0 | Decide 1 item(s) in Layer 4 |
 | New Zealand Institute of Skills and Technology (NZIST) | NZ | 72 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Skills Group Training Limited | NZ | 63 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Decide 1 item(s) in Layer 4 |
@@ -1779,7 +1676,7 @@
 | Soshi Gakuen New Zealand Incorporated | NZ | 16 | Admitting (adapter on, fields admitted) | 6 | 0 | 6 | 0 | 0 | None: kept current by the scheduled jobs |
 | Cornerstone Education Limited | NZ | 14 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
 | Hair Industries Support Opportunities Charitable Trust | NZ | 14 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
-| Aspire2 Education Limited | NZ | 13 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
+| Aspire2 Education Limited | NZ | 13 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Decide 1 item(s) in Layer 4 |
 | Auckland Institute of Studies Limited | NZ | 13 | stopped_adapter_off | 6 | 3 | 3 | 3 | 0 | Onboarding stopped (adapter_off): see the university's journey |
 | Crown Institute of Studies Limited | NZ | 13 | Admitting (adapter on, fields admitted) | 8 | 8 | 8 | 0 | 0 | None: kept current by the scheduled jobs |
 | Ringa Atawhai Matauranga Limited | NZ | 13 | Stopped: too few course pages | 0 | 0 | 0 | 0 | 0 | Too few course pages read: add page addresses (Adapter builder 2.1) |
