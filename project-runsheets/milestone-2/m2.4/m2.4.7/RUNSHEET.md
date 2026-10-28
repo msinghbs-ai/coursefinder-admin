@@ -9249,3 +9249,20 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Rolled-back live dry run: 5 sources found, 0 re-attached to markdown; the no-answer runs re-queued.
   - s150 added.
   - Suite: 1,115 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 04:0x — #730 live; worker v0.51.0: wide PDF rows cell by cell, slices read at once, cut replies named (Pilot PR #731)
+
+- **#730 verified live** (merge `dc153122`):
+  - Migration history md5 `de2b8416…` equals the file. Deploy on merge, Deployed UAT and the frontend build all succeeded.
+  - 5 markdown sources were fetched again as HTML, and 3 no-answer runs were re-queued. Register (s149, s150) committed (`bd75cfc5`).
+- **What the re-reads showed (worker v0.50.2 naming):**
+  - **WSU PDF:** read with 13 rows kept and 65 dropped as `quote_not_on_page`. The table has 7 columns, one requirement per study level. The model quoted the qualification together with one level's cell, which is not a substring of the whole row.
+  - **VU PDF and Manukau:** "no choices; slice 2 of 2". The reply was cut by the 90-second call time-out while a 20,000-character slice's answer streamed.
+- **Worker v0.51.0 (structure-driven, gates unchanged):**
+  - A PDF table of 5 or more columns gives each proven cell on its own line, with the row's first cell. Only WSU among the fixtures is this wide.
+  - A page's slices are read `entry.matrix_slice_concurrency` at a time (default 1 until the setting exists) and joined in slice order.
+  - A reply that cannot be parsed is named ("reply unreadable").
+- **Next, in its own PR after v0.51.0 is live:** the setting, smaller slices, and the bounded re-reads (UWA, WSU, Federation, the markdown copies with lost rows, VU, Manukau).
+- **Evidence:**
+  - s151 added; s142's WSU anchor updated with the same guard.
+  - Suite: 1,118 passed, 0 failed, 0 skipped.
