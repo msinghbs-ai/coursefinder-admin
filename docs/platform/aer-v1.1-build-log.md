@@ -1612,3 +1612,12 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - the Read again message names the HTML refetch.
 - **Specs:** s155 (settings and refetch) and s156 (programme and note, mocked browser), with m245 updated. Local suite 1,139 passed, 0 failed, 0 skipped (14.5 min). Register regenerated.
 - **Consumer API:** unchanged (G3).
+
+### 29 Oct 2026 — v2.15.364 live (#734, merge `60d2be1b`)
+
+- **Deploy workflows:** Deploy on merge, Release History Contract, CourseFinder Deployed UAT (targeted; the workspace changed, so s154 ran), Release Currentness Deployed and Pilot Frontend Build all succeeded.
+- **Migration history md5 equals the file:** `20261029020000` `7ae33c61`; `20261029030000` `ac325995`.
+- **Live settings:** slice chars 8,000; slices read at once 6; courses a batch 50; estimated cost a course US$0.005. `svc_entry_matrix_next` md5 `3eb6ca3b`, as in the dry run.
+- **Rendered no-table notes:** three are open in Layer 4 (pending): Griffith, Newcastle, and Victoria University of Wellington.
+- **Consumer API:** RMIT `entry_matrix` 343, unchanged.
+- **Next step:** the approved programme batch migration `20261029040000`. Its rolled-back dry run passed: all ten sources accepted (4 HTML refetches, 3 failed reads re-queued, 3 done reads re-read with 46 rows and 3 items superseded), and the first course batch of 50 Monash courses at an estimated US$0.25.
