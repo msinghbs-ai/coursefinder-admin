@@ -1246,3 +1246,21 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - no matrix runs today;
   - `entry.providers` is UTS and WSU.
 - **Not claimed:** "Track C Step B RMIT vertical slice live". Open gates: the Layer 4 decision, the consumer paste plus the #720 merge, and the worked example and developer guide reissue after both. B4 is website-team work.
+
+### 28 Oct 2026 22:5x — Consumer paste verified (applied by the Platform Admin); #720 written before merge
+
+- **Paste applied once by the Platform Admin** (22:43:58, baseline time). Migration history for `20261028005000`: 1 row, md5 `fd69acc1…`, equal to the held PR's file.
+- **Definitions match the held PR:**
+  - `website_v2_course(text)` with the added `entry` line removed equals the earlier live md5 `ad9ba388…`;
+  - `website_v2_provider(text)` with the added `entry_matrix` line removed equals `2411c7e4…`;
+  - the bodies of the two `edu_country` forms and the two payload helpers equal the file's;
+  - grants are `postgres` and `service_role` only.
+  - The SQL editor saved the two inserted lines with Windows line endings; they behave the same.
+- **Only the approved keys:** the course item gains `entry`, the provider item gains `entry_matrix`, and nothing else changed (the rolled-back dry run before the paste compared every other key).
+- **Live behaviour:**
+  - `entry` without a country: all null or empty (no admitted rows yet);
+  - `IN`: step 5, contact the provider;
+  - provider matrix: 343 rows, or 33 with `in` (IN only);
+  - `ZZ` / `IND`: `22023 INVALID_INPUT`.
+- **Baseline re-taken:** 75 functions (the 4 `website_v2_course` / `_provider` forms included) and 48 relations, reason recorded. Drift now: 0 changed, 0 new, 0 relations.
+- **#720** (draft until now): checks green (build-and-smoke, Workers Builds); suite on its branch 1,082 passed, 0 failed, 0 skipped. Merged under its consumer-change authority (Platform Admin 22:44); deploy-on-merge skips the migration (already in history) and deploys `website-api-v2`.
