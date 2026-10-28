@@ -9334,3 +9334,16 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
     - s153 (mocked browser: summary, combined filters, sorting, Columns, drawer, edit in list with session reason, stale and band refusals shown, withdraw, sources re-read, resolution, viewer has no controls, phone width);
     - s154 (deployed acceptance; live edit only under `@live-acting`).
   - **Specs updated, same guards:** s81 (menu 20 pages), the ui-standard table guard and m245.
+
+### 29 Oct 2026 11:xx — v2.15.363 live; the workspace's deployed acceptance wired to run on deploy (Pilot PR #733)
+
+- **#732 verified live** (merge `145626bb`):
+  - Migration history md5 `c925e283…` equals the file.
+  - `public.admin_aer` and its four helpers exist, with the conditions fix live. `authenticated` may execute and `anon` may not.
+  - Deploy on merge, Deployed UAT (targeted; this merge's rule picked another spec), Release History Contract, Release Currentness Deployed and the frontend build all succeeded.
+  - **Live read as Curator:** summary 75 ms; RMIT India active 33 rows in 60 ms; proposed 776 rows (100 a page) in 72 ms; held sources 15 in 44 ms.
+  - Register (s152–s154) committed (`48356f2b`).
+- **#733:** `deployed-uat.yml` runs s154 when the workspace, its migration or s154 changes, and s154 is in the acceptance tier. The live edit stays `@live-acting`. Suite: 1,130 passed, 0 failed, 0 skipped.
+- **Not applied (left with the Platform Admin):** settings for slices read at once, and the workspace's refetch route for markdown-stored sources. Their rolled-back dry run was cancelled at the approval prompt, as was the earlier SQL re-read. They are not retried.
+  - The re-reads they cover remain available as governed UI actions: Catalogue › Entry requirements › Sources, reads and holds › Read again, on sources stored as HTML or PDF.
+  - The markdown-stored sources (Wintec, Otago Polytechnic, Lincoln, NMIT) and the slice settings need the Platform Admin's go-ahead.
