@@ -9217,3 +9217,20 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Rolled-back live dry run closed exactly one run (Wollongong, 3 tries, time budget); the live definition was unchanged afterwards.
   - s148 added.
   - Suite: 1,109 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 03:2x — #728 live; worker v0.50.2: Firecrawl-fallback entry pages kept as HTML, no-answer reason named (Pilot PR #729)
+
+- **#728 verified live** (merge `94d538fc`):
+  - Migration history md5 `644a3968…` equals the file. Deploy on merge, Deployed UAT and the frontend build all succeeded. Register (s148) committed (`b6c5c497`).
+  - Working live: the fire job closed Wollongong ("stopped after 3 tries without a reply: time budget") and Western Sydney's PDF ("… the model returned no answer").
+- **HTML Firecrawl-fallback route (a reader correction the route's acceptance needs, structure-driven):**
+  - **The fault:** an entry page refused to a direct read was kept as Firecrawl markdown. The reader cannot quote its tables row by row: AUT read 0 rows, and Wintec lost 45, Otago Polytechnic 27 and Lincoln 17 rows as `quote_not_on_page`.
+  - **The fix:** worker v0.50.2 keeps the page's own HTML (`rawHtml`), under the same budget check, robots rule and time-out. It is read with `table-rows-v1`, like a direct read.
+- **No-answer reason:**
+  - A model call that answers with no text now records the provider error, the finish reason and the slice.
+  - Victoria University, Western Sydney and Manukau were recorded only as "the model returned no answer".
+- **Unchanged:** the quote, scale, completeness and identity gates. No migration in this PR. The bounded re-read follows in its own PR once v0.50.2 answers live.
+- **Evidence:**
+  - Rolled-back live dry run of the follow-up: 5 markdown sources to fetch again (WSU HTML page, AUT, Melbourne IB, Otago, Griffith; none waits in Layer 4); 0 re-attached to a markdown copy; the no-answer runs re-queued.
+  - s149 added.
+  - Suite: 1,112 passed, 0 failed, 0 skipped.
