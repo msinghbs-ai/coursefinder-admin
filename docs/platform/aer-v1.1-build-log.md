@@ -1386,3 +1386,22 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Evidence:**
   - Rolled-back live dry run: 4 new sources, 5 sources reset, 2 runs re-queued, scope 33, RMIT out; after a fire, 0 parked and all 13 PDFs found.
   - Suite: 1,100 passed, 0 failed, 0 skipped. s144 added; register regenerated.
+
+### 29 Oct 2026 02:0x — #724 live; reader correction for the HTML route: numeric tables (Pilot PR, worker v0.50.1)
+
+- **#724 verified live** (merge `9cca6401`):
+  - history md5 `9ccb7631…` equals the file;
+  - `entry.pdf_enabled` reads 1; `entry.render_hosts` holds the four hosts; scope is 33;
+  - the PDF sources began fetching directly (Adelaide, Sydney and both Auckland PDFs stored within minutes).
+- **Why:** Wave H reads by v0.49.2 dropped whole pages at the quote gate. The rows were tables of bare numbers, with nothing on the line saying what the numbers are:
+  - ANU's rank-to-score pages, for example "80 | 8.5" (`quote_too_short`);
+  - UWA's score-to-ATAR tables, quoted across lines (`quote_not_on_page`).
+  - The gate is right: a bare cell proves nothing. The route needs the line to name its numbers.
+- **Correction (structure-driven):** an HTML table whose data cells are all bare numbers, under a worded header row, gives each data cell named by its column header ("Program Required Entrance Rank: 80 | Indicative score required: 14.0"). The read is told so.
+  - Tables with any worded cell are unchanged.
+  - It is off for a provider under the completeness guard (RMIT), whose manifest compares quotes with the plain lines; RMIT's pinned text is unchanged (s135).
+  - Every gate is unchanged: quote on page, band printed on the quoted line, scale and confidence.
+- **Evidence:**
+  - s145 against ANU's stored India page: the named line passes the gates; a bare cell and a band not printed are still refused.
+  - Suite: 1,104 passed, 0 failed, 0 skipped. Register regenerated.
+- **Next:** once v0.50.1 answers live, a separate change re-queues the ANU and UWA runs that ended with no rows for this reason (bounded), so they go to Layer 4 as first reads.
