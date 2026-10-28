@@ -8904,3 +8904,56 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - B5 sections in the existing Provider drawer and Course detail blade.
   - B2/B3 consumer keys with `edu_country`, as a paste-reviewed held PR (never auto-merged).
 - **Excluded:** PR B, other countries, quarantine work, PDF/JS/new providers, Step C, scholarship fields and the 37 proposed matrix rows.
+
+### 28 Oct 2026 21:3x — Track C Step B platform PR #717 (v2.15.361), written before merge
+
+- **PR:** #717 (`cf247-track-c-step-b-slice`), release v2.15.361, worker v0.49.0.
+- **Time correction:** the decision record was lodged at 20:54 AEDT (admin `63126bd3`), not 21:2x as its entry says.
+- **Migration** `20261028001000_cf247_entry_step_b_course_read_resolver.sql`:
+  - **B1:** field `entry_requirements` on the existing Enrich fields lane. It is not in the field registry; AU source rule `{ai_stored}`; AU identity `cricos_code` / `adapter_code` / `manual`.
+    - `security.enrich_entry_record_v1` applies the B1 rules. Rows land `proposed`, with Layer 4 `course_entry_first_read`.
+    - `security.course_entry_review_apply_v1` (decide branch and trigger) admits a read or quarantines it.
+  - **Resolver** `security.entry_resolve_v1` (five rules, active rows only).
+  - **`public.admin_entry_requirements`:** bounded reads and the one-course read (Platform Admin).
+  - **Settings:** `entry.course_read_countries`, `entry.max_rows_per_course`, `entry.min_confidence`, `entry.course_page_chars`, `entry.level_equivalents`.
+  - **One count-guarded slice read** for BH126.
+  - **md5-guarded edits:** `svc_enrich_ai_record` (`c3685d7a…`), `svc_enrich_ai_next` (`0ad1ad53…`), `layer4_review_decide_impl` (`a438f594…`).
+- **Worker v0.49.0:** one entry call per course with the pinned entry model; each row's quote must be on the page.
+- **UI:** Provider drawer and Course detail blade sections (`EntryRequirements.jsx`).
+- **Tests:** s114, s139 and s140.
+- **Live dry run (rolled back, `db-apply-migration` on the scratch branch;; 28 Oct 2026):**
+  - the slice item was enqueued (1, `queued` / `enrich`);
+  - **B1 fixture answer:**
+    - ATAR kept as `minimum_grade` with basis "2027 Guaranteed ATAR", audience domestic, the band dropped as not printed;
+    - the prerequisite kept (domestic);
+    - the IELTS row dropped (`english_duplicate`);
+    - a score whose basis was not in the quote dropped (`score_without_basis`);
+    - Layer 4 item opened; item `review`; a second read while pending was refused (`already`);
+    - approve admitted 2.
+  - **BH126 India: step 5, contact the provider**, with the note that RMIT publishes an India band table but the course page prints no band.
+  - **Fixture rules:**
+    - rule 3 with a printed 75% band → AISSC 75%, ISC 75%, State Boards 80% (BH=BA);
+    - rule 4 → case by case;
+    - rule 2 → course row;
+    - rule 1 → override;
+    - a proposed override is ignored (step 2);
+    - `ZZ` → `INVALID_INPUT`.
+  - **Admin reads:**
+    - India narrowed (34 of 34 rows, page size capped at 100);
+    - all rows paged (50 of 569);
+    - course view `can_read` with `cricos_code`.
+  - **RMIT matrix unchanged:** 343 active, 37 proposed, 167 superseded, 20 quarantined.
+- **Suite:** 1,077 passed, 0 failed, 0 skipped. **Build:** OK. **PR checks:** build-and-smoke, release-history-contract and Workers Builds all green.
+- **Suite fixes in the same PR:** worker-version patterns in s127, s128, s129, s134 and s135 accept v0.49; s36 follows the per-call model check; SOPs reviewed (admin SOP 1.55: Course entry first read, Read from the stored page).
+- **Live md5s** of the three edited functions verified just before merge: `svc_enrich_ai_record` `c3685d7a…`, `svc_enrich_ai_next` `0ad1ad53…`, `layer4_review_decide_impl` `a438f594…`. All match the guards.
+- **Consumer API:** not touched (B2/B3 is a separate, paste-reviewed change).
+- **Consumer PR (B2/B3), held:**
+  - branch `cf247-track-c-step-b-consumer-api`, migration `20261028002000` (md5 `efe556c2…`), paste `docs/platform/pastes/PASTE-20261028-entry-consumer-api.sql`;
+  - live dry run (rolled back):
+    - course keys added: only `entry`; the rest identical;
+    - provider keys added: only `entry_matrix`; the rest identical;
+    - with an admitted fixture read, `entry` is min_score 75, basis "2027 Guaranteed ATAR", band null, one prerequisite;
+    - IN resolution: step 5, contact the provider;
+    - matrix: 343 rows, or 33 with IN (IN only);
+    - invalid `edu_country` refused;
+    - baseline re-taken: 75 functions, 48 relations.

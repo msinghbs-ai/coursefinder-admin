@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.10 (27 Oct 2026, platform release v2.15.360)
+**Version:** 1.11 (28 Oct 2026, platform release v2.15.361)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -44,6 +44,11 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
   - Pills and fact cards: the course code with its kind (CRICOS course code, program code, StudySearch code), tuition used and its source, CRICOS cost, intakes, English, campuses, last checked.
   - Course editor: page, title, duration, delivery, description, tuition, intakes, English, finder address; reason; release lock; archive/restore.
   - Scholarships for the course; "Check scholarships for this course" (task).
+  - Academic entry requirements (v2.15.361, Track C Step B):
+    - the course's own requirement rows, all statuses, with quote, source, as-at date and audience;
+    - the last read and what it did not keep;
+    - the resolution for a chosen country of prior education (course rule → course row for the country → course band → provider minimum → contact the provider; case by case kept);
+    - Platform Admin: "Read from the stored page" (reason; one course; the rows wait in Layer 4 as Course entry first read).
   - "More about this course" fold: Layer 4 correction and publishing decision, insights, additional information.
 
 ### Providers — `providers`
@@ -58,6 +63,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
     - "Fill in from website" (Firecrawl) and "Find scholarships now" (tasks).
     - Provider editor (values; archive checklist and restore; regulatory contact; internal-only block).
     - World rankings.
+    - Academic entry requirements (v2.15.361): the provider's entry rows with status, country and level filters, 50 a page. Each row shows its quote, source, stored copy, as-at date or edition, and the read with its Layer 4 state. Read only.
     - Layer 4 fold.
 - **Campuses** (rank 1):
   - List: campus, provider, country, state, city, courses, status.
@@ -324,6 +330,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
+| 1.11 | 28 Oct 2026 | v2.15.361: Academic entry requirements in the Provider drawer and the Course detail blade (Track C Step B). |
 | 1.9 | 14 Oct 2026 | v2.15.271: course code column and StudySearch codes; Scholarship search flag on Providers and in the provider panel. |
 | 1.8 | 14 Oct 2026 | v2.15.270: section 7, drop-down options by country; region, delivery and country fixes. |
 | 1.7 | 13 Oct 2026 | v2.15.269: settings register and policy tables on Pipeline settings; Firecrawl Find pages settings (map sizes, search results, search-stop window); proxy for every read. |
