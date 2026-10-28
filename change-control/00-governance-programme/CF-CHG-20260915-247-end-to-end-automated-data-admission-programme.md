@@ -9163,3 +9163,22 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Specs: s142 (PDF column fidelity, against the fixtures and synthetic cases) and s143 (rendered read). Worker-version patterns in s127, s134, s139 and s141 accept v0.5x.
   - Worker-version patterns in s87, s89, s91, s128, s129 and s135 also accept v0.5x. s128 anchors on the storedText call, which now carries the PDF page limit; its guard is unchanged.
   - Suite on the PR branch: 1,097 passed, 0 failed, 0 skipped. Register regenerated (s142, s143).
+
+### 29 Oct 2026 01:2x — #723 live and verified; AER Steps B and C switched on, Wave J seeded (Pilot PR, migration `20261029003000`)
+
+- **#723 verified live** (merge `ed627894`):
+  - migration history md5 `438c7757…` equals the file;
+  - deploy on merge, Deployed UAT and the frontend build all succeeded;
+  - while switched off, `entry.pdf_enabled` read 0, `entry.render_hosts` read `[]`, and 13 PDF sources stayed parked;
+  - worker v0.50.0 answered live: ANU Vietnam was read by v0.50.0 at 14:14 UTC.
+- **#722 verified live** (merge `f6ed4481`): history md5 `dd9dd556…` equals the file; worker v0.49.2 answered from 13:55 UTC.
+- **This change** is settings and data only, with no reader code (the deploy-order lesson):
+  - `entry.pdf_enabled` 1;
+  - `entry.render_hosts` set to Victoria University of Wellington, Whitireia and WelTec, Newcastle and Griffith;
+  - 4 Wave J sources seeded, count-guarded;
+  - `entry.providers` widened from 29 to 33 providers (guarded on the live list; RMIT asserted out).
+- **Tries given back, bounded:** reads stopped by the faults #722 fixed. Five sources refused for Firecrawl budget before the fix (Otago Polytechnic and four Melbourne pages), and two runs whose answers were cut off at the old fixed length (MIT and Wollongong).
+- **Not seeded:** Canterbury, which publishes a checker app with no page to read. Its outcome is contact provider.
+- **Evidence:**
+  - Rolled-back live dry run: 4 new sources, 5 sources reset, 2 runs re-queued, scope 33, RMIT out; after a fire, 0 parked and all 13 PDFs found.
+  - Suite: 1,100 passed, 0 failed, 0 skipped. s144 added; register regenerated.
