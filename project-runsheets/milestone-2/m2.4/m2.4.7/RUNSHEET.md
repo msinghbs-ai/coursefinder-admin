@@ -9180,3 +9180,19 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - s145 against ANU's stored India page: the named line passes the gates; a bare cell and a band not printed are still refused.
   - Suite: 1,104 passed, 0 failed, 0 skipped. Register regenerated.
 - **Next:** once v0.50.1 answers live, a separate change re-queues the ANU and UWA runs that ended with no rows for this reason (bounded), so they go to Layer 4 as first reads.
+
+### 29 Oct 2026 02:3x — #725 live; ANU re-read; no endless retry on cut reads (Pilot PR, migration `20261029004000`)
+
+- **#725 verified live** (merge `91b1298f`): worker v0.50.1 answered from 14:44 UTC. Deploy on merge, Deployed UAT and the frontend build all succeeded. No migration.
+- **ANU re-read:** the 16 ANU runs that ended with no row and no Layer 4 item (bare-number tables) are queued again.
+  - Bounded at 20, ANU only.
+  - The earlier reading is kept in each run's history.
+  - Runs whose rows wait in Layer 4 (11) are left to the Platform Admin.
+- **No endless retrying:**
+  - **The fault:** a read cut by the worker's call time after spending on the model (Wollongong: 2 cuts, US$0.095) was queued again without using a try.
+  - **The fix:** `svc_entry_matrix_record` (md5-guarded, `e1a130e2…`) now counts such a cut as one of `entry.matrix_attempts`. A cut before any model call still waits without using a try.
+  - **Slices:** `entry.matrix_slice_chars` is set to 20,000 (with a reason). The 16,000-token answer limit fits it, so large pages need fewer calls.
+- **Evidence:**
+  - Rolled-back live dry run: 16 ANU runs queued; the function edited; the setting reads 20,000.
+  - s146 added.
+  - Suite: 1,106 passed, 0 failed, 0 skipped. Register regenerated.
