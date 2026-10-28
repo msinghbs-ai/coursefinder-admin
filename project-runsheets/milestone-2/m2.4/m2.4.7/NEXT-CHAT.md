@@ -9145,3 +9145,16 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Rolled-back live dry run: 16 ANU runs queued; the function edited; the setting reads 20,000.
   - s146 added.
   - Suite: 1,106 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 02:5x — #726 live; admin Sources and reads in the Provider drawer (Pilot PR #727, release v2.15.362, migration `20261029005000`)
+
+- **#726 verified live** (merge `b2c0659f`): migration history md5 `1acb4866…` equals the file. Deploy on merge, Deployed UAT and the frontend build all succeeded.
+- **Admin experience (mandate item 1, bounded UI reads):**
+  - Provider drawer › Academic entry requirements now lists the provider's sources and each one's latest read: fetch state, read state, rows proposed, rows not kept, hold or error text, and the Layer 4 item's status.
+  - Holds and refusals are visible even when no row has been read (for example Auckland's `held_unparsed`).
+  - Read only, at most 50 sources; no new screen, no direct table access; admission stays in Layer 4.
+  - Server: `public.admin_entry_requirements(text,jsonb)` edited under an md5 guard (`961150b3…`, re-checked live before merge). Not part of the consumer API; G3 untouched.
+- **Evidence:**
+  - Rolled-back live dry run as a Platform Admin user returned the sources with their latest reads.
+  - s147 added.
+  - Suite: 1,108 passed, 0 failed, 0 skipped. `verify-release-contract` PASS. Register regenerated.
