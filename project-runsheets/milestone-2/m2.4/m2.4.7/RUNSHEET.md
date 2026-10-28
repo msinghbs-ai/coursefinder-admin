@@ -9053,3 +9053,28 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   2. **Course BH126 › Academic entry requirements › Read from the stored page**, with a reason. This is the one bounded re-read.
   3. **The agent checks the read.** If it keeps the 2027 Guaranteed ATAR 75.00 and the 65% sentence with exact quotes, the Platform Admin approves that read in Layer 4 (the 2026 row excluded). Approving supersedes the reader's earlier active rows, so there are no duplicates. Otherwise it is the evidence gate.
 - **Expectation, stated in advance:** the reader, prompt, model (temperature 0) and stored copy are unchanged since the 22:18 read. That read paraphrased the ATAR sentence (`quote_not_on_page`), and the B1 basis rule dropped the 65% sentence because the model gave a score whose basis words are not in the quote (`score_without_basis`). The same outcome is likely; if it repeats, Step B stops at the evidence gate as decided.
+
+### 28 Oct 2026 23:5x — AER programme (consolidated mandate 23:22): Wave H sources and provider scope (Pilot PR, migration `20261028006000`)
+
+- **Mandate:** Platform Admin, 28 Oct 2026 23:22, "complete the approved AER plan". Decision record (admin `1c2b24a3`): `docs/platform/ENTRY-REQUIREMENTS-PROGRAMME-DECISION-2026-10-28.md`, lodged before code.
+- **Change:** one migration. Nothing dropped, deleted or renamed. Consumer API untouched. No new job, table or status.
+  - **Sources:** 58 official entry-requirements sources for 26 planned providers, seeded as `found_via 'manual'`.
+    - 47 HTML: Flinders, UWA, UOW, ANU (27 per-qualification pages), Melbourne (4), Swinburne (India page), Waikato, Massey, AUT, Otago, Lincoln, Unitec, MIT, Otago Polytechnic, Wintec, Ara, NMIT, SIT.
+    - 11 PDFs: UNSW, Sydney, UQ, Adelaide, Curtin, WSU, Macquarie (3), Auckland (2). These park as `pdf_step_b` until the PDF route ships.
+    - Count-guarded: exactly 58 new rows, or the migration fails.
+  - **Scope:** `entry.providers` widened from UTS and WSU to the 29 planned providers that have a source.
+    - Guarded on the live value being UTS and WSU. RMIT stays out, and the migration asserts it.
+    - Reason recorded on the setting.
+- **Honest gaps, recorded now:**
+  - **ANU:** listing pages 2–4 are disallowed by robots.txt (`Disallow: /*?*`), so its source list is partial.
+  - **Melbourne:** pages found by search only.
+  - **Not seeded:** Monash (course-page route), QUT, EIT, NorthTec, UCOL, Toi Ohomai (its PDF is IELTS only) and Canterbury (contact provider).
+  - **Step C:** Newcastle, Griffith, Victoria University of Wellington, and Whitireia and WelTec follow with it.
+- **Evidence:**
+  - Rolled-back live dry run: 58 new, 98 total, 58 found in scope, 11 PDFs; RMIT not in scope; Melbourne in scope.
+  - Suite: 1,082 passed, 0 failed, 0 skipped.
+  - Migration file md5 `03296de18fad7bbac07834c77f3dfa8a`.
+- **Effect after merge:**
+  - The `entry-matrix-read` job fetches the HTML sources, `batch.entry_matrix` at a time, robots respected.
+  - Each read goes to Layer 4 as a first run (`entry.matrix_first_run_review` 1). Nothing is admitted without a person.
+  - AI spend is capped by `guard_entry_matrix`.
