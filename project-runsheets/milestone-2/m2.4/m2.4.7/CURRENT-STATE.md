@@ -9360,3 +9360,28 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - It covers the workspace (navigation, capabilities, controls, example governed edit and audit record, tests and deploy evidence), and Steps A, B and C, course-level, the resolver, the consumer API and the developer pack.
   - It also covers the provider-by-provider status of the 40 plus Federation, live counts, releases #721–#733, the Platform Admin actions and the external dependencies.
 - **Not claimed:** AER complete; website rendering; any proposed row as admitted.
+
+### 29 Oct 2026 — v2.15.364: reader settings, Read again as HTML, course-level programme, rendered no-table note (Pilot PR #734, written before merge)
+
+- **Authority.** Platform Admin decision 29 Oct 2026 09:57 ("Continue the full AER programme"), items 1, 3 and 4. Decision addendum W12a, W17 and W18 recorded before code (`fb77a43d`).
+- **Migration `20261029020000`:**
+  - `entry.matrix_slice_concurrency` 6 (new) and `entry.matrix_slice_chars` 8,000;
+  - `svc_entry_matrix_next` passes the concurrency (md5 `dc1bab7a` guarded);
+  - Read again moves into `security.aer_reread_v1`, owner only (`admin_aer` md5 `d582b0c2` guarded). It fetches a markdown-stored web page again as HTML after superseding its proposed rows and pending item. Every earlier refusal is kept, and a page already waiting to be fetched is refused.
+- **Migration `20261029030000`:**
+  - the course-level programme: `course_entry_eligible_v1`, `cost_v1`, `programme_v1` and `batch_v1`; settings `entry.course_read_providers` (Monash, QUT and RMIT first, then the plan's AU providers), `entry.course_batch_size` 50 and `entry.course_read_cost_usd` 0.005;
+  - `admin_aer` actions `course_programme`, `course_batch_preview` and `course_batch` (Platform Admin); `admin_aer` md5 `bc7fe780` (after `020000`) guarded;
+  - the Step C note: `entry_rendered_note_v1`; `svc_entry_matrix_record` (`15fb11f8`) and `entry_matrix_review_apply_v1` (`f1152d19`) md5-guarded; an approved note admits and replaces nothing; backfill bounded at 5.
+- **Rolled-back live dry runs (29 Oct):**
+  - Settings 6 and 8,000; `svc` md5 after `3eb6ca3b`; `admin_aer` after `020000` `bc7fe780`, as computed.
+  - Curator Read again refused. Wintec: refetch, 13 rows and 1 item superseded, source found. The same source a second time refused ("waiting to be fetched"). VU failed read re-queued. UWA re-read, 9 rows and 1 item superseded.
+  - Three notes opened (Griffith, Victoria University of Wellington, Newcastle; `entry_matrix_first_run`). Approving a note admits 0 and supersedes 0.
+  - Programme: 4,977 eligible AU courses in 21 providers (Monash 356, QUT 184, RMIT 334, UNSW 430, ANU 349, and others), read in 2.9 s. Cost a course US$0.005 (setting). Balance US$8.04, floor US$5.
+  - Curator batch refused; preview 50 courses, US$0.25. Platform Admin batch of 3: one Enrich fields task, 3 queued items. A second batch refused while the first waits. A reason under 5 characters refused.
+  - Consumer RMIT `entry_matrix` 343 unchanged.
+- **Workspace (v2.15.364):**
+  - Course entry requirements › Course-level reading: by provider, with Preview next batch and Read next batch (Platform Admin);
+  - Sources › "Rendered, no table: in Layer 4" / "No matrix published (confirmed)";
+  - the Read again message names the HTML refetch.
+- **Specs:** s155 (settings and refetch) and s156 (programme and note, mocked browser), with m245 updated. Local suite 1,139 passed, 0 failed, 0 skipped (14.5 min). Register regenerated.
+- **Consumer API:** unchanged (G3).
