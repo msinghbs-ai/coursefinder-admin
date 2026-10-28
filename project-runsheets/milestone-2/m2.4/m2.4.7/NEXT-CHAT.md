@@ -9215,3 +9215,20 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Evidence:**
   - s151 added; s142's WSU anchor updated with the same guard.
   - Suite: 1,118 passed, 0 failed, 0 skipped.
+
+### 29 Oct 2026 08:3x — AER operations workspace: decision lodged before code (Platform Admin mandate 29 Oct 08:06)
+
+- **Decision record:** `docs/platform/AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` (W1–W16). It supersedes the 28 Oct Step B B5 read-only limit for editing only.
+- **Location:** a new menu page, Catalogue › Entry requirements, with four tabs:
+  - Provider entry matrix;
+  - Course entry requirements;
+  - Sources, reads and holds;
+  - Resolution inspection.
+  The drawer sections stay read-only and become shortcuts into it.
+- **Operator actions:** governed edits of active or unverified rows, add with stored evidence, and withdraw, quarantine or restore. All use the existing statuses only. Every action needs a reason and is audited before and after in `pipeline.manual_edit_log`. Writes check `updated_at`, and identity collisions are refused.
+- **Roles:**
+  - read: rank ≥ 1;
+  - write: rank ≥ 3, as for Scholarships;
+  - re-read: the existing Platform Admin mechanisms, bounded.
+- **Unchanged:** Layer 4 stays the only admission route for AI rows. The consumer API and the resolver do not change.
+- **Parked, not retried:** the earlier re-read step (settings and bounded re-reads, scratch `mig8.sql`). Its rolled-back dry run was cancelled at the approval prompt.
