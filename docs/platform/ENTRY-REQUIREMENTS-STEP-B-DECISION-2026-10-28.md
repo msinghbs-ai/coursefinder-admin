@@ -154,6 +154,7 @@ The resolver is a pure lookup over **active** rows only. It never calculates eli
 - Reads are rank ≥ 1 (assigned role) and paged: at most 100 rows a call, always for one provider or one course.
 - `read` is rank 6.
 - There is no table editing, no arbitrary SQL and no second approval route. Admission stays in Layer 4.
+  - **Superseded for editing (29 Oct 2026):** the Platform Admin's AER operations workspace mandate (29 Oct 2026 08:06) authorises governed editing in Catalogue › Entry requirements; see `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md`. These drawer sections stay read only and link into the workspace. There is still no arbitrary SQL and no second approval route for AI rows.
 
 ## 7. B2 / B3 — consumer API (additive; paste-reviewed exception)
 
