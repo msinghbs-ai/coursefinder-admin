@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.11 (28 Oct 2026, platform release v2.15.361)
+**Version:** 1.12 (29 Oct 2026, platform release v2.15.362)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -64,6 +64,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
     - Provider editor (values; archive checklist and restore; regulatory contact; internal-only block).
     - World rankings.
     - Academic entry requirements (v2.15.361): the provider's entry rows with status, country and level filters, 50 a page. Each row shows its quote, source, stored copy, as-at date or edition, and the read with its Layer 4 state. Read only.
+      - Sources and reads (v2.15.362): each official source (web page, PDF, page read rendered; at most 50) with its fetch state and its latest read: state, page basis, cost, rows proposed, rows not kept, a hold or error with its reason, and its Layer 4 item. Open when no row was kept. Read only.
     - Layer 4 fold.
 - **Campuses** (rank 1):
   - List: campus, provider, country, state, city, courses, status.
@@ -331,6 +332,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 |---|---|---|
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
 | 1.11 | 28 Oct 2026 | v2.15.361: Academic entry requirements in the Provider drawer and the Course detail blade (Track C Step B). |
+| 1.12 | 29 Oct 2026 | v2.15.362: Provider drawer › Academic entry requirements › Sources and reads (AER programme). |
 | 1.9 | 14 Oct 2026 | v2.15.271: course code column and StudySearch codes; Scholarship search flag on Providers and in the provider panel. |
 | 1.8 | 14 Oct 2026 | v2.15.270: section 7, drop-down options by country; region, delivery and country fixes. |
 | 1.7 | 13 Oct 2026 | v2.15.269: settings register and policy tables on Pipeline settings; Firecrawl Find pages settings (map sizes, search results, search-stop window); proxy for every read. |
