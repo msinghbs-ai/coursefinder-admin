@@ -9304,3 +9304,56 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - re-read: the existing Platform Admin mechanisms, bounded.
 - **Unchanged:** Layer 4 stays the only admission route for AI rows. The consumer API and the resolver do not change.
 - **Parked, not retried:** the earlier re-read step (settings and bounded re-reads, scratch `mig8.sql`). Its rolled-back dry run was cancelled at the approval prompt.
+
+### 29 Oct 2026 10:xx — AER operations workspace, release v2.15.363, written before merge (Pilot PR #732, migration `20261029010000`)
+
+**Mandate:** Platform Admin, 29 Oct 2026 08:06. **Decision record:** `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` (W1–W16), lodged before code.
+
+- **Navigation:** Catalogue › Entry requirements (`/entry-requirements`), placed after Scholarships. Its tabs are:
+  - Provider entry matrix;
+  - Course entry requirements;
+  - Sources, reads and holds;
+  - Resolution inspection.
+- **Server:** `public.admin_aer(action, args)`. The other functions it adds are new and touch no existing object:
+  - `security.aer_row_v1`;
+  - `aer_numbers_in_quote_v1`;
+  - `aer_band_in_quote_v1`;
+  - `aer_conditions_v1`.
+- **Reads (rank ≥ 1):**
+  - summary and options;
+  - matrix, course and source lists, with filters and whitelisted sorting on the server, at most 100 a page;
+  - the row with up to 50 history entries;
+  - course search and evidence options (20);
+  - resolution inspection over the unchanged `security.entry_resolve_v1`.
+- **Writes (rank ≥ 3):** update, add and lifecycle (withdraw, quarantine, restore).
+  - Every write needs a reason and the row's `updated_at` as read; a stale value is refused (40001).
+  - A band, minimum, value or score must be printed in the quote. A value needs its scale, and a score its printed basis.
+  - An active identity collision is refused in plain words.
+  - Each changed field writes one `pipeline.manual_edit_log` entry with before, after, reason and actor.
+  - Proposed AI rows are never edited or activated. Restore is allowed only after a workspace withdrawal or quarantine. There is no delete and no new status.
+- **Re-read (rank 6):** one source, through `admin_entry_matrix_reread`, or the failed run is re-queued. It is refused when the source is out of scope, AI is stopped, a read is waiting, or the source is held as unreadable.
+- **UI:** `src/AerWorkspace.jsx` and `src/aer-workspace.css` (tokens only).
+  - The shared `DataTable` and `FilterSelect` were moved unchanged to `src/DataTable.jsx`.
+  - The drawer sections stay read only and link into the workspace.
+  - Release ceremony: v2.15.363 / 0.1.290; guide and both SOPs reviewed; release notes; `verify-release-contract` PASS.
+- **Docs:**
+  - UI-CATALOGUE 1.13;
+  - PIPELINE-LINEAGE (provider matrix row added, human edit path on both rows);
+  - the Step B decision record marks its read-only limit superseded for editing.
+- **Evidence before merge:**
+  - **Rolled-back live dry runs as Curator `uat2` and Platform Admin:**
+    - edit logged before and after (version 1 → 2);
+    - stale, band, scale, reason, proposed-row and restore-of-proposed refusals;
+    - withdraw (consumer India rows 33 → 32) and restore (→ 33);
+    - add matrix row (active, by hand; reaches the consumer payload);
+    - duplicate refused; wrong stored copy refused; grade not in quote refused;
+    - conditions as parts (version 2); bad conditions refused;
+    - course add, edit, quarantine and restore, with history add → edit → quarantine → restore;
+    - re-read refused for Curator and for a held PDF; a VU failed run re-queued;
+    - no-role refused.
+  - **Defect caught:** the dry run found a variable clash in `aer_conditions_v1`. It was fixed, and s152 now guards it.
+  - **Specs:**
+    - s152 (server contract, 6 tests);
+    - s153 (mocked browser: summary, combined filters, sorting, Columns, drawer, edit in list with session reason, stale and band refusals shown, withdraw, sources re-read, resolution, viewer has no controls, phone width);
+    - s154 (deployed acceptance; live edit only under `@live-acting`).
+  - **Specs updated, same guards:** s81 (menu 20 pages), the ui-standard table guard and m245.
