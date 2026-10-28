@@ -9078,3 +9078,22 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - The `entry-matrix-read` job fetches the HTML sources, `batch.entry_matrix` at a time, robots respected.
   - Each read goes to Layer 4 as a first run (`entry.matrix_first_run_review` 1). Nothing is admitted without a person.
   - AI spend is capped by `guard_entry_matrix`.
+
+### 29 Oct 2026 00:3x — AER programme: reader limits and refused-read fix (Pilot PR, migration `20261029001000`, worker v0.49.2)
+
+- **Why:** the first Wave H reads after #721 went live (#721 history md5 `03296de1…` equals its file) showed two faults in the source route.
+  - **Truncated answers:** two large pages (UWA and UOW) were read in slices whose answers stopped at the fixed 8,000-token limit ("Unterminated string in JSON"), and each retry used the same size.
+  - **Firecrawl refusals:** pages a provider refuses to a direct read (AUT, Otago Polytechnic) fall back to Firecrawl. The budget check refused that as `not_due`, because the provider's central pages had been read within `central_refresh_days`. Each refusal also used up one of the page's tries.
+  - Other Wave H reads ran normally: 4 first-run Layer 4 items were proposed by 00:20, and nothing was admitted.
+- **Change:** nothing dropped, deleted or renamed. Consumer API untouched. No new job or status.
+  - **Settings (G2):**
+    - `entry.matrix_max_tokens` 16,000 (range 4,000–32,000 tokens);
+    - `entry.matrix_slice_chars` 12,000 (range 4,000–24,000 characters).
+    - `svc_entry_matrix_next` passes both (md5-guarded edit, `f992b7fc…`). Worker v0.49.2 uses them and names a cut-off answer `output_truncated`.
+  - **Firecrawl:** `svc_fc_spend` (md5-guarded, `98aaa595…`) lets a seeded entry-requirements source that has never been read through the central refresh interval. This is the same principle as Decision 265 for a page a person added. The day total, shares, reserve, directory-site and other rules are unchanged.
+  - **Tries:** `svc_entry_matrix_fetch_record` (md5-guarded, `90a5ff92…`) no longer counts `credits_refused`, `credits_reserve` or `no_firecrawl_key` as a try. The 3 Wave H sources already refused get their tries back (bounded at 20).
+- **Gates unchanged:** quote on page, scale, completeness guard (RMIT only), whole-run Layer 4 first-run review and confidence.
+- **Evidence:**
+  - Rolled-back live dry run: 3 sources reset; all three functions edited; setting reads 16,000.
+  - New spec `cf-247-s141-aer-reader-limits-contract` (Guards line).
+  - Suite on the PR branch: 1,085 passed, 0 failed, 0 skipped. Two specs (s131, s135) now anchor on the start of the slicing line, which gains the slice-size argument; their guards are unchanged. Register regenerated.
