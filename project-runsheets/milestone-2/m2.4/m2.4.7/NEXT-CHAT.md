@@ -9298,3 +9298,16 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Not applied (left with the Platform Admin):** settings for slices read at once, and the workspace's refetch route for markdown-stored sources. Their rolled-back dry run was cancelled at the approval prompt, as was the earlier SQL re-read. They are not retried.
   - The re-reads they cover remain available as governed UI actions: Catalogue › Entry requirements › Sources, reads and holds › Read again, on sources stored as HTML or PDF.
   - The markdown-stored sources (Wintec, Otago Polytechnic, Lincoln, NMIT) and the slice settings need the Platform Admin's go-ahead.
+
+### 29 Oct 2026 09:50 AEDT — #733 deployed acceptance passed; consolidated programme report filed
+
+- **#733 deployed** (merge `7e58aac8`):
+  - CourseFinder Deployed UAT (targeted) run `40781257332` succeeded, with commit status `deployed-uat/targeted/chromium-desktop` success. Frontend Build succeeded.
+  - The live API log shows eleven `admin_aer` calls from the run's browser between 09:37:07 and 09:37:15 AEDT, all HTTP 200.
+  - `pipeline.manual_edit_log` has no `entry_matrix` or `course_entry` entries, so the `@live-acting` edit was held (switch off) and no live row changed.
+  - GitHub's job log and evidence download are refused through this session's proxy (403), so per-test lines are not quoted.
+- **Consolidated report:**
+  - `docs/platform/ui-audit/2026-10-29-aer-programme-consolidated-report.md`, with screenshots (mocked data, labelled) under `assets/2026-10-29-aer-workspace/` (commit `b60597fd`).
+  - It covers the workspace (navigation, capabilities, controls, example governed edit and audit record, tests and deploy evidence), and Steps A, B and C, course-level, the resolver, the consumer API and the developer pack.
+  - It also covers the provider-by-provider status of the 40 plus Federation, live counts, releases #721–#733, the Platform Admin actions and the external dependencies.
+- **Not claimed:** AER complete; website rendering; any proposed row as admitted.
