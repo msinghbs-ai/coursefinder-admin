@@ -9496,3 +9496,17 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - `aer-countries.js`: India, Nepal, Singapore, then A–Z.
   - The phone row tap no longer lands on a loading row; the drawer scrolls inside; the notice wraps beside its icon at phone width.
 - **Specs:** s158, s160, s161, s162, s163 and s164; m245 updated. Local suite 1,166 passed, 0 failed, 0 skipped (shared test lock). Register regenerated.
+
+### 29 Oct 2026 — v2.15.367: entry requirement reader v0.52.0, quotes read with the table structure that names them (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B1 (with the 28 Oct 23:22 mandate and the 09:57 decision). Decision W24 lodged before code (`2222b60f`).
+- **Lane C** (agent, own branch `cf247-aer-reader-corrections`, `59689c76`). Integrated onto main after v2.15.366 (no overlap: main had not changed the worker since the lane branched). The integrator's review found that a quote could cross into the next country's labelled row at Otago Polytechnic. The lane closed it before integration.
+- **Worker `coverage-sweep-worker-v0.52.0`** (`entry.ts`, `pdf.ts`, `index.ts`):
+  - A printed cell quoted with the structure that names it is on the page: a table's header line with one of its rows, or a PDF row's first cell with one other cell of that row.
+  - A band given with its column header's words ("ATAR 70") is the printed cell only when the whole row is quoted.
+  - A table with no header row carries the label printed just above it.
+  - A quote never crosses a labelled row's boundary.
+  - Quote on the page, scale, identity, completeness and whole-run admission are unchanged. There are no provider-specific grades and no paraphrase normalisation.
+- **No migration.** The four sources are re-read once each in programme batch 3 (migration `20261029090000`, next PR), only after this worker is deployed and verified. Batch 3's rolled-back live dry run passed: four Read again actions accepted, superseding the v0.51.0 items (Federation 47 rows, Otago Polytechnic 71, Wollongong 175, UWA 50; none approved); one Monash course batch of 50, estimated US$0.43; balance US$6.54, floor US$5.
+- **Batch 2 outcome (#737).** All 13 Read again actions finished, costing US$0.064 in total. ANU: 8 pages kept 11 or 12 rows each (was 1); the Croatian Matura page kept 0 of 8 (header and row quoted together, a form v0.52.0 now accepts). Melbourne: 2 pages kept 9 each; India State Board kept 1 of 8 (each row quote ran into the footnote). UTS kept 41 of 46. ANU Croatian Matura and Melbourne India State Board have used their one approved attempt and are held "re-read required" in the manifest. They are not retried.
+- **Specs:** s159 (12 tests, stored-page fixtures for Otago Polytechnic, Wollongong and UWA, plus title and Federation PDF cases); m245 updated. Local suite 1,178 passed, 0 failed, 0 skipped (shared test lock). Register regenerated (326 specs, 1,274 tests).
