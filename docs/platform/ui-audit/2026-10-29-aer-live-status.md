@@ -4,25 +4,22 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state — 18:35 AEDT (mandate 29 Oct 2026 16:59)
+## Current state — 20:00 AEDT: handback filed (`2026-10-29-aer-governed-completion-handback.md`)
 
-| WS | Lane / owner | State | Evidence | Next action |
-|---|---|---|---|---|
-| 0 Scholarship deadlock | integrator | DELIVERED | Paste applied 16:57 (verified). W27 PR #743 (`15664910`): migration md5 `196c6d38` equals the file; functions `fb55e935`/`402c1dae`/`6f3e46a7`; job 39 ran 17:26 under the lock and succeeded; suite 1,187/0/0 | — |
-| 1 Provider sources | lane C → integrator | DELIVERED (W28) | PR #744 (`33f53e50`): migration md5 `c464bb04`; `aer_reread_v1` `ad0fbd35`; Otago dry run re-queued exactly one run; suite 1,191/0/0. Inventory of 102 sources (only Otago has a stale pending item) | reviewer rejects `f14ae480` (Layer 4, human) |
-| 2 Course-level and NZ | lane D → integrator | VERIFYING (W29, v2.15.369) | worker v0.53.0 sliced read; migration `20261029130000` dry run passed (record md5 `857102dc`); targeted 43/43 | full suite → change control → merge → worker verification; NZ batches and the 3 Monash re-reads BLOCKED (spend decision) |
-| 3 Resolver and consumer | integrator | DELIVERED (read-only) | 6,030 course × country checks: payload equals resolver; proposed-only providers return 0 rows; RMIT India/Nepal/Singapore rule 5 explained | — |
-| 4 Release health | lane E | PREPARING | classifying the 31 failing deployed specs | handback |
-| 5 Guides and handoff | lane F → integrator | DELIVERED | `AER-ROLE-GUIDES.md` (merged `2b24140f`, 4.1 updated for W28); developer guide §7.9 clarified (no API change) | — |
+| WS | State | Evidence |
+|---|---|---|
+| 0 Scholarship deadlock | DELIVERED | paste applied 16:57 and verified; W27 #743 live (md5s verified; job 39 ran under the lock) |
+| 1 Provider sources | DELIVERED (W28 #744) | Read again re-reads the newest copy only; inventory of 102 sources |
+| 2 Course-level and NZ | DELIVERED (W29 #745, v2.15.369, worker v0.53.0); batches BLOCKED | NZ and AU batches prepared; spend decision needed |
+| 3 Resolver and consumer | DELIVERED (read-only) | payload equals resolver; proposed rows never reach the website |
+| 4 Release health | DELIVERED with one FAILED item | #746; 6 retirements; Universities payload regression left red (decision) |
+| 5 Guides and handoff | DELIVERED | `AER-ROLE-GUIDES.md`; developer guide §7.9 |
 
-**Counts (live, 18:30):**
-- Eligible courses: 4,156 AU + 421 NZ. AU was 4,977 at 14:45; the drop comes from identity mismatches after the coverage pipeline's re-binding (investigation item).
-- Course reads: 202 AU (184 review, 16 skipped, 3 failed).
-- Matrix rows: active 343 (RMIT only).
-- Balance: US$5.39 against the US$5 floor.
+**Next automatic action:** none. Every remaining item needs a human decision or review (handback §4). `cf247-zoho-dryrun` is identical to main (`5b8d7e49`).
 
 ## Log
 
+- 20:00 — v2.15.369 (#745) and Workstream 4 (#746) delivered; handback filed; programme report Part C added.
 - 18:35 — W27 and W28 delivered; guides merged; resolver/consumer reconciliation done; W29 verifying; eligible-count drop found and attributed to coverage re-binding.
 - 17:45 — Mandate 16:59 received. Paste found applied at 16:57 (verified live). Root cause found (job 39 full rebuild vs paste). W27 decision and reconciliation lodged (`84cd25ac`); fix proven locally and by live dry run. Lanes C, D, E and F launched.
 - 15:20 — Batch 4 settled (37 review, 10 skipped, 3 failed: answer cut off at about 8,000 characters, not retried). Balance US$5.40; course reading paused at the floor (a fifth batch could overrun). v2.15.368 (#741) and batch 4 (#742) delivered; `cf247-zoho-dryrun` = main; report Part B filed.

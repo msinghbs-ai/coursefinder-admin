@@ -2,7 +2,7 @@
 
 **Mandate:** Platform Admin, 29 Oct 2026 16:59 AEDT (Workstreams 0–5).
 **Read live from `fxcwkweaxjtknorudmwp`:** 17:00–18:00 AEDT. Every figure below was re-read at the time stated.
-**Not "AER complete".** Proposed rows await human review, eligible courses remain unread, source holds remain, course reading is stopped at the credit floor, and website rendering is the website team's.
+**Not "AER complete".** Proposed rows await human review, eligible courses remain unread, source holds remain, course reading is stopped at the credit floor, one deployed test is red (Universities payload regression, §6), and website rendering is the website team's.
 
 Companion files:
 - live status `2026-10-29-aer-live-status.md`;
@@ -71,6 +71,7 @@ Companion files:
    - whether AER Layer 4 decisions are Platform Admin only (the server lets Curators decide);
    - how printed requirements with no scale should be worded for the website.
 6. **Bulk re-reads:** whether `admin_entry_matrix_reread` (bulk, md5-pinned elsewhere) should also take only the newest copy.
+7. **Universities list paging** (§6): approve server-side paging so the deployed suite can return to green.
 
 ## 5. Findings and investigation items
 
@@ -80,11 +81,21 @@ Companion files:
    - 1,210 AU course pages are now "identity mismatch".
    - The `coverage-bind` job re-bound about 4,000 pages at 14:15–14:35 AEDT, 1,258 of them with no identity basis and 471 by title only.
    - The identity gate excludes these correctly. Whether the re-binding itself is right is for the coverage pipeline's owner to investigate. Not caused by today's releases.
-4. **Branches:** this session's proxy refuses ref deletion. Lane branches remain on GitHub (Pilot: `cf247-search-writer-lock`, `cf247-aer-reread-newest-copy`, `cf247-aer-reread-newest-copy-int`, `cf247-aer-course-sliced-read`, `cf247-aer-course-sliced-read-int`, plus Workstream 4's; admin: `aer-role-guides`). All are merged into main or superseded; deletion needs a session that can delete refs. `cf247-zoho-dryrun` is kept identical to main.
+4. **Branches:** this session's proxy refuses ref deletion. Lane branches remain on GitHub (Pilot: `cf247-search-writer-lock`, `cf247-aer-reread-newest-copy`, `cf247-aer-reread-newest-copy-int`, `cf247-aer-course-sliced-read`, `cf247-aer-course-sliced-read-int`, `cf247-deployed-suite-health`, `cf247-deployed-suite-health-int`; admin: `aer-role-guides`). All are merged into main or superseded; deletion needs a session that can delete refs. `cf247-zoho-dryrun` is kept identical to main.
 
 ## 6. Workstream 4 — release health
 
-In progress (lane E): classification of the 31 failing deployed specs and repair or formal retirement. This section is completed when the lane hands back.
+**DELIVERED (PR #746, `5b8d7e49`), with one FAILED item left red by rule.**
+
+- All 31 acceptance-tier failures were classified with evidence:
+  - most were obsolete or had drifted after the v2.15.225–v2.15.301 screen changes, and were repaired against the current screens without weakening assertions;
+  - a shared navigation-helper bug was fixed (it checked for the tab bar before it was drawn).
+- **6 tests retired** through the test-governance process; the retirement log is in `ui-audit/2026-10-26-test-governance.md` (`594115c6`). Deployed tests go from 97 to 89.
+- Local suite 1,199/0/0. The post-merge targeted Deployed UAT passed. `deployed-uat.yml` lists updated.
+- **FAILED — genuine product regression, left red (not weakened):** the Layer 2/3 › Universities read `admin_layer23('universities')` returns 1.97 MB against its 700 KB budget (about 3.2 s against 3 s). The spec had recorded server-side paging as later work once the list grew. The acceptance tier and the weekly deployed run stay red on this test until it is fixed.
+  - **Containment:** nothing changes on live; the screen still works, just heavily.
+  - **Decision:** approve server-side paging of the Universities list (UI plus server, non-AER).
+- **Intermittent database statement timeouts** on five admin reads (`course_coverage`, `admin_field_coverage`, `admin_platform_notices_read`, `admin_progress_read`, `pipeline_jobs_page`) make some deployed runs flaky. One was hit by a real operator at 17:12 AEDT. This is for investigation; no test was loosened.
 
 ## 7. Next governed actions
 

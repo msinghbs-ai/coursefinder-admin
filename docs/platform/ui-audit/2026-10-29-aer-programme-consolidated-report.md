@@ -25,6 +25,18 @@
 
 ---
 
+# Part C — Programme to governed completion (Platform Admin mandate 29 Oct 2026 16:59)
+
+The full handback is `2026-10-29-aer-governed-completion-handback.md`. In short:
+- the scholarship paste was applied (16:57) and verified;
+- the deadlock root cause is fixed (W27, #743);
+- Read again reads the newest copy only (W28, #744);
+- long course pages are read in slices (W29, #745, v2.15.369);
+- the resolver/consumer boundary is verified read-only;
+- the role guides are published;
+- the deployed suite is repaired with 6 retirements (#746); one regression is left red pending a decision;
+- course reading is still stopped at the credit floor.
+
 # Part B — Bug-fix and programme continuation (Platform Admin mandate 29 Oct 2026 12:23)
 
 Decision records lodged before code: admin `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` W19 (`362cefe5`) and addendum §6 W20–W26 (`2222b60f`).
