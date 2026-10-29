@@ -58,6 +58,16 @@ Each line below can be approved or declined on its own. **Nothing here has been 
 | **G3 / Website API v2** | Additive only: a new optional note value on the existing response. Rendering it is website-team work. |
 | **Decision** | Approve the wording / keep "contact the provider". |
 
+### A5. Bulk Read again on the newest copy only (no spend by itself)
+
+| | |
+|---|---|
+| **Today** | `public.admin_entry_matrix_reread` (bulk, SQL/RPC only, Platform Admin) re-queues every finished run of a source, including runs on older stored copies. 13 of 99 sources have older-copy runs that a bulk re-read would read again, so the AI is paid twice and two current items can result. |
+| **Proposed** | Apply W28's rule in bulk: only the newest copy's run is re-read, and older copies' pending items and rows are superseded. `held_unparsed` runs stay re-readable in bulk. Full specification: `2026-10-30-bulk-reread-newest-copy-spec.md`. |
+| **Md5 pin** | `security.governed_aer_close_snapshot_v1` pins the bulk function for the completed 27 Oct recovery. It already reports drift on three other functions. **Option A (recommended):** report the completed action as closed and keep the recorded md5s as history. **Option B:** re-pin. Either option needs a recorded approval line. |
+| **Effort** | One md5-guarded replacement, a snapshot edit, and a spec. About 4 hours, plus tests. |
+| **Decision** | Approve with Option A / Option B / decline. |
+
 ### Safe reviewer procedure until A1–A3 are decided
 
 The role guides (`../AER-ROLE-GUIDES.md` §5.6) give the detail.
