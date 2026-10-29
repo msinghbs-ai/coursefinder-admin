@@ -9583,3 +9583,18 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - `tools/concurrency/w27-search-writer-lock.sh` on a disposable local PostgreSQL 16 (local-only guard): before the fix, deadlock in all three cases (paste vs scheduled job, paste vs full rebuild, scoped writers with overlapping sets in opposing orders); after, none (job returns `held`; rebuild waits; scoped writers serialise).
   - Rolled-back live dry run: all three md5 guards matched, the DP020 scoped refresh ran, new md5s `fb55e935` / `402c1dae` / `6f3e46a7`.
 - **Specs:** s171 (new); s32, s42, s57 and s120 pass. Local suite 1,187 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — W28: Read again targets the newest stored copy (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 1 ("Correct Read again behaviour so it targets the newest stored source copy"). Decision W28 lodged before integration (`7af9067e`). Built by lane C on its own branch, integrated by the integrator.
+- **Defect.** `security.aer_reread_v1` handed a finished read to `public.admin_entry_matrix_reread(array[source])`, which re-queues every run of the source. So Read again on Otago Polytechnic (`d74fcba4`) re-read both stored copies and left two pending items (`f14ae480` stale, `81d14690` current).
+- **Migration `20261029120000`** (md5-guarded, live `7da10983`):
+  - Only the run on the source's current stored copy is read again.
+  - Older copies' runs keep their history. Their still-proposed rows and still-pending item are closed with the existing status `superseded`; decided items are untouched.
+  - No new status, action or setting. Gates and the consumer API unchanged. `admin_entry_matrix_reread` (md5-pinned elsewhere) is unchanged.
+- **Proof.**
+  - Lane C's local Postgres test: the live definition re-queued 2 runs, the new one 1.
+  - Rolled-back live dry run on `d74fcba4`: one run re-queued (`55ace659`, copy `370a12ce`), older run `0d4ca5a0` kept (done, history 1), 210 proposed rows and both items superseded. New md5 `26a70e31`.
+- **Not done:** the existing duplicate `f14ae480` is left for the Layer 4 reviewer; no Read again was run on live.
+- **Specs:** s169 (new, Otago two-copy fixture). Local suite 1,191 passed, 0 failed, 0 skipped. Register regenerated.
+- **Inventory (lane C, read-only):** 102 sources (66 in reading scope plus RMIT's 36). Otago Polytechnic is the only source with a pending item on an older copy. 11 others have two stored copies, none with a stale pending item. 12 sources are held for a reader change; 3 Macquarie PDFs have never been read.
