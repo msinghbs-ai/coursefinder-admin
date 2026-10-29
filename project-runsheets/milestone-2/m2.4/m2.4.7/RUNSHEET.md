@@ -9688,3 +9688,25 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Post-checks:** 3 runs and 3 course reads queued.
 - **Live dry run (rolled back):** all checks passed. Balance US$104.84, floor US$5, worker v0.54.1. As expected under W28, items `509c8f82` and `290bd250` were superseded by the newest-copy re-read.
 - **Outputs** go to Layer 4 for a person. Nothing is admitted automatically.
+
+### 30 Oct 2026 — AER paid step 1 verified (B1, B2) and step 3 queued (R1) (Platform Admin mandate 30 Oct 06:53)
+
+- **B1, done at 07:14 AEDT. Actual spend US$0.0155 against the US$0.05 ceiling.** Each read is on its newest copy with worker v0.54.1. Rows kept now against before:
+
+  | Source | Kept now | Kept before | Spend | New Layer 4 item |
+  |---|---|---|---|---|
+  | Melbourne India State Board | 9 of 9 | 1 | US$0.0050 | `dcf9300f` |
+  | ANU Bosnia-Herzegovina | 5 of 5 | 1 | US$0.0028 | `987dac71` |
+  | ANU Croatian Matura | 7 of 8 | 0 | US$0.0077 | `2b491c25` |
+
+  - All three new items are pending, with 21 rows proposed. Nothing was admitted.
+  - The partial items `509c8f82` and `290bd250` were superseded by the newest-copy re-read (W28).
+- **B2 held, with no spend.** The three Monash course pages hold 104,282, 108,295 and 100,365 characters of text. That is above `entry.course_page_chars` (100,000), so each read was held before any AI call (`held_partial`, cost recorded as US$0). Nothing was proposed.
+  - **Decision needed:** raise `entry.course_page_chars` to 115,000, which fits within 10 slices of 12,000 with overlap, then re-read the three courses (ceiling unchanged at US$0.10).
+- **R1, migration `20261030060000`:** recovery reads for the verified manifest.
+  - **A, 451 pages:** the same page, read again.
+  - **B, 263 pages:** the previous page restored as ambiguous and read again.
+  - A page becomes bound only when a fresh read finds the course's CRICOS code (`svc_coverage_read_record`, unchanged).
+  - **Not touched:** 73 past-year handbook pages (the holds stay), 3 refused pages and 32 others.
+  - **Ceiling:** one read attempt each (`read_attempts` set to 2), so at most 714 reads and at most 714 Firecrawl credits. No AI is called by a page read.
+  - **Live dry run (rolled back):** A 451, B 263, 714 due.
