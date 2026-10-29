@@ -1,6 +1,6 @@
 # Academic entry requirements (AER) — role guides
 
-> **Updated 30 Oct 2026 for v2.15.372:** Platform Admin decisions A1–A5. These cover Approve except, no bulk decisions on AER items, Platform Admin only for AER decisions, the no-scale wording, and bulk Read again on the newest copy.
+> **Updated 30 Oct 2026 for v2.15.374:** decision D4 (Approve except keeps an active row whose replacement is left out). **Earlier, for v2.15.372:** Platform Admin decisions A1–A5. These cover Approve except, no bulk decisions on AER items, Platform Admin only for AER decisions, the no-scale wording, and bulk Read again on the newest copy.
 
 **Version:** 1.0, 29 Oct 2026 (Pilot release v2.15.368 on `main`, Pilot commit `fabda0cb`).
 **For:** everyone who reads, corrects, reviews, re-reads or consumes academic entry requirement data.
@@ -328,16 +328,23 @@ The rules are in Pilot `CLAUDE.md` and `AGENT-OPERATING-MODEL.md`. In short, for
 
 The Inbox offers three choices on an AER item (Platform Admin only):
 - **Approve all rows:** every waiting row becomes active once the identity, completeness, scale and basis checks pass. The source's earlier active rows become `superseded` (W15, `security.entry_matrix_review_apply_v1`, `security.course_entry_review_apply_v1`).
-- **Approve except… (decision A1):**
-  - Tick the rows to leave out and give one reason. At least one row must be ticked and at least one must stay; if all would be ticked, use Reject.
-  - Ticked rows become `inactive`, with the reason "excluded by approve except (Layer 4 item …, reviewer …): …" and an exclusion record in the row's provenance. They show as "Excluded in Layer 4", stay unadmitted and are never re-read or superseded automatically.
-  - Every other row is admitted through the same checks as Approve.
-  - The decision and the event log keep the item, run, source, stored-copy hash and the excluded rows, so anyone can see exactly what was approved and what was left out.
+- **Approve except… (decisions A1 and D4, from v2.15.374):**
+  - **What you do:** tick the rows to leave out and give one reason. At least one row must be ticked and at least one must stay; if all would be ticked, use Reject.
+  - **Ticked rows** become `inactive`, with the reason "excluded by approve except (Layer 4 item …, reviewer …): …" and an exclusion record in the row's provenance. They show as "Excluded in Layer 4", stay unadmitted, and are never re-read or superseded automatically.
+  - **Every other row** is admitted through the same checks as Approve.
+  - **Rows the website shows today (D4):**
+    - An earlier active row from the same page is replaced only when you approve a new row with the same identity (provider, course, country, level, band and qualification).
+    - If you leave out its new reading, the earlier row **stays active and unchanged**.
+    - A row the new read does not carry at all also stays active.
+  - **What is recorded:** the excluded row records which active row it would have replaced. The decision's event log lists what was replaced and what was kept, together with the item, run, source, stored-copy hash and excluded rows. Anyone can see what was approved, what was left out and what stayed.
+  - **Held decisions:** the server holds the decision when two approved rows have the same identity, or when an approved row matches a row already active elsewhere for the provider. You see "Held (decision D4): … nothing was changed": nothing is admitted or changed, and the item stays pending. Tick the clashing row, Reject, or escalate for a re-read.
+  - **Course pages:** if the course already has active entry requirements, Approve except is held, because course rows cannot be matched one to one. Use Approve all rows if every row is right, or Reject the read.
 - **Reject the read:** no row is admitted; every waiting row becomes `inactive` with your reason.
 
 An AER item is never edited inline, and there is no generic bulk path. A complete read is always accounted for: every row it matched is either admitted or explicitly excluded.
 
-**Caution, provider-table change items (`entry_matrix_change`):** approving supersedes the source's earlier active rows, including the active row whose new reading you excluded. That country then has no active row until a later read. Until the Platform Admin decides otherwise, if the row you would exclude replaces an active row the website shows today, **Reject** the change item with the reason instead of excluding the row.
+**If the provider has removed a row from the page:** Approve except keeps the earlier active row. If the whole new read is right, use **Approve all rows**, which replaces every earlier row from that page. Otherwise, after the decision, withdraw the dropped row in Catalogue › Entry requirements with a reason (section 3.4).
+
 **Record:** `pipeline.layer4_decisions` (who, action, reason, before and final value); Layer 4 › Inbox › Decided shows it.
 
 ### 5.2 Checks before approving
@@ -355,7 +362,7 @@ Open the source and its stored copy (Evidence) beside the rows. For each row:
 | Completeness | Compare "kept · not kept". A large share not kept means the table was only partly read: do not approve as if complete |
 | Reviewer judgement | Generic notes (for example a minimum age) are not academic entry requirements by default; decide them, and exclude them if they are not |
 
-Approve all rows only when every row passes. If some rows fail, use **Approve except** and name why in the reason (observe the caution in 5.1 for change items). If the read is materially incomplete, Reject with the reason, or leave it and escalate for a re-read.
+Approve all rows only when every row passes. If some rows fail, use **Approve except** and name why in the reason. If the read is materially incomplete, Reject with the reason, or leave it and escalate for a re-read.
 
 **A printed grade with no stated scale (decision A4, Platform Admin 30 Oct 2026):**
 - The source prints a grade or number (for example "minimum 75") but states no grading scale on the page.
@@ -393,7 +400,7 @@ The pending queue is not a list of defects. On 30 Oct it held 515 items: 241 AER
 | **Held incomplete read** | It does not reach Layer 4. The AER workspace shows the course read as held partial, skipped or failed. | Nothing for the reviewer to do. A re-read needs the Platform Admin's approval of a spend line. |
 | **Awaiting another correction** | A tuition or official-URL item on a course that already has a newer active value (31 tuition and 22 URL items on 30 Oct) | Compare it with the current value. Decide it only once you know which is right. Do not approve over a newer value. |
 
-No group is cleared in bulk. Until the Platform Admin decides "approve except" (decision paper A1), reject an item whose rows are partly wrong, with the reason.
+No group is cleared in bulk. Use Approve except for an item whose rows are partly wrong (section 5.1); an active row whose replacement you leave out stays active (D4).
 
 ---
 
