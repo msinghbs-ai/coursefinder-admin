@@ -9844,3 +9844,33 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - D7: run the stuck-drafts paste.
   - D8: capacity proposals P1–P7.
   - D9: delete the 3 lane branches (blocked by the proxy).
+
+### 30 Oct 2026 09:20 AEDT — mandate 30 Oct 08:45: D7 executed, D9 blocked, D1 step 1 (settings and probe) about to merge
+
+- **Decisions recorded before code:** decision §11 (admin `73a71e5d`), with §11.1–11.3 for D4, D5 and D6 (admin `aef0490f`). The D4, D5 and D6 lanes are building.
+- **D7 executed, 08:50:59 AEDT.** The stuck-drafts paste ran unchanged as one transaction, after a rolled-back dry run of the same text.
+  - All preconditions held: 5 untouched capturing drafts, snapshot `b8e5c62a`, no active onboarding or autobuild, no earlier audit row.
+  - **Result:** 5 drafts went from `capturing` to `error`, each with one appended error entry. 1 audit row (`cf247-stuck-capturing-20261030`).
+  - Drafts still capturing overall: 24 → 19. The older 12 Oct drafts of the same providers were not touched.
+  - Vardhan's and AIBT's newest drafts are no longer capturing, so both are unblocked. Kulin already had a newer draft.
+  - Onboarding events on these drafts are unchanged (7). Nothing was captured or deleted, no course or provider row changed, and no cost.
+- **D9 BLOCKED.** Re-verified at 08:52:
+  - `cf247-enrich-reliability` (`739d7145`), `cf247-reader-answer-limits` (`0644db73`) and `cf247-universities-paging` (`f6bf116d`) are each 1 commit ahead and 13 behind main.
+  - Every line they add is in main, apart from integration renumbering and worker version labels (checked line by line).
+  - `cf247-zoho-dryrun` (`6ee5e8b1`) is 0 ahead, so it is an ancestor of main.
+  - The deletion was refused: `git push --delete` returned "remote end hung up", and the REST refs API returned HTTP 403 "Write access to this GitHub API path is not permitted through this proxy". Nothing else was deleted, and no history was rewritten.
+  - Operator action: `git push origin --delete cf247-enrich-reliability cf247-reader-answer-limits cf247-universities-paging cf247-zoho-dryrun`.
+- **D1 scope reconciled.**
+  - 48 courses have a long page as their newest held read: QUT 43, Monash 3, AUT 1, NorthTec 1. Handback 2 said "46" and named AUT for the 880,128-character page; both were errors.
+  - NorthTec stays held (over 205,000).
+  - **Unique D1 scope:** 47 held courses plus 137 never-read QUT courses = 184.
+- **D1 step 1** (migration `20261030220000`):
+  - **Settings:**
+    - `entry.course_page_chars` 100,000 → 205,000 (range maximum 150,000 → 250,000);
+    - `enrich.course_entry_max_slices` 10 → 19;
+    - `enrich.course_entry_slice_concurrency` 4 → 10 (D1 only).
+    - The values before are kept in the event.
+  - **Probe:** 5 courses (Monash 3, AUT 1, QUT 201,314 characters), 57 expected slices.
+  - **Checks:** each course eligible, bound to its newest stored copy, and with its newest read a held long page within 205,000.
+  - **Live dry run (rolled back):** 5 queued; estimate US$0.0843 (57 slices × measured US$0.00118 a slice × 1.25); balance US$101.28, floor US$5; settings applied as intended.
+  - **Pre-run estimate for the whole of D1:** about US$4.30 measured, US$5.40 with margin, against the US$6 ceiling.
