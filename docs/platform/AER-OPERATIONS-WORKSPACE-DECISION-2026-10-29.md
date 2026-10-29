@@ -322,3 +322,65 @@ Each decision below is an md5-guarded edit of a live definition. No decision wea
   - **Unchanged:** `admin_read` itself, permissions and the consumer API.
   - **Shipped:** W34 and W35 shipped together in v2.15.373 (#757; migrations `20261030190000` and `20261030200000`).
   - **Proof:** the weekly deployed run (`40956651633`, safe mode) passed 79 of 79 desktop and 80 of 80 phone tests, including the four tests left red at 01:00. No assertion, budget or timeout was changed.
+
+## 11. Addendum, 30 Oct 2026 08:45 (Platform Admin decisions D1–D9 and Layer 4 review enablement), recorded before code
+
+The Platform Admin's mandate of 30 Oct 2026 08:45 decides the open items in handback 2 §11. The rules are quoted in the mandate. This section records how each will be carried out. D4, D5 and D6 each get a detailed implementation entry below before their code is written.
+
+**Priority.** Layer 4 review enablement comes first. 1,014 AER items are waiting and no course-level row is admitted. No ingestion goes faster than review. Nothing is admitted automatically, and every gate stays: quote, identity, completeness, scale and basis, active-row, and Layer 4.
+
+**D1: long course pages (approved, hard AI ceiling US$6, which includes B2's unused US$0.10).**
+- **Scope reconciled live at 08:55 AEDT.** The newest item of 48 courses is held as a page longer than `entry.course_page_chars`: QUT 43 (173,314–201,314 characters), Monash 3 (B2, 100,365–108,295), AUT 1 (108,958) and NorthTec 1 (880,128).
+  - Handback 2 said "46" and called the 880,128-character page AUT. That was an arithmetic and attribution error: 43 + 3 + 2 is 48, and that page belongs to NorthTec.
+  - The NorthTec page stays over the new limit, so it stays held and is not re-read.
+  - Unique D1 scope: 47 held courses plus QUT's 137 never-read courses, so **184 courses**. No course appears in both sets.
+- **Settings, changed by migration with the reasons recorded:**
+  - `entry.course_page_chars` goes from 100,000 to 205,000. Its range maximum goes from 150,000 to 250,000.
+  - `enrich.course_entry_max_slices` goes from 10 to 19 (range 1–20). The measured slicer step is about 11,280 characters (slices of about 11,870 with an overlap of about 595), so 205,000 characters need 19 slices. That covers the whole page with no gap: the slicer's coverage check is unchanged.
+  - `enrich.course_entry_slice_concurrency` goes from 4 to 10 for D1 only, and back to 4 at close-out. This keeps a 19-slice read inside the worker's 110-second time budget. A read cut by the budget is held whole, with its cost recorded, under the existing W29 rule.
+- **How it runs.** Batches run one at a time, each through a migration that is first dry-run live and rolled back.
+  1. A probe of 5 courses (Monash 3, AUT 1, and the QUT page of 201,314 characters).
+  2. The other 42 held QUT courses.
+  3. QUT's 137 never-read courses, in batches of up to 50.
+- **Checks in each migration:**
+  - every course is still eligible and bound to its newest stored copy;
+  - no entry read is waiting;
+  - there is no duplicate item;
+  - AI is allowed;
+  - the worker is v0.54.x;
+  - the balance is above the floor by the estimate;
+  - D1 spend so far plus the estimate (measured cost a slice multiplied by the expected slices, plus 25%) stays within US$6.
+- **Pre-run estimate.**
+  - The measured cost of a slice over the last 2 days is US$0.0010–0.0013 on average, and US$0.0023 at most.
+  - 184 courses at about 18 slices and US$0.0013 a slice comes to about US$4.30, or US$5.40 with the 25% margin.
+  - The worst case at the highest cost a slice is about US$8. A batch that would pass the ceiling is refused, and D1 stops there.
+- **Stop rules.** A cut or incomplete slice holds the whole read, with its cost recorded, and no partial proposal is made. D1 stops on systemic source failure, repeated truncation, an identity anomaly, or unexpected cost.
+
+**D2: B5.** Prepared, not queued. Execution waits for: D1 reconciled; the actionable queue substantially reviewed; reviewer capacity quantified; and a single tranche approved.
+
+**D3: R1 leftovers.** Ceiling 35 Firecrawl credits, no AI. History is kept, and the identity rules are not weakened.
+- The 7 shown as still waiting were each found to have had their single attempt by 08:24 (they are among the 20 read-ambiguous pages). They are reconciled, not re-read.
+- The 6 needs-render pages get one rendered recovery attempt each.
+- The 4 fetch failures get one bounded retry each, if no attempt is still running.
+- **13 adapter-code proofs.** A page is restored only where existing adapter evidence independently proves the exact course under an approved, documented equivalence rule. The rule must already be in force for that provider, through `security.coverage_identity_allowed` and its adapter-code basis. Otherwise the page stays displaced and the evidence gap is listed.
+- The 2 blocked pages stay blocked.
+- The 3 identity mismatches are investigated read-only and left unbound.
+
+**D4, D5, D6.** Detailed implementation entries follow below, before code.
+- D5 changes the consumer API. Under G3 and the agent operating model, rule 9, it ships as the precedent `20261028005000` did: the migration carries the approval line, and the Platform Admin applies the paste before the PR merges.
+
+**D7: stuck drafts.** The paste `pastes/PASTE-20261030-stuck-adapter-drafts.sql` is run unchanged as one governed operator action.
+- All preconditions are refreshed immediately before.
+- A rolled-back dry run comes first.
+- It stops on any difference, without editing or splitting the paste.
+
+**D8.** Decision paper only: `ui-audit/2026-10-30-D8-capacity-decision-paper.md`.
+
+**D9.** Delete only `cf247-enrich-reliability`, `cf247-reader-answer-limits`, `cf247-universities-paging` and `cf247-zoho-dryrun`, after re-verifying them. If the proxy refuses, record BLOCKED with the evidence.
+- Because `cf247-zoho-dryrun` is deleted by this decision, one-off reads use a fresh branch from now on (operating model, rule 8), deleted where possible.
+
+**Layer 4 review enablement.**
+- A stable manifest, `ui-audit/2026-10-30-layer4-aer-review-manifest.md`, regenerated from live, grouped by provider, source and run.
+- Before and after reconciliation counts.
+- No item is decided by this session, and no bulk or auto approve is used.
+- Kimi Work's one-at-a-time decisions are neither duplicated nor touched.
