@@ -2188,3 +2188,16 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
   - **Paste lodged, NOT applied:** `docs/platform/pastes/PASTE-20261030-d5-scale-stated-marker.sql` (md5 `d159cfec`). Its live before-md5s still match (`be5478d0`, `492ece03`).
   - **Order:** the Platform Admin applies the paste, then the D5 PR merges (marker `20261030280000` re-runnable, workspace "Not stated on the page" `20261030290000`) as v2.15.375.
   - **Document drafts** are in `ui-audit/d5-drafts/`, to issue at go-live.
+
+### 30 Oct 2026 10:36 AEDT — v2.15.374 deployed run: s183 failed on a wrong premise; fix about to merge
+
+- **v2.15.374 is live** (#763, `a50aeb8d`). The live md5s match the dry runs: `db3fde75`, `ce8d0bad`, `629fcbda`, `8ad49afc`.
+- **Weekly safe run** `40971522020` (10:12–10:24): desktop 79 of 80, phone 80 of 81. The only failure, on both, was the new D6 deployed spec s183: "Platform Admin or Operator required", HTTP 403, where 200 was expected.
+- **Cause:** the deployed UAT login (`25269f74`) is a Pipeline Operator (rank 4), not the Platform Admin. D6 refused it correctly, as intended. The spec's premise was wrong.
+- **Fix** (branch `cf247-s183-fix`): s183 reads the session's own rank (`admin_read('context')`).
+  - Below rank 5, it requires exactly 403 / 42501 / "Platform Admin or Operator required".
+  - At rank 5 or above, it requires 200 `[]`.
+  - This proves "signed in, unauthorised" over the live API. "Authorised" stays proven by s181 and the dry run.
+  - No other assertion changed, and no timeout or skip was added.
+- **Local suite:** 1,266 passed, 0 failed, 0 skipped. Register regenerated with the guard text updated.
+- **Every other deployed test passed,** including the four former reds.
