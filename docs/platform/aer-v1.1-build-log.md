@@ -1735,3 +1735,17 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **No migration.** The four sources are re-read once each in programme batch 3 (migration `20261029090000`, next PR), only after this worker is deployed and verified. Batch 3's rolled-back live dry run passed: four Read again actions accepted, superseding the v0.51.0 items (Federation 47 rows, Otago Polytechnic 71, Wollongong 175, UWA 50; none approved); one Monash course batch of 50, estimated US$0.43; balance US$6.54, floor US$5.
 - **Batch 2 outcome (#737).** All 13 Read again actions finished, costing US$0.064 in total. ANU: 8 pages kept 11 or 12 rows each (was 1); the Croatian Matura page kept 0 of 8 (header and row quoted together, a form v0.52.0 now accepts). Melbourne: 2 pages kept 9 each; India State Board kept 1 of 8 (each row quote ran into the footnote). UTS kept 41 of 46. ANU Croatian Matura and Melbourne India State Board have used their one approved attempt and are held "re-read required" in the manifest. They are not retried.
 - **Specs:** s159 (12 tests, stored-page fixtures for Otago Polytechnic, Wollongong and UWA, plus title and Federation PDF cases); m245 updated. Local suite 1,178 passed, 0 failed, 0 skipped (shared test lock). Register regenerated (326 specs, 1,274 tests).
+
+### 29 Oct 2026 — AER programme batch 3: four corrected sources read once on v0.52.0, one course batch (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B1 (re-read each corrected source once through the governed mechanism) and B3 (course batches within the existing headroom).
+- **v2.15.367 delivered** (#739, `1a84e1a1`). Five deploy workflows passed. The deployed `coverage-sweep` (version 223) is `coverage-sweep-worker-v0.52.0`; `index.ts`, `entry.ts` and `pdf.ts` are byte-identical to main.
+- **Migration `20261029090000`:**
+  - Exactly four named sources (Federation PDF, Otago Polytechnic, Wollongong, UWA), one `security.aer_reread_v1` each. A refusal is recorded and not retried.
+  - One `security.course_entry_batch_v1` (refused inside the function below the floor).
+  - Logged as `programme_batch`. Nothing approved, dropped or deleted.
+- **Rolled-back live dry run passed:**
+  - All four accepted. Each supersedes its v0.51.0 item (rows 47, 71, 175 and 50; proposed only, never approved).
+  - Monash batch of 50 accepted, estimate US$0.43.
+- **Balance rechecked just before merge:** US$6.54, floor US$5 (unchanged), measured US$0.00858 a course.
+- **Specs:** s166. Local suite 1,180 passed, 0 failed, 0 skipped. Register regenerated.
