@@ -9451,3 +9451,20 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - the OpenRouter top-up or spend decision for about US$45 of course reads;
   - a New Zealand identity rule for course reads;
   - branch deletion.
+
+### 29 Oct 2026 — programme batch 2 (Pilot PR #737, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B2 and B3; decision addendum W25 (`2222b60f`).
+- **Migration `20261029050000`:**
+  - the 13 approved Read again actions, one governed attempt each through `security.aer_reread_v1`: ANU ×9 read again; Melbourne ×3 and UTS fetched again as HTML;
+  - one course batch through `security.course_entry_batch_v1` (next by priority), which the function refuses below the credit floor;
+  - DP020 read once through `course_entry_read_enqueue_v1`, for the A3 verification.
+- **Rolled-back live dry run:**
+  - all 13 accepted: 9 re-reads (1 row and 1 item superseded each), 4 refetches (15, 9, 9 and 40 rows; 1 item each);
+  - batch: 50 Monash courses, estimated US$0.44;
+  - DP020 read queued.
+- **Balance before:** US$7.05, floor US$5, measured US$0.0089 a course.
+- **Spec s165.** Local suite 1,144 passed, 0 failed, 0 skipped (under the shared test lock). Register regenerated.
+- **Also lodged:**
+  - **A3:** migration `20261029060000` (W19), dry run passed. 92 of 2,535 RMIT pairs changed their explanation and 0 changed their rule. It ships with the UI release.
+  - **B4:** NZ migration `20261029080000`, dry run passed: NZ eligible 421, weak 0, AU 4,977 unchanged.
