@@ -9513,3 +9513,22 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - matrix reads: 112 runs, about US$1.70.
 - Live check: `security.entry_resolve_v1` for course 0100714 (BH126) and IN returns step 5 ("the course page prints no band"). The RMIT India Bachelor 65 % band rows are active (AISSC 65 %, ISC 65 %, State Boards 70 %).
 - Finding: the quarterly edition check of decision 8 (`entry-matrix-edition-check`, `entry.edition_check_days`) is not scheduled; there is no such job or setting live. It is listed as plan item 7 in the design.
+
+### 29 Oct 2026 — W27: one writer lock for search documents (scholarship paste deadlock), Pilot PR to follow, written before merge
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 0. Decision W27 and the reconciliation report were lodged before code (`84cd25ac`; `docs/platform/ui-audit/2026-10-29-scholarship-deadlock-reconciliation.md`).
+- **Reconciliation.**
+  - The paste's first run deadlocked at 16:26 and rolled back in full.
+  - Its second run committed at 16:57; the editor's "Failed to fetch" was the dashboard connection dropping after commit.
+  - Live: 0 field-only links to non-research courses remain on applied scholarships (was 8,042). The 4 not-applicable scholarships keep 383 links (block C untouched). Hand links: 0. 2,605 search documents regenerated; DP020 shows 4 undergraduate/pathway scholarships.
+  - The paste must not be run again: its precondition now reads 208.
+- **Root cause.** The competing writer was job 39 `search-refresh-requested` → `search.refresh_course_documents_v3(true)`, a full rebuild (76 s), not Layer 4 review. No writer of `search.course_documents` coordinated with another, and each locked rows in plan order. Row ordering inside each call cannot help a transaction that refreshes 214 sets in turn.
+- **Migration `20261029110000`** (md5-guarded):
+  - `search.refresh_course_enrichment_scoped_v1` (`52bff5be`) and `search.refresh_course_documents_v3` (`40dc6d97`) wait for one transaction-scoped advisory lock (`-- fixed:`, G2).
+  - `security.search_refresh_requested_v1` (`bb78c854`) only tries it and returns `held` (requests kept for the next run).
+  - The scoped refresh locks its documents in ascending `course_id`.
+  - No value, consumer API (G3), scholarship rule, admission gate or Layer 4 change. Nothing dropped.
+- **Proof.**
+  - `tools/concurrency/w27-search-writer-lock.sh` on a disposable local PostgreSQL 16 (local-only guard): before the fix, deadlock in all three cases (paste vs scheduled job, paste vs full rebuild, scoped writers with overlapping sets in opposing orders); after, none (job returns `held`; rebuild waits; scoped writers serialise).
+  - Rolled-back live dry run: all three md5 guards matched, the DP020 scoped refresh ran, new md5s `fb55e935` / `402c1dae` / `6f3e46a7`.
+- **Specs:** s171 (new); s32, s42, s57 and s120 pass. Local suite 1,187 passed, 0 failed, 0 skipped. Register regenerated.
