@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.13 (29 Oct 2026, platform release v2.15.363)
+**Version:** 1.14 (29 Oct 2026, platform release v2.15.368)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -43,11 +43,16 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 - **Drawer:**
   - Pills and fact cards: the course code with its kind (CRICOS course code, program code, StudySearch code), tuition used and its source, CRICOS cost, intakes, English, campuses, last checked.
   - Course editor: page, title, duration, delivery, description, tuition, intakes, English, finder address; reason; release lock; archive/restore.
-  - Scholarships for the course; "Check scholarships for this course" (task).
+  - Evidence and history (v2.15.366; rank ≥3): the button at the top right opens one overlay (full screen on a phone) with the course's timeline. The blade no longer embeds "What happened to this course"; a line in the blade points to the button.
+    - The timeline covers page discovery and reads, page changes, AI matches and fills, admissions and refusals, the fee reader, cross-checks, edits by a person, entry requirement reads and scholarship links. Each entry shows its date, outcome, source and evidence; filters by kind; newest first.
+    - Structured values are told in words, for example "4 rows for review, 2 not kept" (v2.15.368).
+    - Close with the button or Escape; focus returns to the evidence button.
+  - Scholarships for the course (shown again since v2.15.366); an empty list says why and offers "Check scholarships for this course" (task).
   - Academic entry requirements (v2.15.361, Track C Step B):
     - the course's own requirement rows, all statuses, with quote, source, as-at date and audience;
     - the last read and what it did not keep;
     - the resolution for a chosen country of prior education (course rule → course row for the country → course band → provider minimum → contact the provider; case by case kept);
+    - countries offered India, Nepal, Singapore first, then A to Z (v2.15.366; the same order in every Entry requirements country selector); the choice is remembered; a change only asks the resolver, never starts a read; the selector wraps inside its card on a phone (v2.15.368);
     - Platform Admin: "Read from the stored page" (reason; one course; the rows wait in Layer 4 as Course entry first read).
     - Read only; since v2.15.363 "Open in Entry requirements" and "Inspect resolution" open the workspace (Catalogue › Entry requirements), where rows are managed.
   - "More about this course" fold: Layer 4 correction and publishing decision, insights, additional information.
@@ -373,6 +378,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
 | 1.11 | 28 Oct 2026 | v2.15.361: Academic entry requirements in the Provider drawer and the Course detail blade (Track C Step B). |
 | 1.12 | 29 Oct 2026 | v2.15.362: Provider drawer › Academic entry requirements › Sources and reads (AER programme). |
+| 1.14 | 29 Oct 2026 | v2.15.366–v2.15.368: Course detail evidence and history overlay (blade history removed), course scholarships back with an explained empty state, priority country order, phone row drawer and notice fixes, evidence values in words, country selector fits a phone. |
 | 1.13 | 29 Oct 2026 | v2.15.363: Catalogue › Entry requirements (AER operations workspace): four tabs, summary, filters, Columns, Edit in list, Add requirement, lifecycle, history, Read again, Resolution inspection; drawer sections become shortcuts. |
 | 1.9 | 14 Oct 2026 | v2.15.271: course code column and StudySearch codes; Scholarship search flag on Providers and in the provider panel. |
 | 1.8 | 14 Oct 2026 | v2.15.270: section 7, drop-down options by country; region, delivery and country fixes. |
