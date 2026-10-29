@@ -1749,3 +1749,23 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - Monash batch of 50 accepted, estimate US$0.43.
 - **Balance rechecked just before merge:** US$6.54, floor US$5 (unchanged), measured US$0.00858 a course.
 - **Specs:** s166. Local suite 1,180 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — v2.15.368: live acceptance on real data, two display defects fixed, phone gate on targeted deployed runs (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, section C (deployed acceptance with real data) and A1/A4/A5.
+- **Live tour** (UI review screenshots, `SCREENS=aer-tour`, read-only, extended to DP020 Course detail at desktop and phone width and the phone drawer close; snapshot `20261029-0307-run50`). Results on real data:
+  - DP020 countries ordered India, Nepal, Singapore, then A to Z.
+  - India: rule 5, "a band table exists, the course page prints no band".
+  - 6 scholarships; evidence overlay with 24 timeline entries across 7 kinds; closed with Escape.
+  - Phone drawer opens and closes; low-credit notice text starts inside the screen (no sideways scroll).
+  - 0 console errors, 0 horizontal page scroll, largest list read 100, 0 writes.
+- **Defects found by the tour and fixed** (display only, no data affected):
+  - (1) The evidence timeline showed "Value: [object Object]" for a structured field fill (entry requirements). `CourseAudit.jsx` `fillValue` now tells it in words ("4 rows for review, 2 not kept"); cross-check values likewise.
+  - (2) At phone width a long country name pushed the Course detail country selector past its card. `EntryRequirements.jsx` scopes a wrapping layout to that one control; the shared `.sd-actions` style is untouched.
+  - Regression specs: s161 (structured value) and s163 (phone fit, long-name fixture). Both fail without the fix.
+- **Deployed acceptance spec s167** (`@deployed`, read-only, runs targeted on deploy and in the acceptance tier). It covers DP020 at desktop and phone width (order, India through the resolver only, scholarships, overlay, no "[object Object]", selector inside its card) and the phone row drawer opening and closing, the banner, bounded reads and 0 console errors.
+- **Deployed UAT workflow:** a targeted run whose spec holds phone checks (`@responsive`) now also runs the phone project. Before, the phone gate ran only in the wider tiers.
+- **Proved on live before merge** (branch dispatch, live-acting off): desktop 2/2, phone 2/2. The two new defect assertions are proved by the post-merge targeted run against the deployed release.
+- **Finding, reported, not fixed here:** the acceptance tier has 31 failing legacy deployed specs (a12, a13, a15, admin navigation, m2-3, data quality, layer 2 provider, course-detail polish, CF-061). They assert navigation and screens since changed. The weekly deployed run on main was already failing on 26 Oct. This is a G4 gap for a Platform Admin decision (repair or retire).
+- **Finding (Read again):** `aer_reread_v1` re-read both stored copies of the Otago Polytechnic page, leaving two pending items for one source. The older (`f14ae480`) is marked stale in the manifest; about US$0.09 extra.
+- **Specs:** s167 new; s161 and s163 extended; m245 updated. Local suite 1,182 passed, 0 failed, 0 skipped. Register regenerated.
