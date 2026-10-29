@@ -180,3 +180,11 @@
     - the full suite;
     - deployed-source md5 after merge.
   - The scholarship paste is already applied and verified (16:57), so no reapplication is prepared.
+- **W28 (Workstream 1). Read again targets the newest stored copy.**
+  - Authority: mandate 29 Oct 2026 16:59: "Correct Read again behaviour so it targets the newest stored source copy. A re-read must not create duplicate current review items."
+  - `security.aer_reread_v1` reads again only the run on the source's current stored copy (`entry_matrix_sources.content_hash`, falling back to the latest run).
+  - Runs on older stored copies are not re-queued and keep their history. Their still-proposed rows and still-pending Layer 4 item are closed with the existing status `superseded`; decided items and their rows are not touched.
+  - No new status, action or setting; quote, identity, completeness and admission gates unchanged.
+  - `public.admin_entry_matrix_reread` (bulk, md5-pinned by `governed_aer_close_snapshot_v1`) is unchanged; whether bulk re-reads should also take only the newest copy is a separate question (open).
+  - The existing duplicate Otago Polytechnic item `f14ae480` is left for the Layer 4 reviewer (reject as stale); it is not closed by this change.
+  - Verified by: the s169 contract (Otago two-copy fixture), a local Postgres test of the live definition before and after, a rolled-back live dry run on d74fcba4 (exactly one run re-queued), the full suite, and deployed md5.
