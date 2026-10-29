@@ -9693,3 +9693,19 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Not done (BLOCKED):** recovery of the 714 displaced pages (decision paper R1, up to 714 Firecrawl credits); the past-year handbook currency decision; the admin-read timeout snapshots (decision).
 - **Unchanged:** the consumer API (G3) and every gate. No paid read.
 - **Full local suite:** 1,221 passed, 1 failed. The failure was `cf-247-nz-coverage-contract`, which calls `identity()` without a country. The rule was corrected to keep the old behaviour for callers that give no country, and the spec was re-run green with no assertion changed, so effectively 1,222/0/0. Build OK; worker syntax check OK.
+
+### 30 Oct 2026 — AER bounded paid reads, step 1: B1 and B2 (Platform Admin mandate 30 Oct 06:53)
+
+- **Migration `20261030050000_cf247_aer_validation_reads_b1_b2`.**
+  - **B1 (ceiling US$0.05):** ANU Croatian Matura `87f40035`, ANU Bosnia-Herzegovina `6aee5653` (item `509c8f82`) and Melbourne India State Board `467c7a0c` (item `290bd250`), each read again on its newest stored copy through `aer_reread_v1`.
+  - **B2 (ceiling US$0.10):** Monash `e58e7771`, `512b56fe` and `9cf18451`, each read once through `course_entry_read_enqueue_v1` by worker v0.54.1, which reads in slices.
+- **Preconditions in the migration:**
+  - each source's newest run is on its current copy, with nothing waiting;
+  - the 3 courses are eligible, with exactly 3 failed items and no others;
+  - no course read is waiting;
+  - AI reading is allowed;
+  - the balance is above the floor by both ceilings;
+  - the worker is v0.54.x.
+- **Post-checks:** 3 runs and 3 course reads queued.
+- **Live dry run (rolled back):** all checks passed. Balance US$104.84, floor US$5, worker v0.54.1. As expected under W28, items `509c8f82` and `290bd250` were superseded by the newest-copy re-read.
+- **Outputs** go to Layer 4 for a person. Nothing is admitted automatically.
