@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.14 (29 Oct 2026, platform release v2.15.368)
+**Version:** 1.15 (30 Oct 2026, platform release v2.15.371)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -217,6 +217,7 @@ Academic entry requirements as a managed data module (decision record `AER-OPERA
   - **First and only action: Close the AER PR A recovery.** It shows the six runs' outcomes and costs, the proposed, active and quarantined counts, the reading scope now and after, and the pages left as they are.
 - **Adapters** (rank 4, `AdaptersWorkspace.jsx`):
   - List filters and bulk actions: Qualify, Admit, switch on/off, read cycle, read again.
+  - The list reads one page at a time (v2.15.371, W33; page size setting `layer23.universities_page_size`). Filters, name search and name order apply to the whole list on the server. **Show more** reads the next page; "N shown of M" and the adapter tally count every matching university. **Tick every row shown** ticks every matching row, up to `layer23.universities_tick_max`. A `?provider=` link opens that university directly.
   - Open row:
     - Coverage tiles.
     - Switch, Qualify and Admit; build and test (editor).
@@ -378,6 +379,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
 | 1.11 | 28 Oct 2026 | v2.15.361: Academic entry requirements in the Provider drawer and the Course detail blade (Track C Step B). |
 | 1.12 | 29 Oct 2026 | v2.15.362: Provider drawer › Academic entry requirements › Sources and reads (AER programme). |
+| 1.15 | 30 Oct 2026 | v2.15.371: Layer 2/3 › Universities reads one page at a time with server-side filters, search and order (Show more; Tick every row shown ticks every match). v2.15.370 had no screen change. |
 | 1.14 | 29 Oct 2026 | v2.15.366–v2.15.368: Course detail evidence and history overlay (blade history removed), course scholarships back with an explained empty state, priority country order, phone row drawer and notice fixes, evidence values in words, country selector fits a phone. |
 | 1.13 | 29 Oct 2026 | v2.15.363: Catalogue › Entry requirements (AER operations workspace): four tabs, summary, filters, Columns, Edit in list, Add requirement, lifecycle, history, Read again, Resolution inspection; drawer sections become shortcuts. |
 | 1.9 | 14 Oct 2026 | v2.15.271: course code column and StudySearch codes; Scholarship search flag on Providers and in the provider panel. |
