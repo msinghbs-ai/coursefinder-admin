@@ -6,28 +6,255 @@
 
 **Decision records:** `ENTRY-REQUIREMENTS-PROGRAMME-DECISION-2026-10-28.md` and `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md`. Both were lodged before code. The build-order authority is `ENTRY-REQUIREMENTS-IMPLEMENTATION.md`.
 
-**Written:** 29 Oct 2026, about 09:50 AEDT. Live figures were read from `fxcwkweaxjtknorudmwp` between 21:00 and 22:50 UTC on 28 Oct.
+- Platform Admin, 29 Oct 2026 09:57: "Continue the full AER programme — consolidated authority and remaining delivery". This is the latest authority, reported in **Part A**.
+
+**Updated:** 29 Oct 2026, about 12:00 AEDT. Live figures in Part A were read from `fxcwkweaxjtknorudmwp` between 11:30 and 11:50 AEDT.
+- Part A is the latest state.
+- Parts 1 to 6 below are the 09:50 report, kept as written; where they differ, Part A supersedes them.
+- The Layer 4 manifest is in `2026-10-29-aer-layer4-manifest.md`.
 
 ## Status in plain words
 
-- **The workspace is built, tested, deployed and verified.** Catalogue › Entry requirements is release v2.15.363.
-  - Operators can filter, inspect, correct, add, withdraw, quarantine, restore, re-read (Platform Admin) and resolve academic entry requirements.
-  - Every change is governed, audited and visible in the row's history.
-- **Readers built and live:**
-  - Step A HTML reader, with its corrections;
-  - Step B PDF route (column-fidelity proof, fails closed);
-  - Step C rendered read.
-- **Sources:** 34 providers have official sources: 33 in reading scope, plus RMIT (outside matrix reading scope).
-- **Admitted rows:** only RMIT's (343 active). 776 rows from 23 providers are proposed and wait in Layer 4.
-  - Nothing proposed reaches the website or Zoho. This was verified on the consumer payload.
-- **This is not "AER complete":**
-  - The Platform Admin's Layer 4 decisions are open.
-  - Eight sources are held for named reasons.
-  - Two settings changes are parked because their dry runs were declined at the approval prompt.
-  - Course-level reading has covered one course.
-- **Website display:** the website team has not built it, so it is not claimed.
+- **This is not "AER complete".**
+  - 1,786 provider rows (26 providers) and 200 course rows wait in Layer 4.
+  - Course-level reading has covered 50 of 4,977 eligible Australian courses (plus BH126).
+  - 15 sources are held for named reasons.
+  - The website display is the website team's work and is not built.
+- **What reaches the website and Zoho:** only RMIT's 343 active matrix rows, unchanged; for India, 33 rows. No course row is active.
+- **Delivered since 09:57:**
+  - the approved reader settings and HTML refetch (v2.15.364);
+  - the ten re-reads, all finished, with the rows kept rising from 169 to 1,179;
+  - the course-level programme, its first batch of 50 Monash courses, and Course-level reading in the workspace;
+  - the Step C no-table Layer 4 note;
+  - live read-only screenshots of the workspace at desktop and phone width, with two layout defects found and fixed (v2.15.365);
+  - the reconciled Layer 4 manifest;
+  - branch checks.
 
 ---
+
+# Part A — Continued programme (Platform Admin decision 29 Oct 2026 09:57)
+
+## A1. Settings migration and deployment evidence
+
+- **Release:** v2.15.364 (Pilot #734, merge `60d2be1b`). The decision addendum W12a, W17 and W18 was recorded before code (`fb77a43d`).
+- **Migration `20261029020000`** (history md5 `7ae33c61` equals the file):
+  - `entry.matrix_slice_concurrency` 6 (new) and `entry.matrix_slice_chars` 8,000;
+  - `svc_entry_matrix_next` passes the concurrency (live before `dc1bab7a`, after `3eb6ca3b`);
+  - Read again moves into `security.aer_reread_v1` (owner only) and fetches a markdown-stored web page again as HTML.
+- **Migration `20261029030000`** (md5 `ac325995` equals the file): the course-level programme and the Step C note. Every existing function it edits was md5-guarded against live:
+  - `admin_aer` `bc7fe780` after `020000`, as computed beforehand;
+  - `svc_entry_matrix_record` `15fb11f8`;
+  - `entry_matrix_review_apply_v1` `f1152d19`.
+- **Rolled-back live dry runs before merge:**
+  - **Settings:** the values took effect.
+  - **Read again:**
+    - Curator refused;
+    - Wintec fetched again as HTML (13 rows and 1 item superseded);
+    - the same source a second time refused;
+    - a failed read re-queued;
+    - a done read re-read.
+  - **Programme:** 4,977 eligible courses, read in 2.9 s. Curator batch refused; preview 50 courses at US$0.25; a Platform Admin batch of 3 queued 3 items; a second batch refused while the first waits.
+  - **Notes:** three notes opened; approving one admitted 0 and superseded 0.
+  - **Consumer:** RMIT 343 unchanged.
+- **Approval prompt:** the first three attempts at these dry runs were cancelled at the approval prompt. With "DRY RUN" made explicit, the next ones ran; nothing was retried blind.
+- **Local suite:** 1,139 passed, 0 failed, 0 skipped.
+- **Deployed:** Deploy on merge, Release History Contract, Deployed UAT (targeted), Release Currentness Deployed and Frontend Build all succeeded. The live pill reads v2.15.364.
+
+## A2. The ten authorised re-reads (one governed attempt each)
+
+- **Mechanism:** migration `20261029040000` (Pilot #735, merge `3b98257a`, md5 `02a434be` equals the file), approved as one bounded batch. It used the same mechanism as Read again; the actor was the Platform Admin.
+- **Rolled-back dry run:** all ten were accepted.
+- **Earlier partial reads were superseded, never approved:** 33 rows from 3 items by re-read, and 136 rows from 4 items by refetch.
+- **Every read finished at its first governed attempt.** Western Sydney used two worker tries: the first stopped on the time budget, which the existing rule allows.
+
+| Source | Before | Now (pending in Layer 4) | Not kept, by reason | New cost | Item |
+|---|---|---|---|---|---|
+| Western Sydney (PDF) | 13 kept, 65 not | **367** kept in 12 slices, 64 countries | 16 grade not in quote, 7 unknown country, 2 quote not on page | US$0.159 | `763ece39` |
+| Victoria University (PDF) | failed (cut reply) | **147** kept in 5 slices, 24 countries | 5 unknown country, 1 grade not in quote | US$0.040 | `71f21b77` |
+| Wollongong | failed (time budget) | **175** kept in 9 slices, 43 countries | 75 quote not on page, 12 unknown country, 4 band, 4 low confidence, 1 value | US$0.074 | `50b5cbf6` |
+| Manukau (MIT) | failed (cut reply) | **68** kept, 41 countries | 4 grade, 2 value without scale, 2 unknown country | US$0.019 | `040d7b41` |
+| UWA | 9 kept, 68 not | **50** kept, 9 countries | 101 band not in quote, 27 quote not on page, 8 value | US$0.037 | `c70b3d2a` |
+| Federation (PDF) | 11 kept | **47** kept, 41 countries | 28 quote not on page, 3 grade, 2 missing, 2 value without scale | US$0.022 | `381f479f` |
+| Wintec (HTML refetch) | 13 kept, 47 not (markdown) | **135** kept, 46 countries | 15 quote not on page, 3 grade, 3 unknown country, 2 low confidence, 1 value | US$0.039 | `f7c76d5d` |
+| Otago Polytechnic (HTML refetch) | 18 kept, 39 not | **71** kept, 40 countries | 45 quote not on page, 11 grade, 4 unknown country, 2 value | US$0.037 | `5e40fcd8` |
+| Lincoln (HTML refetch) | 63 kept, 23 not | **71** kept, 40 countries | 5 unknown country, 2 low confidence, 1 band, 1 value | US$0.021 | `e960bd2b` |
+| NMIT (HTML refetch) | 42 kept, 12 not | **48** kept, 25 countries | 2 unknown country | US$0.014 | `cdb8ec0f` |
+
+- **Total re-read cost:** about US$0.46.
+- **Completeness:**
+  - **Complete for review:** Western Sydney, Victoria University, Manukau, Wintec, Lincoln and NMIT.
+  - **Still not complete, for named source reasons:** Federation, Wollongong, Otago Polytechnic and UWA. Their dropped rows are quotes the gate could not find on the stored copy, or bands not printed in the quote. They are held, not approved.
+  - **Federation** stays unapproved as decided.
+  - **Western Sydney** is complete but stays unapproved until a person confirms its source-anchored checks.
+  - No further retry was made. A structure-driven reader correction for the UWA band column and the Federation and Otago Polytechnic quote matching is open programme work. It is not a Platform Admin click.
+
+## A3. Course-level rollout (W17)
+
+- **Scope.** The approved plan's Australian providers, in the setting's priority order: Monash and QUT first, because they publish requirements only on course pages; then RMIT, for its band ladder; then the plan's other Australian providers.
+- **Eligible courses:** an active course, a bound stored official page, and a strong identity proof.
+- **New Zealand courses are not eligible.** `entry.course_read_countries` is AU, and New Zealand has no identity proof rule for entry requirements yet. That is a separate decision; see A6.
+
+| Provider | Eligible | Read | Waiting in Layer 4 (courses · rows) | Admitted | No row kept | Remaining |
+|---|---|---|---|---|---|---|
+| Monash University | 356 | 50 | 48 · 197 | 0 | 2 (the page does not state it) | 306 |
+| Queensland University of Technology | 184 | 0 | 0 | 0 | 0 | 184 |
+| RMIT University | 334 | 1 (BH126) | 1 · 3 | 0 | 0 | 333 |
+| UNSW Sydney | 430 | 0 | 0 | 0 | 0 | 430 |
+| Flinders University | 351 | 0 | 0 | 0 | 0 | 351 |
+| Australian National University | 349 | 0 | 0 | 0 | 0 | 349 |
+| The University of Queensland | 314 | 0 | 0 | 0 | 0 | 314 |
+| The University of Melbourne | 312 | 0 | 0 | 0 | 0 | 312 |
+| University of Technology Sydney | 294 | 0 | 0 | 0 | 0 | 294 |
+| The University of Western Australia | 279 | 0 | 0 | 0 | 0 | 279 |
+| Curtin University | 276 | 0 | 0 | 0 | 0 | 276 |
+| Western Sydney University | 247 | 0 | 0 | 0 | 0 | 247 |
+| Griffith University | 242 | 0 | 0 | 0 | 0 | 242 |
+| Adelaide University | 234 | 0 | 0 | 0 | 0 | 234 |
+| University of Wollongong | 195 | 0 | 0 | 0 | 0 | 195 |
+| The University of Newcastle | 189 | 0 | 0 | 0 | 0 | 189 |
+| Swinburne University of Technology | 188 | 0 | 0 | 0 | 0 | 188 |
+| Victoria University | 108 | 0 | 0 | 0 | 0 | 108 |
+| Macquarie University | 78 | 0 | 0 | 0 | 0 | 78 |
+| The University of Sydney | 9 | 0 | 0 | 0 | 0 | 9 |
+| Federation University Australia | 8 | 0 | 0 | 0 | 0 | 8 |
+| **Total** | **4,977** | **51** | **49 · 200** | **0** | **2** | **4,926** |
+
+- **Measured cost:** the first batch cost US$0.45 for 50 courses, about US$0.009 a course. The setting's estimate was US$0.005; the measured average replaces it after 20 reads.
+- **Finishing the remaining 4,926 courses** would cost about **US$45**.
+- **This is the one spending-limit decision genuinely required.** The OpenRouter balance is US$7.37 against its US$5 floor, about US$2.37 of headroom shared with every other AI use.
+  - The remaining batches are bounded and ready. Each is 50 courses at about US$0.45, through Preview next batch, then Read next batch (Platform Admin) in Course entry requirements › Course-level reading.
+  - They wait on a top-up, or on a Platform Admin decision to spend the headroom.
+- **What the Monash rows look like:**
+  - domestic ATARs with their printed basis (for example "2027 intake ATAR 77.5");
+  - Monash pathway scores (Foundation Year 76.25%, Diploma Part 2 70%);
+  - prior-qualification rules.
+  - Some general notes (minimum age 17) are not academic entry requirements. The manifest asks reviewers to reject those.
+  - No row infers international applicability, and there are no English-test rows.
+
+## A4. Rendered no-table Layer 4 behaviour (W18)
+
+- **A rendered page with no row** now opens one Layer 4 note in the existing vocabulary (`entry_matrix_first_run`, pending, no rows). Approving it confirms "no matrix published here", and the website says "contact the provider". It admits, quarantines and supersedes nothing (verified in the dry run).
+- **The three existing reads got their notes:**
+  - Griffith `a0e19f74`;
+  - Newcastle `5aa58072`;
+  - Victoria University of Wellington `f6941f3d`.
+- **The workspace shows the two states apart, in words:** "Rendered, no table: in Layer 4" while the note waits, and "No matrix published (confirmed)" once it is approved.
+- **Reviewers note:** Griffith and Victoria University of Wellington each had 4 rows not kept as unknown countries. Check the page before confirming.
+
+## A5. Live read-only visual acceptance
+
+- **How it was captured:**
+  - the existing UAT identity (role Pipeline Operator) and the existing UI review screenshots workflow, with a new read-only tour (`tools/ui-review/aer-tour.mjs`, `screens: aer-tour`);
+  - the live-acting switch was off, and no live row was edited;
+  - run 48 (29 Oct, 11:22 AEDT) is in `assets/2026-10-29-aer-workspace-live/`, with the tour's own `manifest.json`.
+- **Screens captured:**
+
+  | Screen | File |
+  |---|---|
+  | Provider matrix, all | `aer-01` |
+  | RMIT + India (33 rows, three chips) | `aer-02` |
+  | Columns menu | `aer-03` |
+  | Row drawer: quote, source, stored copy, run and model, Layer 4 approved, history | `aer-04` |
+  | Waiting in Layer 4 filter | `aer-05` |
+  | Course entry requirements with the live Monash rows | `aer-06` |
+  | Course-level reading panel on live counts | `aer-06b` |
+  | Course drawer | `aer-07` |
+  | Sources, reads and holds | `aer-08`, `aer-08b` |
+  | Resolution inspection: BH126 for India, rule 5 "Used" with why rules 1 to 4 did not apply | `aer-09` |
+  | Phone width (390 px): matrix, course, sources and resolution | `aer-10` to `aer-13` |
+
+- **Checks on every screen:**
+  - no page-level sideways scroll;
+  - no clipped element found by the tour's check;
+  - no console error;
+  - 33 `admin_aer` calls, every list at most 50 rows a page, and 0 writes.
+- **What looking at them found** (not caught by the automatic check):
+  1. On Sources, the "Rendered, no table: in Layer 4" pill and the Cost value ("US$0…") were cut at their column edges. Fixed in v2.15.365 (Pilot #736): the pill wraps in its cell and both columns are wider; s156 guards it.
+  2. On a phone, the shell's OpenRouter low-credit banner clips its first letter ("penRouter"). This is the shared shell notice, not the AER workspace. It is recorded for the shell owner and not changed here.
+  3. The phone drawer step did not open a row in run 48 (a tap on the sticky first column). The tour now taps a middle cell. The desktop drawer was captured live, and the phone drawer is covered by the mocked `@responsive` test s153.
+  4. A Firecrawl-fallback HTML page (AUT, Lincoln) is labelled "Rendered page" in the Source type line. The label is cosmetic; the read route is correct.
+- **Compared with Scholarships**, the screens use the same shell, filter bar, chips, table, drawer and pills.
+
+## A6. Layer 4: reconciled manifest and the remaining human decisions
+
+**106 pending AER items:** 57 provider entry matrix items and 49 course items. Each is classified once in `2026-10-29-aer-layer4-manifest.md`, with ids, providers, rows kept and not kept, reasons, class and links.
+
+| Class | Items |
+|---|---|
+| Complete: ready for review | 33 matrix (Western Sydney included, which stays unapproved until confirmed) + 48 Monash courses |
+| Governed decision | BH126 `cf71cca1` (approve except `dab50fa7`), and the 4 RMIT change items (37 rows) |
+| Note | 3 rendered no-table notes |
+| Held for a named source reason | Federation (stays unapproved), Wollongong, Otago Polytechnic and UWA |
+| Partial: Read again first | 9 ANU items; 4 markdown-read items (Melbourne ×3, UTS) to Read again as HTML |
+| Superseded by a newer read | 21 matrix items, closed today |
+| Duplicate or stale | none |
+
+Nothing was approved by SQL or by bulk, and reader completeness was never treated as admission.
+
+**The exact remaining human decisions (Platform Admin):**
+1. **Layer 4:**
+   - BH126 `cf71cca1`;
+   - the 4 RMIT change items;
+   - the 33 complete matrix items and 48 Monash course items;
+   - the 3 notes.
+2. **Read again in the workspace (13 clicks):** the 9 partial ANU items, plus Melbourne ×3 and UTS (now fetched as HTML).
+3. **The OpenRouter top-up or spend decision** for the remaining 4,926 courses (about US$45; A3). Then each batch is Preview next batch, then Read next batch.
+4. **Course reading in New Zealand:** whether to add an identity proof rule for entry requirements there.
+5. **Branch deletion** (A10).
+
+## A7. Live totals and what reaches the website and Zoho
+
+| Measure | Now (11:45 AEDT) | At 09:50 |
+|---|---|---|
+| Provider matrix rows active | 343 (RMIT) | 343 |
+| Proposed (waiting in Layer 4) | 1,786 (26 providers) | 776 (23) |
+| Quarantined | 20 | 20 |
+| Superseded | 340 | 171 |
+| Course rows proposed | 200 (49 courses) | 3 |
+| Course rows active | 0 | 0 |
+| Sources | 102 (0 never read) | 102 |
+| Held or failed sources | 15 | 22 |
+| AI spend: matrix reads / course reads | US$1.44 / US$0.46 | US$0.98 / US$0.007 |
+| OpenRouter balance | US$7.37 (floor US$5) | US$8.04 |
+
+- **Website and Zoho:** `website_v2_provider` for RMIT returns 343 `entry_matrix` rows, and 33 for India; `website_v2_course('0100714','IN')` returns rule 5, contact the provider.
+- **Nothing proposed reaches either consumer.** The consumer API is unchanged since #720 (G3), and the developer pack (issue 5) needs no reissue because no new data has been admitted.
+
+## A8. Provider-by-provider coverage of the plan
+
+| Outcome | Providers |
+|---|---|
+| **Admitted (reaches the website)** | RMIT (343 rows; 37 changed rows await their governed decision) |
+| **Awaiting review: complete read** | Adelaide, Ara, AUT, ANU (partly), Curtin, Flinders, Lincoln, Manukau, Unitec, Massey, NMIT, SIT, Swinburne, Otago, Waikato, Victoria University, Wintec, Western Sydney (confirm before approving), Whitireia/WelTec, Monash (course level, 48 courses) |
+| **Awaiting review: held for named reasons** | Federation, Wollongong, Otago Polytechnic, UWA |
+| **Awaiting a re-read first** | Melbourne (markdown copy), UTS (markdown copy), ANU (9 early pages) |
+| **Fail-closed PDF holds (unchanged)** | UQ, UNSW, Sydney, Auckland ×2. Each has its named column-fidelity reason; no structure-driven correction proves their cells yet |
+| **External source constraints (not coverage)** | Macquarie ×3 (HTTP 403 to a direct read); ANU listing pages 2–4 (robots.txt) |
+| **Rendered, no table (note in Layer 4)** | Griffith, Newcastle, Victoria University of Wellington |
+| **Genuine no-publication outcomes (contact the provider)** | QUT and Monash (no matrix: course pages only, now read at course level), Canterbury (checker app), EIT, NorthTec (course pages or prospectus only), UCOL (site refused), Toi Ohomai (English-only extract) |
+
+## A9. Full-suite, dry-run, md5, deployment and release evidence
+
+| PR | Merge | What | Migration md5 = file | Suite | Deploy |
+|---|---|---|---|---|---|
+| #734 | `60d2be1b` | v2.15.364 | `7ae33c61`, `ac325995` | 1,139 passed, 0 failed, 0 skipped | Deploy, Release History, Deployed UAT, Release Currentness and Frontend Build all succeeded |
+| #735 | `3b98257a` | programme batch | `02a434be` | 1,141 passed, 0 failed, 0 skipped | Deploy, Deployed UAT and Frontend Build succeeded |
+| #736 | see the build log | v2.15.365 pill and cost width; aer-tour | — | see the build log | see the build log |
+
+- Each change had its rolled-back live dry run, its live md5 check before edits, change control written to all five files before merge (verified by a fresh clone), and the register regenerated.
+
+## A10. Branch cleanup
+
+- **Checked:** all 19 merged `cf247-aer-*` and `cf247-track-c-step-b-*` branches were compared with their PR's merge commit, and none has a file that did not land.
+- **Deletion was attempted once** (`cf247-aer-workspace-uat`) by git push and by the API. Both were refused by this session's proxy ("Write access to this GitHub API path is not permitted"). That is recorded once and not retried.
+- **For the Platform Admin to delete:**
+  - the 19 branches;
+  - `cf247-aer-programme-continue`, `cf247-aer-programme-batch` and `cf247-aer-visual-tour` once #736 merges.
+- **`cf247-zoho-dryrun`** was fast-forwarded to `main` and is kept as the designated scratch branch.
+
+---
+
+# Parts 1 to 6 — report as at 09:50 AEDT (kept as written)
 
 ## 1. AER operations workspace (mandate 29 Oct 08:06)
 
