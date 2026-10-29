@@ -9394,3 +9394,16 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Rendered no-table notes:** three are open in Layer 4 (pending): Griffith, Newcastle, and Victoria University of Wellington.
 - **Consumer API:** RMIT `entry_matrix` 343, unchanged.
 - **Next step:** the approved programme batch migration `20261029040000`. Its rolled-back dry run passed: all ten sources accepted (4 HTML refetches, 3 failed reads re-queued, 3 done reads re-read with 46 rows and 3 items superseded), and the first course batch of 50 Monash courses at an estimated US$0.25.
+
+### 29 Oct 2026 — approved AER programme batch (Pilot PR #735, written before merge)
+
+- **Authority.** Platform Admin decision 29 Oct 2026 09:57, items 2 and 3.
+- **Migration `20261029040000`.** It reads exactly the ten named sources (count-guarded), one governed attempt each, through `security.aer_reread_v1`, the same mechanism as Read again. A refusal is recorded and not retried. It then queues one bounded course batch through `security.course_entry_batch_v1`. Actor: the Platform Admin. It logs `admin_control_events` `programme_batch`.
+- **Rolled-back live dry run:**
+  - HTML refetch: Lincoln (63 rows, 1 item superseded), NMIT (42, 1), Otago Polytechnic (18, 1), Wintec (13, 1);
+  - re-read with 33 rows and 3 items superseded: Federation 11, UWA 9, Western Sydney PDF 13;
+  - re-queued failed reads: Victoria University, Manukau, Wollongong;
+  - course batch: 50 Monash courses, estimated US$0.25.
+  - **Correction** to the #734 live entry: the re-read rows superseded are 33, not 46.
+- **Earlier partial reads.** Federation and Western Sydney are superseded, not approved. Their replacement reads go to Layer 4 and stay unapproved until a complete read passes its source-anchored checks.
+- **Spec s157.** Local suite: 1,141 passed, 0 failed, 0 skipped. Register `b4227bb6`.
