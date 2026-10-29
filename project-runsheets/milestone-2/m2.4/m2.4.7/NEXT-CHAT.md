@@ -9385,3 +9385,20 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Layer 4 manifest** (`2026-10-29-aer-layer4-manifest.md`): 106 pending items, each classified once.
 - **#736:** v2.15.365. s156 extended. Local suite 1,142 passed, 0 failed, 0 skipped; register regenerated.
 - **Branches:** the 19 merged branches are verified landed. One deletion was refused by the proxy, recorded once. `cf247-zoho-dryrun` was fast-forwarded to main.
+
+### 29 Oct 2026 — v2.15.365 live (#736, merge `869a4953`); programme report Part A filed
+
+- **#736 deploy:** Release Currentness, Release History, Deployed UAT and Frontend Build all succeeded.
+- **Live tour run 49 (from `main`):** 13 screens, no sideways scroll, no clipping, no console error, 33 bounded `admin_aer` reads and 0 writes.
+  - The live phone drawer is still not captured. A mocked Pixel 7 probe opens it, so this is recorded as open work, not accepted.
+- **Report:** `docs/platform/ui-audit/2026-10-29-aer-programme-consolidated-report.md` Part A (A1–A10). Manifest: `2026-10-29-aer-layer4-manifest.md` (106 pending items, each classified once).
+- **Branches:**
+  - `cf247-zoho-dryrun` is identical to main (`869a4953`).
+  - Deleting the merged branches stays a Platform Admin action (proxy refusal, recorded once).
+- **Not claimed:** AER complete; website display; course-level rollout complete; any proposed row as admitted.
+- **Remaining Platform Admin decisions** (report A6):
+  - the Layer 4 items;
+  - 13 Read again clicks;
+  - the OpenRouter top-up or spend decision for about US$45 of course reads;
+  - a New Zealand identity rule for course reads;
+  - branch deletion.
