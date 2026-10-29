@@ -9933,3 +9933,33 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - D1 step 1 was applied at 08:57:15.
 - D3 was queued at 09:06:22.
 - No content or count changed.
+
+### 30 Oct 2026 10:10 AEDT — v2.15.374 (D4 supersede rule, D6 role check) about to merge; D5 paste lodged
+
+- **v2.15.374** (branch `cf247-v374-int`):
+  - **D4** (`20261030260000`): md5-guarded edits of three functions.
+
+    | Function | md5 before | md5 after |
+    |---|---|---|
+    | `entry_matrix_review_apply_v1` | `7c718987` | `db3fde75` |
+    | `course_entry_review_apply_v1` | `25899209` | `ce8d0bad` |
+    | `layer4_inbox_kinds_v1` | `08e7999c` | `629fcbda` |
+
+    Spec s180 has 10 tests, including mixed approve and exclude groups.
+  - **D6** (`20261030270000`): `admin_adapter_measures` role check uses the A5 pattern with rank 5 (md5 `b1417eaf` → `8ad49afc`). Spec s181 (contract) and s183 (deployed, reads only).
+  - **Live md5s re-checked just before the merge:** all four still have their before values.
+  - **D4 live dry run (lane, rolled back):**
+    - an excluded replacement leaves the active row unchanged and linked;
+    - an approved replacement supersedes the old row, which records what replaced it;
+    - C1 and C2 hold the decision with nothing changed;
+    - on a course page that already has active rows, Approve except is held.
+  - **D6 live dry run (rolled back):**
+    - allowed: owner session, Platform Admin, rank 5;
+    - refused with 42501: anon, curator, rank 4, service_role with no user.
+  - **Local suite:** 1,266 passed, 0 failed, 0 skipped. Register regenerated.
+  - **Reviewer guide** §5.1, §5.2 and §5.6 updated for D4 (admin `eadcee43`).
+- **D5:**
+  - Built (branch `cf247-d5-lane`, commit `3b8ec042`): suite 1,257/0/0, rolled-back dry run with every earlier key byte-identical.
+  - **Paste lodged, NOT applied:** `docs/platform/pastes/PASTE-20261030-d5-scale-stated-marker.sql` (md5 `d159cfec`). Its live before-md5s still match (`be5478d0`, `492ece03`).
+  - **Order:** the Platform Admin applies the paste, then the D5 PR merges (marker `20261030280000` re-runnable, workspace "Not stated on the page" `20261030290000`) as v2.15.375.
+  - **Document drafts** are in `ui-audit/d5-drafts/`, to issue at go-live.
