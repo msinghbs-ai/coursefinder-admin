@@ -146,7 +146,8 @@
 - **How it was captured:**
   - the existing UAT identity (role Pipeline Operator) and the existing UI review screenshots workflow, with a new read-only tour (`tools/ui-review/aer-tour.mjs`, `screens: aer-tour`);
   - the live-acting switch was off, and no live row was edited;
-  - run 48 (29 Oct, 11:22 AEDT) is in `assets/2026-10-29-aer-workspace-live/`, with the tour's own `manifest.json`.
+  - run 48 (29 Oct, 11:22 AEDT) is in `assets/2026-10-29-aer-workspace-live/`, with the tour's own `manifest.json`;
+  - run 49 (11:50 AEDT, from `main` with v2.15.365 live) repeated it: 13 screens, no sideways scroll, no clipping, no console error, 33 bounded reads and 0 writes; it is kept on the `ui-review-snapshots` branch, folder `20261029-0050-run49`.
 - **Screens captured:**
 
   | Screen | File |
@@ -171,7 +172,10 @@
 - **What looking at them found** (not caught by the automatic check):
   1. On Sources, the "Rendered, no table: in Layer 4" pill and the Cost value ("US$0…") were cut at their column edges. Fixed in v2.15.365 (Pilot #736): the pill wraps in its cell and both columns are wider; s156 guards it.
   2. On a phone, the shell's OpenRouter low-credit banner clips its first letter ("penRouter"). This is the shared shell notice, not the AER workspace. It is recorded for the shell owner and not changed here.
-  3. The phone drawer step did not open a row in run 48 (a tap on the sticky first column). The tour now taps a middle cell. The desktop drawer was captured live, and the phone drawer is covered by the mocked `@responsive` test s153.
+  3. The live phone tour did not open a row's drawer, in run 48 or in run 49 (a middle-cell tap, run from `main` after v2.15.365).
+     - A probe of the same tap at Pixel 7 width against the mock harness opens the drawer with its quote.
+     - The desktop drawer was captured live.
+     - So the live phone drawer is **not** visually accepted. The gap is either the tour's tap target or a live-only phone behaviour, and it is open work, not claimed.
   4. A Firecrawl-fallback HTML page (AUT, Lincoln) is labelled "Rendered page" in the Source type line. The label is cosmetic; the read route is correct.
 - **Compared with Scholarships**, the screens use the same shell, filter bar, chips, table, drawer and pills.
 
@@ -239,7 +243,7 @@ Nothing was approved by SQL or by bulk, and reader completeness was never treate
 |---|---|---|---|---|---|
 | #734 | `60d2be1b` | v2.15.364 | `7ae33c61`, `ac325995` | 1,139 passed, 0 failed, 0 skipped | Deploy, Release History, Deployed UAT, Release Currentness and Frontend Build all succeeded |
 | #735 | `3b98257a` | programme batch | `02a434be` | 1,141 passed, 0 failed, 0 skipped | Deploy, Deployed UAT and Frontend Build succeeded |
-| #736 | see the build log | v2.15.365 pill and cost width; aer-tour | — | see the build log | see the build log |
+| #736 | `869a4953` | v2.15.365 pill and cost width; aer-tour | — | 1,142 passed, 0 failed, 0 skipped | Release Currentness, Release History, Deployed UAT and Frontend Build all succeeded |
 
 - Each change had its rolled-back live dry run, its live md5 check before edits, change control written to all five files before merge (verified by a fresh clone), and the register regenerated.
 
@@ -249,7 +253,7 @@ Nothing was approved by SQL or by bulk, and reader completeness was never treate
 - **Deletion was attempted once** (`cf247-aer-workspace-uat`) by git push and by the API. Both were refused by this session's proxy ("Write access to this GitHub API path is not permitted"). That is recorded once and not retried.
 - **For the Platform Admin to delete:**
   - the 19 branches;
-  - `cf247-aer-programme-continue`, `cf247-aer-programme-batch` and `cf247-aer-visual-tour` once #736 merges.
+  - `cf247-aer-programme-continue`, `cf247-aer-programme-batch` and `cf247-aer-visual-tour` (all merged; verify-landed check as above).
 - **`cf247-zoho-dryrun`** was fast-forwarded to `main` and is kept as the designated scratch branch.
 
 ---
