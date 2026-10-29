@@ -9544,3 +9544,12 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Finding, reported, not fixed here:** the acceptance tier has 31 failing legacy deployed specs (a12, a13, a15, admin navigation, m2-3, data quality, layer 2 provider, course-detail polish, CF-061). They assert navigation and screens since changed. The weekly deployed run on main was already failing on 26 Oct. This is a G4 gap for a Platform Admin decision (repair or retire).
 - **Finding (Read again):** `aer_reread_v1` re-read both stored copies of the Otago Polytechnic page, leaving two pending items for one source. The older (`f14ae480`) is marked stale in the manifest; about US$0.09 extra.
 - **Specs:** s167 new; s161 and s163 extended; m245 updated. Local suite 1,182 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — AER course-level programme batch 4 (Pilot PR to follow, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, B3 (course batches within the existing headroom; the floor is not changed).
+- **v2.15.368 delivered** (#741, `6602d09e`). Release History, Release Currentness, Frontend Build and Deployed UAT passed. The post-merge targeted Deployed UAT ran s167 on the deployed release: desktop 2/2 and phone 2/2. That run includes the two defect checks (no "[object Object]"; country selector inside its card).
+- **Migration `20261029100000`:** one `security.course_entry_batch_v1`, refused inside the function below the floor, a refusal recorded and not retried; logged as `programme_batch`. Nothing read again, approved, dropped or deleted.
+- **Rolled-back live dry run passed:** 50 Monash courses, estimate US$0.43.
+- **Balance rechecked just before merge:** US$5.76, floor US$5 (unchanged), measured US$0.00859 a course. After this batch the headroom is under one batch, so course reading pauses at the floor (B3).
+- **Specs:** s168. Local suite 1,183 passed, 0 failed, 0 skipped. Register regenerated.
