@@ -29,12 +29,12 @@ For a new workstation, an untested browser connection, or any previous zero-deci
 
 ## Qualify the write path by kind
 
-Use this bounded workflow before broader automation on a new or previously unsuccessful setup.
+Use this bounded workflow before broader automation on a new or previously unsuccessful setup. Qualification proves UI submission and the selected kind's action route; it does not prove every Layer 4 action route. When later work enters a different kind, verify its first decision before continuing.
 
 1. Open **By kind** and select one existing kind with pending items and stored evidence suitable for conservative decisions. Prefer a fee-cross-check item that supports keeping the registered total, or a held-scholarship item that supports **Not for international students** or **Not a scholarship**.
 2. For qualification, do not choose official course-page replacement, archive, provider-departure/ownership, conjoint/no-page, central-page or adapter decisions.
 3. Review no more than the 10 oldest items in that kind and submit no more than five decisions. Process no other kind and no provider-wide or full-queue scan.
-4. For the first eligible item, state its stable review-item id, subject/provider, intended existing UI choice and evidence basis. Submit that one decision with the batch id and evidence basis in its reason; do not merely recommend it.
+4. For the first eligible item, state its stable UI item/ref id (the review-item UUID where applicable, otherwise the numeric or other kind-specific ref), subject/provider, intended existing UI choice and evidence basis. Submit that one decision with the batch id and evidence basis in its reason; do not merely recommend it.
 5. Verify through the current By kind queue and lightweight items view that the decision saved and the item left **Waiting for a person**. Refresh once if needed. Do not open the failing **Decided** view or use SQL.
 6. If the first result is uncertain, the item remains waiting, or the UI/network fails, stop and report the exact last screen/error. Verify whether the original action succeeded before any retry.
 7. Only after that first verified decision, process up to four additional eligible items in the same kind, verifying each individually. Leave inadequate or conflicting items pending with stable item id, blocker, owner and next action.
@@ -50,7 +50,7 @@ Use this bounded workflow before broader automation on a new or previously unsuc
    - Submit the supported decision; do not stop at a proposed-action summary.
    - Record a concise reason containing the batch id and evidence basis.
    - Verify the decision through the current queue and lightweight universities/items views, confirming that the item leaves **Waiting for a person**. Do not open the failing **Decided** view.
-4. Checkpoint after every provider: pending before/after, submitted decision count, stable review-item ids, outcomes, admitted values, archives, rebuilds, exceptions and elapsed time. The existing audit trail is the decision store; keep one consolidated batch narrative rather than a chat per provider.
+4. Checkpoint after every provider: pending before/after, submitted decision count, stable UI item/ref ids, outcomes, admitted values, archives, rebuilds, exceptions and elapsed time. Inbox decisions are recorded in `pipeline.admin_control_events`; routed review items can also have `pipeline.layer4_decisions` rows. Do not expect every kind in both ledgers or count both as separate decisions. Keep one consolidated batch narrative rather than a chat per provider.
 5. Refresh once after a provider reaches zero. Treat subsequently appearing items as new work, not failed decisions.
 6. Reconcile a newly raised item once when the same evidence and rule still apply. If the same issue re-raises again, leave it pending, record a re-raise defect and move on. Never enter a keep/rebuild loop.
 7. Retry a transient UI or database timeout once with backoff and verify the result before retrying. Stop the whole batch after repeated shared timeouts or evidence that writes are unreliable.
@@ -78,7 +78,7 @@ Use this bounded workflow before broader automation on a new or previously unsuc
 Return one table by provider or qualified kind and totals by category:
 
 - pending before/after and decisions actually submitted and verified by existing outcome;
-- stable review-item ids and evidence basis for each decision;
+- stable UI item/ref ids and evidence basis for each decision, plus ledger event/decision ids when available;
 - scholarships, pages, fees or other values actually admitted;
 - courses archived and adapter rebuilds queued;
 - new/re-raised items and remaining exceptions by cause;
