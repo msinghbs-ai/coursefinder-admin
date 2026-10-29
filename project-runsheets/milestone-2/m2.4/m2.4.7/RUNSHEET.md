@@ -9827,7 +9827,7 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Deployed weekly run** `40956651633` (safe mode, 08:18–08:30): **success**.
   - Desktop 79 of 79, phone 80 of 80.
   - The four tests left red at 01:00 pass at the first attempt: core workspaces budgets, Scheduler and Jobs, and field coverage. No assertion, budget or timeout was changed.
-  - One unrelated desktop flake (`cf-061` QUT row locator) passed on retry.
+  - One unrelated desktop flake (`cf-061` QILT course-row locator) passed on retry.
 - **Health:**
   - Source finder: no time-out since about 00:00.
   - Course list read: median 0.04 s.
