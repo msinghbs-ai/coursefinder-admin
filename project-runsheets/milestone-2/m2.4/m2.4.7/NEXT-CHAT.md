@@ -9600,3 +9600,24 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - full local suite 1,211 passed, 1 failed: the s173 version pin, fixed in `9c79fc2e` and re-run green, so effectively 1,212/0/0;
   - build OK; worker syntax check OK; TEST-REGISTER regenerated.
 - **Unchanged:** the consumer API (G3), identity, quote, completeness and admission gates, and the floor. No paid read.
+
+### 30 Oct 2026 — v2.15.371: W31 site re-maps keep code-proved course pages; W33 Universities list paging (mandate 30 Oct 00:01, Workstreams 3 and 4)
+
+- **Decisions:** W31 and W33 were lodged before code (`AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` §8, admin `cb1974b9`).
+- **W31 cause:** on 29 Oct the routine 30-day re-map and job 47 demoted or replaced 789 AU code-proved pages, 714 of them wrongly (eligible AU 4,977 → 4,156). No weak page became eligible.
+- **Migration `20261030030000_cf247_coverage_bind_code_proof`:** an md5-guarded edit of `security.coverage_bind_v2` (was `bc1872ed`).
+  - A page read with a `cricos_code`, `nzqa_code`, `adapter_code` or `manual` proof is never re-scored, demoted or released unless refused.
+  - The release step releases only binder-owned rows.
+- **Worker `coverage-sweep-worker-v0.54.1`:** in `extract.ts`, the labelled NZQA number rule no longer applies to a page of another known country (it still applies to NZ pages and to callers that give no country). College of the North Atlantic (CA) had 53 pages labelled `nzqa_code`.
+- **Migration `20261030040000_cf247_universities_paging`:**
+  - `admin_layer23('universities_page')` is added beside the existing actions (md5 guard `aaf0e7d8`);
+  - settings `layer23.universities_page_size` (100) and `layer23.universities_tick_max` (2,000);
+  - `AdaptersWorkspace.jsx` reads pages.
+  - The old `'universities'` action is kept until the screen is live, then retired by a later md5-guarded edit.
+- **Rolled-back live dry runs:**
+  - W31 on 9 providers: 0 of 1,230 code-proved pages changed (10 other rows rebound normally);
+  - W33: first page 83 KB in 1.0 s (was 1.97 MB); NZ ticks 404 rows.
+- **Tests:** s174 (W33) and s175 (W31) are new; the performance spec waits for either action, with its budgets unchanged. UI catalogue 1.15; TEST-REGISTER regenerated.
+- **Not done (BLOCKED):** recovery of the 714 displaced pages (decision paper R1, up to 714 Firecrawl credits); the past-year handbook currency decision; the admin-read timeout snapshots (decision).
+- **Unchanged:** the consumer API (G3) and every gate. No paid read.
+- **Full local suite:** 1,221 passed, 1 failed. The failure was `cf-247-nz-coverage-contract`, which calls `identity()` without a country. The rule was corrected to keep the old behaviour for callers that give no country, and the spec was re-run green with no assertion changed, so effectively 1,222/0/0. Build OK; worker syntax check OK.
