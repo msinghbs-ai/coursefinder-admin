@@ -107,7 +107,7 @@
 | Monash University (batches 1–3) | 145 | 582 | 746 |
 | RMIT University (DP020 and two earlier reads) | 3 | 7 | 4 |
 
-Not kept across all course reads: quote_not_on_page 286, over_row_limit 238 (rows beyond the per-course limit), score_without_basis 214, others 12.
+Not kept across all course reads: quote_not_on_page 286, over_row_limit 238 (rows beyond the per-course limit), score_without_basis 214, others 8.
 
 **Reviewer-judgement notes (mandate B3: flag, do not auto-publish or auto-reject).** 589 course rows are proposed: 323 minimum grade, 139 prior qualification, 62 subject prerequisite, 46 general note and 19 portfolio or interview.
 - **Age rules:** 18 proposed rows repeat Monash's university-wide age rule ("At the time of enrolment in a course at Monash University, you must be at least 17 years of age"), or one course's 18-years rule (`ab822c0f`).
