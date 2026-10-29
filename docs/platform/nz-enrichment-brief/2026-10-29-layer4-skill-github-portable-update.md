@@ -1,22 +1,22 @@
 # Layer 4 Skill — GitHub source and portable Kimi Work update
 
-Date: 29 October 2026  
+Date: 29 October 2026; updated 30 October 2026  
 Scope: Skill documentation/package update only. No Layer 4 decisions, catalogue writes or platform code changes performed.
 
-## Completed
+## Canonical source
 
-The `cf-layer4-triage` / **Layer-4-Review** Skill now has canonical source in GitHub:
+The `cf-layer4-triage` / **Layer-4-Review** Skill source lives in GitHub:
 
-- `docs/platform/skills/cf-layer4-triage/SKILL.md` — commit `ce4c9ca23fafae2ebcfb5602143d2c644f0e5a36`
-- `docs/platform/skills/cf-layer4-triage/references/action-playbook.md` — commit `deac07374c58a3c3453419f4e3b776807f7282fc`
+- `docs/platform/skills/cf-layer4-triage/SKILL.md` — latest audit/ref correction commit `47153f2504a68add6affffb70bdf2bfeba41ad47`
+- `docs/platform/skills/cf-layer4-triage/references/action-playbook.md`
 
-The existing run/export guide was updated rather than leaving a conflicting full-queue-only SOP:
+The existing run/export guide is updated rather than leaving a conflicting full-queue-only SOP:
 
-- `docs/platform/nz-enrichment-brief/2026-10-28-layer4-skill-run-and-export.md` — commit `55ce7d2b7086ac5f7f546171d8f023f9a36686a4`
+- `docs/platform/nz-enrichment-brief/2026-10-28-layer4-skill-run-and-export.md`
 
-## New reusable behaviour
+## Reusable behaviour
 
-The Skill now supports:
+The Skill supports:
 
 ```text
 layer4-by-kind-qualify
@@ -29,9 +29,19 @@ On a new workstation, untested connection or previous zero-decision/uncertain ba
 - requires the first actual UI decision to be submitted and verified before continuing;
 - permits up to four more individually evidenced decisions only after that verification;
 - stops on uncertain writes, remaining queue items or UI/network failure;
-- reports actual decisions and stable review-item ids, never snapshots or proposed actions as progress.
+- reports actual decisions and stable UI item/ref ids, never snapshots or proposed actions as progress.
 
-The provider workflow now also explicitly requires supported decisions rather than proposed-action summaries, prohibits broad By kind snapshots from substituting for provider checkpoints, and requires a new bounded qualification when a checkpoint is unavailable on another workstation.
+Qualification proves UI submission and the selected kind's route, not every Layer 4 route. When later work enters a different kind, its first decision must be verified before continuing.
+
+The provider workflow requires supported decisions rather than proposed-action summaries and prohibits broad By kind snapshots from substituting for provider checkpoints. A new bounded qualification is required when a checkpoint is unavailable on another workstation.
+
+## Verified audit correction
+
+Live verification of `L4B-20261030-0938` confirmed that Inbox submissions are recorded in `pipeline.admin_control_events`; applicable routed review items can also have `pipeline.layer4_decisions` rows. The Skill now uses stable UI item/ref ids—review-item UUIDs where applicable and numeric/kind-specific refs otherwise—and prohibits double-counting the two ledger records.
+
+The audit guide was corrected accordingly:
+
+- `docs/platform/nz-enrichment-brief/2026-10-28-layer4-decision-audit.md` — commit `758e41d4efda6d0eda96d4b900bd5cb6918a89b2`
 
 Existing evidence, no-SQL, no-delete, no-bulk-approval, stored-source and Decided-view safeguards remain in force.
 
@@ -42,8 +52,8 @@ The rebuilt `cf-layer4-triage.skill` package passed the Skill validator and ZIP 
 - `cf-layer4-triage/SKILL.md`
 - `cf-layer4-triage/references/action-playbook.md`
 
-Package size: 6,096 bytes.  
-SHA-256: `6bdaa4ede2c3d224634f493522877e1a44040cf2532ac6e5f281b3006855422f`
+Package size: 6,312 bytes.  
+SHA-256: `8af76c7804bab991f1619f368e233f8aee33bcc4088f2ac993c7d21620a61ae8`
 
 The validated `.skill` package is delivered with the chat response; GitHub holds its canonical text source and operating guide.
 
