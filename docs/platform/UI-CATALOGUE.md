@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.15 (30 Oct 2026, platform release v2.15.371)
+**Version:** 1.16 (30 Oct 2026, platform release v2.15.373)
 **Change control:** CF-247
 **Source:** read from the Pilot repository code (`src/nav-map.js`, `src/mature-main.jsx` `pageBody`, each screen's component, `index.html`), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`.
@@ -16,6 +16,7 @@ Roles (rank): 1 Viewer · 2 Counsellor · 3 Curator · 4 Pipeline Operator · 5 
 | Sidebar | Sections: (top) Dashboard · Catalogue · Data pipeline · Operations · Platform settings · Administration · Guides. A page shows only if the role can open one of its tabs. Health dot on Platform health. Account box (role, email, Sign out) | `nav-map.js` SECTIONS; `mature-main.jsx` |
 | Header | Breadcrumbs, title and subtitle from nav-map; Health pill (rank ≥3, re-read every 5 min); version pill (made a "Release notes" button by `pim-version-entry.js`); role pill | `mature-main.jsx` |
 | Credit banner | Firecrawl, OpenRouter, adapter AI allowance, scholarship scraper cap when low (rank ≥3; every 5 min); link to Models & services; × hides until reload | `CreditBanner.jsx` |
+| Snapshot stamp (v2.15.373, W34/W35) | On screens read from a cached snapshot (Completeness › Courses and Attributes, Toolset notices on Layer pages, Toolsets & limits and Progress, Dashboard › Also, Coverage › Every field by country, Platform health › Why values are missing): "Counted <date time> (<age>)" (or "Counted now" when read live) and a **Stale: older than n min** chip past its setting; Completeness shows the build and last-check time (`SnapshotNote`) (Pipeline settings › Platform upkeep / Enrichment). Drill-downs and one university's figures stay live | `SnapshotStamp.jsx`, `SnapshotNote` in `course-coverage.jsx`, `fmtAge` in `lib/format.js`; jobs `admin-read-snapshots`, `course-coverage-snapshot` |
 | Layer notices | On Layer 1/2/4 pages: notices that need a person (Action needed, Action outside StudySearch, Optional), each with the one thing to do, a Go to button that opens and scrolls to the exact card or setting (`card=` and `at=` in the address), and the universities listed with Search again or a website box; Acknowledge (Platform Admin, reason). Information-only notices (Nothing to do) are on Toolsets and limits, linked from the layer page (v2.15.268) | `Toolsets.jsx` LayerNotices, Notice, noticePlan; `mature-main.jsx` focusTarget |
 | Scripts outside React that patch the page after it renders | `StatisticsDatasetEnhancer.js` (Rankings cards and dataset registry), `ranking-dataset-header.js`, `evidence-acquisition-provenance-entry.js`, `layer4-mass-operations-entry.jsx`, `pim-version-entry.js` (version text, release notes), `release-currentness-entry.js` | `index.html` |
 
