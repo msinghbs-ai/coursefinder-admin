@@ -4,14 +4,14 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state — 14:10 AEDT
+## Current state — 14:45 AEDT
 
 | Lane | Owner | State | Now | PR / release | Next automatic action |
 |---|---|---|---|---|---|
 | B2 + B3 programme batch 2 | integrator | DELIVERED | #737 merged (`98355c53`); migration md5 `b65de5e8` equals the file; deploy succeeded | #737 | reads progressing: ANU 4 of 9 done (11 rows each, was 1); Melbourne ×3 and UTS fetched as HTML; Monash batch 2: 50 in review (US$0.42); DP020 read: 4 rows in review, no band printed |
-| A1–A5 + B4 UX release v2.15.366 | integrator | VERIFYING | integrated lanes A, B, D and A3. Dry runs passed: 060000 (labels), 070000 (scholarships: DP020 read carries its scholarships), 080000 (NZ: 421 eligible, AU unchanged). New specs 29/29 under the lock; full suite running | branch `cf247-aer-ux-release` | change control, merge, deploy, live tour |
-| B1 reader corrections v0.52.0 | agent C | PREPARING (fix requested) | handback received; integrator review found a label-adjacency country-identity gap at Otago; fix requested before merge | `cf247-aer-reader-corrections` | review, suite, deploy, one re-read each |
-| A2 scholarship links | agent A / integrator | PREPARING | 13,584 field-only links from postgraduate-research pages (214 scholarships); website exposure being counted; paste file for re-apply being drafted (it removes links, so it is the Platform Admin's) | — | report |
+| A1–A5 + B4 UX release v2.15.366 | integrator | DELIVERED | #738 merged (`faebdef1`); suite 1,166 passed / 0 failed / 0 skipped; 5 deploy workflows green; live md5 060000 `29e2d550`, 070000 `1b4d0c0a`, 080000 `6c371a42` equal the files; course reading AU+NZ, eligible 5,398 (AU 4,977 unchanged, NZ 421); DP020 India = rule 5, precise reason; RMIT active 343 unchanged | #738 · v2.15.366 | deployed live tour (phone) |
+| B1 reader corrections v0.52.0 | integrator | PREPARING | Otago gap closed by agent C (`59689c76`); being rebased onto main | `cf247-aer-reader-corrections` | suite, change control, merge, deploy worker, one re-read each |
+| A2 scholarship links | Platform Admin | BLOCKED (human) | the cause is fixed in 070000 (live); existing wrong links are removed only by the paste file `PASTE-20261029-scholarship-research-links-reapply.sql`, now ready to run | — | report |
 
 **Controls in force:** one shared lock serialises all Playwright runs (port 5173). Only the integrator applies migrations, merges and deploys. AI spend is accounted centrally: balance US$7.05 at 12:15, floor US$5, measured US$0.0089 a course.
 
@@ -25,6 +25,7 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 ## Log
 
+- 14:45 — #738 (v2.15.366) DELIVERED and verified live.
 - 13:40 — #737 merged and live (programme batch 2).
 - 13:55 — DP020 page read: no band printed, so the India result is confirmed as rule 5 with the true reason.
 - 14:00 — Lane C review: a country-identity gap at Otago (a quote can cross into the next country's label); fix requested; not merged.
