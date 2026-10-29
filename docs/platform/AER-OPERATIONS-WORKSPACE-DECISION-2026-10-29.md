@@ -280,3 +280,37 @@ Each decision below is an md5-guarded edit of a live definition. No decision wea
 **Prepared only, not executed:**
 - the stuck adapter drafts paste;
 - the edge capacity assessment (read-only; any schedule change needs a further decision).
+
+## 10. Implementation decisions for §9, recorded before merge (30 Oct 2026, 07:25 AEDT)
+
+- **A1–A3: the AER review path** (migration `20261030070000`).
+  - **Kinds:** the three AER Layer 4 kinds (`entry_matrix_first_run`, `entry_matrix_change`, `course_entry_first_read`) take one path only, in Layer 4 › Inbox kind `aer_review`. Each item shows every row with its quote, the source, the stored-copy hash and completeness.
+  - **A1, Approve except:**
+    - The Platform Admin ticks the rows to leave out and gives one reason.
+    - Ticked rows become the existing row status `inactive`. Their `status_reason` reads "excluded by approve except (Layer 4 item …, reviewer …): …", and `provenance.aer_exclusion` records item, run, hash, reviewer, reason and time.
+    - No automatic writer touches `inactive` rows: Read again and bulk Read again supersede only `proposed` rows, and later approvals supersede only `active` rows. Excluded rows therefore stay unadmitted and identifiable, and are never staled or reclassified by themselves.
+    - Every other row is admitted only through the unchanged apply functions (identity, completeness, scale/basis checks).
+    - The completeness rule becomes "every row of a complete read is admitted or explicitly excluded". The read must still be complete and fully waiting.
+    - An AER item cannot be edited inline: the only edit accepted is the Approve except shape.
+    - Lineage (item → run → source → stored-copy hash → waiting rows, plus the excluded rows' snapshot) is kept on the decision and in `admin_control_events` (area `layer4`, actions `aer_*`).
+  - **A2:** the generic bulk decide and the generic batch decide skip AER kinds, decide nothing and return `skipped_aer`.
+  - **A3:** deciding an AER kind needs rank 6 (Platform Admin), enforced server-side. Curators can read the item, and `admin_aer` workspace editing is unchanged.
+  - **Open point for the Platform Admin:** approving a provider-table *change* still supersedes the source's earlier active rows (W15), including a row whose new reading was excluded. That country then has no active row until a later read. The alternative, keeping the earlier active row when its new counterpart is excluded, is a separate decision. Until it is made, the reviewer guide tells reviewers to reject a change item rather than exclude a row that replaces an active one.
+  - **Live dry run (rolled back, 07:18 AEDT):**
+    - Inbox shows 242 AER items as `aer_review`.
+    - Curator decide and Inbox reject were refused (42501); the Curator can still read the item (2 rows, `can_decide` false).
+    - Bulk reject skipped 184 items and batch approve skipped 2; pending stayed at 242 before and after.
+    - Approve except on RMIT Qatar `9adbeada` kept `36cbc6ba` active and `438c2bee` inactive "excluded by approve except", item `edited_approved`. The decision carries run `e07eeaf5` and hash `64edc4fe`, and the events are `aer_approve_except` and `inbox_decide`.
+    - The excluded row stayed inactive after a Read again attempt.
+- **A5: bulk Read again on the newest copy** (migration `20261030080000`).
+  - Implements the specification `ui-audit/2026-10-30-bulk-reread-newest-copy-spec.md`, with the governed snapshot on Option A. The approval line is in the migration.
+  - **Security defect found and corrected here:** the function's role check (`current_user <> 'postgres'`) never fires inside a security-definer function, so any signed-in user could call it over the API. API calls must now be Platform Admin; a direct owner session (a migration) is still allowed.
+  - The same idiom guards `admin_adapter_measures`. That function is reported for a separate decision and not changed here.
+  - **Live dry run (rolled back):** the Curator was refused. Otago Polytechnic re-queued 1 run (the newest copy). The older copy keeps its history, both items were superseded, 210 rows superseded, and the unknown id was skipped as `not_found`.
+- **W35: snapshots for notices, publishability and field coverage, and the gap-cause run time.** Design: `ui-audit/2026-10-30-W35-snapshots-design.md`.
+  - One derived table, `pipeline.admin_read_snapshots`.
+  - A catalogued job, `admin-read-snapshots`, rebuilds a snapshot when it reaches its setting age: notices 5 minutes, the others 10. It takes an advisory try-lock, so builds never run concurrently.
+  - Screens never rebuild a snapshot. They show its time, age and a stale marker.
+  - Permissions and drill-downs stay exact and live. The consumer API and `scholarship_publishability_v1` are unchanged.
+  - The gap-causes job records its run, and the panel shows the last run's finish time, stale after 75 minutes.
+- **W34: `admin_read` slow operations** (`course_coverage`, `pipeline_jobs_page`, `providers_page`, `courses_page`). Lodged when lane M hands back.
