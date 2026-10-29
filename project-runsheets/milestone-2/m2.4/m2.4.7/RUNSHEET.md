@@ -9470,3 +9470,29 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Also lodged:**
   - **A3:** migration `20261029060000` (W19), dry run passed. 92 of 2,535 RMIT pairs changed their explanation and 0 changed their rule. It ships with the UI release.
   - **B4:** NZ migration `20261029080000`, dry run passed: NZ eligible 421, weak 0, AU 4,977 unchanged.
+
+### 29 Oct 2026 — v2.15.366: course evidence overlay, scholarships, label levels, priority countries, phone fixes, NZ course identity (Pilot PR #738, written before merge)
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 12:23, A1–A5 and B4. Decisions W19–W23 and W26 were lodged before code (`362cefe5`, `2222b60f`).
+- **Lanes:** B (overlay, drawer, banner), A (scholarships, countries) and D (NZ identity) were built in separate branches; A3 by the integrator. Integrated on `cf247-aer-ux-release`; one import conflict resolved.
+- **Migrations,** each md5-guarded against live definitions (rechecked just before merge) and each with a rolled-back live dry run that passed:
+  - **`20261029060000` (W19).** Guards resolver `8281a03f` and `admin_aer` `744cb017`. A published label that names several levels counts for each.
+    - Dry run: 2,535 RMIT course × country pairs; 92 changed only their explanation, 0 changed their rule.
+    - DP020 for India now says "a band table exists, the course prints no band". DP020's page was read (#737): 4 rows, no band.
+  - **`20261029070000` (W21).** Guards `admin_read` `f7f3ebde`, `scholarship_level_codes` `902fac0f` and `scholarship_sweep_apply_v1` `7189ffeb`.
+    - `course_detail` carries `course_scholarships` again; DP020 shows its linked scholarships.
+    - `postgraduate_research` maps to the research levels.
+    - A page whose stated levels are not recognised makes no field-only link.
+    - Nothing is re-applied or deleted.
+  - **`20261029080000` (W26).** Guards `enrich_entry_record_v1` `b338ca23`.
+    - NZ course reading on approved strong proofs (nzqa_code, adapter_code, manual); NZ eligible 421, weak 0; AU 4,977 unchanged; title-only and CRICOS refused.
+    - NCEA and UE quotes are tagged domestic.
+- **Defect found (A2) and reported at once:** 7,949 wrong research-scholarship links reach the website today (148 scholarships, 2,485 courses, 17 providers).
+  - Paste file for the Platform Admin: `docs/platform/pastes/PASTE-20261029-scholarship-research-links-reapply.sql` (`de7ad4c0`). Run it after this release is live.
+  - 4 scholarships with unusable pages (383 links) are left for a separate, commented-out decision.
+- **UI:**
+  - `Overlay.jsx`: a shared accessible dialog.
+  - Course evidence overlay: the blade no longer embeds the history.
+  - `aer-countries.js`: India, Nepal, Singapore, then A–Z.
+  - The phone row tap no longer lands on a loading row; the drawer scrolls inside; the notice wraps beside its icon at phone width.
+- **Specs:** s158, s160, s161, s162, s163 and s164; m245 updated. Local suite 1,166 passed, 0 failed, 0 skipped (shared test lock). Register regenerated.
