@@ -9628,3 +9628,24 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - **(b/d) intermittent statement timeouts** on five admin reads.
 - **Evidence:** lane E acceptance run 40842662895 (live-acting off): desktop 68 passed, 1 failed (the regression), 1 flaky (timeouts). A phone run with the weekly-only specs (run 40840795858) gave about 75 passed per project.
 - **Specs:** local suite 1,199 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 30 Oct 2026 — v2.15.370: W30 enrichment reliability and W32 AI answer limits (mandate 30 Oct 00:01, Workstreams 2 and 5)
+
+- **Decisions:** W30 and W32 were lodged before code (`AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` §8, admin `cb1974b9`). Evidence: `ui-audit/2026-10-30-enrichment-health-reconciliation.md`.
+- **Migration `20261030010000_cf247_enrich_reliability`** (md5-guarded edits of live definitions):
+  - `public.svc_source_find_next` (was `57a32d94`): the candidate scan is worked out once per set. It had timed out at 8 s on 80 of 143 calls in 48 h.
+  - `public.svc_coverage_read_next` (was `a8bfed7c`): the lease is re-checked on the locked row, so one claim per page. Jobs 49 and 159 had double-paid 767 of 3,083 scrapes in 7 days.
+  - `security.provider_onboarding_job_v1` (was `ab742e1e`): tracks its own university's job.
+- **Migration `20261030020000_cf247_reader_answer_limits`:** 12 `reading.answer_tokens.*` settings. Defaults are the values formerly fixed in code; the fee reader gets 32,000.
+- **Worker `coverage-sweep-worker-v0.54.0`:**
+  - answer limits come from settings, and a cut answer is held as `held_partial: output_truncated`;
+  - cost is recorded on failed reads;
+  - capture and proposal calls report `items` and `failed`.
+- **Rolled-back live dry runs:**
+  - W30: md5 guards matched; the source-finder call took 139 ms after the edit;
+  - W32: 12 settings within range, and `svc_worker_settings_v1` returns all 12.
+- **Tests:**
+  - specs s172 and s173 are new; s170, s11 and m245 were adjusted (no assertion weakened);
+  - full local suite 1,211 passed, 1 failed: the s173 version pin, fixed in `9c79fc2e` and re-run green, so effectively 1,212/0/0;
+  - build OK; worker syntax check OK; TEST-REGISTER regenerated.
+- **Unchanged:** the consumer API (G3), identity, quote, completeness and admission gates, and the floor. No paid read.
