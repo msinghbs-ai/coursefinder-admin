@@ -9731,3 +9731,25 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - **Not touched:** 73 past-year handbook pages (the holds stay), 3 refused pages and 32 others.
   - **Ceiling:** one read attempt each (`read_attempts` set to 2), so at most 714 reads and at most 714 Firecrawl credits. No AI is called by a page read.
   - **Live dry run (rolled back):** A 451, B 263, 714 due.
+
+### 30 Oct 2026 — v2.15.372: the AER review path (A1–A3) and bulk Read again on the newest copy (A5) (Platform Admin mandate 30 Oct 06:53)
+
+- **Decisions:** §9 and §10 of `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md`, lodged before merge (`d9514fb8`, `d9e5db47`).
+- **Migration `20261030070000_cf247_aer_review_path`:** md5-guarded edits of `layer4_review_decide_impl` (`22f17fa1`), `entry_matrix_review_apply_v1` (`5531f019`), `course_entry_review_apply_v1` (`e2ae70b0`), `layer4_review_bulk_decide` (`e6a2ffdd`), `layer4_batch_decide_v1_impl` (`f8e9e973`), `layer4_inbox_kinds_v1` (`3f1fddbe`), `layer4_inbox_items_v1` (`cc42a3d5`) and `admin_layer4_inbox` (`272438c2`), plus five new review functions.
+  - **A1:** Approve except. Excluded rows go `inactive` with "excluded by approve except (item, reviewer): reason", and the decision and events record their lineage.
+  - **A2:** bulk and batch decide skip AER kinds and return `skipped_aer`.
+  - **A3:** AER decisions need rank 6.
+  - **Inbox:** AER items have their own kind, `aer_review`.
+- **Migration `20261030080000_cf247_aer_bulk_reread_newest_copy`:** `admin_entry_matrix_reread` (`ca394b60`) now reads the newest copy only, and the governed snapshot (`55910cb4`) moves to Option A.
+  - **Security fix:** the role check never fired inside the security-definer function. API callers must now be Platform Admin.
+  - **Reported separately:** the same idiom in `admin_adapter_measures`.
+- **Live dry runs (rolled back):**
+  - Inbox: 242 AER items.
+  - A3: Curator refused, both directly and through the Inbox.
+  - A2: bulk skipped 184, batch skipped 2, pending unchanged.
+  - A1: RMIT Qatar approve-except gave 1 row active and 1 excluded, with lineage, run `e07eeaf5` and hash `64edc4fe`.
+  - A5: Curator refused; Otago Polytechnic re-queued 1 run (the newest copy), the older copy kept, 2 items superseded, unknown id skipped.
+- **Tests:** specs s176 and s177; full local suite **1,238 passed, 0 failed, 0 skipped**; build OK; TEST-REGISTER regenerated.
+- **Guides:** role guides updated for A1–A5 (`c78c83e9`). A4 is recorded as O9 in the website register (2.4). The API marker for "scale not stated" is the next decision; the developer guide is unchanged because the API is unchanged.
+- **Open point:** approving a change item supersedes the active row whose new reading was excluded. Until it is decided, reviewers reject such change items.
+- **Unchanged:** the consumer API.
