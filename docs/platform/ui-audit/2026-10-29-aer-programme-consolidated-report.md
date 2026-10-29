@@ -76,9 +76,10 @@ No click was imitated through SQL; each was the mandate-approved governed mechan
 | 1 (09:57 mandate) | 50 Monash | 48 | 2 | ≈US$0.45 |
 | 2 (#737) | 50 Monash + DP020 | 51 | 0 | ≈US$0.42 |
 | 3 (#740) | 50 Monash | 47 | 3 | ≈US$0.43 |
-| 4 (#742) | 50 Monash | 37 so far (3 reading) | 10 | ≈US$0.29 so far |
+| 4 (#742) | 50 Monash | 37 | 10 (+3 failed) | ≈US$0.29 (balance fell US$5.76 → US$5.40) |
 
 - Measured unit cost is about US$0.008–0.0086 a course.
+- **Batch 4 failures (3 courses: `e58e7771`, `512b56fe`, `9cf18451`):** the model's answer was cut off mid-JSON at about 8,000 characters on all three attempts. This looks like an output-length limit on long course pages. It is deterministic, so it was not retried; see B9.
 - Skips are honest page outcomes ("the page does not state it", no quoted requirement, no row passing the admission rules).
 - **Reviewer-judgement flags:** 18 proposed rows repeat Monash's university-wide age rule (at least 17) or one course's 18-years rule; four of them are filed as a minimum grade or prior qualification. They are listed in the manifest, not auto-published or auto-rejected.
 
@@ -142,11 +143,12 @@ Full suite figures are passed / failed / skipped.
 
 ## B9. Human decisions waiting
 
-1. **Spend:** course reading is paused at the US$5 floor (balance US$5.76 before batch 4; the post-batch reading is pending). Each 50-course batch costs about US$0.40–0.43, so continuing needs an OpenRouter top-up. For example, US$20 covers about 45 batches (≈2,250 courses). Alternatively, approve a lower floor. The floor was not changed.
+1. **Spend:** course reading is paused at the US$5 floor (balance US$5.40 at 04:15 UTC). The function would still allow one more batch, since US$5.40 less the US$0.40 estimate leaves US$5.003, but measured batches have cost US$0.29–0.45. So a fifth batch could end below the floor, and the mandate forbids overrunning headroom; I paused rather than rely on a US$0.003 margin. Each 50-course batch costs about US$0.40–0.43, so continuing needs an OpenRouter top-up. For example, US$20 covers about 45 batches (≈2,250 courses). Alternatively, approve a lower floor. The floor was not changed.
 2. **Scholarship links paste file:** `docs/platform/pastes/PASTE-20261029-scholarship-research-links-reapply.sql` re-applies 210 research scholarships, removing the wrong field-only links that the website shows today. Migration 070000 is live, so it can run now.
 3. **Layer 4:** 205+ items, per the manifest (Federation and Western Sydney row by row; RMIT governed decisions; reviewer-judgement age notes; reject the stale Otago Polytechnic item).
 4. **Re-read authority** for ANU Croatian Matura, Melbourne India State Board and ANU `509c8f82`: each has used its approved attempt; ANU Croatian's form is now accepted by v0.52.0.
 5. **Legacy deployed specs:** repair or retire the 31 failing acceptance-tier specs (G4).
+7. **Course read output length:** three Monash course reads fail because the answer is cut off (about 8,000 characters). Options: raise the course-read output limit in settings (G2), or have long pages read in slices as provider pages already are.
 6. **Read again stored copies:** whether Read again should read only the newest stored copy of a source.
 
 ---

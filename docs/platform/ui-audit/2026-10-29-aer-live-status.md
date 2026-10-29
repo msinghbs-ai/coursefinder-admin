@@ -4,29 +4,29 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state — 14:40 AEDT
+## Current state — 15:20 AEDT (programme paused at the credit floor; consolidated outcome reported)
 
-| Lane | Owner | State | Now | PR / release | Next automatic action |
-|---|---|---|---|---|---|
-| A1–A5 + B4 UX release v2.15.366 | integrator | DELIVERED | live and verified (md5s match; NZ eligible 421, AU unchanged; DP020 India rule 5 with the true reason) | #738 | — |
-| B1 reader corrections v0.52.0 | integrator | DELIVERED | worker deployed, byte-identical to main | #739 · v2.15.367 | — |
-| B1 re-reads + B3 course batch 3 | integrator | DELIVERED | four sources read once on v0.52.0 (kept/not kept: Wollongong 220/24, Federation 69/7, UWA 177/8, Otago Polytechnic 104/30); Monash batch 3: 47 in review, 3 skipped | #740 (migration `42467d13`) | — |
-| C live acceptance + tour defects v2.15.368 | integrator | VERIFYING | live tour on real data: DP020 country order, India rule 5, 6 scholarships, 24-entry timeline, drawer opens and closes, banner inside, 0 console errors, list reads ≤100, 0 writes. Two display defects found and fixed (evidence "[object Object]"; phone country selector past the card). Full suite running; s167 deployed acceptance running live on the branch | branch `cf247-aer-live-acceptance-tour` | change control, merge, deploy, deployed acceptance on main |
-| B3 course batch 4 | integrator | PREPARING | balance US$5.87, floor US$5, estimate US$0.43 for 50 Monash courses; migration drafted | — | after v2.15.368: suite, PR, merge |
-| A2 scholarship links | Platform Admin | BLOCKED (human) | the cause is fixed in 070000 (live); existing wrong links go only by the paste file `PASTE-20261029-scholarship-research-links-reapply.sql` | — | report |
+| Lane | State | Result | PR / release |
+|---|---|---|---|
+| A1–A5 + B4 (overlay, scholarships, label levels, countries, phone, NZ identity) | DELIVERED | live and verified | #738 · v2.15.366 |
+| B1 reader corrections | DELIVERED | worker v0.52.0 byte-identical to main; four sources re-read (Wollongong 220/24, Federation 69/7, UWA 177/8, Otago Polytechnic 104/30) | #739 · v2.15.367, #740 |
+| C live acceptance + tour defects | DELIVERED | s167 post-merge desktop 2/2, phone 2/2; two display defects fixed | #741 · v2.15.368 |
+| B3 course batch 4 | DELIVERED | 37 in review, 10 skipped, 3 failed (answer cut off, not retried); about US$0.29 | #742 |
+| B3 course reading | BLOCKED (spend) | balance US$5.40, floor US$5; next batch estimate US$0.40 against measured US$0.29–0.45, so paused to avoid overrunning headroom | — |
+| A2 scholarship links paste | BLOCKED (human) | `PASTE-20261029-scholarship-research-links-reapply.sql` ready (070000 is live) | — |
+| Layer 4 | BLOCKED (human) | about 245 pending (57 matrix; 185 course after batch 4); manifest `2026-10-29-aer-layer4-manifest.md` | — |
 
-**Controls in force:** one shared lock serialises all Playwright runs. Only the integrator applies migrations, merges and deploys. AI spend is accounted centrally: balance US$5.87 at 14:35, floor US$5 (unchanged), measured US$0.0086 a course.
+**Next automatic action:** none. Course reading resumes only on a spend decision (programme report B9). `cf247-zoho-dryrun` is identical to main.
 
-## Live counts (14:35)
+## Live counts (15:15)
 
 - Matrix rows: active 343 (RMIT only) · proposed 2,186 (26 providers) · quarantined 20 · superseded 765.
-- Course rows: proposed 589 (148 items).
-- Layer 4 pending (AER): 205 (57 matrix, 148 course). Manifest refreshed (`bbc86183`).
-- Sources: 102 (99 read, 3 failed).
-- What reaches the website and Zoho: RMIT's 343 rows only.
+- Course reading: 250 Monash courses plus DP020 and BH126 read; 4,977 AU and 421 NZ eligible.
+- What reaches the website and Zoho: RMIT's 343 rows only. The consumer API is unchanged.
 
 ## Log
 
+- 15:20 — Batch 4 settled (37 review, 10 skipped, 3 failed: answer cut off at about 8,000 characters, not retried). Balance US$5.40; course reading paused at the floor (a fifth batch could overrun). v2.15.368 (#741) and batch 4 (#742) delivered; `cf247-zoho-dryrun` = main; report Part B filed.
 - 14:40 — v2.15.367 (#739) and batch 3 (#740) delivered; corrected reads landed; live tour found two display defects (fixed in v2.15.368, verifying); manifest refreshed.
 - 14:20 — Finding: Read again re-read both stored copies of the Otago Polytechnic page (two pending items for one source; the older one is marked stale in the manifest; about US$0.09 extra).
 - 14:45 — #738 (v2.15.366) DELIVERED and verified live.
