@@ -188,3 +188,15 @@
   - `public.admin_entry_matrix_reread` (bulk, md5-pinned by `governed_aer_close_snapshot_v1`) is unchanged; whether bulk re-reads should also take only the newest copy is a separate question (open).
   - The existing duplicate Otago Polytechnic item `f14ae480` is left for the Layer 4 reviewer (reject as stale); it is not closed by this change.
   - Verified by: the s169 contract (Otago two-copy fixture), a local Postgres test of the live definition before and after, a rolled-back live dry run on d74fcba4 (exactly one run re-queued), the full suite, and deployed md5.
+- **W29 (Workstream 2). Course-level reading of long pages in bounded slices.**
+  - Cause of the three failed Monash course reads (`e58e7771`, `512b56fe`, `9cf18451`): the course entry read asked for the whole page in one call with a fixed 2,000-token answer and did not check for a cut answer, so a long answer (many per-country minimums) failed as broken JSON at about 8,000 characters. Page size was not the cause.
+  - Correction (worker next minor after v0.52.0):
+    - a long course page is read in consecutive overlapping slices with recorded character coverage;
+    - each slice has its own answer limit and a cut, empty or unreadable answer fails that slice by name;
+    - every quote must be on its slice, rows are merged in page order and duplicates from overlaps kept once;
+    - if any slice fails, nothing from the course is proposed and the item is held as partial;
+    - a page longer than the configured maximum is held before any call;
+    - cost is recorded on failed and held reads.
+  - Limits are settings (G2): slice size, overlap, maximum slices, answer limit, slices at once.
+  - Unchanged: quote, identity, scale/basis, completeness and admission gates; one Layer 4 item per course read; short pages are asked exactly as before.
+  - No paid read is part of this change. The three failed courses need a separately approved re-read once it is live (bounded decision).
