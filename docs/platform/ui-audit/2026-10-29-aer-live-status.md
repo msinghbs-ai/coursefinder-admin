@@ -4,17 +4,14 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state — 13:05 AEDT (full mandate A–D received 12:23)
+## Current state — 14:10 AEDT
 
 | Lane | Owner | State | Now | PR / release | Next automatic action |
 |---|---|---|---|---|---|
-| B2 + B3 programme batch 2 | integrator | VERIFYING | migration `20261029050000`: dry run passed (13 sources accepted, Monash batch of 50 at US$0.44, DP020 read queued); s165 passing; full suite running under the shared test lock | branch `cf247-aer-programme-batch-2` | change control, merge, deploy, watch the reads |
-| A3 DP020 / level labels | integrator | VERIFYING | W19 lodged (`362cefe5`). Migration `20261029060000` dry run: labels map to all named levels; DP020 for India reaches the true reason (band table exists, no course band); 92 of 2,535 RMIT pairs changed their note, 0 changed their rule | branch `cf247-aer-dp020-levels` | s160; joins the UI release |
-| A1 + A5 overlay, phone drawer, banner | agent B | PREPARING | shared accessible overlay; real phone defect; banner | `cf247-aer-phone-drawer-banner` | handback, then integration |
-| A2 + A4 scholarships, country order | agent A | PREPARING | DP020 scholarship trace; India › Nepal › Singapore › A–Z helper | `cf247-aer-scholarships-countries` | handback |
-| B1 reader corrections | agent C | PREPARING | Federation, Wollongong, Otago Polytechnic, UWA | `cf247-aer-reader-corrections` | handback, then worker deploy and one re-read each |
-| B4 NZ identity | agent D | PREPARING | already-approved NZ proofs; title-only refused | `cf247-aer-nz-course-identity` (migration `20261029080000`) | handback, then dry run before activation |
-| Decisions | integrator | DELIVERED | W19–W26 lodged before code (`2222b60f`) | — | — |
+| B2 + B3 programme batch 2 | integrator | DELIVERED | #737 merged (`98355c53`); migration md5 `b65de5e8` equals the file; deploy succeeded | #737 | reads progressing: ANU 4 of 9 done (11 rows each, was 1); Melbourne ×3 and UTS fetched as HTML; Monash batch 2: 50 in review (US$0.42); DP020 read: 4 rows in review, no band printed |
+| A1–A5 + B4 UX release v2.15.366 | integrator | VERIFYING | integrated lanes A, B, D and A3. Dry runs passed: 060000 (labels), 070000 (scholarships: DP020 read carries its scholarships), 080000 (NZ: 421 eligible, AU unchanged). New specs 29/29 under the lock; full suite running | branch `cf247-aer-ux-release` | change control, merge, deploy, live tour |
+| B1 reader corrections v0.52.0 | agent C | PREPARING (fix requested) | handback received; integrator review found a label-adjacency country-identity gap at Otago; fix requested before merge | `cf247-aer-reader-corrections` | review, suite, deploy, one re-read each |
+| A2 scholarship links | agent A / integrator | PREPARING | 13,584 field-only links from postgraduate-research pages (214 scholarships); website exposure being counted; paste file for re-apply being drafted (it removes links, so it is the Platform Admin's) | — | report |
 
 **Controls in force:** one shared lock serialises all Playwright runs (port 5173). Only the integrator applies migrations, merges and deploys. AI spend is accounted centrally: balance US$7.05 at 12:15, floor US$5, measured US$0.0089 a course.
 
@@ -27,6 +24,10 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 - What reaches the website and Zoho: RMIT's 343 rows only.
 
 ## Log
+
+- 13:40 — #737 merged and live (programme batch 2).
+- 13:55 — DP020 page read: no band printed, so the India result is confirmed as rule 5 with the true reason.
+- 14:00 — Lane C review: a country-identity gap at Otago (a quote can cross into the next country's label); fix requested; not merged.
 
 - 12:40 — FAILED, then fixed: the agent worktrees were created inside the admin repo and committed as embedded links (`362cefe5`). They were removed (next commit) and the agents moved to Pilot worktrees. No live change.
 - 12:55 — A3 dry run passed; batch 2 dry run passed.
