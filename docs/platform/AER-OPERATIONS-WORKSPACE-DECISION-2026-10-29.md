@@ -162,3 +162,21 @@
   - A title-only basis is refused. The Australian rules are unchanged, and no separate lane is added.
   - Contract and rolled-back live dry-run coverage come before activation (`entry.course_read_countries` gains NZ only after the dry run passes).
 - **Unchanged:** quote, identity, completeness and admission gates; the consumer API shape; the status vocabulary; Layer 4 as the only approval; the spend floor.
+
+## 7. Addendum, 29 Oct 2026 16:59 (programme to governed completion, Workstreams 0–5), recorded before code
+
+- **W27 (Workstream 0). One writer lock for search documents.**
+  - Root cause, evidence and reconciliation: `ui-audit/2026-10-29-scholarship-deadlock-reconciliation.md`.
+  - Every writer of `search.course_documents` takes one transaction-scoped advisory lock (fixed technical constant, `-- fixed:`):
+    - the shared scoped refresh `search.refresh_course_enrichment_scoped_v1` and the full rebuild `search.refresh_course_documents_v3` wait for it;
+    - the scheduled `security.search_refresh_requested_v1` only tries it and, when it is held, leaves its requests for the next tick (result `held`).
+  - The scoped refresh locks its documents in ascending `course_id` before updating.
+  - Unchanged: document values, consumer API (G3), scholarship relationship rules, admission gates, Layer 4. Nothing is dropped.
+  - Verified by:
+    - a local reproduction of the deadlock (overlapping course sets in opposing orders), shown fixed;
+    - a contract spec;
+    - md5 guards on the three functions;
+    - a rolled-back live dry run;
+    - the full suite;
+    - deployed-source md5 after merge.
+  - The scholarship paste is already applied and verified (16:57), so no reapplication is prepared.
