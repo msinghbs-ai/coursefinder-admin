@@ -1,11 +1,39 @@
 # Layer 4 Review skill — run and workstation export
 
-Date: 28 October 2026  
-Scope: operating instructions for the KBE skill saved as `Layer-4-Review`; no Layer 4 decisions or catalogue writes performed.
+Date: 28 October 2026; updated 29 October 2026  
+Scope: operating instructions for the KBE/Kimi Work skill saved as `Layer-4-Review`; no Layer 4 decisions or catalogue writes performed.
 
-## Run the full queue
+## Canonical GitHub source
 
-In the KBE sidebar, type `/`, select **Layer-4-Review**, then run:
+The reusable Skill source now lives in the admin repository:
+
+- `docs/platform/skills/cf-layer4-triage/SKILL.md`
+- `docs/platform/skills/cf-layer4-triage/references/action-playbook.md`
+
+`Layer-4-Review` is the display label; `cf-layer4-triage` remains the canonical Skill name. Update these GitHub source files rather than maintaining workstation-only variants.
+
+## Qualify a new workstation by kind first
+
+On a new workstation, an untested browser connection, or after any zero-decision/uncertain batch, invoke the Skill with:
+
+```text
+layer4-by-kind-qualify
+```
+
+This bounded workflow must:
+
+1. Select one suitable existing kind in **Layer 4 Review → By kind**, preferring a conservative fee-keep or held-scholarship rejection supported by stored evidence.
+2. Avoid official course-page replacement, archive, provider ownership/departure, conjoint/no-page, central-page and adapter decisions during qualification.
+3. Review no more than 10 oldest items and submit no more than five decisions in that one kind.
+4. Submit and verify the first real UI decision before continuing. Snapshots, planning and proposed actions do not qualify the write path.
+5. Stop immediately for an uncertain first result, remaining queue item or UI/network failure; verify the original outcome before any retry.
+6. Only after the first verified decision, complete up to four additional individually evidenced and verified decisions in the same kind.
+
+Until the Decided repair is released, verify through the current queue and lightweight items views; do not open the failing **Decided** view or substitute SQL.
+
+## Run the full queue only after qualification
+
+After the current environment has a verified decision write path, invoke the Skill with:
 
 ```text
 layer4-clear-all
@@ -13,7 +41,7 @@ layer4-clear-all
 
 “Clear” means review, decide and reconcile through the existing Platform Admin UI. It does not mean delete records, bulk-approve uncertain evidence or force the queue to zero. Items lacking sufficient evidence remain pending as named exceptions with an owner and next action.
 
-Before starting, use a connected browser with an authenticated Platform Admin session on **Data pipeline → Layer 4 Review**. The skill records a batch id, baseline counts and checkpoints; processes providers sequentially; uses stable item ids and stored evidence; and stops on shared write, authentication or queue-integrity failures. AI re-checks, Firecrawl and new source acquisition require separate explicit authorisation.
+Before starting, use a connected browser with an authenticated Platform Admin session on **Data pipeline → Layer 4 Review**. The skill records a batch id, baseline counts and checkpoints; processes providers sequentially; uses stable item ids and stored evidence; submits supported decisions rather than stopping at proposals; and stops on shared write, authentication or queue-integrity failures. AI re-checks, Firecrawl and new source acquisition require separate explicit authorisation.
 
 Useful variants:
 
@@ -22,22 +50,22 @@ layer4-clear-all Federation University Australia
 layer4-clear-all resume L4B-YYYYMMDD-HHMM
 ```
 
-The first restricts the run to one exact provider. The second resumes an incomplete batch without repeating decided item ids. Keep the original batch id and supply its checkpoint when resuming elsewhere.
+The first restricts the run to one exact provider. The second resumes an incomplete batch without repeating decided item ids. Keep the original batch id and supply its consolidated checkpoint when resuming elsewhere. If that checkpoint is not available on the current workstation, start a new bounded qualification run instead of claiming a portable resume.
 
-The portable copy retains the Federation-run safeguard: verify through the current queue and lightweight universities/items views; do not open the failing **Decided** view.
+Do not repeatedly start full-queue batches after zero-decision runs. Return to `layer4-by-kind-qualify` and identify the exact write-path blocker first.
 
 ## Export and use on another workstation
 
-A validated portable package was supplied in chat as `cf-layer4-triage.skill`. Its canonical skill name is `cf-layer4-triage`; `Layer-4-Review` is the saved KBE display label. It contains:
+The validated portable package is supplied in chat as `cf-layer4-triage.skill`. It contains only:
 
 - `cf-layer4-triage/SKILL.md`
 - `cf-layer4-triage/references/action-playbook.md`
 
-On the other workstation:
+On each workstation:
 
-1. Install/open KBE in Chrome or Edge and use its skill import action.
-2. Select `cf-layer4-triage.skill`. After import, invoke it from `/`; the `layer4-clear-all` commands are unchanged. It may be displayed again as `Layer-4-Review` if desired.
-3. Connect the browser and sign in to Platform Admin separately. The package contains no login, cookies, browser session or Platform Admin access.
-4. Copy any in-flight batch checkpoint separately if resuming work. The skill package contains the workflow and evidence rules, not prior batch state.
+1. Open Kimi Desktop **Work** mode and use **Skills** to import/upload the `.skill` package. It can be displayed as **Layer-4-Review**.
+2. Install and connect **Kimi Browser Extension** separately. Sign in to Platform Admin in the connected Chrome/Edge browser; the package contains no login, cookies, browser session or Platform Admin access.
+3. Run `layer4-by-kind-qualify` before any full-queue command on that workstation.
+4. Copy any in-flight consolidated checkpoint separately if resuming work. The Skill package contains the workflow and evidence rules, not prior batch state.
 
-If the KBE-only `Layer-4-Review` receives later edits, use KBE's native skill export after those edits so the portable copy remains current.
+For future changes, update the canonical GitHub source and rebuild/reissue the package from that source. Do not leave later edits only in one workstation's KBE or Kimi Work installation.
