@@ -4,15 +4,15 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state: 01:35 AEDT, 30 Oct (mandate 30 Oct 00:01, Workstreams 1–8)
+## Current state: 00:45 AEDT, 30 Oct (mandate 30 Oct 00:01, Workstreams 1–8)
 
 | WS | Owner, branch | State | Evidence or next step |
 |---|---|---|---|
 | 1 Health reconciliation | integrator, admin main | DELIVERED | `2026-10-30-enrichment-health-reconciliation.md`; complete gap list `2026-10-30-gap-causes-needs-a-change.md` |
-| 2 Source finder, capture, slow reads | lane G, then integrator; `cf247-w30-int` | VERIFYING | W30 dry run passed (source-finder call 139 ms); v2.15.370 full suite running |
+| 2 Source finder, capture, slow reads | lane G, then integrator; `cf247-w30-int` | DELIVERED (v2.15.370) | W30 live, md5s `061d6252` / `748954a5` / `247e93da` |
 | 3 Release health | lane J, then integrator; `cf247-w33-int` | PREPARING | W33 Universities paging dry run passed (first page 83 KB, 1.0 s); ships in v2.15.371 after .370 |
 | 4 Identity and eligibility | lane H, then integrator; `cf247-w31-int` | PREPARING | Cause: the 29 Oct re-map binder displaced 714 code-proved AU pages. W31 dry run passed (0 of 1,230 proved pages touched). Recovery R1 BLOCKED on spend. |
-| 5 Reader hardening | lane I, then integrator; in `cf247-w30-int` | VERIFYING | W32 dry run passed (12 settings, worker sees 12); bulk Read again spec ready (decision) |
+| 5 Reader hardening | lane I, then integrator; in `cf247-w30-int` | DELIVERED (v2.15.370); bulk spec BLOCKED (decision A5) | W32 live (12 settings, worker v0.54.0); `2026-10-30-bulk-reread-newest-copy-spec.md` |
 | 6 Layer 4 policy | integrator | DELIVERED (decision paper); decisions BLOCKED | `2026-10-30-platform-admin-decision-paper.md` Part A; role guides 5.6 |
 | 7 Reporting freshness | integrator | DELIVERED (report prompt); panel change BLOCKED | Hourly report prompt updated; W30–W33 lodged in decision §8 |
 | 8 Paid reads | integrator | BLOCKED (decision) | Decision paper Part B: B1–B5, R1, R2. The balance top-up (US$104.99) is not authority. |
@@ -21,7 +21,8 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 ## Log
 
-- 01:35 (30 Oct): all four lanes handed back; decisions W30–W33 lodged (`cb1974b9`); decision paper filed; three live dry runs passed and rolled back; hourly report prompt corrected; OpenRouter top-up seen (US$4.99 → 104.99 at 00:15), nothing queued.
+- 00:45 (30 Oct): **v2.15.370 DELIVERED** (#747, `85955c5e`): W30 and W32 live; md5s match the dry run; worker v0.54.0 answering; deployed UAT, release currentness and history contract green; `cf247-zoho-dryrun` = main. v2.15.371 (W31 + W33) full suite running.
+- 00:38 (30 Oct; earlier updates were mislabelled about an hour ahead): all four lanes handed back; decisions W30–W33 lodged (`cb1974b9`); decision paper filed; three live dry runs passed and rolled back; hourly report prompt corrected; OpenRouter top-up seen (US$4.99 → 104.99 at 00:15), nothing queued.
 - 00:05 (30 Oct): mandate received; PREPARING board; lanes G, H, I, J launched; Workstream 1 read-only.
 - 20:00 — v2.15.369 (#745) and Workstream 4 (#746) delivered; handback filed; programme report Part C added.
 - 18:35 — W27 and W28 delivered; guides merged; resolver/consumer reconciliation done; W29 verifying; eligible-count drop found and attributed to coverage re-binding.
