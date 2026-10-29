@@ -6,29 +6,148 @@
 
 **Decision records:** `ENTRY-REQUIREMENTS-PROGRAMME-DECISION-2026-10-28.md` and `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md`. Both were lodged before code. The build-order authority is `ENTRY-REQUIREMENTS-IMPLEMENTATION.md`.
 
-- Platform Admin, 29 Oct 2026 09:57: "Continue the full AER programme — consolidated authority and remaining delivery". This is the latest authority, reported in **Part A**.
+- Platform Admin, 29 Oct 2026 09:57: "Continue the full AER programme — consolidated authority and remaining delivery", reported in **Part A**.
+- Platform Admin, 29 Oct 2026 12:23: "Consolidated AER bug-fix + programme continuation mandate — complete sections A–D". This is the latest authority, reported in **Part B**.
 
-**Updated:** 29 Oct 2026, about 12:00 AEDT. Live figures in Part A were read from `fxcwkweaxjtknorudmwp` between 11:30 and 11:50 AEDT.
-- Part A is the latest state.
-- Parts 1 to 6 below are the 09:50 report, kept as written; where they differ, Part A supersedes them.
-- The Layer 4 manifest is in `2026-10-29-aer-layer4-manifest.md`.
+**Updated:** 29 Oct 2026, about 15:15 AEDT. Live figures in Part B were read from `fxcwkweaxjtknorudmwp` between 14:30 and 15:15 AEDT.
+- Part B is the latest state. Part A (09:57) and Parts 1 to 6 (09:50) are kept as written; where they differ, Part B supersedes them.
+- The Layer 4 manifest is `2026-10-29-aer-layer4-manifest.md`; the recovery checkpoint is `2026-10-29-aer-live-status.md`.
 
 ## Status in plain words
 
 - **This is not "AER complete".**
-  - 1,786 provider rows (26 providers) and 200 course rows wait in Layer 4.
-  - Course-level reading has covered 50 of 4,977 eligible Australian courses (plus BH126).
-  - 15 sources are held for named reasons.
+  - 2,186 provider rows (26 providers) and 589 course rows (148 items before batch 4) wait in Layer 4; nothing is approved by bulk or by SQL.
+  - Course-level reading has covered 250 of 4,977 eligible Australian courses (Monash batches 1–4) plus DP020 and BH126; 421 New Zealand courses are now eligible but none read yet.
+  - Course reading has **paused at the US$5 credit floor**. The spend decision is in B9.
   - The website display is the website team's work and is not built.
-- **What reaches the website and Zoho:** only RMIT's 343 active matrix rows, unchanged; for India, 33 rows. No course row is active.
-- **Delivered since 09:57:**
-  - the approved reader settings and HTML refetch (v2.15.364);
-  - the ten re-reads, all finished, with the rows kept rising from 169 to 1,179;
-  - the course-level programme, its first batch of 50 Monash courses, and Course-level reading in the workspace;
-  - the Step C no-table Layer 4 note;
-  - live read-only screenshots of the workspace at desktop and phone width, with two layout defects found and fixed (v2.15.365);
-  - the reconciled Layer 4 manifest;
-  - branch checks.
+- **What reaches the website and Zoho:** only RMIT's 343 active matrix rows, unchanged. No course row is active. The consumer API is unchanged (Decision 266).
+- **Delivered under the 12:23 mandate:** v2.15.366 (#738), v2.15.367 (#739), batch 3 (#740), v2.15.368 (#741) and batch 4 (#742). Each passed its full suite (0 failed, 0 skipped), had its change control written before merge, and was verified live.
+
+---
+
+# Part B — Bug-fix and programme continuation (Platform Admin mandate 29 Oct 2026 12:23)
+
+Decision records lodged before code: admin `AER-OPERATIONS-WORKSPACE-DECISION-2026-10-29.md` W19 (`362cefe5`) and addendum §6 W20–W26 (`2222b60f`).
+
+## B1. Course detail and AER fixes (section A)
+
+| Item | Delivered | Release | Live result on real data |
+|---|---|---|---|
+| A1 evidence overlay | One accessible overlay (full screen on a phone) with the course timeline from the existing reads; the blade no longer embeds the history; Escape and focus return. Structured values are told in words (v2.15.368). | #738, #741 | DP020: 24 entries across 7 kinds; closes with Escape; no sideways scroll. |
+| A2 DP020 scholarships | Root cause: the Course detail read had stopped returning `course_scholarships` (14 Oct). Restored; `postgraduate_research` maps to research levels; a page with unrecognised levels no longer links by field alone. Empty state explains why. | #738 (`20261029070000`) | DP020 shows 6 scholarships. |
+| A3 DP020 India result | Root cause: a published label naming several levels ("Diploma/Associate degrees") did not count for each. Fixed by reference mapping (`entry_label_levels_v1`), not DP020- or India-specific code. | #738 (`20261029060000`) | India is a genuine rule 5: RMIT publishes a band table for India, and DP020's page prints no band (confirmed by reading DP020's page: 4 rows, no band). The explanation now says exactly that. |
+| A4 country order | One helper (`aer-countries.js`): India, Nepal, Singapore, then A to Z, in Course detail and every workspace country selector; the choice is remembered; a change only asks the resolver. | #738 | DP020 lists India, Nepal, Singapore, then Afghanistan… |
+| A5 phone drawer and banner | Root cause: the live tap landed on a loading row. Records now carry `data-row`, and loading rows are not tappable. The drawer is built on the shared Overlay. The notice wraps beside its icon. The phone country selector stays inside its card (v2.15.368). | #738, #741 | Drawer opens and closes on a phone; notice text starts inside the screen. |
+
+## B2. Reader corrections (B1)
+
+Worker `coverage-sweep-worker-v0.52.0` (#739, deployed byte-identical to main):
+- A printed cell quoted with the structure that names it counts as on the page (a table header line with one row; a PDF row's first cell with one other cell).
+- A column-header band counts only when the whole row is quoted.
+- A header-less table carries the label printed above it.
+- No quote crosses a labelled row's boundary.
+- Every gate is unchanged, with no provider-specific grades.
+
+Each source was re-read once (#740). Figures are kept / not kept:
+
+| Source | v0.51.0 | v0.52.0 |
+|---|---|---|
+| Wollongong | 175 / 96 | 220 / 24 |
+| Federation | 47 / 35 | 69 / 7 |
+| UWA | 50 / 136 | 177 / 8 |
+| Otago Polytechnic | 71 / 62 | 104 / 30 |
+
+The earlier incomplete items are superseded, never approved. Federation stays unapproved until a person reviews it. The four reads cost about US$0.55.
+
+## B3. Thirteen Read again actions (B2)
+
+All finished, one attempt each (#737), about US$0.064:
+- ANU: 8 pages keep 11–12 rows each (was 1).
+- ANU Croatian Matura: kept 0 of 8. Its quote form is accepted by v0.52.0, but the attempt is used.
+- Melbourne: 2 pages keep 9 each; India State Board kept 1 of 8 (each quote ran on into the footnote).
+- UTS: kept 41 of 46.
+
+No click was imitated through SQL; each was the mandate-approved governed mechanism.
+
+## B4. Course-level reading (B3)
+
+| Batch | Courses | In review | Skipped | Cost |
+|---|---|---|---|---|
+| 1 (09:57 mandate) | 50 Monash | 48 | 2 | ≈US$0.45 |
+| 2 (#737) | 50 Monash + DP020 | 51 | 0 | ≈US$0.42 |
+| 3 (#740) | 50 Monash | 47 | 3 | ≈US$0.43 |
+| 4 (#742) | 50 Monash | 37 so far (3 reading) | 10 | ≈US$0.29 so far |
+
+- Measured unit cost is about US$0.008–0.0086 a course.
+- Skips are honest page outcomes ("the page does not state it", no quoted requirement, no row passing the admission rules).
+- **Reviewer-judgement flags:** 18 proposed rows repeat Monash's university-wide age rule (at least 17) or one course's 18-years rule; four of them are filed as a minimum grade or prior qualification. They are listed in the manifest, not auto-published or auto-rejected.
+
+## B5. New Zealand course identity (B4)
+
+`20261029080000` (#738):
+- Course reading is enabled for NZ courses whose page carries an already-approved strong proof (NZQA code, adapter code, a person's binding).
+- A title-only match is refused.
+- NCEA/UE quotes are tagged domestic, with no inferred international applicability.
+- Count-guarded activation: NZ 421 eligible, 0 on a weak proof; AU 4,977 unchanged. It is the same reader lane, with no separate NZ lane.
+- No NZ course has been read yet; the batch order reaches them after the AU plan.
+
+## B6. Layer 4 (B5)
+
+The manifest was refreshed after every read (latest: 205 pending before batch 4 = 57 matrix + 148 course). Nothing was bulk-approved.
+
+Classes:
+
+| Class | Items |
+|---|---|
+| Ready for review | 43 |
+| Federation / Western Sydney, unapproved until a person reviews | 2 |
+| RMIT governed decisions | 4 |
+| Notes | 3 |
+| Held for judgement | 1 |
+| Stale | 1 |
+| Re-read required | 3 |
+
+**Finding:** Read again re-read both stored copies of the Otago Polytechnic page, leaving two items for one source (`f14ae480` is stale); about US$0.09 extra.
+
+## B7. Acceptance and release evidence (section C)
+
+| Release | PR | Full suite | Live checks |
+|---|---|---|---|
+| v2.15.366 | #738 | 1,166 / 0 / 0 | md5 060000 `29e2d550`, 070000 `1b4d0c0a`, 080000 `6c371a42` equal the files; 5 deploy workflows green |
+| v2.15.367 | #739 | 1,178 / 0 / 0 | worker files byte-identical to main |
+| batch 3 | #740 | 1,180 / 0 / 0 | migration md5 `42467d13` |
+| v2.15.368 | #741 | 1,182 / 0 / 0 | post-merge s167 desktop 2/2, phone 2/2 |
+| batch 4 | #742 | 1,183 / 0 / 0 | migration md5 `c2b456f3` |
+
+Full suite figures are passed / failed / skipped.
+
+- Every data migration had a rolled-back live dry run first.
+- **Deployed acceptance with real data:**
+  - live tour snapshot `20261029-0307-run50`, read-only;
+  - s167, read-only `@deployed`, now targeted on deploy with a phone run.
+- **What it covered:** DP020 at phone width, the evidence overlay, the scholarship result, the India result, the country order, the drawer opening and closing, the unclipped notice, 0 console errors, list reads ≤100, 0 writes.
+- **Two display defects** were found by the tour and fixed in v2.15.368.
+
+**Finding (G4):** the Deployed UAT acceptance tier has 31 failing legacy deployed specs (a12, a13, a15, admin navigation, m2-3, data quality, layer 2 provider, course-detail polish, CF-061). The weekly deployed run on main was already failing on 26 Oct. This is for a decision (B9).
+
+## B8. Parallel execution (section D)
+
+- **Lanes:** A (scholarships, countries), B (overlay, drawer, banner), C (reader corrections) and D (NZ identity). Each lane worked in its own branch or clone, with the decision record before code.
+- **Integrator:** migrations, numbering, the suite, md5s, dry runs, change control, merges and deploys.
+- **Conflicts prevented:** one shared Playwright lock (port 5173); one `AerWorkspace.jsx` import conflict resolved at integration.
+- **Early failure reports:**
+  - agent worktrees inside the admin repo (fixed, no live change);
+  - cancelled dry runs (re-run with explicit markers);
+  - the legacy acceptance-tier failures.
+
+## B9. Human decisions waiting
+
+1. **Spend:** course reading is paused at the US$5 floor (balance US$5.76 before batch 4; the post-batch reading is pending). Each 50-course batch costs about US$0.40–0.43, so continuing needs an OpenRouter top-up. For example, US$20 covers about 45 batches (≈2,250 courses). Alternatively, approve a lower floor. The floor was not changed.
+2. **Scholarship links paste file:** `docs/platform/pastes/PASTE-20261029-scholarship-research-links-reapply.sql` re-applies 210 research scholarships, removing the wrong field-only links that the website shows today. Migration 070000 is live, so it can run now.
+3. **Layer 4:** 205+ items, per the manifest (Federation and Western Sydney row by row; RMIT governed decisions; reviewer-judgement age notes; reject the stale Otago Polytechnic item).
+4. **Re-read authority** for ANU Croatian Matura, Melbourne India State Board and ANU `509c8f82`: each has used its approved attempt; ANU Croatian's form is now accepted by v0.52.0.
+5. **Legacy deployed specs:** repair or retire the 31 failing acceptance-tier specs (G4).
+6. **Read again stored copies:** whether Read again should read only the newest stored copy of a source.
 
 ---
 
