@@ -242,3 +242,41 @@ Each decision below is an md5-guarded edit of a live definition. No decision wea
   - marks spend as monitoring only.
 
   This changes the scheduled report only, not the platform. Showing the run time on the "Why values are missing" panel is proposed in the decision paper.
+
+## 9. Addendum, 30 Oct 2026 06:53 (Platform Admin approvals A1–A5, bounded paid reads, snapshots), recorded before code
+
+**Authority:** the Platform Admin mandate of 30 Oct 2026 06:53 AEDT, which decides the items in `ui-audit/2026-10-30-platform-admin-decision-paper.md`.
+
+**Approved for design and implementation.** Each item's detailed implementation decision is lodged below before its code merges.
+- **A1:** governed "approve except".
+- **A2:** AER items excluded from generic bulk decide.
+- **A3:** AER Layer 4 decisions restricted to the Platform Admin.
+- **A4:** the no-scale wording principle: "Published requirement: [grade]. The provider does not state a grading scale on this page; check the source or contact the provider." The printed value is preserved, no scale is inferred, and it stays distinct from case-by-case and no published requirement.
+- **A5:** bulk Read again targets the newest stored copy only (specification `ui-audit/2026-10-30-bulk-reread-newest-copy-spec.md`, Option A for the governed snapshot pin).
+- **W34 and W35:** cached snapshots for the slow admin reads.
+- The "Why values are missing" run time.
+
+**Approved paid reads, with hard ceilings.** These are ceilings, not targets. They run one at a time, in this order:
+
+| Order | Line | Scope | Hard ceiling |
+|---|---|---|---|
+| 1 | B1 | Three source re-reads (ANU Croatian Matura `87f40035`, ANU Bosnia-Herzegovina `6aee5653` (item `509c8f82`), Melbourne India State Board `467c7a0c` (item `290bd250`)) | US$0.05 |
+| 1 | B2 | Three Monash course reads (`e58e7771`, `512b56fe`, `9cf18451`) through worker v0.54.1 | US$0.10 |
+| 2 | — | Verify evidence, completeness, cost recording and Layer 4 output | — |
+| 3 | R1 | Recovery reads for up to 714 displaced AU pages | 714 Firecrawl credits, no AI |
+| 4 | B3 | The next 500 eligible AU courses after R1 reconciliation | US$6 |
+| 5 | B4 | The 421 eligible NZ courses | US$4.50 |
+
+**Before each paid step, preconditions are checked in the migration itself:**
+- newest-copy identity and active eligibility;
+- exact counts, and that nothing duplicate is queued;
+- the deployed worker version;
+- AI reading allowed and the balance above the floor.
+
+**Controls:** no admission is automatic; the floor is unchanged. B5 is **not** approved; its next tranche is prepared only.
+
+**Past-year handbook pages:** not admitted as current. The 92 holds stay unless current-intake applicability is independently evidenced. No weakening of currency or source gates.
+
+**Prepared only, not executed:**
+- the stuck adapter drafts paste;
+- the edge capacity assessment (read-only; any schedule change needs a further decision).
