@@ -1,24 +1,28 @@
-# AER programme — live status (29 Oct 2026)
+# AER programme — live status (29–30 Oct 2026)
 
 Durable checkpoint, kept current at each stage. Updated whenever a stage starts or finishes, at least every 15 minutes during long runs, and whenever a PR, migration, deployment or source batch completes. Report: `2026-10-29-aer-programme-consolidated-report.md`. Manifest: `2026-10-29-aer-layer4-manifest.md`.
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state — 20:00 AEDT: handback filed (`2026-10-29-aer-governed-completion-handback.md`)
+## Current state: 01:35 AEDT, 30 Oct (mandate 30 Oct 00:01, Workstreams 1–8)
 
-| WS | State | Evidence |
-|---|---|---|
-| 0 Scholarship deadlock | DELIVERED | paste applied 16:57 and verified; W27 #743 live (md5s verified; job 39 ran under the lock) |
-| 1 Provider sources | DELIVERED (W28 #744) | Read again re-reads the newest copy only; inventory of 102 sources |
-| 2 Course-level and NZ | DELIVERED (W29 #745, v2.15.369, worker v0.53.0); batches BLOCKED | NZ and AU batches prepared; spend decision needed |
-| 3 Resolver and consumer | DELIVERED (read-only) | payload equals resolver; proposed rows never reach the website |
-| 4 Release health | DELIVERED with one FAILED item | #746; 6 retirements; Universities payload regression left red (decision) |
-| 5 Guides and handoff | DELIVERED | `AER-ROLE-GUIDES.md`; developer guide §7.9 |
+| WS | Owner, branch | State | Evidence or next step |
+|---|---|---|---|
+| 1 Health reconciliation | integrator, admin main | DELIVERED | `2026-10-30-enrichment-health-reconciliation.md`; complete gap list `2026-10-30-gap-causes-needs-a-change.md` |
+| 2 Source finder, capture, slow reads | lane G, then integrator; `cf247-w30-int` | VERIFYING | W30 dry run passed (source-finder call 139 ms); v2.15.370 full suite running |
+| 3 Release health | lane J, then integrator; `cf247-w33-int` | PREPARING | W33 Universities paging dry run passed (first page 83 KB, 1.0 s); ships in v2.15.371 after .370 |
+| 4 Identity and eligibility | lane H, then integrator; `cf247-w31-int` | PREPARING | Cause: the 29 Oct re-map binder displaced 714 code-proved AU pages. W31 dry run passed (0 of 1,230 proved pages touched). Recovery R1 BLOCKED on spend. |
+| 5 Reader hardening | lane I, then integrator; in `cf247-w30-int` | VERIFYING | W32 dry run passed (12 settings, worker sees 12); bulk Read again spec ready (decision) |
+| 6 Layer 4 policy | integrator | DELIVERED (decision paper); decisions BLOCKED | `2026-10-30-platform-admin-decision-paper.md` Part A; role guides 5.6 |
+| 7 Reporting freshness | integrator | DELIVERED (report prompt); panel change BLOCKED | Hourly report prompt updated; W30–W33 lodged in decision §8 |
+| 8 Paid reads | integrator | BLOCKED (decision) | Decision paper Part B: B1–B5, R1, R2. The balance top-up (US$104.99) is not authority. |
 
-**Next automatic action:** none. Every remaining item needs a human decision or review (handback §4). `cf247-zoho-dryrun` is identical to main (`5b8d7e49`).
+**Sequence:** v2.15.370 (W30 + W32), then v2.15.371 (W31 + W33). One deploy at a time.
 
 ## Log
 
+- 01:35 (30 Oct): all four lanes handed back; decisions W30–W33 lodged (`cb1974b9`); decision paper filed; three live dry runs passed and rolled back; hourly report prompt corrected; OpenRouter top-up seen (US$4.99 → 104.99 at 00:15), nothing queued.
+- 00:05 (30 Oct): mandate received; PREPARING board; lanes G, H, I, J launched; Workstream 1 read-only.
 - 20:00 — v2.15.369 (#745) and Workstream 4 (#746) delivered; handback filed; programme report Part C added.
 - 18:35 — W27 and W28 delivered; guides merged; resolver/consumer reconciliation done; W29 verifying; eligible-count drop found and attributed to coverage re-binding.
 - 17:45 — Mandate 16:59 received. Paste found applied at 16:57 (verified live). Root cause found (job 39 full rebuild vs paste). W27 decision and reconciliation lodged (`84cd25ac`); fix proven locally and by live dry run. Lanes C, D, E and F launched.
