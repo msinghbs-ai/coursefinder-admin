@@ -9409,3 +9409,30 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - **Correction** to the #734 live entry: the re-read rows superseded are 33, not 46.
 - **Earlier partial reads.** Federation and Western Sydney are superseded, not approved. Their replacement reads go to Layer 4 and stay unapproved until a complete read passes its source-anchored checks.
 - **Spec s157.** Local suite: 1,141 passed, 0 failed, 0 skipped. Register `b4227bb6`.
+
+### 29 Oct 2026 — programme batch outcomes; live visual acceptance; v2.15.365 (Pilot #736, written before merge)
+
+- **#735 live** (merge `3b98257a`, md5 `02a434be` equals the file).
+  - **All ten re-reads finished,** with rows kept rising from 169 to 1,179:
+    - Western Sydney 367 (25 not kept);
+    - Victoria University 147 (6);
+    - Wollongong 175 (96);
+    - Wintec 135 (24);
+    - Manukau 68 (8);
+    - Lincoln 71 (9);
+    - Otago Polytechnic 71 (62);
+    - UWA 50 (136);
+    - NMIT 48 (2);
+    - Federation 47 (35).
+  - **Cost:** about US$0.46.
+  - **Partial reads:** Federation, Wollongong, Otago Polytechnic and UWA are held for named source reasons. Federation and Western Sydney stay unapproved.
+  - **First course batch:** 50 Monash courses. 48 are in Layer 4 with 197 rows, and 2 pages state no requirement. Cost US$0.45, about US$0.009 a course.
+  - **Full course rollout:** the 4,926 remaining eligible courses would cost about US$45 against US$2.37 of OpenRouter headroom, so this needs a Platform Admin top-up or spend decision.
+- **Live read-only visual acceptance.** The UI review screenshots workflow ran with the new `aer-tour`: 13 of 14 screens on live data at desktop and phone width, with no sideways scroll, no console error, 33 bounded reads and 0 writes.
+  - **Found by looking:** the no-table pill and the cost were cut at their column edges, so v2.15.365 fixes them.
+  - The phone shell banner clips its first letter. That is the shell notice, recorded and not changed.
+  - The phone drawer step was not captured; the tour now taps a middle cell.
+  - The screenshots and manifest are in admin `docs/platform/ui-audit/assets/2026-10-29-aer-workspace-live/` (`28200424`).
+- **Layer 4 manifest** (`2026-10-29-aer-layer4-manifest.md`): 106 pending items, each classified once.
+- **#736:** v2.15.365. s156 extended. Local suite 1,142 passed, 0 failed, 0 skipped; register regenerated.
+- **Branches:** the 19 merged branches are verified landed. One deletion was refused by the proxy, recorded once. `cf247-zoho-dryrun` was fast-forwarded to main.
