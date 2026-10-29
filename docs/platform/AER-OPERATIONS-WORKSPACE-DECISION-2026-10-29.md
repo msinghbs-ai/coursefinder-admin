@@ -200,3 +200,45 @@
   - Limits are settings (G2): slice size, overlap, maximum slices, answer limit, slices at once.
   - Unchanged: quote, identity, scale/basis, completeness and admission gates; one Layer 4 item per course read; short pages are asked exactly as before.
   - No paid read is part of this change. The three failed courses need a separately approved re-read once it is live (bounded decision).
+
+## 8. Addendum, 30 Oct 2026 00:01 (enrichment-health reconciliation and incident, Workstreams 1–8), recorded before code
+
+Evidence:
+- `ui-audit/2026-10-30-enrichment-health-reconciliation.md` (Workstream 1);
+- `ui-audit/2026-10-30-gap-causes-needs-a-change.md` (complete gap list);
+- lane handbacks, summarised in the 30 Oct handback.
+
+Each decision below is an md5-guarded edit of a live definition. No decision weakens a gate, adds a status value, binds a page manually or spends.
+
+- **W30 (Workstream 2). Enrichment reliability.**
+  - **Source finder:** `public.svc_source_find_next` exceeded the 8-second API limit on 80 of 143 calls in 48 h. Its candidate scan is now worked out once per set, with the same candidates in the same order, finishing in about 0.3 s.
+  - **Course page reads:** `public.svc_coverage_read_next` re-checks the lease on the locked row, so a page is claimed by exactly one call. Jobs 49 and 159 had paid twice for 767 of 3,083 scrapes in 7 days.
+  - **Onboarding:** `security.provider_onboarding_job_v1` tracks only its own university's job.
+  - **Worker ledger:** worker modes `adapter_capture` and `adapter_propose` report `items` and `failed`, and a partial capture is never counted as complete.
+  - **External, not coded around:** edge-runtime failures (BOOT_ERROR, 502, 546) are reported as external. Edge capacity versus job frequency is a Platform Admin decision.
+  - **Not changed:** the 115 s course-list read is within design.
+- **W31 (Workstream 4). The site-map binder keeps code-proved pages.**
+  - **Cause:** on 29 Oct the routine 30-day re-map and job 47 demoted or replaced 789 AU pages that the reader had proved with the course's CRICOS code. 714 of these were wrongly displaced. No weak page became eligible.
+  - **Correction in `security.coverage_bind_v2`:**
+    - a page read with a `cricos_code`, `nzqa_code`, `adapter_code` or `manual` proof is never re-scored, demoted or released unless it has been refused;
+    - the release step releases only rows the binder bound itself.
+  - **Reader (worker v0.54.1):** the labelled NZQA number rule applies to NZ pages only. College of the North Atlantic (CA) had 53 pages labelled `nzqa_code`.
+  - **Not done by this change:** re-binding or re-reading. Recovery of the 714 runs through the existing promotion path, where a fresh read must find the code. It is a manifest, BLOCKED on a spend line.
+  - **Open:** whether past-year handbook pages are current enough to be read (92 held, plus 110 currently eligible).
+- **W32 (Workstream 5). AI answer limits are settings.**
+  - Twelve `reading.answer_tokens.*` settings. Their defaults are the values formerly fixed in code; the fee reader gets 32,000.
+  - A cut answer holds the whole read as `held_partial: output_truncated` on the existing path. Nothing of it is parsed or proposed.
+  - Cost is recorded on failed and held reads.
+- **W33 (Workstream 3). Layer 2/3 › Universities reads in pages.**
+  - A new `admin_layer23('universities_page')` action, beside the existing actions.
+  - Filters, search and order run on the server; the page size and tick limit are settings.
+  - The 700 KB / 3 s budget assertion is unchanged.
+  - The old `'universities'` action is kept until the screen release is live, then removed by a later md5-guarded edit.
+- **Reporting (Workstream 7).** The hourly phone report:
+  - states the gap snapshot's run time and age, and marks it stale after 75 minutes;
+  - labels Layer 4 growth as 24 hours;
+  - gives the complete "needs a change" count and where the full list is;
+  - reports reader health;
+  - marks spend as monitoring only.
+
+  This changes the scheduled report only, not the platform. Showing the run time on the "Why values are missing" panel is proposed in the decision paper.
