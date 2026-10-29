@@ -9732,3 +9732,31 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Guides:** role guides updated for A1–A5 (`c78c83e9`). A4 is recorded as O9 in the website register (2.4). The API marker for "scale not stated" is the next decision; the developer guide is unchanged because the API is unchanged.
 - **Open point:** approving a change item supersedes the active row whose new reading was excluded. Until it is decided, reviewers reject such change items.
 - **Unchanged:** the consumer API.
+
+### 30 Oct 2026 — R1 reconciled; v2.15.372 delivered; B3 batch 1 queued (Platform Admin mandate 30 Oct 06:53)
+
+- **R1, settled at 07:34 AEDT.** Queued 714, against a manifest of A 451 and B 263.
+
+  | Outcome | Pages |
+  |---|---|
+  | Bound again on a fresh CRICOS proof (A 440, B 237) | 677 |
+  | Bound on exact title, not eligible for entry requirements | 2 |
+  | Adapter-code proofs, still ambiguous (the reader promotes only on CRICOS) | 13 |
+  | Needs render | 6 |
+  | Fetch failed | 4 |
+  | Blocked | 2 |
+  | Identity mismatch | 3 |
+  | Still waiting for their one attempt | 7 |
+
+  - **Credits:** 3 Firecrawl credits used, against the 714 ceiling. No AI.
+  - **Eligibility:** AU eligible is now 4,834 (4,157 before R1); NZ is 438.
+  - No CRICOS or code-proof requirement was weakened, and no page was bound by hand.
+- **v2.15.372 delivered** (#751, `b1cf6189`). Live md5s match the dry runs:
+  - `admin_entry_matrix_reread` `e2566cb6`, snapshot `af76dcb7`;
+  - decide `67966ceb`, apply `7c718987` and `25899209`, bulk `512226a0`, batch `d3135163`, inbox `3f2b49d5`, `08e7999c` and `ff6e116b`.
+- **B3 batch 1, migration `20261030090000`:**
+  - `entry.course_batch_size` changes from 50 to 200, within its range, with the reason recorded.
+  - It queues the next 200 eligible AU courses by plan order: Monash 155 and QUT 45.
+  - **Preconditions in the migration:** B3 scope total stays within 500; spend plus estimate stays within US$6; no read waiting; AI allowed; balance above floor by the estimate; worker v0.54.x.
+  - **Post-checks:** every queued course is AU and eligible.
+  - **Live dry run (rolled back):** estimate US$2.00 at US$0.0100 a course (measured US$0.0080, plus 25%); balance US$104.80.
