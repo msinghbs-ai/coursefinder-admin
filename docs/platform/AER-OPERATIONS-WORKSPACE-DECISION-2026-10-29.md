@@ -121,3 +121,16 @@
   - the ten named re-reads, one governed attempt each;
   - the first bounded course batch.
 - Layer 4 decisions stay with people.
+
+### W19. A published level label that names several levels (29 Oct 2026, recorded before code)
+
+- **Evidence.** The Platform Admin's phone screenshot, 29 Oct 12:20, showed RMIT Diploma of Commerce DP020 (CRICOS 111278B) for India.
+  - RMIT publishes its India diploma rows under the label "Diploma/Associate degrees".
+  - `security.entry_level_map_v1` takes the first level it recognises, so those rows map to Associate degree only.
+  - A Diploma course therefore finds no row at its level, and the resolver says "none for this course's level".
+- **Decision.** A row whose **published** level label names several levels counts for each level it names. `security.entry_label_levels_v1(label)` splits the label on "/", ",", "&", "and" and "or", and maps each part with the existing mapping.
+  - The resolver (`security.entry_resolve_v1`) and the workspace's Resolution inspection both match `study_level_id` or a level named in the label.
+  - Nothing is inferred: the provider printed the level.
+  - Active rows only; the five rules are unchanged; the consumer API shape is unchanged (G3). Values change only where a printed label now matches.
+- **Effect for DP020 / India.** RMIT's diploma rows are band-table rows, and DP020's page prints no band, so the answer stays rule 5, "contact the provider". The reason becomes the true one: a band table exists for this level, and the course prints no band to enter it with.
+- **Build.** Migration `20261029050000`, md5-guarded edits of the resolver and `admin_aer`, spec `s160`, a rolled-back live dry run listing every course whose resolution changes, and change control before merge.
