@@ -9547,3 +9547,22 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Not done:** the existing duplicate `f14ae480` is left for the Layer 4 reviewer; no Read again was run on live.
 - **Specs:** s169 (new, Otago two-copy fixture). Local suite 1,191 passed, 0 failed, 0 skipped. Register regenerated.
 - **Inventory (lane C, read-only):** 102 sources (66 in reading scope plus RMIT's 36). Otago Polytechnic is the only source with a pending item on an older copy. 11 others have two stored copies, none with a stale pending item. 12 sources are held for a reader change; 3 Macquarie PDFs have never been read.
+
+### 29 Oct 2026 — v2.15.369: W29 long course pages read in slices (worker v0.53.0), Pilot PR to follow, written before merge
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 2 ("design bounded sectioned/sliced extraction … test against long-page fixtures before any paid re-read; do not blindly retry the same request"). Decision W29 lodged before integration (`c3f36374`). Built by lane D on its own branch, integrated by the integrator.
+- **Diagnosis.** The three Monash course reads (`e58e7771`, `512b56fe`, `9cf18451`) failed on all three attempts with "Unterminated string in JSON" at 8,061–8,598 characters.
+  - The worker's course entry read asked for the whole page in one call with a fixed 2,000-token answer, did not detect a cut answer, and recorded no cost on failure (estimated about US$0.10 unrecorded across 9 calls).
+  - The page sizes were ordinary for Monash; the answers were long (many per-country minimums).
+- **Worker `coverage-sweep-worker-v0.53.0`** (`course-entry.ts`, `index.ts`):
+  - contiguous overlapping slices with recorded character coverage;
+  - each answer limited by a setting; a cut, empty or unreadable answer fails its slice by name;
+  - quotes checked on their slice; rows merged in page order; duplicates from overlaps kept once;
+  - any failed slice holds the whole read (`held_partial` reason, existing failure path, no new status); a page longer than `entry.course_page_chars` is held before any call;
+  - cost recorded on failed reads;
+  - a one-slice page is asked exactly as before.
+- **Migration `20261029130000`:** five settings (`enrich.course_entry_slice_chars` 12,000, `…_slice_overlap_chars` 600, `…_max_slices` 10, `…_max_tokens` 8,000, `…_slice_concurrency` 4, each with label, range, unit and `used_by`); `entry.course_page_chars` help text; `security.enrich_entry_record_v1` keeps the read's coverage (md5-guarded `0f4d8f90`).
+- **Proof.** s170 (new; long-page fixtures, no network); s139 updated; s159, s32, s42, s120 and m245 pass (43/43). Rolled-back live dry run passed (record function → `857102dc`).
+- **Not done:** no paid read. The three failed Monash courses need one separately approved re-read once v0.53.0 is live.
+- **Also in this release:** the release notes record W27 (#743) and W28 (#744), which are already live.
+- **Specs:** local suite 1,199 passed, 0 failed, 0 skipped. Register regenerated.
