@@ -4,9 +4,9 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state: 10:05 AEDT, 30 Oct (mandate 30 Oct 08:45: D1–D9, Layer 4 review enablement first)
+## Current state: 09:12 AEDT, 30 Oct (mandate 30 Oct 08:45: D1–D9, Layer 4 review enablement first)
 
-Decisions: §11 and §11.1–11.3 (admin `73a71e5d`, `aef0490f`). Manifest: `2026-10-30-layer4-aer-review-manifest.md` (1,019 pending; baseline 09:55).
+Decisions: §11 and §11.1–11.3 (admin `73a71e5d`, `aef0490f`). Manifest: `2026-10-30-layer4-aer-review-manifest.md` (1,019 pending; baseline 09:08).
 
 | Item | State | Evidence |
 |---|---|---|
@@ -23,7 +23,7 @@ Decisions: §11 and §11.1–11.3 (admin `73a71e5d`, `aef0490f`). Manifest: `202
 
 ## Log
 
-- 10:05 (30 Oct): D1 stopped at the ceiling check after the probe and step 2 (US$1.69); manifest lodged (1,019 pending); D8 paper lodged; D3 queued; D7 delivered; D9 blocked.
+- 09:12 (30 Oct): D1 stopped at the ceiling check after the probe and step 2 (US$1.69); manifest lodged (1,019 pending); D8 paper lodged; D3 queued; D7 delivered; D9 blocked.
 - 08:33 (30 Oct): B3 and B4 complete within ceilings (US$2.69, US$0.82); QUT paused on page size; v2.15.373 live, and the deployed weekly run is green (the four former reds pass); batch size restored; handback 2 lodged.
 - 08:06 (30 Oct): B3 complete; B4 batch 1 queued; stuck-drafts paste and capacity assessment lodged.
 - 07:46 (30 Oct): B3 batch 1 settled (QUT held); batch 2 limited to RMIT; W35 dry run passed in parts.

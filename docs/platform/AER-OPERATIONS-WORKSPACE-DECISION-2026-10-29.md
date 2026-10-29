@@ -330,7 +330,7 @@ The Platform Admin's mandate of 30 Oct 2026 08:45 decides the open items in hand
 **Priority.** Layer 4 review enablement comes first. 1,014 AER items are waiting and no course-level row is admitted. No ingestion goes faster than review. Nothing is admitted automatically, and every gate stays: quote, identity, completeness, scale and basis, active-row, and Layer 4.
 
 **D1: long course pages (approved, hard AI ceiling US$6, which includes B2's unused US$0.10).**
-- **Scope reconciled live at 08:55 AEDT.** The newest item of 48 courses is held as a page longer than `entry.course_page_chars`: QUT 43 (173,314–201,314 characters), Monash 3 (B2, 100,365–108,295), AUT 1 (108,958) and NorthTec 1 (880,128).
+- **Scope reconciled live at 08:48 AEDT.** The newest item of 48 courses is held as a page longer than `entry.course_page_chars`: QUT 43 (173,314–201,314 characters), Monash 3 (B2, 100,365–108,295), AUT 1 (108,958) and NorthTec 1 (880,128).
   - Handback 2 said "46" and called the 880,128-character page AUT. That was an arithmetic and attribution error: 43 + 3 + 2 is 48, and that page belongs to NorthTec.
   - The NorthTec page stays over the new limit, so it stays held and is not re-read.
   - Unique D1 scope: 47 held courses plus QUT's 137 never-read courses, so **184 courses**. No course appears in both sets.
@@ -385,7 +385,7 @@ The Platform Admin's mandate of 30 Oct 2026 08:45 decides the open items in hand
 - No item is decided by this session, and no bulk or auto approve is used.
 - Kimi Work's one-at-a-time decisions are neither duplicated nor touched.
 
-### 11.1 D4 implementation: the supersede rule under Approve except (recorded before code, 09:15 AEDT)
+### 11.1 D4 implementation: the supersede rule under Approve except (recorded before code, 08:54 AEDT)
 
 Design: `ui-audit/2026-10-30-D4-design-note.md` (lane D4, read-only analysis, 30 Oct 2026).
 
@@ -411,7 +411,7 @@ Design: `ui-audit/2026-10-30-D4-design-note.md` (lane D4, read-only analysis, 30
   - Spec `s180`, with regression tests for mixed approve and exclude groups.
   - Reviewer guide §5.1, §5.2 and §5.6 updated with the change.
 
-### 11.2 D5 implementation: the additive `scale_stated` marker (recorded before code, 09:15 AEDT)
+### 11.2 D5 implementation: the additive `scale_stated` marker (recorded before code, 08:54 AEDT)
 
 Design: `ui-audit/2026-10-30-D5-design-note.md`.
 
@@ -432,7 +432,7 @@ Design: `ui-audit/2026-10-30-D5-design-note.md`.
 - **Gap logged, not fixed.** The consumer API baseline does not cover the internal entry functions or tables. Adding them needs its own approval.
 - **Spec and documents.** Spec `s182` with resolver fixtures; developer guide issue 6 (§7.9, §13, acceptance test 23); requirements O9; role guide §1.4, §3.5, §5.2 and §6.
 
-### 11.3 D6 implementation: `admin_adapter_measures` role check (recorded before code, 09:15 AEDT)
+### 11.3 D6 implementation: `admin_adapter_measures` role check (recorded before code, 08:54 AEDT)
 
 Design: `ui-audit/2026-10-30-D6-design-note.md`.
 

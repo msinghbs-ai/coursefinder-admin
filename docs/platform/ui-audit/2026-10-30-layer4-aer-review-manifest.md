@@ -1,4 +1,4 @@
-# Layer 4 AER review manifest (30 Oct 2026, read live 09:55 AEDT)
+# Layer 4 AER review manifest (30 Oct 2026, read live 09:08 AEDT)
 
 **Purpose:** a stable list of the AER items waiting for one-at-a-time human review in Layer 4 › Inbox, grouped by provider, source and run, with what each needs from the reviewer. Mandate: Platform Admin, 30 Oct 2026 08:45 ("Layer 4 review enablement — immediate programme priority").
 
@@ -6,11 +6,11 @@
 - This session decides **no** item.
 - No generic bulk decide, bulk approve or auto approve is used (A2).
 - Only the Platform Admin decides AER items (A3), through Approve all rows, Approve except, or Reject (A1).
-- Kimi Work's one-at-a-time decisions are its own. None were recorded in the last 24 hours (0 AER decisions between 29 Oct 09:55 and 30 Oct 09:55 AEDT).
+- Kimi Work's one-at-a-time decisions are its own. None were recorded in the last 24 hours (0 AER decisions between 29 Oct 09:08 and 30 Oct 09:08 AEDT).
 
 Regenerate with the SQL in Appendix A. Counts change as reviewers decide and as D1 reads finish.
 
-## 1. Totals (baseline before review activity, 09:55 AEDT)
+## 1. Totals (baseline before review activity, 09:08 AEDT)
 
 | Kind | Pending | Actionable | Not actionable | Proposed rows |
 |---|---:|---:|---:|---:|
@@ -151,7 +151,7 @@ Columns: **New** is a first run and **Change** a change item. **Rows** is the pr
 
 ## 8. Before and after reconciliation
 
-| Count (live) | Baseline 09:55 | After review activity |
+| Count (live) | Baseline 09:08 | After review activity |
 |---|---:|---|
 | AER items pending | 1,019 | to be completed at handback |
 | Approved / rejected today | 0 / 0 | |

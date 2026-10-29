@@ -2070,7 +2070,7 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - D8: capacity proposals P1–P7.
   - D9: delete the 3 lane branches (blocked by the proxy).
 
-### 30 Oct 2026 09:20 AEDT — mandate 30 Oct 08:45: D7 executed, D9 blocked, D1 step 1 (settings and probe) about to merge
+### 30 Oct 2026 08:55 AEDT — mandate 30 Oct 08:45: D7 executed, D9 blocked, D1 step 1 (settings and probe) about to merge
 
 - **Decisions recorded before code:** decision §11 (admin `73a71e5d`), with §11.1–11.3 for D4, D5 and D6 (admin `aef0490f`). The D4, D5 and D6 lanes are building.
 - **D7 executed, 08:50:59 AEDT.** The stuck-drafts paste ran unchanged as one transaction, after a rolled-back dry run of the same text.
@@ -2100,7 +2100,7 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - **Live dry run (rolled back):** 5 queued; estimate US$0.0843 (57 slices × measured US$0.00118 a slice × 1.25); balance US$101.28, floor US$5; settings applied as intended.
   - **Pre-run estimate for the whole of D1:** about US$4.30 measured, US$5.40 with margin, against the US$6 ceiling.
 
-### 30 Oct 2026 09:45 AEDT — D1 probe settled; D1 step 2 and D3 about to merge
+### 30 Oct 2026 09:04 AEDT — D1 probe settled; D1 step 2 and D3 about to merge
 
 - **D1 probe delivered** (#760, migration `20261030220000`, settings live at 08:57 AEDT). All 5 reads were complete at the first attempt, and all 29 rows went to Layer 4. Nothing was admitted.
 
@@ -2122,7 +2122,7 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - The 137 unread QUT pages come to about 1,950 slices (sizes from their stored copies at the measured 1.78 characters per gzip byte), so about US$4.54. Three of them are over 205,000 characters and would be held.
   - Probe plus step 2 plus the 137 comes to about US$6.4, which is over the US$6 ceiling.
   - Under D1 ("stop if the hard ceiling is insufficient"), the 137 are read only as far as the ceiling allows with the 25% margin, or they wait for a decision. Their newest-copy check is applied first.
-- **D3** (migration `20261030230000`). The 35 pages left by R1, reconciled at 09:30:
+- **D3** (migration `20261030230000`). The 35 pages left by R1, reconciled at 09:02:
 
   | Pages | Category | Action |
   |---:|---|---|
