@@ -196,7 +196,7 @@ The remaining 7 are pages shared by 2–4 courses, not the race.
   - integration renumbering (`XXXXXX`);
   - worker version labels, since superseded by v0.54.1.
 - **BLOCKED:** this session's proxy refused the deletion (git push and the REST API both returned 403). Operator action: `git push origin --delete cf247-enrich-reliability cf247-reader-answer-limits cf247-universities-paging`.
-- The integration branches of this mandate (`cf247-aer-b3-*`, `cf247-aer-b4-*`, `cf247-v373-int`) are squash-merged. Local worktrees are removed.
+- The branches of this mandate are squash-merged and redundant: `cf247-aer-review-path`, `cf247-aer-bulk-reread-newest`, `cf247-v372-int`, `cf247-admin-read-snapshots`, `cf247-notices-publishability-snapshots`, `cf247-v373-int`, `cf247-aer-b3-1` to `-3`, `cf247-aer-b4-1` to `-3` and `cf247-aer-batch-size-restore`. They can be deleted with the same command once a session can delete refs. Local worktrees are removed.
 
 ## 11. Each open item and the exact next decision
 
