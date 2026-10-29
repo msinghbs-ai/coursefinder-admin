@@ -1,11 +1,11 @@
 # Layer 4 Review skill — run and workstation export
 
-Date: 28 October 2026; updated 29 October 2026  
+Date: 28 October 2026; updated 30 October 2026  
 Scope: operating instructions for the KBE/Kimi Work skill saved as `Layer-4-Review`; no Layer 4 decisions or catalogue writes performed.
 
 ## Canonical GitHub source
 
-The reusable Skill source now lives in the admin repository:
+The reusable Skill source lives in the admin repository:
 
 - `docs/platform/skills/cf-layer4-triage/SKILL.md`
 - `docs/platform/skills/cf-layer4-triage/references/action-playbook.md`
@@ -28,6 +28,8 @@ This bounded workflow must:
 4. Submit and verify the first real UI decision before continuing. Snapshots, planning and proposed actions do not qualify the write path.
 5. Stop immediately for an uncertain first result, remaining queue item or UI/network failure; verify the original outcome before any retry.
 6. Only after the first verified decision, complete up to four additional individually evidenced and verified decisions in the same kind.
+
+Qualification proves UI submission and the selected kind's action route, not every Layer 4 route. When later work enters a different kind, verify its first decision before continuing. Record the stable UI item/ref id: a review-item UUID where applicable, otherwise the numeric or other kind-specific ref.
 
 Until the Decided repair is released, verify through the current queue and lightweight items views; do not open the failing **Decided** view or substitute SQL.
 
@@ -54,6 +56,12 @@ The first restricts the run to one exact provider. The second resumes an incompl
 
 Do not repeatedly start full-queue batches after zero-decision runs. Return to `layer4-by-kind-qualify` and identify the exact write-path blocker first.
 
+## Audit trail and outcomes
+
+Inbox submissions are recorded in `pipeline.admin_control_events` with `area = 'layer4'` and `action = 'inbox_decide'`. Applicable routed review items can also have `pipeline.layer4_decisions` rows. Do not expect every kind in both ledgers, and do not count an Inbox event plus its routed detail as two decisions.
+
+Queue clearance remains separate from canonical admission. For example, a fee-check keep decision releases `pipeline.enrichment_flags` while retaining registered `catalogue.course_fees`; it does not admit the proposed page fee. A release result can allow the next Enrich fields task to include the course, so later re-raised work remains possible.
+
 ## Export and use on another workstation
 
 The validated portable package is supplied in chat as `cf-layer4-triage.skill`. It contains only:
@@ -63,7 +71,7 @@ The validated portable package is supplied in chat as `cf-layer4-triage.skill`. 
 
 On each workstation:
 
-1. Open Kimi Desktop **Work** mode and use **Skills** to import/upload the `.skill` package. It can be displayed as **Layer-4-Review**.
+1. Open Kimi Desktop **Work** mode and use **Skills** to import/upload the `.skill` package. Replace the older copy so there is no ambiguity about the active version.
 2. Install and connect **Kimi Browser Extension** separately. Sign in to Platform Admin in the connected Chrome/Edge browser; the package contains no login, cookies, browser session or Platform Admin access.
 3. Run `layer4-by-kind-qualify` before any full-queue command on that workstation.
 4. Copy any in-flight consolidated checkpoint separately if resuming work. The Skill package contains the workflow and evidence rules, not prior batch state.
