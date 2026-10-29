@@ -9895,3 +9895,38 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - **Checks:** each course eligible, bound to its newest stored copy, and with its newest read a held long page within 205,000.
   - **Live dry run (rolled back):** 5 queued; estimate US$0.0843 (57 slices × measured US$0.00118 a slice × 1.25); balance US$101.28, floor US$5; settings applied as intended.
   - **Pre-run estimate for the whole of D1:** about US$4.30 measured, US$5.40 with margin, against the US$6 ceiling.
+
+### 30 Oct 2026 09:45 AEDT — D1 probe settled; D1 step 2 and D3 about to merge
+
+- **D1 probe delivered** (#760, migration `20261030220000`, settings live at 08:57 AEDT). All 5 reads were complete at the first attempt, and all 29 rows went to Layer 4. Nothing was admitted.
+
+  | Course | Slices | Rows |
+  |---|---:|---:|
+  | Monash | 9 | 6 |
+  | Monash | 10 | 6 |
+  | Monash | 10 | 6 |
+  | AUT | 10 | 5 |
+  | QUT | 18 | 6 |
+
+  - Spend US$0.1064 against an estimate of US$0.0843. QUT measured US$0.00233 a slice, the highest seen.
+- **Newest-copy finding.** QUT double-degree pages are shared, so the newest stored copy of a page can carry a sibling course's id.
+  - Newest-copy identity is now checked by the page's URL as well as the course.
+  - Six held QUT courses are bound to a 4–5 Oct copy while a newer copy of the same page was stored on 29 Oct. They are left out of D1 rather than read from an older copy: `566856d9`, `6b725a6f`, `c685ea5e`, `e41a156d`, `f302160d`, `f427e635`.
+- **D1 step 2** (migration `20261030240000`): 36 held QUT pages, 610 expected slices.
+  - **Live dry run (rolled back):** 36 queued; estimate US$1.7765 (610 × US$0.00233 × 1.25); D1 spend so far US$0.1064; balance US$101.18.
+- **D1 forecast at the measured QUT rate.**
+  - The 137 unread QUT pages come to about 1,950 slices (sizes from their stored copies at the measured 1.78 characters per gzip byte), so about US$4.54. Three of them are over 205,000 characters and would be held.
+  - Probe plus step 2 plus the 137 comes to about US$6.4, which is over the US$6 ceiling.
+  - Under D1 ("stop if the hard ceiling is insufficient"), the 137 are read only as far as the ceiling allows with the 25% margin, or they wait for a decision. Their newest-copy check is applied first.
+- **D3** (migration `20261030230000`). The 35 pages left by R1, reconciled at 09:30:
+
+  | Pages | Category | Action |
+  |---:|---|---|
+  | 7 | Single attempt already done (CRICOS not on the page) | Not re-read. Curtin 5 are their course pages; UniMelb 1 and Newcastle 1 are not course pages |
+  | 6 | Needs render (Federation 5, UNSW 1) | One rendered attempt brought forward |
+  | 4 | Fetch failed | One retry each, attempts 3 → 2 |
+  | 13 | Flinders adapter-code proofs | **Not restored**: no approved, documented rule promotes on an adapter code. 5 of the 13 pages name a different course or variant (MA Research for MA Social Work, PhD Research for PhD Nursing/Midwifery, BCIFT, MCRNOT, GDPTESOL exit-only) |
+  | 2 | Blocked (QUT) | Left blocked |
+  | 3 | Identity mismatch | Left unbound. Curtin 2 now say "Course not found"; UNSW 1 redirects to degree search |
+
+  - **Live dry run (rolled back):** 6 + 4 queued. At most 10 Firecrawl credits, within the 35-credit ceiling. No AI.
