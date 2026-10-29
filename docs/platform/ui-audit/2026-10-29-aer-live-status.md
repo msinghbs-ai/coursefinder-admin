@@ -4,30 +4,26 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state: 08:33 AEDT, 30 Oct (mandate 30 Oct 06:53): close-out
+## Current state: 10:05 AEDT, 30 Oct (mandate 30 Oct 08:45: D1–D9, Layer 4 review enablement first)
 
-Handback: `2026-10-30-aer-enrichment-handback-2.md`. **Not complete:**
-- 1,014 AER items await human review;
-- B5 is not approved, so 4,132 AU courses remain unread;
-- 46 long pages are held, pending decision D1.
+Decisions: §11 and §11.1–11.3 (admin `73a71e5d`, `aef0490f`). Manifest: `2026-10-30-layer4-aer-review-manifest.md` (1,019 pending; baseline 09:55).
 
-| Step | State | Evidence |
+| Item | State | Evidence |
 |---|---|---|
-| B1: three source re-reads (≤ US$0.05) | DELIVERED | #749. US$0.0155; 21 rows proposed; 3 items pending (human) |
-| B2: three Monash reads (≤ US$0.10) | BLOCKED (D1) | Held at US$0: pages over `entry.course_page_chars` |
-| R1: 714 recovery reads (≤ 714 credits, no AI) | DELIVERED | #750. 679 bound again (677 eligible); 35 remain (D3); 3 credits; no AI |
-| B3: 500 AU courses (≤ US$6) | DELIVERED | #752–#754. US$2.6874; 424 to review; 33 skipped; 43 QUT held (D1) |
-| B4: 421 NZ courses (≤ US$4.50) | DELIVERED | #755, #756, #758. US$0.8207; 348 to review; 71 skipped; 2 AUT held |
-| Batch size back to 50 | DELIVERED | #759, verified live 08:27 |
-| v2.15.372: A1–A3, A5 | DELIVERED | #751 |
-| v2.15.373: W34, W35 snapshots and gap-cause run time | DELIVERED | #757. Local 1,252/0/0; deployed weekly `40956651633`: 79/79 desktop and 80/80 phone, with the four former reds passing |
-| A4 guides | DELIVERED | Role guides §5.2, requirements O9 (the API marker is decision D5) |
-| Stuck-drafts paste | PREPARED, not executed | `pastes/PASTE-20261030-stuck-adapter-drafts.sql` (D7) |
-| Capacity assessment | DELIVERED (read-only) | `2026-10-30-edge-capacity-assessment.md` (D8) |
-| Branch cleanup | Partly BLOCKED | zoho-dryrun = main; deleting 3 verified-redundant branches is refused by the proxy (D9) |
+| Layer 4 review enablement | DELIVERED (manifest); review is human | 1,019 pending (961 course, 54 provider-table first runs, 4 change items); 1,015 actionable; 0 AER decisions in the last 24 h |
+| D1: long pages (≤ US$6) | **BLOCKED (ceiling)** after steps 1–2 | Settings live (#760). Probe 5/5 complete, US$0.1064. Step 2: 36/36 QUT complete, US$1.5827 (#761). Spend US$1.6891. The remaining 125 readable QUT pages need about US$4.69 at the measured US$0.00259 a slice, against US$4.31 left, so stopped. Not newest copy: 6 held and 9 unread. Over 205k: 3 unread and NorthTec 1 |
+| D3: R1 leftovers (≤ 35 credits) | VERIFYING | #761. 6 render reads and 4 fetch retries queued 09:47; 13 adapter-code pages not restored (evidence gap); 2 blocked and 3 mismatched left |
+| D4: supersede rule | PREPARING (lane building) | Decision §11.1 |
+| D5: `scale_stated` marker | PREPARING (lane building; consumer API paste before merge) | Decision §11.2 (R1) |
+| D6: `admin_adapter_measures` role check | PREPARING (lane building) | Decision §11.3 |
+| D7: stuck drafts paste | DELIVERED 08:50:59 | 5 drafts moved to `error`; drafts capturing 24 → 19; 1 audit row |
+| D8: capacity | DELIVERED (paper only) | `2026-10-30-D8-capacity-decision-paper.md` |
+| D9: branches | BLOCKED (proxy) | All four verified redundant; deletion refused with 403 |
+| B5 | HELD (prepared) | Not queued |
 
 ## Log
 
+- 10:05 (30 Oct): D1 stopped at the ceiling check after the probe and step 2 (US$1.69); manifest lodged (1,019 pending); D8 paper lodged; D3 queued; D7 delivered; D9 blocked.
 - 08:33 (30 Oct): B3 and B4 complete within ceilings (US$2.69, US$0.82); QUT paused on page size; v2.15.373 live, and the deployed weekly run is green (the four former reds pass); batch size restored; handback 2 lodged.
 - 08:06 (30 Oct): B3 complete; B4 batch 1 queued; stuck-drafts paste and capacity assessment lodged.
 - 07:46 (30 Oct): B3 batch 1 settled (QUT held); batch 2 limited to RMIT; W35 dry run passed in parts.
