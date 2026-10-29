@@ -9638,3 +9638,16 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Not done:** no paid read. The three failed Monash courses need one separately approved re-read once v0.53.0 is live.
 - **Also in this release:** the release notes record W27 (#743) and W28 (#744), which are already live.
 - **Specs:** local suite 1,199 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 — Workstream 4: deployed suite health (repairs and 6 retirements; one regression left red), Pilot PR to follow, written before merge
+
+- **Authority.** Platform Admin mandate 29 Oct 2026 16:59, Workstream 4 ("repair legitimate failures without weakening assertions; formally retire obsolete tests through the test-governance process"). Built by lane E on its own branch, integrated by the integrator. Test and workflow files only; no product code.
+- **Classification of the 31 acceptance-tier failures:**
+  - Most were obsolete or drift after the v2.15.225–v2.15.301 screen changes (Layer 2/3 rename, Layer 4 Inbox, Datasets, insights on demand, contacts off the blade). They were repaired against the current canonical screens.
+  - A shared helper bug was fixed: it checked for the tab bar before it was drawn.
+- **Retired (6), recorded in the retirement log** (`ui-audit/2026-10-26-test-governance.md`, `594115c6`): m2-4-4-layer-status, course-detail-polish (3), m245 v2.15.74 release currentness, cf-092 scheduled-jobs config, admin-navigation "Source profiles…", cf-080 Layer 4 contact reconciliation. Deployed tests go from 97 to 89; `deployed-uat.yml` lists updated.
+- **Left red, by rule:**
+  - **(b) product regression:** `admin_layer23('universities')` returns 1.97 MB against the 700 KB budget (about 3.2 s). The budget is unchanged; server paging needs a decision.
+  - **(b/d) intermittent statement timeouts** on five admin reads.
+- **Evidence:** lane E acceptance run 40842662895 (live-acting off): desktop 68 passed, 1 failed (the regression), 1 flaky (timeouts). A phone run with the weekly-only specs (run 40840795858) gave about 75 passed per project.
+- **Specs:** local suite 1,199 passed, 0 failed, 0 skipped. Register regenerated.
