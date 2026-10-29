@@ -9792,3 +9792,53 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 **Lane N lodged** (admin `c1450551`, NOT executed):
 - `docs/platform/pastes/PASTE-20261030-stuck-adapter-drafts.sql`, with its reconciliation. Preconditions were re-verified at 07:58 AEDT: 5 drafts still capturing, snapshot `b8e5c62a`.
 - `docs/platform/ui-audit/2026-10-30-edge-capacity-assessment.md`: read-only, proposals P1–P7. No schedule or capacity was changed.
+
+### 30 Oct 2026 08:33 AEDT — mandate 30 Oct 06:53 close-out: B4 complete, v2.15.373 delivered, deployed run green
+
+- **B4 complete:** 421 NZ courses (#755, #756, #758) for US$0.8207 against the US$4.50 ceiling.
+  - 348 to Layer 4 review, 71 skipped, 2 AUT pages held (108,958 and 880,128 characters).
+  - The 17 eligible NZ courses beyond the approved 421 were not read.
+  - `entry.course_read_countries` was restored after each batch.
+- **Totals for the mandate:**
+
+  | Line | Spend | Ceiling |
+  |---|---:|---:|
+  | B1 | US$0.0155 | US$0.05 |
+  | B2 | US$0 (held) | US$0.10 |
+  | R1 | 3 Firecrawl credits, no AI | 714 credits |
+  | B3 | US$2.6874 | US$6 |
+  | B4 | US$0.8207 | US$4.50 |
+
+  - **Nothing admitted.** Layer 4 AER pending: 1,014 (956 course first reads, 54 matrix first runs, 4 matrix changes).
+  - **Consumer-visible AER:** RMIT's 343 active matrix rows only; 0 active course rows.
+- **`entry.course_batch_size` back to 50** (#759, `20261030210000`). Verified live at 08:27 (value 50, reason recorded).
+- **v2.15.373 delivered** (#757, `b74abefb`): W34 and W35. Migrations `20261030190000` and `20261030200000` were renumbered after the B4 batches.
+  - **Dry runs:**
+    - All six W35 md5 guards apply to the live definitions.
+    - Notices 1,721 → 6 ms; field coverage NZ 3,040 → 1,283 ms (identical figures).
+    - `providers_page`: 4 of 4 identical, 364 → 37 ms.
+  - **Live after the merge:**
+    - Snapshots built with no error. Jobs `admin-read-snapshots` and `course-coverage-snapshot` are scheduled and catalogued.
+    - `gap-causes` runs `gap_causes_run_v1()`.
+    - `admin_read` is unchanged (`6b1bb9d5`).
+  - **Local suite:** 1,252 / 0 / 0. Register regenerated (admin `65f11971`). UI catalogue 1.16; SOPs copied (admin `ea2cd96f`).
+- **Deployed weekly run** `40956651633` (safe mode, 08:18–08:30): **success**.
+  - Desktop 79 of 79, phone 80 of 80.
+  - The four tests left red at 01:00 pass at the first attempt: core workspaces budgets, Scheduler and Jobs, and field coverage. No assertion, budget or timeout was changed.
+  - One unrelated desktop flake (`cf-061` QUT row locator) passed on retry.
+- **Health:**
+  - Source finder: no time-out since about 00:00.
+  - Course list read: median 0.04 s.
+  - W30 duplicate scrapes: 4.3%, down from 21% and 37.5%.
+  - `adapter-overwrite`: 1 time-out in 3 h.
+- **Documents:** handback `docs/platform/ui-audit/2026-10-30-aer-enrichment-handback-2.md`; live status at 08:33; decision §10 W34 recorded. Admin `50cbf693`.
+- **Open, each with its exact next decision (handback §11):**
+  - D1: raise `entry.course_page_chars` to 205,000 and re-read the 46 held pages plus the 137 unread QUT courses.
+  - D2: B5 tranches T1–T6, each US$6.
+  - D3: the 35 R1 residues.
+  - D4: the `entry_matrix_change` supersede rule.
+  - D5: the A4 API marker.
+  - D6: the `admin_adapter_measures` role check.
+  - D7: run the stuck-drafts paste.
+  - D8: capacity proposals P1–P7.
+  - D9: delete the 3 lane branches (blocked by the proxy).
