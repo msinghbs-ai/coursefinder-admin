@@ -384,3 +384,66 @@ The Platform Admin's mandate of 30 Oct 2026 08:45 decides the open items in hand
 - Before and after reconciliation counts.
 - No item is decided by this session, and no bulk or auto approve is used.
 - Kimi Work's one-at-a-time decisions are neither duplicated nor touched.
+
+### 11.1 D4 implementation: the supersede rule under Approve except (recorded before code, 09:15 AEDT)
+
+Design: `ui-audit/2026-10-30-D4-design-note.md` (lane D4, read-only analysis, 30 Oct 2026).
+
+- **Today's behaviour.** `security.entry_matrix_review_apply_v1` (md5 `7c718987…`) supersedes every earlier active row of the same provider and source before exclusions are applied. `security.course_entry_review_apply_v1` (`25899209…`) supersedes all active AI rows of the course.
+  - That breaks D4. No waiting item is affected today: the 4 `entry_matrix_change` items are first reads of new pages, and no course row is active.
+- **The rule implemented (literal reading of D4).** Under Approve except, an earlier active row from the same source is handled one of three ways:
+  1. **superseded** only when an *approved* new row has the same row identity (`row_hash`: provider, course, country, level, band, qualification);
+  2. **kept** active and untouched when its replacement was excluded;
+  3. **kept** when the new read does not carry it.
+- **Unchanged paths.** Approve all rows, the automatic recording path and Reject are unchanged.
+- **Conflicts hold the whole decision**, with "Held (decision D4): … nothing was changed". The item stays pending, and no decision or event is written. A conflict is either:
+  - two approved rows with the same identity; or
+  - an approved row whose identity is already active elsewhere for the provider.
+- **Course pages.** Approve except is held when the course already has active rows. Course rows have no identity key, so a replacement cannot be matched without guessing.
+- **Audit.**
+  - The excluded row's `provenance.aer_exclusion` gains `retains_active_row_id` and `retains_active_row_hash`.
+  - A superseded row gains `provenance.aer_supersede`, giving the item, the run and the replacing row.
+  - The apply result carries a `supersede_map`, stored in the existing `aer_approve_except` event.
+  - No new status, table or column.
+- **Removed rows.** A row the provider removed from the page stays active under Approve except. The reviewer uses Approve all rows, or withdraws the row afterwards with a reason.
+- **Code.**
+  - md5-guarded edits of `entry_matrix_review_apply_v1`, `course_entry_review_apply_v1` and `layer4_inbox_kinds_v1` (wording only).
+  - Spec `s180`, with regression tests for mixed approve and exclude groups.
+  - Reviewer guide §5.1, §5.2 and §5.6 updated with the change.
+
+### 11.2 D5 implementation: the additive `scale_stated` marker (recorded before code, 09:15 AEDT)
+
+Design: `ui-audit/2026-10-30-D5-design-note.md`.
+
+- **Marker values.** `scale_stated` goes on each provider `entry_matrix` item and each course `entry.resolution.rows[]` item:
+  - `true`: a printed grade with a stated scale;
+  - `false`: a printed grade with no stated scale (`scale` null, outcome stays `minimum_published`);
+  - `null`: case by case. Course-page rows are always `null`, because the course reader stores no scale.
+  - The key is always present. No existing key or outcome changes meaning, and nothing is inferred.
+- **Where it is built.** md5-guarded edits of `security.entry_matrix_payload_v1` and `security.entry_resolve_v1` only.
+  - The `public.website_v2_*` functions and every edge function are unchanged.
+  - `wix-course-api` passes the provider payload through, so it gains the key with no code change.
+  - Zoho is untouched.
+- **G3 process.** The migration carries `-- Consumer API change approved: Platform Admin, 30 Oct 2026 08:45 (D5) …`. The baseline note is updated and the baseline re-taken.
+  - As with the precedent `20261028005000`, the Platform Admin applies the paste before the PR merges (operating model, rule 9).
+- **Option R1, chosen by the integrator.** A printed grade with no stated scale can be recorded by a person: "Not stated on the page" becomes a scale choice in the AER workspace, through the existing governed edit path with a reason. It is an md5-guarded edit of `public.admin_aer` plus the UI.
+  - **Why:** without a way to store such a row, the approved marker could never be `false`. The A4 wording principle ("preserve the printed grade and evidence") needs the row to be keepable.
+  - **Admin-side only:** no reader change and no automatic admission. The 20 quarantined RMIT Gao Kao rows are not touched.
+- **Gap logged, not fixed.** The consumer API baseline does not cover the internal entry functions or tables. Adding them needs its own approval.
+- **Spec and documents.** Spec `s182` with resolver fixtures; developer guide issue 6 (§7.9, §13, acceptance test 23); requirements O9; role guide §1.4, §3.5, §5.2 and §6.
+
+### 11.3 D6 implementation: `admin_adapter_measures` role check (recorded before code, 09:15 AEDT)
+
+Design: `ui-audit/2026-10-30-D6-design-note.md`.
+
+- **The defect.** Live `public.admin_adapter_measures(uuid[])` (md5 `b1417ead…`) checks `current_user <> 'postgres'`. Inside a security-definer function that is always the owner, so the check never fires.
+  - Proven by a rolled-back dry run: a curator (rank 3) and a no-user service call were both answered.
+- **The intended boundary is kept exactly:** rank 5 or above, or a direct owner session.
+  - Sources: the original migration (archive `20261005001390`, line 10); `coursefinder-university-adapters-v1.0.md` line 245, "Platform Admin and Operators"; and twelve sibling adapter functions.
+- **The replacement uses the A5 pattern:**
+  `if (auth.uid() is not null or coalesce(auth.role(), '') <> '') and (auth.uid() is null or coalesce(v_rank, 0) < 5) then raise … 42501`.
+  - Owner and migration sessions keep working.
+  - A service-role API call is refused. No legitimate service caller exists: no cron, function, UI or edge function calls it.
+- **Sweep (read-only).** No other function reachable by `authenticated` or anon has the defect. The 280 owner or service-only functions with the same idiom are an observation, not a defect.
+- **Tests.** Contract spec `s181` proves anon, signed-in curator, Platform Admin and the owner path. Deployed spec `s183` proves the API path with the Platform Admin UAT login and anon.
+  - Curator refusal is proven by `s181` and the live dry run, because the deployed environment has no curator login (option (b)).
