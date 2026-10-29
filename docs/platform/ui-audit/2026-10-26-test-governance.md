@@ -222,3 +222,26 @@ Run 40247726101 on `7dbccbfa`. The workflow worked end to end:
 4. **Investigate the Coverage 500**: confirm it in the API logs, then spread the :23 jobs or speed up the read.
 
 Until you decide, the weekly run stays on. It will fail again on Monday 2 Nov with the same list, which is the honest state of the deployed track.
+
+## Retirement log — 29 Oct 2026 (Platform Admin mandate 29 Oct 2026 16:59, Workstream 4)
+
+The deployed acceptance tier had 31 failures. They were classified one by one:
+- (a) environmental or fixture drift;
+- (b) genuine product regression;
+- (c) obsolete test (the screen or rule was deliberately changed by a later decision);
+- (d) missing prerequisite.
+
+Class (a) and (c) failures were repaired against the current canonical screens without weakening their assertions (shared navigation helper, A12, A13, A15, data quality, A21, A23, A26, M2.3, M2.5, CF-061, CF-076, CF-097, CF-098, CF-100, CF-208, CF-209, navigation audit). The tests below are retired. Deployed tests go from 97 to 89.
+
+| Test | Reason (decision / release) | Replacement coverage |
+|---|---|---|
+| `m2-4-4-layer-status-deployed` (1 test) | Dashboard Layers panel retired (v2.15.266, Platform Admin 13 Oct 2026) | `cf-247-s30-progress-tab-contract`; `performance-deployed` checks the dashboard read returns 200 |
+| `course-detail-polish-deployed` (3 tests, one live-acting) | Course blade rebuilt as pills and fact cards (v2.15.225, Platform Admin 9 Oct 2026); the old headings, "Open first-party page" link and section reordering are gone | `s121` course blade phone test, `s167`, A12, the data-quality course-detail test |
+| `m245-v2-15-74-release-currentness-deployed` | Pinned to v2.15.73/74 | `release-notes-deployed`, `s70`, `m245` |
+| `cf-092-scheduled-jobs-config-deployed` | The "Jobs & Schedules" menu, "Scheduled Jobs & Run Control" and "Administration overview" are gone (v2.15.107, v2.15.124, v2.15.200) | repaired CF-209 scheduling test, `cf-092-scheduled-jobs-config-contract`, admin-navigation deep-link test |
+| `admin-navigation` › "Source profiles are on Scrapers & fetchers…" | Source profiles retired (clean-up batch 2, 9 Oct 2026); page moved (v2.15.300) | A23 (asserts no source-profiles card), `layer2-provider-deployed` |
+| `cf-080` › "Layer 4 route exposes Provider Contact reconciliation workload" | Layer 4 tabs became Inbox kinds (v2.15.298/300) with no contact-reconciliation kind; the notice now appears only in the Provider contacts import, and only when items are parked (0 live) | CF-080 source contract and catalogue tests |
+
+**Left red, with evidence:**
+- **(b) `performance-deployed` › "Layer 2 Adapters stay within management-view budgets":** `admin_layer23('universities')` returns 1,967,164 bytes against the 700,000 budget (about 3.2 s against 3 s). The budget is not weakened; server-side paging needs a decision.
+- **(b/d) Intermittent database statement timeouts:** seen on `course_coverage`, `admin_field_coverage`, `admin_platform_notices_read`, `admin_progress_read` and `pipeline_jobs_page`, including from a real operator at 17:12 AEDT. These cause flaky data-quality, field-coverage and navigation-audit runs.
