@@ -384,20 +384,22 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 
 | Field | Notes |
 |---|---|
+| `country` | The `edu_country` you sent, in capitals |
 | `step`, `rule` | 1–5: `course_override`, `course_country_row`, `band_ladder`, `provider_minimum`, `contact_provider` |
 | `outcome` | `minimum_published`, `case_by_case` or `contact_provider` |
 | `rows[]` | `qualification`, `study_level`, `min_grade`, `scale`, `band`, `conditions`, `quote`, `as_at`, `edition`, `case_by_case` |
-| `note` | Why no table row applied, when `step` is 5 |
+| `note` | Why no table row applied, when `step` is 5. One of: "The provider publishes a band table for this country, but the course page prints no band to enter it with."; "The course band … has no published row for this country and level."; "The provider publishes rows for this country, none for this course's level."; "No published requirement for this country." You may show it under the "contact the provider" message |
+| `contact` | When `step` is 5: the provider's website, for the "contact the provider" link. `null` when not held |
 
 Show it like this:
 
 - **`minimum_published`:** show each qualification with its minimum, for example "All India Senior School Certificate: minimum average of 75%".
-- **`case_by_case`**, or a row with `case_by_case` true: show **"This qualification is considered case by case"**. Never show "no data", and never treat it as met.
+- **`case_by_case`**, or a row with `case_by_case` true: show **"This qualification is considered case by case"**. Never show "no data", and never treat it as met. A row is `case_by_case` when it states no minimum on a scale: `min_grade` is null, or `scale` is `"none"`. Where `min_grade` holds the provider's words (for example "Completion of Senior High School Diploma"), show them as printed with the case-by-case message.
 - **`contact_provider`:** show **"Requirements for your qualification aren't published — contact the provider"**, with the provider's website.
 
 The API looks requirements up. It never decides whether a student is eligible.
 
-**Provider detail: `entry_matrix[]`** (admitted rows; narrowed to `edu_country` when sent): `country`, `study_level` (the provider's own label), `qualification`, `min_grade`, `scale`, `band`, `course_code` (only on rows for one course), `conditions`, `as_at`. A row with `min_grade` null has `scale` `"none"`: it is considered case by case.
+**Provider detail: `entry_matrix[]`** (admitted rows; narrowed to `edu_country` when sent): `country`, `study_level` (the provider's own label), `qualification`, `min_grade`, `scale`, `band`, `course_code` (only on rows for one course), `conditions`, `as_at`. `scale` `"none"` means the row states no minimum on a scale: show `min_grade` as printed, when present, with "This qualification is considered case by case" (the same rule as `case_by_case` above). A row with `min_grade` null always has `scale` `"none"`.
 
 **Worked example (Pilot, measured 29 October 2026, admitted rows only):** RMIT University, Bachelor of Engineering (Honours), CRICOS `0100714`, for a student from India.
 
@@ -436,8 +438,28 @@ The provider publishes an India table, but this course's page prints no band to 
 
 33 rows for India (343 for all countries). A course that names its band (for example "65%") resolves at step 3 to the rows of that band; this course names none.
 
+A provider row with no minimum on a scale (same provider, measured 29 October 2026):
+
+```json
+{ "country": "TW", "study_level": "Foundation Studies", "qualification": "Senior High School Diploma",
+  "min_grade": "Completion of Senior High School Diploma", "scale": "none", "band": null,
+  "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26" }
+```
+
+Show "Senior High School Diploma: Completion of Senior High School Diploma. This qualification is considered case by case."
+
+The same course without `edu_country` (its own published requirements; nothing is read from this course's page yet, so every field is empty and there is no `resolution`):
+
+```json
+"entry": { "min_score": null, "min_score_basis": null, "benchmark_band": null,
+           "prerequisites": [], "selection_tasks": [], "requirements_note": null, "resolution": null }
+```
+
+For a country the provider publishes nothing for (for example `edu_country` `"ZW"`), `resolution` is step 5 with `note` "No published requirement for this country." Render every step 5 the same way: "contact the provider", with `contact`.
+
 **Integrating:**
 
+- **What the website shows is built by the website team.** The API returns the data and the outcome words above; it does not provide page components.
 - **Website (Wix):** let the student choose their country of prior education once (for example on the course page or in their profile), keep it in their session, and send it as `edu_country` with `course` and `provider` from your backend code, as for every call (the key never reaches the browser). Render `entry.resolution` with the three rules above; show `as_at` with each row. `sync` does not carry entry requirements: fetch them with `course` and `provider` when the page is shown (or cache them by course and country).
 - **Zoho:** Zoho's own API (`zoho-api-v2`) is unchanged and carries no entry requirements. A Zoho workflow that needs them for a lead calls Website API v2 `course` with the lead's country of prior education, with a key issued for that use.
 - **Other consumers:** treat `entry` and `entry_matrix` as optional; a value not held is `null` or empty, never a placeholder.
