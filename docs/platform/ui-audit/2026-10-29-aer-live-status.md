@@ -4,29 +4,33 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state: 07:27 AEDT, 30 Oct (mandate 30 Oct 06:53: approvals A1–A5, bounded paid reads, snapshots)
+## Current state: 08:33 AEDT, 30 Oct (mandate 30 Oct 06:53): close-out
 
-**Paid-read lock:** one paid operation at a time, run by the integrator in order B1/B2 → verify → R1 → B3 → B4.
+Handback: `2026-10-30-aer-enrichment-handback-2.md`. **Not complete:**
+- 1,014 AER items await human review;
+- B5 is not approved, so 4,132 AU courses remain unread;
+- 46 long pages are held, pending decision D1.
 
 | Step | State | Evidence |
 |---|---|---|
-| B1: three source re-reads (≤ US$0.05) | DELIVERED | #749. Spend US$0.0155. Rows kept: 9/9, 5/5, 7/8. Items `dcf9300f`, `987dac71`, `2b491c25` are pending (human). |
-| B2: three Monash reads (≤ US$0.10) | BLOCKED (decision) | Held before any AI call: the pages are 100,365–108,295 characters, over `entry.course_page_chars` (100,000). US$0. Decision: raise to 115,000 and re-read. |
-| R1: 714 recovery reads (≤ 714 credits, no AI) | VERIFYING | #750, queued 07:18. At 07:20, 233 were bound again on a fresh CRICOS proof. |
-| B3: 500 AU courses (≤ US$6) | waiting for R1 | — |
-| B4: 421 NZ courses (≤ US$4.50) | waiting for B3 | — |
-
-| Lane | Owner, branch | State |
-|---|---|---|
-| K: A1–A3 review path | lane K, then integrator; `cf247-aer-review-path` → `cf247-v372-int` | VERIFYING (dry run passed; v2.15.372 suite running) |
-| L: A5 bulk newest copy, plus the role-check fix | lane L, then integrator; `cf247-aer-bulk-reread-newest` → `cf247-v372-int` | VERIFYING (dry run passed) |
-| M: W34 admin_read slow operations | lane M | PREPARING |
-| M2: W35 snapshots and gap-cause run time | lane M2 | built; dry run after M |
-| N: capacity assessment and stuck-draft paste | lane N | DELIVERED (read-only; paste prepared, not run) |
-| A4: guides for no-scale wording | integrator | PREPARING |
+| B1: three source re-reads (≤ US$0.05) | DELIVERED | #749. US$0.0155; 21 rows proposed; 3 items pending (human) |
+| B2: three Monash reads (≤ US$0.10) | BLOCKED (D1) | Held at US$0: pages over `entry.course_page_chars` |
+| R1: 714 recovery reads (≤ 714 credits, no AI) | DELIVERED | #750. 679 bound again (677 eligible); 35 remain (D3); 3 credits; no AI |
+| B3: 500 AU courses (≤ US$6) | DELIVERED | #752–#754. US$2.6874; 424 to review; 33 skipped; 43 QUT held (D1) |
+| B4: 421 NZ courses (≤ US$4.50) | DELIVERED | #755, #756, #758. US$0.8207; 348 to review; 71 skipped; 2 AUT held |
+| Batch size back to 50 | DELIVERED | #759, verified live 08:27 |
+| v2.15.372: A1–A3, A5 | DELIVERED | #751 |
+| v2.15.373: W34, W35 snapshots and gap-cause run time | DELIVERED | #757. Local 1,252/0/0; deployed weekly `40956651633`: 79/79 desktop and 80/80 phone, with the four former reds passing |
+| A4 guides | DELIVERED | Role guides §5.2, requirements O9 (the API marker is decision D5) |
+| Stuck-drafts paste | PREPARED, not executed | `pastes/PASTE-20261030-stuck-adapter-drafts.sql` (D7) |
+| Capacity assessment | DELIVERED (read-only) | `2026-10-30-edge-capacity-assessment.md` (D8) |
+| Branch cleanup | Partly BLOCKED | zoho-dryrun = main; deleting 3 verified-redundant branches is refused by the proxy (D9) |
 
 ## Log
 
+- 08:33 (30 Oct): B3 and B4 complete within ceilings (US$2.69, US$0.82); QUT paused on page size; v2.15.373 live, and the deployed weekly run is green (the four former reds pass); batch size restored; handback 2 lodged.
+- 08:06 (30 Oct): B3 complete; B4 batch 1 queued; stuck-drafts paste and capacity assessment lodged.
+- 07:46 (30 Oct): B3 batch 1 settled (QUT held); batch 2 limited to RMIT; W35 dry run passed in parts.
 - 07:27 (30 Oct): B1 delivered (US$0.0155); B2 held at US$0 (page size, decision); R1 queued 07:18 and recovering; lanes K, L and M2 handed back; A5 found a role-check defect (fixed in v2.15.372); decisions §9 and §10 lodged.
 - 06:55 (30 Oct): mandate 06:53 received; PREPARING with the paid-read lock; lanes K, L, M, M2 and N launched.
 - 01:20 (30 Oct): handback filed. Weekly deployed run: Universities regression fixed; 4 load-timing failures left red (decision). Source finder ran clean at 00:56 (3 universities, no failure).

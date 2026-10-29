@@ -313,4 +313,12 @@ Each decision below is an md5-guarded edit of a live definition. No decision wea
   - Screens never rebuild a snapshot. They show its time, age and a stale marker.
   - Permissions and drill-downs stay exact and live. The consumer API and `scholarship_publishability_v1` are unchanged.
   - The gap-causes job records its run, and the panel shows the last run's finish time, stale after 75 minutes.
-- **W34: `admin_read` slow operations** (`course_coverage`, `pipeline_jobs_page`, `providers_page`, `courses_page`). Lodged when lane M hands back.
+- **W34: `admin_read` slow operations** (`course_coverage`, `pipeline_jobs_page`, `providers_page`, `courses_page`). Design: `ui-audit/2026-10-30-W34-snapshots-design.md`, lodged 08:30 AEDT before the deployed proof.
+  - **`course_coverage`:** answers from a derived snapshot, `pipeline.course_coverage_snapshot` and `course_coverage_totals`.
+    - Job `course-coverage-snapshot` (`2-59/5`, catalogued) rebuilds it only when an hourly source build has changed, at most once every `snapshot.course_coverage_min_interval_minutes`.
+    - It is single flight (advisory try-lock). The screen shows the build and check time and is marked stale after `snapshot.course_coverage_stale_minutes`.
+    - Course lists opened from it stay live.
+  - **`pipeline_jobs_page`, `courses_page` and `providers_page`:** choose the page first on light columns, then work out the per-row figures for that page only. The rows, order and fields are the same. Each is md5-guarded; `providers_page` is replaced whole after its md5 is confirmed.
+  - **Unchanged:** `admin_read` itself, permissions and the consumer API.
+  - **Shipped:** W34 and W35 shipped together in v2.15.373 (#757; migrations `20261030190000` and `20261030200000`).
+  - **Proof:** the weekly deployed run (`40956651633`, safe mode) passed 79 of 79 desktop and 80 of 80 phone tests, including the four tests left red at 01:00. No assertion, budget or timeout was changed.
