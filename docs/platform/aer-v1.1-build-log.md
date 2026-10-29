@@ -2134,3 +2134,27 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   | 3 | Identity mismatch | Left unbound. Curtin 2 now say "Course not found"; UNSW 1 redirects to degree search |
 
   - **Live dry run (rolled back):** 6 + 4 queued. At most 10 Firecrawl credits, within the 35-credit ceiling. No AI.
+
+### 30 Oct 2026 09:16 AEDT — correction: time labels
+
+Several time labels written during this mandate ran ahead of the clock. Corrected in place, checked against the commit times and the database timestamps:
+
+| Item | Label written | Correct |
+|---|---|---|
+| Change-control heading (D7, D9, D1 step 1) | 09:20 | 08:55 |
+| Change-control heading (D1 probe, step 2, D3) | 09:45 | 09:04 |
+| D3 reconciliation | 09:30 | 09:02 |
+| Decision §11, scope reconciled | 08:55 | 08:48 |
+| Decision §11.1–11.3 | 09:15 | 08:54 |
+| Manifest baseline | 09:55 | 09:08 |
+| Live status | 10:05 | 09:12 |
+
+**Two labels could not be corrected:**
+- The comment in migration `20261030230000` still says "reconciled live at 09:30 AEDT"; the correct time is 09:02.
+- The #761 PR body says "the admin repo entry at 09:45"; the correct time is 09:04.
+
+**Database times were always right:**
+- D7 ran at 08:50:59.
+- D1 step 1 was applied at 08:57:15.
+- D3 was queued at 09:06:22.
+- No content or count changed.
