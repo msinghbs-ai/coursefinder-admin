@@ -1778,3 +1778,14 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
 - **Rolled-back live dry run passed:** 50 Monash courses, estimate US$0.43.
 - **Balance rechecked just before merge:** US$5.76, floor US$5 (unchanged), measured US$0.00859 a course. After this batch the headroom is under one batch, so course reading pauses at the floor (B3).
 - **Specs:** s168. Local suite 1,183 passed, 0 failed, 0 skipped. Register regenerated.
+
+### 29 Oct 2026 (Thu, Melbourne) – AER technical design and status deck
+- Raised by the Platform Admin (16:23): review the repositories and prepare a presentation and technical design for academic entry requirements (stage, plan, how requirements are cross-referenced, with screenshots), in the milestone deck style, five pages.
+- New `docs/platform/AER-TECHNICAL-DESIGN.md` v1.0 (router row added). It covers purpose and scope, current stage, architecture, data model, the five-rule resolver with a live worked example (RMIT, India), readers by source route, admin screens, consumer fields, settings, quality and testing, plan and risks. Screens are cropped from the 29 Oct live tour (`ui-audit/assets/2026-10-29-aer-design/`). The deck (5 slides) and a Word copy of the design were delivered to the Platform Admin; nothing changed on Pilot.
+- Live figures read about 16:30 AEDT:
+  - matrix rows: 343 active (RMIT, 24 countries), 2,186 proposed (26 providers), 20 quarantined, 765 superseded;
+  - course rows: 695 proposed (184 courses);
+  - sources: 102 for 34 providers (99 read, 3 refused);
+  - matrix reads: 112 runs, about US$1.70.
+- Live check: `security.entry_resolve_v1` for course 0100714 (BH126) and IN returns step 5 ("the course page prints no band"). The RMIT India Bachelor 65 % band rows are active (AISSC 65 %, ISC 65 %, State Boards 70 %).
+- Finding: the quarterly edition check of decision 8 (`entry-matrix-edition-check`, `entry.edition_check_days`) is not scheduled; there is no such job or setting live. It is listed as plan item 7 in the design.
