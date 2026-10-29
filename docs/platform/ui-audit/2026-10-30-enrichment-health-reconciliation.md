@@ -67,7 +67,7 @@ The 304 items created in the 24 hours to 23:00 AEDT:
 - **Claimed or assigned: 0.** No reviewer has claimed any item. Kimi Work's review is not affected by anything in this reconciliation.
 - **Held incomplete reads are not Layer 4 items.** A read cut short is held before any row is proposed, under W29. The 16 skipped and 3 failed course reads appear in the AER workspace, not in this queue.
 
-**Nothing was cleared.** Overtaken candidates go to reviewers as a classification (role guides 4.6), not as a bulk action.
+**Nothing was cleared.** Overtaken candidates go to reviewers as a classification (role guides 5.6), not as a bulk action.
 
 ## 3. The 28 pages read (22:11–23:11 AEDT)
 

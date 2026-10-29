@@ -276,7 +276,7 @@ On Course entry requirements › **Course-level reading** (`data-aer-programme`)
 A batch is refused when: no course is left; an earlier course read is still waiting; AI reading is stopped; or the estimate would take the balance below the floor (`security.course_entry_batch_v1`). Batches are at most `entry.course_batch_size` (50) courses.
 **Record:** `pipeline.admin_control_events`, one Enrich fields task in `pipeline.admin_jobs`; every course read goes to Layer 4.
 
-**The floor is not changed to make room.** The floor (US$5, Models & services › Toolsets & limits) protects all AI work. When the margin is thin, pause rather than rely on it: on 29 Oct the function would have allowed a fifth batch with US$0.003 to spare, but measured batches had cost up to US$0.45, so reading paused and the spend went to the Platform Admin as a decision (consolidated report B9 item 1). A top-up or a floor change is a separate, recorded decision.
+**The floor is not changed to make room.** The floor (US$5, Models & services › Toolsets & limits) protects all AI work. When the margin is thin, pause rather than rely on it: on 29 Oct the function would have allowed a fifth batch with US$0.003 to spare, but measured batches had cost up to US$0.45, so reading paused and the spend went to the Platform Admin as a decision (consolidated report B9 item 1). A top-up or a floor change is a separate, recorded decision. **A top-up is not a spend decision either:** on 30 Oct the balance rose to about US$105 while no batch was approved, and no batch was started (decision paper `ui-audit/2026-10-30-platform-admin-decision-paper.md`, Part B).
 
 ### 4.4 Coordinating Layer 4 without bulk approval
 
@@ -364,6 +364,19 @@ Open the page and its stored copy. If no requirements table is shown, **Approve*
 | A proposed row is wrong | Decide it in Layer 4 (Approve except, or Reject). Do not approve and then fix it in the workspace |
 | An active row is wrong | Correct it in the workspace (section 3) with a reason |
 | A whole source is misread | Reject in Layer 4; the Platform Admin decides on a re-read or a reader change |
+
+### 5.6 Telling queue items apart (30 Oct 2026)
+
+The pending queue is not a list of defects. On 30 Oct it held 515 items: 241 AER and 274 others (`ui-audit/2026-10-30-enrichment-health-reconciliation.md` §2.2). Sort each item into one of four groups before deciding.
+
+| Group | How to tell | What to do |
+|---|---|---|
+| **Actionable new evidence** | Status `pending`; the run is on the source's newest stored copy; the rows carry quotes | Read it and decide it (section 5.2) |
+| **Stale or superseded duplicate** | The source has a newer run, or the item is already `superseded` (W28 closes older-copy items itself when a source is read again) | Reject a still-pending stale item, with the reason naming the newer item. Never approve it. |
+| **Held incomplete read** | It does not reach Layer 4. The AER workspace shows the course read as held partial, skipped or failed. | Nothing for the reviewer to do. A re-read needs the Platform Admin's approval of a spend line. |
+| **Awaiting another correction** | A tuition or official-URL item on a course that already has a newer active value (31 tuition and 22 URL items on 30 Oct) | Compare it with the current value. Decide it only once you know which is right. Do not approve over a newer value. |
+
+No group is cleared in bulk. Until the Platform Admin decides "approve except" (decision paper A1), reject an item whose rows are partly wrong, with the reason.
 
 ---
 
