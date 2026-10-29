@@ -4,23 +4,31 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state: 01:20 AEDT, 30 Oct (handback filed: `2026-10-30-aer-enrichment-handback.md`) (mandate 30 Oct 00:01, Workstreams 1–8)
+## Current state: 07:27 AEDT, 30 Oct (mandate 30 Oct 06:53: approvals A1–A5, bounded paid reads, snapshots)
 
-| WS | Owner, branch | State | Evidence or next step |
-|---|---|---|---|
-| 1 Health reconciliation | integrator, admin main | DELIVERED | `2026-10-30-enrichment-health-reconciliation.md`; complete gap list `2026-10-30-gap-causes-needs-a-change.md` |
-| 2 Source finder, capture, slow reads | lane G, then integrator; `cf247-w30-int` | DELIVERED (v2.15.370) | W30 live, md5s `061d6252` / `748954a5` / `247e93da` |
-| 3 Release health | lane J, then integrator; `cf247-w33-int` | DELIVERED (v2.15.371); 4 deployed tests FAILED (load) | The Universities regression is fixed. Weekly run: desktop 78/79, phone 77/80; the remaining failures are latency and timeouts under load. Decision: snapshot designs. |
-| 4 Identity and eligibility | lane H, then integrator; `cf247-w31-int` | DELIVERED (v2.15.371); R1 BLOCKED (spend) | W31 live (`coverage_bind_v2` `ec5087e3`); 714 displaced pages wait for R1 |
-| 5 Reader hardening | lane I, then integrator; in `cf247-w30-int` | DELIVERED (v2.15.370); bulk spec BLOCKED (decision A5) | W32 live (12 settings, worker v0.54.0); `2026-10-30-bulk-reread-newest-copy-spec.md` |
-| 6 Layer 4 policy | integrator | DELIVERED (decision paper); decisions BLOCKED | `2026-10-30-platform-admin-decision-paper.md` Part A; role guides 5.6 |
-| 7 Reporting freshness | integrator | DELIVERED (report prompt); panel change BLOCKED | Hourly report prompt updated; W30–W33 lodged in decision §8 |
-| 8 Paid reads | integrator | BLOCKED (decision) | Decision paper Part B: B1–B5, R1, R2. The balance top-up (US$104.99) is not authority. |
+**Paid-read lock:** one paid operation at a time, run by the integrator in order B1/B2 → verify → R1 → B3 → B4.
 
-**Sequence:** both releases delivered. v2.15.370 (#747) at 00:40, v2.15.371 (#748) at 00:55. Main is `cd97b53d` and `cf247-zoho-dryrun` = main.
+| Step | State | Evidence |
+|---|---|---|
+| B1: three source re-reads (≤ US$0.05) | DELIVERED | #749. Spend US$0.0155. Rows kept: 9/9, 5/5, 7/8. Items `dcf9300f`, `987dac71`, `2b491c25` are pending (human). |
+| B2: three Monash reads (≤ US$0.10) | BLOCKED (decision) | Held before any AI call: the pages are 100,365–108,295 characters, over `entry.course_page_chars` (100,000). US$0. Decision: raise to 115,000 and re-read. |
+| R1: 714 recovery reads (≤ 714 credits, no AI) | VERIFYING | #750, queued 07:18. At 07:20, 233 were bound again on a fresh CRICOS proof. |
+| B3: 500 AU courses (≤ US$6) | waiting for R1 | — |
+| B4: 421 NZ courses (≤ US$4.50) | waiting for B3 | — |
+
+| Lane | Owner, branch | State |
+|---|---|---|
+| K: A1–A3 review path | lane K, then integrator; `cf247-aer-review-path` → `cf247-v372-int` | VERIFYING (dry run passed; v2.15.372 suite running) |
+| L: A5 bulk newest copy, plus the role-check fix | lane L, then integrator; `cf247-aer-bulk-reread-newest` → `cf247-v372-int` | VERIFYING (dry run passed) |
+| M: W34 admin_read slow operations | lane M | PREPARING |
+| M2: W35 snapshots and gap-cause run time | lane M2 | built; dry run after M |
+| N: capacity assessment and stuck-draft paste | lane N | DELIVERED (read-only; paste prepared, not run) |
+| A4: guides for no-scale wording | integrator | PREPARING |
 
 ## Log
 
+- 07:27 (30 Oct): B1 delivered (US$0.0155); B2 held at US$0 (page size, decision); R1 queued 07:18 and recovering; lanes K, L and M2 handed back; A5 found a role-check defect (fixed in v2.15.372); decisions §9 and §10 lodged.
+- 06:55 (30 Oct): mandate 06:53 received; PREPARING with the paid-read lock; lanes K, L, M, M2 and N launched.
 - 01:20 (30 Oct): handback filed. Weekly deployed run: Universities regression fixed; 4 load-timing failures left red (decision). Source finder ran clean at 00:56 (3 universities, no failure).
 - 00:55 (30 Oct): **v2.15.371 DELIVERED** (#748, `cd97b53d`): W31 and W33 live; md5s `ec5087e3` and `604b67d3` match the dry runs; worker v0.54.1 answering; post-merge checks green.
 - 00:45 (30 Oct): **v2.15.370 DELIVERED** (#747, `85955c5e`): W30 and W32 live; md5s match the dry run; worker v0.54.0 answering; deployed UAT, release currentness and history contract green; `cf247-zoho-dryrun` = main. v2.15.371 (W31 + W33) full suite running.
