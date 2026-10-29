@@ -1,5 +1,7 @@
 # Academic entry requirements (AER) — role guides
 
+> **Updated 30 Oct 2026 for v2.15.372:** Platform Admin decisions A1–A5. These cover Approve except, no bulk decisions on AER items, Platform Admin only for AER decisions, the no-scale wording, and bulk Read again on the newest copy.
+
 **Version:** 1.0, 29 Oct 2026 (Pilot release v2.15.368 on `main`, Pilot commit `fabda0cb`).
 **For:** everyone who reads, corrects, reviews, re-reads or consumes academic entry requirement data.
 **Status:** guidance. It adds no rule. Where it and a decision record disagree, the decision record wins.
@@ -52,7 +54,7 @@ Every pill shows words, never colour alone (W16, `ROW_PILL` in `AerWorkspace.jsx
 | `active` | Active | **Yes** | Layer 4 approval; a person adding a row; Restore |
 | `proposed` | Waiting in Layer 4 (with a Layer 4 link) | No | Only a Layer 4 decision |
 | `unverified` | Quarantined | No | Quarantine in the workspace |
-| `inactive` | Withdrawn | No | Withdraw in the workspace; a Layer 4 refusal (its reason starts "quarantined (…)" or "excluded by the reviewer") |
+| `inactive` | Withdrawn, or **Excluded in Layer 4** | No | Withdraw in the workspace; a Layer 4 refusal (its reason starts "quarantined (…)"); **Approve except** (from v2.15.372 its reason reads "excluded by approve except (Layer 4 item …, reviewer …): …" and the pill says "Excluded in Layer 4"). An excluded row is never admitted, superseded or re-read automatically |
 | `superseded` | Superseded | No | A newer approved read of the same source (W15) |
 
 "by hand" next to a status (drawer: "Added by hand") means the row was added in the workspace (provenance `manual`).
@@ -256,9 +258,9 @@ When a source does **not mention** a qualification or country at all, add nothin
 It is refused when the provider is outside the reading scope (`entry.providers`), AI reading is stopped (AI limits), a read is already waiting or running, the page is waiting to be fetched, the source is held as unreadable (`held_unparsed`; only a reader change under change control reads it again), the site's robots.txt disallows it, or the source has never been read.
 **Record:** `pipeline.admin_control_events`; the new run is on the source row; its rows wait in Layer 4.
 
-**Newest stored copy (W28, live 29 Oct 2026, PR #744).** A source may have more than one stored copy. Read again reads only the run on the source's current stored copy. Runs on older copies keep their history; their still-proposed rows and still-pending Layer 4 item are closed as superseded, and decided items are not touched. The one item left over from before W28 (Otago Polytechnic `f14ae480`, older copy) is for the Layer 4 reviewer to reject as stale; `81d14690` is the current item. Bulk re-reads through `admin_entry_matrix_reread` still re-run every copy (open question).
+**Newest stored copy (W28, live 29 Oct 2026, PR #744).** A source may have more than one stored copy. Read again reads only the run on the source's current stored copy. Runs on older copies keep their history; their still-proposed rows and still-pending Layer 4 item are closed as superseded, and decided items are not touched. The one item left over from before W28 (Otago Polytechnic `f14ae480`, older copy) is for the Layer 4 reviewer to reject as stale; `81d14690` is the current item. **Bulk Read again (decision A5, v2.15.372):** `admin_entry_matrix_reread` follows the same rule. It re-reads only each source's newest-copy run, supersedes the older copies' waiting rows and items, and skips and reports unknown, never-read and already-waiting sources. It is Platform Admin only, and is used after a reader change. Approving the mechanism authorises no paid re-read: every bulk re-read is a separate spend decision with exact counts and a dry run.
 
-**One attempt.** A programme-approved re-read is one governed attempt. A source that has used its attempt (for example ANU `509c8f82`, Melbourne India State Board `290bd250`) is not read again without a new decision.
+**One attempt.** A programme-approved re-read is one governed attempt. A source that has used its attempt (for example ANU `509c8f82`, Melbourne India State Board `290bd250`) is not read again without a new decision. Those two, and ANU Croatian Matura, were read again under B1 on 30 Oct 2026; their new items are `987dac71`, `dcf9300f` and `2b491c25`.
 
 ### 4.2 Source holds and reader failures
 
@@ -282,7 +284,7 @@ A batch is refused when: no course is left; an earlier course read is still wait
 
 - Use the manifest (`ui-audit/2026-10-29-aer-layer4-manifest.md`) as the work list; refresh it after each read.
 - Approve each item from its evidence (section 5). A complete read is not an approval.
-- **Do not use Layer 4 bulk decisions on AER items.** The generic bulk tool (`layer4_review_bulk_decide`, Pipeline Operator and above) cannot approve, but it can reject, ask for more evidence or send back a whole group, which would refuse every row in it. It has no AER-specific guard (verified live, 29 Oct 2026). See open question Q3.
+- **AER items are never decided in bulk (decision A2, from v2.15.372).** The generic bulk decide and batch decide skip AER kinds, decide nothing and report the number skipped. Decide each item in Layer 4 › Inbox (section 5.1).
 - A decision already framed (for example the RMIT change items, "approve except" on BH126) is taken one item at a time, with the reason naming the decision.
 
 ### 4.5 SQL, migrations and deploys
@@ -313,7 +315,9 @@ The rules are in Pilot `CLAUDE.md` and `AGENT-OPERATING-MODEL.md`. In short, for
 
 ## 5. Layer 4 reviewer
 
-**Who:** the server allows Curator and above (rank 3) to decide AER items (`security.layer4_review_decide_impl`). The programme has so far listed AER decisions as the Platform Admin's (see Q4).
+**Who (decision A3, Platform Admin 30 Oct 2026, from v2.15.372):** only the **Platform Admin** admits or rejects AER items. The server refuses anyone else (`security.layer4_review_decide_impl`). Curators and above can open and read an item in Layer 4 › Inbox, and Curators keep their operational editing in Catalogue › Entry requirements (section 3).
+
+**Where:** Layer 4 › Inbox, kind **Entry requirements (AER)**, one item at a time. Generic bulk and batch decisions skip AER items and say how many they skipped (decision A2).
 
 **Item kinds:**
 - `entry_matrix_first_run` and `entry_matrix_change` (provider tables);
@@ -322,12 +326,18 @@ The rules are in Pilot `CLAUDE.md` and `AGENT-OPERATING-MODEL.md`. In short, for
 
 ### 5.1 What approval does
 
-**Approval admits the whole run.**
-- Approve: every proposed row of the run becomes active; the source's earlier active rows become `superseded` (W15, `security.entry_matrix_review_apply_v1`, `security.course_entry_review_apply_v1`).
-- Approve except: excluded rows become `inactive` ("excluded by the reviewer"), the rest are admitted. The server takes the excluded row ids in the decision's final value (`exclude_row_ids`).
-- Reject, Ask for more evidence, or Send back: every proposed row of the run becomes `inactive` with the reason.
+The Inbox offers three choices on an AER item (Platform Admin only):
+- **Approve all rows:** every waiting row becomes active once the identity, completeness, scale and basis checks pass. The source's earlier active rows become `superseded` (W15, `security.entry_matrix_review_apply_v1`, `security.course_entry_review_apply_v1`).
+- **Approve except… (decision A1):**
+  - Tick the rows to leave out and give one reason. At least one row must be ticked and at least one must stay; if all would be ticked, use Reject.
+  - Ticked rows become `inactive`, with the reason "excluded by approve except (Layer 4 item …, reviewer …): …" and an exclusion record in the row's provenance. They show as "Excluded in Layer 4", stay unadmitted and are never re-read or superseded automatically.
+  - Every other row is admitted through the same checks as Approve.
+  - The decision and the event log keep the item, run, source, stored-copy hash and the excluded rows, so anyone can see exactly what was approved and what was left out.
+- **Reject the read:** no row is admitted; every waiting row becomes `inactive` with your reason.
 
-Nothing is half-admitted. There is no per-row approve.
+An AER item is never edited inline, and there is no generic bulk path. A complete read is always accounted for: every row it matched is either admitted or explicitly excluded.
+
+**Caution, provider-table change items (`entry_matrix_change`):** approving supersedes the source's earlier active rows, including the active row whose new reading you excluded. That country then has no active row until a later read. Until the Platform Admin decides otherwise, if the row you would exclude replaces an active row the website shows today, **Reject** the change item with the reason instead of excluding the row.
 **Record:** `pipeline.layer4_decisions` (who, action, reason, before and final value); Layer 4 › Inbox › Decided shows it.
 
 ### 5.2 Checks before approving
@@ -345,7 +355,14 @@ Open the source and its stored copy (Evidence) beside the rows. For each row:
 | Completeness | Compare "kept · not kept". A large share not kept means the table was only partly read: do not approve as if complete |
 | Reviewer judgement | Generic notes (for example a minimum age) are not academic entry requirements by default; decide them, and exclude them if they are not |
 
-Admit the whole run only when every row you keep passes. If some rows fail, use Approve except. If the read is materially incomplete, Reject with the reason, or leave it and escalate for a re-read.
+Approve all rows only when every row passes. If some rows fail, use **Approve except** and name why in the reason (observe the caution in 5.1 for change items). If the read is materially incomplete, Reject with the reason, or leave it and escalate for a re-read.
+
+**A printed grade with no stated scale (decision A4, Platform Admin 30 Oct 2026):**
+- The source prints a grade or number (for example "minimum 75") but states no grading scale on the page.
+- **Do not** approve a row that the reader has given an inferred scale (percentage, points, GPA, ATAR equivalent or band). Exclude it with Approve except, with the reason "no grading scale stated on the page".
+- The approved wording principle for such a requirement is: *"Published requirement: [grade]. The provider does not state a grading scale on this page; check the source or contact the provider."* The printed value and its evidence are kept, and no scale is inferred or normalised.
+- Keep it distinct from **case by case** (no minimum stated) and from **no published requirement**.
+- Until the API carries a "scale not stated" marker (a separate change: see the handback), such rows are excluded rather than admitted with a guessed scale.
 
 ### 5.3 Rendered no-table note
 
@@ -501,9 +518,9 @@ Abbreviations for the role column: **V** = Viewer (rank 1+); **C** = Curator and
 | Withdraw | C | The provider no longer publishes it | `manual_edit_log` (`withdraw`) | — |
 | Quarantine | C | A stated doubt about the evidence | `manual_edit_log` (`quarantine`) | PA for a re-read |
 | Restore | C | Why the withdrawal or quarantine was wrong | `manual_edit_log` (`restore`) | Layer 4 for never-admitted rows |
-| Approve or Approve except in Layer 4 | C (server); PA in practice (Q4) | Quote on stored copy, identity, scale and basis, completeness | `pipeline.layer4_decisions` | PA for duplicates, stale items, incomplete reads |
+| Approve, Approve except or Reject in Layer 4 (Inbox, one item at a time) | PA only (A3, server-enforced) | Quote on stored copy, identity, scale and basis, completeness | `pipeline.layer4_decisions` | PA for duplicates, stale items, incomplete reads |
 | Reject or ask for more evidence in Layer 4 | C | The reason the rows fail | `pipeline.layer4_decisions` | PA |
-| Bulk decide in Layer 4 | PO (server) — **not used for AER** | — | `pipeline.layer4_mass_operations` | PA (Q3) |
+| Bulk or batch decide in Layer 4 | PO (server) — **skips AER items** (A2) | — | `pipeline.layer4_mass_operations` | — |
 | Read again (one source) | PA | A reason; the source in scope and not held as unreadable | `pipeline.admin_control_events` | Change control for a reader change |
 | Read one course from its stored page | PA | A reason | read run; Layer 4 item | — |
 | Course-level batch | PA | Preview count and cost; balance stays above the US$5 floor | `pipeline.admin_control_events`, `pipeline.admin_jobs` | Spend decision when the floor stops it |
@@ -530,16 +547,16 @@ Abbreviations for the role column: **V** = Viewer (rank 1+); **C** = Curator and
 - the md5s of the three search writers (no advisory lock yet).
 
 **Not verified:**
-- I found no control in `src/` that sends excluded row ids for "Approve except". The server accepts them; the 29 Oct "approve except" decisions were framed as governed decisions. Q2 asks how it is meant to be done.
+- Before v2.15.372 there was no control in `src/` that sent excluded row ids for "Approve except" (Q2). From v2.15.372 the Inbox AER item has the control (decision A1).
 - The live phone drawer is not visually accepted (consolidated report A5); its fix is reported in Part B B1.
 - The client accepts a 4-character reason in `ReasonAction`, but the server requires 5 for workspace actions and Layer 4 decisions. This guide states 5.
 
 **Open questions for the Platform Admin:**
-- **Q1 (W28):** should Read again read only the newest stored copy?
-- **Q2:** how should a reviewer take "Approve except" for an AER item: a UI control, or a governed action each time?
-- **Q3:** should Layer 4 bulk decisions exclude AER item kinds (`entry_matrix_first_run`, `entry_matrix_change`, `course_entry_first_read`)?
-- **Q4:** are AER Layer 4 decisions Platform Admin only by policy, or open to Curators, as the server allows?
-- **Q5:** a matrix row with a printed requirement but no numeric scale (for example "Completion of Senior High School Diploma", scale `none`) is returned with `case_by_case` true. Is "considered case by case" the intended wording for these, or should the printed requirement be shown with it? The developer guide now tells the website to show both.
+- **Q1 (decided, W28 and A5):** Read again, single and bulk, reads only the newest stored copy.
+- **Q2 (decided 30 Oct 2026, A1):** "Approve except" is a control on the AER item in Layer 4 › Inbox (section 5.1), Platform Admin only.
+- **Q3 (decided 30 Oct 2026, A2):** Layer 4 bulk and batch decisions exclude AER item kinds.
+- **Q4 (decided 30 Oct 2026, A3):** AER Layer 4 decisions are Platform Admin only, enforced by the server.
+- **Q5 (decided 30 Oct 2026, A4):** a requirement stated without a minimum (for example "Completion of Senior High School Diploma", scale `none`) stays **case by case**, shown with the printed words. A printed *grade* whose scale the source does not state follows the A4 wording (section 5.2) and is kept distinct from case by case. Until the API marks "scale not stated", such rows are excluded in review rather than admitted with a guessed scale.
 
 ## History
 
