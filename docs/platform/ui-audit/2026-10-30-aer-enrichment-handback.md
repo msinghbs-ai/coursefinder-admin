@@ -2,7 +2,7 @@
 
 **Mandate:** Platform Admin, 30 Oct 2026 00:01 AEDT (Workstreams 1–8). Every figure was read live from `fxcwkweaxjtknorudmwp` at the time stated; counts are dated query results.
 
-**Not "AER complete" and not "enrichment complete":**
+**Not "AER complete" and not "enrichment complete":** four deployed tests are still red on database load (§6);
 - eligible courses remain unread, because paid reading is stopped pending decision B3–B5;
 - 240 actionable AER items await human review;
 - 714 wrongly displaced pages await the R1 spend line;
@@ -102,7 +102,7 @@ Website rendering remains website-team work.
 | Local, v2.15.370 | 1,211 passed, 1 failed (s173 version pin), fixed and re-run green |
 | Local, v2.15.371 | 1,221 passed, 1 failed (nz-coverage: a reader rule regression caught), fixed in code and re-run green with assertions unchanged |
 | Post-merge (both releases) | Deployed UAT, release currentness, history contract, build and deploy green |
-| Weekly deployed run (safe mode, live-acting held) | Dispatched 00:57 AEDT, run `40886434507`; result in §6 |
+| Weekly deployed run (safe mode, live-acting held) | Desktop 78/79, phone 77/80. The Universities regression is fixed; four load-timing failures remain (§6) |
 
 ## 5. BLOCKED: the single decision each item needs
 
@@ -130,9 +130,32 @@ The decision paper sets each item out in full.
 
 Layer 4 review of the 240 actionable AER items is human work: the reviewer works through the manifest using the role guides §5.6.
 
-## 6. Weekly deployed run
+## 6. Weekly deployed run (01:00–01:15 AEDT, run `40886434507`, safe mode)
 
-To be filled in when run `40886434507` completes.
+Results are on the `deployed-weekly-results` branch, `weekly/2026-10-30*.json`.
+
+| Viewport | Tests | Passed | Failed | Skipped |
+|---|---:|---:|---:|---:|
+| Desktop | 79 | 78 | 1 | 0 |
+| Phone | 80 | 77 | 3 | 0 |
+
+Live-acting tests held (switch off): 10.
+
+**Fixed:** the Universities budget regression left red on 29 Oct. "Layer 2 Adapters stay within management-view budgets" now passes on desktop and phone after W33.
+
+**Still red: FAILED, left red by rule.** All four failures come from database response time under load, not from a screen or contract regression:
+
+| Test | Failure |
+|---|---|
+| `performance-deployed` › core workspaces (desktop and phone) | `providers_page` 3,552 ms and 3,043 ms, `courses_page` 3,020 ms and 3,018 ms, against the 3,000 ms budget |
+| `cf-209` Scheduler and Jobs (phone) | `admin_read('pipeline_jobs_page')` returned HTTP 500, a statement timeout |
+| `cf-247-field-coverage` (phone) | `admin_read('course_coverage')` returned HTTP 500 twice, a statement timeout |
+
+- One desktop drawer check (Country of prior education) failed once and passed on retry.
+- These are the intermittent admin-read timeouts that lane J measured: about 200 in 48 h, all under concurrent load. `course_coverage` re-totals 524,000 snapshot rows on every open.
+- **No assertion was loosened. The deployed suite is not green.**
+- **Decision needed:** approve the cached snapshot designs for build (notices, course coverage totals, scholarship publishability, field coverage), and/or reduce the load. Several workers fire every 30–60 seconds, and the edge runtime is degraded in the evening. Each design needs a new table and a catalogued job (G1, G2).
+- Until then the weekly run and the acceptance tier stay red on these four tests.
 
 ## 7. Branches
 
