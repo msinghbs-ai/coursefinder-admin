@@ -134,3 +134,31 @@
   - Active rows only; the five rules are unchanged; the consumer API shape is unchanged (G3). Values change only where a printed label now matches.
 - **Effect for DP020 / India.** RMIT's diploma rows are band-table rows, and DP020's page prints no band, so the answer stays rule 5, "contact the provider". The reason becomes the true one: a band table exists for this level, and the course prints no band to enter it with.
 - **Build.** Migration `20261029050000`, md5-guarded edits of the resolver and `admin_aer`, spec `s160`, a rolled-back live dry run listing every course whose resolution changes, and change control before merge.
+
+## 6. Addendum, 29 Oct 2026 12:23 (consolidated bug-fix and programme continuation mandate, sections A–D), recorded before code
+
+- **W20 (A1). Course evidence overlay.**
+  - The evidence/history button on Course detail opens a consolidated overlay: a dialog on desktop, full screen on a phone. The embedded "What happened to this course" history leaves the blade.
+  - The overlay reads the existing authoritative evidence read; there is no new dataset. It shows one chronological timeline: discovery and reads, page changes, AI matches and fills, admissions and refusals, fee reader, cross-checks, manual edits, AER reads and admissions, and scholarship checks. Each entry has its date, outcome, source link and evidence reference.
+  - It is built on a shared accessible overlay primitive (dialog role, focus in and back, Escape, close, scroll lock, internal scrolling on a phone) that the AER row drawer also uses where appropriate.
+- **W21 (A2). DP020 scholarships.**
+  - Trace the empty relationship through identity, provider association, audience, publication, relationship rules and earlier checks.
+  - Fix only a demonstrated defect, through the existing scholarship mechanisms. Never attach scholarships wholesale, manufacture a relationship or publish a proposed scholarship.
+  - A genuinely empty result keeps an honest, explained empty state and a working "Check scholarships for this course".
+- **W19 extended (A3).**
+  - Country selection refreshes only the bounded resolver read and never starts an AI read.
+  - Rule 4 returns active provider-minimum rows at the course's level, with no band required; rules 3 and 4 match a level named in a published label (W19).
+  - A genuine empty result keeps the precise contact-provider explanation.
+- **W22 (A4). Country ordering.** One shared helper orders countries India, Nepal, Singapore, then the rest A–Z. It uses only the countries available from reference data or published rows, with no duplicates. It is used by the Course detail selector and every workspace country selector, and the selection is remembered per viewer.
+- **W23 (A5). Phone drawer and banner.**
+  - The real phone defect is fixed, not the mock: a row tap at phone width opens the drawer with complete evidence, and it closes reliably with no horizontal overflow.
+  - The shared OpenRouter notice never clips or overlaps at phone width. Its other uses are checked.
+- **W24 (B1). Reader corrections.** Structure-driven corrections to how cells become lines, or to normalisation applied to both sides of the comparison, so that genuinely printed cells can be quoted (Federation, Wollongong, Otago Polytechnic, UWA band evidence). No provider-specific expected grades, and no blanket normalisation that admits paraphrases. Each source is re-read once afterwards, and the earlier incomplete items stay unapproved.
+- **W25 (B2, B3).**
+  - **B2:** the 13 approved Read again actions (ANU ×9, Melbourne ×3, UTS), one governed attempt each, through `security.aer_reread_v1`.
+  - **B3:** course batches continue only while the OpenRouter balance stays above its US$5 floor. The balance and the measured cost a course are rechecked before each batch. When the floor stops a batch, course reading pauses cleanly and the measured evidence goes into one spend decision. The floor is never changed. Generic notes (for example a minimum age) are flagged for reviewer judgement only.
+- **W26 (B4). New Zealand course identity.**
+  - New Zealand course pages are read with the already-approved strong New Zealand proofs: an NZQA code on the official course page, or another proof already approved for New Zealand fields. Each needs a stored official page and a provider and course identity match.
+  - A title-only basis is refused. The Australian rules are unchanged, and no separate lane is added.
+  - Contract and rolled-back live dry-run coverage come before activation (`entry.course_read_countries` gains NZ only after the dry run passes).
+- **Unchanged:** quote, identity, completeness and admission gates; the consumer API shape; the status vocabulary; Layer 4 as the only approval; the spend floor.
