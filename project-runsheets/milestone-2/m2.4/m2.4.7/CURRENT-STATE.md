@@ -9758,3 +9758,37 @@ Authority: Platform Admin 27 Oct 2026 21:57 (final consolidated mandate) and 22:
   - **Preconditions in the migration:** B3 scope total stays within 500; spend plus estimate stays within US$6; no read waiting; AI allowed; balance above floor by the estimate; worker v0.54.x.
   - **Post-checks:** every queued course is AU and eligible.
   - **Live dry run (rolled back):** estimate US$2.00 at US$0.0100 a course (measured US$0.0080, plus 25%); balance US$104.80.
+
+### 30 Oct 2026 — B3 complete (500 AU courses, US$2.69 of US$6); B4 batch 1 queued (Platform Admin mandate 30 Oct 06:53)
+
+**B3 by batch:**
+
+| Batch | Migration | Courses | Layer 4 review | Skipped | Held (US$0) | Spend |
+|---|---|---|---|---|---|---|
+| 1 | `20261030090000` | Monash 155, QUT 45 | 127 | 30 | 43 (QUT) | US$1.1763 |
+| 2 | `20261030130000` (#753) | RMIT 200 | 197 | 3 | 0 | US$1.1351 |
+| 3 | `20261030135000` (#754) | RMIT 100 | 100 | 0 | 0 | US$0.3760 |
+| **Total** | | **500** | **424** | **33** | **43** | **US$2.6874** |
+
+- **QUT paused.** 43 of 45 QUT pages were held before any AI call, because the page text (173,314 to 201,314 characters) is longer than `entry.course_page_chars` (100,000).
+  - Under the mandate ("stop on repeated truncation", "use covered slices"), QUT was not continued and the held reads are not repeated.
+  - Batches 2 and 3 were limited to RMIT, the next provider in plan order. Each was dry-run live and rolled back before queuing.
+  - **Next decision:** a page-size limit for QUT (about 205,000 characters, 18 slices) and for the B2 Monash pages (115,000), with a bounded re-read of the 43 + 3.
+- **Holds count toward the 500.** The scope count includes the held reads, so B3 was not extended.
+- **Nothing admitted.** Every read is in Layer 4 for a one-at-a-time Platform Admin decision (A1–A3).
+
+**B4 batch 1, migration `20261030160000` (#755):**
+- **Preconditions re-verified at 08:04 AEDT:** 438 eligible NZ courses, all bound and never read. Scope is capped at the approved 421, taken in plan order.
+- **Queued:** 200 courses (AUT 163, Ara 16, Lincoln 11, Waikato 9, Massey 1), job `6c668db0`.
+  - Estimate US$1.63 (measured cost plus 25%) against the US$4.50 ceiling.
+  - Balance US$102.10, observed 08:00; floor US$5; worker v0.54.1.
+- **Country setting:** `entry.course_read_countries` was limited to NZ inside the transaction only. It was restored byte-for-byte, and this was verified live after the merge (`["AU","NZ"]`, `updated_at` unchanged).
+
+**Branches:**
+- `cf247-zoho-dryrun` was fast-forwarded to main (`6ee5e8b1`).
+- `cf247-enrich-reliability` (`739d7145`), `cf247-reader-answer-limits` (`0644db73`) and `cf247-universities-paging` (`f6bf116d`) hold no unique work. Their only differences from main are integration renumbering and worker version labels, since superseded by v0.54.1.
+- **BLOCKED:** this session's GitHub proxy refuses to delete branches (both git push and the REST API returned 403). Operator action: `git push origin --delete cf247-enrich-reliability cf247-reader-answer-limits cf247-universities-paging`.
+
+**Lane N lodged** (admin `c1450551`, NOT executed):
+- `docs/platform/pastes/PASTE-20261030-stuck-adapter-drafts.sql`, with its reconciliation. Preconditions were re-verified at 07:58 AEDT: 5 drafts still capturing, snapshot `b8e5c62a`.
+- `docs/platform/ui-audit/2026-10-30-edge-capacity-assessment.md`: read-only, proposals P1–P7. No schedule or capacity was changed.
