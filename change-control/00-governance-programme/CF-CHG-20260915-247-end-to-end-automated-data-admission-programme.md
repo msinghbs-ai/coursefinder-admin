@@ -10035,3 +10035,20 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
   - Live md5s re-checked at 22:42: `5f7eb755`, `69bbc05f`, `09dbbaf2`.
 - **Local full suite:** 1,271 passed, 0 failed, 0 skipped. Register regenerated (s182 added under D5 / A4).
 - **Consumer API:** additive `scale_stated` only, approved by the Platform Admin at 08:45 (D5). No existing field changed and no scale is inferred.
+
+### 31 Oct 2026 10:47 AEDT — v2.15.376: AER course outcome register (closure decision C1; StudySearch transformation Phase 1)
+
+- **What:** migration `20261030300000_cf247_aer_course_outcome_register` adds:
+  - three settings, `aer.outcome_register_every_minutes` / `_page_rows` / `_stale_after_minutes`;
+  - the derived tables `pipeline.aer_course_outcomes` and `pipeline.aer_course_outcome_builds`;
+  - job `aer-outcome-register`, catalogued first;
+  - `public.admin_aer_outcomes`, rank 4 and above.
+- **Screen:** Catalogue › Entry requirements › Resolution inspection gains the Course outcome register, with Download CSV.
+- **Read only:** nothing is admitted, read, queued or decided. Consumer API unchanged.
+- **Live dry run (rolled back, 10:41):**
+  - the build holds exactly the 31,875 in-scope courses (built in 4.5 s);
+  - admitted-course 44 = 44 courses with active rows;
+  - counts by outcome: excluded 10,423, identity 10,230, awaiting review 4,924, provider resolution 3,840, no URL 2,327, verified none 80, admitted course 44, unreadable 7.
+- **Before merge:** no register object exists live; nothing left from the interrupted 30 Oct dry run.
+- **Local full suite:** 1,279 passed, 0 failed, 0 skipped (10:46). Register regenerated (s184 contract and mocked browser, s185 deployed read-only).
+- **Records:** decision C1 in the admin `2026-10-30-aer-production-closure-response.md` §0; programme record `2026-10-31-studysearch-transformation.md`.
