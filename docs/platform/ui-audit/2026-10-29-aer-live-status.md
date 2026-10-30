@@ -74,7 +74,7 @@ Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items awai
   - Reproduced exactly in a rolled-back dry run: CRLF on edit 1 gives `99dfa649`.
   - The same edits sent with LF give `c1f83b82` / `74d48db0`.
 - **Fix:** `edit_once` now strips carriage returns from each edit before applying it (a `-- fixed:` line).
-  - Reissued paste md5: `146d5f3b`.
+  - Reissued paste md5: `e6dad471`.
   - The lane migration carries the identical text (branch `cf247-d5-lane`).
 - **Dry run of the reissued paste with CRLF simulated** (rolled back): both edits reached the expected md5s; 343 active matrix items, all keyed (310 true, 33 null).
 - **Action:** the Platform Admin re-runs the reissued paste. Nothing is to be undone first.
