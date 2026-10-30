@@ -6,7 +6,7 @@
 
 ## 0. Decisions taken under this mandate (lodged before code)
 
-### C1. The course outcome register is a derived table rebuilt by a catalogued job; operators download it from Resolution inspection (22:40 AEDT)
+### C1. The course outcome register is a derived table rebuilt by a catalogued job; operators download it from Resolution inspection (22:36 AEDT)
 
 Mandate §4 asks for one primary, operator-exportable outcome for every in-scope AU/NZ course.
 
