@@ -267,3 +267,63 @@ The two clearing updates repeat the pattern over open flags (25,933 open, 86,176
 - **Proof of identical output:** in one rolled-back transaction, run the old and the new form, capture the rows each would write, and compare them exactly.
 - Not touched: the timeout, the schedule, any consumer object.
 - `l4-rule-low-agreement`: designed separately.
+
+## 8. Progress (31 Oct, from 10:33 AEDT)
+
+### 8.1 Full deployed safe run on current main: passed
+
+**Run `41144480924`** (`deployed-weekly.yml` on `6f006619`, started 10:26). **Verified** (`deployed-weekly-results` branch, `weekly/2026-10-31.md`):
+- desktop 80 of 80 passed;
+- phone 81 of 81 passed;
+- 0 failed, 0 skipped;
+- 10 live-acting specs held (switch off, as default).
+
+### 8.2 F1 fix built and proven (v2.15.377 candidate, not yet merged)
+
+Migration `20261031010000_cf247_f1_provider_checks_once` makes md5-guarded edits:
+
+| Function | md5 | Change |
+|---|---|---|
+| `security.enrichment_flags_refresh_v1` | `ae577625` → `3bbec96c` | 4 provider checks |
+| `security.coverage_ai_match_prepare_v1` | `b7db293c` → `ab2dd5dc` | 3 provider checks in one scope list |
+
+**Each check now runs once over a materialised list of distinct providers.**
+- A first attempt with a plain `IN (select … where check)` was still slow. Postgres pushes the check below the `DISTINCT`, so it runs per row again.
+- The list is therefore materialised first, then checked. **Verified.**
+
+**Equality, old against new (rolled back):**
+
+| Section | Old | New | Differences |
+|---|---:|---:|---:|
+| Outside focus (all AU courses) | 9,145 | 9,145 | 0 |
+| Page not found (17,888 AI-match rows, 400 providers*) | 2,128 | 2,128 | 0 |
+| Clear outside-focus flags (check inverted for a non-empty set) | 11,297 | 11,297 | 0 |
+| Clear page-not-found flags (check inverted) | 5,932 | 5,932 | 0 |
+| AI-match provider scope (6,799 courses, 300 providers) | 142 | 142 | 0 |
+
+*The old form cannot finish the whole table inside a 28 s test window. That is the defect itself.
+
+**Timings (rolled back, job arguments):**
+
+| Function | Before | After |
+|---|---:|---:|
+| `enrichment_flags_refresh_v1` | 115–120 s | **15.3 s** |
+| `coverage_ai_match_prepare_v1` | median 47.7 s | **19.4 s** |
+
+The remaining 19 s is per-course logic that cannot be hoisted (page-match bonus, no-page hold). It is now well inside the 2-minute schedule.
+
+**Spec s186** guards it. It checks:
+- md5 pins;
+- materialised provider lists only;
+- no per-row provider check;
+- the same truth table;
+- no time-out, schedule, setting, data or consumer change.
+
+### 8.3 v2.15.376 (course outcome register): shipping
+
+- **Live dry run (rolled back, 10:41):**
+  - 31,875 courses equal to the in-scope count; built in 4.5 s;
+  - admitted-course 44 = 44 courses with active rows.
+- **Local full suite:** 1,279 / 0 / 0.
+- **Change control:** admin `352b5d17`.
+- **PR:** opened by the ship step at 10:48.
