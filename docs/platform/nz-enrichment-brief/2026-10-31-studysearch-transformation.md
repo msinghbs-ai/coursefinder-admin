@@ -384,11 +384,18 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 **Inferred:**
 - Every database call the function makes crosses between Virginia and Mumbai, probably over 200 ms each way.
 - The API's 13.5 s p95 for `search` is broad-search query time (3 to 4 s) plus several cross-region round trips per request (key check, rate limit, query, usage log), plus load.
-- How many round trips a request makes is **not yet verified** from the function code.
+- **Round trips per request (verified, `supabase/functions/website-api-v2/index.ts` at `43f30791`):**
+  1. `website_api_v2_auth` (line 102);
+  2. `website_api_v2_rate` (line 115);
+  3. the action's function (line 168);
+  4. logo URL signing in Storage, when logos are returned (line 60);
+  5. `website_api_v2_log` (line 85), which is **awaited before the response is sent**.
+
+  That is 4 to 5 sequential calls from `us-east-1` to Mumbai on every request.
 
 **Options (all need the Platform Admin, G3, and the website team where the caller changes):**
 1. Run the function in the database's region: Supabase supports choosing the invocation region per request (an `x-region` header) or in the calling client. The Wix backend would send it. No response changes.
-2. Reduce the round trips inside `website-api-v2` to one database call per request (an edge-function change; consumer object).
+2. Reduce the round trips inside `website-api-v2`: send the usage log after the response (`EdgeRuntime.waitUntil`) and fold auth and rate into one call. This is an edge-function change to a consumer object, with no response change.
 3. Make broad searches cheaper in the database: an index or plan work beside the consumer tables; possibly within authority.
 
 **Recommendation:**
