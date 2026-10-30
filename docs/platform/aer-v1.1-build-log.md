@@ -2224,3 +2224,18 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
   - Entry reads waiting: 0.
 - **Not complete:** AER is not complete until reviewed course rows are admitted and reach the consumer API.
 - **Handback:** `docs/platform/ui-audit/2026-10-30-aer-handback-3.md`.
+
+### 30 Oct 2026 22:43 AEDT — v2.15.375 (D5) released through change control (AER production-closure mandate §1)
+
+- **D5 paste:**
+  - The Platform Admin's third run succeeded at 22:19 AEDT. The first two runs (16:5x and 18:50) rolled back on their md5 guards, with nothing changed: CRLF line endings, then editor auto-indent.
+  - Verified live at 22:30:
+    - `entry_matrix_payload_v1` `5f7eb755`, `entry_resolve_v1` `69bbc05f`, both comments carry D5;
+    - D5 consumer baseline row at 22:19:48;
+    - 0 consumer functions drift from the baseline, read with the empty search path the baseline uses;
+    - payload: 343 active matrix items, all carry `scale_stated` (310 true, 0 false, 33 null, the 33 all case by case).
+- **v2.15.375 (package 0.1.302):**
+  - Migrations `20261030280000_cf247_d5_scale_stated_marker` (finds the paste applied; changes nothing) and `20261030290000_cf247_d5_aer_scale_not_stated` (`admin_aer` `09dbbaf2` → `5e58f5d6`; live dry run passed, rolled back).
+  - Live md5s re-checked at 22:42: `5f7eb755`, `69bbc05f`, `09dbbaf2`.
+- **Local full suite:** 1,271 passed, 0 failed, 0 skipped. Register regenerated (s182 added under D5 / A4).
+- **Consumer API:** additive `scale_stated` only, approved by the Platform Admin at 08:45 (D5). No existing field changed and no scale is inferred.
