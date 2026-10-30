@@ -2,7 +2,7 @@
 
 Date: 30 October 2026  
 Authority: Platform Admin request to extend `cf-layer4-triage` so a v5 package covers every Layer 4 Review filter/pill and its required actions, closing supported outstanding items as quickly as safe.  
-Status: design decision lodged before Skill source changes. No Pilot code, migration, UI, queue or canonical-data change is included.
+Status: **Delivered as canonical source and validated portable package.** No Pilot code, migration, UI, queue or canonical-data change is included.
 
 ## Current gap
 
@@ -16,10 +16,10 @@ V4 can qualify one kind and run provider batches, but has no resumable command d
 
 ## V5 decisions
 
-1. **Cover all 17 current kinds.** The action playbook will name every current kind, its existing UI choices, required evidence, action-completion condition and exceptions. No new UI choice, status, panel or backend route is introduced.
-2. **Add single-kind execution.** Add `layer4-clear-kind <kind>` to process one exact current kind across providers, oldest first, one item at a time, with periodic checkpoints and safe resume. Keep the existing bounded qualification and provider workflows.
+1. **Cover all 17 current kinds.** The action playbook names every current kind, its existing UI choices, required evidence, action-completion condition and exceptions. No new UI choice, status, panel or backend route is introduced.
+2. **Add single-kind execution.** `layer4-clear-kind <kind>` processes one exact current kind across providers, oldest first, one item at a time, with periodic checkpoints and safe resume. The existing bounded qualification and provider workflows remain.
 3. **Preserve per-route proof.** The first saved decision in each kind/action route must be verified before continuing. Initial workstation qualification remains bounded to five decisions in a conservative suitable kind.
-4. **Keep AER human-governed.** AER decisions are Platform Admin only and one item at a time. A sequential kind batch is not a generic bulk decision. Apply the current A1–A5 and D4 rules, including stored-copy/newest-run checks, row evidence, completeness, scale/basis, exclusions, stale-item rejection and held conflicts. No AER re-read or spend is authorised by this Skill change.
+4. **Keep AER human-governed.** AER decisions are Platform Admin only and one item at a time. A sequential kind batch is not a generic bulk decision. The playbook applies current A1–A5 and D4 rules, including stored-copy/newest-run checks, row evidence, completeness, scale/basis, exclusions, stale-item rejection and held conflicts. No AER re-read or spend is authorised by this Skill change.
 5. **Complete linked actions before claiming closure.** Choices such as Open the course, Open the adapter, Add page addresses and Open the central pages are navigation, not decisions. The required correction/approval must be completed through the existing destination UI and the Layer 4 item verified closed before progress is reported.
 6. **Keep evidence and role gates.** Stored evidence only by default; no new acquisition, AI re-check or Firecrawl without explicit authorisation. Existing rank checks remain authoritative. No evidence-free publish, admission, archive, source replacement or provider merger.
 7. **Do not force zero.** Items with inadequate/conflicting evidence, missing authority, downstream work or repeated defects remain pending with stable refs, owner and next action. `Keep waiting`, queued rebuilds and similar outcomes are reported separately from reconciled/admitted work.
@@ -51,14 +51,31 @@ V4 can qualify one kind and run provider batches, but has no resumable command d
 
 `All` remains an unfiltered navigation option, not an eighteenth decision kind or a bulk-approval command.
 
+## What changed from v4
+
+- Added the three missing playbooks: AER, Website not answering and Counsellor report.
+- Added explicit existing-choice guidance and completion conditions for every other current kind.
+- Added `layer4-clear-kind <kind>` and `layer4-clear-kind <kind> resume <batch-id>`.
+- Added periodic kind checkpoints: every 10 submitted decisions, every 20 reviewed items without a decision, and before scope changes.
+- Added linked-action completion rules so opening a destination screen cannot be misreported as a closed Layer 4 item.
+- Added AER row-evidence, D4, stale/duplicate, no-table, conflict and Platform Admin controls.
+- Added deferred/downstream outcome reporting for Keep waiting, rebuilds and onboarding retries.
+- Added a stop rule for unknown future pills or changed live UI choices.
+
 ## Acceptance checks
 
+Passed on 30 October 2026:
+
 - All 17 keys appear in the packaged action playbook with actionable existing-choice guidance.
-- AER, Website not answering and Counsellor report have explicit new sections.
+- AER, Website not answering and Counsellor report have explicit sections.
 - The Skill includes single-kind execution, per-route first-decision verification, linked-action completion and unknown-kind stop rules.
 - No instruction permits select-all approval, arbitrary SQL, direct database writes, evidence-free consumer-visible changes or autonomous provider mergers.
-- Canonical GitHub source and portable package contain the same v5 text.
-- Skill validation and ZIP integrity/content checks pass; package SHA-256 is recorded here before handover.
+- Skill validation passed; `SKILL.md` is 101 lines and the playbook 203 lines.
+- ZIP integrity passed. The package contains exactly `cf-layer4-triage/SKILL.md` and `cf-layer4-triage/references/action-playbook.md`.
+- Packaged text exactly matches the local v5 source.
+- Canonical GitHub blob ids match the packaged source exactly: `ceacb09cf0f25ed9d6f27b7874c93c171bf3cb6b` for `SKILL.md`; `f09e9a74b3bcdb3374b4a346bb78c2bf64bfb588` for the playbook.
+
+These are source/package checks, not live route qualification. Each workstation and each kind/action route still requires its first real UI decision to be verified before broader execution.
 
 ## Sources checked
 
@@ -68,8 +85,21 @@ V4 can qualify one kind and run provider batches, but has no resumable command d
 - Admin `docs/platform/AER-ROLE-GUIDES.md` §§4–5: Platform Admin review, evidence and A1–A5 behaviour.
 - Admin `docs/platform/ui-audit/2026-10-30-D4-design-note.md`: Approve except supersession and held conflicts.
 - Pilot `docs/sops/operator-sop.md`: Counsellor report correction/closure workflow.
-- Current canonical `docs/platform/skills/cf-layer4-triage/` v4 source.
+- Canonical `docs/platform/skills/cf-layer4-triage/` v4 source before this update.
 
 ## Delivery record
 
-To be completed after source update and package validation.
+- Design/scope commit: `cefc2e570bf73a86e5fc348fb4193fe7763b3276`.
+- Canonical v5 source commit: `8a0bfd5336a3e3914ccd4018a6922c276a97f4c9`.
+- Canonical paths: `docs/platform/skills/cf-layer4-triage/SKILL.md` and `docs/platform/skills/cf-layer4-triage/references/action-playbook.md`.
+- Portable package: `cf-layer4-triage.skill`, 10,150 bytes.
+- Package SHA-256: `7c5097eccf9eae0e2f84c04b2498100b4f27445967b173e3b59f5f6313cf353a`.
+- No live queue decisions, admissions, archives, approvals, rebuilds, report closures or other data writes were performed during this v5 build.
+
+## First use
+
+1. Import the v5 package over the existing `cf-layer4-triage` Skill on the workstation; the canonical body is marked **v5**.
+2. Connect the authenticated Platform Admin browser session. Use a Platform Admin session for AER.
+3. On a new or previously unsuccessful setup, run `layer4-by-kind-qualify` first.
+4. Drain one supported pill with `layer4-clear-kind <kind>`, for example `layer4-clear-kind course_link`, `layer4-clear-kind held_scholarship`, `layer4-clear-kind counsellor_report` or `layer4-clear-kind aer_review`.
+5. Verify the first decision for each kind and review the checkpoint before continuing. Do not use `layer4-clear-all` merely to force every pill to zero.
