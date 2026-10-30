@@ -11,11 +11,16 @@ with the result's "measures", security.nz_resolution_measures_v1).
 Usage: python3 scripts/data-admission/build_nz_fields.py result.txt
 22 Oct 2026 (Platform Admin 22:56: "prepare Excel sheet like nz to include au and ca as well daily"): the result's "country" (NZ when absent)
 picks the country: docs/data-admission/<cc>-fields/<CC>-course-data-<date>.xlsx; the query is in docs/data-admission/COUNTRY-FIELDS-README.md.
+31 Oct 2026 (Platform Admin: "include each course with all course field values and scholarship field and entry field"): optional further files,
+each one part of the course detail query in COUNTRY-FIELDS-README.md (catalogue, read-only), add the sheets Courses (one row per active course with
+every course field value, or why it is not held), Entry requirements (provider entry rules) and Scholarships (active scholarships per provider).
+Usage: python3 scripts/data-admission/build_nz_fields.py result.txt [detail-part-0.txt detail-part-1.txt ...]
 """
 import html, json, os, re, sys
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
+from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data-admission')
 COUNTRY = {'NZ': 'New Zealand', 'AU': 'Australia', 'CA': 'Canada'}
@@ -33,17 +38,17 @@ thin = Side(style='thin', color='BFBFBF'); B = Border(left=thin, right=thin, top
 C = Alignment(horizontal='center', vertical='center', wrap_text=True); MID = Alignment(horizontal='center')
 
 
-def find(obj, depth=0):
-    """Find the report object: a dict with "today" and "rows", possibly JSON-encoded inside strings several times."""
+def find(obj, depth=0, want=lambda o: 'rows' in o and 'today' in o):
+    """Find the report object (by default a dict with "today" and "rows"), possibly JSON-encoded inside strings several times."""
     if depth > 6: return None
     if isinstance(obj, dict):
-        if 'rows' in obj and 'today' in obj: return obj
+        if want(obj): return obj
         for v in obj.values():
-            f = find(v, depth + 1)
+            f = find(v, depth + 1, want)
             if f: return f
     elif isinstance(obj, list):
         for v in obj:
-            f = find(v, depth + 1)
+            f = find(v, depth + 1, want)
             if f: return f
     elif isinstance(obj, str):
         dec = json.JSONDecoder()
@@ -52,7 +57,7 @@ def find(obj, depth=0):
                 v, _ = dec.raw_decode(obj[m.start():])
             except ValueError:
                 continue
-            f = find(v, depth + 1)
+            f = find(v, depth + 1, want)
             if f: return f
     return None
 
@@ -151,6 +156,80 @@ def resolutions_sheet(wb, d):
     ws.freeze_panes = 'A4'
 
 
+STATE = {'no_reader': 'no reader yet', 'not_on_page': 'not on the course page', 'site_known': 'course page not found yet', 'page_found': 'page found, not read yet',
+         'in_review': 'in review', 'in_queue': 'in the queue', 'blocked': 'site blocks reading', 'no_website': 'no website', 'awaiting_l3': 'waiting for Layer 3',
+         'candidate': 'value found, not admitted yet', 'missing_l1': 'not in the register'}
+# Courses sheet: (heading, attribute whose state explains an empty cell, width); the order matches the course detail query's array
+COURSE_COLS = [('Provider', None, 36), ('Course', None, 48), ('Course code', None, 14), ('Official course page', 'official_url', 40), ('Study level', 'level', 18),
+               ('Field of study', 'field_of_study', 24), ('Duration', 'duration', 11), ('Delivery mode', 'delivery', 14), ('Campuses', 'campus', 30),
+               ('Campus city', 'campus_city', 18), ('Open to international students', 'international', 14), ('Open to domestic students', None, 12),
+               ('Tuition fee', 'provider_tuition', 34), ('Registered tuition (CRICOS)', 'registered_tuition', 22), ('Intakes / start dates', 'intakes', 30),
+               ('Application deadline', 'deadline', 16), ('English requirements', 'english', 28), ('Academic entry requirements', 'academic_entry', 30),
+               ('Entry requirements (course)', None, 40), ('Course description', 'description', 50)]
+ENTRY_COLS = [('Provider', 36), ('Kind', 16), ('Status', 11), ('Level', 20), ('Study level', 16), ('Applicant country', 10), ('Qualification', 26), ('Benchmark band', 14),
+              ('Minimum grade', 14), ('Minimum value', 10), ('Grade scale', 14), ('Audience', 14), ('Intake year', 9), ('Edition', 12), ('Quote', 50), ('Source page', 40), ('As at', 11)]
+SCHOL_COLS = [('Provider', 36), ('Scholarship', 40), ('Type', 18), ('Audience', 18), ('Award (as written)', 30), ('Award type', 14), ('Amount', 11), ('Currency', 9),
+              ('Percentage', 10), ('Up to (maximum)', 10), ('Applies to fee', 14), ('Fee basis', 12), ('Duration basis', 12), ('Application required', 11),
+              ('Applications open', 12), ('Applications close', 12), ('Academic year', 9), ('Study start', 14), ('Nationalities', 20), ('Description', 50),
+              ('Source page', 40), ('Publication status', 12)]
+
+
+def cell_value(v):
+    if v is None or v == '': return None
+    if v is True or v == 'true': return 'Yes'
+    if v is False or v == 'false': return 'No'
+    if isinstance(v, str): return ILLEGAL_CHARACTERS_RE.sub('', html.unescape(v))[:32000]
+    return v
+
+
+def load_detail(paths, cc):
+    """Join the parts of the course detail query; every part 0..parts-1 must be there, all for the same country."""
+    parts = {}
+    for p in paths:
+        x = find(open(p, encoding='utf-8').read(), want=lambda o: o.get('kind') == 'course_detail')
+        if not x: sys.exit('could not find the course detail object (kind "course_detail") in ' + p)
+        if (x.get('country') or '').upper() != cc: sys.exit(f'{p} is for {x.get("country")}, not {cc}')
+        parts[int(x.get('part') or 0)] = x
+    want = int(next(iter(parts.values())).get('parts') or 1)
+    if sorted(parts) != list(range(want)): sys.exit(f'course detail parts found {sorted(parts)}, expected 0 to {want - 1}')
+    out = {'courses': [], 'entry': [], 'scholarships': [], 'day': None, 'coverage_at': None}
+    for k in sorted(parts):
+        for key in ('courses', 'entry', 'scholarships'): out[key] += parts[k].get(key) or []
+        out['day'] = parts[k].get('day'); out['coverage_at'] = max(out['coverage_at'] or '', parts[k].get('coverage_at') or '')
+    srt = lambda r: (html.unescape(r[0] or '').lower(), html.unescape(str(r[1] or '')).lower())
+    for key in ('courses', 'entry', 'scholarships'): out[key].sort(key=srt)
+    return out
+
+
+def table(ws, cols, rows, conv):
+    for j, (h, w) in enumerate(cols, 1):
+        ws.cell(1, j, h); ws.column_dimensions[L(j)].width = w
+    hdr(ws, 1, len(cols))
+    for row in rows: ws.append(conv(row))
+    ws.freeze_panes = 'A2'  # rows only (phone viewers)
+    ws.auto_filter.ref = f'A1:{L(len(cols))}{max(len(rows) + 1, 2)}'
+    ws.row_dimensions[1].height = 42
+
+
+def detail_sheets(wb, det, n_schol):
+    """31 Oct 2026: one row per active course with each course field value; an empty field shows why it is not held."""
+    cs = wb.create_sheet('Courses')
+    cols = [(h, w) for h, _, w in COURSE_COLS] + [('Provider scholarships (active)', 12)]
+
+    def course(r):
+        states = r[len(COURSE_COLS)] if len(r) > len(COURSE_COLS) else None
+        out = []
+        for j, (h, attr, _) in enumerate(COURSE_COLS):
+            v = cell_value(r[j])
+            if v is None and attr and states and attr in states: v = '— ' + STATE.get(states[attr], states[attr].replace('_', ' '))
+            out.append(v)
+        out.append(n_schol.get(html.unescape(r[0] or ''), 0))
+        return out
+    table(cs, cols, det['courses'], course)
+    table(wb.create_sheet('Entry requirements'), ENTRY_COLS, det['entry'], lambda r: [cell_value(v) for v in r])
+    table(wb.create_sheet('Scholarships'), SCHOL_COLS, det['scholarships'], lambda r: [cell_value(v) for v in r])
+
+
 def main():
     global CC
     d = load(sys.argv[1])
@@ -158,6 +237,7 @@ def main():
     today, prev, base = d['today'], d.get('previous') or '', d.get('baseline') or '2026-10-20'
     ROOT = os.path.join(BASE_DIR, f'{CC.lower()}-fields')
     rows = sorted(d['rows'], key=lambda r: (-int(r.get('courses') or 0), html.unescape(r.get('name') or '').lower()))
+    det = load_detail(sys.argv[2:], CC) if len(sys.argv) > 2 else None
     os.makedirs(ROOT, exist_ok=True)
     out = os.path.join(ROOT, f'{CC}-course-data-{today}.xlsx')
     wb = Workbook()
@@ -174,6 +254,11 @@ def main():
              ('Per provider: one row per provider; for each course field, the number of courses holding it at the start, the previous day and today, the change today and the change since the start. Provider fields show Yes or No.', F),
              ('Long list: the same figures as one row per provider and field, for filtering and pivot tables.', F),
              *([] if CC != 'NZ' else [('Resolutions & lessons: each gap found in the NZ enrichment review, what was programmed for it, its status and one or more figures from yesterday that show whether it works; then the lessons learnt.', F)]),
+             *([] if not det else [
+                 (f'Courses: one row per active course ({len(det["courses"]):,}) with the value held for each course field. An empty field shows why it is not held '
+                  '(for example "— not on the course page" or "— no reader yet"). ' f'Values as at {det["day"]}; course states from {(det["coverage_at"] or "")[:16].replace("T", " ")} UTC.', F),
+                 ('Entry requirements: the entry rules each provider publishes (minimum results, band ladders), active and proposed; course-level entry requirements are in the Courses sheet.', F),
+                 (f'Scholarships: each active scholarship of these providers ({len(det["scholarships"]):,}) with its award, dates, audience and source page. Scholarships are held per provider, not per course; the Courses sheet shows how many each provider has.', F)]),
              ('Toolset use: each tool per provider for the last recorded day and the last 7 days: times used, worked, did not work, scraper credits and AI US$, with a summary by tool at the top. "Worked" means: a correct course page (search, page match), a page read, a field filled, a fee page with fee rows, a scholarship applied.', F), ('', F),
              ('Notes', FB),
              ('Application deadline, academic entry requirements and course description have no reader yet.', F),
@@ -260,6 +345,10 @@ def main():
         for x in row: x.font = F
     for c, w in (('A', 48), ('B', 30), ('D', 18), ('E', 30)): lg.column_dimensions[c].width = w
     lg.freeze_panes = 'A2'; lg.auto_filter.ref = f'A1:J{i - 1}'
+    if det:
+        ns = {}
+        for x in det['scholarships']: k = html.unescape(x[0] or ''); ns[k] = ns.get(k, 0) + 1
+        detail_sheets(wb, det, ns)
     toolset_sheet(wb, d)
     resolutions_sheet(wb, d)
     wb.save(out)
@@ -270,6 +359,7 @@ def main():
     print(out)
     print('Change today: ' + (', '.join(f'{lab} {a:+,}' for lab, a, _ in moved if a) or 'none'))
     print(f'Change since {base}: ' + (', '.join(f'{lab} {b:+,}' for lab, _, b in moved if b) or 'none'))
+    if det: print(f'Course detail: {len(det["courses"]):,} courses, {len(det["entry"]):,} provider entry rules, {len(det["scholarships"]):,} scholarships')
 
 
 if __name__ == '__main__':
