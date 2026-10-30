@@ -183,4 +183,15 @@ Spend: 0 Firecrawl credits, no AI. No page was restored.
 ## 10. Tests and deployed verification
 
 - **Local:** 1,266 passed, 0 failed, 0 skipped (v2.15.374). Register regenerated.
-- **Deployed:** weekly safe run `40971522020` on `a50aeb8d` (v2.15.374), dispatched 10:12 AEDT. Result to be recorded here when the run finishes.
+- **Deployed, first run:** weekly safe run `40971522020` on `a50aeb8d` (v2.15.374), 10:12–10:24 AEDT.
+  - Desktop 79 of 80, phone 80 of 81.
+  - The only failure was the new D6 spec s183, on a wrong premise: the UAT login is a Pipeline Operator (rank 4), and D6 correctly refused it.
+  - **Fixed in #764:** s183 now requires the exact refusal below rank 5 and an answer at rank 5 or above. No assertion was loosened.
+- **Deployed, final:** weekly safe run `40978658818` on `a8e02461`, finished 11:28 AEDT, **success**.
+  - Desktop 80 of 80, phone 81 of 81, 0 skipped.
+  - Live-acting specs held (switch off): 10.
+- **Reconciliation at 11:30 AEDT:**
+  - AER items pending: 1,055; decisions in the last 24 hours: 0.
+  - Active rows: course 0, provider table 343 (RMIT).
+  - Entry reads waiting: 0.
+  - The D5 before-md5 `be5478d0` is unchanged: the paste has not been applied.

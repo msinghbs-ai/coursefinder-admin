@@ -4,25 +4,26 @@ Durable checkpoint, kept current at each stage. Updated whenever a stage starts 
 
 **Labels:** PREPARING · VERIFYING · DELIVERED · BLOCKED · FAILED
 
-## Current state: 09:12 AEDT, 30 Oct (mandate 30 Oct 08:45: D1–D9, Layer 4 review enablement first)
+## Current state: 11:30 AEDT, 30 Oct (mandate 30 Oct 08:45): close-out
 
-Decisions: §11 and §11.1–11.3 (admin `73a71e5d`, `aef0490f`). Manifest: `2026-10-30-layer4-aer-review-manifest.md` (1,019 pending; baseline 09:08).
+Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items await human review; 0 course rows are admitted.
 
 | Item | State | Evidence |
 |---|---|---|
-| Layer 4 review enablement | DELIVERED (manifest); review is human | 1,019 pending (961 course, 54 provider-table first runs, 4 change items); 1,015 actionable; 0 AER decisions in the last 24 h |
-| D1: long pages (≤ US$6) | **BLOCKED (ceiling)** after steps 1–2 | Settings live (#760). Probe 5/5 complete, US$0.1064. Step 2: 36/36 QUT complete, US$1.5827 (#761). Spend US$1.6891. The remaining 125 readable QUT pages need about US$4.69 at the measured US$0.00259 a slice, against US$4.31 left, so stopped. Not newest copy: 6 held and 9 unread. Over 205k: 3 unread and NorthTec 1 |
-| D3: R1 leftovers (≤ 35 credits) | VERIFYING | #761. 6 render reads and 4 fetch retries queued 09:47; 13 adapter-code pages not restored (evidence gap); 2 blocked and 3 mismatched left |
-| D4: supersede rule | PREPARING (lane building) | Decision §11.1 |
-| D5: `scale_stated` marker | PREPARING (lane building; consumer API paste before merge) | Decision §11.2 (R1) |
-| D6: `admin_adapter_measures` role check | PREPARING (lane building) | Decision §11.3 |
-| D7: stuck drafts paste | DELIVERED 08:50:59 | 5 drafts moved to `error`; drafts capturing 24 → 19; 1 audit row |
-| D8: capacity | DELIVERED (paper only) | `2026-10-30-D8-capacity-decision-paper.md` |
-| D9: branches | BLOCKED (proxy) | All four verified redundant; deletion refused with 403 |
-| B5 | HELD (prepared) | Not queued |
+| Layer 4 review enablement | DELIVERED (manifest); review is human | 1,055 pending; 0 decided in 24 h |
+| D1 long pages | BLOCKED (ceiling) | 41 read, all complete, US$1.6891. 125 QUT pages need about US$4.69 against US$4.31 left |
+| D3 R1 leftovers | DELIVERED, 0 restored | 0 credits. The render path needs a decision; 13 Flinders pages not restored (evidence gap) |
+| D4 supersede rule | DELIVERED v2.15.374 (#763) | md5s match the dry run; deployed green |
+| D5 `scale_stated` | BLOCKED (Platform Admin paste) | `pastes/PASTE-20261030-d5-scale-stated-marker.sql`; PR branch `cf247-d5-lane` |
+| D6 role check | DELIVERED v2.15.374, s183 fixed (#764) | Deployed 80/80 and 81/81 |
+| D7 stuck drafts | DELIVERED 08:50:59 | 5 drafts set to `error` |
+| D8 capacity | DELIVERED (paper) | No production change |
+| D9 branches | BLOCKED (proxy) | Operator command in handback 3 §5 |
+| B5 | HELD (prepared) | Handback 3 §8 |
 
 ## Log
 
+- 11:30 (30 Oct): v2.15.374 live and deployed green after the s183 premise fix (#764); D5 paste awaits the Platform Admin; handback 3 lodged.
 - 09:12 (30 Oct): D1 stopped at the ceiling check after the probe and step 2 (US$1.69); manifest lodged (1,019 pending); D8 paper lodged; D3 queued; D7 delivered; D9 blocked.
 - 08:33 (30 Oct): B3 and B4 complete within ceilings (US$2.69, US$0.82); QUT paused on page size; v2.15.373 live, and the deployed weekly run is green (the four former reds pass); batch size restored; handback 2 lodged.
 - 08:06 (30 Oct): B3 complete; B4 batch 1 queued; stuck-drafts paste and capacity assessment lodged.
