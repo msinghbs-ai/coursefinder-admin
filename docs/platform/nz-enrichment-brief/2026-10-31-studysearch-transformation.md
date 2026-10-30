@@ -1,0 +1,237 @@
+# StudySearch transformation record
+
+**Mandate:** `2026-10-31-studysearch-transformation-mandate.md` (Platform Admin, 31 Oct 2026 10:23 AEDT; lodged verbatim).
+**Owner of this record:** Claude, main integrator. Platform decisions: the Platform Admin.
+**Status:** Phase 0, independent verification. Nothing in production has been changed under this mandate.
+**This file is the canonical record for the programme.** Continuation files are dated and linked from here; history is never rewritten.
+**Live project:** `fxcwkweaxjtknorudmwp` only.
+
+Evidence labels used throughout:
+- **Verified:** read live this session, with the query or object named.
+- **Inferred:** follows from verified evidence, not observed directly.
+- **Historical:** from an earlier report, not re-checked.
+- **Not yet verified:** could not be checked from this session; the reason is given.
+
+## 1. Understanding and constraints
+
+**What StudySearch is:** the platform formerly called CourseFinder. It has three parts:
+- an admin portal, the Cloudflare Worker `coursefinder-pilot`, which serves the React admin UI;
+- a Supabase database with scheduled jobs (140 active `cron` jobs) and 78 edge functions;
+- two consumer APIs that live integrations read every day:
+  - **Website API v2** (`website-api-v2`), used by the Wix website;
+  - **Zoho API v2** (`zoho-api-v2`), used by Zoho Creator and CRM;
+  - plus the older routes `wix-course-api`, `website-course-api` and `zoho-course-api`.
+
+**Protected throughout (unchanged by this programme unless separately approved):**
+- consumer endpoints, routes, response shapes, keys and permissions;
+- sync behaviour;
+- provider and course identifiers;
+- search, filter and paging behaviour;
+- published visibility;
+- the Worker, the Supabase project and its object names.
+
+CLAUDE.md G3 already freezes the consumer API; the daily `consumer-api-guard` job and spec s57 enforce it. Rebranding never renames technical identifiers for its own sake.
+
+**Standing holds carried in from the AER production-closure mandate (30 Oct):**
+- no new paid entry-requirement reads;
+- no B5 tranches;
+- no QUT resumption;
+- no automatic admission.
+
+## 2. Phase 0 baseline (31 Oct 2026, 10:24 to 10:45 AEDT)
+
+### 2.1 Releases and deployment parity
+
+| Item | Finding | Label |
+|---|---|---|
+| Pilot `main` | `6f006619`, v2.15.375 (PR #765). No open PRs | Verified (GitHub API) |
+| Deploy on merge for `6f006619` | success; Release Currentness Deployed and CourseFinder Deployed UAT (targeted) success | Verified (workflow runs `41050259514`, `41050259866`, `41050259817`) |
+| Database migration head | `20261030290000` (matches main) | Verified (`supabase_migrations.schema_migrations`) |
+| Consumer API baseline | 123 objects; 0 functions differ from baseline; re-taken 30 Oct 22:44:48 (D5, approved) | Verified (empty search path, as the guard runs) |
+| `consumer-api-guard` job | Daily at 05:23 AEDT; last run succeeded today; 0 failures in 7 days | Verified (`cron.job_run_details`) |
+| Last full deployed safe run | 30 Oct on `a8e02461` (before v2.15.375): success. A new full run on `6f006619` was started today at 10:26 | Verified; new run `41144480924` in progress |
+| Worker live version string | Asserted by the green Release Currentness run. Not read directly: this session's egress proxy refuses `*.workers.dev` | Not yet verified (directly) |
+| Edge functions | 78 active. Consumer functions `website-api-v2` v3, `zoho-api-v2` v5, `wix-course-api` v7 and `zoho-course-api` v14 were deployed from CI. About 20 others, including consumer `website-course-api` v3, were deployed by hand at some point | Verified (list); content parity rests on the daily Edge drift check (green 30 Oct): Inferred |
+| v2.15.376 (AER course outcome register, closure decision C1) | Built on branch `cf247-v2-15-376`, not merged; its full live dry run did not complete on 30 Oct | Verified |
+
+### 2.2 Scheduled jobs (last 24 h)
+
+41,285 runs; 28 failed; 6 running at the time of reading.
+
+| Job | Schedule | Result | Duration | Since | Label |
+|---|---|---|---|---|---|
+| `waste-guard` | hourly at :17 | 10 of 24 succeeded; 14 hit the 120 s statement limit (latest 10:17 today) in `third_party_host_v1` | Successful runs: median 115.7 s, max 119.5 s, so **every run sits at the limit** | 29 Oct 14:17 AEDT | Verified |
+| `coverage-ai-match-prepare` | every 2 min | 708 of 720 succeeded; 11 timeouts (via `enrich_focus_v1` and `pipeline_num_v1`) | median 47.7 s, max 119.5 s | 29 Oct 14:30 AEDT | Verified |
+| `l4-rule-low-agreement` | daily 03:37 | 0 of 1 (2 of 3 failed in 7 days; last success 28 Oct); timeout in `uni_adapter_excluded` | 120 s | 29 Oct 14:37 AEDT | Verified |
+| `coverage-read-2` | every 30 s | 1,621 of 1,623; 2 "job canceled" | 0.0 s | 30 Oct | Verified, low impact |
+| `website-sync-check`, `health-hourly` | every minute, hourly | All successful | `website-sync-check` median 16.8 s, max 46 s | | Verified |
+
+**All three timeout jobs began failing within 20 minutes on 29 Oct (14:17 to 14:37 AEDT).**
+- That points to one shared cause: data growth, a query-plan change or a shared helper. It is not three separate faults. **Inferred.**
+- The nearest releases are #739 and #740, entry-requirement reader work merged at 13:47 and 14:00 AEDT. **Verified (GitHub merge times).** Whether they or their read load contributed is not yet known; the plan analysis will show it.
+- The cause is not yet established; Phase 1 starts with plan analysis.
+
+### 2.3 Consumer APIs (last 7 days, `pipeline.api_requests`)
+
+| API | Calls (7 d / 24 h) | 5xx | 4xx | p50 | p95 | Label |
+|---|---:|---:|---:|---:|---:|---|
+| Website v2 | 1,420 / 17 | 0 | 17 (input validation, auth) | 1.6 s | 9.8 s | Verified |
+| Zoho v2 | 86 / 56 | 0 | 6 | 1.3 s | 6.3 s | Verified |
+
+**Slowest actions:**
+
+| Action | p50 | p95 | Max |
+|---|---:|---:|---:|
+| Website `search` (330 calls) | 2.0 s | **13.5 s** | 17.8 s |
+| Website `providers` | 2.9 s | 8.6 s | |
+| Website `scholarships` | | 6.1 s | 13.5 s |
+| Zoho `export` | 5.3 s | 10.4 s | |
+
+The older routes (`wix-course-api`, `zoho-course-api`) are not logged in this table. **Not yet verified.**
+
+### 2.4 Data and identity
+
+| Country | Active courses | Bound page | Bound with stored copy | Mismatch | Ambiguous | No page | Manual bindings |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| AU | 25,380 | 18,225 (71.8%) | 17,201 | 3,907 | 1,433 | 1,815 | 1,115 |
+| NZ | 6,495 | 3,230 (49.7%) | 3,015 | 2,567 | 3 | 695 | 920 |
+| CA | 3,814 | 3,057 (80.2%) | 2,732 | 748 | 4 | 5 | 778 |
+
+**Verified** (`pipeline.coverage_course_pages`, `pipeline.evidence_artifacts`). Binding *precision* is not yet verified: the TD1 sample of shared and unproven bindings has not been run.
+
+### 2.5 Human review (Layer 4)
+
+**1,141 pending.** **Verified** (`pipeline.layer4_review_items`).
+
+| Kind | Pending | Age | Decided in 7 days |
+|---|---:|---|---:|
+| Course entry first read (AER) | 953 | all < 2 days | 44 |
+| Provider tuition validation | 75 | 71 at 2–7 days, 4 at 7–30 days | 413 |
+| No page, first run | 55 | < 2 days | 78 |
+| Provider table, first run (AER) | 41 | 26 < 2 days, 15 at 2–7 days | 38 |
+| Others (conjoint rule, course URL, English, AER change, tuition) | 17 | | |
+
+**First human AER review session, 31 Oct 01:29 to 02:10 AEDT:**
+- **Decided:** 57 items: 56 approved (13 of them with edits) and 1 rejected.
+- **Measured pace:** 42.5 s per item.
+- **Result now live:**
+  - 179 course-level rows active for 44 courses (previously 0);
+  - 628 provider-table rows active for 13 providers (previously 343, RMIT only).
+- **Verified through the consumer path:** for example, `public.website_v2_course` for `0100714` now returns `min_score` 73 with basis "2026 ATAR".
+- **Remaining AER effort at the measured pace:** about 997 items × 42.5 s ≈ **11.8 h**. This is an estimate from one session.
+
+### 2.6 Cost (7 days, AI)
+
+| Use | US$ |
+|---|---:|
+| Enrich fields | 13.98 |
+| Entry tables | 1.69 |
+| Course matching | 0.62 |
+| **Total** | **about 16.30** |
+
+**Verified** (`field_enrich_items`, `entry_matrix_runs` and `coverage_ai_match` cost columns, by UTC day). Daily spend peaked at US$7.02 on 29 Oct.
+
+**Cost is not the constraint; yield is.**
+- 30 Oct diagnostic: AU enrich 811 values filled from 34,429 window items. **Historical.**
+- Firecrawl credit use and account-level guards: **Not yet verified.**
+
+### 2.7 Security advisers (30 Oct 23:26 UTC lint)
+
+**Verified** (Supabase advisers):
+
+| Finding | Count | Detail |
+|---|---:|---|
+| Callable without signing in | 1 | `public.admin_ui_error_report` (an error reporter; it may be meant to work before sign-in; to be confirmed) |
+| Mutable search path | 2 | `security.provider_presentable_name`, `security.place_presentable` |
+| Callable by signed-in users | 169 | |
+| RLS enabled, no policy | 421 (INFO) | |
+
+**The 169 functions callable by signed-in users are expected for this admin portal,** because each is meant to check the caller's role inside.
+- D6 (30 Oct) proved that such a check can silently not apply: any signed-in user could read `admin_adapter_measures`.
+- **A sampled audit of these checks is warranted. Inferred.**
+
+### 2.8 Consumer data presentation
+
+**Finding:** `entry.min_score` carries one score per course. **Verified** (`public.website_v2_course`; `catalogue.course_entry_requirements`).
+- For 24 of the 41 courses with admitted scores, the page publishes several: ATAR, IB, A Level, pathway programmes.
+- The API returns one of them, with its basis. Course `0101331` returns `min_score` 26, basis "International Baccalaureate Diploma Programme 26", while ATAR 75 is admitted but not returned.
+- **The reply is truthful but incomplete.**
+- Exposing all of them needs an additive consumer field, so it is a G3 approval matter.
+
+### 2.9 Branding dependencies (first scan)
+
+| Where | Finding | Classification |
+|---|---|---|
+| Admin UI text (`src/`) | No user-visible "CourseFinder" string found; 20 files already say "StudySearch" | User-facing: largely done |
+| Browser storage keys and events (`coursefinder:pim:…`, `coursefinder:provider-logo-refresh`, 6 files) | Renaming would reset every user's saved screen choices | Technical: retain |
+| Release history text (v2.15.79 and earlier) | Historical | Retain |
+| Worker name `coursefinder-pilot`, host `coursefinder-pilot.techm.workers.dev` | Deployment identifier; deployed tests and the release check use the host | Assess dependencies before any change |
+| Repositories `coursefinder-admin`, `Coursefinder-Pilot` | Referenced by CI, docs and agents | Propose separately; no rename |
+| Database (`catalogue`, `pipeline`, `security`), edge functions, API names | Technical and consumer contracts | Retain |
+| Admin docs | 622 files mention CourseFinder, 65 mention StudySearch; most are historical records | Active docs: controlled update; history: retain |
+
+**Verified** (repository grep, 31 Oct). The inventory is not yet classified file by file.
+
+## 3. Highest-priority findings
+
+| # | Finding | Impact | Label |
+|---|---|---|---|
+| F1 | Three scheduled jobs time out at 120 s since 29 Oct; `waste-guard` runs at the limit even when it succeeds | Waste detection and AI-match preparation are unreliable; failures hide real work | Verified |
+| F2 | Website `search` p95 13.5 s, `providers` p95 8.6 s | Slow pages on the live website | Verified |
+| F3 | AER review is the main consumer-value lever, now measured at 42.5 s per item; about 12 h of review remain | Each approved provider table answers for all of that provider's courses | Verified (pace); Inferred (remaining effort) |
+| F4 | Page identity: NZ 49.7% bound; 7,222 mismatches across AU, NZ and CA; binding precision not sampled | Ceiling for every course field | Verified (counts); Not yet verified (precision) |
+| F5 | `min_score` returns one of several published scores for 24 of 41 courses | Incomplete consumer data | Verified |
+| F6 | One anonymous-callable admin function; 2 mutable search paths; role checks inside 169 functions not audited | Security hygiene | Verified (lint); Inferred (risk) |
+| F7 | About 20 edge functions were deployed by hand; parity rests on the drift check | Traceability | Verified (origin); Inferred (risk) |
+| F8 | Admin INDEX last updated 26 Oct | New agents read a stale state | Verified |
+
+## 4. Phased roadmap
+
+**Phase 0: independent verification (today).** Finish the baseline:
+1. **F1:** `EXPLAIN` plans, without `ANALYZE`, on rolled-back samples of the three timeout jobs; establish the shared cause.
+2. **F2:** search plans.
+3. Result of the full deployed safe run `41144480924`.
+4. Firecrawl spend.
+5. **F8:** INDEX reconciliation, a governance-only change.
+
+**Phase 1: immediate stabilisation (small, reversible, one change each):**
+- **F1 fix:** an index or query fix inside the failing *pipeline* functions, decided by the plans. Never a raised timeout.
+- **Ship v2.15.376,** the AER course outcome register (already built, additive, admin-only). It gives operators one outcome per course and an hourly coverage history.
+- **TD2:** stop mismatch and no-copy pages from queueing futile Enrich attempts.
+- **F6:** decide on `admin_ui_error_report`; fix the 2 search paths; sample 20 role checks.
+
+**Phase 2: efficiency and automation:**
+- **TD1:** binding precision sample, then course-specific proof gates.
+- **TD3:** bounded, count-guarded recovery of withdrawn values.
+- **TD4/TD5:** reports that separate admissions, withdrawals, source-silent, wrong-page and no-copy states.
+- **A yield measure:** admitted values per US$ and per review hour, replacing run counts.
+
+**Phase 3: StudySearch rebranding (presentation and active documentation first):**
+- Complete the file-by-file classification from §2.9.
+- Retain storage keys, schema, API and deployment names.
+- Propose the Worker display name and the repository names separately, with a dependency check first.
+
+**Phase 4: operational maturity:**
+- Service-level targets from the observed baselines above, for example:
+  - mandatory jobs: 0 timeouts in 7 days;
+  - Website search p95 under an agreed figure;
+  - review queue age under an agreed figure.
+- Runbooks per automation (owner, health signal, stop condition, recovery).
+- Weekly report.
+- Spend forecast.
+
+## 5. Approvals required (genuine gates)
+
+| Item | Why it is a gate |
+|---|---|
+| Any change inside a consumer API function (for example, rewriting `website_v2_course_search` for speed, F2) | G3: the consumer API is frozen. An index on the tables it reads changes no shape; whether it counts as "beside" or needs approval is your call |
+| An additive field for all published entry scores (F5) | G3 consumer change: paste file and your explicit approval |
+| Revoking anonymous access to `admin_ui_error_report` | Could stop error reports from the sign-in page; confirm the intent first |
+| Lifting any ingestion hold (QUT, B5, recovery reads) | Spend and review-load gate from the closure mandate |
+| Worker or domain rename; repository rename | Infrastructure and integration dependencies |
+| Drops or deletes | Paste files only (CLAUDE.md) |
+
+## 6. Activity log
+
+- **10:24 to 10:45 AEDT:** Phase 0 read-only baseline (sections 2.1 to 2.9).
+- **10:26:** dispatched the full deployed safe run on `6f006619` (`deployed-weekly.yml`, run `41144480924`; live-acting specs held, as default).
