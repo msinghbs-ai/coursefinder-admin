@@ -38,7 +38,7 @@ CLAUDE.md G3 already freezes the consumer API; the daily `consumer-api-guard` jo
 - no QUT resumption;
 - no automatic admission.
 
-## 2. Phase 0 baseline (31 Oct 2026, 10:24 to 10:45 AEDT)
+## 2. Phase 0 baseline (31 Oct 2026, 10:24 to 10:28 AEDT)
 
 ### 2.1 Releases and deployment parity
 
@@ -233,5 +233,5 @@ The older routes (`wix-course-api`, `zoho-course-api`) are not logged in this ta
 
 ## 6. Activity log
 
-- **10:24 to 10:45 AEDT:** Phase 0 read-only baseline (sections 2.1 to 2.9).
+- **10:24 to 10:28 AEDT:** Phase 0 read-only baseline (sections 2.1 to 2.9).
 - **10:26:** dispatched the full deployed safe run on `6f006619` (`deployed-weekly.yml`, run `41144480924`; live-acting specs held, as default).
