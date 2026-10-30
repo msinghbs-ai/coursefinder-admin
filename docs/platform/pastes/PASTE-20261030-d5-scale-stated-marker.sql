@@ -11,6 +11,9 @@
 -- Dry run (rolled back, 30 Oct 2026, lane D5): every pre-existing key byte-identical; 343 active matrix items keyed (310 true, 33 null).
 -- Expected messages: two "applied" rows, NOTICE "D5: 343 active matrix rows carry scale_stated" (or the then-current count), the rebaseline row.
 -- Stop and report if any check raises: the whole transaction rolls back.
+-- Reissue 2 (30 Oct 2026 17:05 AEDT): the first run (16:5x) raised "after the edit has md5 99dfa649…, expected c1f83b82…" and rolled back
+-- with nothing changed: the editor/clipboard turned the inserted lines' line breaks into CRLF (reproduced exactly in a rolled-back dry run).
+-- edit_once now removes carriage returns from each edit before applying it, so the result is the same however the text is pasted.
 -- =====================================================================================
 begin;
 -- CF-247 D5: additive Website API v2 marker `scale_stated` on entry rows (decision A4, register O9).
@@ -33,14 +36,16 @@ begin;
 -- Nothing dropped, deleted, renamed or retyped. No new table, column, job, setting or status.
 
 create or replace function pg_temp.edit_once(p_sig text, p_before text, p_after text, p_edits text[][], p_times int[]) returns text language plpgsql as $f$
-declare v_def text := pg_get_functiondef(p_sig::regprocedure); i int; v_c int;
+declare v_def text := pg_get_functiondef(p_sig::regprocedure); i int; v_c int; v_old text; v_new text;
 begin
   if md5(v_def) = p_after then return p_sig || ': already applied'; end if;
   if md5(v_def) <> p_before then raise exception 'live % differs from the definition this change edits (md5 %)', p_sig, md5(v_def); end if;
   for i in 1 .. array_length(p_edits, 1) loop
-    v_c := (length(v_def) - length(replace(v_def, p_edits[i][1], ''))) / length(p_edits[i][1]);
+    -- fixed: line endings are normalised, so a paste through an editor or clipboard that turns line breaks into CRLF applies the same text
+    v_old := replace(p_edits[i][1], chr(13), ''); v_new := replace(p_edits[i][2], chr(13), '');
+    v_c := (length(v_def) - length(replace(v_def, v_old, ''))) / length(v_old);
     if v_c <> p_times[i] then raise exception '%: edit % must apply exactly % times (found %)', p_sig, i, p_times[i], v_c; end if;
-    v_def := replace(v_def, p_edits[i][1], p_edits[i][2]);
+    v_def := replace(v_def, v_old, v_new);
   end loop;
   execute v_def;
   if md5(pg_get_functiondef(p_sig::regprocedure)) <> p_after then

@@ -64,3 +64,17 @@ Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items awai
 | Provider matrix rows active | 343 (RMIT) |
 | Ingestion | Held: no D1 resumption, no B5, no recovery reads |
 | Reviewer pack | `ui-audit/2026-10-30-layer4-review-pack-1.md` (manifest steps 1–2) |
+
+## 30 Oct 17:05 AEDT: D5 paste, first run rolled back; reissued
+
+- **What happened:** the Platform Admin's run raised `security.entry_matrix_payload_v1(uuid,text) after the edit has md5 99dfa649…, expected c1f83b82…`.
+  - The guard worked as designed: the transaction rolled back.
+  - Live is unchanged: `be5478d0` / `492ece03`, and there is no D5 baseline row.
+- **Cause:** the editor or clipboard turned the line breaks inside the inserted text into CRLF.
+  - Reproduced exactly in a rolled-back dry run: CRLF on edit 1 gives `99dfa649`.
+  - The same edits sent with LF give `c1f83b82` / `74d48db0`.
+- **Fix:** `edit_once` now strips carriage returns from each edit before applying it (a `-- fixed:` line).
+  - Reissued paste md5: `146d5f3b`.
+  - The lane migration carries the identical text (branch `cf247-d5-lane`).
+- **Dry run of the reissued paste with CRLF simulated** (rolled back): both edits reached the expected md5s; 343 active matrix items, all keyed (310 true, 33 null).
+- **Action:** the Platform Admin re-runs the reissued paste. Nothing is to be undone first.
