@@ -9976,3 +9976,26 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
   - No other assertion changed, and no timeout or skip was added.
 - **Local suite:** 1,266 passed, 0 failed, 0 skipped. Register regenerated with the guard text updated.
 - **Every other deployed test passed,** including the four former reds.
+
+### 30 Oct 2026 11:30 AEDT — mandate 30 Oct 08:45 close-out
+
+- **Releases:** v2.15.374 (#763: D4 and D6) is live, and the s183 premise fix is merged (#764).
+- **Deployed:** the weekly safe run `40978658818` on `a8e02461` passed 80 of 80 on desktop and 81 of 81 on phone, with 0 skipped and 10 live-acting specs held.
+- **Delivered:**
+  - D1 steps 1–2: 41 long pages read, all complete, for US$1.6891.
+  - D3: run, with 0 pages restored and 0 credits used.
+  - D7: run at 08:50:59.
+  - D8: decision paper.
+  - The Layer 4 manifest.
+- **Blocked, each with its exact decision in handback 3 §9:**
+  - D1: the 125 remaining QUT pages are over the ceiling.
+  - D3: the render path and the Flinders exact-title rule.
+  - D5: the Platform Admin applies the paste.
+  - D9: branch deletion, refused by the proxy.
+  - B5: held.
+- **Queue at 11:30:**
+  - 1,055 AER items pending; 0 decided in the last 24 hours.
+  - Active rows: course 0, provider table 343 (RMIT).
+  - Entry reads waiting: 0.
+- **Not complete:** AER is not complete until reviewed course rows are admitted and reach the consumer API.
+- **Handback:** `docs/platform/ui-audit/2026-10-30-aer-handback-3.md`.
