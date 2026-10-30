@@ -235,3 +235,35 @@ The older routes (`wix-course-api`, `zoho-course-api`) are not logged in this ta
 
 - **10:24 to 10:28 AEDT:** Phase 0 read-only baseline (sections 2.1 to 2.9).
 - **10:26:** dispatched the full deployed safe run on `6f006619` (`deployed-weekly.yml`, run `41144480924`; live-acting specs held, as default).
+
+## 7. F1 root cause (Phase 0, verified 10:30 to 10:50 AEDT; rolled-back dry runs only)
+
+**`waste-guard`** runs `security.waste_guard_v1()`, which is `waste_idle_guard_v1` (30 ms), `waste_flipflop_guard_v1` (16 ms) and `enrichment_flags_refresh_v1`. The last one takes essentially all of the 115 to 120 s. **Verified** (timed in a rolled-back transaction).
+
+**Cause:** provider-level checks are evaluated once per row, not once per provider. **Verified:**
+
+| Section of `enrichment_flags_refresh_v1` | Per-row check | Rows | As written | Check computed once per provider | Same result |
+|---|---|---:|---:|---:|---|
+| Outside focus (AU courses with gaps) | `enrich_focus_v1(provider)`, about 0.9 ms a call | 9,145 courses | 13.2 s | **3.8 s** | 9,145 = 9,145 |
+| Page not found (`coverage_ai_match` grouped by course) | `course_search_off_v1(provider)`, about 1.1 ms a call | 53,807 rows | **over 28 s** (stopped at the test cap) | **11.0 s** | 6,475 courses (the new form; the old form could not finish inside the cap) |
+
+The two clearing updates repeat the pattern over open flags (25,933 open, 86,176 in total).
+
+**Why it started on 29 Oct:** `coverage_ai_match` grew 8% since then (49,730 → 53,807 rows). Successful runs already took a median of 115.7 s. The job did not break suddenly; it crept up to the 120 s limit. **Inferred** from the growth and the at-limit timings.
+
+**Planner note:** written as a plain subquery or CTE, the per-provider step is folded back into the per-row join and gains nothing; it timed out in both forms. It must be `MATERIALIZED`. **Verified.**
+
+**`coverage-ai-match-prepare`:**
+- `coverage_ai_match_prepare_v1` has the same flaw: `enrich_focus_v1`, `course_list_read_v1` and `bind_match_scope_v1` are evaluated for every active course in its "missing" step.
+- Median 47.7 s, spikes to 120 s. **Verified** (definition md5 `b7db293c`); fix not yet timed.
+
+**`l4-rule-low-agreement`:**
+- A different shape: `l4_rule_low_agreement_v1` runs `adapter_qualify_one_v1` for every enabled adapter in one daily call. It times out in `uni_adapter_excluded`, called per course and field.
+- It needs bounded batching across runs (a setting), not the per-provider fix. Lower priority: a daily rule, last success 28 Oct. **Verified** (definition).
+
+**Proposed F1 change (Phase 1, one release):**
+- Rewrite the per-row provider checks in `security.enrichment_flags_refresh_v1` (md5 `ae577625`) and `security.coverage_ai_match_prepare_v1` (md5 `b7db293c`) as a `MATERIALIZED` per-provider map, joined back.
+- Same rules, same writes, same settings; md5-guarded.
+- **Proof of identical output:** in one rolled-back transaction, run the old and the new form, capture the rows each would write, and compare them exactly.
+- Not touched: the timeout, the schedule, any consumer object.
+- `l4-rule-low-agreement`: designed separately.
