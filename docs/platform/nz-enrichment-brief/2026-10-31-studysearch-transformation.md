@@ -236,7 +236,7 @@ The older routes (`wix-course-api`, `zoho-course-api`) are not logged in this ta
 - **10:24 to 10:28 AEDT:** Phase 0 read-only baseline (sections 2.1 to 2.9).
 - **10:26:** dispatched the full deployed safe run on `6f006619` (`deployed-weekly.yml`, run `41144480924`; live-acting specs held, as default).
 
-## 7. F1 root cause (Phase 0, verified 10:30 to 10:50 AEDT; rolled-back dry runs only)
+## 7. F1 root cause (Phase 0, verified 10:28 to 10:33 AEDT; rolled-back dry runs only)
 
 **`waste-guard`** runs `security.waste_guard_v1()`, which is `waste_idle_guard_v1` (30 ms), `waste_flipflop_guard_v1` (16 ms) and `enrichment_flags_refresh_v1`. The last one takes essentially all of the 115 to 120 s. **Verified** (timed in a rolled-back transaction).
 
