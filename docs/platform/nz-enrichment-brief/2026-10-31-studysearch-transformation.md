@@ -326,4 +326,4 @@ The remaining 19 s is per-course logic that cannot be hoisted (page-match bonus,
   - admitted-course 44 = 44 courses with active rows.
 - **Local full suite:** 1,279 / 0 / 0.
 - **Change control:** admin `352b5d17`.
-- **PR:** opened by the ship step at 10:48.
+- **PR:** #766, opened by the ship step at 10:47.
