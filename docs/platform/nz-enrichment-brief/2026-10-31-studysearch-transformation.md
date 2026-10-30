@@ -327,3 +327,48 @@ The remaining 19 s is per-course logic that cannot be hoisted (page-match bonus,
 - **Local full suite:** 1,279 / 0 / 0.
 - **Change control:** admin `352b5d17`.
 - **PR:** #766, opened by the ship step at 10:47.
+
+### 8.4 v2.15.376 live (verified 10:49 AEDT)
+
+- **Merge:** PR #766 squash-merged as `43f30791`.
+- **Post-merge workflows, all success:** Deploy on merge, Release Currentness Deployed, CourseFinder Deployed UAT (targeted, runs s185), Release History Contract.
+- **Live:**
+  - migration head `20261030300000`;
+  - `pipeline.aer_course_outcomes` holds 31,875 rows; first build by the migration at 10:48:54, taking 18.7 s;
+  - job `aer-outcome-register` is active and catalogued;
+  - `anon` cannot execute `public.admin_aer_outcomes`;
+  - the read returns 31,875.
+
+**Course outcome register, first live build:**
+
+| Outcome | Courses |
+|---|---:|
+| Excluded (outside the read scope, or reads held) | 10,423 |
+| Identity unresolved or mismatched | 10,230 |
+| Awaiting Layer 4 review | 4,924 |
+| Admitted provider resolution | 3,840 |
+| No official course URL | 2,327 |
+| Verified: no requirement on the page | 80 |
+| Admitted course requirement | 44 |
+| Source unreadable | 7 |
+
+### 8.5 F6 narrowed
+
+`public.admin_ui_error_report` refuses any caller without a signed-in user before writing ("sign in required", 42501). **Verified** (definition).
+- The anonymous `EXECUTE` grant is therefore harmless.
+- Revoking it is hygiene with no behaviour change: it is within standing authority and no longer an approval gate.
+- It will ship with the two search-path fixes in a later hygiene release.
+
+### 8.6 F2 (search latency): first timings
+
+Direct database timings of `public.website_v2_course_search`, page 1 of 20 (31 Oct 10:48):
+
+| Search | Time |
+|---|---:|
+| No filters | 3.5 s |
+| AU only | 3.0 s |
+| Keyword "business" | 3.8 s |
+| "nursing" in Melbourne | 2.3 s |
+| Narrow filter sets | 0.9 s |
+
+The API p95 is 13.5 s, so most of that time is outside these single calls (edge function, concurrency, cold paths). **Not yet verified** where. Any change inside the function is a G3 approval matter.
