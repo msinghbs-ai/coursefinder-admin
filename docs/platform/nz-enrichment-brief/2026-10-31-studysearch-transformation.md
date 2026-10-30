@@ -372,3 +372,25 @@ Direct database timings of `public.website_v2_course_search`, page 1 of 20 (31 O
 | Narrow filter sets | 0.9 s |
 
 The API p95 is 13.5 s, so most of that time is outside these single calls (edge function, concurrency, cold paths). **Not yet verified** where. Any change inside the function is a G3 approval matter.
+
+### 8.7 F2: probable main cause, cross-region round trips
+
+| Fact | Evidence |
+|---|---|
+| The database is in **`ap-south-1` (Mumbai)** | `get_project`: region `ap-south-1`. **Verified** |
+| Website calls come from Wix servers in Virginia (`asOrganization` Wix.Com, `cf.region` Virginia); the edge function runs in **`us-east-1`** (`x_sb_edge_region`) | Edge log attributes, `website-api-v2` deployment v3. **Verified** |
+| Edge execution, logged sample of 17 calls | p50 4.4 s, p95 5.4 s, max 6.5 s. **Verified** (`function_edge_logs`, last 24 h) |
+
+**Inferred:**
+- Every database call the function makes crosses between Virginia and Mumbai, probably over 200 ms each way.
+- The API's 13.5 s p95 for `search` is broad-search query time (3 to 4 s) plus several cross-region round trips per request (key check, rate limit, query, usage log), plus load.
+- How many round trips a request makes is **not yet verified** from the function code.
+
+**Options (all need the Platform Admin, G3, and the website team where the caller changes):**
+1. Run the function in the database's region: Supabase supports choosing the invocation region per request (an `x-region` header) or in the calling client. The Wix backend would send it. No response changes.
+2. Reduce the round trips inside `website-api-v2` to one database call per request (an edge-function change; consumer object).
+3. Make broad searches cheaper in the database: an index or plan work beside the consumer tables; possibly within authority.
+
+**Recommendation:**
+- Measure the round-trip count first (read the function code; one rolled-back timing per step).
+- Then option 1 is the smallest change with the largest effect. It changes no contract, but the caller must send the region, so the website team is involved.
