@@ -1,5 +1,39 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08:00 report: ../ui-audit/2026-10-25-overnight-outcomes.md ("08:00 report").
+Last updated: 2026-10-31 10:50 AEDT by Claude (main integrator), under the StudySearch transformation mandate. The sections from "Standing order" down are kept as written on 26 Oct 2026 07:40 and are history; the "Current state" section below supersedes them where they differ.
+Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08:00 report: ../ui-audit/2026-10-25-overnight-outcomes.md ("08:00 report").
+
+## Current state (31 Oct 2026)
+
+**The platform is being renamed StudySearch** (formerly CourseFinder).
+- Technical names stay: repositories, the Worker, database objects, APIs, keys and storage keys (transformation record §2.9).
+
+**Active mandates:**
+
+| Date | Mandate | Record |
+|---|---|---|
+| 31 Oct 10:23 | StudySearch production stabilisation, operational autonomy and rebranding (**primary**) | `2026-10-31-studysearch-transformation-mandate.md`, record `2026-10-31-studysearch-transformation.md` |
+| 30 Oct 22:30 | AER production closure: D5 release, human Layer 4 review support, outcome register; **ingestion held** (no QUT, B5 or recovery reads) | `2026-10-30-aer-production-closure-mandate.md`, response `2026-10-30-aer-production-closure-response.md` |
+
+**Live release:**
+- Pilot `main` `6f006619` = v2.15.375 (D5 additive `scale_stated`).
+- v2.15.376 (AER course outcome register) is shipping; v2.15.377 (F1 job time-out fix) is proven and queued.
+- Database migration head: `20261030290000`.
+- Full deployed safe run on `6f006619`: 80 of 80 desktop, 81 of 81 phone (31 Oct).
+
+**Live health (31 Oct baseline; record §2):**
+- Consumer API at its approved baseline, 0 server errors in 7 days.
+- 3 scheduled jobs timing out since 29 Oct; root cause found (record §7).
+- Website search p95 13.5 s.
+- 1,141 Layer 4 items pending, 1,000 of them AER.
+
+**Decisions awaiting the Platform Admin** (record §5):
+- consumer API speed-up of search (G3);
+- an additive field for all published entry scores (G3);
+- anonymous access to `admin_ui_error_report`;
+- lifting any ingestion hold;
+- any Worker or repository rename.
+
+**Developer guide:** issue 5 (29 Oct) is current. Issue 6 (D5 `scale_stated`) is drafted in `../ui-audit/d5-drafts/`; it is issued once its measured figures are refreshed.
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
@@ -26,6 +60,12 @@ Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs
 | 2026-10-24-au-builds-and-enrichment-jobs.md | MANDATE RECORD (not a response): Phase 0 R1-first, B1–B6, E1–E6, Phase 3 gates, expected coverage; builds programme not completed |
 | 2026-10-24-r1-release-plan-and-verification.md | R1 full plan, PR #681 / v2.15.339, independent tests and read-only live verification |
 | 2026-10-30-field-report-throughput-diagnostic.md | Read-only diagnostic of the 30 Oct AU/NZ/CA field reports: metric definition, read-to-admission funnels, negative-delta reconciliation, decisions TD1–TD6 (binding without proof, gap-queue re-queue of wrong-page courses, unmet 23 Oct re-reads, report and label changes) |
+| 2026-10-30-aer-production-closure-mandate.md / -response.md | AER closure mandate and Claude's response: D5 verified and released, decision C1 (course outcome register), Layer 4 position |
+| 2026-10-30-layer4-*.md | Kimi Work Layer 4 batch verifications and Skill v4/v5 records (scholarships, course links) |
+| 2026-10-31-independent-production-health-check.md | Independent read-only health check (31 Oct 10:10) |
+| 2026-10-31-project-status-review.md | Project status review (31 Oct) |
+| 2026-10-31-studysearch-transformation-mandate.md | **Current primary mandate** (verbatim) |
+| 2026-10-31-studysearch-transformation.md | **Canonical programme record:** baseline, findings F1–F8, roadmap, approvals, progress |
 | 2026-10-24-target-only-audit.md | target_only audit result (A 87 / B 455 providers), write-back paste, O10 decision |
 | ../ui-audit/2026-10-24-layer4-parked-triage.md | MANDATE + Phase 0 census: 2,011 Layer 4 items, classification, Phase 1 designs and budget, Phase 2 learning loop |
 | ../ui-audit/2026-10-25-speed-reconfiguration.md | **PRIMARY TRACK from 25 Oct 22:05:** speed programme (map-then-match binding, search quality, calibrated stops, Tranche 2, velocity + live visibility S5/S6) |
