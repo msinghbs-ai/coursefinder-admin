@@ -78,3 +78,20 @@ Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items awai
   - The lane migration carries the identical text (branch `cf247-d5-lane`).
 - **Dry run of the reissued paste with CRLF simulated** (rolled back): both edits reached the expected md5s; 343 active matrix items, all keyed (310 true, 33 null).
 - **Action:** the Platform Admin re-runs the reissued paste. Nothing is to be undone first.
+
+## 30 Oct 18:55 AEDT: D5 paste, second run rolled back; reissue 3
+
+- **What happened:** the Platform Admin's second run (18:50) raised `after the edit has md5 fdd4d1de…, expected c1f83b82…` and rolled back.
+  - Live is unchanged: `be5478d0` / `492ece03` at 18:55.
+- **Cause, from the editor's own statement in postgres_logs (07:50:36 UTC):** the SQL editor auto-indents.
+  - Every continuation line of the pasted text gained the previous line's indentation plus two spaces, including the lines inside the multi-line inserted edits.
+  - The CRLF fix in reissue 2 was correct but not sufficient.
+  - The live function bodies themselves carry CRLF line endings, which is why the original after-md5s depended on line endings.
+- **Fix (reissue 3):**
+  - Each inserted edit is now one line, with its comment as `/* */`, so editor indentation can no longer reach inside it.
+  - New expected md5s: `entry_matrix_payload_v1` be5478d0 → **5f7eb755**; `entry_resolve_v1` 492ece03 → **69bbc05f**.
+  - Paste md5: `dd83d714`.
+  - The lane migration carries the identical text.
+  - s182 now also asserts that every inserted edit is a single line (5/5 pass).
+- **Dry run of the exact reissued text, with editor-style indentation simulated** (rolled back): it reached the commit point with payload `5f7eb755` and resolve `69bbc05f`; the after count guard passed (343 active items keyed, 310 true, 33 null); the rebaseline ran.
+- **Action:** the Platform Admin re-runs the reissued paste. Nothing is to be undone first.

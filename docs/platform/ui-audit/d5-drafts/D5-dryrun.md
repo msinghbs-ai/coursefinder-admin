@@ -8,8 +8,8 @@ After the run, live was re-read: `entry_matrix_payload_v1` `be5478d0…`, `entry
 
 | Function | Before (live) | After | |
 |---|---|---|---|
-| `security.entry_matrix_payload_v1(uuid,text)` | `be5478d0402620cbc4c701a1e590856e` | `c1f83b82ce5c0b4b934f620a9864710f` | edited |
-| `security.entry_resolve_v1(uuid,text)` | `492ece033520ad81cd0046c5a851bedb` | `74d48db0de885e69cd98db374547b22e` | edited |
+| `security.entry_matrix_payload_v1(uuid,text)` | `be5478d0402620cbc4c701a1e590856e` | `5f7eb75596fd2758871b1df71b859109` | edited |
+| `security.entry_resolve_v1(uuid,text)` | `492ece033520ad81cd0046c5a851bedb` | `69bbc05f650191954a22af09c0c85c74` | edited |
 | `public.admin_aer(text,jsonb)` | `09dbbaf2aadc78e1c992d21a1048e661` | `5e58f5d6126b3b2fe026e376a56c7686` | edited (R1) |
 | `public.website_v2_course(text)` | `50d22c3ccfc2a00bedb5c9cee762eec4` | same | untouched |
 | `public.website_v2_course(text,text)` | `1c10b34fc4ea57398638d26ac9e21279` | same | untouched |
