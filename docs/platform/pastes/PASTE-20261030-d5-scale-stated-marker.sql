@@ -11,7 +11,7 @@
 -- Dry run (rolled back, 30 Oct 2026, lane D5): every pre-existing key byte-identical; 343 active matrix items keyed (310 true, 33 null).
 -- Expected messages: two "applied" rows, NOTICE "D5: 343 active matrix rows carry scale_stated" (or the then-current count), the rebaseline row.
 -- Stop and report if any check raises: the whole transaction rolls back.
--- Reissue 2 (30 Oct 2026 17:05 AEDT): the first run (16:5x) raised "after the edit has md5 99dfa649…, expected c1f83b82…" and rolled back
+-- Reissue 2 (30 Oct 2026 17:01 AEDT): the first run (16:5x, editor) raised "after the edit has md5 99dfa649…, expected c1f83b82…" and rolled back
 -- with nothing changed: the editor/clipboard turned the inserted lines' line breaks into CRLF (reproduced exactly in a rolled-back dry run).
 -- edit_once now removes carriage returns from each edit before applying it, so the result is the same however the text is pasted.
 -- =====================================================================================

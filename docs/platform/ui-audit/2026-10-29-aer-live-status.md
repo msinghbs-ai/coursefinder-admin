@@ -65,7 +65,7 @@ Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items awai
 | Ingestion | Held: no D1 resumption, no B5, no recovery reads |
 | Reviewer pack | `ui-audit/2026-10-30-layer4-review-pack-1.md` (manifest steps 1–2) |
 
-## 30 Oct 17:05 AEDT: D5 paste, first run rolled back; reissued
+## 30 Oct 17:01 AEDT: D5 paste, first run rolled back; reissued
 
 - **What happened:** the Platform Admin's run raised `security.entry_matrix_payload_v1(uuid,text) after the edit has md5 99dfa649…, expected c1f83b82…`.
   - The guard worked as designed: the transaction rolled back.
