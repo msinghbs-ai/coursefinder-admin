@@ -95,3 +95,15 @@ Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items awai
   - s182 now also asserts that every inserted edit is a single line (5/5 pass).
 - **Dry run of the exact reissued text, with editor-style indentation simulated** (rolled back): it reached the commit point with payload `5f7eb755` and resolve `69bbc05f`; the after count guard passed (343 active items keyed, 310 true, 33 null); the rebaseline ran.
 - **Action:** the Platform Admin re-runs the reissued paste. Nothing is to be undone first.
+
+## 30 Oct 22:53 AEDT: D5 live and released; closure mandate in progress
+
+- **D5:** the paste's third run succeeded at 22:19.
+  - Verified: `5f7eb755` / `69bbc05f`; baseline re-taken; consumer drift 0; 343 items keyed (310 true, 0 false, 33 null).
+- **v2.15.375:**
+  - Merged as #765 (`6f006619`); local suite 1,271 / 0 / 0.
+  - Every post-merge workflow is green, including Release Currentness Deployed `41050259866` and Deployed UAT `41050259817`.
+  - `admin_aer` is live at `5e58f5d6`.
+- **v2.15.376 (course outcome register, C1):** on branch `cf247-v2-15-376`, not merged. It waits for database access (the tool's server asked a question at about 22:50 that got no answer).
+- **Queue:** 1,055 AER pending; 0 decided. Course active 0; matrix active 343. Ingestion is held.
+- **Full record:** `docs/platform/nz-enrichment-brief/2026-10-30-aer-production-closure-response.md`.

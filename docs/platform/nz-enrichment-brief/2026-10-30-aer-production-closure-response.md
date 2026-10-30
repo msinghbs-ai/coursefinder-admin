@@ -116,7 +116,7 @@ The worker's live version string could not be read directly: this session's prox
 | Source unreadable (held long pages) | 6 | 1 | 7 | 7 |
 | Excluded: eligible, read deferred (expansion frozen) | 905 | 17 | 922 | 922 |
 | Excluded: provider outside the entry-read scope | 9,292 | 209 | 9,501 | 9,214 |
-| **Active AU/NZ courses** | **24,870** | **6,474** | **31,854** | |
+| **Active AU/NZ courses** | **25,380** | **6,474** | **31,854** | |
 
 The C1 build run at 22:38 counted 31,855, one course more. The register's own build after release supersedes these figures.
 
