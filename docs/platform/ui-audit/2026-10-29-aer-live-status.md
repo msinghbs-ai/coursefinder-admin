@@ -52,3 +52,15 @@ Handback: `2026-10-30-aer-handback-3.md`. **Not complete:** 1,055 AER items awai
 
 - 12:25 — Section D received; execution board posted; sections A–C requested.
 - 12:28 — DP020 diagnosed: a level-mapping gap (AS against DP), not a data gap.
+
+## 30 Oct 16:48 AEDT: baseline before review (mandate 16:45)
+
+| Measure | Value |
+|---|---|
+| D5 paste | **Not live** on fxcwkweaxjtknorudmwp: `entry_matrix_payload_v1` `be5478d0`, `entry_resolve_v1` `492ece03` (pre-paste md5s). BLOCKED until the Platform Admin confirms which project the editor ran on and sends its output |
+| Layer 4 AER pending | 1,055 (997 course reads, 54 provider-table first runs, 4 change items) |
+| Decided today | 0 |
+| Course-level rows active | 0 |
+| Provider matrix rows active | 343 (RMIT) |
+| Ingestion | Held: no D1 resumption, no B5, no recovery reads |
+| Reviewer pack | `ui-audit/2026-10-30-layer4-review-pack-1.md` (manifest steps 1–2) |
