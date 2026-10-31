@@ -624,3 +624,10 @@ Others are clearly not course pages:
 - It would also correct its catalogue description, which wrongly says it "sends values to review" (it admits), and remove the harmless anonymous grant (F6).
 - It restarts nothing and admits nothing; it makes "paused" explicit instead of a daily failure.
 - **It is a production change, so it waits for the Platform Admin's go-ahead (rule 3 above).**
+
+## 11. Execution register (from 31 Oct 2026 11:32)
+
+**From here on, work is tracked by StudySearch task ID** in the single canonical register `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (Platform Admin, 31 Oct 2026 11:32).
+- This record keeps the evidence, cited by the register.
+- The F/TD identifiers above remain as references.
+- New entries in this record lead with the SS task ID.

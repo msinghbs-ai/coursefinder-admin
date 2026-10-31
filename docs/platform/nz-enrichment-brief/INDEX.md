@@ -68,6 +68,7 @@ Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs
 | 2026-10-31-project-status-review.md | Project status review (31 Oct) |
 | 2026-10-31-studysearch-transformation-mandate.md | **Current primary mandate** (verbatim) |
 | 2026-10-31-studysearch-transformation.md | **Canonical programme record:** baseline, findings F1–F8, roadmap, approvals, progress |
+| ../STUDYSEARCH-EXECUTION-REGISTER.md | **Single execution register** (SS-001 onwards): every StudySearch task, status, approval, PR, verification and next action |
 | 2026-10-24-target-only-audit.md | target_only audit result (A 87 / B 455 providers), write-back paste, O10 decision |
 | ../ui-audit/2026-10-24-layer4-parked-triage.md | MANDATE + Phase 0 census: 2,011 Layer 4 items, classification, Phase 1 designs and budget, Phase 2 learning loop |
 | ../ui-audit/2026-10-25-speed-reconfiguration.md | **PRIMARY TRACK from 25 Oct 22:05:** speed programme (map-then-match binding, search quality, calibrated stops, Tranche 2, velocity + live visibility S5/S6) |
