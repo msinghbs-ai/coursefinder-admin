@@ -1543,3 +1543,151 @@ The existing controls, assessed against the mandate's five priorities:
 4. Switch test mode off.
 
 Any alerts already recorded as held stay held; they are not sent late.
+
+
+## 32. SS-014 recovery and automation tranche (mandate 31 Oct 2026 21:54): D12 to D16
+
+**Mandate:** `2026-10-31-studysearch-ss014-recovery-automation-mandate.md` (saved verbatim before implementation). **Order kept:** D12, D14, D15, D16, D13, then SS-004 and SS-015.
+
+**Holds reconciled for D13:**
+- The AER closure mandate (30 Oct, §2 "Freeze expansion") stops QUT reads, B5 tranches, R1 exceptions, optional capacity changes and Layer 4 queue growth.
+- It does not mention free direct re-reads of course pages, so the pilot is active.
+- Layer 4 growth from pilot pages is built in as a stop condition.
+
+### 32.1 D12: critical alert delivery (live, production alerts on)
+
+**What changed:**
+- **Task prompt:** the "Work queue alerts" scheduled task (hourly at :59, push and e-mail, recipient unchanged) now also takes and confirms platform alerts.
+- **Work-queue part:** kept word for word.
+- **No new credentials or webhooks;** `alerts.webhook_enabled` stays off.
+- **Original prompt:** kept in this record for rollback. It is the earlier text, steps 1 to 3 only.
+
+**Test sequence (31 Oct), under `alerts.test_mode`:**
+
+| Step | Result |
+|---|---|
+| Settings switched on with reasons logged | 21:57 |
+| Test alert | Recorded, taken and confirmed `sent` by the 21:59 task run (22:00:41) |
+| Synthetic critical `alerts:delivery_test` (labelled "not a real incident") | Two evaluations produced **one** alert (deduplicated); sent 22:00:41 |
+| The health check closed the synthetic issue | 21:58 |
+| Recovery notice | Raised 22:10, sent by the task at 23:00:34 |
+| Failure visibility, dry run (rolled back) | An alert at its last attempt, refused by the destination, became `failed`. The forced health check raised `alerts:delivery_failed` (warning) and the Alert outbox check showed "failed 24 h: 1" |
+| Test mode switched off | 23:05; **production alerts on** |
+
+- **Recipient:** the same task, account and channels as the existing work-queue alerts.
+- **Platform Admin:** please confirm the three [TEST] messages arrived (22:00 and 23:00). Every database-side and task-side step has been confirmed.
+
+**Expected delay:**
+- 15 minutes for an issue to qualify (flap guard).
+- Up to 10 minutes for the alert job.
+- Up to 60 minutes until the next :59 task run.
+- **Up to about 75 minutes in total;** 30 to 45 minutes typically.
+
+**Found and fixed:** `platform-alerts` was scheduled `10-59/10`, which skips minute 0 (a 20-minute gap each hour). It is now `*/10` (v2.15.385).
+
+### 32.2 D14: idle-pause flag recovery (live, v2.15.385)
+
+- **Release on restart:** `security.admin_automation_control_v1` (md5 `8d5a6f10` → `d90af04c`): when a person switches a job on (one job or an area), the new `security.job_idle_flag_person_release_v1` releases that job's open idle-pause flag.
+  - It is recorded as a person release in `enrichment_flag_events`.
+  - Only the named jobs are touched.
+- **Reconciliation:** one stale flag. `coverage-ai-match`'s flag (raised 19 Oct) was released as the 19 Oct 23:42 person restart ("Re-find wave refind-1"), with audit events `released` and `requeued`.
+  - No job was switched on or off.
+  - `course-link-reverse`, paused by waste-guard with no person restart, was correctly left alone.
+- **Idle guard:** `security.flag_jobs_v1` evaluates `coverage-ai-match` again. It pauses the job once 30 runs after the release find nothing. Confirmation is due at the 1 Nov check.
+
+### 32.3 D15: search refresh gap 30 → 25 minutes (applied 23:19, under observation)
+
+- **Why it is safe:**
+  - Processing runs took 54 s at the median and 118 s at most (75 runs in 3 days), against a 10-minute job cycle.
+  - The single writer lock already prevents overlap.
+  - At 25 minutes the run 30 minutes after a refresh always passes, so the longest automatic wait falls from about 40 to about 30 minutes.
+- **Reversible:** setting `search.refresh_min_gap_minutes`, with the change logged with its reason.
+- **Measures:** wait p95 and max, open requests, failures and processing-run duration. The decision stands or is reverted at the 1 Nov and 7 Nov checks. Live to 00:10 on 1 Nov: one request since the change (8 minutes' wait, none open), not enough to measure.
+
+### 32.4 D16: scholarship hold functions (live, v2.15.386)
+
+- **Change:** `fc_sch_held_v1`, `fc_sch_eligible_v1` and `fc_sch_cap_since_v1` became PL/pgSQL, keeping the same logic, signature, security, search path, volatility and grants.
+  - md5: `60a85806`/`32746eb4`/`b992a7d4` → `f8d6fb4b`/`06e6fb6f`/`1db9da28`.
+  - Shared callees (48 callers) are untouched.
+- **Trial (same session, every provider, both modes):** 20.1 s → 5.7 s on the first pass; 0 different results.
+
+**Live, cold scheduled health runs:**
+
+| Run | Whole run | Scholarship check |
+|---|---|---|
+| 23:28 (before) | 17.7 s | 7.2 s |
+| 23:38 (before) | 17.7 s | 7.7 s |
+| 23:48 (after) | 16.8 s | 1.4 s |
+| 23:58 (after) | 16.8 s | 2.1 s |
+| 00:08 (after) | 15.7 s | 1.8 s |
+
+- The scholarship detail is identical: 1,138 providers not searched, 3 pages held by the cap, three queues idle.
+- Scholarship worker jobs all succeeded after the change, with unchanged run times (`scholarship-discover`, `-read`, `-listing` 0.1 to 0.3 s).
+- `queue-watch` runs: 7.6 and 11.0 s, against 10.6 to 19.0 s before. Too few runs to call yet.
+- **Result:** the scholarship check is about 75% faster than the 11.9 s original median, and the whole run about 25% faster than about 22 s. Health-check frequency is unchanged (10 minutes).
+
+### 32.5 D13: exhausted page re-read pilot (live, v2.15.386; first eligible pages about 2 Nov)
+
+- **How it runs:** job `reread-pilot` (daily at 05:41 Melbourne) gives each exhausted course page one extra direct read.
+- **Scope:** `fetch_failed`, `blocked` or never-read pages:
+  - at most 25 a day (also the setting's maximum);
+  - at least 30 days after the last attempt;
+  - once per page, ever.
+- **Skipped:**
+  - hidden providers;
+  - providers flagged unreachable or refusing reads, or held by a person;
+  - SS-007 holds;
+  - person holds.
+- **Direct only:**
+  - The read lane marks these pages `direct_only`.
+  - Worker v0.55.0 (live since 23:47) never uses Firecrawl or the international-view render for them.
+  - Robots rules, identity proof, evidence and admission are unchanged.
+- **Stop conditions:**
+  - The pilot switches itself off if a pilot page is read through Firecrawl or produces Layer 4 items.
+  - A release not attempted within 3 days is closed and its page exhausted again, so no later read can use Firecrawl for it.
+- **Dry run (rolled back):** 3 pages released; the read lane then claimed exactly those 3, all `direct_only`; no Firecrawl reads and no Layer 4 items.
+- **Live 23:55:** 0 released (none eligible yet: the oldest last attempt is 2 Oct); 1,461 exhausted pages not yet tried.
+- **Measures:** via `security.page_reread_pilot_summary_v1()` (released, attempted, read, identity proved, new evidence, fields filled, Firecrawl reads, Layer 4 items).
+- **Not yet claimed:** "pilot attempted, verified and recovered" stays open until pages are eligible and read.
+
+### 32.6 Before and after
+
+| Metric | Baseline | After | Status |
+|---|---|---|---|
+| Critical alert delivery | Admin-only visibility for platform issues | Push and e-mail through the existing task; test, dedup and recovery delivered | **Verified** (recipient receipt to be confirmed by the Platform Admin) |
+| Idle-pause control | Stale flag after a manual restart (`coverage-ai-match`) | Released as a person release; future restarts release automatically | **Verified**; guard re-arming due at the 1 Nov check |
+| Refresh wait p95 / max | 31 / 40 min (7 days) | D15 measured from 23:19 | Observation open |
+| Scholarship health check (cold scheduled runs) | 7.0 to 8.5 s (after v2.15.384); 11.9 s median before | 1.4, 2.1, 1.8 s (23:48, 23:58, 00:08) | See 32.4 |
+| Whole health run (cold) | About 22 s (20.7 to 24.2 s) | 15.7 to 16.8 s (17.7 to 21.7 s in the hour before) | See 32.4 |
+| Exhausted course pages | 1,467 (1,461 not yet tried) | Pilot live; 0 eligible until about 2 Nov | **Not yet measurable** |
+| Job failures | 5 failures in 21,052 runs since 11:03 (4 incidents: `coverage-read`/`coverage-read-2` "job canceled" at 15:00 and 15:30; `coverage-admit` and `coverage-admit-intakes` statement time-outs on a row lock at 17:10). `waste-guard` and `coverage-ai-match-prepare`: 0 | 24-hour and 7-day windows open | T1 not met so far (target 0) |
+| Search API p95 | 5.2 s on 71 requests | No new measured traffic | Not measurable |
+
+### 32.7 Operational maturity check
+
+- **Additional maintenance:**
+  - One helper function (D14).
+  - One job and one table (D13, a pilot with a fixed ceiling).
+  - No new framework.
+  - D12 reuses the existing task.
+- **Duplicate jobs:** none. The alert delivery shares the work-queue task.
+- **Database reads:** the health check's scholarship section reads less (D16). The pilot reads one table a day.
+- **Unbounded retries:** none.
+  - Pilot: once per page.
+  - Alerts: 5 attempts with backoff.
+  - D14 changes no retry rule.
+- **False-positive alerts:** the A2 fix (v2.15.384) removed the main source (116 false criticals a week). Alerts need 15 minutes open and have a 60-minute quiet period per check.
+- **Expenditure:** none added.
+  - The pilot is direct-only.
+  - D16 is cheaper.
+  - D12 uses the existing task (one short model run an hour, as before).
+
+### 32.8 Rollback references
+
+| Decision | Rollback |
+|---|---|
+| D12 | Switch off `alerts.delivery_enabled`. The task prompt before D12 had steps 1 to 3 only: run `security.queue_watch_alerts_take_v1('notify', 'scheduled task')`; reply "No work queue alerts." when 0; otherwise one line per alert, then "Open PIM Admin › Platform health › Work queues for details." |
+| D14 | Re-apply `admin_automation_control_v1` md5 `8d5a6f10` (paste file). Released flags stay released, with their audit history |
+| D15 | Set `search.refresh_min_gap_minutes` back to 30 (Pipeline settings, with a reason) |
+| D16 | Re-apply the three SQL definitions (md5 `60a85806`, `32746eb4`, `b992a7d4`) by migration |
+| D13 | Switch off `reread.pilot_enabled`. Pages already released are closed within 3 days and exhausted again |

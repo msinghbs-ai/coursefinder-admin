@@ -1,6 +1,6 @@
 # StudySearch platform operational limits
 
-**Version:** 1.2 (31 Oct 2026: monitoring, alerts and the weekly scorecard, v2.15.384; 1.1: operating targets, v2.15.383; figures below as at 13 Oct 2026)
+**Version:** 1.3 (1 Nov 2026: alerts delivered by push and e-mail (D12), re-read pilot (D13), refresh gap 25 minutes (D15); 1.2: monitoring, alerts and the weekly scorecard, v2.15.384; 1.1: operating targets, v2.15.383; figures below as at 13 Oct 2026)
 
 **Figures as at:** 6:17 pm, Tue 13 Oct 2026 (Melbourne time), read from the live database (project fxcwkweaxjtknorudmwp)
 
@@ -222,7 +222,7 @@ Set from verified production baselines (transformation record §30). Since v2.15
   - a warning after `health.search_refresh_slow_minutes` (40, = T7), naming the cause (the refresh gap or another writer);
   - critical after `health.search_refresh_stalled_minutes` (90).
 
-### Alerts (job `platform-alerts`, every 10 minutes)
+### Alerts (job `platform-alerts`, every 10 minutes, at :00 to :50)
 
 | Rule | Setting (Pipeline settings › Alerts) | Value |
 |---|---|---|
@@ -233,13 +233,26 @@ Set from verified production baselines (transformation record §30). Since v2.15
 | Recovery notice | `alerts.recovery_notice` | On |
 | Delivery retries | `alerts.max_attempts`, `alerts.retry_minutes` | 5 attempts, 10 minutes doubling |
 | Not collected while on | `alerts.collect_within_minutes` | 120 minutes, then critical |
-| **External delivery** | `alerts.delivery_enabled` | **Off (D7)**: alerts are recorded as held on Platform health |
+| **External delivery** | `alerts.delivery_enabled` | **On (D12, 31 Oct 2026 23:05)**: the hourly "Work queue alerts" scheduled task (at :59) takes platform alerts and sends them by push and e-mail. Expected delay up to about 75 minutes (15 qualify + up to 10 job + up to 60 task) |
 | Webhook | `alerts.webhook_enabled` plus vault secret `studysearch_alert_webhook_url` | Off |
 | Test mode | `alerts.test_mode` | Off |
 
 - **Acknowledging:** a Platform Admin acknowledges an issue on Platform health, with a reason that is logged. This stops its reminders. If the issue rises in severity, the acknowledgement is cleared.
 - **Work-queue alerts are separate:** they stay in `pipeline.queue_watch_alerts`. The hourly "Work queue alerts" scheduled task (push and e-mail) delivers them.
-- **Recommended destination:** see transformation record §31.7.
+- **Destination:** the existing task (D12); no webhook or new credentials. Test record: transformation record §32.1.
+
+### Re-read pilot (D13, job `reread-pilot`, daily 05:41)
+
+- **What it does:** exhausted course pages get one direct read, with no Firecrawl and no AI.
+- **Limits (Pipeline settings › Re-read and retry):** at most 25 a day (also the approved ceiling); at least 30 days after the last attempt; once per page.
+- **Stops by itself:** on a Firecrawl read or on Layer 4 growth.
+- **Measures:** `security.page_reread_pilot_summary_v1()`.
+
+### Search refresh gap (D15)
+
+- `search.refresh_min_gap_minutes` is 25 (was 30) from 31 Oct 2026 23:19.
+- The longest automatic wait is about 30 minutes, inside T7 (40).
+- Revert to 30 if backlog, overlap or failures rise.
 
 ### Weekly operational scorecard (job `ops-scorecard`, daily 06:29 Melbourne)
 
@@ -261,3 +274,4 @@ Set from verified production baselines (transformation record §30). Since v2.15
 | 1.0 | 13 Oct 2026 | First issue (Platform Admin, 18:17: "Give me all budgets and their correspondence usage and jobs and their schedules"; 18:20: "Save the above as platform operational limits in google docs and in admin docs as well"). |
 | 1.1 | 31 Oct 2026 | Operating targets T1 to T8 (SS-014, v2.15.383). |
 | 1.2 | 31 Oct 2026 | Monitoring, alerts and the weekly scorecard (SS-014A to D, v2.15.384; mandate 31 Oct 2026 19:22). |
+| 1.3 | 1 Nov 2026 | Alerts delivered by the existing task (D12); re-read pilot (D13); refresh gap 25 minutes (D15). |
