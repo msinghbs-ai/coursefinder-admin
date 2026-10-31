@@ -892,3 +892,39 @@ Nothing was admitted or changed.
 2. **Per-binding verification** against source evidence (the URL's own title in the provider's site map, HTTP status, stored copy where present), not the URL pattern alone. Uncertain rows are marked **Held — Person Review**.
 3. **Design:** a governed, reversible function with a before/after audit table, provider-scoped and count-guarded. Lodged here, then a Pilot migration, a rolled-back live dry run, the full suite, and shipped under change control.
 4. **Execution:** provider by provider, each batch verified before the next. Consumer before/after checks; the handover note and developer-guide line.
+
+### 17.1 SS-007: model investigation before execution (31 Oct 2026 11:55 to 12:05 AEDT, read only). A new approval gate found
+
+**How bindings and links work** (verified live; `PIPELINE-LINEAGE.md` row "Official course page link"):
+- A binding is `pipeline.coverage_course_pages.status`: `bound`, `mismatch` or `ambiguous`. There is no other status, and the guardrail is no new status values.
+- **The consumer's official link:** `catalogue.courses.course_url` and `catalogue.course_links` (`link_type 'official_course'`), projected into `search.course_documents.official_course_url`.
+  - Filled only from **proven** bindings by job `course-url-fill` (`security.course_url_fill_v1`).
+  - Each fill is logged in `pipeline.course_url_fills`.
+- **Guard 3 of that job:** when a binding stops being `bound`, it **takes the fill back on its own**. It stamps `retracted_at` with the reason "page no longer bound", keeps the URL in the log, and empties `courses.course_url` unless a manual lock exists. **This is the existing governed, reversible retraction path.**
+- **Guard 4 of that job:** if more than `course_url.max_retraction_pct` (5%) of the last 30 days' fills are taken back, it **switches itself off** (`course_url.fill_enabled` = 0).
+  - Today: 21,011 fills, 631 retracted (3.0%).
+- **Fee pages** are registered as `pipeline.provider_fact_sources` kind `fee_schedule`, with a person decision.
+
+**What the approved remediation would touch** (live, 12:03):
+
+| Action | Courses | URLs | Official links currently filled from these bindings | Manual URL locks | URLs that are fee pages | Already a registered fee source |
+|---|---:|---:|---:|---:|---:|---:|
+| Release | 154 | 121 | **0** | 2 | 0 | 0 |
+| Re-role | 302 | 67 | **292** | 0 | 15 | **14** |
+
+**Findings:**
+1. **Releasing the 154 changes nothing a consumer sees**: none had an official link filled. Its only effects are truthfulness of the coverage record and making the courses eligible for page search again.
+2. **The consumer-visible fix is the re-role group:** 292 courses show a list, fee or enrolment page as their official course link.
+   - Retracting them through guard 3 takes the 30-day rate to about 4.4%, under the 5% stop, so the fill job keeps running (margin about 127).
+3. **"Re-role as fee source" is almost already done.** 14 of the 15 fee-page URLs are registered fee sources. The other 52 URLs are course lists or enrolment and application pages, which are not fee sources and would simply stop being the course page.
+4. **There is no hold that keeps a course out of every automated lane.** Courses whose binding is `mismatch` or `ambiguous` are picked up by several jobs:
+   - `security.course_link_search_enqueue_v1` / `course_link_search_tick_v1` (paid web search);
+   - `security.search_pass_advance_v1` / `public.svc_search_pass_bind`;
+   - `public.svc_coverage_reidentify_next`;
+   - `public.svc_coverage_read_next` (paid page read);
+   - `security.coverage_ai_match_prepare_v1` (AI match).
+
+   The only per-course hold (`no_page_hold_v1`, "confirmed no page") is honoured by AI match alone and asserts something untrue here.
+   - So any release or re-role would put these courses back into capped but **paid and AI** search lanes. The approval excludes that ("Do not trigger unrestricted searches, AI enrichment or paid reads").
+
+**Status:** SS-007 is Awaiting decision on how released courses are held (DECISION REQUIRED — SS-007, second gate). Nothing has been changed.
