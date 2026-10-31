@@ -1,6 +1,7 @@
 # Handover note: official course link corrections (StudySearch SS-007, batch A)
 
-**Status:** prepared, **not executed**. It runs only after the Platform Admin approves decision D1 in `docs/platform/nz-enrichment-brief/2026-10-31-studysearch-decision-pack.md`.
+**Status:** **executed and verified** on 31 Oct 2026 between 13:31 and 13:39 AEDT, under Platform Admin decision D1 (31 Oct 2026 13:30). Evidence: transformation record §23 and §23.1.
+**For the website developer and the Zoho developer:** sections 1 to 3, 5 and 6, plus the course list CSV. This is a data correction; the API itself has not changed.
 **Audience:** Platform Admin, then the website team and the Zoho integration owner.
 **Prepared:** 31 Oct 2026, from live reads and rolled-back dry runs on `fxcwkweaxjtknorudmwp`.
 
@@ -37,7 +38,7 @@
 
 ## 4. Before and after checks (to run at execution)
 
-| Check | Before (measured 31 Oct 12:5x, live) | Expected after | Dry-run result (rolled back) |
+| Check | Before (measured 31 Oct 12:50 to 13:31, live) | Expected after | Dry-run result (rolled back) |
 |---|---|---|---|
 | Published courses in the list showing a link | 167 | 0 | 0 |
 | Of these, links that are the bound shared page | 126 | 0 | 0 |
@@ -65,3 +66,14 @@
 
 - **125 courses on 38 school international pages and two ELICOS level pages:** held for person review (decision D2). 115 of them show such a page as their link today.
 - **The 154 release candidates and the 1,012 verification reads:** not part of this change.
+
+## 8. Result (live, 31 Oct 2026 13:39 AEDT)
+
+| Check | Before | After |
+|---|---|---|
+| Listed courses with a search document | 173 | 173 |
+| Website `official_url` present | 167 | **0** |
+| Every other item field (md5 over all 173 items, excluding `official_url` and `freshness`) | `900cd49d` | `900cd49d` (unchanged) |
+| Zoho `zoho_v2_course`, 8 UNE courses | fee pages | null, with the key still present |
+| Website search, UNE, `has_official_url=true` | — | 105 of 130 (the corrected courses drop out) |
+| Consumer API drift (`consumer_api_check_v1`) | none | none (75 functions, 48 relations) |

@@ -1175,3 +1175,56 @@ All 125 bindings are retained unchanged, per the Platform Admin's D2 decision.
 | One programme page for its ELICOS levels (MEI General English I–V and EAP I–III; Greenwich Cambridge preparation) | 11 | 2 | The page is the programme's own page and describes every level | Levels are not documented separately, so a level-specific fact (duration or entry level) may not be on the page |
 
 **Not done:** no release, re-role, hold or link change for these courses.
+
+### 23.1 D1 consumer verification (31 Oct 2026 13:39 AEDT)
+
+**Search refresh:** all 23 requests were processed by job `search-refresh-requested`.
+
+| Check | Before | After |
+|---|---|---|
+| Website item `official_url` on the 173 documents | 167 | **0** |
+| All other item content (md5 excluding `official_url` and `freshness`) | `900cd49d` | `900cd49d` (unchanged) |
+| Zoho `zoho_v2_course`, 8 UNE courses | fee pages | null; key still present |
+| Website search, UNE, `has_official_url=true` | — | 105 of 130 |
+| Consumer API drift | none | none (`consumer_api_check_v1`: 75 functions, 48 relations) |
+
+**No new processing on held courses since 13:31:**
+- 0 re-bound or leased bindings.
+- 0 new Enrich items.
+- 0 vendor usage rows of any search, read or AI purpose.
+- 3 old TasTAFE link-search rows (queued 22 Oct) remain queued. The stop gate returns `remediation_hold` for them, so they cannot be sent.
+
+**Result:** 167 incorrect published course URLs → 0. Courses held for remediation: 177. Rollback is available per course (`binding_remediation_lift_v1`). `courses.course_url` is taken back by job `course-url-fill` at its next run (1 Nov 13:23).
+
+**Developer handover:** the handover note is updated with the result and the course list CSV. It is for the website and Zoho developers through the Platform Admin.
+
+## 25. D5: SS-010 enrichment efficiency (31 Oct 2026 13:40 to 13:55)
+
+### 25.1 D5b: the 67 withdrawn values, re-measured before acting
+
+The set was re-measured live before acting. It is now 65, because 2 no longer have a proven page. My §20 count of "ready" checked only Enrich fills, not values that reached the course by other routes.
+
+| State | Course-fields | Action |
+|---|---:|---|
+| Field already holds a value again (adapter or other admitted source since 23 Oct) | 50 | None: recovered |
+| Re-read on the current proven page after the withdrawal; the reader found nothing ("page does not state it", "page names no campus", "only a site-wide line mentions international"). Held by the existing same-input hold | 14 | None: verified no value. Reprocessing the same copy would only repeat the answer |
+| Waiting for the provider campus list (an open Enrich item) | 1 | None: already in the queue |
+
+- **Reprocessed:** 0.
+- **AI spend:** US$0 (ceiling US$1).
+- **Recovery yield:** 50 of 65 values are back. 14 are verified not on the page; 1 is waiting.
+
+### 25.2 D5a: mismatch-page hold
+
+**Change:** v2.15.380, migration `20261031040000_cf247_ss010_enrich_mismatch_hold`, spec s189.
+- One md5-guarded edit of the central enrichment hold `security.enrich_item_held_v1` (`66be0efc` → `688da7ae`).
+- It holds a course while its page binding is `mismatch`; manual bindings are excepted. The hold ends by itself when a page is bound again.
+
+**Evidence (live, 4 days):**
+
+| Page binding | Enrich items | Filled | Sent to review |
+|---|---:|---:|---:|
+| `mismatch` | 11,332 | 0 | 0 |
+
+**Dry run (rolled back):** of 19,512 distinct course-fields tried in 4 days, 9,264 were held before the change and 16,797 after.
+
