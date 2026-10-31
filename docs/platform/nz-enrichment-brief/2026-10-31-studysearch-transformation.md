@@ -710,3 +710,37 @@ Others are clearly not course pages:
 2. A daily p50/p95 trend line for website `search`, so the next real traffic shows whether it is fixed.
 
 No consumer change is proposed yet.
+
+## 14. SS-008 (ref F1c): Rule 4 quality and batching, dry-run analysis (31 Oct 2026 11:38 to 11:44 AEDT, read only)
+
+**Method:** `security.adapter_qualify_one_v1` (verified: it writes nothing) was run for **all 1,185 enabled adapters** in time-bounded slices. Rule 4's own selection was applied:
+- read share ≥ 0.5 and agree share < 0.9;
+- the field is not already admitted;
+- not a CA fee;
+- no hold.
+
+Nothing was admitted or changed.
+
+| Measure | Result | Label |
+|---|---|---|
+| Fields Rule 4 would admit today | **1**: `delivery` for one AU adapter (`17d97fba…`), from **2 pages read** (1 agree, 1 differ) | Verified |
+| Total qualification time for 1,185 adapters | About 128 s (slices: about 11 + 10.3 + 24.6 + 24.0 + 24.0 + 17.6 + 16.3 s); over the 120 s limit, as observed | Verified |
+| Slowest adapters | 7.6 s (372 pages), 6.6 s (355), 5.2 s (289), 3.7 s (154), 3.0 s (388) | Verified |
+| Rule 4 admissions to date (`admin_control_events`, `rule_4`) | **22** adapter-field admissions for 22 providers, all between **13 and 23 Oct 2026**; 12 of them in the 16 Oct run | Verified |
+| Rule 4 runs since 24 Oct (`layer4_rule_runs`) | 24, 25, 26 and 28 Oct: **0 admitted** each; 29 and 30 Oct failed (time-out) | Verified |
+| Adapters with admission on (any rule) | 827 of 1,185; Rule 4 holds: 0 | Verified |
+
+**Assessment:**
+- **Rule 4 has done its work.** Its useful output was in its first runs (13–23 Oct). It now finds nothing, or one field on 2 pages.
+- **Quality concern:** the rule has no minimum page count. A field read on 2 pages, agreeing on 1, qualifies as "low agreement, page wins". A 2-page sample is not evidence for automatic admission. **Inferred.**
+- **Batching, checkpoints and recovery would add a moving part** (cursor, setting, 4 runs a day) to a rule that currently produces about 1 low-quality admission. That is against the mandate's "avoid introducing additional operational complexity".
+
+**Options for the decision** (presented to the Platform Admin as DECISION REQUIRED — SS-008 after SS-005):
+
+| Option | What | Complexity |
+|---|---|---|
+| A | Keep paused (v2.15.378) and **retire** Rule 4 under housekeeping after the 14-day hygiene window. Adapter fields are admitted only by the other rules and Layer 4 review | Lowest |
+| B | Keep paused; if ever restarted, first add a minimum page count (for example 20 pages, a setting) and route candidates to Layer 4 instead of admitting | Low, later |
+| C | Batched restart with checkpoints and the current thresholds | Highest; not recommended |
+
+**Recommendation: A.** The one current candidate (2 pages) is the kind of admission the rule should not make.
