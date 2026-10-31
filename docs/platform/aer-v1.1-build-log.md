@@ -2285,3 +2285,27 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Rollback:** `cron.alter_job(… active := true)`, the previous description and the anon grant (each a single statement).
 - **Local full suite:** 1,287 passed, 0 failed, 0 skipped. Register regenerated (s187).
 - **Records:** register `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (SS-005, SS-006); record §8.9, §10.2, §14.
+
+### 31 Oct 2026 13:22 AEDT — v2.15.379: SS-007 remediation hold and governed binding correction (no data changed)
+
+- **Approval:** Platform Admin, 31 Oct 2026 11:53 (SS-007 Option 2 with controls) and 12:38 (Executive Execution Mandate §2: Option C, build the hold, tests, dry runs and change control). The production re-role waits for decision pack D1.
+- **What:** migration `20261031030000_cf247_ss007_remediation_hold`.
+  - New table `pipeline.course_remediation_holds` (one open hold per course) and check `security.course_held_v1`.
+  - The hold is enforced through four existing controls, each an md5-guarded edit:
+
+    | Control | Before | After |
+    |---|---|---|
+    | Binding guard trigger function | `efd59e2a` | `33351b50` |
+    | One search stop gate | `6e08df75` | `d7679a05` |
+    | AI match preparation | `ab2dd5dc` | `23d433d2` |
+    | Link-search tick send path | `13b0771d` | `ffc9fb64` |
+
+  - `security.binding_remediation_apply_v1` (Platform Admin only; one provider; exact count guard; batch limit setting `remediation.max_batch_courses` 50) and `security.binding_remediation_lift_v1` (restore or release).
+  - No hold is created; nothing is re-roled by the migration.
+- **Dry runs (live, rolled back):**
+  - whole file applied with the post-check;
+  - batch A, 177 re-roled: 5 lanes refuse the held courses, 167 published links → 0, restore exact;
+  - the count guard refused a changed batch.
+- **Rollback:** with no holds open, the four edits have no effect. Revert by restoring the before-definitions (md5s above).
+- **Local full suite:** 1,294 passed, 0 failed, 0 skipped. Register regenerated (s188).
+- **Records:** register (SS-007); record §18 to §21; decision pack `2026-10-31-studysearch-decision-pack.md`; handover `docs/integrations/handover/2026-10-31-SS-007-official-link-corrections-HANDOVER.md`; paste `docs/platform/pastes/PASTE-20261031-ss007-batch-a-re-role.sql` (not run).
