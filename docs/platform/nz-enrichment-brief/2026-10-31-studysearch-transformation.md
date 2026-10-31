@@ -838,3 +838,57 @@ Nothing was admitted or changed.
 - duplicate rows in `021276J` and `085441E`.
 
 **Separate small question:** whether `min_score` for the 2 courses whose rows are not `minimum_grade` (`021276J`, `111153D`) should stay `null`. Recommendation: leave it, since `min_scores[]` would show their routes.
+
+## 17. SS-007: conditional approval (Platform Admin, 31 Oct 2026 11:53), recorded before execution
+
+> **APPROVED — SS-007 Option 2, subject to the controls below.** Proceed with the controlled remediation of 154 incorrect/generic automatic bindings and the re-roling of 302 shared fee, enrolment or application pages.
+>
+> **1. Mandatory verification.** Before changing each binding:
+> - Verify the classification using available source evidence, not URL patterns alone.
+> - Confirm that the binding is automatic, not manual.
+> - Identify any admitted values depending on that binding.
+> - Preserve existing values, evidence and provenance.
+> - Keep genuine course pages unchanged.
+> - Re-role fee sources only where their source classification is supported.
+>
+> If a binding is uncertain, mark it Held — Person Review rather than changing it.
+>
+> **2. Controlled execution.**
+> - Process provider by provider in bounded, count-guarded batches.
+> - Record before-and-after binding states.
+> - Make changes reversible.
+> - Do not delete admitted field values.
+> - Do not trigger unrestricted searches, AI enrichment or paid reads.
+> - Verify each completed batch before continuing.
+> - Stop if unexpected changes or consumer regressions occur.
+>
+> **3. Consumer API protection.** The Website and Zoho integrations must remain operational. Although the API structure will not change, some official course URLs will become null or change their source classification. Follow the standing consumer-change governance requirements as applicable: developer-guide issue; version line; compatibility assessment; developer handover note; before-and-after verification. Do not introduce breaking API changes.
+>
+> **4. Explicit exclusions.** This approval does not include:
+> - the 1,012 verification reads;
+> - any paid page acquisition;
+> - the 351 person-check bindings;
+> - changes to the 558 genuine shared-page bindings;
+> - manual binding changes;
+> - automatic Rule 4 admissions;
+> - deletion of admitted course data.
+>
+> **5. Completion evidence.** Record:
+> - number successfully released and re-roled;
+> - number held after verification;
+> - actual coverage changes;
+> - affected consumer-visible URLs;
+> - admitted values flagged for review;
+> - rollback records;
+> - before-and-after Website and Zoho checks;
+> - Admin and Pilot commit/PR references.
+>
+> Update `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` and the StudySearch transformation record. Do not mark SS-007 complete until independently verified.
+>
+> **6. Continue execution sequence.** After SS-007: SS-008 (present the Rule 4 quality assessment and retirement recommendation); SS-009 (present the multiple-entry-score assessment and additive API proposal); SS-010 (continue read-only enrichment recovery design); SS-011 (complete website search performance analysis).
+
+**Execution plan:**
+1. **Model investigation** (read only): how a binding, a page rejection, the admitted official URL and a fee source are stored; which existing governed mechanism releases or re-roles a binding without a new status or a delete.
+2. **Per-binding verification** against source evidence (the URL's own title in the provider's site map, HTTP status, stored copy where present), not the URL pattern alone. Uncertain rows are marked **Held — Person Review**.
+3. **Design:** a governed, reversible function with a before/after audit table, provider-scoped and count-guarded. Lodged here, then a Pilot migration, a rolled-back live dry run, the full suite, and shipped under change control.
+4. **Execution:** provider by provider, each batch verified before the next. Consumer before/after checks; the handover note and developer-guide line.
