@@ -1472,7 +1472,7 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 | Refresh stall detection | None | Live, with cause and next step | Built; no stall has occurred to show it |
 | Alerting | Platform issues: none outbound | Framework live; delivery off (D7) | Ready for destination approval (§31.7) |
 
-- The release notes first said the health check was "about twice as fast". That came from the trial and is withdrawn in the same release's notes. The live figures above stand.
+- The release notes first said the health check was "about twice as fast". That came from the trial, and PR #776 (`f7d8e72e`, 21:16) replaced it in the same release's notes with the live figures above. Post-merge workflows all passed; there were no database changes.
 - **Further health-check reduction (proposal, not done):**
   - Run the scholarship section every 30 minutes instead of 10 (`platform_health_checks.cadence_minutes`; nothing in that pipeline has moved since 30 Oct). This cuts its database time by two thirds.
   - Alternatively, flatten the nested hold functions. That is a shared-function change used by the workers, so it needs its own test and release.
