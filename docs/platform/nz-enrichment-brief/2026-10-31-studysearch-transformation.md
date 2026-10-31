@@ -573,3 +573,54 @@ Others are clearly not course pages:
 **Next step:**
 - A provider-by-provider dry-run with the three outcomes. It needs a course-path pattern per provider: the provider's own course URL shape from its bound, proven pages.
 - **Then:** you approve per country; the verify reads need the spend hold lifted for them.
+
+### 10.2 Platform Admin decisions, full text (31 Oct 2026 11:28 AEDT; supersedes the short answers in §10 where they differ)
+
+> **StudySearch — Platform Admin Decisions.** Proceed under the existing operating model and record these decisions in `coursefinder-admin` before further execution.
+>
+> **F2 — Website search performance.** Decision: Measure more first. Do not modify the consumer API, routing, headers or deployment region yet.
+> - Measure the latency contribution of each database call, network round trip, authentication check and usage-log operation.
+> - Compare execution from US East and Mumbai using equivalent workloads.
+> - Evaluate database query optimisation, regional execution and reducing sequential calls.
+> - Present before-and-after estimates, implementation risk and the recommended smallest effective change.
+>
+> Any consumer API change must include a developer-guide issue, version line, compatibility assessment and handover note. Preserve Website and Zoho functionality.
+>
+> **F5 — Multiple published entry scores.** Decision: Review before approving. Do not add the proposed field yet.
+> - Investigate the 24 affected courses, confirm whether all published scores are valid alternatives, and examine their source evidence and consumer presentation requirements.
+> - Propose an additive, backwards-compatible structure that preserves the existing entry-score field. Include examples for ATAR, IB and other applicable qualifications.
+> - Return the proposed schema, sample API response and consumer impact for approval.
+>
+> **F1c — Automatic adapter admission.** Decision: Keep paused; review first. Do not restart automatic admissions or simply increase the execution timeout.
+> - Review the 1,185 adapters, assess Rule 4 decision quality, and determine which adapter outputs are safe for automatic admission.
+> - Design bounded batching, checkpointing, failure recovery and validation without enabling automatic admission.
+> - Present a dry-run analysis, expected impact and controlled activation proposal for approval.
+>
+> **TD1 — Unproven course-page bindings.** Decision: Produce a dry-run list, then decide. Do not mass-rebind, delete or invalidate existing records.
+> - Generate an evidence-based list of the 1,564 bound pages without identity proof or a stored copy. Classify shared URLs, generic pages, suspected mismatches and potentially valid pages.
+> - Include provider, course, URL, binding method, evidence status, proposed action and risk classification.
+> - Provide the projected impact on course coverage and existing admitted values. Preserve manual bindings and historical provenance.
+> - Await approval before executing binding corrections.
+>
+> **Execution and reporting.**
+> 1. Record all four decisions in the existing StudySearch transformation record in the Admin repository.
+> 2. Continue authorised, read-only investigations and routine operational work.
+> 3. Before each material action, explain what you will do, why, expected impact and rollback considerations.
+> 4. Provide progress updates throughout the session, showing completed work, findings, current activity and next action.
+> 5. Commit investigation results, evidence and recommendations to Admin.
+> 6. Do not treat these decisions as permission to make consumer API changes, reactivate admissions or perform mass corrections.
+
+**How the work maps to these decisions:**
+
+| Decision | Authorised now (read only or routine) | Held for approval |
+|---|---|---|
+| F2 | Per-step latency measurement: database time of `website_api_v2_auth`, `_rate`, the action and `_log`; edge execution time from logs; the cross-region estimate. The Mumbai-versus-US-East comparison needs an invocation from each region (a read-only probe call with a scoped key), so it is planned and asked for before it runs | Any change to the edge function, routing, headers or region |
+| F5 | Review of the 24 courses: evidence quotes, stored copies, whether each score is an alternative entry route; a proposed additive `min_scores[]` schema with ATAR, IB, A Level and pathway examples, a sample response and consumer impact | Adding the field |
+| F1c | Dry-run Rule 4 analysis over the 1,185 adapters, in bounded slices: which fields it would admit, agreement and read shares, a sample against pages; a batching, checkpoint and recovery design with admission disabled | Any reactivation or admission |
+| TD1 | The full per-binding dry-run list of the 1,564 (and the shared-URL group), with every field asked for, the classification and the risk; projected impact on coverage and on admitted values | Any binding correction |
+
+**About F1c and the prepared release:**
+- v2.15.378 (built, held, not pushed) would set the already-failing job `l4-rule-low-agreement` to inactive.
+- It would also correct its catalogue description, which wrongly says it "sends values to review" (it admits), and remove the harmless anonymous grant (F6).
+- It restarts nothing and admits nothing; it makes "paused" explicit instead of a daily failure.
+- **It is a production change, so it waits for the Platform Admin's go-ahead (rule 3 above).**
