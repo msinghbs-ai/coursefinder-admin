@@ -435,3 +435,18 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 - Each run qualifies the next bounded slice of adapters: a cursor and a setting `batch.l4_rule_low_agreement_adapters`, for example 300.
 - The job runs 4 times a day, so every adapter is still checked daily. The rule itself is unchanged.
 - **Alternative:** leave it failing until the rule's value is reviewed; record it as paused, with a catalogue note so the failure is not noise.
+
+### 8.10 F6: decisions (11:25 AEDT)
+
+- **Mutable search path, 2 functions: accepted, not changed.**
+  - `security.provider_presentable_name(text)` and `security.place_presentable(text)` are `IMMUTABLE`, `SECURITY INVOKER` SQL helpers.
+  - They are called by consumer functions, per row in searches:
+    - `website_edge_course_search_v1`, `website_edge_scholarship_search_v1`;
+    - `website_v2_providers`, `website_v2_rankings`;
+    - `api.website_v2_course_item`, `api.website_v2_scholarship_item`, `api.website_v2_provider_campuses`, `api.website_v2_reference_build`.
+  - **Verified** (definitions and `consumer_api_functions_v1`).
+  - A `SET search_path` clause stops Postgres inlining a SQL function, which could slow consumer search. The lint's risk is low for invoker-rights helpers that run with the caller's own rights. **Inferred.**
+  - Left as they are; listed here as accepted, with the reason.
+- **`admin_ui_error_report` anonymous grant:** to be revoked as hygiene in the next functional release (no behaviour change, §8.5). Not worth a release of its own.
+- **169 functions callable by signed-in users:** a sampled role-check audit stays in the Phase 2 list.
+- **Documentation gap:** `SYSTEM-REFERENCE.md` §4b (Website API v2) was last updated on 15 Oct and does not describe the entry-requirement fields (`edu_country`, `entry`, `entry_matrix`, `scale_stated`). To be refreshed in the Phase 3 documentation pass.
