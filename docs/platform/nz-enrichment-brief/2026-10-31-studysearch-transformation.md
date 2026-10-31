@@ -777,3 +777,64 @@ Nothing was admitted or changed.
 - These should be corrected in the AER workspace before any consumer field lists every route.
 
 **Next:** the additive schema proposal, a sample response and consumer impact (SS-009, then Awaiting decision).
+
+### 16.1 SS-009 proposal: additive `entry.min_scores[]` (for approval; not built)
+
+**Principles:**
+- **Additive and backwards-compatible.** `min_score` and `min_score_basis` stay exactly as they are, including today's choice rule (international audience first, then the most recently updated row).
+- **No inference.** Each route is shown as printed. No route code, conversion or ranking is derived; `basis` carries the provider's own words.
+- **Only admitted (active) rows,** as for every entry field.
+
+**Schema** (inside the course detail's `entry`; always present; `[]` when none is held):
+
+| Field | Type | Notes |
+|---|---|---|
+| `score` | number | The minimum as printed (for example `75`, `26`, `67.5`) |
+| `basis` | string | The route and wording exactly as printed (for example "ATAR 75", "International Baccalaureate Diploma Programme 26", "Monash University Foundation Year 67.50%"). Always shown with the number |
+| `audience` | string | `international`, `domestic` or `all`, as recorded at review |
+| `quote` | string | The source text the row was admitted from |
+| `as_at` | date | When the source stated it |
+
+**Order:** `international`, then `all`, then `domestic`; within each, by `basis`. Stable across calls.
+
+**Sample** (course `0101331`, Bachelor of Arts and Bachelor of Criminology, Monash; live values 31 Oct):
+
+```json
+"entry": {
+  "min_score": 26, "min_score_basis": "International Baccalaureate Diploma Programme 26",
+  "min_scores": [
+    { "score": 26,   "basis": "International Baccalaureate Diploma Programme 26", "audience": "international", "quote": "International Baccalaureate Diploma Programme 26", "as_at": "2026-10-05" },
+    { "score": 8,    "basis": "GCE A Level 8", "audience": "all", "quote": "GCE A Level 8", "as_at": "2026-10-05" },
+    { "score": 67.5, "basis": "Monash Advanced Preparation Program 67.50%", "audience": "all", "quote": "Monash Advanced Preparation Program 67.50%", "as_at": "2026-10-05" },
+    { "score": 55,   "basis": "Monash University Diploma of Arts (Sociology or Psychology stream) Part 2 - 55%", "audience": "all", "quote": "…", "as_at": "2026-10-05" },
+    { "score": 67.5, "basis": "Monash University Foundation Year 67.50%", "audience": "all", "quote": "Monash University Foundation Year 67.50%", "as_at": "2026-10-05" },
+    { "score": 75,   "basis": "ATAR 75", "audience": "domestic", "quote": "ATAR 75", "as_at": "2026-10-05" }
+  ],
+  "benchmark_band": null, "prerequisites": [], "selection_tasks": [], "requirements_note": null, "resolution": null
+}
+```
+
+**Website wording (for the guide):** "Entry scores published for this course: [basis] …"; one line per item, international first.
+- Never convert between routes.
+- Never present the list as "or equivalent".
+- Never compare it with the student's results.
+
+**Consumer impact and compatibility assessment:**
+- **Website API v2 `course`:** one new key inside `entry`. Existing keys and values are unchanged. Clients that ignore unknown fields are unaffected (developer guide §5 and acceptance test 18 already require that).
+- **Size:** at most about 1 KB a course; `sync` does not carry `entry`.
+- **Zoho API v2:** unchanged (it carries no entry requirements).
+- **Other consumer routes** (`wix-course-api`, `website-course-api`): unchanged; they do not return `entry`.
+- **Courses affected today:** 41 with admitted scores (24 with more than one).
+
+**Delivery, if approved (per the consumer API rule, §10):**
+1. Governed paste for the payload function `security.entry_course_payload_v1` (md5-guarded, count guard, baseline re-taken).
+2. Pilot PR with a contract spec.
+3. Developer guide **issue 7** with a §7.9 table, an example, the §13 version line and an acceptance test.
+4. **Handover note to the website developer**, saying what to render and that nothing existing changes.
+5. Change control.
+
+**Prerequisite (curator work, no approval needed):** before the field ships, fix the few weak or duplicate rows in the AER workspace (§16):
+- "7.25" and "70%" bases with no route named (`117723D`);
+- duplicate rows in `021276J` and `085441E`.
+
+**Separate small question:** whether `min_score` for the 2 courses whose rows are not `minimum_grade` (`021276J`, `111153D`) should stay `null`. Recommendation: leave it, since `min_scores[]` would show their routes.
