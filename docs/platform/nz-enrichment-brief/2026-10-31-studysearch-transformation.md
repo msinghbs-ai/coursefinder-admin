@@ -1075,3 +1075,38 @@ In the 24 h before, the same jobs failed 12 of 24 and 10 of 720 runs. The 24 h a
 - The edge's sequential calls and cross-region round trips (at most about 90 ms each) are secondary.
 - The 24 to 26 Oct spike was a separate, temporary event.
 - **Options:** decision pack D6.
+
+### 18.6 v2.15.379 live (verified 13:25 AEDT)
+
+- **PR:** #769, squash-merged as `a8319590`.
+- **Post-merge workflows (all success):**
+
+| Workflow | Run |
+|---|---|
+| Deploy on merge | `41159867542` |
+| Release History Contract | `41159867528` |
+| Pilot Frontend Build | `41159867545` |
+| CourseFinder Deployed UAT | `41159867625` |
+| Release Currentness Deployed | `41159867538` |
+
+- **Local full suite:** 1,294 passed, 0 failed, 0 skipped.
+
+**Live checks:**
+- Migration head `20261031030000`.
+- Function md5s:
+
+| Function | md5 |
+|---|---|
+| Binding guard | `33351b50` |
+| Stop gate | `d7679a05` |
+| AI match preparation | `23d433d2` |
+| Link-search tick | `ffc9fb64` |
+
+- Remediation functions are not executable by `authenticated` or `service_role`.
+- Setting `remediation.max_batch_courses` = 50.
+- **No data changed:** 0 holds; 0 `binding_remediation` rejections; unverified official links still 12, as before.
+
+**Paste checked against the live function:** block 1 of the batch A paste (AEI, 6 courses) was run inside a rolled-back transaction. It re-roled 6, set 6 links unverified, held none for review, and the gate returned `remediation_hold`.
+
+**SS-007 status:** Awaiting decision (pack D1, D2). It is not complete until batch A is executed and independently verified.
+

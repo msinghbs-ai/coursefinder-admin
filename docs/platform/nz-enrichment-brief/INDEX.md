@@ -1,5 +1,5 @@
 # Platform data programme — INDEX and standing state
-Last updated: 2026-10-31 10:47 AEDT by Claude (main integrator), under the StudySearch transformation mandate. The sections from "Standing order" down are kept as written on 26 Oct 2026 07:40 and are history; the "Current state" section below supersedes them where they differ.
+Last updated: 2026-10-31 13:25 AEDT by Claude (main integrator), under the StudySearch transformation mandate. The sections from "Standing order" down are kept as written on 26 Oct 2026 07:40 and are history; the "Current state" section below supersedes them where they differ.
 Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08:00 report: ../ui-audit/2026-10-25-overnight-outcomes.md ("08:00 report").
 
 ## Current state (31 Oct 2026)
@@ -15,10 +15,9 @@ Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08
 | 30 Oct 22:30 | AER production closure: D5 release, human Layer 4 review support, outcome register; **ingestion held** (no QUT, B5 or recovery reads) | `2026-10-30-aer-production-closure-mandate.md`, response `2026-10-30-aer-production-closure-response.md` |
 
 **Live release:**
-- Pilot `main` `6f006619` = v2.15.375 (D5 additive `scale_stated`).
-- v2.15.376 (AER course outcome register) is shipping; v2.15.377 (F1 job time-out fix) is proven and queued.
-- Database migration head: `20261030290000`.
-- Full deployed safe run on `6f006619`: 80 of 80 desktop, 81 of 81 phone (31 Oct).
+- Pilot `main` `a8319590` = v2.15.379 (SS-007 remediation hold; no data change). Migration head `20261031030000` (verified 13:25).
+
+**Decisions waiting:** the consolidated decision pack `2026-10-31-studysearch-decision-pack.md` (D1 to D6), under the Executive Execution Mandate of 31 Oct 12:38. Status of every task: `../STUDYSEARCH-EXECUTION-REGISTER.md`.
 
 **Live health (31 Oct baseline; record §2):**
 - Consumer API at its approved baseline, 0 server errors in 7 days.
