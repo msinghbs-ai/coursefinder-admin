@@ -928,3 +928,150 @@ Nothing was admitted or changed.
    - So any release or re-role would put these courses back into capped but **paid and AI** search lanes. The approval excludes that ("Do not trigger unrestricted searches, AI enrichment or paid reads").
 
 **Status:** SS-007 is Awaiting decision on how released courses are held (DECISION REQUIRED — SS-007, second gate). Nothing has been changed.
+
+## 18. SS-007: remediation hold built, correction prepared (31 Oct 2026 12:38 to 13:10 AEDT)
+
+**Authority:** Executive Execution Mandate, 12:38. Option C; build the hold, tests, dry runs and change control; the production re-role waits for explicit approval; the 154 release candidates stay held.
+
+### 18.1 Central enforcement, reusing existing controls
+
+**Finding:** every automated lane already passes through one of four existing controls, so there is no need for five independent checks.
+
+| Lane | Existing control the hold is added to |
+|---|---|
+| Re-binding by any lane (search pass, course link search steps 2 and 2c, site-map binder, Firecrawl find, re-identification) | Binding guard trigger `coverage_page_refused_host` on `pipeline.coverage_course_pages`: a held course's row is returned unchanged (`return old`) unless a person has locked its URL by hand |
+| Page reader (paid; jobs `coverage-read` and `coverage-read-2` are paused anyway) | It reads only `bound`/`ambiguous` pages, and the guard keeps a held course `mismatch` |
+| Worker-sent course search (paid) | The one stop gate `security.search_stop_gate_v1` returns `remediation_hold` |
+| The link-search tick's own send path (off: `send_via` = `worker`) | One more condition on its queue read |
+| AI match preparation | Beside the no-page hold, in both places |
+
+**The mechanism:**
+- **One indexed table:** `pipeline.course_remediation_holds`, with a partial unique index of one open hold per course.
+- **One check:** `security.course_held_v1`, a single index probe.
+- **Re-identification:** it already skips refused pages, and the correction adds a `page_rejections` row.
+
+### 18.2 Per-binding verification of the 302 (source evidence)
+
+**Live, 12:50:**
+- The 302 sit on 67 pages.
+- Every page has 3 to 36 different qualifications bound to it.
+- None is manual or locked by hand.
+- 292 were bound by search (CRICOS code or title). Ten have no stored copy (fetch failed or blocked).
+
+**Classification** (the page's role, together with the set of courses on it):
+
+| Class | Courses | Pages | Providers | Links shown today | Action |
+|---|---:|---:|---:|---:|---|
+| A. Fee schedule | 99 | 15 | 11 | 99* | Batch A (re-role) |
+| B. Application, enrolment or ESOS page | 33 | 8 | 8 | 26* | Batch A |
+| C. Course list page | 45 | 6 | 6 | 42* | Batch A |
+| D. School international page (year-level courses) | 114 | 36 | 36 | 104 | **Held: person review** |
+| E. One programme page for its ELICOS levels | 11 | 2 | 2 | 11 | **Held: person review** |
+
+\*These are URL fills. The links actually shown to consumers in batch A are **167** (126 on the bound page itself plus 41 on other spellings of the same page). Across all 302 courses, **282** show a link today. The "292" in §17.1 counted URL fills, not shown links.
+
+### 18.3 Correction of the earlier model (§17.1)
+
+- **What consumers see:** the projection (`search.refresh_course_enrichment_core_v1`) takes the official link from **`catalogue.course_links`** (active, with an approved source gate), **not** from `courses.course_url`.
+- **Guard 3 alone does not fix it:** it empties `courses.course_url` but leaves the link active. In the dry run, 126 active links remained after guard 3 ran.
+- **So the correction also:**
+  - sets the matching active official link to the existing status `unverified`, as `link_refresh_tick_v1` does;
+  - takes reviewed other spellings of the same page (`also_links`);
+  - requests a search refresh.
+
+### 18.4 Release v2.15.379
+
+**Migration `20261031030000_cf247_ss007_remediation_hold`** (spec s188):
+- **md5-guarded edits:**
+
+| Function | Before | After |
+|---|---|---|
+| Binding guard | `efd59e2a` | `33351b50` |
+| Stop gate | `6e08df75` | `d7679a05` |
+| AI match preparation | `ab2dd5dc` | `23d433d2` |
+| Link-search tick | `13b0771d` | `ffc9fb64` |
+
+- **New:**
+  - the table;
+  - `course_held_v1`;
+  - `binding_remediation_apply_v1` (postgres only; count guard before any change; batch limit from setting `remediation.max_batch_courses`, 50);
+  - `binding_remediation_lift_v1` (restore or release).
+- **No hold is created.** The post-check refuses one.
+
+**Dry runs, live and rolled back:**
+
+| Run | Result |
+|---|---|
+| Whole file | Applied, post-check passed, after-md5s as pinned |
+| Count guard | Refused a TasTAFE batch because one course had become inactive: "16 pass, 17 expected; nothing changed" |
+| Batch A (177, 25 providers) | Re-roled in 0.4 s. Evidence and identity kept on all 177. 1,526 admitted attributes on these courses recorded (not changed) |
+| Re-bind attempt | Stays `mismatch` |
+| Gate | Returns `remediation_hold` |
+| Enqueue then gate | 177 queued, 0 sendable |
+| Read-lane eligible | 0 |
+| Re-identify eligible | 0 |
+| Job `course-url-fill` | Took back 167 fills and emptied 177 course URLs. Rate 3.0% → 4.1%; the job stays on |
+| Scoped search refresh | Published links 167 → 0 |
+| Website sample `course:cricos:00003g:000431k` | `official_url` UNE fee page → null; only `freshness` also moved. Restore brought it back identical |
+
+### 18.5 Prepared for approval (decision pack D1)
+
+- **Paste:** `docs/platform/pastes/PASTE-20261031-ss007-batch-a-re-role.sql`, 25 blocks, one per provider, with exact course lists and counts.
+- **Handover:** `docs/integrations/handover/2026-10-31-SS-007-official-link-corrections-HANDOVER.md`, covering consumer impact, the compatibility assessment, version control and before/after checks.
+- **Course list:** `docs/platform/ui-audit/2026-10-31-ss007-batch-a-official-links.csv`.
+
+## 19. SS-004: interim verification (31 Oct 12:55)
+
+Since the v2.15.377 deploy (11:03):
+
+| Job | Runs | Failures | Duration |
+|---|---|---:|---|
+| `waste-guard` | 2 | 0 | 25.8 s and 25.1 s |
+| `coverage-ai-match-prepare` | 57 | 0 | median 26.0 s, max 73.4 s |
+
+In the 24 h before, the same jobs failed 12 of 24 and 10 of 720 runs. The 24 h and 7 d acceptance checks are still pending. The 73.4 s maximum is watched against the 120 s limit.
+
+## 20. SS-010: enrichment recovery, measured (31 Oct 13:00, read only)
+
+- **TD2 (futile re-queues):** Enrich items skipped "no correct course page": 2,204 (29 Oct), 1,648 (30 Oct), 167 (31 Oct so far). They cost $0 and are noise.
+  - **Proposed:** extend `security.enrich_item_held_v1` to hold a course while its page is `mismatch` (decision pack D5a).
+- **TD3 (withdrawn 23 Oct "read again"):** 2,023 course-fields (delivery 1,330, campus 375, duration 219, international 99); 1,704 are on active courses:
+
+| State now | Course-fields |
+|---|---:|
+| Refilled | 110 |
+| Proven page with a stored copy (ready) | 67 |
+| Bound page with no copy (paid read, held) | 665 |
+| Bound page with a copy but no identity | 16 |
+| No bound page | 846 |
+
+  - **Proposed:** re-queue the 67 once, count-guarded, estimated under US$1 (D5b). The rest wait for the verification-read and search decisions.
+
+## 21. SS-011: latency root cause (31 Oct 12:55 to 13:00, read only; no regional probe)
+
+**`pipeline.api_requests`, 14 days, website searches, 24 to 26 Oct excluded:**
+
+| Search request | Requests | Average size | p50 | p95 |
+|---|---:|---:|---:|---:|
+| 50 items | 24,869 | 119 KB | 3.1 s | 6.9 s |
+| 1 to 20 items | 597 | — | 0.8 s | 4.8 s |
+| After more than 10 minutes idle | — | — | 4.5 s | — |
+
+**In the database:**
+- Page of 50 items 2.2 s, 20 items 1.6 s, 1 item 1.1 s; under light load, 0.4 to 1.2 s for 1 to 20 items.
+- `api.website_v2_course_item` ×50 took 547 ms. Within it:
+
+| Call | Time for 50 items |
+|---|---:|
+| Display code (called 3 times) | 145 ms |
+| Published check (provider view, once per item) | 104 ms |
+| Tuition | 76 ms |
+| Ranking | 47 ms |
+
+- The base query sorts and counts every matching document on each request.
+
+**Conclusion:**
+- The main contributors are the 50-item page size and per-item building, plus the full sort and count.
+- The edge's sequential calls and cross-region round trips (at most about 90 ms each) are secondary.
+- The 24 to 26 Oct spike was a separate, temporary event.
+- **Options:** decision pack D6.
