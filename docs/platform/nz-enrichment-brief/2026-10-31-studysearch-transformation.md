@@ -1228,3 +1228,34 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 
 **Dry run (rolled back):** of 19,512 distinct course-fields tried in 4 days, 9,264 were held before the change and 16,797 after.
 
+
+## 26. D6: SS-012 search performance, v2.15.381 live (31 Oct 2026)
+
+**Baseline (record §21):**
+- Website searches of 50 items: p50 3.1 s and p95 6.9 s at the edge over 14 days.
+- In the database, a broad 50-item search took 0.7 to 2.2 s, depending on load.
+- Building items: 536 ms for 50 (median of 8 interleaved runs).
+
+**Two changes were tried:**
+
+| Change | Result | Shipped |
+|---|---|---|
+| Item builder: display code once, keyed published check | 50 items: median 536 → 280 ms (−48%). Output identical on 34 searches and 400 items | **Yes** |
+| Search sort and count rewrite (window replaced by count plus top-N; then a limited window) | Identical output, but no faster and often slower under live load | **No.** Discarded on the evidence |
+
+**Release:**
+- PR #771, `d9c06e1c`.
+- Migration `20261031050000_cf247_d6_course_item_speed`: G3 approval line, baseline re-taken.
+- `api.website_v2_course_item` md5 `15129314` → `8f2a0ac9`.
+- Local suite 1,300 passed, 0 failed, 0 skipped.
+- Post-merge workflows: all success.
+
+**Live verification after deploy:**
+- Consumer drift: none.
+- Fingerprint of 5 searches (50 items each, all content except `freshness`): `0a1fd5be` before and after. **Byte-identical.**
+- Zoho `zoho_v2_course` returns normally.
+- Database time for a 50-item search, 12 runs on 4 searches after deploy: median 552 ms. The pre-deploy runs of the same searches in this session were 735 to 985 ms.
+
+**Edge p50 and p95 after the change:** not yet measurable. There has been no website search traffic since 26 Oct. They will be reported from `pipeline.api_requests` once traffic returns.
+
+**Recommendation sent with the handover:** the website can request 20 items per page where practical (1 to 20 items: p50 0.8 s against 3.1 s). Pages of 50 remain supported.

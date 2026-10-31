@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Website API v2 — Developer Guide"
-subtitle: "website-api-v2 · Version 2 · Issue 6 · 31 October 2026 · Pilot"
+subtitle: "website-api-v2 · Version 2 · Issue 7 · 31 October 2026 · Pilot"
 ---
 
 | | |
@@ -369,10 +369,27 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 | Field | Notes |
 |---|---|
 | `min_score`, `min_score_basis` | The course's minimum entry score and the words the course page prints with it, for example `75` and `"2027 Guaranteed ATAR"`. Show the basis with the number |
+| `min_scores[]` | Every entry score the course publishes, one item per route, as printed: `{ score, basis, audience, scale, quote, source_url, as_at }`. `audience` is `international`, `all` or `domestic`; `scale` is the grading scale only where the provider states one (otherwise `null`, never worked out). Order: international, all, domestic. Always present; `[]` when none is held. See "Several entry scores" below |
 | `benchmark_band` | The provider's band this course names, only where the course page prints one. Never worked out from a score |
 | `prerequisites[]`, `selection_tasks[]` | `{ text, quote }` as published |
 | `requirements_note` | Other published entry conditions |
 | `resolution` | Only when `edu_country` is sent; see below |
+
+**Several entry scores (`min_scores[]`).** Some courses publish more than one way in, for example ATAR, International Baccalaureate, GCE A Level and pathway programmes. `min_scores[]` lists each one as the provider prints it.
+
+- Show them as a list headed "Entry scores published for this course", one line per item, international first. Use the item's `quote` as the line: it is the provider's own words and always names the route (`basis` is a short label and may not).
+- Never convert between routes, never present the list as "or equivalent", and never compare it with the student's results.
+- `min_score` and `min_score_basis` are unchanged: keep using them where you show a single score.
+
+```json
+"min_scores": [
+  { "score": 26, "basis": "International Baccalaureate Diploma Programme 26", "audience": "international", "scale": null,
+    "quote": "International Baccalaureate Diploma Programme 26", "source_url": "https://www.monash.edu/study/course/A2012?international=true", "as_at": "2026-10-05" },
+  { "score": 8, "basis": "GCE A Level 8", "audience": "all", "scale": null, "quote": "GCE A Level 8", "source_url": "https://www.monash.edu/study/course/A2012?international=true", "as_at": "2026-10-05" },
+  { "score": 75, "basis": "ATAR 75", "audience": "domestic", "scale": null, "quote": "ATAR 75", "source_url": "https://www.monash.edu/study/course/A2012?international=true", "as_at": "2026-10-05" }
+]
+```
+(Course `0101331`, shortened to three of its six items.)
 
 **`resolution`**: the requirement that applies to a student from that country. It is worked out in a fixed order, and the first rule that applies is used:
 
@@ -420,8 +437,8 @@ A row from the course's own page (`resolution` `step` 1) always has `scale_state
 
 ```json
 "entry": {
-  "min_score": 73, "min_score_basis": "2026 ATAR", "benchmark_band": null,
-  "prerequisites": [], "selection_tasks": [], "requirements_note": null,
+  "min_score": 73, "min_score_basis": "2026 ATAR", "min_scores": [ { "score": 73, "basis": "2026 ATAR", "audience": "domestic", "scale": null, "quote": "…", "source_url": "…", "as_at": "…" } ],
+  "benchmark_band": null, "prerequisites": [], "selection_tasks": [], "requirements_note": null,
   "resolution": {
     "country": "IN", "step": 5, "rule": "contact_provider", "outcome": "contact_provider", "rows": [],
     "note": "The provider publishes a band table for this country, but the course page prints no band to enter it with.",
@@ -561,6 +578,7 @@ Counts are as measured on Pilot on 31 October 2026; they change as data is corre
 | 20 | Entry, contact provider | `course` with `course_code` 0100714 and `edu_country` IN returns `entry.resolution` with `step` 5 and `outcome` `contact_provider`; your page shows "contact the provider" |
 | 21 | Entry, provider table | `provider` with `provider_id` provider:cricos:00122a returns 345 `entry_matrix` rows; with `edu_country` IN, 33 rows, all `country` IN |
 | 22 | Entry, invalid country | `edu_country` ZZ or IND returns 400 `INVALID_INPUT` |
+| 24 | Entry, several scores | `course` with `course_code` 0101331 returns `entry.min_scores` with 6 items, the first `audience` `international` (IB 26), and `min_score` unchanged; a course without scores returns `min_scores: []`. On 31 October 2026, 41 courses hold scores (116 items; 24 courses with more than one) |
 | 23 | Entry, scale stated | `provider` with `provider_id` provider:cricos:00122a returns `scale_stated` on every `entry_matrix` item (`true` on 312, `null` on 33 on 31 October 2026); a row with `scale_stated` `false` is shown with the "does not state a grading scale" wording, never as a percentage, band or case by case |
 
 # 13. Changes to this guide
@@ -574,4 +592,5 @@ Changes within Website API v2 are additive. A change to the API (a new field, fi
 | 16 October 2026 (issue 3) | Website API v2 at its own address, `website-api-v2`, with its own key: no `contract` field; responses carry `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail` (and `INVALID_JSON`); 300 calls a minute per key, all actions together. Same actions, fields and answers. The earlier address keeps working until you have moved |
 | 17 October 2026 (issue 4) | `sync` pages hold up to 600 size units (was 200; default 600): a full load is about 86 calls, about 1 to 2 minutes (was about 260 calls, about 5 minutes); a caller that sends a smaller `page_size` keeps getting smaller pages. Replies are compressed when you send `Accept-Encoding: gzip` (about 15 MB for a full load instead of about 113 MB). New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |
 | 29 October 2026 (issue 5) | `course` and `provider` take an optional `edu_country` (the student's country of prior education). The course detail gains `entry` (the course's academic entry requirements and, with `edu_country`, the requirement that applies, worked out in a fixed order with "case by case" and "contact the provider" outcomes); the provider detail gains `entry_matrix[]` (the provider's published requirements by country). Section 7.9 added; acceptance tests 20 to 22 added |
+| 31 October 2026 (issue 7) | The course detail's `entry` gains `min_scores[]`: every entry score the course publishes, as printed (`score`, `basis`, `audience`, `scale`, `quote`, `source_url`, `as_at`). `min_score` and `min_score_basis` are unchanged. Section 7.9 and acceptance test 24 added |
 | 31 October 2026 (issue 6) | `entry_matrix[]` items and `entry.resolution.rows[]` items gain `scale_stated`: `false` when the provider prints a grade but does not state its grading scale (`scale` is `null`; show the "does not state a grading scale" wording), `true` when the scale is stated, `null` for case by case. Section 7.9 and acceptance test 23 updated |
