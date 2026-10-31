@@ -136,3 +136,32 @@ The C1 build run at 22:38 counted 31,855, one course more. The register's own bu
   - The 58 provider-table items, about 3 h, would let the resolver answer for up to 7,567 more courses at 28 providers.
   - The 997 course items, about 17 h, cover 698 courses outside RMIT.
   - Manifest step 2 (provider tables) is therefore the highest-value review.
+
+## 3. Continued 31 Oct 2026 (session continued under the StudySearch transformation mandate)
+
+### 3.1 Course outcome register: delivered (v2.15.376)
+
+- **Release:** PR #766 merged as `43f30791`. Verified live at 10:49 AEDT: 31,875 courses; job `aer-outcome-register` active and catalogued; Download CSV on Resolution inspection, rank 4 and above.
+- **Detail:** StudySearch record §8.4.
+
+### 3.2 D5 developer handoff: issued
+
+Website API v2 developer guide **issue 6** (31 Oct 2026), admin `a79495a2`:
+- §7.9 gains `scale_stated`, its rendering rule (the approved no-scale wording), the "shape only" example and the §13 line; acceptance test 23 added.
+- §8, the worked examples and the acceptance counts are re-measured on 31 Oct.
+- The rendering note and the requirements register (2.5, O9 done) are updated.
+- **Sending the pack to the website developer** is the Platform Admin's channel.
+- **Rendering remains website-team work.**
+
+### 3.3 First human review session (31 Oct 01:29 to 02:10 AEDT, Platform Admin)
+
+- **Decided:** 57 AER items. 56 approved (13 with edits) and 1 rejected (the superseded Otago Polytechnic run, as the review pack advised).
+- **Measured pace:** 42.5 s per item.
+- **Active now:**
+  - provider tables: 628 rows for 13 providers (was 343, RMIT only);
+  - course level: 179 rows for 44 courses (was 0).
+- **Through the consumer API:** for example, `0100714` returns `min_score` 73 with basis "2026 ATAR".
+- **Consumer-admitted courses (register, 10:48):** 3,840 by provider resolution plus 44 course-level (was 507 plus 0 at 22:53).
+- **Remaining:** 1,000 AER items, about 11.8 h at the measured pace.
+
+**Not complete:** AER coverage is partial. 4,924 courses await review and 10,423 are excluded or held from reading (register). This is honestly represented in the register and the API (step 5, contact the provider).
