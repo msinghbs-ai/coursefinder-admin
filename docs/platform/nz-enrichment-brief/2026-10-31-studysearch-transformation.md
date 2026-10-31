@@ -1691,3 +1691,54 @@ Any alerts already recorded as held stay held; they are not sent late.
 | D15 | Set `search.refresh_min_gap_minutes` back to 30 (Pipeline settings, with a reason) |
 | D16 | Re-apply the three SQL definitions (md5 `60a85806`, `32746eb4`, `b992a7d4`) by migration |
 | D13 | Switch off `reread.pilot_enabled`. Pages already released are closed within 3 days and exhausted again |
+
+
+## 33. SS-004 reliability closure (mandate 1 Nov 2026 08:57)
+
+**Mandate:** `2026-11-01-studysearch-reliability-closure-mandate.md` (saved verbatim before implementation).
+
+### 33.1 Investigation (live, 1 Nov 2026)
+
+**Read-job cancellations (31 Oct 15:00 and 15:30):**
+- All 6 "job canceled" runs in the scheduler history (30 Oct 11:50 and 17:00; 31 Oct 10:30, 15:00 ×2, 15:30; `coverage-read` and `coverage-read-2`) started 2.2 to 3.1 s after the flag unit paused that job for idleness (`enrichment_flag_events` raised or re-raised).
+- pg_cron cancels a run whose job is switched off as it starts. **Cause: scheduling (a deliberate idle pause), not a time-out, contention or an external failure.** Nothing was lost; the job was being paused because its runs found nothing.
+
+**Admission time-outs (31 Oct 17:10):**
+- `coverage-admit`, `coverage-admit-intakes` and `adapter-overwrite` all started at minute :x0 and write the same rows (`evidence_entity_links` and the course values behind them).
+- In 4 days, 228 of the 231 minutes with heavy admission work had two or more of these jobs heavy at once. All 7 failure minutes (29 Oct 14:30, 14:40, 17:30, 19:10; 30 Oct 01:00, 07:20; 31 Oct 17:10) were such overlaps: each waited on the others' row locks until the 120 s statement limit.
+- Heavy successful `coverage-admit` runs take 93 s at the median. **Cause: row-lock contention between admission jobs started together.**
+
+**No new failures** after 31 Oct 17:10: 5 failures in 37,719 runs from 31 Oct 11:03 to 1 Nov 09:08; 0 since.
+
+**False stall criticals (classification accuracy):** 10 coverage-queue criticals since 31 Oct 11:03 (9 page reading, 1 provider discovery), each closed at the next run (10 minutes). Each time, one item had just become due after hours of quiet, and the stall age was measured from the last progress (for example "341 minutes" on 31 Oct 23:08 with 1 item waiting).
+
+### 33.2 Remediation (smallest safe change)
+
+No admission rule, batch size, gate, lock, time-out or concurrency protection was changed.
+
+| Change | What |
+|---|---|
+| Run outcome | `security.cron_run_outcome_v1`: a run reported "job canceled" within seconds (−30 s to +5 s) of the flag unit pausing **that** job is `paused`, not failed. Every other failure, cancellation or time-out still counts. Used by the health check and T1 |
+| Admission stagger | `coverage-admit` :00 (unchanged), `adapter-overwrite` :03, `coverage-admit-intakes` :08 of each 10 minutes; `search-refresh-requested` keeps :06. Same commands and frequency |
+| Stall age | Coverage page reading and provider discovery: waiting is measured from the later of the last progress and when the oldest waiting item became due (same filter as the waiting count). A queue left waiting still ages and goes critical |
+
+**Releases:**
+
+| PR | Release | Content | Live md5 |
+|---|---|---|---|
+| #779 (`0089e2fe`) | v2.15.387 | Migration `20261101010000`; s197 | health check `b648e649` → `43f5ba0f`; scorecard `9e212299` → `18dcf612` |
+| #780 (`9396b085`) | v2.15.388 | Migration `20261101020000`; s198 | health check → `964db44f`; scorecard → `100bd148` |
+
+**Found in verification and fixed (v2.15.388):** after v2.15.387, the health check's job section took 25.1 to 26.1 s (09:28 to 09:58; was 2.1 to 2.6 s), because the classifier was called for every logged run (about 120,000). Measured: 2,295 ms for every row, 65 ms guarded, 53 ms raw. It is now called only for "job canceled" rows. 10:08 run: whole run 15.7 s, job section 2.6 s.
+
+**Verified live (1 Nov 10:10):**
+- md5s as above; latest migration `20261101020000`.
+- Schedules: `coverage-admit` `*/10`, `adapter-overwrite` `3-59/10`, `coverage-admit-intakes` `8-59/10`, `search-refresh-requested` `6-59/10`, all active.
+- The admission jobs ran at :00, :03 and :08 from 09:28 on (each 0.7 to 1.2 s; no heavy admission work in this window, so the stagger has not yet been tested under load).
+- All 6 logged "job canceled" runs classify as `paused`; the 2 statement time-outs still count as failed (migration post-check).
+- 0 failed runs since 09:25. Consumer API check: no drift (75 functions, 48 relations).
+- Local suite 1,329 and 1,331 passed, 0 failed; post-merge workflows green.
+
+**Rollback:** `cron.alter_job` both jobs back to `*/10 * * * *`; re-apply the health check (md5 `b648e649`) and scorecard (md5 `9e212299`) from migration `20261031091000`.
+
+**Still to show:** no admission time-out under heavy load with the stagger in place (24-hour and 7-day windows), and no false stall criticals.
