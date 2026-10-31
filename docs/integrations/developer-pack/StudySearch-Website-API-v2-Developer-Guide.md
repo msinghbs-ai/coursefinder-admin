@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Website API v2 — Developer Guide"
-subtitle: "website-api-v2 · Version 2 · Issue 5 · 29 October 2026 · Pilot"
+subtitle: "website-api-v2 · Version 2 · Issue 6 · 31 October 2026 · Pilot"
 ---
 
 | | |
@@ -387,7 +387,7 @@ Held: QS World University Rankings 2021–2027 and Times Higher Education World 
 | `country` | The `edu_country` you sent, in capitals |
 | `step`, `rule` | 1–5: `course_override`, `course_country_row`, `band_ladder`, `provider_minimum`, `contact_provider` |
 | `outcome` | `minimum_published`, `case_by_case` or `contact_provider` |
-| `rows[]` | `qualification`, `study_level`, `min_grade`, `scale`, `band`, `conditions`, `quote`, `as_at`, `edition`, `case_by_case` |
+| `rows[]` | `qualification`, `study_level`, `min_grade`, `scale`, `scale_stated`, `band`, `conditions`, `quote`, `as_at`, `edition`, `case_by_case` |
 | `note` | Why no table row applied, when `step` is 5. One of: "The provider publishes a band table for this country, but the course page prints no band to enter it with."; "The course band … has no published row for this country and level."; "The provider publishes rows for this country, none for this course's level."; "No published requirement for this country." You may show it under the "contact the provider" message |
 | `contact` | When `step` is 5: the provider's website, for the "contact the provider" link. `null` when not held |
 
@@ -395,13 +395,24 @@ Show it like this:
 
 - **`minimum_published`:** show each qualification with its minimum, for example "All India Senior School Certificate: minimum average of 75%".
 - **`case_by_case`**, or a row with `case_by_case` true: show **"This qualification is considered case by case"**. Never show "no data", and never treat it as met. A row is `case_by_case` when it states no minimum on a scale: `min_grade` is null, or `scale` is `"none"`. Where `min_grade` holds the provider's words (for example "Completion of Senior High School Diploma"), show them as printed with the case-by-case message.
+- **A row with `scale_stated` `false`:** the provider prints a grade but does not state the grading scale on its page. Show **"Published requirement: [min_grade]. The provider does not state a grading scale on this page; check the source or contact the provider."** Show `min_grade` exactly as printed. Do not add a percentage, an ATAR equivalent, a band or any other scale, and do not compare it with the student's results. This is a published minimum, not case by case: `case_by_case` is `false` and `outcome` stays `minimum_published`.
 - **`contact_provider`:** show **"Requirements for your qualification aren't published — contact the provider"**, with the provider's website.
 
 The API looks requirements up. It never decides whether a student is eligible.
 
-**Provider detail: `entry_matrix[]`** (admitted rows; narrowed to `edu_country` when sent): `country`, `study_level` (the provider's own label), `qualification`, `min_grade`, `scale`, `band`, `course_code` (only on rows for one course), `conditions`, `as_at`. `scale` `"none"` means the row states no minimum on a scale: show `min_grade` as printed, when present, with "This qualification is considered case by case" (the same rule as `case_by_case` above). A row with `min_grade` null always has `scale` `"none"`.
+**Provider detail: `entry_matrix[]`** (admitted rows; narrowed to `edu_country` when sent): `country`, `study_level` (the provider's own label), `qualification`, `min_grade`, `scale`, `band`, `course_code` (only on rows for one course), `conditions`, `as_at`, `scale_stated`. `scale` `"none"` means the row states no minimum on a scale: show `min_grade` as printed, when present, with "This qualification is considered case by case" (the same rule as `case_by_case` above). A row with `min_grade` null always has `scale` `"none"`.
 
-**Worked example (Pilot, measured 29 October 2026, admitted rows only):** RMIT University, Bachelor of Engineering (Honours), CRICOS `0100714`, for a student from India.
+**`scale_stated`** (on each `entry_matrix` item and each `resolution.rows[]` item; always present): whether the provider states the grading scale of `min_grade`.
+
+| Value | Meaning | `scale` | Show |
+|---|---|---|---|
+| `true` | A grade with a stated scale | the scale, for example `"percentage"` | As before: the minimum with its scale |
+| `false` | A grade printed with no stated scale | `null` | "Published requirement: [min_grade]. The provider does not state a grading scale on this page; check the source or contact the provider." |
+| `null` | No minimum on a scale is stated (case by case) | `"none"` | "This qualification is considered case by case", as before |
+
+A row from the course's own page (`resolution` `step` 1) always has `scale_stated` `null`. Use `scale_stated === false` as the only test for the "does not state a grading scale" wording; `true` and `null` keep the rendering you have.
+
+**Worked example (Pilot, measured 31 October 2026, admitted rows only):** RMIT University, Bachelor of Engineering (Honours), CRICOS `0100714`, for a student from India.
 
 ```json
 { "action": "course", "course_code": "0100714", "edu_country": "IN" }
@@ -409,7 +420,7 @@ The API looks requirements up. It never decides whether a student is eligible.
 
 ```json
 "entry": {
-  "min_score": null, "min_score_basis": null, "benchmark_band": null,
+  "min_score": 73, "min_score_basis": "2026 ATAR", "benchmark_band": null,
   "prerequisites": [], "selection_tasks": [], "requirements_note": null,
   "resolution": {
     "country": "IN", "step": 5, "rule": "contact_provider", "outcome": "contact_provider", "rows": [],
@@ -429,29 +440,39 @@ The provider publishes an India table, but this course's page prints no band to 
 "entry_matrix": [
   { "country": "IN", "study_level": "Bachelor degrees", "qualification": "All India Senior School Certificate (AISSC) – 10+2",
     "min_grade": "Minimum average of 65%", "scale": "percentage", "band": "65%",
-    "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26" },
+    "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26", "scale_stated": true },
   { "country": "IN", "study_level": "Bachelor degrees", "qualification": "State Boards of Education (Higher Secondary Certificate, HSC)",
     "min_grade": "Minimum average of 70%", "scale": "percentage", "band": "65%",
-    "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26" }
+    "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26", "scale_stated": true }
 ]
 ```
 
-33 rows for India (343 for all countries). A course that names its band (for example "65%") resolves at step 3 to the rows of that band; this course names none.
+33 rows for India (345 for all countries). A course that names its band (for example "65%") resolves at step 3 to the rows of that band; this course names none.
 
-A provider row with no minimum on a scale (same provider, measured 29 October 2026):
+A provider row with no minimum on a scale (same provider, measured 31 October 2026):
 
 ```json
 { "country": "TW", "study_level": "Foundation Studies", "qualification": "Senior High School Diploma",
   "min_grade": "Completion of Senior High School Diploma", "scale": "none", "band": null,
-  "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26" }
+  "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "2026-10-26", "scale_stated": null }
 ```
 
 Show "Senior High School Diploma: Completion of Senior High School Diploma. This qualification is considered case by case."
 
-The same course without `edu_country` (its own published requirements; nothing is read from this course's page yet, so every field is empty and there is no `resolution`):
+A row with a grade but no stated scale (shape only: on 31 October 2026 no admitted row is in this state yet):
 
 ```json
-"entry": { "min_score": null, "min_score_basis": null, "benchmark_band": null,
+{ "country": "CN", "study_level": "Bachelor degrees", "qualification": "…",
+  "min_grade": "375", "scale": null, "band": null,
+  "conditions": { "best_n": null, "alternatives": [], "subject_minimums": [] }, "as_at": "…", "scale_stated": false }
+```
+
+Show "Published requirement: 375. The provider does not state a grading scale on this page; check the source or contact the provider."
+
+The same course without `edu_country` (its own published requirements, and no `resolution`):
+
+```json
+"entry": { "min_score": 73, "min_score_basis": "2026 ATAR", "benchmark_band": null,
            "prerequisites": [], "selection_tasks": [], "requirements_note": null, "resolution": null }
 ```
 
@@ -462,32 +483,32 @@ For a country the provider publishes nothing for (for example `edu_country` `"ZW
 - **What the website shows is built by the website team.** The API returns the data and the outcome words above; it does not provide page components.
 - **Website (Wix):** let the student choose their country of prior education once (for example on the course page or in their profile), keep it in their session, and send it as `edu_country` with `course` and `provider` from your backend code, as for every call (the key never reaches the browser). Render `entry.resolution` with the three rules above; show `as_at` with each row. `sync` does not carry entry requirements: fetch them with `course` and `provider` when the page is shown (or cache them by course and country).
 - **Zoho:** Zoho's own API (`zoho-api-v2`) is unchanged and carries no entry requirements. A Zoho workflow that needs them for a lead calls Website API v2 `course` with the lead's country of prior education, with a key issued for that use.
-- **Other consumers:** treat `entry` and `entry_matrix` as optional; a value not held is `null` or empty, never a placeholder.
+- **Other consumers:** treat `entry`, `entry_matrix` and `scale_stated` as optional; a value not held is `null` or empty, never a placeholder.
 
 Coverage grows as each provider's published table is admitted by a person (section 8).
 
 # 8. What is held now
 
-Courses or records the API returns holding a value (29 October 2026; coverage grows daily).
+Courses or records the API returns holding a value (31 October 2026; coverage grows daily).
 
-| Course field | Australia (23,732) | New Zealand (6,474) | Canada (3,814) |
+| Course field | Australia (23,732) | New Zealand (6,495) | Canada (3,814) |
 |---|---|---|---|
-| Official course page | 17,893 | 3,043 | 2,664 |
-| English requirements | 16,032 | 2,356 | 2,009 |
+| Official course page | 17,910 | 3,045 | 2,665 |
+| English requirements | 16,043 | 2,357 | 2,009 |
 | of which Duolingo English Test (DET) | 405 | 0 | 248 |
-| Intake months | 9,374 | 2,140 | 1,613 |
-| Any tuition | 23,564 | 1,414 | 680 |
-| Study area | 23,732 | 6,225 | 3,774 |
-| Study level | 23,732 | 6,254 | 3,814 |
-| Duration (months) | 23,732 | 2,338 | 1,324 |
-| Delivery mode | 23,712 | 2,980 | 2,507 |
-| At least one campus | 23,701 | 2,339 | 2,088 |
-| At least one linked scholarship | 9,136 | 1,456 | 990 |
-| Providers with courses | 1,279 | 287 | 52 |
+| Intake months | 9,404 | 2,142 | 1,613 |
+| Any tuition | 23,564 | 1,421 | 683 |
+| Study area | 23,732 | 6,253 | 3,774 |
+| Study level | 23,732 | 6,275 | 3,814 |
+| Duration (months) | 23,732 | 2,340 | 1,324 |
+| Delivery mode | 23,712 | 2,984 | 2,520 |
+| At least one campus | 23,701 | 2,343 | 2,102 |
+| At least one linked scholarship | 8,917 | 1,456 | 984 |
+| Providers with courses | 1,279 | 289 | 52 |
 
-Scholarships returned: 1,114 (Australia 898, New Zealand 151, Canada 65); 1,111 open to international students. Providers with an approved logo: 1,463. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
+Scholarships returned: 1,108 (Australia 892, New Zealand 151, Canada 65); all 1,108 are open to international students. Providers with an approved logo: 1,463. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
 
-Academic entry requirements (7.9): provider tables admitted for 1 provider (343 rows across its countries); more providers' tables are being read and wait for a person's approval before they are returned. Course-level entry rows admitted: none yet. A course or provider without admitted rows returns `entry` and `entry_matrix` empty, and resolution step 5.
+Academic entry requirements (7.9): provider tables admitted for 13 providers (628 rows across their countries); course-level entry rows admitted for 44 courses. More providers' tables and courses have been read and wait for a person's approval before they are returned. A course or provider without admitted rows returns `entry` and `entry_matrix` empty, and resolution step 5.
 
 # 9. Your Wix collections (suggested)
 
@@ -514,7 +535,7 @@ Send: the action and request body (no key), the `request_id`, the HTTP status, t
 
 # 12. Acceptance tests
 
-Counts are as measured on Pilot on 29 October 2026; they change as data is corrected and grows.
+Counts are as measured on Pilot on 31 October 2026; they change as data is corrected and grows.
 
 | # | Test | Expected |
 |---|---|---|
@@ -529,7 +550,7 @@ Counts are as measured on Pilot on 29 October 2026; they change as data is corre
 | 9 | University Finder | `providers` with `university_groups` go8 and sort `qs_rank_asc` returns 8 providers |
 | 10 | Provider detail | `provider` provider:cricos:00025b returns 48 QILT rows and its rankings |
 | 11 | Institution type | `providers` with `country_codes` AU and `institution_types` university returns 45 providers |
-| 12 | Scholarships | `scholarships` with `student_types` international returns 1,111 records |
+| 12 | Scholarships | `scholarships` with `student_types` international returns 1,108 records |
 | 13 | Rankings | `rankings` with QS, edition 2027, AU returns 38 entries, each with `attribution` and `terms_status: "approved"` |
 | 14 | Logos | `providers` with `has_logo` true returns 1,463 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
 | 15 | Sync full load | `sync` with no cursor: `mode` full and `has_more` true; following `next_cursor` to the end gives `full_load_complete: true` |
@@ -538,8 +559,9 @@ Counts are as measured on Pilot on 29 October 2026; they change as data is corre
 | 18 | Nulls and new fields | A value not held is null or empty, never a placeholder; an unknown field in a response is ignored safely |
 | 19 | Key safety | The key is absent from browser bundles, page source, CMS records and browser network requests |
 | 20 | Entry, contact provider | `course` with `course_code` 0100714 and `edu_country` IN returns `entry.resolution` with `step` 5 and `outcome` `contact_provider`; your page shows "contact the provider" |
-| 21 | Entry, provider table | `provider` with `provider_id` provider:cricos:00122a returns 343 `entry_matrix` rows; with `edu_country` IN, 33 rows, all `country` IN |
+| 21 | Entry, provider table | `provider` with `provider_id` provider:cricos:00122a returns 345 `entry_matrix` rows; with `edu_country` IN, 33 rows, all `country` IN |
 | 22 | Entry, invalid country | `edu_country` ZZ or IND returns 400 `INVALID_INPUT` |
+| 23 | Entry, scale stated | `provider` with `provider_id` provider:cricos:00122a returns `scale_stated` on every `entry_matrix` item (`true` on 312, `null` on 33 on 31 October 2026); a row with `scale_stated` `false` is shown with the "does not state a grading scale" wording, never as a percentage, band or case by case |
 
 # 13. Changes to this guide
 
@@ -552,3 +574,4 @@ Changes within Website API v2 are additive. A change to the API (a new field, fi
 | 16 October 2026 (issue 3) | Website API v2 at its own address, `website-api-v2`, with its own key: no `contract` field; responses carry `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail` (and `INVALID_JSON`); 300 calls a minute per key, all actions together. Same actions, fields and answers. The earlier address keeps working until you have moved |
 | 17 October 2026 (issue 4) | `sync` pages hold up to 600 size units (was 200; default 600): a full load is about 86 calls, about 1 to 2 minutes (was about 260 calls, about 5 minutes); a caller that sends a smaller `page_size` keeps getting smaller pages. Replies are compressed when you send `Accept-Encoding: gzip` (about 15 MB for a full load instead of about 113 MB). New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |
 | 29 October 2026 (issue 5) | `course` and `provider` take an optional `edu_country` (the student's country of prior education). The course detail gains `entry` (the course's academic entry requirements and, with `edu_country`, the requirement that applies, worked out in a fixed order with "case by case" and "contact the provider" outcomes); the provider detail gains `entry_matrix[]` (the provider's published requirements by country). Section 7.9 added; acceptance tests 20 to 22 added |
+| 31 October 2026 (issue 6) | `entry_matrix[]` items and `entry.resolution.rows[]` items gain `scale_stated`: `false` when the provider prints a grade but does not state its grading scale (`scale` is `null`; show the "does not state a grading scale" wording), `true` when the scale is stated, `null` for case by case. Section 7.9 and acceptance test 23 updated |

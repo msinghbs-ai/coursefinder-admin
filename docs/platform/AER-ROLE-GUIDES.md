@@ -75,7 +75,7 @@ Every pill shows words, never colour alone (W16, `ROW_PILL` in `AerWorkspace.jsx
 
 ### 1.4 Scale, basis and completeness
 
-- **Scale** (`percentage`, `points`, `aggregate`, `gpa`, `letter`, `rank`, `none`). A numeric value always needs a scale other than `none` (W7). `none` means the row carries no numeric scale.
+- **Scale** (`percentage`, `points`, `aggregate`, `gpa`, `letter`, `rank`, `none`, or **Not stated on the page**). A numeric value always needs a real scale (W7). `none` means the row states no minimum on a scale (case by case). **Not stated on the page** means the source prints a grade (for example "minimum 75") but does not say on what scale: the grade is kept exactly as printed, with no numeric value and no scale. The website receives it as `scale_stated: false` and shows "Published requirement: [grade]. The provider does not state a grading scale on this page; check the source or contact the provider." (decision A4; D5, live 30 Oct 2026, v2.15.375).
 - **Printed basis.** A course score is meaningless without the words printed with it, for example `75` with "2027 Guaranteed ATAR". A score without its basis is refused (W7).
 - **Band.** A band (for example "65%") is only held where the source prints it. It is never worked out from a score.
 - **Completeness of a read.** The Sources tab shows "Rows · not kept" and the reasons rows were not kept (for example `quote_not_on_page`, `grade_not_in_quote`, `value_without_scale`, `unknown_country`). A read with many rows not kept is incomplete. Completeness is information for the reviewer; it is never admission.
@@ -185,6 +185,8 @@ The server refuses, in plain words:
 - a proposed row: "a proposed row is decided in Layer 4, not edited here";
 - a withdrawn or superseded row: "restore it first".
 
+**A printed grade with no stated scale.** If the source prints a grade but no grading scale, set **Scale** to *Not stated on the page* and clear **Value**. Keep **Minimum** exactly as printed (it must still be in the quote). Give the reason, for example "no grading scale stated on the page". Never choose a scale the page does not print, and never put the grade in Value. (Matrix rows only; course-page rows do not offer it.)
+
 **Evidence needed:** the row's own quote must support the corrected value. If the quote itself is wrong or out of date, do not edit around it: Withdraw the row and Add a new one from the current source, or Quarantine it and escalate.
 **Record:** one `pipeline.manual_edit_log` row per changed field (entity `entry_matrix` or `course_entry`, before, after, reason, actor, time); a matrix row's version rises. Shown in the drawer's History.
 
@@ -221,9 +223,11 @@ In the row drawer (`data-aer-lifecycle`), each with a reason:
 Restore is refused for a row that was never admitted or was refused in Layer 4: those are decided in Layer 4. There is no delete and no bulk action (W6).
 **Record:** one `manual_edit_log` row with action `withdraw`, `quarantine` or `restore`.
 
-### 3.5 Case by case or contact the provider?
+### 3.5 Case by case, no stated scale, or contact the provider?
 
 When a source prints a qualification **without a minimum** ("considered on a case-by-case basis", "completion of …"), record the qualification with the quote and no numeric minimum (scale `none`). The resolver then answers case by case for it.
+
+When a source prints a **grade without its grading scale** ("minimum 75", with no "%", "points", "GPA" or similar on the page), record the qualification with the grade as printed, Scale *Not stated on the page* and no numeric value. This is a published requirement, not case by case: the resolver answers "minimum published" and the website shows the no-scale wording.
 
 When a source does **not mention** a qualification or country at all, add nothing. The resolver answers contact the provider. Never add a row to "fill a gap", and never copy a minimum from another level, country or provider.
 
@@ -364,12 +368,12 @@ Open the source and its stored copy (Evidence) beside the rows. For each row:
 
 Approve all rows only when every row passes. If some rows fail, use **Approve except** and name why in the reason. If the read is materially incomplete, Reject with the reason, or leave it and escalate for a re-read.
 
-**A printed grade with no stated scale (decision A4, Platform Admin 30 Oct 2026):**
+**A printed grade with no stated scale (decision A4, Platform Admin 30 Oct 2026; D5 live 30 Oct 2026):**
 - The source prints a grade or number (for example "minimum 75") but states no grading scale on the page.
-- **Do not** approve a row that the reader has given an inferred scale (percentage, points, GPA, ATAR equivalent or band). Exclude it with Approve except, with the reason "no grading scale stated on the page".
-- The approved wording principle for such a requirement is: *"Published requirement: [grade]. The provider does not state a grading scale on this page; check the source or contact the provider."* The printed value and its evidence are kept, and no scale is inferred or normalised.
-- Keep it distinct from **case by case** (no minimum stated) and from **no published requirement**.
-- Until the API carries a "scale not stated" marker (a separate change: see the handback), such rows are excluded rather than admitted with a guessed scale.
+- **Do not** approve a row that the reader has given an inferred scale (percentage, points, GPA, ATAR equivalent or band). Exclude it with **Approve except**, with the reason "no grading scale stated on the page".
+- Then a Curator records it correctly in the workspace (3.1 or 3.3): the grade as printed, Scale *Not stated on the page*, no numeric value, with the same reason. It reaches the website as `scale_stated: false` with the approved wording: *"Published requirement: [grade]. The provider does not state a grading scale on this page; check the source or contact the provider."*
+- Keep it distinct from **case by case** (no minimum stated; scale `none`) and from **no published requirement** (nothing recorded; contact the provider).
+- Rows already quarantined for "bare numbers with no printed scale" are not changed automatically. A Curator checks each against its source before correcting and restoring it.
 
 ### 5.3 Rendered no-table note
 
@@ -415,6 +419,7 @@ No group is cleared in bulk. Use Approve except for an item whose rows are partl
 - Only **active** rows. Proposed, quarantined, withdrawn and superseded rows never reach `website_v2_course` `entry` or `website_v2_provider` `entry_matrix` (W14).
 - Active rows come only from a Layer 4 approval or a person's governed add or restore. A row corrected in the workspace reaches the website with its correction.
 - The payloads are additive within Website API v2. Nothing is renamed or removed.
+- Each `entry_matrix` row and each resolution row carries `scale_stated`: `true` (a stated scale), `false` (a grade printed without its scale; `scale` is `null`), `null` (case by case, and every row from a course's own page). It is read from the row as admitted; nothing is inferred.
 
 ### 6.2 Rendering rules (owned by the website team)
 
@@ -422,6 +427,7 @@ The platform returns data. It does not build or host any website page. How the s
 - No inference: no "eligible", no estimated band, no minimum copied from another level or country.
 - `null` or empty means not held, not "no requirement".
 - Show `as_at` with each row.
+- A row with `scale_stated` `false`: show "Published requirement: [grade]. The provider does not state a grading scale on this page; check the source or contact the provider." Never add a percentage, ATAR equivalent or band, and never treat it as case by case (developer guide §7.9, issue 6).
 
 ### 6.3 Zoho
 
@@ -570,3 +576,4 @@ Abbreviations for the role column: **V** = Viewer (rank 1+); **C** = Curator and
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 29 Oct 2026 | First issue (lane F, Workstream 5): six role guides, quick-reference matrix, verification notes and open questions |
+| 1.1 | 31 Oct 2026 | D5 (decision A4, admin §11.2; v2.15.375): "Not stated on the page" scale; sections 1.4, 3.1, 3.5, 5.2, 6.1, 6.2 |
