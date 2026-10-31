@@ -1110,3 +1110,24 @@ In the 24 h before, the same jobs failed 12 of 24 and 10 of 720 runs. The 24 h a
 
 **SS-007 status:** Awaiting decision (pack D1, D2). It is not complete until batch A is executed and independently verified.
 
+
+## 22. D1–D6 approved (Platform Admin, 31 Oct 2026 13:30), recorded before execution (13:30)
+
+**Full text:** `2026-10-31-studysearch-d1-d6-approval.md`, kept verbatim.
+
+| # | Decision | Boundaries |
+|---|---|---|
+| D1 | Batch A **approved** | Provider by provider; count guards; preserve URLs, values, evidence and rollback; no paid processing; reconcile with the 177 manifest; Website and Zoho before/after; developer handover |
+| D2 | Batch B **retain** | Retain all 125 unchanged; document why |
+| D3 | Rule 4 **logical retirement** | No deletes |
+| D4 | `entry.min_scores[]` **approved** | Additive only; G3; developer guide issue 7 |
+| D5 | **Approved** | (a) Hold mismatch-page courses out of the enrichment queues; (b) reprocess the 67, with a ceiling of US$1 |
+| D6 | Search optimisation **approved** | Contract equivalence required before deploy |
+
+**Execution order:** D1, D2, D5, D6, D3, D4, SS-004, operations.
+
+**D1 stop conditions:**
+- changes beyond the manifest;
+- a manual binding is touched;
+- new paid processing;
+- a consumer regression.
