@@ -1352,3 +1352,28 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 | T6 | Consumer API | 0 server errors; no contract drift; search p95 under 3 s for pages of 20 | `consumer-api-guard`; `api_requests` |
 | T7 | Data freshness | Search refresh requests processed within 40 minutes; reference bundle under 2 hours old | Platform health |
 | T8 | Releases | Full suite green; every post-merge workflow green; live md5 verified; a before-md5 rollback on record | Change control |
+
+### 30.1 v2.15.383 live (verified 14:48 AEDT)
+
+- **Release:** PR #773, `9952dd7f`.
+- **Post-merge workflows (all success):**
+
+| Workflow | Run |
+|---|---|
+| Deploy on merge | `41165832943` |
+| Release History Contract | `41165832981` |
+| Release Currentness Deployed | `41165832955` |
+| StudySearch Deployed UAT (renamed workflow) | `41165832969` |
+| Pilot Frontend Build | `41165832980` |
+
+- **Local suite:** 1,310 passed, 0 failed, 0 skipped.
+
+**Live checks:**
+- `platform_health_check_v1` md5 `d245c535`; migration head `20261031080000`; 4 settings present.
+- Scheduled health run 20.1 s: 0 critical, 5 warnings.
+- `waste-guard` (10 failures in 24 h) and `coverage-ai-match-prepare` (9) are now open warnings. Before, they would have closed within the hour. They close once their failures age out of the 24-hour window with clean runs, expected about 1 Nov 11:00.
+- Budgets: `openrouter_spend_24h_usd` 0.2446 (all routes); `openrouter_credit_remaining_usd` 98.93; ceiling 14.
+- Consumer drift: none.
+
+**Decision raised:** an outbound escalation channel for critical issues. Today critical issues reach a person only in the Admin.
+
