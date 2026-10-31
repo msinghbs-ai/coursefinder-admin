@@ -711,7 +711,7 @@ Others are clearly not course pages:
 
 No consumer change is proposed yet.
 
-## 14. SS-008 (ref F1c): Rule 4 quality and batching, dry-run analysis (31 Oct 2026 11:38 to 11:44 AEDT, read only)
+## 14. SS-008 (ref F1c): Rule 4 quality and batching, dry-run analysis (31 Oct 2026 11:36 to 11:39 AEDT, read only)
 
 **Method:** `security.adapter_qualify_one_v1` (verified: it writes nothing) was run for **all 1,185 enabled adapters** in time-bounded slices. Rule 4's own selection was applied:
 - read share ≥ 0.5 and agree share < 0.9;
