@@ -10069,3 +10069,15 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
   - flag refresh 15.3 s (was 115–120 s); AI-match preparation 19.4 s (median was 47.7 s).
 - **Before merge:** live md5s re-checked at 11:01 (`ae577625`, `b7db293c`).
 - **Local full suite:** 1,283 passed, 0 failed, 0 skipped. Register regenerated (s186).
+
+### 31 Oct 2026 11:44 AEDT — v2.15.378: SS-005 Rule 4 job paused (ref F1c) and SS-006 error-reporter grant (ref F6)
+
+- **Approval:** Platform Admin, 31 Oct 2026 11:32 (execution register instruction §6: "SS-005 — v2.15.378, which has already been approved"; SS-006 in the same scope).
+- **What:** migration `20261031020000_cf247_f1c_rule4_paused`.
+  - Job `l4-rule-low-agreement` is set inactive.
+  - Its catalogue description now says it admits from the page and is paused (it wrongly said it "sends values to review").
+  - Anon EXECUTE on `public.admin_ui_error_report` is removed; authenticated is restated.
+  - No function, adapter flag, data or consumer object changes.
+- **Rollback:** `cron.alter_job(… active := true)`, the previous description and the anon grant (each a single statement).
+- **Local full suite:** 1,287 passed, 0 failed, 0 skipped. Register regenerated (s187).
+- **Records:** register `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (SS-005, SS-006); record §8.9, §10.2, §14.
