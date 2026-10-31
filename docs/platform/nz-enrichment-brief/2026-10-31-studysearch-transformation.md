@@ -893,7 +893,7 @@ Nothing was admitted or changed.
 3. **Design:** a governed, reversible function with a before/after audit table, provider-scoped and count-guarded. Lodged here, then a Pilot migration, a rolled-back live dry run, the full suite, and shipped under change control.
 4. **Execution:** provider by provider, each batch verified before the next. Consumer before/after checks; the handover note and developer-guide line.
 
-### 17.1 SS-007: model investigation before execution (31 Oct 2026 11:55 to 12:05 AEDT, read only). A new approval gate found
+### 17.1 SS-007: model investigation before execution (31 Oct 2026 11:53 to 11:56 AEDT, read only). A new approval gate found
 
 **How bindings and links work** (verified live; `PIPELINE-LINEAGE.md` row "Official course page link"):
 - A binding is `pipeline.coverage_course_pages.status`: `bound`, `mismatch` or `ambiguous`. There is no other status, and the guardrail is no new status values.
@@ -905,7 +905,7 @@ Nothing was admitted or changed.
   - Today: 21,011 fills, 631 retracted (3.0%).
 - **Fee pages** are registered as `pipeline.provider_fact_sources` kind `fee_schedule`, with a person decision.
 
-**What the approved remediation would touch** (live, 12:03):
+**What the approved remediation would touch** (live, 11:55):
 
 | Action | Courses | URLs | Official links currently filled from these bindings | Manual URL locks | URLs that are fee pages | Already a registered fee source |
 |---|---:|---:|---:|---:|---:|---:|
