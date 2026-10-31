@@ -631,3 +631,39 @@ Others are clearly not course pages:
 - This record keeps the evidence, cited by the register.
 - The F/TD identifiers above remain as references.
 - New entries in this record lead with the SS task ID.
+
+## 12. SS-007 (ref TD1): binding identity audit, dry-run list (31 Oct 2026 11:35 AEDT, read only)
+
+**The list:** `docs/platform/ui-audit/2026-10-31-ss007-td1-binding-dry-run.csv`, 2,377 rows. It holds every automatic binding of an active course that is either unproven (no identity basis and no stored copy: the 1,564) or on a URL shared by 3 or more courses. Manual bindings are excluded and untouched.
+
+**Columns:** country, provider, course code and title, URL, binding method, identity basis, stored copy, read status, courses on the URL, classification, proposed action, risk, admitted page fields, official URL admitted, course id.
+
+**Source:** one read-only query over `pipeline.coverage_course_pages`, `catalogue.courses`, `catalogue.providers` and `pipeline.course_attribute_coverage` (live, 11:33).
+
+| Classification | Proposed action | Risk | AU | NZ | CA | Total |
+|---|---|---|---:|---:|---:|---:|
+| Generic or wrong page (profile, news, download, FAQ, contact, event, portal, search, policy) | **Release** to search | Low | 106 | 38 | 10 | **154** |
+| Potentially valid, never read (course-shaped path on the provider's site) | **Verify** (read once, then prove identity) | Medium | 700 | 140 | 172 | **1,012** |
+| Suspected mismatch, unclassified by address | **Person-check** | High | 176 | 32 | 143 | **351** |
+| Shared list, fee, enrolment or application page (3+ courses) | **Re-role** (stop being the course page; keep as a fee source where it is one) | Medium | 299 | 3 | 0 | **302** |
+| Shared course page (one page for variants, with identity) | **Keep** | None | 555 | 3 | 0 | **558** |
+
+**Spot checks (8 random rows per class):**
+- **Release:** all 8 not course pages (newsletter redirect, staff profile, magazine, portal downloads, search results, figshare file).
+- **Verify:** about 6 of 8 real course pages; 2 wrong (CIT English course on a nursing page; a course-category page). This is why they are verified, not kept.
+- **Person-check:** mixed. Valid Alberta and UBC programme pages sit beside a UTas person profile and an NT awards page.
+- **Re-role:** all enrolment, fee or application pages.
+
+**Projected impact** (an upper bound: "admitted page fields" counts admitted English, intakes, provider tuition, deadline and description values on the course, from any source):
+
+| Action | Courses | Courses with admitted page fields (fields) | Official URL admitted | Coverage effect if approved |
+|---|---:|---:|---:|---|
+| Release | 154 | 65 (71) | 5 | Bound pages −154; the courses return to search. Their admitted values are reviewed, not deleted |
+| Verify | 1,012 | 472 (498) | 42 | None until read. Each read either proves the binding (stays bound) or turns it to mismatch. Paid reads are held by the closure mandate until lifted for this |
+| Person-check | 351 | 202 (204) | 2 | None until a person decides |
+| Re-role | 302 | 116 (154) | 292 | Official course page −302 (those 292 currently show a fee or enrolment page as the course page); fee sourcing kept |
+| Keep | 558 | — | — | None |
+
+**Not done:** no binding, flag, value or provenance was changed. This is a dry run only.
+
+**Status:** SS-007 is **Awaiting decision**.
