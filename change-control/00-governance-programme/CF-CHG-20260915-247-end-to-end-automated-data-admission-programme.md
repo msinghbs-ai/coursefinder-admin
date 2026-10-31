@@ -10117,3 +10117,18 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Rollback:** the one-line before-definition (md5 `66be0efc`).
 - **Local full suite:** 1,297 passed, 0 failed, 0 skipped. Register regenerated (s189).
 - **Records:** record §25.
+
+### 31 Oct 2026 14:05 AEDT — v2.15.381: SS-012 D6, Website and Zoho course items built about twice as fast (output identical)
+
+- **Approval:** Platform Admin, 31 Oct 2026 13:30, decision D6. The G3 approval line is in the migration, and the consumer baseline is re-taken.
+- **What:** migration `20261031050000_cf247_d6_course_item_speed`, an md5-guarded edit of `api.website_v2_course_item` (`15129314` → `8f2a0ac9`).
+  - The display code is computed once per item (it was computed 3 times).
+  - The published check is keyed on the provider, instead of a scan of the hidden-provider view per item.
+  - `public.website_v2_course_search` is unchanged: a sort and count rewrite measured no faster under live load.
+- **Proof (live, rolled back):**
+  - 34 searches covering every sort, filter, pagination past the end, empty results and page sizes 1/20/50: byte-identical.
+  - 400 random course items: identical.
+  - 8 interleaved runs of 50 items: median 536 ms → 280 ms.
+- **Rollback:** the before-definition (md5 `15129314`) plus a re-baseline.
+- **Local full suite:** 1,300 passed, 0 failed, 0 skipped. Register regenerated (s190).
+- **Records:** record §26; handover: no API change (developer guide unchanged).
