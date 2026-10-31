@@ -10132,3 +10132,21 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Rollback:** the before-definition (md5 `15129314`) plus a re-baseline.
 - **Local full suite:** 1,300 passed, 0 failed, 0 skipped. Register regenerated (s190).
 - **Records:** record §26; handover: no API change (developer guide unchanged).
+
+### 31 Oct 2026 14:20 AEDT — v2.15.382: SS-008 D3 Rule 4 retired logically; SS-009 D4 additive entry.min_scores[]
+
+- **Approval:** Platform Admin, 31 Oct 2026 13:30, decisions D3 and D4. The D4 G3 approval line is in the migration, and the baseline is re-taken.
+- **D3:** migration `20261031060000_cf247_d3_rule4_retired`.
+  - Job `l4-rule-low-agreement` (inactive) and `security.l4_rule_low_agreement_v1` are marked `retiring`, replaced by Layer 4 review, with retire_after = today + `hygiene.retire_after_days`.
+  - The catalogue says retired.
+  - EXECUTE is revoked from app roles.
+  - Nothing is dropped; the 22 historical admissions are kept.
+- **D4:** migration `20261031070000_cf247_d4_entry_min_scores`, an md5-guarded edit of `security.entry_course_payload_v1` (`80fdfabb` → `691bbba7`).
+  - It adds `entry.min_scores[]` with score, basis, audience, scale, quote, source_url and as_at, as admitted.
+  - `min_score` and `min_score_basis` are unchanged.
+  - Dry run: 41 courses, all other content identical, 116 items.
+- **Rollback:**
+  - D3: restore the status, description and grant.
+  - D4: the before-definition (md5 `80fdfabb`) plus a re-baseline.
+- **Local full suite:** 1,306 passed, 0 failed, 0 skipped. Register regenerated (s191, s192).
+- **Records:** record §27 and §28; developer guide issue 7; handover `docs/integrations/handover/2026-10-31-D4-entry-min-scores-HANDOVER.md`.
