@@ -632,7 +632,7 @@ Others are clearly not course pages:
 - The F/TD identifiers above remain as references.
 - New entries in this record lead with the SS task ID.
 
-## 12. SS-007 (ref TD1): binding identity audit, dry-run list (31 Oct 2026 11:35 AEDT, read only)
+## 12. SS-007 (ref TD1): binding identity audit, dry-run list (31 Oct 2026 11:34 AEDT, read only)
 
 **The list:** `docs/platform/ui-audit/2026-10-31-ss007-td1-binding-dry-run.csv`, 2,377 rows. It holds every automatic binding of an active course that is either unproven (no identity basis and no stored copy: the 1,564) or on a URL shared by 3 or more courses. Manual bindings are excluded and untouched.
 
@@ -667,3 +667,46 @@ Others are clearly not course pages:
 **Not done:** no binding, flag, value or provenance was changed. This is a dry run only.
 
 **Status:** SS-007 is **Awaiting decision**.
+
+## 13. SS-011 (ref F2): website search latency, measurements (31 Oct 2026 11:36 AEDT, read only; no regional probe)
+
+**Database time of the per-request calls** (rolled back, 5 runs each, live):
+
+| Call | Database time |
+|---|---:|
+| `website_api_v2_auth` | 1.4 ms |
+| `website_api_v2_rate` | 1.2 ms |
+| `website_api_v2_log` | 0.6 ms |
+| Search, AU "business", page of 6 | 0.6 s |
+| Search, broad (no filters or AU only) | 3.0–3.8 s (§8.6) |
+
+**Verified.**
+
+**Network cost per request is small.**
+- The lightest action (`scholarship`, one indexed lookup) has an API p50 of 266 ms over 7 days. That includes the auth, rate and action round trips; the log is outside the measured time.
+- So each round trip from the edge to the database is at most about 90 ms. **Inferred** from `pipeline.api_requests.elapsed_ms`.
+- **This corrects §8.7:** cross-region round trips explain a few hundred milliseconds per request, not the 13.5 s p95.
+
+**The slow searches are historical** (`pipeline.api_requests`, website `search`, status 200, 7 days). **Verified:**
+
+| API time | Calls | Average items | Average size | When |
+|---|---:|---:|---:|---|
+| < 1 s | 127 | 47 | 109 KB | 24–27 Oct |
+| 1–2 s | 36 | 41 | 101 KB | 24–27 Oct |
+| 2–4 s | 61 | 47 | 132 KB | 24–27 Oct |
+| 4–8 s | 30 | 43 | 119 KB | 24–29 Oct |
+| **8–18 s** | **74** | 49 | 132 KB | **24–26 Oct only** |
+
+- No website search was made in the last 2 days; the last was 29 Oct 08:50.
+- Response size does not differ between fast and slow calls.
+- The 8–18 s calls cluster in 24–26 Oct, a period of heavy pipeline load. Search speed depends on database load and cache state more than on network.
+
+**Revised assessment:**
+- The website search slowness was real but is not observed now. There is too little recent traffic to know the current p95.
+- The smallest effective change is probably on the database side (broad searches of 3–4 s), not region or routing.
+
+**Next measurements (read only):**
+1. The query plan of a broad search (`EXPLAIN`, no `ANALYZE`) to find the 3–4 s cost.
+2. A daily p50/p95 trend line for website `search`, so the next real traffic shows whether it is fixed.
+
+No consumer change is proposed yet.
