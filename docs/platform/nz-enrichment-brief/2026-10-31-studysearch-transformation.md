@@ -450,3 +450,32 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 - **`admin_ui_error_report` anonymous grant:** to be revoked as hygiene in the next functional release (no behaviour change, §8.5). Not worth a release of its own.
 - **169 functions callable by signed-in users:** a sampled role-check audit stays in the Phase 2 list.
 - **Documentation gap:** `SYSTEM-REFERENCE.md` §4b (Website API v2) was last updated on 15 Oct and does not describe the entry-requirement fields (`edu_country`, `entry`, `entry_matrix`, `scale_stated`). To be refreshed in the Phase 3 documentation pass.
+
+### 8.11 Phase 2 TD1 (binding precision): live measure and sample (11:28 AEDT, read only)
+
+**Bound pages without proof (active courses; `pipeline.coverage_course_pages`), verified:**
+
+| Country | Bound | No identity basis | No stored copy | Neither | Pattern-guessed, unproven | On a URL shared by 3+ courses (automatic) | Shared URLs |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| AU | 18,225 | 1,068 | 1,024 | **1,024** | 98 | **983** | 240 |
+| NZ | 3,230 | 242 | 215 | **215** | 121 | 28 | 10 |
+| CA | 3,057 | 332 | 325 | **325** | 168 | 14 | 9 |
+
+**Sample:** the 30 most-shared automatic URLs. Classified by address and the course titles bound to them; a person should confirm each against the page.
+
+| Class | URLs | Bindings | Examples |
+|---|---:|---:|---|
+| Legitimate shared course page (one page for several variants) | 13 | about 160 | UWA, UTS, Federation, UOW, Adelaide and JCU PhD/MPhil pages; RMIT Science honours; Collarts fashion double degree; Murdoch B1411 |
+| Fee table matched by its CRICOS list | 5 | 58 | USC 2026 **and 2025** fees; CSU course fees; UNE 2026 and 2027 fees |
+| Provider course list, international or ESOS page | 9 | 68 | TasTAFE `/international` (16); AIM `/courses`; IIPM `/courses`; Harward; MEI ELICOS; Envirotech; Friends' School; UNSW College `/esos` |
+| Application form | 1 | 6 | AEI application form |
+| No identity proof, not a course page | 3 | 27 | Whitireia **graduation event page (12 courses)**; `stapps.cdu.edu.au/f` (8); Auckland catalogue browse page (7) |
+
+**About 17 of 30 sampled shared URLs (57%) are not course pages.** Each serves its bound courses as their "official course page" and as the source page for their fields. **Inferred** from the sample; a person-checked sample of 50 is still the agreed gate (30 Oct diagnostic TD1).
+
+**Proposed gate (decision for the Platform Admin; not implemented):**
+1. `bound` requires an identity proof, or a stored copy with the course's code or exact title on it. Bindings with neither (1,564) return to search; manual bindings are untouched.
+2. A page shared by 3 or more courses is bound only when the page names each course (code or exact title). Fee lists, course lists and application or ESOS pages are found by URL pattern, kept as **fee sources**, and stop being the course page.
+3. **Bounded and reversible:** count-guarded, by country, one provider at a time; a dry-run list first. Values admitted from these pages are reviewed, not deleted (CLAUDE.md: nothing deleted by a migration).
+
+**Why it matters:** the page binding is the ceiling for every course field. The 30 Oct diagnostic found most CA and NZ paid reads ended "mismatch". Precision should come before any spend increase.
