@@ -2354,3 +2354,19 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
   - D4: the before-definition (md5 `80fdfabb`) plus a re-baseline.
 - **Local full suite:** 1,306 passed, 0 failed, 0 skipped. Register regenerated (s191, s192).
 - **Records:** record §27 and §28; developer guide issue 7; handover `docs/integrations/handover/2026-10-31-D4-entry-min-scores-HANDOVER.md`.
+
+### 31 Oct 2026 14:45 AEDT — v2.15.383: SS-014 health alerts persist and escalate; AI spend across all routes; SS-013 names
+
+- **Authority:** Platform Admin mandate, 31 Oct 2026 14:27 (SS-013, SS-014: improve existing controls). Standing engineering authority; no consumer change.
+- **What:** migration `20261031080000_cf247_ss014_health_alerts_cost_truth`, an md5-guarded edit of `security.platform_health_check_v1` (`29315678` → `d245c535`).
+  - A job failure stays open while the last run failed, or while it failed 3 or more times in 24 hours.
+  - A job is critical after 3 consecutive failures, at any schedule.
+  - AI spend over 24 hours is measured from the OpenRouter credit balance (all routes), against setting `budgets.ai_daily_ceiling_usd` (14).
+  - The remaining credit is no longer labelled as spend.
+  - Four settings were added. The capacity-policy comment now says StudySearch.
+  - **SS-013:** 8 test names and 2 workflow names now say StudySearch. Identity guard s6 is extended to all of `src/`, test names and workflow names.
+- **Evidence:** 62 self-closing job-failure issues in 4 days, none escalated. The AI spend check read US$0 (Layer 3 only) against a true US$4 to US$6 a day on 29 and 30 Oct.
+- **Dry run:** full forced health run 14.3 s; spend 24 h US$0.25; waste-guard and AI-match preparation stay visible as warnings.
+- **Rollback:** the before-definition (md5 `29315678`). The settings may stay.
+- **Local full suite:** 1,310 passed, 0 failed, 0 skipped. Register regenerated (s193; s6 extended).
+- **Records:** record §30; `STUDYSEARCH-IDENTITY-INVENTORY.md`; `OPERATIONAL-LIMITS.md` 1.1 (targets T1 to T8).
