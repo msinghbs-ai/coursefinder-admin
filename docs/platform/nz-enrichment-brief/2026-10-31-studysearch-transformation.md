@@ -451,7 +451,7 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 - **169 functions callable by signed-in users:** a sampled role-check audit stays in the Phase 2 list.
 - **Documentation gap:** `SYSTEM-REFERENCE.md` §4b (Website API v2) was last updated on 15 Oct and does not describe the entry-requirement fields (`edu_country`, `entry`, `entry_matrix`, `scale_stated`). To be refreshed in the Phase 3 documentation pass.
 
-### 8.11 Phase 2 TD1 (binding precision): live measure and sample (11:28 AEDT, read only)
+### 8.11 Phase 2 TD1 (binding precision): live measure and sample (11:23 AEDT, read only)
 
 **Bound pages without proof (active courses; `pipeline.coverage_course_pages`), verified:**
 
