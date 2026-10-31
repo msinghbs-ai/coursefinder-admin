@@ -508,3 +508,23 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 2. A UI guard test.
 3. Report and dashboard headings. The hourly report is already "StudySearch hourly stats".
 4. Proposals for the Worker display name, a custom domain and repository names, each with a dependency list, for the Platform Admin.
+
+## 10. Platform Admin decisions (31 Oct 2026, 11:24 to 11:30 AEDT, answered in session)
+
+**Standing rule (Platform Admin, 31 Oct 2026 11:24):**
+> "Consumer APIs require handover documentation and version control to avoid any confusions as previously created."
+
+Every consumer API change, including ones that change no response field (region, timing, routing, caller behaviour), ships with:
+- a developer guide issue with a version line (§13);
+- a dated handover note for the website or Zoho owner saying what changes on their side, if anything;
+- the Pilot release version and change-control reference;
+- the consumer-API baseline re-taken with its approval line.
+
+Nothing reaches a consumer without its document and version.
+
+| # | Decision | Answer | What happens now |
+|---|---|---|---|
+| F2 | Website search latency | **Measure more first** | Time each step of a live request: the database time of auth, rate, the action and the log against the edge time. No change yet |
+| F5 | All published entry scores (`min_scores[]`) | **Decide after more review** | No consumer change. Revisit when more courses are admitted |
+| F1c | Rule 4 "low agreement, page wins" (automatic adapter admission) | **Keep paused, review first** | Pause the job on purpose and mark it paused in the job catalogue, so its failure is no longer an incident. Its value is reviewed before any restart. No automatic Rule 4 admission happens meanwhile |
+| TD1 | Binding precision gate | **Dry-run list, then decide** | A provider-by-provider list of the bindings the gate would release, read only. The Platform Admin approves per country before anything is unbound. Manual bindings are never touched |

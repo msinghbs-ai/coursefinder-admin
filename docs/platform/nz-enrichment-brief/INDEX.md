@@ -33,7 +33,9 @@ Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08
 - lifting any ingestion hold;
 - any Worker or repository rename.
 
-**Developer guide:** issue 5 (29 Oct) is current. Issue 6 (D5 `scale_stated`) is drafted in `../ui-audit/d5-drafts/`; it is issued once its measured figures are refreshed.
+**Consumer API rule (Platform Admin 31 Oct 2026 11:24):** every consumer API change, even one that changes no response field, ships with a developer guide issue with a version line, a dated handover note for the consumer's owner, the release version and change-control reference (record §10).
+
+**Developer guide:** issue 6 (31 Oct, `scale_stated`) is current; issue 5 (29 Oct) is superseded.
 New sessions (human or agent): read this file first. Full operating rules:
 docs/platform/AGENT-OPERATING-MODEL.md (read once). This repo is the durable record;
 chat history is transport only. Australian English throughout.
