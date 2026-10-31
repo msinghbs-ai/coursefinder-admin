@@ -1,6 +1,6 @@
 # Handover note: `entry.min_scores[]`, several entry scores per course (StudySearch D4)
 
-**Status:** released in v2.15.382 (see the verification at the end).
+**Status:** released in v2.15.382 (PR #772, `115e40b3`), verified live at 14:24 AEDT on 31 Oct 2026.
 **Audience:** the website developer; the Zoho developer for information.
 **Guide:** Website API v2 developer guide **issue 7** (31 Oct 2026): §7.9, acceptance test 24 and the §13 line.
 
@@ -42,3 +42,13 @@ The course detail (`course` action) has a new key, `entry.min_scores`. It lists 
 - **Courses holding scores:** 41 (116 items).
 - **Courses with more than one route:** 24, all Monash. These are the courses where `min_score` alone showed only one route.
 - **Courses that return `min_score: null` but list their scores in `min_scores`:** 2 (`021276J`, `111153D`).
+
+## 5. Verification (live, 14:24 AEDT)
+
+| Check | Result |
+|---|---|
+| Website `course`: courses with `min_scores` | 41 courses, 116 items; 24 courses with more than one item |
+| `0101331` | 6 items; the first is `international`, IB 26 |
+| `0100714` (`edu_country` IN) | 1 item ("2026 ATAR 73.00", domestic); `min_score` 73 and `resolution` unchanged |
+| Zoho `zoho_v2_course` | `entry.min_scores` present |
+| Consumer API drift after re-baseline | none |

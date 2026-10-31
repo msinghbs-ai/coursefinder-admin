@@ -15,9 +15,10 @@ Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08
 | 30 Oct 22:30 | AER production closure: D5 release, human Layer 4 review support, outcome register; **ingestion held** (no QUT, B5 or recovery reads) | `2026-10-30-aer-production-closure-mandate.md`, response `2026-10-30-aer-production-closure-response.md` |
 
 **Live release:**
-- Pilot `main` `a8319590` = v2.15.379 (SS-007 remediation hold; no data change). Migration head `20261031030000` (verified 13:25).
+- Pilot `main` `115e40b3` = v2.15.382; migration head `20261031070000` (verified 14:24).
+- Today's releases: v2.15.379 (remediation hold), v2.15.380 (enrichment mismatch hold), v2.15.381 (course item speed-up), v2.15.382 (Rule 4 retired; `entry.min_scores[]`).
 
-**Decisions waiting:** the consolidated decision pack `2026-10-31-studysearch-decision-pack.md` (D1 to D6), under the Executive Execution Mandate of 31 Oct 12:38. Status of every task: `../STUDYSEARCH-EXECUTION-REGISTER.md`.
+**Decisions:** D1–D6 approved 31 Oct 13:30 (`2026-10-31-studysearch-d1-d6-approval.md`) and executed (record §22 to §28). Developer guide issue 7 is current.
 
 **Live health (31 Oct baseline; record §2):**
 - Consumer API at its approved baseline, 0 server errors in 7 days.

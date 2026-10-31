@@ -1259,3 +1259,45 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 **Edge p50 and p95 after the change:** not yet measurable. There has been no website search traffic since 26 Oct. They will be reported from `pipeline.api_requests` once traffic returns.
 
 **Recommendation sent with the handover:** the website can request 20 items per page where practical (1 to 20 items: p50 0.8 s against 3.1 s). Pages of 50 remain supported.
+
+## 27. D3: SS-008 Rule 4 retired logically (v2.15.382, verified 14:24)
+
+- **Migration:** `20261031060000_cf247_d3_rule4_retired`.
+- **Dependencies checked before retiring:** no function, edge function, screen, setting or job other than the inactive job refers to it.
+- **Live:**
+  - job `l4-rule-low-agreement` inactive;
+  - job and function `retiring` in the component register (replaced by Layer 4 review; retire after 14 Nov 2026);
+  - catalogue "RETIRED (Platform Admin 31 Oct 2026, D3…";
+  - `service_role` cannot execute the function.
+- **Kept:** the 22 historical admissions (13 to 23 Oct) with their evidence. Nothing is dropped or deleted.
+- **Destructive clean-up:** the job and function are dropped by paste after the retirement date, through the existing approval process.
+
+## 28. D4: SS-009 `entry.min_scores[]` (v2.15.382, verified 14:24)
+
+- **Release:** PR #772, `115e40b3`.
+- **Migration:** `20261031070000_cf247_d4_entry_min_scores` (G3 approval line; baseline re-taken). `security.entry_course_payload_v1` md5 `80fdfabb` → `691bbba7`.
+- **Local suite:** 1,306 passed, 0 failed, 0 skipped. Post-merge workflows: all success.
+
+**Live verification:**
+
+| Check | Result |
+|---|---|
+| Courses with `min_scores` | 41, 116 items |
+| Courses with more than one route | 24 |
+| `0101331` | 6 items, first IB 26 (international) |
+| `0100714` | 1 item; `min_score` 73 and `resolution` unchanged |
+| Zoho `zoho_v2_course` | Carries the key |
+| Drift | None |
+
+**Entry-score coverage:**
+- **Before:** each of the 24 multi-route courses showed one route chosen by audience and last update, and 2 courses with scores showed `min_score` null.
+- **After:** all 116 published routes are returned on the 41 courses.
+
+**Weak labels:** the "weak" `basis` labels found in §16 (`117723D`: "7.25", "70%") have quotes that name the route ("UNSW Foundation Program 7.25", "Monash University Foundation Year 70%"). The guide therefore tells the website to show `quote`. The two "duplicates" (`021276J`, `085441E`) are different routes with the same label (University graduates and VET graduates) and are both kept. No admitted value was edited.
+
+**Developer guide issue 7 (31 Oct 2026):**
+- §7.9 table row, a "Several entry scores" section with a rendering rule and example, acceptance test 24, and the §13 line.
+- Rebuilt: .md, .docx, .pdf (17 pages).
+- **Handover:** `docs/integrations/handover/2026-10-31-D4-entry-min-scores-HANDOVER.md`.
+- **Zoho guide:** not reissued. It does not describe `entry`; the key is additive.
+

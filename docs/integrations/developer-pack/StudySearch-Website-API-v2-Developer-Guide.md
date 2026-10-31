@@ -437,7 +437,8 @@ A row from the course's own page (`resolution` `step` 1) always has `scale_state
 
 ```json
 "entry": {
-  "min_score": 73, "min_score_basis": "2026 ATAR", "min_scores": [ { "score": 73, "basis": "2026 ATAR", "audience": "domestic", "scale": null, "quote": "…", "source_url": "…", "as_at": "…" } ],
+  "min_score": 73, "min_score_basis": "2026 ATAR", "min_scores": [ { "score": 73, "basis": "2026 ATAR", "audience": "domestic", "scale": null, "quote": "2026 ATAR 73.00",
+    "source_url": "https://www.rmit.edu.au/study-with-us/levels-of-study/undergraduate-study/honours-degrees/bachelor-of-engineering-honours-bh126", "as_at": "2026-10-05" } ],
   "benchmark_band": null, "prerequisites": [], "selection_tasks": [], "requirements_note": null,
   "resolution": {
     "country": "IN", "step": 5, "rule": "contact_provider", "outcome": "contact_provider", "rows": [],
@@ -489,7 +490,7 @@ Show "Published requirement: 375. The provider does not state a grading scale on
 The same course without `edu_country` (its own published requirements, and no `resolution`):
 
 ```json
-"entry": { "min_score": 73, "min_score_basis": "2026 ATAR", "benchmark_band": null,
+"entry": { "min_score": 73, "min_score_basis": "2026 ATAR", "min_scores": [ … ], "benchmark_band": null,
            "prerequisites": [], "selection_tasks": [], "requirements_note": null, "resolution": null }
 ```
 
