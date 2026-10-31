@@ -401,3 +401,21 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 **Recommendation:**
 - Measure the round-trip count first (read the function code; one rolled-back timing per step).
 - Then option 1 is the smallest change with the largest effect. It changes no contract, but the caller must send the region, so the website team is involved.
+
+### 8.8 v2.15.377 (F1) live and verified (11:19 AEDT)
+
+- **Merge:** PR #767 squash-merged as `5dc76dcc`.
+- **Post-merge workflows, all success:** Deploy on merge `41148001770`, Release Currentness Deployed `41148001766`, CourseFinder Deployed UAT `41148001785`, Release History Contract, Pilot Frontend Build.
+- **Live:** migration head `20261031010000`; `enrichment_flags_refresh_v1` `3bbec96c`; `coverage_ai_match_prepare_v1` `ab2dd5dc`.
+- **Change control:** admin `89ca7882`.
+
+**Before and after (`cron.job_run_details`, verified):**
+
+| Job | Before | After the deploy (about 11:03) |
+|---|---|---|
+| `waste-guard` | 09:17 and 10:17 failed at 120.0 s; 08:17 succeeded in 119.1 s; 14 of 24 failed on 30–31 Oct | **11:17 succeeded in 25.8 s** |
+| `coverage-ai-match-prepare` | median 47.7 s, runs of 109.4 s, 11 time-outs in 24 h | 11:04 37.3 s; 11:06 21.0 s; 11:08 26.2 s; 11:10 27.1 s |
+
+**Acceptance (from the mandate's definition of success):** `waste-guard` and `coverage-ai-match-prepare` are to have 0 time-outs over the next 24 h and 7 days. They are re-checked in the next session and the Monday report.
+
+**Still open from F1:** `l4-rule-low-agreement` (daily, a different shape; needs batching across runs). It is designed next.
