@@ -419,3 +419,19 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 **Acceptance (from the mandate's definition of success):** `waste-guard` and `coverage-ai-match-prepare` are to have 0 time-outs over the next 24 h and 7 days. They are re-checked in the next session and the Monday report.
 
 **Still open from F1:** `l4-rule-low-agreement` (daily, a different shape; needs batching across runs). It is designed next.
+
+### 8.9 F1c: `l4-rule-low-agreement`, a decision for the Platform Admin (not implemented)
+
+**Measured (rolled back, 11:21):**
+- `security.l4_rule_low_agreement_v1` runs `adapter_qualify_one_v1` for each of **1,185 enabled adapters** in one daily call.
+- The first 8 averaged 45 ms (max 101 ms).
+- The whole call exceeds the 120 s limit: last success 28 Oct; failed 29 and 30 Oct.
+
+**It admits data.** When an adapter reads a field on at least half the pages and agrees with held values on fewer than 90%, it sets `admit = true` for that field ("Rule 4 (daily): low agreement, page wins") and starts an adapter apply.
+- **Since 29 Oct no Rule 4 admission has happened**, because the job fails before finishing.
+- Fixing the time-out restarts automatic admissions. That is why this needs your decision, not a routine fix.
+
+**Option (proposed):**
+- Each run qualifies the next bounded slice of adapters: a cursor and a setting `batch.l4_rule_low_agreement_adapters`, for example 300.
+- The job runs 4 times a day, so every adapter is still checked daily. The rule itself is unchanged.
+- **Alternative:** leave it failing until the rule's value is reviewed; record it as paused, with a catalogue note so the failure is not noise.
