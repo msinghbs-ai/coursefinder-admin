@@ -10052,3 +10052,20 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Before merge:** no register object exists live; nothing left from the interrupted 30 Oct dry run.
 - **Local full suite:** 1,279 passed, 0 failed, 0 skipped (10:46). Register regenerated (s184 contract and mocked browser, s185 deployed read-only).
 - **Records:** decision C1 in the admin `2026-10-30-aer-production-closure-response.md` §0; programme record `2026-10-31-studysearch-transformation.md`.
+
+### 31 Oct 2026 11:01 AEDT — v2.15.377: F1, scheduled provider checks once per provider (StudySearch transformation Phase 1)
+
+- **Why:**
+  - Job `waste-guard` hit its 120 s limit (14 of 24 runs failed on 30–31 Oct); job `coverage-ai-match-prepare` timed out intermittently.
+  - Both evaluated provider-level checks once per course, AI-match row or flag.
+  - Root cause in the admin `2026-10-31-studysearch-transformation.md` §7.
+- **What:** migration `20261031010000_cf247_f1_provider_checks_once`, md5-guarded edits:
+  - `security.enrichment_flags_refresh_v1` `ae577625` → `3bbec96c`;
+  - `security.coverage_ai_match_prepare_v1` `b7db293c` → `ab2dd5dc`.
+  - Each check now runs once over a materialised distinct-provider list.
+  - No time-out, schedule, command, setting, data or consumer change.
+- **Proof (rolled back):**
+  - identical row sets in every section: 9,145; 2,128 on 17,888 rows; 11,297; 5,932; 142 providers;
+  - flag refresh 15.3 s (was 115–120 s); AI-match preparation 19.4 s (median was 47.7 s).
+- **Before merge:** live md5s re-checked at 11:01 (`ae577625`, `b7db293c`).
+- **Local full suite:** 1,283 passed, 0 failed, 0 skipped. Register regenerated (s186).
