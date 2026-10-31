@@ -1131,3 +1131,47 @@ In the 24 h before, the same jobs failed 12 of 24 and 10 of 720 runs. The 24 h a
 - a manual binding is touched;
 - new paid processing;
 - a consumer regression.
+
+## 23. D1 executed: SS-007 batch A (31 Oct 2026 13:31 to 13:36 AEDT)
+
+**Before (13:31, live):**
+- 177 manifest courses are bound to the 29 pages. 173 of them have a search document.
+- The Website item shows a link for 167. md5 of all other item content: `900cd49d`.
+- Zoho `zoho_v2_course` on 8 UNE courses showed the UNE fee pages.
+
+**Execution:** `security.binding_remediation_apply_v1`, one call per provider, in 5 calls of 1 to 9 providers each:
+
+| Calls | Providers | Re-roled | Links set unverified | Held back |
+|---|---:|---:|---:|---:|
+| 1 | 6 | 40 | 36 | 0 |
+| 2 | 9 | 39 | 36 | 0 |
+| 3 | 6 | 35 | 32 | 0 |
+| 4 | 3 | 27 | 27 | 0 |
+| 5 (USC) | 1 | 36 | 36 | 0 |
+| **Total** | **25** | **177** | **167** | **0** |
+
+Approval text on every hold row: "Platform Admin 31 Oct 2026 13:30 decision pack D1 (SS-007 batch A)".
+
+**Reconciliation against the manifest (13:36):**
+- 177 open holds at 25 providers, exactly the manifest's course ids.
+- 167 links unverified, exactly the manifest's shown links. The 10 without one were EIC 4, NetFit 3 and TasTAFE 3, all showing no link before.
+- No manual binding touched.
+- All 177 are `mismatch` on their original URL with their evidence id unchanged.
+- 177 `binding_remediation` page rejections.
+- Unverified official links: 12 → 179.
+- No link-search queue row is open for a held course.
+
+**Consumer change:** waits for the search refresh, which runs every 10 minutes with a 30-minute gap. 23 requests are pending. The after-checks are in §23.1.
+
+## 24. D2: SS-007 batch B retained (31 Oct 2026 13:40)
+
+All 125 bindings are retained unchanged, per the Platform Admin's D2 decision.
+
+**List:** `docs/platform/ui-audit/2026-10-31-ss007-batch-b-retained.csv`, with each course, its page, class, decision and residual uncertainty.
+
+| Class | Courses | Pages | Why retained | Residual identity uncertainty |
+|---|---:|---:|---|---|
+| School international page (year-level courses such as "Senior Secondary 11–12") | 114 | 36 | A school publishes one international page for all its CRICOS courses; there is no course-specific official page to prefer | The page identifies the school's programme, not one year level. Identity rests on the CRICOS code printed on the page (all 114 have it, with a stored copy) |
+| One programme page for its ELICOS levels (MEI General English I–V and EAP I–III; Greenwich Cambridge preparation) | 11 | 2 | The page is the programme's own page and describes every level | Levels are not documented separately, so a level-specific fact (duration or entry level) may not be on the page |
+
+**Not done:** no release, re-role, hold or link change for these courses.
