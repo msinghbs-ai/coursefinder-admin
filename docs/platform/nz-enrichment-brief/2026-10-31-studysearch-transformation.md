@@ -528,3 +528,48 @@ Nothing reaches a consumer without its document and version.
 | F5 | All published entry scores (`min_scores[]`) | **Decide after more review** | No consumer change. Revisit when more courses are admitted |
 | F1c | Rule 4 "low agreement, page wins" (automatic adapter admission) | **Keep paused, review first** | Pause the job on purpose and mark it paused in the job catalogue, so its failure is no longer an incident. Its value is reviewed before any restart. No automatic Rule 4 admission happens meanwhile |
 | TD1 | Binding precision gate | **Dry-run list, then decide** | A provider-by-provider list of the bindings the gate would release, read only. The Platform Admin approves per country before anything is unbound. Manual bindings are never touched |
+
+### 10.1 TD1 dry-run list (read only, 31 Oct 11:30 AEDT): the gate needs a third outcome
+
+Under the §8.11 rules the gate would release **1,819 automatic bindings**:
+
+| Country | Providers | Rule 1 (no identity, no stored copy) | Rule 2 only (shared non-course page) |
+|---|---:|---:|---:|
+| AU | 208 | 989 | 292 |
+| CA | 11 | 325 | 0 |
+| NZ | 28 | 213 | 0 |
+
+The 3,027 manual bindings are untouched. **Verified.**
+
+**Largest providers:**
+- **Rule 1:** Alberta 157 (url_pattern), Macquarie 104, Monash 100, Victoria (CA) 85, UNSW 83, UTas 73, Manukau 70 (url_pattern), Flinders 61, UBC 54, NorthTec 51 (url_pattern), Newcastle 45, Melbourne 44.
+- **Rule 2:** USC 36, UNE 16, CSU 16, TasTAFE 13.
+
+**Finding: rule 1 is "unverified", not "wrong".** Its largest groups are course-shaped addresses on the provider's own course or handbook paths, which were never read, so there is no copy to prove identity:
+- `coursehandbook.mq.edu.au/2026/courses/C000012`;
+- `monash.edu/study/course/A3701`;
+- `handbook.unsw.edu.au/postgraduate/programs/2026/5037`;
+- `handbook.flinders.edu.au/courses/2026/baf`;
+- `handbook.unimelb.edu.au/2026/courses/364aa`;
+- `manukau.ac.nz/programme/…`.
+
+Others are clearly not course pages:
+- `experts.griffith.edu.au/…/teaching` (a staff profile);
+- `livingheritage.lincoln.ac.nz/assets/download/647`;
+- `auckland.ac.nz/arts-grad-careers-news`;
+- `myportal.actheology.edu.au/FileDownload/…`;
+- `international.cit.edu.au/about/faq/…`;
+- `tastafe.tas.edu.au/contact`;
+- `whitireia.ac.nz/…/graduation/…`.
+
+**Revised gate (for the Platform Admin's decision per country; still not implemented):**
+
+| Outcome | Rule | Action |
+|---|---|---|
+| **Release** | No identity and no copy, *and* the address is not a course or programme path of the provider (profiles, news, downloads, FAQs, contact, events, portals) | Back to search |
+| **Verify** | No identity and no copy, on a course-shaped path | Keep bound. Read once from storage-free fetch or the existing read lane, then prove identity. This is a paid read, held under the closure mandate's ingestion hold until you lift it for this purpose |
+| **Re-role** | Shared by 3+ courses on a fee, course-list, application or ESOS page | Stop being the course page; keep it as a fee source where it is one |
+
+**Next step:**
+- A provider-by-provider dry-run with the three outcomes. It needs a course-path pattern per provider: the provider's own course URL shape from its bound, proven pages.
+- **Then:** you approve per country; the verify reads need the spend hold lifted for them.
