@@ -744,3 +744,36 @@ Nothing was admitted or changed.
 | C | Batched restart with checkpoints and the current thresholds | Highest; not recommended |
 
 **Recommendation: A.** The one current candidate (2 pages) is the kind of admission the rule should not make.
+
+## 15. SS-005 and SS-006: v2.15.378 completed (verified 31 Oct 2026 11:46 to 11:48 AEDT)
+
+- **Merge:** PR #768 squash-merged as `96daf97a`. Change control admin `ab26d82e`.
+- **Local full suite:** 1,287 passed, 0 failed, 0 skipped.
+- **Pre-merge live state (11:44):** job active; old description; anon EXECUTE true.
+- **Post-deploy live state (11:46):**
+  - `l4-rule-low-agreement` inactive;
+  - catalogue description begins "PAUSED (Platform Admin 31 Oct 2026, StudySearch decision F1c";
+  - `admin_ui_error_report`: anon EXECUTE false, authenticated true;
+  - migration head `20261031020000`.
+- **Post-merge workflows, all success:** Deploy on merge `41151938573`, Release Currentness Deployed `41151938691`, CourseFinder Deployed UAT `41151939131`, Release History Contract `41151938640`, Pilot Frontend Build `41151938638`.
+
+## 16. SS-009 (ref F5): multiple entry scores, review findings (31 Oct 2026 11:42 AEDT, read only)
+
+**The 24 courses** (active `catalogue.course_entry_requirements` with more than one `min_entry_score`):
+- **All 24 are Monash University courses**, admitted in the 31 Oct review session.
+- Monash course pages print a table of **alternative entry routes**: ATAR; International Baccalaureate (IB); GCE A Level; Advanced Placement; and the pathway programmes (Monash University Foundation Year, Monash Advanced Preparation Program, Monash diplomas, Trinity College Foundation Studies, UNSW Foundation Program).
+- **Each row is a separate, valid way in, not a duplicate requirement.** **Verified** from the admitted rows' bases and quotes (for example `0101331`: ATAR 75; GCE A Level 8; IB 26; MUFY 67.5%; MAPP 67.5; Diploma of Arts Part 2 55%).
+
+**How the API chooses today** (`security.entry_course_payload_v1`): the single `min_score` and `min_score_basis` come from `minimum_grade` rows, international audience first, then **the most recently updated row**. **Verified.**
+- Which route is shown depends on which row a reviewer touched last:
+  - 14 of 24 courses show a non-ATAR route (usually IB);
+  - 8 show ATAR;
+  - **2 return `null` although scores are admitted** (`021276J`, `111153D`: their rows are not of kind `minimum_grade`).
+- The reply is truthful (the basis names the route) but arbitrary and incomplete.
+
+**Data-quality notes for the review:**
+- A few rows carry a weak basis that does not name the route ("7.25", "70%"; `117723D`).
+- Two courses have duplicate rows ("70% average" twice in `021276J`; "Minimum 60% average" twice in `085441E`).
+- These should be corrected in the AER workspace before any consumer field lists every route.
+
+**Next:** the additive schema proposal, a sample response and consumer impact (SS-009, then Awaiting decision).
