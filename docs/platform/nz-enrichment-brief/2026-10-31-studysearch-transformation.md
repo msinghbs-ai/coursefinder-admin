@@ -1377,3 +1377,169 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 
 **Decision raised:** an outbound escalation channel for critical issues. Today critical issues reach a person only in the Admin.
 
+
+
+## 31. SS-014A to SS-014E and SS-015: operational automation (mandate 31 Oct 2026 19:22)
+
+**Mandate:** `2026-10-31-studysearch-ss014-operational-automation-mandate.md` (saved verbatim).
+
+**Decisions recorded:**
+
+| Decision | Recorded effect |
+|---|---|
+| D7 | Alerting designed and built; external delivery off until a destination and credentials are approved |
+| D8 | Technical names kept; dependencies documented in the identity inventory |
+| D9 | Consumer error wording kept; any change follows G3 |
+| D10 | Crawler identity kept; a backwards-compatible proposal is in the identity inventory §5, not deployed |
+| D11 | The 154 release candidates and 1,012 verification reads stay held; nothing changed |
+
+**Correction to §30.1:** it said critical issues "reach a person only in the Admin". That was incomplete.
+- Work-queue alerts (Stuck, Out of toolset) already reach the Platform Admin by push and e-mail through the hourly "Work queue alerts" scheduled task (outbox `pipeline.queue_watch_alerts`, 78 delivered, last 31 Oct 18:00).
+- Platform health issues had no outbound path. That gap is what SS-014C addresses.
+
+### 31.1 What was measured before building (live, 19:30 to 19:49 AEDT)
+
+| Finding | Evidence |
+|---|---|
+| Health check cost | 144 runs in 24 h: median 21.3 s, max 32 s, 53 min of database time a day |
+| Slowest health section | Scholarship 11.9 s median: the scholarship Firecrawl hold of the same 1,138 waiting providers was worked out twice per run, and again per candidate page, through nested functions planned on each call. 11.4 s in a cold session, 1.3 s warm |
+| Second slowest | `queue-watch`, separate job: 9.8 s mean over 859 runs (8,408 s in total); its two scholarship keys repeat the same calls |
+| False criticals | "Coverage page reading has stopped … (its scheduled job is missing or paused)" opened as **critical 116 times in 7 days** (median 10 min). Every one was `coverage-read` paused on purpose by the flag unit after idle runs, which switches it on again when work waits (`security.flag_jobs_v1`). Under alerting this would have meant about 16 false critical alerts a day |
+| Search refresh requests | No health check. 7 days: 1,900 requests; wait p50 10 min, p95 31 min, max 40.0 min; 7 at 40.0 min; none open |
+| Scheduler history | `cron.job_run_details` starts 28 Oct 03:47, about 3.5 days of history. A seven-day job reliability figure (SS-004 on 7 Nov, T1) cannot be read from it after the fact |
+| Existing recovery | See 31.5 |
+
+### 31.2 Release v2.15.384 (PR #774 `8b468e31`, re-issued migration PR #775 `60317717`)
+
+- **SS-014A:** `platform_health_check_v1`, md5 `d245c535` → `69a2d7b7`.
+  - Each provider's hold is worked out once and shared by the candidate, discovery and held counts.
+  - Thresholds and classifications are unchanged.
+- **A2:** `platform_health_stall_v1`, `e1c74fa6` → `fe27fdb0`.
+  - A queue whose job the flag unit paused for idleness is `info` until the critical age (2 h), then critical as before.
+  - A job missing or paused by a person stays critical at once.
+- **SS-014B:** a new `search_refresh` check.
+  - Warning after 40 minutes (setting, = T7) when the cause is known: the refresh gap or another writer.
+  - Critical after 90 minutes, or at once when the job is missing, paused, failing or not running.
+  - The issue names the cause, the process holding the writer lock, the job's last result and the next step.
+- **SS-014C, alert framework:** outbox `pipeline.platform_alerts` and job `platform-alerts` (every 10 minutes).
+  - An unacknowledged critical issue open 15 minutes raises one alert.
+  - The same check does not alert again within 60 minutes.
+  - An issue that rises from warning to critical is escalated; a reminder follows after 12 hours; one recovery notice is sent.
+  - Delivery is leased, with retry and backoff (10 minutes, doubling, 5 attempts), and then shown as failed.
+  - A new `alerts` check flags failed deliveries, and alerts not collected within 120 minutes while delivery is on.
+  - Two destinations are ready, both off: the scheduled-task path (`platform_alerts_take_v1` / `_confirm_v1`) and a webhook (vault secret `studysearch_alert_webhook_url`).
+  - Test mode, a test alert and acknowledgement with a reason are on Platform health.
+  - **External delivery is off (D7):** alerts are recorded as "held".
+- **SS-014D, scorecard:** `ops_scorecard_v1` covers T1 to T8 plus throughput, page identity, incidents and recovery.
+  - Job `ops-scorecard` runs daily at 06:29 and stores the week so far, so job reliability is kept day by day before the scheduler forgets it.
+  - The last week is finalised once after it ends.
+  - It is shown on Platform health.
+- **Settings:** 21, all with a label, range, unit and `used_by` line (Alerts, Operating targets, search refresh).
+- **Unchanged:** the consumer API. Nothing is dropped or deleted. The work-queue alerts keep their own outbox and task.
+
+**Local suite:** 1,319 passed, 0 failed, 0 skipped (s194 new), before each merge. Build passed. Release contract passed.
+
+**Deploy incident (no effect on live data):**
+- PR #774's migration `20261031090000` was refused at deploy by its own md5 guard. The expected md5 for the health check had been taken before a last change: the alert issue area moved to `scheduled jobs`, because `platform_issues_area_check` allows no new area.
+- The transaction rolled back. Verified: migration head unchanged, both functions at their previous md5, and no new tables, settings or jobs.
+- For about 25 minutes the deployed screen was ahead of the database. The new panels stay hidden when their data is missing.
+- PR #775 re-issued the same content as `20261031091000` with the corrected md5 (`b648e649`). The unapplied file is kept as a commented no-op.
+- The guard worked as intended. The lesson: take the expected md5 from the final text, never from an earlier dry run.
+
+### 31.3 Live verification (20:31 to 21:01 AEDT)
+
+| Check | Result |
+|---|---|
+| Migration head | `20261031091000` |
+| `platform_health_check_v1` | md5 `b648e649` |
+| `platform_health_stall_v1` | md5 `fe27fdb0` |
+| Settings | 21 present; `alerts.delivery_enabled` false |
+| Jobs | `platform-alerts` (10-59/10) and `ops-scorecard` (06:29 Melbourne daily) active and catalogued |
+| Scorecards recorded | Week of 19 Oct (baseline, complete; job runs not recorded for that week); week of 26 Oct so far |
+| Consumer API drift | None |
+| `admin_platform_alerts` | Anonymous execute off |
+| Scheduled health runs 20:38, 20:48, 20:58 | All succeeded; 0 critical. New checks: `search_refresh` 63 to 118 ms (0 waiting), `alerts` 2 ms (delivery off) |
+| `platform-alerts` 20:40, 20:50 | Succeeded in 127 and 170 ms; 0 alerts (no qualifying critical issue) |
+| Scholarship detail | Identical to before (1,138 providers not searched, 3 pages held by the cap; three queues idle) |
+
+### 31.4 Measured gains so far (honest reading)
+
+| Measure | Before | After (live, first three runs) | Reading |
+|---|---|---|---|
+| Scholarship check | 11.6 to 13.7 s (median 11.9 s over 24 h) | 7.0 to 8.5 s | About −30%. The rolled-back trial (1.4 to 2.3 s) ran in a warmed session; a scheduled run starts a fresh session, where each remaining call still plans its nested functions |
+| Whole health run | 20.7 to 24.2 s (median 21.3 s) | 21.9 to 22.3 s | Not yet faster. Other checks were also slower in this window (consumer search probe 3.4 s against 1.4 s); the 24-hour figure on 1 Nov decides |
+| False critical "page reading stopped" | 116 in 7 days | 0 since the release (only 30 minutes) | 24-hour count on 1 Nov |
+| Refresh stall detection | None | Live, with cause and next step | Built; no stall has occurred to show it |
+| Alerting | Platform issues: none outbound | Framework live; delivery off (D7) | Ready for destination approval (§31.7) |
+
+- The release notes first said the health check was "about twice as fast". That came from the trial and is withdrawn in the same release's notes. The live figures above stand.
+- **Further health-check reduction (proposal, not done):**
+  - Run the scholarship section every 30 minutes instead of 10 (`platform_health_checks.cadence_minutes`; nothing in that pipeline has moved since 30 Oct). This cuts its database time by two thirds.
+  - Alternatively, flatten the nested hold functions. That is a shared-function change used by the workers, so it needs its own test and release.
+  - `queue-watch` (mean 9.8 s) repeats the same scholarship counts; the same fix applies there.
+
+### 31.5 SS-014E: recovery automation review
+
+The existing controls, assessed against the mandate's five priorities:
+
+| Priority | Existing control | Evidence (live 31 Oct) | Assessment |
+|---|---|---|---|
+| Bounded retries | Attempt caps on every lane: page read 3, scholarship page 5, discovery 3, enrich items 3 (max seen 3) | 0 enrich items with an expired lease; 0 Layer 3 items stuck over 1 h | Bounded |
+| Duplicate-work prevention | One writer lock for search documents; leases on enrich items; deduplicated queues; the alert outbox deduplicates by key | Refresh waits caused by the lock are now diagnosed (31.2) | Adequate |
+| Stale-job recovery | Flag unit: idle jobs paused and switched on again when work waits or at the next check (1,809 automatic and 320 person releases in 7 days); `waste-guard` resumes the jobs it paused; queue watchdog (343 fixes in 7 days) | Works, but the health check called it critical (fixed, A2) | Effective; classification fixed |
+| Controlled backoff | `tick.backoff_max_minutes`; flag re-check schedule (1, 2, 4, then 6 hours); alert retries now back off | — | Adequate |
+| No repeated paid processing | D5a mismatch hold; SS-007 holds (177 open); Firecrawl caps per university and per month; zero-yield rules | Futile items 167 on 31 Oct (before D5a), against 1,648 to 4,722 a day earlier in the week | Effective since D5a; 24-hour check due 1 Nov |
+
+**Findings not changed under this mandate (decisions, not routine fixes):**
+
+1. **Exhausted page reads have no way back in.**
+   - 1,467 bound or ambiguous course pages used all 3 read attempts and are never tried again: 976 `fetch_failed`, 325 `blocked`, 166 never read.
+   - Many `fetch_failed` errors are likely transient.
+   - A retry would be free only if the worker never fell back to Firecrawl for these pages. Today it does, after a direct fetch fails.
+   - **Proposal:** one direct-only re-read after 30 days, no Firecrawl, capped per day by a setting.
+   - Needs approval because the read lane decides paid fallback.
+2. **Stale job flag after a person's resume.**
+   - `coverage-ai-match` was switched on by a person on 19 Oct (Automations, reason "Re-find wave refind-1"). Its idle-pause flag stayed raised.
+   - So the flag unit no longer pauses that job when idle, and the Flags screen shows a pause that is not in force.
+   - **Proposal:** the Automations resume action releases the job's flag as a person release.
+   - Not changed now: it affects a person's control.
+3. **Refresh wait at the target boundary.**
+   - The refresh gap (30 min) plus the job cadence (10 min) puts the longest automatic wait at exactly the T7 target (40 min).
+   - 7 of 1,900 requests went seconds over it this week.
+   - Either accept it or set the gap to 25 minutes (setting `search.refresh_min_gap_minutes`). Platform Admin's choice.
+
+**No autonomous admissions were introduced, and no manual review rule was changed.**
+
+### 31.6 SS-015: operational acceptance assessment (opened, not accepted)
+
+**State:** Verifying. Acceptance is not claimed. The observation windows below are open.
+
+| Area | Measure | Evidence so far | Window | Status |
+|---|---|---|---|---|
+| Scheduled-job reliability, 24 h | 0 failed runs (T1) | 0 failures in 5,722 runs after the SS-004 fix (11:03 to 14:48) | 1 Nov check | Open |
+| Scheduled-job reliability, 7 days | T1 every day | Week of 26 Oct: 77 failed of 106,231 runs on the days recorded (all before the fix); recorded daily from 1 Nov | 7 Nov | Open |
+| Consumer API response | 0 server errors, no drift, search p95 under 3 s at 20 per page | Week of 26 Oct: 989 requests, 0 server errors, drift none; search p95 5.2 s on 71 measured requests | Needs website traffic on 20-per-page | Open (missed so far) |
+| Data freshness | Refresh within 40 min; bundle under 2 h | p95 31 min, max 40.0 min, 7 seconds over; bundle 0.9 h | Week of 2 Nov | Open (boundary, finding 3) |
+| Enrichment yield | Futile items under 100 a day (T4) | 167 on 31 Oct (pre-fix); D5a 0 new since release | 1 Nov check | Open |
+| Cost ceilings | AI US$14 a day; credit at least US$10; Firecrawl within month | Worst day US$7.83; credit US$98.43; Firecrawl 246,586 of 500,000 | Weekly | Met so far |
+| Monitoring coverage | Health checks cover jobs, queues, refresh, budgets, API, alerts | 16 checks (2 new); alerts recorded, delivery off | Weekly | Built; verifying |
+| Recovery effectiveness | Automatic recoveries, criticals closed | 31.5; critical issues will be counted by the scorecard | Weekly | Open |
+| Human intervention | What still needs a person | Layer 4 review (1,175 pending, oldest 9.9 days); SS-007 decisions; alert destination; findings 31.5 | — | Listed |
+
+**Acceptance gate:** two consecutive complete weeks with T1, T2, T3, T5 and T7 met, T4 under target from 1 Nov, T6 with no errors or drift, and the alert destination approved and tested.
+
+### 31.7 Alert destination: recommendation (D7, for approval)
+
+| Option | How | Credentials | Time to reach a person | Effort | Recommendation |
+|---|---|---|---|---|---|
+| **A. Existing scheduled task (recommended)** | The hourly "Work queue alerts" task also takes platform alerts (`platform_alerts_take_v1`), sends them by push and e-mail to the Platform Admin's account, then confirms (`platform_alerts_confirm_v1`) | None new; the path is proven (78 work-queue alerts delivered) | Up to about 75 minutes (15-minute confirm plus the hourly run) | Change one scheduled-task prompt; switch on `alerts.delivery_enabled` | **Simplest and reliable today** |
+| B. Webhook to Teams, Slack or an e-mail relay | `platform-alerts` posts each alert to the webhook stored in the vault, and confirms from the response | A webhook address (vault secret `studysearch_alert_webhook_url`), entered by the Platform Admin in the dashboard | About 15 to 25 minutes | Store the secret; switch on two settings; send a test | When under-an-hour response is needed |
+| C. E-mail service (Resend, SendGrid) | An edge function sends mail | An API key and a sender domain | About 15 to 25 minutes | A new edge function and DNS records | Not recommended now: more parts to own |
+
+**Activation, once approved:**
+1. Update the destination: the task prompt for A, or the secret for B.
+2. Switch on `alerts.test_mode` and `alerts.delivery_enabled` on Pipeline settings › Alerts, with a reason.
+3. Send a test alert from Platform health and confirm it arrived.
+4. Switch test mode off.
+
+Any alerts already recorded as held stay held; they are not sent late.

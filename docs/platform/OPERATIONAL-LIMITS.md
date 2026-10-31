@@ -1,6 +1,6 @@
 # StudySearch platform operational limits
 
-**Version:** 1.1 (31 Oct 2026: operating targets added, v2.15.383; figures below as at 13 Oct 2026)
+**Version:** 1.2 (31 Oct 2026: monitoring, alerts and the weekly scorecard, v2.15.384; 1.1: operating targets, v2.15.383; figures below as at 13 Oct 2026)
 
 **Figures as at:** 6:17 pm, Tue 13 Oct 2026 (Melbourne time), read from the live database (project fxcwkweaxjtknorudmwp)
 
@@ -191,7 +191,7 @@ Times are Melbourne time (the database schedules are in UTC). 89 running, 2 paus
 
 ## Operating targets (SS-014, 31 Oct 2026)
 
-Set from verified production baselines (transformation record §30). The Platform health screen shows T1 to T3 and T7; the agent reports T4 to T6 and T8 weekly.
+Set from verified production baselines (transformation record §30). Since v2.15.384 the weekly scorecard on Platform health measures all eight; T8's suite and workflow results stay on the Admin release record.
 
 | # | Measure | Target |
 |---|---|---|
@@ -204,6 +204,51 @@ Set from verified production baselines (transformation record §30). The Platfor
 | T7 | Data freshness | Search refresh requests processed within 40 minutes; reference bundle under 2 hours old |
 | T8 | Releases | Full suite and post-merge workflows green; live checksums verified; rollback definition on record |
 
+## Monitoring, alerts and the weekly scorecard (SS-014, v2.15.384)
+
+### Health checks
+
+- **Job and frequency:** `platform-health` runs every 10 minutes and writes `pipeline.platform_issues`.
+- **Run time:** median 21.3 s before v2.15.384; see record §31.4 for after.
+- **Critical:**
+  - a job whose last 3 runs all failed;
+  - a queue stalled past 2 hours;
+  - a queue whose job is missing or paused by a person;
+  - search refresh stalled (past 90 minutes, or its job missing, paused, failing or not running);
+  - budget floors;
+  - consumer API probes failing.
+- **Information, not critical:** a queue whose job the flag unit paused after idle runs. The flag unit switches it on again when work waits. It becomes critical after 2 hours.
+- **Search refresh:**
+  - a warning after `health.search_refresh_slow_minutes` (40, = T7), naming the cause (the refresh gap or another writer);
+  - critical after `health.search_refresh_stalled_minutes` (90).
+
+### Alerts (job `platform-alerts`, every 10 minutes)
+
+| Rule | Setting (Pipeline settings › Alerts) | Value |
+|---|---|---|
+| Lowest severity that alerts | `alerts.min_severity` | 3 = critical only |
+| An issue must stay open | `alerts.confirm_minutes` | 15 minutes (flap guard) |
+| One alert per check within | `alerts.cooldown_minutes` | 60 minutes |
+| Reminder while open and unacknowledged | `alerts.reminder_hours` | 12 hours |
+| Recovery notice | `alerts.recovery_notice` | On |
+| Delivery retries | `alerts.max_attempts`, `alerts.retry_minutes` | 5 attempts, 10 minutes doubling |
+| Not collected while on | `alerts.collect_within_minutes` | 120 minutes, then critical |
+| **External delivery** | `alerts.delivery_enabled` | **Off (D7)**: alerts are recorded as held on Platform health |
+| Webhook | `alerts.webhook_enabled` plus vault secret `studysearch_alert_webhook_url` | Off |
+| Test mode | `alerts.test_mode` | Off |
+
+- **Acknowledging:** a Platform Admin acknowledges an issue on Platform health, with a reason that is logged. This stops its reminders. If the issue rises in severity, the acknowledgement is cleared.
+- **Work-queue alerts are separate:** they stay in `pipeline.queue_watch_alerts`. The hourly "Work queue alerts" scheduled task (push and e-mail) delivers them.
+- **Recommended destination:** see transformation record §31.7.
+
+### Weekly operational scorecard (job `ops-scorecard`, daily 06:29 Melbourne)
+
+- **What it records:** the week so far against T1 to T8, plus throughput, page identity, incidents and recovery, in `pipeline.ops_scorecards`. It finalises the last week once after the week ends.
+- **Where it shows:** Platform health.
+- **Target values:** settings under Pipeline settings › Operating targets.
+- **Basis:** each target says whether it was observed for the whole week, observed so far, or only measured at report time.
+- **Job reliability (T1):** recorded day by day, because the scheduler keeps only about three days of run history.
+
 ## Watch points
 
 - firecrawl-targets failed 18 times in the 24 hours to 13 Oct 6:17 pm (out of about 1,440 runs), and firecrawl-panel-figures failed once. All were database deadlocks with another job. Each run is picked up the next minute, so nothing is lost; if it keeps happening, space the two jobs apart.
@@ -214,3 +259,5 @@ Set from verified production baselines (transformation record §30). The Platfor
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 13 Oct 2026 | First issue (Platform Admin, 18:17: "Give me all budgets and their correspondence usage and jobs and their schedules"; 18:20: "Save the above as platform operational limits in google docs and in admin docs as well"). |
+| 1.1 | 31 Oct 2026 | Operating targets T1 to T8 (SS-014, v2.15.383). |
+| 1.2 | 31 Oct 2026 | Monitoring, alerts and the weekly scorecard (SS-014A to D, v2.15.384; mandate 31 Oct 2026 19:22). |

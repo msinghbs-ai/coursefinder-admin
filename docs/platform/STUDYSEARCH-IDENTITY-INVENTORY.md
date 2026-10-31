@@ -1,6 +1,6 @@
 # StudySearch identity inventory (SS-013)
 
-**Version:** 1.0, 31 Oct 2026, platform release v2.15.383.
+**Version:** 1.1, 31 Oct 2026 (decisions D8 to D10 recorded; crawler proposal §5). 1.0: platform release v2.15.383.
 **Authority:**
 - Platform Admin, 31 Oct 2026 10:23: rebrand, do not rename technical identifiers.
 - Platform Admin, 31 Oct 2026 14:27: inventory, implement the presentation and documentation changes, preserve identifiers.
@@ -40,7 +40,14 @@
 | Admin history: `change-control/`, `project-runsheets/`, `docs/daily-updates/`, `docs/uat/`, dated records, versioned documents `docs/coursefinder-*-vX.md` | Audit record | History is never rewritten | Never (superseding issues use the new name) |
 | Admin current document names `docs/coursefinder-*.md` | Linked from the router and records | File names are references | A new issue of a document uses a StudySearch file name; the old file stays as history |
 
-## 3. Unresolved dependencies (for separate decisions)
+## 3. Dependencies and decisions
+
+**Decided (Platform Admin, 31 Oct 2026 19:22):**
+- **D8:** repository names, Cloudflare Worker identifiers, Supabase identifiers, domains and consumer API routes stay as they are. StudySearch remains the product identity. Renaming is revisited only when it has a demonstrable operational benefit.
+- **D9:** the consumer error wording "CourseFinder service unavailable" stays. Any future change to consumer-visible text follows G3: a developer-guide issue, a version line, a compatibility assessment and a handover.
+- **D10:** the crawler identity and its matching behaviour stay. The backwards-compatible proposal is §5; it is not deployed.
+
+**Earlier list of dependencies (kept for reference):**
 
 1. **Repository, Worker and domain names:**
    - one proposal with the full dependency list: CI workflows, deployed tests, release-currentness, agent instructions, website and Zoho configuration;
@@ -59,3 +66,47 @@
 - any workflow name.
 
 It also checks that the retained identifiers above are still in place.
+
+## 5. Crawler user agent: backwards-compatible proposal (D10; not deployed)
+
+### Today
+
+- **Main worker (`coverage-sweep`):**
+  - It sends `Mozilla/5.0 (compatible; CourseFinder-Pilot/coverage-0.1; +https://coursefinder-pilot.techm.workers.dev)` for page reads, robots.txt, site maps, logos and home pages.
+  - Its robots.txt reader (`extract.ts`, `robotsAllows`) obeys a group whose `User-agent` contains `coursefinder`; otherwise it obeys `*`.
+- **Other edge functions:** about 25 Layer 1 and statistics readers send their own short agents, such as `CourseFinder-Pilot/Seneca-0.3.1`, `coursefinder-pilot-nz/1.2` and `coursefinder-au-cricos-facts/1.1`.
+- **Separate identities:** contact discovery and provider asset import send "CourseFinder Contact Discovery/1.2" and "CourseFinder Provider Asset Import/1.0".
+
+### Risks of a plain rename
+
+- A provider that allows `CourseFinder` by name (in robots.txt or a firewall allow-list) would block a new name.
+- A provider that disallows `CourseFinder` by name would silently start being read under a new name. That would breach the rule that robots.txt is respected.
+- Firewall services score unknown agents and may challenge them, which costs Firecrawl credits as reads fall back.
+
+### Proposal
+
+1. **Keep the old token and add the new one in the same string.** For example: `Mozilla/5.0 (compatible; StudySearch/coverage-0.1; CourseFinder-Pilot; +https://coursefinder-pilot.techm.workers.dev)`.
+   - Allow-lists that match `CourseFinder` keep matching.
+   - The new name becomes visible.
+2. **Robots reading obeys both names.**
+   - Use the group naming `studysearch` or `coursefinder`.
+   - If both exist, obey the more restrictive result for each path.
+   - Use `*` only when neither is named.
+   - Robots.txt is never read more permissively than today.
+3. **Measure before changing.**
+   - Before the change, the worker should record, during the robots.txt reads it already makes, which providers name `coursefinder` (allow or disallow). This needs no extra requests.
+   - Firewall challenges seen per day give the baseline.
+   - No new paid reads.
+4. **Change in one place.**
+   - One shared constant for the worker.
+   - The Layer 1 readers move to `StudySearch-…; CourseFinder-Pilot/…` when each is next changed, not as a separate project.
+5. **Watch for 30 days.**
+   - Measure page-read success rate, `blocked` and `robots_disallowed` counts per provider against the baseline.
+   - Stop and revert if either rises by more than an agreed margin.
+
+### Approvals and effort
+
+- **Approval:** a worker release (G2/G4 governed, outside the consumer API). Platform Admin approval of the wording and of the 30-day watch.
+- **Effort:** about half a day including tests.
+- **Consumer impact:** none.
+
