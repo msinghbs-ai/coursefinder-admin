@@ -1,6 +1,6 @@
 # StudySearch platform operational limits
 
-**Version:** 1.0 (13 Oct 2026, platform release v2.15.268)
+**Version:** 1.1 (31 Oct 2026: operating targets added, v2.15.383; figures below as at 13 Oct 2026)
 
 **Figures as at:** 6:17 pm, Tue 13 Oct 2026 (Melbourne time), read from the live database (project fxcwkweaxjtknorudmwp)
 
@@ -188,6 +188,21 @@ Times are Melbourne time (the database schedules are in UTC). 89 running, 2 paus
 | Tuesday 8:23 am, October to December | provider-document-check-weekly-q4 | Fee documents check (weekly) |
 | 2nd of the month, 8:23 am | provider-document-check-monthly | Fee documents check (monthly) |
 | 5th of the month, 1:41 pm | statistics-edition-discovery | New statistics editions |
+
+## Operating targets (SS-014, 31 Oct 2026)
+
+Set from verified production baselines (transformation record §30). The Platform health screen shows T1 to T3 and T7; the agent reports T4 to T6 and T8 weekly.
+
+| # | Measure | Target |
+|---|---|---|
+| T1 | Failed runs of active scheduled jobs | 0 a day. A failure stays on the health list until the job runs cleanly; 3 failures in a row are critical (settings `health.job_failure_*`) |
+| T2 | AI spend, all OpenRouter routes | US$14 or less a day (setting `budgets.ai_daily_ceiling_usd`); credit US$10 or more |
+| T3 | Firecrawl | Within 500,000 credits a month, keeping the 2,000 reserve |
+| T4 | Futile enrichment items (mismatch pages) | Under 100 a day |
+| T5 | Layer 4 review backlog | Oldest pending item under 14 days |
+| T6 | Consumer API | 0 server errors; no contract drift; search p95 under 3 s for pages of 20 |
+| T7 | Data freshness | Search refresh requests processed within 40 minutes; reference bundle under 2 hours old |
+| T8 | Releases | Full suite and post-merge workflows green; live checksums verified; rollback definition on record |
 
 ## Watch points
 

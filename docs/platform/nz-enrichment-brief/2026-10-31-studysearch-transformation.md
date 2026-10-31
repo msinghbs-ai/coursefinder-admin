@@ -1321,3 +1321,34 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 - **SS-004:** observation windows (24 h and 7 d).
 - **SS-012:** edge latency, once website traffic returns.
 - **SS-008:** the drop paste after 14 Nov.
+
+## 30. SS-014: review of existing operational automation and the first improvements (31 Oct 2026 14:30 to 15:10 AEDT)
+
+**Method:** the existing controls were reviewed before anything new was built. Live reads only, apart from the v2.15.383 change.
+
+| Area | Existing control (verified) | Verified baseline | Gap found | Action (this session) |
+|---|---|---|---|---|
+| Job reliability and recovery | Platform health check (`platform-health`, every 10 min, 15 checks); job catalogue; F1 fix (v2.15.377) | Failed job runs a day: 29 Oct 30, 30 Oct 40, 31 Oct 9 (all before 11:03); since 11:03, 0 of 5,722 | Alerts flapped: **62** "job failed" issues opened and closed by themselves in 4 days, none acknowledged. An hourly or daily job could never become critical (needed 3 failures within one hour) | **Fixed in v2.15.383:** a failure stays open until the job runs cleanly; critical on 3 consecutive failures at any schedule; thresholds are settings |
+| Failure alerts and escalation | Issues list in the Admin (Platform health); acknowledgement with a note | No outbound channel: no e-mail, chat or webhook. Critical issues reach a person only if the Admin is opened | Escalation depends on someone looking | **Decision needed** (see below) |
+| AI cost controls | Budget check: Firecrawl reserve; OpenRouter "24 h spend" against US$14; credit floor US$5 | Real OpenRouter spend from the credit balance: 28 Oct US$0.45, 29 Oct US$4.18, 30 Oct US$6.02, 31 Oct US$0.06 (to 15:00) | The spend figure counted Layer 3 only (US$0) while enrichment, AI match and entry reads spend on the same account. The health detail showed the remaining credit (US$98.93) as the day's spend. The ceiling was in code | **Fixed in v2.15.383:** all routes measured from the credit balance; ceiling is setting `budgets.ai_daily_ceiling_usd` |
+| Firecrawl cost controls | Monthly limit 500,000 credits with a 2,000 reserve; scholarship cap 60,000; daily purposes | Month to date 245,528; daily 6,156 / 3,098 / 922 / 739 (28 to 31 Oct) | None found | None needed |
+| Enrichment queue efficiency | Central enrichment hold; standing gap queue | 1,600 to 2,200 futile items a day | Fixed by D5a (v2.15.380) | Measure at 24 h (1 Nov) |
+| Evidence-backed page matching | Binding guard, page rejections, remediation hold (v2.15.379), course-url-fill guards 3 and 4 | 167 wrong links corrected (D1) | 154 release candidates and 1,012 unproven bindings still need their own decision | No change (decided scope) |
+| Incremental source refresh | `link-refresh`, `course-relink`, re-read cadences, `search-refresh-requested` | Search refresh ran 13:36; documents updated 14:30 | None found | None |
+| Review backlog visibility | Layer 4 Inbox counts by kind; AER outcome register | 1,141 pending; oldest 21 Oct (10 days) | Visible in the Admin, not escalated | Target below; human work |
+| Data freshness and publication | Reference bundle check; consumer snapshot (hourly, 13 probes); search probe (3 s) | All ok at 14:28 | None found | None |
+| Consumer API monitoring | `consumer-api-guard` (daily drift, hard flag); consumer snapshot; `api_requests` log | 7 days: 1,510 requests, 0 errors (5xx), p95 9.7 s (includes the 24–26 Oct spike); drift none | Edge latency has no target | Target below |
+| Release verification and rollback | Full local suite; md5-guarded migrations; post-merge Deploy, Release History, Release Currentness, Deployed UAT; deployed weekly run | 5 releases today, every post-merge workflow green, live md5s verified | None found | None |
+
+**Operating targets** (from these baselines; recorded in `docs/platform/OPERATIONAL-LIMITS.md` §Operating targets):
+
+| # | Measure | Target | Measured by |
+|---|---|---|---|
+| T1 | Failed runs of active scheduled jobs | 0 a day; any failure visible until fixed; 3 in a row is critical | Platform health (cron check) |
+| T2 | AI spend, all routes | US$14 or less a day; credit US$10 or more | Platform health (budgets check) |
+| T3 | Firecrawl | Within 500,000 a month, keeping the 2,000 reserve | Platform health (budgets check) |
+| T4 | Futile Enrich items (mismatch pages) | Under 100 a day | `field_enrich_items` (agent weekly) |
+| T5 | Layer 4 review backlog | Oldest pending item under 14 days | Layer 4 Inbox |
+| T6 | Consumer API | 0 server errors; no contract drift; search p95 under 3 s for pages of 20 | `consumer-api-guard`; `api_requests` |
+| T7 | Data freshness | Search refresh requests processed within 40 minutes; reference bundle under 2 hours old | Platform health |
+| T8 | Releases | Full suite green; every post-merge workflow green; live md5 verified; a before-md5 rollback on record | Change control |

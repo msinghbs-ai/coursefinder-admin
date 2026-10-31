@@ -1,4 +1,4 @@
-# Agent Operating Model — CourseFinder platform
+# Agent Operating Model — StudySearch platform (formerly CourseFinder)
 v1.0, 24 Oct 2026. This file is the complete onboarding for any AI agent working on
 the platform (Kimi projects, Claude sessions, CI agents). Point agents here; do not
 copy these rules into chats or prompts — this repo is the single source of truth.

@@ -1,4 +1,6 @@
-# CourseFinder Documentation — Current Document Index
+# StudySearch Documentation — Current Document Index
+
+StudySearch was formerly called CourseFinder. Repository, file and technical names that still say "coursefinder" are kept for compatibility (`docs/platform/STUDYSEARCH-IDENTITY-INVENTORY.md`).
 
 **Status:** AUTHORITATIVE CURRENT-DOCUMENT ROUTER  
 **Effective:** 15 October 2026  
@@ -13,6 +15,7 @@ Do not infer the current document from the highest filename version or from chat
 
 | Family | Current document | State |
 |---|---|---|
+| **StudySearch execution register and identity** | `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (every StudySearch task, status and evidence); `docs/platform/STUDYSEARCH-IDENTITY-INVENTORY.md` (what is renamed, what is kept and why) | CURRENT |
 | **System reference — how StudySearch works now (answer questions from here first; updated with every change)** | `docs/platform/SYSTEM-REFERENCE.md` (v1.16, 15 Oct 2026, v2.15.280; §4b website API v2; §4c institution type; §4d waste rules, focus providers, central pages; §4e housekeeping) | CURRENT |
 | **Data pipeline operating model — gates between Layers 1–4, onboarding a country, continuous assessment, housekeeping standard (read before any pipeline or platform change)** | `docs/platform/DATA-PIPELINE-OPERATING-MODEL.md` (v1.1, 15 Oct 2026, Decisions 260 and 261: flags; registers first for new countries); generated `docs/platform/COMPONENT-REGISTER.md` (what corresponds to what) | CURRENT |
 | **Website developer requirements — what the website asked for, what the API returns, open work (read before changing anything the website reads)** | `docs/integrations/WEBSITE-DEVELOPER-REQUIREMENTS.md` (v1.5, 15 Oct 2026); developer pack `docs/integrations/developer-pack/` (guide, OpenAPI, Postman) | CURRENT |
