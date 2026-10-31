@@ -10082,3 +10082,15 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Rollback:** with no holds open, the four edits have no effect. Revert by restoring the before-definitions (md5s above).
 - **Local full suite:** 1,294 passed, 0 failed, 0 skipped. Register regenerated (s188).
 - **Records:** register (SS-007); record §18 to §21; decision pack `2026-10-31-studysearch-decision-pack.md`; handover `docs/integrations/handover/2026-10-31-SS-007-official-link-corrections-HANDOVER.md`; paste `docs/platform/pastes/PASTE-20261031-ss007-batch-a-re-role.sql` (not run).
+
+### 31 Oct 2026 13:50 AEDT — v2.15.380: SS-010 D5a, mismatch-page courses held out of enrichment queues
+
+- **Approval:** Platform Admin, 31 Oct 2026 13:30, decision D5 (part A).
+- **What:** migration `20261031040000_cf247_ss010_enrich_mismatch_hold`, an md5-guarded edit of the central enrichment hold `security.enrich_item_held_v1` (`66be0efc` → `688da7ae`).
+  - It holds a course while its page binding is `mismatch`; manual bindings are excepted.
+  - The hold ends by itself when a page is bound again.
+- **Evidence:** 11,332 Enrich items on mismatch-page courses in 4 days, 0 filled.
+- **Dry run:** held course-fields over the last 4 days rise from 9,264 to 16,797 (of 19,512).
+- **Rollback:** the one-line before-definition (md5 `66be0efc`).
+- **Local full suite:** 1,297 passed, 0 failed, 0 skipped. Register regenerated (s189).
+- **Records:** record §25.
