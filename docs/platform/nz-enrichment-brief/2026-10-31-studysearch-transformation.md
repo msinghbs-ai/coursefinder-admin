@@ -567,7 +567,7 @@ Others are clearly not course pages:
 | Outcome | Rule | Action |
 |---|---|---|
 | **Release** | No identity and no copy, *and* the address is not a course or programme path of the provider (profiles, news, downloads, FAQs, contact, events, portals) | Back to search |
-| **Verify** | No identity and no copy, on a course-shaped path | Keep bound. Read once from storage-free fetch or the existing read lane, then prove identity. This is a paid read, held under the closure mandate's ingestion hold until you lift it for this purpose |
+| **Verify** | No identity and no copy, on a course-shaped path | Keep bound. Read once through the existing read lane, then prove identity. This is a paid read, held under the closure mandate's ingestion hold until you lift it for this purpose |
 | **Re-role** | Shared by 3+ courses on a fee, course-list, application or ESOS page | Stop being the course page; keep it as a fee source where it is one |
 
 **Next step:**
