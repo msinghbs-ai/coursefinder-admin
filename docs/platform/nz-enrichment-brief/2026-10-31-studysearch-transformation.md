@@ -479,3 +479,32 @@ The API p95 is 13.5 s, so most of that time is outside these single calls (edge 
 3. **Bounded and reversible:** count-guarded, by country, one provider at a time; a dry-run list first. Values admitted from these pages are reviewed, not deleted (CLAUDE.md: nothing deleted by a migration).
 
 **Why it matters:** the page binding is the ceiling for every course field. The 30 Oct diagnostic found most CA and NZ paid reads ended "mismatch". Precision should come before any spend increase.
+
+## 9. Phase 3 plan: StudySearch rebranding (classification, 31 Oct 11:25 AEDT; nothing renamed yet)
+
+**Naming rule:**
+- **StudySearch** is the platform's name. **CourseFinder** is its former name.
+- **"Course Finder"** (two words) is also the name of a *website feature*, alongside University Finder and Scholarship Finder (developer guide §1, §7.2). It is not the old platform name and is **never renamed**.
+
+**Inventory, verified by repository grep on 31 Oct:**
+
+| Where | References | Classification | Action |
+|---|---|---|---|
+| Admin UI text (`src/`) | Browser title is already "StudySearch PIM Admin"; no screen shows "CourseFinder"; 20 files say StudySearch | User-facing | Done. A guard test against "CourseFinder" in visible strings is added in Phase 3 |
+| Browser storage keys and events (`coursefinder:pim:…`, `coursefinder:provider-logo-refresh`, 6 files) | Technical | Retain: renaming resets every user's saved screens and columns |
+| Release history before v2.15.80 (`src/release-history-legacy.js`) | Historical | Retain |
+| Pilot `package.json` / `wrangler.jsonc` name `coursefinder-pilot`; Worker host `coursefinder-pilot.techm.workers.dev` | Deployment identifiers | Retain. A display name or custom domain is a separate, dependency-checked proposal (deployed tests, the release check and the CI base URL use the host) |
+| Pilot `supabase/` (227 files: migrations, functions) | Applied migrations are history; object names are technical | Retain. Never edit applied migrations |
+| Pilot `tests/` (30), `.github/` (8), `docs/` (7) | Mostly technical identifiers (base URL, repo names) | Retain identifiers; reword prose in Phase 3 |
+| Repositories `coursefinder-admin`, `Coursefinder-Pilot` | Referenced by CI, docs, agents and project instructions | Propose separately. No automatic rename |
+| Supabase project name `coursefinder_Pilot` | Display name only | A cosmetic rename is possible; propose with the repository question |
+| Admin `change-control/` (114 files), `project-runsheets/` (44), `docs/daily-updates/` (31), `docs/uat/` (75) | Historical records | Retain (audit history is never rewritten) |
+| Admin `docs/platform/` (40), `docs/integrations/` (6), `docs/01-governance/` (3), other active guides | Active documentation | Controlled update in Phase 3: "StudySearch (formerly CourseFinder)" on first mention, then StudySearch; technical names kept in code formatting |
+| Developer pack | Already "StudySearch Website API v2"; "Course Finder" there is the website feature | No change |
+| Consumer APIs, database schemas, edge functions, secrets, environment variables | Contracts and technical names | Retain (G3; mandate §2) |
+
+**Phase 3 order:**
+1. Active admin docs and the README/INDEX headings (documentation only).
+2. A UI guard test.
+3. Report and dashboard headings. The hourly report is already "StudySearch hourly stats".
+4. Proposals for the Worker display name, a custom domain and repository names, each with a dependency list, for the Platform Admin.
