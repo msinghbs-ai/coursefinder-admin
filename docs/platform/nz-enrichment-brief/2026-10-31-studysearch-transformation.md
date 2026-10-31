@@ -1301,3 +1301,23 @@ The set was re-measured live before acting. It is now 65, because 2 no longer ha
 - **Handover:** `docs/integrations/handover/2026-10-31-D4-entry-min-scores-HANDOVER.md`.
 - **Zoho guide:** not reissued. It does not describe `entry`; the key is additive.
 
+
+## 29. Consolidated results of D1–D6 (31 Oct 2026, 14:24 AEDT)
+
+| Measure | Baseline | After change | Result |
+|---|---|---|---|
+| Incorrect published course URLs (batch A) | 167 | **0** | Corrected; 177 bindings held. Batch B (115 shown links on school and ELICOS pages) retained by decision |
+| Unproductive enrichment attempts a day | 1,600 to 2,200 (11,332 in 4 days, 0 filled) | 0 new items on mismatch-page courses since D5a deployed (14:0x) | Per-day figure due at 24 h (1 Nov) |
+| Withdrawn values eligible for recovery | 67 (re-measured 65) | 50 recovered by other sources; 14 verified not on the page; 1 waiting | No reprocessing needed; US$0 of the US$1 ceiling |
+| Website search latency | Edge p50 3.1 s and p95 6.9 s (50 items); database 50-item search about 0.7 to 0.99 s in this session | Item build −48% (536 → 280 ms); database 50-item search median 552 ms; output byte-identical | Edge p50/p95 pending website traffic (none since 26 Oct) |
+| Rule 4 active admissions | Disabled | Disabled and retired (`retiring`, EXECUTE revoked) | Verified |
+| Multiple entry-score coverage | 24 multi-route courses showed one route; 2 showed null | 41 courses return all 116 published routes | Verified Website and Zoho |
+| Scheduled job failures | 12 of 24 `waste-guard` and 10 of 720 AI-prep runs failed in the 24 h before the F1 fix | 0 failed of 5,722 job runs since 11:03 | The 24 h check is due 1 Nov 11:03 and the 7-day check 7 Nov; no pass is claimed yet |
+
+**Spend today on D1–D6:** US$0 (no paid search, read or AI call was made by these changes).
+
+**Open items:**
+- **SS-007:** the 154 releases and 1,012 verification reads await their own evidence and decision. Independent re-verification of batch A is still to do.
+- **SS-004:** observation windows (24 h and 7 d).
+- **SS-012:** edge latency, once website traffic returns.
+- **SS-008:** the drop paste after 14 Nov.
