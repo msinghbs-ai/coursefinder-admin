@@ -10,7 +10,7 @@
 
 | # | Exception | Items | What is needed | Recommended | Spend |
 |---|---|---:|---|---|---|
-| E1 | Fees admitted by mistake on 30 Oct | 46 | Keep or withdraw the 46 fees | Withdraw, then re-check from stored copies | None |
+| E1 | Fees admitted by mistake on 30 Oct (re-verified 1 Nov 20:40) | 46 | Withdraw 41 (not supported by the stored copy), keep 5 | Run `PASTE-20261101-e1-fee-withdrawal.sql` (count-guarded, not run) | None |
 | E2 | UniSA and Adelaide left the register | 2 | Merger authority | Record as merged into Adelaide University | None |
 | E3 | Stamford, Nova, St Peters, Asia Pacific, "N/A" | 5 | Successor or closure, provider by provider | Closed, unless a successor is named | None |
 | E4 | Onboarding kinds | 547 | A route per kind | Name a pilot budget, or mark "CRICOS data only" | Ceiling set by PA |
@@ -68,6 +68,44 @@
 - Nothing is deleted.
 
 **Cost:** none.
+
+
+### E1 re-verification (1 Nov 2026, 20:15–20:40 AEDT; direction 20:08 §2)
+
+**Current state (live):**
+- All 46 rows are still `active`; none has been superseded.
+- The md5 of the sorted ids is still `9cc197a3…`.
+- Each row's evidence id equals its review item's evidence.
+
+**Fee year:** 10 rows were changed on 31 Oct at 14:27 AEDT. Each now carries the note "Rule 3 (8 Oct 2026): no year on the page; evidence captured in 2026, so aligned to 2026 without review" (`security.l4_rule_fee_year_align_v1`). The year was set by that approved rule, not by the 30 Oct decisions. The note above ("a year was filled in") is explained by it.
+
+**Consumer impact:**
+- The website and Zoho course detail (`website_v2_course`, `zoho_v2_course` → `tuition_history`) returns every active international or "all" tuition row. All 46 are returned, and all 46 courses are in `search.course_documents`.
+- 30 of the 46 are also the list-level "annual tuition" (`provider_annual_tuition_amount`).
+- 39 of the 46 courses also carry a CRICOS registered total-course fee or another admitted fee. That fee stays.
+
+**Evidence check:** each amount was searched on the item's own stored copy, with and without thousands separators. Per-row results are in `ui-audit/e1-fee-check-admissions-2026-10-30.csv` (columns `verdict_2026_11_01`, `evidence_check`).
+
+| Finding | Rows | Verdict |
+|---|---:|---|
+| Amount printed, basis and year consistent (ACTS NZD 7,500; NZCCM English NZD 8,630 for 2027; Future Skills NZD 7,196 a year) | 3 | Keep |
+| Amount printed per year, but the stored year is 2024 while the page also shows 2025 and 2026 (NZCCM Master NZD 32,997) | 1 | Keep; re-check the year at the next fee read |
+| Amount printed, but the basis is not stated as annual (Employment Focus NZD 14,000, enrolment information dated Nov 2024) | 1 | Keep; re-check the basis |
+| Amount not printed on the stored copy (AIBI 9, ICM 15, Stott's 3, VIT 3, University of Canberra, ACA, Open Colleges, College of the Rockies, Australasia) | 35 | Withdraw |
+| Wrong basis: per subject (SAHE 2), per trimester (ICM AU$9,900), per week (Milestones AUD 290), a two-month special-offer price (Kalandra NZD 5,000) | 5 | Withdraw |
+| Year mismatch: Year 1 tuition printed for 2025/26, stored as 2027 (Selkirk CAD 3,770) | 1 | Withdraw |
+
+**Revised option (a), recommended:**
+- Withdraw **41** rows (status `inactive`, with a note) and keep 5. Nothing is deleted.
+- Paste file: `PASTE-20261101-e1-fee-withdrawal.sql`; rollback: `PASTE-20261101-e1-fee-withdrawal-rollback.sql`.
+- Count guards: 41 ids, md5 `3a9fd3758f1e4f989425478265f68618`, all still active with the 30 Oct note, exactly 41 updated. The guards pass read-only (20:40). The file was **not run**.
+
+**After withdrawal:**
+- 38 of the 41 courses keep their CRICOS registered total-course fee.
+- 3 courses show no tuition until a checked fee is admitted: Selkirk, Kalandra and College of the Rockies.
+- A search refresh is requested in the same transaction, so the list-level fee follows.
+- Each withdrawn course's fee is then re-read through the normal fee path. That needs no new decision, but it costs reader credits only if a re-read is started.
+
 
 ## E2. UniSA and the University of Adelaide (merger authority)
 
