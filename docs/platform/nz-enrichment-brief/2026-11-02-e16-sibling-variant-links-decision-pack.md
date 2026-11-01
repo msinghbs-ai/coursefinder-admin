@@ -39,3 +39,33 @@
 **Answer format:** "Approve E16-1 … E16-5", or one by one.
 
 **SS-015 effect:** Gate B line 4 (bindings blocked) stays **Fail** until at least E16-1 is live and the cohort is contained (E16-4/E16-5) or accepted as residual P1 with containment.
+
+## Per-course confirmation (read only, 2 Nov 07:00 AEDT)
+
+**Files:** `ui-audit/e16-sibling-variant-cohort-2026-11-02.csv` (77 rows) and `…-summary.md`. The cohort rebuilds exactly: md5 `1374432181…`.
+
+| Class | Courses | md5 of sorted ids |
+|---|---|---|
+| Confirmed sibling award (62) or older handbook year (5) | **67** | `e30cf5d986d2ace0ffe94b9e440853fe` |
+| False positive (Lennox 108224J) | 1 | `e35721bbc7b03411168843d6b8571f41` |
+| Unclear: the handbook code does not name the award (La Trobe 3, UniMelb 5, Canberra 1) | 9 | `c88d5936b30660d357732503bf78dd79` |
+
+- **Fees read from the sibling page on confirmed courses:** 31 fees on 31 courses, fee ids md5 `fa15331cda52edbb2d4ea0cff1cd6c26`. This set replaces stream B's 31: it drops Lennox and adds La Trobe 102427B.
+- **By provider:** RMIT 18, UniMelb 14, La Trobe 8, Griffith 7, others the rest.
+- **No hand locks** on any of the 77.
+- **Classification limit:** stored copies are in storage and could not be read here, so classes are judged from the title and URL slug. The 9 unclear courses need a person.
+
+**What this changes in the options:**
+- **E16-2 alone is not enough.**
+  - On 26 confirmed courses, course_url itself is the sibling page.
+  - 18 courses have no course_url.
+  - On 4 Griffith courses, the sibling link is marked primary.
+- The course's own page is held as an active link on about 25 courses, possibly 14 more, and not at all on 38.
+- So containment (E16-4: show no link rather than a wrong one) is needed for most confirmed courses. E16-2/E16-3 help only where the own page is held and primary/course_url point to it.
+
+**Revised recommendation:**
+1. E16-1 (prevention).
+2. E16-4 on the **67 confirmed** courses (SS-007 hold route: URL null at the website and Zoho; reversible).
+3. E16-5 on the **31 confirmed fees** (E1 way, count-guarded, rollback).
+4. A person reviews the 9 unclear courses.
+5. E16-2/E16-3 as follow-up hygiene for the 239 multi-link courses.
