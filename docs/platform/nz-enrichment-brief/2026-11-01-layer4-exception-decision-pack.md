@@ -22,7 +22,8 @@
 | E10 | Fee checks needing a policy | 28 | Rule for single-rate and per-discipline schedules | See E10 | None |
 | E11 | RMIT entry reads from the local-student view | 298 | Reject and re-read from the international view, or wait | Store the international view, then re-read | Reader credits; ceiling set by PA |
 | E12 | QUT entry reads: domestic and international rows, every read at the 6-row cap | 38 | Reject and re-read the international view with a reviewed row cap, or leave pending | Re-read (assessed 1 Nov 19:55: approve-except is not supported) | Reader credits; ceiling set by PA |
-| E13 | Course entry reads cut at 6 rows (`entry.max_rows_per_course`) | 59 approved reads (354 rows Active) | Keep (rows are correct), or raise the cap and re-read | Keep; review the cap with E11 and E12 | Reader credits only if re-read |
+| E13 | Course entry reads cut at 6 rows (`entry.max_rows_per_course`) | 225 reads dropped 3,189 rows; 53 of the 59 capped approvals dropped 287 | Configurable cap plus a whole-read completeness gate (tests first) | Approve the design; no paid re-read now | None until a re-read |
+| E14 | **Approvals of 1 Nov that need correcting** (this session): rows of a sibling programme variant, or a dropped "and"/"plus" condition | 18 items | Withdraw their rows and re-review, or keep with a flag | Withdraw (paste file to follow), then re-review after E13 | None to withdraw; reader credits for re-reads |
 
 ## E1. Fees admitted when the reviewer asked for a re-read (new, found 1 Nov 14:05)
 
@@ -324,3 +325,69 @@ The direction of 1 Nov 19:42 asks for the exact controlled recovery requirements
 - (b) Raise the cap in Settings › Pipeline settings (with a reason) and re-read the 59 courses. This costs reader credits; ceiling set by the Platform Admin.
 
 **Rollback:** none; nothing is changed until a decision.
+
+## E11 (second addition, 1 Nov 21:10). Read-only check of the stored RMIT copies
+
+Six stored RMIT copies were sampled at random from the 298 pending items. They were read in the Layer 4 evidence viewer (no fetch, no AI).
+- **Every copy holds both banner texts:** "You're viewing program information for local students" and "… for international students". They are the two labels of the page's audience toggle. **The banner test in step 2 above is therefore not a valid check** and is replaced. The check must find the international entry content itself.
+- All six have an English language requirements tab with IELTS.
+- 2 of the 6 also print ATAR, which is domestic content.
+- No audience attribute separating the two views was found on the tab components (`tabs-english-language-requirments`, `tabs-selection-tasks`).
+
+**Consequence:** the stored copies may already hold the international content, in which case no new page acquisition is needed. This is not proven until the page's audience structure is identified. **Next read-only step:** map where RMIT puts country-specific international qualifications (in the copy, or loaded later by script). If they are in the copy, the recovery reduces to an international-only re-read of the stored copies. That costs about US$0.0082 a read (measured mean of 385 QUT and RMIT entry reads), so about US$2.45 for 298, under a ceiling the Platform Admin sets.
+
+## E12 (addition, 1 Nov 21:10). International-only extraction method and bounded pilot
+
+**Method (proposed; nothing run):**
+1. **Source:** the stored QUT copy, cut to the `requirements-international` block, which includes the country selector's `data-content` entries. Domestic blocks are never sent to the reader.
+2. **Rows:** one row per qualification and country, with the printed score, the scale stated or taken from the page's own explanation (for example "on a 4 scale"), and the quote.
+3. **Completeness gate:** count the qualification entries in the block, then compare with the rows proposed and dropped. A read is proposed only when every entry is either a row or dropped with a reason other than the row cap. Otherwise it is held whole. This uses the gate proposed in E13.
+4. **Review:** one item at a time. Approve all rows only if every row passes; D4 applies.
+
+**Bounded pilot:** 5 QUT courses (1 undergraduate, 1 double degree, 1 postgraduate coursework, 1 creative-industries course with an audition, 1 health course).
+- Estimated AI cost about US$0.05 (5 × US$0.0082 measured mean).
+- No page fetch; the stored copies are used.
+- Acceptance: every block entry accounted for, and every score with a scale.
+- Needs the Platform Admin's spend approval and the E13 gate first.
+
+## E13 (measured, 1 Nov 21:00). Does the 6-row cap stop complete publication?
+
+**Yes.** The reader records the rows it drops beyond the cap (`field_enrich_items.value->dropped`, reason `over_row_limit`).
+- **All course entry reads (1,117):** 225 dropped rows at the cap, 3,189 rows in total (median 4, maximum 111). 193 of the reads are Australian and 32 New Zealand.
+- **The 59 capped approvals of 1 Nov:** 53 dropped rows, 287 in total. By kind: minimum grade 151, prior qualification 76, general note 28, subject prerequisite 16, portfolio or interview 10, work experience 5, override 1.
+- **Sample, comparing the stored page's rows with the admitted rows:**
+  - Monash Master of Clinical Research admitted "An Australian bachelor degree (or equivalent)" but dropped "plus a minimum of two years of relevant work experience".
+  - The EIT Postgraduate Certificate in IT admitted Master of IT rows but dropped "The academic entry requirement for the PGCertIT is …".
+
+The cap does more than leave routes out: on these pages it can publish a **lower** or **wrong-programme** requirement. See E14.
+
+**Proposal (design and tests before any setting change):**
+- **Cap:** keep `entry.max_rows_per_course` as the setting (G2). Raise it only per provider, with a reason, after the gate below exists. The value is the Platform Admin's.
+- **Whole-read completeness gate:** a read that drops any row for `over_row_limit` is held whole (`held_partial`), never proposed in part. This is the same rule the reader already applies to token and slice limits.
+- **Conjunction check:** a dropped row starting with "and" or "plus", or of kind `work_experience`, holds the read.
+- **Variant check:** when a quote names a programme or credit variant other than the course's own (for example "MIT (240)" on a Postgraduate Certificate), the row is dropped with the reason `other_programme`.
+- **Tests:** a contract spec with fixture reads covering a cap overflow, a conjunction, a sibling variant and a clean read, then a supervised run on stored copies. No paid re-read under the current mandate.
+
+## E14 (new, 1 Nov 21:05). Approvals of 1 Nov that need correcting
+
+**What happened:** this session approved these items one at a time on 1 Nov after checking that each quote was on the stored copy and each row was faithful to its quote. It did not check two things the playbook requires ("course items have strong exact-course identity"; completeness):
+- whether a row belongs to **this** course's variant on a combined page;
+- whether the reader had dropped a joined condition.
+
+The error is the reviewer's (this session), not the reader's alone.
+
+**Items (18), every one decided by this session:**
+- **Sibling variant on EIT combined pages (14):** 94f31620 and b25a3d1d (MAppM 180 and 240), 9dbc3950 (PGCert ApM), bc8866f0 and ff1f768c (MLSCM 180 and 240), 6a26d4d7 and 26fb0941 (MWBI 180 and 240), 37368deb (PGDip WBI), a175eb32 and 6736a57a (MDigiBus 240 and 180), 49be3b93 and 213c3e9d (MIT 180 and 240), 12bd7ce0 (PGCert IT), 72d54be7 (PGDip IT). Each course carries the routes of all its variants (for example the 180-point "Bachelor Honours, 120 credits at Level 8" route on a 240-point master, or master's routes on a postgraduate certificate).
+- **Dropped joined condition (4):** 06b4b580 (Monash Master of Clinical Research: "plus two years of relevant work experience"), 44d14493 and e8c40f42 (Monash), and 40d159c9 (Auckland PhD: conditions "and b … and d … and e …").
+
+**Consumer impact:** these rows are Active and on the website and Zoho course detail. A student may see a route that applies to another variant, or a requirement without its work-experience condition.
+
+**Options:**
+- (a) **Withdraw the 18 items' entry rows** (status withdrawn, count-guarded paste file with rollback; nothing deleted), then re-review each item once the E13 gate exists. **Recommended.**
+- (b) Keep them and add a reviewer flag until the re-read.
+
+**Process change, effective now:** before approving a course entry read, this session also checks:
+- the read's dropped rows (`over_row_limit`);
+- any programme or variant named in each quote.
+
+The approvals since 20:08 (none so far in this tranche) follow this.
