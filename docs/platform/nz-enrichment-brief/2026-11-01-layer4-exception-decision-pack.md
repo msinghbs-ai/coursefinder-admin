@@ -226,3 +226,20 @@ Measured now, 21 held items come from aggregator pages:
 |---|---|
 | College of the North Atlantic (5) and SITI (1) | The stored copies support the proposed fees. They are admitted one at a time after v2.15.394, with the first saved outcome verified. |
 | USC 0850e65e | Quarantined fee awaiting a rebind; handled with the course-link URL pairs. |
+
+## E11. RMIT entry-requirement reads from the local-student view (298)
+
+**Scope:** 298 AER course-entry first reads at RMIT (29 Oct).
+
+**Evidence:** 294 of the 298 stored copies are the local-student page ("You're viewing program information for local students"). The rows carry domestic ATAR, Guaranteed ATAR, adjustment factors, STAT and VCE work-and-life-experience routes.
+
+**Risk:** approving them would show domestic requirements to international students.
+
+**Options:**
+- (a) **Reject the reads** one at a time, store the international view (RMIT `page_view`) and read again. **Recommended.** A new read costs reader credits, so a ceiling is needed.
+- (b) Leave them pending until the international view is stored.
+
+**Cost:** the re-read is about 300 page reads plus the AI read. The ceiling is the Platform Admin's.
+
+**Rollback:** none needed for (b). Under (a), rejected reads are withdrawn rows; a new read proposes again.
+
