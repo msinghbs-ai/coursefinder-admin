@@ -1771,6 +1771,8 @@ No admission rule, batch size, gate, lock, time-out or concurrency protection wa
 - Holds: 177 open, 0 lifted.
 - Local suite: 1,333 passed. Post-merge: Deploy and Release History green.
 
+**No paid or new processing on held courses since the holds (checked 11:12):** 0 Firecrawl run items, 0 Enrich items, 0 page reads, 0 pilot releases, 0 Layer 4 items. `firecrawl_calls` has 30 rows for these courses but no timestamp, so the check relies on `firecrawl_run_items`.
+
 **Not a new correction:** the same courses, links and status D1 approved. The 154 releases and 1,012 verification reads stay held (D11).
 
 **Rollback:** re-apply the plan (md5 `7390a600`); set the listed 167 links back to `active` (they carry `updated_at` 31 Oct 23:53:16.768426 UTC).
