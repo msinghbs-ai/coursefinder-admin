@@ -37,7 +37,7 @@ Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-br
 - holds kept on RMIT, QUT and ANU;
 - exceptions E1–E15: E1, E14 and E15 repair packs await approval; E11–E13 ceilings await approval.
 
-**Releases overnight:** v2.15.395, 396, 397, 398, 399 and 400, all live and verified. Current: **v2.15.400**.
+**Releases overnight:** v2.15.396, 397, 398, 399 and 400, all live and verified (v2.15.395 was live at 21:25). Current: **v2.15.400**.
 
 | Release | Pilot | Content |
 |---|---|---|
