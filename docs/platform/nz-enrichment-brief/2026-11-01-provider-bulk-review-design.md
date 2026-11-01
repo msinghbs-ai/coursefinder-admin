@@ -131,3 +131,32 @@ From `layer4_bulk_operations` and `_items`: the following figures go in the Mond
 | D-B4 | Activation in production, field by field, after the fixture tests and one supervised provider | Separate decision after D-B3 |
 
 Until these are recorded, settlement continues one item at a time under the v5 playbook, and nothing in this design is built.
+
+## 10. Admission contract for catalogue gaps (resolved 1 Nov 2026 20:55 AEDT; direction 20:08 §1)
+
+The direction asked whether the bulk path can reuse the existing admission and audit functions for courses that have no pending Layer 4 item, without assuming it. The live definitions say what follows.
+
+| Existing function | Needs a pending review item? | Writes the consumer tables? | Use for bulk |
+|---|---|---|---|
+| `admin_layer4_inbox('decide')` → `security.layer4_review_decide_impl(item, action, reason, value)` | **Yes**: it loads `pipeline.layer4_review_items` by id and routes on its `field_code` | Through the field's apply function | Only after an item exists |
+| `security.layer4_course_english_apply_impl(item, …)` | Yes | `catalogue.course_english_requirements` | English, through an item |
+| `security.layer4_tuition_apply_impl`, `layer4_course_link_apply_impl` | Yes | Fees, course links | Not bulk fields |
+| `security.layer4_override_apply_impl(entity, field, …)` | **No**: it works on the entity through `pipeline.layer4_field_registry` | **No**: it is an effective-value overlay (`pipeline.layer4_override_decisions`), read only by `layer4_effective_entity_read` and `layer4_effective_field_read`. The search projection and consumer API do not read it | Not suitable: a bulk value would not reach the website. Only `course.delivery_mode` and the campus address fields are registered; campus links, campus country or state, intake and English are not |
+| Course–campus link, campus country or state, intake | No apply function exists for a Layer 4 decision | — | A new apply function is needed for each |
+| Provider English policy: `pipeline.provider_policy_proposals` with `security.english_policy_in_force_v1` (Decision 262: one English policy in force per university and level) | Creates its own review items | `course_english_requirements` | **English bulk must use this existing policy path, not a new one** |
+
+**Decision on the contract (proposed for D-B1 and D-B3):**
+1. **The current decision RPC does not support gap records.** The bulk apply step must first create one review item per selected course, then decide it.
+   - The item carries the field code, the shared evidence id, the before value and the proposed value, with `change_control_ref` = the operation key.
+   - It is decided at once through `layer4_review_decide_impl('approve', …)` in the same transaction.
+   - This follows the existing pattern of `security.coverage_admission_apply_v1`, which records admissions as decided review items.
+   - Admission, `layer4_decisions`, `admin_control_events` and the search refresh signal are therefore the existing ones. No second admission system is built.
+2. **New apply functions are needed**, written beside the existing ones and routed by `layer4_review_decide_impl` on new field codes. Each honours `pipeline.manual_locks` and the existing triggers. No catalogue table changes shape (G3):
+   - `course_campus_link` writes `catalogue.course_campuses`;
+   - `campus_region` writes `catalogue.campuses.country_id` and `subdivision_id`, campus-level and once per campus;
+   - `course_intake` writes `catalogue.course_intakes`; the field code exists, with 10,931 superseded items, but there is no Layer 4 apply function today.
+3. **Course location** (on-campus, online or mixed) writes `catalogue.courses.delivery_mode` through a new apply function. The override overlay is not used, because it does not reach the website.
+4. **English** is not built as a new bulk path. Its group preview reads the provider policy proposals already in force (Decision 262) and lists the courses each would cover, with the section 3 exclusions. Applying them stays with the existing policy path.
+5. **First release scope (D-B3):** country and state (campus-level), campus link and course location. Intake follows once its course-group evidence rule is tested. English is preview-only on the existing policy path.
+
+**Estimate change:** add about 1.5 days for three apply functions and item creation. The total is about **8 working days**. Nothing is built until D-B1 to D-B3 are ratified.
