@@ -1912,3 +1912,39 @@ No admission rule, batch size, gate, lock, time-out or concurrency protection wa
 - Batch L4B-20261101-1020 totals: **35 rows admitted, all verified Active; 1 reconciled without admission.**
 - Batch L4B-20261101-1051: 0 decisions.
 - **Release in use for the next batch:** v2.15.392.
+
+## 37. Direction of 1 Nov 2026 13:52: Layer 4 settlement and SS-016 priorities 1–2
+
+**Source:** `2026-11-01-continue-l4-and-usability-direction.md` (verbatim).
+
+### 37.1 v2.15.394 (PR #786, `4ae25092`, migration `20261101080000`, spec s204)
+
+- **Fee-check card:**
+  - shows the exact proposed fee: amount, currency, basis, fee year (or "no fee year printed") and audience;
+  - choices are **Admit this fee** and **Do not admit this fee**;
+  - an address is refused (`admin_layer4_inbox` `c6b83e21` → `417f181d`);
+  - a fee decision is read back from `catalogue.course_fees` (`layer4_decision_outcome_v1` `eae00e61` → `c40ee758`).
+- **UR-09:** an address naming another kind or university opens it without a reload.
+- **Verification:**
+  - Local suite 1,346 passed (after fixing two guards, re-run in full); build and release contract pass.
+  - Live md5s match the file.
+  - The recorded migration md5 `1e80b0a9` equals the file.
+  - The live card read "CAD 9,370 · a year (indicative) · fee year 2026 · international".
+  - The first Admit saved an active fee row.
+  - Consumer API untouched.
+- **Defect found (decision pack E1):**
+  - On 30 Oct, 46 "Enter another address" decisions on fee-check items admitted the reader's flagged fees instead of re-reading the page.
+  - The route is closed in v2.15.394.
+  - The 46 rows wait for the Platform Admin's decision; a rollback list is in `ui-audit/e1-fee-check-admissions-2026-10-30.csv`.
+
+### 37.2 Engineering verification (measured)
+
+| Task | Result |
+|---|---|
+| **SS-010** | **Completed.** 24 h from 31 Oct 13:55: 464 Enrich items created, 0 futile, 0 on mismatch-page courses, 178 filled, US$0.36. The baseline was 1,600–2,200 futile items a day. |
+| SS-007 | Re-check 1 Nov 14:12: 0 held courses with an active official link; 0 of the 167 repaired links re-activated; 0 admission-plan rows for held courses. |
+| Coverage health section | `platform-health` job, 3 h to 14:12: 18 runs, 0 failed, mean 17.1 s, max 22.6 s. |
+
+### 37.3 Layer 4
+
+See batch file checkpoints 3–5 and the decision pack `2026-11-01-layer4-exception-decision-pack.md`.

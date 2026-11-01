@@ -16,34 +16,33 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 12:35 AEDT**
+**StudySearch Progress — 1 Nov 2026 15:40 AEDT**
 
-**Existing engineering programme (SS-001 to SS-015):** `██████████░░░░░` **67%** (10 of 15)
+**Engineering (SS-001 to SS-015):** `███████████░░░░` **73%** (11 of 15). Net since 12:35: +1 (SS-010 closed).
 
-| Completed and verified | Verifying | In progress | Blocked | Not started |
-|---:|---:|---:|---:|---:|
-| 10 | 4 (SS-004, SS-007, SS-010, SS-014) | 1 (SS-015) | 0 | 0 |
+| Completed and verified | Verifying | In progress | Blocked |
+|---:|---:|---:|---:|
+| 11 | 3 (SS-004, SS-007, SS-014) | 1 (SS-015) | 0 |
 
-**Usability remediation (SS-016, UR-01 to UR-17):** 17 findings · implemented and verified 0 · built and live, awaiting acceptance 3 (UR-04, UR-05, UR-06) · remaining 14 · Tranche B · **next:** authenticated-UI acceptance of B, then UR-13 and UR-07.
+**Usability (SS-016):** accepted 0 of 17. Technically implemented and awaiting walkthrough: 6 (UR-04, UR-05, UR-06, UR-07, UR-13, UR-09). Remaining 11. v2.15.394 added the fee-check card (proposed fee, Admit or Do not admit) and the UR-09 deep links.
+
+**Layer 4 (batch L4B-20261101-1253):**
+- Opening pending 1,870; live pending **1,727**.
+- 146 decisions verified.
+- Actual admissions: **85 items** (81 AER items with 126 rows Active; 4 fees Active).
+- 61 reconciled without admission; 2 downstream.
+- Exceptions are in the decision pack (E1–E10).
+- 5 of 17 kinds were empty before the batch; none emptied in it.
+- Currently actionable: the course-entry first reads (Track C) at RMIT, Monash, AUT, QUT, EIT, MIT, Ara, Auckland, NMIT, Lincoln, Otago, Toi Ohomai and Massey, about 860 items. The rest needs a decision or a rule.
 
 | Outstanding | Next action | Human approval |
 |---|---|---|
-| SS-004 | Clean 24 h from 1 Nov 09:25 (2 Nov); 7 days to 7 Nov | No |
-| SS-007 | Daily batch A re-check (repaired 1 Nov, v2.15.389) | Yes, for further corrections (D11) |
-| SS-010 | Close the 24-hour window at 13:55 | No |
+| SS-004 | Clean 24 h to 2 Nov 09:25; 7 days to 7 Nov | No |
+| SS-007 | Daily re-check (1 Nov 14:12: 0 held courses with an active link, 0 plan rows) | Yes, for further corrections |
 | SS-014 | 2 Nov 07:30 checks; alert receipt | Confirm the [TEST] alerts arrived |
 | SS-015 | Two complete weeks (2–15 Nov); assess 16 Nov | Acceptance |
-| SS-016 | Tranche B UI acceptance; Tranches A, C, D | Sign-in for the UI; recovery baseline (UR-14) |
-
-**Layer 4 settlement (separate from engineering):**
-- **Queue:** live pending 1,870 (12 kinds, 662 universities).
-- **This session:** 0 reviewed, waiting for the Platform Admin's sign-in. The 1 Nov timeout stop is cleared at the database (v2.15.390).
-- **Previous batch, reconciled:** 35 AER rows admitted and verified Active; 1 reconciled without admission.
-- **Exceptions:**
-  - ANU rank/score reads (22, not to be approved);
-  - Waikato course-link decisions saved but not applied (2);
-  - Adelaide stored PDF not viewable (1).
-- **Separate queue figure:** the review-item table holds 1,175 pending (the scorecard T5 figure), part of the 1,870.
+| SS-016 | UR-01, UR-02, UR-03, UR-17; walkthroughs | Recovery baseline (UR-14) |
+| Layer 4 | Decision pack `2026-11-01-layer4-exception-decision-pack.md` (E1: 46 fees admitted on 30 Oct by the address route) | Yes |
 
 ## Register
 
@@ -58,7 +57,7 @@ Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-br
 | 7 | **SS-007** | TD1 | 2 | Binding identity audit and controlled remediation: release 154 generic/wrong automatic bindings and re-role 302 shared fee/enrolment/application pages, provider by provider, verified per binding against source evidence, reversible, count-guarded | P1 · — | **Verifying** (batch A done and consumer-verified; batch B retained; 154 releases and 1,012 verification reads still held) | Platform Admin 31 Oct 13:30: D1 approved, D2 retain | Record §18, §22–§24; handover note executed; batch B list | #769 · v2.15.379 (`a8319590`); batch A executed by function, 13:31–13:36 | Live 13:39: 177 re-roled at 25 providers, 167 links unverified, 0 manual touched; published wrong links 167 → 0; other item content unchanged (md5 `900cd49d`); Zoho null; no drift; no paid processing on held courses **1 Nov: regression found and repaired** (v2.15.389, #781 `ef64ad47`): coverage-admit had re-activated the 167 links on 31 Oct 14:30; admission now skips held courses; website official_url 167 → 0 again, other content md5 unchanged, no drift (§34.1). | Independent re-verification (1 Nov); the 154 releases and 1,012 verification reads stay held (D11, 31 Oct 19:22: no further corrections, paid reads or ingestion-hold changes) · Claude, Platform Admin
 | 8 | **SS-008** | F1c | 2 | Rule 4 quality and batching: dry-run over 1,185 adapters, which outputs are safe for automatic admission; batching, checkpoint and recovery design with admission disabled | P2 · SS-005 | **Completed** (logical retirement) | Platform Admin 31 Oct 13:30, D3 | Record §14, §27 | #772 · v2.15.382 (`115e40b3`) | Live 14:24: job inactive; job and function `retiring` (retire after 14 Nov); EXECUTE revoked; history kept | Drop by paste after 14 Nov · Platform Admin
 | 9 | **SS-009** | F5 | 2 | Multiple entry scores: review the 24 courses and their evidence; propose an additive `min_scores[]` that preserves `min_score`, with examples, a sample response and consumer impact | P2 · — | **Completed** | Platform Admin 31 Oct 13:30, D4 (G3) | Record §16, §16.1, §28; guide issue 7; handover | #772 · v2.15.382 (`115e40b3`) | Live 14:24: 41 courses, 116 items (24 with more than one); 0101331 6 items; min_score unchanged; Zoho carries it; no drift | Website rendering (developer) · website team
-| 10 | **SS-010** | TD2/TD3 | 2 | Controlled enrichment recovery: stop futile re-queues on mismatch or no-copy pages; bounded, count-guarded recovery of withdrawn values | P2 · SS-007 | **Verifying** | Platform Admin 31 Oct 13:30, D5 | Record §20, §25 | #770 · v2.15.380 (`699ba5ad`) | D5a live (md5 `688da7ae`): 0 new Enrich items on mismatch-page courses since deploy; daily futile-item count to be measured over 24 h. D5b: of 65, 50 recovered, 14 verified no value, 1 waiting; US$0 spent 24 h since D5a (to 1 Nov 11:00): 0 futile items, 0 Enrich items on mismatch-page courses of 457 created; window closes 13:55 (§34.2). | Close at 13:55 (1 Nov) · Claude
+| 10 | **SS-010** | TD2/TD3 | 2 | Controlled enrichment recovery: stop futile re-queues on mismatch or no-copy pages; bounded, count-guarded recovery of withdrawn values | P2 · SS-007 | **Completed** (24 h closed 1 Nov 13:55: 464 items created, 0 futile, 0 on mismatch-page courses, 178 filled, US$0.36; was 1,600–2,200 futile a day) | Platform Admin 31 Oct 13:30, D5 | Record §20, §25 | #770 · v2.15.380 (`699ba5ad`) | D5a live (md5 `688da7ae`): 0 new Enrich items on mismatch-page courses since deploy; daily futile-item count to be measured over 24 h. D5b: of 65, 50 recovered, 14 verified no value, 1 waiting; US$0 spent 24 h since D5a (to 1 Nov 11:00): 0 futile items, 0 Enrich items on mismatch-page courses of 457 created; window closes 13:55 (§34.2). | Close at 13:55 (1 Nov) · Claude
 | 11 | **SS-011** | F2 | 3 | Website search latency investigation: per-step timing (auth, rate, action, log, network), query optimisation, regional and sequential-call options with estimates. **Read only; no regional probe** | P2 · — | **Completed** (investigation) | Decision 31 Oct 11:28: measure more first | Record §8.6, §8.7, §13, §21 | — | Root cause measured 12:55–13:00: 50-item pages (p50 3.1 s vs 0.8 s for 1–20 items), per-item building (display code 3×, published check per item), full sort and count; network secondary | → SS-012
 | 12 | **SS-012** | F2 | 3 | Approved performance remediation (consumer change with guide issue, version line, compatibility assessment and handover note) | P2 · SS-011 | **Completed** | Platform Admin 31 Oct 13:30, D6 (G3) | Record §26 | #771 · v2.15.381 (`d9c06e1c`) | Live: output byte-identical (fingerprint `0a1fd5be` before and after); items 50: 536 → 280 ms; search DB time median about 840 → 552 ms; edge p50/p95 await website traffic 1 Nov: no website search traffic since the deploy (insufficient data); Zoho 6 searches p50 611 ms, p95 1,293 ms; 0 server errors. | Report edge p50/p95 when traffic returns · Claude
 | 13 | **SS-013** | Rebranding | 4 | StudySearch presentation and active documentation; technical and historical names kept | P3 · — | **Completed** (presentation and active documentation); identifier renames need separate decisions | Platform Admin 31 Oct 10:23 and 14:27 | `STUDYSEARCH-IDENTITY-INVENTORY.md`; record §9; router, README and operating-model headings | #773 · v2.15.383 (`9952dd7f`) | Live 14:48: no screen, title, report, job label, setting, test name or workflow name uses the former name (guard s6 over all `src/`); retained identifiers listed with reasons | D8, D9, D10 decided 31 Oct 19:22 (names, error text and crawler identity kept); crawler proposal in inventory §5, not deployed · —
