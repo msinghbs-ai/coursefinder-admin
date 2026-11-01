@@ -1790,6 +1790,12 @@ No admission rule, batch size, gate, lock, time-out or concurrency protection wa
 | D15 | Refresh wait p95 and max | Since 31 Oct 23:19: 3 requests, p50 8.0 min, max 10.0 min, 0 open; processing runs 0 failed, max 57.7 s | **Insufficient data** (3 requests) |
 | D12 alerts | Delivered, deduplicated, failures visible | Since the test sequence: 0 alerts raised (no issue stayed open 15 minutes); 0 failed. Recipient receipt of the 3 [TEST] messages **not yet confirmed** | Recorded `sent` only |
 
+**SS-014 24-hour additions (checked 11:21):**
+- **Alert job:** `platform-alerts` ran 86 times since 31 Oct 11:03, 0 failed, at most 0.38 s each. 3 alerts in total, all from the 31 Oct test sequence; none since.
+- **Search refresh:** 0 search-refresh issues in the window.
+- **Page-reading false criticals:** 1 since 31 Oct 20:30 (1 Nov 03:58, the case the v2.15.387 stall-age fix addresses), against 116 in the 7 days before v2.15.384.
+- **Scorecard:** `ops-scorecard` ran at 06:29 on 1 Nov (succeeded, 10.4 s). It recorded T1 for 4 days: 29 Oct 29 failed of 40,508; 30 Oct 39 of 40,614; 31 Oct 13 of 40,560; 1 Nov (part) 0 of 10,952. These counts predate the run-outcome classification (v2.15.387), so 31 Oct's 13 include 3 idle-pause cancellations now classified paused. Later runs count outcomes.
+
 ### 34.3 SS-015: T1 to T8 acceptance evidence (not accepted)
 
 **Gate (§31.6):** two consecutive complete weeks with T1, T2, T3, T5 and T7 met, T4 under target, T6 with no errors or drift, and the alert destination approved and tested. The earliest qualifying weeks are 2 to 8 Nov and 9 to 15 Nov, so the assessment is due on **16 Nov**. **StudySearch is not declared production-ready.**
