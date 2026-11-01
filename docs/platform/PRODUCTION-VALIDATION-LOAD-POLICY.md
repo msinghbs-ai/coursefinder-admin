@@ -16,6 +16,11 @@
 4. **One production-facing check at a time.** Agents do not run large production queries independently. They prepare the query; the integrator runs or schedules it, unless it is a small lookup under rule 2.
 5. **Measure and back off.** Before a verification batch, look at recent `cron.job_run_details` durations. If admission jobs are above twice their usual duration, or any time-out occurred in the last 15 minutes, defer non-critical verification.
 6. **Deployed UAT runs** (`deployed-weekly.yml`, `deployed-uat.yml`, `release-currentness`) are dispatched by hand only outside :55–:10 and :35–:42, and never within 15 minutes of another heavy verification. Added 2 Nov 09:05: the 06:51 dispatch overlapped the 06:58–07:05 slowdown.
+   **Correction, 09:20:** admission jobs run every 10 minutes (`coverage-admit` at :x0, `adapter-overwrite` at :x3), so a 12–15-minute deployed run always overlaps them. Run 41356236616 (v2.15.402, dispatched 09:15) was cancelled before any test ran. Full deployed desktop and phone runs are **held** until one of these:
+   - the 10-minute jobs are moved off the admission slots (Workstream A stagger proposal); or
+   - the Platform Admin accepts the risk of a supervised run; or
+   - the incident cause is otherwise established.
+   Post-merge targeted Deployed UAT and release-currentness checks (about 1 minute) continue.
 7. **No new scheduler or subsystem.** Use existing jobs, settings and this document.
 
 ## Breach handling
