@@ -16,34 +16,30 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 20:25 AEDT**
+**StudySearch Progress — 1 Nov 2026 21:25 AEDT**
 
-**Engineering:** 11/15 completed and verified; 4 remaining (SS-004, SS-007 and SS-014 verifying; SS-015 in progress). No movement since 14:40; the observation windows are running.
+**Engineering:** 11/15 completed and verified; 3 verifying (SS-004, SS-007, SS-014); 1 in progress (SS-015). No movement; the observation windows are running.
 
-**SS-016:** 0/17 accepted; 6 implemented, awaiting acceptance (UR-04, UR-05, UR-06, UR-07, UR-09, UR-13); 11 remaining. UR-01, UR-02, UR-03 and UR-17 are being prepared on a branch (not released).
+**SS-016:** **2/17 accepted** (UR-06, UR-13; +2). 8 implemented and awaiting acceptance: UR-01, UR-03, UR-04, UR-05, UR-07, UR-09 and UR-17 passed in part, and UR-02 lacks evidence (needs rank-4 and rank-5 sessions). 7 remaining. Record: `nz-enrichment-brief/2026-11-01-ss016-acceptance-walkthroughs.md`.
 
-**Bulk review (UR-18):**
+**UR-18:** design done; build, fixture test and production enablement not started; D-B1 to D-B4 not ratified.
 
-| Stage | Status |
+**Layer 4:** opening 1,870; pending 1,355; 519 verified decisions; 458 admitted items; 1,230 Active entry rows; exceptions E1–E14 (E1 and E14 packs await approval). No new decisions since 19:52.
+
+**Current release:** **v2.15.395 live**.
+
+| Item | Evidence |
 |---|---|
-| Design | Done; admission contract resolved (design §10) |
-| Approved | Proposed disposition D-B1 to D-B4 received 20:08; **not yet ratified** |
-| Implemented | No |
-| Fixture tested | No |
-| Production enabled | No |
+| Pilot | `73f46d1a` (PR #787) |
+| Full suite | 1,355 passed, 0 failed, 0 skipped |
+| Checks | Workers build, release-history, build-and-smoke, deploy, Deployed UAT (targeted) and release currentness all succeeded |
+| Migration `20261101090000` | Applied once; history md5 = file md5 `1b75ffee` |
+| `admin_automation_control_v1` | md5 `71951aa2` as planned |
+| UI | v2.15.395 |
+| Admin SOP mirrors | `--check-mirror` exit 0 |
+| TEST-REGISTER | Regenerated (s206 added) |
 
-**Layer 4:** opening 1,870; pending **1,355**; **519** verified decisions; **458** admitted items; **1,230** Active entry rows, of which 105 are proposed for withdrawal under E14; exceptions E1–E14; 1 new arrival since 19:55.
-
-**Data integrity:**
-
-| Exception | Status |
-|---|---|
-| E1 | 46 affected, 46 verified, 0 remediated. Withdraw 41, keep 5; paste file ready, not run |
-| E11, E12 | Awaiting authority (read-only checks done) |
-| E13 | Measured: incomplete for 225 reads; gate proposed |
-| E14 | 18 items, 105 rows; paste file ready, not run |
-
-**Next:** release UR-01, UR-02, UR-03 and UR-17 after a green suite, with a live check (integrator); acceptance walkthroughs; Platform Admin decisions on E1, E14, D-B1 to D-B3, and E11 to E13.
+**Next:** the remaining acceptance criteria (lower-role sessions, SS-014 receipt, a concurrent traversal, a bookmark replay); eligible Layer 4 settlement; Platform Admin decisions on E1, E14, D-B1 to D-B3, and E11 to E13.
 
 | Outstanding | Next action | Human approval |
 |---|---|---|
