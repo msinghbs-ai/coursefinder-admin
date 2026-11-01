@@ -15,7 +15,8 @@
    - nothing heavy during 06:50–07:15 AEDT (daily job peak).
 4. **One production-facing check at a time.** Agents do not run large production queries independently. They prepare the query; the integrator runs or schedules it, unless it is a small lookup under rule 2.
 5. **Measure and back off.** Before a verification batch, look at recent `cron.job_run_details` durations. If admission jobs are above twice their usual duration, or any time-out occurred in the last 15 minutes, defer non-critical verification.
-6. **No new scheduler or subsystem.** Use existing jobs, settings and this document.
+6. **Deployed UAT runs** (`deployed-weekly.yml`, `deployed-uat.yml`, `release-currentness`) are dispatched by hand only outside :55–:10 and :35–:42, and never within 15 minutes of another heavy verification. Added 2 Nov 09:05: the 06:51 dispatch overlapped the 06:58–07:05 slowdown.
+7. **No new scheduler or subsystem.** Use existing jobs, settings and this document.
 
 ## Breach handling
 
