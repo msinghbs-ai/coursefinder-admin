@@ -21,6 +21,7 @@
 | E9 | ANU entry-score reads | 22 | Interpretation | Reject the reads; build an ANU rank rule | None |
 | E10 | Fee checks needing a policy | 28 | Rule for single-rate and per-discipline schedules | See E10 | None |
 | E11 | RMIT entry reads from the local-student view | 298 | Reject and re-read from the international view, or wait | Store the international view, then re-read | Reader credits; ceiling set by PA |
+| E12 | QUT entry reads mix domestic and international rows | 38 | Approve the international rows only (approve-except), or reject and re-read the international view | Approve-except, one item at a time | None for approve-except; reader credits for a re-read |
 
 ## E1. Fees admitted when the reviewer asked for a re-read (new, found 1 Nov 14:05)
 
@@ -244,3 +245,18 @@ Measured now, 21 held items come from aggregator pages:
 
 **Rollback:** none needed for (b). Under (a), rejected reads are withdrawn rows; a new read proposes again.
 
+
+## E12. QUT entry-requirement reads that mix domestic and international rows (38)
+
+**Scope:** 38 AER course-entry first reads at QUT (29 Oct), held at batch L4B-20261101-1253 checkpoint 7.
+
+**Evidence:** every item mixes domestic rows (guaranteed offers, lowest selection rank, the VET guarantee, semester-offer thresholds) with international qualification rows.
+
+**Risk:** "Approve all rows" would show domestic admission rules to international students.
+
+**Options:**
+- (a) **Approve except the domestic rows**, one item at a time, after each kept row passes the quote check. **Recommended.** No new read and no cost.
+- (b) Reject the reads and read the international view again (about 40 page reads plus the AI read; ceiling set by the Platform Admin).
+- (c) Leave them pending.
+
+**Rollback:** an approved row can be withdrawn through the existing Layer 4 controls; rows left out under (a) stay as evidence and are not admitted.
