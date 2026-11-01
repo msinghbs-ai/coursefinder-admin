@@ -1811,3 +1811,104 @@ No admission rule, batch size, gate, lock, time-out or concurrency protection wa
 | T7 | Refresh ≤ 40 min; bundle < 2 h | Week: p95 31 min, max 40, 7 over target (before D15). Since D15: max 10 min (3 requests). Bundle 0.65 h | Week 26 Oct; since 31 Oct 23:19 | **Fail** (week, boundary); since D15 **Insufficient data** | Scorecard; 34.2 | D15 (25-minute gap) |
 | T8 | Suite and workflows green; checksums verified; rollback on record | v2.15.387, .388, .389: suites 1,329 / 1,331 / 1,333 passed; workflows green; md5s verified live; rollbacks in §33 and 34.1. v2.15.387's runtime regression was caught in verification | 1 Nov releases | **Pass** | §33, 34.1 | None |
 | Alerts | Destination approved and tested | Approved (D12); delivery recorded `sent` 31 Oct; receipt unconfirmed | 31 Oct | **Insufficient data** (receipt) | §32.1 | Platform Admin to confirm receipt |
+
+
+## 35. Layer 4 settlement recovery: timeout stop cleared at the database (mandate 1 Nov 2026 11:28)
+
+**Mandate:** `2026-11-01-layer4-settlement-recovery-mandate.md` (verbatim). **Incident:** `2026-11-01-layer4-all-kinds-settlement-timeout-stop.md`.
+
+### 35.1 Timeout causes (database log 31 Oct 23:51 to 23:52 UTC; reproduced as a Platform Admin at the 8 s limit for signed-in users)
+
+| Screen | Function | Cause | Before |
+|---|---|---|---|
+| Adapter builder › Waiting for approval (Niagara central pages) | `public.admin_provider_fee_schedules_read` | Five passes of `security.provider_fee_proposal_rows` per document; each pass matched fee rows to courses by `upper(btrim(course_code))` with no index | 8.2 s (27 s under load) |
+| Evidence › search by source address (refs VK2DWH, ZKEMAX) | `security.admin_evidence_page` | Ten-field `ilike '%…%'` over all 181,399 stored copies, metadata text included | 11.5 s for the scan; 8.8 s at cancellation |
+
+### 35.2 Fix (PR #782, `2d64f1b6`, v2.15.390, migration `20261101040000`, spec s200)
+
+- Index `courses_provider_code_trim_active_idx`: one proposal pass 1,661 → 89 ms.
+- Fee schedules list worked out in one pass per document. Output identical (md5 `4a3dbd90` before and after). md5 `8f21ca12` → `9ca85971`.
+- Index `evidence_artifacts_source_url_pattern_idx`, and an address search is an indexed, case-insensitive prefix match (trailing slash and #fragment ignored; newest 5,000). Every other search is unchanged. md5 `fc04124f` → `7ab91787`.
+
+**Verified live (12:05), as a Platform Admin:**
+
+| Call | Result |
+|---|---|
+| Fee schedules list | **150 ms** |
+| Niagara address search | **1 stored copy in 36 ms** |
+| ANU Bulgarian page search | 1 copy in 8 ms |
+
+- md5s as above; migration head `20261101040000`.
+- Local suite 1,336 passed; Deploy and Release History green.
+
+**Reliability boundary:** the two timeouts that stopped batch L4B-20261101-1051 are fixed at the database. The UI path is verified in the authenticated browser before any review write (35.4, pending the Platform Admin's sign-in).
+
+### 35.3 ANU rank/score interpretation (shared defect, scoped)
+
+- **Affected scope:** exactly the **22 pending ANU entry-matrix reads** (226 rows: 220 proposed, 6 superseded; **0 active, nothing admitted**). Each stores the Australian "Program Required Entrance Rank" as the applicant's minimum grade (`grade_scale` rank) and the indicative score in the applicant's own qualification as the band. That is reversed. Example: Bulgaria `f6f9441d`: rank 70 → score 2.9 is stored as min_value 70, band 2.9.
+- **Not affected:** rank rows of other providers are Australian ATAR/Year 12 rows, where a rank is the applicant's own measure (Western Sydney, Lincoln, Waikato, Unitec, Adelaide, NMIT: 9 rows).
+- **Review rule for settlement:** these 22 stay pending and are not approved (owner: platform engineering; next action: correct the reader's handling of the ANU table and read again, which needs a separate authorisation for AI re-reads). Other AER items are not blocked.
+
+**Replaces:** nothing. **Retires:** nothing.
+
+
+## 36. Usability remediation UR-01 to UR-17: reconciliation (mandate 1 Nov 2026 11:48)
+
+**Mandate:** `2026-11-01-usability-remediation-mandate.md` (verbatim). **Review:** `2026-11-01-role-guides-usability-operability-review.md`.
+
+**Register:** one new task, **SS-016** (usability, role guides and operational excellence), carries UR-01 to UR-17. Overlaps with existing tasks are mapped, not re-counted. The existing programme stays at 15 tasks for its own completion figure.
+
+**Checked against current source and live (Pilot `2d64f1b6`, live v2.15.390, 12:10):**
+
+| UR | Tranche | Finding (short) | Still current? | Overlap | Plan |
+|---|---|---|---|---|---|
+| UR-01 | A | Guide says Mailgun planned, alerts on screen only | Yes (`platformGuide.js` ALERTS status) | SS-014 (D12) | Guide text from the D12 contract: task, delay, confirm rule, receipt |
+| UR-02 | A | SOP tells Pipeline Operator to pause/pace; server needs rank 5+ | Yes (source); live body to confirm | — | Correct the SOP and show the minimum role; no permission change |
+| UR-03 | A | Admin SOP mirrors stale (reviewed for v2.15.373) | Yes | — | Compare/publish stage in the existing exporter; drift check |
+| UR-04 | B | Review list stops at 200 per kind | Yes | Layer 4 settlement | **Built: v2.15.391** (keyset pages, position kept) |
+| UR-05 | B | Cards lack ref, evidence, capture date, destination | Yes | SS-007 (bindings) | Next release: card reference, evidence link, values, Open record |
+| UR-06 | B | "Done" does not show what was admitted | Yes | — | Next release: decision result with counts and audit id |
+| UR-07 | C | Retired jobs show Resume | To confirm live | SS-008 (Rule 4) | Retired state without controls; area resume skips retired |
+| UR-08 | A | Automation ownership texts disagree | Yes (source) | — | Conditional-path wording with the controlling setting |
+| UR-09 | A | Legacy names; Open links check page, not tab | Yes (source) | — | Page+tab+role check; current names |
+| UR-10 | A | Budget guide mixes Observe and enforce | Yes (source) | SS-014 | Mode-aware wording linked to live settings |
+| UR-11 | D | Snapshot vs live counts; stale INDEX/register lines | Partly (register dashboard added 1 Nov) | SS-015 | Capture-time labels; INDEX reconcile |
+| UR-12 | D | Low screen use is not a retirement criterion | Yes | Housekeeping (D260) | Criteria in the component register |
+| UR-13 | C | Already-applied migration skipped without checksum | Yes (`apply-migration.sh` line 18) | — | Compare history to file before skipping |
+| UR-14 | C | Recovery release v2.15.79 | Yes | SS-015 | Evidence and one decision request; no automatic promotion |
+| UR-15 | C | Backup scope narrower than DR | Yes (UI) | — | Scope labels; isolated rehearsal plan |
+| UR-16 | D | Test register 89 vs 92; weak semantic guards | Yes | G4 | One result set for all counts; semantic guards |
+| UR-17 | A | Specialist guides hard to find; AER is Platform Admin-only | Yes | — | Guide links to AER role sections and runbook |
+
+**Order:** B first (it unblocks settlement), then A, C and D. A, C and D are prepared alongside but released one at a time.
+
+### 36.1 Tranche B delivered (Layer 4 review usability)
+
+| UR | Release | Change | Verified live |
+|---|---|---|---|
+| UR-04 | v2.15.391 (PR #783, `51fddef9`, migration `20261101050000`, s201) | Items ordered by (kind order, created, kind, ref), with a keyset position and the count before the page; Previous/Next in pages of 200 (cap unchanged); position kept for the browser tab and resumed after a destination screen | As a Platform Admin: **AER 993 items in 5 pages, 993 reached and distinct**; Adapter has nothing ready 315 in 2 pages, 315 distinct; 423 ms. md5 `48a52717` |
+| UR-05 | v2.15.392 (PR #784, `2900d17e`, migration `20261101060000`, s202) | Cards show the reference, the stored copy (capture date, newer copy), the source and an Open the course record link | **Course link: 119 of 119 cards carry their stored copy** (was 38 of 118 with any source shown); 10 have a newer copy. md5 `c1a133c3` |
+| UR-06 | v2.15.392 | The decision reply carries `ref`, `event_id` and a verified `outcome` (admitted, applied, reconciled, downstream, deferred, pending_check), with AER row counts and course-link verification | Tried against the latest decision on each route: RMIT Sri Lanka 13 active (admitted), approve-except 56 active and 5 excluded, course-link enter applied, keep reconciled, rebuild downstream. md5 `c6b83e21`; `security.layer4_decision_outcome_v1` live |
+
+- **Local suites:** 1,338 and 1,340 passed, 0 failed.
+- **Post-merge workflows:** all green.
+- **Consumer API:** untouched.
+
+**Found by UR-06:** 2 of 32 course-link "Use the new page" decisions (30 Oct, Waikato, swapping `/int/` for the canonical page; for example WI0194, decision `202e4319`) are saved, but the page is not the course's active link. 30 of 32 "use" and 78 of 78 "enter" decisions are applied.
+- **Owner:** platform engineering.
+- **Next action:** find why the approval did not move the link (the held `/int/` address stays primary). Do not re-decide.
+
+**Still to show for Tranche B acceptance:** traversal and settlement through each route in the authenticated UI (Layer 4 batch, 35.4). This waits for the Platform Admin's sign-in in the built-in browser.
+
+### 35.4 Previous batch reconciled against live (not new work)
+
+| Run | Provider | Decision | Live now |
+|---|---|---|---|
+| `b4aecc1c` | RMIT Singapore | Approve all | **9 active** |
+| `494bcd84` | RMIT Thailand | Approve all | **13 active** |
+| `10995ef9` | RMIT Sri Lanka | Approve all | **13 active** (were "awaiting destination verification") |
+| `06cb4705` | ANU Austrian Maturity Certificate | Reject the read | 0 active (1 row withdrawn) |
+
+- Batch L4B-20261101-1020 totals: **35 rows admitted, all verified Active; 1 reconciled without admission.**
+- Batch L4B-20261101-1051: 0 decisions.
+- **Release in use for the next batch:** v2.15.392.

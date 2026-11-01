@@ -7,7 +7,7 @@
 
 **Statuses:** Not started · Investigating · Awaiting decision · Approved · Implementing · Verifying · Completed · Blocked. A task is Completed only after production verification, never on a merge or a test claim alone.
 
-**Last reconciled:** 1 Nov 2026 11:15 AEDT (24-hour checks; SS-007 integrity repair v2.15.389; SS-015 T1–T8 evidence; record §34). Earlier: 1 Nov 2026 10:15 AEDT (Reliability Closure mandate 08:57; v2.15.387 and v2.15.388: SS-004 remediation, record §33). Earlier: 31 Oct 2026 21:05 AEDT (SS-014 mandate 19:22; v2.15.384). Earlier: 31 Oct 2026 13:20 AEDT (Executive Execution Mandate 12:38: SS-007 hold built in v2.15.379; SS-011 completed; one consolidated decision pack `nz-enrichment-brief/2026-10-31-studysearch-decision-pack.md` covers SS-007, SS-008, SS-009, SS-010 and SS-012). Sources:
+**Last reconciled:** 1 Nov 2026 13:40 AEDT (Layer 4 recovery v2.15.390, §35; usability remediation SS-016 with UR-04 to UR-06 in v2.15.391 and v2.15.392, §36). Earlier: 1 Nov 2026 11:15 AEDT (24-hour checks; SS-007 integrity repair v2.15.389; SS-015 T1–T8 evidence; record §34). Earlier: 1 Nov 2026 10:15 AEDT (Reliability Closure mandate 08:57; v2.15.387 and v2.15.388: SS-004 remediation, record §33). Earlier: 31 Oct 2026 21:05 AEDT (SS-014 mandate 19:22; v2.15.384). Earlier: 31 Oct 2026 13:20 AEDT (Executive Execution Mandate 12:38: SS-007 hold built in v2.15.379; SS-011 completed; one consolidated decision pack `nz-enrichment-brief/2026-10-31-studysearch-decision-pack.md` covers SS-007, SS-008, SS-009, SS-010 and SS-012). Sources:
 - GitHub: Pilot `main` `5dc76dcc`, no open PRs;
 - live `fxcwkweaxjtknorudmwp`: migration head `20261031010000`;
 - Admin `500250fb`.
@@ -16,26 +16,34 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 11:15 AEDT**
+**StudySearch Progress — 1 Nov 2026 13:40 AEDT**
 
-`██████████░░░░░` **67%** (10 of 15, from this register)
+**Existing engineering programme (SS-001 to SS-015):** `██████████░░░░░` **67%** (10 of 15)
 
-| Total | Completed and verified | Deployed, awaiting verification | In progress | Blocked / awaiting approval | Not started |
-|---:|---:|---:|---:|---:|---:|
-| 15 | 10 | 4 (SS-004, SS-007, SS-010, SS-014) | 1 (SS-015) | 0 | 0 |
+| Completed and verified | Verifying | In progress | Blocked | Not started |
+|---:|---:|---:|---:|---:|
+| 10 | 4 (SS-004, SS-007, SS-010, SS-014) | 1 (SS-015) | 0 | 0 |
 
-**Current task:** SS-015 (acceptance evidence) · **Next:** SS-010 (24-hour close at 13:55 today) · **Remaining:** 5 tasks: SS-004, SS-007, SS-010, SS-014, SS-015.
-**Movement since the 1 Nov 00:15 checkpoint:** 0 completed; 5 remaining (unchanged). SS-004 remediated (v2.15.387, v2.15.388); SS-007 integrity regression found and repaired (v2.15.389).
+**Usability remediation (SS-016, UR-01 to UR-17):** 17 findings · implemented and verified 0 · built and live, awaiting acceptance 3 (UR-04, UR-05, UR-06) · remaining 14 · Tranche B · **next:** authenticated-UI acceptance of B, then UR-13 and UR-07.
 
 | Outstanding | Next action | Human approval |
 |---|---|---|
-| SS-004 | 7-day window to 7 Nov 11:03; a fresh clean 24 h after the 1 Nov 09:25 fix (to 2 Nov 09:25) | No |
-| SS-007 | Re-verify batch A daily; 154 releases and 1,012 verification reads stay held | Yes, for any further correction (D11) |
-| SS-010 | Close the 24-hour futile-item window at 13:55 | No |
-| SS-014 | 2 Nov 07:30: D13 pilot, D15, D14, D16; alert receipt | Yes: confirm the [TEST] alerts arrived |
-| SS-015 | Two complete weeks (2–8 and 9–15 Nov); assess 16 Nov | Yes: acceptance |
+| SS-004 | Clean 24 h from 1 Nov 09:25 (2 Nov); 7 days to 7 Nov | No |
+| SS-007 | Daily batch A re-check (repaired 1 Nov, v2.15.389) | Yes, for further corrections (D11) |
+| SS-010 | Close the 24-hour window at 13:55 | No |
+| SS-014 | 2 Nov 07:30 checks; alert receipt | Confirm the [TEST] alerts arrived |
+| SS-015 | Two complete weeks (2–15 Nov); assess 16 Nov | Acceptance |
+| SS-016 | Tranche B UI acceptance; Tranches A, C, D | Sign-in for the UI; recovery baseline (UR-14) |
 
-**Layer 4 settlement (separate from engineering):** baseline pending 1,143 (31 Oct 10:24) · current pending 1,175 (36 new) · reviewed by a person 0 · reconciled automatically 2 · admitted 0 · deferred 0 · exceptions (past 14 days) 0. Oldest pending 10.5 days; reaches the 14-day target on **4 Nov 22:57** without review.
+**Layer 4 settlement (separate from engineering):**
+- **Queue:** live pending 1,870 (12 kinds, 662 universities).
+- **This session:** 0 reviewed, waiting for the Platform Admin's sign-in. The 1 Nov timeout stop is cleared at the database (v2.15.390).
+- **Previous batch, reconciled:** 35 AER rows admitted and verified Active; 1 reconciled without admission.
+- **Exceptions:**
+  - ANU rank/score reads (22, not to be approved);
+  - Waikato course-link decisions saved but not applied (2);
+  - Adelaide stored PDF not viewable (1).
+- **Separate queue figure:** the review-item table holds 1,175 pending (the scorecard T5 figure), part of the 1,870.
 
 ## Register
 
@@ -56,6 +64,7 @@ Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-br
 | 13 | **SS-013** | Rebranding | 4 | StudySearch presentation and active documentation; technical and historical names kept | P3 · — | **Completed** (presentation and active documentation); identifier renames need separate decisions | Platform Admin 31 Oct 10:23 and 14:27 | `STUDYSEARCH-IDENTITY-INVENTORY.md`; record §9; router, README and operating-model headings | #773 · v2.15.383 (`9952dd7f`) | Live 14:48: no screen, title, report, job label, setting, test name or workflow name uses the former name (guard s6 over all `src/`); retained identifiers listed with reasons | D8, D9, D10 decided 31 Oct 19:22 (names, error text and crawler identity kept); crawler proposal in inventory §5, not deployed · —
 | 14 | **SS-014** | Operations | 4 | Self-sustaining operations and recovery: service targets from the baselines, runbooks (owner, health signal, stop condition, recovery), weekly report, spend forecast | P3 · SS-004 | **Verifying** (A–E and D12–D16 live; D13 pilot waits for eligible pages; D15 under observation) | Platform Admin 31 Oct 14:27, 19:22 (D7), 21:54 (D12–D16) | Record §30–§32; `OPERATIONAL-LIMITS.md` 1.3; inventory §5 | #773; #774/#775/#776 v2.15.384; #777 v2.15.385 (`dd320cc6`); #778 v2.15.386 (`62ce39a3`) | Live 1 Nov 00:10: platform alerts delivered by push and e-mail (test, deduplicated critical, recovery; failure visibility dry run); stale `coverage-ai-match` flag released (D14); gap 25 min (D15); scholarship check 1.4–2.1 s cold (was 7.0–8.5 after v2.15.384, 11.9 before), whole run 15.7–16.8 s (was about 22 s); pilot live, 0 eligible until about 2 Nov; drift none 1 Nov: health p50 16.3 s after D16 (21.3 before); v2.15.387 runtime regression fixed by v2.15.388; 10 false stall criticals before the stall-age fix, 0 since 09:25; coverage-queue section rise under observation; alerts: 0 raised since the test, receipt unconfirmed (§34.2). | 2 Nov 07:30: D13 first pilot results, D15 wait figures, D14 guard re-arming, D16 24 h · Claude. Platform Admin: confirm the [TEST] alerts arrived
 | 15 | **SS-015** | Acceptance | 4 | Production acceptance and handover against agreed thresholds | P3 · all | **Verifying** (assessment opened; not accepted) | Platform Admin 31 Oct 19:22 | Record §31.6 | — | Windows open: 24 h (1 Nov), 7 days (7 Nov), two complete weeks for the gate. T1 so far: 5 failures in 21,052 runs since 11:03 (4 incidents), so not met 1 Nov: T1–T8 table in §34.3: Pass T2, T3, T5, T8; Fail T1 (24 h), T4 (week), T6 (p95, week), T7 (week); post-fix windows insufficient. Gate assessable 16 Nov. **Not accepted.** | Assess the gate on 16 Nov (weeks 2–8 and 9–15 Nov) · Claude; acceptance · Platform Admin
+| 16 | **SS-016** | UR-01–UR-17 | 5 | Usability, role guides and operational excellence (review `2026-11-01-role-guides-usability-operability-review.md`): role-correct guides and SOP mirrors (A), Layer 4 review traversal, evidence and verified outcomes (B), retirement, migration and recovery safety (C), freshness, guards and six role walkthroughs (D) | P1 · SS-014, SS-015 | **Implementing** (B: UR-04, UR-05, UR-06 live, awaiting authenticated-UI acceptance; A, C, D open) | Platform Admin 1 Nov 2026 11:48 | Record §36 | #783 v2.15.391 (`51fddef9`) · #784 v2.15.392 (`2900d17e`) | UR-04: AER 993/993 reached in 5 pages; UR-05: 119/119 course-link cards with stored copy; UR-06: outcomes verified on each route; found 2 unapplied course-link decisions | UI acceptance of B with the Platform Admin signed in; then UR-13, UR-07, Tranche A · Claude |
 
 ## Related work completed in this session (outside SS numbering; for traceability)
 
@@ -87,3 +96,4 @@ Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-br
 | 1 Nov 2026 00:15 | D12 alerts live (push and e-mail via the existing task); D14 (v2.15.385); D15 gap 25 min; D16 and D13 (v2.15.386); record §32 |
 | 1 Nov 2026 10:15 | SS-004 remediation live: pause-cancelled runs classified paused, admission jobs staggered, stall age from due time (v2.15.387); health-check run time regression found in verification and fixed (v2.15.388). Record §33 |
 | 1 Nov 2026 11:15 | 24-hour checks recorded (§34.2); SS-007 integrity regression repaired (v2.15.389, §34.1); SS-015 T1–T8 evidence (§34.3, not accepted); progress dashboard added (instruction 10:23) |
+| 1 Nov 2026 13:40 | Layer 4 timeout stop cleared at the database (v2.15.390, §35); ANU rank/score scope 22 pending reads; SS-016 created for UR-01 to UR-17 (§36); UR-04/05/06 live (v2.15.391, v2.15.392) |
