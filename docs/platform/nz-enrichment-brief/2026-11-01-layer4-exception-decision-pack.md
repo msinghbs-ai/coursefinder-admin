@@ -393,9 +393,9 @@ The error is the reviewer's (this session), not the reader's alone.
 
 The approvals since 20:08 (none so far in this tranche) follow this.
 
-### E14 approval pack (1 Nov 2026 21:35 AEDT; direction 21:02 §4). Nothing withdrawn
+### E14 approval pack (1 Nov 2026 21:09 AEDT; direction 21:02 §4). Nothing withdrawn
 
-1. **Current rows (reconciled live 21:35):**
+1. **Current rows (reconciled live 21:09):**
    - 18 courses, 105 entry rows, all `active`. The id list and md5 `23488f75…` are unchanged from the paste file.
    - Every active entry row on these 18 courses comes from the 1 Nov approvals. There are no other active rows and **no superseded rows**: these approvals replaced nothing.
 2. **Why each is invalid:** per item, in E14 above.
