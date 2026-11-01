@@ -16,7 +16,7 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 15:40 AEDT**
+**StudySearch Progress — 1 Nov 2026 14:40 AEDT**
 
 **Engineering (SS-001 to SS-015):** `███████████░░░░` **73%** (11 of 15). Net since 12:35: +1 (SS-010 closed).
 
