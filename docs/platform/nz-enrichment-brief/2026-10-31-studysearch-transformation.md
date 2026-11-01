@@ -1742,3 +1742,64 @@ No admission rule, batch size, gate, lock, time-out or concurrency protection wa
 **Rollback:** `cron.alter_job` both jobs back to `*/10 * * * *`; re-apply the health check (md5 `b648e649`) and scorecard (md5 `9e212299`) from migration `20261031091000`.
 
 **Still to show:** no admission time-out under heavy load with the stagger in place (24-hour and 7-day windows), and no false stall criticals.
+
+
+## 34. Scheduled 24-hour verification and SS-007 integrity repair (1 Nov 2026)
+
+**Instruction (1 Nov 10:23):** `2026-11-01-studysearch-progress-dashboard-mandate.md` (verbatim). Observed results only; incomplete windows are marked as such.
+
+### 34.1 SS-007 batch A integrity: regression found and repaired (v2.15.389)
+
+**Found (10:40):** 167 of the 173 held courses again published a fee, application or general page as the website `official_url` (0 at the 31 Oct 13:39 verification).
+
+**Cause:**
+- At 14:30:00 on 31 Oct the scheduled job `coverage-admit` set the 167 links back to `active`. Their `updated_at` is 03:30:00.566382 UTC, that run's transaction time.
+- `security.coverage_admission_plan_v1` did not consult the SS-007 hold (`security.course_held_v1`). The held pages kept their read result, so with no active link the plan proposed `write`.
+- The search refreshes of 31 Oct 14:xx (96 documents) and 1 Nov 07:xx (71) published them.
+- Nothing else changed on held courses: no English, intake or course rows, and no Layer 4 items. No other scheduled writer re-activates official links.
+
+**Repair (PR #781, `ef64ad47`, migration `20261101030000`, spec s199):**
+- **Guard:** admission never plans a course under an open remediation hold (plan md5 `7390a600` → `f9dceaf2`). Without the guard, the next run would have re-written them (the plan showed 167 `same` before the repair).
+- **Restore:** the 167 links were set `unverified` again, as D1 did. The update was count- and md5-guarded (ids md5 `c0aff804`; list `ui-audit/ss007-integrity-repair-links.csv`). A search refresh was requested at 10:53 and processed at 10:56.
+
+**Verified live (11:05):**
+- Website `official_url` on held courses: 167 → **0**; key still present.
+- All other item content unchanged: md5 `354d483f` before and after the repair.
+- `has_link` 0 on held courses.
+- Admission plan rows for held courses: 0.
+- Consumer API check: no drift.
+- Holds: 177 open, 0 lifted.
+- Local suite: 1,333 passed. Post-merge: Deploy and Release History green.
+
+**Not a new correction:** the same courses, links and status D1 approved. The 154 releases and 1,012 verification reads stay held (D11).
+
+**Rollback:** re-apply the plan (md5 `7390a600`); set the listed 167 links back to `active` (they carry `updated_at` 31 Oct 23:53:16.768426 UTC).
+
+### 34.2 24-hour results (window 31 Oct 11:03 to 1 Nov 11:03 unless stated)
+
+| Task | Acceptance | Observed | Result |
+|---|---|---|---|
+| SS-004 | 0 time-outs in 24 h | 40,935 runs; 5 failed: 3 "job canceled" by idle pauses (now classified paused); **2 statement time-outs (31 Oct 17:10, `coverage-admit`, `coverage-admit-intakes`)**. `waste-guard` 24/24 ok (p50 25.7 s, max 34.9 s); `coverage-ai-match-prepare` 709/709 ok (p50 24.6 s, max 85.2 s). After the 09:25 fix: 0 failures in 2,840 runs | **Not met** for this window. Fix live; a clean 24 h from 1 Nov 09:25 and the 7-day window (to 7 Nov) are open |
+| SS-007 | Batch A intact | Regression found and repaired (34.1) | Repaired 11:05; re-verify daily |
+| SS-010 | Futile items under 100 a day after D5a | 0 futile items and 0 Enrich items on mismatch-page courses among the 457 created since D5a (31 Oct 13:55); 177 filled | On track; **window closes 13:55 today** |
+| SS-012 | Edge p50/p95 when traffic returns | No website search requests since the deploy (website calls: 6 `sync_delta`, p50 2.6 to 3.5 s). Zoho: 6 searches, p50 611 ms, p95 1,293 ms. 0 server errors | **Insufficient data** (no website search traffic) |
+| SS-014 health runtime | Faster than about 22 s, frequency unchanged | Before D16: p50 21.3 s (76 runs). D16 to v2.15.387: p50 16.3 s, p95 19.7 s (58 runs). v2.15.387 regression: 28.0 s (4 runs, fixed by v2.15.388). From v2.15.388: 15.7 to 22.0 s (4 runs); the coverage-queue section rose to 6.8 to 9.5 s (was 2.9 to 4.0 s). Stall-age queries measured at 0.7 s in total, so not the cause | Improved; the coverage-queue rise is **under observation** |
+| SS-014 classification | No false criticals | 10 false coverage-queue criticals in the window (each closed at the next run) before the v2.15.387 stall-age fix; 0 since it went live at 09:25 | Fix live; **observation open** |
+| D15 | Refresh wait p95 and max | Since 31 Oct 23:19: 3 requests, p50 8.0 min, max 10.0 min, 0 open; processing runs 0 failed, max 57.7 s | **Insufficient data** (3 requests) |
+| D12 alerts | Delivered, deduplicated, failures visible | Since the test sequence: 0 alerts raised (no issue stayed open 15 minutes); 0 failed. Recipient receipt of the 3 [TEST] messages **not yet confirmed** | Recorded `sent` only |
+
+### 34.3 SS-015: T1 to T8 acceptance evidence (not accepted)
+
+**Gate (§31.6):** two consecutive complete weeks with T1, T2, T3, T5 and T7 met, T4 under target, T6 with no errors or drift, and the alert destination approved and tested. The earliest qualifying weeks are 2 to 8 Nov and 9 to 15 Nov, so the assessment is due on **16 Nov**. **StudySearch is not declared production-ready.**
+
+| Target | Threshold | Actual | Period | Result | Evidence | Corrective action |
+|---|---|---|---|---|---|---|
+| T1 | 0 failed runs a day | 2 real failures (17:10 time-outs) in 40,935 runs; 0 in 2,840 since the fix | 31 Oct 11:03 to 1 Nov 11:03; since 1 Nov 09:25 | **Fail** (24 h) | §33, 34.2; cron log | Admission stagger (v2.15.387); 7-day window |
+| T2 | AI ≤ US$14 a day; credit ≥ US$10 | Worst day US$7.83; credit US$98.39 | Week 26 Oct to 1 Nov (to date) | **Pass** (week to date) | Scorecard 26 Oct | None |
+| T3 | Firecrawl within 500,000 a month, 2,000 reserve | 246,703 used | October | **Pass** | Scorecard 26 Oct | None |
+| T4 | Futile items < 100 a day | Week: worst day 4,722 (27 Oct). Since D5a: 0 | Week 26 Oct; since 31 Oct 13:55 | **Fail** (week); since the fix on track | Scorecard; 34.2 | D5a live; 24-hour close 13:55 |
+| T5 | Oldest Layer 4 item < 14 days | 10.5 days (since 21 Oct 22:57) | At 1 Nov 11:05 | **Pass**; reaches 14 days on 4 Nov 22:57 | `layer4_review_items` | **Person review needed** before 4 Nov |
+| T6 | 0 server errors; no drift; search p95 < 3 s at 20 per page | 0 errors; 0 drift; p95 4,975 ms on 77 measured (pre-SS-012); no website search traffic since | Week 26 Oct to date | **Fail** (p95, week); post-SS-012 **Insufficient data** | Scorecard; `api_requests` | Measure when traffic returns; 20-per-page guidance sent |
+| T7 | Refresh ≤ 40 min; bundle < 2 h | Week: p95 31 min, max 40, 7 over target (before D15). Since D15: max 10 min (3 requests). Bundle 0.65 h | Week 26 Oct; since 31 Oct 23:19 | **Fail** (week, boundary); since D15 **Insufficient data** | Scorecard; 34.2 | D15 (25-minute gap) |
+| T8 | Suite and workflows green; checksums verified; rollback on record | v2.15.387, .388, .389: suites 1,329 / 1,331 / 1,333 passed; workflows green; md5s verified live; rollbacks in §33 and 34.1. v2.15.387's runtime regression was caught in verification | 1 Nov releases | **Pass** | §33, 34.1 | None |
+| Alerts | Destination approved and tested | Approved (D12); delivery recorded `sent` 31 Oct; receipt unconfirmed | 31 Oct | **Insufficient data** (receipt) | §32.1 | Platform Admin to confirm receipt |
