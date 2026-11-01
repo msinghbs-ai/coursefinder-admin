@@ -69,3 +69,31 @@
 3. E16-5 on the **31 confirmed fees** (E1 way, count-guarded, rollback).
 4. A person reviews the 9 unclear courses.
 5. E16-2/E16-3 as follow-up hygiene for the 239 multi-link courses.
+
+## Containment plan under the 07:21 direction (read only, 2 Nov 07:29–08:00 AEDT). Nothing executed
+
+Files: `ui-audit/e16plan/` (report.md, batches.json, fees.sql, guardcheck.sql). All cohort md5s re-verified.
+
+**Finding 1: most of the cohort comes from an approved rule, not a mis-binding.**
+- The hourly job `exit-awards-apply` (:37; `security.exit_awards_apply_v2`, enabled per university through the adapter's `admit_fields` 'exit_awards') links a nested or exit award to its parent course's page.
+- It also writes the parent's annual fee, with the note "Award within the course on this page (n years…): annual fee as the course, whole fee … (annual × n)".
+- It covers **53 of the 67** confirmed and 8 of the 9 unclear.
+- It ignores remediation holds, so any hold on these would be rewritten within the hour.
+- Of the 31 sibling-page fees, 29 are this rule's output. 17 of those equal the CRICOS fee once scaled to the award length. Only **2 are straight misreads** (Flinders 105122F, UQ 116548M).
+
+**Finding 2: the existing hold contains only 12 of the 67.**
+- `binding_remediation_apply_v1` acts only where the coverage page is bound to the wrong URL. It would contain 12 (Bond 3, Collarts 2, USyd 2, Flinders, SISTC, Torrens, UQ, UTS).
+- It refuses 55: 49 are bound to another page (often the course's own), and 6 RMIT are already `mismatch`.
+- Side effect: retracting 12 recent URL fills would push the fill retraction rate over 5%, and `course-url-fill` would pause itself platform-wide.
+
+**Finding 3: no reusable Layer 4 items.** None of the 77 has a pending course-link or fee item, and no governed function raises an ad-hoc item. A hold does not appear on any screen today.
+
+**Finding 4: page blocks not honoured.** USyd 000723J and 105221C, and UTS 114585M, have page blocks since 8 Oct, yet the same pages are bound and shown.
+
+**Decision needed before any write** (the 07:21 direction: "the existing classification is a candidate assessment, not proof"):
+1. **Is a nested or exit award's link to its parent page, written by the approved exit-award rule, valid?**
+   - It is valid where the parent page names the award as available within the course (the 07:21 direction: "genuine shared-page exceptions"; "validate the exact section or programme-specific evidence").
+   - If yes, the 53 rule-covered courses are not defects once their evidence shows the parent page names the award. That evidence check is part of E16-1.
+   - The fees are the rule's documented derivation and stay.
+2. **For the remaining 14 confirmed not covered by the rule, plus the 2 misread fees:** contain them. Use the hold where it applies; otherwise set the wrong links to `unverified` with a count-guarded paste (E15 Part 1 pattern), and withdraw the 2 fees the E1 way.
+3. **If exit-award links are not valid for some or all universities:** switch those exit-award rows off (`admin_exit_awards('off')`, Platform Admin signed in, reversible), then contain as in 2. Also decide whether to accept the URL-fill pause or raise its limit first, and whether to raise the 67 Layer 4 link items by paste.
