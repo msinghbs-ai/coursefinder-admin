@@ -385,7 +385,7 @@ The error is the reviewer's (this session), not the reader's alone.
 **Options:**
 - (a) **Withdraw the 18 items' entry rows** (status withdrawn, count-guarded paste file with rollback; nothing deleted), then re-review each item once the E13 gate exists. **Recommended.**
 - (b) Keep them and add a reviewer flag until the re-read.
-- **Route for (a), added 1 Nov 20:40:** the existing Catalogue › Entry requirements screen lets a Curator or above withdraw a row with a reason, and keeps the row history (AER-ROLE-GUIDES §3). Withdrawing the 105 rows one at a time there is the governed route and needs no SQL. The paste file stays as the fallback only if the screen cannot withdraw these rows.
+- **Route for (a), added 1 Nov 20:56:** the existing Catalogue › Entry requirements screen lets a Curator or above withdraw a row with a reason, and keeps the row history (AER-ROLE-GUIDES §3). Withdrawing the 105 rows one at a time there is the governed route and needs no SQL. The paste file stays as the fallback only if the screen cannot withdraw these rows.
 
 **Process change, effective now:** before approving a course entry read, this session also checks:
 - the read's dropped rows (`over_row_limit`);
