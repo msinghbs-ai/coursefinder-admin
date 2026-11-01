@@ -18,3 +18,33 @@
 | UR-17 Specialist guides | Each role finds its top tasks; AER instructions match the choice contract and D4 | Guide › Specialist tasks: 7 tasks, each with lowest role, source, saved evidence, escalation and document reference. All 7 Open buttons land on their screens (entry requirements ×4, courses, Layer 4 Review, Platform health). The SOP AER item names Platform Admin only and the three current choices | Live `#platform-guide` | **Pass (partial)** | Walkthrough only as Platform Admin. Each role's view needs rank 1–5 sessions |
 
 **Result:** 2 accepted (UR-06, UR-13). 7 passed in part, awaiting one named criterion each (UR-01, UR-03, UR-04, UR-05, UR-07, UR-09, UR-17). 1 insufficient evidence (UR-02, which needs lower-role sessions). UR-09 failed on v2.15.394 and was fixed in v2.15.395.
+
+## Overnight addendum (1 Nov 2026 23:50): role fixtures and releases v2.15.396 and v2.15.397
+
+**Six roles:** these are fixture journeys (s207, mocked server using the live refusal texts), **not live lower-role sessions**. Server boundaries were verified from the live definitions (static).
+
+| Role | Fixture result | Live result |
+|---|---|---|
+| Viewer (1) | Pass | Not run: no session |
+| Counsellor (2) | Pass for navigation; insufficient for shortlist and report (no shortlist on the server; reports arrive from Zoho only) | Not run |
+| Curator (3) | Pass (after fix D1) | Not run |
+| Pipeline Operator (4) | Pass | Not run |
+| PIM Admin (5) | Pass (refusal now names the owner: v2.15.397 migration `20261101110000`) | Not run |
+| Platform Admin (6) | Pass | **Pass**: live walkthroughs earlier the same day; v2.15.397 "Read again" opens Sources, reads and holds, and course-link choices are enabled at rank 6 |
+
+**Findings updated (fixture evidence added; acceptance still needs the named live criterion):**
+
+| Finding | Added evidence | Still missing |
+|---|---|---|
+| UR-04 | s208: 450 items, 40 arrivals and a decision partway through; 0 duplicates; nothing starved (fixture) | A live pass while decisions are saved |
+| UR-07 | s209: single and area resume refused on retired jobs; a paused active job resumes (fixture) | A rehearsal against a real database (only a fixture so far) |
+| UR-09 | s210: 97 old addresses at every rank; Back and Forward (fixture); live Back fixed in v2.15.395 | Live replay at lower ranks (needs sessions) |
+| UR-17 | s211: destinations at every rank; handoffs; G1–G3 fixed in v2.15.397 | Live views at ranks 1–5 |
+| UR-02 | Fixture refusals and allowances at ranks 4–6; both refusal messages now name the next owner (v2.15.395 and v2.15.397) | **Live rank-4 and rank-5 sessions** |
+| UR-03 | Conflict rehearsal: a stale push is refused (non-fast-forward); `--check-mirror` detects drift | Gap: a stale writer who pulls first, then exports an older source, is accepted. The proposed ancestor guard is not built yet |
+
+**Status:** accepted 2 of 17 (UR-06, UR-13; unchanged). UR-08, UR-10, UR-11, UR-12 and UR-16 are implemented (v2.15.396), so 13 are now implemented and awaiting acceptance. UR-14 and UR-15 are investigation only, and 2 are not implemented.
+
+**Decisions for the Platform Admin raised by the fixtures:**
+- **P1:** the guide says a Curator decides Layer 4 items and "Website needed", but the server needs rank 4 for every Inbox choice.
+- **P2:** the guide promises Counsellor shortlists, which do not exist.
