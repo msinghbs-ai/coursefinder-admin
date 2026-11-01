@@ -392,3 +392,19 @@ The error is the reviewer's (this session), not the reader's alone.
 - any programme or variant named in each quote.
 
 The approvals since 20:08 (none so far in this tranche) follow this.
+
+### E14 approval pack (1 Nov 2026 21:35 AEDT; direction 21:02 §4). Nothing withdrawn
+
+1. **Current rows (reconciled live 21:35):**
+   - 18 courses, 105 entry rows, all `active`. The id list and md5 `23488f75…` are unchanged from the paste file.
+   - Every active entry row on these 18 courses comes from the 1 Nov approvals. There are no other active rows and **no superseded rows**: these approvals replaced nothing.
+2. **Why each is invalid:** per item, in E14 above.
+   - 14 EIT items carry routes of sibling variants (180 and 240 points, PG Certificate, PG Diploma) from one combined page.
+   - 4 items have a joined condition dropped by the reader's row cap, shown in the read's `dropped` list (`over_row_limit`).
+3. **Effect for consumers:** the website and Zoho course detail for these 18 courses will show no entry requirements, which is their state before 1 Nov. The search projection follows at its next requested refresh. No other course changes.
+4. **Role and route:** Catalogue › Entry requirements, row withdraw with a reason (Curator, rank 3, or above; AER-ROLE-GUIDES §3). This session holds the Platform Admin account. Rows are withdrawn one at a time, each with the reason "E14: <variant | dropped condition>, approval of 1 Nov by the integrator session".
+5. **Reconciliation:**
+   - **Before:** count = 105 active, md5 of the sorted ids = `23488f75ba7972f42126852e89292af2`.
+   - **After:** 105 withdrawn, 0 active on the 18 courses, and one audit event per row.
+   - **Rollback:** if the screen offers a restore, use it row by row. Otherwise use `PASTE-20261101-e14-entry-rows-withdrawal-rollback.sql`, which is count-guarded on the same 105 ids.
+6. **Approval needed:** the Platform Admin's explicit approval of E14 option (a). The direction of 21:02 is not that approval, in its own words.
