@@ -21,7 +21,7 @@
 | E9 | ANU entry-score reads | 22 | Interpretation | Reject the reads; build an ANU rank rule | None |
 | E10 | Fee checks needing a policy | 28 | Rule for single-rate and per-discipline schedules | See E10 | None |
 | E11 | RMIT entry reads from the local-student view | 298 | Reject and re-read from the international view, or wait | Store the international view, then re-read | Reader credits; ceiling set by PA |
-| E12 | QUT entry reads: domestic and international rows, every read at the 6-row cap | 38 | Reject and re-read the international view with a reviewed row cap, or leave pending | Re-read (assessed 1 Nov 20:00: approve-except is not supported) | Reader credits; ceiling set by PA |
+| E12 | QUT entry reads: domestic and international rows, every read at the 6-row cap | 38 | Reject and re-read the international view with a reviewed row cap, or leave pending | Re-read (assessed 1 Nov 19:55: approve-except is not supported) | Reader credits; ceiling set by PA |
 | E13 | Course entry reads cut at 6 rows (`entry.max_rows_per_course`) | 59 approved reads (354 rows Active) | Keep (rows are correct), or raise the cap and re-read | Keep; review the cap with E11 and E12 | Reader credits only if re-read |
 
 ## E1. Fees admitted when the reviewer asked for a re-read (new, found 1 Nov 14:05)

@@ -16,24 +16,26 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 14:40 AEDT**
+**StudySearch Progress — 1 Nov 2026 19:55 AEDT**
 
-**Engineering (SS-001 to SS-015):** `███████████░░░░` **73%** (11 of 15). Net since 12:35: +1 (SS-010 closed).
+**Engineering (SS-001 to SS-015):** `███████████░░░░` **73%**: 11 of 15 completed, 3 verifying (SS-004, SS-007, SS-014), 1 in progress (SS-015), 0 remaining unstarted. No movement since 14:40; the observation windows are running.
 
 | Completed and verified | Verifying | In progress | Blocked |
 |---:|---:|---:|---:|
 | 11 | 3 (SS-004, SS-007, SS-014) | 1 (SS-015) | 0 |
 
-**Usability (SS-016):** accepted 0 of 17. Technically implemented and awaiting walkthrough: 6 (UR-04, UR-05, UR-06, UR-07, UR-13, UR-09). Remaining 11. v2.15.394 added the fee-check card (proposed fee, Admit or Do not admit) and the UR-09 deep links.
+**UI usability (SS-016):** 0 of 17 accepted; 6 technically implemented and awaiting acceptance (UR-04, UR-05, UR-06, UR-07, UR-09, UR-13); 11 remaining. Enhancement **UR-18** (provider-level bulk review, direction 19:42): design and approval pack ready, not built (`nz-enrichment-brief/2026-11-01-provider-bulk-review-design.md`).
 
 **Layer 4 (batch L4B-20261101-1253):**
-- Opening pending 1,870; live pending **1,727**.
-- 146 decisions verified.
-- Actual admissions: **85 items** (81 AER items with 126 rows Active; 4 fees Active).
+- Opening 1,870; currently pending **1,354** (AER 539).
+- **519** decisions verified (+21 since 15:44).
+- **458** items admitted: 454 AER items with **1,230** rows Active, and 4 fees.
 - 61 reconciled without admission; 2 downstream.
-- Exceptions are in the decision pack (E1–E10).
-- 5 of 17 kinds were empty before the batch; none emptied in it.
-- Currently actionable: the course-entry first reads (Track C) at RMIT, Monash, AUT, QUT, EIT, MIT, Ara, Auckland, NMIT, Lincoln, Otago, Toi Ohomai and Massey, about 860 items. The rest needs a decision or a rule.
+- Exceptions: E1–E13 in the decision pack. E12 (QUT) was assessed and held; E13 (6-row reader cap) is new.
+- 12 of 17 kinds hold items. Course-entry reads that can be decided under the current rules are finished; the rest wait for a decision or new evidence (checkpoint 9).
+
+**Current work:** SS-016 UR-01, UR-02, UR-03 and UR-17, and the acceptance of the six implemented findings. Layer 4: remaining kinds by stable reference.
+**Next milestone:** UR-01 alert guidance corrected from D12 facts and released, with tests and a live check. Decisions D-B1 to D-B4 and E11 to E13 are with the Platform Admin.
 
 | Outstanding | Next action | Human approval |
 |---|---|---|
