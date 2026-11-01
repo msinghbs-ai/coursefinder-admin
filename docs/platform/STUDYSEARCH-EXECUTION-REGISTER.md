@@ -7,7 +7,7 @@
 
 **Statuses:** Not started · Investigating · Awaiting decision · Approved · Implementing · Verifying · Completed · Blocked. A task is Completed only after production verification, never on a merge or a test claim alone.
 
-**Last reconciled:** 1 Nov 2026 13:40 AEDT (Layer 4 recovery v2.15.390, §35; usability remediation SS-016 with UR-04 to UR-06 in v2.15.391 and v2.15.392, §36). Earlier: 1 Nov 2026 11:15 AEDT (24-hour checks; SS-007 integrity repair v2.15.389; SS-015 T1–T8 evidence; record §34). Earlier: 1 Nov 2026 10:15 AEDT (Reliability Closure mandate 08:57; v2.15.387 and v2.15.388: SS-004 remediation, record §33). Earlier: 31 Oct 2026 21:05 AEDT (SS-014 mandate 19:22; v2.15.384). Earlier: 31 Oct 2026 13:20 AEDT (Executive Execution Mandate 12:38: SS-007 hold built in v2.15.379; SS-011 completed; one consolidated decision pack `nz-enrichment-brief/2026-10-31-studysearch-decision-pack.md` covers SS-007, SS-008, SS-009, SS-010 and SS-012). Sources:
+**Last reconciled:** 1 Nov 2026 12:35 AEDT (Layer 4 recovery v2.15.390, §35; usability remediation SS-016 with UR-04 to UR-06 in v2.15.391 and v2.15.392, §36). Earlier: 1 Nov 2026 11:15 AEDT (24-hour checks; SS-007 integrity repair v2.15.389; SS-015 T1–T8 evidence; record §34). Earlier: 1 Nov 2026 10:15 AEDT (Reliability Closure mandate 08:57; v2.15.387 and v2.15.388: SS-004 remediation, record §33). Earlier: 31 Oct 2026 21:05 AEDT (SS-014 mandate 19:22; v2.15.384). Earlier: 31 Oct 2026 13:20 AEDT (Executive Execution Mandate 12:38: SS-007 hold built in v2.15.379; SS-011 completed; one consolidated decision pack `nz-enrichment-brief/2026-10-31-studysearch-decision-pack.md` covers SS-007, SS-008, SS-009, SS-010 and SS-012). Sources:
 - GitHub: Pilot `main` `5dc76dcc`, no open PRs;
 - live `fxcwkweaxjtknorudmwp`: migration head `20261031010000`;
 - Admin `500250fb`.
@@ -16,7 +16,7 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 13:40 AEDT**
+**StudySearch Progress — 1 Nov 2026 12:35 AEDT**
 
 **Existing engineering programme (SS-001 to SS-015):** `██████████░░░░░` **67%** (10 of 15)
 
@@ -96,4 +96,4 @@ Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-br
 | 1 Nov 2026 00:15 | D12 alerts live (push and e-mail via the existing task); D14 (v2.15.385); D15 gap 25 min; D16 and D13 (v2.15.386); record §32 |
 | 1 Nov 2026 10:15 | SS-004 remediation live: pause-cancelled runs classified paused, admission jobs staggered, stall age from due time (v2.15.387); health-check run time regression found in verification and fixed (v2.15.388). Record §33 |
 | 1 Nov 2026 11:15 | 24-hour checks recorded (§34.2); SS-007 integrity regression repaired (v2.15.389, §34.1); SS-015 T1–T8 evidence (§34.3, not accepted); progress dashboard added (instruction 10:23) |
-| 1 Nov 2026 13:40 | Layer 4 timeout stop cleared at the database (v2.15.390, §35); ANU rank/score scope 22 pending reads; SS-016 created for UR-01 to UR-17 (§36); UR-04/05/06 live (v2.15.391, v2.15.392) |
+| 1 Nov 2026 12:35 | Layer 4 timeout stop cleared at the database (v2.15.390, §35); ANU rank/score scope 22 pending reads; SS-016 created for UR-01 to UR-17 (§36); UR-04/05/06 live (v2.15.391, v2.15.392) |
