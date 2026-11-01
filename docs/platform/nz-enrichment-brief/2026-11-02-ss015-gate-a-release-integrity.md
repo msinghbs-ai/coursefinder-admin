@@ -165,3 +165,18 @@ Live `ezbr_sha256` bundle hashes are recorded by `list_edge_functions` but are n
 **Regressions found:** none in consumer API shape, function checksums or edge sources. No application 5xx in the window.
 
 Not in scope for this stream but seen: 4 raised hard flags `idle_paused` on jobs (`flag-recheck`, latest 1 Nov 18:50Z). These belong to the stream covering jobs.
+
+## Deployed UAT on v2.15.401 (integrator, 2 Nov 07:05 AEDT)
+
+**Run:** `deployed-weekly.yml` run **41343856629**, dispatched by hand on main `c9338a91` (v2.15.401), live-acting **off** (the 10 live-acting tests held).
+
+| Project | Result |
+|---|---|
+| Desktop (`chromium-desktop`, @deployed) | **81 passed**, 0 failed |
+| Phone (`chromium-mobile`, @deployed) | **81 passed, 1 flaky**, 0 failed: `performance-deployed.spec.mjs:27` "exact CRICOS lookup, detail, paging and browser back stay interactive" took 20.6 s on the first try and passed in 14.7 s on the retry |
+
+**Verdict for the line "Deployed API, desktop and applicable phone UAT pass": Pass.** One phone performance test is flaky, disclosed here. It is a timing budget on the phone viewport; no function failed.
+
+**Gate A: Pass (6 of 6).**
+
+**Follow-up (P2):** the Monday 05:17 schedule did not fire. Check the scheduler for `deployed-weekly.yml` before next Monday.
