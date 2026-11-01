@@ -3,7 +3,7 @@
 -- PASTE FILE. Not applied by any migration. Run only after the Platform Admin approves E14 option (a).
 -- Changes catalogue.course_entry_requirements.status active -> inactive for exactly 105 rows; adds a provenance note. Nothing is deleted.
 -- Guards: 105 ids; md5 of the sorted ids = 23488f75ba7972f42126852e89292af2; all 105 currently 'active'; exactly 105 updated.
--- Guards checked read-only 1 Nov 2026 21:15 AEDT (forward): 105 of 105 active, md5 matches. Not run.
+-- Guards checked read-only 1 Nov 2026 20:24 AEDT (forward): 105 of 105 active, md5 matches. Not run.
 -- Note: rows these approvals superseded under the whole-read rule are NOT restored by this file; those courses show no entry rows until re-review.
 begin;
 do $$

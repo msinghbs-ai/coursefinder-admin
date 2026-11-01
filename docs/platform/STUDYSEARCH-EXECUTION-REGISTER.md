@@ -16,26 +16,34 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Progress — 1 Nov 2026 19:55 AEDT**
+**StudySearch Progress — 1 Nov 2026 20:25 AEDT**
 
-**Engineering (SS-001 to SS-015):** `███████████░░░░` **73%**: 11 of 15 completed, 3 verifying (SS-004, SS-007, SS-014), 1 in progress (SS-015), 0 remaining unstarted. No movement since 14:40; the observation windows are running.
+**Engineering:** 11/15 completed and verified; 4 remaining (SS-004, SS-007 and SS-014 verifying; SS-015 in progress). No movement since 14:40; the observation windows are running.
 
-| Completed and verified | Verifying | In progress | Blocked |
-|---:|---:|---:|---:|
-| 11 | 3 (SS-004, SS-007, SS-014) | 1 (SS-015) | 0 |
+**SS-016:** 0/17 accepted; 6 implemented, awaiting acceptance (UR-04, UR-05, UR-06, UR-07, UR-09, UR-13); 11 remaining. UR-01, UR-02, UR-03 and UR-17 are being prepared on a branch (not released).
 
-**UI usability (SS-016):** 0 of 17 accepted; 6 technically implemented and awaiting acceptance (UR-04, UR-05, UR-06, UR-07, UR-09, UR-13); 11 remaining. Enhancement **UR-18** (provider-level bulk review, direction 19:42): design and approval pack ready, not built (`nz-enrichment-brief/2026-11-01-provider-bulk-review-design.md`).
+**Bulk review (UR-18):**
 
-**Layer 4 (batch L4B-20261101-1253):**
-- Opening 1,870; currently pending **1,354** (AER 539).
-- **519** decisions verified (+21 since 15:44).
-- **458** items admitted: 454 AER items with **1,230** rows Active, and 4 fees.
-- 61 reconciled without admission; 2 downstream.
-- Exceptions: E1–E13 in the decision pack. E12 (QUT) was assessed and held; E13 (6-row reader cap) is new.
-- 12 of 17 kinds hold items. Course-entry reads that can be decided under the current rules are finished; the rest wait for a decision or new evidence (checkpoint 9).
+| Stage | Status |
+|---|---|
+| Design | Done; admission contract resolved (design §10) |
+| Approved | Proposed disposition D-B1 to D-B4 received 20:08; **not yet ratified** |
+| Implemented | No |
+| Fixture tested | No |
+| Production enabled | No |
 
-**Current work:** SS-016 UR-01, UR-02, UR-03 and UR-17, and the acceptance of the six implemented findings. Layer 4: remaining kinds by stable reference.
-**Next milestone:** UR-01 alert guidance corrected from D12 facts and released, with tests and a live check. Decisions D-B1 to D-B4 and E11 to E13 are with the Platform Admin.
+**Layer 4:** opening 1,870; pending **1,355**; **519** verified decisions; **458** admitted items; **1,230** Active entry rows, of which 105 are proposed for withdrawal under E14; exceptions E1–E14; 1 new arrival since 19:55.
+
+**Data integrity:**
+
+| Exception | Status |
+|---|---|
+| E1 | 46 affected, 46 verified, 0 remediated. Withdraw 41, keep 5; paste file ready, not run |
+| E11, E12 | Awaiting authority (read-only checks done) |
+| E13 | Measured: incomplete for 225 reads; gate proposed |
+| E14 | 18 items, 105 rows; paste file ready, not run |
+
+**Next:** release UR-01, UR-02, UR-03 and UR-17 after a green suite, with a live check (integrator); acceptance walkthroughs; Platform Admin decisions on E1, E14, D-B1 to D-B3, and E11 to E13.
 
 | Outstanding | Next action | Human approval |
 |---|---|---|

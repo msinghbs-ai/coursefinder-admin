@@ -132,7 +132,7 @@ From `layer4_bulk_operations` and `_items`: the following figures go in the Mond
 
 Until these are recorded, settlement continues one item at a time under the v5 playbook, and nothing in this design is built.
 
-## 10. Admission contract for catalogue gaps (resolved 1 Nov 2026 20:55 AEDT; direction 20:08 §1)
+## 10. Admission contract for catalogue gaps (resolved 1 Nov 2026 20:18 AEDT; direction 20:08 §1)
 
 The direction asked whether the bulk path can reuse the existing admission and audit functions for courses that have no pending Layer 4 item, without assuming it. The live definitions say what follows.
 

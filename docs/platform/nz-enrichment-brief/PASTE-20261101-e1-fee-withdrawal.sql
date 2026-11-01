@@ -6,7 +6,7 @@
 -- What it does: status 'active' -> 'inactive' with a note. Nothing is deleted. The search projection is asked to refresh.
 -- Guards: exactly 41 ids; md5 of the sorted ids = 3a9fd3758f1e4f989425478265f68618; all 41 still active provider_current_tuition rows
 --   carrying their 30 Oct Layer 4 note; exactly 41 rows updated. Any mismatch aborts with nothing changed.
---   Guards checked read-only on 1 Nov 2026 20:40 AEDT: 41 of 41 rows pass, md5 matches. The file was not run.
+--   Guards checked read-only on 1 Nov 2026 20:20 AEDT: 41 of 41 rows pass, md5 matches. The file was not run.
 -- Rollback: PASTE-20261101-e1-fee-withdrawal-rollback.sql (same ids, inactive -> active, same guards).
 
 begin;

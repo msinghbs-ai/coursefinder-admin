@@ -10,7 +10,7 @@
 
 | # | Exception | Items | What is needed | Recommended | Spend |
 |---|---|---:|---|---|---|
-| E1 | Fees admitted by mistake on 30 Oct (re-verified 1 Nov 20:40) | 46 | Withdraw 41 (not supported by the stored copy), keep 5 | Run `PASTE-20261101-e1-fee-withdrawal.sql` (count-guarded, not run) | None |
+| E1 | Fees admitted by mistake on 30 Oct (re-verified 1 Nov 20:20) | 46 | Withdraw 41 (not supported by the stored copy), keep 5 | Run `PASTE-20261101-e1-fee-withdrawal.sql` (count-guarded, not run) | None |
 | E2 | UniSA and Adelaide left the register | 2 | Merger authority | Record as merged into Adelaide University | None |
 | E3 | Stamford, Nova, St Peters, Asia Pacific, "N/A" | 5 | Successor or closure, provider by provider | Closed, unless a successor is named | None |
 | E4 | Onboarding kinds | 547 | A route per kind | Name a pilot budget, or mark "CRICOS data only" | Ceiling set by PA |
@@ -71,7 +71,7 @@
 **Cost:** none.
 
 
-### E1 re-verification (1 Nov 2026, 20:15–20:40 AEDT; direction 20:08 §2)
+### E1 re-verification (1 Nov 2026, 20:12–20:20 AEDT; direction 20:08 §2)
 
 **Current state (live):**
 - All 46 rows are still `active`; none has been superseded.
@@ -99,7 +99,7 @@
 **Revised option (a), recommended:**
 - Withdraw **41** rows (status `inactive`, with a note) and keep 5. Nothing is deleted.
 - Paste file: `PASTE-20261101-e1-fee-withdrawal.sql`; rollback: `PASTE-20261101-e1-fee-withdrawal-rollback.sql`.
-- Count guards: 41 ids, md5 `3a9fd3758f1e4f989425478265f68618`, all still active with the 30 Oct note, exactly 41 updated. The guards pass read-only (20:40). The file was **not run**.
+- Count guards: 41 ids, md5 `3a9fd3758f1e4f989425478265f68618`, all still active with the 30 Oct note, exactly 41 updated. The guards pass read-only (20:20). The file was **not run**.
 
 **After withdrawal:**
 - 38 of the 41 courses keep their CRICOS registered total-course fee.
@@ -326,7 +326,7 @@ The direction of 1 Nov 19:42 asks for the exact controlled recovery requirements
 
 **Rollback:** none; nothing is changed until a decision.
 
-## E11 (second addition, 1 Nov 21:10). Read-only check of the stored RMIT copies
+## E11 (second addition, 1 Nov 20:24). Read-only check of the stored RMIT copies
 
 Six stored RMIT copies were sampled at random from the 298 pending items. They were read in the Layer 4 evidence viewer (no fetch, no AI).
 - **Every copy holds both banner texts:** "You're viewing program information for local students" and "… for international students". They are the two labels of the page's audience toggle. **The banner test in step 2 above is therefore not a valid check** and is replaced. The check must find the international entry content itself.
@@ -336,7 +336,7 @@ Six stored RMIT copies were sampled at random from the 298 pending items. They w
 
 **Consequence:** the stored copies may already hold the international content, in which case no new page acquisition is needed. This is not proven until the page's audience structure is identified. **Next read-only step:** map where RMIT puts country-specific international qualifications (in the copy, or loaded later by script). If they are in the copy, the recovery reduces to an international-only re-read of the stored copies. That costs about US$0.0082 a read (measured mean of 385 QUT and RMIT entry reads), so about US$2.45 for 298, under a ceiling the Platform Admin sets.
 
-## E12 (addition, 1 Nov 21:10). International-only extraction method and bounded pilot
+## E12 (addition, 1 Nov 20:24). International-only extraction method and bounded pilot
 
 **Method (proposed; nothing run):**
 1. **Source:** the stored QUT copy, cut to the `requirements-international` block, which includes the country selector's `data-content` entries. Domestic blocks are never sent to the reader.
@@ -350,7 +350,7 @@ Six stored RMIT copies were sampled at random from the 298 pending items. They w
 - Acceptance: every block entry accounted for, and every score with a scale.
 - Needs the Platform Admin's spend approval and the E13 gate first.
 
-## E13 (measured, 1 Nov 21:00). Does the 6-row cap stop complete publication?
+## E13 (measured, 1 Nov 20:24). Does the 6-row cap stop complete publication?
 
 **Yes.** The reader records the rows it drops beyond the cap (`field_enrich_items.value->dropped`, reason `over_row_limit`).
 - **All course entry reads (1,117):** 225 dropped rows at the cap, 3,189 rows in total (median 4, maximum 111). 193 of the reads are Australian and 32 New Zealand.
@@ -368,7 +368,7 @@ The cap does more than leave routes out: on these pages it can publish a **lower
 - **Variant check:** when a quote names a programme or credit variant other than the course's own (for example "MIT (240)" on a Postgraduate Certificate), the row is dropped with the reason `other_programme`.
 - **Tests:** a contract spec with fixture reads covering a cap overflow, a conjunction, a sibling variant and a clean read, then a supervised run on stored copies. No paid re-read under the current mandate.
 
-## E14 (new, 1 Nov 21:05). Approvals of 1 Nov that need correcting
+## E14 (new, 1 Nov 20:24). Approvals of 1 Nov that need correcting
 
 **What happened:** this session approved these items one at a time on 1 Nov after checking that each quote was on the stored copy and each row was faithful to its quote. It did not check two things the playbook requires ("course items have strong exact-course identity"; completeness):
 - whether a row belongs to **this** course's variant on a combined page;
