@@ -20,6 +20,7 @@
 | E8 | Griffith eligibility and a misleading re-check | 2 | Rule correction | Fix the re-check; decide on the 2 by hand | None |
 | E9 | ANU entry-score reads | 22 | Interpretation | Reject the reads; build an ANU rank rule | None |
 | E10 | Fee checks needing a policy | 28 | Rule for single-rate and per-discipline schedules | See E10 | None |
+| E11 | RMIT entry reads from the local-student view | 298 | Reject and re-read from the international view, or wait | Store the international view, then re-read | Reader credits; ceiling set by PA |
 
 ## E1. Fees admitted when the reviewer asked for a re-read (new, found 1 Nov 14:05)
 
