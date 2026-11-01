@@ -18,3 +18,18 @@
 **How to answer:** "Approve E1", "Approve E14", "E11 ceiling US$x", and so on. Each approval is recorded verbatim before anything runs.
 
 **E15 note (added 1 Nov 23:05):** the server fix (one md5-guarded edit of `security.layer4_course_link_apply_impl`: a hand lock refuses with the course-record route; old official links are made inactive; the approved link becomes primary; `course_url` follows) is engineering. It ships as its own release after v2.15.396. The data repair above is not in any migration. The other 11 courses of 30 Oct and the 169 catalogue-wide are a separate, wider repair for the Platform Admin to scope.
+
+## Status after the Platform Admin decisions (2 Nov 2026 05:34 AEDT)
+
+Decisions of 2 Nov 05:18 are recorded verbatim in `2026-11-02-morning-execution-mandate-and-decisions.md`. Detail: `2026-11-02-e1-e14-e15-remediation-record.md`.
+
+| # | Decision | State |
+|---|---|---|
+| E1 | Approved | **Done and verified:** 41/41 withdrawn, 5 kept; event #28596; website/Zoho checked |
+| E14 | Approved (UI route) | **Done and verified:** 105/105 withdrawn in Catalogue › Entry requirements, one at a time; audit #13295–#13399; 0 active on the 18 courses |
+| E15 | Approved, option B | **Done and verified:** Part 1 (4 courses, event #28597); Part 2 option B recorded (event #28598); 6/6 courses with one primary official link |
+| E11 | Design approved; bounded pilot within a separately recorded ceiling | Preparing the read-only check of stored copies; **ceiling not yet recorded** |
+| E12 | Design and 5-course pilot approved, subject to a recorded ceiling | **Waiting for the ceiling amount**; runs after the E13 gate |
+| E13 | Build approved | In build (fixture and stored-evidence tests) |
+| D-B1–D-B3 | Approved | UR-18 slice 1 in build; production apply off |
+| D-B4 | Not approved | — |

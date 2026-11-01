@@ -16,42 +16,37 @@
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
-**StudySearch Overnight Progress — 2 Nov 2026 02:00 AEDT**
+**StudySearch Progress — 2 Nov 2026 05:35 AEDT**
 
-**Engineering:** 11/15 completed and verified; 3 verifying (SS-004, SS-007, SS-014); 1 in progress (SS-015). The observation windows are still running.
+**Engineering:** 11/15 completed and verified, 3 verifying (SS-004, SS-007, SS-014), 1 remaining (SS-015).
 
-**SS-016:** **2/17 accepted** (UR-06, UR-13). 13 implemented and awaiting acceptance:
-- UR-01, UR-02, UR-03, UR-04, UR-05, UR-07, UR-08, UR-09, UR-10, UR-11, UR-12, UR-16, UR-17;
-- the UR-03 guard is now live and proven by a real Admin sync;
-- P1 (Curator) and P2 (Counsellor) guide text now follows the server.
-
-2 not implemented: UR-14 and UR-15 (investigation only; no rollback baseline promoted).
-
-**Role simulation:** 6/6 role journeys pass as **fixtures**. **Live: 1/6** (Platform Admin). Lower-role sessions are needed for the other five; none were fabricated.
-
-**UR-18:** design done (§10 admission contract). Not built. D-B1 to D-B3 not ratified; D-B4 separate.
+**SS-016:** 2/17 accepted (UR-06, UR-13), 13 implemented awaiting acceptance, 2 remaining (UR-14, UR-15).
 
 **Layer 4:**
-- live pending 1,352;
-- 521 verified decisions overnight: #28585 SITI fee, plus #28588, which live-verified the E15 fix (Otago, Bachelor of Applied Management);
-- holds kept on RMIT, QUT and ANU;
-- exceptions E1–E15: E1, E14 and E15 repair packs await approval; E11–E13 ceilings await approval.
+- opening 1,870; current pending 1,353;
+- decisions verified 521;
+- admitted items 459;
+- Active entry rows 1,304 (was 1,409 before E14);
+- exceptions open: E2–E13 (E1, E14 and E15 closed today).
 
-**Releases overnight:** v2.15.396, 397, 398, 399 and 400, all live and verified (v2.15.395 was live at 21:25). Current: **v2.15.400**.
+**Data remediation** (Platform Admin decisions 2 Nov 05:18):
+- **E1:** 41/41 withdrawn and verified (event #28596; the 5 kept fees untouched; provider tuition shown on 27 → 0 of the 41 courses; website/Zoho checked).
+- **E14:** 105/105 withdrawn and verified through Catalogue › Entry requirements, one at a time (audit #13295–#13399; 0 active on the 18 courses).
+- **E15:** 6/6 course-link corrections verified (Part 1: 4 courses, event #28597; option B: 2 courses kept, event #28598).
+- **E11:** preparing the stored-copy check; no AI reads; US$0 spent; ceiling not yet recorded.
+- **E12:** 0/5 pilot courses; US$0; waiting for the recorded ceiling and for E13.
+- **E13:** in build (design → build); not tested, not live.
 
-| Release | Pilot | Content |
-|---|---|---|
-| v2.15.397 | `30b249dc` (#789) | Refusals and links name the role; six role fixtures |
-| v2.15.398 | `8f15da35` (#790) | E15: the approved course page replaces the old one (migration `20261101120000`, md5 `214aae7e`) |
-| v2.15.399 | `64d98034` (#791) | Layer 4 Inbox decisions named as the Pipeline Operator's (P1); Counsellor text (P2); SOP mirror guard |
-| v2.15.400 | `1f7d41aa` (#792) | Mirror guard works with squash merges (defect found in the v2.15.399 sync) |
+**UR-18:** design done; slice 1 (country, state, campus, delivery location) in fixture build; not tested; not deployed; production enabled: **no** (D-B4 not approved).
 
-Each release: full suite with 0 failed and 0 skipped (v2.15.400: 1,406 passed); all post-merge workflows succeeded; live version checked; SOP mirrors and TEST-REGISTER synced. Migration head `20261101120000`.
+**Release:** v2.15.400 (Pilot `1f7d41aa`), 1,406 passed / 0 failed / 0 skipped, live verified. No release since 02:00.
 
-**Next:**
-- **Platform Admin:** decide the consolidated approval pack: E1, E14, E15 (Part 2 option A/B), E11–E13 and D-B1 to D-B3.
-- **Platform Admin:** lower-role sessions for live acceptance.
-- **Claude:** 2 Nov 07:30 SS-014 checks; the morning report.
+**Movement since 02:00:** decisions recorded verbatim; E1 41, E14 105 and E15 6 done and verified; E13 and UR-18 builds started; Layer 4 pending +1 (new arrival).
+
+**Next three actions:**
+1. Claude: review, test and release the E13 gate when its branch is ready.
+2. Platform Admin: record the E12 cost ceiling (and the E11 pilot ceiling).
+3. Claude: 07:30 SS-014 checks; read-only check of the RMIT stored copies (E11 preparation); review UR-18 slice 1.
 
 | Outstanding | Next action | Human approval |
 |---|---|---|
@@ -60,7 +55,7 @@ Each release: full suite with 0 failed and 0 skipped (v2.15.400: 1,406 passed); 
 | SS-014 | 2 Nov 07:30 checks; alert receipt | Confirm the [TEST] alerts arrived |
 | SS-015 | Two complete weeks (2–15 Nov); assess 16 Nov | Acceptance |
 | SS-016 | Live acceptance of 13 implemented items | Lower-role sessions; recovery baseline (UR-14) |
-| Layer 4 | `2026-11-01-consolidated-approval-pack.md` | Yes |
+| E11 / E12 | Pilots | Cost ceilings |
 
 ## Register
 
