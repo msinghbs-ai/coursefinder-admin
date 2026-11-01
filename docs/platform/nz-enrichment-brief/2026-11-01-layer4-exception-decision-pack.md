@@ -21,7 +21,8 @@
 | E9 | ANU entry-score reads | 22 | Interpretation | Reject the reads; build an ANU rank rule | None |
 | E10 | Fee checks needing a policy | 28 | Rule for single-rate and per-discipline schedules | See E10 | None |
 | E11 | RMIT entry reads from the local-student view | 298 | Reject and re-read from the international view, or wait | Store the international view, then re-read | Reader credits; ceiling set by PA |
-| E12 | QUT entry reads mix domestic and international rows | 38 | Approve the international rows only (approve-except), or reject and re-read the international view | Approve-except, one item at a time | None for approve-except; reader credits for a re-read |
+| E12 | QUT entry reads: domestic and international rows, every read at the 6-row cap | 38 | Reject and re-read the international view with a reviewed row cap, or leave pending | Re-read (assessed 1 Nov 20:00: approve-except is not supported) | Reader credits; ceiling set by PA |
+| E13 | Course entry reads cut at 6 rows (`entry.max_rows_per_course`) | 59 approved reads (354 rows Active) | Keep (rows are correct), or raise the cap and re-read | Keep; review the cap with E11 and E12 | Reader credits only if re-read |
 
 ## E1. Fees admitted when the reviewer asked for a re-read (new, found 1 Nov 14:05)
 
@@ -248,15 +249,40 @@ Measured now, 21 held items come from aggregator pages:
 
 ## E12. QUT entry-requirement reads that mix domestic and international rows (38)
 
-**Scope:** 38 AER course-entry first reads at QUT (29 Oct), held at batch L4B-20261101-1253 checkpoint 7.
+**Scope:** 38 AER course-entry first reads at QUT (29 Oct), held at batch L4B-20261101-1253 checkpoint 7. None of the 38 courses has active entry rows, so the D4 rule would allow Approve except.
 
-**Evidence:** every item mixes domestic rows (guaranteed offers, lowest selection rank, the VET guarantee, semester-offer thresholds) with international qualification rows.
+**Assessment (1 Nov, 19:55 AEDT; measured from the reads and stored copies):**
+- **Every read hit the reader's row cap.** All 38 reads have exactly 6 rows (`entry.max_rows_per_course` = 6). The 6 rows are a mix, so each course page held more requirements than were read.
+- **Domestic rows dominate.** 90 of 228 rows are tagged domestic (ATAR, selection-rank thresholds, guaranteed offers, Australian Year 12). Another 19 rows are AQF diploma and VET offer guarantees, a domestic admission route, but tagged "all".
+- **Few international rows, and most lack a scale.** After leaving out domestic rows and "assumed knowledge" notes, 73 rows could stay (IB, A-Level, SAT, GED, US high school, NCUK, Bellerbys, INTO, NCC). 11 items would keep none, 14 would keep 1–2, and 13 would keep 3 or more. 64 of the 73 carry a score with no scale field (for example IB "28" and US GPA "3", where the 4-point scale is only in the quote).
+- The stored copies are QUT's combined page: both audiences are in one HTML file, with the international qualifications in a `requirements-international` block.
 
-**Risk:** "Approve all rows" would show domestic admission rules to international students.
+**Why Approve except is not used:** each approval would publish a partial international list (often one or two routes) chosen by the row cap, not by the page. Most kept scores also lack the scale the playbook requires ("every number has its scale"). The items stay pending.
 
 **Options:**
-- (a) **Approve except the domestic rows**, one item at a time, after each kept row passes the quote check. **Recommended.** No new read and no cost.
-- (b) Reject the reads and read the international view again (about 40 page reads plus the AI read; ceiling set by the Platform Admin).
-- (c) Leave them pending.
+- (a) **Reject the 38 reads and read the international view again**, with the international block as the source and the row cap reviewed for multi-route pages. **Recommended.** About 40 page reads plus the AI read; ceiling set by the Platform Admin.
+- (b) Leave them pending.
+- (c) Approve except, one item at a time, accepting partial international lists and scale-less scores. **Not recommended.**
 
-**Rollback:** an approved row can be withdrawn through the existing Layer 4 controls; rows left out under (a) stay as evidence and are not admitted.
+**Rollback:** none needed for (b). Under (a), rejected reads are withdrawn rows; a new read proposes again.
+
+## E11 (addition, 1 Nov 19:55). RMIT recovery requirements
+
+The direction of 1 Nov 19:42 asks for the exact controlled recovery requirements. No RMIT item is decided from the local-student copies.
+
+1. **Source:** store each program's international view. The local copies print "You're viewing program information for local students"; the stored copy must show the international banner, or the international entry block. Each RMIT program also has plan pages (for example `…/diploma-of-visual-arts-c5448/c5448auscy`). Which URL or parameter serves the international view is confirmed with a live check during the authorised acquisition step, not assumed.
+2. **Check before reading:** a copy is read only if its entry section is the international one, with no ATAR, Guaranteed ATAR, adjustment factor or STAT rows. The banner text is the test.
+3. **Read:** a fresh course-entry read of the stored international copy. The 6-row cap (`entry.max_rows_per_course`) is reviewed first (see E13), because RMIT pages list many international qualifications.
+4. **Old items:** each of the 298 local-copy reads is rejected one at a time in the Layer 4 UI, naming the new read, only after the new read exists. Nothing is rejected in bulk.
+5. **Authority:** steps 1 and 3 are source acquisition and paid AI processing. Both wait for the Platform Admin's approval and spend ceiling: about 300 page fetches and 300 AI reads.
+6. **Acceptance:** quotes on the international copy; rows with a scale for every score; the D4 rule for courses that by then have active rows; Active rows verified after each approval.
+
+## E13. Course entry reads cut at 6 rows (new, 1 Nov 19:55)
+
+**Finding:** the course entry reader proposes at most 6 rows a course (`entry.max_rows_per_course` = 6, CF-247 Track C). Of the 454 course-entry reads approved on 1 Nov, 59 have 6 rows (354 rows Active). Their rows were checked against their quotes and are correct, but those pages may print further routes that were not read. QUT (E12) and RMIT (E11) are the clearest cases.
+
+**Options:**
+- (a) **Keep the approved rows** (they are correct) and review the cap before the E11 and E12 re-reads. **Recommended.**
+- (b) Raise the cap in Settings › Pipeline settings (with a reason) and re-read the 59 courses. This costs reader credits; ceiling set by the Platform Admin.
+
+**Rollback:** none; nothing is changed until a decision.
