@@ -11,6 +11,7 @@ Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08
 
 | Date | Mandate | Record |
 |---|---|---|
+| 2 Nov | CF-247 AER catalogue-first coverage: 1,476 eligible AU/NZ providers, 34 source-linked; named university gaps and RMIT/UWA classification (**audit/mandate; no reads deployed**) | `2026-11-02-aer-catalogue-provider-coverage-reconciliation.md` |
 | 2 Nov | CF-247 continuous AER assurance: automated provider/qualification/source gap reconciliation, Admin progress and existing email/push reporting (**design only; ingestion holds remain**) | `2026-11-02-aer-continuous-assurance-mandate.md` |
 | 2 Nov | CF-247 AER design Draft 1.2: qualification-first, global IB/GAC/A Levels, missing UK and other country coverage, postgraduate admission, all eligible AU/NZ providers and provider source URLs (**design only; ingestion holds remain**) | `../ENTRY-REQUIREMENTS.md` §F; `2026-11-02-aer-qualification-coverage-gap-assessment.md` |
 | 31 Oct 10:23 | StudySearch production stabilisation, operational autonomy and rebranding (**primary**) | `2026-10-31-studysearch-transformation-mandate.md`, record `2026-10-31-studysearch-transformation.md` |
