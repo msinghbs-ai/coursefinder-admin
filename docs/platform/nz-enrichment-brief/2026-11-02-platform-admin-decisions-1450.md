@@ -26,3 +26,12 @@ Also recorded: production writes through the database tool need the Platform Adm
 
 Still open: D-A4 (record the E11/E12 cost ceilings), D-A6 (G3 approval for any consumer qualification filter or new response field), D-A7 (Monday 08:00 report destination).
 Every recovered minimum still goes through Layer 4; no automatic admission; the D-A3 ceiling sits inside the US$14/day platform total enforced since v2.15.404.
+
+# Decisions, 2 Nov 2026 ~16:40 AEDT (in-session answers, verbatim)
+
+| # | Question (as asked) | Answer (verbatim) |
+|---|---|---|
+| D-A4 | E11/E12 cost ceilings for the RMIT and QUT pilots (estimates: RMIT 298 stored-copy re-reads ~US$2.45; QUT 5-course pilot ~US$0.05), inside the US$2/day AER ceiling and US$14/day platform total | "E11 US$5, E12 US$1 (Recommended)" |
+| D-A7 | Where should the Monday 08:00 AER executive report be delivered? | "Email,copy to be stored in admin repo, and admin dashboard" |
+
+Consequences: E11 (RMIT) and E12 (QUT) pilots may proceed from stored copies within US$5 and US$1 respectively, each also inside the US$2/day AER ceiling (D-A3); every recovered minimum still goes through individual Layer 4 decisions. The weekly report goes by the existing alert e-mail route (no new recipient), a copy is committed to the Admin repo each Monday, and it shows on the Admin dashboard.
