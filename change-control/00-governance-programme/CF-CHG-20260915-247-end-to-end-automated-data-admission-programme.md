@@ -10166,3 +10166,13 @@ Several time labels written during this mandate ran ahead of the clock. Correcte
 - **Rollback:** the before-definition (md5 `29315678`). The settings may stay.
 - **Local full suite:** 1,310 passed, 0 failed, 0 skipped. Register regenerated (s193; s6 extended).
 - **Records:** record §30; `STUDYSEARCH-IDENTITY-INVENTORY.md`; `OPERATIONAL-LIMITS.md` 1.1 (targets T1 to T8).
+
+
+### 2 November 2026 AEDT — SS-017: AER v1.1 design assessment and proposed qualification/coverage extension
+
+- **Origin / authority:** user mandate in StudySearch Codex, continuing RMIT Entry Requirements Review (conversation `6ae80011-2f3c-83ec-8902-170b20cef19e`): assess and version design with dated gap register; preserve governance; no production deployment.
+- **Class / owner:** governance/design addendum; CF-247, 00-governance-programme; Platform Admin owns semantic/API/scope decisions, main integrator owns subsequent proposal. Other surfaces: model/source authority, Admin/PIM, enrichment, consumers and UAT.
+- **Before → after:** consolidated AER design v1.0 → v1.1 at the same canonical path; historical 29 October sections retained, proposed §13 added. The canonical ten-item register (AER-GAP-01–10), grouped into eight assessment themes, covers portable qualifications (IB/GAC/A Levels/US diploma, NP/CH), GB/all published countries, postgraduate routes, all eligible AU/NZ providers, qualification-first filters, Provider official URL registry, lookup evidence and completeness/freshness.
+- **Record / evidence / acceptance / rollback:** [full dated response](../../docs/platform/nz-enrichment-brief/2026-11-02-aer-qualification-coverage-design-review.md), [design](../../docs/platform/AER-TECHNICAL-DESIGN.md) §13; router, thread index, execution register and change register updated atomically in this documentation PR. GitHub PR commit/diff is the immutable implementation reference. Documentation validation only; no live census or runtime acceptance claimed. Revert the documentation commit by reviewed PR if required; no DB rollback.
+- **Semantic impact:** proposed only. Existing sources/matrix/course requirements and human review reused; no new physical objects asserted. No runtime, UI release, role/security change or paid read. Existing consumer fields/signatures unchanged.
+- **State:** assessment documented; semantic extension PROPOSED; SS-017 Awaiting decision. No production deployment. The 30 October ingestion hold and P1 execution scope remain. G3 and human-review gates remain; next gate is Platform Admin semantic/scope review and integrator read-only census/minimal additive proposal.
