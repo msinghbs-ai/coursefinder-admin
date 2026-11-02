@@ -71,3 +71,26 @@ any approval gate exists below.
    - Nothing is carried red or skipped. Phone-viewport runs are only for `@responsive` tests and the deployed gate. The three screens operated from a phone (Course catalogue list, Course detail blade, Layer 4 Review) keep real phone tests (`s121`).
    - Weekly deployed run (Platform Admin 26 Oct 2026 10:49): Monday 05:17, desktop and phone. Deployed tests that change live data or the UAT user's settings are tagged `@live-acting` and held unless the live-acting switch is on (default off). The Monday line reports safe specs run and live-acting specs held separately, with the results from the `deployed-weekly-results` branch.
    - Quarterly prune alongside the docs budget. The Monday line reports tests added, retired and net for the week.
+
+## Integration Controller and operating modes (Platform Admin, 2 Nov 2026 16:58)
+Source (verbatim): `nz-enrichment-brief/2026-11-02-continuous-validation-integration-feedback-mandate-1658.md` §13.
+
+**Integration Controller:** the Claude session acting as single integrator for StudySearch (one at a time; named in the execution register header). It alone:
+- assigns and prioritises remediation issues in the integration feedback queue and gives each development agent one owned code area or migration family (one owner per function or migration family; isolated branch or worktree each);
+- merges and deploys (release controller): one release at a time, each release naming its issue IDs, migrations, affected functions and UI, expected effects, risks, verification steps and rollback or forward-recovery;
+- runs production writes outside migrations (paste files and governed SQL), in the load-policy windows;
+- returns any failed validation to the queue with the new evidence, and closes an issue only after production verification;
+- keeps the consolidated progress report (execution register, Admin dashboards, durable reports);
+- is the **only** party that may declare the overall remediation programme complete, on verified production evidence against the documented acceptance criteria (mandate §11 completion gate).
+
+Development agents never merge, deploy, write to production or spend vendor budget on their own; a whole vendor budget is never handed to one agent.
+
+**Operating Mode 1 — Active Remediation.** Continue Discover → Diagnose → Develop → Test → Integrate → Deploy → Validate → Record feedback → Create remediation tasks → Repeat until every programme acceptance criterion passes. A workstream finishing is not a reason to stop. Completion means verified operational behaviour in the deployed platform, not a commit, a local test pass or a successful deployment.
+
+**Operating Mode 2 — Steady-State Monitoring.** Entered only when the Integration Controller declares acceptance. Scheduled checks (V4) detect new failures, regressions, queue anomalies and lifecycle inconsistencies, and automatically create or reopen integration issues by fingerprint (no duplicate for an unchanged problem; a recurrence after closure reopens the original as a regression). Issues within approved operational authority return the platform to Mode 1 for that issue; anything needing separate approval (spend, destructive action, consumer API under G3, admission authority) is escalated to the Platform Admin as a consolidated decision, never as per-entity notifications.
+
+**Validation layers:** V1 development (static, unit, SQL, contract, security, full local suite 0 failed / 0 skipped); V2 integration (layer hand-offs, lifecycle cascades, search/cache/API consistency); V3 deployment (migration and function md5s, worker versions, job compatibility, deployed smoke tests, logs, queues and leases, unexpected Firecrawl or AI spend, metrics against the pre-deployment baseline); V4 continuous production checks through the existing scheduler, incremental, never whole-database scans.
+
+**Escalation:** P0 (consumer-visible incorrect data, integrity corruption) → existing deduplicated critical alert plus immediate Mode 1 work; P1 → assigned within the current batch; P2 → queued. Genuine external, budget or human-policy blockers are reported and tracked, never closed silently.
+
+**Current mode (2 Nov 2026 17:00):** Mode 1 — Active Remediation (CF-247 programme not yet accepted; SS-015 Gates C–E open).
