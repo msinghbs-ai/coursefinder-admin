@@ -26,3 +26,11 @@
 ## Breach handling
 
 A production job failure that coincides with validation load is recorded as "suspected validation-induced interference, pending root-cause verification". It is never relabelled as a pass.
+
+## Update 2 Nov 11:30 (v2.15.403, Decision 4)
+
+The admission writers now start at **:x3** (coverage-admit), **:x5** (coverage-admit-intakes) and **:x9** (adapter-overwrite) of each 10 minutes.
+- Production reads heavier than a lookup run at **:x6–:x8** only.
+- Avoid :35–:42 (exit awards at :37) and :47–:48 (hourly coverage build).
+
+Full deployed desktop and phone runs are **authorised** (Decision 4: "dispatch an equivalent authorised read-only run"). They are dispatched with admission run times watched; a time-out during a run is recorded as an incident.
