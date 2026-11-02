@@ -14,3 +14,15 @@ Also recorded: production writes through the database tool need the Platform Adm
 - 2 → run `ui-audit/e16plan3/f3-quarantine.sql` (Part U for the 2 unclear fees stays commented out).
 - 3 → the fill job's date rule is changed to named-period-only before it is switched on; month-only rows keep month only; years only where printed.
 - 4 → release the provider description reader (migration renamed to sort after 20261102080000), then the pilot: `pdesc.provider_keys` = the five keys, `pdesc.ai_usd_max` = 1, `pdesc.firecrawl_reads_max` = 20, acquisition switches and `pdesc.enabled` = 1, job activated — each a separate recorded step.
+
+# AER decisions, 2 Nov 2026 ~15:25 AEDT (in-session answers, verbatim)
+
+| # | Question (as asked) | Answer (verbatim) |
+|---|---|---|
+| D-A1 | Replace the 28 Oct ~40-provider AER limit with the 1,476-provider scope (AU 1,279, NZ 197), for inventory and source discovery only (no paid reads, no admission)? | "Yes, inventory and discovery (Recommended)" |
+| D-A2 | Bounded RMIT re-read of its 7 held sources (IB, GAC, UK, Nigeria, Vietnam, Norway, Foundation) from copies already stored, no new page reads, once the reader fixes are released? | "Yes, stored copies only (Recommended)" |
+| D-A3 | Lift the 30 Oct AER ingestion hold for re-reading stored copies only, under a daily AI ceiling? | "Lift for stored copies, US$2/day" |
+| D-A5 | Approve new additive tables for qualification identity and provider recognition (no synthetic GLOBAL country)? | "Approve the tables (Recommended)" |
+
+Still open: D-A4 (record the E11/E12 cost ceilings), D-A6 (G3 approval for any consumer qualification filter or new response field), D-A7 (Monday 08:00 report destination).
+Every recovered minimum still goes through Layer 4; no automatic admission; the D-A3 ceiling sits inside the US$14/day platform total enforced since v2.15.404.
