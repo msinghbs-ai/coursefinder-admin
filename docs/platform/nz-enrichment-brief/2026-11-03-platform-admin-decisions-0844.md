@@ -17,3 +17,13 @@
 | D-M11 | Restore rehearsal | Prepared with a US$3 ceiling; **no spend until explicitly authorised** | Preparation only | prepared, not authorised |
 | D-M12 | PITR check | Authorised Dashboard read, if available | Platform Admin Dashboard read (the integrator has no Dashboard sign-in) | needs the Platform Admin |
 | — | D-A6, E16 C1, the 7 refused links, H07, SSC | Separate exceptions; not broadened | unchanged | open |
+
+## Execution notes (3 Nov, 09:20)
+
+- **D-M3:** the intake job runs hourly at :26. The first run with the pair reading is 09:26; the after counts go in the next checkpoint. Before (event #28695): 122 filled to the day, 81 to the year, 2,197 skipped.
+- **D-M4:** consumer check. UWA Master of Philosophy (Science) (course 0e04d722…) had only the two withdrawn months (January, December). Website API v2 now returns `intakes: []` for it, so it no longer shows months the page excludes. Search refresh request 7901 was processed at 08:56.
+- **D-M2:** the re-reads are blocked by a picker time-out introduced in v2.15.410 (IQ-00055, P2: the stored-copy page rule is evaluated per artifact). Workstream C is fixing it. The three reads stay queued until then; nothing wrong is published.
+- **D-M9:** the IQ-00043 fix is built.
+  - The root cause is job `exit-awards-apply` (:37 hourly) sending fragment addresses into `coverage_apply_course_v1`, whose upsert sets `status = 'active'`.
+  - Release v2.15.416 is in its full suite.
+  - Afterwards the paste file restores the 13 La Trobe links. The set is 13 links with id md5 `e31aadee…`; no other record shows the same cause.

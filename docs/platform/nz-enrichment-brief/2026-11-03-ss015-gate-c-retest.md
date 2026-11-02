@@ -9,7 +9,7 @@
 | A: 3 Nov 06:45–07:15 | 16 | 0 | 0 | 17.3 s (layer4-auto-admit) | **Pass** |
 | B: rolling 24 h from 2 Nov 07:06 | 614 | 3 | 3 | 120.1 s | **Not met (3 time-outs, cause identified)** |
 | Since 3 Nov 07:06 to 08:51 | 42 | 0 | 0 | 39.7 s | Pass so far |
-| 3 Nov 09:00–09:10 | — | — | — | — | due; recorded below |
+| 3 Nov 09:00–09:10 | 4 | 0 | 0 | 0.9 s | **Pass** |
 | 3 Nov 11:00–11:10 | — | — | — | — | due; recorded below |
 
 ## The three time-outs in window B
