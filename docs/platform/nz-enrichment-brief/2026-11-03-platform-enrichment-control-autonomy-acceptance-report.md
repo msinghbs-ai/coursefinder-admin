@@ -48,10 +48,12 @@ The programme is **not complete** until the items below are fixed and the accept
    - The standing gap queue timed out in 2 of its last 4 runs.
 4. **No scheduled AER work.**
 5. **Failures hidden behind a successful schedule:**
-   - `enrich_ai` errors;
-   - `nz_cop` has never succeeded;
-   - `cricos_peo` is called about 1,000 times a day with nothing to do;
-   - the provider-description picker.
+   - `enrich_ai` errors: a lock conflict with the `admin-jobs` runner, which held the task row `FOR UPDATE`. 2,240 items failed.
+   - `nz_cop` was reported as never succeeding. **Corrected 3 Nov:** it works (63 NZQA files, 197 providers flagged), but its answer carried no item count and its picker took 12 s against an 8 s limit.
+   - The active `cricos-peo` job calls its worker every minute with nothing due. **Corrected 3 Nov:** the job is active, not paused.
+   - The provider-description picker (fixed in v2.15.418).
+
+   Fixes for the first three: Workstream F branch `cf247-hidden-failures-country-config`.
 6. **Controls that are missing or misleading:**
    - no "retry failed items" anywhere;
    - spend estimates and exports are missing from most controls;
