@@ -180,3 +180,16 @@ Not in scope for this stream but seen: 4 raised hard flags `idle_paused` on jobs
 **Gate A: Pass (6 of 6).**
 
 **Follow-up (P2):** the Monday 05:17 schedule did not fire. Check the scheduler for `deployed-weekly.yml` before next Monday.
+
+## Deployed UAT on v2.15.403, with the admission stagger live (2 Nov 11:27–11:38 AEDT)
+
+**Run:** `deployed-weekly.yml` run **41367254350**, main `6fab70cf` (v2.15.403, PR #795), live-acting off. Authorised by Decision 4 (2 Nov 10:56).
+
+| Project | Result |
+|---|---|
+| Desktop | **81 passed**, 0 failed, 0 flaky |
+| Phone | **82 passed**, 0 failed, 0 flaky |
+
+Admission runs during the run (new minutes): adapter-overwrite 11:29, 31.3 s; coverage-admit 11:33, 48.3 s; coverage-admit-intakes 11:35, 32.9 s; provider-english-defaults 11:33, 33.2 s. **0 failures.**
+
+**Gate A on v2.15.403: Pass (6 of 6).** The 07:00 conflict between the deployed run and admission did not recur under the stagger. This is one window; the Gate C retest windows continue.
