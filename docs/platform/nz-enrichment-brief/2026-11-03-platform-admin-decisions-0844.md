@@ -27,3 +27,18 @@
   - The root cause is job `exit-awards-apply` (:37 hourly) sending fragment addresses into `coverage_apply_course_v1`, whose upsert sets `status = 'active'`.
   - Release v2.15.416 is in its full suite.
   - Afterwards the paste file restores the 13 La Trobe links. The set is 13 links with id md5 `e31aadee…`; no other record shows the same cause.
+
+## 09:32: Platform-led enrichment and autonomy direction
+
+Recorded verbatim in `2026-11-03-platform-led-enrichment-autonomy-mandate-0932.md`. It supersedes any instruction for Claude or its agents to enrich records by hand.
+
+**Integrator practice from 09:32:**
+- **No more record-level dispatch:** no more record-level re-queues by SQL, such as the 08:47 description retry (#28694). Re-reads go through the operator controls ("Read these again") or the platform's own schedules.
+- **What remains:**
+  - configuration under existing authority (settings and pilot cohorts with a recorded reason);
+  - releases;
+  - bounded acceptance tests;
+  - read-only diagnosis.
+- **Paste files:** they remain for governed corrections the Platform Admin approves, such as D-M4 and the IQ-00043 13-link restore.
+
+**Deliverable:** `2026-11-03-platform-enrichment-control-autonomy-acceptance-report.md`, the per-field control and autonomy matrix with the acceptance verdict.
