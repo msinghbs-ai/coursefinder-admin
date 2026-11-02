@@ -49,6 +49,10 @@ chat history is transport only. Australian English throughout.
   Pilot working rules: its CLAUDE.md (CF-247). Every code change traces to a decision
   recorded here FIRST.
 
+## AER consolidated design review — 2 November 2026
+
+SS-017: [detailed assessment](2026-11-02-aer-qualification-coverage-design-review.md), aligned to the existing [AER-GAP-01–10 register](2026-11-02-aer-qualification-coverage-gap-assessment.md) and ENTRY-REQUIREMENTS.md Draft 1.2 §F; consolidated design `../AER-TECHNICAL-DESIGN.md` v1.1 §13. Documentation assessment delivered; semantic extensions proposed, implementation awaiting decision. No ingestion hold lifted or production deployment authorised.
+
 ## Thread files (read only what a task touches)
 Base: https://raw.githubusercontent.com/msinghbs-ai/coursefinder-admin/main/docs/platform/nz-enrichment-brief/
 

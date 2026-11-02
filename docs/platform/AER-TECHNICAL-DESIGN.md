@@ -1,8 +1,9 @@
 # StudySearch – Academic entry requirements (AER): technical design and status
 
-**Version:** 1.0 (29 Oct 2026, platform release v2.15.368)
+**Version:** 1.1 (2 Nov 2026; dated assessment and proposed extension, section 13)
+**Historical baseline:** v1.0, 29 Oct 2026, platform release v2.15.368
 **Change control:** CF-247
-**Status:** platform delivered on Pilot; coverage in review; course reading paused on AI credit
+**Status:** current consolidated design; section 13 is PROPOSED, not deployed. Sections 1–12 describe the 29 Oct historical baseline.
 **Companion deck:** `StudySearch_Academic_Entry_Requirements_2026-10-29.pptx` (5 slides)
 
 This page brings the AER decision records into one design: how requirements are stored, how they are cross-referenced for a student, what is built, what the live numbers are, and what comes next. Where it differs from a decision record, the decision record wins and this page is corrected.
@@ -17,6 +18,10 @@ This page brings the AER decision records into one design: how requirements are 
 | `ui-audit/2026-10-29-aer-programme-consolidated-report.md` | Delivery evidence and the human decisions waiting (Part B9) |
 
 ---
+
+## Historical baseline — sections 1–12 (29 October 2026)
+
+Do not use these figures or queued actions as current runtime authority. Section 13 records the 2 November assessment and proposed extension; later accepted decisions remain authoritative.
 
 ## 1. Purpose and scope
 
@@ -277,4 +282,75 @@ AI spend is held by the OpenRouter credit floor (US$5). Reading stops before it 
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 2 Nov 2026 | Dated qualification/applicability, country/provider coverage, postgraduate, UI and Provider source design assessment; section 13 proposed; linked gap register. No production changes. |
 | 1.0 | 29 Oct 2026 | First issue: design, cross-reference, live status, plan; with the 5-slide deck. |
+
+
+## 13. Dated design revision — 2 November 2026 (v1.1, proposed extension)
+
+**Status:** assessment and proposed design; no implementation, ingestion, admission or production deployment authorised by this revision.
+**Effective:** 2 November 2026, AEDT. **Change control:** CF-247; work item SS-017.
+**Supersedes:** v1.0 as the current consolidated design document; sections 1–12 remain the explicitly dated 29 October baseline, not current live measurements.
+**Canonical gap register:** [AER-GAP-01–10](nz-enrichment-brief/2026-11-02-aer-qualification-coverage-gap-assessment.md), aligned to ENTRY-REQUIREMENTS.md Draft 1.2 §F.
+**Mandate and full assessment:** [dated response and gap register](nz-enrichment-brief/2026-11-02-aer-qualification-coverage-design-review.md).
+**Authority:** existing decision records continue to govern accepted behaviour. This section proposes extensions; it does not supersede the 28 October P1 execution limit or the 30 October ingestion hold.
+
+### 13.1 Assessment and boundaries
+
+The existing infrastructure already supplies provider-linked sources, evidence, matrix and course requirements, versioned human review, level mapping and a five-rule country resolver. The gap is not a missing AER platform. It is that country of education, qualification identity and policy applicability are conflated. Section 4's free-text qualification name and mandatory country cannot by themselves represent portable qualifications reliably. Section 7 has qualification text search, but no explicit qualification-first pathway selection. Section 1's 40-provider research cohort plus Federation is not proof of complete AU/NZ coverage.
+
+Later accepted changes must be read alongside the baseline: D5 adds the published-grade/no-stated-scale distinction (30 October); D4 adds `entry.min_scores[]` (31 October). The adapter-admission Rule 4 retirement is unrelated to AER resolver rule 4; the latter is not retired here. Baseline counts, settings, costs, screenshots, test totals and queued plans are historical.
+
+### 13.2 Proposed qualification and applicability model
+
+Keep the existing matrix, course requirements, sources and review paths. Before implementation, reconcile the current schema and all its readers/writers, then propose the smallest additive change. The concepts below are logical design attributes, **not claims that new database columns, tables or API parameters exist**.
+
+| Concept | Required meaning |
+|---|---|
+| Qualification identity | Stable family plus awarding body/system and variant; retain the exact published label and edition |
+| Applicability | Explicit global, specified countries, or unresolved scope, supported by a provider quote; never infer global applicability from an empty country |
+| Country of education | Applicant context, distinct from nationality, awarding system, provider destination and source page heading |
+| Admission route | Destination study level and coursework/research route; prior qualification is a separate dimension |
+| Requirement | Published minimum, basis/scale, prerequisites, AND/OR alternatives, exclusions and course/band linkage |
+| Proof | Source, quote, stored copy/hash, verification date, edition/intake and review history |
+
+Treat IB Diploma, GAC, GCE A Levels and American High School Diploma as separate qualification families. Distinguish full IB Diploma from certificates, A Levels from AS Levels and board variants, and US diploma alone from diploma plus AP/SAT/ACT or accreditation conditions. GAC is not automatically interchangeable with a foundation course. A portable qualification is not automatically accepted by every provider.
+
+For Nepal and Switzerland, show a provider's admitted global policy only when its published applicability supports both contexts. Preserve any country-specific restrictions. Never copy a UK A Level rule to all countries merely because its name matches. Keep unknown scope unresolved for review. Do not create a fake ISO country such as GLOBAL or use GB/US as a proxy for the qualification's global scope.
+
+### 13.3 Proposed lookup and interface
+
+Within Catalogue › Entry requirements and the Provider drawer, reuse the current workspace and filters:
+1. Choose provider and destination study level/route; course is optional for viewing provider policy.
+2. Choose a recognised qualification, grouped as international or country-specific where the admitted evidence supports that grouping.
+3. For country-specific routes, choose from the selected provider's supported education countries, then its qualifications. For international routes, education country must not hide the qualification; it can remain applicant context and constrain explicit restrictions.
+4. Display the published provider equivalency table without requiring a course. Label it as provider policy, not a confirmed course minimum.
+5. When a course is selected, resolve only evidence-supported qualification/applicability matches through the accepted course override → per-course row → printed band → provider minimum → contact-provider precedence. Keep course prerequisites and selection tasks visible. A missing course-to-band proof leaves the table view available and the course minimum unconfirmed.
+
+This is a proposed extension, not a silent replacement of `security.entry_resolve_v1(course,country)` or its consumer contract. Review a qualification-aware internal lookup and compatibility plan before changing any signature, payload or consumer behaviour. Specific restrictions and conflicting active rules must be surfaced and held; no arbitrary first-row selection or automatic eligibility calculation.
+
+Consumer choices derive only from active admitted requirements for the provider and route. Admin coverage views must also expose published/discovered/held/proposed/missing items so unsupported dropdown omissions do not conceal gaps. Changing provider, level or qualification resets incompatible dependent choices. Preserve paging, role checks, accessibility and phone behaviour. Reuse existing panels; any replacement follows housekeeping.
+
+### 13.4 Master's and other postgraduate rules
+
+Do not use Year 12 equivalencies as the default master's pathway. Capture the provider's actual prior degree, discipline, duration/recognition and grade basis; relevant experience; professional registration; portfolio/interview; bridging and alternative routes. Separate postgraduate coursework, graduate certificate/diploma and research entry (including honours/research preparation, supervisor/proposal conditions where published). Preserve AND/OR relationships and course exceptions. Do not infer AQF/NZQCF equivalence, convert GPA/degree classifications, or infer international applicability. An unstructured but evidenced course requirement remains useful; unavailable structured detail is a named gap, not a fabricated score.
+
+### 13.5 All eligible AU/NZ providers and country completeness
+
+The proposed final objective is every eligible AU/NZ provider in the canonical catalogue, including eligible non-university providers. The existing 40-provider plan remains the authorised ingestion cohort until separately changed. Establish a dated denominator from canonical provider identities, current registration/international-enrolment eligibility and publication state; record excluded or uncertain providers with evidence and reasons. Deduplicate identities, not institutions with similar names. Distinguish inventory coverage from consumer publication and from scheduled reading scope.
+
+For each eligible provider reconcile official country lists, international qualification pages, undergraduate/postgraduate policies, course pages and PDFs with discovered, stored, extracted, awaiting-review and active coverage. Explicitly audit United Kingdom/GB, Nepal/NP and Switzerland/CH plus every country actually published by the provider. Normalise “UK” to GB as a display/input alias only after checking the reference data. A source absent from the reader is not proof that the provider publishes no requirement. No completeness percentage without denominator, timestamp, exclusions and stage.
+
+### 13.6 Official AER URLs under Provider
+
+The Provider entity must expose an official primary AER navigation URL and its linked official source collection. Reuse `pipeline.entry_matrix_sources` (`provider_id`, `url`, unique provider/URL) as the existing acquisition registry; do not duplicate an independent list in `catalogue.providers`. A reviewed designation of a primary source, with any minimal additive metadata, requires a schema/read-path proposal first. No existing primary-URL column is asserted here.
+
+Show the primary URL and related country, qualification, postgraduate, course and PDF sources in Catalogue › Providers, with scope, edition, last verification, stored-copy access under existing permissions, and read/review/hold outcome. A navigation URL is not evidence for a grade; individual requirements retain their exact source and quote. Validate official domains, legitimate publisher/CDN relationships, redirects and replacements. Source changes preserve history and manual bindings. Expose a clear missing/unresolved-source outcome.
+
+Any Website/Zoho Provider payload addition requires explicit G3 authority and the governed developer-pack issue/handover; no field or parameter is promised by this document.
+
+### 13.7 Acceptance and change gates
+
+The detailed gap register and UAT cases are in the dated response. Before implementation: reconcile live objects and function md5s, approve semantic scope and the consumer compatibility proposal where applicable, and record execution in Admin before Pilot code. Before reading: explicitly lift the applicable ingestion hold with provider scope, spend ceiling and review capacity. Before publication: retain quote-on-page, printed scales/bases, D5 no-scale wording, identity/edition checks, active-only publication, reasoned versioned edits and authorised human Layer 4 review.
+
+No new status values, jobs, settings, panels, SOPs or duplicate API are introduced here. Any later implementation follows G1–G4 and housekeeping from their canonical sources. Destructive/consumer-shape changes retain their Platform Admin gate. This user mandate expressly prohibits production deployment.
