@@ -39,4 +39,4 @@ Branch `cf247-firecrawl-window-restore` (migration `20261103000500`) was prepare
 
 ## Spend in the window (2 Nov 16:39 → 3 Nov 01:35)
 
-About 5,500 credits used from the 300k grant at the 23:15 reading (294,481 left); the rest of the grant lapses at 02:57 unused, as directed ("Do not increase concurrency merely to consume expiring Firecrawl credits"). AI spend in the window about US$0.3.
+Vendor balance read at 23:15 AEDT: 294,481 credits left. The re-read run fd98d679 continued at concurrency 6 until 01:30 AEDT, so the final window total is to be taken from the vendor usage page rather than estimated here. The remainder of the grant lapses at 02:57 unused, as directed ("Do not increase concurrency merely to consume expiring Firecrawl credits"). AI spend in the window about US$0.3.
