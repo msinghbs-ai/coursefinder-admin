@@ -10,7 +10,7 @@
 - `2026-11-02-scholarship-coverage-baseline.md` (Workstream Bp: RC1–RC11).
 
 **Branch:** Pilot `cf247-scholarship-recovery`, off `origin/main` `f9c13bbb` (v2.15.408).
-**Release:** none yet. Release ceremony and deployment are the integrator's.
+**Commits:** `869d3d12`, `c88c3783` (pushed). **Release:** none yet. Release ceremony and deployment are the integrator's.
 
 **Not done by this workstream:** no production writes, AI calls or Firecrawl calls; nothing merged or deployed.
 
@@ -23,7 +23,7 @@
 | Migration | `supabase/migrations/20261102140000_cf247_scholarship_recovery.sql` |
 | Worker | `supabase/functions/coverage-sweep/index.ts` (v0.58.0), new `catalogue.ts`, `scholarship.ts` (listing item limit as a parameter) |
 | Central guard | `tests/uat/cf-247-s224-scholarship-coverage-recovery-contract.spec.mjs` (8 tests) |
-| Changed guard | `s7` (the render wait is now the setting `waitMs`) |
+| Changed guards | `s7` (the render wait is now the setting `waitMs`); `s3`, `s9`, `s216` (anchors moved with worker v0.58.0) |
 | Fixtures | `tests/fixtures/scholarship-recovery/` (`run.sh`, live definitions, before/after cases, UNSW umbrella page) |
 
 ### 1.2 Fixes
@@ -108,7 +108,13 @@ On the fixtures:
 **Tests:**
 - `s224`: 8 tests pass.
 - Central guards pass: `s32`, `s42`, `s57` and `s7`.
-- Full local suite: FULL_SUITE_PLACEHOLDER.
+- Full local suite (`--project=chromium-desktop --grep-invert @deployed`, 1,489 tests, run in two parts on a host at load 26-29 on 2 cores):
+  - every test passes on its own;
+  - the earlier failures were of two kinds:
+    - seven specs that run `npm run build` under a fixed 60 s limit (`cf-061`, `cf-065`, `cf-142-143`, `m2-5-evidence-lineage`, `m2-5-jobs-workspace`, `m2-5-platform-maturity`, `m245`): all seven pass when re-run with a longer limit, applied locally and reverted, not committed;
+    - mocked-browser timeouts under load (`builder-sampling`, `fetch-area-sweep`, `s179`, `s18`): they pass when re-run alone;
+  - three regression specs whose literal anchors moved with this change were updated in commit `c88c3783`: `s3` (listing item limit parameter), `s9` (`readSchPage`, a map per source) and `s216` (later worker versions);
+  - the integrator's CI run is the authoritative 0 failed / 0 skipped gate.
 - Release contract PASS; `npm run build` PASS.
 
 ## 6. After deployment (integrator)
