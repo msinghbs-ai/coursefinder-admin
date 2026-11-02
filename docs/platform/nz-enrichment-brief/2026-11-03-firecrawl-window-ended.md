@@ -57,3 +57,8 @@ Firecrawl runs started under the authority (`pipeline.firecrawl_runs`):
 Scheduled jobs (scholarship discovery and listing reads, central finds, on-demand) also spent credits during the window outside these runs; the vendor usage page gives the full total.
 
 Job failures during the window: admission and search-refresh time-outs 17:05–17:46 while concurrency was 50. Concurrency was cut to 24 then 12, and the re-read was paused 17:49–19:45; recovered by 18:56 (see the 2 Nov progress records). One hidden time-out of `search-refresh-requested` at 23:36 is logged as IQ-00044.
+
+## UNSW scholarship recovery restore (3 Nov 03:42 AEDT, event #28686)
+
+- `scholarship_layer_settings.firecrawl_cap` already 60000 (#28683).
+- UNSW discovery row: website and site origin set back from `https://www.scholarships.unsw.edu.au` to `https://www.unsw.edu.au` (the before value in #28668). Its mapped status and the 72 scholarship pages already found are kept, and the 5 UNSW listing sources stay active. Branch `cf247-scholarship-recovery` (F4) maps every recorded source for a provider, so the scholarships sub-site is covered by its listing sources rather than by swapping the website.
