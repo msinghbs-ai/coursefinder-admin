@@ -31,3 +31,9 @@ Steps 1 to 5 are live (v2.15.452, 454, 455, 456, 457). The menu is **47 tabs on 
 1. Layer 4 › Inbox: database time-out on load and length (22,118 px).
 2. Refresh schedules rows still say "Layer 2 → conditional Layer 3".
 3. Retiring component register rows leave by Platform Admin paste file after `hygiene.retire_after_days`.
+
+## 4. Decisions (Platform Admin, 4 Nov about 05:40)
+
+- Refresh schedules and one-off runs: **Rewire, then retire.**
+- Link refresh and portals: **leave on Coverage › Courses.**
+- Decision 269 amended (20 pages; both choices above). Follow-up prompt: `2026-11-04-ss020-follow-up-prompt.md`.

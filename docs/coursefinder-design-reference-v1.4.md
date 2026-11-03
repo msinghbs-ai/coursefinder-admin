@@ -1493,6 +1493,11 @@ Every course and scholarship attribute has one authority, a deterministic Layer 
 - **Who builds (Platform Admin, 3 Nov 20:49):** "i want only the review and prompt for ongoing development session, let it handle the build and align with design." The ongoing development session builds it from `docs/platform/ui-audit/2026-11-03-admin-menu-build-prompt.md`; the review session does not change Pilot.
 - **Rules for the build.** Order: (1) retire dead sections, (2) paging, (3) Services & limits and Queues & yield, (4) Layer 2/3 consolidation, (5) Datasets and Settings moves, (6) guides, SOPs and component register in the same releases. Each retirement also retires its scripts, jobs and tables in the same change, data kept 14 days (Decision 260 housekeeping). Old addresses redirect through `LEGACY` in `nav-map.js`. One release per step with a version-pill entry. No consumer API change (Decision 266).
 
+- **Amendments (Platform Admin, 4 Nov 2026 about 05:40, after the implementation review `docs/platform/ui-audit/2026-11-04-ss020-implementation-review.md`):**
+  - The menu has 20 pages, not 22 (counting error in the review); the target is 47 tabs on 20 pages, as built.
+  - Refresh schedules and one-off runs: "Rewire, then retire." Layer 1 › Sources' Schedule edits the three Layer 1 refresh policies (`pipeline.refresh_policies`, read by `refresh_scheduler_tick_impl`); then the Automations section retires.
+  - Link refresh and portals stay on Coverage › Courses (Operators edit them; Settings is Platform Admin only). The move to Settings is withdrawn.
+
 ### Decision 268 — Routine operations become governed actions in the admin UI; SQL is break-glass only
 **Status:** Current (27 October 2026, 22:2x AEDT; decided before any code) · **Recorded in:** this entry; change control CF-CHG-20260915-247 (27 Oct 22:2x); `project-runsheets/milestone-2/m2.4/m2.4.7/` (CURRENT-STATE, RUNSHEET, NEXT-CHAT); `docs/platform/aer-v1.1-build-log.md`; mandate response `docs/platform/ui-audit/2026-10-27-mandate-2157-response.md`
 - **Platform Admin (27 Oct, 21:57, final consolidated mandate):** "The manual SQL phase is closed. Do not ask me to paste another file into Supabase. Do not prepare another open/close paste pair." Routine operations move to governed actions in the existing admin interface.
