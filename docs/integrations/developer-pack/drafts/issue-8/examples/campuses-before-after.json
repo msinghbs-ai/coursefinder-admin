@@ -1,0 +1,275 @@
+{
+ "_note": "PROPOSED - not live. Provider campuses[] measured 3 November 2026 (Pilot): Issue 7 (live today) and Issue 8 (proposed). Existing fields are unchanged; campuses sharing a city are no longer merged.",
+ "provider:nzqa:7001 University of Auckland (NZ)": {
+  "issue_7": [
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "metro_area": null,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   }
+  ],
+  "issue_8_proposed": [
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:city",
+    "metro_area": null,
+    "campus_name": "City",
+    "course_count": 53,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:city-campus",
+    "metro_area": null,
+    "campus_name": "City Campus",
+    "course_count": 219,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:grafton",
+    "metro_area": null,
+    "campus_name": "Grafton",
+    "course_count": 7,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:grafton-campus",
+    "metro_area": null,
+    "campus_name": "Grafton Campus",
+    "course_count": 63,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:newmarket",
+    "metro_area": null,
+    "campus_name": "Newmarket",
+    "course_count": 2,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:newmarket-campus",
+    "metro_area": null,
+    "campus_name": "Newmarket Campus",
+    "course_count": 6,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:south-auckland",
+    "metro_area": null,
+    "campus_name": "South Auckland",
+    "course_count": 2,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Auckland",
+    "postcode": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:waipapa-taumata-rau-university-of-auckland-",
+    "metro_area": null,
+    "campus_name": "Waipapa Taumata Rau (University of Auckland)",
+    "course_count": 7,
+    "subdivision_code": "NZ-AUK",
+    "regional_category": null,
+    "regional_category_name": null
+   }
+  ]
+ },
+ "provider:ca:ircc_dli:o19283850612 George Brown College (CA)": {
+  "issue_7": [
+   {
+    "city": "Toronto",
+    "postcode": null,
+    "metro_area": null,
+    "subdivision_code": "CA-ON",
+    "regional_category": null,
+    "regional_category_name": null
+   }
+  ],
+  "issue_8_proposed": [
+   {
+    "city": "Toronto",
+    "postcode": null,
+    "campus_id": "campus:studysearch:dc671c35-5660-48ff-bb3b-31be971c0d9f:casa-loma-campus",
+    "metro_area": null,
+    "campus_name": "Casa Loma Campus",
+    "course_count": 5,
+    "subdivision_code": "CA-ON",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Toronto",
+    "postcode": null,
+    "campus_id": "campus:studysearch:dc671c35-5660-48ff-bb3b-31be971c0d9f:st-james-campus",
+    "metro_area": null,
+    "campus_name": "St. James Campus",
+    "course_count": 14,
+    "subdivision_code": "CA-ON",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Toronto",
+    "postcode": null,
+    "campus_id": "campus:studysearch:dc671c35-5660-48ff-bb3b-31be971c0d9f:waterfront-campus",
+    "metro_area": null,
+    "campus_name": "Waterfront Campus",
+    "course_count": 17,
+    "subdivision_code": "CA-ON",
+    "regional_category": null,
+    "regional_category_name": null
+   },
+   {
+    "city": "Toronto",
+    "postcode": null,
+    "campus_id": "campus:studysearch:dc671c35-5660-48ff-bb3b-31be971c0d9f:young-centre-for-the-performing-arts",
+    "metro_area": null,
+    "campus_name": "Young Centre for the Performing Arts",
+    "course_count": 0,
+    "subdivision_code": "CA-ON",
+    "regional_category": null,
+    "regional_category_name": null
+   }
+  ]
+ },
+ "provider:cricos:00122a RMIT University (AU)": {
+  "issue_7": [
+   {
+    "city": "Brunswick",
+    "postcode": "3056",
+    "metro_area": "Melbourne",
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "Bundoora",
+    "postcode": "3083",
+    "metro_area": "Melbourne",
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "East Bendigo",
+    "postcode": "3550",
+    "metro_area": null,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 3,
+    "regional_category_name": "Regional centre or other regional area"
+   },
+   {
+    "city": "Melbourne",
+    "postcode": "3000",
+    "metro_area": "Melbourne",
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "Point Cook",
+    "postcode": "3030",
+    "metro_area": "Melbourne",
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   }
+  ],
+  "issue_8_proposed": [
+   {
+    "city": "Brunswick",
+    "postcode": "3056",
+    "campus_id": "campus:cricos:00122a:brunswick-campus-25-dawson-street",
+    "metro_area": "Melbourne",
+    "campus_name": "Brunswick Campus 25 Dawson Street",
+    "course_count": 30,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "Bundoora",
+    "postcode": "3083",
+    "campus_id": "campus:cricos:00122a:bundoora-campus-plenty-road-bundoora-vic-3083",
+    "metro_area": "Melbourne",
+    "campus_name": "Bundoora Campus, Plenty Road, Bundoora Vic 3083",
+    "course_count": 112,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "Melbourne",
+    "postcode": "3000",
+    "campus_id": "campus:cricos:00122a:melbourne-cricket-education-academy-124-la-trobe-st-melbourne-vic-3000",
+    "metro_area": "Melbourne",
+    "campus_name": "Melbourne Cricket Education Academy - 124 La Trobe St MELBOURNE VIC 3000",
+    "course_count": 1,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "East Bendigo",
+    "postcode": "3550",
+    "campus_id": "campus:cricos:00122a:myjet-hanger-bendigo-airport",
+    "metro_area": null,
+    "campus_name": "Myjet Hanger, Bendigo Airport",
+    "course_count": 3,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 3,
+    "regional_category_name": "Regional centre or other regional area"
+   },
+   {
+    "city": "Point Cook",
+    "postcode": "3030",
+    "campus_id": "campus:cricos:00122a:point-cook-campus-raaf-williams-base",
+    "metro_area": "Melbourne",
+    "campus_name": "Point Cook Campus, RAAF Williams base",
+    "course_count": 6,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   },
+   {
+    "city": "Melbourne",
+    "postcode": "3000",
+    "campus_id": "campus:cricos:00122a:rmit-university-124-latrobe-street-melbourne",
+    "metro_area": "Melbourne",
+    "campus_name": "RMIT University - 124 Latrobe Street, Melbourne",
+    "course_count": 438,
+    "subdivision_code": "AU-VIC",
+    "regional_category": 1,
+    "regional_category_name": "Major city"
+   }
+  ]
+ }
+}
