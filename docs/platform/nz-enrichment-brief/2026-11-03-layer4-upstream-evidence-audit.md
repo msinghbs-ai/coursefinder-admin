@@ -31,12 +31,12 @@ Counts hold: 24 unique refs, 9 providers, 0 submitted, 0 admitted. The stop for 
 
 ## Common causes
 1. **Stored copies not linked to course-link items.** 2,358 pending course-link items have no evidence link; 2,032 (86%) have a stored copy of the proposed address. One fix in the item build or inbox read would show evidence on most of them, at no read cost.
-2. **"Keep the page we hold" has nothing to keep.** About 2,300 pending course-link items have no held page, so refusing a bad proposal means choosing a false statement. The route needs an honest refuse choice. Counts in this line are summed from the top 15 reason groups, so treat them as approximate.
+2. **"Keep the page we hold" has nothing to keep.** 2,193 pending course-link items have no held page and no evidence link, so refusing a bad proposal means choosing a false statement. The route needs an honest refuse choice.
 3. **AI fee reader misreads credit points (new defect).** It divides by 8 units a year, so 24 credit points is treated as 3 years. Murdoch 096011C holds 12,600 where the page says 37,800 for the 1-year course, and scholarship savings are derived from that figure. 15 rows use this calculation with more than 8 points. Murdoch is confirmed; 6 UNSW rows look wrong and need checking; the others may be right, because some are real unit counts. All 15 courses show `publication_status` unpublished; whether the consumer API exposes them was not tested.
 4. **The AI fee reader ignores fee holds (new defect).** Exactly 2 courses have an active provider fee while their hold is raised: Murdoch and Western Sydney. Each value was admitted about 2 minutes after the hold. The guard stops adapter fees only.
 5. **Listing pages held under the wrong provider.** State-government listing pages (21 pending items across 5 provider records) sit under holders such as Lexis TESOL and Prime Education, while titles name ACU, MACC, RMIT UP and Alphacrucis. Reading them first would spend credits on an ownership problem.
 6. **No duplicate choice for held scholarships.** Publish, Not for international students and Not a scholarship are all wrong for Macquarie ref 1184.
-7. **Staging addresses.** Macquarie's held record and 4 published records use a `/staging/` address. Official-page replacement should be checked.
+7. **Staging addresses.** Macquarie's held record and 7 published records use a `/staging/` address. Official-page replacement should be checked.
 
 ## Item notes
 - **Macquarie 1184:** duplicate of published `a347e086`. Same title and provider, up to AUD 10,000, international. Official page: one-off, open year round. The inactive Study Australia record says "annually"; the official page does not.
