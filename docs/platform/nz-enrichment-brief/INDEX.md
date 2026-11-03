@@ -2,6 +2,8 @@
 Last updated: 2026-10-31 13:25 AEDT by Claude (main integrator), under the StudySearch transformation mandate. The sections from "Standing order" down are kept as written on 26 Oct 2026 07:40 and are history; the "Current state" section below supersedes them where they differ.
 Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08:00 report: ../ui-audit/2026-10-25-overnight-outcomes.md ("08:00 report").
 
+**Ledger maintenance:** [Claude AER and cross-workstream reporting instruction](2026-11-03-aer-cross-workstream-ledger-instruction.md) — maintain the existing execution register and feedback queue; no parallel ledger.
+
 ## Current state (31 Oct 2026)
 
 **The platform is being renamed StudySearch** (formerly CourseFinder).
