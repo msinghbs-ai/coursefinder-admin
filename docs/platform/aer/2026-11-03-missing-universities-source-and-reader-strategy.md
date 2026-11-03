@@ -67,3 +67,41 @@ Start with the canonical AU/NZ **catalogue provider population**, not the AER en
 - Course-level, country-level, global qualification and postgraduate coverage remain distinct.
 - New provider gaps are found from the canonical catalogue without manual naming. No unauthorised spending, changed consumer API, or Layer 4 bypass.
 - Pass governed V1–V4 checks; close only after production verification. Report unresolved blockers explicitly.
+
+---
+
+## Running sheet: execution status (Integration Controller; SS-017 and SS-018)
+
+### 3 Nov 2026, 18:30 AEDT
+
+- **Evidence cut-off:** live `fxcwkweaxjtknorudmwp` at 18:28.
+- **Repo refs:** Pilot `main` at v2.15.433 (`e29aa7fa`). Admin at this commit.
+- **The Platform Admin's 18:17 independent validation was re-checked live and matches**, with one addition: RMIT's matrix also holds 167 superseded and 20 unverified rows.
+- **Reporting rule (Platform Admin 18:17):** discovery and AI reads are not admissions. Each provider is reported per stage, and closes only on a verified production outcome or with an evidence-backed blocker.
+
+**Per-provider status (live 18:28)**
+
+| Provider | Sources | Extraction | Layer 4 | Admitted (active) | Consumer published | Status, blocker |
+|---|---:|---|---|---:|---|---|
+| CDU | 0 | — | 0 pending | 0 | — | Verified source in paste file (attach after v2.15.435) |
+| UniSQ | 0 | — | 0 | 0 | — | Verified source in paste file. Country table is behind a selector; rendered-read pilot approved 18:14 |
+| UNE | 0 | — | 0 | 0 | — | General rule only (evidenced, no table). Source in paste file |
+| Torrens | 0 | — | 0 | 0 | — | General rule only. Source in paste file |
+| ACU | 0 | — | 0 | 0 | — | Requirement PDF link not yet verified; recovery approved 18:14 |
+| CQU | 0 | — | 0 | 0 | — | Country document link not exposed; stored copy `2eac8bc6`; recovery approved 18:14 |
+| JCU | 0 | — | 0 | 0 | — | Selector-only, course-specific; rendered-read pilot approved 18:14 |
+| Deakin | 0 | — | 0 | 0 | — | Site refuses free reads; stored copy `5106f65f`. 218 of 252 courses have bound stored pages awaiting the scheduled course reader (priority change in v2.15.435) |
+| UWA | 1 | Read held (8 China rows dropped) | 1 pending (completeness gate refuses) | 0 | — | Reader fix (workstream B, branch `cf247-ops-b2`), then a governed re-read for Platform Admin review |
+| RMIT | 36 | 7 held reads (reasons recorded) | 298 pending | 380 matrix, 1 course | — | Global qualifications, Nigeria and Norway reader fixes (workstream B), then the D-R2/D-R3 recovery path |
+
+**Workstream status**
+
+| Item | Branch / PR | Release dependency | Expected activation | Blocker |
+|---|---|---|---|---|
+| Coverage reconciliation and AER counts (workstream C) | `cf247-ops-c`, v2.15.434 (full suite running) | None | 3 Nov evening | — |
+| Missing-university sources, inventory, priority input, per-provider status | `cf247-ops-c-aer-missing`, v2.15.435 | v2.15.434 | 3 Nov evening; paste applied right after | — |
+| ACU, CQU and Deakin link recovery; JCU and UniSQ rendered pilot | same branch, follow-up paste | v2.15.435 | 4 Nov | Within existing Firecrawl limits; the budget pack is pending |
+| Reader fixes (ranges, dropped values, subject prerequisites, global qualifications) | `cf247-ops-b2` | v2.15.429 (live) | 4 Nov | — |
+| Scheduled AER reader (D6) | v2.15.427, live; activated 16:20 (#28754) | — | Running hourly at :13 | Back-pressure: 539 of 600 waiting in Layer 4 |
+
+**Verified rows:** none yet for the eight-university cohort.
