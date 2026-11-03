@@ -162,3 +162,39 @@ Course descriptions go to Layer 4 under D5.
 **Two-cycle criterion: met, for data movement.**
 - Cycles 3 and 4 each moved independent, verified data, with no manual dispatch.
 - Self-sustainability is still not PASS. That needs IQ-00064 closed (the 4 failed searches recovered by scheduled re-plan from about 18:38), IQ-00053 and IQ-00066 closed, and then the 24-hour unattended acceptance test.
+
+## 15:50 AEDT check
+
+**IQ-00066 closed.**
+- In the 14:41 cycle every step had eligible work, and 179 deadlines were filled.
+- The 15:41 cycle created no plans, so it reported no empty plan as done.
+
+**IQ-00053 stays deployed, not closed.**
+- No time-outs since 14:37 (117 successful calls).
+- But enrich_ai has been idle since 14:53: no field items are queued. Only 16 minutes of load have been seen. The issue closes after a clean hour under real load.
+
+**The 15:41 cycle created 0 plans.**
+- 8 plans are still running (course searches waiting their turn).
+- Every other university is held by `plans.redo_days` (14) or `plans.replan_min_days` (2).
+
+**New finding, sent to workstream D: the retry re-plan path for IQ-00064 is gated by `plans.replan_min_days`.**
+- `enrich_plan_inputs_v1` (`retry_steps`) is computed only for universities whose last plan is at least 2 days old.
+- So the 4 failed course_page_find steps would not be re-planned at about 18:38 as forecast. They would wait until about 5 Nov.
+- The run also records no reason when it creates nothing.
+
+**Gap queue at 15:23: done.**
+- 35,690 courses scanned, 10 new items.
+- Courses with nothing reachable are now recorded in the absence catalogue rather than re-queued.
+
+**Source-proof feed at 15:14 and 15:44: 50 relink requests settled per run.**
+
+| Route | 14:44 | 15:44 |
+|---|---:|---:|
+| No route (D1 cohort) | 1,222 | 1,140 |
+| Being read | 108 | 148 |
+| Layer 4 | 362 | 386 |
+
+- Relink results so far: 41 absent (the stored candidate addresses do not hold the course), 25 still trying, 50 queued, 3,632 held.
+- **The free relink route proves few pages.** This is evidence for workstream B's shared-defect analysis and for the D1 cost case.
+
+**Autonomy picture.** Gap queue, feed and plans all run on schedule with no manual dispatch. Data movement now depends on page identity, which is workstream B's work, and on D1. Hours with no movement must be explainable from recorded reasons, which is workstreams A and D.
