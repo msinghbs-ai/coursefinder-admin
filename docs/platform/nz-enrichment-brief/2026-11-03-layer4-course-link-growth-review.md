@@ -45,3 +45,14 @@ Keep the check. Change what reaches a person:
 ## Platform Admin decisions (3 November 2026, 20:29 AEDT)
 1. **Refused pages with no held page: one needed list.** They move to one "Course page needed" list grouped by university, with add the page, search again, and no page exists. The refused page stays recorded and history is kept. Items where a held page is in dispute stay in Layer 4.
 2. **CRICOS page differs: by university.** Checked one university at a time, starting with Adelaide. A proposed rule goes to the Platform Admin for approval. Wording is corrected for non-Australian providers.
+
+## CRICOS-differs check by university (3 November 2026, 20:40 AEDT)
+Read-only. Exact address patterns counted live; stored copies sampled through the existing evidence route. Samples are small, so any rule must be validated across its whole group first.
+
+| University | Pattern | Exact matches | Stored sample | Result |
+|---|---|---|---|---|
+| Adelaide University | `adelaide.edu.au` to `adelaideuni.edu.au`, same path | 207 of 219 | 2 pairs | Proposed copy is the domestic view, shows no course CRICOS code, and its canonical is the held address. Held copy is the international view and shows the course's CRICOS code. The held page is better. |
+| University of Canberra | Held ends `/2027`, proposed has no year | 100 of 104 | 2 proposed copies | Proposed copy's canonical is the address without a year, and it states the 2027 details. It will not date. |
+| Simon Fraser | Held has a term (mostly Fall 2026), proposed has none | 59 of 105 | 2 proposed copies | Proposed copy shows the current Spring 2027 calendar. It will not date. The other 46 need separate review. |
+
+The item reason says the proposed page shows the CRICOS code. In the Adelaide samples it does not, and Simon Fraser has no CRICOS code. The reason text is unreliable for these groups.
