@@ -125,3 +125,40 @@ Course descriptions go to Layer 4 under D5.
 **Regression: IQ-00053 time-outs got worse.**
 - `svc_enrich_ai_record` hit 54 statement time-outs in 45 minutes. The cause is the description duplicate check run for every item, with up to 30 items per statement. The root cause is diagnosed and the fix is in v2.15.426.
 - **Interim setting:** `enrich.ai_items_per_call` 30 → 10 (event #28746). It goes back to 30 once v2.15.426 is verified live.
+
+## v2.15.426 verification: 15:06 AEDT check
+
+**IQ-00053 (description recording time-outs): fixed, not yet closed.**
+- Since v2.15.426 went live at 14:37: 0 `svc_enrich_ai_record` time-outs and 117 successful enrich_ai calls.
+- `enrich.ai_items_per_call` restored 10 → 30 (event #28752).
+- The issue closes after a full clean hour.
+
+**Cycle 3 (13:41): data moved.**
+- Fields filled include campus 2, English 1, deadline 11 and delivery 2.
+- Course-page searches are progressing (125, 87 and 23 done, waiting their turn).
+- Before the fix, deadline reads failed 61 times on time-outs.
+- One step was for a university on the search skip list. It was proposed before the v2.15.426 rule.
+
+**Cycle 4 (14:41, under the new rule): data moved.**
+- No step was proposed without work: no scholarship scans with nothing to do and no skip-list searches.
+- Deadlines filled: 1, 34, 106 and 38, so 179 in total.
+- Four course-page searches are running.
+
+**Source-proof job, 14:44: first routed run.**
+
+| Route | Courses |
+|---|---:|
+| Sent to the free re-link lane | 50 |
+| Already being read | 108 |
+| Waiting on Layer 4 | 362 |
+| Locked by hand | 258 |
+| No route (D1 paid search is off) | 1,222 |
+
+- Run time: 9.5 seconds.
+- The 1,222 with no route are the courses that would need paid course-page search. They are the D1 measure.
+
+**IQ-00063 closed.** The onboarding row stopped at 14:36 with reason needs_source_discovery, and it has not been re-stepped since. The website correction is still waiting as a paste file.
+
+**Two-cycle criterion: met, for data movement.**
+- Cycles 3 and 4 each moved independent, verified data, with no manual dispatch.
+- Self-sustainability is still not PASS. That needs IQ-00064 closed (the 4 failed searches recovered by scheduled re-plan from about 18:38), IQ-00053 and IQ-00066 closed, and then the 24-hour unattended acceptance test.
