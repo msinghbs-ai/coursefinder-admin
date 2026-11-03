@@ -104,7 +104,24 @@ Nothing approves or rejects anything. The 600 limit, E13, D-R3 and the consumer 
 5. **Consumer publication (G3).** Whether academic AER should be added to Zoho and to `api.website_v2_course_item`.
 6. **Course page discovery.** Firecrawl for the 1,424 providers with no source attempt.
 
-## 6. Load windows
+## 6. The daily cap's day boundary (Controller's first-run audit lead, 4 Nov)
+
+**Lead:** at 08:13 Sydney the cap still read "reached". If the cap counted UTC days, reading could not resume before 11:00 Sydney.
+
+**Ruled out.** `security.aer_schedule_tick_v1` counts the cap over a rolling window, not a calendar day:
+
+```sql
+select sum(course_reads + corrections) from pipeline.aer_schedule_runs where ran_at > now() - interval '1 day'
+```
+
+The code marks this line `-- fixed: the daily cap is counted over the last 24 hours`.
+
+- At 08:13 the window held the runs from 17:13 (3 Nov) to 02:13 (4 Nov): 200 reads.
+- Room returns run by run as runs leave the window. The first 20 places come back at the **17:13 Sydney** run, when the 17:13 run of 3 Nov drops out. That is later than 11:00, not earlier.
+- New reads also stay stopped while the raw count is 600 or more (605 now, with `wc.aer_fair_on` off). The held corrections are exempt from that stop, but they are inside the cap.
+- The rolling window is the recorded design, so it is not a defect and no change is made. With `aer.e13_recover_on` on, corrections move to their own budget and the 200 is left for new reads.
+
+## 7. Load windows
 
 - Heavy reads ran at 08:26:08, 08:26:33, 08:27:01 and 08:28:38 (the last finished at :28:38, inside minute :28).
 - Light catalogue reads ran at 08:19–08:22, 08:30–08:33 and 08:43.
