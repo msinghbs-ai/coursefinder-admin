@@ -62,3 +62,19 @@ Only a few reads are justified now: VU 1323 and Bond 1230. Six others wait for o
 | The two ready items | Platform Admin approval, then Claude submits |
 
 **Resume:** submit 6526827 first, verify it leaves waiting and the page fee stays out, then 6526834. Other kinds resume provider by provider after causes 1 and 2 are fixed. The programme is not complete.
+
+## Update, 19:45 AEDT: batch L4B-20261103-1950
+Approved by the Platform Admin at 19:34. Submitted by Claude in the Platform Admin session.
+
+| Ref | Choice | Event | Saved | Result |
+|---|---|---|---|---|
+| 6526827 | Keep the CRICOS total | 28777 | 19:36:04 | Hold released; tuition 123,060 unchanged; no provider fee added |
+| 6526834 | Keep the CRICOS total | 28778 | 19:36:28 | Hold released; tuition 39,600 unchanged; no provider fee added |
+
+Submitted 2, verified saved 2, admitted 0. Fee check 4 to 2. Live queue 5,029 at 19:37.
+
+**Attribution:** the audit event actor and `released_by` are the Platform Admin account, and `release_kind` is person. Only the reason text shows Claude submitted it.
+
+**Watch:** both courses are requeued to the next Enrich fields task. Fee exclusions remain active, but the AI fee reader ignores holds, so check that neither page fee is admitted.
+
+**Reads:** VU 1323 and Bond 1230 are approved but not run. The UI has no single-item read control, and a queue insert is an integrator action. Firecrawl used by this batch: 0. Handover: `2026-11-03-layer4-integrator-handover-prompt.md`.
