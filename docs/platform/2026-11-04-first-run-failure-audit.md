@@ -198,6 +198,30 @@ Every query below is read-only. The heavy ones (cron history) are for the :x6–
 
 **Authority:** nothing in the build merges, deploys, grants a budget, decides a Layer 4 item, overrides a lock, admits, publishes or destroys. The fixture asserts this (case 10).
 
-## 6. Baseline progress readings
+## 6. Baseline progress readings (read-only, 08:56:22, inside the :x6 slot; window 24 h)
 
-See §6 below, added after the 08:56 slot.
+The same counts the new reader takes, read by hand once as the baseline. "Not measured" means the count was not read.
+
+| Transition | Eligible | Created (24 h) | Rejected, parked or held | Downstream | Admitted or published | Reading |
+|---|---:|---:|---|---:|---|---|
+| Scholarship coverage classification | not measured | 4,577 cases (run 08:29) | 1,288 unresolved | 282 recoverable | — | Advancing (first success after the fix) |
+| Source recovery | 282 | 0 (0 recoveries ever) | all three families off | — | — | **Blocked by authority** (`sch_cov.recover_*` = 0) |
+| Listing traversal | 0 due | 32 items (6 reads) | 132 suggested listings not promoted | not measured | — | No eligible work due; 132 parked behind `recover_listings_on` |
+| Candidate matching | not measured | 15 candidates | — | 267 unread | — | Advancing slowly |
+| Reading | 267 | 16 pages (all 2xx) | — | not measured | — | Advancing slowly |
+| Eligibility validation | not measured | 43 admitted | 36 rejected; 1,130 skipped (directory sites) and 3 duplicates, both correctly excluded | 132 held for Layer 4 | 43 admitted | Advancing |
+| Layer 4 (scholarships) | 132 | 22 decided | — | — | — | Advancing on person decisions |
+| Admission | 43 | 43 active scholarships | — | 370 active, unpublished | 43 | Advancing |
+| Publication | 370 | 36 published (by `updated_at`) | — | — | 36 published; consumer read-back separate | Advancing |
+| AER source discovery | 1,438 providers | 4 matrix sources, 8 inventory rows | 1,438 `no_source` | not measured | — | **Blocked by authority** (discovery paused) |
+| AER extraction | not measured | 214 rows proposed (107 course reads) | — | 605 Layer 4 waiting | — | **Cap reached**: the 08:13 run had back-pressure, room 0, refusal "the daily cap is reached" |
+| AER completeness validation | 214 | 76 Layer 4 items | 12 rows dropped | 605 | — | Advancing into a full queue |
+| AER technical correction | 0 eligible | 0 | 49 parked, no next time (IQ-00232) | — | — | Parked with no recovery time |
+| AER Layer 4 review | 605 | 0 decided for admission | 10 superseded | 0 | — | **Not advancing**: no person decisions |
+| AER active entry records | 0 | 0 | — | — | 0 admitted (1,304 active in total) | Not advancing |
+
+What the readings show:
+
+- The scholarship chain now moves end to end. Its gaps are source recovery and listing promotion, both of which wait on decision items 19, 20 and 22.
+- The AER chain produces rows but admits none: 605 items wait for a person against the 600 limit, so reading has stopped at the cap.
+- The AER daily cap still read "reached" at 08:13 AEDT. That is 21:13 UTC on 3 Nov. If the cap's day is counted in UTC, reading resumes only after 11:00 AEDT, and only if Layer 4 falls below 600. This was not traced here and is left for the AER owner.
