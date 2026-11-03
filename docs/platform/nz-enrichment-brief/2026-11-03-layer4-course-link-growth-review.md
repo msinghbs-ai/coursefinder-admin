@@ -41,3 +41,7 @@ Keep the check. Change what reaches a person:
 - The course joins one "Course page needed" list, grouped by university, with honest choices (add the page, search again, no page exists). The 2,252 existing items convert to it, keeping their history.
 - Items stay in Layer 4 when a held page is in dispute (227 plus the CRICOS and old-year groups).
 - CRICOS items for the three large universities are checked as one rule per university. Automatic rules still follow Decision 263.
+
+## Platform Admin decisions (3 November 2026, 20:29 AEDT)
+1. **Refused pages with no held page: one needed list.** They move to one "Course page needed" list grouped by university, with add the page, search again, and no page exists. The refused page stays recorded and history is kept. Items where a held page is in dispute stay in Layer 4.
+2. **CRICOS page differs: by university.** Checked one university at a time, starting with Adelaide. A proposed rule goes to the Platform Admin for approval. Wording is corrected for non-Australian providers.

@@ -27,6 +27,13 @@ Correct wrong active values only by a governed route, with Platform Admin approv
 
 These change the Layer 4 UI or functions. They need no consumer API change.
 
+## Priority 2a: course link growth (Platform Admin decisions, 3 Nov 20:29)
+Read `2026-11-03-layer4-course-link-growth-review.md`.
+- **Refused pages with no held page:** stop raising a per-proposal item. Keep the refusal in `pipeline.page_rejections`. Put the course on one "Course page needed" list grouped by university (Decision 179), with add the page, search again and no page exists. Convert the 2,252 existing items, keeping history. This replaces item 7 for those items. Nothing is admitted by this change.
+- **Held page in dispute:** these items stay in Layer 4.
+- **Wording:** the CRICOS-differs reason must not mention CRICOS for non-Australian providers.
+- **Measure:** report Firecrawl credit use by the search lanes that feed refusals.
+
 ## Priority 3: sources and ownership
 9. **Approved reads.** VU ref 1323 and Bond ref 1230: Firecrawl and the AI read are approved for these two items only. Run them through the scholarship path, with evidence stored as normal. Bond's queue entry holds a stored path, so it will reuse the old copy unless a fresh read is forced. If no safe governed route exists, add a single-item read control rather than hand-writing rows.
 10. **Ownership.** 21 pending held scholarships come from state-government listing pages across 5 provider records. Several names point to other institutions (ACU, MACC, RMIT UP, Alphacrucis). Reconcile through governed housekeeping, with no silent reassignment. Check owners before spending credits.
