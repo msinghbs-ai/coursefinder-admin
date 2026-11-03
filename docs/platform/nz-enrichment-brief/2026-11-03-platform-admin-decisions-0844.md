@@ -67,3 +67,17 @@ Recorded verbatim in `2026-11-03-consolidated-enrichment-developer-readiness-man
 | D | Rankings and consumer API; G3 approval needed for the API parts |
 
 **Gate:** the 24-hour unattended test starts only after IQ-00064 is verified on real cycles.
+
+## 15:52 decisions (mandate `2026-11-03-p0-autonomous-ai-operations-acceptance-mandate-1552.md` §4)
+
+| Decision | Platform Admin | Integration Controller action |
+|---|---|---|
+| D1 paid course-page search | Stays off. The 1,222 courses are a recovery cohort; free and existing-evidence routes come first, and a consolidated cost and yield case follows | Workstream B: cohort table and D1 cost case. `proof.search_per_run` stays 0 |
+| D6 scheduled AER reading | **Approved**, within existing operational and financial controls | Release C integrated as v2.15.427, with the job shipping paused. It is switched on as a recorded settings/job change after release verification, with 600 back-pressure, at most 2 re-reads and the existing AI guards. No budget is raised |
+| NEWGEN EDUCATION (CRICOS 03871F) | Evidence-backed correction only. No guess from the email domain | Workstream G looks for register or first-party evidence. The paste file is applied only if the website is verified; otherwise a named source-identity blocker stays |
+| Firecrawl and AI expenditure | Continue within existing limits; reuse evidence first | No limit is changed. Any increase comes back with spend, yield, alternatives tried, marginal cost and risk |
+
+**IQ-00067** (15:58 finding):
+- coverage-admit has failed every run since 13:53. The last success was at 13:43, and Release A went live at 13:40.
+- Each run fails on `layer4_course_link_apply_impl` raising "page set by hand" for a manually locked course. One such raise aborts the whole batch, so no official_url or english admissions have happened since then.
+- A dedicated agent is on it, with migration 20261104080000 and spec s251.
