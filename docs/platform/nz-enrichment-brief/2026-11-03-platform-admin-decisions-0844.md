@@ -42,3 +42,28 @@ Recorded verbatim in `2026-11-03-platform-led-enrichment-autonomy-mandate-0932.m
 - **Paste files:** they remain for governed corrections the Platform Admin approves, such as D-M4 and the IQ-00043 13-link restore.
 
 **Deliverable:** `2026-11-03-platform-enrichment-control-autonomy-acceptance-report.md`, the per-field control and autonomy matrix with the acceptance verdict.
+
+## 13:09: Consolidated enrichment and developer readiness mandate
+
+Recorded verbatim in `2026-11-03-consolidated-enrichment-developer-readiness-mandate-1309.md`.
+
+| # | Decision | How it is applied |
+|---|---|---|
+| D1 | Paid course page search stays **disabled** | `proof.search_per_run` stays 0. Previously authorised Firecrawl jobs are unchanged. The integrator reports the records that cannot be processed without paid acquisition and the quantified credit need before any request. |
+| D2 | Delivery and duration absence must be evidence-aware | Release B engineering. Absence is classified as not found on this page, on another stored page, needs discovery, evidence pending, explicitly not stated, not applicable, or identity unresolved. It is re-evaluated when new source material arrives, with no re-reads of unchanged pages. |
+| D3 | "Not stated" catalogue | Release B. A configurable catalogue that keeps evidence, reader version, confidence, reason and next eligibility. "Not stated" is never inferred from an empty adapter answer. |
+| D4 | Ranking coverage | A university is covered with at least one accepted, display-authorised edition. QS, THE, QS+THE, ARWU, historical, none and missing imports are reported separately. |
+| D5 | Course descriptions | Layer 4 review continues (`enrich.course_description_review_first` held at 100,000). A future trust policy comes back for explicit authorisation. |
+| D6 | Scheduled AER reading | Part of Release C, with 600 back-pressure and 2 re-reads. The manual Read next batch uses the same eligibility rules and the authorised service identity. **Not activated:** any remaining activation decision is escalated as one consolidated request. |
+| D7 | Validation feedback | The integration queue is primary. Interim path: `docs/platform/validation-findings/` (README there). |
+
+**Release plan:**
+
+| Release | Contents |
+|---|---|
+| A | IQ-00064 plus the page-proof lane and backlog (v2.15.424 candidate), as one release |
+| B | Course enrichment fields |
+| C | Provider, AER and scholarships |
+| D | Rankings and consumer API; G3 approval needed for the API parts |
+
+**Gate:** the 24-hour unattended test starts only after IQ-00064 is verified on real cycles.
