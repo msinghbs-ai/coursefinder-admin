@@ -1,7 +1,7 @@
-<!-- sop-export: id=operator-sop; version=2.08; reviewed-release=2.15.439; source-commit=793f6423c992; content-sha256=ea23e60eaa18c29a51e095b44aed11c18b427473fac5779aa9a177642a66614e -->
+<!-- sop-export: id=operator-sop; version=2.13; reviewed-release=2.15.457; source-commit=725fc7f69e61; content-sha256=e3e05f53237d4470f9a093fe5e52e8b02c8fafc00ce5d955581de7b503eaeb68 -->
 # StudySearch – Operator SOP
 
-**Version:** 2.08 (reviewed for platform release v2.15.439)  
+**Version:** 2.13 (reviewed for platform release v2.15.457)  
 **Audience:** Curator (rank 3), Pipeline Operator (rank 4), PIM Admin (rank 5)  
 **Change control:** CF-247  
 **Rule:** this SOP is reviewed with every release; a change to a screen, an automation or where a person decides changes it, raises its version and is recorded below. The in-app copy is Guides › Operator SOP.
@@ -70,8 +70,8 @@ How operators keep the data flowing and decide what automation cannot: the revie
 
 ## 6. Weekly
 
-- **Pipeline Operator:** 10-minute field check. Coverage & completeness › Attributes › Stalled fields: Fill now on each Not moving row whose cause is "Pages not read for it yet"; note the universities listed for "Pages read do not state it" for the PIM Admin (Builder) and the Platform Admin (Release holds and fill). _(Coverage & completeness › Attributes)_
-- **Pipeline Operator:** 10-minute field check. Every field by country: a country far behind on a field; Fill the gaps: a run in the last 6 hours and values filled in 7 days; Cross-check differences: keep held or take page value; Platform health: no stalled-field warning older than a week. _(Coverage & completeness › Attributes)_
+- **Pipeline Operator:** 10-minute field check. Layer 2/3 › Enrich fields › Stalled fields: Fill now on each Not moving row whose cause is "Pages not read for it yet"; note the universities listed for "Pages read do not state it" for the PIM Admin (Builder) and the Platform Admin (Release holds and fill). _(Layer 2/3 Build & enrich › Enrich fields)_
+- **Pipeline Operator:** 10-minute field check. Every field by country: a country far behind on a field; Fill the gaps (Layer 2/3 › Enrich fields): a run in the last 6 hours and values filled in 7 days; Cross-check differences: keep held or take page value; Platform health: no stalled-field warning older than a week. _(Coverage & completeness › Attributes)_
 - **Pipeline Operator:** Layer 2/3 › Enrichment plan: for a university that needs attention, Open plan, read each step's estimate, tick the steps worth their cost and Run now with a reason; it uses the on-demand allowance shown at the top. Follow the run on the plan. Plans that need a person lists finished plans with a step that did not get through, and what to do. _(Layer 2/3 Build & enrich › Enrichment plan)_
 - **Curator:** Rankings & statistics: ranked universities not linked in a country we hold; link from the suggestions or mark "Not this one". _(Rankings & statistics)_
 - **PIM Admin:** Layer 2/3 › Universities › Builder: for universities needing a person, test the adapter on sample pages and mark values, so the Platform Admin can admit. _(Layer 2/3 Build & enrich › Adapter builder)_
@@ -216,4 +216,9 @@ How operators keep the data flowing and decide what automation cannot: the revie
 | 2.05 | 29 Oct 2026 | v2.15.364 | Reviewed: Catalogue › Entry requirements shows the course-level reading programme by provider and marks a rendered page with no requirements table (read only for operators). |
 | 2.06 | 1 Nov 2026 | v2.15.395 | Who controls automations: the Pipeline Operator diagnoses, records and escalates; the PIM Admin paces, pauses, resumes and runs again (the Platform Admin for automations marked Platform Admin). Entry requirement (AER) items are decided by the Platform Admin only. Alerts arrive by push and e-mail. Version raised to follow this history (it had stayed at 1.53). |
 | 2.07 | 1 Nov 2026 | v2.15.396 | The PIM Admin no longer owns the priority queue (retired in v2.15.300). A rising Layer 4 count is investigated for its cause (new arrivals, evidence that will not open, a repeated defect, work waiting on another step) before it is called a backlog (SS-016 UR-08, UR-11). |
+| 2.13 | 4 Nov 2026 | v2.15.457 | Rankings: QILT and PRISMS data open from Datasets › View data (the Overview cards link there). No step changed. |
+| 2.12 | 4 Nov 2026 | v2.15.456 | Layer 2/3 (Decision 269): Progress is on Operations; Fill now for a stalled field is on Enrich fields (Attributes links there); Build adapter is the Build link on a Universities row; the Inbox shows a review readiness line. |
+| 2.11 | 4 Nov 2026 | v2.15.455 | Admin menu (Decision 269): Platform health › Work queues is Queues & yield (with Pipeline yield for PIM Admins); Models & services › Services, Toolsets & limits and Fetchers are one tab, Services & limits. Old addresses open the new tabs. |
+| 2.10 | 4 Nov 2026 | v2.15.454 | Admin menu, paging and length (Decision 269): Automations areas start closed (use Failed in 24h); Key dates: press Edit on a row to change it; Layer 2/3 notices are on Operations. No step changed. |
+| 2.09 | 4 Nov 2026 | v2.15.452 | Admin menu, dead sections (Decision 269): Health checks has no Layer 3 block; Automations has no Layer 3 AI area (its jobs are under Course pages and Admission); Progress has no Courses with each field (use Coverage › Attributes). No step changed. |
 | 2.08 | 2 Nov 2026 | v2.15.399 | Layer 4 › Inbox (Course link, Held scholarship, Website needed) is decided by the Pipeline Operator: the server needs rank 4 for every Inbox choice. Curators read the items and their evidence, correct the course or entry requirement record and hand the decision on (SS-016 P1). No rank changed. |
