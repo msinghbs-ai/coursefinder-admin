@@ -131,3 +131,14 @@ Start with the canonical AU/NZ **catalogue provider population**, not the AER en
 **Still pending**
 - ACU, CQU and Deakin link recovery, blocked: the stored copies need the service role to read from storage.
 - UWA and RMIT: waiting on the worker reader fixes (v2.15.437).
+
+### 3 Nov 2026, 20:46 AEDT: per-provider stage
+
+Source: `security.aer_provider_stage_v1`, live. "Read" means the source page was read; nothing below has been admitted.
+
+| Provider | Source | Extraction | Layer 4 | Admitted | Published | Blocker or next step |
+|---|---|---|---|---:|---:|---|
+| CDU | attached, read (direct) | matrix read done: **41 matrix rows proposed**; 1 course read pending (2 course rows proposed) | 2 pending: 1 ready for judgement, 1 technically blocked (matrix: the reader dropped 8 printed rows, mainly `band_not_in_quote`) | 0 | 0 | Matrix item: reader fix (v2.15.437 settings, off), then a governed re-read. Course item: Layer 4 review |
+| UniSQ | attached, read (direct) | matrix read done; 1 course read pending (4 course rows proposed) | 1 ready for judgement | 0 | 0 | Layer 4 review. The rendered pilot for the country table is not started (confirmation auto-cancelled) |
+| UNE | attached, read (through the reader's existing Firecrawl route) | matrix read done (general rule; no table); 1 course read pending (6 rows) | 1 technically blocked (reader dropped 2 printed requirements, `quote_not_on_page`) | 0 | 0 | Reader re-read |
+| Torrens | attached, read (direct) | matrix read done (no table); 2 course reads pending (5 rows) | 2 technically blocked: 1 dropped requirement (low confidence); 1 page shared with another programme (Advanced Diploma of UX Design) | 0 | 0 | Shared page: identity. Dropped row: re-read |
