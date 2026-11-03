@@ -1,14 +1,15 @@
 # Layer 4 Inbox paging contract (how a kind plugs in)
 
 **Date:** 4 November 2026 · **For:** SS-020 follow-up item 3 (Platform Admin approval 06:53, §1) and any new Layer 4 kind, first the human-assisted recovery interventions (branch `cf247-human-assisted-recovery`).
-**Built on:** branch `cf247-l4-inbox-perf`, migration `20261104410000`, spec `s273`. Nothing here changes the consumer API.
+**Built on:** branch `cf247-l4-inbox-perf`, migration `20261104410000`, spec `s273`, fixture `tests/fixtures/l4-inbox-perf` (the fixture's F8 and F9 show stub hooks working to this contract). Nothing here changes the consumer API.
 
 ## 1. What changes for the Inbox
 
 - The Inbox no longer builds every item to show counts. `summary` and `universities` read counts per kind and university only.
 - Items are read one page at a time, for one university or one kind, with the filters applied before any detail is built.
-- Expensive evidence is loaded only for the items on screen (`detail` action), and AER rows only when their card is on screen.
-- Page sizes are settings (Settings › Pipeline settings, section Layer 4 Inbox), not numbers in code.
+- Detail is built only for the items of the page being shown, never for every item. Built-in page rows carry their own detail. The `detail` action reads a hook's detail; it can also read a built-in item's detail again.
+- AER rows (`layer4_aer_review_read`) and hook detail are read only when their card comes on screen. At most `layer4.inbox_detail_parallel` such reads run at once.
+- Page sizes are settings in Settings › Pipeline settings, section Layer 4: `layer4.inbox_page_size` (25), `layer4.inbox_universities_page_size` (25) and `layer4.inbox_detail_parallel` (3). Hooks are switched on or off with `layer4.inbox_hooks_on` (1).
 - Item identity stays `(kind, ref)`. The cursor stays `(o, created_at, kind, ref)` (UR-04). Decisions, choice keys, labels, ranks and effects are unchanged.
 
 ## 2. How a new kind plugs in
