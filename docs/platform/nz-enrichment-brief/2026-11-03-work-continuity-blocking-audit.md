@@ -68,8 +68,29 @@ No remedies were registered; the contract agent (branch `cf247-continuity`) owns
 
 ## 5. Baseline metrics (§9), 3 Nov 2026 about 21:30 AEDT
 
-BASELINE_TABLE
+"Eligible" means work that is waiting and permitted now. "Completed" means finished in the last 24 hours. Blank cells mean the data does not hold that state yet; adding those states is the contract's job.
+
+| Lane | Eligible / waiting | Completed 24 h | Active | Blocked | Parked (no re-check) | Retry due |
+|---|---|---|---|---|---|---|
+| Provider discovery, identity and lifecycle | Onboarding: 0 queued; identity check: all active providers (35 with shared domains found by the failed run) | Onboarding: 0 advanced since 18:11 (queue-watch stuck); identity check: 0 of 4 runs | 2 (scholarship_admit) | Identity check: 100% of runs (F2) | 616 onboarding (too_few_pages 609, error 3, capture_failed 1, adapter_off 1, other 2) | — |
+| Course links and page acquisition | Course search: 3,150 queued (425 providers), 260 past the gates; relink: 579 trying | 7,003 pages read OK (8,791 read attempts); relink: 0 since 06:24 UTC | 11 Find course pages tasks | Search lane capped (1,382 of 200 today); course-relink 20 of 21 runs failed | 1,336 page reads given up; 2,184 unread pages with no next read time | 1,521 page reads due |
+| AER and qualification matrices | Layer 4 entry items 573 of 600 limit | 57 course reads and 43 corrections (5 runs); 0 entry values filled | 0 in progress | 18 technical_blocked items counted in the limit | 12 failed matrix runs; 3 failed matrix sources | — |
+| Fees and fee validation | 0 queued (`fees.course_pages` = 0, IQ-00111 containment) | 476 pages queued and read | 0 | Paused by the containment (authority) | 5 failed reads | — |
+| Intakes and application deadlines | 0 field items queued | Intakes 161 and deadlines 437 filled | 0 | — | 740 intakes and 85 deadlines failed at the cap | — |
+| Scholarships and rankings | Scholarship AI queue: 0 due; ARWU and THE editions waiting (IQ-00068/69, decision) | Not measured in this pass | 0 | — | 202 budget failures; 22,133 refused rows (F7) | — |
+| Layer 2/3 enrichment and Layer 4 admission | Layer 4: 4,432 pending (1,999 classified); 19 plans running | Fields filled 1,910; Layer 4: 1,648 in, 88 out (0 approved) | 19 plans | 11 plans waiting on capped search steps | 2,614 field items failed at the cap | — |
+| Consumer publication and cache refresh | 1 refresh request pending | 286 refresh requests processed | 0 | — | 0 | — |
+
+Also measured:
+- Cron failures in 24 h: course-relink 23, coverage-admit 17 (none since 05:33 UTC), provider-identity-check 4, search-refresh-requested 2, field-gap-queue 1.
+- Oldest blocked items: course_relink `trying` since 18 Oct; course link search `queued` since 8 Oct; onboarding `too_few_pages` since 12 Oct; one onboarding in scholarship_admit since 22 Oct.
+- Admission throughput: 0 Layer 4 approvals in 24 h.
+- The data does not yet hold a time to recovery or a recovery success rate. Both need the contract's first-blocked and outcome fields.
 
 ## 6. Shared fixes ranked by the unrelated work they unblock
 
-TOP_FIXES
+1. **One per-item isolation and deferral wrapper for every batch writer (F1, F8).** This unblocks course relinking for every provider today (579 courses `trying`, settle steps rolled back 20 times in a row). It also removes the whole-run failure mode from eight more jobs: fees, intakes, provider rules, adapters, Layer 4 auto-admit and scholarship publication.
+2. **A failure class and next-eligible time on every work item, with bounded backoff, park-until-budget and a re-check condition (F5, F6, F9).** This returns 2,614 field items, 202 scholarship reads, 616 onboarding stops, 211 companion pages and 1,336 course-page reads to a governed retry path, instead of permanent failure.
+3. **Admission-aware back-pressure (F4, F10).** Count only distinct judgement-ready items, give each provider a share, and never gate technical refreshes. This keeps AER reading open for every provider, which is now 27 items from a platform-wide stop. About 40 counted items are duplicates or technical. The 600 limit itself is not raised.
+4. **Isolate report and issue writes from the work they report, and make the governed upsert tolerant of unknown classes (F2).** This brings back identity checking for every provider; 35 providers with shared domains are found but not recorded. It also prevents the same failure in any job that raises issues.
+5. **Park-and-release for work behind a paid cap (F3, F7).** Steps get a true hold code and the cap reset as their next-eligible time. Plans are released to run their free steps, impossible steps end `not_needed`, and refused items are not queued. This frees 19 plans and 11 tasks now, and stops about 8,000 wasted scholarship rows a week.
