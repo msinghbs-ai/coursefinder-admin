@@ -10,7 +10,7 @@
 | B: rolling 24 h from 2 Nov 07:06 | 614 | 3 | 3 | 120.1 s | **Not met (3 time-outs, cause identified)** |
 | Since 3 Nov 07:06 to 08:51 | 42 | 0 | 0 | 39.7 s | Pass so far |
 | 3 Nov 09:00–09:10 | 4 | 0 | 0 | 0.9 s | **Pass** |
-| 3 Nov 11:00–11:10 | — | — | — | — | due; recorded below |
+| 3 Nov 11:00–11:10 | 4 | 0 | 0 | 0.9 s | **Pass** |
 
 ## The three time-outs in window B
 
@@ -30,3 +30,5 @@ All three fall inside 17:05–17:55 on 2 Nov, while the authorised Firecrawl win
 - **Residual risk:** a future high-concurrency Firecrawl run could contend with admission again. Concurrency stays a setting changed only with a reason. The checks surface any recurrence within 30 minutes.
 
 **Gate C status:** the targeted retest windows pass. T1 over the rolling 24 h is **not met** because of 3 time-outs with an identified, remediated cause. Acceptance on an exception basis needs the Platform Admin's risk disposition, under the 07:41 direction §3.
+
+**Targeted windows: all three passed** (06:45–07:15, 09:00–09:10, 11:00–11:10). There has been no admission failure since 2 Nov 17:55. T1 over the rolling 24 h stays **not met** (3 time-outs, cause identified and remediated). It is open for the Platform Admin's exception disposition.
