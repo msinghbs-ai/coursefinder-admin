@@ -104,3 +104,24 @@ To be recorded: plans created and their triggers, the steps finished from cycle 
 - Cycle 1 moved data. Cycle 2 did not. Cycle 3 is in progress.
 - The criterion now needs two consecutive cycles that each move data: 13:41 and 14:41 at the earliest, assuming IQ-00066 does not repeat.
 - The 24-hour unattended test starts only after that and after IQ-00064 closes.
+
+## Release B first gap run: 14:31 AEDT check
+
+**Gap queue at 14:23 (the first run after v2.15.425): done.**
+- One complete pass over 35,690 courses in 78 seconds, with no time-out. It queued 1,018 items.
+- `field_gap_queue_runs` has its first row.
+- `course_page_proofs` has 4,038 rows, 297 of them proven.
+- **IQ-00031 closed.**
+
+**Description and deadline items, all sources: data is now moving.**
+
+| Field | Filled | To Layer 4 | Skipped | Failed | Leased |
+|---|---:|---:|---:|---:|---:|
+| Deadline | 70 | – | 776 | 65 | 204 |
+| Description | – | 253 | 826 | 160 | 213 |
+
+Course descriptions go to Layer 4 under D5.
+
+**Regression: IQ-00053 time-outs got worse.**
+- `svc_enrich_ai_record` hit 54 statement time-outs in 45 minutes. The cause is the description duplicate check run for every item, with up to 30 items per statement. The root cause is diagnosed and the fix is in v2.15.426.
+- **Interim setting:** `enrich.ai_items_per_call` 30 → 10 (event #28746). It goes back to 30 once v2.15.426 is verified live.
