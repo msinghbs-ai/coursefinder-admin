@@ -245,3 +245,15 @@ Class (a) and (c) failures were repaired against the current canonical screens w
 **Left red, with evidence:**
 - **(b) `performance-deployed` › "Layer 2 Adapters stay within management-view budgets":** `admin_layer23('universities')` returns 1,967,164 bytes against the 700,000 budget (about 3.2 s against 3 s). The budget is not weakened; server-side paging needs a decision.
 - **(b/d) Intermittent database statement timeouts:** seen on `course_coverage`, `admin_field_coverage`, `admin_platform_notices_read`, `admin_progress_read` and `pipeline_jobs_page`, including from a real operator at 17:12 AEDT. These cause flaky data-quality, field-coverage and navigation-audit runs.
+
+## Retirement log — 4 Nov 2026 (SS-020 follow-up, Decision 269 amendment "Rewire, then retire", Platform Admin 4 Nov 2026 about 05:40; approval 06:53 §2)
+
+Scheduled jobs › Automations › "Refresh schedules and one-off runs" (`src/ScheduledJobsWorkspace.jsx`) is retired; Layer 1 › Sources' Schedule edits the Layer 1 refresh policies. Pilot branch `cf247-ss020-followup`, spec `s274`.
+
+| Test | Reason (decision / release) | Replacement coverage |
+|---|---|---|
+| `cf-092-scheduled-jobs-config-contract` (2 tests) | Guarded the retired section's screen and its server functions (now marked retiring) | `cf-247-s274-ss020-followup-contract` (section gone, functions retiring, old addresses open Layer 1 › Sources, the Schedule edits the policies); fixture `tests/fixtures/ss020-followup` |
+| `cf-093-scheduled-workflow-operator-contract` (all tests) | Guarded the retired section's operator workflow (edit schedule, run on demand) | `s274`; Layer 1 › Sources Run now and Schedule (`layer1-operations` specs) |
+| `cf-247-s237-plan-lifecycle-contract` › "Refresh schedules: Layer 2 rows show a note…" | The rows it checked are gone with the section | `s274` |
+
+Changed, not retired: `cf-093-scheduled-runtime-health-contract` (runtime health now mounted on Automations directly), `cf-209-scheduler-jobs-operations-deployed` first test (asserts Runtime Health and that the section is gone), `s234`, `s98`, `b2`, `merge-screens`, `admin-simplify`, `cleanup`, `m2-5-jobs-workspace-read-path` (references to the retired file removed or redirected).

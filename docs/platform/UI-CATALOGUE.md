@@ -1,6 +1,6 @@
 # StudySearch Admin – UI catalogue (every screen, what it shows, what it does)
 
-**Version:** 1.17 (4 Nov 2026, platform release v2.15.457)
+**Version:** 1.18 (4 Nov 2026, SS-020 follow-up, branch `cf247-ss020-followup`; release number set by the Integration Controller)
 **Change control:** CF-247; SS-020 admin menu consolidation (Decision 269)
 **Source:** read from the Pilot repository code at `origin/main` 725fc7f6 (`src/nav-map.js` PAGES, SECTIONS and LEGACY, `src/mature-main.jsx` `pageBody`, each screen's component), not from older documents.
 **Rule:** every release that adds, removes or changes a screen, tab, panel, column, action or setting updates this page in the same change-control entry and raises its version. Proposed simplifications are in `UI-SIMPLIFICATION-REVIEW.md`; the SS-020 decisions are in `ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md` (C01–C53) and `ui-audit/2026-11-03-ss020-execution-mandate-2159.md`.
@@ -144,7 +144,7 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 | Attributes | `attributes` | 1 | Each attribute across all courses (measures only) | Read only; links to Enrich fields |
 
 - **Courses:** filters; tiles (completeness score, accounted for, fully complete); bands by attributes admitted; daily trend table.
-  - **Link refresh** (`LinkRefresh.jsx`): how often each kind of course link is re-checked (all countries, a country or a provider; the most specific wins) and which portals supply links; Pipeline Operator and above change them. It stays here for now (open decision, section 8).
+  - **Link refresh** (`LinkRefresh.jsx`): how often each kind of course link is re-checked (all countries, a country or a provider; the most specific wins) and which portals supply links; Pipeline Operator and above change them. It stays here (decided, Decision 269 amendment 4 Nov 2026: Operators change it, and Settings is Platform Admin only).
 - **Attributes** (changed in v2.15.456: **read only**):
   - Key figures per attribute; coverage against the 80% target by source; completeness by attribute (9 states; click to list courses); coverage by pipeline stage; field coverage by country.
   - **Stalled fields** are listed without run buttons. Each row has **Fill on Enrich fields**, which opens Layer 2/3 › Enrich fields with its country and field chosen (`?country=&field=`).
@@ -155,7 +155,7 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 ### 3.2 Layer 1 Register — `layer1`, rank 4 (one Sources page with a layer filter: Registers (Layer 1) · All layers, `?layer=all`)
 - **Registers (Layer 1)** (`layer1-operations-entry.jsx`): health tiles as filters; source list (country, type, health, last run, schedule). Open row: why it needs attention, facts, edition found, live run progress; run now, check, pause, recover, apply edition, approve departures; settings (Platform Admin: address, authority domains, format, schedule, check/load days, warn/stop %, fewest/most records); edition history. Add source (Platform Admin).
 - **All layers:** every source the pipeline reads (status, trust rank, last success, freshness, running and problem jobs, evidence, last error, configuration). Read only.
-- The Layer 1 refresh cadence is still edited on Scheduled jobs › Automations (open decision, section 8).
+- **Schedule** (Platform Admin): for a register with a Layer 1 refresh policy (CRICOS, NZQA) it sets that policy, which the refresh scheduler reads, and moves the next run (the previous due time plus the new interval, never earlier than now); for any other source it sets how often the source is checked, as before. Refresh schedules on Scheduled jobs › Automations is retired and its old addresses open this page (Decision 269 amendment, 4 Nov 2026).
 
 ### 3.3 Layer 2/3 Build & enrich — `layer2` (8 tabs, in this order since v2.15.456)
 
@@ -235,14 +235,14 @@ Academic entry requirements as a managed data module. Admission of AI-read rows 
 
 | Tab | Key | Min | What it shows | What it does |
 |---|---|---|---|---|
-| Automations | `automations` | 4 | Every scheduled job by area; Refresh schedules and one-off runs | Pause, resume, run now, frequency, batch size (rank ≥5) |
+| Automations | `automations` | 4 | Every scheduled job by area; runtime health | Pause, resume, run now, frequency, batch size (rank ≥5) |
 | Jobs | `jobs` | 4 | Job history | Filters, detail, admit passing fields of a task result |
 | Task manager | `tasks` | 4 | Long-running admin tasks | Pause, resume, cancel with a reason |
 
 - **Automations** (`Automations.jsx`):
   - **Areas start closed** (v2.15.454). Each closed header shows how many automations, how many paused and how many failed in 24 hours; open an area to see its rows (how often, last run, last 24 h, state, change). A search, or the Paused or Failed in 24h filter, opens the areas that match.
   - The "Layer 3 AI" area is gone (v2.15.452). Its three live jobs are under Course pages (Prepare AI course page matching, AI course page matching) and Admission (Settle fee periods), unchanged.
-  - Then **Refresh schedules and one-off runs** (`m2-3-intelligence-entry.jsx` Refresh): schedule policies (edit, run on demand for Layer 1 registers only), refresh queue, runtime health. It stays because its Edit schedule is the only working control of the Layer 1 register cadence (open decision, section 8).
+  - Then **Runtime health** (`ScheduledRuntimeHealth.jsx`): queue wait, run time and failures of recent jobs. **Refresh schedules and one-off runs** retired (SS-020 follow-up, 4 Nov 2026): register schedules are edited on Layer 1 › Sources (section 3.2); its schedule list, refresh queue and search refresh signals are gone, and its functions are marked retiring in the component register.
 - **Jobs** (`pipeline-ops-entry.jsx`): job history with 8 filters; expandable detail (register run batches; admin task result with Admit the passing fields; generic run detail with evidence and hashes).
 - **Task manager** (`AdminTasks.jsx`): tasks running or waiting (pause, resume, cancel with reason); task detail; the running-jobs board (old Running now and Live activity addresses open it).
 
@@ -339,7 +339,7 @@ Every old menu entry, tab, alias and Administration section still opens a page, 
 | `layer-4-human-resolution`, `review-queue` | Layer 4 Review › Inbox |
 | `jobs-schedules` | Scheduled jobs |
 | `jobs` | Scheduled jobs › Jobs |
-| `scheduled-tasks`, `refresh-scheduling` | Scheduled jobs › Automations |
+| `scheduled-tasks`, `refresh-scheduling` | Layer 1 Register (Sources), since the SS-020 follow-up (was Scheduled jobs › Automations) |
 | `important-dates` | Reference data, Key dates (`type=dates`) |
 | `important-links` | Reference data, Reference sources (`type=links`) |
 | `settings` | Go-live checklist |
@@ -390,7 +390,7 @@ Old page names written as words (for example "Layer 4 — Human Resolution" or "
 | Reference data › `imports` | Rankings & statistics › Datasets | v2.15.301 |
 | Reference data › `dates`, `links` | Reference data with that type | v2.15.301 |
 | Layer 2/3 › `start`, `history`, `profiles`, `adapters`, `onboarding` | Layer 2/3 › Universities | v2.15.200, v2.15.300 |
-| Scheduled jobs › `schedules` | Scheduled jobs › Automations | v2.15.124 |
+| Scheduled jobs › `schedules` | Layer 1 Register (Sources) | v2.15.124; SS-020 follow-up |
 | Scheduled jobs › `priority` | Layer 2/3 › Universities | v2.15.300 |
 | Layer 4 › `review`, `sendback`, `flags`, `rules`, `blocks` | Layer 4 › Inbox, kind Course link | v2.15.252–v2.15.300 |
 | Layer 4 › `aireview` | Layer 4 › Inbox, kind Held scholarship | v2.15.300 |
@@ -399,16 +399,14 @@ Old page names written as words (for example "Layer 4 — Human Resolution" or "
 | Layer 4 › `publishing` | Scholarships › Coverage | v2.15.253 |
 | Providers › `onboarding` | Layer 2/3 › Universities | v2.15.258 |
 
-## 8. Open decisions (SS-020 items parked, from the execution register)
+## 8. SS-020 decisions (were open; decided by the Platform Admin, 4 Nov 2026 about 05:40, Decision 269 amendments)
 
-These are left as they are until the Platform Admin decides. They are recorded as **DECISION REQUIRED — SS-020** in `STUDYSEARCH-EXECUTION-REGISTER.md`.
-
-| Item | Where it is now | Why it is parked | Options |
+| Item | Where it is | Decision | Status |
 |---|---|---|---|
-| Link refresh and portals | Coverage & completeness › Courses | Decision 269 (C20, C42) moves it to Settings › Settings, but that tab is Platform Admin only, while Pipeline Operators and above change link refresh today. Moving it would take it away from ranks 4 and 5 | (a) Settings › Settings; (b) a rank 4 home under Settings; (c) leave it on Coverage › Courses |
-| Refresh schedules and one-off runs (Layer 1 refresh cadence) | Scheduled jobs › Automations | Decision 269 (C38) retires the section, but its Edit schedule is the only working control of how often the Layer 1 registers run. The schedule on Layer 1 › Sources writes a value no job reads | Make Layer 1 › Sources' schedule edit the Layer 1 refresh policies, then retire the section; until then it stays |
-| Page count | — | Decision 269 and the mandate say 47 tabs on 22 pages; the review's own final table and the menu have 20 pages. Treated as a counting error | Confirm 47 tabs on 20 pages |
-| Rankings › Datasets minimum role | Rankings & statistics › Datasets, rank 1 | QILT and PRISMS data were open to every role, so the tab now opens at rank 1; the dataset register and imports stay rank 4 inside it | Confirmation requested |
+| Link refresh and portals | Coverage & completeness › Courses | **Decided: stays.** Operators (rank 4) change it there; Settings is Platform Admin only. The move to Settings (C20, C42) is withdrawn | Done (nothing moved) |
+| Refresh schedules and one-off runs (Layer 1 refresh cadence) | Retired from Scheduled jobs › Automations | **Rewire, then retire.** Layer 1 › Sources' Schedule edits the Layer 1 refresh policies; then the section retires | SS-020 follow-up (migration 20261104420000, spec s274) |
+| Page count | — | **47 tabs on 20 pages** (the 22 pages in Decision 269 and the mandate was a counting error) | Done |
+| Rankings › Datasets minimum role | Rankings & statistics › Datasets, rank 1 | Confirmation requested | Open |
 
 ## 9. Drop-down options by country (checked live 14 Oct 2026, v2.15.270)
 
@@ -447,6 +445,7 @@ Found while checking, not changed: about half of Canadian courses (5,250 of 10,3
 ## Version history
 | Version | Date | Change |
 |---|---|---|
+| 1.18 | 4 Nov 2026 | SS-020 follow-up (Decision 269 amendments): Layer 1 › Sources' Schedule edits the Layer 1 refresh policies (3.2); Refresh schedules and one-off runs retired from Automations, runtime health stays (4.2); its old addresses open Layer 1 › Sources (7); Link refresh decided to stay on Coverage › Courses (3.1); section 8 records the decisions; 47 tabs on 20 pages. |
 | 1.17 | 4 Nov 2026 | v2.15.452, v2.15.454–v2.15.457: SS-020 admin menu consolidation (Decision 269), 47 tabs on 20 pages. Every page rewritten against the released code with each tab's key, minimum rank, what it shows and what it does; retired sections removed (Layer 3 areas and blocks, Serper, ScrapingBee, Search pass, Sample runs, dropped fetchers and gates, Courses with each field); Automations areas start closed; paging on Course sources, Course-level reading and Key dates; Queues & yield; Services & limits with one card per service; AI model switches on AI & OpenRouter; Progress on Layer 2/3 › Operations; Build adapter on Universities and as step 0 of the Adapter builder; Attributes read only, run controls on Enrich fields; scholarship settings on Layer 2/3 › Scholarships; Inbox readiness line; QILT and PRISMS as View data on Rankings › Datasets. New section 7 (every old address and where it leads) and section 8 (parked SS-020 decisions). Screens retired before SS-020 that were still listed (Live activity, Priority queue, the old Layer 4 tabs, Scrapers & fetchers, Data model, the separate Sources page) removed. Drop-down section renumbered 9. |
 | 1.16 | 30 Oct 2026 | v2.15.373: snapshot stamp on cached screens (W34/W35). |
 | 1.0 | 12 Oct 2026 | First issue, read from the code at v2.15.260. |
