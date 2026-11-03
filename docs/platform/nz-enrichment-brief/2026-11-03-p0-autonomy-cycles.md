@@ -198,3 +198,25 @@ Course descriptions go to Layer 4 under D5.
 - **The free relink route proves few pages.** This is evidence for workstream B's shared-defect analysis and for the D1 cost case.
 
 **Autonomy picture.** Gap queue, feed and plans all run on schedule with no manual dispatch. Data movement now depends on page identity, which is workstream B's work, and on D1. Hours with no movement must be explainable from recorded reasons, which is workstreams A and D.
+
+## 18:49 AEDT: orphaned queue slots released (guarded, reversible)
+
+**Approval:** Platform Admin, 18:14 ("verify ownership, leases and pending dependencies; execute only a guarded, reversible correction").
+
+**Classification (measured 18:27 by workstream D; re-measured live 18:46, identical)**
+
+| Class | Rows | Providers | Action |
+|---|---:|---:|---|
+| Safe | 731 | 144 | Released (ids md5 7158d298) |
+| Keep: retry pending | 290 | 7 | Kept. Includes the 4 IQ-00064 providers and their 274 courses |
+| Keep: pending dependency | 135 | 2 | Kept |
+| Unclear | 119 | 33 | Left alone; source not identified |
+| In flight | 0 | — | — |
+
+**Applied 18:49:**
+- `requested_at` was set to null on the 731 safe rows only. They stay queued and are searched in their normal turn.
+- Each row's before-state is in `pipeline.ops_lane_priority_snapshots`, batch `orphan-priority-20261103`. Verified 731 of 731.
+- Recorded as `admin_control_events` 'lane_priority_release'.
+- Rollback: `docs/platform/pastes/ROLLBACK-20261103-orphaned-search-priority-release.sql`.
+- Governance note: the snapshot table was created by this paste. It will be recorded in a migration and the component register at the next workstream D release.
+- `ops.lane_orphan_release_on` stays 0. That remedy keeps no per-row before-state, so it can't be reversed exactly.
