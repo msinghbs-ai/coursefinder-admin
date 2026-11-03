@@ -76,3 +76,31 @@ To be recorded: plans created and their triggers, the steps finished from cycle 
   - Cycle 2's own data movement is still to be verified.
   - The page-find step defect above needs correcting.
   - The 24-hour unattended soak has not started.
+
+## Cycle 3 check: 13:52 AEDT (scheduled check)
+
+**Cycle 2 (12:41, 17 plans): no data moved.**
+- Every plan had a single step, `scholarship_provider_scan`, and every task ended done with total 0 ("0 of 0 done … the rest wait their turn in the reader").
+- The cycle reported 17 done plans while moving nothing. This is logged as **IQ-00066 (P1)**: plans propose steps with no eligible work and count them as done.
+
+**Cycle 3 (13:41): 5 automatic plans, 8 steps running.**
+- 4 page-find steps: 231, 121, 63 and 128 courses without a course page.
+- Field-fill steps with 389, 462, 613 and 715 items.
+- Reasons recorded: missing values grew (for example 2,081 → 2,543), plus new verified evidence.
+
+**Data movement, last 2 hours (field items and course-link search):**
+- Field items: 55 filled, 32 to Layer 4 review, 520 skipped, 1,326 queued, 240 leased.
+- Course-link search: 195 found, 3 verified, 221 none, 26 queued.
+
+**Intake job:** runs at 13:26, 13:35 and 13:45 all succeeded.
+
+**Integration queue:**
+- **IQ-00060 closed.** The coverage-discover jobs stay inactive after the flag rechecks.
+- **IQ-00053 not closed.** No lock waits, but 6 time-outs in `svc_enrich_ai_record` at 13:48:31, inside the :47–:48 busy window, against 32 successful calls in the hour.
+
+**Release A:** v2.15.424 is live and verified.
+
+**Two-cycle criterion: not met.**
+- Cycle 1 moved data. Cycle 2 did not. Cycle 3 is in progress.
+- The criterion now needs two consecutive cycles that each move data: 13:41 and 14:41 at the earliest, assuming IQ-00066 does not repeat.
+- The 24-hour unattended test starts only after that and after IQ-00064 closes.
