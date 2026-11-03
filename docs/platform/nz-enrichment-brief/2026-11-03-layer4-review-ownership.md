@@ -29,5 +29,5 @@
 
 | From | To | Kinds | Reason |
 |---|---|---|---|
-| 3 Nov 23:30 | until the Integration Controller closes this row after verifying v2.15.447 live | official_course_url (Course Link), held_scholarship, provider_current_tuition* | **v2.15.447 deploy**: replaces `admin_layer4_inbox` and the inbox item/kind functions (stored-copy links, Course page needed pill, Refuse this proposal, duplicate route, Course code wording). Pause Course Link review writes until this row is closed. Keep, Use and Enter are unchanged in key, label and effect |
+| 3 Nov 23:30 | **Closed 3 Nov 23:38**: v2.15.447 verified live (md5s e79ce181, 4fc05d14, 1fb97548, 717fb44d; StudySearch Deployed UAT passed); Course Link reviewing may resume | official_course_url (Course Link), held_scholarship, provider_current_tuition* | **v2.15.447 deploy**: replaces `admin_layer4_inbox` and the inbox item/kind functions (stored-copy links, Course page needed pill, Refuse this proposal, duplicate route, Course code wording). Pause Course Link review writes until this row is closed. Keep, Use and Enter are unchanged in key, label and effect |
 | 3 Nov 21:30 | v2.15.442 verified live | provider_current_tuition* (fee cards) | v2.15.442 changes fee admission (fee holds now stop the AI fee reader; unit counts no longer divided blindly). Fee cards are engineering-only; Course Link is not affected |
