@@ -6,7 +6,10 @@
 
 **Window:** 3 Nov 2026 21:00 AEDT (10:00 UTC) to the time of each read (about 05:15–05:28 AEDT, 4 Nov). The 24 hours before (2 Nov 21:00 to 3 Nov 21:00) is shown as "previous 24 h" where it helps.
 
-**Load windows:** the two heavier reads (155 course items, and 30 courses across three consumer functions) were bounded. The 155-item link read ran at 05:15:25, about half a minute before the :x6–:x8 slot. It finished in a few seconds. Nothing ran at :35–:42 or :47–:48.
+**Load windows:** the two heavier reads (155 course items, and 30 courses across three consumer functions) were bounded.
+- The 30-course read ran at 05:26:14, inside the :x6 slot.
+- The 155-item link read ran at 05:15:25. That is outside the :x6–:x8 slot: a slip, recorded here. It finished in a few seconds.
+- Nothing ran at :35–:42 or :47–:48.
 
 "Not measured" means the figure could not be read with the access or time available. It is not a defect.
 
@@ -20,7 +23,7 @@
 | Scholarships | 5 admitted (UWA 3, UNSW 2), 4 newly published and returned by both Website API v2 and Zoho; 21 D4 refusals recorded; 1,130 directory-site enqueues skipped; Bond read done, VU read failed; **8 Macquarie re-reads still unread** (next read date 13 Nov). |
 | Rankings | No publication change (no ranking row created or changed since 8 Oct). |
 | Course links | 338 decided (134 approved, 21 edited, 183 kept held page); 155 links changed. **155 of 155 match on Website API v2.** |
-| Consistency | 30-course sample: see §4. |
+| Consistency | 30 of 30 links agree across Website v2, Zoho and Wix v2. 8 of 8 provider tuition figures agree on amount, currency and year. The 6 UNSW courses are held as decided. |
 | Spend | Firecrawl about 706 credits by the ledger (vendor balance 2,608 → 2,099 of 5,000); OpenRouter US$0.76 by the ledger (balance US$79.79 → US$78.91). |
 | Health | 4.66 GB database; 33 of 120 connections. 13 cron failures in the window, all before 23:00; **0 failures from 23:00 to 05:20** (about 10,700 runs). |
 | Job changes | No job disabled or restored. 3 new jobs started (ai-eval, work-continuity, work-continuity-lanes). 11 jobs inactive. |
@@ -149,7 +152,42 @@ All 155 courses also have an active official link in `catalogue.course_links`. T
 
 ## 4. Consistency: Website API v2, Zoho and Wix (30 changed courses)
 
-SAMPLE_PLACEHOLDER
+**Sample:** 30 courses read at 05:26:14 (inside the :x6 slot):
+- the 19 courses whose fee rows were changed by control events in the window (Murdoch, VIT, the 6 UNSW short courses, the D12 courses and the contained AI fee rows);
+- 6 Canberra and 5 Simon Fraser courses whose links changed, picked at random by hash.
+
+**Functions compared:**
+- Website API v2: `api.website_v2_course_item`.
+- Zoho: `api.zoho_course_lookup_v1`, which `public.zoho_edge_course_lookup_v1` wraps, read by stable key.
+- Wix: the `wix-course-api` edge function's v2 `course` action calls the database function `public.website_v2_course`, and its legacy `lookup` action calls `zoho_edge_course_lookup_v1`. Both were therefore covered.
+
+### 4.1 Summary
+
+| Check | Agree | Differ | Note |
+|---|---:|---:|---|
+| Official course link: Website v2 = Zoho | 30 | 0 | |
+| Official course link: Website v2 = Wix v2 | 30 | 0 | |
+| Provider current tuition: Website v2 = Zoho = Wix v2 (amount, currency, fee year) | 8 of 8 that have it | 0 | |
+| Courses with no provider tuition: website shows the CRICOS annual figure, and Zoho shows the CRICOS total under `regulatory_tuition` | 10 | 0 | Different basis by contract (annual against course total), and the totals line up (for example 51,000 = 3 × 17,000) |
+| UNSW short courses held (D11) | 6 | 0 | Website and Wix v2: no tuition (null, not held). Zoho: CRICOS total 31,000–31,500 only. No inferred annual figure. |
+| SFU courses (no fees held) | 5 | 0 | No tuition on any of the three |
+
+### 4.2 Fee courses
+
+| Course | Website v2 | Zoho provider tuition | Wix v2 | Zoho CRICOS total |
+|---|---|---|---|---:|
+| 096011C Murdoch | 37,800 AUD 2027, provider | 37,800 AUD 2027 | 37,800 | 28,920 |
+| 117633F VIT | 16,000 AUD **2025**, provider | 16,000 AUD 2025 | 16,000 | 46,500 |
+| 072350D NTI (D12) | 23,800 AUD 2027 | 23,800 AUD 2027 | 23,800 | 19,200 |
+| 093282D UTas (D12) | 18,167 AUD 2027 | 18,167 AUD 2027 | 18,167 | 85,905.63 |
+| 114382M UTas (D12) | 27,338 AUD 2027 | 27,338 AUD 2027 | 27,338 | 74,722.50 |
+| 105389A Reach (D12) | 11,500 AUD 2026 | 11,500 AUD 2026 | 11,500 | 30,000 |
+| 107010J AIH (D12) | 15,000 AUD 2026 | 15,000 AUD 2026 | 15,000 | 44,000 |
+| 114579J | 24,000 AUD 2026 | 24,000 AUD 2026 | 24,000 | 48,000 |
+| 085576A, 102291B, 106655B, 114822C, 121432C | CRICOS annual 17,000 / 24,600 / 17,000 / 24,000 / 26,526 | none | same as website | 51,000 / 49,200 / 34,000 / 48,000 / 53,052 |
+| 0100702, 0100908, 052690E, 080476A, 108475A, 121321K (UNSW, held) | none | none | none | 31,000–31,500 |
+
+**Observation, not a defect:** the VIT 117633F figure on all three consumers carries fee year **2025**. The register (22:20) records the value as 16,000 from AI row a805b998, but does not record the year. Whether a 2025 fee should still be shown was not assessed here.
 
 ---
 
@@ -324,4 +362,4 @@ Each item compares a register claim with what production shows now.
 3. **"Observe the first production fee reads under v2.15.442" (overnight P0):** there were 0 fee reader reads in the window. IQ-00111 cannot close on new reads yet. The live issue says deployed / verifying.
 4. **Page find:** the lane has been paused as budget-exhausted since 01:13. Measured usage for that purpose is far below its daily share, and the vendor plan has 2,099 credits left.
 5. **Register 01:20, "5 fee re-check items raised in Layer 4":** they are in `pipeline.enrichment_flags`. The Layer 4 review table shows no new fee items in the window.
-6. **Confirmed as claimed:** Course Link 338 decided, 155 changed and 155 of 155 served; relink and identity check clean since their fixes; Murdoch 096011C 37,800 for 2027 on Website API v2, Zoho and the Wix v2 course call; D4 21 refusals; Bond read and VU failure; v2.15.457 served, then v2.15.458; no job disabled; migrations consistent.
+6. **Confirmed as claimed:** Course Link 338 decided, 155 changed and 155 of 155 served; relink and identity check clean since their fixes; Murdoch 096011C 37,800 for 2027 on Website API v2, Zoho and the Wix v2 course call; VIT 117633F 16,000 on all three (fee year 2025, see §4); the 6 UNSW courses held; D4 21 refusals; Bond read and VU failure; v2.15.457 served, then v2.15.458; no job disabled; migrations consistent.
