@@ -105,3 +105,29 @@ Start with the canonical AU/NZ **catalogue provider population**, not the AER en
 | Scheduled AER reader (D6) | v2.15.427, live; activated 16:20 (#28754) | — | Running hourly at :13 | Back-pressure: 539 of 600 waiting in Layer 4 |
 
 **Verified rows:** none yet for the eight-university cohort.
+
+### 3 Nov 2026, 19:00 AEDT
+
+**v2.15.435 deployed**
+- Merge `ccdf3e06`. Full suite: 1,665 passed.
+- Migration `20261104090000`: live md5 `bfb8c32b7089f762ba2d8c1b93ad71ba`.
+- `aer_course_population_v1` is now `0eb8ddc8`: followed providers first, then the largest shortfall, behind `coverage.aer_reader_priority_on`.
+- The inventory holds 8 rows.
+
+**Sources attached (18:57)**
+- 4 rows added to `pipeline.entry_matrix_sources` (`found_via` manual), applied from paste `PASTE-20261104-aer-missing-university-sources.sql` (md5 0e74484f), with all guards passed:
+  - CDU: `/international/how-apply/entry-requirements`
+  - UniSQ: `/international/apply/entry-requirements`
+  - UNE: `/international/apply/eligibility/academic-requirements`
+  - Torrens: `/apply-online/admissions-criteria`
+- **Stage:** source attached only. Not yet read, not in Layer 4, not admitted, not published.
+- **Next:** the existing entry-matrix-read job reads them directly (no Firecrawl). Each first read goes to Layer 4.
+
+**JCU and UniSQ rendered-read pilot: not started**
+- The paste `PASTE-20261104-aer-render-pilot.sql` (md5 c0db5751) adds `jcu.edu.au` and `unisq.edu.au` to `entry.render_hosts` and attaches the JCU page. At most 6 scrapes.
+- At 18:59 the database tool asked for an interactive confirmation, and the client cancelled it automatically. Nothing ran.
+- **Blocker:** a person must run the paste file, or be present to confirm it.
+
+**Still pending**
+- ACU, CQU and Deakin link recovery, blocked: the stored copies need the service role to read from storage.
+- UWA and RMIT: waiting on the worker reader fixes (v2.15.437).
