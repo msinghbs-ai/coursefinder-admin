@@ -56,3 +56,12 @@ Read-only. Exact address patterns counted live; stored copies sampled through th
 | Simon Fraser | Held has a term (mostly Fall 2026), proposed has none | 59 of 105 | 2 proposed copies | Proposed copy shows the current Spring 2027 calendar. It will not date. The other 46 need separate review. |
 
 The item reason says the proposed page shows the CRICOS code. In the Adelaide samples it does not, and Simon Fraser has no CRICOS code. The reason text is unreliable for these groups.
+
+## Platform Admin rule decisions (3 November 2026, after 20:40 AEDT)
+| University | Items | Rule |
+|---|---|---|
+| Adelaide University | 207 | Keep the held adelaide.edu.au page; stop raising this pattern |
+| University of Canberra | 100 | Use the address with no year |
+| Simon Fraser | 59 | Use the address with no term; the other 46 stay for separate review |
+
+Carried out by the integrator as logged rules under Decision 263, after validating each whole group. Items that do not pass stay in Layer 4. Up to 159 Firecrawl credits approved for the re-reads.

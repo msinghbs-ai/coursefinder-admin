@@ -34,6 +34,8 @@ Read `2026-11-03-layer4-course-link-growth-review.md`.
 - **Wording:** the CRICOS-differs reason must not mention CRICOS for non-Australian providers.
 - **Measure:** report Firecrawl credit use by the search lanes that feed refusals.
 
+- **Approved address rules (366 items):** run as logged rules under Decision 263, one university at a time. Before each run, validate the whole group: same course, stored copy matches, audience correct. Items that fail stay in Layer 4. Adelaide 207: keep the held `adelaide.edu.au` page and stop raising the `adelaideuni.edu.au` pattern. Canberra 100: use the no-year address. Simon Fraser 59: use the no-term address. Exact patterns and findings are in the review file. Re-reads must store evidence as normal. Do not change manual bindings. Record each rule run in the review CSV, adding rows.
+
 ## Priority 3: sources and ownership
 9. **Approved reads.** VU ref 1323 and Bond ref 1230: Firecrawl and the AI read are approved for these two items only. Run them through the scholarship path, with evidence stored as normal. Bond's queue entry holds a stored path, so it will reuse the old copy unless a fresh read is forced. If no safe governed route exists, add a single-item read control rather than hand-writing rows.
 10. **Ownership.** 21 pending held scholarships come from state-government listing pages across 5 provider records. Several names point to other institutions (ACU, MACC, RMIT UP, Alphacrucis). Reconcile through governed housekeeping, with no silent reassignment. Check owners before spending credits.
