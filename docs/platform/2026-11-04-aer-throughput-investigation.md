@@ -127,3 +127,78 @@ The code marks this line `-- fixed: the daily cap is counted over the last 24 ho
 - Light catalogue reads ran at 08:19–08:22, 08:30–08:33 and 08:43.
 - No reads were made in the blocked windows (08:35–08:42 and :47–:48).
 - No slips.
+
+## 8. After v2.15.465: verification, review queue and routing (direction 10:00 §3–§4)
+
+Production was read only, between 11:09 and 11:19 AEDT. The heavy reads ran at 11:16:11 and 11:18:02.
+
+### First readiness runs
+
+| Run | Gates | Notes |
+|---|---|---|
+| 09:52 | 20 | It re-gated 18 matrix runs that already had a gate. That points to the old ordering still being live at 09:52. |
+| 10:22 | 20 | Never-gated items first. |
+| 10:52 | 20 | Never-gated items first. |
+
+- Since 09:37, 42 course reads moved into gate classes: 5 complete, 21 dropped minimums, 11 row limit, 4 row level and 1 shared page.
+- **Still never gated:** 471 course reads and 3 matrix runs. At `layer4.gate_batch` 20 that is about 12 hours. Raising the setting to 60 would clear it in about 4 hours, with no spend.
+- **Correction to §2:** the earlier "165 complete reads gated" was wrong. The query used `min(gate_checked_at)`, which ignores nulls, so most complete reads had in fact never been gated either. The 376 held reads never gated stands.
+
+### The 605, by the gate itself (11:16)
+
+**Course reads (564):**
+
+| Class | Count | Route |
+|---|---|---|
+| Complete | 169 | Review |
+| Row level | 25 | Review with Approve except (rows to leave out) |
+| Row limit | 162 | Authority decision; QUT's 38 reads are qualification tables to map as a matrix source |
+| Shared page | 45 | Identity confirmation |
+| Dropped minimums | 163 | Recovery from the stored copy, else a request for the rows |
+
+**Matrix runs (41):**
+
+| Class | Count | Route |
+|---|---|---|
+| Complete | 2 | Review |
+| Held only for rows to leave out | 22 | Review with Approve except |
+| Held for dropped published rows | 17 | Matrix source (Human-assisted recovery's `aer_read_held`) |
+
+The "23 ready matrix runs" in the 10:00 figures were runs that readiness labelled `judgement_ready` without ever gating them. 21 of the 41 matrix runs are ANU's.
+
+**Admissible now:** 169 complete course reads + 2 complete matrix runs = **171 items**. Another 47 can be decided with Approve except: 25 course reads and 22 matrix runs. The total ready for a reviewer is 218.
+
+### Row-limit assessment
+
+**RMIT (94 reads):**
+- Rows per read: median 9, 90th percentile 12, maximum 19.
+- The rows that were cut are mostly alternative admission routes: 97 prior qualification, 88 subject prerequisite, 85 portfolio or interview, 67 minimum grade.
+- None of the 349 cut rows records an audience.
+- None of the 94 reads kept the rows it read, so any change means new AI reads (about US$0.57 for all 94).
+
+**Recommendation:** a pilot of `entry.max_rows_by_provider` = RMIT 20 on 10 reads, as a Platform Admin decision. The pilot's audience check must pass before any wider use. It was not piloted in code.
+
+**QUT (38 reads):** a median of 68 rows a read, maximum 117. These are country qualification tables printed on course pages. They should be mapped as QUT's matrix source, not given a higher row limit.
+
+### `wc.aer_fair_on` projection
+
+| Measure | Today | Once every item is gated |
+|---|---|---|
+| Room under the 600 limit | about 87 | about 382 |
+| Ready decisions counted | 513 `judgement_ready` (labels, not gated) | about 218 (gated) |
+
+- Each university's share is 60. RMIT, with 91 ready, would be at its share and get no new reads.
+- AUT (25 ready), Monash (23) and ANU would keep headroom.
+
+**Recommendation:** evaluate activation after gating completes. The switch was not changed.
+
+### Remedy
+
+Pilot branch `cf247-aer-review-queue`, migration `20261104490000`:
+- the review packet and review card;
+- the reviewer-ready queue and ownership claims;
+- routing, and lane `aer_item`'s intervention generator;
+- the E13 pilot bounds;
+- the fairness projection.
+
+Details are in the migration header.
