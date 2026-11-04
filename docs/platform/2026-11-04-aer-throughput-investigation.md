@@ -202,3 +202,73 @@ Pilot branch `cf247-aer-review-queue`, migration `20261104490000`:
 - the fairness projection.
 
 Details are in the migration header.
+
+## 9. RMIT settlement (direction 12:16)
+
+Production was read only from 12:17 to 12:43 AEDT. The heavy read ran at 12:26:11.
+
+**Load-window slip:** one light catalogue read ran at 12:42:55, inside the 12:35–12:42 no-read window. It was an md5 and hook-register check, after the container restarted.
+
+### The 303 RMIT items (live gate at 12:26)
+
+| Class | Count | What it contains |
+|---|---|---|
+| Ready for authorised admission | 91 | 89 complete reads; 2 that need some rows left out (Approve except) |
+| Technically blocked, recovery possible | 27 | Dropped minimums, no corrected read tried yet, stored copy of the same page exists |
+| Needs evidence, input or a decision | 184 | See below |
+| Stale | 1 | The course is now bound to another page |
+
+**The 184 needing evidence, input or a decision:**
+
+| Reason | Count | Next action |
+|---|---|---|
+| Row limit | 93 | Row boundary (authority) |
+| Shared page | 27 | Identity confirmation |
+| Dropped minimums, corrected read already refused on the same stored copy | 58 | Repeats on unchanged evidence: rows from a person, no further re-read |
+| Refused for the row limit | 4 | Every printed requirement was kept (8–9 rows read); waits for the row boundary |
+| Refused on the page's identity proof | 2 | Identity confirmation |
+
+**Stored-class view:** the product view reads stored gate classes only. 279 of the 303 had not yet been gated by readiness at 12:18, so it shows them as recoverable ("not yet checked") until job layer4-readiness reaches them.
+
+### Diploma of Commerce (111278B, item a7849f66)
+
+- **What happened:** two corrected reads ran on the same stored copy (a0ffab81): 3 Nov 17:13 (enrich item 265315) and 4 Nov 12:17 (enrich item 270218, the Platform Admin's Re-read). Both returned the same result.
+- **Why it is still held:**
+  - The current reader does resolve the score_without_basis drop: the VCE English prerequisite comes back as a subject prerequisite row.
+  - Each read found 9 requirements against a limit of 6, so E13 held the read whole ("held_partial: over_row_limit"). It kept all 9 rows (`value.rows_read`).
+- **A third re-read** would repeat the same refusal.
+- **An `aer_item` rows request** would resume the same refused read. Branch `cf247-aer-review-queue` does not raise one for this item (route `row_limit_stored`).
+- **Next action:** the RMIT row-boundary decision (`entry.max_rows_by_provider` RMIT ≥ 9).
+  - Then **one** corrected read through the Inbox's Re-read from stored evidence (`course_entry_correction_v1`), about US$0.006.
+  - Or an authorised step that proposes the 9 stored rows with no AI read (not built).
+- **For the reviewer:** 3 of the 9 rows are "no prerequisite" or "no selection task" statements, or a STAT route, to leave out.
+
+### Lifecycle candidate (§9)
+
+Graduate Certificate in Supply Chain and Logistics Management (084996M).
+
+The automatic part is already done: the held read c88caacd was corrected on 4 Nov at 00:14, and the replacement item 5146f300 is review-ready. It has 3 proposed rows, the gate is complete, there are no active rows and no lock, and the course is in the search projection.
+
+| Step | Action | Check |
+|---|---|---|
+| 1 | Before the decision | `security.course_entry_gate_v1('5146f300-3ae9-4380-8cc7-306ad2aa5f4c')->>'complete' = 'true'`; 3 proposed rows; no lock |
+| 2 | The Platform Admin approves it: Layer 4 › Inbox › RMIT › Entry requirements › Ready to decide › the card › **Approve all rows**, with a reason | — |
+| 3 | After the decision | The item is approved; one `layer4_decisions` row; one `inbox_decide` audit event; 3 `course_entry_requirements` rows active; field item filled |
+| 4 | Consumer verification | `public.website_v2_course('course:cricos:00122a:084996m')->'item'->'entry'->>'requirements_note'` is not null. Zoho carries no academic AER (the G3 decision is open). |
+
+### Counts for the execution register (§10)
+
+After release, run `security.aer_progress_counts_v1(<since>, '8e1adb6c-e069-43db-9584-bd054255e702')`.
+
+The same query works before release:
+
+```sql
+with dec as (select d.* from pipeline.layer4_decisions d join pipeline.layer4_review_items i on i.id = d.review_item_id join catalogue.courses c on c.id = i.entity_id
+              where d.created_at >= :since and i.field_code = 'course_entry_first_read' and c.provider_id = '8e1adb6c-e069-43db-9584-bd054255e702')
+select (select count(*) from pipeline.admin_control_events e where e.area = 'layer4' and e.action = 'inbox_decide' and e.created_at >= :since and e.target like 'aer_review:%'
+          and e.detail->>'provider_id' = '8e1adb6c-e069-43db-9584-bd054255e702') submitted,
+       (select count(*) from dec) saved,
+       (select count(*) from catalogue.course_entry_requirements x where x.status = 'active' and x.provenance->>'review_item_id' in (select review_item_id::text from dec)) admitted_rows,
+       (select count(distinct x.course_id) from catalogue.course_entry_requirements x join search.course_documents s on s.course_id = x.course_id
+         where x.status = 'active' and x.provenance->>'review_item_id' in (select review_item_id::text from dec)) published_courses;
+```
