@@ -282,3 +282,52 @@ Every first-load read is under 300 ms. On production the waiting-list read alone
 **Decision pack:**
 - `layer4.reconcile_supersede_on` settles about 280 review items covered by the platform resolution rules (already active or retired). It supersedes only and is reversible.
 - It goes to the Platform Admin's decision pack; it is not switched by this change.
+
+### 9.6 Direction 18:08 §5: the 5,410 against 4,430 reconciled (production 17:16 AEDT)
+
+It is a different pending base plus requests added in. No item was in two groups.
+
+| Line | Items |
+|---|---:|
+| Pending Layer 4 **review items** (`layer4_review_items`, the readiness base the observer used) | 4,430 |
+| Other Inbox items that are not review items: | 779 |
+| — university onboarding stops (website 41, too few pages 129, nothing ready 317, proposal failed 1, central pages 3) | 491 |
+| — held scholarships | 132 |
+| — course page needed | 88 |
+| — page holds | 54 |
+| — provider departures | 7 |
+| — fee holds | 7 |
+| **Inbox items waiting** (one group each) | **5,209** |
+| Human input needed requests, added in by the 17:16 summary | 201 |
+| **Summed group counts** | **5,410** |
+
+**The one true double count:** 17 held AER reads were in D, and so were their 17 `aer_item` requests. The other 184 requests (sch_coverage 150, aer_course 16, aer_source 12, sch_value 6) serve no Inbox item, so they were not double counted, but they are not items either.
+
+**Corrected model:**
+- One stored row per item with one primary disposition (`grp`, `cls`); other applicable reasons go in `secondary`, which is never counted.
+- The groups sum to the items waiting.
+- Human input needed requests are their own line ("Human input needed requests", group I), never added.
+- The summary also gives `pending_review_items` (4,430 then) and `pending_other_items` (779 then), so the observer's base can be read directly.
+
+**Corrected 17:16 figures (one primary disposition each):**
+
+| Group | Items |
+|---|---:|
+| A | 307 |
+| B | 639 |
+| C | 3,934 |
+| D | 329 |
+| **Sum** | **5,209** (the items waiting) |
+| Requests, separate line | 201 |
+
+These figures are before the Course Link classifier, which moves official links between groups.
+
+**Flow report** (`security.layer4_flow_report_v1`, `admin_layer4_groups({action: 'flow'})`). Each line is separate; none is added to another, and a move between queues is never an admission:
+- **Decisions:** applied, and not applied (`still_waiting`).
+- **Admitted and admitted-and-published:** only from the post-decision check (`layer4_admission_checks`), plus approved but not admitted.
+- **Technical recovery:** corrected reads replaced or refused; requests resumed or verified.
+- **Reroutes:** Decision 179 moves.
+- **Duplicates.**
+- **Other platform supersessions.**
+
+**Tests:** fixture G10 and the scale step assert that the sum of the groups equals the items waiting. At scale: 5,289 = 335 + 424 + 4,352 + 178, with the requests apart.
