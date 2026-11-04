@@ -197,3 +197,63 @@ From release, `security.layer4_lifecycle_report_v1()` reports these over `layer4
 - **§4 summary:** first entered, status, last reviewer action, last recovery and its result, next step, and time waiting. Event history expands below.
 - **§5 reconciliation:** while a recovery is queued or running, the card reads its progress again (`layer4.lifecycle_poll_seconds` 15, `layer4.lifecycle_poll_max` 40). When it settles, the card, its recovery detail and the counts refresh. A replacement read is linked with whether it is complete, and opens as its own card. Approve is still enabled only by the E13 and D-R3 gates.
 - **§6 repeated clicks:** a repeated `reread_stored` while a corrected read or course read is queued or running returns that request, whoever asked for it. A repeated `request_evidence`, `open_intervention` or `ai_analyse` while a Human input needed item is open returns that item. Nothing new is started.
+
+## 9. Mandate 16:32 §2, §7, §8: operational groups and the kind-audit gaps
+
+**Build:** Pilot branch `cf247-l4-operational-groups`, migration `20261104560000`, spec `s283`, fixture `tests/fixtures/l4-operational-groups` (G1–G8). Production read-only, 17:11–17:27 AEDT.
+
+### 9.1 The four groups (one shared server function, `security.layer4_groups_v1`)
+
+| Group | Shown as | What puts an item there |
+|---|---|---|
+| A — automatically resolvable | Counts and their rule only | An existing authorised rule covers it, named on the item. Review items: the platform resolution rules (`security.layer4_reconcile_v1`: repeat, decided before with no new evidence, already active, record retired); switch `layer4.reconcile_supersede_on` is **off**, so these still wait for a person until the Platform Admin switches it on. Official links: the Course Link classifier `security.course_link_route_class_v1` (migration 570000: Decision 263 rules, Decision 179 conversion, the resolution rules). |
+| B — technical recovery | "Technical recovery" | Readiness `technical_blocked` (completeness gate, invalid link, manual lock); adapter nothing ready, proposal failed, site down; Human input needed items being analysed or resuming. |
+| C — human decision | "Ready for my decision" | Readiness `judgement_ready`; protected decisions (held scholarships, fees, archive, departures, descriptions, first runs). |
+| D — human information | "Information needed from me" | Website, pages or a document needed; course page needed; Human input needed items awaiting input; held AER reads with an open Human input needed item. |
+
+No new admission authority: the classifier and the screen read decide, supersede and admit nothing (s283 checks there is no write in them; the post-check refuses an A item without its rule). Kind defaults are a setting (`layer4.group_by_kind`); Course Link routing can be switched off (`layer4.groups_course_link_router_on`).
+
+**Production at 17:16 AEDT** (the same logic as a read-only query; the Course Link classifier was not yet live, so official links are counted by readiness here and will move to the Course Link classes on release):
+
+| Kind | A | B | C | D |
+|---|---:|---:|---:|---:|
+| Course link | 280 (252 already active, 28 retired) + 27 Decision 263 pattern | 64 (59 invalid link, 5 manual lock) | 2,728 | — |
+| AER | — | 257 (completeness gate) | 331 | 17 (open human input) |
+| Descriptions | — | — | 666 | — |
+| Held scholarship | — | — | 132 | — |
+| Adapter nothing ready / proposal failed | — | 318 | — | — |
+| Too few pages / pages not found / website needed | — | — | — | 224 |
+| Course page needed | — | — | — | 88 |
+| First runs, fee checks, central pages, departures | — | — | 77 | — |
+| Human input needed | — | — | — | 201 |
+| **Total** | **307** | **639** | **3,934** | **530** |
+
+### 9.2 Each card answers the six §7 questions
+
+The Progress block (v2.15.471) now also carries the group and "Person needed" (`no: an existing rule may settle it`, `not yet: the platform is recovering it`, `yes: a decision`, `yes: information only a person can give`), and "What the platform holds" (expandable). Why it is in Layer 4, what the platform has done, what moves it forward, first entered and last changed, and whether an earlier action worked were already there.
+
+### 9.3 §8 gaps
+
+| Gap | Root cause (production) | Shared fix | Status |
+|---|---|---|---|
+| 96 held scholarships decided twice | One decision sent twice about 3 s apart (batch L4B-20261030-1138). The first reply was the scholarship screen's status and the item stayed waiting; the second applied it (`decided_at` is the second audit row). One effect, two audit rows, the first not saying it had not applied. | Every Inbox decision records `still_waiting`; a decision that left the item waiting is acknowledged "Still incomplete" and never counted as done. The same decision on the same item within `layer4.duplicate_decision_seconds` (120 s) returns the first one (audited as `inbox_refused`). A decided item already refuses another. | Fixed (G4, G4b) |
+| Retry guards (onboarding, page recovery) | Retry, rebuild and release were repeatable on an unchanged stop. | `layer4.once_only_choices` (retry, rebuild, release): refused with the reason and the alternative ("Not tried again — the same stop, nothing changed") when the same choice was already taken for the same university and the university has not changed since. | Fixed (G5) |
+| Navigation-only choices | No audit row. | `public.admin_layer4_navigate` records `inbox_navigate`. The card shows "Opened the adapter builder — 17:20 AEDT: the item closes when the work there is saved", and later the item's own closing time. | Fixed (G6) |
+| Evidence on provider and adapter cards | The evidence is in `provider_onboarding.result` and the hold's evidence, which the Inbox list does not read. | `security.layer4_card_evidence_v1` covers website, active courses, pages read, AI attempts, why each field is held, runs stopped the same way, how pages were looked for and the next automatic check. `items_v2` is not edited. | Fixed (G3) |
+| Re-raised reviews after a valid decision | The readiness check already classifies them (`platform:decided_before`), and the arrival guard and reconcile switches are off. | The card names the earlier decision and the rule that may settle it. A group A count is shown. Switching `layer4.reconcile_supersede_on` and `layer4.arrival_guard_on` on is a Platform Admin decision (no new authority is taken here). | Visible; settling awaits the switch |
+| Human input that doesn't resume | **No production case:** 198 interventions are awaiting input, with 0 given input and not resumed. | Group B shows the item while it resumes. The existing resolve and resume handlers are unchanged. | Verified (G7); monitor after first input |
+
+### 9.4 Checkpoints
+
+**Performance (s273 budget):**
+- The groups read the whole waiting list once (`security.layer4_inbox_items_v2`, no detail). On production at 17:26 AEDT that list alone took **1.93 s for 5,213 items**; it was 0.26 s on 4 Nov 08:16.
+- The three-choice bar loads on its own, so the Inbox's first read is unchanged.
+- A group page costs the same as one classification plus one page of cards.
+- The Course Link classifier adds one call per official link (2,958).
+- **Checkpoint:** measure both on production at the first release window after 570000 and 560000.
+- **Fallback if over budget:** store the group with the readiness classification (job `layer4-readiness`), or set `layer4.groups_course_link_router_on` to 0.
+
+**Settling group A:**
+- 280 review items are covered by the platform resolution rules, which are switched off.
+- Switching them on needs a separate Platform Admin decision (§9 of the mandate): the expected effect is about 280 fewer reviews; the rules supersede only and are reversible by the Platform Admin.
+- **Owner:** Integration Controller.
