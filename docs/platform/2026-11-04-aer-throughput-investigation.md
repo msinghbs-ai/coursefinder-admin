@@ -272,3 +272,96 @@ select (select count(*) from pipeline.admin_control_events e where e.area = 'lay
        (select count(distinct x.course_id) from catalogue.course_entry_requirements x join search.course_documents s on s.course_id = x.course_id
          where x.status = 'active' and x.provenance->>'review_item_id' in (select review_item_id::text from dec)) published_courses;
 ```
+
+## 10. AER technical recovery selector (mandate 16:32 §4–§6)
+
+Production was read only from 17:10 to 17:27 AEDT. The heavy reads ran at 17:16:09 and 17:26:07. No load-window slips.
+
+Branch `cf247-aer-recovery-selector`, commit `6648be5a`, migration `20261104550000` (md5 `60780eb3…`). Spec s282. Fixture `tests/fixtures/aer-recovery-selector`: 31 assertions, which first reproduce the live lane (407 holds parked with no next time).
+
+### What the 16:32 observer measured
+
+The observer's "AER technical correction" (`progress_measure_v1`) counts work items in lane `aer_technical`.
+
+| Measure | 16:32 | 17:02 | What it actually counts |
+|---|---|---|---|
+| processed | 234 | 234 | Items whose `last_attempt_at` falls in the 24-hour window. These are re-checks of readiness, not corrected reads and not AI spend. |
+| created | 0 | 0 | Items recovered |
+| eligible | 35 | 65 | Items whose backoff was due again |
+| parked | 154 | 151 | 132 / 129 `technical_hold` with no next time, plus 22 duplicates |
+
+### Diagnosis
+
+**`aer_technical_recovery_v1` (lane `aer_technical`, run by `aer-scheduled-read` at :13):**
+- It never recovers anything. It reports every technically blocked item as failed, class `technical_hold`, under policy `retry_backoff`, a transient class.
+- Each item is re-checked at 10, 20 and 40 minutes, then parked with "attempts used up (3)", no next time and no reason. 94 items were re-checked at 17:13.
+- **This treats deterministic holds as transient.**
+
+**The held step (`aer_schedule_held_v1`), the only automatic re-read:**
+- It has asked no read since 03:13. The rolling daily cap is full until the 18:13 run.
+- When it does run, it allows a second read of an unchanged copy after `aer.schedule_held_retry_days` (14).
+
+**Corrected reads in the last 24 hours:** 82 scheduled. 10 replaced their read; 71 were refused, 69 of them on a copy that had not changed. AI spend was about US$0.006 a read.
+
+### The lane's work items, item by item (17:16)
+
+| Class | Items | Detail |
+|---|---|---|
+| Row limit | 118 | 104 cut and never re-read; 14 whose corrected read was refused for the row limit on the same copy |
+| Unchanged evidence | 27 | Corrected read refused on the same copy |
+| Human-assisted, unchanged-evidence repeats | 17 | Refused on the same copy, with an `aer_item` rows request open |
+| Human-assisted, shared pages | 26 | 16 with `aer_course_identity` raised |
+| Human-assisted, matrix runs | 18 | Held by D-R3 |
+| Decisions | 14 | Rows a person leaves out (Approve except); not technical holds |
+| Duplicates | 22 | — |
+| **Genuinely recoverable** | **33** | Dropped minimums, never re-read, with a stored copy of the same page |
+
+The observer's "eligible" items were re-checks that had fallen due. None of them was work that could succeed.
+
+### Remedy
+
+Six guarded changes:
+
+| Function | Before | After |
+|---|---|---|
+| `aer_technical_recovery_v1` | `370baa57` | `08322eb5` |
+| `aer_schedule_held_v1` | `2a0d51fa` | `c866167b` |
+| `aer_e13_recover_v1` | `1bd8be8b` | `a81a54b1` |
+| `har_aer_item_generate_v1` | `22cb0e54` | `b25b89a1` |
+| `layer4_aer_recovery_detail_v1` (lifecycle-owned) | `dbf06336` | `5d08d39e` |
+| `layer4_reread_repeat_v1` (lifecycle-owned) | `80c53ac4` | `19b6d24e` |
+
+- **One shared rule, `aer_recovery_rule_v1`.** It reuses `layer4_reread_repeat_v1` and its change keys. Every hold keeps its class, last attempt, evidence used and current, reader revision, next action, next time or authority blocker, why an identical retry is prohibited, and its intervention.
+- **The lane** reports each hold once per condition:
+  - Deterministic holds are parked with no attempt counted.
+  - Human cases wait for review with their reference.
+  - Transient cases keep bounded retries.
+  - Recoverable cases are deferred to the scheduled read.
+  - A changed copy, reader or entry setting makes a held item eligible again automatically.
+- **The held step and the E13 pilot** read only what the rule makes eligible.
+- **The generator** raises identity items only. A person's rows would resume the same refused read, because `har_aer_item_resume_v1` re-runs `course_entry_correction_v1` on the same copy.
+- **The panel:** a row-limit repeat now recommends the row-limit decision (Platform Admin). It no longer offers Open human input or the same re-read.
+
+### Before and after (fixture on the production-shaped seed)
+
+| | Before (live 16:32) | After |
+|---|---|---|
+| Holds re-checked per hourly run | about 94 | 0 for unchanged conditions; only items whose condition changed, plus bounded transient retries |
+| Holds without a next action | 129 + 22 | 0 |
+| Corrected reads refused on an unchanged copy (24 h) | 69 | 0 possible; the held step and the E13 pilot now refuse to select them |
+| Successful corrections | 0 counted | 1 end to end in the fixture: held → corrected read → E13 passes → review-ready → approval → active row → published |
+
+### Unattended in production
+
+The 18:13 `aer-scheduled-read` run has room for 20 reads under the cap and will ask 10 corrected reads at most. 9 are eligible under the current code and the new rule alike: all first reads, Auckland University of Technology and University of Auckland.
+- The first is AUT Bachelor of Medical Laboratory Science (AK3432), item `aad88dcf`.
+- The 24-hour yield has been about 12%, so expect about one replacement.
+- Any replacement then needs a human decision before it is admitted.
+
+### Still open
+
+**The 17 open `aer_item` rows requests:** human input on them would resume the same refused read. The resume path needs a version that uses the supplied rows; it is owned by Human-assisted recovery and the lifecycle work.
+
+**Decisions:**
+1. The RMIT row limit (118 holds wait on it).
+2. `aer.e13_recover_on`.
