@@ -331,3 +331,43 @@ These figures are before the Course Link classifier, which moves official links 
 - **Other platform supersessions.**
 
 **Tests:** fixture G10 and the scale step assert that the sum of the groups equals the items waiting. At scale: 5,289 = 335 + 424 + 4,352 + 178, with the requests apart.
+
+### 9.7 Rebased on v2.15.473 (4 Nov 2026 18:44 AEDT)
+
+**Live definitions guarded:** re-read at 18:44 AEDT. The six definitions this change edits still match:
+
+| Function | md5 |
+|---|---|
+| `admin_layer4_inbox` | c0a972a6 |
+| `layer4_lifecycle_one_v1` | a93b2bee |
+| `layer4_items_lifecycle_v1` | f6eeef05 |
+| `layer4_item_lifecycle_v1` | a9082881 |
+| `layer4_ack_headline_v1` | c715ccb3 |
+| `layer4_ack_normalise_v1` | 50f4b7b6 |
+
+The fixture checks these as unchanged, not edited by this change:
+
+| Function | md5 |
+|---|---|
+| `items_v2` | 1e3af248 |
+| `layer4_aer_recovery_detail_v1` | 5d08d39e |
+| `layer4_reread_repeat_v1` | 19b6d24e |
+| `course_link_route_class_v1` | 3eaaabca |
+
+**Fixture:**
+- Builds v2.15.471, then the real 570000 and the 580000 edits, then this change.
+- Official links take the real classifier's group and class.
+- No official link is ever under the `layer4_reconcile_v1` rule.
+
+**Production scale** (5,289 waiting, 3,606 official links, routed by the real classifier):
+
+| Read | ms |
+|---|---:|
+| Full fill | 4,650 |
+| Unchanged run | 101 |
+| Inbox summary / universities / first page | 38 / 37 / 26 |
+| Groups summary | 38 |
+| C / D / B first page | 49 / 46 / 41 |
+| Lifecycle page | 39 |
+
+Groups at scale: A 69, B 1,460, C 3,582, D 178, sum 5,289.
