@@ -216,6 +216,22 @@ Common facts:
 | Missing eligible scholarship | Possible (Destination Australia), not proven |
 | Recommended severity | **P2**. Policy refuses TAFE outside the pilot. A discovery gap on the international site is recorded. |
 
+### Correction, 11:23 (IQ-00243)
+
+The statement above that the record joins two institutions, and that Unitec's scholarships are missed, is **wrong**. The catalogue already holds Unitec as its own provider:
+
+- record `66f6fcc9`, "Manukau Institute of Technology and Unitec - Unitec", website unitec.ac.nz, 80 courses;
+- it is a pilot member and admission-eligible, with 5 scholarships, 4 of them published, and 9 interventions;
+- its candidate pages are all on unitec.ac.nz.
+
+IQ-00243's record (`becd7287`, "… - MIT", manukau.ac.nz, 144 courses) is MIT alone. Both records carry the shared legal entity's name.
+
+Revised conclusions:
+
+- No split is needed and no identity decision is pending.
+- IQ-00243 is the MIT record only: policy-refused, with no demonstrated international scholarship.
+- The P2 recommendation stands.
+
 ### Recommendation
 
 Lower IQ-00242, IQ-00243 and IQ-00244 to P2 through the governed process, keeping their history. None demonstrates a missing internationally eligible scholarship that the platform could admit today. The P1 came from the `zero` disposition (root cause `sch_policy_reported_as_zero`).
