@@ -243,17 +243,42 @@ The Progress block (v2.15.471) now also carries the group and "Person needed" (`
 | Re-raised reviews after a valid decision | The readiness check already classifies them (`platform:decided_before`), and the arrival guard and reconcile switches are off. | The card names the earlier decision and the rule that may settle it. A group A count is shown. Switching `layer4.reconcile_supersede_on` and `layer4.arrival_guard_on` on is a Platform Admin decision (no new authority is taken here). | Visible; settling awaits the switch |
 | Human input that doesn't resume | **No production case:** 198 interventions are awaiting input, with 0 given input and not resumed. | Group B shows the item while it resumes. The existing resolve and resume handlers are unchanged. | Verified (G7); monitor after first input |
 
-### 9.4 Checkpoints
+### 9.4 Stored, never classified at read time (Integration Controller review, 4 Nov 2026)
 
-**Performance (s273 budget):**
-- The groups read the whole waiting list once (`security.layer4_inbox_items_v2`, no detail). On production at 17:26 AEDT that list alone took **1.93 s for 5,213 items**; it was 0.26 s on 4 Nov 08:16.
-- The three-choice bar loads on its own, so the Inbox's first read is unchanged.
-- A group page costs the same as one classification plus one page of cards.
-- The Course Link classifier adds one call per official link (2,958).
-- **Checkpoint:** measure both on production at the first release window after 570000 and 560000.
-- **Fallback if over budget:** store the group with the readiness classification (job `layer4-readiness`), or set `layer4.groups_course_link_router_on` to 0.
+**How the groups are stored:**
+- The group, class, rule and next action of every item are stored in `pipeline.layer4_item_groups` (history kept: rows that leave the Inbox are marked closed).
+- They are filled by the catalogued job `layer4-groups` (:06, :16, :26, :46, :56) through `security.layer4_groups_fill_v1`.
+- **Batches:** `batch.layer4_groups` (500), within `layer4.groups_fill_seconds` (30 s).
+- **What is regrouped:** new and changed items only. A change is a readiness reclassification, an intervention update, or a hold or run moving.
+- The first full fill is `security.layer4_groups_fill_v1(true)`, once on release.
+- The Course Link classifier is called by the job only, for the batch's official links.
 
-**Settling group A:**
-- 280 review items are covered by the platform resolution rules, which are switched off.
-- Switching them on needs a separate Platform Admin decision (§9 of the mandate): the expected effect is about 280 fewer reviews; the rules supersede only and are reversible by the Platform Admin.
-- **Owner:** Integration Controller.
+**How the Inbox reads them:**
+- The Inbox, the cards, navigation and the lifecycle read the stored row only. s283 checks that no read calls `layer4_groups_v1`, `course_link_route_class_v1` or `layer4_cl_group_call_v1`.
+- Fixture G9 proves every read still answers with both classifiers renamed out of reach.
+- A missing or stale row counts as C and is shown as "Ready for my decision (not grouped yet)".
+- The three-choice bar shows when the items were grouped, how many changed since and how many are not grouped yet.
+
+**Production-scale fixture** (5,289 waiting items, 3,606 official links; the slowest of three runs, PG16):
+
+| Read | ms |
+|---|---:|
+| Full fill (as on release) | 8,006 (budget 30,000) |
+| Unchanged run | 315 |
+| Inbox summary / universities / first university page | 252 / 112 / 78 |
+| Groups summary | 143 |
+| C / D / B first page | 241 / 52 / 88 |
+| Lifecycle of a page of cards | 66 |
+
+Every first-load read is under 300 ms. On production the waiting-list read alone took 1.93 s at 17:26; it is now paid once per job run, not per screen read.
+
+### 9.5 Checkpoints
+
+**Measure on production after release:**
+- The first full fill's duration (the job's run result).
+- The first-load reads.
+- Owner: Integration Controller, at the release window after 570000 and 560000.
+
+**Decision pack:**
+- `layer4.reconcile_supersede_on` settles about 280 review items covered by the platform resolution rules (already active or retired). It supersedes only and is reversible.
+- It goes to the Platform Admin's decision pack; it is not switched by this change.
