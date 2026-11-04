@@ -168,3 +168,32 @@ From release, `security.layer4_lifecycle_report_v1()` reports these over `layer4
 - automatic resumptions
 - verified admissions and publications
 - repeated no-yield reads
+
+## 8. Observation 13:00 (re-read transparency), RMIT verified values
+
+| Field | Verified value |
+|---|---|
+| Review item/reference | `a7849f66-bfa7-412e-b26e-4fecc7fdaa6e` (`course_entry_first_read`); provider `8e1adb6c`, course `b365fde8` |
+| Original entry time | Thu 29 Oct 2026, 12:44 pm AEDT (kept: no re-read or "Keep waiting" resets it) |
+| Re-read request time | Wed 4 Nov 2026, 12:17:46 pm AEDT; Platform Admin; audit event 28863; recovery action 1 |
+| Operation ID | Request `d05725e2`, enrich item 270218, job `8fb3173c`; attempt 2 (attempt 1 was the scheduled job's request `3c06308a`, enrich item 265315, 3 Nov 5:13 → 5:14 pm AEDT) |
+| Started/completed | 12:17:46.99 → 12:18:11.95 pm AEDT; one attempt; US$0.0063; stored copy `a0ffab81` |
+| Actual outcome | "Ran but reproduced the original error". The reader refused: over row limit, 9 requirements and a limit of 6, nothing proposed (E13). It did not fail silently, was not deferred and was not deduplicated. The click was handed to the server correctly; the missing piece was the feedback on the card. |
+| Current E13 reason | 2 dropped requirements (`score_without_basis`: VCE English study scores 20 and 23), so the read is incomplete |
+| Next permitted action | Open human input with the dropped requirements, or a row-limit decision for RMIT (Platform Admin). Re-read is not offered again until the copy, the reader or a read setting changes. |
+
+**What the card now says:**
+
+- Last recovery: "Attempt 2: Recovery completed — still held under E13".
+- History, with operation, reader times and stored copy on each read:
+  - "Recovery queued — 12:17 AEDT"
+  - "Recovery completed — still held under E13"
+- A second click answers "Recovery refused — unchanged evidence and reader", with the alternative.
+
+**Delta coverage (13:00 §2–§6):**
+
+- **§2 transitions:** each one carries attempt, operation (request, enrich item, job), reader start and completion, original and replacement read, re-entry time, provider and course.
+- **§3 wording:** the six headlines are chosen on the server (`security.layer4_recovery_headline_v1`, `security.layer4_ack_headline_v1`). The same words appear on the reply and, after Refresh, from the audit row. A reviewer's re-read has no daily cap of its own. "Deferred" is shown only when an existing gate refuses for a cap, a budget or the AI limits; no new cap was added to the reviewer's path.
+- **§4 summary:** first entered, status, last reviewer action, last recovery and its result, next step, and time waiting. Event history expands below.
+- **§5 reconciliation:** while a recovery is queued or running, the card reads its progress again (`layer4.lifecycle_poll_seconds` 15, `layer4.lifecycle_poll_max` 40). When it settles, the card, its recovery detail and the counts refresh. A replacement read is linked with whether it is complete, and opens as its own card. Approve is still enabled only by the E13 and D-R3 gates.
+- **§6 repeated clicks:** a repeated `reread_stored` while a corrected read or course read is queued or running returns that request, whoever asked for it. A repeated `request_evidence`, `open_intervention` or `ai_analyse` while a Human input needed item is open returns that item. Nothing new is started.
