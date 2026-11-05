@@ -472,3 +472,19 @@ The six replaced md5s are unchanged (21:30). |
 - Releases one at a time, in order: #891 → #889 → #877 → #890 (after G3) → #875 (after the hold).
 - No full-suite re-runs on unchanged held branches.
 - Integration and independent validation stay with agent E. |
+| 6 Nov 2026 08:23 | **CHECKPOINT: v2.15.487 (PR #891) production acceptance PASS.**
+
+**Release:** merged 08:11:11 (fd864e31, head 637e7c6f); no migration; Release History, Currentness, Deployed UAT and Frontend Build succeeded; UI v2.15.487 live.
+
+**Acceptance (Admin UI, real pointer clicks):**
+1. Checkboxes: 40 of 40 hit-testable at 1440×900 (with the page scrolled so the panel is fully on screen) and at 375×812. PASS.
+2. Show (Intake month), hide (Completeness), reorder (Move left) and resize (Provider 156→246 px drag): PASS.
+3. Saved acknowledgement inside the panel on phone ("Layout saved to your account at 8:20 am", 18 px): PASS. Observation: it sits at the top of the panel and scrolls away with the list.
+4. Refresh persists columns, order and width (server row checked): PASS.
+5. Reset restores the default 14 columns, server layout cleared: PASS. Observation: the sort is kept (a browser-remembered setting, behaviour unchanged since v2.15.486); the sort was set back to Course A–Z after testing.
+6. Production CSS: the data-quality `.cc-bar` and `.cc-panel` rules are intact and the old catalogue `.cc-bar` rule is gone; the coverage-page `.cc-panel` renders with its own styles; search (7 results), Course sort and paging 1→2→1: PASS.
+7. CI guard: `verify-css-class-collisions` ran in build-and-smoke ("css-classes: PASS") and the s310 contract test is in the suite; agent E showed it fails on the v2.15.486 code. PASS.
+
+**Course Catalogue (#887 + #891): PASS**, with one item pending: the Platform Admin's sign-out/sign-in check. The two observations are kept for the next Course Catalogue change; no new PR.
+
+**NEXT DECISION:** release authorisation for #889 (Intake Automation Progress), then #877. #890 waits for G3; #875 held. |
