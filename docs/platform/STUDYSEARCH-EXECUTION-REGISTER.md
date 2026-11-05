@@ -395,3 +395,8 @@ The six replaced md5s are unchanged (21:30). |
 
 **#887** (827b7d8c): conflicting with main since #888; agent C is merging main. |
 | 5 Nov 2026 22:34 | **#887** (d0b3c78e): main merged (no conflict); all four CI checks green; validation conditions met (recovery switches `catalogue_layout.server_layouts_on` and `new_sorts_on`, production-equivalent grants). **Full local suite: 1,919 passed, 2 failed.** The b2 UI-uniformity contract found 3 colour literals in `src/catalogue-columns.css` outside `tokens.css`. A real defect that CI did not catch (the PR checks do not run that spec). Sent back to agent C (tokens only). Not ready until the full suite is green. |
+| 5 Nov 2026 22:41 | **#889 at 51ca8d1b: Controller review of the change since the validated head 1a5f60ce.**
+- Only the migration changed (+14/−3): `lock_timeout`, deploy notes, the #875 re-guard values, and a new G2 off switch `progress.intake_chain_on` (default 1). The switch filters only intake transitions in `progress_read_v1` and gates the intake checks.
+- Correct and narrow. `progress_read_v1` after-md5 is now 24460bd8; `progress_measure_v1` is unchanged at e758d1c2.
+- **Correction to the 22:0x checkpoint:** the expected first-run `intake-progress:repeated-deterministic` (167 UNSW rows) is a **false positive**, not a real defect. The rows were correctly re-evaluated after the 15:56 governed change of `intake_dates.month_unique_match`. The decision records do not store the inputs fingerprint, so the check cannot see the change. Triage: close as "inputs changed by the 15:56 settings change"; it clears by itself after 24 h without a repeat.
+- **Platform Admin choice:** accept it with the triage note at release, or a narrow follow-up. |
