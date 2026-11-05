@@ -440,3 +440,35 @@ The six replaced md5s are unchanged (21:30). |
 - Agent E: **ready**. On the built production bundle the shipped code has 0 of 40 checkboxes clickable at 1440 px, reproducing the production failure; the fix has 40 of 40 at 1440 and 375 px. The new tests fail on the shipped code and pass on the fix.
 
 **Status:** awaiting Platform Admin release authorisation (separate). Release version would be v2.15.487. |
+| 6 Nov 2026 07:46 | **Authoritative PR queue (Platform Admin direction 07:45, recorded verbatim). Reconciled against main 8a9dc0ba (v2.15.486) and production.**
+
+| PR | Author → owner | Purpose / workstream | Implementation | In main | CI / tests | Migration / function dependencies | Overlap | Approval needed | Next action |
+|---|---|---|---|---|---|---|---|---|---|
+| #891 | Claude agent C → Integration Controller | Columns panel fix (v2.15.486 defect) | Complete | No | 4/4 green on 637e7c6f; full 1,924 passed; agent E ready | None (no migration) | #887 code only | **Authorised 07:00** | Merge at 08:11; acceptance |
+| #889 | Claude agent D | Intake Automation Progress | Complete, including the 22:46 correction | No | CI green on 4dcf5eab; full 1,916 passed; agent E ready (df910c89) | 20261106400000; guards progress_measure_v1 40c0c972, progress_read_v1 f11ed22d | **#875 edits progress_measure_v1**: #889 first, then #875 re-guards | Release authorisation | Await authorisation; then rebase on main (register) and the release ceremony |
+| #877 | Codex → Claude agent B (transferred 19:14) | Provider descriptions | Complete | No | 4 required green on cf3f245b; full 1,924 passed; agent E ready | 20261106200000; 6 guarded functions; coverage-sweep deploy | Owns coverage-sweep (course descriptions and English requirements wait) | Release authorisation | Await authorisation; pause the job before merge |
+| #890 | Claude agent A | R23/R24 Website API | Complete; approval PENDING | No | 3 checks green on b42a529d; s57 fails by design until approved | 20261106100000 gated on `api.v2_r23_r24_approved` | None | **G3 approval** (consumer API) | Platform Admin G3 decision on the approval package |
+| #875 | Claude (earlier session) → unassigned | AER selector fix | Complete but stale | No | Not re-run (held; unchanged branch) | 20261104620000 sorts before 9 applied versions; edits progress_measure_v1 | #889 | Hold resolution | Blocked: hold. When released, renumber, rebase, fix the date-dependent fixture, re-guard after #889 (e758d1c2 → b5fc7aae) |
+
+**Totals:**
+- Open PRs: 5.
+- Ready for integration: 1 (#891, authorised).
+- Awaiting Platform Admin approval: 3 (#889, #877 release; #890 G3).
+- Blocked by code or tests: 1 (#875: hold plus rework).
+- Superseded and closed: #879.
+- Closed without merge since 5 Nov 19:14: #886, #879.
+
+**Codex PRs and branches:**
+- #877 transferred to Claude, retained.
+- #876 and #872 squash-merged (branches kept).
+- #879 closed, superseded (specification archived; branch kept).
+- #886 closed, pointer only (branch kept, no unique code).
+- #31 closed Aug 2026, superseded (branch `codex/a15-residual-hardening` kept, documented in its PR).
+- No branch deleted.
+
+**Queue rules adopted:**
+- One PR per bounded capability; fixes found before merge go into the same PR.
+- Each new PR checks first for an existing PR, function ownership, main and migration conflicts.
+- Releases one at a time, in order: #891 → #889 → #877 → #890 (after G3) → #875 (after the hold).
+- No full-suite re-runs on unchanged held branches.
+- Integration and independent validation stay with agent E. |
