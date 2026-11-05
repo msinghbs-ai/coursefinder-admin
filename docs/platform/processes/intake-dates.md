@@ -265,7 +265,7 @@ Admitted values (all `calendar-v3`, Newcastle Academic Calendar 2027, Semester 1
 - Bachelor of Nutrition and Dietetics (Honours);
 - Master of Professional Engineering: Civil, Mechanical, and Geospatial Engineering and Surveying.
 
-All six return February 2027, 2027-02-22, from `api.website_v2_course_item` (read 19:3x).
+All six return February 2027, 2027-02-22, from `api.website_v2_course_item` (read 19:29).
 
 The Radiation Therapy course's application deadline 2027-02-22 was held before this run (`before_value`). It was not set by this run.
 
