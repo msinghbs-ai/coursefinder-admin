@@ -9,7 +9,162 @@ Validator: agent E. Decision 19:14 §8 (Platform Admin, 5 Nov 2026).
   - The parity check ran at 20:49.
 - **Fixture:** run in my own database `e_pr889`, from an extracted copy of the branch.
 
-**Verdict: ready with conditions.** The guarded md5s are live, and the existing chains are unchanged. The fixture tables match production apart from four production indexes. The exception block is sound. The conditions are:
+## Re-validation at head `df910c89` (5 Nov 2026, 23:23–23:45 AEDT): the 22:46 false-positive correction
+
+**Current verdict: ready.**
+
+- **The correction meets all nine requirements** of the Platform Admin's 22:46 correction (`docs/platform/2026-11-05-pr889-false-positive-correction-2246.md`).
+- **The first validation's five conditions are met:**
+  - the first-reading issue is now correctly not raised;
+  - the self-sustainability effects are documented;
+  - `lock_timeout` is 5 s and the deploy window is recorded;
+  - forward recovery is documented, with the narrow switch `progress.intake_chain_on`;
+  - the #875 re-guard values are recorded in the migration.
+- **One recommended hardening is not blocking** (see (b)).
+
+Rules followed: production read only (SELECT), the branch not modified, and my own database `e_pr889n`, since dropped. No reads in :35–:42 or :47–:48, and nothing near the 00:11–00:20 release of #887.
+
+### (a) `security.intake_progress_repeats_v1` uses only existing records
+
+- **Sources.** It is one read-only `language sql stable` function, executable by `postgres` only (`{postgres=X/postgres}`). It reads three tables:
+  - `pipeline.course_intake_date_events`: each deterministic refusal of the last day, paired with the previous decision of the same row and class;
+  - `pipeline.admin_control_events`: governed setting changes, area `toolsets`/`settings`, action `setting`/`change`, target `intake_dates.*` or `run_now.*`;
+  - `pipeline.integration_deploy_checks`: releases, with `result->functions`.
+- **Nothing new.** The correction commit (`51ca8d1b..df910c89`) adds no table, column, index, trigger, setting or job, and no per-row tracking. `progress.intake_chain_on` came earlier, with the forward-recovery condition (`ca93fa74`). The fixture gains only the production shape of `integration_deploy_checks` and the production indexes I had asked for.
+
+### (b) A repeat is confirmed only when inputs are demonstrably unchanged
+
+**Classification order:**
+
+1. **Source update:** the calendar set, calendar document, approved reading, periods, evidence year or page wording differ.
+2. **Reader revision:** the reader or rule differ, or a release whose recorded functions include `security.intake_*` or `security.calendar_*` was deployed in between.
+3. **Setting change:** a governed `intake_dates.*` or `run_now.*` setting was changed in between.
+4. **Unverified:** no calendar set, page wording or rule, or a release in between with no function record.
+5. **Confirmed:** none of the above.
+
+Only **confirmed** trips the alert (`tripped = confirmed > 0`). Unverified repeats are shown in the alert evidence and raise no issue (PR case (c)).
+
+**My own test,** 167 UNSW-shaped rows in `e_pr889n`:
+
+- **The pairs:** 167 intake rows, of which 151 are `academic_year_unproven` and 16 `no_matching_commencement_period`. Each is decided twice, two hours apart (production 03:26Z and 05:26Z), with the same calendar set, rule `calendar-v3`, a null reader and identical page wording, as production has them.
+- **The rechecks:** 18 of the rows are decided again after a calendar-set change.
+
+| Variant | confirmed | setting change | source update | unverified |
+|---|---|---|---|---|
+| A: no setting event | 167 | 0 | 18 | 0 |
+| **B: the production event**, `toolsets`/`setting` on `pipeline.intake_dates.month_unique_match` (as event 28963), between the two decisions | **0** | **167** | **18** | 0 |
+| C: an unrelated setting (`pipeline.pdesc.enabled`) between them | 167 | 0 | 18 | 0 |
+| D: `pipeline.run_now.pilot_cap` between them | 0 | 167 | 18 | 0 |
+| E: the event before both decisions | 167 | 0 | 18 | 0 |
+| F: an `intake_dates.*` value changed with **no** audit row (as a migration would), between them | 167 | 0 | 18 | 0 |
+
+**Reading the variants:**
+
+- **B, C and E** show the exclusion is tied to the governed change and its timing. The classification does not drop all repeats, and the check is genuinely sensitive (A: 167 confirmed).
+- **D: over-broad.** Any `run_now.*` or `intake_dates.*` change excludes all repeats in between, not only the settings that apply to the failure class. This errs towards not raising, so it is acceptable for a P2 monitor.
+- **F: a gap (recommended hardening, not blocking).**
+  - A setting changed without an `admin_control_events` row is not seen, for example by a migration or a direct paste. The existing record `pipeline.platform_toolset_settings.updated_at` is not consulted.
+  - **In production this is covered today.** Every migration-applied intake setting change in the last 40 hours came with a release whose deploy check lists intake or calendar functions, so it is excluded as a reader revision:
+    - `intake_dates.revisit_days` 00:19Z, v2.15.480 (4 intake/calendar functions);
+    - `intake_dates.provider_share` 05:44Z, v2.15.482 (7);
+    - `intake_dates.pilot_batch_share` 07:58Z, v2.15.485 (1).
+  - **Recommendation:** also treat `platform_toolset_settings.updated_at` of `intake_dates.*` keys between the two decisions as a setting change (an existing record; no new tracking).
+- **Null `reader` is not "unknown".** In production, 61 of 2,612 events carry a reader (AI or provider-policy readers). A null reader is the rule-only path, whose version is `rule` (`calendar-v3`, `calendar-v3-unique-month`) together with the release record. Treating null equal to null as unchanged is therefore sound.
+- **Doc wording.** The doc says unverified means no calendar set, page wording or rule "on either decision". The code tests only the later decision. An earlier-only gap is classified `excluded_source_update`, which raises nothing either. Fix the doc wording; there is no behavioural effect.
+
+### (c) Production classification today, reproduced independently
+
+I ran the function body as one read-only SELECT at 23:23 AEDT:
+
+| Status | Intake rows | Provider | Earlier decision | Later decision | Classes |
+|---|---|---|---|---|---|
+| confirmed | **0** | – | – | – | – |
+| excluded_setting_change | **167** | UNSW Sydney | 03:26:00Z (14:26 AEDT) | 05:26:00Z (16:26 AEDT) | academic_year_unproven (151), no_matching_commencement_period (16) |
+| excluded_source_update | **18** | UNSW Sydney | 05:26Z | 06:01Z–11:26Z | the same two classes |
+| excluded_reader_revision | 0 | – | – | – | – |
+| unverified_repeat | **0** | – | – | – | – |
+
+**This matches the PR's claim exactly** (0, 167, 18, 0).
+
+- **The exclusion's evidence.** Event 28963: `toolsets`/`setting` on `pipeline.intake_dates.month_unique_match`, at 04:56:00Z (15:56 AEDT), 1 → 0, reason "P0 IQ-00313 containment". It lies between the two decisions.
+- **No release in between.** No deploy check falls between 03:26Z and 05:26Z (v2.15.481 at 02:42Z, v2.15.482 at 05:44Z).
+- **For all 167 pairs** the calendar set, rule, reader (null) and page wording are identical. The setting change is the only reason they are excluded, which is correct.
+- **No `intake-progress:%` or `stall:intake%` issue exists** in production today.
+
+### (d) Stable fingerprints, dedup, idempotent re-runs, clearing
+
+- **Fingerprint.** One fixed fingerprint, `intake-progress:repeated-deterministic`, raised through `security.integration_issue_upsert_v1` (live `f9d7bf1a…`, unique on fingerprint).
+- **PR cases (b):** one issue when confirmed. A second reading updates the same issue (`retry_count` 1, no duplicate). When the repeats leave the window, it is marked `condition_cleared_at`.
+- **Other intake fingerprints:** the earlier cases (monopoly, publication mismatch, `stall:intake_*`) remain idempotent. All 37 PASS lines of `run.sh` passed in `e_pr889n`.
+
+### (e) Scholarship and AER outputs byte-for-byte unchanged
+
+- **Regression, rerun:** all 19 existing measure keys give identical output before and after (md5 `bac15eb7…`). The observer's scholarship and AER readings (transitions, observations, stall issues with layer and workstream) are identical. `first_run_verify` reads 16 → 19 transitions, as before.
+- **Structural check (mine):** the new `progress_measure_v1` with the intake block removed hashes to **`40c0c972abc353be8f6eee35c79750e9`**.
+- **After-md5s in the fixture:**
+  - `progress_measure_v1` = `e758d1c2d36f8f523c3fdbcc1b9dff2f`, unchanged from the first validation, so #875's re-guard values (before `e758d1c2…`, after `b5fc7aae…`) still hold.
+  - `progress_read_v1` = `24460bd898fbbc69a3d4c8db3a0b5c24` (was `ad49a4f3…`; the fifth edit adds the switch filter to the loop).
+  - `intake_progress_repeats_v1` = `3d8de511…`.
+- **Off switch.** With `progress.intake_chain_on` = 0 the observer reads only the 16 scholarship and AER transitions and runs no intake check (PR case).
+
+### (f) Guards, lock_timeout and switch
+
+Live at 23:43 AEDT:
+
+| Function | md5 |
+|---|---|
+| `progress_measure_v1` | `40c0c972…` |
+| `progress_read_v1` | `f11ed22d…` |
+| `intake_ui_scopes_v1` | `94bae55f…` |
+| `integration_issue_upsert_v1` | `f9d7bf1a…` |
+| `admin_automation_control_v1` | `431aff60…` |
+| `public.admin_automation_control` | `b032f84e…` |
+| `pipeline_num_v1` | `09f9b155…` |
+| `current_role_rank` | `d709d92d…` |
+| `progress_zero_reason_v1` | `746d7bae…` |
+
+- **Production unchanged:** 16 transitions, chain check still scholarship and AER, latest migration `20261105090000`.
+- **Lock timeout:** `set local lock_timeout = '5s';  -- fixed:` is at migration line 42, and the deploy window (outside :02, :26, :32, :53) is in the header.
+- **Switch:** `progress.intake_chain_on` is kept. Value 1, range 0–1, unit "switch"; `used_by` names `security.progress_read_v1`, `security.intake_progress_checks_v1` and job `first-run-verify`.
+
+### (g) Does the regression test genuinely reproduce the 167-row UNSW pattern?
+
+**Partly; the scale is reproduced by my test above.** The PR's case (a) reproduces the pattern faithfully:
+
+- same rule, calendar set and reader on both decisions;
+- the decisions two hours apart;
+- the governed setting change between them, with the production event's exact area, action and target format;
+- the expected result `excluded_setting_change`, and no issue.
+
+But it uses **5 rows of a fixture provider (`swinburne`)**, not 167 UNSW rows. My 167-row test (variant B above) reproduces it at production scale, with production's class split, null reader and timing: 0 confirmed, 167 setting change, 18 source update. Variant A proves the same rows would be confirmed without the event.
+
+**Recommendation, not blocking:** scale case (a) to 167 rows, with the production class split and a null reader, so the test matches the requirement's wording.
+
+### Requirements of the 22:46 correction
+
+| # | Requirement | Result |
+|---|---|---|
+| 1 | Reuse existing history, reader versions, setting audit, source fingerprints | Met (a) |
+| 2 | Confirm only when evidence, reader and settings are demonstrably unchanged | Met through the audited setting path. One gap, a setting change without an audit row, is covered in production by the release record; hardening recommended (b) |
+| 3 | Exclude rechecks after a setting change, reader revision or source update | Met (b, c). The setting exclusion is broader than "applicable", which errs towards not raising |
+| 4 | Unknown input state → `unverified_repeat`, no confirmed issue | Met (PR case (c); an earlier-only gap is classified source update, also no issue) |
+| 5 | Stable fingerprints and dedup | Met (d) |
+| 6 | Scholarship and AER byte-for-byte | Met (e) |
+| 7 | Regression test reproducing the 167 UNSW rechecks | Pattern met in the PR (5 rows); scale reproduced by this validation (g) |
+| 8 | Keep the 5-second lock timeout and the intake-only switch | Met (f) |
+| 9 | Focused tests, full suite, CI | `run.sh` 37 PASS. Governance specs s32, s42, s57, s120 and s340: 21 passed. CI on `df910c89`: Workers Builds, build-and-smoke and isolated-postgres (two runs) succeeded. The full required suite is the Integration Controller's run. |
+
+**No new intake-processing mechanism, duplicate observer or per-row tracking was added.**
+
+### First-reading expectation (corrected)
+
+On the first `:02` or `:32` reading after release, with today's data, no `intake-progress:repeated-deterministic` issue is raised (0 confirmed). The status view shows 167 `excluded_setting_change` and 18 `excluded_source_update`. The 167 leave the one-day window at 05:26Z on 6 Nov (16:26 AEDT). The other estimates from the first validation (no stalls; no monopoly or publication mismatch) still apply; the measures are unchanged.
+
+---
+
+## First validation (head `1a5f60ce`), kept for the record
+
+**Verdict at `1a5f60ce`: ready with conditions. Superseded by the re-validation above.** The guarded md5s are live, and the existing chains are unchanged. The fixture tables match production apart from four production indexes. The exception block is sound. The conditions are:
 
 1. The Controller and Platform Admin must expect one new P2 issue on the first reading. The release note does not mention it.
 2. The changes to the self-sustainability totals need to be acknowledged.
