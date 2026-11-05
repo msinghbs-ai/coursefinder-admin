@@ -300,3 +300,14 @@ Agent B was resumed to implement these and to make all required checks run and p
 1. Add the intake columns from the authoritative intake records (wrongly cut).
 2. Last modified relies on writers setting `updated_at` (no trigger, and none to be added because of consumer filters): measure its reliability and label it honestly.
 3. Measure the non-concurrent index builds (`field_enrich_items` 171k rows) and propose a CONCURRENTLY paste-file if needed. |
+| 5 Nov 2026 20:31 | **#887 CC-3 findings resolved** (head 1844a073, all four checks green; verified by the Integration Controller).
+
+- **Intake columns added:** month, year, commencement date and deadline, from active `catalogue.course_intakes` using the website's own month rule.
+- **Last published added:** from `website_sync_items.seq_at`, moving only on a new, changed or withdrawn item.
+- **Last modified relabelled:** "Course record updated (as recorded)". In production, 46,745 of 46,745 main-row admissions are at or before `updated_at`.
+- **Index builds:** 3–33 ms at production volume; `lock_timeout` 5 s; deploy at :11–:12 or :31–:32.
+- **Fixture:** 42 tables, 9 functions md5-equal; 56 database cases; 7 browser tests; 93 specs.
+- **Sorts:** admitted 226 ms, adapter 231 ms.
+- **Known slow path, not changed by #887:** the state filter, about 2.5–2.9 s, near the 3 s budget; to be addressed in a separate change.
+
+**Status:** CC-3 complete, ready for a release decision. Register regeneration after a full local run is pending. The release needs Platform Admin authorisation. |
