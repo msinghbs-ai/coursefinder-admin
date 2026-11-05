@@ -214,3 +214,27 @@ Claude Layer 4 evidence audit (3 Nov 2026, 19:50 AEDT): [report](nz-enrichment-b
 - Local: fixture 26 PASS; benchmark worst view 1.0 s at 144k rows (limit 3 s); browser 6 passed (desktop and phone); governance specs 29 passed. PR CI running.
 - For review: it edits the `process-results` job command (guarded on the live text); the first observer run may raise real P2 issues; `progress_measure_v1` does not yet cover intake (D-1, Controller decision).
 - **Agent F started (19:51):** read-only discovery and compatibility assessment for course descriptions and English requirements (next bounded capabilities). No code until coverage-sweep is released by the #877 integration. |
+| 5 Nov 2026 20:02 | **Agent F discovery complete (course descriptions, English requirements); reports merged under `work-packages/2026-11-06-*-discovery.md`.** Neither capability needs a new reader.
+
+**Course descriptions.** The reader shipped in v2.15.422 and admits nothing.
+- AU coverage is 163 of 23,732 courses (0.7 %), all legacy; NZ is 0.
+- 851 descriptions are waiting in Layer 4 and none has been decided (D5: `enrich.course_description_review_first` held at 100,000).
+- About 1,640 are held by the checks: unsupported claims 484, too long 476 (450 of them 701–991 characters against a 700 limit), too many sentences 360.
+- Proposed PR `cf247-course-descriptions-complete`: re-ask the model once for length or sentence breaches (never truncate); a course-description claim list separate from provider descriptions; held reasons shown; a D5 trust-policy decision pack.
+
+**English requirements.**
+- AU coverage is 67.8 % (universities 83.2 %); NZ is 36.7 %. Only 22 AU courses were added in the last week.
+- Gaps: faculty and group tables the parser declines (UNSW 658 missing; Canterbury, Auckland and Massey 745); non-university providers (5,626 AU); 3,713 AU courses with no course page (paid page search, off under D1).
+- Proposed PR `cf247-english-requirements-complete`: group tables as group rules, with the first approval by a person; a provider-type scope setting, shipped university-only.
+- This is consistent with the adapter lessons: a central rule fills gaps only, and course-specific evidence wins.
+
+All 17 old description and English branches are already on main or archived.
+
+**Platform Admin decisions:**
+- (1) D5 trust policy;
+- (2) the 700-character / 4-sentence limits;
+- (3) course descriptions keep their own claim words;
+- (4) Firecrawl central pages for non-university providers (the PR ships off);
+- (5) auto-approval of group rules after a provider's first approval (the PR ships person-only).
+
+Implementation waits for the #877 integration (coverage-sweep ownership). Migration ranges are reserved. |
