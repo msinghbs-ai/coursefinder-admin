@@ -98,6 +98,14 @@ The migration records its before and after md5s. To recover forward:
 
 No data is written by this change except the producer row, so nothing else needs repair.
 
+## Dependency on PR #889 (added 5 Nov 2026, 21:05)
+
+PR #889 (Intake Automation Progress) also edits `security.progress_measure_v1`. It is guarded on `40c0c972…` and produces `e758d1c2d36f8f523c3fdbcc1b9dff2f`.
+
+- **Tested:** I ran #875's own edit of that function on #889's fixture result. Both text replacements still apply exactly once, and give `b5fc7aae44039565dc85644352f0c719`.
+- **If #889 is released first,** #875's third guarded edit must use before `e758d1c2d36f8f523c3fdbcc1b9dff2f` and after `b5fc7aae44039565dc85644352f0c719`. These values are for #889 head `1a5f60ce`.
+- **If #875 goes first,** #889 refuses (tested in #889's fixture) and must be re-guarded.
+
 ## Required action
 
 1. Renumber the migration after `20261105090000`. The Integration Controller assigns the version.
