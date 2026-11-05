@@ -311,3 +311,21 @@ Agent B was resumed to implement these and to make all required checks run and p
 - **Known slow path, not changed by #887:** the state filter, about 2.5–2.9 s, near the 3 s budget; to be addressed in a separate change.
 
 **Status:** CC-3 complete, ready for a release decision. Register regeneration after a full local run is pending. The release needs Platform Admin authorisation. |
+| 5 Nov 2026 20:42 | **#889 reworked per the 20:03 direction** (head 1a5f60ce; CI green: Workers Builds, build-and-smoke, both isolated-postgres checks).
+
+**Change:** intake is now one more chain of the generic progress observer (`first-run-verify`, :02/:32 → `progress_read_v1` → `progress_measure_v1`):
+- 3 transitions: intake selection, admission and publication;
+- stalls raised as `stall:intake_*` (P2, A8).
+
+The separate snapshot, the `process-results` command edit and the separate zero-yield and overdue routing are removed. Intake-specific detection is kept only for monopoly, publication mismatch (suppressed while the generic publication stall is raised) and repeated deterministic failures. One fingerprint per condition.
+
+**Tests:**
+- fixture 32 PASS, including the 19 existing measure keys identical before and after and the scholarship and admission-requirements observer outputs identical;
+- browser 6 passed; governance 29 passed;
+- full observer reading 104 ms.
+
+**Side effect:** `self_sustainability_v1` totals now include 3 more transitions.
+
+**Conflict:** held #875 also edits `progress_measure_v1`; whichever lands second is re-guarded.
+
+**Next:** independent validation of #889 and #887 assigned to agent E. |
