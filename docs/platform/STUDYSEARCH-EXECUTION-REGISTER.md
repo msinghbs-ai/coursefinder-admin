@@ -204,3 +204,13 @@ Claude Layer 4 evidence audit (3 Nov 2026, 19:50 AEDT): [report](nz-enrichment-b
 - #879: needs rework. It is built on `intake_dates_plan_v2`, which is retiring; its migration version is taken; it writes cohorts directly. Platform Admin decision: port it to plan v3 or close it.
 - v2.15.485 regression check: PASS (plan 1d531a83, setting labelled, consumer API 75 functions and 48 relations with no drift).
 - Note: agent E briefly ran `set_config('search_path','',false)` on one production MCP session for a read-only comparison, then reset it and verified the reset. No data was written. Agents are reminded that production session settings are also off-limits. |
+| 5 Nov 2026 19:52 | **Agent D, Intake Automation Progress UI: draft PR #889** (`cf247-intake-progress-ui`, d3f00707).
+- Read-only "Automation progress: intake dates" section in the existing Process results screen:
+  - current state, a 10-step funnel, per-university rows ("Not processed" separate from "zero eligible"), history (latest, 24 h, 7 d, 30 d; gross separate from net) and failures with next action;
+  - Pause/Resume through the existing `admin_automation_control`, with no button for read-only roles;
+  - an hourly observer added to the existing `process-results` job, routing zero-yield, dominance, overdue, publication-mismatch and repeated-failure conditions to the integration queue at P2.
+- No scheduler, intake processing or consumer API change.
+- Migration 20261106400000 guards 6 live md5s.
+- Local: fixture 26 PASS; benchmark worst view 1.0 s at 144k rows (limit 3 s); browser 6 passed (desktop and phone); governance specs 29 passed. PR CI running.
+- For review: it edits the `process-results` job command (guarded on the live text); the first observer run may raise real P2 issues; `progress_measure_v1` does not yet cover intake (D-1, Controller decision).
+- **Agent F started (19:51):** read-only discovery and compatibility assessment for course descriptions and English requirements (next bounded capabilities). No code until coverage-sweep is released by the #877 integration. |
