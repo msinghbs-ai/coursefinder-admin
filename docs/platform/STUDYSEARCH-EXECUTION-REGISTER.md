@@ -354,3 +354,20 @@ Independent validation queued with agent E. |
 - Production-parity tooling: workflow, script, fixtures, s310 contract spec, register row. No migration, runtime, edge-function or UI change; no release number.
 - Squash-merged at 7f239eee (head d83d5995, 0 behind main; checks prod-parity-round-trip, build-and-smoke and Workers Builds green).
 - Post-merge: Pilot Frontend Build and StudySearch Deployed UAT succeeded; Deploy on merge was not triggered (no migration or function paths). |
+| 5 Nov 2026 21:05 | **Independent validation (agent E; reports in `validation/`).**
+
+**#889** (1a5f60ce): **ready with conditions.**
+- Guards are live; with the intake block removed the function hashes back to 40c0c972, and the scholarship and AER observers are unchanged.
+- The first reading will raise `intake-progress:repeated-deterministic` (167 rows).
+- Conditions: lock_timeout, a forward-recovery section, documented first-run effects, deploy outside :02, :26, :32 and :53; release #889 before #875.
+
+**#887** (1844a073): **ready with conditions.**
+- Layouts confirmed owner-only (two users, a forged id, anon and no-role all checked); consumer API untouched (s57); 13 argument sets identical; +22 to +135 ms; index builds 2–21 ms.
+- Conditions: a forward-recovery section and production-equivalent fixture grants.
+
+**#877** (33a7cce3): **not ready (blocking defects).**
+1. `historic_claim_context` and `unsupported_numeric_claim` hold supported claims on keywords or number formatting, against decision 20:03 §2.
+2. The recovery text is wrong: an old worker against the new database can make a paid AI call. Pause the job before merge or rollback.
+3. The new direct write to `website_sync_items` is to be confirmed.
+
+All three sent back to agents B, D and C for these items only. A stray commit dc30ca5a was pushed to the merged #888 branch (tooling only, not on main); it is to be integrated later if needed. |
