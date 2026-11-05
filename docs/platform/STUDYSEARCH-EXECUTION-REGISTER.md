@@ -394,3 +394,4 @@ The six replaced md5s are unchanged (21:30). |
 - full local suite: **1,916 passed, 0 failed, 0 skipped** (9.7 min).
 
 **#887** (827b7d8c): conflicting with main since #888; agent C is merging main. |
+| 5 Nov 2026 22:34 | **#887** (d0b3c78e): main merged (no conflict); all four CI checks green; validation conditions met (recovery switches `catalogue_layout.server_layouts_on` and `new_sorts_on`, production-equivalent grants). **Full local suite: 1,919 passed, 2 failed.** The b2 UI-uniformity contract found 3 colour literals in `src/catalogue-columns.css` outside `tokens.css`. A real defect that CI did not catch (the PR checks do not run that spec). Sent back to agent C (tokens only). Not ready until the full suite is green. |
