@@ -117,3 +117,35 @@ Where the platform keeps the evidence (per item, never overwritten): `pipeline.c
 | R1 | **Reader correction needed**: the year is printed in a heading, not in the row, and the AI did not quote the heading; the validator drops an unproven year. It also put the year in the period name ("term 1 2027"), so it no longer matches "Term 1" on course pages | UNSW academic calendar: 42 starts read, 0 kept a year; 8 are 2027–2028 (Term 1 2027 = 15 Feb, Term 2 = 31 May, Term 3 = 13 Sep). Sydney wall calendar PDF: 7 starts, 0 years | Bounded reader fix: take the year from the nearest preceding heading on the stored page (as the dated parser does), strip the year from the period name. Needs a PR and release authorisation |
 | R2 | **Stale edition**: the stored copy is the 2026 calendar | Melbourne and Sydney key-dates pages: years read, nothing after 2026 (finding next_year_missing) | Fresh read of the official 2027 pages (Firecrawl, about one credit a page). Platform Admin decision (credits 1,982 left) |
 | — | Not yet read | 494 stored documents still waiting (20 a run, hourly at :13), including RMIT, UTS, Newcastle and Swinburne 2027 calendars | Unattended; next cycle 13:13 |
+
+## 8. Final intake recovery (mandate 5 Nov 2026 12:44): the bounded change, v2.15.481
+
+Mandate recorded verbatim in `docs/platform/2026-11-05-final-intake-recovery-strategy-mandate-1244.md`. One PR on the existing architecture: no new engine, controller, scheduler or screen.
+
+| Part | What the platform now does | Where the evidence is kept |
+|---|---|---|
+| R1 year from its section | Calendar reader calendar-v2.1: a start's year is taken from its quote, else the heading above it, an ancestor heading, the document title, or the year tabs above repeated term blocks (UNSW). A year from a neighbouring section or a note is rejected (`year_from_wrong_section`); a quote found in blocks of different years is rejected (`year_ambiguous`); no year is ever assumed. A deadline is a date only when its own row prints the year. | `pipeline.calendar_reader_findings`; each reading's `year_quote` and `year_basis` |
+| Re-read on a reader change | Only main teaching calendars of the top 10 whose intake rows miss a date, most missing first; the rest are set aside as "not needed" and woken when needed | `pipeline.calendar_reread_state` (reader_version, state, reason) |
+| §9 durable classes | Every decision carries one of the 13 mandated classes, deterministic or not, the change that brings it back, evidence year, reader and related case. Deterministic failures have no timer; held rows and course-level exceptions keep a timer so a removed lock or a person's decision is seen | `pipeline.course_intake_dates`, `pipeline.course_intake_date_events` |
+| §6 publication check | Each admitted value is compared with the Website API v2 source (read only) after each apply and before each measurement; a missing value is `consumer_publication_failed` (checked again up to 3 times) | same tables, `publication_state` |
+| R2 bounded refresh | A stale edition of a needed main calendar is handed to the existing provider-facts reads; at most 40 credits in total, one request open at a time, one run at a time, reservation = larger of 5 and the most an earlier read of that address used; stored equivalent edition checked first; never college, pathway, offshore or a person's binding; once per address; old edition kept | `pipeline.calendar_refresh_requests` (reason, old edition, credits from `pipeline.firecrawl_calls`, outcome, yield) |
+| §10 Process results | Intake recovery block: admitted and published by university, source, rule, year and precision; skipped and failed by class with reason and next look; refresh credits and yield; reader progress; jobs. Recorded hourly as process `intake-recovery` and committed daily with the checkpoint | `pipeline.process_results`; Admin UI › Intake Run & Validate › Process results |
+
+### Tests before release (production-parity PostgreSQL, live definitions md5-checked)
+
+| §11 case | Result |
+|---|---|
+| UNSW year-in-heading (year tabs): Term 1 15 Feb 2027, Term 2 31 May 2027 admitted, day precision; Term 3 13 Sep 2027 proved in the reader test on the stored page | pass |
+| Year from the wrong section rejected ("changing in 2028" note; 2026 block) | pass |
+| College rejected; offshore rejected | pass |
+| Exact course start date; explicit course date overrides the calendar | pass |
+| Unique month; multiple periods; missing year; old edition not used | pass |
+| Validated data admitted; held data protected (and admitted after the lock is removed) | pass |
+| Publication matches the catalogue (and a missing value is recorded as a failure) | pass |
+| Duplicate recovery prevented (re-read once per reader; refresh once per address) | pass |
+
+Independent constraint review (separate reviewer, read only) found six concerns; all were fixed before release: held rows never coming back after a lock is removed; deadlines taking the section's year; refresh credits able to pass 40 (now one open request, a reservation from the address's earlier use, a run lock, and the setting capped at 40); unlimited publication retries and unsafe casts; a heading line starting a two-line quote; yield never settled for a dated-parser reading. The `intake-dates-apply` job was confirmed active before the change (re-scheduling does not switch anything on).
+
+### Gate A route (no manual dispatch)
+
+calendar-reread (:13, reader v2.1) → central-ai (every 5 minutes) → policy-auto-approve (:x5) → intake-dates-apply (:26) and publication check → process-results (:53). Verified in the Admin UI and through Website API v2.
