@@ -283,3 +283,5 @@ The Radiation Therapy course's application deadline 2027-02-22 was held before t
 - start dates in the Website API source: 10 (UNSW 4, Newcastle 6).
 
 The acceptance result is visible in the existing Admin view.
+
+**Milestone accepted (Platform Admin, 5 Nov 2026 20:03).** The Newcastle intake admission and unattended operation are accepted as the first bounded autonomy milestone. Intake stays under normal platform monitoring: the hourly `intake-dates-apply` job, `process-results` measurements and the integration queue. Discretionary intake development is not restarted.
