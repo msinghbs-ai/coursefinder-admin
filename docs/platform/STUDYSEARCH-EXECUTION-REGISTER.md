@@ -258,3 +258,25 @@ Agent B was resumed to implement these and to make all required checks run and p
 **#888:** readiness comment posted (tooling only, green, 0 behind main); before merge, the register is regenerated from a full local run.
 
 **#886 workstream (Course Catalogue, agent C) and R23/R24 (agent A):** continuing. |
+| 5 Nov 2026 20:11 | **Agent A, R23/R24: draft PR #890** (`cf247-devapi-r23-r24`, b42a529d; CI green: isolated-postgres, build-and-smoke, Workers Builds).
+
+**G3 approval is pending and nothing is approved.**
+- The migration 20261106100000 carries a PENDING approval line.
+- It refuses to apply until `api.v2_r23_r24_approved` exists.
+- s57 now treats PENDING as not approved, and fails as intended.
+
+**R23:** `campus_id`, `campus_name` and `course_count` on provider campuses.
+- Note for approval: each campus becomes its own item instead of campuses being merged by city or postcode, so items go from 3,295 to 3,812 over 1,620 providers. Existing keys and values are unchanged.
+
+**R24:** `nationality_eligibility_status`, derived from data already held (rule order: under_review, restricted, unrestricted, unknown). Live: 95 restricted, 1,056 unknown, 0 unrestricted, 0 under_review.
+
+**Guards and speed:** 2 changed and 7 pinned live md5s; fixture parity 45 relations and 18 functions; provider read 3.5 ms now, 11 ms with R23.
+
+**Admin repo:** approval package `approvals/2026-11-06-g3-r23-r24-approval-package.md` and the Issue 8 draft (`developer-pack/drafts/issue-8/`) merged.
+
+**Open for the Platform Admin:**
+1. The developer's 5 Nov feedback text is not in the repo.
+2. The R24 field name.
+3. Sign-off on one item per campus and ordering by name.
+4. Campus count rule (course-search rule).
+5. Duplicate-looking NZ campus names (a data issue). |
