@@ -488,3 +488,20 @@ The six replaced md5s are unchanged (21:30). |
 **Course Catalogue (#887 + #891): PASS**, with one item pending: the Platform Admin's sign-out/sign-in check. The two observations are kept for the next Course Catalogue change; no new PR.
 
 **NEXT DECISION:** release authorisation for #889 (Intake Automation Progress), then #877. #890 waits for G3; #875 held. |
+| 6 Nov 2026 09:00 | **Course descriptions: plan and parity fixture ready (agent G; no PR; branch `cf247-course-descriptions-complete` 96f48a4a, tests only).** Plan: `work-packages/2026-11-06-course-descriptions-implementation-plan.md`.
+
+**Measured (08:56):**
+- 857 Layer 4 items pending across 340 providers, none decided;
+- AU website descriptions 163 of 25,380;
+- the word "students" alone causes 483 of the 486 `unsupported_claim` holds.
+
+**Fixture:** production manifest; 6 live md5s; 9 real held readings reproduced.
+
+**Waits for #877:** the re-ask in `course-text.ts` and the Layer 4 card.
+
+**Decisions D-1 to D-5 are in the plan:**
+- trust-policy sample of 50;
+- course-only claim list and whether to drop "students";
+- keep the 700-character / 4-sentence limits;
+- `reask_max` 0→1 after release;
+- splitting the marketing words. |
