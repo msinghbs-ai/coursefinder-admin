@@ -280,3 +280,23 @@ Agent B was resumed to implement these and to make all required checks run and p
 3. Sign-off on one item per campus and ordering by name.
 4. Campus count rule (course-search rule).
 5. Duplicate-looking NZ campus names (a data issue). |
+| 5 Nov 2026 20:12 | **Agent C, Course Catalogue: draft PR #887** (`cf247-course-catalogue-columns`, 31a853a3; all four checks green, including release-history-contract and course-columns-isolated-postgres).
+
+**Delivered:**
+- Columns control (search, 4 groups, count, show and hide, keyboard reorder, resize, Reset, Restore last saved, saved acknowledgement);
+- server-side per-user layouts (new RLS table, owner-only RPC, 36-column registry, 4 settings; localStorage kept as fallback);
+- Adapter status (Completed only with a result row);
+- campus cities with state;
+- Last modified;
+- Last data admitted (6 authoritative sources, Unknown when there is no record);
+- 7 field states;
+- server-side sorts for admitted and adapter (158–168 ms at 35,700 courses in CI).
+
+**Tests:** fixture parity 39 tables and 8 functions; 13 list-argument sets backward compatible; 50 database cases; 7 browser tests covering all 15 mandate cases on desktop and phone; governance specs green.
+
+**Production preview (read-only):** adapter Completed 18,756, Failed 7,186, Held 4,360, Not configured 3,527, Ready 1,861; 27,242 courses with an admission record and 8,448 Unknown.
+
+**CC-3 review sent back:**
+1. Add the intake columns from the authoritative intake records (wrongly cut).
+2. Last modified relies on writers setting `updated_at` (no trigger, and none to be added because of consumer filters): measure its reliability and label it honestly.
+3. Measure the non-concurrent index builds (`field_enrich_items` 171k rows) and propose a CONCURRENTLY paste-file if needed. |
