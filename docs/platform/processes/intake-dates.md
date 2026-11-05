@@ -166,3 +166,18 @@ calendar-reread (:13, reader v2.1) → central-ai (every 5 minutes) → policy-a
 Caveat recorded: the page wording behind this course's February and May intakes is a student testimonial ("commenced … in February 2023"); the dates equal UNSW's official 2027 terms, but the intake months rest on that earlier extraction.
 
 **Why 151 UNSW rows are still held (proven):** an old approved reading of the UNSW key-dates page (parser ai:gpt-4.1-mini, "Term 1 March 2023") still supplies the period "term 1". Course pages naming "Term 1" therefore take the named-period path and find no 2027 "term 1"; the calendar-v2.1 reading names the same terms "teaching period t1/t2". Next action (proposal, not executed): see the integration report of 5 Nov 2026 14:55.
+
+### Gate B — next scheduled cycle (5 Nov 2026, 15:13–15:26)
+
+| Time (AEDT) | Run (by the platform) | Result |
+|---|---|---|
+| 15:13 | calendar-reread (calendar-v2.1) | 11 documents (9 to the AI, 2 dated by the parser); all 27+4 relevant documents now read by v2.1; 483 not needed. Refresh: **1 request** — Monash principal dates (`monash.edu/students/admin/dates/principal-dates`), 5 credits reserved of 40 (handed to the provider-facts read) |
+| 15:25 | policy-auto-approve | 7 calendar-v2.1 readings approved: Melbourne (2), Sydney (3, incl. wall calendar), Newcastle (2026 and 2027 PDFs) |
+| 15:26 | intake-dates-apply + publication check | next 200 UNSW rows (focus order): **3 filled and published** (Diploma in Computer Science: January → 4 Jan 2027, May → 31 May 2027, August → 14 Aug 2028; day); 138 academic_year_unproven; 38 course_identity_unresolved; 21 no_matching_commencement_period |
+| — | Repeat check | **0** of the 200 rows were rows decided at 14:26 (calendar set unchanged): no unchanged failure was repeated |
+
+**Gate B: met** — the platform continued on its own schedule: reader, AI, approval, admission, publication and a bounded refresh, with no manual action.
+
+Values to verify (recorded, not changed): Diploma in Computer Science under UNSW may be a UNSW College (pathway) course; its August intake took the 2028 Semester 2 start (UNSW's 2028 model) because 2027 has no August start.
+
+Totals since the deploy (both cycles): 5 values admitted and published (UNSW, day precision, 2027 ×4, 2028 ×1); held: academic_year_unproven 289 (no timer; waits for a calendar or reader change), course_identity_unresolved 69 (next revisit 19 Nov 2026), no_matching_commencement_period 37 (waits for a change); refresh credits 5 reserved of 40.
