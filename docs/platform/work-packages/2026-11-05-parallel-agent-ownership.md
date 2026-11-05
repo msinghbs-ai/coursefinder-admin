@@ -47,3 +47,10 @@ The workspace has 2 CPUs and 7 GB of memory. To keep five agents from thrashing 
 |---|---|
 | #875 AER selector fix (held) | Retained, held under the engineering hold. E assesses its readiness against current production. |
 | #879 Codex intake complete scan / preview paging | Retained, awaiting a Platform Admin decision. It addresses the 5-row Preview limit, but the intake workstream is closed except for P0 issues. Its migration version `20261105020000` collides with main (`cf247_intake_calendar_v2`). |
+
+## Next capabilities (reserved 5 Nov 2026 20:02; implementation starts after #877 is integrated, because both touch coverage-sweep)
+
+| Workstream | Branch (proposed) | Migration versions reserved | Discovery |
+|---|---|---|---|
+| Course descriptions | `cf247-course-descriptions-complete` | `20261106500000`–`20261106549999` | `work-packages/2026-11-06-course-descriptions-discovery.md` |
+| English requirements | `cf247-english-requirements-complete` | `20261106550000`–`20261106599999` | `work-packages/2026-11-06-english-requirements-discovery.md` |
