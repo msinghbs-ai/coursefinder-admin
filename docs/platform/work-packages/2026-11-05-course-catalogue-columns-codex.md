@@ -4,10 +4,10 @@
 |---|---|
 | Mandate | `docs/platform/2026-11-05-course-catalogue-columns-freshness-1731.md` (Platform Admin, 5 Nov 2026 17:31, verbatim) |
 | Allocation | Platform Admin, 5 Nov 2026 19:00: "allocate it as an independent Codex-compatible vertical feature immediately, without waiting for further intake automation work" |
-| Developer | Codex (complete vertical feature, PR-first; engineering hold decision 4 Nov 2026 21:59 §3) |
+| Developer | **Reassigned 19:14:** Claude agent C (Course Catalogue UI), branch `cf247-course-catalogue-columns`. Codex Cloud discontinued (decision 19:14). Read "Codex" below as agent C. |
 | Integration Controller | Claude: independent review, production-schema verification, merge and release only after the normal gates and Platform Admin authorisation |
 | Branch | `codex/course-catalogue-columns` (Pilot repo), cut from `main` at cf77ef78 (v2.15.485) |
-| Pull request | #886 (draft, opened 5 Nov 2026 19:02 with the work-package pointer commit 096081e6); Codex builds on this branch and PR |
+| Pull request | #886 closed without merge 19:16 (pointer only, no implementation). Agent C opens a new draft PR. |
 | Release number | None until integration (hold decision §3) |
 | Separate from | Intake Automation Progress UI (16:36 §3–§8): separate workstream, separate PR; nothing from it goes in this PR |
 | Hold | The engineering hold stays in force: no merge or deploy without the Platform Admin's release authorisation for this PR |
