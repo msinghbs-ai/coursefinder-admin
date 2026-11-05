@@ -6,7 +6,128 @@ Validator: agent E. Decision 19:14 §8 (Platform Admin, 5 Nov 2026).
 - **Production:** `fxcwkweaxjtknorudmwp`, light reads only (20:58–21:02 AEDT).
 - **Fixture not run.** The PR's fixture needs a Docker daemon (`pdesc-autonomy-pg`), which this workspace does not have. Its CI job `provider-description` passed on `33a7cce3`. I re-tested the claim policy functions in my own database `e_pr877_claim` (since dropped).
 
-**Verdict: not ready (small rework).** Most checks pass: md5s live, course descriptions untouched, rank 3 refused on every path, no auto-approval, reservation before every paid AI call, five-provider scope unchanged, and nothing switches itself on. Two findings need a fix before release:
+## Re-validation at head `cf3f245b` (5 Nov 2026, 21:50–21:55 AEDT)
+
+**Current verdict: ready.** Every blocking finding of the first validation (head `33a7cce3`, kept below for the record) is fixed and verified. Agent B's changes since `33a7cce3`:
+
+- **c45b6570:** fixes the blocking findings.
+- **cf3f245b:** removes the immediate website feed refresh.
+- **Main merged in** (`7f239eee`, my #888 tooling); this adds no change to the feature.
+
+Rules followed: production read only (SELECT), the branch not modified, and my own database `e_pr877v`, since dropped.
+
+### Fixture built from the real definitions
+
+- **Live helpers**, copied from production with md5 equal to live: `security.pdesc_has_term_v1` `b2b8d649…`, `pdesc_support_v1` `adedab4f…`, `pdesc_similarity_v1` `357a9ebf…`.
+- **From the migration at `cf3f245b`:** `pdesc_claim_check_v1`, `pdesc_number_norm_v1`, `pdesc_present_support_v1` and `provider_description_validate_v1`.
+  - The validator built in the fixture hashes to **`b4959fe6f0daad62b93c83c1feeea7e4`**, exactly the migration's stated after-md5, so the function under test is the one that will be deployed.
+  - The settings it reads are production's live values.
+- **Stubs:** only the page and host checks are stubbed to pass, so that the sentence rules are what is tested.
+
+### 1. No supported claim is held on a keyword or number format alone
+
+Each case is one sentence and its own official quote, alongside two neutral supported sentences. These are my own cases, beyond the PR's 19.
+
+| Case | Result | Expected |
+|---|---|---|
+| "1,200 academics" against "1 200 academics" | propose | propose |
+| "1 200" against "1,200" | propose | propose |
+| "80,000" against "80 000" (no-break space) | propose | propose |
+| "2,000" against "2000" | propose | propose |
+| "12 faculties" against "twelve faculties" | propose | propose |
+| "twelve faculties" against "12 faculties" | propose | propose |
+| "4 campuses" against "four campuses" | propose | propose |
+| "21 research centres" against "twenty-one" | propose | propose |
+| "50%" against "50 per cent" | propose | propose |
+| "three campuses" against "3 campuses" | propose | propose |
+| "one of the oldest" (word only in the sentence) | propose | propose |
+| "14 faculties" against "twelve faculties" | **held** `unsupported_numeric_claim` | held |
+| "Formerly a mining school, it is now a public research university in Ballarat" (Y supported) | propose | propose |
+| "In 1958 it became a university; today it offers more than 300 courses" | propose | propose |
+| "Formed when two colleges merged, it is a public research university" | propose | propose |
+| "…formerly operated a campus in Gippsland, which closed" against "operates a campus in Gippsland" | **held** `historic_claim_context` | held |
+| "was known as Victoria College until it was renamed" against "is known as Victoria College" | **held** `historic_claim_context` | held |
+| "None of our campuses are in Sydney" against "has a campus in Sydney" | **held** `claim_negated_in_source` | held |
+| "Neither campus offers dentistry" against "the Parkville campus offers dentistry" | **held** `claim_negated_in_source` | held |
+| "no matter which campus you attend" | propose | propose |
+| "not only at the city campus", "not just at the regional campus" | propose | propose |
+| "does not guarantee entry" against "Entry is guaranteed" | **held** `claim_negated_in_source` | held |
+| supported scholarships / scholarship not in the quote | propose / **held** `unsupported_claim` | as expected |
+| control (plain supported sentence) | propose | propose |
+
+All 26 cases behave as expected. Two residual edge cases are fail-safe or caught by the human review, and are not blocking:
+
+- **"one" in a quote counts as 1** (number words are converted on the quote side). "It is one of the largest universities with a campus in Perth" supports "has 1 campus in Perth". The numeric check passes it, and the sentence still goes to the rank-4 human decision.
+- **A European decimal comma is held:** "4,5 per cent" against "4.5". This is fail-safe.
+
+### 2. Old-worker gate and reservation
+
+**The gate**, tested in the fixture with the migration's `svc_provider_description_next` (md5 in fixture `559407dc479753698b858231b2e7eb93`, equal to the stated after-md5), `_cohort_next`, `_lease_v1` and its grants:
+
+| Caller | Result |
+|---|---|
+| Service-role caller of `svc_provider_description_next(3)` with no protocol (the old worker's call) | `{"idle":true,"items":[],"reason":"worker_protocol_required"}` |
+| `svc_provider_description_lease_v1` with no protocol, or protocol `…-v0` | `worker_protocol_required`, no items |
+| `svc_provider_description_lease_v1` with `provider-description-reserve-v1` | Passes the gate and reaches the lease body |
+| A later transaction calling `next` directly | Refused again: the protocol setting is transaction-local and does not leak |
+| anon calling `lease_v1` | `permission denied` |
+
+The production ACL of `svc_provider_description_next` is `postgres` and `service_role` only (anon and authenticated: no EXECUTE). `CREATE OR REPLACE` keeps that ACL.
+
+**The reservation path.** The new worker leases only through `lease_v1`, with `DESCRIPTION_WORKER_PROTOCOL = "provider-description-reserve-v1"`. On every item it runs:
+
+1. identity proof;
+2. the free pricing GET;
+3. `svc_provider_description_reserve_v1`;
+4. if the reservation is not OK: held, no AI call;
+5. the OpenRouter call, with `max_price`.
+
+This is unchanged from the first validation.
+
+**New worker against the old database.** `svc_provider_description_lease_v1` does not exist in production (checked 21:53). The worker's `rpc()` throws on any error (`index.ts` line 497), so the run fails before any item is leased and makes no AI call. Nothing is left `held` either, which is better than the first version, where items ended `held` with `invalid_verbatim_limit`.
+
+### 3. No writer of `pipeline.website_sync_items`; consumer API untouched
+
+- **Migration.** `provider_description_sync_provider_v1` is removed, with its calls from the publication check and from Verify. The only remaining mention of `website_sync_items` is a comment, and the migration no longer touches `website_sync_seq` or `website_sync_item_v1`. The function does not exist in production.
+- **Worker and `src/`.** The diff against main adds no reference to `website_sync`.
+- **Fixtures** reference `website_sync_items` only to run the live, unchanged `website_sync_check_v1` and `website_sync_candidates_v1`.
+- **The sole writer.** The existing `website-sync-check` job (every minute, active; `security.website_sync_check_v1` live `f8095625ca8c09526900c78c73a21a91`, as the PR's doc states).
+- **Consumer API.** The migration creates or replaces no `website_*`, `zoho_*`, `svc_website_settings_v1` or `api.*` function, and alters no catalogue, search or scholarship table. It only reads `website_v2_provider` and `zoho_v2_provider`.
+- **Edge functions.** Only `coverage-sweep` changes. Its hunks are still all inside the provider-description mode (import line, lease, pricing, final URL, identity, reservation, claim check). `description.ts` removes only the worker-side numeric and historic checks; those rules are now decided once, evidence-aware, in the database.
+
+### 4. Still as before
+
+- **Before-md5s.** All six are live at 21:5x AEDT:
+  - `528d5a3d` (validate);
+  - `97e6b926` (enqueue);
+  - `5342ae3f` (next);
+  - `d5aec36d` (record);
+  - `8f5918c9` (fire);
+  - `875b25c4` (apply_impl).
+
+  The after-md5s changed only for validate (`b4959fe6…`) and next (`559407dc…`), both reproduced in my fixture.
+- **Scope.** `pdesc.provider_keys` is still the 5 CRICOS keys, `pdesc.countries` `["AU"]`, and `pdesc.provider_types` `["university"]`. The migration does not update them.
+- **Budgets.** `pdesc.ai_usd_max` 1 (lifetime, spent plus reserved) and the daily guard, as before.
+- **Rank 4.** `apply_impl` still requires rank 4 (`rr.rank>=4`). Batch is still `one_at_a_time`. No auto-approval path.
+- **Nothing switches on.** `run_now.jobs` is still `["intake-dates-apply"]`, and the migration does not change it (Run & Validate parks as `job_not_allowlisted`). It updates no cron job, `pdesc.enabled` or acquisition switch, and does not touch `pdesc.claim_words` or `course_description_check_v1`.
+- **Version.** The latest applied migration is `20261105090000`, so `20261106200000` sorts after it.
+
+### 5. Deploy order and forward recovery: now correct
+
+- **Pause before merge.** The doc now says that `deploy-on-merge` applies the migration and deploys the edge functions automatically on merge. So step 1 (pause `provider-description-read`, or set `pdesc.enabled` to 0, and let leases expire after the 20-minute claim timer) comes **before the merge**. Resume comes after confirming the worker leases with `lease_v1`.
+- **Mismatch windows.** The doc describes both correctly, as verified above: a new worker against the old database gets an error and makes no call; an old worker against the new database gets `worker_protocol_required` and makes no call. It keeps the pause as the primary control and the gate as a safeguard.
+- **Forward recovery.** It now pauses, or sets `pdesc.enabled` to 0, **before** any worker rollback, keeps all records, and forward-fixes database faults with a migration guarded on the after-hashes.
+
+### CI and other notes
+
+- **CI on `cf3f245b`:** Workers Builds, build-and-smoke, provider-description and isolated-postgres all succeeded.
+- **Not a defect:** inside these SECURITY DEFINER functions, the `current_user <> 'postgres'` part of the service-role check is always false, because the owner is `postgres`. Protection therefore rests on the grants. Those are correct: `revoke … from public, anon, authenticated` and `grant … to service_role`. This is the same pattern as the existing live functions.
+
+---
+
+## First validation (head `33a7cce3`), kept for the record
+
+**Verdict at `33a7cce3`: not ready (small rework). Superseded by the re-validation above.** Most checks pass: md5s live, course descriptions untouched, rank 3 refused on every path, no auto-approval, reservation before every paid AI call, five-provider scope unchanged, and nothing switches itself on. Two findings need a fix before release:
 
 1. Two of the new validation rules hold legitimate supported claims by keyword or by number formatting. That is against the Platform Admin's 20:03 §2 instruction ("Do not reject legitimate supported claims solely by keyword").
 2. The forward-recovery and deploy text claims an old worker cannot make a paid call against the new database. It can.
