@@ -400,3 +400,29 @@ The six replaced md5s are unchanged (21:30). |
 - Correct and narrow. `progress_read_v1` after-md5 is now 24460bd8; `progress_measure_v1` is unchanged at e758d1c2.
 - **Correction to the 22:0x checkpoint:** the expected first-run `intake-progress:repeated-deterministic` (167 UNSW rows) is a **false positive**, not a real defect. The rows were correctly re-evaluated after the 15:56 governed change of `intake_dates.month_unique_match`. The decision records do not store the inputs fingerprint, so the check cannot see the change. Triage: close as "inputs changed by the 15:56 settings change"; it clears by itself after 24 h without a repeat.
 - **Platform Admin choice:** accept it with the triage note at release, or a narrow follow-up. |
+| 6 Nov 2026 00:21 | **v2.15.486 released (PR #887, Platform Admin authorisation 22:52; acceptance direction 23:21). Production acceptance: FAIL on one gate (item 1).**
+
+**Release:**
+- Pre-merge md5s live at 00:10 (admin_course_page_fast 2dc6ee8b, _base afbef161, admin_read 6b1bb9d5).
+- Merged 00:11:03 (merge 8a9dc0ba, head 708bb974).
+- Migration 20261106300000 applied, history md5 05d2e4e2.
+- Deploy check ok (functions 3ba78b0e / 7203f7c6; 0 HTTP errors; 0 failed runs).
+- Deploy on merge, Release History Contract, Release Currentness, Deployed UAT and Pilot Frontend Build all succeeded; UI v2.15.486 live.
+
+**Acceptance (Admin UI `#courses`, Platform Admin session, 00:12–00:30):**
+1. Show/hide, reorder, resize: **FAIL.** The Columns panel opens but is clipped to an 18 px strip: 0 of 40 checkboxes are hit-testable and the saved acknowledgement is invisible. Root cause: CSS class collisions `.cc-bar`, `.cc-panel` and `.cc-count` with `src/data-quality.css` (bundled globally; `.cc-bar` height 18px, overflow hidden). The fixture tests did not load that stylesheet. Behind the panel, the logic works: driven programmatically it shows, hides and reorders, and the server saved 18 columns.
+2. Persistence: after reload, and after clearing all non-auth local storage, the 18-column layout was restored from the server. **PASS.** Sign-out/sign-in and a separate session: **Pending Platform Admin verification** (no credentials entered; no separate authorised session available).
+3. Reset to default: the 14-column default is restored; Restore last saved brings back 18. **PASS** (the acknowledgement is invisible, see 1).
+4. Isolation: anon read/save refused (401, 42501); a forged `user_id` returns only the caller's own layout; the table is not exposed (RLS on, no grants, no policies); the RPC is executable only by authenticated and service_role. **PASS.**
+5. Field accuracy, Newcastle B Medical Radiation Science (Radiation Therapy): Adapter Completed; City CALLAGHAN (NSW); Feb +1; 2027; start 22 Feb 2027; deadline 22 Feb 2027 +1; Last data admitted 5 Nov 7:26 pm (= intake event 19:26); Last published 5 Nov 8:17 pm (= website_sync_items.seq_at 20:17:00). **PASS.**
+6. Sort by Last data admitted: descending, the top rows are the 6 Newcastle values admitted at 23:26 (matching the intake events) across all 35,690 courses; ascending works. **PASS.**
+7. Search, filters (Country Australia → 25,380), paging (pages 1→2→1, columns stable) and row navigation (course drawer opens): **PASS.**
+8. Desktop and phone (375 px): the table scrolls horizontally inside its frame with no page overflow; minimum column width 71 px. **PASS** for the table; the Columns panel fails on phone too (see 1).
+9. Consumer API: the migration touches no consumer object. Against the 31 Oct baseline only `api.query_embedding_cache_get` differs, the known search-path artefact of vector-typed functions, unrelated to this release. Course list response 1.1–2.0 s (one search at 3.7 s, client-measured). **PASS**, with the observation noted.
+10. Recovery switches: `server_layouts_on` 0 → server read returns no layout, the saved row is kept and the UI falls back to the browser copy; back to 1 → the layout returns. `new_sorts_on` 0 → the Last data admitted sort is not applied; back to 1. Both restored by 00:18 with reasons recorded. **PASS.**
+
+**Disposition:**
+- The known-good catalogue (default columns, all data) is preserved; no data effect; no rollback release (a revert would itself be a discretionary release).
+- The Platform Admin's own layout was reset to default after testing.
+- Further discretionary releases are stopped, per the authorisation.
+- A blocking-defect fix PR (CSS rename and a hit-test regression; no database change) is being prepared by agent C, for separate authorisation. |
