@@ -181,3 +181,41 @@ Caveat recorded: the page wording behind this course's February and May intakes 
 Values to verify (recorded, not changed): Diploma in Computer Science under UNSW may be a UNSW College (pathway) course; its August intake took the 2028 Semester 2 start (UNSW's 2028 model) because 2027 has no August start.
 
 Totals since the deploy (both cycles): 5 values admitted and published (UNSW, day precision, 2027 ×4, 2028 ×1); held: academic_year_unproven 289 (no timer; waits for a calendar or reader change), course_identity_unresolved 69 (next revisit 19 Nov 2026), no_matching_commencement_period 37 (waits for a change); refresh credits 5 reserved of 40.
+
+## 9. UNSW blockage and cross-university fairness (direction 5 Nov 2026 15:50; P0 IQ-00313)
+
+Direction recorded verbatim in `docs/platform/2026-11-05-intake-recovery-unsw-blockage-fairness-1550.md`.
+
+### Course identity audit of the five values published after v2.15.481
+
+| Course | Value | Evidence on the bound page | Verdict |
+|---|---|---|---|
+| Master of Industrial Research (108474B) | February 2027 → 2027-02-15 | Only a student testimonial: "I commenced the Master of Industrial Research program in February 2023" | Unsupported (no offering statement) |
+| Master of Industrial Research | May 2027 → 2027-05-31 | No May wording | Unsupported |
+| Diploma in Computer Science (102393G, CRICOS 113046B) | January 2027 → 2027-01-04 | "Intakes January, May, August*", weekly class time 20–25 hours; bound to the Undergraduate Certificate page | Unsupported date: a diploma/pathway timetable; UNSW's main calendar has no August start in 2027, so another academic calendar applies |
+| Diploma in Computer Science | May 2027 → 2027-05-31 | same | Unsupported date |
+| Diploma in Computer Science | August → 2028-08-14 (UNSW 2028 semester model) | same | Unsupported |
+
+All five came from the unique-month rule: correct UNSW calendar dates applied to courses without proof that the course follows that calendar.
+
+### Governance and containment
+
+| Time (AEDT) | Action | Evidence |
+|---|---|---|
+| 15:52 | P0 integration issue IQ-00313 opened (consumer-visible unsupported dates) | `pipeline.integration_issues` id 313 |
+| 15:56 | Containment approved by the Platform Admin: `intake_dates.month_unique_match` 1 → 0 through the governed settings write | admin control event 28963 |
+| 16:26 | Scheduled intake-dates-apply after containment | 200 UNSW rows looked at; **0 filled; 0 by the unique-month rule** (verified 16:29) |
+
+Unique-month matching stays off until course-specific intake evidence, source identity and calendar applicability are validated in production.
+
+### Root causes
+
+| # | Cause | Affected function |
+|---|---|---|
+| S1 | **Provider starvation**: the plan ordered candidates by focus rank and course before the batch limit, so UNSW (rank 1) took every 200-row batch (14:26, 15:26, 16:26) while Melbourne, Sydney and Newcastle readings waited | `security.intake_dates_plan_v3` |
+| S2 | **Obsolete edition blocks the current calendar**: an approved 2023 reading of the UNSW key-dates page ("Term 1 March 2023") supplies the period "term 1"; course pages naming "Term 1" match it and find no 2027 start; the 2027 reading names the period "teaching period t1" | `security.calendar_sources_v1`, `security.calendar_dated_periods_v2` |
+| S3 | **A general calendar treated as course evidence**: the unique-month rule required no course-specific offering statement and no proof that the course follows the main calendar | `security.intake_dates_plan_v3` |
+
+### Correction (PR #882, v2.15.482; not yet released)
+
+Provider rounds (`intake_dates.provider_share` 25, least recently served first, then focus rank); obsolete editions set aside with the reason; one canonical period name on the calendar and the course page (Term 1 = Teaching period T1 = T1); a course-specific offering and calendar-applicability gate before admission; a governed Platform Admin withdrawal (reverts only admitted fields, keeps history, holds the course's intakes with the existing manual lock, reads back Website API v2). Pre-production: ten-university fixture (200 rows over 8 universities, at most 25 each, previously 200 for one; 1.4 s), all §6 regressions, the v2.15.480/.481 cases on the new migration, the #872 browser workflow; full suite 1,904 passed.
