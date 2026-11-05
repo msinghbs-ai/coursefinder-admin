@@ -505,3 +505,18 @@ The six replaced md5s are unchanged (21:30). |
 - keep the 700-character / 4-sentence limits;
 - `reask_max` 0→1 after release;
 - splitting the marketing words. |
+| 6 Nov 2026 09:00 | **English requirements: plan and parity fixture ready (agent H; no PR; branch `cf247-english-requirements-complete` a9c735d7, tests only).** Plan: `work-packages/2026-11-06-english-requirements-implementation-plan.md`.
+
+**Coverage:** AU 67.8 %, NZ 36.7 % (unchanged).
+
+**Corrections to the discovery (from live reads):**
+1. The central English route already covers every provider type (71 AU and 8 NZ non-university providers have approved rules), so "university-only" would switch working automation off.
+2. `fee-schedule-etl` is still used for fees; only its English parts can retire.
+3. `central-find` is currently off.
+4. Only UNSW has a stored faculty table; Canterbury and Massey have no usable English page.
+
+**Measured credit estimate:** 6,650–13,850 credits for non-university search.
+
+**Before the parser can be accepted:** verbatim stored pages are needed through the read-only `provider_facts_inspect` worker mode (6 sources); a worker dispatch needs Platform Admin approval.
+
+**Decisions D1–D6 are in the plan.** Waits for #877 (coverage-sweep). |
