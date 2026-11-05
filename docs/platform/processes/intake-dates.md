@@ -276,3 +276,10 @@ The Radiation Therapy course's application deadline 2027-02-22 was held before t
   - IQ-00313 stays open until the containment decision;
   - IQ-00314 and IQ-00315 are transient 502s, triaged;
   - the Preview scan limit (#879) awaits the Platform Admin.
+
+**Process results (Admin UI, measured 19:53 by job `process-results`, read 19:55):**
+- `intake-dates-apply` last run 19:26 succeeded;
+- Newcastle "start dates 6 of 411 intake rows";
+- start dates in the Website API source: 10 (UNSW 4, Newcastle 6).
+
+The acceptance result is visible in the existing Admin view.
