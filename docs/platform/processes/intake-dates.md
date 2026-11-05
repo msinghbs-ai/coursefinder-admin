@@ -149,3 +149,20 @@ Independent constraint review (separate reviewer, read only) found six concerns;
 ### Gate A route (no manual dispatch)
 
 calendar-reread (:13, reader v2.1) → central-ai (every 5 minutes) → policy-auto-approve (:x5) → intake-dates-apply (:26) and publication check → process-results (:53). Verified in the Admin UI and through Website API v2.
+
+### Gate A — first unattended cycle after v2.15.481 (5 Nov 2026)
+
+| Time (AEDT) | Run (by the platform) | Result |
+|---|---|---|
+| 13:43 | Deploy check | ok: migration 55da2185 = file; 7 functions = tested md5s; 0 failed runs, 0 HTTP errors |
+| 14:13 | calendar-reread (reader calendar-v2.1) | 20 documents (18 to the AI, 2 dated by the parser); 483 set aside as not needed; refresh asked 0 (0 credits) |
+| ~14:20 | central-ai | UNSW academic calendar read by calendar-v2.1: Teaching period T1 = 15 Feb 2027, T2 = 31 May 2027 (year from the year tabs); T3 13 Sep kept without a year (finding year_not_printed); UNSW key-dates page: no values |
+| 14:25 | policy-auto-approve | UNSW calendar-v2.1 reading approved |
+| 14:26 | intake-dates-apply + publication check | UNSW 200 rows: **2 filled** (Master of Industrial Research: February 2027 → 15 Feb 2027, May 2027 → 31 May 2027; day; unique-month rule; published); 151 academic_year_unproven; 31 course_identity_unresolved; 16 no_matching_commencement_period |
+| 14:31 | Website API v2 read-back (`api.website_v2_course_item`) | intakes: February 2027 start 2027-02-15; May 2027 start 2027-05-31 |
+| 14:50 | Admin UI › Process results › Intake recovery (v2.15.481) | UNSW Sydney · approved calendar (calendar-v3-unique-month) · 2027 · day · admitted 2 · start dates 2 · deadlines 0 · published 2 |
+
+**Gate A: met.** Genuinely new 2027 start dates (before: no year, no date), admitted by the platform's own job, published in Website API v2, visible in the Admin UI; no manual dispatch.
+Caveat recorded: the page wording behind this course's February and May intakes is a student testimonial ("commenced … in February 2023"); the dates equal UNSW's official 2027 terms, but the intake months rest on that earlier extraction.
+
+**Why 151 UNSW rows are still held (proven):** an old approved reading of the UNSW key-dates page (parser ai:gpt-4.1-mini, "Term 1 March 2023") still supplies the period "term 1". Course pages naming "Term 1" therefore take the named-period path and find no 2027 "term 1"; the calendar-v2.1 reading names the same terms "teaching period t1/t2". Next action (proposal, not executed): see the integration report of 5 Nov 2026 14:55.
