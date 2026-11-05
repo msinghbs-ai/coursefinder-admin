@@ -426,3 +426,17 @@ The six replaced md5s are unchanged (21:30). |
 - The Platform Admin's own layout was reset to default after testing.
 - Further discretionary releases are stopped, per the authorisation.
 - A blocking-defect fix PR (CSS rename and a hit-test regression; no database change) is being prepared by agent C, for separate authorisation. |
+| 6 Nov 2026 00:48 | **Fix PR #891 ready for a release decision** (agent C; head 2a52c1b6; no database change).
+
+**Fix:**
+- the Columns screen's classes are renamed to the `ccol-` prefix;
+- a build-time collision check (prebuild);
+- the acknowledgement is also shown inside the open panel (phone);
+- hit-test browser tests that load all stylesheets.
+
+**Evidence:**
+- CI: all four checks green.
+- Full local suite: 1,924 passed, 0 failed.
+- Agent E: **ready**. On the built production bundle the shipped code has 0 of 40 checkboxes clickable at 1440 px, reproducing the production failure; the fix has 40 of 40 at 1440 and 375 px. The new tests fail on the shipped code and pass on the fix.
+
+**Status:** awaiting Platform Admin release authorisation (separate). Release version would be v2.15.487. |
