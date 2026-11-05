@@ -6,7 +6,112 @@ Validator: agent E. Decision 19:14 §8 (Platform Admin, 5 Nov 2026).
 - **Production:** `fxcwkweaxjtknorudmwp`, read only (light catalogue reads, 20:43 AEDT).
 - **Fixtures:** run in my own databases `e_pr887` (kept for probes) and `e_pr887_before` (baseline benchmark, since dropped), from an extracted copy of the branch.
 
-**Verdict: ready with conditions.** All six checks pass. The two conditions are documentation and deploy timing.
+## Re-validation at head `e07a4122` (5 Nov 2026, 22:47–22:55 AEDT; Platform Admin 22:46 test gate)
+
+**Current verdict: ready.** Both conditions of the first validation are met (forward-recovery documentation; deploy window :11–:12), and the recommendation (no blanket fixture grant) is done.
+
+Changes since `1844a073`:
+
+- two G2 recovery switches;
+- production-equivalent fixture grants;
+- forward-recovery documentation;
+- a merge of main (#888, my parity tooling);
+- colours from `tokens.css` and times from the shared `fmtTime`.
+
+Rules followed: production read only (SELECT), the branch not modified, and my own databases `e_pr887n` and `e_pr887n2`, since dropped. The fixture ran from an extracted copy of `e07a4122`.
+
+### (a) The recovery switches work and default on
+
+| Setting | Default | Range | Unit | Label and `used_by` |
+|---|---|---|---|---|
+| `catalogue_layout.server_layouts_on` | 1 | 0–1 | on (1) / off (0) | yes / yes |
+| `catalogue_layout.new_sorts_on` | 1 | 0–1 | on (1) / off (0) | yes / yes |
+
+**My own probe** in `e_pr887n`: two Viewers (Alice, Bob) saved layouts with the switch on. Then I set `server_layouts_on` = 0.
+
+| Call | Result |
+|---|---|
+| Alice `read` | `{"layout": null, "server_layouts": false, "save_count": 0, …}` (her saved layout is not returned) |
+| Alice `save`, Alice `reset`, Bob `restore` | Each `{"saved": false, "reset": false, "restored": false, "server_layouts": false}` |
+| Scans of `pipeline.admin_table_layouts` across those four calls | 3 before, 3 after: no read of the table |
+| Row hash of the whole table, before against after | Unchanged: nothing written, rows kept |
+| Switch back to 1, then read | Alice `{"sort":"admitted","columns":["canonical_title","provider_name"],"direction":"desc"}`, Bob `{"columns":["canonical_title","city_names"]}`: both exactly as saved |
+| `new_sorts_on` = 0, then read | `new_sorts=false` reported to the screen, and the saved sort (`admitted`) is kept on the server |
+
+**Screen side** (`CatalogueColumns.jsx`, `mature-main.jsx`):
+
+- **Server layouts off.** With `server_layouts === false`, saves and resets stay in that browser and show a warning; Restore is hidden.
+- **New sorts off.** With `new_sorts === false`, the Last data admitted and Adapter status headings stop being sort buttons. A list sorted on either falls back to Course.
+- **Limit (by design).** The new-sorts switch stops the screen offering the two sorts, but `courses_page` still accepts `sort=admitted|adapter` if called directly. The documented fix-forward migration covers the server code.
+
+The PR's own cases add four recovery-switch checks: **60 database cases pass**.
+
+### (b) Fixture grants equal production; the new grants are as stated
+
+**Production ACLs**, read at 22:49 AEDT, equal `production-grants.txt` for all 10 functions:
+
+| Function | Production ACL |
+|---|---|
+| `api.website_v2_label_month(text)` | `{postgres=X/postgres}` |
+| `public.admin_read(text,jsonb)` | postgres, authenticated, service_role |
+| `security.admin_course_page_fast(jsonb)` | postgres, authenticated, service_role |
+| `security.admin_course_page_fast_base(jsonb)` | postgres, service_role |
+| `security.admin_course_page_search_state(jsonb)` | postgres, authenticated, service_role |
+| `security.admin_course_page_unfiltered_fast(jsonb)` | postgres, authenticated, service_role |
+| `security.current_role_rank()` | postgres, authenticated, service_role |
+| `security.pipeline_num_v1(text,numeric)` | default (PUBLIC) |
+| `security.provider_university_groups(uuid)` | default (PUBLIC) |
+| `security.university_group_provider_ids(text)` | postgres, service_role |
+
+- **Fixture.** The run reports **"PASS function grants equal production's for the 10 live functions (no blanket grant)"**. The blanket `grant execute on all functions … to authenticated` is gone. `grants.sql` sets each ACL, and `run.sh` diffs them against the file.
+- **Schema usage** in the fixture matches production's (read at 22:49):
+  - `pipeline`, `catalogue`, `ref`, `pim`, `scholarship` and `search`: service_role only;
+  - `security` and `api`: authenticated and service_role;
+  - `public` and `auth`: everyone.
+- **Default privileges.** The `public` schema default privileges for `postgres` match production's (functions and tables to authenticated and service_role).
+- **New objects**, as stated:
+  - `public.admin_table_layout` is `{postgres, authenticated, service_role}` through the public-schema default privileges (anon refused: probed, `permission denied`).
+  - `pipeline.admin_table_layouts` and `admin_table_columns` are granted to no API role (checked by `run.sh`). They are also unreachable because `pipeline` has no USAGE for anon or authenticated in production.
+  - The seven `security.course_*` helpers are revoked from public, anon and authenticated.
+- **Two live functions are stubbed.** `admin_course_page_search_state` (live `9d323993…`) and `ui_courses_decision_page` (live `5e8e9f86…`) are stubs in the fixture, as before (stubs.sql). Their ACLs equal production's. Neither is edited by the change.
+
+### (c) Guarded md5s still live (22:49 AEDT)
+
+| Function | Live |
+|---|---|
+| `security.admin_course_page_fast(jsonb)` | `2dc6ee8ba523afeec04d862f3a2ced8a` |
+| `security.admin_course_page_fast_base(jsonb)` | `afbef16111a09e3680061547bbb1329a` |
+| `public.admin_read(text,jsonb)` | `6b1bb9d569bd13390f76803f9a710053` |
+| `security.admin_course_page_unfiltered_fast(jsonb)` | `5db669272a3fa612b1268ef8502a9b7c` |
+
+- **Unchanged since the first validation:** `current_role_rank` `d709d92d…`, `pipeline_num_v1` `09f9b155…`, `provider_university_groups` `6debe54e…`, `university_group_provider_ids` `180e8612…`, `website_v2_label_month` `4263b5ad…`.
+- **Not yet in production:** the latest applied migration is still `20261105090000`, and neither the new tables nor the `catalogue_layout.*` settings exist yet.
+
+### (d) Consumer API untouched
+
+- No edge function changes between `1844a073` and `e07a4122`.
+- The migration still creates or alters no `website_*`, `zoho_*`, `svc_website_settings_v1` or `api.*` object, and no catalogue, search, scholarship or ref table.
+- s57 passes on the new head, with s32, s42, s120 and the PR's contract spec: **25 passed**.
+
+### (e) Owner-only, sorting and last-admitted accuracy unchanged
+
+- **Owner-only.** With the switch on, each Viewer reads back only their own layout. anon is refused. The PR's cases (one row a person and screen, every row the caller's own, no user can be named) pass.
+- **Sorting and last-admitted are byte for byte the same as at `1844a073`.** After the migration, `admin_course_page_fast` is `3ba78b0e5dcc09c9eda5753304c32ace` and `admin_course_page_fast_base` is `7203f7c62678618154c65ef4ada0e5be`, identical to the first validation. The only function the new commits changed is `public.admin_table_layout`.
+- **Compatibility.** All 13 compatibility sets: same rows, order, fields and totals.
+- **Cases.** The last-admitted cases (later skips, review items, retracted fills and unchanged rows ignored; null when unknown) and the server-side sort cases across pages all pass.
+- **Benchmark.** Same as before, within run-to-run noise. Every page is under the 3,000 ms budget; the pre-existing city and state-filter pages take about 1.9–2.2 s.
+
+### Other
+
+- **CI on `e07a4122`:** Workers Builds, build-and-smoke, release-history-contract and course-columns-isolated-postgres all succeeded.
+- **Forward recovery** is now documented (docs §5.2): the two switches, Reset to default, a fix-forward migration guarded on the after-md5s above, and dropping indexes only by paste file with `drop index concurrently`.
+- **Deploy window** is documented as :11–:12 (docs §5.1).
+
+---
+
+## First validation (head `1844a073`), kept for the record
+
+**Verdict at `1844a073`: ready with conditions. Superseded by the re-validation above.** All six checks pass. The two conditions are documentation and deploy timing.
 
 ## (a) Guarded md5s are still live
 
