@@ -329,3 +329,24 @@ The separate snapshot, the `process-results` command edit and the separate zero-
 **Conflict:** held #875 also edits `progress_measure_v1`; whichever lands second is re-guarded.
 
 **Next:** independent validation of #889 and #887 assigned to agent E. |
+| 5 Nov 2026 20:44 | **#877 brought to release readiness by agent B** (head 33a7cce3; Workers Builds, provider-description, build-and-smoke and isolated-postgres green on the head; release-history-contract passes locally, path-filtered in CI, and will run at integration).
+
+**Decision 20:03 §2:**
+- new provider-only setting `pdesc.evidence_claim_words` (campus, scholarship, guarantee), checked by `pdesc_claim_check_v1`: a sentence is held only when its proven quote lacks the claim, or negates it; the keyword alone never holds;
+- `pdesc.claim_words` is untouched, so course descriptions are unchanged;
+- 7 claim cases pass.
+
+**§3:**
+- rank 3 is refused approval by every path, and a batch never approves;
+- ranks 4 and 5 approve;
+- the 9 rank functions of other Layer 4 kinds are byte-identical;
+- a rank-3 curator can still reject (rejection never applies a description).
+
+**§1:** Run Now is not in the migration. After deployment the Controller sets `run_now.jobs` = ["intake-dates-apply","provider-description-read"] with the recorded reason, after role verification.
+
+**Also:**
+- An isolated-postgres failure was found and fixed: the intake config would have collected the provider-description spec and broken main.
+- The six replaced md5s are unchanged (20:43).
+- Deploy order: pause the job → migration → whole `coverage-sweep` folder → UI → resume → role check → Run Now.
+
+Independent validation queued with agent E. |
