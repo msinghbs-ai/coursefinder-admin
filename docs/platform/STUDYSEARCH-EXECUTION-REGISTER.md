@@ -238,3 +238,23 @@ All 17 old description and English branches are already on main or archived.
 - (5) auto-approval of group rules after a provider's first approval (the PR ships person-only).
 
 Implementation waits for the #877 integration (coverage-sweep ownership). Migration ranges are reserved. |
+| 5 Nov 2026 20:04 | **Platform Admin decisions 20:03 (recorded verbatim) acted on.**
+
+**Intake:** accepted as the first bounded autonomy milestone; under normal monitoring; no discretionary development.
+
+**#877:**
+- Run Now for `provider-description-read` approved, to be activated by the Integration Controller through settings after deployment and role verification;
+- evidence-aware claim validation approved, with no rejection by keyword alone;
+- rank 4 approval approved, subject to role regression tests.
+
+Agent B was resumed to implement these and to make all required checks run and pass; five-provider scope, US$1 limits and no auto-approval are preserved.
+
+**#889:** agent D resumed to fold intake into the generic progress observer (`progress_measure_v1`, ownership given to D; held #875 will need re-guarding) and remove overlapping detection, keeping the intake UI, history, provider rows and failure explanations.
+
+**#879:** closed without merge, superseded by plan v3 and v2.15.485. Specification and evidence archived in `archive/pr879-intake-complete-scan/`; branch kept.
+
+**#875:** held.
+
+**#888:** readiness comment posted (tooling only, green, 0 behind main); before merge, the register is regenerated from a full local run.
+
+**#886 workstream (Course Catalogue, agent C) and R23/R24 (agent A):** continuing. |
