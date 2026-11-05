@@ -1,6 +1,6 @@
 # StudySearch Website API v2 — Issue 8 handover note (DRAFT)
 
-**Status: PROPOSED — not live.** Prepared 3 November 2026. Not to be sent to the website developer until StudySearch confirms the release; the released note will carry the release date.
+**Status: PROPOSED — not live.** Prepared 3 November 2026; revised 5 November 2026 (figures and examples re-measured). Not to be sent to the website developer until StudySearch confirms the release; the released note will carry the release date.
 
 **For:** the StudySearch website developer (Wix).
 **Address and key:** unchanged (`website-api-v2`, your existing key).

@@ -254,7 +254,7 @@
       }
     },
     {
-      "name": "provider – campuses, University of Auckland (8, proposed fields)",
+      "name": "provider – campuses, University of Auckland (9, proposed fields)",
       "request": {
         "method": "POST",
         "header": [
@@ -364,7 +364,7 @@
       }
     },
     {
-      "name": "scholarships – international (1,148)",
+      "name": "scholarships – international (1,151)",
       "request": {
         "method": "POST",
         "header": [
