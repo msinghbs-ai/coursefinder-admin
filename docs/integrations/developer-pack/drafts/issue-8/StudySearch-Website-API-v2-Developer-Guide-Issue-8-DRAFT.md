@@ -1,6 +1,6 @@
 ---
 title: "StudySearch Website API v2 — Developer Guide"
-subtitle: "website-api-v2 · Version 2 · Issue 8 DRAFT · PROPOSED — not live · prepared 3 November 2026 · Pilot"
+subtitle: "website-api-v2 · Version 2 · Issue 8 DRAFT · PROPOSED — not live · prepared 3 November 2026, revised 5 November 2026 · Pilot"
 ---
 
 > **PROPOSED — not live.** This is a draft of the next issue (Issue 8). The fields marked *(proposed)* — `campus_id`, `campus_name` and `course_count` on provider `campuses[]`, and `nationality_eligibility_status` on scholarships — are **not returned by the API yet** and may change before release. Build against Issue 7 until we send Issue 8 as released, with its release date in section 13. Everything not marked *(proposed)* is live today.
@@ -312,21 +312,21 @@ An average tuition per provider is not returned: there is no sound basis for one
 | `course_count` | whole number | Courses the API returns at this campus (published, current, offered at this campus). A course taught at three campuses counts at each. `0` means the campus is held but no returned course is linked to it: you may hide such a campus |
 | `city`, `postcode`, `subdivision_code`, `metro_area`, `regional_category`, `regional_category_name` | | As before |
 
-- **Campuses in the same city are separate items.** Until Issue 7, campuses sharing a city, postcode and region came back as one item with no name. From this issue each campus is its own item (University of Auckland: 8 campuses, all in Auckland). If you grouped by city, group by `campus_id` instead; a city filter still works on `city`.
+- **Campuses in the same city are separate items.** Until Issue 7, campuses sharing a city, postcode and region came back as one item with no name. From this issue each campus is its own item (University of Auckland: 9 campuses, all in Auckland). If you grouped by city, group by `campus_id` instead; a city filter still works on `city`.
 - Items are ordered by `campus_name`, then `campus_id`.
 - `course_count` counts courses, not enrolments or places. Do not add the counts of a provider's campuses to get its number of courses: use the provider's `course_count`. Some courses have no campus (for example online courses), and some providers register every course at every location, so each campus shows the whole list.
 - A campus name may be an address-like label where that is how the register prints the location (for example "RMIT University - 124 Latrobe Street, Melbourne"). Show it as printed; never shorten it to the city.
 
-Example (University of Auckland, `provider:nzqa:7001`, measured 3 November 2026; three of eight items):
+Example (University of Auckland, `provider:nzqa:7001`, measured 5 November 2026; three of nine items):
 
 ```json
 "campuses": [
   { "city": "Auckland", "postcode": null, "subdivision_code": "NZ-AUK", "metro_area": null, "regional_category": null, "regional_category_name": null,
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:auckland-city", "campus_name": "Auckland / City", "course_count": 2 },
+  { "city": "Auckland", "postcode": null, "subdivision_code": "NZ-AUK", "metro_area": null, "regional_category": null, "regional_category_name": null,
     "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:city", "campus_name": "City", "course_count": 53 },
   { "city": "Auckland", "postcode": null, "subdivision_code": "NZ-AUK", "metro_area": null, "regional_category": null, "regional_category_name": null,
-    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:city-campus", "campus_name": "City Campus", "course_count": 219 },
-  { "city": "Auckland", "postcode": null, "subdivision_code": "NZ-AUK", "metro_area": null, "regional_category": null, "regional_category_name": null,
-    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:grafton", "campus_name": "Grafton", "course_count": 7 }
+    "campus_id": "campus:studysearch:e096aba7-e1eb-4903-9a63-2bfb71e9a8b8:city-campus", "campus_name": "City Campus", "course_count": 219 }
 ]
 ```
 
@@ -367,7 +367,7 @@ In Issue 7 the same provider returns one item: `{ "city": "Auckland", "postcode"
 - `student_type` (`international`, `domestic`, `both`) is separate: "open to international students" does not mean every nationality is eligible.
 - **Region codes** keep their meaning and are never turned into countries: `R-ASEAN` (South-East Asia), `R-SASIA` (South Asia), `R-NASIA` (North and East Asia), `R-CASIA` (Central Asia), `R-PACIFIC` (Pacific), `R-EUROPE` (Europe), `R-MENA` (Middle East and North Africa), `R-AFRICA` (Africa), `R-LATAM` (Latin America), `R-AMERICAS` (the Americas), `R-CARIB` (Caribbean). Show the region name; do not list the region's countries.
 - **Filter `nationality_codes`** returns scholarships whose `citizenship_eligibility` names one of the codes you send. It does not return `unknown` or `unrestricted` scholarships, and a country code does not match a region code. For a student from Vietnam send `["VN", "R-ASEAN"]`. For a "scholarships you may be able to apply for" page, show the filter's results together with `unknown` and `unrestricted` scholarships, the latter two with the wording above.
-- Measured 3 November 2026 (published scholarships, 1,148): `restricted` 94 (16 of them with the list still empty; 14 name a region), `unknown` 1,054, `unrestricted` 0, `under_review` 0. Coverage grows as the platform reads more scholarship pages.
+- Measured 5 November 2026 (scholarships returned, 1,151): `restricted` 95 (16 of them with the list still empty; 14 name a region), `unknown` 1,056, `unrestricted` 0, `under_review` 0. Coverage grows as the platform reads more scholarship pages.
 
 Example (Faculty of Engineering Research Scholarship for South Asia, The University of Sydney): Issue 7 `"citizenship_eligibility": ["R-SASIA"], "student_type": "international"`; Issue 8 adds `"nationality_eligibility_status": "restricted"`.
 
@@ -603,11 +603,11 @@ Courses or records the API returns holding a value (31 October 2026; coverage gr
 | At least one linked scholarship | 8,917 | 1,456 | 984 |
 | Providers with courses | 1,279 | 289 | 52 |
 
-Scholarships returned: 1,108 (Australia 892, New Zealand 151, Canada 65); all 1,108 are open to international students. Providers with an approved logo: 1,463. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
+Scholarships returned (5 November 2026): 1,151 (Australia 918, New Zealand 162, Canada 71); all 1,151 are returned for `student_types` international. Providers with an approved logo: 1,463. QS 2027 ranked Australian providers: 38. QILT statistics: 116 Australian providers. Institution type: held for Australian and New Zealand providers (null for Canada).
 
-Provider campuses *(proposed fields, measured 3 November 2026)*: 3,808 campuses across 1,620 providers (Issue 7 returns them as 3,296 items, merged by city); every campus has a name; campuses with `course_count` 0: Australia 1, New Zealand 46, Canada 13.
+Provider campuses *(proposed fields, measured 5 November 2026)*: 3,812 campuses across 1,620 providers (Issue 7 returns them as 3,295 items, merged by city); every campus has a name; campuses with `course_count` 0: Australia 2, New Zealand 46, Canada 13.
 
-Scholarship nationality *(proposed field, 3 November 2026)*: see 7.5.
+Scholarship nationality *(proposed field, 5 November 2026)*: see 7.5.
 
 Rankings (3 November 2026): QS 2021–2027 for 72 providers; THE 2016–2026 for 77 providers.
 
@@ -666,13 +666,13 @@ Counts are as measured on Pilot on 31 October 2026; they change as data is corre
 | 9 | University Finder | `providers` with `university_groups` go8 and sort `qs_rank_asc` returns 8 providers |
 | 10 | Provider detail | `provider` provider:cricos:00025b returns 48 QILT rows and its rankings |
 | 11 | Institution type | `providers` with `country_codes` AU and `institution_types` university returns 45 providers |
-| 12 | Scholarships | `scholarships` with `student_types` international returns 1,108 records |
+| 12 | Scholarships | `scholarships` with `student_types` international returns 1,151 records (5 November 2026) |
 | 13 | Rankings | `rankings` with QS, edition 2027, AU returns 38 entries, each with `attribution` and `terms_status: "approved"` |
 | 14 | Logos | `providers` with `has_logo` true returns 1,463 providers; each `logo.url` opens and `url_expires_at` is about a year ahead; your page shows the Wix Media copy |
 | 15 | Sync full load | `sync` with no cursor: `mode` full and `has_more` true; following `next_cursor` to the end gives `full_load_complete: true` |
 | 16 | Sync changes | The last `next_cursor` sent again returns only what changed since (often nothing); sending it twice gives the same items |
 | 17 | Errors | An unknown action returns 400 `INVALID_ACTION`; a 429 is handled by waiting for `Retry-After` |
-| 25 | Provider campuses *(proposed)* | `provider` with `provider_id` provider:nzqa:7001 returns 8 `campuses` items, each with a `campus_id`, a `campus_name` and a `course_count`; all have `city` Auckland. (3 November 2026) |
+| 25 | Provider campuses *(proposed)* | `provider` with `provider_id` provider:nzqa:7001 returns 9 `campuses` items, each with a `campus_id`, a `campus_name` and a `course_count`; all have `city` Auckland. (5 November 2026) |
 | 26 | Nationality status *(proposed)* | Every `scholarships` item has `nationality_eligibility_status`; no item with an empty `citizenship_eligibility` is `unrestricted` unless stated by the scholarship; `nationality_codes` ["VN","R-ASEAN"] returns both country and region scholarships |
 | 27 | Ranking history | `provider` provider:cricos:04249j (Adelaide University) returns `rankings` for QS 2026, QS 2027 and THE 2026 only; your page shows no earlier years for it |
 | 18 | Nulls and new fields | A value not held is null or empty, never a placeholder; an unknown field in a response is ignored safely |
@@ -694,6 +694,6 @@ Changes within Website API v2 are additive. A change to the API (a new field, fi
 | 16 October 2026 (issue 3) | Website API v2 at its own address, `website-api-v2`, with its own key: no `contract` field; responses carry `api_version: "website-v2"` instead of `contract_version`; errors add `message` and `detail` (and `INVALID_JSON`); 300 calls a minute per key, all actions together. Same actions, fields and answers. The earlier address keeps working until you have moved |
 | 17 October 2026 (issue 4) | `sync` pages hold up to 600 size units (was 200; default 600): a full load is about 86 calls, about 1 to 2 minutes (was about 260 calls, about 5 minutes); a caller that sends a smaller `page_size` keeps getting smaller pages. Replies are compressed when you send `Accept-Encoding: gzip` (about 15 MB for a full load instead of about 113 MB). New English test code `DET` (Duolingo English Test, overall score 10–160) in `english_requirements`, the `english_test_codes` filter and `reference` |
 | 29 October 2026 (issue 5) | `course` and `provider` take an optional `edu_country` (the student's country of prior education). The course detail gains `entry` (the course's academic entry requirements and, with `edu_country`, the requirement that applies, worked out in a fixed order with "case by case" and "contact the provider" outcomes); the provider detail gains `entry_matrix[]` (the provider's published requirements by country). Section 7.9 added; acceptance tests 20 to 22 added |
+| 31 October 2026 (issue 6) | `entry_matrix[]` items and `entry.resolution.rows[]` items gain `scale_stated`: `false` when the provider prints a grade but does not state its grading scale (`scale` is `null`; show the "does not state a grading scale" wording), `true` when the scale is stated, `null` for case by case. Section 7.9 and acceptance test 23 updated |
 | 31 October 2026 (issue 7) | The course detail's `entry` gains `min_scores[]`: every entry score the course publishes, as printed (`score`, `basis`, `audience`, `scale`, `quote`, `source_url`, `as_at`). `min_score` and `min_score_basis` are unchanged. Section 7.9 and acceptance test 24 added |
 | PROPOSED (issue 8; not released) | Provider `campuses[]`: one item per campus (campuses sharing a city are no longer merged), each gaining `campus_id`, `campus_name` and `course_count`; existing campus fields unchanged. Scholarships gain `nationality_eligibility_status` (`restricted`, `unrestricted`, `unknown`, `under_review`); `citizenship_eligibility` and `eligible_countries_list` unchanged. Sections 7.4, 7.5 and 9 updated; acceptance tests 25 and 26 added |
-| 31 October 2026 (issue 6) | `entry_matrix[]` items and `entry.resolution.rows[]` items gain `scale_stated`: `false` when the provider prints a grade but does not state its grading scale (`scale` is `null`; show the "does not state a grading scale" wording), `true` when the scale is stated, `null` for case by case. Section 7.9 and acceptance test 23 updated |
