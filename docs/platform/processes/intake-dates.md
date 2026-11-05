@@ -219,3 +219,60 @@ Unique-month matching stays off until course-specific intake evidence, source id
 ### Correction (PR #882, v2.15.482; not yet released)
 
 Provider rounds (`intake_dates.provider_share` 25, least recently served first, then focus rank); obsolete editions set aside with the reason; one canonical period name on the calendar and the course page (Term 1 = Teaching period T1 = T1); a course-specific offering and calendar-applicability gate before admission; a governed Platform Admin withdrawal (reverts only admitted fields, keeps history, holds the course's intakes with the existing manual lock, reads back Website API v2). Pre-production: ten-university fixture (200 rows over 8 universities, at most 25 each, previously 200 for one; 1.4 s), all §6 regressions, the v2.15.480/.481 cases on the new migration, the #872 browser workflow; full suite 1,904 passed.
+
+## 10. Releases v2.15.482–485 and final acceptance (PASS, 5 Nov 2026 19:26)
+
+| Release | PR | Merge | Migration (md5) | What it changed |
+|---|---|---|---|---|
+| v2.15.482 | #882 | 0c613f83 | 20261105060000 (792cc0f4) | Provider rounds (`intake_dates.provider_share` 25); obsolete calendar editions set aside; canonical period names (Term 1 = T1); course-specific offering and calendar-applicability gate; governed Platform Admin withdrawal |
+| v2.15.483 | #883 | 1ed711d9 | 20261105070000 (d11b9e92) | Hotfix: a withdrawal finds the admission from the latest `filled` event that no later withdrawal undid (re-decided rows) |
+| v2.15.484 | #884 | 200d56da | 20261105080000 (954b3882) | Focus universities first within each round. **Not accepted (Platform Admin 18:00):** it used the 50-provider focus list, not the approved top-10 pilot |
+| v2.15.485 | #885 | cf77ef78 | 20261105090000 (d6ba992e); plan `intake_dates_plan_v3` 1d531a83 | Pilot share: `intake_dates.pilot_batch_share` 60 % of each run is reserved for the pilot scope (`security.intake_ui_scopes_v1`, top 10); the remaining 40 % keeps the global scheduler eligible for every other provider; at most 25 rows per provider per round |
+
+**P0 IQ-00313 (UNSW unsupported values).**
+- All five unsupported values were withdrawn through the governed path and verified absent from Website API v2:
+  - Diploma in Computer Science: Jan, May and Aug;
+  - Master of Industrial Research: Feb and May.
+- Each course's intakes are locked (`manual_locks` mode `value`).
+- `intake_dates.month_unique_match` has been 0 since 15:56 (containment; admin control event 28963).
+- Unique-month matching stays off until course-specific evidence, source identity and calendar applicability are validated in production.
+
+**Pre-merge preview of #885 (18:56, read-only replica):** 200 rows, pilot 120 (UTS, Flinders, Monash, Newcastle 25 each; Adelaide 20), non-pilot 80 (Macquarie, UWA, Victoria 25 each; Bond 5). One round per provider, about 1 s. Of Newcastle's 25 rows, 6 would be filled.
+
+**Admin bounded validation (19:06): BLOCKED by the Preview's scan limit, not by the rule.**
+- Course intake Run & Validate, scope Newcastle, 20 courses: 0 eligible.
+- The Preview scans only `run_now.preview_rows_per_university` = 5 rows per university. In those, only UNSW had eligible work (2 courses).
+- The setting is the Platform Admin's decision and was not changed.
+- Codex PR #879 (preview paging) addresses this limit; it is retained, awaiting decision.
+
+**Unattended scheduled run, 19:26 (`intake-dates-apply`, 73 s, succeeded): PASS.** The selection matched the preview exactly.
+
+| University | Pilot | Selected | Admitted | Published (Website API v2) | Main reasons held |
+|---|---|---|---|---|---|
+| The University of Newcastle | yes | 25 | **6** | **6** | no matching commencement period 11, identity unresolved 6, calendar interpretation 2 |
+| University of Technology Sydney | yes | 25 | 0 | 0 | no matching commencement period 18, identity unresolved 7 |
+| Flinders University | yes | 25 | 0 | 0 | calendar interpretation 13, identity unresolved 7, no matching period 5 |
+| Monash University | yes | 25 | 0 | 0 | no matching commencement period 21, identity unresolved 4 |
+| Adelaide University | yes | 20 | 0 | 0 | identity unresolved 19, no matching period 1 |
+| Macquarie University | no | 25 | 0 | 0 | wrong institution or campus 25 |
+| The University of Western Australia | no | 25 | 0 | 0 | academic year unproven 16, no matching period 6, identity 3 |
+| Victoria University | no | 25 | 0 | 0 | identity unresolved 17, no matching period 8 |
+| Bond University | no | 5 | 0 | 0 | no matching commencement period 5 |
+
+Admitted values (all `calendar-v3`, Newcastle Academic Calendar 2027, Semester 1 start 2027-02-22):
+- Bachelor of Medical Radiation Science (Honours)(Radiation Therapy);
+- Bachelor of Psychological Science;
+- Bachelor of Nutrition and Dietetics (Honours);
+- Master of Professional Engineering: Civil, Mechanical, and Geospatial Engineering and Surveying.
+
+All six return February 2027, 2027-02-22, from `api.website_v2_course_item` (read 19:3x).
+
+The Radiation Therapy course's application deadline 2027-02-22 was held before this run (`before_value`). It was not set by this run.
+
+**Verdict.** The success condition of the 18:34 direction is met: a source-backed intake value was admitted and published outside UNSW.
+- Pilot fairness: 5 of the 10 pilot universities processed in this run. UNSW, Sydney, RMIT, Melbourne and Swinburne were served in earlier rounds and come back in rotation.
+- The intake development workstream is closed except for confirmed P0 issues (18:35), and the scheduler returns to normal background operation.
+- Open items, not development:
+  - IQ-00313 stays open until the containment decision;
+  - IQ-00314 and IQ-00315 are transient 502s, triaged;
+  - the Preview scan limit (#879) awaits the Platform Admin.
