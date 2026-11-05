@@ -188,3 +188,19 @@ Claude Layer 4 evidence audit (3 Nov 2026, 19:50 AEDT): [report](nz-enrichment-b
 | 5 Nov 2026 17:58 | **v2.15.484 released (PR #884, merge 200d56da): focus universities first within rounds.** Migration 20261105080000 (954b3882); plan 886876cd; deploy check ok. Not accepted by the Platform Admin (18:00): it used the 50-provider focus list, not the top-10 pilot. Corrected by #885. |
 | 5 Nov 2026 18:58 | **v2.15.485 released (PR #885, merge cf77ef78; Platform Admin 18:34/18:35).** Migration 20261105090000 (d6ba992e); plan 1d531a83; setting `intake_dates.pilot_batch_share` 60 %. Deploy check: migrations and functions ok; IQ-00315 = five 502s at 18:44, before the merge, triaged as external. Pre-merge preview 18:56: pilot 120 / non-pilot 80 rows, 25 per provider, Newcastle 6 fillable. |
 | 5 Nov 2026 19:29 | **Intake final acceptance: PASS (scheduled run 19:26, unattended).** Admin bounded validation 19:06 was blocked by the Preview's 5-rows-per-university scan (0 eligible Newcastle rows; setting unchanged; #879 awaits decision). The 19:26 run selected exactly the previewed 200 rows (pilot UTS, Flinders, Monash, Newcastle, Adelaide; non-pilot Macquarie, UWA, Victoria, Bond). Newcastle: 6 values admitted (calendar-v3, Semester 1 2027-02-22) and all 6 published in Website API v2. Every other university admitted 0, with reasons by university in `processes/intake-dates.md` §10. The intake development workstream is closed except for P0 issues; the scheduler continues in normal background operation. |
+| 5 Nov 2026 19:45 | **Agent results (decision 19:14).** **B, Provider descriptions, PR #877 (draft):**
+- main merged in, no force-push; head af24cbcd; Workers Builds, provider-description and build-and-smoke green;
+- migration renumbered to 20261106200000;
+- the Codex build-blocking guard removed;
+- the shared course-description sentence matcher restored byte for byte, with the strict matcher used for provider descriptions only;
+- Run Now no longer switched on by the migration;
+- 44 guarded live functions unchanged since 4 Nov; consumer API untouched (no G3 needed); US$1 budget limits and Layer 4 preserved.
+- Platform Admin decisions needed: add `provider-description-read` to Run Now; stricter `pdesc.claim_words`; approval of provider descriptions requires rank 4.
+
+**E, Independent validation:**
+- parity tooling, draft PR #888, CI green;
+- reports merged here under `validation/`;
+- #875: needs a rebase. Guards still match live, but its version 20261104620000 sorts before nine applied versions and its own fixture fails a date-dependent seed.
+- #879: needs rework. It is built on `intake_dates_plan_v2`, which is retiring; its migration version is taken; it writes cohorts directly. Platform Admin decision: port it to plan v3 or close it.
+- v2.15.485 regression check: PASS (plan 1d531a83, setting labelled, consumer API 75 functions and 48 relations with no drift).
+- Note: agent E briefly ran `set_config('search_path','',false)` on one production MCP session for a read-only comparison, then reset it and verified the reset. No data was written. Agents are reminded that production session settings are also off-limits. |
