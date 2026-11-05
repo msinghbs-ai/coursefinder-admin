@@ -371,3 +371,13 @@ Independent validation queued with agent E. |
 3. The new direct write to `website_sync_items` is to be confirmed.
 
 All three sent back to agents B, D and C for these items only. A stray commit dc30ca5a was pushed to the merged #888 branch (tooling only, not on main); it is to be integrated later if needed. |
+| 5 Nov 2026 21:31 | **#877 blocking defects fixed by agent B** (head 005cd475; Workers Builds, build-and-smoke, provider-description and isolated-postgres green).
+
+**Fixes:**
+- historic and numeric claim checks are evidence-aware: number normalisation, present-tense support, corrected negation; 19 claim cases pass;
+- a database gate: `svc_provider_description_next` gives an old worker nothing, and the new worker leases with an explicit reservation protocol;
+- procedure: pause the job before merge and before any rollback.
+
+**Controller decision:** remove the new direct writer to `pipeline.website_sync_items` and rely on the existing every-minute `website-sync-check` scan, the sole writer. This avoids a parallel consumer-feed mechanism, for a gain of at most about one minute. Agent B is removing it; agent E then re-validates.
+
+The six replaced md5s are unchanged (21:30). |
