@@ -94,3 +94,26 @@ A skipped row is not looked at again under the same rule and calendar (`intake_d
 ## 6. Keeping this current
 
 To be generated from the database (job records, catalogue counts, calendar extraction) on a schedule and shown in the Admin UI, as the mandate requires. Until then this file is updated by hand at each measurement.
+
+## 7. Activity log after v2.15.480 (unattended platform runs; Claude verifies only)
+
+Where the platform keeps the evidence (per item, never overwritten): `pipeline.course_intake_date_events` (every intake decision, its reason, next action and revisit), `pipeline.calendar_reread_state` (every stored calendar document re-read), `pipeline.calendar_reader_findings` (what the reader could not prove), `pipeline.process_results` (dated measurements, hourly), and Layer 2/3 Operations › Process results in the Admin UI.
+
+| Time (AEDT) | Run (by the platform) | What it did | Result |
+|---|---|---|---|
+| 11:20 | Release check | v2.15.480 live (migration 98991eb2, worker v0.59.7, nine functions = tested) | ok |
+| 11:21 | Process results › Measure now (Admin UI) | Baseline | 5,399 intake rows; year 665; start date 0; deadline 3; never examined 1,688; valid calendars 21 (Monash 0, two set aside); future periods 61 |
+| 11:21 | Intake Run & Validate › Preview (Admin UI, read only) | Top 10, size 20 | 0 eligible in 5 rows a university |
+| 11:26 | Job intake-dates-apply | 200 UNSW rows (focus order) | 0 filled; 153 waiting for next academic year, 31 course identity unresolved, 16 evidence ambiguous |
+| 11:53 | Job process-results | Measurement 2 | Same totals; 5 universities routed to a person (flag calendar_needs_correction) |
+| 12:13 | Job calendar-reread | 20 stored calendar documents, no paid reads | Parser: no future dated start in any → all 20 to the AI queue; 19 read by 12:27 (cost US$0.0005–0.012 each); scopes found: UNSW Global pathway, Ormond and Trinity college, Macquarie English pathway |
+| 12:25 | Job policy-auto-approve | calendar-v2 readings | 13 of 19 approved (focus universities) |
+| 12:26 | Job intake-dates-apply | 200 UNSW rows again (calendar set changed) | 0 filled; 151 waiting for next academic year, 31 identity, 16 ambiguous, 2 reader correction |
+
+### Why no dates yet (proven from the reads)
+
+| # | Cause | Evidence | Next action |
+|---|---|---|---|
+| R1 | **Reader correction needed**: the year is printed in a heading, not in the row, and the AI did not quote the heading; the validator drops an unproven year. It also put the year in the period name ("term 1 2027"), so it no longer matches "Term 1" on course pages | UNSW academic calendar: 42 starts read, 0 kept a year; 8 are 2027–2028 (Term 1 2027 = 15 Feb, Term 2 = 31 May, Term 3 = 13 Sep). Sydney wall calendar PDF: 7 starts, 0 years | Bounded reader fix: take the year from the nearest preceding heading on the stored page (as the dated parser does), strip the year from the period name. Needs a PR and release authorisation |
+| R2 | **Stale edition**: the stored copy is the 2026 calendar | Melbourne and Sydney key-dates pages: years read, nothing after 2026 (finding next_year_missing) | Fresh read of the official 2027 pages (Firecrawl, about one credit a page). Platform Admin decision (credits 1,982 left) |
+| — | Not yet read | 494 stored documents still waiting (20 a run, hourly at :13), including RMIT, UTS, Newcastle and Swinburne 2027 calendars | Unattended; next cycle 13:13 |
