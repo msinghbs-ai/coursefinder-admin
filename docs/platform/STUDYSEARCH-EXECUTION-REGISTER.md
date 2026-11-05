@@ -381,3 +381,16 @@ All three sent back to agents B, D and C for these items only. A stray commit dc
 **Controller decision:** remove the new direct writer to `pipeline.website_sync_items` and rely on the existing every-minute `website-sync-check` scan, the sole writer. This avoids a parallel consumer-feed mechanism, for a gain of at most about one minute. Agent B is removing it; agent E then re-validates.
 
 The six replaced md5s are unchanged (21:30). |
+| 5 Nov 2026 22:14 | **Release readiness.**
+
+**#877** (cf3f245b):
+- agent E re-validation: **ready** (26 independent claim cases, old-worker gate, no feed writer, guards live, scope, budgets and rank-4 unchanged);
+- CI: Workers Builds, build-and-smoke, provider-description and isolated-postgres green;
+- full local suite: **1,924 passed, 0 failed, 0 skipped** (9.8 min).
+
+**#889** (51ca8d1b):
+- validation conditions met (`lock_timeout` 5 s marked fixed; deploy window; first-run effects including `repeated-deterministic` at 167 rows; #875 re-guard values; forward recovery §8);
+- CI green (Workers Builds, build-and-smoke, both isolated-postgres checks);
+- full local suite: **1,916 passed, 0 failed, 0 skipped** (9.7 min).
+
+**#887** (827b7d8c): conflicting with main since #888; agent C is merging main. |
