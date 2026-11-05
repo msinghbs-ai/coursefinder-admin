@@ -350,3 +350,7 @@ The separate snapshot, the `process-results` command edit and the separate zero-
 - Deploy order: pause the job → migration → whole `coverage-sweep` folder → UI → resume → role check → Run Now.
 
 Independent validation queued with agent E. |
+| 5 Nov 2026 21:02 | **#888 integrated, CI-only (Platform Admin 20:03 and 21:00).**
+- Production-parity tooling: workflow, script, fixtures, s310 contract spec, register row. No migration, runtime, edge-function or UI change; no release number.
+- Squash-merged at 7f239eee (head d83d5995, 0 behind main; checks prod-parity-round-trip, build-and-smoke and Workers Builds green).
+- Post-merge: Pilot Frontend Build and StudySearch Deployed UAT succeeded; Deploy on merge was not triggered (no migration or function paths). |
