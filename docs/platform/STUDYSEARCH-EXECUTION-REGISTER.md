@@ -17,7 +17,7 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** One bounded recovery cycle completed. The job-count discrepancy is explained by recorded automatic transitions, with no production mutation. Account fencing and ownership acceptance remain blocked.
+**Reason:** Scheduled recovery starts one bounded read-only deadline consumer cycle from GitHub. Completed source repairs and resolved job-count work are preserved; no authority assumed.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416, HTTP/asset 200 and hash 2099cae6 verified at 18:04 UTC; edge 239 ACTIVE/hash 995d5111 unchanged. At 18:07 all 1,791 migration versions match, head 20261106400000; deadline helper f01e9, course guard ff3d6 and job guard 668251ec unchanged. The observed 18:06 inventory is 161 active of 176, explained by automatic idle controls. Exact Cloudflare commit and authenticated UI remain unknown.
@@ -29,7 +29,7 @@
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-382-JOB-RECONCILE-1800 completed with independent source and offline review in clean detached worktree /workspace/resume-1800/review-jobs at 4ba94e3f. Root owns live read-only evidence and canonical Admin updates. Eight worktrees inventoried: tracked files clean; prior untracked validation logs/node_modules retained. No active agent or new code, function or migration branch.
+**Workstreams:** WS-P0-CONSUMER-1902: root owns bounded SQL and canonical Admin evidence; independent reviewer owns only local consumer-independent-review.json in detached7984e7bd worktree /workspace/resume-1902/review-consumers. Ten course codes and twelve suspect intakes are selected; no code, function or migration writes.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,10 +38,10 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No agent, SQL, local test, production reservation, write, deployment or new workflow initiated by this execution remains active. Platform scheduled jobs continue independently. GitHub has no running workflow; only reconciled historical run 34749286102 is queued. Atomic ref 6d95 has no owner or lease and adoption remains pending, targeting the stopped 14:22:59 execution. No active authority accepted or released.
+**In flight:** One independent offline reviewer and planned bounded read-only SQL. No production reservation, write, migration, deployment or new workflow. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null and adoption pending; this actual execution has not accepted control.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Return to deadline P0 source/year/audience reconciliation or planned single-course consumer probes during load windows, preserving the disabled exact three-row correction scope. Do not repeat resolved job-count work or restore a historical count. GitHub, Cloudflare and Supabase owners complete D-382-CUTOVER before actual-execution acceptance and reserved #895 → #896 → #894 → #893 releases, with #892 integrated.
+**Next safe action:** Run up to ten single-course read-only consumer probes with four-second limits during19:06–08UTC; stop on failure and reconcile exact current intake/date matches. Refresh baseline and independently review results. Existing D-382-CUTOVER and exact three-row correction gates remain.
 
 <!-- controller-handover:risks_recovery -->
 **Risks/recovery:** All three original bad deadline values remain active at 18:08 UTC. The wider nine-date/seven-course SQL sample remains historical; 58 courses and HTTP/cache exposure remain unverified. Alerts at 18:07: 78 pending, all unattempted, 75 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The latest 12,000 cron rows cover 10:43–18:07 and the last two hours, with zero failures; schedule success is not business acceptance. Count reconciliation does not establish absence of all direct writes. The environment is unprotected and secret API returns 403; account, ownership, release, admission, hold and reserve gates remain.
