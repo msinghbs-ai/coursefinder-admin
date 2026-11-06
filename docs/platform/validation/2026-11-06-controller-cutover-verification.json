@@ -2437,5 +2437,1666 @@
         "classification": "historical_recovered_episode"
       }
     ]
+  },
+  "latest_read_only_reconciliation": {
+    "execution_id": "codex-deadline-context-20261106T170242Z",
+    "recorded_at": "2026-11-06T17:22:15Z",
+    "production_baseline": {
+      "observed_at": "2026-11-06 17:07:23.606286+00",
+      "migration_count": 1791,
+      "migration_head": "20261106400000",
+      "hashes": {
+        "deadline": "f01e9be83e58c9c48c33e5fde4de05d9",
+        "course_description": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b"
+      },
+      "other_active_client_transactions": 0,
+      "columns": {
+        "queue_watch_state": [
+          "key",
+          "state",
+          "since",
+          "reason",
+          "pending",
+          "done_window",
+          "failed_window",
+          "exhausted",
+          "last_progress",
+          "per_hour",
+          "eta_hours",
+          "tools_out",
+          "tools_waiting",
+          "jobs_paused",
+          "check_ms",
+          "checked_at",
+          "error"
+        ],
+        "integration_issues": [
+          "id",
+          "issue_ref",
+          "fingerprint",
+          "title",
+          "layer",
+          "subsystem",
+          "provider_ids",
+          "course_ids",
+          "country_codes",
+          "entities_truncated",
+          "detected_at",
+          "failure",
+          "expected",
+          "detection_source",
+          "validation_layer",
+          "evidence",
+          "evidence_refs",
+          "root_cause_class",
+          "severity",
+          "impact",
+          "workstream",
+          "blocked_by",
+          "depends_on",
+          "fix_commit",
+          "fix_migration",
+          "deployed_version",
+          "verification_outcome",
+          "verification_evidence",
+          "verified_at",
+          "verified_by",
+          "retry_count",
+          "last_observed_at",
+          "condition_cleared_at",
+          "status",
+          "assignee",
+          "regression_count",
+          "reopened_at",
+          "closed_at",
+          "aer_root_cause_ref",
+          "alert_check_key",
+          "created_at",
+          "updated_at",
+          "correlation_key",
+          "diagnosis",
+          "remedy_code",
+          "remedy_attempts",
+          "next_action_at",
+          "ops_state",
+          "superseded_by",
+          "supersedes",
+          "blocker",
+          "ops_plan",
+          "remediation_owner",
+          "remediation_status",
+          "remediation_checkpoint_at",
+          "remediation_evidence",
+          "severity_decided_at",
+          "severity_decided_by",
+          "severity_decision"
+        ],
+        "platform_toolset_settings": [
+          "toolset_key",
+          "key",
+          "label",
+          "help",
+          "kind",
+          "value",
+          "min_value",
+          "max_value",
+          "unit",
+          "sort",
+          "reason",
+          "updated_by",
+          "updated_at",
+          "section",
+          "used_by"
+        ]
+      },
+      "jobs": [
+        {
+          "name": "coursefinder-m2-3-refresh-intelligence-tick",
+          "jobid": 2,
+          "active": true,
+          "schedule": "36 * * * *"
+        },
+        {
+          "name": "coursefinder-data-quality-overview-refresh",
+          "jobid": 3,
+          "active": true,
+          "schedule": "17 16 * * *"
+        },
+        {
+          "name": "coursefinder-layer1-regulatory-scheduler",
+          "jobid": 4,
+          "active": true,
+          "schedule": "5 * * * *"
+        },
+        {
+          "name": "coursefinder-layer1-housekeeping",
+          "jobid": 5,
+          "active": true,
+          "schedule": "17 3 * * *"
+        },
+        {
+          "name": "coursefinder-layer2-housekeeping",
+          "jobid": 7,
+          "active": true,
+          "schedule": "27 3 * * *"
+        },
+        {
+          "name": "coursefinder-platform-capacity-observation",
+          "jobid": 17,
+          "active": true,
+          "schedule": "12 4 * * *"
+        },
+        {
+          "name": "coursefinder-cf245-enrichment-coverage-snapshot",
+          "jobid": 21,
+          "active": true,
+          "schedule": "47 * * * *"
+        },
+        {
+          "name": "coursefinder-cf245-enrichment-hourly-admin-cache",
+          "jobid": 22,
+          "active": true,
+          "schedule": "12 * * * *"
+        },
+        {
+          "name": "admin-summary-snapshots-refresh",
+          "jobid": 26,
+          "active": true,
+          "schedule": "1-59/15 * * * *"
+        },
+        {
+          "name": "evidence-filter-options-refresh",
+          "jobid": 27,
+          "active": true,
+          "schedule": "4 */2 * * *"
+        },
+        {
+          "name": "provider-fee-profiles-apply",
+          "jobid": 28,
+          "active": true,
+          "schedule": "26 * * * *"
+        },
+        {
+          "name": "provider-rule-admit",
+          "jobid": 29,
+          "active": true,
+          "schedule": "29 * * * *"
+        },
+        {
+          "name": "consumer-reference-bundle-refresh",
+          "jobid": 30,
+          "active": true,
+          "schedule": "50 * * * *"
+        },
+        {
+          "name": "evidence-link-index",
+          "jobid": 35,
+          "active": true,
+          "schedule": "9-59/10 * * * *"
+        },
+        {
+          "name": "layer2-onboarding-snapshot",
+          "jobid": 36,
+          "active": true,
+          "schedule": "53 */2 * * *"
+        },
+        {
+          "name": "cron-history-retention",
+          "jobid": 37,
+          "active": false,
+          "schedule": "37 3 * * *"
+        },
+        {
+          "name": "platform-resource-observe",
+          "jobid": 38,
+          "active": true,
+          "schedule": "0 * * * *"
+        },
+        {
+          "name": "search-refresh-requested",
+          "jobid": 39,
+          "active": true,
+          "schedule": "6-59/10 * * * *"
+        },
+        {
+          "name": "layer1-run-driver",
+          "jobid": 40,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "layer1-auto-ingest",
+          "jobid": 41,
+          "active": true,
+          "schedule": "34 * * * *"
+        },
+        {
+          "name": "evidence-storage-dedupe-daily",
+          "jobid": 42,
+          "active": true,
+          "schedule": "17 19 * * *"
+        },
+        {
+          "name": "statistics-edition-discovery",
+          "jobid": 44,
+          "active": true,
+          "schedule": "41 2 5 * *"
+        },
+        {
+          "name": "provider-basis-rule-admit",
+          "jobid": 45,
+          "active": true,
+          "schedule": "3-59/10 * * * *"
+        },
+        {
+          "name": "course-coverage-build",
+          "jobid": 46,
+          "active": true,
+          "schedule": "47 * * * *"
+        },
+        {
+          "name": "coverage-bind",
+          "jobid": 47,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "coverage-discover",
+          "jobid": 48,
+          "active": false,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "coverage-read",
+          "jobid": 49,
+          "active": true,
+          "schedule": "30 seconds"
+        },
+        {
+          "name": "coverage-find-site",
+          "jobid": 53,
+          "active": true,
+          "schedule": "1-59/3 * * * *"
+        },
+        {
+          "name": "provider-document-check-monthly",
+          "jobid": 54,
+          "active": true,
+          "schedule": "23 21 1 * *"
+        },
+        {
+          "name": "provider-document-check-weekly-q4",
+          "jobid": 55,
+          "active": true,
+          "schedule": "23 21 * 10-12 1"
+        },
+        {
+          "name": "coverage-reextract",
+          "jobid": 57,
+          "active": false,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "scholarship-publication-review",
+          "jobid": 58,
+          "active": true,
+          "schedule": "17 20 * * *"
+        },
+        {
+          "name": "coverage-admit",
+          "jobid": 59,
+          "active": true,
+          "schedule": "3-59/10 * * * *"
+        },
+        {
+          "name": "course-completeness-build",
+          "jobid": 61,
+          "active": true,
+          "schedule": "52 * * * *"
+        },
+        {
+          "name": "campus-regional-class-refresh",
+          "jobid": 62,
+          "active": true,
+          "schedule": "41 3 * * *"
+        },
+        {
+          "name": "scholarship-read",
+          "jobid": 63,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "scholarship-discover",
+          "jobid": 64,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "platform-health",
+          "jobid": 65,
+          "active": true,
+          "schedule": "8-59/10 * * * *"
+        },
+        {
+          "name": "provider-priority-refresh",
+          "jobid": 74,
+          "active": true,
+          "schedule": "33 20 * * *"
+        },
+        {
+          "name": "course-link-search",
+          "jobid": 75,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "course-link-reverse",
+          "jobid": 76,
+          "active": false,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "fee-wording-rules",
+          "jobid": 78,
+          "active": true,
+          "schedule": "37 * * * *"
+        },
+        {
+          "name": "coverage-discover-2",
+          "jobid": 79,
+          "active": false,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "link-refresh",
+          "jobid": 80,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "course-link-search-worker",
+          "jobid": 81,
+          "active": false,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "firecrawl-credit",
+          "jobid": 82,
+          "active": true,
+          "schedule": "*/15 * * * *"
+        },
+        {
+          "name": "provider-facts",
+          "jobid": 83,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "ranking-link",
+          "jobid": 84,
+          "active": true,
+          "schedule": "37 * * * *"
+        },
+        {
+          "name": "scholarship-savings",
+          "jobid": 86,
+          "active": true,
+          "schedule": "41 20 * * *"
+        },
+        {
+          "name": "scholarship-discover-refill",
+          "jobid": 87,
+          "active": true,
+          "schedule": "23 * * * *"
+        },
+        {
+          "name": "fee-period-settle",
+          "jobid": 92,
+          "active": true,
+          "schedule": "5-59/10 * * * *"
+        },
+        {
+          "name": "provider-english-defaults",
+          "jobid": 94,
+          "active": true,
+          "schedule": "3-59/10 * * * *"
+        },
+        {
+          "name": "coverage-ai-match-prepare",
+          "jobid": 96,
+          "active": true,
+          "schedule": "*/2 * * * *"
+        },
+        {
+          "name": "coverage-ai-match",
+          "jobid": 97,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "coverage-reidentify",
+          "jobid": 98,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "provider-calendar-intakes",
+          "jobid": 99,
+          "active": false,
+          "schedule": "7-59/10 * * * *"
+        },
+        {
+          "name": "provider-calendar-defaults",
+          "jobid": 100,
+          "active": false,
+          "schedule": "3-59/10 * * * *"
+        },
+        {
+          "name": "scholarship-audience",
+          "jobid": 102,
+          "active": true,
+          "schedule": "41 * * * *"
+        },
+        {
+          "name": "scholarship-nationality",
+          "jobid": 104,
+          "active": true,
+          "schedule": "3-59/10 * * * *"
+        },
+        {
+          "name": "scholarship-course-attribute",
+          "jobid": 105,
+          "active": true,
+          "schedule": "*/15 * * * *"
+        },
+        {
+          "name": "scholarship-course-attribute-full",
+          "jobid": 106,
+          "active": true,
+          "schedule": "51 20 * * *"
+        },
+        {
+          "name": "scholarship-reread-cadence",
+          "jobid": 107,
+          "active": true,
+          "schedule": "37 19 * * *"
+        },
+        {
+          "name": "firecrawl-runs",
+          "jobid": 108,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "firecrawl-targets",
+          "jobid": 109,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "firecrawl-panel-figures",
+          "jobid": 110,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "coverage-admit-intakes",
+          "jobid": 111,
+          "active": true,
+          "schedule": "5-59/10 * * * *"
+        },
+        {
+          "name": "adapter-overwrite",
+          "jobid": 112,
+          "active": true,
+          "schedule": "9-59/10 * * * *"
+        },
+        {
+          "name": "better-page-revert",
+          "jobid": 113,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "scholarship-fee-alignment",
+          "jobid": 114,
+          "active": true,
+          "schedule": "47 * * * *"
+        },
+        {
+          "name": "exit-awards-apply",
+          "jobid": 115,
+          "active": true,
+          "schedule": "37 * * * *"
+        },
+        {
+          "name": "provider-fee-ranges-refresh",
+          "jobid": 117,
+          "active": true,
+          "schedule": "57 * * * *"
+        },
+        {
+          "name": "host-pages-apply",
+          "jobid": 121,
+          "active": true,
+          "schedule": "42 * * * *"
+        },
+        {
+          "name": "university-reread-requests",
+          "jobid": 123,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "admin-jobs",
+          "jobid": 124,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "course-field-source-build",
+          "jobid": 126,
+          "active": true,
+          "schedule": "55 * * * *"
+        },
+        {
+          "name": "retention-worker",
+          "jobid": 127,
+          "active": true,
+          "schedule": "*/2 * * * *"
+        },
+        {
+          "name": "l4-rule-unofficial-source",
+          "jobid": 128,
+          "active": true,
+          "schedule": "17 3 * * *"
+        },
+        {
+          "name": "l4-rule-fee-year-align",
+          "jobid": 129,
+          "active": true,
+          "schedule": "27 3 * * *"
+        },
+        {
+          "name": "l4-rule-low-agreement",
+          "jobid": 130,
+          "active": false,
+          "schedule": "37 3 * * *"
+        },
+        {
+          "name": "provider-contact-page",
+          "jobid": 146,
+          "active": false,
+          "schedule": "*/3 * * * *"
+        },
+        {
+          "name": "cricos-peo",
+          "jobid": 147,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "scholarship-auto-publish",
+          "jobid": 148,
+          "active": true,
+          "schedule": "29 * * * *"
+        },
+        {
+          "name": "scholarship-listing",
+          "jobid": 149,
+          "active": true,
+          "schedule": "7-59/15 * * * *"
+        },
+        {
+          "name": "central-find",
+          "jobid": 150,
+          "active": true,
+          "schedule": "2-59/5 * * * *"
+        },
+        {
+          "name": "cron-history-trim",
+          "jobid": 151,
+          "active": false,
+          "schedule": "23 4 * * *"
+        },
+        {
+          "name": "scholarship-ai-extract",
+          "jobid": 152,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "scholarship-ai-backfill",
+          "jobid": 153,
+          "active": true,
+          "schedule": "13 15 * * *"
+        },
+        {
+          "name": "provider-onboarding",
+          "jobid": 154,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "central-ai",
+          "jobid": 155,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "openrouter-balance",
+          "jobid": 157,
+          "active": true,
+          "schedule": "*/15 * * * *"
+        },
+        {
+          "name": "onboarding-pilot-snapshot",
+          "jobid": 158,
+          "active": false,
+          "schedule": "7 * * * *"
+        },
+        {
+          "name": "coverage-read-2",
+          "jobid": 159,
+          "active": true,
+          "schedule": "30 seconds"
+        },
+        {
+          "name": "progress-snapshot",
+          "jobid": 160,
+          "active": true,
+          "schedule": "9 * * * *"
+        },
+        {
+          "name": "studysearch-codes",
+          "jobid": 161,
+          "active": true,
+          "schedule": "41 * * * *"
+        },
+        {
+          "name": "enrich-coverage-snapshot",
+          "jobid": 162,
+          "active": true,
+          "schedule": "7 * * * *"
+        },
+        {
+          "name": "provider-type-classify",
+          "jobid": 164,
+          "active": true,
+          "schedule": "47 3 * * *"
+        },
+        {
+          "name": "website-sync-check",
+          "jobid": 171,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "website-reference-cache",
+          "jobid": 172,
+          "active": true,
+          "schedule": "2-59/15 * * * *"
+        },
+        {
+          "name": "waste-guard",
+          "jobid": 175,
+          "active": true,
+          "schedule": "17 * * * *"
+        },
+        {
+          "name": "enrich-focus-refresh",
+          "jobid": 176,
+          "active": true,
+          "schedule": "41 17 * * 0"
+        },
+        {
+          "name": "policy-auto-approve",
+          "jobid": 179,
+          "active": true,
+          "schedule": "5-59/10 * * * *"
+        },
+        {
+          "name": "hygiene-check",
+          "jobid": 183,
+          "active": true,
+          "schedule": "23 16 * * 0"
+        },
+        {
+          "name": "logo-find",
+          "jobid": 185,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "flag-recheck",
+          "jobid": 188,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "zoho-sync-check",
+          "jobid": 199,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "api-usage-rollup",
+          "jobid": 200,
+          "active": true,
+          "schedule": "20 13 * * *"
+        },
+        {
+          "name": "storage-size-daily",
+          "jobid": 204,
+          "active": true,
+          "schedule": "25 13 * * *"
+        },
+        {
+          "name": "housekeeping-daily",
+          "jobid": 206,
+          "active": true,
+          "schedule": "47 16 * * *"
+        },
+        {
+          "name": "policy-add-tests",
+          "jobid": 208,
+          "active": true,
+          "schedule": "17 * * * *"
+        },
+        {
+          "name": "companion-read",
+          "jobid": 210,
+          "active": true,
+          "schedule": "41 * * * *"
+        },
+        {
+          "name": "consumer-api-guard",
+          "jobid": 213,
+          "active": true,
+          "schedule": "23 18 * * *"
+        },
+        {
+          "name": "adapter-build-readiness",
+          "jobid": 219,
+          "active": true,
+          "schedule": "17 * * * *"
+        },
+        {
+          "name": "provider-website-check",
+          "jobid": 222,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "course-relink",
+          "jobid": 224,
+          "active": true,
+          "schedule": "4-59/10 * * * *"
+        },
+        {
+          "name": "scholarship-recheck",
+          "jobid": 229,
+          "active": true,
+          "schedule": "*/2 * * * *"
+        },
+        {
+          "name": "nz-cop",
+          "jobid": 232,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "ca-dli-flag",
+          "jobid": 234,
+          "active": true,
+          "schedule": "17 19 * * *"
+        },
+        {
+          "name": "field-gap-queue",
+          "jobid": 243,
+          "active": true,
+          "schedule": "23 * * * *"
+        },
+        {
+          "name": "enrich-plan-run",
+          "jobid": 248,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "enrich-plan-auto",
+          "jobid": 249,
+          "active": true,
+          "schedule": "41 * * * *"
+        },
+        {
+          "name": "provider-field-daily",
+          "jobid": 251,
+          "active": true,
+          "schedule": "55 19 * * *"
+        },
+        {
+          "name": "fee-reader",
+          "jobid": 256,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "toolset-use-daily",
+          "jobid": 259,
+          "active": true,
+          "schedule": "58 19 * * *"
+        },
+        {
+          "name": "settings-backup-daily",
+          "jobid": 260,
+          "active": true,
+          "schedule": "50 19 * * *"
+        },
+        {
+          "name": "course-list-read",
+          "jobid": 262,
+          "active": true,
+          "schedule": "3-59/10 * * * *"
+        },
+        {
+          "name": "queue-watch",
+          "jobid": 267,
+          "active": true,
+          "schedule": "4-59/15 * * * *"
+        },
+        {
+          "name": "credential-read",
+          "jobid": 270,
+          "active": true,
+          "schedule": "6-59/10 * * * *"
+        },
+        {
+          "name": "country-scope-gate",
+          "jobid": 271,
+          "active": true,
+          "schedule": "38 * * * *"
+        },
+        {
+          "name": "stats-15m",
+          "jobid": 273,
+          "active": true,
+          "schedule": "1-59/15 * * * *"
+        },
+        {
+          "name": "programme-discover",
+          "jobid": 283,
+          "active": true,
+          "schedule": "12-59/30 * * * *"
+        },
+        {
+          "name": "programme-read",
+          "jobid": 284,
+          "active": true,
+          "schedule": "8-59/10 * * * *"
+        },
+        {
+          "name": "programme-create",
+          "jobid": 285,
+          "active": true,
+          "schedule": "44 * * * *"
+        },
+        {
+          "name": "source-find",
+          "jobid": 288,
+          "active": true,
+          "schedule": "16-59/20 * * * *"
+        },
+        {
+          "name": "gap-causes",
+          "jobid": 294,
+          "active": true,
+          "schedule": "55 * * * *"
+        },
+        {
+          "name": "central-attach",
+          "jobid": 300,
+          "active": true,
+          "schedule": "48 * * * *"
+        },
+        {
+          "name": "transition-recheck",
+          "jobid": 307,
+          "active": true,
+          "schedule": "41 3 * * *"
+        },
+        {
+          "name": "course-url-fill",
+          "jobid": 311,
+          "active": true,
+          "schedule": "23 2 * * *"
+        },
+        {
+          "name": "zero-yield-detect",
+          "jobid": 319,
+          "active": true,
+          "schedule": "21 * * * *"
+        },
+        {
+          "name": "ledger-retention",
+          "jobid": 326,
+          "active": true,
+          "schedule": "37 3 * * *"
+        },
+        {
+          "name": "health-hourly",
+          "jobid": 328,
+          "active": true,
+          "schedule": "11 * * * *"
+        },
+        {
+          "name": "no-page-propose",
+          "jobid": 335,
+          "active": true,
+          "schedule": "37 * * * *"
+        },
+        {
+          "name": "entry-matrix-read",
+          "jobid": 337,
+          "active": true,
+          "schedule": "4-59/5 * * * *"
+        },
+        {
+          "name": "layer4-auto-admit",
+          "jobid": 341,
+          "active": true,
+          "schedule": "47 * * * *"
+        },
+        {
+          "name": "layer1-register-end-dates",
+          "jobid": 344,
+          "active": true,
+          "schedule": "41 4 * * *"
+        },
+        {
+          "name": "course-coverage-snapshot",
+          "jobid": 345,
+          "active": true,
+          "schedule": "2-59/5 * * * *"
+        },
+        {
+          "name": "admin-read-snapshots",
+          "jobid": 346,
+          "active": true,
+          "schedule": "* * * * *"
+        },
+        {
+          "name": "aer-outcome-register",
+          "jobid": 347,
+          "active": true,
+          "schedule": "*/5 * * * *"
+        },
+        {
+          "name": "platform-alerts",
+          "jobid": 348,
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "ops-scorecard",
+          "jobid": 349,
+          "active": true,
+          "schedule": "29 19 * * *"
+        },
+        {
+          "name": "reread-pilot",
+          "jobid": 350,
+          "active": true,
+          "schedule": "41 18 * * *"
+        },
+        {
+          "name": "intake-dates-apply",
+          "jobid": 351,
+          "active": true,
+          "schedule": "26 * * * *"
+        },
+        {
+          "name": "provider-description-read",
+          "jobid": 352,
+          "active": true,
+          "schedule": "6,16,26,56 * * * *"
+        },
+        {
+          "name": "aer-reconcile",
+          "jobid": 353,
+          "active": true,
+          "schedule": "27 * * * *"
+        },
+        {
+          "name": "integration-validate",
+          "jobid": 354,
+          "active": true,
+          "schedule": "21,51 * * * *"
+        },
+        {
+          "name": "worker-outcome-check",
+          "jobid": 355,
+          "active": false,
+          "schedule": "4-59/10 * * * *"
+        },
+        {
+          "name": "ranking-edition-check",
+          "jobid": 356,
+          "active": true,
+          "schedule": "14 4 * * *"
+        },
+        {
+          "name": "source-proof-feed",
+          "jobid": 357,
+          "active": true,
+          "schedule": "14,44 * * * *"
+        },
+        {
+          "name": "aer-scheduled-read",
+          "jobid": 358,
+          "active": true,
+          "schedule": "13 * * * *"
+        },
+        {
+          "name": "ops-controller",
+          "jobid": 359,
+          "active": true,
+          "schedule": "24,54 * * * *"
+        },
+        {
+          "name": "ops-job-lifecycle",
+          "jobid": 360,
+          "active": true,
+          "schedule": "*/2 * * * *"
+        },
+        {
+          "name": "field-absence-recovery",
+          "jobid": 361,
+          "active": true,
+          "schedule": "26 * * * *"
+        },
+        {
+          "name": "provider-identity-check",
+          "jobid": 362,
+          "active": true,
+          "schedule": "16 * * * *"
+        },
+        {
+          "name": "scholarship-discovery-settle",
+          "jobid": 363,
+          "active": true,
+          "schedule": "16 * * * *"
+        },
+        {
+          "name": "coverage-reconcile",
+          "jobid": 364,
+          "active": true,
+          "schedule": "26 * * * *"
+        },
+        {
+          "name": "ops-diagnose",
+          "jobid": 365,
+          "active": true,
+          "schedule": "27,57 * * * *"
+        },
+        {
+          "name": "layer4-readiness",
+          "jobid": 367,
+          "active": true,
+          "schedule": "22,52 * * * *"
+        },
+        {
+          "name": "ai-eval",
+          "jobid": 368,
+          "active": true,
+          "schedule": "7 * * * *"
+        },
+        {
+          "name": "work-continuity",
+          "jobid": 369,
+          "active": true,
+          "schedule": "8,18,28,58 * * * *"
+        },
+        {
+          "name": "work-continuity-lanes",
+          "jobid": 370,
+          "active": true,
+          "schedule": "3,13,23,33,43,53 * * * *"
+        },
+        {
+          "name": "scholarship-coverage-classify",
+          "jobid": 371,
+          "active": true,
+          "schedule": "29 * * * *"
+        },
+        {
+          "name": "scholarship-coverage-recover",
+          "jobid": 372,
+          "active": true,
+          "schedule": "31 * * * *"
+        },
+        {
+          "name": "layer4-interventions",
+          "jobid": 373,
+          "active": true,
+          "schedule": "14,44 * * * *"
+        },
+        {
+          "name": "first-run-verify",
+          "jobid": 374,
+          "active": true,
+          "schedule": "2,32 * * * *"
+        },
+        {
+          "name": "layer4-groups",
+          "jobid": 375,
+          "active": true,
+          "schedule": "6,16,26,46,56 * * * *"
+        },
+        {
+          "name": "calendar-reread",
+          "jobid": 378,
+          "active": true,
+          "schedule": "13 * * * *"
+        },
+        {
+          "name": "process-results",
+          "jobid": 379,
+          "active": true,
+          "schedule": "53 * * * *"
+        }
+      ]
+    },
+    "frontend": {
+      "observed_at": "2026-11-06T17:11:58.772605Z",
+      "origin": "https://coursefinder-pilot.techm.workers.dev",
+      "http_status": 200,
+      "asset_path": "/assets/index-DYGiA8uP.js",
+      "asset_status": 200,
+      "asset_sha256": "2099cae683638b50dbec35ef7e3a047b3ac26f513fd82900e1456389aed88540",
+      "ui_version_present": true,
+      "package_version_present": true,
+      "exact_deployment_commit": null,
+      "probe_limitations": "Earlier default urllib User-Agent requests returned403; earlier identified request returned200 but local asset-selection assertion failed on vendor preloads. This successful identified GET isolates the index module; no auth or challenge bypass."
+    },
+    "health": {
+      "observed_at": "2026-11-06 17:17:25.974627+00",
+      "intake_cases": [
+        {
+          "status": "active",
+          "item_id": 270956,
+          "intake_id": "69e297e3-63eb-40a9-82a4-4546bc259939",
+          "start_date": null,
+          "course_code": "290487af-53c7-4da3-a0b7-2edabf5a9601",
+          "intake_year": null,
+          "intake_label": "September",
+          "item_course_id": "106d5a7b-3a55-500e-8a2c-928f7abbfdf6",
+          "current_deadline": "2027-01-15",
+          "intake_course_id": "106d5a7b-3a55-500e-8a2c-928f7abbfdf6",
+          "item_evidence_id": "aebf60e0-ec62-4577-95ff-fcaeeae4f0ee",
+          "source_intake_key": "290487af-53c7-4da3-a0b7-2edabf5a9601:current:september",
+          "intake_evidence_id": "39a4fa57-41cd-408a-b28d-6c2a3a9cb871"
+        },
+        {
+          "status": "active",
+          "item_id": 271178,
+          "intake_id": "3d0a9483-8437-4e56-942e-4a8e13e74648",
+          "start_date": null,
+          "course_code": "9ed563a1-8f4f-40e1-88e4-a12700c5f332",
+          "intake_year": null,
+          "intake_label": "August",
+          "item_course_id": "1556f870-343b-5802-a4d4-afd7c442e88f",
+          "current_deadline": "2026-06-15",
+          "intake_course_id": "1556f870-343b-5802-a4d4-afd7c442e88f",
+          "item_evidence_id": "1fe3fa08-ff12-47ad-8d6f-9ec20a470da9",
+          "source_intake_key": "9ed563a1-8f4f-40e1-88e4-a12700c5f332:current:august",
+          "intake_evidence_id": "95813280-8b86-4c9f-85fb-76da04cbd494"
+        },
+        {
+          "status": "active",
+          "item_id": 273083,
+          "intake_id": "eff46f76-e740-4e97-a0a6-a80ebd0bb7b8",
+          "start_date": null,
+          "course_code": "103762A",
+          "intake_year": null,
+          "intake_label": "February",
+          "item_course_id": "24433d10-bd19-4149-9f88-eca979d7bbd7",
+          "current_deadline": "2027-02-01",
+          "intake_course_id": "24433d10-bd19-4149-9f88-eca979d7bbd7",
+          "item_evidence_id": "2d4f90cc-15e7-467e-939c-934850b8a03b",
+          "source_intake_key": "24433d10-bd19-4149-9f88-eca979d7bbd7:ai:february",
+          "intake_evidence_id": "2d4f90cc-15e7-467e-939c-934850b8a03b"
+        },
+        {
+          "status": "active",
+          "item_id": 273093,
+          "intake_id": "bb9e1a66-2689-476b-a1cd-48dce5b2c37c",
+          "start_date": null,
+          "course_code": "118872E",
+          "intake_year": null,
+          "intake_label": "February",
+          "item_course_id": "24772f43-c7bb-4cb1-adb3-dc14e3eeb04e",
+          "current_deadline": "2027-01-13",
+          "intake_course_id": "24772f43-c7bb-4cb1-adb3-dc14e3eeb04e",
+          "item_evidence_id": "123d4ac6-1164-4718-8575-c86de5fc1d0f",
+          "source_intake_key": "118872e:current:february",
+          "intake_evidence_id": "123d4ac6-1164-4718-8575-c86de5fc1d0f"
+        },
+        {
+          "status": "active",
+          "item_id": 273117,
+          "intake_id": "0dd7a8fc-bbfe-44cf-9fd7-415791f8f0d4",
+          "start_date": null,
+          "course_code": "096382J",
+          "intake_year": null,
+          "intake_label": "February",
+          "item_course_id": "24fadcfa-fd8e-49dc-9a5a-290745c3aa7a",
+          "current_deadline": "2027-01-03",
+          "intake_course_id": "24fadcfa-fd8e-49dc-9a5a-290745c3aa7a",
+          "item_evidence_id": "b9d0e0ad-004f-4726-a838-95659d7f58a4",
+          "source_intake_key": "096382j:current:february",
+          "intake_evidence_id": "75101962-4731-44de-973c-93419afb07b8"
+        }
+      ],
+      "queues": [
+        {
+          "key": "ai_page_match",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:05:48.406059+00:00"
+        },
+        {
+          "key": "central_ai",
+          "state": "nothing_left",
+          "reason": "5 central pages the ai could not read",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-05T04:15:18.786556+00:00"
+        },
+        {
+          "key": "central_find",
+          "state": "nothing_left",
+          "reason": "1 providers whose central page search failed",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-22T03:54:11.025363+00:00"
+        },
+        {
+          "key": "companion_read",
+          "state": "nothing_left",
+          "reason": "247 companion pages given up after repeated failed reads",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-02T10:42:14.399783+00:00"
+        },
+        {
+          "key": "course_list_read",
+          "state": "out_of_toolset",
+          "reason": "Work is waiting but firecrawl:reads cannot be used until a person acts (credit or balance used up)",
+          "pending": 67,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:03:05.281243+00:00"
+        },
+        {
+          "key": "course_page_discover",
+          "state": "paused",
+          "reason": "Switched off by a person: coverage-discover-2, coverage-discover",
+          "pending": 18,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:37:09.537559+00:00"
+        },
+        {
+          "key": "course_page_read",
+          "state": "nothing_left",
+          "reason": "2091 matched pages given up after three failed reads",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T14:55:35.88949+00:00"
+        },
+        {
+          "key": "course_page_search",
+          "state": "out_of_toolset",
+          "reason": "Work is waiting but firecrawl:course_search cannot be used until a person acts (credit or balance used up)",
+          "pending": 265,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T11:56:00.359438+00:00"
+        },
+        {
+          "key": "credential_read",
+          "state": "nothing_left",
+          "reason": "485 course pages that state no credential, or more than one level",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-01T01:06:08.870743+00:00"
+        },
+        {
+          "key": "enrich_plans",
+          "state": "moving",
+          "reason": null,
+          "pending": 38,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T17:00:00.938179+00:00"
+        },
+        {
+          "key": "fee_reader",
+          "state": "nothing_left",
+          "reason": "5 fee pages the ai could not read",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-04T15:22:22.646034+00:00"
+        },
+        {
+          "key": "onboarding",
+          "state": "stuck",
+          "reason": "1 waiting and nothing finished since 06 Nov 23:36",
+          "pending": 1,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:36:00.297196+00:00"
+        },
+        {
+          "key": "programme_read",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-23T22:28:14.095082+00:00"
+        },
+        {
+          "key": "scholarship_candidates",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T14:30:26.110361+00:00"
+        },
+        {
+          "key": "scholarship_discover",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T02:05:00.501111+00:00"
+        },
+        {
+          "key": "scholarship_read",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 20,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 20,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T17:00:15.305184+00:00"
+        },
+        {
+          "key": "source_find",
+          "state": "moving",
+          "reason": null,
+          "pending": 1000,
+          "per_hour": 1,
+          "checked_at": "2026-11-06T17:04:00.252173+00:00",
+          "done_window": 1,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T16:56:17.025002+00:00"
+        }
+      ],
+      "alert_summary": {
+        "overdue": 75,
+        "pending": 77,
+        "unlinked": 0,
+        "duplicates": 0,
+        "historical": 62,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "coverage_queues:discover",
+          "queue_watch:course_page_search"
+        ],
+        "unattempted": 77,
+        "active_events": 15
+      },
+      "jobs": [
+        {
+          "name": "integration-validate",
+          "jobid": 354,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T16:51:07.056936+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "worker-outcome-check",
+          "jobid": 355,
+          "active": false,
+          "last_failure": null,
+          "last_success": null,
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "consumer-api-guard",
+          "jobid": 213,
+          "active": true,
+          "last_failure": null,
+          "last_success": null,
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "first-run-verify",
+          "jobid": 374,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:02:06.168439+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "layer4-groups",
+          "jobid": 375,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:16:04.966929+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "aer-outcome-register",
+          "jobid": 347,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:15:00.505872+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "platform-alerts",
+          "jobid": 348,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:10:00.519043+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "aer-scheduled-read",
+          "jobid": 358,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:13:10.750935+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "layer4-readiness",
+          "jobid": 367,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T16:52:11.939776+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "aer-reconcile",
+          "jobid": 353,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T16:27:04.279181+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "intake-dates-apply",
+          "jobid": 351,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T16:26:25.45625+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "provider-description-read",
+          "jobid": 352,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:16:10.102228+00:00",
+          "failed_in_recent_2000": 0
+        },
+        {
+          "name": "central-find",
+          "jobid": 150,
+          "active": true,
+          "last_failure": null,
+          "last_success": "2026-11-06T17:17:00.524245+00:00",
+          "failed_in_recent_2000": 0
+        }
+      ],
+      "recent_job_summary": {
+        "running": 0,
+        "failures": 0,
+        "bounded_rows": 2000,
+        "latest_start": "2026-11-06T17:17:00.44032+00:00",
+        "oldest_start": "2026-11-06T16:02:00.093652+00:00"
+      },
+      "controls": {
+        "run_now.jobs": [
+          "intake-dates-apply"
+        ],
+        "pdesc.enabled": 1,
+        "pdesc.ai_usd_max": 1,
+        "alerts.webhook_enabled": false,
+        "alerts.delivery_enabled": true,
+        "alerts.collect_within_minutes": 120
+      }
+    },
+    "account_state": "pilot protection_rules empty/deployment_branch_policy null and environment-secret GET403 this execution; atomic6d95 owner/lease null/adoptionpending. No account control changed.",
+    "job_count_difference": {
+      "previous_handover_active": 164,
+      "current_active": 163,
+      "current_total": 176,
+      "previous_handover_observed_at": "2026-11-06T13:46:04Z",
+      "current_observed_at": "2026-11-06T17:07:23.606286Z",
+      "attribution": "Unresolved aggregate discrepancy: historical handover lacks a complete per-job snapshot. Bounded selected admin-control event query since handover returned no matching job events, not proof no direct/automatic change occurred. worker-outcome-check is currently paused and source created it paused; do not infer it is the changed job or reactivate it.",
+      "next_safe_action": "Reconcile actual per-job historical/audit evidence before production release; preserve current settings and do not invent an actor or a configuration change."
+    },
+    "local_worktree_inventory": [
+      {
+        "worktree": "/workspace/delivery-pilot",
+        "local_head": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+        "branch": "delivery895-final-register-preservation",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/delivery-893",
+        "local_head": "99e00249cf2698ef384f724a6649ce901082adc4",
+        "branch": "delivery-893-release",
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-894",
+        "local_head": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+        "branch": null,
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-p0-deadline",
+        "local_head": "bad902ad387115004d12b629b34ab21b5266bb2c",
+        "branch": "delivery-p0-deadline-382",
+        "uncommitted": [
+          "?? deadline-cli-generation.json",
+          "?? deadline-enabled-review-validation.json",
+          "?? deadline-local-validation.json",
+          "?? deadline-pg17-enabled-review-validation.log",
+          "?? deadline-pg17-validation.json",
+          "?? deadline-pg17-validation.log",
+          "?? deadline-review-paste-refusal.log",
+          "?? deadline-s233-validation.log",
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/repair-ownership-followup",
+        "local_head": "c13b516d0383067a734a30077da3ddf3e66e201a",
+        "branch": "ws382-screenshot-guard",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/review-895-readonly",
+        "local_head": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+        "branch": "ws382-safe-dispatch-inputs",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1702/review-context",
+        "local_head": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "branch": null,
+        "uncommitted": []
+      }
+    ],
+    "critical_operations_initiated": [],
+    "new_workflows_started": [],
+    "production_changes": false
   }
 }

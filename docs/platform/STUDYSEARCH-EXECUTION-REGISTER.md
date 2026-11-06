@@ -17,19 +17,19 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Scheduled recovery from immutable GitHub records. Five-source workstream completed; root continues a bounded read-only health/intake reconciliation. Actual account fencing and ownership acceptance remain blocked.
+**Reason:** One bounded recovery cycle completed from GitHub. Source context, current intake and operational evidence are published; stopping with no production authority accepted and no critical operation initiated.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Fresh 17:07 UTC DB read: 1,791 migrations/head20261106400000, helper f01e9/course guard ff3d6, no other active client transactions, 163 active jobs of176. Frontend17:11HTTP/asset200/UI2.15.489/package0.1.416/hash2099cae6; coverage edge239 ACTIVE/hash995d5111 unchanged. ExactCloudflarecommit/authenticated UI remain unverified.
+**Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416 and HTTP/asset200/hash2099cae6 verified17:11UTC; edge239 ACTIVE/hash995d5111 unchanged. DB17:07 has1,791migrations/head20261106400000/helperf01e9/courseguardff3d6. Last exact read17:18:57 shows zero other active client transactions. Current163activejobs/176total differs from historical164; attribution unresolved. ExactCloudflarecommit/authenticatedUI remain unknown.
 
 <!-- controller-handover:completed -->
-**Completed:** Independent review and parent inspection of five official pages corroborate four application-closing readings; UNE retained3January2027 remains unresolved. These observations do not replace historical97/14/41 cohort classification or approve exact catalogue pairing. All current candidate checks remain successful and completed repairs are preserved. Stale892integrated-CI blocker corrected. Pilot merges0; production releases0; corrections0.
+**Completed:** Four of five official current-page contexts corroborate application-close dates; UNE retained date remains unresolved. All five exact catalogue intake/date matches verified, but years are null and audience pairing is unverified. One additional suspect date verified in all three consumer SQL outputs; cumulative sample9dates/7courses spans16:16and17:18UTC. Stale892/895 pending-CI coordination corrected; current checks all success, no suite rerun. PilotPRsmerged0; productionreleases0; correctedrows0.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-P0-DEADLINE-CONTEXT-1702 completed in clean detached worktree7984e7bd at/workspace/resume-1702/review-context, owning only local public-source captures/review JSON. Root owns live read-only SQL, canonical evidence and Admin record updates. No code, function or migration writes; no agent remains active.
+**Workstreams:** WS-P0-DEADLINE-CONTEXT-1702 completed in clean detached7984e7bd worktree, with five public-source captures and independent review; root verified contexts/current rows and owns canonical evidence. Seven worktrees inventoried: tracked files clean; predecessor validation logs and node_modules remain untracked in delivery893/894/896. Local refs are evidence, not instructions to republish. No active agent, source/function/migration change or new branch.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,16 +38,16 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** Root plans bounded read-only reconciliation. No production reservation, write, deployment or workflow running. Only historical queued34749286102 remains reconciled. The three-course consumer read timed out at4s and is stopped; no result counted. Atomic6d95remains owner/lease null, adoptionpending, targeting stopped142259execution. Current execution has not accepted control.
+**In flight:** No operation initiated by this execution remains active: reviewer, SQL and local checks complete, no production reservation/write/deployment or new workflow. Platform scheduled jobs continue independently. GitHub has no running workflow; only reconciled historical34749286102 is queued. Atomic6d95 remains owner/lease null and adoption pending, targeting stopped142259execution. No active ownership accepted or released.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Reconcile exact five live intake IDs/years/labels against the public source contexts and refresh alerts/jobs/queues in permitted load windows. Inspect consumer query plan before any smaller probe; do not retry the failed three-course batch unchanged. Account owners still must complete D-382-CUTOVER before actual-execution acceptance and releases.
+**Next safe action:** Resolve UNE historical context and the reviewed intake year/audience/artifact gaps; reconcile the164→163active-job count difference through bounded evidence. Remaining58consumercourses need planned one-course probes within load windows. Account owners complete D-382-CUTOVER before acceptance by the actual execution, reservations and sequential895→896→894→893 releases; original three-row correction remains separately gated.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** Four current source corroborations are not historical artifact or exact intake/audience proof; no withdrawal is justified. UNE date history remains unknown. Three-course consumer timeout contributes no new exposure results; original eight-date/six-course SQL evidence remains historical16:16UTC. Latest alert measure is still15:30UTC until refreshed. pilot remains unprotected and secret API403. All production, admission, hold, consumer and reserve gates remain.
+**Risks/recovery:** Alert backlog17:17UTC is77pending/allunattempted/75overdue:62historical events,15active across4conditions,0duplicates. Delivery remains enabled/webhookoff; collection not recovered. Latest2,000cronrecords cover16:02–17:17UTC with0failures, not two hours. Three-course consumer probe timed out; only a separately planned one-course probe passed. Four current source corroborations do not authorise disposition. pilot is unprotected/secretAPI403; actual fencing, ownership and release/admission/reserve/consumer gates remain.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [source context and bounded deadline audit](validation/2026-11-06-deadline-semantic-p0.json), [current checks and controls](validation/2026-11-06-controller-cutover-verification.json), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No new production acceptance inferred.
+**Evidence:** [five-source/exact-intake/consumer audit](validation/2026-11-06-deadline-semantic-p0.json), [health/jobs/controls/worktrees](validation/2026-11-06-controller-cutover-verification.json), [corrected892status](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/892#issuecomment-6690815616), [corrected895status](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6690817860), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). No unattended execution, heartbeat or successor acceptance claimed.
 
 
 ## Progress dashboard

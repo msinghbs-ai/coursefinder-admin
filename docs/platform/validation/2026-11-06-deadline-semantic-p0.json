@@ -6956,9 +6956,393 @@
       "followup": "EXPLAIN without ANALYZE on the exact website identifier predicate shows a sequential scan of search.course_documents and an indexed identifier subplan. Plan evidence is pending publication; no index/API/schema change authorised."
     },
     "limitations": [
-      "Four current official pages corroborate closing meaning, not historical artifact integrity or exact live audience/intake mapping. Original97/14/41 cohort classification stays historical.",
-      "UNE retained3January2027 is absent from the current public page; do not invent its former context.",
-      "No production changes, ownership acceptance, test rerun or spending. Read-only health and exact intake reconciliation still underway."
+      "Four current official-page closing contexts are corroborated, but all five catalogue intakes have null years and no audience column; exact year/audience identity and historical stored-artifact integrity remain unverified. Do not clear or re-admit these rows automatically.",
+      "The original cohort97/14/41 classification remains an historical observation. Current source corroboration is a separate dimension and does not silently revise those counts.",
+      "UNE retained3January2027 is absent from the current official page and remains unresolved.",
+      "Only one additional consumer course was verified. The cumulative seven-course/nine-date sample spans16:16 and17:18UTC;58courses and all HTTP/cache exposure remain unverified.",
+      "No production correction, acceptance, release, reserve override or further source development. Existing disabled three-row authority remains exact."
+    ],
+    "completion_checkpoint_id": "CP-382-20261106T172215Z",
+    "completed_at": "2026-11-06T17:22:15Z",
+    "health_observed_at": "2026-11-06T17:17:25.974627Z",
+    "live_intake_reconciliation": [
+      {
+        "status": "active",
+        "item_id": 270956,
+        "intake_id": "69e297e3-63eb-40a9-82a4-4546bc259939",
+        "start_date": null,
+        "course_code": "290487af-53c7-4da3-a0b7-2edabf5a9601",
+        "intake_year": null,
+        "intake_label": "September",
+        "item_course_id": "106d5a7b-3a55-500e-8a2c-928f7abbfdf6",
+        "current_deadline": "2027-01-15",
+        "intake_course_id": "106d5a7b-3a55-500e-8a2c-928f7abbfdf6",
+        "item_evidence_id": "aebf60e0-ec62-4577-95ff-fcaeeae4f0ee",
+        "source_intake_key": "290487af-53c7-4da3-a0b7-2edabf5a9601:current:september",
+        "intake_evidence_id": "39a4fa57-41cd-408a-b28d-6c2a3a9cb871"
+      },
+      {
+        "status": "active",
+        "item_id": 271178,
+        "intake_id": "3d0a9483-8437-4e56-942e-4a8e13e74648",
+        "start_date": null,
+        "course_code": "9ed563a1-8f4f-40e1-88e4-a12700c5f332",
+        "intake_year": null,
+        "intake_label": "August",
+        "item_course_id": "1556f870-343b-5802-a4d4-afd7c442e88f",
+        "current_deadline": "2026-06-15",
+        "intake_course_id": "1556f870-343b-5802-a4d4-afd7c442e88f",
+        "item_evidence_id": "1fe3fa08-ff12-47ad-8d6f-9ec20a470da9",
+        "source_intake_key": "9ed563a1-8f4f-40e1-88e4-a12700c5f332:current:august",
+        "intake_evidence_id": "95813280-8b86-4c9f-85fb-76da04cbd494"
+      },
+      {
+        "status": "active",
+        "item_id": 273083,
+        "intake_id": "eff46f76-e740-4e97-a0a6-a80ebd0bb7b8",
+        "start_date": null,
+        "course_code": "103762A",
+        "intake_year": null,
+        "intake_label": "February",
+        "item_course_id": "24433d10-bd19-4149-9f88-eca979d7bbd7",
+        "current_deadline": "2027-02-01",
+        "intake_course_id": "24433d10-bd19-4149-9f88-eca979d7bbd7",
+        "item_evidence_id": "2d4f90cc-15e7-467e-939c-934850b8a03b",
+        "source_intake_key": "24433d10-bd19-4149-9f88-eca979d7bbd7:ai:february",
+        "intake_evidence_id": "2d4f90cc-15e7-467e-939c-934850b8a03b"
+      },
+      {
+        "status": "active",
+        "item_id": 273093,
+        "intake_id": "bb9e1a66-2689-476b-a1cd-48dce5b2c37c",
+        "start_date": null,
+        "course_code": "118872E",
+        "intake_year": null,
+        "intake_label": "February",
+        "item_course_id": "24772f43-c7bb-4cb1-adb3-dc14e3eeb04e",
+        "current_deadline": "2027-01-13",
+        "intake_course_id": "24772f43-c7bb-4cb1-adb3-dc14e3eeb04e",
+        "item_evidence_id": "123d4ac6-1164-4718-8575-c86de5fc1d0f",
+        "source_intake_key": "118872e:current:february",
+        "intake_evidence_id": "123d4ac6-1164-4718-8575-c86de5fc1d0f"
+      },
+      {
+        "status": "active",
+        "item_id": 273117,
+        "intake_id": "0dd7a8fc-bbfe-44cf-9fd7-415791f8f0d4",
+        "start_date": null,
+        "course_code": "096382J",
+        "intake_year": null,
+        "intake_label": "February",
+        "item_course_id": "24fadcfa-fd8e-49dc-9a5a-290745c3aa7a",
+        "current_deadline": "2027-01-03",
+        "intake_course_id": "24fadcfa-fd8e-49dc-9a5a-290745c3aa7a",
+        "item_evidence_id": "b9d0e0ad-004f-4726-a838-95659d7f58a4",
+        "source_intake_key": "096382j:current:february",
+        "intake_evidence_id": "75101962-4731-44de-973c-93419afb07b8"
+      }
+    ],
+    "consumer_followup": {
+      "observed_at": "2026-11-06T17:18:05.077210Z",
+      "current_row_observed_at": "2026-11-06T17:18:57.090115Z",
+      "source_reading": {
+        "intake_id": "122e1d54-88f4-4bd2-9907-bf5205c4d98b",
+        "current_deadline": "2027-01-04",
+        "course_id": "1ad6dd1b-4f57-4e26-9196-aab6eccec9c0",
+        "course_code": "071123A",
+        "canonical_title": "Master of Professional Accounting (Advanced)",
+        "category": "confirmed_non_closing",
+        "item_ids": [
+          272062
+        ],
+        "quotes": [
+          "Next Start Date 04 January 2027"
+        ],
+        "evidence_ids": [
+          "0e70f5cd-4546-4803-b430-41e2f20009cd"
+        ],
+        "flags": [
+          "item_and_intake_evidence_id_differ"
+        ],
+        "source_references": [
+          {
+            "intake_evidence_id": "58f17ed4-75b5-432d-881f-ee16bed063bb",
+            "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/postgraduate/master-of-professional-accounting-advanced",
+            "item_evidence_id": "0e70f5cd-4546-4803-b430-41e2f20009cd",
+            "item_id": 272062,
+            "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/postgraduate/master-of-professional-accounting-advanced"
+          }
+        ]
+      },
+      "current_catalogue_row": {
+        "observed_at": "2026-11-06 17:18:57.090115+00",
+        "item_id": 272062,
+        "item_course_id": "1ad6dd1b-4f57-4e26-9196-aab6eccec9c0",
+        "item_evidence_id": "0e70f5cd-4546-4803-b430-41e2f20009cd",
+        "item_state": "filled",
+        "item_updated_at": "2026-11-05 04:27:19.490358+00",
+        "intake_id": "122e1d54-88f4-4bd2-9907-bf5205c4d98b",
+        "intake_course_id": "1ad6dd1b-4f57-4e26-9196-aab6eccec9c0",
+        "application_deadline": "2027-01-04",
+        "status": "active",
+        "intake_label": "January",
+        "intake_year": null,
+        "intake_evidence_id": "58f17ed4-75b5-432d-881f-ee16bed063bb",
+        "course_code": "071123A",
+        "other_active_client_transactions": 0
+      },
+      "returned_intakes": {
+        "observed_at": "2026-11-06 17:18:05.07721+00",
+        "code": "071123A",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "January",
+            "month": 1,
+            "start_date": null,
+            "application_deadline": "2027-01-04"
+          },
+          {
+            "year": null,
+            "label": "June",
+            "month": 6,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "September",
+            "month": 9,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "January",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2027-01-04"
+          },
+          {
+            "year": null,
+            "label": "June",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "September",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "January",
+            "month": 1,
+            "start_date": null,
+            "application_deadline": "2027-01-04"
+          },
+          {
+            "year": null,
+            "label": "June",
+            "month": 6,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "September",
+            "month": 9,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ]
+      },
+      "result": "One additional suspect deadline date in one course returned by all three consumer SQL functions. Exact course/intake/date join remains active; item still filled.",
+      "cumulative_sample": {
+        "courses": 7,
+        "suspect_dates": 9,
+        "observation_windows_utc": [
+          "2026-11-06T16:16:35.390441Z",
+          "2026-11-06T17:18:05.077210Z"
+        ],
+        "remaining_unchecked_courses": 58,
+        "warning": "Cumulative observations, not a same-time refresh of all seven courses; HTTP/cache unverified. Payload lacks intake UUID; match is course plus date/label, reconciled separately by exact catalogue UUID."
+      }
+    },
+    "identifier_query_plan": {
+      "QUERY PLAN": [
+        {
+          "Plan": {
+            "Node Type": "Aggregate",
+            "Strategy": "Plain",
+            "Partial Mode": "Simple",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 14846.43,
+            "Total Cost": 14846.44,
+            "Plan Rows": 1,
+            "Plan Width": 8,
+            "Plans": [
+              {
+                "Node Type": "Seq Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Relation Name": "course_documents",
+                "Alias": "d",
+                "Startup Cost": 2.5,
+                "Total Cost": 14803.45,
+                "Plan Rows": 17191,
+                "Plan Width": 0,
+                "Filter": "((lower(course_stable_key) = '071123a'::text) OR (lower(course_code) = '071123a'::text) OR (ANY (course_id = (hashed SubPlan 1).col1)))",
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "SubPlan",
+                    "Subplan Name": "SubPlan 1",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "idx_course_identifiers_studysearch",
+                    "Relation Name": "course_identifiers",
+                    "Alias": "i",
+                    "Startup Cost": 0.28,
+                    "Total Cost": 2.5,
+                    "Plan Rows": 1,
+                    "Plan Width": 16,
+                    "Index Cond": "(upper(identifier) = '071123A'::text)"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "consumer_function_hashes": [
+      {
+        "signature": "website_v2_course(text)",
+        "md5": "50d22c3ccfc2a00bedb5c9cee762eec4"
+      },
+      {
+        "signature": "website_v2_course(text,text)",
+        "md5": "1c10b34fc4ea57398638d26ac9e21279"
+      },
+      {
+        "signature": "zoho_edge_course_lookup_v1(text)",
+        "md5": "f13164e532ffa51c0ca3f27ee59b5ee2"
+      },
+      {
+        "signature": "zoho_v2_course(text)",
+        "md5": "6ee09600a514e3e2dd45d31a24eaff87"
+      }
+    ],
+    "health_query": "begin read only;\nset local statement_timeout='5s';\nwith selected(item_id,intake_id) as (\n values (273117,'0dd7a8fc-bbfe-44cf-9fd7-415791f8f0d4'::uuid),\n (273093,'bb9e1a66-2689-476b-a1cd-48dce5b2c37c'::uuid),\n (273083,'eff46f76-e740-4e97-a0a6-a80ebd0bb7b8'::uuid),\n (271178,'3d0a9483-8437-4e56-942e-4a8e13e74648'::uuid),\n (270956,'69e297e3-63eb-40a9-82a4-4546bc259939'::uuid)\n), recent as materialized (\n select runid,jobid,status,start_time,end_time from cron.job_run_details order by runid desc limit 2000\n), alerts as materialized (\n select a.id,a.check_key,a.kind,a.attempts,a.created_at,a.dedupe_key,\n case when i.id is null then 'unlinked_requires_reconciliation'\n when i.resolved_at is not null or a.kind='recovered' or a.created_at<i.first_seen then 'historical_recovered_episode'\n else 'active_episode_event' end classification\n from pipeline.platform_alerts a left join pipeline.platform_issues i on i.id=a.issue_id where a.status='pending'\n)\nselect now() observed_at,\n(select jsonb_agg(jsonb_build_object('item_id',x.item_id,'intake_id',i.id,'item_course_id',f.course_id,'intake_course_id',i.course_id,'course_code',c.course_code,'current_deadline',i.application_deadline,'start_date',i.start_date,'intake_year',i.intake_year,'intake_label',i.intake_label,'status',i.status,'source_intake_key',i.source_intake_key,'item_evidence_id',f.evidence_id,'intake_evidence_id',i.evidence_id) order by x.item_id) from selected x join pipeline.field_enrich_items f on f.id=x.item_id join catalogue.course_intakes i on i.id=x.intake_id join catalogue.courses c on c.id=i.course_id) intake_cases,\n(select jsonb_agg(jsonb_build_object('key',key,'state',state,'reason',reason,'pending',pending,'per_hour',per_hour,'failed_window',failed_window,'done_window',done_window,'checked_at',checked_at,'last_progress',last_progress) order by key) from pipeline.queue_watch_state) queues,\n(select jsonb_build_object('pending',count(*),'unattempted',count(*) filter(where attempts=0),'overdue',count(*) filter(where created_at<now()-make_interval(mins=>security.pipeline_num_v1('alerts.collect_within_minutes',120)::int)),'historical',count(*) filter(where classification='historical_recovered_episode'),'active_events',count(*) filter(where classification='active_episode_event'),'unlinked',count(*) filter(where classification='unlinked_requires_reconciliation'),'active_keys',coalesce(jsonb_agg(distinct check_key) filter(where classification='active_episode_event'),'[]'::jsonb),'duplicates',(select count(*) from (select dedupe_key from alerts group by dedupe_key having count(*)>1) d)) from alerts) alert_summary,\n(select jsonb_agg(jsonb_build_object('jobid',j.jobid,'name',j.jobname,'active',j.active,'last_success',g.last_success,'failed_in_recent_2000',g.failed,'last_failure',g.last_failure)) from cron.job j left join lateral (select max(end_time) filter(where status='succeeded') last_success,count(*) filter(where status='failed') failed,max(end_time) filter(where status='failed') last_failure from recent r where r.jobid=j.jobid) g on true where j.jobname in ('provider-description-read','intake-dates-apply','aer-scheduled-read','aer-reconcile','aer-outcome-register','integration-validate','layer4-groups','layer4-readiness','consumer-api-guard','first-run-verify','central-find','worker-outcome-check','platform-alerts')) jobs,\n(select jsonb_build_object('bounded_rows',count(*),'oldest_start',min(start_time),'latest_start',max(start_time),'failures',count(*) filter(where status='failed'),'running',count(*) filter(where status='running')) from recent) recent_job_summary,\n(select jsonb_object_agg(key,value) from pipeline.platform_toolset_settings where toolset_key='pipeline' and key in ('alerts.delivery_enabled','alerts.webhook_enabled','alerts.collect_within_minutes','run_now.jobs','enrich.course_description_reask_max','central.english_search_non_university','pdesc.enabled','pdesc.ai_usd_max')) controls;\ncommit;",
+    "job_control_reconciliation": {
+      "observed_at": "2026-11-06 17:16:06.00578+00",
+      "job_indexes": [
+        {
+          "index": "job_run_details_pkey",
+          "definition": "CREATE UNIQUE INDEX job_run_details_pkey ON cron.job_run_details USING btree (runid)"
+        }
+      ],
+      "job_control_events_since_claude": null
+    },
+    "local_worktree_inventory": [
+      {
+        "worktree": "/workspace/delivery-pilot",
+        "local_head": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+        "branch": "delivery895-final-register-preservation",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/delivery-893",
+        "local_head": "99e00249cf2698ef384f724a6649ce901082adc4",
+        "branch": "delivery-893-release",
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-894",
+        "local_head": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+        "branch": null,
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-p0-deadline",
+        "local_head": "bad902ad387115004d12b629b34ab21b5266bb2c",
+        "branch": "delivery-p0-deadline-382",
+        "uncommitted": [
+          "?? deadline-cli-generation.json",
+          "?? deadline-enabled-review-validation.json",
+          "?? deadline-local-validation.json",
+          "?? deadline-pg17-enabled-review-validation.log",
+          "?? deadline-pg17-validation.json",
+          "?? deadline-pg17-validation.log",
+          "?? deadline-review-paste-refusal.log",
+          "?? deadline-s233-validation.log",
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/repair-ownership-followup",
+        "local_head": "c13b516d0383067a734a30077da3ddf3e66e201a",
+        "branch": "ws382-screenshot-guard",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/review-895-readonly",
+        "local_head": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+        "branch": "ws382-safe-dispatch-inputs",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1702/review-context",
+        "local_head": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "branch": null,
+        "uncommitted": []
+      }
+    ],
+    "coordination_corrections": {
+      "892": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/892#issuecomment-6690815616",
+      "895": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6690817860"
+    },
+    "diagnostic_failures": [
+      "Initial multi-SELECT tool response exposed only the final job count; earlier result sets were not admitted as baseline evidence. Replaced with a single-SELECT result at17:07UTC.",
+      "Three read-only diagnostic SQL drafts failed syntax checks (baseline punctuation, LIMIT spacing, health-summary punctuation). Corrected queries produced the separately timestamped successful results; drafts count as no evidence or mutation.",
+      "Initial frontend local probe assumed a single JavaScript asset and failed on vendor preloads; default urllib User-Agent requests returned403. Corrected explicitly identified GET selected the index module and returned200 at17:11UTC, with unchanged release/hash. No challenge/auth bypass.",
+      "Three-course/nine-call consumer batch exceeded4s; no rows admitted. EXPLAIN without ANALYZE showed document sequential scan. A newly narrowed one-course/three-call probe succeeded; no unchanged retry, API/index edit or broad rerun."
     ]
   }
 }
