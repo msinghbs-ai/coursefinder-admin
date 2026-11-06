@@ -17,10 +17,10 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** This bounded takeover cycle is ending at a demonstrated external account/authority boundary. Engineering and all candidate checks are complete. Claude’s release and the historical queued run are reconciled; no active controller acceptance is claimed.
+**Reason:** Scheduled resumption starts a bounded read-only integrity audit from verified GitHub records. Completed source repairs and their CI are preserved; no controller acceptance or deployment is assumed.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Pilot main remains `4ba94e3f`. At 15:28 UTC, HTTP and asset 200 still served UI 2.15.489/package 0.1.416 with unchanged hash 2099cae6; coverage edge 239 is ACTIVE with unchanged bundle 995d5111 (Worker 0.59.8). At 15:30 UTC the database had 1,791 migrations, head 20261106400000, and all three exact incorrect deadlines. Exact Cloudflare deployment commit and authenticated operator acceptance remain unverified.
+**Baseline:** Fresh16:04UTC verifies Pilot main4ba94e3f, UI2.15.489/package0.1.416 with HTTP/asset200 and unchanged2099cae6 hash; coverageedge239ACTIVE/hash995d5111. DB1,791migrations/head20261106400000, deadlinehelperf01e9 and courseguardff3d6 unchanged; no other activeclienttransaction. ExactCloudflarecommit/authenticatedUI remain unverified.
 
 <!-- controller-handover:completed -->
 **Completed:** Three omitted writer paths, five credential targets and dispatch/evidence input handling repaired. All source and final metadata CI checks pass: #895 1,951; #896 1,951; #894 1,967; #893 1,992 tests, each with zero failures, skips or flakes. All eight bundles verified and registers committed. The 19 privileged definitions comprise eight write-capable jobs, two throwaway-only writers and nine reporters. All 75 alerts were reconciled: 60 historical, 15 active events across four conditions, zero duplicates; all unattempted and 71 overdue. Pilot merges: zero; production releases: zero; rows corrected: zero.
@@ -29,7 +29,7 @@
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** Both agents stopped with clean committed handoffs. Main repair c13b516d in /workspace/repair-ownership-followup and shell repair 50f650f7 in /workspace/review-895-readonly are fully integrated into published source 1e7eaabe and final bcceb856. No unique uncommitted engineering remains; local logs and symlinks are supplementary. Root has no active production lease or reservation.
+**Workstreams:** One read-only cohort reviewer owns no code/function/migration writes. It uses /workspace/review-deadline-cohort at PR896head7984 and reviews root’s bounded latest100filleddeadlineitems/exactintakes. Root owns SQLreads/evidence/checkpoint. Existing engineering lanes remain complete and source unchanged.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,10 +38,10 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No active agent, local critical test, GitHub workflow or production operation initiated by this execution. The final provider fixture succeeded. The old stalled #895 metadata run was cancelled by changed-source concurrency. Atomic ref 6d95b3e1 remains published with owner null, lease null and adoption pending. Historical run 34749286102 has no current production path. Cloudflare account execution state cannot be independently inspected with current capabilities.
+**In flight:** One read-only reviewer and planned bounded read-only SQL. No production operation, reservation, deployment or source write. GitHub has no active workflow. Atomic6d95 remains published with no owner/lease and adoption pending; no authority derives from elapsed time.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Account owners complete or enable verification of D-382-CUTOVER controls. A fresh execution independently rechecks GitHub, production and the remaining baseline/flag/measurement gates, retargets the existing atomic protocol using actual release evidence, and verifies installed denial, recovery and adoption before active acceptance. Preserve tested trees, then reserve sequential releases, the exact approved correction and measured production acceptance.
+**Next safe action:** Select the bounded indexed deadline cohort in the permitted load window, independently classify quote semantics and verify exact current rows/consumer exposure. Record limits and preserve the disabled specifically authorised three-row correction. Account owners still must supply D-382-CUTOVER controls before any production mutation.
 
 <!-- controller-handover:risks_recovery -->
 **Risks/recovery:** Three incorrect deadlines remain and 75 alerts are unattempted; no live improvement or issue closure is claimed. Candidate denial probes and green CI do not install fencing. The pilot environment is unprotected and secret access remains 403. The release-ready validator also refuses unverified exact deployment baseline, flag compatibility and deferred operational measurements. #877 human proposals and #889 authenticated UI, re-login and consumer HTTP/cache acceptance remain open. No unattended monitoring, heartbeat or successor acceptance is claimed.
