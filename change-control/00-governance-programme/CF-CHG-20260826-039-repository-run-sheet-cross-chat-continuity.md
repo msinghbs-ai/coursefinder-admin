@@ -92,3 +92,51 @@ Delete `project-runsheets/` and revert this governance record if the programme a
 **Final status:** APPLIED — REGISTER UPDATE PENDING  
 **Closed at:** N/A  
 **Outcome:** Repository-backed execution ledger is active for M2.3; register/index reference remains to be added during the next governance reconciliation if not added in this session.
+
+## 6 November 2026 extension — AI controller continuity (Admin #382)
+
+**Initiated:** 2026-11-06T09:03:00Z (execution identifier); decision record published 2026-11-06T09:10:24Z.
+**Origin/owner:** Codex execution `codex-weekend-20261106-0903Z`, WS-382; schema agent WS-382-SCHEMA.
+**Authority:** Platform Admin weekend mandate; [decision before code](../../docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md).
+**State:** IMPLEMENTED / VALIDATING; operational ownership and production fencing adoption BLOCKED.
+
+The existing StudySearch execution register now carries the concise controller handover.
+A versioned JSON checkpoint and schema beside it provide actual execution identity,
+production evidence, PR/branch ownership, decisions, queues, blockers and safe continuation.
+The existing operating model and index route successors there. The historical milestone
+files remain historical; no competing execution or operational issue register was created.
+
+Atomic coordination is a dedicated `studysearch-controller` Git ref, with one-parent
+commits and nonforced server fast-forward updates. It begins in reconciliation; no
+active owner/lease is claimed. The protocol records prepare/publish/accept/verify/complete,
+persistent in-flight operations and terminal recovery proof. Expiry never clears an
+operation or independently permits takeover. All production mutators must adopt it
+before exclusive production enforcement is claimed; that adoption is not deployed.
+
+**Reuses → Changes → Replaces → Retires → Conflicts → Protects → Validates:**
+- Reuses this CF-039 record, the operating model, StudySearch register, GitHub and live integration queue.
+- Changes controller onboarding, checkpoint/handover validation and ownership coordination.
+- Replaces reliance on conversation memory and vendor-specific controller wording.
+- Retires no runtime component; deploys no duplicate platform scheduler/controller.
+- Reconciles November staffing authority with earlier Claude-only records; preserves current release holds.
+- Protects release approvals, G3, destructive actions, spending and human admission.
+- Validates schema/semantic coherence, false completion/heartbeat rejection, two-controller contention,
+  expiry with in-flight work, matching operation recovery and successor acceptance.
+
+**Implementation:** dedicated branches `cf247-controller-continuity` and
+`cf247-controller-schema` (`a9292c7e57c8146b38fdf95dd5bb113162813e38`).
+Schema tests 17 pass locally; ownership tests 11 pass locally including actual competing
+nonforced Git pushes. The governance CI workflow runs these and validates the actual
+checkpoint/register. Remote exact-head CI result is recorded at the integration gate.
+
+**Production effect/UI version:** none. No production mutation or deployment.
+Named P0 readbacks and feature-review blockers are linked from the current handover;
+operational issue closure is not inferred. Configured weekend/Monday AI resumptions
+have not executed at this checkpoint.
+
+**Recovery/reversion:** preserve the coordination ref and checkpoint history. A rejected
+CAS requires re-read/reconciliation, never force. Revert a faulty governance code change
+through reviewed Git history without erasing operational evidence; do not delete
+historical continuity or unmerged branch work. Production adoption is a separate
+governed Pilot change, with no release authority granted by this extension.
+

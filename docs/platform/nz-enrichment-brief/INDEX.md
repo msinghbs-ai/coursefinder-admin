@@ -1,4 +1,33 @@
 # Platform data programme — INDEX and standing state
+
+## Current controller checkpoint — 6 November 2026
+
+This checkpoint supersedes the historical release, PR and ownership summaries below.
+Start with [Controller handover](../STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover)
+and [validated machine state](../STUDYSEARCH-CONTROLLER-STATE.json), then independently
+verify live state under [the operating model](../AGENT-OPERATING-MODEL.md#permanent-ai-controller-continuity-6-november-2026-admin-382).
+
+- Codex is nominated by the current weekend mandate; exclusive production ownership
+  remains **in reconciliation**, previous Claude release unacknowledged, production
+  entry-point adoption pending. Atomic ref: `studysearch-controller`, Admin #382.
+- Pilot main `4ba94e3f`; recorded release v2.15.489. Fresh live migration head
+  `20261106400000`, 1,791 applied versions; coverage-sweep edge v239 and live worker
+  observations v0.59.8. Fresh frontend HTTP/browser version remains unverified.
+- #877/#889/#891/#887 merged; operational/operator checks are still open as recorded.
+  #894 and #893 have confirmed integration blockers; #892 has one phone failure.
+  #890 G3 and #875 remain held. No release or production write in this execution.
+- Named P0 containment: five UNSW dates absent, thirteen bad fees inactive on bounded
+  consumer SQL readback; no global closure or HTTP/cache acceptance claim.
+- Developer guide **Issue 7** is current (verified from its header); Issue 8 is draft.
+  The Issue 6 currentness line below is historical and superseded.
+- Hourly 7–8 November resumptions and a Monday 9 November morning handover are
+  configured, not yet executed. No unattended monitoring or successor acceptance claimed.
+
+Record: [weekend controller mandate and findings](2026-11-06-weekend-controller-continuity.md).
+The existing execution register and live integration issue queue remain canonical.
+
+## Historical index baseline
+
 Last updated: 2026-10-31 13:25 AEDT by Claude (main integrator), under the StudySearch transformation mandate. The sections from "Standing order" down are kept as written on 26 Oct 2026 07:40 and are history; the "Current state" section below supersedes them where they differ.
 Earlier stamp: 2026-10-26 07:40 AEDT by the data-engineering agent. Overnight 08:00 report: ../ui-audit/2026-10-25-overnight-outcomes.md ("08:00 report").
 
@@ -131,3 +160,4 @@ Config over code; settings keys for every tunable; no new status values; quote-o
 for AI admissions; manual bindings never touched; count guards on paste jobs; no new
 panels/SOPs without retiring old; decisions precede code; nothing applied, merged,
 deployed or activated without its approval gate.
+

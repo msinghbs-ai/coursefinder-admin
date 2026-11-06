@@ -13,6 +13,12 @@ Do not infer the current document from the highest filename version or from chat
 
 ## Current core documents
 
+Controller continuity current entry: [Agent operating model](platform/AGENT-OPERATING-MODEL.md),
+[execution register handover](platform/STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover)
+and [validated structured checkpoint](platform/STUDYSEARCH-CONTROLLER-STATE.json).
+The November StudySearch register supersedes September milestone snapshots for
+current operations; historical acceptance gates are not silently reopened.
+
 | Family | Current document | State |
 |---|---|---|
 | **StudySearch execution register and identity** | `docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md` (every StudySearch task, status and evidence); `docs/platform/STUDYSEARCH-IDENTITY-INVENTORY.md` (what is renamed, what is kept and why) | CURRENT |
@@ -121,3 +127,4 @@ Physical relocation of the existing historical corpus is intentionally gated bec
 - rollback commit.
 
 Until a batch passes validation, the old paths remain authoritative historical references.
+
