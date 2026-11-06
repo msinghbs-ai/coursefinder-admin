@@ -526,3 +526,17 @@ The six replaced md5s are unchanged (21:30). |
 - Status: QUEUED. Not started. It must not interrupt the #889 release and starts only after #889 reaches a safe state (merged, deployed and accepted, or held).
 - Scope when started: one bounded CI/release-engineering PR owned by a single agent; no new framework, no competing test register or release ledger; the existing branch protection and required checks are unchanged.
 - Observed during the #889 release (baseline input for §6): after one rebase the full suite ran three times (one interim list-reporter run, one JSON-reporter run to generate the register, plus CI), about 15 minutes each locally, because the register needs results.json and the list-reporter run did not produce it.
+
+### 6 Nov 2026 12:05 — RELEASE v2.15.488 (PR #889, Intake Automation Progress): production acceptance
+Authority: Platform Admin 6 Nov 2026 09:44 §1 (conditional: rebase, CI, full tests, parity, release gates; "If all pass, merge and deploy").
+- Gates: rebased on v2.15.487; full local suite 1927 passed, 0 failed; register regenerated from that run; CI green on head 86563830 (Workers Builds, build-and-smoke, isolated-postgres x2, release-history-contract). One CI defect found and fixed inside the PR: `playwright.intake.config.mjs` ran the Course Catalogue columns spec (#887), which has its own database; now scoped with `testMatch`.
+- Production guards before merge: `progress_measure_v1` 40c0c972, `progress_read_v1` f11ed22d (both matched).
+- Merged 11:11:14 as e7fd267c (squash, pinned to head). Deploy on merge, deployed UAT, release-history and currentness checks: success.
+- `security.integration_deploy_check_v1`: ok. Migration 20261106400000 file md5 ec9a801f matches; after-md5s `progress_measure_v1` e758d1c2, `progress_read_v1` 24460bd8, `intake_progress_repeats_v1` 4f3d0930; no failed runs, 0 HTTP errors, no incompatible jobs. Live site reports PIM Admin v2.15.488.
+- First observer reading 11:32: three `intake_*` transitions, 1 observation each, none stalled, no measure error, no open stall or repeated-deterministic issue (the 167 UNSW rechecks raised no alert).
+- Reconciled with production records (window 5 Nov 11:32 to 6 Nov 11:32): selected 4,807 = 4,516 skipped + 191 filled + 100 nothing new; rejected 4,516; admitted 191 (all `published`); eligible for publication 186 = 191 less 5 withdrawn; checked and published 975 = 186 new + 789 older admissions re-checked; 0 unchecked.
+- Next scheduled cycle 12:02 ran without manual dispatch: 2 observations per transition, none stalled, no issue.
+- Data gain (admitted and consumer-published): 186 net intake dates admitted and published in the window (191 filled, 5 withdrawn). This release added observation, not new data.
+- Observation (not a defect, no PR): the publication stage's "processed/published 975" counts every admitted value re-checked in the window, not new publications (186). The panel's basis text says so; the label may be misread.
+- RESULT: PASS for the database and observer acceptance. PENDING Platform Admin verification: the Admin UI view of Process results (sign-in required; credentials not entered by the agent) should show the figures above.
+- Next: #877 needs separate Platform Admin release authorisation per the queue; #890 and #875 stay held.
