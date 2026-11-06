@@ -11562,7 +11562,7 @@
   "alert_collector_recovery_2136": {
     "execution_id": "codex-alert-recovery-20261106T213611Z",
     "recorded_at": "2026-11-06T22:04:43Z",
-    "checkpoint_id": "CP-382-20261106T220443Z",
+    "checkpoint_id": "CP-382-20261106T221251Z",
     "mandate": "PlatformAdmin immediateP1collector recovery/P0separate; preserve79eventIDs, no bulkmark/delete/watchdogdisable; realconfigured-destination delivery and independentwatchdogPASS required.",
     "verified_watchdog": {
       "run_id": 42262985796,
@@ -13845,7 +13845,28 @@
       },
       "production_functions_migrations_changed": false,
       "source_assertions_executed": 116,
-      "collector_assertions_executed": 38
+      "collector_assertions_executed": 38,
+      "integrated": {
+        "head": "8c6dcd3b9d4497f2954254ebc7c095836b338e19",
+        "base_sha": "201b9126e96a8eb30e74c983699284ffe8055641",
+        "base_branch": "cf247-english-requirements-complete",
+        "diff_files": 5,
+        "full_suite_run": 42302274559,
+        "full_suite_status": "in_progress",
+        "parity_run": 42302274860,
+        "parity_job": 128182777524,
+        "collector_assertions_actually_executed": 38,
+        "parity_collector_deadline_result": "success",
+        "local_integrated_target": {
+          "startTime": "2026-11-06T22:07:46.091Z",
+          "duration": 8721.317000000001,
+          "expected": 32,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "local_integrated_parity": "passed on genuinePG17.6Unixsocket"
+      }
     },
     "load_policy": {
       "cron_preflight": {
@@ -13879,6 +13900,18 @@
     "production_mutations": 0,
     "real_alerts_sent": 0,
     "vendor_calls": 0,
-    "resolved": false
+    "resolved": false,
+    "updated_at": "2026-11-06T22:12:51Z",
+    "ownership_gate": {
+      "observed_at": "2026-11-06T22:12:45Z",
+      "head": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+      "status": "released",
+      "owner": null,
+      "lease_expires_at": null,
+      "adoption": "pending",
+      "in_flight": null,
+      "guard": "denied",
+      "reason": "exclusive controller ownership is not active"
+    }
   }
 }

@@ -29,7 +29,7 @@
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-ALERTS-2136sourceagentcomplete; rootownsPR897test-onlyintegration/generatedregisterandlive/schedulerevidence. Ownbranch43d84d7a/dedicatedworktree /workspace/alerts-2136/fixture-worktree; nofunction/migration edits. Rootwillretargetonto893, preservingallreleaseheads.
+**Workstreams:** WS-ALERTS-2136sourceagentcomplete; rootownsPR897five-filetest-onlydiff, nowhead8c6dcd3b/base893201b, in /workspace/alerts-2136/fixture-worktree. Completedparityfixinheritedwithoutrewriting895/896/894/893heads; nofunction/migration edits.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,10 +38,10 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** PR897Node22test-evidence42301054942running; parity42301054932failedbeforecollectorstep, old895basefixbeingreconciled. LocalPGfixturefinished, isolatedno-networkcontainerretained forverification; no productionreservation/write/send/ack/deployment. Atomic6d95unowned/adoptionpending; nocurrentacceptance.
+**In flight:** PR897fullNode22test-evidence42302274559running; parity/collector/deadline42302274860andotherisolatedSQLchecks pass. OwnlocalPGfixtureidle/no-network, no productionreservation/write/send/ack. Currentatomic6d95released/noowner/nolease/adoptionpending; actualguarddeniescurrentexecution.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Inheritverified893source intoownPR897andretargetitsbase; verifychanged-sourcePG/fullNode22CIandbundles. Locate/restoreoriginalD12collectorviaexistingD382guardedSQLaccountcutover, originalrecipient andrealreceipt; nofalseconfirmation. P0three-rowcorrectionremainsseparatelygated.
+**Next safe action:** Verify PR897fullNode22results/bundle/same-runregister, preservingfive-filediff/base893. Accountowner mustlocate/restoreoriginalD12collectorandapprovedpush/e-mailrecipientthroughD382guardedSQLfencing, thenverifyrealreceipt/backlogreduction/independentwatchdogPASS. P0exactthree-rowcorrectionremainsseparatelygated.
 
 <!-- controller-handover:risks_recovery -->
 **Risks/recovery:** AlertIDs21–100remainpending;79overdue/80unattempted; lastsentID20on03Nov07:00:29Z. Externalcollectorabsentfromcurrentaccountinventory, broaderowneraccountstateunknown. Fixturetransport/DBsentisnotrealreceipt. Threebaddeadlinesstillactive21:56. Adapteroverwrite31.6s>2xprior11.7sdeferredbroaderreads; one21:48:56cataloguehashlookuptimingsliprecorded. Envunprotected/secretAPI403/accountfencing/ownershipgatesremain.

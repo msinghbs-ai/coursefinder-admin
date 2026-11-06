@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T220443Z",
-  "created_at": "2026-11-06T22:04:43Z",
+  "checkpoint_id": "CP-382-20261106T221251Z",
+  "created_at": "2026-11-06T22:12:51Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-alert-recovery-20261106T213611Z",
-  "trigger": "agent_completion_ci_failure_and_dependency_reconciliation",
+  "trigger": "integration_dependency_corrected_and_ci_verification",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -2673,9 +2673,9 @@
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
       "owner": "Codex root live/scheduler/account/canonical evidence; alerts_protocol_review isolated fixture engineering",
       "branch": "codex/iq00112-alert-collector-acceptance",
-      "commit": "43d84d7a80935f79434f0d69c02ff2c07d35546d",
+      "commit": "8c6dcd3b9d4497f2954254ebc7c095836b338e19",
       "worktree": "/workspace/alerts-2136/fixture-worktree",
-      "state": "implementing",
+      "state": "verifying",
       "owned_paths": [
         "tests/fixtures/integration-queue/run.sh",
         "tests/fixtures/integration-queue/fixtures.sql",
@@ -3077,15 +3077,15 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 897,
       "branch": "codex/iq00112-alert-collector-acceptance",
-      "commit": "43d84d7a80935f79434f0d69c02ff2c07d35546d",
+      "commit": "8c6dcd3b9d4497f2954254ebc7c095836b338e19",
       "state": "open",
       "draft": true,
       "owner": "Codex isolated test-only engineering",
       "workstream_id": "WS-ALERTS-2136",
-      "ci_status": "failure",
+      "ci_status": "pending",
       "run_ids": [
-        42301054942,
-        42301054932
+        42302274559,
+        42302274860
       ],
       "release_gates": [
         "Test-onlydraft; initialbase895willretargetverified893withoutchangingreleaseheads",
@@ -3093,9 +3093,9 @@
         "Noauto-merge/productioncutover; existingauthority/fencing/receipt/independentwatchdoggatesremain"
       ],
       "blockers": [
-        "InitialCIoldparitypathneedsalreadycompleted893dependency;actualcollectoraccount/guardedSQLfencingunavailable"
+        "ActualD12collectorowner/access, configured-destinationreceipt andinstalledaccountfencing/currentactivecontrollerauthority remain unavailable"
       ],
-      "next_action": "Integrateverified893base intoownbranch, retarget897andverifyactualCI. Nootherreleaseheadschanged."
+      "next_action": "Five-filetest-onlyPRtargets893201b; parity/collector/deadline/otherSQLchecks pass. WaitcurrentfullNode22run42302274559andverifybundle/same-runregister; no productioncutover orincidentclosure onCI."
     }
   ],
   "releases": [
@@ -5671,8 +5671,8 @@
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Capturedoriginal79IDs21–99andcurrent80IDs21–100, allunattempted/noleases; latestconfirmation03Nov07:00:29Z. GenuinePG17.6passes116assertions/38collectorchecks, SQLfailureinjection exits3, qualifiedtarget32/0/0/0. Publishedtest-onlyPR897/head43d84d7a. InitialCIparityexposedold895path predatingcompleted893fix; retargetingownPR ontoverified893 isnext.",
-    "current_action": "PR897integrationonly: preservecurrent895→896→894→893 heads, inheritalreadycorrected893paritytool/Unixsocket workflow andretainonlytestqualificationdiff. Actualcollectorrestore/delivery remainsblocked onoriginaltasklocation/access andactualaccountfencing/currentcontrollergates. Productionwritesstopped.",
+    "last_completed_atomic_action": "Integrated completed893baseline201b intoownPR897withoutforceorotherreleaseheadchanges; currenthead8c6dcd3b/base893, five-filetest-onlydiff. Localfullparityroundtrip andtarget32pass; CI42302274860 genuinelyexecuted38collectorassertions andpassedparity/deadlines. FullNode22run42302274559inprogress.",
+    "current_action": "VerifyfullNode22structuredresults/bundleforPR8978c6dcd3b; preserveoriginal79IDsandall80pendingevents. Actualcontrollerguarddeniescurrentexecution; externalcollectorrestore/realreceiptandD382accountcontrolsremainblocked.",
     "next_safe_action": "RetargetPR897 onto893withnon-force ownbranchintegration; runchanged-sourceCIandvalidateactualPG/fullNode22evidence. Originaltask/accountowner must restoreD12collectorunderexistingguardedSQLfences andprovideactualdestinationdeliveryproof. Do notdrainviafalseconfirmation orwidenP0correction.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
@@ -5704,7 +5704,7 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T214536Z",
+    "predecessor_checkpoint": "CP-382-20261106T220443Z",
     "successor_checkpoint": null
   },
   "handover": {
@@ -5714,11 +5714,11 @@
     "baseline": "**Baseline:** Pilotmain4ba94e3f; edge239/hash995d5111 and consumeredges unchanged. At21:16UTC all1791migrationversions match/head20261106400000; deadlinef01e9/courseff3d6/flag668 and readerhashes unchanged. Jobs162active/176total under automatic controls. Lastverified frontend20:12UI489/.416/hash2099cae6; fresh21:13GET403/error1010 and independent web unavailable. ExactCloudflarecommit/authenticateddesktop/phone remain unverified.",
     "completed": "**Completed:** GenuinePG17.6fixturepassed116assertions/38collectorchecks; actualSQLfailureinjection exits3; qualifiedtarget32/0/0/0. Current80alertIDs21–100/allunattempted/noleases, original79IDs21–99preserved. PR897initialCIparityfailsold895path; inheritcompleted893correctionratherthanrebuild. Pilotmerges0/releases0/deliveries0.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** WS-ALERTS-2136sourceagentcomplete; rootownsPR897test-onlyintegration/generatedregisterandlive/schedulerevidence. Ownbranch43d84d7a/dedicatedworktree /workspace/alerts-2136/fixture-worktree; nofunction/migration edits. Rootwillretargetonto893, preservingallreleaseheads.",
+    "workstreams": "**Workstreams:** WS-ALERTS-2136sourceagentcomplete; rootownsPR897five-filetest-onlydiff, nowhead8c6dcd3b/base893201b, in /workspace/alerts-2136/fixture-worktree. Completedparityfixinheritedwithoutrewriting895/896/894/893heads; nofunction/migration edits.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** PR897Node22test-evidence42301054942running; parity42301054932failedbeforecollectorstep, old895basefixbeingreconciled. LocalPGfixturefinished, isolatedno-networkcontainerretained forverification; no productionreservation/write/send/ack/deployment. Atomic6d95unowned/adoptionpending; nocurrentacceptance.",
-    "next_safe_action": "**Next safe action:** Inheritverified893source intoownPR897andretargetitsbase; verifychanged-sourcePG/fullNode22CIandbundles. Locate/restoreoriginalD12collectorviaexistingD382guardedSQLaccountcutover, originalrecipient andrealreceipt; nofalseconfirmation. P0three-rowcorrectionremainsseparatelygated.",
+    "in_flight": "**In flight:** PR897fullNode22test-evidence42302274559running; parity/collector/deadline42302274860andotherisolatedSQLchecks pass. OwnlocalPGfixtureidle/no-network, no productionreservation/write/send/ack. Currentatomic6d95released/noowner/nolease/adoptionpending; actualguarddeniescurrentexecution.",
+    "next_safe_action": "**Next safe action:** Verify PR897fullNode22results/bundle/same-runregister, preservingfive-filediff/base893. Accountowner mustlocate/restoreoriginalD12collectorandapprovedpush/e-mailrecipientthroughD382guardedSQLfencing, thenverifyrealreceipt/backlogreduction/independentwatchdogPASS. P0exactthree-rowcorrectionremainsseparatelygated.",
     "risks_recovery": "**Risks/recovery:** AlertIDs21–100remainpending;79overdue/80unattempted; lastsentID20on03Nov07:00:29Z. Externalcollectorabsentfromcurrentaccountinventory, broaderowneraccountstateunknown. Fixturetransport/DBsentisnotrealreceipt. Threebaddeadlinesstillactive21:56. Adapteroverwrite31.6s>2xprior11.7sdeferredbroaderreads; one21:48:56cataloguehashlookuptimingsliprecorded. Envunprotected/secretAPI403/accountfencing/ownershipgatesremain.",
     "evidence": "**Evidence:** [collectorrootcause/stages/preservedIDs/localtests](validation/2026-11-06-controller-cutover-verification.json), [PR897](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/897), [verifiedwatchdog42262985796](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42262985796), [singleD382accountaction](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). Noactualdelivery/receipt/watchdogPASS, heartbeat, activeauthority orsuccessoracceptanceclaimed."
   }
