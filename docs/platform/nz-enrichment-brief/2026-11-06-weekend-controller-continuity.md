@@ -36,3 +36,77 @@ Confirmed #894 blockers: two re-asks permitted against D4's one; final-page Prev
 No production mutation, migration, deployment, vendor read, admission or publication initiated by this execution. Shell proxy cannot connect; GitHub and Supabase connectors provide read access. Do not fabricate an unattended weekend execution, heartbeats, future results, Monday report or successor acceptance. Schedule actual resumptions where supported, and publish their verified outcomes only after they run.
 
 Next safe action: implement and validate the continuity extension, publish the findings, and resolve ownership adoption through GitHub without using the Platform Admin as an AI message relay.
+
+## Production evidence
+
+Live read-only source: Supabase project `fxcwkweaxjtknorudmwp`, using read-only
+transactions and 6–8 second statement timeouts. Queries used real object columns
+after pg_catalog/information_schema introspection, and no mutating helper was invoked.
+
+- 09:24:08Z: 1,791 migration versions; sorted version-set md5
+  `e2194e53a7917be0fb3fcb648811aec9`. All versions are preserved in the JSON checkpoint.
+  Head `20261106400000`; #894/#893 migrations remain unapplied.
+- Latest actual ledger observations at 09:23–09:24Z report
+  `coverage-sweep-worker-v0.59.8`, status 200, modes scholarship_ai/ai_match.
+  Management metadata confirms edge coverage-sweep v239, bundle sha256
+  `995d5111618181a55afa168f97d529f7bae27f9ff1d9825def373cf503f494b5`.
+- 09:11:59Z function md5s are in the structured checkpoint. They include
+  `course_description_check_v1=ff3d6dd7b0f88c85b1fdff6c8a8cd86b`,
+  `svc_provider_description_next=559407dc479753698b858231b2e7eb93`,
+  `svc_provider_description_record=d95f0bafc894b662468a309254544444`.
+  These are observations, not permanent pre-release clearance.
+- Fresh frontend HTTP/browser verification is unavailable: shell cannot connect to
+  its configured proxy and no browser tool is exposed. Main and historical successful
+  currentness run `42149758988` support the recorded v2.15.489, but do not establish
+  a fresh frontend observation. The checkpoint deliberately leaves that version unknown.
+- 09:09:21Z: Layer 4 pending by field includes course descriptions 1,030,
+  official_course_url 2,092, course AER 564, matrix AER 41, provider descriptions 4.
+  Provider descriptions remain 4 proposed/1 held, total historic cost US$0.0065848;
+  no new admission or publication attributed to this execution.
+- Existing AER provider coverage, queue-watch state and scholarship AI queues are
+  captured as measurements, not reconstructed from stale reports. Scholarship AI:
+  22,335 failed, 32 queued, 33,881 done; these are queue states, not new publications.
+  Course-search state is out_of_toolset; no reserve override is authorised.
+- 09:14:05Z: the bounded 33-job set has no failed cron status in the prior 24 hours;
+  success does not mean actual data gain. Two P0, 78 P1 and 197 P2 integration issues
+  remain nonclosed; only the highest 30 open issues were individually sampled in
+  this onboarding. Full queue remains `pipeline.integration_issues`.
+- [P0 readback evidence](../validation/2026-11-06-p0-reconciliation.json), 09:15–09:21Z:
+  five UNSW dates remain absent and all thirteen bad fee rows inactive; SQL Website/Zoho
+  outputs exclude them. Keep locks. Fee protection is live; no matched international
+  conversion admission was proven in the four first post-fix reads. No global closure,
+  edge HTTP/cache acceptance or issue-status mutation was performed.
+
+## Scheduled resumption
+
+The automation tools confirmed enabled schedules at 09:23Z:
+- Hourly attempts from 7 November 00:00 through 8 November 23:00 Australia/Melbourne (48).
+- Monday 9 November morning handover, flexible morning timing.
+
+Both prompts require current repository/live reconciliation, atomic ownership and
+all existing approval gates. At creation, next_run_time and last_run_time are null,
+and inherited environment details are null. These are configured resumptions, not
+verified execution, continuous monitoring or guaranteed environment attachment.
+The separate StudySearch Independent Validation automation is supplementary and was
+left unchanged. No future outcome or Monday report has been pre-written.
+
+## Continuity implementation and acceptance boundary
+
+CF-039 is extended, rather than creating another change register. Canonical human
+handover is the existing execution register's Controller handover section; structured
+state/schema sit beside it. The `studysearch-controller` ref at
+`23a161046c4cf2c331c7bab13b4c21dcd904630e` has been created and read back in
+reconciliation, generation 0, no owner, no heartbeat/lease, adoption pending.
+Normal transfer and interrupted recovery retain immutable operation IDs and fail closed.
+
+Local validation: 16 schema/handover tests and 11 ownership tests pass, including
+a real two-contender nonforced Git push with exactly one winner. The actual populated
+checkpoint passes record validation; release-ready validation is expected to fail
+while authority and baseline gates are missing. Remote workflow evidence is recorded
+in the governance PR after execution.
+
+The protocol is not yet consumed by Pilot production entry points. Completing those
+guards, predecessor disposition and fresh frontend verification is necessary before
+exclusive release authority or a complete operational handover can be claimed.
+Independent engineering and read-only reconciliation continue safely meanwhile.
+

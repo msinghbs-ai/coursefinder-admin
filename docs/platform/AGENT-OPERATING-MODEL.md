@@ -94,3 +94,129 @@ Development agents never merge, deploy, write to production or spend vendor budg
 **Escalation:** P0 (consumer-visible incorrect data, integrity corruption) → existing deduplicated critical alert plus immediate Mode 1 work; P1 → assigned within the current batch; P2 → queued. Genuine external, budget or human-policy blockers are reported and tracked, never closed silently.
 
 **Current mode (2 Nov 2026 17:00):** Mode 1 — Active Remediation (CF-247 programme not yet accepted; SS-015 Gates C–E open).
+
+## Permanent AI controller continuity (6 November 2026; Admin #382)
+
+Authority: [weekend controller mandate and implementation record](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md).
+The Integration Controller may be any authorised AI, including Codex or Claude.
+The current mandate nominates Codex for 7–8 November; the earlier Claude-only
+staffing allocation is superseded for this assignment. Existing release-specific
+approval gates, engineering holds, G3, vendor reserves, human Layer 4 authority
+and destructive-change restrictions remain binding. Nomination is not proof that
+exclusive operational ownership has been acquired.
+
+Canonical paths (extend these; do not start another register):
+
+- Human state and handover: [StudySearch execution register, Controller handover](STUDYSEARCH-EXECUTION-REGISTER.md#controller-handover).
+- Machine state: [STUDYSEARCH-CONTROLLER-STATE.json](STUDYSEARCH-CONTROLLER-STATE.json).
+- Versioned schema: [STUDYSEARCH-CONTROLLER-STATE.schema.json](STUDYSEARCH-CONTROLLER-STATE.schema.json).
+- Atomic coordination: Admin repository ref `refs/heads/studysearch-controller`,
+  file `controller.json`. This small coordination record carries owner, execution,
+  generation, heartbeat, lease, transfer phases and the persistent in-flight token;
+  it is not another operational queue. `pipeline.integration_issues` remains the
+  issue queue. Git history preserves predecessor checkpoints without date-copy files.
+- Validation: `python scripts/validate-controller-state.py`; targeted guards:
+  `python scripts/test-controller-state.py -v` and
+  `python scripts/test-controller-ownership.py -v`. The Controller continuity
+  workflow validates governance only; production still deploys from Pilot.
+
+All stored event times are actual UTC timestamps with `Z`. Display with
+`zoneinfo.ZoneInfo('Australia/Melbourne')`; never overwrite stored UTC times with
+unqualified local times. Never commit credentials, secret tokens, protected source
+extracts or user data. The ownership generation and immutable operation IDs are
+non-secret coordination identifiers, not credentials.
+
+### Acquire and verify ownership
+
+Read the operating model, current register/handover/checkpoint, applicable decisions
+and Pilot CLAUDE.md. Validate the schema, then independently reconcile GitHub heads,
+open/recently merged PRs, branches, all running/queued release or write workflows,
+live migrations, hashes, settings, jobs, Worker/edge versions, incidents and queues.
+The current JSON is evidence to verify, never an instruction to replay its last command.
+
+Read the coordination ref at its immutable commit before every production operation.
+`scripts/controller-ownership.py` provides `show`, `init`, `transition` and `guard`.
+It uses the authorised `gh` CLI normally and never prints credentials. If that CLI
+is unavailable, the same Git data operations can be performed through the connected
+GitHub API: read ref and `controller.json` at its SHA; compute a valid transition;
+create a tree; create a commit with **exactly that observed head as its sole parent**;
+update the ref with `force=false`; read back the resulting head. The expected head
+must still match. Concurrent sibling commits cannot both pass the server's
+fast-forward ancestry check. On rejection or an ambiguous network response, stop,
+re-read and reconcile; never force-push, merge contender histories or blindly retry.
+Initial ref creation must fail if the ref exists; never replace it with bootstrap state.
+
+An active owner must match the current execution, have a valid lease, independently
+verified reconciliation, and verified adoption by **all** production entry points.
+An ordinary checkpoint PASS does not grant release authority. `--release-ready`
+adds fail-closed checks for baseline and ownership completeness but is still not
+approval. Do not bypass a refused check with a document edit.
+
+**Adoption gate:** the initial ownership ref is in `reconciliation`, with no owner
+or lease and adoption `pending`. Pilot's deploy-on-merge, manual migration and edge
+deploy workflows, Cloudflare frontend builds and direct governed SQL do not yet
+consume this protocol. Until they participate, the mechanism is implemented but
+does not physically fence non-participating writers; production authority stays
+blocked. Build the smallest compatible guards within the existing Pilot mechanisms
+under their release authority. Never claim exclusive production enforcement from
+a Git document or the presence of this script alone.
+
+### Atomic operations and interrupted recovery
+
+Use attributable event JSON with `id`, `kind`, `execution_id`, current `at`,
+`evidence_refs` and the event's `payload`. Validate it with the pure transition
+before publishing. A repeated identical last event is a no-op; reuse of an older
+event ID requires history reconciliation. No automatic heartbeat loop is installed.
+
+Before a release, migration or governed write: commit/validate the pre-operation
+checkpoint, verify current approval and live guards, atomically reserve `begin`
+with an immutable operation ID, approval and checkpoint refs, then recheck `guard`
+using the exact ownership head, execution and `--operation-id`. Only the owning
+execution may execute that reservation. Record workflow/run/commit IDs immediately.
+Keep the in-flight reservation until a verified terminal result and validated
+post-operation checkpoint are recorded with `finish`. Unknown outcome remains
+in reconciliation. No lease expiry, heartbeat gap or session stop clears the token.
+Integration remains one production release at a time; development agents cannot release.
+
+After an interruption, inspect the operation's run ID, migration ledger and live
+hashes/data to determine whether it committed. Inspect unmerged branches and active
+jobs. If evidence is incomplete, continue unrelated safe work and hold that operation.
+`recover_release` requires independent reconciliation **after** expiry, evidence
+that the predecessor execution is stopped/revoked, and terminal proof for every
+critical operation (including the matching operation ID/post-checkpoint if reserved).
+Expiry alone is insufficient. Bootstrap `record_predecessor_release` similarly
+requires explicit release and current reconciliation evidence; it grants no owner.
+
+### Handover phases and checkpoints
+
+Stop new production mutations; safely finish or account for active operations;
+refresh production/branch/decision evidence and uncommitted ownership; validate and
+publish the canonical checkpoint and the register's handover section. Its eleven
+marked fields must match the structured checkpoint. Record why, baseline, completed
+work, priorities, workstreams, pending PRs/migrations, decisions, in-flight state,
+next safe action, risks/recovery and evidence. Unknown baseline or migration state,
+ambiguous ownership, unaccounted operations or omitted decisions make operational
+handover incomplete even if record validation passes.
+
+Normal transfer events: `request_transfer` (prepared), `publish_transfer` (published
+and outgoing release), incoming `reconcile`, `accept` (accepted), `verify_transfer`
+(verified), `complete_transfer` (completed/active). The incoming execution must read
+and independently verify live state after publication. If acceptance is unavailable,
+leave transfer pending/published; never claim completion merely because a report exists.
+
+Persist actual checkpoints at ownership start; before/after releases, migrations and
+governed writes; material integration changes; agent completion; human-decision blocks;
+recovery; before termination/transfer; and at least every 30 minutes while substantial
+work is actually running. A stopped execution emits no heartbeat. Each checkpoint
+has a unique actual execution ID and stable predecessor/successor linkage; preserve
+the prior version through Git history. Record no-repeat operations, retry/recovery,
+verification still required and an actionable next safe step.
+
+Scheduled resumptions are supplementary executions, never a substitute for ownership.
+Only describe a schedule as configured after tool confirmation, and a run as executed
+after verified execution evidence. The 7–8 November hourly resumption attempts and
+Monday 9 November morning handover are configured; they have not yet run at the
+initial checkpoint. Their prompts require fresh repository/live verification and
+the same ownership and approval gates. Do not depend on a model, conversation ID,
+local worktree or Platform Admin message relay for any continuation.
+

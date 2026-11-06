@@ -1,0 +1,1090 @@
+{
+  "schema_version": 1,
+  "workstream_id": "WS-P0-RECONCILE",
+  "admin_issue": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+  "observed_start_utc": "2026-11-06T09:15:45Z",
+  "observed_end_utc": "2026-11-06T09:21:07Z",
+  "project_id": "fxcwkweaxjtknorudmwp",
+  "pilot_commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+  "method": "Read-only transactions, SET LOCAL statement_timeout='8s'; exact issue/course/fee identifiers; consumer SQL definitions inspected before invocation. No writes or remedy execution.",
+  "issues": [
+    {
+      "issue_ref": "IQ-00111",
+      "id": 111,
+      "status": "deployed",
+      "severity": "P0",
+      "last_observed_at": "2026-11-03 09:48:36.856724+00",
+      "verified_at": null,
+      "condition_cleared_at": null,
+      "verification_outcome": null
+    },
+    {
+      "issue_ref": "IQ-00313",
+      "id": 313,
+      "status": "triaged",
+      "severity": "P0",
+      "last_observed_at": "2026-11-05 04:52:04.792248+00",
+      "verified_at": null,
+      "condition_cleared_at": null,
+      "verification_outcome": null
+    }
+  ],
+  "intakes": {
+    "catalogue": [
+      {
+        "observed_at_utc": "2026-11-06 09:16:16.762468+00",
+        "id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "canonical_title": "Master of Industrial Research",
+        "course_code": "108474B",
+        "lifecycle_status": "active",
+        "publication_status": "unpublished",
+        "intakes": [
+          {
+            "id": "c9539130-7d91-41fd-960a-8bfc7d427476",
+            "year": null,
+            "label": "February",
+            "start": null,
+            "status": "active",
+            "deadline": null,
+            "source_key": "108474b:current:february"
+          },
+          {
+            "id": "c4fe8882-ea64-498c-8f4f-ca6da345cbe3",
+            "year": null,
+            "label": "May",
+            "start": null,
+            "status": "active",
+            "deadline": null,
+            "source_key": "108474b:current:may"
+          }
+        ],
+        "locks": [
+          {
+            "mode": "value",
+            "field": "intakes",
+            "set_at": "2026-11-05T06:17:51.509992+00:00"
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:16:16.762724+00",
+        "id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "canonical_title": "Diploma in Computer Science",
+        "course_code": "102393G",
+        "lifecycle_status": "active",
+        "publication_status": "unpublished",
+        "intakes": [
+          {
+            "id": "0db631a3-ae90-475d-9c8a-938b717a0ab2",
+            "year": null,
+            "label": "January",
+            "start": null,
+            "status": "active",
+            "deadline": null,
+            "source_key": "102393g:current:january"
+          },
+          {
+            "id": "5d0f49c2-ab3f-40b5-ac50-ec45e96e5cec",
+            "year": null,
+            "label": "May",
+            "start": null,
+            "status": "active",
+            "deadline": null,
+            "source_key": "102393g:current:may"
+          },
+          {
+            "id": "f00f1924-8329-4393-a9fd-d2a7b5276da4",
+            "year": null,
+            "label": "August",
+            "start": null,
+            "status": "active",
+            "deadline": null,
+            "source_key": "102393g:current:august"
+          }
+        ],
+        "locks": [
+          {
+            "mode": "value",
+            "field": "intakes",
+            "set_at": "2026-11-05T05:47:51.829274+00:00"
+          }
+        ]
+      }
+    ],
+    "website": [
+      {
+        "observed_at_utc": "2026-11-06 09:16:58.896999+00",
+        "id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "course_code": "108474B",
+        "canonical_title": "Master of Industrial Research",
+        "website": {
+          "intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "month": 5,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "tuition": {
+            "year": null,
+            "basis": "course_total",
+            "amount": 126000,
+            "source": "regulatory_registered",
+            "currency": "AUD",
+            "basis_label": null,
+            "annual_amount": 63000,
+            "annual_is_derived": true
+          },
+          "freshness": {
+            "source_updated_at": "2026-08-19T23:12:13.195012+00:00",
+            "projection_updated_at": "2026-11-05T20:51:00.205475+00:00"
+          },
+          "publication_status": "published"
+        }
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:16:58.960631+00",
+        "id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "course_code": "102393G",
+        "canonical_title": "Diploma in Computer Science",
+        "website": {
+          "intakes": [
+            {
+              "year": null,
+              "label": "August",
+              "month": 8,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "January",
+              "month": 1,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "month": 5,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "tuition": {
+            "year": null,
+            "basis": "course_total",
+            "amount": 48500,
+            "source": "regulatory_registered",
+            "currency": "AUD",
+            "basis_label": null,
+            "annual_amount": 48500,
+            "annual_is_derived": true
+          },
+          "freshness": {
+            "source_updated_at": "2026-08-19T23:05:40.675114+00:00",
+            "projection_updated_at": "2026-11-05T20:51:00.205475+00:00"
+          },
+          "publication_status": "published"
+        }
+      }
+    ],
+    "zoho": [
+      {
+        "observed_at_utc": "2026-11-06 09:18:16.860458+00",
+        "id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "course_code": "108474B",
+        "zoho_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ]
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:18:17.034322+00",
+        "id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "course_code": "102393G",
+        "zoho_intakes": [
+          {
+            "year": null,
+            "label": "August",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "January",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "observed_at_utc": "2026-11-06 09:17:30.346593+00",
+        "course_id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "intake_id": "c4fe8882-ea64-498c-8f4f-ca6da345cbe3",
+        "outcome": "skipped",
+        "reason": "intakes locked by hand",
+        "applied_at": "2026-11-05 17:26:00.272196+00",
+        "failure_class": "admission_held",
+        "publication_state": null,
+        "publication_checked_at": null,
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:17:30.346632+00",
+        "course_id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "intake_id": "c9539130-7d91-41fd-960a-8bfc7d427476",
+        "outcome": "skipped",
+        "reason": "intakes locked by hand",
+        "applied_at": "2026-11-05 17:26:00.272196+00",
+        "failure_class": "admission_held",
+        "publication_state": null,
+        "publication_checked_at": null,
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:17:30.346635+00",
+        "course_id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "intake_id": "0db631a3-ae90-475d-9c8a-938b717a0ab2",
+        "outcome": "skipped",
+        "reason": "intakes locked by hand",
+        "applied_at": "2026-11-06 03:26:00.231724+00",
+        "failure_class": "admission_held",
+        "publication_state": null,
+        "publication_checked_at": null,
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:17:30.346638+00",
+        "course_id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "intake_id": "5d0f49c2-ab3f-40b5-ac50-ec45e96e5cec",
+        "outcome": "skipped",
+        "reason": "intakes locked by hand",
+        "applied_at": "2026-11-06 03:26:00.231724+00",
+        "failure_class": "admission_held",
+        "publication_state": null,
+        "publication_checked_at": null,
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:17:30.34664+00",
+        "course_id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "intake_id": "f00f1924-8329-4393-a9fd-d2a7b5276da4",
+        "outcome": "skipped",
+        "reason": "intakes locked by hand",
+        "applied_at": "2026-11-06 04:26:00.267203+00",
+        "failure_class": "admission_held",
+        "publication_state": null,
+        "publication_checked_at": null,
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      }
+    ],
+    "withdrawals": [
+      {
+        "id": 1212,
+        "course_id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "intake_id": "c4fe8882-ea64-498c-8f4f-ca6da345cbe3",
+        "run_at": "2026-11-05 06:17:51.509992+00",
+        "outcome": "withdrawn",
+        "before_value": {
+          "year": 2027,
+          "start_date": "2027-05-31",
+          "application_deadline": null
+        },
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "id": 1211,
+        "course_id": "1b1bd33b-c473-4384-b4e7-7fd85ae35074",
+        "intake_id": "c9539130-7d91-41fd-960a-8bfc7d427476",
+        "run_at": "2026-11-05 06:17:51.509992+00",
+        "outcome": "withdrawn",
+        "before_value": {
+          "year": 2027,
+          "start_date": "2027-02-15",
+          "application_deadline": null
+        },
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "id": 1203,
+        "course_id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "intake_id": "f00f1924-8329-4393-a9fd-d2a7b5276da4",
+        "run_at": "2026-11-05 05:47:51.829274+00",
+        "outcome": "withdrawn",
+        "before_value": {
+          "year": 2028,
+          "start_date": "2028-08-14",
+          "application_deadline": null
+        },
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "id": 1202,
+        "course_id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "intake_id": "5d0f49c2-ab3f-40b5-ac50-ec45e96e5cec",
+        "run_at": "2026-11-05 05:47:51.829274+00",
+        "outcome": "withdrawn",
+        "before_value": {
+          "year": 2027,
+          "start_date": "2027-05-31",
+          "application_deadline": null
+        },
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      },
+      {
+        "id": 1201,
+        "course_id": "44ec2ad2-8fbb-4c9c-8394-08de09e7253f",
+        "intake_id": "0db631a3-ae90-475d-9c8a-938b717a0ab2",
+        "run_at": "2026-11-05 05:47:51.829274+00",
+        "outcome": "withdrawn",
+        "before_value": {
+          "year": 2027,
+          "start_date": "2027-01-04",
+          "application_deadline": null
+        },
+        "after_value": {
+          "year": null,
+          "start_date": null,
+          "application_deadline": null
+        }
+      }
+    ]
+  },
+  "fees": {
+    "containment_source": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/docs/paste/PASTE-20261104-fee-units-holds-containment.sql",
+    "contained_rows": [
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.98566+00",
+        "id": "97c4caca-289f-4801-a473-d52ed821ee22",
+        "course_id": "b59c7a28-6ea9-49fe-bc22-fc954a3c4f20",
+        "course_code": "0100702",
+        "amount": "10333.33",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985694+00",
+        "id": "9318d94a-9a1e-46d8-8ca8-5e79193aad52",
+        "course_id": "7eb95c94-4a79-4e5c-aea0-92b82cb1ec26",
+        "course_code": "0100908",
+        "amount": "10333.33",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985697+00",
+        "id": "00b40eeb-a95c-4af0-88a3-10ef3afec9c8",
+        "course_id": "811083ae-8e64-4989-895f-d9ccc1069aca",
+        "course_code": "052690E",
+        "amount": "10500.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985699+00",
+        "id": "b6e2f56c-2a90-4b8c-b972-626b19bf25df",
+        "course_id": "cfc791c8-fe3a-4c86-b74c-14f5a93f2670",
+        "course_code": "080476A",
+        "amount": "10333.33",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985701+00",
+        "id": "ad9be016-adeb-4ea1-b100-4dda9455cef0",
+        "course_id": "fe671861-eb69-4036-8acb-70ccde02d535",
+        "course_code": "085576A",
+        "amount": "12000.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985703+00",
+        "id": "52bc162c-a1e0-4965-af76-d82b4b1e9839",
+        "course_id": "d9dc5bb8-025b-46ca-ac24-7ca13157599f",
+        "course_code": "096011C",
+        "amount": "12600.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985705+00",
+        "id": "9fb8be47-9216-46c6-8eb1-e62d47aed529",
+        "course_id": "9fe78e66-12f1-42b3-ab56-c65fb99fbfd7",
+        "course_code": "102291B",
+        "amount": "32800.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985707+00",
+        "id": "2bc5fcb3-cb11-4b2e-a0dd-8365a56571cf",
+        "course_id": "c72ffb06-2984-4d6f-af44-a47a5224119a",
+        "course_code": "106655B",
+        "amount": "18000.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985709+00",
+        "id": "c5d7d256-f184-4f6a-b272-5f2ea196c6ce",
+        "course_id": "cf75c4de-781a-4ccc-bfeb-96d7921629f4",
+        "course_code": "108475A",
+        "amount": "10166.67",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.98571+00",
+        "id": "f5c95962-f1c1-4ce4-bb49-c368210077d1",
+        "course_id": "f4746111-4c26-4eb8-927c-c6088b66edeb",
+        "course_code": "114579J",
+        "amount": "14000.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985712+00",
+        "id": "99acde0e-293b-41d8-8e93-f9c07bc8b1b6",
+        "course_id": "72598a16-d3f7-4332-9fb1-259125edfdd9",
+        "course_code": "114822C",
+        "amount": "18000.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985714+00",
+        "id": "6417579c-267d-4dc7-89be-d4b2991b10b2",
+        "course_id": "401b9db3-0917-4376-b331-f352165fb922",
+        "course_code": "121321K",
+        "amount": "10333.33",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      },
+      {
+        "observed_at_utc": "2026-11-06 09:20:04.985716+00",
+        "id": "0e01cb0c-2f78-45e8-b188-cf29751f8df9",
+        "course_id": "011c9c63-e756-4ff0-957e-e6cbc5880bcf",
+        "course_code": "121432C",
+        "amount": "37141.00",
+        "status": "inactive",
+        "updated_at": "2026-11-03 10:10:51.947009+00"
+      }
+    ],
+    "consumer_readbacks": [
+      {
+        "id": "b59c7a28-6ea9-49fe-bc22-fc954a3c4f20",
+        "course_code": "0100702",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 31000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": null,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 31000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "7eb95c94-4a79-4e5c-aea0-92b82cb1ec26",
+        "course_code": "0100908",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 31000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": null,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 31000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "811083ae-8e64-4989-895f-d9ccc1069aca",
+        "course_code": "052690E",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 31500,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": null,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 31500,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "cfc791c8-fe3a-4c86-b74c-14f5a93f2670",
+        "course_code": "080476A",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 31000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": null,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 31000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "fe671861-eb69-4036-8acb-70ccde02d535",
+        "course_code": "085576A",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 51000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": 17000,
+          "annual_is_derived": true
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 17000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "d9dc5bb8-025b-46ca-ac24-7ca13157599f",
+        "course_code": "096011C",
+        "website_tuition": {
+          "year": 2027,
+          "basis": "annual",
+          "amount": 37800,
+          "source": "provider_current",
+          "currency": "AUD",
+          "basis_label": "annual",
+          "annual_amount": 37800,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": 2027,
+          "locked": true,
+          "reason": "The course page names 2027, this year or later, so the page fee is used (fee entered or locked by hand: earlier rule kept).",
+          "source": "page",
+          "currency": "AUD",
+          "per_year": 37800,
+          "cricos_per_year": 28920
+        }
+      },
+      {
+        "id": "9fe78e66-12f1-42b3-ab56-c65fb99fbfd7",
+        "course_code": "102291B",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 49200,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": 24600,
+          "annual_is_derived": true
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 24600,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "c72ffb06-2984-4d6f-af44-a47a5224119a",
+        "course_code": "106655B",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 34000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": 17000,
+          "annual_is_derived": true
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 17000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "cf75c4de-781a-4ccc-bfeb-96d7921629f4",
+        "course_code": "108475A",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 30500,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": null,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 30500,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "f4746111-4c26-4eb8-927c-c6088b66edeb",
+        "course_code": "114579J",
+        "website_tuition": {
+          "year": 2026,
+          "basis": "annual",
+          "amount": 24000,
+          "source": "provider_current",
+          "currency": "AUD",
+          "basis_label": "annual",
+          "annual_amount": 24000,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": 2026,
+          "locked": false,
+          "reason": "The provider's own course page gives this fee for 2026 and its evidence is captured, so it is used over the CRICOS registered fee (Rule 2).",
+          "source": "page",
+          "currency": "AUD",
+          "per_year": 24000,
+          "cricos_per_year": 24000
+        }
+      },
+      {
+        "id": "72598a16-d3f7-4332-9fb1-259125edfdd9",
+        "course_code": "114822C",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 48000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": 24000,
+          "annual_is_derived": true
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 24000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "401b9db3-0917-4376-b331-f352165fb922",
+        "course_code": "121321K",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 31000,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": null,
+          "annual_is_derived": false
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 31000,
+          "page_year": null,
+          "page_per_year": null
+        }
+      },
+      {
+        "id": "011c9c63-e756-4ff0-957e-e6cbc5880bcf",
+        "course_code": "121432C",
+        "website_tuition": {
+          "year": null,
+          "basis": "course_total",
+          "amount": 53052,
+          "source": "regulatory_registered",
+          "currency": "AUD",
+          "basis_label": null,
+          "annual_amount": 26526,
+          "annual_is_derived": true
+        },
+        "zoho_fee": {
+          "rule": "rule_2",
+          "year": null,
+          "locked": false,
+          "reason": "No course page fee has been read, so the CRICOS registered fee is held (the registered total, divided by the course length when that is a year or more).",
+          "source": "cricos",
+          "currency": "AUD",
+          "per_year": 26526,
+          "page_year": null,
+          "page_per_year": null
+        }
+      }
+    ],
+    "post_fix_reads_on_contained_courses": [],
+    "first_post_fix_reads": [
+      {
+        "id": "06280c23-c27f-40bd-bd44-567412e9104f",
+        "course_id": "97914821-b9b2-4996-8da3-3589c7257598",
+        "state": "done",
+        "attempts": 1,
+        "rows_found": 1,
+        "created_at": "2026-11-04 13:32:00.320198+00",
+        "finished_at": "2026-11-04 13:32:24.568203+00",
+        "error": null
+      },
+      {
+        "id": "8d928433-1f77-438b-9e8c-e465986a15ba",
+        "course_id": "8643acc1-3b22-4a2b-ab81-bf764791f2fe",
+        "state": "done",
+        "attempts": 1,
+        "rows_found": 1,
+        "created_at": "2026-11-04 13:32:00.320198+00",
+        "finished_at": "2026-11-04 13:32:24.597037+00",
+        "error": null
+      },
+      {
+        "id": "d546d626-82c8-4f9b-b57e-5895e1b785c8",
+        "course_id": "12694f19-31cd-553d-b29c-d550d2175dec",
+        "state": "done",
+        "attempts": 1,
+        "rows_found": 1,
+        "created_at": "2026-11-04 15:22:00.271202+00",
+        "finished_at": "2026-11-04 15:22:22.490204+00",
+        "error": null
+      },
+      {
+        "id": "770a90bc-b572-4ba5-8c76-8e633af1a49d",
+        "course_id": "14446c2b-8209-5bc3-b545-ea50690c77ab",
+        "state": "done",
+        "attempts": 1,
+        "rows_found": 1,
+        "created_at": "2026-11-04 15:22:00.271202+00",
+        "finished_at": "2026-11-04 15:22:22.646034+00",
+        "error": null
+      }
+    ],
+    "first_post_fix_rows": [
+      {
+        "id": "78c21e3a-afb8-4f89-b531-a6db5d3a286f",
+        "queue_id": "06280c23-c27f-40bd-bd44-567412e9104f",
+        "course_id": "97914821-b9b2-4996-8da3-3589c7257598",
+        "amount_min": "20800",
+        "unit": "per_course",
+        "units_covered": null,
+        "units_kind": null,
+        "full_time_load": null,
+        "course_years": null,
+        "yearly": null,
+        "yearly_method": null,
+        "yearly_how": null,
+        "yearly_hold": null,
+        "outcome": "not_yearly",
+        "note": null,
+        "created_at": "2026-11-04 13:32:24.568203+00"
+      },
+      {
+        "id": "d17b1a75-f805-4399-960e-b7806e14361b",
+        "queue_id": "8d928433-1f77-438b-9e8c-e465986a15ba",
+        "course_id": "8643acc1-3b22-4a2b-ab81-bf764791f2fe",
+        "amount_min": "23500",
+        "unit": "per_course",
+        "units_covered": null,
+        "units_kind": null,
+        "full_time_load": null,
+        "course_years": null,
+        "yearly": null,
+        "yearly_method": null,
+        "yearly_how": null,
+        "yearly_hold": null,
+        "outcome": "not_yearly",
+        "note": null,
+        "created_at": "2026-11-04 13:32:24.597037+00"
+      },
+      {
+        "id": "9f8fd119-120e-4b90-a191-a56923cb0d0d",
+        "queue_id": "d546d626-82c8-4f9b-b57e-5895e1b785c8",
+        "course_id": "12694f19-31cd-553d-b29c-d550d2175dec",
+        "amount_min": "4333.58",
+        "unit": "per_course",
+        "units_covered": 2,
+        "units_kind": "units",
+        "full_time_load": null,
+        "course_years": "1.00",
+        "yearly": "4333.58",
+        "yearly_method": "published",
+        "yearly_how": "published figure 4333.58 for 2 units, not converted",
+        "yearly_hold": "the page does not say what the 2 units are or what a full-time year is",
+        "outcome": "domestic",
+        "note": null,
+        "created_at": "2026-11-04 15:22:22.490204+00"
+      },
+      {
+        "id": "f228ef85-66df-444a-b55d-964c7bbebe5a",
+        "queue_id": "770a90bc-b572-4ba5-8c76-8e633af1a49d",
+        "course_id": "14446c2b-8209-5bc3-b545-ea50690c77ab",
+        "amount_min": "7687.53",
+        "unit": "per_course",
+        "units_covered": null,
+        "units_kind": null,
+        "full_time_load": null,
+        "course_years": null,
+        "yearly": null,
+        "yearly_method": null,
+        "yearly_how": null,
+        "yearly_hold": null,
+        "outcome": "domestic",
+        "note": null,
+        "created_at": "2026-11-04 15:22:22.646034+00"
+      }
+    ],
+    "first_post_fix_consumers": [
+      {
+        "id": "12694f19-31cd-553d-b29c-d550d2175dec",
+        "course_code": "01020",
+        "canonical_title": "Computer Programming",
+        "website_tuition": null,
+        "zoho_fee": {
+          "locked": false,
+          "reason": "No page fee or CRICOS fee with a course length is stored.",
+          "source": null
+        }
+      },
+      {
+        "id": "14446c2b-8209-5bc3-b545-ea50690c77ab",
+        "course_code": "01322",
+        "canonical_title": "Animation - 3D",
+        "website_tuition": null,
+        "zoho_fee": {
+          "locked": false,
+          "reason": "No page fee or CRICOS fee with a course length is stored.",
+          "source": null
+        }
+      },
+      {
+        "id": "8643acc1-3b22-4a2b-ab81-bf764791f2fe",
+        "course_code": "1748",
+        "canonical_title": "Bachelor of Counselling (Level 7)",
+        "website_tuition": null,
+        "zoho_fee": {
+          "locked": false,
+          "reason": "No page fee or CRICOS fee with a course length is stored.",
+          "source": null
+        }
+      },
+      {
+        "id": "97914821-b9b2-4996-8da3-3589c7257598",
+        "course_code": "2604",
+        "canonical_title": "New Zealand Diploma in Software Development (Level 6)",
+        "website_tuition": null,
+        "zoho_fee": {
+          "locked": false,
+          "reason": "No page fee or CRICOS fee with a course length is stored.",
+          "source": null
+        }
+      }
+    ],
+    "function_hashes": [
+      {
+        "schema": "security",
+        "name": "fee_course_pages_enqueue_v1",
+        "args": "",
+        "md5": "67b1b7db62dbd3c8e90053296f54a46a"
+      },
+      {
+        "schema": "security",
+        "name": "fee_integrity_recheck_v1",
+        "args": "p_issue bigint",
+        "md5": "0e9afcdc372e193ed50b41d98fdbc6f6"
+      },
+      {
+        "schema": "security",
+        "name": "fee_reader_yearly_v1",
+        "args": "p_row jsonb, p_country text, p_course uuid",
+        "md5": "58ecf4d7d5030d4a0d6797cc08dc03a3"
+      },
+      {
+        "schema": "public",
+        "name": "svc_fee_ai_record",
+        "args": "p_queue_id uuid, p_result jsonb, p_cost numeric, p_error text",
+        "md5": "5ec65e53403933b98381bd5c9c79b6d1"
+      }
+    ]
+  },
+  "settings": [
+    {
+      "toolset_key": "pipeline",
+      "key": "fees.course_pages",
+      "value": 1
+    },
+    {
+      "toolset_key": "pipeline",
+      "key": "fees.respect_holds_on",
+      "value": 1
+    },
+    {
+      "toolset_key": "pipeline",
+      "key": "fees.units_load_fix_on",
+      "value": 1
+    },
+    {
+      "toolset_key": "pipeline",
+      "key": "intake_dates.month_unique_match",
+      "value": 0
+    }
+  ],
+  "verdicts": {
+    "IQ-00313": "Named five unsupported dates remain contained across catalogue, Website API SQL builder and Zoho SQL read path. Issue verification fields/status are stale; do not remove manual locks. Full offering-evidence recovery/closure not performed.",
+    "IQ-00111": "All 13 contained bad fee rows remain inactive; consumer SQL readbacks exclude all13 bad figures and show approved correction/fallback. Fixed functions/settings are live and four post-fix reads exist, but no post-fix read on original13 courses and no successful matched international unit-conversion admission in that first sample. Retain deployed/verification-pending; do not claim full operational acceptance."
+  },
+  "limitations": [
+    "Readbacks exercise production consumer SQL paths, not authenticated HTTP edge endpoints or website UI/cache.",
+    "No broad whole-database integrity scan was performed.",
+    "No issue status, admission, source, setting or production row changed.",
+    "Recovery knowledge forbids repeating ineffective fee_integrity_recheck on unchanged evidence; new evidence must be reconciled through authorised controller."
+  ]
+}

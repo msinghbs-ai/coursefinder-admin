@@ -14,7 +14,46 @@
 
 **Ledger maintenance:** [Claude instruction](nz-enrichment-brief/2026-11-03-aer-cross-workstream-ledger-instruction.md) (3 Nov 2026): continuous AER and cross-workstream progress, errors, evidence, blockers, decisions and reviewer follow-through in this register and the existing linked queue/records.
 
+## Controller handover
+
+<!-- controller-handover:reason -->
+**Reason:** Current execution is publishing a recovery checkpoint for the 7–8 November controller mandate. Codex is nominated; previous Claude ownership has not been released or accepted through the new protocol. Transfer remains pending.
+
+<!-- controller-handover:baseline -->
+**Baseline:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last verified release record v2.15.489. Fresh database checks confirm 1,791 applied migrations, head `20261106400000`; edge `coverage-sweep` version 239, observed worker `coverage-sweep-worker-v0.59.8`. Fresh frontend HTTP/browser version is unknown because the shell proxy is unavailable and no browser tool is exposed. Mode 1 remains active. See the structured checkpoint for hashes, measurements and evidence timestamps.
+
+<!-- controller-handover:completed -->
+**Completed:** Recorded mandate and ownership conflict; created an atomic ownership coordination ref in reconciliation; implemented schema, handover and ownership validation; completed independent #894/#893/#892 reviews; verified the named P0 containment scope. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated. Governance tests pass locally; remote workflow evidence is recorded separately when available.
+
+<!-- controller-handover:priorities -->
+**Priorities:** Verify ownership and production-entry-point adoption; correct the confirmed #894 and #893 defects in their existing PRs; integrate #894's phone fix before justified #892 full-suite evidence; preserve #890/#875 holds; finish bounded #877 acceptance, #889 and Course Catalogue operator checks; continue Layer 4, AER, scholarship and provider lifecycle remediation.
+
+<!-- controller-handover:workstreams -->
+**Workstreams:** WS-382 continuity owned by Codex on `cf247-controller-continuity`; WS-382-SCHEMA implemented and locally validated on `cf247-controller-schema` (`a9292c7e57c8146b38fdf95dd5bb113162813e38`). Existing PR development ownership remains with the prior recorded Claude agents until reassigned. Independent read-only reviewers completed WS-894, WS-893-892 and WS-P0-RECONCILE; no overlapping implementation edit was made. Local Admin files are a materialised subset, not a complete clone.
+
+<!-- controller-handover:pending_prs_migrations -->
+**Pending PRs/migrations:** Pilot #894 `162e9fc7` / `20261106500000` blocked by four defects; #893 `2513a909` / `20261106550000` blocked by false-green fixture execution and overlap; #892 `7a2f3dd3` blocked by the s288 phone failure; #890 `b42a529d` G3-held; #875 `9205087d` held and stale. Admin #380, #240 and #29 remain open and unchanged. #877, #889, #891 and #887 are merged; merged status is not operational acceptance. No pending migration was applied.
+
+<!-- controller-handover:decisions -->
+**Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them.
+
+<!-- controller-handover:in_flight -->
+**In flight:** No in-progress Pilot Actions or other active database transaction observed at 09:09 UTC; no critical operation started by this execution. Historical queued CF-093 run `34749286102` from 13 September is unresolved and must not be replayed or cancelled blindly. Predecessor future writes cannot be excluded without ownership adoption. The new ownership ref has no owner, lease or in-flight reservation; this does not account for non-participating writers.
+
+<!-- controller-handover:next_safe_action -->
+**Next safe action:** Read Admin #382 and the live `studysearch-controller` ref; reconcile predecessor release/termination and every production entry point before any mutation. Meanwhile correct confirmed defects on exclusively assigned existing feature branches, validate the checkpoint and collect missing read-only Worker/UI evidence. Do not repeat the withdrawn five dates, thirteen bad fee rows or unchanged failed suites.
+
+<!-- controller-handover:risks_recovery -->
+**Risks/recovery:** The atomic protocol is implemented but is not yet enforced by Pilot deployment workflows, direct SQL or Cloudflare builds; adoption is pending and production authority is denied. Lease expiry never clears an in-flight operation. Reconcile immutable operation IDs, live migration history, workflow outcomes and consumer state before retry. IQ-00313 and IQ-00111 show no re-exposure in the bounded SQL readback, but HTTP/cache and full fee-admission acceptance remain unverified. Weekend hourly resumptions and Monday-morning handover are configured; neither has run, and no uninterrupted monitoring is claimed.
+
+<!-- controller-handover:evidence -->
+**Evidence:** [Mandate and findings](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json), [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [coordination ref](https://github.com/msinghbs-ai/coursefinder-admin/tree/studysearch-controller), [#894 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894#issuecomment-6681397730), [#893 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893#issuecomment-6681399784), [P0 readbacks](validation/2026-11-06-p0-reconciliation.json).
+
 ## Progress dashboard
+
+The following dated dashboard is historical. The Controller handover and structured
+checkpoint above carry the latest verified operational snapshot; do not read the
+old release/PR counts below as current state.
 
 Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-brief/2026-11-01-studysearch-progress-dashboard-mandate.md`). Counted from the register below: each SS task once; "Verifying" after deployment counts as deployed, awaiting verification; SS-015 (assessment) as in progress. Layer 4 settlement is kept separate. Definitions: reviewed by a person = approved, edited, rejected or returned since the baseline; reconciled = superseded by the system; deferred = returned to Layer 2 or 3; exceptions = pending past the 14-day target.
 
@@ -84,6 +123,7 @@ Kept per the Platform Admin's instruction of 1 Nov 2026 10:23 (`nz-enrichment-br
 | 19 | **SS-019** | Layer 4 integration and evidence recovery | 6 | Layer 4 integration, evidence recovery and parallel review (mandate 3 Nov 20:47 `2026-11-03-layer4-integration-evidence-recovery-mandate-2047.md`; handover `2026-11-03-layer4-integrator-handover-prompt.md`; decisions 19:22/19:23, 20:29). Fee integrity first (IQ-00111, P0: Murdoch 096011C 12,600 consumer-visible); Course Link address rules (Adelaide 207, Canberra 100, SFU 59); Decision 179 "Course page needed"; evidence linking; scholarship reads (VU 1323, Bond 1230); ownership, staging and shared-binding cases. Ownership register: `2026-11-03-layer4-review-ownership.md` | P0 · SS-018 | **Implementing** (fee P0 containment in preparation; L4 and scholarship branches in development) | Platform Admin 20:47 | Mandate copy; ownership register; decision CSV (append-only) | — | P0 confirmed live 20:55 (Website API v2 and Zoho) | Containment paste, then fixes · Claude |
 | 20 | **SS-020** | Admin menu consolidation | 5 | Admin menu 53 → 47 tabs on the same 22 pages: 8 tabs merged into named homes, 10 dead sections retired, paging and engine fixes (Decision 269; review `ui-audit/2026-11-03-admin-menu-keep-merge-retire-review.md`; build prompt `ui-audit/2026-11-03-admin-menu-build-prompt.md`; mock-ups on the Design canvas "StudySearch Admin Menu Review") | P2 · — | **Started 3 Nov 22:05** (mandate `ui-audit/2026-11-03-ss020-execution-mandate-2159.md`; development agent on an isolated branch, step 1 first; Integration Controller releases) | Platform Admin 3 Nov about 22:05 ("Approve all, build in order") and 20:49 ("let it handle the build") | Decision 269 | — | — | Build steps 1–6 in order · development session |
 | 21 | **SS-021** | Work continuity and autonomous recovery | 6 | Permanent cross-layer requirement (Platform Admin decision 3 Nov 21:19, `nz-enrichment-brief/2026-11-03-p0-work-continuity-mandate-2119.md`): no single provider, course, source, reader failure or Layer 4 backlog may stop unrelated eligible work. Extends the SS-018 operations controller and scheduler (no new controller): blocking-point audit across all lanes under existing issue IDs; one work-item continuity contract (identity, owner, stage, attempts, failure class, retry and recovery deadline, locks, evidence version, outcome); settings-governed recovery policies by error class; fair selection and per-item isolation; admission-aware scheduling without raising or bypassing Layer 4 limits; V1–V4 tests 1–10; permanent metrics | P0 · SS-018 | **Implementing** (audit complete 21:48: F1–F10, IQ-00128–00134; contract built, v2.15.443 in release testing) | Platform Admin 21:19 | Mandate copy | — | Accepted only after an unattended production run with deliberately introduced recoverable failures | Audit, then contract · Claude |
+| 22 | **SS-022** | AI controller continuity | 6 | Vendor-independent checkpoint, handover and exclusive ownership, extending CF-039 and the existing execution register; Admin #382 | P0 · governance/ownership | **Implementing; production authority blocked in reconciliation** | Platform Admin weekend mandate, 6 Nov | `nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md`; Controller handover above | Admin `cf247-controller-continuity`; schema `a9292c7e` | Schema/handover and ownership tests pass locally; no production write. Production-entry-point adoption and predecessor release pending | Validate/publish governance; reconcile ownership through GitHub; continue isolated engineering · Codex |
 
 ## Related work completed in this session (outside SS numbering; for traceability)
 
@@ -558,3 +598,4 @@ Authority: Platform Admin 6 Nov 2026 12:55 (`docs/platform/2026-11-06-close-pr88
 - Provider-description workflow, before and after (nothing new yet): reads 5 (4 proposed, 1 held); Layer 4 items pending 4, approved 0; AI spend US$0.0066 of US$1; descriptions admitted by this release 0; visible through Website API v2 because of this release 0. AI-generated text is not counted as admitted or published.
 - RESULT: DEPLOY PASS. WORKFLOW ACCEPTANCE PENDING: the new read path has not yet been exercised in production. No read is due on schedule. The bounded Run & Validate on the five pilot providers needs `provider-description-read` added to `run_now.jobs` (Platform Admin 5 Nov 20:03 §1: activated after deployment and role verification), a governed settings change that needs the Platform Admin's authenticated session. No corrective release is started.
 - Observation: a CI full-suite run on PR #892 found `cf-247-s288-process-results-ui` (phone width) failing in CI (an element intercepts a click); it passed locally three times. Not yet investigated; to be checked against current main.
+
