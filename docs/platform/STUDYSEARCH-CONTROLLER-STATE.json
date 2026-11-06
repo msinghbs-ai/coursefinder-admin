@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T151635Z",
-  "created_at": "2026-11-06T15:16:35Z",
+  "checkpoint_id": "CP-382-20261106T154227Z",
+  "created_at": "2026-11-06T15:42:27Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-takeover-20261106T142259Z",
-  "trigger": "workstream_completion",
+  "trigger": "session_termination",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -17,7 +17,7 @@
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "ownership_security_cutover_reconciliation",
+    "mode": "engineering_complete_account_cutover_blocked",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -34,7 +34,7 @@
     "worker": {
       "version": "v2.15.489",
       "deployment_commit": null,
-      "verified_at": "2026-11-06T14:11:14.548684Z",
+      "verified_at": "2026-11-06T15:28:50.955732Z",
       "evidence_ids": [
         "EV-FRONTEND-LIVE",
         "EV-FINAL-READS"
@@ -1836,7 +1836,7 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T15:06:19.420197Z",
+      "verified_at": "2026-11-06T15:30:30.955788Z",
       "evidence_ids": [
         "EV-MIGRATIONS"
       ]
@@ -1979,13 +1979,13 @@
       ],
       "dependencies": [],
       "blockers": [
-        "External production entry-point adoption pending",
-        "Exact Cloudflare deployment commit/authenticated UI unverified"
+        "Actual account fencing/adoption and active ownership pending",
+        "Exact Cloudflare commit/authenticated acceptance unverified"
       ],
       "test_evidence_ids": [
         "EV-SCHEMA"
       ],
-      "completion_summary": "Explicit Claude release independently reconciled and recorded by atomicCAS45bda42a; no accepted owner/lease. Production entry-point adoption and release authority remain gates."
+      "completion_summary": "Claude release and historicalrun reconciled; currenttarget6d95published without owner/lease. GitHubPUT/secret/protection403 demonstrates account boundary; source/CI fully prepared. No expiry takeover or completed transfer claimed."
     },
     {
       "id": "WS-382-SCHEMA",
@@ -2020,7 +2020,7 @@
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894",
       "owner": "Codex integration candidate; development handed to root, production blocked",
       "branch": "cf247-course-descriptions-complete",
-      "commit": "8035c3509671a2cb7ebcfe5d5040e53730f1311c",
+      "commit": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
       "worktree": "/workspace/delivery-894",
       "state": "blocked",
       "owned_paths": [
@@ -2054,14 +2054,14 @@
         "EV-894-FIX",
         "EV-894-REVIEW"
       ],
-      "completion_summary": "Four defects preserved; final UI492/.419/Worker0.59.9 sourcecd8 and metadata8035 pass canonical Node22 full1967/0/0/0, realPG, build, release and reuse checks. Live acceptance not executed."
+      "completion_summary": "Final candidate8bde11f8 verified canonicalNode22 full1967/0failed/0skipped/0flaky and metadata reuse/final/build/parity checks. Engineering complete; release and production acceptance blocked by account controls/ownership."
     },
     {
       "id": "WS-893",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893",
       "owner": "Codex integration candidate; development handed to root, production blocked",
       "branch": "cf247-english-requirements-complete",
-      "commit": "0edc65d69e351d4c0b48a58a083288f128cefdce",
+      "commit": "201b9126e96a8eb30e74c983699284ffe8055641",
       "worktree": "/workspace/delivery-893",
       "state": "blocked",
       "owned_paths": [
@@ -2090,7 +2090,7 @@
         "EV-893-FIX",
         "EV-893-REVIEW"
       ],
-      "completion_summary": "Final UI493/.420/Worker0.59.10 sourcefda1 and metadata0edc pass1992/0/0/0, actualPG471facts/0unexpected parity/71group+17exceptions, all current checks. Eighteen live guarded hashes and cron command compatible14:07\u201314:08. Not deployed."
+      "completion_summary": "Final candidate201b9126 verified canonicalNode22 full1992/0failed/0skipped/0flaky and metadata reuse/final/build/parity checks. Engineering complete; release and production acceptance blocked by account controls/ownership."
     },
     {
       "id": "WS-892",
@@ -2286,11 +2286,11 @@
     {
       "id": "WS-382-ADOPTION",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
-      "owner": "Codex ownership-entry agent handed off; root verifies integration",
+      "owner": "Codex root; both development agents handed off",
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+      "commit": "bcceb856411a927f233f94695d7073830a0f2264",
       "worktree": "/workspace/repair-ownership-followup",
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         ".github/workflows/component-register.yml",
         ".github/workflows/db-archive-export.yml",
@@ -2316,20 +2316,20 @@
         "WS-382"
       ],
       "blockers": [
-        "Actual external account fencing/cutover unavailable",
-        "Final metadata-only CI42226902408 stalled installing Chromium"
+        "Actual GitHub environment/secret/protection capabilities denied403",
+        "Cloudflare/directSQLaccountcontrols unverified"
       ],
       "test_evidence_ids": [
         "EV-GATE-PREP"
       ],
-      "completion_summary": "Allsource handedoff clean localc13b/tree2c4d; published8951e7 and dependent70e1/2f10/ac09. Local21existingS69+S400 checks/build/release pass;67shellprobes and20livecandidateCLI denials.19jobs audited8write-capable/2throwaway-only/9readers. Installedfencing and canonicalNode22fullCI remain pending."
+      "completion_summary": "Engineering complete: final895bcceb/1951full and metadata checks verified; source1e7/tree2c4d. Covers8write-capable/2throwaway-only/9reporting definitions, trusted targets and safe dispatch. Actual account controls/adoption remain blocked."
     },
     {
       "id": "WS-P0-DEADLINE",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695",
       "owner": "Codex integration candidate; development handed to root, production blocked",
       "branch": "delivery-p0-deadline-382",
-      "commit": "dc5c343d5d886ac03ce971254918d2c3b2d11bb5",
+      "commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
       "worktree": "/workspace/delivery-p0-deadline",
       "state": "blocked",
       "owned_paths": [
@@ -2361,16 +2361,16 @@
         "EV-DEADLINE-PROOF",
         "EV-DEADLINE-REPAIR"
       ],
-      "completion_summary": "Final source4baa/full1951 and metadatadc5c all current checks pass; actual73SQL assertions and genericPG parity pass; disabled3rowreview correction independently exercised. Production3wrongdeadlines remain unchanged."
+      "completion_summary": "Final candidate7984e7bd verified canonicalNode22 full1951/0failed/0skipped/0flaky and metadata reuse/final/build/parity checks. Engineering complete; release and production acceptance blocked by account controls/ownership."
     },
     {
       "id": "WS-382-SHELL-INPUTS",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687995329",
       "owner": "Codex shell-input agent handed off; root verifies integration",
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+      "commit": "bcceb856411a927f233f94695d7073830a0f2264",
       "worktree": "/workspace/review-895-readonly",
-      "state": "verifying",
+      "state": "completed",
       "owned_paths": [
         ".github/workflows/deploy-edge-functions.yml",
         ".github/workflows/db-function-snapshot.yml",
@@ -2389,14 +2389,11 @@
       "dependencies": [
         "WS-382-ADOPTION"
       ],
-      "blockers": [
-        "Actual external account fencing/cutover unavailable",
-        "Final metadata-only CI42226902408 stalled installing Chromium"
-      ],
+      "blockers": [],
       "test_evidence_ids": [
         "EV-GATE-PREP"
       ],
-      "completion_summary": "Localws382-safe-dispatch-inputs50f650f7 handedoff and integrated into8951e7 source.67actual extracted-shell probes passed; project/function/PR validation and quotedargv preserve valid paths without injection. No network/productioncalls. FullCI pending."
+      "completion_summary": "Five workflow repairs integrated into final895bcceb source;67shellprobes, existingS69/S400 and all4canonicalNode22full/final checks pass. Development lane complete; installed acceptance remains with WS382 adoption."
     }
   ],
   "prs": [
@@ -2405,17 +2402,15 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 893,
       "branch": "cf247-english-requirements-complete",
-      "commit": "ac09bc960d6802d13b2124834d51adac6ea5812f",
+      "commit": "201b9126e96a8eb30e74c983699284ffe8055641",
       "state": "open",
       "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-893",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
         42240459809,
-        42240459667,
-        42240459692,
-        42240459787
+        42242503724
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2426,25 +2421,24 @@
         "UI493/package420; Worker0.59.10/migration550000; follows894"
       ],
       "blockers": [
-        "Production ownership/adoption pending"
+        "Actual production account controls and atomic active ownership not verified"
       ],
-      "next_action": "Fresh canonical Node22 fullCI is running on final combined security source; verify exact-SHA bundles, then finalmetadata checks. Production account controls/authority remain required."
+      "next_action": "Code and all current checks pass. Preserve verified bundles and final metadata ancestry. Actual account fencing/active ownership and release-specific live gates are required before merge/release."
     },
     {
       "id": "PR-894",
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 894,
       "branch": "cf247-course-descriptions-complete",
-      "commit": "2f10e81004561f467d07e5fe823ed4f3f3856f4b",
+      "commit": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
       "state": "open",
       "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-894",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
         42240450622,
-        42240450501,
-        42240450433
+        42242495087
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2455,9 +2449,9 @@
         "UI492/package419; Worker0.59.9/migration500000; follows896"
       ],
       "blockers": [
-        "Production ownership/adoption pending"
+        "Actual production account controls and atomic active ownership not verified"
       ],
-      "next_action": "Fresh canonical Node22 fullCI is running on final combined security source; verify exact-SHA bundles, then finalmetadata checks. Production account controls/authority remain required."
+      "next_action": "Code and all current checks pass. Preserve verified bundles and final metadata ancestry. Actual account fencing/active ownership and release-specific live gates are required before merge/release."
     },
     {
       "id": "PR-892",
@@ -2717,14 +2711,15 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 895,
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+      "commit": "bcceb856411a927f233f94695d7073830a0f2264",
       "state": "open",
       "draft": true,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-382-ADOPTION",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
-        42240433812
+        42240433812,
+        42242291601
       ],
       "release_gates": [
         "All controller entry points adopt canonical reservation",
@@ -2735,25 +2730,24 @@
         "UI490/package417; #892 source integrated; first controlled fencing cutover"
       ],
       "blockers": [
-        "Production ownership/adoption pending",
-        "Newly confirmed component-register/archive writer fencing gaps"
+        "Actual production account controls and atomic active ownership not verified"
       ],
-      "next_action": "Fresh canonical Node22 fullCI is running on final combined security source; verify exact-SHA bundles, then finalmetadata checks. Production account controls/authority remain required."
+      "next_action": "Code and all current checks pass. Preserve verified bundles and final metadata ancestry. Actual account fencing/active ownership and release-specific live gates are required before merge/release."
     },
     {
       "id": "PR-896",
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 896,
       "branch": "delivery-p0-deadline-382",
-      "commit": "70e16592e7302d6e1658c5e02a68435e46beb1af",
+      "commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
       "state": "open",
       "draft": true,
       "owner": "Codex (development only)",
       "workstream_id": "WS-P0-DEADLINE",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
         42240445471,
-        42240445466
+        42242488745
       ],
       "release_gates": [
         "895cutoverandverifiedexclusiveauthority",
@@ -2764,11 +2758,9 @@
         "UI491/package418; migration450000; follows895"
       ],
       "blockers": [
-        "FullCIrunning",
-        "Externalownership/accountcutover",
-        "Exactcorrectionapprovalpending"
+        "Actual production account controls and atomic active ownership not verified"
       ],
-      "next_action": "Fresh canonical Node22 fullCI is running on final combined security source; verify exact-SHA bundles, then finalmetadata checks. Production account controls/authority remain required."
+      "next_action": "Code and all current checks pass. Preserve verified bundles and final metadata ancestry. Actual account fencing/active ownership and release-specific live gates are required before merge/release."
     }
   ],
   "releases": [
@@ -3703,17 +3695,24 @@
     {
       "id": "M-ALERT-COLLECTOR",
       "workstream_id": "WS-PROVIDER",
-      "name": "Pending count classified14:46; overdue watchdog refreshed15:06",
+      "name": "Current alert outbox and deadline counts",
       "value": {
-        "pending": 73,
-        "unattempted_pending": 73,
-        "waiting_beyond_deadline": 70,
-        "watchdog_ok": false,
-        "delivery_enabled": true,
-        "watchdog_measured_at": "2026-11-06T15:06:19.420197Z"
+        "pending": 75,
+        "unattempted_pending": 75,
+        "waiting_beyond_deadline": 71,
+        "historical_recovered_episode_events": 60,
+        "active_episode_events": 15,
+        "active_conditions": 4,
+        "duplicate_dedupe_keys": 0,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "coverage_queues:discover",
+          "queue_watch:course_page_search"
+        ]
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T14:46:39.607025Z",
+      "measured_at": "2026-11-06T15:30:30.955788Z",
       "status": "verified",
       "evidence_ids": [
         "EV-DELIVERY-PRODUCTION"
@@ -3735,7 +3734,7 @@
         "note": "Old discovery episode recovered; new discovery recurrence remains active. No alert acknowledged or delivered."
       },
       "unit": "alerts and events; classification is not acknowledgement",
-      "measured_at": "2026-11-06T14:46:39.607025Z",
+      "measured_at": "2026-11-06T15:30:30.955788Z",
       "status": "verified",
       "evidence_ids": [
         "EV-ALERT-CLASSIFICATION"
@@ -3749,10 +3748,11 @@
         "courses": 3,
         "consumer_paths": 3,
         "corrected": 0,
-        "wider_scope_verified": false
+        "wider_scope_verified": false,
+        "exact_bad_values_present": 3
       },
       "unit": "exact audited records",
-      "measured_at": "2026-11-06T12:41:28Z",
+      "measured_at": "2026-11-06T15:30:30.955788Z",
       "status": "verified",
       "evidence_ids": [
         "EV-DEADLINE-PROOF"
@@ -3761,49 +3761,49 @@
     {
       "id": "M-FINAL-CANDIDATE-TESTS",
       "workstream_id": null,
-      "name": "Prior verified candidate evidence before takeover security source changes",
+      "name": "Current verified final candidate evidence, not production gains",
       "value": {
-        "894": {
-          "passed": 1967,
+        "895": {
+          "passed": 1951,
           "failed": 0,
           "skipped": 0,
           "flaky": 0,
-          "source_run": 42229130399,
-          "final_run": 42231823589
-        },
-        "893": {
-          "passed": 1992,
-          "failed": 0,
-          "skipped": 0,
-          "flaky": 0,
-          "source_run": 42229294179,
-          "final_run": 42230839017
+          "source_run": 42240433812,
+          "final_run": 42242291601
         },
         "896": {
           "passed": 1951,
           "failed": 0,
           "skipped": 0,
           "flaky": 0,
-          "source_run": 42228204487,
-          "final_run": 42230441319
+          "source_run": 42240445471,
+          "final_run": 42242488745
         },
-        "895": {
-          "passed": 1951,
+        "894": {
+          "passed": 1967,
           "failed": 0,
           "skipped": 0,
           "flaky": 0,
-          "source_run": 42224237322,
-          "final_run_pending": 42226902408
+          "source_run": 42240450622,
+          "final_run": 42242495087
+        },
+        "893": {
+          "passed": 1992,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0,
+          "source_run": 42240459809,
+          "final_run": 42242503724
         },
         "merged": 0,
         "production_releases": 0,
         "production_corrections": 0
       },
       "unit": "actual tests and verified execution counts",
-      "measured_at": "2026-11-06T14:18:07Z",
+      "measured_at": "2026-11-06T15:42:27Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-FINAL-CANDIDATES"
+        "EV-TAKEOVER-FINAL-GATES"
       ]
     },
     {
@@ -4185,9 +4185,9 @@
       "id": "P1-895-UNFENCED-SECONDARY-MUTATORS",
       "source": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687359496",
       "severity": "P1",
-      "state": "verifying",
-      "summary": "Three omitted writers, five unchecked credential targets and privileged dispatch interpolation are repaired in finalsource; source review covers all19jobs. Installed adoption remains unverified.",
-      "next_action": "Verify final Node22fullCI and exactbundles, then accountowner installs reviewed fencing through controlled bootstrap and tests actual denial/recovery before active ownership.",
+      "state": "blocked",
+      "summary": "All discovered source coverage/target/input gaps repaired and verified; current production entrypoint installation and credential fencing remain unverified. Not closed on CI.",
+      "next_action": "Accountowner-controlledbootstrap, actual denial/recovery and adoption evidence before active controller authority.",
       "evidence_ids": [
         "EV-TAKEOVER-CONTROL"
       ]
@@ -4245,7 +4245,7 @@
     {
       "id": "D-382-CUTOVER",
       "status": "pending",
-      "summary": "Claude release and historical run non-executability verified; no further acknowledgement/deletion required. GitHub owner must grant installed-app environment/secret/protection permissions or perform controls directly (actualPUT403); Cloudflare owner installs real deploy gate and alternate credential controls; Supabase owner restricts directwrite credentials. Preserve19privilegedjobs including actualreaders/recovery; exact3deadline correction approval remains separate.",
+      "summary": "Claude acknowledgement and historical-run reconciliation complete; deletion not required. GitHubowner must grant or perform deniedenvironment/secret/protection controls and controlled895installation; Cloudflareowner installs actual pinneddeploygate/restrictsalternatetokens; Supabaseowner restrictsdirectwritebindings. Preserve19privilegedjobs/recovery. Exact3deadlinecorrectiondecision remains separate.",
       "authority": "Platform Admin/account owner",
       "required_for": [
         "production_controller_acceptance",
@@ -4294,18 +4294,6 @@
       "next_action": "Review concrete PR895 and configure/verify external controls under current authority before marking adoption verified.",
       "evidence_ids": [
         "EV-GATE-PREP"
-      ]
-    },
-    {
-      "id": "B-CI-895-INSTALL",
-      "summary": "Earlier stalled metadata run superseded by actual source fixes; firstrepairfullCIpassed. Fresh finalsecuritysource Node22fullCI currentlyrunning.",
-      "owner": "GitHub Actions dependency/runner service",
-      "workstream_ids": [
-        "WS-382-ADOPTION"
-      ],
-      "next_action": "Inspect current42240433812 and siblings; do not reuse oldsource evidence across executable changes.",
-      "evidence_ids": [
-        "EV-FINAL-CANDIDATES"
       ]
     }
   ],
@@ -4708,12 +4696,19 @@
       "kind": "github_commit",
       "observed_at": "2026-11-06T15:16:35Z",
       "summary": "Exactlocaltestedtree2c4d published8951e7; combined21existingS69+S400 tests/build/release pass onlocalNode24.67shellprobes pass. GuardSHA256cfa06ba903d4849fba714e772b52e7e67b5ecf1c5a7d838ca8c2c46e61209cc9.20livecandidateCLI probes deny current/competing actors across10entries; no writes. Strong orphanproof: originaldispatcheronlycallsrecipientfilenameonmain; recipientfileabsent and Actionsmetadata356499790deleted. MetadataGET200isnotexecutableworkflow; no dispatch attempted. Sourceonly, actualaccountadoptionpending."
+    },
+    {
+      "id": "EV-TAKEOVER-FINAL-GATES",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/blob/main/docs/platform/validation/2026-11-06-controller-cutover-verification.json",
+      "kind": "workflow_run",
+      "observed_at": "2026-11-06T15:42:27Z",
+      "summary": "All4sourcefull and finalmetadata gates pass:8951951/8961951/8941967/8931992,0fail/skip/flaky. All8bundles downloaded,digestchecked/exactSHAvalid, same-runregisters committed, extra provider fixture completed successfully. Oldstall42226902408 cancelled14:44 by changedsourceconcurrency. NoactiveGitHubruns15:37. Frontend15:28HTTP/asset200/v489/.416/hash2099cae6 unchanged; coverageedge239ACTIVE/995d5111 unchanged. DB15:30head400000/1791,exact3badvaluespresent,75pending/allunattempted/71overdue,60historical+15active across4conditions/0duplicates. pilotstillunprotected andsecretGET40315:28. Noaccountchange or productionmutation."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Published final security-source1e7/70e1/2f10/ac09 with exact tested895tree2c4d. Both agents handedoff;20livecandidateCLI denials complete and orphan recipient source independently reconciled.",
-    "current_action": "Root verifies fresh canonical Node22CI and prepares exact verifier/account cutover evidence; no production authority or mutation.",
-    "next_safe_action": "Inspect finalsourceCI; download/hash/verify exactbundles and same-runregisters. Accountowner must resolve actualenvironment/secrets/protection403 and Cloudflare/directSQLcontrols before controlleracceptance and reserved sequentialrelease.",
+    "last_completed_atomic_action": "Verified all source/final candidate bundles and all GitHub checks; updated same-runregisters and consolidated account decision. Production readback unchanged; all agents/tests/CI now terminal.",
+    "current_action": "Ending bounded takeover cycle at demonstrated external account/authority boundary. No production operation reserved or initiated.",
+    "next_safe_action": "Authorised GitHub/Cloudflare/Supabase account owners complete D-382-CUTOVER or grant supported capabilities; incoming actualexecution independently rereads live state, retargets existing atomicprotocol, verifies denial/recovery/adoption before active acceptance, then reserved sequential releases and exact approvedcorrection.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4727,7 +4722,10 @@
       "Do not repeat failed SQL fixtures from old heads; fixed runners now require genuine scenario execution.",
       "Do not rerun final passing8941967/8931992/8961951 suites for unchanged metadata; preserve verified fingerprints and final checks.",
       "Do not republish source already on GitHub merely because local commits differ; canonical remote heads are recorded.",
-      "No continuation or heartbeat is claimed after this bounded execution ends."
+      "No continuation or heartbeat is claimed after this bounded execution ends.",
+      "Do not request another Claude acknowledgement or require deletion of34749286102; its dispatcher/recipient evidence is reconciled.",
+      "Do not rerun unchanged final full suites or rebuild continuity:895bcceb/8967984/8948bde/893201b bundles and finalchecks are verified.",
+      "Do not treat source denial probes, environment references or nominalrepo.admin=true as installed security controls; actual account APIs returned403."
     ],
     "verification_required": [
       "Actual external GitHub/Cloudflare/direct-SQL fencing adoption and explicit release authority",
@@ -4735,22 +4733,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T145156Z",
+    "predecessor_checkpoint": "CP-382-20261106T151635Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Both independent security workstreams are complete and published. Root is verifying fresh governed CI on the final source. Claude release and the old queued run are reconciled; production remains held at an actual account-control boundary.",
-    "baseline": "**Baseline:** Fresh14:26 UTC database read confirms1,791 migrations/head20261106400000, olddeadlinehelperf01e9 and courseguardff3d6 unchanged. Alerts73pending/allunattempted. Last14:11 HTTP/asset baseline remains UI2.15.489/package0.1.416; coverageWorker0.59.8/edge239. Followup activeclienttransaction inventory empty; exactCloudflarecommit/authenticatedUI stillunverified.",
-    "completed": "**Completed:** Three writer guards, five trusted login targets, safe dispatch/evidence arguments and recovery safeguards are published. Local21existing S69/S400 tests/build/release and67shellprobes pass;20live candidate verifier probes deny both actors across10entrypoints. FirstrepairCI passed; finalsource Node22CI is running. All73alerts classified56historical/17active across6conditions,0duplicates/allunattempted; latestwatchdog70overdue15:06. Merges0/releases0/corrections0.",
-    "priorities": "**Priorities:** Contain the deadline P0 and release its guard; complete account fencing and exclusive ownership; release #895 \u2192 #896 \u2192 #894 \u2192 #893, with #892 already integrated into #895. Continue bounded #877/#889 and other operational acceptance. Preserve #890/#875 holds, budgets and human authority.",
-    "workstreams": "**Workstreams:** Both agents stopped with clean committed source. Mainrepair localc13b516d/ws382-screenshot-guard in /workspace/repair-ownership-followup; shelllane50f650f7/ws382-safe-dispatch-inputs in /workspace/review-895-readonly. Source is durably integrated in8951e7 and dependentbranches; root owns remaining CI/integration. No migrations or production authority assigned to agents.",
-    "pending_prs_migrations": "**Pending PRs/migrations:** Finalsecurity heads8951e7eaabe\u219289670e16592\u21928942f10e810\u2192893ac09bc96. Candidate UI490/491/492/493, Workers0.59.9/.10 and migrations450000\u2192500000\u2192550000 unchanged. Allunmerged/unapplied; freshCI required.892source remains explicit895 ancestor.890/875holds unchanged.",
-    "decisions": "**Decisions:** msinghbs-ai GitHub repository/installed-app administrator must grant required environment/secret/protection access or perform scoped controls directly; actual environment PUT403 is evidence. Cloudflare account owner must install the pinned deploy command and control alternate tokens. Supabase owner must restrict direct write access. Claude cessation is acknowledged, not credential revocation. Exact three-row correction authority, human Layer4/trust, consumer API, reserves and existing holds remain.",
-    "in_flight": "**In flight:** Onlybranch CI on the four final candidates; no activeagents/localcriticaltests/productionwrites. Atomic6d95b3e1 stillpublished/noowner/nolease/adoptionpending. Original34749286102 onlydispatches a recipient absentfrommain and markeddeleted; no currentproductionexecutionpath and no deletionprerequisite.",
-    "next_safe_action": "**Next safe action:** Verify current fullCI and immutablebundles, publish same-runregisters/finalchecks, then verify actual accountcutover controls using the new pinnedverifier before accepting activeownership. GitHubowner must grant or perform deniedenvironment/secrets/protection controls; Cloudflare/Supabase owners must control their writeentrypoints. Release895\u2192896\u2192894\u2192893 only after allgates and exactcorrectionauthority.",
-    "risks_recovery": "**Risks/recovery:** Reviewed source covers8write-capable,2throwaway-only and9reporting jobs; it is not installedfencing. ActualGitHubPUT403, missingcredential/Cloudflare/directSQLcontrols remain. Scheduledcomponent writes need fresh reservations; reporting and GET-onlymanifest recovery remain available after installation. Threewrongdeadlines stilllive;73alerts remainunattempted and70overdue15:06. Preserve allhumanadmission/trust/destructive/API/reserve holds.",
-    "evidence": "**Evidence:** [final895source](https://github.com/msinghbs-ai/Coursefinder-Pilot/commit/1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d), [final895CI](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42240433812), [finalscopeaudit](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687995329), [control/source/alert proof](validation/2026-11-06-controller-cutover-verification.json), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json)."
+    "reason": "**Reason:** This bounded takeover cycle is ending at a demonstrated external account/authority boundary. Engineering and all candidate checks are complete. Claude\u2019s release and the historical queued run are reconciled; no active controller acceptance is claimed.",
+    "baseline": "**Baseline:** Pilot main remains `4ba94e3f`. At 15:28 UTC, HTTP and asset 200 still served UI 2.15.489/package 0.1.416 with unchanged hash 2099cae6; coverage edge 239 is ACTIVE with unchanged bundle 995d5111 (Worker 0.59.8). At 15:30 UTC the database had 1,791 migrations, head 20261106400000, and all three exact incorrect deadlines. Exact Cloudflare deployment commit and authenticated operator acceptance remain unverified.",
+    "completed": "**Completed:** Three omitted writer paths, five credential targets and dispatch/evidence input handling repaired. All source and final metadata CI checks pass: #895 1,951; #896 1,951; #894 1,967; #893 1,992 tests, each with zero failures, skips or flakes. All eight bundles verified and registers committed. The 19 privileged definitions comprise eight write-capable jobs, two throwaway-only writers and nine reporters. All 75 alerts were reconciled: 60 historical, 15 active events across four conditions, zero duplicates; all unattempted and 71 overdue. Pilot merges: zero; production releases: zero; rows corrected: zero.",
+    "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 \u2192 #896 \u2192 #894 \u2192 #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
+    "workstreams": "**Workstreams:** Both agents stopped with clean committed handoffs. Main repair c13b516d in /workspace/repair-ownership-followup and shell repair 50f650f7 in /workspace/review-895-readonly are fully integrated into published source 1e7eaabe and final bcceb856. No unique uncommitted engineering remains; local logs and symlinks are supplementary. Root has no active production lease or reservation.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) \u2192 #896 7984e7bd (UI 491/package 418, migration 450000) \u2192 #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) \u2192 #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
+    "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
+    "in_flight": "**In flight:** No active agent, local critical test, GitHub workflow or production operation initiated by this execution. The final provider fixture succeeded. The old stalled #895 metadata run was cancelled by changed-source concurrency. Atomic ref 6d95b3e1 remains published with owner null, lease null and adoption pending. Historical run 34749286102 has no current production path. Cloudflare account execution state cannot be independently inspected with current capabilities.",
+    "next_safe_action": "**Next safe action:** Account owners complete or enable verification of D-382-CUTOVER controls. A fresh execution independently rechecks GitHub, production and the remaining baseline/flag/measurement gates, retargets the existing atomic protocol using actual release evidence, and verifies installed denial, recovery and adoption before active acceptance. Preserve tested trees, then reserve sequential releases, the exact approved correction and measured production acceptance.",
+    "risks_recovery": "**Risks/recovery:** Three incorrect deadlines remain and 75 alerts are unattempted; no live improvement or issue closure is claimed. Candidate denial probes and green CI do not install fencing. The pilot environment is unprotected and secret access remains 403. The release-ready validator also refuses unverified exact deployment baseline, flag compatibility and deferred operational measurements. #877 human proposals and #889 authenticated UI, re-login and consumer HTTP/cache acceptance remain open. No unattended monitoring, heartbeat or successor acceptance is claimed.",
+    "evidence": "**Evidence:** [final895](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242291601), [final896](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242488745), [final894](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495087), [final893](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503724), [account/probe/source/alert proof](validation/2026-11-06-controller-cutover-verification.json), [consolidated decision](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382)."
   }
 }

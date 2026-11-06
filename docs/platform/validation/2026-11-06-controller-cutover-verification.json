@@ -1554,5 +1554,888 @@
     ],
     "all_denied": true,
     "scope": "Read-only verifier invocations against live atomic authority; no SQL/deploy command was executed. Candidate is not installed at production entry points; this is not proof external bypass credentials are fenced."
+  },
+  "verified_final_candidate_evidence": [
+    {
+      "pr": 895,
+      "source_sha": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+      "final_sha": "bcceb856411a927f233f94695d7073830a0f2264",
+      "source_run": "42240433812",
+      "final_run": "42242291601",
+      "artifact_id": 13516721569,
+      "zip_sha256": "bd504bf87736d62bcf4e0d491d755b505c04bf7924d4e240936df93a6d3af207",
+      "kind": "reused",
+      "totals": {
+        "total": 1951,
+        "passed": 1951,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "fingerprint": "958d3efcaaa4960aa7448d23eb6848eeff442bd72aa563f7b5c61d6b3c76934a",
+      "reuse": {
+        "from": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+        "fromRunId": "42240433812",
+        "fromFingerprint": "958d3efcaaa4960aa7448d23eb6848eeff442bd72aa563f7b5c61d6b3c76934a",
+        "changedPaths": [
+          "docs/platform/TEST-REGISTER.md"
+        ],
+        "rule": "only explicitly classified non-executable metadata changed (scripts/test-evidence-classes.json)"
+      },
+      "final_checks": "pass",
+      "build": "pass",
+      "parity": "not-applicable"
+    },
+    {
+      "pr": 896,
+      "source_sha": "70e16592e7302d6e1658c5e02a68435e46beb1af",
+      "final_sha": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+      "source_run": "42240445471",
+      "final_run": "42242488745",
+      "artifact_id": 13516736915,
+      "zip_sha256": "f4b4bd1b1cecd0a0e2f9f6131cbb9d9246decc19dc6dd406ace619278c955cd0",
+      "kind": "reused",
+      "totals": {
+        "total": 1951,
+        "passed": 1951,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "fingerprint": "1f530e7bcca78e6d586abeab0e5139863c7e75cb14813df4f27e66f29d5ae105",
+      "reuse": {
+        "from": "70e16592e7302d6e1658c5e02a68435e46beb1af",
+        "fromRunId": "42240445471",
+        "fromFingerprint": "1f530e7bcca78e6d586abeab0e5139863c7e75cb14813df4f27e66f29d5ae105",
+        "changedPaths": [
+          "docs/platform/TEST-REGISTER.md"
+        ],
+        "rule": "only explicitly classified non-executable metadata changed (scripts/test-evidence-classes.json)"
+      },
+      "final_checks": "pass",
+      "build": "pass",
+      "parity": "pass"
+    },
+    {
+      "pr": 894,
+      "source_sha": "2f10e81004561f467d07e5fe823ed4f3f3856f4b",
+      "final_sha": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
+      "source_run": "42240450622",
+      "final_run": "42242495087",
+      "artifact_id": 13516697008,
+      "zip_sha256": "b972e2344c929ddd720bcaf0d4690a1d28e7171fc9917029afeb10da6239121d",
+      "kind": "reused",
+      "totals": {
+        "total": 1967,
+        "passed": 1967,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "fingerprint": "0ef72c4ab91ab059465bcc6f3540a75ba06dc216ae5eb5c54edae63866a544a4",
+      "reuse": {
+        "from": "2f10e81004561f467d07e5fe823ed4f3f3856f4b",
+        "fromRunId": "42240450622",
+        "fromFingerprint": "0ef72c4ab91ab059465bcc6f3540a75ba06dc216ae5eb5c54edae63866a544a4",
+        "changedPaths": [
+          "docs/platform/TEST-REGISTER.md"
+        ],
+        "rule": "only explicitly classified non-executable metadata changed (scripts/test-evidence-classes.json)"
+      },
+      "final_checks": "pass",
+      "build": "pass",
+      "parity": "pass"
+    },
+    {
+      "pr": 893,
+      "source_sha": "ac09bc960d6802d13b2124834d51adac6ea5812f",
+      "final_sha": "201b9126e96a8eb30e74c983699284ffe8055641",
+      "source_run": "42240459809",
+      "final_run": "42242503724",
+      "artifact_id": 13515887148,
+      "zip_sha256": "45680e73cdae68ebd4954308ba2e549b3d4d17f772d322d4e5c538c1663ae71c",
+      "kind": "reused",
+      "totals": {
+        "total": 1992,
+        "passed": 1992,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "fingerprint": "9a0e9fc8d2ec8ec96832b41e74ca1c870e264bdb8446c26ca2e6c4b7322ae9b7",
+      "reuse": {
+        "from": "ac09bc960d6802d13b2124834d51adac6ea5812f",
+        "fromRunId": "42240459809",
+        "fromFingerprint": "9a0e9fc8d2ec8ec96832b41e74ca1c870e264bdb8446c26ca2e6c4b7322ae9b7",
+        "changedPaths": [
+          "docs/platform/TEST-REGISTER.md"
+        ],
+        "rule": "only explicitly classified non-executable metadata changed (scripts/test-evidence-classes.json)"
+      },
+      "final_checks": "pass",
+      "build": "pass",
+      "parity": "pass"
+    }
+  ],
+  "latest_production_read": {
+    "observed_at": "2026-11-06 15:30:30.955788+00",
+    "migration_head": "20261106400000",
+    "migration_count": 1791,
+    "pending_alerts": 75,
+    "unattempted_alerts": 75,
+    "overdue_alerts": 71,
+    "exact_bad_values_present": 3,
+    "alert_classification": [
+      {
+        "id": 21,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "5c5549f5-dda9-485f-8da7-791063cd3af4",
+        "check_key": "cron:failed:search-refresh-requested",
+        "dedupe_key": "5c5549f5-dda9-485f-8da7-791063cd3af4:recovered",
+        "resolved_at": "2026-11-03T07:18:00.230226+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 22,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "198de748-616e-4840-a8fa-d212dcb4897a",
+        "check_key": "cron:failed:provider-identity-check",
+        "dedupe_key": "198de748-616e-4840-a8fa-d212dcb4897a:raised",
+        "resolved_at": "2026-11-04T09:18:00.179455+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 23,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:raised",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 24,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "07f2ca7d-7b2c-4208-af03-30118bba1d00",
+        "check_key": "budgets:openrouter_daily",
+        "dedupe_key": "07f2ca7d-7b2c-4208-af03-30118bba1d00:reminder:202611031520",
+        "resolved_at": "2026-11-03T18:48:00.309171+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 25,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "07f2ca7d-7b2c-4208-af03-30118bba1d00",
+        "check_key": "budgets:openrouter_daily",
+        "dedupe_key": "07f2ca7d-7b2c-4208-af03-30118bba1d00:recovered",
+        "resolved_at": "2026-11-03T18:48:00.309171+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 26,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+        "check_key": "budgets:firecrawl",
+        "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:raised",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 27,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "1631b74c-51c6-4185-98c5-fc715c9f3dff",
+        "check_key": "cron:failed:scholarship-coverage-classify",
+        "dedupe_key": "1631b74c-51c6-4185-98c5-fc715c9f3dff:raised",
+        "resolved_at": "2026-11-03T21:38:00.195328+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 28,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "1631b74c-51c6-4185-98c5-fc715c9f3dff",
+        "check_key": "cron:failed:scholarship-coverage-classify",
+        "dedupe_key": "1631b74c-51c6-4185-98c5-fc715c9f3dff:recovered",
+        "resolved_at": "2026-11-03T21:38:00.195328+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 29,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611032200",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 30,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "27f15049-89d8-462d-b5a8-9e0dd00d110c",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "27f15049-89d8-462d-b5a8-9e0dd00d110c:raised",
+        "resolved_at": "2026-11-03T23:49:00.194174+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 31,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "27f15049-89d8-462d-b5a8-9e0dd00d110c",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "27f15049-89d8-462d-b5a8-9e0dd00d110c:recovered",
+        "resolved_at": "2026-11-03T23:49:00.194174+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 32,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3:raised",
+        "resolved_at": "2026-11-04T04:04:00.277349+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 33,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3:raised",
+        "resolved_at": "2026-11-04T02:49:00.174451+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 34,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3:recovered",
+        "resolved_at": "2026-11-04T02:49:00.174451+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 35,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3:recovered",
+        "resolved_at": "2026-11-04T04:04:00.277349+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 36,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "f947b0cd-a0ff-4240-8654-693eee21eb8d",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "f947b0cd-a0ff-4240-8654-693eee21eb8d:raised",
+        "resolved_at": "2026-11-04T08:49:00.175734+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 37,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "ef3d14e4-848f-453f-8d03-32299424410e",
+        "check_key": "cron:failed:coverage-admit",
+        "dedupe_key": "ef3d14e4-848f-453f-8d03-32299424410e:recovered",
+        "resolved_at": "2026-11-04T05:18:00.317187+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 38,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b:raised",
+        "resolved_at": "2026-11-04T07:49:00.21547+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 39,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+        "check_key": "budgets:firecrawl",
+        "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611040710",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 40,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b:recovered",
+        "resolved_at": "2026-11-04T07:49:00.21547+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 41,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "f947b0cd-a0ff-4240-8654-693eee21eb8d",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "f947b0cd-a0ff-4240-8654-693eee21eb8d:recovered",
+        "resolved_at": "2026-11-04T08:49:00.175734+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 42,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "198de748-616e-4840-a8fa-d212dcb4897a",
+        "check_key": "cron:failed:provider-identity-check",
+        "dedupe_key": "198de748-616e-4840-a8fa-d212dcb4897a:recovered",
+        "resolved_at": "2026-11-04T09:18:00.179455+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 43,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611041000",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 44,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "3b200269-66e1-4115-9a6d-960530691da5",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "3b200269-66e1-4115-9a6d-960530691da5:raised",
+        "resolved_at": "2026-11-04T17:34:00.245032+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 45,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "ee6165b5-2330-425b-9eef-41fb779b7d5c",
+        "check_key": "cron:failed:course-relink",
+        "dedupe_key": "ee6165b5-2330-425b-9eef-41fb779b7d5c:recovered",
+        "resolved_at": "2026-11-04T11:28:00.213305+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 46,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:raised",
+        "resolved_at": "2026-11-06T12:38:00.238206+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 47,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "c25db680-a9ef-47cd-a20c-a32d81c514b5",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "c25db680-a9ef-47cd-a20c-a32d81c514b5:raised",
+        "resolved_at": "2026-11-04T12:49:00.223192+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 48,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "c25db680-a9ef-47cd-a20c-a32d81c514b5",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "c25db680-a9ef-47cd-a20c-a32d81c514b5:recovered",
+        "resolved_at": "2026-11-04T12:49:00.223192+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 49,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "72952e05-511a-4105-824e-a37d11831646",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "72952e05-511a-4105-824e-a37d11831646:raised",
+        "resolved_at": "2026-11-04T15:49:00.195755+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 50,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "72952e05-511a-4105-824e-a37d11831646",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "72952e05-511a-4105-824e-a37d11831646:recovered",
+        "resolved_at": "2026-11-04T15:49:00.195755+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 51,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "3b200269-66e1-4115-9a6d-960530691da5",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "3b200269-66e1-4115-9a6d-960530691da5:recovered",
+        "resolved_at": "2026-11-04T17:34:00.245032+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 52,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "417d84f0-d77c-477c-8c12-adee501aac18",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "417d84f0-d77c-477c-8c12-adee501aac18:raised",
+        "resolved_at": "2026-11-04T20:49:00.175181+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 53,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+        "check_key": "budgets:firecrawl",
+        "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611041920",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 54,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "1bc119fb-57d0-420b-a90d-50e695ec7272",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "1bc119fb-57d0-420b-a90d-50e695ec7272:raised",
+        "resolved_at": "2026-11-05T07:34:00.223747+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 55,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "417d84f0-d77c-477c-8c12-adee501aac18",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "417d84f0-d77c-477c-8c12-adee501aac18:recovered",
+        "resolved_at": "2026-11-04T20:49:00.175181+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 56,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611042200",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 57,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611050000",
+        "resolved_at": "2026-11-06T12:38:00.238206+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 58,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb:raised",
+        "resolved_at": "2026-11-05T04:49:00.172858+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 59,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb:recovered",
+        "resolved_at": "2026-11-05T04:49:00.172858+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 60,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+        "check_key": "budgets:firecrawl",
+        "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611050720",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 61,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "1bc119fb-57d0-420b-a90d-50e695ec7272",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "1bc119fb-57d0-420b-a90d-50e695ec7272:recovered",
+        "resolved_at": "2026-11-05T07:34:00.223747+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 62,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a:raised",
+        "resolved_at": "2026-11-05T11:34:00.25424+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 63,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611051010",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 64,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a:recovered",
+        "resolved_at": "2026-11-05T11:34:00.25424+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 65,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611051200",
+        "resolved_at": "2026-11-06T12:38:00.238206+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 66,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "3cae3643-6fe0-4ebb-a134-9666f081d71d",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "3cae3643-6fe0-4ebb-a134-9666f081d71d:raised",
+        "resolved_at": "2026-11-05T14:49:00.215174+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 67,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367",
+        "check_key": "queue_watch:course_page_search",
+        "dedupe_key": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367:raised",
+        "resolved_at": "2026-11-05T14:04:00.266197+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 68,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367",
+        "check_key": "queue_watch:course_page_search",
+        "dedupe_key": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367:recovered",
+        "resolved_at": "2026-11-05T14:04:00.266197+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 69,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "3cae3643-6fe0-4ebb-a134-9666f081d71d",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "3cae3643-6fe0-4ebb-a134-9666f081d71d:recovered",
+        "resolved_at": "2026-11-05T14:49:00.215174+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 70,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "d4d1a355-44dc-4fcd-8724-929aaf5543a3",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "d4d1a355-44dc-4fcd-8724-929aaf5543a3:raised",
+        "resolved_at": "2026-11-05T19:49:00.223545+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 71,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "ef818ce1-7e63-48e3-8393-dcb89abe45c2",
+        "check_key": "queue_watch:course_page_search",
+        "dedupe_key": "ef818ce1-7e63-48e3-8393-dcb89abe45c2:raised",
+        "resolved_at": "2026-11-06T12:04:00.216929+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 72,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+        "check_key": "budgets:firecrawl",
+        "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611051930",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 73,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "d4d1a355-44dc-4fcd-8724-929aaf5543a3",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "d4d1a355-44dc-4fcd-8724-929aaf5543a3:recovered",
+        "resolved_at": "2026-11-05T19:49:00.223545+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 74,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611052220",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 75,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "428bd984-a936-4d6d-bdea-a9bc014a2e08",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "428bd984-a936-4d6d-bdea-a9bc014a2e08:raised",
+        "resolved_at": "2026-11-05T23:34:00.24589+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 76,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "428bd984-a936-4d6d-bdea-a9bc014a2e08",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "428bd984-a936-4d6d-bdea-a9bc014a2e08:recovered",
+        "resolved_at": "2026-11-05T23:34:00.24589+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 77,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611060010",
+        "resolved_at": "2026-11-06T12:38:00.238206+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 78,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "4c8685a5-e8af-4f85-946b-ca8541673ff6",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "4c8685a5-e8af-4f85-946b-ca8541673ff6:raised",
+        "resolved_at": "2026-11-06T07:34:00.227178+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 79,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a:raised",
+        "resolved_at": "2026-11-06T03:49:00.232405+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 80,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a:recovered",
+        "resolved_at": "2026-11-06T03:49:00.232405+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 81,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "ef818ce1-7e63-48e3-8393-dcb89abe45c2",
+        "check_key": "queue_watch:course_page_search",
+        "dedupe_key": "ef818ce1-7e63-48e3-8393-dcb89abe45c2:reminder:202611060450",
+        "resolved_at": "2026-11-06T12:04:00.216929+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 82,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+        "check_key": "budgets:firecrawl",
+        "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611060730",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 83,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "4c8685a5-e8af-4f85-946b-ca8541673ff6",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "4c8685a5-e8af-4f85-946b-ca8541673ff6:recovered",
+        "resolved_at": "2026-11-06T07:34:00.227178+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 84,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611061030",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 85,
+        "kind": "reminder",
+        "attempts": 0,
+        "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611061210",
+        "resolved_at": "2026-11-06T12:38:00.238206+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 86,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "bf98d368-8c67-4574-8d53-8f1b1dee061c",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "bf98d368-8c67-4574-8d53-8f1b1dee061c:raised",
+        "resolved_at": "2026-11-06T12:49:00.166559+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 87,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "ef818ce1-7e63-48e3-8393-dcb89abe45c2",
+        "check_key": "queue_watch:course_page_search",
+        "dedupe_key": "ef818ce1-7e63-48e3-8393-dcb89abe45c2:recovered",
+        "resolved_at": "2026-11-06T12:04:00.216929+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 88,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "bbd847d2-a3d3-4826-8965-25dd0ea5a938",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "bbd847d2-a3d3-4826-8965-25dd0ea5a938:raised",
+        "resolved_at": "2026-11-06T15:04:00.220228+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 89,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:recovered",
+        "resolved_at": "2026-11-06T12:38:00.238206+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 90,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "bf98d368-8c67-4574-8d53-8f1b1dee061c",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "bf98d368-8c67-4574-8d53-8f1b1dee061c:recovered",
+        "resolved_at": "2026-11-06T12:49:00.166559+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 91,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "ccdb1a69-4407-4beb-b1c3-40c7f1720f96",
+        "check_key": "coverage_queues:discover",
+        "dedupe_key": "ccdb1a69-4407-4beb-b1c3-40c7f1720f96:raised",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 92,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b:raised",
+        "resolved_at": "2026-11-06T14:49:00.220934+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 93,
+        "kind": "raised",
+        "attempts": 0,
+        "issue_id": "7b12ce2a-7e99-43e1-9312-ba2993d1336e",
+        "check_key": "queue_watch:course_page_search",
+        "dedupe_key": "7b12ce2a-7e99-43e1-9312-ba2993d1336e:raised",
+        "resolved_at": null,
+        "classification": "active_episode_event"
+      },
+      {
+        "id": 94,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b",
+        "check_key": "queue_watch:companion_read",
+        "dedupe_key": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b:recovered",
+        "resolved_at": "2026-11-06T14:49:00.220934+00:00",
+        "classification": "historical_recovered_episode"
+      },
+      {
+        "id": 95,
+        "kind": "recovered",
+        "attempts": 0,
+        "issue_id": "bbd847d2-a3d3-4826-8965-25dd0ea5a938",
+        "check_key": "queue_watch:course_list_read",
+        "dedupe_key": "bbd847d2-a3d3-4826-8965-25dd0ea5a938:recovered",
+        "resolved_at": "2026-11-06T15:04:00.220228+00:00",
+        "classification": "historical_recovered_episode"
+      }
+    ]
   }
 }
