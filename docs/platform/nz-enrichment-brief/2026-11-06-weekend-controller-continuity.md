@@ -99,7 +99,7 @@ state/schema sit beside it. The `studysearch-controller` ref at
 reconciliation, generation 0, no owner, no heartbeat/lease, adoption pending.
 Normal transfer and interrupted recovery retain immutable operation IDs and fail closed.
 
-Local validation: 16 schema/handover tests and 11 ownership tests pass, including
+Local validation: 17 schema/handover tests and 11 ownership tests pass, including
 a real two-contender nonforced Git push with exactly one winner. The actual populated
 checkpoint passes record validation; release-ready validation is expected to fail
 while authority and baseline gates are missing. Remote workflow evidence is recorded

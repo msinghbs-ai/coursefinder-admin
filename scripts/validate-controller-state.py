@@ -28,7 +28,7 @@ def utc(value):
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
-def validate(state, schema, handover_text, release_ready=False, now=None):
+def validate(state, schema, handover_text, release_ready=False, now=None, workstream_id=None):
     """Return every validation failure. Unknown live facts remain explicit ordinarily."""
     errors = []
     Draft202012Validator.check_schema(schema)
@@ -69,6 +69,8 @@ def validate(state, schema, handover_text, release_ready=False, now=None):
         errors.append("controller.in_flight_operations: duplicate stable identifiers")
     evidence_ids = {item["id"] for item in state["evidence"]}
     workstream_ids = {item["id"] for item in state["workstreams"]}
+    if workstream_id and workstream_id not in workstream_ids:
+        errors.append(f"release scope: unknown workstream {workstream_id}")
     action_ids = {item["id"] for item in state["next_actions"]}
 
     def check_references(obj, path="$"):
@@ -165,11 +167,13 @@ def validate(state, schema, handover_text, release_ready=False, now=None):
         for key in ("scheduled_jobs", "settings", "feature_flags"):
             if production[key]["status"] != "verified" or not production[key]["evidence_ids"]:
                 errors.append(f"release-ready: {key} compatibility is not verified")
-        if any(x["status"] != "verified" for x in state["measurements"]):
+        if any(x["status"] != "verified" and (not workstream_id or x["workstream_id"] in (None, workstream_id)) for x in state["measurements"]):
             errors.append("release-ready: operational measurement has unknown/deferred verification")
-        if any(x["status"] == "pending" and "release" in x["required_for"] for x in state["pending_decisions"]):
+        scope_refs = {workstream_id} | {p["id"] for p in state["prs"] if p["workstream_id"] == workstream_id} if workstream_id else set()
+        if any(x["status"] == "pending" and ("release" in x["required_for"] or
+               (bool(scope_refs.intersection(x["required_for"])) if workstream_id else bool(x["required_for"]))) for x in state["pending_decisions"]):
             errors.append("release-ready: a release requires an outstanding human decision")
-        if state["blockers"]:
+        if any(not workstream_id or not x["workstream_ids"] or workstream_id in x["workstream_ids"] for x in state["blockers"]):
             errors.append("release-ready: resolve or scope out recorded blockers before release")
     return errors
 
@@ -180,12 +184,13 @@ def main():
     parser.add_argument("--schema", default=str(DEFAULT_SCHEMA))
     parser.add_argument("--handover", default="docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md")
     parser.add_argument("--release-ready", action="store_true")
+    parser.add_argument("--workstream-id", help="Scope relevant blockers/decisions/measurements; global ownership and baseline gates always apply")
     args = parser.parse_args()
     try:
         state = json.loads(Path(args.checkpoint).read_text())
         schema = json.loads(Path(args.schema).read_text())
         text = Path(args.handover).read_text()
-        errors = validate(state, schema, text, args.release_ready)
+        errors = validate(state, schema, text, args.release_ready, workstream_id=args.workstream_id)
     except (OSError, ValueError, TypeError, KeyError) as error:
         print(f"controller continuity: FAIL: {error}", file=sys.stderr)
         return 1

@@ -125,7 +125,7 @@ before exclusive production enforcement is claimed; that adoption is not deploye
 
 **Implementation:** dedicated branches `cf247-controller-continuity` and
 `cf247-controller-schema` (`a9292c7e57c8146b38fdf95dd5bb113162813e38`).
-Schema tests 16 pass locally; ownership tests 11 pass locally including actual competing
+Schema tests 17 pass locally; ownership tests 11 pass locally including actual competing
 nonforced Git pushes. The governance CI workflow runs these and validates the actual
 checkpoint/register. Remote exact-head CI result is recorded at the integration gate.
 

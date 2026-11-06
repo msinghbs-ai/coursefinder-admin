@@ -167,6 +167,29 @@ class ControllerStateTests(unittest.TestCase):
         self.assertIn("in-flight", errors)
         self.assertIn("outstanding human decision", errors)
 
+    def test_scoped_gate_preserves_unrelated_blockers_without_blocking_independent_work(self):
+        self.make_verified()
+        self.state["workstreams"] = [{"id": "WS-safe", "issue_ref": "Admin #382", "owner": "Codex",
+            "branch": "safe", "commit": "c" * 40, "worktree": None, "state": "verifying",
+            "owned_paths": [], "owned_functions": [], "owned_migrations": [],
+            "acceptance_criteria": ["Verified"], "dependencies": [], "blockers": [],
+            "test_evidence_ids": [], "completion_summary": None}]
+        self.state["pending_decisions"] = [{"id": "D-held", "status": "pending", "summary": "Unrelated API hold",
+            "authority": "Platform Admin", "required_for": ["PR-890"], "evidence_ids": []}]
+        self.state["workstreams"].append(dict(self.state["workstreams"][0], id="WS-held", branch="held"))
+        self.state["blockers"] = [{"id": "B-held", "summary": "Unrelated held issue", "owner": "Admin",
+            "workstream_ids": ["WS-held"], "next_action": "Resolve", "evidence_ids": []}]
+        # Retain unrelated decisions and blockers in the canonical state.
+        self.assertEqual(module.validate(self.state, SCHEMA, self.text, True, NOW, "WS-safe"), [])
+        self.state["blockers"][0]["workstream_ids"] = ["WS-safe"]
+        # A blocker in this release's scope still refuses it.
+        errors = module.validate(self.state, SCHEMA, self.text, True, NOW, "WS-safe")
+        self.assertIn("recorded blockers", " ".join(errors))
+        self.assertNotIn("human decision", " ".join(errors))
+        self.state["blockers"] = []
+        self.assertEqual(module.validate(self.state, SCHEMA, self.text, True, NOW, "WS-safe"), [])
+        self.assertTrue(module.validate(self.state, SCHEMA, self.text, True, NOW, "WS-unknown"))
+
 
 if __name__ == "__main__":
     unittest.main()

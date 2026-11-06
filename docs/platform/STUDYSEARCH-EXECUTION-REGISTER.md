@@ -23,13 +23,13 @@
 **Baseline:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last verified release record v2.15.489. Fresh database checks confirm 1,791 applied migrations, head `20261106400000`; edge `coverage-sweep` version 239, observed worker `coverage-sweep-worker-v0.59.8`. Fresh frontend HTTP/browser version is unknown because the shell proxy is unavailable and no browser tool is exposed. Mode 1 remains active. See the structured checkpoint for hashes, measurements and evidence timestamps.
 
 <!-- controller-handover:completed -->
-**Completed:** Recorded mandate and ownership conflict; created an atomic ownership coordination ref in reconciliation; implemented schema, handover and ownership validation; completed independent #894/#893/#892 reviews; verified the named P0 containment scope. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated. Governance tests pass locally; remote workflow evidence is recorded separately when available.
+**Completed:** Recorded mandate and ownership conflict; created atomic coordination in reconciliation; implemented schema, handover and ownership validation; completed independent #894/#893/#892 reviews and named P0 readbacks. Seventeen checkpoint tests and eleven ownership tests pass locally; initial remote governance/build CI passed at `edecef02`. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated. Final revision still requires exact-head CI.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Verify ownership and production-entry-point adoption; correct the confirmed #894 and #893 defects in their existing PRs; integrate #894's phone fix before justified #892 full-suite evidence; preserve #890/#875 holds; finish bounded #877 acceptance, #889 and Course Catalogue operator checks; continue Layer 4, AER, scholarship and provider lifecycle remediation.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-382 continuity owned by Codex on `cf247-controller-continuity`; WS-382-SCHEMA implemented and locally validated on `cf247-controller-schema` (`a9292c7e57c8146b38fdf95dd5bb113162813e38`). Existing PR development ownership remains with the prior recorded Claude agents until reassigned. Independent read-only reviewers completed WS-894, WS-893-892 and WS-P0-RECONCILE; no overlapping implementation edit was made. Local Admin files are a materialised subset, not a complete clone.
+**Workstreams:** WS-382 continuity owned by Codex on `cf247-controller-continuity`, [Admin PR #383](https://github.com/msinghbs-ai/coursefinder-admin/pull/383); WS-382-SCHEMA integrated from `cf247-controller-schema` (`a9292c7e57c8146b38fdf95dd5bb113162813e38`). Prior Claude agents retain recorded feature ownership until reassigned. Independent read-only reviewers completed WS-894, WS-893-892 and WS-P0-RECONCILE; no overlapping implementation edit was made. Local Admin files are a materialised subset; the published PR carries every intended source change. Generated Python caches contain no unique work.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** Pilot #894 `162e9fc7` / `20261106500000` blocked by four defects; #893 `2513a909` / `20261106550000` blocked by false-green fixture execution and overlap; #892 `7a2f3dd3` blocked by the s288 phone failure; #890 `b42a529d` G3-held; #875 `9205087d` held and stale. Admin #380, #240 and #29 remain open and unchanged. #877, #889, #891 and #887 are merged; merged status is not operational acceptance. No pending migration was applied.
@@ -48,6 +48,7 @@
 
 <!-- controller-handover:evidence -->
 **Evidence:** [Mandate and findings](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json), [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [coordination ref](https://github.com/msinghbs-ai/coursefinder-admin/tree/studysearch-controller), [#894 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894#issuecomment-6681397730), [#893 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893#issuecomment-6681399784), [P0 readbacks](validation/2026-11-06-p0-reconciliation.json).
+
 
 ## Progress dashboard
 

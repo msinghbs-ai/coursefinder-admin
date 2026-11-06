@@ -150,7 +150,9 @@ An active owner must match the current execution, have a valid lease, independen
 verified reconciliation, and verified adoption by **all** production entry points.
 An ordinary checkpoint PASS does not grant release authority. `--release-ready`
 adds fail-closed checks for baseline and ownership completeness but is still not
-approval. Do not bypass a refused check with a document edit.
+approval. Use `--workstream-id WS-id` to scope relevant blockers, decisions and
+measurements while retaining unrelated holds in the canonical state; global
+ownership and baseline gates always apply. Do not bypass a refused check with a document edit.
 
 **Adoption gate:** the initial ownership ref is in `reconciliation`, with no owner
 or lease and adoption `pending`. Pilot's deploy-on-merge, manual migration and edge
