@@ -17,37 +17,37 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Active takeover engineering continues. First two newly found #895 writer repairs are published; the complete inventory found a third screenshot write-capable path. Account controls remain genuinely unavailable after an actual403 refusal.
+**Reason:** Both independent security workstreams are complete and published. Root is verifying fresh governed CI on the final source. Claude release and the old queued run are reconciled; production remains held at an actual account-control boundary.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Fresh14:26 UTC database read confirms1,791 migrations/head20261106400000, olddeadlinehelperf01e9 and courseguardff3d6 unchanged. Alerts73pending/allunattempted. Last14:11 HTTP/asset baseline remains UI2.15.489/package0.1.416; coverageWorker0.59.8/edge239. Followup activeclienttransaction inventory empty; exactCloudflarecommit/authenticatedUI stillunverified.
 
 <!-- controller-handover:completed -->
-**Completed:** Component-register and archive guards, typed resources, production concurrency and trusted recovery published to all4candidates; existing s69 9/9 passes actual workflow denial/allowed-write/GET-only checks. FullCI runs on changed source. All73pending alerts reconciled:56historical episodes/17active events across6conditions,0duplicates/allunattempted;69overdue. Pilotmerges0;productionreleases0;rowscorrected0.
+**Completed:** Three writer guards, five trusted login targets, safe dispatch/evidence arguments and recovery safeguards are published. Local21existing S69/S400 tests/build/release and67shellprobes pass;20live candidate verifier probes deny both actors across10entrypoints. FirstrepairCI passed; finalsource Node22CI is running. All73alerts classified56historical/17active across6conditions,0duplicates/allunattempted; latestwatchdog70overdue15:06. Merges0/releases0/corrections0.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Contain the deadline P0 and release its guard; complete account fencing and exclusive ownership; release #895 → #896 → #894 → #893, with #892 already integrated into #895. Continue bounded #877/#889 and other operational acceptance. Preserve #890/#875 holds, budgets and human authority.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** Agent owns /workspace/repair-ownership-followup, branch ws382-screenshot-guard, base8950519caf6. Current work adds screenshot input-bound reservation before login/capture and audits19privilegedjobdefinitions. Previously assigned2workflows,controllerguard/existing s69 remain its files; ui-review-screenshots.yml added. Root owns integration and all release authority.
+**Workstreams:** Both agents stopped with clean committed source. Mainrepair localc13b516d/ws382-screenshot-guard in /workspace/repair-ownership-followup; shelllane50f650f7/ws382-safe-dispatch-inputs in /workspace/review-895-readonly. Source is durably integrated in8951e7 and dependentbranches; root owns remaining CI/integration. No migrations or production authority assigned to agents.
 
 <!-- controller-handover:pending_prs_migrations -->
-**Pending PRs/migrations:** Current first-repair heads8950519caf6→896ea740b49→894bdc30478→893fd85ed02 preserve ancestry. Allocated UI490/491/492/493, Workers0.59.9/.10 and migration450000/500000/550000 unchanged; allunmerged/unapplied. Earlier passing bundles are retained history; current changed source needs freshCI.890/875held.
+**Pending PRs/migrations:** Finalsecurity heads8951e7eaabe→89670e16592→8942f10e810→893ac09bc96. Candidate UI490/491/492/493, Workers0.59.9/.10 and migrations450000→500000→550000 unchanged. Allunmerged/unapplied; freshCI required.892source remains explicit895 ancestor.890/875holds unchanged.
 
 <!-- controller-handover:decisions -->
 **Decisions:** msinghbs-ai GitHub repository/installed-app administrator must grant required environment/secret/protection access or perform scoped controls directly; actual environment PUT403 is evidence. Cloudflare account owner must install the pinned deploy command and control alternate tokens. Supabase owner must restrict direct write access. Claude cessation is acknowledged, not credential revocation. Exact three-row correction authority, human Layer4/trust, consumer API, reserves and existing holds remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** Screenshot guard agent and branch-only governed CI on the four changed candidates. Earlier stalled895metadata run is superseded by changed-source workflow concurrency, not blindly rerun. No production operation by this execution. Atomic6d95b3e1 remains published/noowner/nolease/adoptionpending. Historical34749286102 independently cannot execute and requires no deletion.
+**In flight:** Onlybranch CI on the four final candidates; no activeagents/localcriticaltests/productionwrites. Atomic6d95b3e1 stillpublished/noowner/nolease/adoptionpending. Original34749286102 onlydispatches a recipient absentfrommain and markeddeleted; no currentproductionexecutionpath and no deletionprerequisite.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Finish screenshot reservation/inputbinding and full job classification, publish final source preserving release ancestry, then verify actual full-suite/parity/build results and bundles. GitHub account owner must grant or perform unavailable environment/secrets/protection controls; Cloudflare/Supabase owners must complete their controls before active controller acceptance and releases.
+**Next safe action:** Verify current fullCI and immutablebundles, publish same-runregisters/finalchecks, then verify actual accountcutover controls using the new pinnedverifier before accepting activeownership. GitHubowner must grant or perform deniedenvironment/secrets/protection controls; Cloudflare/Supabase owners must control their writeentrypoints. Release895→896→894→893 only after allgates and exactcorrectionauthority.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:**19privileged definitions include writers and2throwaway-project writers; they are not19verifiedreaders. Screenshot arbitraryclicks remain an adoption gap until repaired. Three wrongdeadlines remain live. All73alerts are stillundelivered;69overdue14:46. Original discovery episode closure is not recovery of the current recurrence. Never clear reserve/out-of-toolset holds or infer transport failures from unattempted events.
+**Risks/recovery:** Reviewed source covers8write-capable,2throwaway-only and9reporting jobs; it is not installedfencing. ActualGitHubPUT403, missingcredential/Cloudflare/directSQLcontrols remain. Scheduledcomponent writes need fresh reservations; reporting and GET-onlymanifest recovery remain available after installation. Threewrongdeadlines stilllive;73alerts remainunattempted and70overdue15:06. Preserve allhumanadmission/trust/destructive/API/reserve holds.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [control attempt and live denial evidence](validation/2026-11-06-controller-cutover-verification.json), [two writer gaps](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687359496), [actual Claude release](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314), [atomic reconciliation](https://github.com/msinghbs-ai/coursefinder-admin/commit/6d95b3e12db56d4f7e915c12503ca995e8be4b1e), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
+**Evidence:** [final895source](https://github.com/msinghbs-ai/Coursefinder-Pilot/commit/1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d), [final895CI](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42240433812), [finalscopeaudit](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895#issuecomment-6687995329), [control/source/alert proof](validation/2026-11-06-controller-cutover-verification.json), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json).
 
 
 ## Progress dashboard

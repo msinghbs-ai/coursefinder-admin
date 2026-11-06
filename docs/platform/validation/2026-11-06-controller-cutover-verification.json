@@ -133,7 +133,33 @@
     "workflow_id": 357007531,
     "workflow_state": "deleted",
     "workflow_updated_at": "2026-10-09T02:18:22Z",
-    "disposition": "Independently non-executable historical record; not cancelled, deletion not required for takeover."
+    "disposition": "Independently non-executable historical record; not cancelled, deletion not required for takeover.",
+    "recipient_verification": {
+      "verified_at": "2026-11-06T15:12:21.239424+00:00",
+      "dispatcher_commit": "9b450f9ebb48de70bdcdd409f24909ba39cc3a85",
+      "dispatcher_source": "Only runs gh workflow run cf093-uq-corrective-acceptance.yml --ref main; no production credentials/SQL/Cloudflare commands.",
+      "recipient_checks": [
+        {
+          "endpoint": "GET /repos/msinghbs-ai/Coursefinder-Pilot/contents/.github/workflows/cf093-uq-corrective-acceptance.yml?ref=main",
+          "exit_code": 1,
+          "status": "404",
+          "message": "Not Found",
+          "cli_error": "gh: Not Found (HTTP 404)"
+        },
+        {
+          "endpoint": "GET /repos/msinghbs-ai/Coursefinder-Pilot/actions/workflows/cf093-uq-corrective-acceptance.yml",
+          "exit_code": 0,
+          "status": "200",
+          "message": null,
+          "cli_error": "",
+          "workflow_id": 356499790,
+          "state": "deleted",
+          "updated_at": "2026-10-09T02:18:22.000Z",
+          "note": "Actions retains deleted workflow metadata;200 does not establish an executable workflow."
+        }
+      ],
+      "conclusion": "No current production execution path: original dispatcher only requests the named acceptance workflow on main; that file is absent from live main4ba94e3f, confirmed byContents404 and empty exact git ls-tree. Actions retains its metadata as deleted since9Oct. No production credentials or direct writes in dispatcher. Historicalqueuedrecord is retained; deletion not required and no dispatch tested."
+    }
   },
   "new_adoption_gaps": [
     {
@@ -1280,5 +1306,253 @@
         "classification": "active_episode_event"
       }
     ]
+  },
+  "final_source_review": {
+    "local_commit": "c13b516d0383067a734a30077da3ddf3e66e201a",
+    "local_tree": "2c4d6966be7100a1a16f301cf2adb618fd26830a",
+    "verifier_sha256": "cfa06ba903d4849fba714e772b52e7e67b5ecf1c5a7d838ca8c2c46e61209cc9",
+    "targeted": {
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "report_errors": [],
+      "environment": "local Node24.22.1/Python3.12.14; canonical Node22 CI required",
+      "results_sha256": "6f5cd511ba8539aee92f7a77807728b6693c65c73ffa31cc07130333bd59e686",
+      "build": "pass",
+      "release_contract": "pass UI2.15.490/package0.1.417"
+    },
+    "extracted_shell_probes": {
+      "passed": 67,
+      "network_calls": 0,
+      "production_writes": 0
+    },
+    "inventory": {
+      "production_write_capable": [
+        "deploy-on-merge",
+        "db-apply-migration",
+        "deploy-edge-functions",
+        "deployed-uat (live-acting)",
+        "deployed-weekly (live-acting)",
+        "component-register",
+        "db-archive-export",
+        "ui-review-screenshots"
+      ],
+      "throwaway_only": [
+        "db-baseline-rebuild-test",
+        "db-migration-test"
+      ],
+      "readers_reporters": [
+        "platform-watchdog",
+        "aer-weekly-report",
+        "process-results",
+        "db-function-snapshot",
+        "db-schema-dump",
+        "edge-drift-check",
+        "au-catalogue-export",
+        "m2-4-ux-audit",
+        "release-currentness-deployed"
+      ]
+    },
+    "coverage": [
+      "Component/archive/screenshot resources and authority checked before production writes",
+      "SHOW_RUN uses GETs only with safe bucket/prefix data",
+      "Five UAT targets checked against independently trusted repo origin/default",
+      "Dispatch inputs via quoted environment data and arrays, no source interpolation",
+      "Both throwaway preflights actually reject Pilot before HTTP",
+      "Human admission, destructive approval, ad-hoc SQL digest and budget gates unchanged"
+    ],
+    "limitation": "Reviewed source only; no production installation or account fencing claimed.",
+    "published_heads": [
+      {
+        "pr": 895,
+        "branch": "cf247-controller-entrypoint-gates",
+        "sha": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+        "tree": "2c4d6966be7100a1a16f301cf2adb618fd26830a",
+        "parents": [
+          "0519caf6be8b41910d37f1a06ce8d61e2a212c39"
+        ]
+      },
+      {
+        "pr": 896,
+        "branch": "delivery-p0-deadline-382",
+        "sha": "70e16592e7302d6e1658c5e02a68435e46beb1af",
+        "tree": "efb6a91a51dbd5679cdd10b500c775b1ca5522fc",
+        "parents": [
+          "ea740b492877dfda5f8e868b8e630e4bae5de6f3",
+          "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d"
+        ]
+      },
+      {
+        "pr": 894,
+        "branch": "cf247-course-descriptions-complete",
+        "sha": "2f10e81004561f467d07e5fe823ed4f3f3856f4b",
+        "tree": "799d8a70c6b9a152340e3d88ebde3486327c9b9b",
+        "parents": [
+          "bdc304786a9f714b1fa49ed4818c157e913d66c8",
+          "70e16592e7302d6e1658c5e02a68435e46beb1af"
+        ]
+      },
+      {
+        "pr": 893,
+        "branch": "cf247-english-requirements-complete",
+        "sha": "ac09bc960d6802d13b2124834d51adac6ea5812f",
+        "tree": "69e68671c9d02eef1e5deeaa6fde0a93469e76ac",
+        "parents": [
+          "fd85ed022ae2536221ab8893b34cd7e1d2bd863e",
+          "2f10e81004561f467d07e5fe823ed4f3f3856f4b"
+        ]
+      }
+    ]
+  },
+  "final_live_verifier_denials": {
+    "execution_id": "codex-takeover-20261106T142259Z",
+    "verified_at": "2026-11-06T15:11:04.186943+00:00",
+    "verifier_source_commit": "1e7eaabecf5e2ae2f644644c62e0e23ffe32e02d",
+    "canonical_controller_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+    "checks": [
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deploy-on-merge",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "db-apply-migration",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deploy-edge-functions",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deployed-uat",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "deployed-weekly",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "cloudflare-frontend",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "governed-sql",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "component-register",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "archive-export",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "codex-takeover-20261106T142259Z",
+        "entry_point": "ui-review-screenshots",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deploy-on-merge",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "db-apply-migration",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deploy-edge-functions",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deployed-uat",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "deployed-weekly",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "cloudflare-frontend",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "governed-sql",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "component-register",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "archive-export",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      },
+      {
+        "actor": "unowned-competing-probe",
+        "entry_point": "ui-review-screenshots",
+        "exit_code": 1,
+        "denial": "BLOCKED: controller authority could not be verified: exclusive ownership is inactive or belongs to another execution",
+        "unexpected_stdout": false
+      }
+    ],
+    "all_denied": true,
+    "scope": "Read-only verifier invocations against live atomic authority; no SQL/deploy command was executed. Candidate is not installed at production entry points; this is not proof external bypass credentials are fenced."
   }
 }
