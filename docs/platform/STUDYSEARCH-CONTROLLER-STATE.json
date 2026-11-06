@@ -1,27 +1,27 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T225925Z",
-  "created_at": "2026-11-06T22:59:25Z",
+  "checkpoint_id": "CP-382-20261106T232411Z",
+  "created_at": "2026-11-06T23:24:11Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-alert-recovery-20261106T213611Z",
-  "trigger": "agent_completion_verified_engineering_external_account_blocker_and_bounded_session_handover",
+  "execution_id": "codex-stop-handover-20261106T231814Z",
+  "trigger": "platform_admin_revocation_codex_stop_and_final_handover_to_claude",
   "controller": {
-    "candidate": "Codex",
+    "candidate": "Claude Sonnet 5.5 (High reasoning effort), nominated successor; acceptance pending",
     "owner": null,
-    "previous_owner": "Claude; explicit release Admin382 comment6686299314, independently reconciled",
-    "status": "reconciliation",
+    "previous_owner": "Codex, appointment revoked by Platform Admin; never acquired atomic lease",
+    "status": "released",
     "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-alert-recovery-20261106T213611Z",
+    "session_id": "codex-stop-handover-20261106T231814Z",
     "ownership_started_at": null,
     "last_heartbeat_at": null,
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "reconciliation_production_stopped_read_only_cycle_complete",
-    "successor": null,
+    "mode": "CODEX_STOPPED_FINAL_HANDOVER_ONLY_NO_RESUMPTION",
+    "successor": "Claude Sonnet 5.5 (High reasoning effort)",
     "transfer": {
       "status": "published",
-      "requested_at": "2026-11-06T14:27:28Z",
+      "requested_at": "2026-11-06T23:18:14Z",
       "accepted_at": null,
       "verified_at": null,
       "completed_at": null,
@@ -2058,7 +2058,8 @@
       "#890 and #875 remain held",
       "No consumer API/destructive action/spend override/trust-policy or human Layer4 decision without authority",
       "Frontend v2.15.489 verified by served asset; Cloudflare deployment commit and authenticated UI unverified",
-      "Fresh21:13frontendGET403/error1010 and independent web unavailable; lastsuccessfulfrontend20:12. Do not claim freshfrontend/version/desktop/phone acceptance or universaloutage."
+      "Fresh21:13frontendGET403/error1010 and independent web unavailable; lastsuccessfulfrontend20:12. Do not claim freshfrontend/version/desktop/phone acceptance or universaloutage.",
+      "Codex appointment revoked; only incoming Claude may establish fresh controller authority. No further Codex autonomous engineering or production mutation."
     ],
     "checkpoint_at": "2026-11-06T21:16:41.852865Z"
   },
@@ -2066,7 +2067,7 @@
     {
       "id": "WS-382",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
-      "owner": "Codex",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex",
       "branch": "cf247-controller-continuity",
       "commit": "9674e59bd01cfafe07c847224e92cf6f7f3fcd64",
       "worktree": null,
@@ -2089,7 +2090,8 @@
       "dependencies": [],
       "blockers": [
         "Actual account fencing/adoption and active ownership pending",
-        "Exact Cloudflare commit/authenticated acceptance unverified"
+        "Exact Cloudflare commit/authenticated acceptance unverified",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-SCHEMA"
@@ -2127,7 +2129,7 @@
     {
       "id": "WS-894",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894",
-      "owner": "Codex integration candidate; development handed to root, production blocked",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex integration candidate; development handed to root, production blocked",
       "branch": "cf247-course-descriptions-complete",
       "commit": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
       "worktree": "/workspace/delivery-894",
@@ -2156,7 +2158,8 @@
         "WS-P0-DEADLINE"
       ],
       "blockers": [
-        "Production ownership/adoption pending"
+        "Production ownership/adoption pending",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-894",
@@ -2168,7 +2171,7 @@
     {
       "id": "WS-893",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893",
-      "owner": "Codex integration candidate; development handed to root, production blocked",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex integration candidate; development handed to root, production blocked",
       "branch": "cf247-english-requirements-complete",
       "commit": "201b9126e96a8eb30e74c983699284ffe8055641",
       "worktree": "/workspace/delivery-893",
@@ -2192,7 +2195,8 @@
         "WS-894"
       ],
       "blockers": [
-        "Production ownership/adoption pending"
+        "Production ownership/adoption pending",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-893",
@@ -2204,11 +2208,11 @@
     {
       "id": "WS-892",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/892",
-      "owner": "Codex recovery (development only)",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex recovery (development only)",
       "branch": "cf247-test-evidence",
       "commit": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
       "worktree": "/workspace/repair-892",
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         "scripts/test-evidence",
         "TEST-REGISTER.md"
@@ -2223,7 +2227,8 @@
         "WS-382-ADOPTION"
       ],
       "blockers": [
-        "Production ownership/adoption pending"
+        "Production ownership/adoption pending",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-892",
@@ -2234,11 +2239,11 @@
     {
       "id": "WS-877",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/877",
-      "owner": "Integration Controller (ownership pending)",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Integration Controller (ownership pending)",
       "branch": "codex/provider-description-autonomy",
       "commit": "9788b22a471c5eb26a5bfa1e7ad099cd8590fe84",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2248,7 +2253,8 @@
       ],
       "dependencies": [],
       "blockers": [
-        "Run Now setting not activated; authenticated governed check pending"
+        "Run Now setting not activated; authenticated governed check pending",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-BASELINE",
@@ -2259,11 +2265,11 @@
     {
       "id": "WS-UI",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/889",
-      "owner": "Platform Admin authenticated operator",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Platform Admin authenticated operator",
       "branch": "cf247-intake-progress-ui",
       "commit": "8656383073d281b852bdfb9e8d6857a51c85973c",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2273,7 +2279,8 @@
       ],
       "dependencies": [],
       "blockers": [
-        "Authenticated operator checks pending"
+        "Authenticated operator checks pending",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-RELEASE"
@@ -2283,7 +2290,7 @@
     {
       "id": "WS-AER",
       "issue_ref": "SS-017",
-      "owner": "Integration Controller (ownership pending)",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Integration Controller (ownership pending)",
       "branch": "cf247-aer-selector-fix",
       "commit": "9205087d0d5a5bee207787e8373ed3688e9b0190",
       "worktree": null,
@@ -2297,7 +2304,8 @@
       ],
       "dependencies": [],
       "blockers": [
-        "#875 held; source-specific holds preserved"
+        "#875 held; source-specific holds preserved",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-BASELINE"
@@ -2307,11 +2315,11 @@
     {
       "id": "WS-L4",
       "issue_ref": "SS-016",
-      "owner": "Integration Controller (ownership pending)",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Integration Controller (ownership pending)",
       "branch": null,
       "commit": null,
       "worktree": null,
-      "state": "investigating",
+      "state": "blocked",
       "owned_paths": [],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2320,7 +2328,9 @@
         "No human decision bypass"
       ],
       "dependencies": [],
-      "blockers": [],
+      "blockers": [
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
+      ],
       "test_evidence_ids": [
         "EV-BASELINE"
       ],
@@ -2329,11 +2339,11 @@
     {
       "id": "WS-SCHOLARSHIP",
       "issue_ref": "SS-018",
-      "owner": "Integration Controller (ownership pending)",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Integration Controller (ownership pending)",
       "branch": null,
       "commit": null,
       "worktree": null,
-      "state": "investigating",
+      "state": "blocked",
       "owned_paths": [],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2342,7 +2352,8 @@
       ],
       "dependencies": [],
       "blockers": [
-        "No additional spending authorised"
+        "No additional spending authorised",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-BASELINE"
@@ -2352,11 +2363,11 @@
     {
       "id": "WS-PROVIDER",
       "issue_ref": "SS-018",
-      "owner": "Integration Controller (ownership pending)",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Integration Controller (ownership pending)",
       "branch": null,
       "commit": null,
       "worktree": null,
-      "state": "investigating",
+      "state": "blocked",
       "owned_paths": [],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2364,7 +2375,9 @@
         "Identity/lifecycle/jobs and integration feedback verified"
       ],
       "dependencies": [],
-      "blockers": [],
+      "blockers": [
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
+      ],
       "test_evidence_ids": [
         "EV-JOBS"
       ],
@@ -2395,7 +2408,7 @@
     {
       "id": "WS-382-ADOPTION",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
-      "owner": "Codex root; both development agents handed off",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex root; both development agents handed off",
       "branch": "cf247-controller-entrypoint-gates",
       "commit": "bcceb856411a927f233f94695d7073830a0f2264",
       "worktree": "/workspace/repair-ownership-followup",
@@ -2426,7 +2439,8 @@
       ],
       "blockers": [
         "Actual GitHub environment/secret/protection capabilities denied403",
-        "Cloudflare/directSQLaccountcontrols unverified"
+        "Cloudflare/directSQLaccountcontrols unverified",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-GATE-PREP"
@@ -2436,7 +2450,7 @@
     {
       "id": "WS-P0-DEADLINE",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695",
-      "owner": "Codex integration candidate; development handed to root, production blocked",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex integration candidate; development handed to root, production blocked",
       "branch": "delivery-p0-deadline-382",
       "commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
       "worktree": "/workspace/delivery-p0-deadline",
@@ -2463,7 +2477,8 @@
         "WS-382-ADOPTION"
       ],
       "blockers": [
-        "Exclusive production authority and exact data-correction approval pending"
+        "Exclusive production authority and exact data-correction approval pending",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-DEADLINE-P0",
@@ -2642,7 +2657,7 @@
     {
       "id": "WS-IQ00046-2104",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
-      "owner": "Codex root read-only SQL/canonical evidence; /root/reader_causes_2104 independent source review",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex root read-only SQL/canonical evidence; /root/reader_causes_2104 independent source review",
       "branch": null,
       "commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
       "worktree": "/workspace/resume-2104/reader-source (detached)",
@@ -2660,7 +2675,8 @@
       ],
       "dependencies": [],
       "blockers": [
-        "Inspected retained metadata lacks exact historical body length and caught exception; no evidence-based source patch. New acquisition/instrumentation additionally requires current account/ownership/resource/release gates."
+        "Inspected retained metadata lacks exact historical body length and caught exception; no evidence-based source patch. New acquisition/instrumentation additionally requires current account/ownership/resource/release gates.",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-READER-2104-FINAL",
@@ -2671,7 +2687,7 @@
     {
       "id": "WS-ALERTS-2136",
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
-      "owner": "Codex root live/scheduler/account/canonical evidence; alerts_protocol_review isolated fixture engineering",
+      "owner": "Unassigned pending Claude acceptance; previous recorded owner: Codex root live/scheduler/account/canonical evidence; alerts_protocol_review isolated fixture engineering",
       "branch": "codex/iq00112-alert-collector-acceptance",
       "commit": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
       "worktree": "/workspace/alerts-2136/fixture-worktree",
@@ -2698,7 +2714,8 @@
         "WS-382-ADOPTION"
       ],
       "blockers": [
-        "Production recovery requires actual D382 account fencing/current exclusive authority and access to original Claude scheduler task. Current task state/failure audit and actual delivery/receipt unavailable."
+        "Production recovery requires actual D382 account fencing/current exclusive authority and access to original Claude scheduler task. Current task state/failure audit and actual delivery/receipt unavailable.",
+        "Codex appointment revoked; development stopped. Claude successor must independently accept its own authority before operational continuation."
       ],
       "test_evidence_ids": [
         "EV-ALERTS-2136-START",
@@ -2923,11 +2940,11 @@
       "number": 890,
       "branch": "cf247-devapi-r23-r24",
       "commit": "b42a529d1bc64682d5ecff91cc61277c390a2893",
-      "state": "held",
+      "state": "open",
       "draft": true,
       "owner": null,
       "workstream_id": null,
-      "ci_status": "unknown",
+      "ci_status": "success",
       "run_ids": [],
       "release_gates": [
         "Existing authorisation",
@@ -2936,7 +2953,8 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "G3 approval pending; held"
+        "G3 approval pending; held",
+        "Existing G3/hold remains despite green checks."
       ],
       "next_action": "Keep held; seek consolidated G3 decision via existing package."
     },
@@ -2946,11 +2964,11 @@
       "number": 875,
       "branch": "cf247-aer-selector-fix",
       "commit": "9205087d0d5a5bee207787e8373ed3688e9b0190",
-      "state": "held",
+      "state": "open",
       "draft": true,
       "owner": "Integration Controller (ownership pending)",
       "workstream_id": "WS-AER",
-      "ci_status": "not_run",
+      "ci_status": "success",
       "run_ids": [],
       "release_gates": [
         "Existing authorisation",
@@ -2959,7 +2977,8 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "Explicit hold; old migration and progress function conflict"
+        "Explicit hold; old migration and progress function conflict",
+        "Existing G3/hold remains despite green checks."
       ],
       "next_action": "Keep held; renumber/re-guard only after hold resolution."
     },
@@ -4060,10 +4079,10 @@
         ]
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T22:57:03.351664Z",
+      "measured_at": "2026-11-06T23:20:00.220223Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-ALERTS-2136-FINAL-LIVE"
+        "EV-CODEX-STOP-2318"
       ]
     },
     {
@@ -5000,14 +5019,54 @@
         "EV-ALERT-LOCATOR-2236",
         "EV-ALERTS-2136-FINAL"
       ]
+    },
+    {
+      "id": "B-CLAUDE-ACCEPTANCE",
+      "summary": "Claude is nominated but has not accepted/verified ownership. Codex never held the atomic lease; old Codex transfer target is stale. Actual production account fencing and direct provider deployment inventory remain unverified.",
+      "owner": "Incoming Claude and authorised account owners",
+      "workstream_ids": [
+        "WS-382",
+        "WS-382-ADOPTION"
+      ],
+      "next_action": "Incoming Claude Sonnet5.5 High reasoning effort reads this checkpoint, latest Admin382 release acknowledgement, operating model and existing decisions; independently verifies actual provider deployments/DB/workflows and account fencing, uses its actual execution ID to retarget/reconcile the existing atomic unowned transfer, and establishes its own authority before any production mutation. Do not ask for another Codex acknowledgement or blindly replay a command.",
+      "evidence_ids": [
+        "EV-CODEX-STOP-2318"
+      ]
     }
   ],
   "next_actions": [
     {
+      "id": "NA-OWNERSHIP",
+      "workstream_id": "WS-382",
+      "action": "Codex stopped/released by Platform Admin; no atomic lease ever acquired. Current ref6d95 generation0/owner null/no in-flight is unchanged and its old Codex target is stale. Incoming Claude uses its own actual execution ID and this explicit release to prepare/reconcile/bootstrap through the existing protocol, after fresh live checks and actual account fencing. Nomination alone grants no production authority.",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
+      "depends_on": [],
+      "verification_required": [
+        "Live ref and workflows",
+        "No in-flight unaccounted operation",
+        "Explicit predecessor release or stopped execution evidence"
+      ],
+      "safe_without_production_write": true
+    },
+    {
+      "id": "NA-GATE-895",
+      "workstream_id": "WS-382-ADOPTION",
+      "action": "All current #895 bcceb856 checks and source1951 suite already pass. GitHub owner msinghbs-ai must grant or perform D-382-CUTOVER environment-only/protected-main controls; Cloudflare and Supabase owners install pinned deployment/direct-write fencing with recovery preserved. Independently verify actual denials/recovery at19 reviewed definitions before atomic active ownership; do not self-merge while unowned.",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
+      "depends_on": [],
+      "verification_required": [
+        "Actual current CI outcome",
+        "Real account controls and denial tests",
+        "Preserved authorised recovery path",
+        "Fresh live operations and atomicref"
+      ],
+      "safe_without_production_write": true
+    },
+    {
       "id": "NA-ALERT-COLLECTOR",
       "workstream_id": "WS-ALERTS-2136",
       "action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs.",
-      "owner": "Platform Admin's Claude account owner under existing D382 controlled bootstrap",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [
         "NA-GATE-895",
         "NA-OWNERSHIP"
@@ -5021,24 +5080,10 @@
       "safe_without_production_write": false
     },
     {
-      "id": "NA-COHORT-CONTEXT",
-      "workstream_id": "WS-P0-DEADLINE-COHORT-REVIEW",
-      "action": "CumulativeboundedSQLsample17courses/21suspectdatepairs acrossdifferenttimes;48coursesremain. Preserve97/14/41semantics and4currentclosingcorroborations; resolveUNEhistory/null-year/audience/artifactgaps before disposition. Useplannedone-courseprobes; do not infer HTTP/cache truth orwidenoriginal3rowcorrection. Use deadlineevidence.consumer_coverage_as_of_checkpoint explicit code/UUID lists and originalP0 links before scheduling repeats, including prior106137B evidence.",
-      "owner": "Next actual read-only execution",
-      "depends_on": [],
-      "verification_required": [
-        "Fresh checkpoint and live heads",
-        "Preserve all223quotationidentities and validclosingprecedence",
-        "Bounded indexed/read-only plan and load window",
-        "Report actual successes, timeouts and unverified scope separately"
-      ],
-      "safe_without_production_write": true
-    },
-    {
       "id": "NA-DEADLINE-P0",
       "workstream_id": "WS-P0-DEADLINE",
       "action": "Preserve #896 final7984e7bd (1951 full/73PG assertions and final checks). After actual #895 cutover, ownership and release approval, apply450000 under reservation; only the original exact three rows may be corrected with separate durable actor/decision authority and consumer readback. New97-row cohort is evidence only.",
-      "owner": "Codex remediation agent/controller",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [],
       "verification_required": [
         "Quoted source meaning",
@@ -5049,15 +5094,16 @@
       "safe_without_production_write": false
     },
     {
-      "id": "NA-OWNERSHIP",
-      "workstream_id": "WS-382",
-      "action": "Atomic6d95b3e1 records Claude release, no owner/lease/adoption, targeting stopped execution142259. A fresh actual execution must reconcile and retarget through existing request_transfer/reconcile/record_predecessor_release with preserved release evidence. Complete actual account fencing before acceptance; no expired-heartbeat takeover.",
-      "owner": "Authorised successor",
+      "id": "NA-COHORT-CONTEXT",
+      "workstream_id": "WS-P0-DEADLINE-COHORT-REVIEW",
+      "action": "CumulativeboundedSQLsample17courses/21suspectdatepairs acrossdifferenttimes;48coursesremain. Preserve97/14/41semantics and4currentclosingcorroborations; resolveUNEhistory/null-year/audience/artifactgaps before disposition. Useplannedone-courseprobes; do not infer HTTP/cache truth orwidenoriginal3rowcorrection. Use deadlineevidence.consumer_coverage_as_of_checkpoint explicit code/UUID lists and originalP0 links before scheduling repeats, including prior106137B evidence.",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [],
       "verification_required": [
-        "Live ref and workflows",
-        "No in-flight unaccounted operation",
-        "Explicit predecessor release or stopped execution evidence"
+        "Fresh checkpoint and live heads",
+        "Preserve all223quotationidentities and validclosingprecedence",
+        "Bounded indexed/read-only plan and load window",
+        "Report actual successes, timeouts and unverified scope separately"
       ],
       "safe_without_production_write": true
     },
@@ -5065,7 +5111,7 @@
       "id": "NA-894",
       "workstream_id": "WS-894",
       "action": "Preserve final8bde11f8 checks/1967 full and genuine PG. After #895→#896 release gates, refresh live guard and execute500000/Worker0.59.9/UI492 under reservation; then measure live metrics/desktop/phone/consumer behaviour.",
-      "owner": "Exclusively assigned #894 developer",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [],
       "verification_required": [
         "Current exact branch head",
@@ -5078,7 +5124,7 @@
       "id": "NA-893",
       "workstream_id": "WS-893",
       "action": "Preserve final201b9126 checks/1992 full/actual71+17PG. After #894, refresh18hashes+cron and execute550000/Worker0.59.10/UI493 under reservation and applicable approval; measure coverage and human-review outcomes.",
-      "owner": "Exclusively assigned #893 developer",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [],
       "verification_required": [
         "Actual migration/scenario PASS, not tee exit",
@@ -5090,7 +5136,7 @@
       "id": "NA-892",
       "workstream_id": "WS-892",
       "action": "892 source is already integrated as explicit895 parent; no repeat repair or separate extra release. Verify authoritative evidence mechanism after895 production release.",
-      "owner": "Test-evidence developer",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [
         "NA-GATE-895"
       ],
@@ -5104,7 +5150,7 @@
       "id": "NA-ACCEPTANCE",
       "workstream_id": "WS-877",
       "action": "After controller authority and existing activation gates, perform bounded provider workflow acceptance and separate admitted/published verification.",
-      "owner": "Active Integration Controller",
+      "owner": "Incoming Claude controller after independent verification/acceptance; no Codex continuation",
       "depends_on": [
         "NA-OWNERSHIP"
       ],
@@ -5115,20 +5161,6 @@
         "Consumer publication"
       ],
       "safe_without_production_write": false
-    },
-    {
-      "id": "NA-GATE-895",
-      "workstream_id": "WS-382-ADOPTION",
-      "action": "All current #895 bcceb856 checks and source1951 suite already pass. GitHub owner msinghbs-ai must grant or perform D-382-CUTOVER environment-only/protected-main controls; Cloudflare and Supabase owners install pinned deployment/direct-write fencing with recovery preserved. Independently verify actual denials/recovery at19 reviewed definitions before atomic active ownership; do not self-merge while unowned.",
-      "owner": "Authorised Integration Controller/account owner",
-      "depends_on": [],
-      "verification_required": [
-        "Actual current CI outcome",
-        "Real account controls and denial tests",
-        "Preserved authorised recovery path",
-        "Fresh live operations and atomicref"
-      ],
-      "safe_without_production_write": true
     }
   ],
   "evidence": [
@@ -5593,12 +5625,19 @@
       "kind": "bounded_final_read_only_outbox_original_identity_exactP0_and_migration_summary",
       "observed_at": "2026-11-06T22:57:03.351664Z",
       "summary": "83pending/allunattempted/80overdue, sent19unchanged/no leases/failed/duplicates. Original79 identity fields exactly match before snapshot. New102collectionreminder/103criticalcourse-listqueuewatch unresolved. Three original wrong deadlines remain active/unchanged. Migration summary1791/head20261106400000; full per-version comparison remains21:16. No new delivery/backlog reduction/watchdogPASS."
+    },
+    {
+      "id": "EV-CODEX-STOP-2318",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json#/codex_controller_released_2318",
+      "kind": "actual_codex_automation_shutdown_live_inventory_and_release_without_previously_acquired_lease",
+      "observed_at": "2026-11-06T23:24:11Z",
+      "summary": "Codex engineering stopped23:18:14UTC. Weekend0a2ea05f disabled23:18:26.632468Z; Mondayaf49e809 disabled23:18:28.955034Z, both readbackfalse. PR892–897/holds unchanged/current CI pass. No running GitHub workflows, DB active sessions/transaction0 at23:20; historical queued34749286102jobs0.83pending/allunattempted/80overdue, exactthree wrongdeadlinesactive. Latestwatchdog42311080562failed23:19.14worktrees no tracked edits; agentsdone; atom6d95generation0/unowned/adoptionpending, no releaseeventfabricated. Claude nominated, acceptancepending; accountfencing/providerdeploymentinspectionblocked."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Completed test-only PR897 at33d7ef91 against893201b. Source28a6 executed1992/0/0/0 on Node22.23.4; local PG17.6 executed116 assertions/38 collector checks, SQL failure injection exited3; final bundle/digests/fingerprint and current required checks verified. Located exact original Claude collector task and owning account through immutable GitHub evidence. Final22:57 snapshot preserves original79 identities; pending grew80→81→83,80overdue, no newdelivery. Exact3incorrectdeadlines stillactive; migrationcount/head1791/400000 unchanged. Local fixture stopped/removed and both agents finished.",
-    "current_action": "Bounded engineering and read-only reconciliation complete; production collector recovery and separate exact-three-row P0 correction remain externally blocked. No actual production operation, ownership acceptance, send, confirmation, acknowledgement or release was initiated.",
-    "next_safe_action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs. Independently re-read GitHub/atomic state and verify actual installed denials/recovery before accepting control or executing any write. Preserve PR897 qualified evidence; do not rerun unchanged suites.",
+    "last_completed_atomic_action": "Stopped Codex engineering at23:18:14UTC; disabled and independently reread both self-owned schedules (weekend0a2ea05f,Mondayaf49e809). Reconciled preserved PR heads/current CI,14 clean tracked worktrees, completed agents, zero active DB sessions at23:20, no running GitHub workflow or operation reservation. No production/vendor action or lease was held.",
+    "current_action": "Final authorised shutdown handover only. Codex controller appointment revoked; no new development, diagnosis, branch, PR, merge, deployment, migration, admission, vendor action or scheduled engineering run. Claude successor acceptance remains pending.",
+    "next_safe_action": "Incoming Claude Sonnet5.5 High reasoning effort reads this checkpoint, latest Admin382 release acknowledgement, operating model and existing decisions; independently verifies actual provider deployments/DB/workflows and account fencing, uses its actual execution ID to retarget/reconcile the existing atomic unowned transfer, and establishes its own authority before any production mutation. Do not ask for another Codex acknowledgement or blindly replay a command.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5621,7 +5660,10 @@
       "The164→163jobcount discrepancy is reconciled by actual automatic flag events; active counts vary with approved idle/trial control. Do not reactivate jobs to restore164, blame worker-outcome-check, double-count requeued events, or infer complete credential fencing from this diagnostic resolution.",
       "The ten selected consumer courses have30successfulfunctionresults/36targetmatches; do not treat addedcohortcoverage as12globallynewbadrows or re-probe unchanged historical evidence to rebuild counts. Prior7courses were not refreshed. Preserve payloadUUID, source/evidence/year and HTTP/cache limits.",
       "Reader216213 ok8 is blocked8, not read8. Current18:10 group is needs_render8, not successful HTML/evidence/admissions. Do not implement the refuted double-subtraction classifier fix, rerun failed acquisition unchanged, reset2091 exhausted pages, or infer recovery when the rolling failure window expires.",
-      "WS-IQ00046-2104 exhausted the inspected three-row/current-config/log-metadata diagnosis: HTTP200/direct permits empty body or caught exception; current valid config/codes and21request200events cannot distinguish them. No further unchanged probe, speculative patch, retry reset or inference that end-of-callreserve0 caused each item. Seek genuinely new evidence or another safe lane."
+      "WS-IQ00046-2104 exhausted the inspected three-row/current-config/log-metadata diagnosis: HTTP200/direct permits empty body or caught exception; current valid config/codes and21request200events cannot distinguish them. No further unchanged probe, speculative patch, retry reset or inference that end-of-callreserve0 caused each item. Seek genuinely new evidence or another safe lane.",
+      "Platform Admin revoked Codex appointment at this shutdown. Do not resume Codex weekend/Monday schedules, start an autonomous execution cycle or reacquire control.",
+      "Do not mark the latest failed watchdog42311080562 as healthy; preserve83 pending/80 overdue and all original alert IDs.",
+      "Do not fabricate Codex lease release, Claude acceptance or account credential revocation. Atomic generation remains0 with no owner/lease."
     ],
     "verification_required": [
       "Actual external GitHub/Cloudflare/direct-SQL fencing adoption and explicit release authority",
@@ -5629,22 +5671,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T223117Z",
+    "predecessor_checkpoint": "CP-382-20261106T225925Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Bounded alert-recovery engineering cycle is complete; production recovery remains blocked on actual account controls and original Claude task access. No successor acceptance or operational resolution is claimed.",
-    "baseline": "**Baseline:** Pilot main4ba94e3f; last verified frontend UI2.15.489/package0.1.416 at20:12UTC, later GET403/1010 prevents fresh UI acceptance; exact Cloudflare commit/authenticated UI unverified. Full migration ledger last compared21:16; fresh22:57 count1791/head20261106400000. Alert function hashes/settings21:44 unchanged by this execution; delivery on/webhook off. At22:57 all83 pending unattempted and original three wrong deadlines active.",
-    "completed": "**Completed:** PR897 final33d7ef91/base893201b has six test/CI/register files. Fresh Node22.23.4 executed1992/0/0/0; genuine PG17.6 executed116 assertions/38 collector checks; induced SQL failure exits3; qualified target32/0/0/0. Final immutable bundle/digests/fingerprint/reuse and all required checks verified. Located original Claude collector and exact owning account. Pilot merges0/releases0/actual deliveries0.",
-    "priorities": "**Priorities:** Restore the original D12 collector through verified fenced ownership, prove actual destination delivery/backlog reduction and independent watchdog PASS. Keep the three wrong deadlines under separate exact P0 correction gates. Preserve895→896→894→893 release order with892 integrated, held890/875 and human admission/budget boundaries.",
-    "workstreams": "**Workstreams:** WS-ALERTS-2136 engineering complete, operational acceptance blocked. PR897 branch codex/iq00112-alert-collector-acceptance at33d7ef91, /workspace/alerts-2136/fixture-worktree; no function/migration edits. Source agent and isolated WS-ALERT-LOCATOR-2236 review completed. Remote release/hold heads unchanged.",
-    "pending_prs_migrations": "**Pending PRs/migrations:**895bcceb856 (includes892) →8967984e7bd/migration450000 →8948bde11f8/migration500000/Worker0.59.9 →893201b9126/migration550000/Worker0.59.10 remain unmerged/unapplied. Test-only draft89733d7ef91 targets893 and adds no migration/Worker release.890G3/875 remain held.",
-    "decisions": "**Decisions:** Existing D382 account-owner action now names original Claude task trig_01Eo7QrJXR24e774gNzLUvTi, Platform Admin Claude account, :59UTC. Inspect/restore it through verified guarded take/confirm after real account fencing/exclusive authority; preserve original push/e-mail recipient and record actual run/receipt. No duplicate collector, new channel or further Claude acknowledgement. Separate exact-three-row P0, G3, destructive, human Layer4/trust and reserve gates remain.",
-    "in_flight": "**In flight:** No current GitHub workflow in latest live inventory; all PR897 final checks completed. Historical34749286102 has0jobs and remains reconciled, no deletion required. No production reservation/write/send/confirm/ack/deployment initiated. Atomic6d95 released/no owner/no lease/adoption pending; live guard denied this execution at22:53. Task-owned local fixture container stopped/removed; all14 worktrees have no tracked edits, retained untracked dependency links/older validation logs inventoried. Both child workstreams completed; no operation initiated here remains active.",
-    "next_safe_action": "**Next safe action:** Account owner inspects/restores original Claude task trig_01Eo7QrJXR24e774gNzLUvTi, preserving :59UTC schedule/recipient, through existing D382 guarded account cutover. Independent successor verifies installed denials/recovery/current atomic authority, then real destination delivery/receipt, ID preservation, backlog reduction and independent watchdog PASS. Do not rerun unchanged qualified897/894/893 suites.",
-    "risks_recovery": "**Risks/recovery:** At22:57UTC83 pending/83 unattempted/80 overdue, original79 IDs21–99 identities unchanged, no leases/failed/duplicates. Real recovery101 and later reminder102/course-list queue critical event103 remain undelivered; current watch event is not proof of a new consumer-data defect. Three confirmed incorrect deadlines remain active/unchanged under separate exact P0 correction. Original task identity verified; current Claude account audit/receipt inaccessible. Environment unprotected/secret API403 and actual fencing/current ownership unresolved. No causal link from Nov6 handover to Nov3 cessation established.",
-    "evidence": "**Evidence:** [Collector stages/task identity/IDs/qualified CI](validation/2026-11-06-controller-cutover-verification.json), [PR897](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/897), [executed full suite](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42304446495), [final checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306883983), [original-task runbook](https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L134), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). Development READY is not production acceptance. No delivery/receipt/watchdog PASS, heartbeat or accepted transfer claimed."
+    "reason": "**Reason:** Platform Admin revoked Codex appointment and ordered immediate stop. Codex engineering stopped2026-11-06T23:18:14Z; final execution codex-stop-handover-20261106T231814Z. Claude Sonnet5.5 High reasoning effort is nominated; acceptance is pending.",
+    "baseline": "**Baseline:** Pilot main4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067. Last live frontend proof20:12UTC UI2.15.489/package0.1.416; later GET403/1010, exact Cloudflare deployment commit and direct in-flight account inventory unverified. Coverage Worker0.59.8/edge239 remain last recorded baseline. At23:20UTC migration count1791/head20261106400000 unchanged; complete per-version comparison last21:16. No other active DB session/transaction in shutdown snapshot. No Codex production release/migration/write occurred.",
+    "completed": "**Completed:** Existing corrections and source evidence preserved, no repeated suites. Final #8951951/#8961951/#8941967/#8931992 full-suite evidence and unique Worker versions retained; #892 integrated into895. PR897 final33d7ef91 qualified with Node22 full1992/0/0/0, real PG116/38 and final checks/reuse. Both Codex schedules disabled/readback confirmed. Alert task read-only audit published6698037054. No production acceptance falsely claimed.",
+    "priorities": "**Priorities:** Codex stops; incoming Claude independently reconciles/accepts current authority and actual production fences. Keep separate P0 three wrong application deadlines and P1 alert collector/backlog, then sequential895→896→894→893 release gates and897 integration. Preserve877/UI acceptance, Layer4/AER/scholarship/provider work, human admission/trust, G3/875 holds and vendor reserves.",
+    "workstreams": "**Workstreams:** No active Codex development agent or test/build process. All14 worktrees have no tracked edits; historical committed local refs, untracked dependency links and prior deadline logs inventoried. Completed remote PR source heads retained; non-completed workstreams are blocked/unassigned pending Claude acceptance. No new branch/PR, replacement or test rerun for handover.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** All open/preserved:8924823f68f;895bcceb856 (contains892) →8967984e7bd/20261106450000 →8948bde11f8/20261106500000/Worker0.59.9 →893201b9126/20261106550000/Worker0.59.10. Test-only89733d7ef91 targets893201b; no new Worker/migration. Current head checks pass.890b42a529d G3 and8759205087d remain held despite green checks; do not merge on CI alone.",
+    "decisions": "**Decisions:** This directive supersedes Codex weekend nomination. Existing D382 account controls/guarded recovery remain required; no credentials revoked. Claude must independently verify actual ownership and account fences before production mutations. Original alert task trig_01Eo7QrJXR24e774gNzLUvTi remains untouched; exact account audit/runtime error unavailable. Preserve original recipient/:59UTC schedule and exact-three-row P0 correction authority, G3, destructive/human Layer4/trust and vendor reserves.",
+    "in_flight": "**In flight:** None attributable to Codex. GitHub Pilot/Admin running workflows empty before handover publication; historical34749286102 queued0jobs/deleted dispatcher remains reconciled. DB snapshot23:20 has no other active session or transaction; no pending controller reservation. Both agents completed; local fixture already stopped/removed. Direct Cloudflare account deployment inventory unavailable, so unrelated provider activity is not certified absent. Normal production jobs and independent watchdog/validation remain enabled.",
+    "next_safe_action": "**Next safe action:** Claude reads this checkpoint and Admin382 CODEX CONTROLLER RELEASED acknowledgement; independently checks live provider deployments/DB/PR/workflow states and actual account controls. Use its own real execution ID and existing unowned bootstrap protocol to supersede stale Codex target; no expired-heartbeat takeover, replayed command or fabricated acceptance. Continue gated alert/P0/release priorities only after its own authority is established. Codex must not resume.",
+    "risks_recovery": "**Risks/recovery:** At23:20UTC83 pending/all83 unattempted/80 overdue, no sending/failed/live leases; historical sent19/latest3Nov07:00:29UTC unchanged. Latest independent watchdog42311080562 failed at23:19; no delivered-alert/recipient/watchdogPASS proof. Three original incorrect deadlines remain active/unchanged. Atomic6d95 generation0/owner null/lease null/in-flight null/adoption pending; Codex never acquired it and no atomic release was fabricated. Actual account fencing/secret API403, Cloudflare currentness and original Claude task runtime access remain blockers.",
+    "evidence": "**Evidence:** [Final shutdown/automation IDs/live inventory/PR hashes](validation/2026-11-06-controller-cutover-verification.json), [full final handover](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#codex-controller-released--final-handover-to-claude), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [task audit6698037054](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698037054), [latest failed watchdog](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42311080562). Codex weekend0a2ea05f and Mondayaf49e809 disabled; no future execution, heartbeat, credential revocation or Claude acceptance claimed."
   }
 }

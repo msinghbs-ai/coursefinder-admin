@@ -99,8 +99,12 @@ Development agents never merge, deploy, write to production or spend vendor budg
 
 Authority: [weekend controller mandate and implementation record](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md).
 The Integration Controller may be any authorised AI, including Codex or Claude.
-The current mandate nominates Codex for 7–8 November; the earlier Claude-only
-staffing allocation is superseded for this assignment. Existing release-specific
+The latest Platform Admin directive revokes Codex’s controller appointment and
+nominates Claude Sonnet 5.5 (High reasoning effort) as successor. Codex stopped
+on 6 November2026 at23:18:14UTC; both Codex weekend/Monday schedules are disabled.
+Read the current canonical checkpoint and Controller handover; Claude acceptance
+and actual production fencing remain required. Earlier Codex weekend nomination
+and Claude release records remain historical, not current authority. Existing release-specific
 approval gates, engineering holds, G3, vendor reserves, human Layer 4 authority
 and destructive-change restrictions remain binding. Nomination is not proof that
 exclusive operational ownership has been acquired.
@@ -216,9 +220,10 @@ verification still required and an actionable next safe step.
 
 Scheduled resumptions are supplementary executions, never a substitute for ownership.
 Only describe a schedule as configured after tool confirmation, and a run as executed
-after verified execution evidence. The 7–8 November hourly resumption attempts and
-Monday 9 November morning handover are configured; they have not yet run at the
-initial checkpoint. Their prompts require fresh repository/live verification and
+after verified execution evidence. The previously configured 7–8 November Codex hourly resumption attempts and
+Monday 9 November handover task were disabled under the Platform Admin stop
+directive on6November2026 at23:18UTC. Their exact IDs and verified disabled states
+are recorded in the canonical final Codex handover. Codex must not restart them. Their prompts require fresh repository/live verification and
 the same ownership and approval gates. Do not depend on a model, conversation ID,
 local worktree or Platform Admin message relay for any continuation.
 

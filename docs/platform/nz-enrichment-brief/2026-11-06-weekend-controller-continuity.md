@@ -605,3 +605,54 @@ Live22:53 verification: atomic6d95 remains released/owner null/lease null/adopti
 Final read-only outcome at22:57:03UTC: **83 pending, all83 unattempted,80 overdue**; no sending/failed/leases/duplicates, historical sent19/latest3Nov07:00:29UTC unchanged. Original79 identity projections match exactly. New102 is an unresolved collector reminder and103 a current critical course-list queue watch; both undelivered. This watch severity does not establish a new consumer-data P0; the original three confirmed bad deadlines remain separately active and unchanged. Migration count/head1791/20261106400000 unchanged; no new full per-version comparison claimed. Preflight22:56 had no cron failures15min or >2x admission duration. First read-only query had a syntax spacing error, corrected once before this successful result. No production mutation occurred.
 
 Latest workflow-specific GitHub inventory still returns failed watchdog42262985796 as most recent, not a later PASS. Configured hourly cron is not proof of actual execution. Local task-owned Postgres fixture container stopped and removed; both agents completed; all14 worktrees have no tracked edits. Untracked node_modules links and prior deadline-validation logs are inventoried in the existing structured evidence, not needed for successor recovery. No production critical operation, owned lease, active agent or workflow from this execution remains in flight. Existing controller record remains unowned, so no fictitious release/acceptance event was written.
+
+
+## CODEX CONTROLLER RELEASED — final handover to Claude
+
+Final execution `codex-stop-handover-20261106T231814Z`; engineering stopped **2026-11-06T23:18:14Z**. Final checkpoint `CP-382-20261106T232411Z` created 2026-11-06T23:24:11Z. This section and the current canonical checkpoint supersede earlier Codex weekend continuation instructions. The Platform Admin explicitly revoked Codex and nominated **Claude Sonnet5.5, High reasoning effort**. Codex performs shutdown/handover only and must cease after publication. No successor acceptance is claimed.
+
+**Stopped future Codex tasks:**
+
+| Task | Identifier | Verified final state | Updated UTC |
+|---|---|---|---|
+| StudySearch Monday handover | `Automation_af49e809a9f081918404af049e370634` | disabled (`is_enabled=false`), readback confirmed | 2026-11-06T23:18:28.955034+00:00 |
+| StudySearch weekend controller | `Automation_0a2ea05fa5e08191b96d4341b0c2cf90` | disabled (`is_enabled=false`), readback confirmed | 2026-11-06T23:18:26.632468+00:00 |
+
+The six older CourseFinder/Gitar/Admission/Ops/Deploy/Gate/A15 watches and CF Batch Metrics remain already disabled; identifiers/final states are in existing structured shutdown evidence. The separate StudySearch Independent Validation task6ae932bd16948191965a4d3343aeaa36 is not self-owned by this Codex execution and remains enabled; unrelated tasks are unchanged. Normal pg_cron jobs, original Claude collector and independent GitHub watchdog were not disabled. Complete accessible task inventory had cursor null. No provider-wide queued-run cancellation interface is exposed; disabled schedules prove prevention of future scheduled resumptions, not cancellation of an unseen previously dispatched provider execution. No such Codex child execution is visible in this thread.
+
+**Preserved open PRs and exact release dependencies:**
+
+| PR | Branch | Current GitHub head | Current head CI |
+|---|---|---|---|
+| #892 | `cf247-test-evidence` | `4823f68f6a9ec7958d6caa48cb467bbfac453581` | all reported checks completed success; not production acceptance |
+| #893 | `cf247-english-requirements-complete` | `201b9126e96a8eb30e74c983699284ffe8055641` | all reported checks completed success; not production acceptance |
+| #894 | `cf247-course-descriptions-complete` | `8bde11f8f73507b2c5a781e8e9d814e603b6fa65` | all reported checks completed success; not production acceptance |
+| #895 | `cf247-controller-entrypoint-gates` | `bcceb856411a927f233f94695d7073830a0f2264` | all reported checks completed success; not production acceptance |
+| #896 | `delivery-p0-deadline-382` | `7984e7bda2d04500b3e158a63393b8ed4e6eca53` | all reported checks completed success; not production acceptance |
+| #897 | `codex/iq00112-alert-collector-acceptance` | `33d7ef913882a2ede805bf891f879be55ec3a3a6` | all reported checks completed success; not production acceptance |
+| #890 | `cf247-devapi-r23-r24` | `b42a529d1bc64682d5ecff91cc61277c390a2893` | all reported checks completed success; held by existing authority |
+| #875 | `cf247-aer-selector-fix` | `9205087d0d5a5bee207787e8373ed3688e9b0190` | all reported checks completed success; held by existing authority |
+
+Release sequence remains895 (contains892 evidence corrections) →896 migration20261106450000/exact-three-row P0 correction pathway →894 migration20261106500000/Worker0.59.9 →893 migration20261106550000/Worker0.59.10. Draft897 is test/CI qualification against893201b, no extra production function/migration/Worker release. Existing full-suite evidence1951/1951/1967/1992 and8971992, real Postgres execution, immutable bundles/fingerprints and final checks are preserved in preceding evidence. No repeated full suite, replacement PR, merge or production release for handover. Holds890G3 and875 persist despite green CI.
+
+**Latest verified baseline and in-flight state:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last HTTP/asset proof20:12UTC UI2.15.489/package0.1.416, coverage Worker0.59.8/edge239 last recorded. Exact live Cloudflare commit/current direct deployment inventory is unavailable; later GET403/1010 did not establish authenticated desktop/phone acceptance. At23:20:00UTC migrations1791/head20261106400000 unchanged; full per-version comparison remains21:16UTC. No other active DB query/transaction in the shutdown snapshot; no controller reservation. GitHub running Pilot/Admin workflow inventories empty before publication. Historical queued34749286102 has0jobs/deleted dispatcher and remains reconciled; no cancellation/deletion required. GitHub deployment records exposed by REST are historical and do not prove direct Cloudflare activity. No production operation was initiated by Codex during shutdown.
+
+Main build/deploy/release-currentness checks passed, but watchdog checks failed; main must not be described as wholly green. Independent watchdog **42311080562** ran at23:19:12UTC and failed while shutdown reconciliation was occurring; it was not disabled/cancelled and its new exact job error was not investigated. The older exact collection-health failure42262985796 remains recorded. At23:20UTC **83 pending, all83 unattempted,80 overdue**, sent19/latest3Nov07:00:29UTC unchanged, sending/failed/liveleases0. No real destination delivery or backlog reduction/watchdogPASS is verified. Original79 IDs/identity preservation last directly compared22:57; nothing here mutates them.
+
+Separate **P0 application-deadline exposure remains active**:
+
+| Original intake ID | Incorrect value still active at23:20UTC |
+|---|---|
+| `0bae1bde-3d71-4ae8-86ff-118049910790` | `2026-11-02` |
+| `8dcd0a7e-c634-4f9d-92ba-2832413f3583` | `2027-02-15` |
+| `8e7d1957-58ce-4a2d-9583-fef41ea30bdc` | `2026-10-12` |
+
+Only the existing authorised exact-three-row guarded correction/verification pathway applies; the larger evidence cohort does not authorise wider changes. No data correction, withdrawal, trust/admission change or paid operation occurred in this shutdown. Production platform-health/platform-alerts/integration-validate jobs remain active with original schedules.
+
+**Local/source preservation:** Both child agents completed, no active background development agent. All14 worktrees have no tracked modifications; exact branch/HEAD and untracked node_modules links/older deadline-validation logs are in structured shutdown evidence. Current PR source heads are committed/pushed on GitHub. Historical local refs can differ from the canonical integration commits and must not be blindly force-pushed. The task-owned fixture was already stopped/removed; no live node/npm/Playwright/Wrangler/psql process in the shutdown check (only11 defunct npm zombies, not executing). No infrastructure daemon or unrelated production service was stopped.
+
+**Ownership release:** Atomic `6d95b3e12db56d4f7e915c12503ca995e8be4b1e` is generation0, owner null, lease null, in-flight null, adoption pending. **Codex never acquired the lease**, so no synthetic atomic release/heartbeat/acceptance/transfer mutation was performed. This final record and Admin382 CODEX CONTROLLER RELEASED acknowledgement record the actual stop/revocation. The old atomic transfer targetcodex-takeover-20261106T142259Z is stale under the latest directive; it is not authority to resume Codex. No credential revocation has been performed or claimed.
+
+**Claude next safe actions and external blockers:** Read current operating model, this validated checkpoint/handover, existing decisions and Admin382 release acknowledgement; independently inspect actual Cloudflare deployments, GitHub workflows/heads, live DB/migration/hash state and all production entry-point controls. GitHub pilot environment remains unprotected, environment-secret API403, actual Cloudflare/direct-SQL fencing not independently installed/verified. Existing D382 account-owner controls/recovery path remain required. Use Claude’s own real execution ID and existing unowned request/reconcile/bootstrap protocol to supersede the stale Codex target using this explicit stop/release evidence. Acceptance/verified/completed phases are pending, never presumed from publication. Original Claude alert task runtime/status/exact failure remains account-inaccessible; use audit6698037054 and original taskID, preserving schedule/recipient and guarded writes. Do not ask for another Codex handover, restart either disabled schedule, blindly replay commands, change protected holds or start production mutations before verified authority.
+
+**End state:** No Codex-owned critical operation is left running. Only final handover publication/readback and the explicit release acknowledgement remain; after those Codex ceases execution. No unattended monitoring, future completion, new checkpoint cycle or successor acceptance is promised.

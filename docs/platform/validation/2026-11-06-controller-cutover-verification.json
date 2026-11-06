@@ -16617,5 +16617,737 @@
       "conclusion": "failure",
       "note": "Latest returned workflow-specific inventory still contains original confirmed failed run; no later successful execution. Hourly workflow configuration does not prove execution or monitoring."
     }
+  },
+  "codex_controller_released_2318": {
+    "execution_id": "codex-stop-handover-20261106T231814Z",
+    "engineering_stopped_at": "2026-11-06T23:18:14Z",
+    "recorded_at": "2026-11-06T23:24:11Z",
+    "directive": "Platform Admin revokes Codex controller appointment effective immediately; Claude Sonnet5.5 High reasoning effort nominated. Shutdown/handover only, no further Codex autonomous cycle.",
+    "controller_lease": "Not previously acquired. Atomic generation0/owner null/lease null/in-flight null. No atomic release, acceptance, heartbeat, reconciliation or transfer mutation fabricated/performed.",
+    "atomic_ref": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+    "atomic_state": {
+      "schema_version": "1.0.0",
+      "coordination_id": "studysearch-integration-controller",
+      "status": "released",
+      "generation": 0,
+      "owner": null,
+      "heartbeat_at": null,
+      "lease_expires_at": null,
+      "transfer": {
+        "status": "published",
+        "to": "codex-takeover-20261106T142259Z",
+        "predecessor": null,
+        "release_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
+        "prepared_at": "2026-11-06T14:27:28Z",
+        "handover_ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md",
+        "published_at": "2026-11-06T14:27:28Z"
+      },
+      "in_flight": null,
+      "last_event": {
+        "id": "EV-382-20261106T142728Z-record_predecessor_release",
+        "kind": "record_predecessor_release",
+        "execution_id": "codex-takeover-20261106T142259Z",
+        "at": "2026-11-06T14:27:28Z",
+        "evidence_refs": [
+          "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
+          "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md",
+          "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/34749286102"
+        ],
+        "payload": {
+          "release_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
+          "handover_ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md"
+        }
+      },
+      "event_ids": [
+        "EV-382-20261106T135633Z-request_transfer",
+        "EV-382-20261106T135633Z-reconcile",
+        "EV-382-20261106T135633Z-record_predecessor_release",
+        "EV-382-20261106T142728Z-request_transfer",
+        "EV-382-20261106T142728Z-reconcile",
+        "EV-382-20261106T142728Z-record_predecessor_release"
+      ],
+      "updated_at": "2026-11-06T14:27:28Z",
+      "adoption": {
+        "status": "pending",
+        "evidence_refs": []
+      },
+      "reconciliation": {
+        "status": "verified",
+        "evidence_refs": [
+          "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
+          "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md",
+          "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/34749286102"
+        ],
+        "verified_at": "2026-11-06T14:27:28Z",
+        "verified_by": "codex-takeover-20261106T142259Z"
+      }
+    },
+    "atomic_limit": "Existing transfer.to points to stopped codex-takeover-20261106T142259Z and is stale under this directive. It is not authorisation for a new Codex run. Incoming Claude uses its actual execution ID and the existing unowned bootstrap/transfer protocol with this release acknowledgement and fresh independent reconciliation.",
+    "automation_shutdown": {
+      "recorded_at": "2026-11-06T23:20:00Z",
+      "inventory_scope": "Current accessible automation account; cursor null. Only the two self-owned Codex execution schedules changed. Independent validation/non-Codex tasks preserved.",
+      "stopped": [
+        {
+          "id": "Automation_af49e809a9f081918404af049e370634",
+          "title": "StudySearch Monday handover",
+          "is_enabled": false,
+          "schedule": "BEGIN:VEVENT\nDTSTART;TZID=Australia/Melbourne:20261109T080000\nEND:VEVENT",
+          "updated_at": "2026-11-06T23:18:28.955034+00:00",
+          "last_run_time": null,
+          "next_run_time": null
+        },
+        {
+          "id": "Automation_0a2ea05fa5e08191b96d4341b0c2cf90",
+          "title": "StudySearch weekend controller",
+          "is_enabled": false,
+          "schedule": "BEGIN:VEVENT\nDTSTART;TZID=Australia/Melbourne:20261107T000000\nRRULE:FREQ=HOURLY;COUNT=48\nEND:VEVENT",
+          "updated_at": "2026-11-06T23:18:26.632468+00:00",
+          "last_run_time": "2026-11-06T23:01:01.414983+00:00",
+          "next_run_time": null
+        }
+      ],
+      "already_disabled_engineering": [
+        {
+          "id": "6aaa5597004481919ae816a48da88180",
+          "title": "CF-247 Gitar Closure",
+          "is_enabled": false,
+          "updated_at": "2026-09-21T19:23:20.797329+00:00"
+        },
+        {
+          "id": "6aa9ceb4d1588191b884c01bce1cb0c6",
+          "title": "CF-247 Admission Watch",
+          "is_enabled": false,
+          "updated_at": "2026-09-19T15:54:30.510858+00:00"
+        },
+        {
+          "id": "6aa90f72be2c81919fe7dcebd0b30fc1",
+          "title": "CourseFinder Hourly Ops",
+          "is_enabled": false,
+          "updated_at": "2026-09-15T23:02:03.192228+00:00"
+        },
+        {
+          "id": "6aa305d286808191a769e0dc906b8943",
+          "title": "CF-093 Codex Deploy Watch",
+          "is_enabled": false,
+          "updated_at": "2026-09-13T09:48:06.851518+00:00"
+        },
+        {
+          "id": "6aa0b11f74288191b44733e4f8ddc793",
+          "title": "Codex Gate Watch",
+          "is_enabled": false,
+          "updated_at": "2026-09-09T01:16:08.034927+00:00"
+        },
+        {
+          "id": "6a929d430afc8191baef7991ec8b657b",
+          "title": "A15 Final Acceptance Watch",
+          "is_enabled": false,
+          "updated_at": "2026-08-29T13:56:51.306361+00:00"
+        }
+      ],
+      "independent_validation_preserved": [
+        {
+          "id": "6ae932bd16948191965a4d3343aeaa36",
+          "title": "StudySearch Independent Validation",
+          "is_enabled": true,
+          "is_self_owned_automation": false
+        }
+      ],
+      "scope_limits": "No global provider queue/cancel endpoint is exposed. Disabled future schedules are verified; no assertion of global account credential revocation or cancelling an unseen dispatched run. No Claude collector API call was made."
+    },
+    "github": {
+      "pilot_main": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "main_checks": [
+        {
+          "name": "watchdog",
+          "status": "completed",
+          "conclusion": "failure",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42262985796/job/128047478348"
+        },
+        {
+          "name": "Workers Builds: coursefinder-pilot",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/26eaa27a-6209-46af-9781-351dadf88f0c"
+        },
+        {
+          "name": "watchdog",
+          "status": "completed",
+          "conclusion": "failure",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902/job/127819102986"
+        },
+        {
+          "name": "Deployed UAT (targeted)",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42149759094/job/127669836135"
+        },
+        {
+          "name": "deploy",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42149758994/job/127669835357"
+        },
+        {
+          "name": "deployed-release-currentness",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42149758988/job/127669835322"
+        },
+        {
+          "name": "build-and-smoke",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42149758936/job/127669834946"
+        },
+        {
+          "name": "release-history-contract",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42149758895/job/127669834852"
+        }
+      ],
+      "pilot_running": [],
+      "admin_running_before_publication": [],
+      "historical_queued_run": {
+        "id": 34749286102,
+        "jobs": 0,
+        "disposition": "No jobs/deleted dispatcher/current target independently reconciled; no deletion or cancellation performed/required."
+      },
+      "preserved_prs": [
+        {
+          "number": 892,
+          "branch": "cf247-test-evidence",
+          "sha": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
+          "base": "main",
+          "draft": false,
+          "state": "open",
+          "checks": [
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42213143158/job/127876472375"
+            },
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/a7712353-b119-408e-b438-6241077fe928"
+            },
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42210297605/job/127866983549"
+            },
+            {
+              "name": "provider-description",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42210297600/job/127866983365"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42210297492/job/127866983261"
+            }
+          ]
+        },
+        {
+          "number": 893,
+          "branch": "cf247-english-requirements-complete",
+          "sha": "201b9126e96a8eb30e74c983699284ffe8055641",
+          "base": "main",
+          "draft": false,
+          "state": "open",
+          "checks": [
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/28bf6448-61c5-445b-ba78-67d37ff3c5cb"
+            },
+            {
+              "name": "release-history-contract",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503887/job/127976121582"
+            },
+            {
+              "name": "prod-parity-round-trip",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503803/job/127976119654"
+            },
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503724/job/127976119475"
+            },
+            {
+              "name": "isolated-postgres",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503863/job/127976119376"
+            },
+            {
+              "name": "isolated-postgres",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503797/job/127976119184"
+            },
+            {
+              "name": "deadline-semantics",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503803/job/127976119114"
+            },
+            {
+              "name": "course-description-baseline",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503809/job/127976119097"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503728/job/127976118583"
+            },
+            {
+              "name": "provider-description",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503721/job/127976118485"
+            }
+          ]
+        },
+        {
+          "number": 894,
+          "branch": "cf247-course-descriptions-complete",
+          "sha": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
+          "base": "main",
+          "draft": false,
+          "state": "open",
+          "checks": [
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/1c7c3061-a7ff-4193-9d4c-a183f5cdbfc7"
+            },
+            {
+              "name": "prod-parity-round-trip",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495248/job/127976087693"
+            },
+            {
+              "name": "provider-description",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495243/job/127976087412"
+            },
+            {
+              "name": "deadline-semantics",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495248/job/127976087400"
+            },
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495087/job/127976087330"
+            },
+            {
+              "name": "release-history-contract",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495218/job/127976087244"
+            },
+            {
+              "name": "course-description-baseline",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495124/job/127976087163"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495011/job/127976086702"
+            },
+            {
+              "name": "isolated-postgres",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495013/job/127976086477"
+            }
+          ]
+        },
+        {
+          "number": 895,
+          "branch": "cf247-controller-entrypoint-gates",
+          "sha": "bcceb856411a927f233f94695d7073830a0f2264",
+          "base": "main",
+          "draft": true,
+          "state": "open",
+          "checks": [
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/00495a40-7010-4c90-be3a-43bd8f214fcc"
+            },
+            {
+              "name": "provider-description",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242291788/job/127975386866"
+            },
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242291601/job/127975385670"
+            },
+            {
+              "name": "release-history-contract",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242291612/job/127975385475"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242291616/job/127975385320"
+            }
+          ]
+        },
+        {
+          "number": 896,
+          "branch": "delivery-p0-deadline-382",
+          "sha": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "base": "main",
+          "draft": true,
+          "state": "open",
+          "checks": [
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/c37cc8aa-6cec-434a-9a68-05164cbf6809"
+            },
+            {
+              "name": "deadline-semantics",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242489101/job/127976067072"
+            },
+            {
+              "name": "provider-description",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242489035/job/127976066964"
+            },
+            {
+              "name": "prod-parity-round-trip",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242489101/job/127976066729"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242489167/job/127976066135"
+            },
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242488745/job/127976065600"
+            },
+            {
+              "name": "release-history-contract",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242488921/job/127976064831"
+            }
+          ]
+        },
+        {
+          "number": 897,
+          "branch": "codex/iq00112-alert-collector-acceptance",
+          "sha": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+          "base": "cf247-english-requirements-complete",
+          "draft": true,
+          "state": "open",
+          "checks": [
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/8e01acbe-1a5f-4a67-9cf8-5ead84aa248c"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306884616/job/128198359084"
+            },
+            {
+              "name": "test-evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306883983/job/128198357652"
+            },
+            {
+              "name": "prod-parity-round-trip",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306883870/job/128198356766"
+            },
+            {
+              "name": "deadline-semantics",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306883870/job/128198356444"
+            }
+          ]
+        },
+        {
+          "number": 890,
+          "branch": "cf247-devapi-r23-r24",
+          "sha": "b42a529d1bc64682d5ecff91cc61277c390a2893",
+          "base": "main",
+          "draft": true,
+          "state": "open",
+          "checks": [
+            {
+              "name": "isolated-postgres",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/41999958503/job/127152378520"
+            },
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/41999958433/job/127152378348"
+            },
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/8aca2e22-ab6d-47ea-839a-f10fc14f95b5"
+            }
+          ]
+        },
+        {
+          "number": 875,
+          "branch": "cf247-aer-selector-fix",
+          "sha": "9205087d0d5a5bee207787e8373ed3688e9b0190",
+          "base": "main",
+          "draft": true,
+          "state": "open",
+          "checks": [
+            {
+              "name": "build-and-smoke",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/41818033064/job/126533740664"
+            },
+            {
+              "name": "Workers Builds: coursefinder-pilot",
+              "status": "completed",
+              "conclusion": "success",
+              "details_url": "https://dash.cloudflare.com/e792d0cb37f4dad06e3886d647b2c4d1/workers/services/view/coursefinder-pilot/production/builds/6b6e1dc4-9a50-4e32-ba06-d8c2071f5010"
+            }
+          ]
+        }
+      ]
+    },
+    "database_snapshot": {
+      "observed_at": "2026-11-06 23:20:00.220223+00",
+      "active_or_transaction_sessions": [],
+      "migrations": {
+        "head": "20261106400000",
+        "count": 1791
+      },
+      "alerts": {
+        "sent": 19,
+        "failed": 0,
+        "overdue": 80,
+        "pending": 83,
+        "sending": 0,
+        "live_leases": 0,
+        "unattempted": 83,
+        "latest_sent_at": "2026-11-03T07:00:29.670325+00:00"
+      },
+      "exact_three": [
+        {
+          "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "status": "active",
+          "application_deadline": "2026-11-02"
+        },
+        {
+          "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "status": "active",
+          "application_deadline": "2027-02-15"
+        },
+        {
+          "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+          "status": "active",
+          "application_deadline": "2026-10-12"
+        }
+      ],
+      "production_monitoring_jobs": [
+        {
+          "name": "integration-validate",
+          "active": true,
+          "schedule": "21,51 * * * *"
+        },
+        {
+          "name": "platform-alerts",
+          "active": true,
+          "schedule": "*/10 * * * *"
+        },
+        {
+          "name": "platform-health",
+          "active": true,
+          "schedule": "8-59/10 * * * *"
+        }
+      ]
+    },
+    "worktrees": [
+      {
+        "worktree": "/workspace/delivery-pilot",
+        "HEAD": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+        "branch": "refs/heads/delivery895-final-register-preservation",
+        "status": []
+      },
+      {
+        "worktree": "/workspace/alerts-2136/fixture-worktree",
+        "HEAD": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+        "branch": "refs/heads/codex/iq00112-alert-collector-acceptance",
+        "status": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/alerts-2136/locator-source",
+        "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/alerts-2136/source",
+        "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/delivery-893",
+        "HEAD": "99e00249cf2698ef384f724a6649ce901082adc4",
+        "branch": "refs/heads/delivery-893-release",
+        "status": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-894",
+        "HEAD": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+        "detached": true,
+        "status": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-p0-deadline",
+        "HEAD": "bad902ad387115004d12b629b34ab21b5266bb2c",
+        "branch": "refs/heads/delivery-p0-deadline-382",
+        "status": [
+          "?? deadline-cli-generation.json",
+          "?? deadline-enabled-review-validation.json",
+          "?? deadline-local-validation.json",
+          "?? deadline-pg17-enabled-review-validation.log",
+          "?? deadline-pg17-validation.json",
+          "?? deadline-pg17-validation.log",
+          "?? deadline-review-paste-refusal.log",
+          "?? deadline-s233-validation.log",
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/repair-ownership-followup",
+        "HEAD": "c13b516d0383067a734a30077da3ddf3e66e201a",
+        "branch": "refs/heads/ws382-screenshot-guard",
+        "status": []
+      },
+      {
+        "worktree": "/workspace/resume-1702/review-context",
+        "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/resume-1800/review-jobs",
+        "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/resume-1902/review-consumers",
+        "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/resume-2000/reader-source",
+        "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/resume-2104/reader-source",
+        "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "detached": true,
+        "status": []
+      },
+      {
+        "worktree": "/workspace/review-895-readonly",
+        "HEAD": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+        "branch": "refs/heads/ws382-safe-dispatch-inputs",
+        "status": []
+      }
+    ],
+    "local_processes": "No live node/npm/playwright/wrangler/psql process in shutdown inventory. Eleven defunct npm processes are zombies, not executing work; no action taken. Local fixture container already stopped/removed. Managed execution infrastructure is not terminated by killing services.",
+    "agents": {
+      "alerts_protocol_review": "completed",
+      "collector_locator": "completed",
+      "other_active_child_agents": []
+    },
+    "cloudflare": "No deployment initiated by Codex during its bounded engineering or this shutdown. GitHub running workflow inventory empty; direct Cloudflare account deployment inventory/commit unavailable from this environment, so absence of unrelated account activity is not certified. Incoming controller must inspect actual account before mutations.",
+    "account_fencing": {
+      "environment_protection_rules": [],
+      "deployment_branch_policy": null,
+      "environment_secret_access_error": "Resource not accessible by integration",
+      "actual_cloudflare_and_direct_sql_fences": "Not independently installed/verified; no credentials revoked by Codex."
+    },
+    "latest_watchdog": {
+      "id": 42311080562,
+      "created_at": "2026-11-06T23:19:12Z",
+      "conclusion": "failure",
+      "exact_new_job_error": "Not inspected; this shutdown records status only and does not start another incident investigation. Original confirmed42262985796 failure is preserved separately."
+    },
+    "production_mutations": 0,
+    "paid_vendor_operations": 0,
+    "successor_acceptance": "Pending; no Claude acceptance/verification/completion claimed.",
+    "handover_publication": "This evidence and canonical checkpoint/register are published together. CODEX CONTROLLER RELEASED acknowledgement follows in Admin382; no further autonomous cycle or engineering after handover."
   }
 }
