@@ -1,31 +1,31 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T232411Z",
-  "created_at": "2026-11-06T23:24:11Z",
+  "checkpoint_id": "CP-382-20261106T234935Z",
+  "created_at": "2026-11-06T23:49:35Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-stop-handover-20261106T231814Z",
-  "trigger": "platform_admin_revocation_codex_stop_and_final_handover_to_claude",
+  "execution_id": "claude-controller-20261107T0000Z",
+  "trigger": "ownership_accepted_awaiting_platform_admin",
   "controller": {
-    "candidate": "Claude Sonnet 5.5 (High reasoning effort), nominated successor; acceptance pending",
-    "owner": null,
-    "previous_owner": "Codex, appointment revoked by Platform Admin; never acquired atomic lease",
-    "status": "released",
-    "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-stop-handover-20261106T231814Z",
-    "ownership_started_at": null,
-    "last_heartbeat_at": null,
-    "lease_expires_at": null,
+    "candidate": "Claude Sonnet 5.5 (claude-sonnet-5-5)",
+    "owner": "claude-controller-20261107T0000Z",
+    "previous_owner": "Codex, appointment revoked; never acquired an atomic lease",
+    "status": "reconciliation",
+    "environment": "Claude Code managed cloud container, session cse_01RnriTf32Hcv4Xqnq2DF1qq",
+    "session_id": "claude-controller-20261107T0000Z",
+    "ownership_started_at": "2026-11-06T23:36:14Z",
+    "last_heartbeat_at": "2026-11-06T23:36:14Z",
+    "lease_expires_at": "2026-11-07T05:36:13Z",
     "ownership_ref": "refs/heads/studysearch-controller",
-    "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "CODEX_STOPPED_FINAL_HANDOVER_ONLY_NO_RESUMPTION",
-    "successor": "Claude Sonnet 5.5 (High reasoning effort)",
+    "ownership_commit": "547c3ca46791caa372eeba1ddb9b41f25064060e",
+    "mode": "ACCEPTED_NOT_ACTIVE_READ_ONLY_UNTIL_ADOPTION_VERIFIED",
+    "successor": null,
     "transfer": {
-      "status": "published",
+      "status": "accepted",
       "requested_at": "2026-11-06T23:18:14Z",
-      "accepted_at": null,
+      "accepted_at": "2026-11-06T23:36:14Z",
       "verified_at": null,
       "completed_at": null,
-      "accepted_by": null
+      "accepted_by": "claude-controller-20261107T0000Z"
     },
     "in_flight_operations": []
   },
@@ -5632,12 +5632,19 @@
       "kind": "actual_codex_automation_shutdown_live_inventory_and_release_without_previously_acquired_lease",
       "observed_at": "2026-11-06T23:24:11Z",
       "summary": "Codex engineering stopped23:18:14UTC. Weekend0a2ea05f disabled23:18:26.632468Z; Mondayaf49e809 disabled23:18:28.955034Z, both readbackfalse. PR892–897/holds unchanged/current CI pass. No running GitHub workflows, DB active sessions/transaction0 at23:20; historical queued34749286102jobs0.83pending/allunattempted/80overdue, exactthree wrongdeadlinesactive. Latestwatchdog42311080562failed23:19.14worktrees no tracked edits; agentsdone; atom6d95generation0/unowned/adoptionpending, no releaseeventfabricated. Claude nominated, acceptancepending; accountfencing/providerdeploymentinspectionblocked."
+    },
+    {
+      "id": "EV-CLAUDE-OWNERSHIP",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698860853",
+      "kind": "decision_record",
+      "observed_at": "2026-11-06T23:49:35Z",
+      "summary": "Ownership accepted at generation 1, status reconciliation, adoption pending; tool guard returns BLOCKED not active. No production write. Account controls (GitHub environments/secrets/protection, Cloudflare, Supabase credentials) not reachable from this session. P1 collector task trig_01Eo7QrJXR24e774gNzLUvTi found disabled since 2026-11-03T07:21:12Z; 83 platform alerts unsent. P0 three deadlines still present in Website and Zoho projections at 2026-11-06T23:45:32Z."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Stopped Codex engineering at23:18:14UTC; disabled and independently reread both self-owned schedules (weekend0a2ea05f,Mondayaf49e809). Reconciled preserved PR heads/current CI,14 clean tracked worktrees, completed agents, zero active DB sessions at23:20, no running GitHub workflow or operation reservation. No production/vendor action or lease was held.",
-    "current_action": "Final authorised shutdown handover only. Codex controller appointment revoked; no new development, diagnosis, branch, PR, merge, deployment, migration, admission, vendor action or scheduled engineering run. Claude successor acceptance remains pending.",
-    "next_safe_action": "Incoming Claude Sonnet5.5 High reasoning effort reads this checkpoint, latest Admin382 release acknowledgement, operating model and existing decisions; independently verifies actual provider deployments/DB/workflows and account fencing, uses its actual execution ID to retarget/reconcile the existing atomic unowned transfer, and establishes its own authority before any production mutation. Do not ask for another Codex acknowledgement or blindly replay a command.",
+    "last_completed_atomic_action": "Accepted ownership (generation 1, reconciliation) through the existing protocol; read-only verification of handover, PR stack, test-evidence reuse, P0 before-state and alert backlog; journal in the Execution Register. No production write, merge, release or collector run.",
+    "current_action": "Awaiting Platform Admin: account-owner controls (GitHub pilot environment, Cloudflare deploy command, Supabase tokens), collector supervised-run authorisation, and explicit approval of the exact three-row deadline correction.",
+    "next_safe_action": "After account controls: verify old-ref denial, record adoption, verify and complete transfer to active, reserve #895 release context, merge #895 pinned to head, assert main tree equals tested tree, then continue #896, #894, #893 one at a time with live acceptance. Keep #890 and #875 held.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
