@@ -17,7 +17,7 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** One bounded reader integration diagnosis completed from current GitHub records. The apparent counter contradiction is resolved; no code defect or production repair is claimed. Actual account fencing and ownership remain blocked.
+**Reason:** Scheduled recovery begins one bounded IQ-00046 cause investigation from GitHub. Prior counter reconciliation and engineering remain preserved; no production authority acquired.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416; HTTP/asset200/hash2099cae6 verified20:12UTC. Edge239 ACTIVE/hash995d5111 unchanged. All1791migrationversions match/head20261106400000 at20:14; deadlinef01e9/courseff3d6 and20:20flag668/reader hashes unchanged. Jobs163active/176total under automatic controls. Exact Cloudflare commit and authenticated desktop/phone remain unverified.
@@ -29,7 +29,7 @@
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** Root completed read-only SQL and evidence reconciliation; reader_source_2000 completed independent source-only review in clean detached4ba94e3f worktree /workspace/resume-2000/reader-source. Sole reviewer output is local review JSON, now embedded with durable GitHub source refs in canonical evidence. No owned source/function/migration edits. All10trackedworktrees clean; predecessor untracked logs/node_modules retained and inventoried.
+**Workstreams:** WS-IQ00046-2104: root owns read-only SQL/current config and canonical evidence; independent reader_causes_2104 owns only /workspace/resume-2104/reader-cause-review.json in detached4ba94e3f worktree. No source/function/migration write ownership.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,10 +38,10 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No agent, SQL, local test, reservation, deployment or workflow initiated by this execution remains active. Seven other active DB clients observed20:20UTC were not attributed or cancelled; platform jobs continue independently. GitHub has no running workflow; queued34749286102 has0jobs and reconciled missing dispatcher/recipient. Atomic6d95 remains unowned/no lease/adoptionpending; no acceptance or release claimed.
+**In flight:** One source-only reviewer and bounded read-only diagnosis. No production reservation/write/deployment/test/new workflow. GitHub has no running workflow; historical34749286102 remains queued0jobs/reconciled. Atomic6d95 owner/lease null, adoptionpending; no controller acceptance.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Investigate the three directHTTP200/fetch_failed causes from existing evidence with bounded read-only probes; do not reset exhausted pages, refetch or spend. Account owners implement existing D-382-CUTOVER with verified denial/recovery before current-execution atomic acceptance and895→896→894→893 releases with892integrated. Exact original three-row deadline correction remains separately gated.
+**Next safe action:** Inspect current adapter metadata and worker caught-exception paths for three same-provider/same-URL direct200/fetch_failed rows. Use existing metadata only; no refetch, retry reset, paid work or speculative fix.
 
 <!-- controller-handover:risks_recovery -->
 **Risks/recovery:** Current historical-window rows are mutable, not immutable per-call membership. needs_render and ledgerok are not successful reads/admissions. HTTP403x8/404x14 and3direct200/fetch_failed require appropriate source diagnosis; the call reports0Firecrawl capacity above reserve. Queue2091exhausted/pending0 is not recovery. Three original baddeadlines remainactive20:14UTC; alerts79pending/allunattempted/78overdue,62historical+17activeevents across5conditions,0duplicates. Environment unprotected/secretAPI403; account controls, exclusive authority and existing holds/budgets remain.

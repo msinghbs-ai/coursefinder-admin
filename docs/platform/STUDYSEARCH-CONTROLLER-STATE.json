@@ -1,23 +1,23 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T202256Z",
-  "created_at": "2026-11-06T20:22:56Z",
+  "checkpoint_id": "CP-382-20261106T210901Z",
+  "created_at": "2026-11-06T21:09:01Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-reader-reconcile-20261106T200457Z",
-  "trigger": "workstream_completion_and_intentional_session_termination",
+  "execution_id": "codex-reader-causes-20261106T210452Z",
+  "trigger": "interrupted_session_recovery_and_workstream_start",
   "controller": {
     "candidate": "Codex",
     "owner": null,
     "previous_owner": "Claude; explicit release Admin382 comment6686299314, independently reconciled",
     "status": "reconciliation",
     "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-reader-reconcile-20261106T200457Z",
+    "session_id": "codex-reader-causes-20261106T210452Z",
     "ownership_started_at": null,
     "last_heartbeat_at": null,
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_cycle_complete_authority_blocked",
+    "mode": "read_only_reader_cause_diagnosis",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -2595,6 +2595,32 @@
         "EV-READER-2000-OPS"
       ],
       "completion_summary": "Diagnostic acceptance met: independent source review and exact stored tally/current status evidence reconcile counters. No source defect proven or classifier change justified. Operational issue remains triaged/open; source/HTTP failures and resource/authority constraints remain. No tests, source, functions or migrations changed; clean isolated worktree, reviewer complete."
+    },
+    {
+      "id": "WS-IQ00046-2104",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+      "owner": "Codex root read-only SQL/canonical evidence; /root/reader_causes_2104 independent source review",
+      "branch": null,
+      "commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "worktree": "/workspace/resume-2104/reader-source (detached)",
+      "state": "investigating",
+      "owned_paths": [
+        "/workspace/resume-2104/reader-cause-review.json"
+      ],
+      "owned_functions": [],
+      "owned_migrations": [],
+      "acceptance_criteria": [
+        "Trace reachable causes of directHTTP200/fetch_failed without refetching",
+        "Inspect exact provider adapter metadata and source catches, preserve missing historical evidence limits",
+        "Prove a defect or document supported external/evidence/authority blocker; no speculative patch",
+        "Keep production writes, source edits, tests, admissions, vendor calls and ownership changes stopped"
+      ],
+      "dependencies": [],
+      "blockers": [],
+      "test_evidence_ids": [
+        "EV-READER-2104-START"
+      ],
+      "completion_summary": null
     }
   ],
   "prs": [
@@ -5270,12 +5296,19 @@
       "kind": "live_github_and_production_read_only_baseline",
       "observed_at": "2026-11-06T20:20:09.732600Z",
       "summary": "20:14UTC all1791versions match/head400000,deadlinef01e9/courseff3d6;20:20flag668/readerhashes unchanged. UI489/.416/asset200/hash2099cae6,edge239/hash995d5111. Jobs163/176;79pendingalerts/allunattempted/78overdue (62historical+17active/5conditions/0duplicates). Threeoriginalbaddeadlinesactive. GitHubheads/refunchanged,norunningworkflows;secretAPI403/environmentunprotected;7otheractiveDBclients unclaimed."
+    },
+    {
+      "id": "EV-READER-2104-START",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/commit/ad34e52092afec456e31c65fb9ad947c54d681fd",
+      "kind": "live_github_recovery_and_bounded_read_only_diagnosis",
+      "observed_at": "2026-11-06T21:09:01Z",
+      "summary": "CP202256 validated; liveheads/CI/holds/ref6d95/account403 unchanged. Three exact direct200/fetch_failed rows have attempts3, same provider/URL digest, no candidate/evidence/lease. RPC record source preserves prior HTTP/via when catch status fails; worker path diagnosis pending. No repair or production mutation."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Completed source and live reader counter reconciliation: needs_render8 plus blocked8/fetch_failed17 explains33 watch attempts; ledger ok8 is a derived remainder, not successful reads. Zero-work classifier is correct for observed batch. Fresh GitHub heads, control403, full1791 migration ledger, relevant hashes, jobs, queues, alerts and frontend verified; no production repair.",
-    "current_action": "Bounded cycle ending after publishing existing canonical records. Reviewer completed and detached source worktree clean; no initiated SQL/test/agent/deployment/reservation remains in flight. Seven unrelated active DB clients observed20:20; no attribution or cancellation. No ownership accepted.",
-    "next_safe_action": "Continue safe source/cause diagnosis for the three direct HTTP200 fetch_failed rows using existing evidence and permitted indexed reads; do not refetch or reset attempts. Account owners complete D-382-CUTOVER controls and recovery tests before current-execution atomic acceptance and sequential895→896→894→893 releases. Exact three-row deadline correction remains separately gated.",
+    "last_completed_atomic_action": "Recovered immutable Adminad34e520 and Pilot4ba94e3f, read mandatory records/current382decisions/PilotCLAUDE and guide; CP202256 validates. Current heads/checks/holds, released unowned ref6d95, unprotected environment/403 and historical queued0jobs unchanged. Indexed probe identifies three direct200/fetch_failed rows share one provider and URL digest.",
+    "current_action": "WS-IQ00046-2104 root owns read-only row/config/live baseline evidence; isolated reader_causes_2104 reviewer owns only local diagnosis JSON in detached4ba94e3f worktree. No code/function/migration change or source defect assumed.",
+    "next_safe_action": "Inspect read-only current adapter metadata and worker exception/gate order; distinguish provable root cause from missing historical body/log evidence. No source refetch, paid retry, attempt reset, authority assumption or classifier relaxation.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5305,21 +5338,21 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T201159Z",
+    "predecessor_checkpoint": "CP-382-20261106T202256Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** One bounded reader integration diagnosis completed from current GitHub records. The apparent counter contradiction is resolved; no code defect or production repair is claimed. Actual account fencing and ownership remain blocked.",
+    "reason": "**Reason:** Scheduled recovery begins one bounded IQ-00046 cause investigation from GitHub. Prior counter reconciliation and engineering remain preserved; no production authority acquired.",
     "baseline": "**Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416; HTTP/asset200/hash2099cae6 verified20:12UTC. Edge239 ACTIVE/hash995d5111 unchanged. All1791migrationversions match/head20261106400000 at20:14; deadlinef01e9/courseff3d6 and20:20flag668/reader hashes unchanged. Jobs163active/176total under automatic controls. Exact Cloudflare commit and authenticated desktop/phone remain unverified.",
     "completed": "**Completed:** WS-IQ00046-2000 diagnostic complete. Stored tally blocked8+fetch_failed17 explains ledgeritems25/derivedok8; current old-window statuses add8needs_render, matching watch33tried/25failed. Zero-work classification is consistent; no speculative classifier repair. Prior #892/#893/#894 engineering preserved. Pilot PRs merged0; production releases0; corrections0; operational issue remains open.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** Root completed read-only SQL and evidence reconciliation; reader_source_2000 completed independent source-only review in clean detached4ba94e3f worktree /workspace/resume-2000/reader-source. Sole reviewer output is local review JSON, now embedded with durable GitHub source refs in canonical evidence. No owned source/function/migration edits. All10trackedworktrees clean; predecessor untracked logs/node_modules retained and inventoried.",
+    "workstreams": "**Workstreams:** WS-IQ00046-2104: root owns read-only SQL/current config and canonical evidence; independent reader_causes_2104 owns only /workspace/resume-2104/reader-cause-review.json in detached4ba94e3f worktree. No source/function/migration write ownership.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** No agent, SQL, local test, reservation, deployment or workflow initiated by this execution remains active. Seven other active DB clients observed20:20UTC were not attributed or cancelled; platform jobs continue independently. GitHub has no running workflow; queued34749286102 has0jobs and reconciled missing dispatcher/recipient. Atomic6d95 remains unowned/no lease/adoptionpending; no acceptance or release claimed.",
-    "next_safe_action": "**Next safe action:** Investigate the three directHTTP200/fetch_failed causes from existing evidence with bounded read-only probes; do not reset exhausted pages, refetch or spend. Account owners implement existing D-382-CUTOVER with verified denial/recovery before current-execution atomic acceptance and895→896→894→893 releases with892integrated. Exact original three-row deadline correction remains separately gated.",
+    "in_flight": "**In flight:** One source-only reviewer and bounded read-only diagnosis. No production reservation/write/deployment/test/new workflow. GitHub has no running workflow; historical34749286102 remains queued0jobs/reconciled. Atomic6d95 owner/lease null, adoptionpending; no controller acceptance.",
+    "next_safe_action": "**Next safe action:** Inspect current adapter metadata and worker caught-exception paths for three same-provider/same-URL direct200/fetch_failed rows. Use existing metadata only; no refetch, retry reset, paid work or speculative fix.",
     "risks_recovery": "**Risks/recovery:** Current historical-window rows are mutable, not immutable per-call membership. needs_render and ledgerok are not successful reads/admissions. HTTP403x8/404x14 and3direct200/fetch_failed require appropriate source diagnosis; the call reports0Firecrawl capacity above reserve. Queue2091exhausted/pending0 is not recovery. Three original baddeadlines remainactive20:14UTC; alerts79pending/allunattempted/78overdue,62historical+17activeevents across5conditions,0duplicates. Environment unprotected/secretAPI403; account controls, exclusive authority and existing holds/budgets remain.",
     "evidence": "**Evidence:** [reader source/runtime reconciliation and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline evidence](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, successor acceptance or completed transfer claimed."
   }
