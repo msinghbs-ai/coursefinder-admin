@@ -7346,8 +7346,8 @@
     ]
   },
   "latest_exact_three_recheck": {
-    "execution_id": "codex-deadline-consumers-20261106T190249Z",
-    "observed_at": "2026-11-06T19:12:14.913266Z",
+    "execution_id": "codex-reader-causes-20261106T210452Z",
+    "observed_at": "2026-11-06T21:16:41.852865Z",
     "rows": [
       {
         "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
@@ -7366,7 +7366,7 @@
       }
     ],
     "corrections": 0,
-    "authority_scope": "Original exactthree-row proposal remains separately gated and disabled."
+    "authority_scope": "Original exactthree-row proposal remains separately gated and disabled. Fresh source/cause diagnosis neither widens nor executes it."
   },
   "consumer_expansion_1902": {
     "execution_id": "codex-deadline-consumers-20261106T190249Z",

@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T210901Z",
-  "created_at": "2026-11-06T21:09:01Z",
+  "checkpoint_id": "CP-382-20261106T212120Z",
+  "created_at": "2026-11-06T21:21:20Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-reader-causes-20261106T210452Z",
-  "trigger": "interrupted_session_recovery_and_workstream_start",
+  "trigger": "workstream_blocker_and_intentional_session_termination",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -17,7 +17,7 @@
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_reader_cause_diagnosis",
+    "mode": "read_only_cycle_complete_evidence_and_authority_blocked",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -1840,26 +1840,28 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T20:14:11.107618Z",
+      "verified_at": "2026-11-06T21:16:41.852865Z",
       "evidence_ids": [
         "EV-MIGRATIONS",
         "EV-JOB-RECONCILE-FINAL",
         "EV-CONSUMER-1902-OPS",
-        "EV-READER-2000-OPS"
+        "EV-READER-2000-OPS",
+        "EV-READER-2104-OPS"
       ]
     },
     "function_hashes": [
       {
         "signature": "security.course_description_check_v1(p_course uuid, p_result jsonb)",
         "md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
-        "verified_at": "2026-11-06T20:14:11.107618Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-GUARDS",
           "EV-RECOVERY-LIVE",
           "EV-DEADLINE-CONTEXT-1702",
           "EV-JOB-RECONCILE-FINAL",
           "EV-CONSUMER-1902-OPS",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
         ]
       },
       {
@@ -1928,60 +1930,98 @@
       {
         "signature": "security.course_deadline_in_quote_v1(p_date date, p_quote text)",
         "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
-        "verified_at": "2026-11-06T20:14:11.107618Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-DEADLINE-REPAIR",
           "EV-DEADLINE-COHORT",
           "EV-DEADLINE-CONTEXT-1702",
           "EV-JOB-RECONCILE-FINAL",
           "EV-CONSUMER-1902-OPS",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
         ]
       },
       {
         "signature": "security.flag_jobs_v1()",
         "md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
-        "verified_at": "2026-11-06T20:20:09.732600Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-JOB-RECONCILE-FINAL",
           "EV-CONSUMER-1902-OPS",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
         ]
       },
       {
         "signature": "security.queue_watch_run_v1(boolean)",
         "md5": "5735193b0d93f4764502504617c55687",
-        "verified_at": "2026-11-06T20:20:09.732600Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-READER-2000-FINAL",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
         ]
       },
       {
         "signature": "security.worker_call_outcome_v1(integer,jsonb,integer,integer,integer)",
         "md5": "8b256a6f7f9a9350927b4773c8a80304",
-        "verified_at": "2026-11-06T20:20:09.732600Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-READER-2000-FINAL",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
         ]
       },
       {
         "signature": "security.worker_call_work_v1(text)",
         "md5": "4bfdbbccdca1cd3481fd7011d38154af",
-        "verified_at": "2026-11-06T20:20:09.732600Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-READER-2000-FINAL",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
         ]
       },
       {
         "signature": "security.worker_lane_outcome_v1(text,text,jsonb)",
         "md5": "e04fe197b192c3bec6417d5e51559478",
-        "verified_at": "2026-11-06T20:20:09.732600Z",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
         "evidence_ids": [
           "EV-READER-2000-FINAL",
-          "EV-READER-2000-OPS"
+          "EV-READER-2000-OPS",
+          "EV-READER-2104-OPS"
+        ]
+      },
+      {
+        "signature": "security.uni_adapter_json(uuid)",
+        "md5": "8b8f0fc2a672359a6d0c08b9e6cb0faf",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
+        "evidence_ids": [
+          "EV-READER-2104-OPS"
+        ]
+      },
+      {
+        "signature": "public.svc_coverage_read_next(integer)",
+        "md5": "2ac1114dd4a5da99d8ddb742f7d0c1be",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
+        "evidence_ids": [
+          "EV-READER-2104-OPS"
+        ]
+      },
+      {
+        "signature": "public.svc_coverage_read_record(uuid,text,integer,text,text,text,text,jsonb)",
+        "md5": "ebbdc4e45af01c473fd5b681d2237011",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
+        "evidence_ids": [
+          "EV-READER-2104-OPS"
+        ]
+      },
+      {
+        "signature": "public.svc_uni_adapters()",
+        "md5": "bd4fad80ed2182d7a752655fb6322b52",
+        "verified_at": "2026-11-06T21:16:41.852865Z",
+        "evidence_ids": [
+          "EV-READER-2104-OPS"
         ]
       }
     ],
@@ -1990,14 +2030,16 @@
       "evidence_ids": [
         "EV-JOBS",
         "EV-JOB-RECONCILE-FINAL",
-        "EV-READER-2000-OPS"
+        "EV-READER-2000-OPS",
+        "EV-READER-2104-OPS"
       ]
     },
     "settings": {
       "status": "verified",
       "evidence_ids": [
         "EV-GUARDS",
-        "EV-READER-2000-OPS"
+        "EV-READER-2000-OPS",
+        "EV-READER-2104-OPS"
       ]
     },
     "feature_flags": {
@@ -2015,9 +2057,10 @@
       "No production mutation until exclusive controller ownership and adoption verified",
       "#890 and #875 remain held",
       "No consumer API/destructive action/spend override/trust-policy or human Layer4 decision without authority",
-      "Frontend v2.15.489 verified by served asset; Cloudflare deployment commit and authenticated UI unverified"
+      "Frontend v2.15.489 verified by served asset; Cloudflare deployment commit and authenticated UI unverified",
+      "Fresh21:13frontendGET403/error1010 and independent web unavailable; lastsuccessfulfrontend20:12. Do not claim freshfrontend/version/desktop/phone acceptance or universaloutage."
     ],
-    "checkpoint_at": "2026-11-06T20:14:11.107618Z"
+    "checkpoint_at": "2026-11-06T21:16:41.852865Z"
   },
   "workstreams": [
     {
@@ -2603,7 +2646,7 @@
       "branch": null,
       "commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
       "worktree": "/workspace/resume-2104/reader-source (detached)",
-      "state": "investigating",
+      "state": "blocked",
       "owned_paths": [
         "/workspace/resume-2104/reader-cause-review.json"
       ],
@@ -2616,11 +2659,14 @@
         "Keep production writes, source edits, tests, admissions, vendor calls and ownership changes stopped"
       ],
       "dependencies": [],
-      "blockers": [],
-      "test_evidence_ids": [
-        "EV-READER-2104-START"
+      "blockers": [
+        "Inspected retained metadata lacks exact historical body length and caught exception; no evidence-based source patch. New acquisition/instrumentation additionally requires current account/ownership/resource/release gates."
       ],
-      "completion_summary": null
+      "test_evidence_ids": [
+        "EV-READER-2104-FINAL",
+        "EV-READER-2104-OPS"
+      ],
+      "completion_summary": "Bounded diagnostic acceptance completed, operational remediation remains blocked/open. Independent exact-config/source/log review confirms no proved defect or justified patch. Do not repeat unchanged probes; continue an independent safe lane. No tests/source/functions/migrations/production/vendor changes; reviewer complete and worktree clean."
     }
   ],
   "prs": [
@@ -3114,11 +3160,11 @@
           "state": "done",
           "reason": null,
           "pending": 0,
-          "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
-          "done_window": 0,
-          "failed_window": 0,
-          "last_progress": "2026-11-06T15:05:48.406059+00:00"
+          "per_hour": 18,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 18,
+          "failed_window": 1,
+          "last_progress": "2026-11-06T20:19:09.201185+00:00"
         },
         {
           "key": "central_ai",
@@ -3126,7 +3172,7 @@
           "reason": "5 central pages the ai could not read",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-05T04:15:18.786556+00:00"
@@ -3137,7 +3183,7 @@
           "reason": "1 providers whose central page search failed",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-10-22T03:54:11.025363+00:00"
@@ -3148,21 +3194,21 @@
           "reason": "247 companion pages given up after repeated failed reads",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-02T10:42:14.399783+00:00"
         },
         {
           "key": "course_list_read",
-          "state": "out_of_toolset",
-          "reason": "Work is waiting but firecrawl:reads cannot be used until a person acts (credit or balance used up)",
-          "pending": 79,
-          "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
-          "done_window": 0,
+          "state": "moving",
+          "reason": null,
+          "pending": 82,
+          "per_hour": 1,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 1,
           "failed_window": 0,
-          "last_progress": "2026-11-06T15:03:05.281243+00:00"
+          "last_progress": "2026-11-06T20:13:07.354192+00:00"
         },
         {
           "key": "course_page_discover",
@@ -3170,7 +3216,7 @@
           "reason": "Switched off by a person: coverage-discover-2, coverage-discover",
           "pending": 18,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T12:37:09.537559+00:00"
@@ -3181,10 +3227,10 @@
           "reason": "2091 matched pages given up after three failed reads",
           "pending": 0,
           "per_hour": 3,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 3,
           "failed_window": 0,
-          "last_progress": "2026-11-06T19:20:35.321031+00:00"
+          "last_progress": "2026-11-06T20:50:34.101068+00:00"
         },
         {
           "key": "course_page_search",
@@ -3192,7 +3238,7 @@
           "reason": "Work is waiting but firecrawl:course_search cannot be used until a person acts (credit or balance used up)",
           "pending": 265,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T11:56:00.359438+00:00"
@@ -3203,7 +3249,7 @@
           "reason": "485 course pages that state no credential, or more than one level",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-01T01:06:08.870743+00:00"
@@ -3214,10 +3260,10 @@
           "reason": null,
           "pending": 38,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
-          "last_progress": "2026-11-06T20:00:00.945153+00:00"
+          "last_progress": "2026-11-06T21:00:00.958686+00:00"
         },
         {
           "key": "fee_reader",
@@ -3225,7 +3271,7 @@
           "reason": "5 fee pages the ai could not read",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-04T15:22:22.646034+00:00"
@@ -3236,7 +3282,7 @@
           "reason": "1 waiting and nothing finished since 06 Nov 23:36",
           "pending": 1,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T12:36:00.297196+00:00"
@@ -3247,7 +3293,7 @@
           "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-10-23T22:28:14.095082+00:00"
@@ -3258,7 +3304,7 @@
           "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-03T14:30:26.110361+00:00"
@@ -3269,7 +3315,7 @@
           "reason": null,
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-03T02:05:00.501111+00:00"
@@ -3280,28 +3326,28 @@
           "reason": null,
           "pending": 0,
           "per_hour": 20,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
           "done_window": 20,
           "failed_window": 0,
-          "last_progress": "2026-11-06T20:00:05.788192+00:00"
+          "last_progress": "2026-11-06T21:00:13.886208+00:00"
         },
         {
           "key": "source_find",
           "state": "moving",
           "reason": null,
           "pending": 997,
-          "per_hour": 1,
-          "checked_at": "2026-11-06T20:04:00.194491+00:00",
-          "done_window": 1,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 3,
           "failed_window": 0,
-          "last_progress": "2026-11-06T19:56:19.464224+00:00"
+          "last_progress": "2026-11-06T20:56:08.233197+00:00"
         }
       ],
       "unit": "rows and recorded one-hour rates",
-      "measured_at": "2026-11-06T20:14:11.107618Z",
+      "measured_at": "2026-11-06T21:16:41.852865Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-READER-2000-OPS"
+        "EV-READER-2104-OPS"
       ]
     },
     {
@@ -3889,26 +3935,25 @@
       "workstream_id": "WS-PROVIDER",
       "name": "Current alert outbox and deadline counts",
       "value": {
-        "pending": 79,
-        "unattempted_pending": 79,
+        "pending": 80,
+        "unattempted_pending": 80,
         "waiting_beyond_deadline": 78,
-        "historical_recovered_episode_events": 62,
-        "active_episode_events": 17,
-        "active_conditions": 5,
+        "historical_recovered_episode_events": 64,
+        "active_episode_events": 16,
+        "active_conditions": 4,
         "duplicate_dedupe_keys": 0,
         "active_keys": [
           "alerts:not_collected",
           "budgets:firecrawl",
           "coverage_queues:discover",
-          "queue_watch:course_list_read",
           "queue_watch:course_page_search"
         ]
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T20:14:11.107618Z",
+      "measured_at": "2026-11-06T21:16:41.852865Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-READER-2000-OPS"
+        "EV-READER-2104-OPS"
       ]
     },
     {
@@ -4301,6 +4346,34 @@
       "evidence_ids": [
         "EV-READER-2000-FINAL"
       ]
+    },
+    {
+      "id": "M-READER-CAUSES-2104",
+      "workstream_id": "WS-IQ00046-2104",
+      "name": "Bounded reader cause diagnosis, not recovery or successful reads",
+      "value": {
+        "unchanged_failed_rows": 3,
+        "shared_provider_count": 1,
+        "shared_url_digest_count": 1,
+        "stored_body_evidence": 0,
+        "current_valid_ascii_codes": 3,
+        "coverage_request200_events_in_log_window": 21,
+        "log_execution_ids": 3,
+        "runtime_lifecycle_events": 3,
+        "exact_cause_proven": false,
+        "source_repairs": 0,
+        "production_corrections": 0,
+        "currently_exhausted_pages": 2091,
+        "watch_condition_cleared_at": "2026-11-06T20:21:00.18619Z",
+        "integration_issue_status": "triaged"
+      },
+      "unit": "separately observed row/config/request metadata, not per-item runtime success",
+      "measured_at": "2026-11-06T21:16:41.852865Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-READER-2104-FINAL",
+        "EV-READER-2104-OPS"
+      ]
     }
   ],
   "integration_issues": [
@@ -4388,7 +4461,7 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Alert collection remains unrecovered at20:14UTC:79pending/allunattempted/78overdue;62historical+17activeevents across5conditions,0duplicates. No delivery or acknowledgement by this execution.",
+      "summary": "Alert collection remains unrecovered at21:16UTC:80pending/allunattempted/78overdue;64historical+16activeevents across4conditions,0duplicates. No delivery/acknowledgement by this execution.",
       "next_action": "After exclusive authority, verify authorised alert collector destination/runtime and recover delivery with existing protocol; never acknowledge or discard alerts merely to clear watchdog.",
       "evidence_ids": [
         "EV-JOBS",
@@ -4396,7 +4469,8 @@
         "EV-CONTEXT-1702-CONTROLS",
         "EV-JOB-RECONCILE-FINAL",
         "EV-CONSUMER-1902-OPS",
-        "EV-READER-2000-OPS"
+        "EV-READER-2000-OPS",
+        "EV-READER-2104-OPS"
       ]
     },
     {
@@ -4647,7 +4721,7 @@
       "severity": "P0",
       "state": "open",
       "summary": "Historical97non-closing/14closing/41context-requiredreadings preserved. Cumulative17cohortcourses/21suspectdates appearthrough3consumerSQLfunctions atdifferenttimes,48courses/HTTP/cacheunverified. No correction or globallynew21faultclaim.",
-      "next_action": "Preserve exact three-row approval scope and #896 forward guard. Account controls/ownership and explicit correction authority remain required. Independently verify ambiguous41/sourcecontext and remaining59consumercourses with planned smaller reads; do not mass-withdraw.",
+      "next_action": "Preserve exact three-row approval scope and #896 forward guard. Account controls/ownership and explicit correction authority remain required. Independently verify ambiguous41/sourcecontext and48remaining cohortcourses with planned bounded reads; no masswithdrawal.",
       "evidence_ids": [
         "EV-DEADLINE-P0",
         "EV-DEADLINE-PROOF",
@@ -4671,13 +4745,15 @@
       "id": "IQ-00046",
       "source": "pipeline.integration_issues; health:queue_watch:course_page_read",
       "severity": "P1",
-      "state": "open",
-      "summary": "Reader counter discrepancy reconciled:33tried =8needs_render+8blocked+17fetch_failed. Ledgerok8 means blocked remainder, not successful reads. Actual failures remain; current queue2091exhausted/pending0 is not recovery.",
-      "next_action": "Preserve failure classifier and IQ open. Investigate three direct200/fetch_failed causes from existing evidence with bounded safe reads. Provider403/404 and reported reserve0 do not authorise retries/reset/spend. Operational remediation requires actual production acceptance.",
+      "state": "blocked",
+      "summary": "Counter semantics reconciled; three directHTTP200/fetch_failed rows share one provider/URL. Current valid adapter/codes do not establish cause; empty body vs caught exception unresolved. Runtime condition cleared20:21 but issue remains triaged and2091pages exhausted.",
+      "next_action": "Do not repeat unchanged metadata diagnosis or reset attempts. Inspect genuinely new body-length/error evidence; new instrumented acquisition requires existing source/resource/account/ownership/release gates. Continue independent safe work; no closure on rolling-window expiry.",
       "evidence_ids": [
         "EV-CONSUMER-1902-OPS",
         "EV-READER-2000-FINAL",
-        "EV-READER-2000-OPS"
+        "EV-READER-2000-OPS",
+        "EV-READER-2104-FINAL",
+        "EV-READER-2104-OPS"
       ]
     }
   ],
@@ -4760,15 +4836,16 @@
     },
     {
       "id": "B-FRONTEND",
-      "summary": "Exact Cloudflare deployment commit and authenticated desktop/phone UI remain unverified; public frontend v2.15.489 now verified",
+      "summary": "Fresh frontend GET returned403/error1010 at21:13 and independent web tool unavailable. Lastverified20:12UI489/.416; exactCloudflarecommit/authenticateddesktop/phone remain unverified.",
       "owner": "Integration Controller",
       "workstream_ids": [
         "WS-UI",
         "WS-382"
       ],
-      "next_action": "Use supported authenticated operator or existing safe deployed validation capability; do not expose credentials or enable live-acting tests while authority is blocked.",
+      "next_action": "Cloudflare account owner checks normal-browser reachability and approved verification path during existing cutover/recovery verification; do not bypass WAF or call this a proven universal app outage.",
       "evidence_ids": [
-        "EV-FRONTEND-LIVE"
+        "EV-FRONTEND-LIVE",
+        "EV-READER-2104-OPS"
       ]
     },
     {
@@ -4782,6 +4859,18 @@
       "next_action": "Review concrete PR895 and configure/verify external controls under current authority before marking adoption verified.",
       "evidence_ids": [
         "EV-GATE-PREP"
+      ]
+    },
+    {
+      "id": "B-IQ00046-EVIDENCE",
+      "summary": "Three directHTTP200/fetch_failed rows have no inspected per-item body-length/exception evidence; valid current adapter/codes and aggregate runtime logs cannot recover exact cause. No speculative repair supported.",
+      "owner": "Authorised Integration Controller; source acquisition/observability owner after existing gates",
+      "workstream_ids": [
+        "WS-IQ00046-2104"
+      ],
+      "next_action": "Seek genuinely new retained discriminating evidence or use another safe workstream. Any new instrumented acquisition requires existing actual fencing/ownership, release authority, source and resource gates; never reset/rerun unchanged failures to guess.",
+      "evidence_ids": [
+        "EV-READER-2104-FINAL"
       ]
     }
   ],
@@ -5303,12 +5392,26 @@
       "kind": "live_github_recovery_and_bounded_read_only_diagnosis",
       "observed_at": "2026-11-06T21:09:01Z",
       "summary": "CP202256 validated; liveheads/CI/holds/ref6d95/account403 unchanged. Three exact direct200/fetch_failed rows have attempts3, same provider/URL digest, no candidate/evidence/lease. RPC record source preserves prior HTTP/via when catch status fails; worker path diagnosis pending. No repair or production mutation."
+    },
+    {
+      "id": "EV-READER-2104-FINAL",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json#/reader_cause_diagnosis_2104",
+      "kind": "independent_source_review_indexed_sql_and_bounded_log_metadata",
+      "observed_at": "2026-11-06T21:15:52.186591Z",
+      "summary": "Three unchangedfailed rows share provider/URLdigest, attempts3/no candidates/evidence/lease. Current enabledOct5adapter config copied exactly;3ASCIIcodes valid. EmptyHTML vs caught post-fetch/fallback failure unresolved. Window18:49:30–18:51:30 contains21HTTP200requestevents across3executions and3lifecycleevents, no per-item discriminant in inspected metadata. No source defect/fix proven; no unchanged repeats."
+    },
+    {
+      "id": "EV-READER-2104-OPS",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json#/reader_cause_diagnosis_2104",
+      "kind": "live_github_and_production_read_only_operational_reconciliation",
+      "observed_at": "2026-11-06T21:16:41.852865Z",
+      "summary": "21:16UTC full1791versionsmatch/head400000, relevant hashes/controls unchanged;162active/176jobs. Last2000cronrows cover20:02–21:16,0failures/3running; admission durations below2xprior sample. Alerts80pending/allunattempted/78overdue,64historical+16activeevents/4conditions/0duplicates. Three baddeadlinesactive. Readerwatchcleared20:21butIQstilltriaged/2091exhausted. PublicGET403/1010;frontendnotfreshlyverified. Atomic6d95unowned/adoptionpending, envunprotected/secretAPI403; norunningGitHubworkflow."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Recovered immutable Adminad34e520 and Pilot4ba94e3f, read mandatory records/current382decisions/PilotCLAUDE and guide; CP202256 validates. Current heads/checks/holds, released unowned ref6d95, unprotected environment/403 and historical queued0jobs unchanged. Indexed probe identifies three direct200/fetch_failed rows share one provider and URL digest.",
-    "current_action": "WS-IQ00046-2104 root owns read-only row/config/live baseline evidence; isolated reader_causes_2104 reviewer owns only local diagnosis JSON in detached4ba94e3f worktree. No code/function/migration change or source defect assumed.",
-    "next_safe_action": "Inspect read-only current adapter metadata and worker exception/gate order; distinguish provable root cause from missing historical body/log evidence. No source refetch, paid retry, attempt reset, authority assumption or classifier relaxation.",
+    "last_completed_atomic_action": "Completed isolated source/live diagnosis for three same-provider/same-URL direct200/fetch_failed rows. Current adapter and codes do not support malformed config; empty body vs caught processing/fallback exception cannot be distinguished from inspected retainedmetadata. Bounded historical logs add no per-item discriminant. Refreshed full1791migrationledger/hashes/jobs/queues/alerts; three original baddeadlines stillactive. No production fix.",
+    "current_action": "Bounded execution ending after canonical publication. Independent reviewer completed;11trackedworktrees clean, previous untracked logs/node_modules retained. No agent/SQL/test/reservation/deployment/workflow initiated here remains active. Platform jobs continue independently; no ownership accepted.",
+    "next_safe_action": "Continue independent existing P0 source/year/audience reconciliation or bounded single-course probes for48remaining cohortcourses, using recorded IDs and load windows; do not repeat unchanged three-row reader diagnosis. New reader cause evidence or controlled instrumented acquisition needs applicable account/ownership/resource/release gates. Account owners complete existing D-382-CUTOVER before actual-execution atomic acceptance and ordered releases.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5330,7 +5433,8 @@
       "Do not treat four current official-source corroborations as verified historical artifact or exact year/audience identity; all five reviewed intake years remain null. Do not repeat the failed three-course consumer batch unchanged; the planned one-course probe succeeded. Never reactivate a job merely to restore a historical aggregate count.",
       "The164→163jobcount discrepancy is reconciled by actual automatic flag events; active counts vary with approved idle/trial control. Do not reactivate jobs to restore164, blame worker-outcome-check, double-count requeued events, or infer complete credential fencing from this diagnostic resolution.",
       "The ten selected consumer courses have30successfulfunctionresults/36targetmatches; do not treat addedcohortcoverage as12globallynewbadrows or re-probe unchanged historical evidence to rebuild counts. Prior7courses were not refreshed. Preserve payloadUUID, source/evidence/year and HTTP/cache limits.",
-      "Reader216213 ok8 is blocked8, not read8. Current18:10 group is needs_render8, not successful HTML/evidence/admissions. Do not implement the refuted double-subtraction classifier fix, rerun failed acquisition unchanged, reset2091 exhausted pages, or infer recovery when the rolling failure window expires."
+      "Reader216213 ok8 is blocked8, not read8. Current18:10 group is needs_render8, not successful HTML/evidence/admissions. Do not implement the refuted double-subtraction classifier fix, rerun failed acquisition unchanged, reset2091 exhausted pages, or infer recovery when the rolling failure window expires.",
+      "WS-IQ00046-2104 exhausted the inspected three-row/current-config/log-metadata diagnosis: HTTP200/direct permits empty body or caught exception; current valid config/codes and21request200events cannot distinguish them. No further unchanged probe, speculative patch, retry reset or inference that end-of-callreserve0 caused each item. Seek genuinely new evidence or another safe lane."
     ],
     "verification_required": [
       "Actual external GitHub/Cloudflare/direct-SQL fencing adoption and explicit release authority",
@@ -5338,22 +5442,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T202256Z",
+    "predecessor_checkpoint": "CP-382-20261106T210901Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Scheduled recovery begins one bounded IQ-00046 cause investigation from GitHub. Prior counter reconciliation and engineering remain preserved; no production authority acquired.",
-    "baseline": "**Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416; HTTP/asset200/hash2099cae6 verified20:12UTC. Edge239 ACTIVE/hash995d5111 unchanged. All1791migrationversions match/head20261106400000 at20:14; deadlinef01e9/courseff3d6 and20:20flag668/reader hashes unchanged. Jobs163active/176total under automatic controls. Exact Cloudflare commit and authenticated desktop/phone remain unverified.",
-    "completed": "**Completed:** WS-IQ00046-2000 diagnostic complete. Stored tally blocked8+fetch_failed17 explains ledgeritems25/derivedok8; current old-window statuses add8needs_render, matching watch33tried/25failed. Zero-work classification is consistent; no speculative classifier repair. Prior #892/#893/#894 engineering preserved. Pilot PRs merged0; production releases0; corrections0; operational issue remains open.",
+    "reason": "**Reason:** One bounded source/config/log investigation completed from GitHub; reader remediation is blocked by missing discriminating historical evidence and existing authority/resource gates. No source repair or production recovery claimed.",
+    "baseline": "**Baseline:** Pilotmain4ba94e3f; edge239/hash995d5111 and consumeredges unchanged. At21:16UTC all1791migrationversions match/head20261106400000; deadlinef01e9/courseff3d6/flag668 and readerhashes unchanged. Jobs162active/176total under automatic controls. Lastverified frontend20:12UI489/.416/hash2099cae6; fresh21:13GET403/error1010 and independent web unavailable. ExactCloudflarecommit/authenticateddesktop/phone remain unverified.",
+    "completed": "**Completed:** WS-IQ00046-2104 diagnostic exhausted inspected metadata. Three unchangeddirect200/fetch_failed rows share one provider/URL, valid current adapter/code shapes; empty body versus caught processing/fallback exception unresolved. Bounded logs21HTTP200requestevents/3executions plus3lifecycleevents do not prove item success/cause. No defect or patch justified. Prior #892–#894 engineering preserved. PilotPRsmerged0; productionreleases0; corrections0.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** WS-IQ00046-2104: root owns read-only SQL/current config and canonical evidence; independent reader_causes_2104 owns only /workspace/resume-2104/reader-cause-review.json in detached4ba94e3f worktree. No source/function/migration write ownership.",
+    "workstreams": "**Workstreams:** Root completed read-only SQL/config/log/baseline evidence; reader_causes_2104 completed independent source review in detached4ba94e3f /workspace/resume-2104/reader-source, owning only local reviewJSON. No source/function/migration edits or tests. All11trackedworktrees clean; previousuntrackedlogs/node_modules retained/inventoried. IQ00046 remediation remains blocked/open; continue independent safe lanes.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** One source-only reviewer and bounded read-only diagnosis. No production reservation/write/deployment/test/new workflow. GitHub has no running workflow; historical34749286102 remains queued0jobs/reconciled. Atomic6d95 owner/lease null, adoptionpending; no controller acceptance.",
-    "next_safe_action": "**Next safe action:** Inspect current adapter metadata and worker caught-exception paths for three same-provider/same-URL direct200/fetch_failed rows. Use existing metadata only; no refetch, retry reset, paid work or speculative fix.",
-    "risks_recovery": "**Risks/recovery:** Current historical-window rows are mutable, not immutable per-call membership. needs_render and ledgerok are not successful reads/admissions. HTTP403x8/404x14 and3direct200/fetch_failed require appropriate source diagnosis; the call reports0Firecrawl capacity above reserve. Queue2091exhausted/pending0 is not recovery. Three original baddeadlines remainactive20:14UTC; alerts79pending/allunattempted/78overdue,62historical+17activeevents across5conditions,0duplicates. Environment unprotected/secretAPI403; account controls, exclusive authority and existing holds/budgets remain.",
-    "evidence": "**Evidence:** [reader source/runtime reconciliation and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline evidence](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, successor acceptance or completed transfer claimed."
+    "in_flight": "**In flight:** No agent, SQL, test, reservation, deployment or newworkflow initiated here remains active. OtheractiveDBclients0 at21:16baseline; boundedcron sample3running jobs continues independently. GitHub21:20snapshot has norunningworkflow; historical34749286102 remainsqueued0jobs/reconciled. Atomic6d95 remains released/noowner/nolease/adoptionpending; no currentacceptance or transfercompletion.",
+    "next_safe_action": "**Next safe action:** Continue existing P0 source/year/audience reconciliation or bounded probes for48remainingcohortcourses in loadwindows. Do not repeat unchanged three-row readerdiagnosis; seek genuinely new body/error evidence. Accountowners complete D-382-CUTOVER and real denial/recovery before current-execution acceptance and895→896→894→893 releases with892integrated. Exactthree-rowcorrection remains separately gated.",
+    "risks_recovery": "**Risks/recovery:** Historical bodylength/caught-error detail unavailable in inspected evidence; rawlogmessages unqueried, no blanket no-errors claim. End-callreserve0 does not establish per-item timing/cause. Watchconditioncleared20:21 is not remediation: IQ00046 remainstriaged/2091pagesexhausted. Three original baddeadlines stillactive21:16UTC. Alerts80pending/allunattempted/78overdue:64historical+16activeevents/4conditions/0duplicates. Environmentunprotected/secretAPI403 and frontend403/1010 restrictverification; ownership, G3/holds, humanadmission, destructive and budgetgates remain.",
+    "evidence": "**Evidence:** [reader source/config/log diagnosis and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline cohort and fresh exactthree recheck](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner cutover action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, owneracceptance or successfultransfer claimed."
   }
 }

@@ -17,19 +17,19 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Scheduled recovery begins one bounded IQ-00046 cause investigation from GitHub. Prior counter reconciliation and engineering remain preserved; no production authority acquired.
+**Reason:** One bounded source/config/log investigation completed from GitHub; reader remediation is blocked by missing discriminating historical evidence and existing authority/resource gates. No source repair or production recovery claimed.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416; HTTP/asset200/hash2099cae6 verified20:12UTC. Edge239 ACTIVE/hash995d5111 unchanged. All1791migrationversions match/head20261106400000 at20:14; deadlinef01e9/courseff3d6 and20:20flag668/reader hashes unchanged. Jobs163active/176total under automatic controls. Exact Cloudflare commit and authenticated desktop/phone remain unverified.
+**Baseline:** Pilotmain4ba94e3f; edge239/hash995d5111 and consumeredges unchanged. At21:16UTC all1791migrationversions match/head20261106400000; deadlinef01e9/courseff3d6/flag668 and readerhashes unchanged. Jobs162active/176total under automatic controls. Lastverified frontend20:12UI489/.416/hash2099cae6; fresh21:13GET403/error1010 and independent web unavailable. ExactCloudflarecommit/authenticateddesktop/phone remain unverified.
 
 <!-- controller-handover:completed -->
-**Completed:** WS-IQ00046-2000 diagnostic complete. Stored tally blocked8+fetch_failed17 explains ledgeritems25/derivedok8; current old-window statuses add8needs_render, matching watch33tried/25failed. Zero-work classification is consistent; no speculative classifier repair. Prior #892/#893/#894 engineering preserved. Pilot PRs merged0; production releases0; corrections0; operational issue remains open.
+**Completed:** WS-IQ00046-2104 diagnostic exhausted inspected metadata. Three unchangeddirect200/fetch_failed rows share one provider/URL, valid current adapter/code shapes; empty body versus caught processing/fallback exception unresolved. Bounded logs21HTTP200requestevents/3executions plus3lifecycleevents do not prove item success/cause. No defect or patch justified. Prior #892–#894 engineering preserved. PilotPRsmerged0; productionreleases0; corrections0.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-IQ00046-2104: root owns read-only SQL/current config and canonical evidence; independent reader_causes_2104 owns only /workspace/resume-2104/reader-cause-review.json in detached4ba94e3f worktree. No source/function/migration write ownership.
+**Workstreams:** Root completed read-only SQL/config/log/baseline evidence; reader_causes_2104 completed independent source review in detached4ba94e3f /workspace/resume-2104/reader-source, owning only local reviewJSON. No source/function/migration edits or tests. All11trackedworktrees clean; previousuntrackedlogs/node_modules retained/inventoried. IQ00046 remediation remains blocked/open; continue independent safe lanes.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,16 +38,16 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** One source-only reviewer and bounded read-only diagnosis. No production reservation/write/deployment/test/new workflow. GitHub has no running workflow; historical34749286102 remains queued0jobs/reconciled. Atomic6d95 owner/lease null, adoptionpending; no controller acceptance.
+**In flight:** No agent, SQL, test, reservation, deployment or newworkflow initiated here remains active. OtheractiveDBclients0 at21:16baseline; boundedcron sample3running jobs continues independently. GitHub21:20snapshot has norunningworkflow; historical34749286102 remainsqueued0jobs/reconciled. Atomic6d95 remains released/noowner/nolease/adoptionpending; no currentacceptance or transfercompletion.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Inspect current adapter metadata and worker caught-exception paths for three same-provider/same-URL direct200/fetch_failed rows. Use existing metadata only; no refetch, retry reset, paid work or speculative fix.
+**Next safe action:** Continue existing P0 source/year/audience reconciliation or bounded probes for48remainingcohortcourses in loadwindows. Do not repeat unchanged three-row readerdiagnosis; seek genuinely new body/error evidence. Accountowners complete D-382-CUTOVER and real denial/recovery before current-execution acceptance and895→896→894→893 releases with892integrated. Exactthree-rowcorrection remains separately gated.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** Current historical-window rows are mutable, not immutable per-call membership. needs_render and ledgerok are not successful reads/admissions. HTTP403x8/404x14 and3direct200/fetch_failed require appropriate source diagnosis; the call reports0Firecrawl capacity above reserve. Queue2091exhausted/pending0 is not recovery. Three original baddeadlines remainactive20:14UTC; alerts79pending/allunattempted/78overdue,62historical+17activeevents across5conditions,0duplicates. Environment unprotected/secretAPI403; account controls, exclusive authority and existing holds/budgets remain.
+**Risks/recovery:** Historical bodylength/caught-error detail unavailable in inspected evidence; rawlogmessages unqueried, no blanket no-errors claim. End-callreserve0 does not establish per-item timing/cause. Watchconditioncleared20:21 is not remediation: IQ00046 remainstriaged/2091pagesexhausted. Three original baddeadlines stillactive21:16UTC. Alerts80pending/allunattempted/78overdue:64historical+16activeevents/4conditions/0duplicates. Environmentunprotected/secretAPI403 and frontend403/1010 restrictverification; ownership, G3/holds, humanadmission, destructive and budgetgates remain.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [reader source/runtime reconciliation and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline evidence](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, successor acceptance or completed transfer claimed.
+**Evidence:** [reader source/config/log diagnosis and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline cohort and fresh exactthree recheck](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner cutover action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, owneracceptance or successfultransfer claimed.
 
 
 ## Progress dashboard

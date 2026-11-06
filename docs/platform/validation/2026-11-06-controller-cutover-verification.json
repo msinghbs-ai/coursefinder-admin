@@ -10185,5 +10185,1378 @@
       "Seven other active DB clients at20:20 were not attributed or cancelled; scheduled jobs continue independently. No inference of credential revocation or safe production cutover.",
       "No tests rerun or added, no source change, SQL mutation, vendor call, admission, issue closure, merge or release. Initial diagnostic drafts failed on signature/alias lookup; corrected read-only probes succeeded, no application defect inferred."
     ]
+  },
+  "reader_cause_diagnosis_2104": {
+    "execution_id": "codex-reader-causes-20261106T210452Z",
+    "checkpoint_id": "CP-382-20261106T212120Z",
+    "recorded_at": "2026-11-06T21:21:20Z",
+    "initial_rows": {
+      "observed_at": "2026-11-06 21:06:50.776898+00",
+      "suspect_rows": [
+        {
+          "basis": "title_search",
+          "read_at": "2026-11-06T18:50:40.203315+00:00",
+          "url_md5": "61a4d47d847e1f58a7928cc920c202ea",
+          "course_id": "028f2bf6-0080-4f58-9d99-efb3afaefa74",
+          "fetched_via": "direct",
+          "http_status": 200,
+          "provider_id": "a06b4800-ef9b-43f5-b605-ac193cb25525",
+          "read_status": "fetch_failed",
+          "has_evidence": false,
+          "leased_until": null,
+          "next_read_at": "2026-11-07T00:50:40.203315+00:00",
+          "read_attempts": 3,
+          "binding_status": "bound",
+          "candidate_keys": null,
+          "identity_basis": null
+        },
+        {
+          "basis": "title_search",
+          "read_at": "2026-11-06T18:50:41.583817+00:00",
+          "url_md5": "61a4d47d847e1f58a7928cc920c202ea",
+          "course_id": "51a84f6e-3132-45c9-9d37-c3fa83e1a2e9",
+          "fetched_via": "direct",
+          "http_status": 200,
+          "provider_id": "a06b4800-ef9b-43f5-b605-ac193cb25525",
+          "read_status": "fetch_failed",
+          "has_evidence": false,
+          "leased_until": null,
+          "next_read_at": "2026-11-07T00:50:41.583817+00:00",
+          "read_attempts": 3,
+          "binding_status": "bound",
+          "candidate_keys": null,
+          "identity_basis": null
+        },
+        {
+          "basis": "title_search",
+          "read_at": "2026-11-06T18:50:40.191752+00:00",
+          "url_md5": "61a4d47d847e1f58a7928cc920c202ea",
+          "course_id": "e709a18b-b467-4593-9758-c8c4ac22c32d",
+          "fetched_via": "direct",
+          "http_status": 200,
+          "provider_id": "a06b4800-ef9b-43f5-b605-ac193cb25525",
+          "read_status": "fetch_failed",
+          "has_evidence": false,
+          "leased_until": null,
+          "next_read_at": "2026-11-07T00:50:40.191752+00:00",
+          "read_attempts": 3,
+          "binding_status": "bound",
+          "candidate_keys": null,
+          "identity_basis": null
+        }
+      ],
+      "indexes": [
+        {
+          "index": "CREATE UNIQUE INDEX coverage_course_pages_pkey ON pipeline.coverage_course_pages USING btree (course_id)",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_read ON pipeline.coverage_course_pages USING btree (status, read_status, next_read_at)",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_provider_read_at_idx ON pipeline.coverage_course_pages USING btree (provider_id, read_at)",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_provider_read_idx ON pipeline.coverage_course_pages USING btree (provider_id) WHERE (read_status = 'read'::text)",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_title_search_bound_idx ON pipeline.coverage_course_pages USING btree (provider_id, bound_at DESC) WHERE ((basis = 'title_search'::text) AND (read_at IS NOT NULL))",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_provider_base_url_idx ON pipeline.coverage_course_pages USING btree (provider_id, split_part(url, '#'::text, 1)) WHERE (status = ANY (ARRAY['bound'::text, 'ambiguous'::text]))",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_provider_url_read_idx ON pipeline.coverage_course_pages USING btree (provider_id, url) WHERE (read_status = 'read'::text)",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE INDEX coverage_course_pages_provider_final_url_read_idx ON pipeline.coverage_course_pages USING btree (provider_id, ((candidates ->> 'final_url'::text))) WHERE (read_status = 'read'::text)",
+          "table": "coverage_course_pages"
+        },
+        {
+          "index": "CREATE UNIQUE INDEX mode_outcome_ledger_pkey ON pipeline.mode_outcome_ledger USING btree (id)",
+          "table": "mode_outcome_ledger"
+        },
+        {
+          "index": "CREATE INDEX mode_outcome_ledger_run_at_idx ON pipeline.mode_outcome_ledger USING btree (run_at DESC)",
+          "table": "mode_outcome_ledger"
+        },
+        {
+          "index": "CREATE INDEX mode_outcome_ledger_mode_run_at_idx ON pipeline.mode_outcome_ledger USING btree (mode, run_at DESC)",
+          "table": "mode_outcome_ledger"
+        }
+      ]
+    },
+    "current_adapter": {
+      "config": {
+        "pick": {
+          "duration": "first",
+          "fee_total": "first",
+          "course_years": "first",
+          "ielts_overall": "first"
+        },
+        "enabled": true,
+        "reading": {},
+        "patterns": {
+          "duration": "DURATION ([0-9]+ weeks)",
+          "fee_total": "INTERNATIONAL FEES \\$([0-9,]+)",
+          "course_years": "DURATION ([0-9]+ weeks)",
+          "ielts_overall": "IELTS ([0-9](?:\\.[0-9])?)"
+        },
+        "sections": {},
+        "page_view": {},
+        "json_paths": {},
+        "updated_at": "2026-10-05T18:47:36.964234+00:00",
+        "json_source": null,
+        "term_months": {},
+        "title_strip": null,
+        "section_chars": 2000,
+        "course_title_strip": null
+      },
+      "enabled": true,
+      "updated_at": "2026-10-05T18:47:36.964234+00:00"
+    },
+    "codes_and_config_digest": {
+      "observed_at": "2026-11-06 21:10:06.199194+00",
+      "courses": [
+        {
+          "read_at": "2026-11-06T18:50:40.203315+00:00",
+          "course_id": "028f2bf6-0080-4f58-9d99-efb3afaefa74",
+          "code_length": 7,
+          "course_code": "107102E",
+          "read_status": "fetch_failed"
+        },
+        {
+          "read_at": "2026-11-06T18:50:41.583817+00:00",
+          "course_id": "51a84f6e-3132-45c9-9d37-c3fa83e1a2e9",
+          "code_length": 7,
+          "course_code": "107106A",
+          "read_status": "fetch_failed"
+        },
+        {
+          "read_at": "2026-11-06T18:50:40.191752+00:00",
+          "course_id": "e709a18b-b467-4593-9758-c8c4ac22c32d",
+          "code_length": 7,
+          "course_code": "109864B",
+          "read_status": "fetch_failed"
+        }
+      ],
+      "current_adapter_config_md5": "540929fa36e2a14a4114880629af94f6"
+    },
+    "source_review": {
+      "workstream_id": "WS-IQ00046-2104",
+      "integration_issue": "IQ-00046",
+      "admin_issue": 382,
+      "reviewer": "/root/reader_causes_2104",
+      "reviewed_at": "2026-11-06T21:15:52.186591Z",
+      "pilot_source_commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "admin_source_commit": "ad34e52092afec456e31c65fb9ad947c54d681fd",
+      "scope": {
+        "owned_paths": [
+          "/workspace/resume-2104/reader-cause-review.json"
+        ],
+        "worktree": "/workspace/resume-2104/reader-source (detached)",
+        "branch": null,
+        "owned_functions": [],
+        "owned_migrations": [],
+        "authority": "Read-only source review. Root owns live SQL and canonical records. No source edit, test, production/vendor/GitHub mutation or admission."
+      },
+      "onboarding": {
+        "checkpoint": "CP-382-20261106T202256Z",
+        "controller_status": "reconciliation; no owner/lease; adoption pending",
+        "records_read": [
+          "AGENT-OPERATING-MODEL.md",
+          "nz-enrichment-brief/INDEX.md",
+          "STUDYSEARCH-EXECUTION-REGISTER.md Controller handover",
+          "STUDYSEARCH-CONTROLLER-STATE.json",
+          "STUDYSEARCH-CONTROLLER-STATE.schema.json",
+          "Pilot CLAUDE.md",
+          "Pilot docs/provider-description-autonomy.md"
+        ],
+        "constraints": [
+          "Preserve #890 G3/#875 holds, consumer API shape, human Layer4/trust, destructive authority, reserves and budgets.",
+          "No retry/reset/refetch of unchanged failed acquisition; a successful response or test cannot switch anything on."
+        ]
+      },
+      "acceptance_criteria": [
+        "Trace reachable code paths for HTTP200/direct/fetch_failed while candidates/evidence remain null.",
+        "Distinguish empty acquisition from caught processing/fallback exceptions using source gate order.",
+        "Name minimum evidence needed; no speculative fix or issue closure."
+      ],
+      "observed_input_from_root": {
+        "rows": 3,
+        "basis": "title_search",
+        "binding_status": "bound",
+        "same_provider_id": "a06b4800-ef9b-43f5-b605-ac193cb25525",
+        "same_url_md5": "61a4d47d847e1f58a7928cc920c202ea",
+        "read_times_utc": "2026-11-06T18:50:40–41Z",
+        "attempts": 3,
+        "evidence_present": false,
+        "candidates_present": false,
+        "active_lease_present": false,
+        "limits": "Root supplied current indexed metadata. It is a current-row observation, not the original per-item response body or exception trace.",
+        "safe_current_adapter_metadata": {
+          "observed_at": "2026-11-06 21:09:25.64032+00",
+          "configuration_md5_excluding_notes_and_reason": "540929fa36e2a14a4114880629af94f6",
+          "config": {
+            "pick": {
+              "duration": "first",
+              "fee_total": "first",
+              "course_years": "first",
+              "ielts_overall": "first"
+            },
+            "enabled": true,
+            "reading": {},
+            "patterns": {
+              "duration": "DURATION ([0-9]+ weeks)",
+              "fee_total": "INTERNATIONAL FEES \\$([0-9,]+)",
+              "course_years": "DURATION ([0-9]+ weeks)",
+              "ielts_overall": "IELTS ([0-9](?:\\.[0-9])?)"
+            },
+            "sections": {},
+            "page_view": {},
+            "json_paths": {},
+            "updated_at": "2026-10-05T18:47:36.964234+00:00",
+            "json_source": null,
+            "term_months": {},
+            "title_strip": null,
+            "section_chars": 2000,
+            "course_title_strip": null
+          },
+          "source_file": "/workspace/resume-2104/config-log-evidence.json#/adapter/adapter/config",
+          "copy_contract": "Parsed exact JSON copied; no hand-transcribed regular-expression escaping.",
+          "limits": "Current metadata supplied by root; no immutable per-run adapter snapshot or proof that original svc_uni_adapters RPC succeeded."
+        },
+        "safe_current_course_codes": [
+          "107102E",
+          "107106A",
+          "109864B"
+        ],
+        "code_mapping_source": "Root independently verified svc_coverage_read_next reads catalogue.courses.course_code and retrieved the exact current rows by indexed join.",
+        "course_codes_observed_at": "2026-11-06 21:10:06.199194+00",
+        "bounded_unified_log_metadata": {
+          "window_start": "2026-11-06T18:49:30Z",
+          "window_end": "2026-11-06T18:51:30Z",
+          "coverage_version": "239",
+          "function_edge_events": 21,
+          "function_edge_response_codes": [
+            "200"
+          ],
+          "function_edge_execution_ids": [
+            "3475302f-5568-43dd-93c7-ffb43505afcc",
+            "56eef5ab-c75e-4262-8764-17cb6952b628",
+            "a4d799e8-0d25-48be-8ad1-1f45af7085e3"
+          ],
+          "runtime_event_counts": [
+            {
+              "event_type": "Shutdown",
+              "reason": "EarlyDrop",
+              "n": 1
+            },
+            {
+              "event_type": "Boot",
+              "reason": "",
+              "n": 1
+            },
+            {
+              "event_type": "Shutdown",
+              "reason": "EarlyDrop",
+              "n": 1
+            }
+          ],
+          "source_file": "/workspace/resume-2104/config-log-evidence.json#/logs",
+          "raw_message_requested_or_returned": false,
+          "per_item_body_length_or_caught_error_fields_found": false,
+          "limits": [
+            "Function response HTTP200 is not an upstream page-body observation or successful extraction.",
+            "Boot1 and Shutdown/EarlyDrop2 do not prove the cause of any per-item fetch_failed result.",
+            "Selected runtime execution IDs and request groups cannot be exactly assigned to the three item reads from the supplied aggregates.",
+            "Absence of selected per-item fields is not a claim that raw log messages contain no errors; raw messages were neither requested nor returned."
+          ]
+        }
+      },
+      "findings": [
+        {
+          "id": "DIRECT-EMPTY",
+          "finding": "The direct branch assigns via=direct immediately after awaiting r.text(), even if the returned string is empty. A response with HTML content type, HTTP200 and an empty body therefore reaches the end with the initial fetch_failed status, without an exception. HTTP200/direct is not evidence of nonempty body or successful parsing. A body containing only whitespace is nonempty and normally becomes needs_render, not this empty-body path.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3318,
+              "end_line": 3318,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3318"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3347,
+              "end_line": 3366,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3347"
+            }
+          ]
+        },
+        {
+          "id": "CAUGHT-POST-FETCH",
+          "finding": "After nonempty direct HTML has been stored and via assigned, the acquisition try can still fail. htmlToText at thin detection, pre-fallback applyAdapter for thin HTML, useFc/spend, or the unguarded fallback fetch may throw; the outer catch sets fetch_failed while retaining the earlier HTTP200/direct metadata. A fallback which only returns an unsuccessful response without throwing normally leaves direct thin HTML as needs_render.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3350,
+              "end_line": 3366,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3350"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 531,
+              "end_line": 543,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L531"
+            }
+          ]
+        },
+        {
+          "id": "ADAPTER-GATE",
+          "finding": "The adapter is called inside the catch boundary only for thin nonempty HTML and an adapter loaded in the enabled-adapter map. applyAdapter invokes htmlToText and identity before field mappings. Invalid configured regexes handled by re() or patternValues() normally fail closed without throwing; malformed JSON path/pattern value types or a thrown identity error remain possible. The available current rows alone do not prove any of these paths ran.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 527,
+              "end_line": 527,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L527"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3352,
+              "end_line": 3357,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3352"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/adapters.ts",
+              "line": 65,
+              "end_line": 79,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/adapters.ts#L65"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/adapters.ts",
+              "line": 104,
+              "end_line": 132,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/adapters.ts#L104"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/adapters.ts",
+              "line": 229,
+              "end_line": 240,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/adapters.ts#L229"
+            }
+          ],
+          "observed_case_assessment": "Current enabled adapter fields have the expected shapes: json_source is null, mapping/view objects are empty, and four patterns are simple strings with syntactically balanced expressions. No malformed adapter field is evident. This rules out the proposed obvious malformed configuration from current metadata, without proving original RPC return or body-dependent behaviour."
+        },
+        {
+          "id": "CODE-REGEX-CANDIDATE",
+          "finding": "identity builds a RegExp using the unescaped course.code at extract.ts54 before restricting CRICOS proof by country. Some malformed literal codes could throw SyntaxError. This is a reachable generic defect candidate, not a proved cause of these three rows; root must verify the exact codes or safe compilation verdict before a repair is justified.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/extract.ts",
+              "line": 49,
+              "end_line": 59,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/extract.ts#L49"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/adapters.ts",
+              "line": 104,
+              "end_line": 106,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/adapters.ts#L104"
+            }
+          ],
+          "observed_case_assessment": "Root current exact codes107102E,107106A,109864B are seven ASCII alphanumerics. The malformed-code SyntaxError hypothesis is not supported for these three rows; do not repair this generic candidate under IQ-00046."
+        },
+        {
+          "id": "LATER-ADAPTER-EXCLUSION",
+          "finding": "The second applyAdapter call is outside the per-item acquisition catch. It runs only when status is read/needs_render. An uncaught exception there normally rejects the pool and sends the outer500 response rather than producing this call’s successful25-item response with fetch_failed17 tally. It cannot simply be conflated with the caught thin-adapter path.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3366,
+              "end_line": 3373,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3366"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3416,
+              "end_line": 3425,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3416"
+            }
+          ]
+        },
+        {
+          "id": "METADATA-GRAIN",
+          "finding": "Null candidates/identity/evidence is consistent with any fetch_failed path; candidate extraction only occurs when status remains read. The record RPC receives those nulls after the acquisition phase. These nulls do not discriminate empty HTML from a processing exception.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3372,
+              "end_line": 3373,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3372"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3385,
+              "end_line": 3419,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3385"
+            }
+          ]
+        },
+        {
+          "id": "END-RESERVE-LIMIT",
+          "finding": "firecrawlRemainingAboveReserve is the shared counter at response time. Zero at the end does not prove it was zero when each of the three items evaluated. Successful spend reservations decrement it; multiple items run concurrently. Real refusal/spend records and the item gates are needed before assigning a reserve failure cause. No counter value authorises an additional paid call.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 506,
+              "end_line": 507,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L506"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 532,
+              "end_line": 543,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L532"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3316,
+              "end_line": 3316,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3316"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3419,
+              "end_line": 3419,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3419"
+            }
+          ]
+        },
+        {
+          "id": "RETAINED-LOG-LIMIT",
+          "finding": "The bounded18:49:30–18:51:30UTC log aggregates contain21coverage239 HTTP200 function-edge events across3execution IDs, plus Boot1 and Shutdown/EarlyDrop2 runtime events. Supplied attributes contain no per-item upstream body-length or caught-exception reason evidence. Raw message content was not requested/returned, so general absence of error logs cannot be claimed. Function-level200 and EarlyDrop do not distinguish the competing item paths or establish causal batch membership.",
+          "evidence_ref": "/workspace/resume-2104/config-log-evidence.json#/logs"
+        }
+      ],
+      "dependencies": [
+        "No further unchanged three-row/config probe is needed. Reopen diagnosis only with new discriminating historical evidence or an authorised instrumented acquisition after existing control/resource/release gates."
+      ],
+      "blockers": [
+        "The inspected bounded retained metadata does not preserve original upstream body length/content type or caught per-item exception class.",
+        "No immutable per-item payload or per-run adapter snapshot is available. Raw message content was not inspected; the diagnostic limit is the safely inspected evidence, not general proof that errors were never logged.",
+        "Current adapter and exact codes do not explain the three failures; source cause remains unproved.",
+        "Account fencing and current-execution operation authority remain blocked; retry/reset, new live acquisition or released instrumentation must pass existing authority/resource/release gates."
+      ],
+      "minimum_discriminating_evidence": [
+        "Whether the exact response body was zero bytes versus nonempty, from an already retained source or log.",
+        "Any retained exception class/location after direct assignment, without protected HTML, raw URLs, secrets or payloads.",
+        "Per-call adapter acquisition success and thin/text-length metadata if already retained. Current enabled adapter has valid supplied types and the three codes are plain ASCII alphanumerics; the obvious malformed-configuration/code hypotheses are unsupported.",
+        "If fallback was eligible, existing spend/refusal/vendor-call records correlated to provider and narrow time; an end-of-call zero counter alone is insufficient."
+      ],
+      "next_safe_action": "This bounded diagnosis has exhausted the inspected retained row/config/code and aggregate runtime metadata. Do not repeat unchanged three-row reads or source review. Continue another independent safe workstream. Reopen this diagnosis only when new discriminating historical evidence is supplied, or after the account owners complete existing cutover gates and authorise a bounded instrumented acquisition/retry within existing resources and release policy; preserve failures/exhausted attempts and open issue until actual production remediation is verified.",
+      "conclusion": {
+        "source_defect_proven_for_these_rows": false,
+        "repair_proposed": false,
+        "operational_remediation_verified": false,
+        "issue_closure_supported": false,
+        "diagnostic_result": "Current exact adapter JSON/codes and bounded aggregate runtime metadata do not establish a defect or the historical cause. The remaining reachable paths are an empty successful-HTTP HTML body or a caught post-fetch processing/fallback exception. No per-item body/exception evidence was retained in the inspected metadata. No repair or automatic retry is supported; further live acquisition/instrumentation requires existing ownership, account, resource and release authority.",
+        "existing_safe_metadata_diagnosis_exhausted": true,
+        "unchanged_diagnosis_should_repeat": false
+      },
+      "tests": {
+        "run": false,
+        "reason": "Source-only assignment; no implementation change or tests owned."
+      },
+      "completion_summary": "Independent evidence merge complete: exact parsed adapter JSON copied, current codes and bounded log aggregates reviewed, source paths/limits recorded. This bounded diagnosis is exhausted on inspected metadata; no repeated unchanged probes or speculative patch. Operational issue remains open; no tests/source/production/vendor activity."
+    },
+    "historical_log_metadata": {
+      "window_start": "2026-11-06T18:49:30Z",
+      "window_end": "2026-11-06T18:51:30Z",
+      "sources": {
+        "result": [
+          {
+            "n": 193,
+            "source": "edge_logs"
+          },
+          {
+            "n": 21,
+            "source": "function_edge_logs"
+          },
+          {
+            "n": 3,
+            "source": "function_logs"
+          },
+          {
+            "n": 106,
+            "source": "postgres_logs"
+          }
+        ]
+      },
+      "attribute_keys": {
+        "result": [
+          {
+            "attribute_keys": [
+              "deno_origin",
+              "deployment_id",
+              "execution_id",
+              "execution_time_ms",
+              "function_id",
+              "identifier",
+              "project",
+              "project_ref",
+              "request.cf.asOrganization",
+              "request.cf.botManagement.ja3Hash",
+              "request.cf.botManagement.ja4",
+              "request.cf.city",
+              "request.cf.clientTrustScore",
+              "request.cf.colo",
+              "request.cf.country",
+              "request.cf.httpProtocol",
+              "request.cf.postalCode",
+              "request.cf.region",
+              "request.cf.timezone",
+              "request.headers.accept",
+              "request.headers.accept_encoding",
+              "request.headers.cf_connecting_ip",
+              "request.headers.cf_ipcountry",
+              "request.headers.connection",
+              "request.headers.content_length",
+              "request.headers.host",
+              "request.headers.user_agent",
+              "request.headers.x_forwarded_proto",
+              "request.headers.x_real_ip",
+              "request.host",
+              "request.method",
+              "request.pathname",
+              "request.protocol",
+              "request.url",
+              "request_id",
+              "response.headers.content_length",
+              "response.headers.content_type",
+              "response.headers.date",
+              "response.headers.server",
+              "response.headers.vary",
+              "response.headers.x_envoy_upstream_service_time",
+              "response.headers.x_sb_edge_region",
+              "response.headers.x_served_by",
+              "response.status_code",
+              "version"
+            ],
+            "source": "function_edge_logs"
+          },
+          {
+            "attribute_keys": [
+              "boot_time",
+              "cpu_time_used",
+              "deployment_id",
+              "event_type",
+              "execution_id",
+              "function_id",
+              "level",
+              "memory_used.external",
+              "memory_used.heap",
+              "memory_used.total",
+              "project",
+              "project_ref",
+              "reason",
+              "region",
+              "request_id",
+              "served_by",
+              "timestamp",
+              "version"
+            ],
+            "source": "function_logs"
+          }
+        ]
+      },
+      "coverage_events": {
+        "result": [
+          {
+            "event_type": "",
+            "execution_id": "3475302f-5568-43dd-93c7-ffb43505afcc",
+            "function_id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+            "level": "",
+            "n": 9,
+            "reason": "",
+            "response_status_code": "200",
+            "source": "function_edge_logs",
+            "version": "239"
+          },
+          {
+            "event_type": "",
+            "execution_id": "56eef5ab-c75e-4262-8764-17cb6952b628",
+            "function_id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+            "level": "",
+            "n": 10,
+            "reason": "",
+            "response_status_code": "200",
+            "source": "function_edge_logs",
+            "version": "239"
+          },
+          {
+            "event_type": "",
+            "execution_id": "a4d799e8-0d25-48be-8ad1-1f45af7085e3",
+            "function_id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+            "level": "",
+            "n": 2,
+            "reason": "",
+            "response_status_code": "200",
+            "source": "function_edge_logs",
+            "version": "239"
+          },
+          {
+            "event_type": "Shutdown",
+            "execution_id": "3475302f-5568-43dd-93c7-ffb43505afcc",
+            "function_id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+            "level": "log",
+            "n": 1,
+            "reason": "EarlyDrop",
+            "response_status_code": "",
+            "source": "function_logs",
+            "version": "239"
+          },
+          {
+            "event_type": "Boot",
+            "execution_id": "56eef5ab-c75e-4262-8764-17cb6952b628",
+            "function_id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+            "level": "log",
+            "n": 1,
+            "reason": "",
+            "response_status_code": "",
+            "source": "function_logs",
+            "version": "239"
+          },
+          {
+            "event_type": "Shutdown",
+            "execution_id": "c4afe10b-a7e8-4005-92fe-e6e2980dbd00",
+            "function_id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+            "level": "log",
+            "n": 1,
+            "reason": "EarlyDrop",
+            "response_status_code": "",
+            "source": "function_logs",
+            "version": "239"
+          }
+        ]
+      }
+    },
+    "baseline": {
+      "observed_at": "2026-11-06 21:16:41.852865+00",
+      "hashes": [
+        {
+          "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
+          "signature": "security.course_deadline_in_quote_v1(date,text)"
+        },
+        {
+          "md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
+          "signature": "security.course_description_check_v1(uuid,jsonb)"
+        },
+        {
+          "md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
+          "signature": "security.flag_jobs_v1()"
+        },
+        {
+          "md5": "5735193b0d93f4764502504617c55687",
+          "signature": "security.queue_watch_run_v1(boolean)"
+        },
+        {
+          "md5": "8b8f0fc2a672359a6d0c08b9e6cb0faf",
+          "signature": "security.uni_adapter_json(uuid)"
+        },
+        {
+          "md5": "8b256a6f7f9a9350927b4773c8a80304",
+          "signature": "security.worker_call_outcome_v1(integer,jsonb,integer,integer,integer)"
+        },
+        {
+          "md5": "4bfdbbccdca1cd3481fd7011d38154af",
+          "signature": "security.worker_call_work_v1(text)"
+        },
+        {
+          "md5": "e04fe197b192c3bec6417d5e51559478",
+          "signature": "security.worker_lane_outcome_v1(text,text,jsonb)"
+        },
+        {
+          "md5": "2ac1114dd4a5da99d8ddb742f7d0c1be",
+          "signature": "svc_coverage_read_next(integer)"
+        },
+        {
+          "md5": "ebbdc4e45af01c473fd5b681d2237011",
+          "signature": "svc_coverage_read_record(uuid,text,integer,text,text,text,text,jsonb)"
+        },
+        {
+          "md5": "bd4fad80ed2182d7a752655fb6322b52",
+          "signature": "svc_uni_adapters()"
+        }
+      ],
+      "jobs": {
+        "total": 176,
+        "active": 162
+      },
+      "controls": {
+        "run_now.jobs": [
+          "intake-dates-apply"
+        ],
+        "jobs.held_off": [
+          "coverage-discover",
+          "coverage-discover-2"
+        ],
+        "pdesc.enabled": 1,
+        "pdesc.ai_usd_max": 1,
+        "alerts.webhook_enabled": false,
+        "alerts.delivery_enabled": true,
+        "alerts.collect_within_minutes": 120
+      },
+      "queues": [
+        {
+          "key": "ai_page_match",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 18,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 18,
+          "failed_window": 1,
+          "last_progress": "2026-11-06T20:19:09.201185+00:00"
+        },
+        {
+          "key": "central_ai",
+          "state": "nothing_left",
+          "reason": "5 central pages the ai could not read",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-05T04:15:18.786556+00:00"
+        },
+        {
+          "key": "central_find",
+          "state": "nothing_left",
+          "reason": "1 providers whose central page search failed",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-22T03:54:11.025363+00:00"
+        },
+        {
+          "key": "companion_read",
+          "state": "nothing_left",
+          "reason": "247 companion pages given up after repeated failed reads",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-02T10:42:14.399783+00:00"
+        },
+        {
+          "key": "course_list_read",
+          "state": "moving",
+          "reason": null,
+          "pending": 82,
+          "per_hour": 1,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 1,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T20:13:07.354192+00:00"
+        },
+        {
+          "key": "course_page_discover",
+          "state": "paused",
+          "reason": "Switched off by a person: coverage-discover-2, coverage-discover",
+          "pending": 18,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:37:09.537559+00:00"
+        },
+        {
+          "key": "course_page_read",
+          "state": "nothing_left",
+          "reason": "2091 matched pages given up after three failed reads",
+          "pending": 0,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 3,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T20:50:34.101068+00:00"
+        },
+        {
+          "key": "course_page_search",
+          "state": "out_of_toolset",
+          "reason": "Work is waiting but firecrawl:course_search cannot be used until a person acts (credit or balance used up)",
+          "pending": 265,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T11:56:00.359438+00:00"
+        },
+        {
+          "key": "credential_read",
+          "state": "nothing_left",
+          "reason": "485 course pages that state no credential, or more than one level",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-01T01:06:08.870743+00:00"
+        },
+        {
+          "key": "enrich_plans",
+          "state": "moving",
+          "reason": null,
+          "pending": 38,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T21:00:00.958686+00:00"
+        },
+        {
+          "key": "fee_reader",
+          "state": "nothing_left",
+          "reason": "5 fee pages the ai could not read",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-04T15:22:22.646034+00:00"
+        },
+        {
+          "key": "onboarding",
+          "state": "stuck",
+          "reason": "1 waiting and nothing finished since 06 Nov 23:36",
+          "pending": 1,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:36:00.297196+00:00"
+        },
+        {
+          "key": "programme_read",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-23T22:28:14.095082+00:00"
+        },
+        {
+          "key": "scholarship_candidates",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T14:30:26.110361+00:00"
+        },
+        {
+          "key": "scholarship_discover",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T02:05:00.501111+00:00"
+        },
+        {
+          "key": "scholarship_read",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 20,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 20,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T21:00:13.886208+00:00"
+        },
+        {
+          "key": "source_find",
+          "state": "moving",
+          "reason": null,
+          "pending": 997,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T21:04:00.176766+00:00",
+          "done_window": 3,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T20:56:08.233197+00:00"
+        }
+      ],
+      "exact_three": [
+        {
+          "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "status": "active",
+          "application_deadline": "2026-11-02"
+        },
+        {
+          "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "status": "active",
+          "application_deadline": "2027-02-15"
+        },
+        {
+          "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+          "status": "active",
+          "application_deadline": "2026-10-12"
+        }
+      ],
+      "issues": [
+        {
+          "status": "triaged",
+          "severity": "P1",
+          "issue_ref": "IQ-00112",
+          "last_observed_at": "2026-11-06T20:51:00.148179+00:00",
+          "condition_cleared_at": null
+        },
+        {
+          "status": "triaged",
+          "severity": "P0",
+          "issue_ref": "IQ-00313",
+          "last_observed_at": "2026-11-05T04:52:04.792248+00:00",
+          "condition_cleared_at": null
+        },
+        {
+          "status": "deployed",
+          "severity": "P0",
+          "issue_ref": "IQ-00111",
+          "last_observed_at": "2026-11-03T09:48:36.856724+00:00",
+          "condition_cleared_at": null
+        },
+        {
+          "status": "triaged",
+          "severity": "P1",
+          "issue_ref": "IQ-00046",
+          "last_observed_at": "2026-11-06T19:51:00.164205+00:00",
+          "condition_cleared_at": "2026-11-06T20:21:00.18619+00:00"
+        }
+      ],
+      "alert_summary": {
+        "overdue": 78,
+        "pending": 80,
+        "unlinked": 0,
+        "duplicates": 0,
+        "historical": 64,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "coverage_queues:discover",
+          "queue_watch:course_page_search"
+        ],
+        "unattempted": 80,
+        "active_events": 16
+      },
+      "other_active_clients": 0,
+      "migrations": {
+        "count": 1791,
+        "head": "20261106400000",
+        "all_versions_match_predecessor_checkpoint": true,
+        "reference": "STUDYSEARCH-CONTROLLER-STATE.json#/production/migrations/applied_versions"
+      }
+    },
+    "bounded_cron_evidence": {
+      "observed_at": "2026-11-06 21:16:25.972241+00",
+      "bounded_sample": {
+        "rows": 2000,
+        "failed": 0,
+        "running": 3,
+        "latest_start": "2026-11-06T21:16:00.422282+00:00",
+        "oldest_start": "2026-11-06T20:02:00.226689+00:00",
+        "failed_last15min": 0
+      },
+      "selected_jobs": [
+        {
+          "active": true,
+          "jobname": "adapter-overwrite",
+          "last_success": "2026-11-06T21:09:01.162862+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.787518,
+          "avg_seconds_prior_sample": 5.440820833333333
+        },
+        {
+          "active": true,
+          "jobname": "aer-outcome-register",
+          "last_success": "2026-11-06T21:15:00.784239+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.09708833333333333,
+          "avg_seconds_prior_sample": 2.5926185833333335
+        },
+        {
+          "active": true,
+          "jobname": "aer-scheduled-read",
+          "last_success": "2026-11-06T21:13:13.541075+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 13.259196,
+          "avg_seconds_prior_sample": 12.909636
+        },
+        {
+          "active": true,
+          "jobname": "coverage-admit",
+          "last_success": "2026-11-06T21:13:01.164183+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.8758665,
+          "avg_seconds_prior_sample": 7.584523333333333
+        },
+        {
+          "active": true,
+          "jobname": "coverage-admit-intakes",
+          "last_success": "2026-11-06T21:15:01.531528+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.91282,
+          "avg_seconds_prior_sample": 6.351748
+        },
+        {
+          "active": false,
+          "jobname": "coverage-read",
+          "last_success": "2026-11-06T21:09:34.423586+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.03148464705882353,
+          "avg_seconds_prior_sample": 0.04101794736842105
+        },
+        {
+          "active": true,
+          "jobname": "first-run-verify",
+          "last_success": "2026-11-06T21:02:06.959267+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 6.620949,
+          "avg_seconds_prior_sample": 6.330563
+        },
+        {
+          "active": true,
+          "jobname": "integration-validate",
+          "last_success": "2026-11-06T20:51:08.882586+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": null,
+          "avg_seconds_prior_sample": 8.2167575
+        },
+        {
+          "active": true,
+          "jobname": "layer4-groups",
+          "last_success": "2026-11-06T21:16:04.347427+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 3.5391955,
+          "avg_seconds_prior_sample": 5.8077112
+        },
+        {
+          "active": true,
+          "jobname": "layer4-interventions",
+          "last_success": "2026-11-06T21:14:42.60122+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 42.369441,
+          "avg_seconds_prior_sample": 41.1062615
+        },
+        {
+          "active": true,
+          "jobname": "platform-alerts",
+          "last_success": "2026-11-06T21:10:00.634611+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.228781,
+          "avg_seconds_prior_sample": 0.2631158333333333
+        },
+        {
+          "active": true,
+          "jobname": "platform-health",
+          "last_success": "2026-11-06T21:08:14.548195+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 14.384888,
+          "avg_seconds_prior_sample": 15.066250166666666
+        },
+        {
+          "active": true,
+          "jobname": "provider-description-read",
+          "last_success": "2026-11-06T21:16:09.533093+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 8.0602535,
+          "avg_seconds_prior_sample": 7.5683975
+        },
+        {
+          "active": true,
+          "jobname": "scholarship-read",
+          "last_success": "2026-11-06T21:15:00.62144+00:00",
+          "failed_in_sample": 0,
+          "failed_last_15min": 0,
+          "running_in_sample": 0,
+          "avg_seconds_last_15min": 0.210856,
+          "avg_seconds_prior_sample": 0.18780316666666666
+        }
+      ]
+    },
+    "edge_metadata": [
+      {
+        "id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+        "slug": "coverage-sweep",
+        "name": "coverage-sweep",
+        "status": "ACTIVE",
+        "version": 239,
+        "created_at": 1790650965321,
+        "updated_at": 1793931705512,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/coverage-sweep/index.ts",
+        "ezbr_sha256": "995d5111618181a55afa168f97d529f7bae27f9ff1d9825def373cf503f494b5"
+      },
+      {
+        "id": "cc8d40be-2226-42d8-99ad-58ea9a95468c",
+        "slug": "zoho-api-v2",
+        "name": "zoho-api-v2",
+        "status": "ACTIVE",
+        "version": 5,
+        "created_at": 1792106726305,
+        "updated_at": 1792386044334,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/zoho-api-v2/index.ts",
+        "ezbr_sha256": "891bd9b10dad1f73332d70f123a17d92014e950597fb76d41e3687a7a632b193"
+      },
+      {
+        "id": "dd4711f6-b02a-47a4-adef-fb7f1df92d8a",
+        "slug": "website-api-v2",
+        "name": "website-api-v2",
+        "status": "ACTIVE",
+        "version": 3,
+        "created_at": 1792111991690,
+        "updated_at": 1793188041990,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/website-api-v2/index.ts",
+        "ezbr_sha256": "ea8d8ec5649a87bc7542a1fd6e18b5c68b36087bf00c548230eefbbd40697fdf"
+      }
+    ],
+    "frontend_reachability": {
+      "observed_at": "2026-11-06T21:13:05.660336+00:00",
+      "origin": "https://coursefinder-pilot.techm.workers.dev",
+      "method": "GET",
+      "purpose": "Read-only independent frontend reachability; default client and preserved proxy/TLS",
+      "status": 403,
+      "content_type": "text/plain; charset=UTF-8",
+      "server": "envoy",
+      "body_bytes": 17,
+      "body_sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "diagnostic_excerpt": "error code: 1010\n"
+    },
+    "independent_web_probe": "Public origin unavailable via independent web tool; no rendered/app-state/version result. Normal preserved-proxy HTTPGET returned403/error1010; no bypass attempted.",
+    "worktree_inventory": {
+      "observed_at": "2026-11-06T21:14:54.574154+00:00",
+      "worktrees": [
+        {
+          "worktree": "/workspace/delivery-pilot",
+          "HEAD": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+          "branch": "refs/heads/delivery895-final-register-preservation",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/delivery-893",
+          "HEAD": "99e00249cf2698ef384f724a6649ce901082adc4",
+          "branch": "refs/heads/delivery-893-release",
+          "status_exit": 0,
+          "status": [
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/delivery-894",
+          "HEAD": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+          "detached": "",
+          "status_exit": 0,
+          "status": [
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/delivery-p0-deadline",
+          "HEAD": "bad902ad387115004d12b629b34ab21b5266bb2c",
+          "branch": "refs/heads/delivery-p0-deadline-382",
+          "status_exit": 0,
+          "status": [
+            "?? deadline-cli-generation.json",
+            "?? deadline-enabled-review-validation.json",
+            "?? deadline-local-validation.json",
+            "?? deadline-pg17-enabled-review-validation.log",
+            "?? deadline-pg17-validation.json",
+            "?? deadline-pg17-validation.log",
+            "?? deadline-review-paste-refusal.log",
+            "?? deadline-s233-validation.log",
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/repair-ownership-followup",
+          "HEAD": "c13b516d0383067a734a30077da3ddf3e66e201a",
+          "branch": "refs/heads/ws382-screenshot-guard",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-1702/review-context",
+          "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "detached": "",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-1800/review-jobs",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": "",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-1902/review-consumers",
+          "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "detached": "",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-2000/reader-source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": "",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-2104/reader-source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": "",
+          "status_exit": 0,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/review-895-readonly",
+          "HEAD": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+          "branch": "refs/heads/ws382-safe-dispatch-inputs",
+          "status_exit": 0,
+          "status": []
+        }
+      ],
+      "active_agent": "reader_causes_2104 completed; root sole canonical evidence editor, no mutation agents"
+    },
+    "github_verification": {
+      "observed_at": "2026-11-06T21:20:33.094285+00:00",
+      "admin_main_before_final_checkpoint": "593696d7c2f26e24b7de8290b0e08581f97d7764",
+      "pilot_main": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "ownership_ref": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+      "ownership": "released; owner and lease null; adoption pending; no current-execution acceptance; transfer still targets stopped142259execution",
+      "environment_protection_rules": [],
+      "environment_branch_policy": null,
+      "environment_secret_api": "403 Resource not accessible by integration",
+      "running_pilot_workflows": 0,
+      "running_admin_workflows": 0,
+      "historical_queued_run": {
+        "id": 34749286102,
+        "jobs": 0,
+        "state": "queued; missing dispatcher/recipient reconciled in prior evidence; no deletion required"
+      },
+      "latest_382_comment": 6694652971,
+      "pr_heads": {
+        "875": {
+          "sha": "9205087d0d5a5bee207787e8373ed3688e9b0190",
+          "state": "open",
+          "merged_at": null
+        },
+        "877": {
+          "sha": "9788b22a471c5eb26a5bfa1e7ad099cd8590fe84",
+          "state": "closed",
+          "merged_at": "2026-11-06T02:21:03Z"
+        },
+        "889": {
+          "sha": "8656383073d281b852bdfb9e8d6857a51c85973c",
+          "state": "closed",
+          "merged_at": "2026-11-06T00:11:13Z"
+        },
+        "890": {
+          "sha": "b42a529d1bc64682d5ecff91cc61277c390a2893",
+          "state": "open",
+          "merged_at": null
+        },
+        "892": {
+          "sha": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
+          "state": "open",
+          "merged_at": null
+        },
+        "893": {
+          "sha": "201b9126e96a8eb30e74c983699284ffe8055641",
+          "state": "open",
+          "merged_at": null
+        },
+        "894": {
+          "sha": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
+          "state": "open",
+          "merged_at": null
+        },
+        "895": {
+          "sha": "bcceb856411a927f233f94695d7073830a0f2264",
+          "state": "open",
+          "merged_at": null
+        },
+        "896": {
+          "sha": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "state": "open",
+          "merged_at": null
+        }
+      }
+    },
+    "conclusion": {
+      "diagnostic_complete_on_inspected_metadata": true,
+      "source_defect_proven": false,
+      "repair_proposed": false,
+      "operational_issue_closed": false,
+      "remaining_causes": "Empty HTML body or a caught post-fetch processing/fallback exception; current valid adapter/code shapes do not prove either cause. No per-item body length/exception retained in inspected evidence.",
+      "metadata_limits": [
+        "Current adapter config predates batch but is not immutable per-run proof or proof adapter RPC succeeded.",
+        "Function logs inspected only as safe attribute aggregates:21HTTP200request events across3execution IDs, Boot1/ShutdownEarlyDrop2. These are not item-success counts, exact batch correlation or proof no raw-message errors exist; raw messages unqueried.",
+        "End-of-call remaining-above-reserve0 does not prove0 at each individual item; no causal budget claim or override authority follows.",
+        "Watchdog condition_cleared_at20:21 does not resolve IQ00046: status stilltriaged, three exact rows stillfailed and reader queue2091exhausted.",
+        "Fresh frontend reachability is blocked with403/1010, not a verified application outage. Last verified frontend remains20:12/UI489/.416; exact deployment commit and authenticateddesktop/phone unverified."
+      ],
+      "next_step": "Do not repeat unchanged three-row diagnosis. Continue independent existing P0 cohort/source-context work or inspect genuinely new discriminating evidence. Any new acquisition, instrumentation, retry reset or release requires existing account/ownership/resource/approval gates.",
+      "production_mutations": 0,
+      "vendor_calls": 0,
+      "tests_rerun": 0,
+      "pilot_prs_merged": 0,
+      "production_releases": 0
+    }
   }
 }
