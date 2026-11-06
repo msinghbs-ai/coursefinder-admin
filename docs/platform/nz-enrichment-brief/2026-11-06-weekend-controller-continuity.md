@@ -541,3 +541,19 @@ Decision before code: under the Platform Admin immediate P1recovery instruction,
 D12 governance identifies original externalWorkqueuealerts task at:59/push+e-mail/recipientunchanged. Webhookoff is intentional. Accessiblecurrent13automation inventory has no suchtask or platformtake/confirm prompt; this does not prove globaldeletion in anotheraccount. Claude13:46handover lists no enabledtasks. Production platform-alerts cron generates/expiresleases, notscheduledcollection. Restoring a collector includes productionwritecapability and must be fenced/reserved, nottreated as a read-onlyreporter. No actualdelivery, acknowledgement, restoredservice, leaseacceptance or watchdogPASS claimed. Three confirmedincorrectdeadlines remain a separate P0; existing exactcorrection scope/gates unchanged.
 
 CP-382-20261106T214536Z 2026-11-06T21:45:36Z: file ownership correction before source editing — the existing s223 file is `tests/uat/cf-247-s223-integration-queue-contract.spec.mjs` (verified in the dedicatedworktree), not a fixtures-named spec. Four-file scope otherwise unchanged. No production action.
+
+
+## CP-382-20261106T220443Z — collector path and preserved IDs; PR897 integration correction
+
+Actualexecution `codex-alert-recovery-20261106T213611Z`, 2026-11-06T22:04:43Z UTC.
+
+- **Issuesfixed:** no productionfix; failurestageisolatedbeforeclaim, notwatchdogauth/generation orobservedretryfailure.
+- **PRsmerged:**0. Test-onlyPR897published43d84d7a; candidateheadsunchanged.
+- **Productionreleasesverified:**0; actualalertdeliveries0.
+- **Operationaloutcomes:** original79IDs21–99preserved/current80IDs21–100pending/allattempts0,79overdue,noleases/failed/duplicates. LastsentID20at03Nov07:00:29Z; nextID21at07:20remainsunattempted. Threeoriginalbaddeadlinesstillactive.
+- **Unresolvedblockers:** originalD12task/accountaccess/receipt plusactualD382fencing/currentexecutionauthority. Current13tasksnocollector; broaderaccountnotproven.
+- **Nextexecutableaction:** PR897mustinheritalreadycompleted893parityfixandretargetbase; do notpatchold895runneragain. ThenverifygenuineCI; actualcollectorrestoreunderoriginalrecipient/guardedSQLstillrequired.
+
+GenuineisolatedPG17.6passed116assertions/38collectorchecks; inducedSQLassertionfailureexits3andrestoresbytes. Qualifiedtarget32/0/0/0afterChromiuminstall. Initiallocalrun27sourcepasses/5missingbrowserfailures excluded; initialregistergenerationchildgitEPERMrecoveredwithnormalnetworkpermission. SQLnegativeinjectionbrieflyoverlappedinitialtargetrun; onlylaterpristinequalifiedrunadmitted. PR897firstCIparityfailsbeforecollectorstepbecausebase895predatescompletedUnixsocket/runnerfixesin893. This ischangedownbranchintegrationwork, notrerunningheldsourceorrebuiltingsolved893. RootgeneratesPilotTESTREGISTERinownPR, notdowngradingAdminwholeprogrammeregister.
+
+Load: adapteroverwrite31.6s>2x11.7sprior; broaderverificationdeferred. Smallcritical2ssnapshotonlyat21:56:57; noheavywatchdog/wholeledger/consumerprobe. Onecataloguehashlookupran21:48:56insideavoidwindow; recordedasslip, noapplicationrowwrites. Noactualtake/confirm/operatorack/send/settingschange/newchannel/schedulerorownershipacceptance. ExistingD12externalcollectorwritesmustbeincludedinD382guardedSQLfencing;19repositorydefinitionsalonearenotcoverage.
