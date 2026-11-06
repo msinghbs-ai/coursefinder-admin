@@ -239,6 +239,8 @@ The code is concrete and tested: #895 source `1e7eaabecf5e2ae2f644644c62e0e23ffe
 
 Current metadata/readback still shows `pilot` unprotected; environment secret access remains403 at21:15UTC. Fresh frontend GET at21:13 returned403/error1010 and independent web access was unavailable; Cloudflare owner must verify normal-browser/approved-verifier reachability during existing denial/recovery checks. No WAF bypass or universal-outage diagnosis follows. Runtime readiness reports no configured Cloudflare/Supabase/UAT account bindings. These are demonstrated account-capability blockers, not another AI handover dependency. Record actual configuration/audit references in Admin#382 without secrets; source or documentation alone is insufficient.
 
+**Single consolidated account-owner instruction for P1 recovery:** the Platform Admin/account owner must complete the already-reviewed D-382-CUTOVER controlled bootstrap using the owner interfaces where this integration returns403, then locate and restore the existing D12 hourly :59 Work queue alerts task with its original account/push/e-mail recipient, binding its take/confirm writes to the verified guarded-SQL controller path. Publish the actual task ID/owner, denial/recovery evidence and a real destination delivery receipt in Admin#382. Do not enable an unfenced legacy task, create a competing collector, change destination or claim delivery from a prepared result. This requests no further Claude handover acknowledgement.
+
 **Pinned Cloudflare deploy command — reviewed source, not installed**
 
 ```bash
@@ -562,3 +564,12 @@ Load: adapteroverwrite31.6s>2x11.7sprior; broaderverificationdeferred. Smallcrit
 ## CP-382-20261106T221251Z — PR897inheritscompletedparitycorrection
 
 2026-11-06T22:12:51Z UTC. Ownbranchhead8c6dcd3b, draftPR897retargetedto893201b; exactlyfive test/CI/generatedregisterfiles differ. Existingreleaseheadsunchanged, noforcepush. CorrectedUnixsocket/parityrunnerwasinherited, notreimplemented. Localfullparityroundtripandtarget32/0/0/0pass; actualCI42302274860/job128182777524passedparityand38collectorassertionswithcompletionmarker, plusdeadline/otherSQLchecks. FullNode22run42302274559stillrunning. Actualownershipguardcurrent6d95denies: released/noowner/nolease/adoptionpending. No productionwrite/delivery/receipt/watchdogPASS. Nextverifyfullbundle, thenoriginaltask/accountownercontrolledrestoreisstillrequired.
+
+
+## CP-382-20261106T222308Z — required stacked-PR build check repair decision
+
+2026-11-06T22:23:08Z UTC. Source8c6dcd3b genuinelypassedfullNode221992/0/0/0andallPGtracks; bundleZIP13543604878 SHA2565a2900e2a70539410d7ed3b281b965abda80f7370b0cf1c7553533312c9663b7 downloadedandindependentlyverified againstsourceSHA/manifest/filedigests andNode22fingerprinta860fc0c077aab2607dd15835e178db58fe4e3ed0566b3226ad54d8f1f06fa28. ReadinessremainscorrectlyBLOCKEDbecausebuild-and-smokenotreported: existingpim-build.ymlrestrictsPRbasestomain, excludingstackedPR897.
+
+Decision BEFORE code: extend existingunprivilegedpull_requestbuildtrigger toallPRbases byremovingonlyitsmainbranchfilter. Keeppushmain, jobname/allsteps, contentsreadpermissions, requiredreadinesschecks andproductiondeploy-on-mergegatesunchanged. No newscheduler/framework/applicationfunction/migration. Independentreadonlyreviewconfirms s69/s400compatibility. Rootownsadditionalexisting .github/workflows/pim-build.yml; changedCIfingerprintrequiresfreshfullNode22evidence, notoldbundle reuse.
+
+Production22:18snapshot:81pending/allunattempted/79overdue, nosending/failed/leases, latesthistoricalsentunchanged03Nov07:00:29Z; alloriginal79IDs21–99stillpending/attempts0, all3baddeadlinesactive. Noactualdelivery/receipt/watchdogPASS orproductionwrite.

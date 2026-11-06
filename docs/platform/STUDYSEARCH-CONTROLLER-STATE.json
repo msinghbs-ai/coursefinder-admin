@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T221251Z",
-  "created_at": "2026-11-06T22:12:51Z",
+  "checkpoint_id": "CP-382-20261106T222308Z",
+  "created_at": "2026-11-06T22:23:08Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-alert-recovery-20261106T213611Z",
-  "trigger": "integration_dependency_corrected_and_ci_verification",
+  "trigger": "ci_readiness_defect_and_authorised_trigger_repair",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -2675,14 +2675,15 @@
       "branch": "codex/iq00112-alert-collector-acceptance",
       "commit": "8c6dcd3b9d4497f2954254ebc7c095836b338e19",
       "worktree": "/workspace/alerts-2136/fixture-worktree",
-      "state": "verifying",
+      "state": "implementing",
       "owned_paths": [
         "tests/fixtures/integration-queue/run.sh",
         "tests/fixtures/integration-queue/fixtures.sql",
         "tests/uat/cf-247-s223-integration-queue-contract.spec.mjs",
         ".github/workflows/prod-parity.yml",
         "/workspace/alerts-2136/alert-protocol-review.json",
-        "docs/platform/TEST-REGISTER.md"
+        "docs/platform/TEST-REGISTER.md",
+        ".github/workflows/pim-build.yml"
       ],
       "owned_functions": [],
       "owned_migrations": [],
@@ -5671,8 +5672,8 @@
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Integrated completed893baseline201b intoownPR897withoutforceorotherreleaseheadchanges; currenthead8c6dcd3b/base893, five-filetest-onlydiff. Localfullparityroundtrip andtarget32pass; CI42302274860 genuinelyexecuted38collectorassertions andpassedparity/deadlines. FullNode22run42302274559inprogress.",
-    "current_action": "VerifyfullNode22structuredresults/bundleforPR8978c6dcd3b; preserveoriginal79IDsandall80pendingevents. Actualcontrollerguarddeniescurrentexecution; externalcollectorrestore/realreceiptandD382accountcontrolsremainblocked.",
+    "last_completed_atomic_action": "IndependentlydownloadedZIP13543604878/hash5a2900e2, schema/sourceSHA/filedigests andimmutableNode22sourcefingerprintverified. Full1992/0/0/0/executed/completepass+PG38verified. OverallreadinesscorrectlyBLOCKED:build-and-smokenotreported forstackedPR. Requiredpim-buildworkflowmain-onlyPRfiltercausesgap; unprivilegedjobhasnodeployorsecrets.",
+    "current_action": "Recordeddecisionbeforecode: rootownsoneexistingpim-build.ymlPRtriggerfix—removeonlypull_requestmain-onlybasefilter, retainpushmain, jobname, allstepsandcontentsreadpermissions. FreshfullNode22evidenceforchangedCIfingerprintrequired; no requiredcheckdropping/syntheticpass orproductiongatechange.",
     "next_safe_action": "RetargetPR897 onto893withnon-force ownbranchintegration; runchanged-sourceCIandvalidateactualPG/fullNode22evidence. Originaltask/accountowner must restoreD12collectorunderexistingguardedSQLfences andprovideactualdestinationdeliveryproof. Do notdrainviafalseconfirmation orwidenP0correction.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
@@ -5704,7 +5705,7 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T220443Z",
+    "predecessor_checkpoint": "CP-382-20261106T221251Z",
     "successor_checkpoint": null
   },
   "handover": {
