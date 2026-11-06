@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T093806Z",
-  "created_at": "2026-11-06T09:38:06Z",
+  "checkpoint_id": "CP-382-20261106T094419Z",
+  "created_at": "2026-11-06T09:44:19Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-weekend-20261106-0903Z",
-  "trigger": "pre_integration_checkpoint",
+  "trigger": "pre_session_pause",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -1952,9 +1952,9 @@
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
       "owner": "Codex",
       "branch": "cf247-controller-continuity",
-      "commit": "edecef02b5a8ea006b9acc1f8592b107131690e3",
+      "commit": "9674e59bd01cfafe07c847224e92cf6f7f3fcd64",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         "docs/platform/AGENT-OPERATING-MODEL.md",
         "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
@@ -1978,7 +1978,7 @@
       "test_evidence_ids": [
         "EV-SCHEMA"
       ],
-      "completion_summary": "Governance implementation passes 17 checkpoint and 11 ownership tests locally; initial remote CI passed. Production adoption/ownership remain blocked."
+      "completion_summary": "Governance implementation merged and verified through #383; 28 targeted tests and all three checks passed. Operational authority remains blocked by predecessor disposition, production adoption and fresh frontend verification."
     },
     {
       "id": "WS-382-SCHEMA",
@@ -2563,15 +2563,15 @@
       "repository": "msinghbs-ai/coursefinder-admin",
       "number": 383,
       "branch": "cf247-controller-continuity",
-      "commit": "edecef02b5a8ea006b9acc1f8592b107131690e3",
-      "state": "open",
+      "commit": "9674e59bd01cfafe07c847224e92cf6f7f3fcd64",
+      "state": "merged",
       "draft": false,
       "owner": "Codex",
       "workstream_id": "WS-382",
       "ci_status": "success",
       "run_ids": [
-        42196169212,
-        42196169099
+        42196754253,
+        42196754240
       ],
       "release_gates": [
         "Exact-head governance tests",
@@ -2579,7 +2579,7 @@
         "No production authority implied"
       ],
       "blockers": [],
-      "next_action": "Publish scoped-gate correction and fresh state; require exact-head CI before governance merge. Production adoption remains separate."
+      "next_action": "Governance integrated as fdaac3bc; verify this checkpoint and resolve operational ownership/adoption under Admin #382. No production release implied."
     }
   ],
   "releases": [
@@ -4121,16 +4121,23 @@
     },
     {
       "id": "EV-GOV-CI",
-      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/actions/runs/42196169212",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/actions/runs/42196754253",
       "kind": "governance_ci",
-      "observed_at": "2026-11-06T09:38:06Z",
-      "summary": "Initial exact head edecef02: Controller continuity and PIM Finalisation Build completed success (42196169212,42196169099). Final scoped gate/state revision requires fresh exact-head CI."
+      "observed_at": "2026-11-06T09:44:19Z",
+      "summary": "Final code head 9674e59b: 17 checkpoint tests, 11 ownership tests, actual checkpoint validation, PIM Finalisation Build 42196754240 and Workers Builds all succeeded. PR #383 merged as fdaac3bc at 2026-11-06T09:42:20Z."
+    },
+    {
+      "id": "EV-FINAL-READ",
+      "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#final-session-checkpoint",
+      "kind": "final_read_only_reconciliation",
+      "observed_at": "2026-11-06T09:44:19Z",
+      "summary": "Pilot main and five draft PR heads unchanged; ownership ref unchanged in reconciliation; no predecessor acceptance in #382. DB 09:41:06Z: migration count1791/head20261106400000, worker v0.59.8 status200. Three transient concurrent DB transactions then; subsequent bounded active-session query returned no rows. No ownership inference from session counts."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Published Admin PR #383 at edecef02; initial exact-head governance/build workflows passed; scoped release-gate correction passes local tests.",
-    "current_action": "Publish final governance revision and merge only after its exact-head checks pass; production remains blocked in reconciliation.",
-    "next_safe_action": "Verify Admin PR #383 outcome, then reconcile Admin #382 ownership/adoption and continue exclusively assigned corrective engineering.",
+    "last_completed_atomic_action": "Merged governance PR #383 as fdaac3bc72f7eabac57c308a36dfd913f8a15db9 after all three exact-head checks passed.",
+    "current_action": "Publish this final validated pre-pause checkpoint; no production operation is in flight from this execution.",
+    "next_safe_action": "A successor or scheduled resumption must read this checkpoint, verify current live state and Admin #382, and resolve controller ownership/adoption before any production mutation. Continue isolated #894/#893 corrections meanwhile.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4148,7 +4155,7 @@
       "Historical queued run disposition",
       "Live hashes immediately before authorised release"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T093246Z",
+    "predecessor_checkpoint": "CP-382-20261106T093806Z",
     "successor_checkpoint": null
   },
   "handover": {
@@ -4156,13 +4163,13 @@
     "section": "Controller handover",
     "reason": "**Reason:** Current execution is publishing a recovery checkpoint for the 7\u20138 November controller mandate. Codex is nominated; previous Claude ownership has not been released or accepted through the new protocol. Transfer remains pending.",
     "baseline": "**Baseline:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last verified release record v2.15.489. Fresh database checks confirm 1,791 applied migrations, head `20261106400000`; edge `coverage-sweep` version 239, observed worker `coverage-sweep-worker-v0.59.8`. Fresh frontend HTTP/browser version is unknown because the shell proxy is unavailable and no browser tool is exposed. Mode 1 remains active. See the structured checkpoint for hashes, measurements and evidence timestamps.",
-    "completed": "**Completed:** Recorded mandate and ownership conflict; created atomic coordination in reconciliation; implemented schema, handover and ownership validation; completed independent #894/#893/#892 reviews and named P0 readbacks. Seventeen checkpoint tests and eleven ownership tests pass locally; initial remote governance/build CI passed at `edecef02`. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated. Final revision still requires exact-head CI.",
+    "completed": "**Completed:** Admin PR #383 merged as `fdaac3bc72f7eabac57c308a36dfd913f8a15db9` after all three checks passed at code head `9674e59b`: 17 checkpoint/handover tests, 11 ownership tests, actual checkpoint validation and build checks. Canonical continuity and atomic coordination are published; independent #894/#893/#892 reviews and bounded P0 readbacks are recorded. No production mutation, migration, deployment, admission, paid read or vendor-setting change was initiated.",
     "priorities": "**Priorities:** Verify ownership and production-entry-point adoption; correct the confirmed #894 and #893 defects in their existing PRs; integrate #894's phone fix before justified #892 full-suite evidence; preserve #890/#875 holds; finish bounded #877 acceptance, #889 and Course Catalogue operator checks; continue Layer 4, AER, scholarship and provider lifecycle remediation.",
-    "workstreams": "**Workstreams:** WS-382 continuity owned by Codex on `cf247-controller-continuity`, [Admin PR #383](https://github.com/msinghbs-ai/coursefinder-admin/pull/383); WS-382-SCHEMA integrated from `cf247-controller-schema` (`a9292c7e57c8146b38fdf95dd5bb113162813e38`). Prior Claude agents retain recorded feature ownership until reassigned. Independent read-only reviewers completed WS-894, WS-893-892 and WS-P0-RECONCILE; no overlapping implementation edit was made. Local Admin files are a materialised subset; the published PR carries every intended source change. Generated Python caches contain no unique work.",
+    "workstreams": "**Workstreams:** WS-382 governance integrated through [Admin PR #383](https://github.com/msinghbs-ai/coursefinder-admin/pull/383); operational adoption remains blocked in Admin #382. WS-382-SCHEMA integrated from `a9292c7e`. Feature code remains on the five recorded draft PR branches; prior Claude implementation ownership is unverified and must be reconciled before overlapping edits. Independent read-only reviews are complete. All intended local source changes are published; the local materialised subset and generated caches are not needed to resume. Implementation branches are retained with explicit disposition, not deleted.",
     "pending_prs_migrations": "**Pending PRs/migrations:** Pilot #894 `162e9fc7` / `20261106500000` blocked by four defects; #893 `2513a909` / `20261106550000` blocked by false-green fixture execution and overlap; #892 `7a2f3dd3` blocked by the s288 phone failure; #890 `b42a529d` G3-held; #875 `9205087d` held and stale. Admin #380, #240 and #29 remain open and unchanged. #877, #889, #891 and #887 are merged; merged status is not operational acceptance. No pending migration was applied.",
     "decisions": "**Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them.",
     "in_flight": "**In flight:** No in-progress Pilot Actions or other active database transaction observed at 09:09 UTC; no critical operation started by this execution. Historical queued CF-093 run `34749286102` from 13 September is unresolved and must not be replayed or cancelled blindly. Predecessor future writes cannot be excluded without ownership adoption. The new ownership ref has no owner, lease or in-flight reservation; this does not account for non-participating writers.",
-    "next_safe_action": "**Next safe action:** Read Admin #382 and the live `studysearch-controller` ref; reconcile predecessor release/termination and every production entry point before any mutation. Meanwhile correct confirmed defects on exclusively assigned existing feature branches, validate the checkpoint and collect missing read-only Worker/UI evidence. Do not repeat the withdrawn five dates, thirteen bad fee rows or unchanged failed suites.",
+    "next_safe_action": "**Next safe action:** Read the current checkpoint and Admin #382, then independently verify the live ownership ref, predecessor disposition, workflows, migrations and production entry-point participation. Resume exclusively assigned #894/#893 fixes while authority is reconciled. Keep #890/#875 held. Do not repeat withdrawals, paid reads, migrations or unchanged failing suites from a predecessor command.",
     "risks_recovery": "**Risks/recovery:** The atomic protocol is implemented but is not yet enforced by Pilot deployment workflows, direct SQL or Cloudflare builds; adoption is pending and production authority is denied. Lease expiry never clears an in-flight operation. Reconcile immutable operation IDs, live migration history, workflow outcomes and consumer state before retry. IQ-00313 and IQ-00111 show no re-exposure in the bounded SQL readback, but HTTP/cache and full fee-admission acceptance remain unverified. Weekend hourly resumptions and Monday-morning handover are configured; neither has run, and no uninterrupted monitoring is claimed.",
     "evidence": "**Evidence:** [Mandate and findings](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json), [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [coordination ref](https://github.com/msinghbs-ai/coursefinder-admin/tree/studysearch-controller), [#894 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894#issuecomment-6681397730), [#893 review](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893#issuecomment-6681399784), [P0 readbacks](validation/2026-11-06-p0-reconciliation.json)."
   }

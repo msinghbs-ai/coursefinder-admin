@@ -98,7 +98,7 @@ Delete `project-runsheets/` and revert this governance record if the programme a
 **Initiated:** 2026-11-06T09:03:00Z (execution identifier); decision record published 2026-11-06T09:10:24Z.
 **Origin/owner:** Codex execution `codex-weekend-20261106-0903Z`, WS-382; schema agent WS-382-SCHEMA.
 **Authority:** Platform Admin weekend mandate; [decision before code](../../docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md).
-**State:** IMPLEMENTED / VALIDATING; operational ownership and production fencing adoption BLOCKED.
+**State:** GOVERNANCE APPLIED / PASS via Admin #383 (`fdaac3bc`); operational ownership and production adoption BLOCKED.
 
 The existing StudySearch execution register now carries the concise controller handover.
 A versioned JSON checkpoint and schema beside it provide actual execution identity,

@@ -110,3 +110,25 @@ guards, predecessor disposition and fresh frontend verification is necessary bef
 exclusive release authority or a complete operational handover can be claimed.
 Independent engineering and read-only reconciliation continue safely meanwhile.
 
+
+## Final session checkpoint
+
+2026-11-06T09:44:19Z (UTC): Admin PR #383 merged as `fdaac3bc72f7eabac57c308a36dfd913f8a15db9`.
+Final source head `9674e59b` passed Controller continuity run `42196754253`
+(17 checkpoint/handover + 11 ownership tests and populated checkpoint validation),
+PIM build `42196754240` and Workers Builds. The latest code is on main.
+
+Pilot main and all five draft PR heads are unchanged; no production release,
+migration, governed write, admission, paid read or vendor-control change was made.
+The final 09:41Z database check still shows 1,791 versions, head `20261106400000`,
+and actual worker v0.59.8 status200. Three transient non-self transactions were
+observed at 09:41:06Z; a subsequent bounded active-session query returned none.
+Neither observation grants ownership. No predecessor acceptance/release has arrived.
+The atomic ref remains reconciliation/adoption pending at `23a16104`.
+
+The current pre-pause checkpoint is `CP-382-20261106T094419Z`. All intended source
+changes and review evidence are published; no unique source depends on this local
+materialised subset. Both implementation branches are integrated and retained as
+attributable evidence. Agent review work is complete; no running sub-agent is claimed.
+The next safe action is in the canonical handover; scheduled resumptions have not
+run and no successor transfer is claimed. Programme completion is not declared.
