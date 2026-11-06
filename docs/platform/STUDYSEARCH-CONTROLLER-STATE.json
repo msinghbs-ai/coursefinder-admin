@@ -34,7 +34,8 @@
         "state": "reconciliation",
         "started_at": "2026-09-13T09:18:14Z",
         "evidence_ids": [
-          "EV-QUEUED"
+          "EV-QUEUED",
+          "EV-CLAUDE-RELEASE"
         ]
       }
     ]
@@ -4518,6 +4519,13 @@
       "kind": "fresh_read_only_checkpoint",
       "observed_at": "2026-11-06T13:24:32Z",
       "summary": "13:19DB1791/head400000/worker0.59.8status200/deadlinebeforef01e;70pending64overduealerts.13:23HTTPUI489/pkg416asset2099cae...unchanged. Atomicref23a16104unchanged. Fourroutineprovidersearchleases+oneleasedNULLsourcefindobserved13:02;notproofClaudeliveness."
+    },
+    {
+      "id": "EV-CLAUDE-RELEASE",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/blob/main/docs/platform/2026-11-07-claude-controller-released-handover.md",
+      "kind": "decision_record",
+      "observed_at": "2026-11-06T13:46:04Z",
+      "summary": "Claude released as controller on Platform Admin instruction (7 Nov 00:41 Melbourne). Run 34749286102 has zero jobs, deleted workflow definition, cancel and force-cancel refused 409: cannot run, record removal left to Platform Admin. No Claude schedules, agents, processes or SQL sessions. Ownership ref never named Claude as owner. No credential revoked."
     }
   ],
   "continuity": {

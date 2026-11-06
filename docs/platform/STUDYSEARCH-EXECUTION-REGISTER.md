@@ -600,3 +600,12 @@ Authority: Platform Admin 6 Nov 2026 12:55 (`docs/platform/2026-11-06-close-pr88
 - RESULT: DEPLOY PASS. WORKFLOW ACCEPTANCE PENDING: the new read path has not yet been exercised in production. No read is due on schedule. The bounded Run & Validate on the five pilot providers needs `provider-description-read` added to `run_now.jobs` (Platform Admin 5 Nov 20:03 §1: activated after deployment and role verification), a governed settings change that needs the Platform Admin's authenticated session. No corrective release is started.
 - Observation: a CI full-suite run on PR #892 found `cf-247-s288-process-results-ui` (phone width) failing in CI (an element intercepts a click); it passed locally three times. Not yet investigated; to be checked against current main.
 
+
+## 7 Nov 2026 00:5x (Melbourne) — CLAUDE CONTROLLER RELEASED (Platform Admin instruction, Admin #382)
+
+- Claude released the Integration Controller role to Codex for the weekend. Full record, verbatim instruction and evidence: `docs/platform/2026-11-07-claude-controller-released-handover.md`. Checkpoint CP-382-20261106T132432Z updated (in-flight run disposition, evidence EV-CLAUDE-RELEASE) and validated.
+- Baseline (read-only, 13:44 to 13:46 UTC 6 Nov): Pilot main 4ba94e3f (v2.15.489); migration head 20261106400000 (1791); 164 active and 12 inactive jobs, 0 failures in 2 hours; nothing from #893/#894 applied. Open PRs: #894 e15536e8, #893 eb0caf2e, #892 4823f68f (ready, unmerged); #895, #896 (draft); #890, #875 held.
+- Run 34749286102 (CF-093 UQ Acceptance Dispatcher, queued since 13 Sep): zero jobs, workflow definition deleted, cancel and force-cancel refused (HTTP 409). Cannot run; not cancelled; record not deleted by Claude. Removal is for the Platform Admin or GitHub Support.
+- In-flight Claude operations: none (no scheduled tasks, agents, local processes, open SQL sessions or unpushed work). Two Test evidence runs in progress belong to Codex branches.
+- Ownership: studysearch-controller (23a16104) never named Claude as owner (owner null, generation 0), so there was no lease to release atomically. Ref unchanged; Codex to reconcile and verify.
+- No credential was revoked or changed. Claude has stopped and will not reacquire control or make production changes without a new Platform Admin instruction.
