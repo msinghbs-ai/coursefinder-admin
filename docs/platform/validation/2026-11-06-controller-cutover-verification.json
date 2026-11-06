@@ -11561,8 +11561,8 @@
   },
   "alert_collector_recovery_2136": {
     "execution_id": "codex-alert-recovery-20261106T213611Z",
-    "recorded_at": "2026-11-06T22:04:43Z",
-    "checkpoint_id": "CP-382-20261106T223117Z",
+    "recorded_at": "2026-11-06T22:59:25Z",
+    "checkpoint_id": "CP-382-20261106T225925Z",
     "mandate": "PlatformAdmin immediateP1collector recovery/P0separate; preserve79eventIDs, no bulkmark/delete/watchdogdisable; realconfigured-destination delivery and independentwatchdogPASS required.",
     "verified_watchdog": {
       "run_id": 42262985796,
@@ -13787,20 +13787,61 @@
       "completion_summary": "Source protocol and current test gaps traced with durable refs; no productionSQL, source/config/test edit, vendorcall, notification or GitHubmutation. Dedicatedsourceworktree clean; sole localreviewJSON written."
     },
     "root_cause": {
-      "failure_stage": "External scheduledcollection beforeclaim; notgeneration and notan observedtransport rejection/retrylease failure.",
-      "proof": "Generationjobshealthy, deliveryon/webhookoff isapprovedD12route; IDs21–100allpending/attempts0 withnosending/failed/liveorexpiredleases. LastscheduledtaskconfirmationID20 at03Nov07:00:29Z, firstuncollectedID21 at07:20Z. Currentconnected13tasks have no Workqueuealerts/take/confirm prompt; Claudehandover listsnoenabledtasks. No trackedrepositorycaller performsD12take/confirm.",
-      "limit": "Exact externaltask removal/disablement/authfailure cause and owningaccount executionhistory remain unverified; currentinventory cannotproveglobaldeletion. TaskID/ownerlocation requested without requestingClaudeacknowledgement.",
-      "delivery_destination": "D12approved originaltask/account push+e-mail, recipientunchanged. No alternatechannel/webhookenabled; destinationreceipt notverified.",
-      "timeline_limit": "Last confirmation onNov3predatesverifiedClaudehandoverNov6; do notattributecollectorcessation tothehandoverwithoutowningaccount/auditevidence."
+      "failure_stage": "External scheduled collection before claim. Generation is healthy; pending alerts have attempts=0, without observed delivery rejection or lease/retry failure.",
+      "located_resource": {
+        "task_title": "Work queue alerts",
+        "task_id": "trig_01Eo7QrJXR24e774gNzLUvTi",
+        "vendor": "Claude",
+        "owning_account_description": "Platform Admin's Claude account",
+        "schedule_utc": "59 * * * *",
+        "approved_notification_channels": [
+          "push",
+          "e-mail"
+        ],
+        "recipient": "Existing task/account recipient unchanged under D12; no actual address read or stored",
+        "project_ref": "fxcwkweaxjtknorudmwp",
+        "current_enabled_state": "unverified",
+        "current_prompt": "unverified; historical evidence says calls platform_alerts_take_v1 and platform_alerts_confirm_v1",
+        "last_recorded_historical_success": "2026-11-01T18:59:00Z per GateD/E record, not a current scheduler observation"
+      },
+      "proof": "Last recorded database confirmation was ID20 on 3 November 07:00:29 UTC. All original79 IDs21–99 remain pending and unattempted at22:18 UTC; IDs100–101 were also unattempted. Repository cron generates events and does not execute the external take/confirm path. Final22:57 snapshot:83pending/allunattempted/80overdue; original79 identities still equal, no leases/failed/duplicates. New102 is collector reminder and103 current critical course-list queue watch.",
+      "limit": "Current Claude task enablement, prompt, credential binding, execution/failure audit and destination receipt cannot be inspected through this connection. Exact reason the task stopped collecting is unresolved. The OpenAI13-task inventory is a different vendor/account scope and proves nothing about deletion/disablement of this Claude task. Nov3 cessation predates Nov6 handover; no causal attribution is supported.",
+      "delivery_destination": "Original Claude task/account push and e-mail recipient, unchanged under D12. Actual recipient address was not read or stored.",
+      "authoritative_references": [
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L134",
+          "evidence": "Explicitly names Platform Admin Claude account, exact trig task ID and hourly :59 UTC; prompt names project.",
+          "original_file_commit": "283cd7ab21cadacf8c38f4e42fd56728f72940b8",
+          "original_commit_at": "2026-11-01T20:52:37Z"
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/nz-enrichment-brief/2026-11-02-ss015-gate-d-e-recovery.md#L27",
+          "evidence": "Independent same task ID, schedule59, enabled/push/e-mail, last historical run1Nov18:59UTC, prompttake/confirm.",
+          "original_file_commit": "550fe405060df8e8e566cdafb4899691fde6ede3",
+          "original_commit_at": "2026-11-01T19:09:13Z"
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L344",
+          "evidence": "Generation -> scheduled collection -> push/e-mail -> confirm, expected75minute delay."
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L350",
+          "evidence": "Original runbook directs PlatformAdmin to inspect Claude scheduled task enabled/last-run/result and run once by hand, then phone and e-mail receipt check; apply current D382 ownership gates first."
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/OPERATIONAL-LIMITS.md#L236",
+          "evidence": "D12 external delivery is on; scheduledtask at:59; webhook off, existing task destination, no new credentials."
+        }
+      ]
     },
     "stages": {
       "generation": "verified healthy jobexecutions and existingoutboxrows",
-      "collection": "blocked beforeclaim; noattemptsoncurrent80",
-      "delivery": "notreached/provenforIDs21–100; noactualsendbythisexecution",
-      "confirmation": "19historicalsentrecords, latest03Nov07:00:29Z; no newconfirmation",
+      "collection": "All83 pending alerts unattempted at22:57:03UTC;80 overdue, no leases/failed/duplicates. Original79 identities unchanged.",
+      "delivery": "No actual new delivery in this execution; transport and recipient receipt remain unverified.",
+      "confirmation": "No production confirmation in this execution. Historical19 sent records, latest3Nov07:00:29UTC, are caller-reported acceptance, not recipient receipt.",
       "recipient_receipt": "unverified; taskresult/database sent alone notproof",
       "operator_acknowledgement": "separate rank6 action; no productionackbythisexecution",
-      "independent_watchdog": "verifiedfailure42262985796; no recoveredPASS"
+      "independent_watchdog": "Run42262985796 independently verified failed. No recovered PASS has been established."
     },
     "local_verification": {
       "fixture": {
@@ -13892,7 +13933,18 @@
         "status": "freshfullsuiteandactualbuildrunning; parity/collector/deadlinespassed",
         "change": "Existing unprivilegedpim-build pull_request trigger nowcoversstackedPRbases; pushmainandproductiondeploygatesunchanged",
         "old_bundle_not_reused_for_changed_CI_fingerprint": true
-      }
+      },
+      "final_head": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+      "base": "201b9126e96a8eb30e74c983699284ffe8055641",
+      "final_changed_files": [
+        ".github/workflows/pim-build.yml",
+        ".github/workflows/prod-parity.yml",
+        "docs/platform/TEST-REGISTER.md",
+        "tests/fixtures/integration-queue/fixtures.sql",
+        "tests/fixtures/integration-queue/run.sh",
+        "tests/uat/cf-247-s223-integration-queue-contract.spec.mjs"
+      ],
+      "ci_trigger_fix": "The existing build-and-smoke PR trigger was restricted to main bases, leaving the required check missing on this stacked PR. Removed only that PR-base filter. Push-main trigger, read-only permissions, job identity and build steps are unchanged; no production credentials/deployment added. This material CI change received a fresh full Node22 suite."
     },
     "load_policy": {
       "cron_preflight": {
@@ -13921,7 +13973,30 @@
         ]
       },
       "broader_reads_deferred": "adapter-overwriterecent31.60s>2x11.66sprior; noheavywatchdog/fullmigration/consumercohortreads inthisbatch. Onlysmallcritical2sstatus/ID/P0snapshot at21:56:57UTC.",
-      "timing_slip": "Onecataloguefunction-hashlookupstarted21:48:56 duringavoidwindow. It readonefunctiondefinitionhash, noapplicationrows/writes; recordedasloadpolicyslip, notclaimedcompliance."
+      "timing_slip": "Onecataloguefunction-hashlookupstarted21:48:56 duringavoidwindow. It readonefunctiondefinitionhash, noapplicationrows/writes; recordedasloadpolicyslip, notclaimedcompliance.",
+      "final_preflight": {
+        "observed_at": "2026-11-06 22:56:14.384041+00",
+        "failed_last15": 0,
+        "admission": [
+          {
+            "jobname": "coverage-admit-intakes",
+            "prior_seconds": 12.800075,
+            "recent_seconds": 1.086028
+          },
+          {
+            "jobname": "adapter-overwrite",
+            "prior_seconds": 15.364271666666667,
+            "recent_seconds": 0.787332
+          },
+          {
+            "jobname": "coverage-admit",
+            "prior_seconds": 11.8072818,
+            "recent_seconds": 0.8608205
+          }
+        ]
+      },
+      "final_bounded_read": "22:57:03UTC, indexed original79 IDs/new event IDs/exact-three rows plus83-row alert counters and migration count/head, 3s limit; no heavy consumer or watchdog function call.",
+      "final_query_correction": "First read-only query failed parsing at between21; whitespace corrected, next query succeeded. No mutation or partially committed operation."
     },
     "production_mutations": 0,
     "real_alerts_sent": 0,
@@ -15042,6 +15117,1505 @@
       "sha256": "2c5f3266d93988f3191ffc1fa5ef4091819adbb27e043db2fd10f76dbccc9a16",
       "new_real_event101": "course_page_search recovery/info, created22:10 after issue resolved22:04; stillpending/attempts0",
       "actual_new_deliveries": 0
+    },
+    "collector_resource": {
+      "workstream_id": "WS-ALERT-LOCATOR-2236",
+      "integration_issue": "IQ-00112",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+      "agent": "/root/collector_locator",
+      "reviewed_at": "2026-11-06T22:39:08.601939Z",
+      "ownership": {
+        "sole_output": "/workspace/alerts-2136/collector-location-evidence.json",
+        "source_worktree": "/workspace/alerts-2136/locator-source",
+        "branch": null,
+        "pilot_commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "owned_functions": [],
+        "owned_migrations": [],
+        "source_changes": false
+      },
+      "canonical_recovery": {
+        "admin_commit": "75bc5c875843e321c57e7ef880ea95bee24b2e78",
+        "checkpoint": "CP-382-20261106T223117Z",
+        "status": "reconciliation; no active owner/lease; adoption pending",
+        "latest_382_comment_seen": 6695948277,
+        "records_read": [
+          "AGENT-OPERATING-MODEL.md",
+          "nz-enrichment-brief/INDEX.md",
+          "Controller handover",
+          "controller state and schema",
+          "Admin382 latest comments",
+          "Pilot CLAUDE.md"
+        ]
+      },
+      "located_resource": {
+        "task_title": "Work queue alerts",
+        "task_id": "trig_01Eo7QrJXR24e774gNzLUvTi",
+        "vendor": "Claude",
+        "owning_account_description": "Platform Admin's Claude account",
+        "schedule_utc": "59 * * * *",
+        "approved_notification_channels": [
+          "push",
+          "e-mail"
+        ],
+        "recipient": "Existing task/account recipient unchanged under D12; no actual address read or stored",
+        "project_ref": "fxcwkweaxjtknorudmwp",
+        "current_enabled_state": "unverified",
+        "current_prompt": "unverified; historical evidence says calls platform_alerts_take_v1 and platform_alerts_confirm_v1",
+        "last_recorded_historical_success": "2026-11-01T18:59:00Z per GateD/E record, not a current scheduler observation"
+      },
+      "authoritative_references": [
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L134",
+          "evidence": "Explicitly names Platform Admin Claude account, exact trig task ID and hourly :59 UTC; prompt names project.",
+          "original_file_commit": "283cd7ab21cadacf8c38f4e42fd56728f72940b8",
+          "original_commit_at": "2026-11-01T20:52:37Z"
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/nz-enrichment-brief/2026-11-02-ss015-gate-d-e-recovery.md#L27",
+          "evidence": "Independent same task ID, schedule59, enabled/push/e-mail, last historical run1Nov18:59UTC, prompttake/confirm.",
+          "original_file_commit": "550fe405060df8e8e566cdafb4899691fde6ede3",
+          "original_commit_at": "2026-11-01T19:09:13Z"
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L344",
+          "evidence": "Generation -> scheduled collection -> push/e-mail -> confirm, expected75minute delay."
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L350",
+          "evidence": "Original runbook directs PlatformAdmin to inspect Claude scheduled task enabled/last-run/result and run once by hand, then phone and e-mail receipt check; apply current D382 ownership gates first."
+        },
+        {
+          "ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/OPERATIONAL-LIMITS.md#L236",
+          "evidence": "D12 external delivery is on; scheduledtask at:59; webhook off, existing task destination, no new credentials."
+        }
+      ],
+      "searches": [
+        {
+          "query": "\"Work queue alerts\" repo:msinghbs-ai/coursefinder-admin",
+          "endpoint": "GitHub code search",
+          "result_count": 9,
+          "result": "Relevant recovery runbook and GateD/E evidence located beyond initially inspected transformation/SOP."
+        },
+        {
+          "query": "trig_01Eo7QrJXR24e774gNzLUvTi repo:msinghbs-ai/coursefinder-admin",
+          "endpoint": "GitHub code search",
+          "result_count": 2,
+          "result_paths": [
+            "docs/platform/RECOVERY-RUNBOOK.md",
+            "docs/platform/nz-enrichment-brief/2026-11-02-ss015-gate-d-e-recovery.md"
+          ]
+        },
+        {
+          "query": "\"Work queue alerts\" repo:msinghbs-ai/coursefinder-admin is:issue",
+          "endpoint": "GitHub issue search",
+          "result_count": 0
+        },
+        {
+          "query": "\"trig_01Eo7QrJXR24e774gNzLUvTi\" repo:msinghbs-ai/coursefinder-admin is:issue",
+          "endpoint": "GitHub issue search",
+          "result_count": 0
+        },
+        {
+          "query": "jawbone repo:msinghbs-ai/coursefinder-admin",
+          "endpoint": "GitHub code search",
+          "result_count": 0
+        },
+        {
+          "query": "file history for both exact task-ID files",
+          "endpoint": "GitHub commits by path",
+          "result": "Each returned one original Nov1commit; no later disable/deletion record found in these file histories."
+        }
+      ],
+      "search_failures": [],
+      "limits": [
+        "Authoritative task resource identity was found; this resolves the prior missing-ID lookup, not current runtime access or ownership.",
+        "The connected13task inventory is a different provider/account scope; its absence does not prove the Claude task is deleted, disabled or revoked.",
+        "No purpose-built Claude scheduled-task connector was discovered in the active tool catalog; current Claude task enablement, run/failure history, prompt, credential binding and notification receipt remain unverified.",
+        "A historical successful task record or database sent status is not independent recipient delivery/receipt proof.",
+        "The cause of cessation after recorded Nov3databaseconfirmation cannot be established from these repository records; do not attribute it to Nov6handover without account audit evidence."
+      ],
+      "exact_account_owner_action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs.",
+      "completion_summary": "Located exact original collector task identity, vendor/account locator, schedule and nonsecret destination authority through two durable GitHub sources. No source/tests/production/scheduler/notification mutations. Current account access and runtime failure history remain the real resource blocker."
+    },
+    "ownership_final": {
+      "observed_at": "2026-11-06T22:53:08Z",
+      "head": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+      "status": "released",
+      "owner": null,
+      "lease_expires_at": null,
+      "adoption": "pending",
+      "in_flight": null,
+      "guard": "denied",
+      "reason": "exclusive controller ownership is not active"
+    },
+    "qualified_final_ci": {
+      "source_sha": "28a6a16c9182b209e7c11c25905556fcc7e0f1ab",
+      "source_full_run": 42304446495,
+      "source_build_run": 42304446501,
+      "source_parity_run": 42304446518,
+      "source_artifact": 13545768368,
+      "source_zip_sha256": "4c0a6ac35a32f11c50e2b52f0a237c23a9fce228af8df6f7f62d73362abf5605",
+      "final_sha": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+      "final_run": 42306883983,
+      "final_build_run": 42306884616,
+      "final_parity_run": 42306883870,
+      "final_artifact": 13546872455,
+      "final_zip_sha256": "1aebf1b9fbbba99d3f118af5de163d31ef17aa7de401a36f59fa7b72c77730b5",
+      "final_artifact_verified": true,
+      "fingerprint": "704c2acc5945b70c01058b4b029e0b170793de032c7852855fc5efe6acfb9366",
+      "fingerprint_independently_recomputed_for_source_and_final": true,
+      "node_executed": "22.23.4",
+      "suite": {
+        "passed": 1992,
+        "failed": 0,
+        "skipped": 0,
+        "flaky": 0
+      },
+      "final_evidence_mode": "reused; only same-run TEST-REGISTER metadata changed after executed source",
+      "final_checks": {
+        "Workers Builds: coursefinder-pilot": "success",
+        "build-and-smoke": "success",
+        "test-evidence": "success",
+        "prod-parity-round-trip": "success",
+        "deadline-semantics": "success"
+      },
+      "final_candidate_contracts_passed": 23,
+      "readiness_artifact": 13546433797,
+      "readiness_artifact_zip_sha256": "33da1c762aeddd28bae8d05d2e5580ce65f49929d9f351c58deaed2c4c481b14",
+      "uploaded_readiness": "WAITING at22:45:35 solely because sibling build-and-smoke was then pending; preserve historical report, do not rewrite it.",
+      "reconciled_readiness": {
+        "schema": 1,
+        "pr": 897,
+        "sha": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+        "verdict": "READY",
+        "evidenceValid": true,
+        "evidenceKind": "reused",
+        "evidenceSource": "run 42306883983",
+        "fingerprint": "704c2acc5945b70c01058b4b029e0b170793de032c7852855fc5efe6acfb9366",
+        "parityValid": true,
+        "parityOutcome": "pass",
+        "suite": {
+          "total": 1992,
+          "passed": 1992,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        },
+        "requiredChecks": [
+          {
+            "name": "Workers Builds: coursefinder-pilot",
+            "state": "pass",
+            "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/runs/128198512951"
+          },
+          {
+            "name": "build-and-smoke",
+            "state": "pass",
+            "url": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306884616/job/128198359084"
+          },
+          {
+            "name": "release-history-contract",
+            "state": "not-applicable",
+            "url": null
+          },
+          {
+            "name": "isolated-postgres",
+            "state": "not-applicable",
+            "url": null
+          }
+        ],
+        "finalChecks": {
+          "result": "pass"
+        },
+        "blockers": [],
+        "waitingOn": [],
+        "note": "Release readiness is development evidence only. Production acceptance (live version, guarded hashes, Worker and UI behaviour, admission results) is recorded separately against this evidence reference. The merge stays subject to the established release gates.",
+        "observed_at": "2026-11-06T22:52:28.918Z"
+      },
+      "production_acceptance": false
+    },
+    "account_owner_action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs.",
+    "handover_inventory": {
+      "recorded_at": "2026-11-06T22:59:25Z",
+      "production_operations_initiated": 0,
+      "ownership_reservations": 0,
+      "active_github_workflows": [],
+      "historical_queued_run": 34749286102,
+      "historical_queued_job_count": 0,
+      "local_fixture": "Task-owned no-network PostgreSQL fixture container studysearch-alert-fixture-2136 stopped and removed after completion; no local fixture process remains.",
+      "remote_branch": {
+        "name": "codex/iq00112-alert-collector-acceptance",
+        "sha": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+        "pr": 897,
+        "draft": true
+      },
+      "uncommitted": "No tracked changes in fixture worktree; untracked node_modules symlink and retained local logs/evidence are not required for successor recovery.",
+      "agents": "Both isolated workstreams completed; no active child agent.",
+      "worktrees": [
+        {
+          "worktree": "/workspace/delivery-pilot",
+          "HEAD": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+          "branch": "refs/heads/delivery895-final-register-preservation",
+          "status": []
+        },
+        {
+          "worktree": "/workspace/alerts-2136/fixture-worktree",
+          "HEAD": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
+          "branch": "refs/heads/codex/iq00112-alert-collector-acceptance",
+          "status": [
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/alerts-2136/locator-source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/alerts-2136/source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/delivery-893",
+          "HEAD": "99e00249cf2698ef384f724a6649ce901082adc4",
+          "branch": "refs/heads/delivery-893-release",
+          "status": [
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/delivery-894",
+          "HEAD": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+          "detached": true,
+          "status": [
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/delivery-p0-deadline",
+          "HEAD": "bad902ad387115004d12b629b34ab21b5266bb2c",
+          "branch": "refs/heads/delivery-p0-deadline-382",
+          "status": [
+            "?? deadline-cli-generation.json",
+            "?? deadline-enabled-review-validation.json",
+            "?? deadline-local-validation.json",
+            "?? deadline-pg17-enabled-review-validation.log",
+            "?? deadline-pg17-validation.json",
+            "?? deadline-pg17-validation.log",
+            "?? deadline-review-paste-refusal.log",
+            "?? deadline-s233-validation.log",
+            "?? node_modules"
+          ]
+        },
+        {
+          "worktree": "/workspace/repair-ownership-followup",
+          "HEAD": "c13b516d0383067a734a30077da3ddf3e66e201a",
+          "branch": "refs/heads/ws382-screenshot-guard",
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-1702/review-context",
+          "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-1800/review-jobs",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-1902/review-consumers",
+          "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-2000/reader-source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/resume-2104/reader-source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": true,
+          "status": []
+        },
+        {
+          "worktree": "/workspace/review-895-readonly",
+          "HEAD": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+          "branch": "refs/heads/ws382-safe-dispatch-inputs",
+          "status": []
+        }
+      ]
+    },
+    "final_production_snapshot": {
+      "snapshot": {
+        "observed_at": "2026-11-06 22:57:03.351664+00",
+        "counts": {
+          "sent": 19,
+          "failed": 0,
+          "overdue": 80,
+          "pending": 83,
+          "sending": 0,
+          "duplicates": 0,
+          "live_leases": 0,
+          "unattempted": 83,
+          "expired_leases": 0,
+          "latest_sent_at": "2026-11-03T07:00:29.670325+00:00"
+        },
+        "original79": [
+          {
+            "id": 21,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "5c5549f5-dda9-485f-8da7-791063cd3af4",
+            "severity": "info",
+            "check_key": "cron:failed:search-refresh-requested",
+            "created_at": "2026-11-03T07:20:00.301193+00:00",
+            "dedupe_key": "5c5549f5-dda9-485f-8da7-791063cd3af4:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 22,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "198de748-616e-4840-a8fa-d212dcb4897a",
+            "severity": "critical",
+            "check_key": "cron:failed:provider-identity-check",
+            "created_at": "2026-11-03T07:40:00.560255+00:00",
+            "dedupe_key": "198de748-616e-4840-a8fa-d212dcb4897a:raised",
+            "lease_until": null
+          },
+          {
+            "id": 23,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-03T09:50:00.583384+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:raised",
+            "lease_until": null
+          },
+          {
+            "id": 24,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "07f2ca7d-7b2c-4208-af03-30118bba1d00",
+            "severity": "critical",
+            "check_key": "budgets:openrouter_daily",
+            "created_at": "2026-11-03T15:20:00.419187+00:00",
+            "dedupe_key": "07f2ca7d-7b2c-4208-af03-30118bba1d00:reminder:202611031520",
+            "lease_until": null
+          },
+          {
+            "id": 25,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "07f2ca7d-7b2c-4208-af03-30118bba1d00",
+            "severity": "info",
+            "check_key": "budgets:openrouter_daily",
+            "created_at": "2026-11-03T18:50:00.348194+00:00",
+            "dedupe_key": "07f2ca7d-7b2c-4208-af03-30118bba1d00:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 26,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-03T19:00:00.505889+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:raised",
+            "lease_until": null
+          },
+          {
+            "id": 27,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "1631b74c-51c6-4185-98c5-fc715c9f3dff",
+            "severity": "critical",
+            "check_key": "cron:failed:scholarship-coverage-classify",
+            "created_at": "2026-11-03T20:00:00.337188+00:00",
+            "dedupe_key": "1631b74c-51c6-4185-98c5-fc715c9f3dff:raised",
+            "lease_until": null
+          },
+          {
+            "id": 28,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "1631b74c-51c6-4185-98c5-fc715c9f3dff",
+            "severity": "info",
+            "check_key": "cron:failed:scholarship-coverage-classify",
+            "created_at": "2026-11-03T21:40:00.524189+00:00",
+            "dedupe_key": "1631b74c-51c6-4185-98c5-fc715c9f3dff:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 29,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-03T22:00:00.286524+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611032200",
+            "lease_until": null
+          },
+          {
+            "id": 30,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "27f15049-89d8-462d-b5a8-9e0dd00d110c",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-03T23:10:00.407182+00:00",
+            "dedupe_key": "27f15049-89d8-462d-b5a8-9e0dd00d110c:raised",
+            "lease_until": null
+          },
+          {
+            "id": 31,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "27f15049-89d8-462d-b5a8-9e0dd00d110c",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-03T23:50:00.349853+00:00",
+            "dedupe_key": "27f15049-89d8-462d-b5a8-9e0dd00d110c:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 32,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T00:10:00.289214+00:00",
+            "dedupe_key": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3:raised",
+            "lease_until": null
+          },
+          {
+            "id": 33,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T01:10:00.496802+00:00",
+            "dedupe_key": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3:raised",
+            "lease_until": null
+          },
+          {
+            "id": 34,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T02:50:00.545286+00:00",
+            "dedupe_key": "d648b8bd-1ddf-4c4d-8626-f474f78ee5b3:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 35,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T04:10:00.577632+00:00",
+            "dedupe_key": "f7e7d7e5-5c22-4d19-a92d-42a6199ed6d3:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 36,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "f947b0cd-a0ff-4240-8654-693eee21eb8d",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T05:10:00.537204+00:00",
+            "dedupe_key": "f947b0cd-a0ff-4240-8654-693eee21eb8d:raised",
+            "lease_until": null
+          },
+          {
+            "id": 37,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "ef3d14e4-848f-453f-8d03-32299424410e",
+            "severity": "info",
+            "check_key": "cron:failed:coverage-admit",
+            "created_at": "2026-11-04T05:20:00.5192+00:00",
+            "dedupe_key": "ef3d14e4-848f-453f-8d03-32299424410e:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 38,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T06:20:00.44151+00:00",
+            "dedupe_key": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b:raised",
+            "lease_until": null
+          },
+          {
+            "id": 39,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-04T07:10:00.435438+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611040710",
+            "lease_until": null
+          },
+          {
+            "id": 40,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T07:50:00.369217+00:00",
+            "dedupe_key": "39e639d8-5dcb-4b5d-a521-02e3d8e8708b:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 41,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "f947b0cd-a0ff-4240-8654-693eee21eb8d",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T08:50:00.376296+00:00",
+            "dedupe_key": "f947b0cd-a0ff-4240-8654-693eee21eb8d:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 42,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "198de748-616e-4840-a8fa-d212dcb4897a",
+            "severity": "info",
+            "check_key": "cron:failed:provider-identity-check",
+            "created_at": "2026-11-04T09:20:00.444545+00:00",
+            "dedupe_key": "198de748-616e-4840-a8fa-d212dcb4897a:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 43,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-04T10:00:00.455514+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611041000",
+            "lease_until": null
+          },
+          {
+            "id": 44,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "3b200269-66e1-4115-9a6d-960530691da5",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T10:10:00.375528+00:00",
+            "dedupe_key": "3b200269-66e1-4115-9a6d-960530691da5:raised",
+            "lease_until": null
+          },
+          {
+            "id": 45,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "ee6165b5-2330-425b-9eef-41fb779b7d5c",
+            "severity": "info",
+            "check_key": "cron:failed:course-relink",
+            "created_at": "2026-11-04T11:30:00.459967+00:00",
+            "dedupe_key": "ee6165b5-2330-425b-9eef-41fb779b7d5c:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 46,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+            "severity": "critical",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-04T12:00:00.346187+00:00",
+            "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:raised",
+            "lease_until": null
+          },
+          {
+            "id": 47,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c25db680-a9ef-47cd-a20c-a32d81c514b5",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T12:10:00.423621+00:00",
+            "dedupe_key": "c25db680-a9ef-47cd-a20c-a32d81c514b5:raised",
+            "lease_until": null
+          },
+          {
+            "id": 48,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c25db680-a9ef-47cd-a20c-a32d81c514b5",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T12:50:00.431043+00:00",
+            "dedupe_key": "c25db680-a9ef-47cd-a20c-a32d81c514b5:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 49,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "72952e05-511a-4105-824e-a37d11831646",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T14:10:00.525201+00:00",
+            "dedupe_key": "72952e05-511a-4105-824e-a37d11831646:raised",
+            "lease_until": null
+          },
+          {
+            "id": 50,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "72952e05-511a-4105-824e-a37d11831646",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T15:50:00.3342+00:00",
+            "dedupe_key": "72952e05-511a-4105-824e-a37d11831646:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 51,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "3b200269-66e1-4115-9a6d-960530691da5",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T17:40:00.42973+00:00",
+            "dedupe_key": "3b200269-66e1-4115-9a6d-960530691da5:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 52,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "417d84f0-d77c-477c-8c12-adee501aac18",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T18:10:00.370192+00:00",
+            "dedupe_key": "417d84f0-d77c-477c-8c12-adee501aac18:raised",
+            "lease_until": null
+          },
+          {
+            "id": 53,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-04T19:20:00.3882+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611041920",
+            "lease_until": null
+          },
+          {
+            "id": 54,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "1bc119fb-57d0-420b-a90d-50e695ec7272",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-04T19:50:00.4097+00:00",
+            "dedupe_key": "1bc119fb-57d0-420b-a90d-50e695ec7272:raised",
+            "lease_until": null
+          },
+          {
+            "id": 55,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "417d84f0-d77c-477c-8c12-adee501aac18",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-04T20:50:00.349209+00:00",
+            "dedupe_key": "417d84f0-d77c-477c-8c12-adee501aac18:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 56,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-04T22:00:00.556191+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611042200",
+            "lease_until": null
+          },
+          {
+            "id": 57,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+            "severity": "critical",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-05T00:00:00.359188+00:00",
+            "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611050000",
+            "lease_until": null
+          },
+          {
+            "id": 58,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-05T03:10:00.583194+00:00",
+            "dedupe_key": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb:raised",
+            "lease_until": null
+          },
+          {
+            "id": 59,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-05T04:50:00.394711+00:00",
+            "dedupe_key": "657b26d6-5a3a-4986-a46a-d18bfb8f76eb:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 60,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-05T07:20:00.420745+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611050720",
+            "lease_until": null
+          },
+          {
+            "id": 61,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "1bc119fb-57d0-420b-a90d-50e695ec7272",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T07:40:00.519216+00:00",
+            "dedupe_key": "1bc119fb-57d0-420b-a90d-50e695ec7272:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 62,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T09:50:00.3697+00:00",
+            "dedupe_key": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a:raised",
+            "lease_until": null
+          },
+          {
+            "id": 63,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-05T10:10:00.416152+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611051010",
+            "lease_until": null
+          },
+          {
+            "id": 64,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T11:40:01.327716+00:00",
+            "dedupe_key": "b4f978e6-525e-4f08-a1f9-2bba41ecb88a:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 65,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+            "severity": "critical",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-05T12:00:00.475778+00:00",
+            "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611051200",
+            "lease_until": null
+          },
+          {
+            "id": 66,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "3cae3643-6fe0-4ebb-a134-9666f081d71d",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-05T13:10:00.409205+00:00",
+            "dedupe_key": "3cae3643-6fe0-4ebb-a134-9666f081d71d:raised",
+            "lease_until": null
+          },
+          {
+            "id": 67,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367",
+            "severity": "critical",
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-05T13:50:00.65539+00:00",
+            "dedupe_key": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367:raised",
+            "lease_until": null
+          },
+          {
+            "id": 68,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367",
+            "severity": "info",
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-05T14:10:00.31318+00:00",
+            "dedupe_key": "fc74ee8a-3da3-4227-bf61-8fa3cb8b5367:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 69,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "3cae3643-6fe0-4ebb-a134-9666f081d71d",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-05T14:50:00.583187+00:00",
+            "dedupe_key": "3cae3643-6fe0-4ebb-a134-9666f081d71d:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 70,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "d4d1a355-44dc-4fcd-8724-929aaf5543a3",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T16:10:00.48722+00:00",
+            "dedupe_key": "d4d1a355-44dc-4fcd-8724-929aaf5543a3:raised",
+            "lease_until": null
+          },
+          {
+            "id": 71,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "ef818ce1-7e63-48e3-8393-dcb89abe45c2",
+            "severity": "critical",
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-05T16:50:00.369257+00:00",
+            "dedupe_key": "ef818ce1-7e63-48e3-8393-dcb89abe45c2:raised",
+            "lease_until": null
+          },
+          {
+            "id": 72,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-05T19:30:00.386197+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611051930",
+            "lease_until": null
+          },
+          {
+            "id": 73,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "d4d1a355-44dc-4fcd-8724-929aaf5543a3",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T19:50:00.379206+00:00",
+            "dedupe_key": "d4d1a355-44dc-4fcd-8724-929aaf5543a3:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 74,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-05T22:20:00.604233+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611052220",
+            "lease_until": null
+          },
+          {
+            "id": 75,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "428bd984-a936-4d6d-bdea-a9bc014a2e08",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T22:20:00.604233+00:00",
+            "dedupe_key": "428bd984-a936-4d6d-bdea-a9bc014a2e08:raised",
+            "lease_until": null
+          },
+          {
+            "id": 76,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "428bd984-a936-4d6d-bdea-a9bc014a2e08",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-05T23:40:00.425204+00:00",
+            "dedupe_key": "428bd984-a936-4d6d-bdea-a9bc014a2e08:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 77,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+            "severity": "critical",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-06T00:10:00.30319+00:00",
+            "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611060010",
+            "lease_until": null
+          },
+          {
+            "id": 78,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "4c8685a5-e8af-4f85-946b-ca8541673ff6",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T01:50:00.385185+00:00",
+            "dedupe_key": "4c8685a5-e8af-4f85-946b-ca8541673ff6:raised",
+            "lease_until": null
+          },
+          {
+            "id": 79,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T03:10:00.362185+00:00",
+            "dedupe_key": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a:raised",
+            "lease_until": null
+          },
+          {
+            "id": 80,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T03:50:00.483018+00:00",
+            "dedupe_key": "a3d4ae40-77ab-4fca-abc3-b9aefc1bf73a:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 81,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "ef818ce1-7e63-48e3-8393-dcb89abe45c2",
+            "severity": "critical",
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-06T04:50:00.456631+00:00",
+            "dedupe_key": "ef818ce1-7e63-48e3-8393-dcb89abe45c2:reminder:202611060450",
+            "lease_until": null
+          },
+          {
+            "id": 82,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-06T07:30:00.66921+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611060730",
+            "lease_until": null
+          },
+          {
+            "id": 83,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "4c8685a5-e8af-4f85-946b-ca8541673ff6",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T07:40:00.525599+00:00",
+            "dedupe_key": "4c8685a5-e8af-4f85-946b-ca8541673ff6:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 84,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+            "severity": "critical",
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-06T10:30:00.40161+00:00",
+            "dedupe_key": "67963618-43e2-4a46-9b92-c544eb4cf773:reminder:202611061030",
+            "lease_until": null
+          },
+          {
+            "id": 85,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+            "severity": "critical",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-06T12:10:00.434167+00:00",
+            "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:reminder:202611061210",
+            "lease_until": null
+          },
+          {
+            "id": 86,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "bf98d368-8c67-4574-8d53-8f1b1dee061c",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T12:10:00.434167+00:00",
+            "dedupe_key": "bf98d368-8c67-4574-8d53-8f1b1dee061c:raised",
+            "lease_until": null
+          },
+          {
+            "id": 87,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "ef818ce1-7e63-48e3-8393-dcb89abe45c2",
+            "severity": "info",
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-06T12:10:00.434167+00:00",
+            "dedupe_key": "ef818ce1-7e63-48e3-8393-dcb89abe45c2:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 88,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "bbd847d2-a3d3-4826-8965-25dd0ea5a938",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T12:20:00.37531+00:00",
+            "dedupe_key": "bbd847d2-a3d3-4826-8965-25dd0ea5a938:raised",
+            "lease_until": null
+          },
+          {
+            "id": 89,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68",
+            "severity": "info",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-06T12:40:00.365711+00:00",
+            "dedupe_key": "c22f0d9e-d5cd-4fd6-bb72-9d5a3752ce68:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 90,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "bf98d368-8c67-4574-8d53-8f1b1dee061c",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T12:50:00.590152+00:00",
+            "dedupe_key": "bf98d368-8c67-4574-8d53-8f1b1dee061c:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 91,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "ccdb1a69-4407-4beb-b1c3-40c7f1720f96",
+            "severity": "critical",
+            "check_key": "coverage_queues:discover",
+            "created_at": "2026-11-06T13:20:00.404574+00:00",
+            "dedupe_key": "ccdb1a69-4407-4beb-b1c3-40c7f1720f96:raised",
+            "lease_until": null
+          },
+          {
+            "id": 92,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T14:10:00.344243+00:00",
+            "dedupe_key": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b:raised",
+            "lease_until": null
+          },
+          {
+            "id": 93,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "7b12ce2a-7e99-43e1-9312-ba2993d1336e",
+            "severity": "critical",
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-06T14:20:00.412183+00:00",
+            "dedupe_key": "7b12ce2a-7e99-43e1-9312-ba2993d1336e:raised",
+            "lease_until": null
+          },
+          {
+            "id": 94,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T14:50:00.616366+00:00",
+            "dedupe_key": "7c8e5f98-07bf-4517-b3db-19fa8fb0ec7b:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 95,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "bbd847d2-a3d3-4826-8965-25dd0ea5a938",
+            "severity": "info",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T15:10:00.32366+00:00",
+            "dedupe_key": "bbd847d2-a3d3-4826-8965-25dd0ea5a938:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 96,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "4c00b7ff-872d-4d60-829d-b0c7722b2bcd",
+            "severity": "critical",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T16:10:00.482841+00:00",
+            "dedupe_key": "4c00b7ff-872d-4d60-829d-b0c7722b2bcd:raised",
+            "lease_until": null
+          },
+          {
+            "id": 97,
+            "kind": "recovered",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "4c00b7ff-872d-4d60-829d-b0c7722b2bcd",
+            "severity": "info",
+            "check_key": "queue_watch:companion_read",
+            "created_at": "2026-11-06T16:50:00.368196+00:00",
+            "dedupe_key": "4c00b7ff-872d-4d60-829d-b0c7722b2bcd:recovered",
+            "lease_until": null
+          },
+          {
+            "id": 98,
+            "kind": "raised",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "cffa4207-7368-4f9a-a070-31b665f0b9e6",
+            "severity": "critical",
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T17:20:00.381945+00:00",
+            "dedupe_key": "cffa4207-7368-4f9a-a070-31b665f0b9e6:raised",
+            "lease_until": null
+          },
+          {
+            "id": 99,
+            "kind": "reminder",
+            "status": "pending",
+            "sent_at": null,
+            "attempts": 0,
+            "issue_id": "c0d59b73-f950-4b64-931a-d97ebea1af05",
+            "severity": "critical",
+            "check_key": "budgets:firecrawl",
+            "created_at": "2026-11-06T19:40:00.295076+00:00",
+            "dedupe_key": "c0d59b73-f950-4b64-931a-d97ebea1af05:reminder:202611061940",
+            "lease_until": null
+          }
+        ],
+        "later_events": [
+          {
+            "id": 100,
+            "kind": "recovered",
+            "status": "pending",
+            "attempts": 0,
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T20:20:00.477185+00:00"
+          },
+          {
+            "id": 101,
+            "kind": "recovered",
+            "status": "pending",
+            "attempts": 0,
+            "check_key": "queue_watch:course_page_search",
+            "created_at": "2026-11-06T22:10:00.432227+00:00"
+          },
+          {
+            "id": 102,
+            "kind": "reminder",
+            "status": "pending",
+            "attempts": 0,
+            "check_key": "alerts:not_collected",
+            "created_at": "2026-11-06T22:30:00.403191+00:00"
+          },
+          {
+            "id": 103,
+            "kind": "raised",
+            "status": "pending",
+            "attempts": 0,
+            "check_key": "queue_watch:course_list_read",
+            "created_at": "2026-11-06T22:40:00.422902+00:00"
+          }
+        ],
+        "exact_three": [
+          {
+            "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+            "status": "active",
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+            "status": "active",
+            "application_deadline": "2027-02-15"
+          },
+          {
+            "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+            "status": "active",
+            "application_deadline": "2026-10-12"
+          }
+        ],
+        "migration_summary": {
+          "head": "20261106400000",
+          "count": 1791
+        }
+      },
+      "preflight": {
+        "observed_at": "2026-11-06 22:56:14.384041+00",
+        "failed_last15": 0,
+        "admission": [
+          {
+            "jobname": "coverage-admit-intakes",
+            "prior_seconds": 12.800075,
+            "recent_seconds": 1.086028
+          },
+          {
+            "jobname": "adapter-overwrite",
+            "prior_seconds": 15.364271666666667,
+            "recent_seconds": 0.787332
+          },
+          {
+            "jobname": "coverage-admit",
+            "prior_seconds": 11.8072818,
+            "recent_seconds": 0.8608205
+          }
+        ]
+      },
+      "original79_identity_comparison": {
+        "equal_to_before": true,
+        "compared_fields": [
+          "id",
+          "issue_id",
+          "check_key",
+          "kind",
+          "severity",
+          "dedupe_key",
+          "created_at"
+        ],
+        "original_identity_sha256": "2c5f3266d93988f3191ffc1fa5ef4091819adbb27e043db2fd10f76dbccc9a16"
+      }
+    },
+    "latest_events": [
+      {
+        "id": 102,
+        "issue_id": "67963618-43e2-4a46-9b92-c544eb4cf773",
+        "check_key": "alerts:not_collected",
+        "kind": "reminder",
+        "severity": "critical",
+        "created_at": "2026-11-06 22:30:00.403191+00",
+        "resolved_at": null,
+        "issue_severity": "critical"
+      },
+      {
+        "id": 103,
+        "issue_id": "573dc634-b4dd-4739-a1de-2c1f6017249a",
+        "check_key": "queue_watch:course_list_read",
+        "kind": "raised",
+        "severity": "critical",
+        "created_at": "2026-11-06 22:40:00.422902+00",
+        "resolved_at": null,
+        "issue_severity": "critical"
+      }
+    ],
+    "watchdog_latest_inventory": {
+      "read_at": "2026-11-06T22:59:25Z",
+      "latest_run": 42262985796,
+      "created_at": "2026-11-06T17:35:10Z",
+      "conclusion": "failure",
+      "note": "Latest returned workflow-specific inventory still contains original confirmed failed run; no later successful execution. Hourly workflow configuration does not prove execution or monitoring."
     }
   }
 }

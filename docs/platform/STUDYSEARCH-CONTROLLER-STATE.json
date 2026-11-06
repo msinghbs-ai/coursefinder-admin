@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T223117Z",
-  "created_at": "2026-11-06T22:31:17Z",
+  "checkpoint_id": "CP-382-20261106T225925Z",
+  "created_at": "2026-11-06T22:59:25Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-alert-recovery-20261106T213611Z",
-  "trigger": "ci_trigger_repair_and_before_after_preservation_verified",
+  "trigger": "agent_completion_verified_engineering_external_account_blocker_and_bounded_session_handover",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -17,7 +17,7 @@
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_alert_recovery_and_isolated_fixture_engineering",
+    "mode": "reconciliation_production_stopped_read_only_cycle_complete",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -2673,9 +2673,9 @@
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
       "owner": "Codex root live/scheduler/account/canonical evidence; alerts_protocol_review isolated fixture engineering",
       "branch": "codex/iq00112-alert-collector-acceptance",
-      "commit": "28a6a16c9182b209e7c11c25905556fcc7e0f1ab",
+      "commit": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
       "worktree": "/workspace/alerts-2136/fixture-worktree",
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         "tests/fixtures/integration-queue/run.sh",
         "tests/fixtures/integration-queue/fixtures.sql",
@@ -2698,14 +2698,43 @@
         "WS-382-ADOPTION"
       ],
       "blockers": [
-        "Actual accountfencing and currentexecution atomicacceptance remain blocked; existing externalcollector absent from accessiblecurrentaccount inventory, broaderowneraccount state unverified"
+        "Production recovery requires actual D382 account fencing/current exclusive authority and access to original Claude scheduler task. Current task state/failure audit and actual delivery/receipt unavailable."
       ],
       "test_evidence_ids": [
         "EV-ALERTS-2136-START",
         "EV-ALERTS-2136-LIVE",
-        "EV-ALERTS-2136-LOCAL"
+        "EV-ALERTS-2136-LOCAL",
+        "EV-ALERTS-2136-FINAL",
+        "EV-ALERT-LOCATOR-2236"
       ],
-      "completion_summary": "Independentreviewandfour-fileimplementationcomplete; rootgeneratedPilotregister. GenuinePG116/38 andqualifiedtarget32pass. PR897initialCIparityfailsold895path; rootinheritscompleted893fix next. Nooperationalresolution/delivery orsourceproductionfunctionchange."
+      "completion_summary": "Bounded engineering completed: six-file test/CI/register PR897 qualified at33d7ef91. Fresh executed Node22 full suite1992/0/0/0, genuine PG116/38, actual SQL negative exits3, local target32/0/0/0, final evidence reuse and all required checks independently verified. Operational acceptance is blocked, not complete; no actual delivery or watchdog PASS."
+    },
+    {
+      "id": "WS-ALERT-LOCATOR-2236",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+      "owner": "Codex collector_locator isolated read-only agent",
+      "branch": null,
+      "commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "worktree": "/workspace/alerts-2136/locator-source",
+      "state": "completed",
+      "owned_paths": [
+        "/workspace/alerts-2136/collector-location-evidence.json"
+      ],
+      "owned_functions": [],
+      "owned_migrations": [],
+      "acceptance_criteria": [
+        "Locate original D12 task/vendor/account and schedule from immutable GitHub references",
+        "Separate historical configuration from current unverified account state",
+        "No source, production, scheduler or notification writes"
+      ],
+      "dependencies": [
+        "WS-ALERTS-2136"
+      ],
+      "blockers": [],
+      "test_evidence_ids": [
+        "EV-ALERT-LOCATOR-2236"
+      ],
+      "completion_summary": "Located exact original collector task identity, vendor/account locator, schedule and nonsecret destination authority through two durable GitHub sources. No source/tests/production/scheduler/notification mutations. Current account access and runtime failure history remain the real resource blocker."
     }
   ],
   "prs": [
@@ -3078,26 +3107,29 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 897,
       "branch": "codex/iq00112-alert-collector-acceptance",
-      "commit": "28a6a16c9182b209e7c11c25905556fcc7e0f1ab",
+      "commit": "33d7ef913882a2ede805bf891f879be55ec3a3a6",
       "state": "open",
       "draft": true,
       "owner": "Codex isolated test-only engineering",
       "workstream_id": "WS-ALERTS-2136",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
         42304446495,
         42304446518,
-        42304446501
+        42304446501,
+        42306883983,
+        42306883870,
+        42306884616
       ],
       "release_gates": [
-        "Test-onlydraft; initialbase895willretargetverified893withoutchangingreleaseheads",
-        "GenuinePGcollectorfixtureandfullNode22evidence required",
-        "Noauto-merge/productioncutover; existingauthority/fencing/receipt/independentwatchdoggatesremain"
+        "Test/CI-only draft against893201b; all actual required checks and qualified bundle pass",
+        "No production-function or migration change; do not deploy this as an extra Worker release",
+        "Existing895→896→894→893 authority/dependency/migration gates still apply; real delivery/receipt and independent watchdog PASS required for incident closure"
       ],
       "blockers": [
-        "ActualD12collectorowner/access, configured-destinationreceipt andinstalledaccountfencing/currentactivecontrollerauthority remain unavailable"
+        "Actual account fencing/current exclusive authority, original Claude task runtime access and destination delivery/receipt remain unavailable"
       ],
-      "next_action": "Actual required build now runs for stacked PR bases. Verify fresh source28a6 full Node22/PG/build checks, download/hash/validate bundle and commit same-run register; no production cutover/incident closure on CI."
+      "next_action": "Preserve qualified source/final bundles; no unchanged rerun. Integrate only through actual controller ownership/release gates. Original Claude task account recovery remains required for operational outcome."
     }
   ],
   "releases": [
@@ -3997,12 +4029,12 @@
     },
     {
       "id": "M-ALERT-COLLECTOR",
-      "workstream_id": "WS-PROVIDER",
+      "workstream_id": "WS-ALERTS-2136",
       "name": "Current alert outbox and deadline counts",
       "value": {
-        "pending": 81,
-        "unattempted_pending": 81,
-        "waiting_beyond_deadline": 79,
+        "pending": 83,
+        "unattempted_pending": 83,
+        "waiting_beyond_deadline": 80,
         "sending": 0,
         "failed": 0,
         "live_leases": 0,
@@ -4019,13 +4051,19 @@
           "active_events": 16,
           "active_conditions": 4
         },
-        "current_active_condition_count_not_refreshed": true
+        "current_active_condition_count_not_refreshed": true,
+        "duplicate_dedupe_keys": 0,
+        "pending_at2218": 81,
+        "new_events102_103": [
+          "alerts:not_collected reminder",
+          "queue_watch:course_list_read raised"
+        ]
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T22:18:04.052228Z",
+      "measured_at": "2026-11-06T22:57:03.351664Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-ALERTS-2136-LIVE"
+        "EV-ALERTS-2136-FINAL-LIVE"
       ]
     },
     {
@@ -4533,8 +4571,8 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "blocked",
-      "summary": "External collection is not executing before claim:81pending/allunattempted/79overdue at22:18; original79 IDs21–99 identity unchanged. Pending grew80→81 from a real recovery event101, not duplicate/discard. Latest recorded confirmation03Nov07:00:29Z; no real delivery or independent watchdog PASS.",
-      "next_action": "Locate/restoreoriginalD12hourlyWorkqueuealertstaskwithunchangedpush/e-mailrecipientunderactualguardedSQLownership/fencing; confirmonlyrealtransportacceptedIDs, verifyreceipt/backlog/independentwatchdogPASS. PR897qualifiesprotocolbutcannotresolveincidentonCI.",
+      "summary": "P1 collection stops before claim:83 pending/all unattempted/80 overdue at22:57 UTC; original79 IDs unchanged. Original collector located: Claude trig_01Eo7QrJXR24e774gNzLUvTi in Platform Admin account, :59UTC. Current runtime failure audit/access unavailable; no real delivery, backlog reduction or independent watchdog PASS.",
+      "next_action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs.",
       "evidence_ids": [
         "EV-JOBS",
         "EV-ALERT-COLLECTOR",
@@ -4544,7 +4582,10 @@
         "EV-READER-2000-OPS",
         "EV-READER-2104-OPS",
         "EV-ALERTS-2136-LIVE",
-        "EV-ALERTS-2136-LOCAL"
+        "EV-ALERTS-2136-LOCAL",
+        "EV-ALERTS-2136-FINAL",
+        "EV-ALERT-LOCATOR-2236",
+        "EV-ALERTS-2136-FINAL-LIVE"
       ]
     },
     {
@@ -4949,18 +4990,36 @@
     },
     {
       "id": "B-ALERT-COLLECTOR-OWNER",
-      "summary": "OriginalD12Workqueuealertstaskabsentfromcompletecurrentaccountinventory; originaltaskID/owner/history anddeliveryreceipt unavailable. Its take/confirm areproductionwriters requiringactualguardedSQLfencing/currentauthority, notreporterexception.",
-      "owner": "OriginalD12scheduler/account owner with PlatformAdmin authority; existingD382accountowners",
+      "summary": "Original collector ID/vendor/account are now located from GitHub. Current Claude task enablement/run history/credential binding and recipient receipt are inaccessible; no Claude scheduler connector is available. Its take/confirm writes require installed D382 fencing/current authority.",
+      "owner": "Platform Admin's Claude account owner; existing GitHub/Cloudflare/Supabase account owners for D382",
       "workstream_ids": [
         "WS-ALERTS-2136"
       ],
-      "next_action": "Supply/restoreoriginaltaskunderexistingD382controlledaccountbootstrap, preservingapprovedrecipientandnotificationchannels; provideactualdeliveryreceipt/runidentity. No newduplicatecollector, bulkmark, watchdogdisable orunfencedSQL.",
+      "next_action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs.",
       "evidence_ids": [
-        "EV-ALERTS-2136-LIVE"
+        "EV-ALERT-LOCATOR-2236",
+        "EV-ALERTS-2136-FINAL"
       ]
     }
   ],
   "next_actions": [
+    {
+      "id": "NA-ALERT-COLLECTOR",
+      "workstream_id": "WS-ALERTS-2136",
+      "action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs.",
+      "owner": "Platform Admin's Claude account owner under existing D382 controlled bootstrap",
+      "depends_on": [
+        "NA-GATE-895",
+        "NA-OWNERSHIP"
+      ],
+      "verification_required": [
+        "Current task execution/failure audit and original destination preserved",
+        "Actual production fencing denial and authorised recovery tests",
+        "Atomic current execution authority and no conflicting operation",
+        "Real alert delivery/receipt, preserved event IDs, backlog reduction and subsequent independent watchdog PASS"
+      ],
+      "safe_without_production_write": false
+    },
     {
       "id": "NA-COHORT-CONTEXT",
       "workstream_id": "WS-P0-DEADLINE-COHORT-REVIEW",
@@ -5513,12 +5572,33 @@
       "kind": "genuine_isolated_postgres_and_local_contract_evidence_with_ci_failure",
       "observed_at": "2026-11-06T22:04:43Z",
       "summary": "LocalPG17.6genuine116assertions/38collectorchecks; inducedSQLfailureexits3/sourcebytesrestored. Qualifiedlocal32/0/0/0. PR897initial43d84d7aCIparityfailureprovesold895basepredatescompleted893fix; nofalsegreen. RetargetownPRtocompleted893dependency; unchangedreleaseheads, realdeliverynotproven."
+    },
+    {
+      "id": "EV-ALERT-LOCATOR-2236",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json#/alert_collector_recovery_2136/collector_resource",
+      "kind": "immutable_github_original_collector_identity_and_account_boundary",
+      "observed_at": "2026-11-06T22:39:08.601939Z",
+      "summary": "Two GitHub sources identify exact Claude task trig_01Eo7QrJXR24e774gNzLUvTi, Platform Admin Claude account,59 * * * * UTC, original push/e-mail. Different-vendor OpenAI task absence proves no Claude deletion/disablement; actual current account audit remains inaccessible."
+    },
+    {
+      "id": "EV-ALERTS-2136-FINAL",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json#/alert_collector_recovery_2136/qualified_final_ci",
+      "kind": "executed_node22_postgres_and_immutable_final_bundle_verification",
+      "observed_at": "2026-11-06T22:55:16Z",
+      "summary": "PR897 final33d7/base893201b all required checks success. Source28a6 executed1992/0/0/0 Node22; PG116/38 and SQL negative exit3; final23 contracts pass. Artifact13546872455 ZIP SHA1aebf1b9 validated, unchanged fingerprint704c2acc independently recomputed, final metadata reuse valid. Uploaded readiness initially waited for build; fresh same governed library/current checks yields development READY only. No release/production acceptance."
+    },
+    {
+      "id": "EV-ALERTS-2136-FINAL-LIVE",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json#/alert_collector_recovery_2136/final_production_snapshot",
+      "kind": "bounded_final_read_only_outbox_original_identity_exactP0_and_migration_summary",
+      "observed_at": "2026-11-06T22:57:03.351664Z",
+      "summary": "83pending/allunattempted/80overdue, sent19unchanged/no leases/failed/duplicates. Original79 identity fields exactly match before snapshot. New102collectionreminder/103criticalcourse-listqueuewatch unresolved. Three original wrong deadlines remain active/unchanged. Migration summary1791/head20261106400000; full per-version comparison remains21:16. No new delivery/backlog reduction/watchdogPASS."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Published own PR897 head28a6a16c with the required unprivileged stacked-PR build trigger repair. The real build-and-smoke check now runs. Earlier 8c6dcd3b full Node22 bundle independently verifies1992/0/0/0; fresh source28a6 CI is still running. Original79 event identities hash unchanged; pending80→81 because a real recovery event101 was generated, no collection/delivery.",
-    "current_action": "Verify fresh full Node22 run42304446495 and actual build-and-smoke42304446501, then update same-run register and final evidence under governed metadata reuse. Production collector restoration remains blocked on original task/account access and actual D382 fencing/exclusive authority.",
-    "next_safe_action": "RetargetPR897 onto893withnon-force ownbranchintegration; runchanged-sourceCIandvalidateactualPG/fullNode22evidence. Originaltask/accountowner must restoreD12collectorunderexistingguardedSQLfences andprovideactualdestinationdeliveryproof. Do notdrainviafalseconfirmation orwidenP0correction.",
+    "last_completed_atomic_action": "Completed test-only PR897 at33d7ef91 against893201b. Source28a6 executed1992/0/0/0 on Node22.23.4; local PG17.6 executed116 assertions/38 collector checks, SQL failure injection exited3; final bundle/digests/fingerprint and current required checks verified. Located exact original Claude collector task and owning account through immutable GitHub evidence. Final22:57 snapshot preserves original79 identities; pending grew80→81→83,80overdue, no newdelivery. Exact3incorrectdeadlines stillactive; migrationcount/head1791/400000 unchanged. Local fixture stopped/removed and both agents finished.",
+    "current_action": "Bounded engineering and read-only reconciliation complete; production collector recovery and separate exact-three-row P0 correction remain externally blocked. No actual production operation, ownership acceptance, send, confirmation, acknowledgement or release was initiated.",
+    "next_safe_action": "In the Platform Admin's Claude account, inspect and restore the existing Work queue alerts task trig_01Eo7QrJXR24e774gNzLUvTi (59 * * * * UTC), preserving its original push/e-mail recipient and project. Bind its take/confirm writes to the already-required D382 guarded execution/ownership controls before enabling a run; then record actual task-run and destination delivery/receipt evidence in Admin382. This is an account-control action, not a request for Claude handover acknowledgement or a human relay between AIs. Independently re-read GitHub/atomic state and verify actual installed denials/recovery before accepting control or executing any write. Preserve PR897 qualified evidence; do not rerun unchanged suites.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5549,22 +5629,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T222308Z",
+    "predecessor_checkpoint": "CP-382-20261106T223117Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Alert recovery engineering continues while original collector access and production fencing remain blocked. Real protocol and full-suite evidence are qualified; a required stacked-PR build check gap is repaired and fresh CI is running.",
-    "baseline": "**Baseline:** Pilot main4ba94e3f; last verified frontend UI2.15.489/package0.1.416 at20:12UTC, later GET403/1010 prevents fresh frontend acceptance. Last full ledger21:16:1791 versions/head20261106400000. Alert function hashes/settings verified21:44; delivery on, webhook off, max5 attempts/retry10min/collection120min. At22:18 original79 IDs remain pending, all three incorrect deadlines remain active. Exact Cloudflare commit and authenticated UI are unverified.",
-    "completed": "**Completed:** PR897 has six test/CI/register files, current28a6a16c/base893201b. Genuine local PG17.6 passed116 assertions/38 collector checks, SQL failure injection exits3, qualified target32/0/0/0. Source8c6dcd3b Node22 passed1992/0/0/0 and downloaded bundle/fingerprint verified. Current CI-trigger repair now starts actual build-and-smoke; fresh full evidence pending. Pilot merges0/releases0/real alert deliveries0.",
+    "reason": "**Reason:** Bounded alert-recovery engineering cycle is complete; production recovery remains blocked on actual account controls and original Claude task access. No successor acceptance or operational resolution is claimed.",
+    "baseline": "**Baseline:** Pilot main4ba94e3f; last verified frontend UI2.15.489/package0.1.416 at20:12UTC, later GET403/1010 prevents fresh UI acceptance; exact Cloudflare commit/authenticated UI unverified. Full migration ledger last compared21:16; fresh22:57 count1791/head20261106400000. Alert function hashes/settings21:44 unchanged by this execution; delivery on/webhook off. At22:57 all83 pending unattempted and original three wrong deadlines active.",
+    "completed": "**Completed:** PR897 final33d7ef91/base893201b has six test/CI/register files. Fresh Node22.23.4 executed1992/0/0/0; genuine PG17.6 executed116 assertions/38 collector checks; induced SQL failure exits3; qualified target32/0/0/0. Final immutable bundle/digests/fingerprint/reuse and all required checks verified. Located original Claude collector and exact owning account. Pilot merges0/releases0/actual deliveries0.",
     "priorities": "**Priorities:** Restore the original D12 collector through verified fenced ownership, prove actual destination delivery/backlog reduction and independent watchdog PASS. Keep the three wrong deadlines under separate exact P0 correction gates. Preserve895→896→894→893 release order with892 integrated, held890/875 and human admission/budget boundaries.",
-    "workstreams": "**Workstreams:** Source agent completed independent review and protocol fixtures. Root owns PR897 branch codex/iq00112-alert-collector-acceptance, head28a6a16c at /workspace/alerts-2136/fixture-worktree; six-file diff against893201b, no production functions/migrations edited. Existing release candidate heads unchanged.",
-    "pending_prs_migrations": "**Pending PRs/migrations:**895bcceb856 (includes892) →8967984e7bd/migration450000 →8948bde11f8/migration500000/Worker0.59.9 →893201b9126/migration550000/Worker0.59.10 remain unmerged/unapplied. Test-only draft89728a6a16c targets893 and adds no release/migration.890G3/875 remain held.",
-    "decisions": "**Decisions:** D382 remains one consolidated account-owner instruction, now explicitly including the external D12 collector as a SQL writer. Restore the existing task/original push and e-mail recipient through actual guarded ownership; task ID/owner access and delivery receipt remain unavailable. No new channel or further Claude acknowledgement requested. Separate exact three-row correction, G3, destructive, human Layer4/trust and reserve authority remain.",
-    "in_flight": "**In flight:** Own fresh full Node22 evidence42304446495 and actual build-and-smoke42304446501 are running for28a6a16c; parity/collector/deadline42304446518 passed. Earlier8c6dcd3b suite passed but readiness blocked on the missing build, now repaired in source. Local no-network PG fixture is idle. No production reservation/write/send/ack/deployment initiated; atomic6d95 remains released/no owner/no lease/adoption pending and guard denies current execution.",
-    "next_safe_action": "**Next safe action:** Verify the current real build/full Node22 bundle, commit its same-run register and verify metadata reuse/final checks. Account owner completes existing D382 controlled bootstrap, locates/restores original D12 task with guarded take/confirm and original recipient, then records actual receipt/backlog reduction/watchdog PASS. Do not take or confirm production alerts before those gates.",
-    "risks_recovery": "**Risks/recovery:** At22:18,81 pending/81 unattempted/79 overdue; all original79 identities unchanged, no leases/failed rows. Latest historical confirmation03Nov07:00:29Z predates Nov6handover; its cessation cause requires original account history. Recovery event101 was generated but remains undelivered. Three wrong deadlines remain active. Source tests/database sent/task results do not prove recipient delivery. Account protections/403 and exclusive ownership remain unresolved.",
-    "evidence": "**Evidence:** [collector stages, preserved IDs and CI provenance](validation/2026-11-06-controller-cutover-verification.json), [PR897](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/897), [verified watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42262985796), [single account-owner instruction](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). No actual delivery, receipt, recovered watchdog PASS, heartbeat or accepted transfer claimed."
+    "workstreams": "**Workstreams:** WS-ALERTS-2136 engineering complete, operational acceptance blocked. PR897 branch codex/iq00112-alert-collector-acceptance at33d7ef91, /workspace/alerts-2136/fixture-worktree; no function/migration edits. Source agent and isolated WS-ALERT-LOCATOR-2236 review completed. Remote release/hold heads unchanged.",
+    "pending_prs_migrations": "**Pending PRs/migrations:**895bcceb856 (includes892) →8967984e7bd/migration450000 →8948bde11f8/migration500000/Worker0.59.9 →893201b9126/migration550000/Worker0.59.10 remain unmerged/unapplied. Test-only draft89733d7ef91 targets893 and adds no migration/Worker release.890G3/875 remain held.",
+    "decisions": "**Decisions:** Existing D382 account-owner action now names original Claude task trig_01Eo7QrJXR24e774gNzLUvTi, Platform Admin Claude account, :59UTC. Inspect/restore it through verified guarded take/confirm after real account fencing/exclusive authority; preserve original push/e-mail recipient and record actual run/receipt. No duplicate collector, new channel or further Claude acknowledgement. Separate exact-three-row P0, G3, destructive, human Layer4/trust and reserve gates remain.",
+    "in_flight": "**In flight:** No current GitHub workflow in latest live inventory; all PR897 final checks completed. Historical34749286102 has0jobs and remains reconciled, no deletion required. No production reservation/write/send/confirm/ack/deployment initiated. Atomic6d95 released/no owner/no lease/adoption pending; live guard denied this execution at22:53. Task-owned local fixture container stopped/removed; all14 worktrees have no tracked edits, retained untracked dependency links/older validation logs inventoried. Both child workstreams completed; no operation initiated here remains active.",
+    "next_safe_action": "**Next safe action:** Account owner inspects/restores original Claude task trig_01Eo7QrJXR24e774gNzLUvTi, preserving :59UTC schedule/recipient, through existing D382 guarded account cutover. Independent successor verifies installed denials/recovery/current atomic authority, then real destination delivery/receipt, ID preservation, backlog reduction and independent watchdog PASS. Do not rerun unchanged qualified897/894/893 suites.",
+    "risks_recovery": "**Risks/recovery:** At22:57UTC83 pending/83 unattempted/80 overdue, original79 IDs21–99 identities unchanged, no leases/failed/duplicates. Real recovery101 and later reminder102/course-list queue critical event103 remain undelivered; current watch event is not proof of a new consumer-data defect. Three confirmed incorrect deadlines remain active/unchanged under separate exact P0 correction. Original task identity verified; current Claude account audit/receipt inaccessible. Environment unprotected/secret API403 and actual fencing/current ownership unresolved. No causal link from Nov6 handover to Nov3 cessation established.",
+    "evidence": "**Evidence:** [Collector stages/task identity/IDs/qualified CI](validation/2026-11-06-controller-cutover-verification.json), [PR897](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/897), [executed full suite](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42304446495), [final checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42306883983), [original-task runbook](https://github.com/msinghbs-ai/coursefinder-admin/blob/75bc5c875843e321c57e7ef880ea95bee24b2e78/docs/platform/RECOVERY-RUNBOOK.md#L134), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). Development READY is not production acceptance. No delivery/receipt/watchdog PASS, heartbeat or accepted transfer claimed."
   }
 }
