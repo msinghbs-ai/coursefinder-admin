@@ -1,0 +1,569 @@
+{
+  "schema_version": "1.0.0",
+  "workstream_id": "WS-P0",
+  "admin_issue": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
+  "project_id": "fxcwkweaxjtknorudmwp",
+  "method": "Independent exact-ID read-only transactions with SET LOCAL statement_timeout='8s'. Function definitions inspected before invocation; no mutating helpers executed. No whole-database scan.",
+  "known_containment": {
+    "unsupported_intake_rows": 5,
+    "unsupported_dates_present": 0,
+    "intake_locks": 2,
+    "contained_fee_rows": 13,
+    "active_bad_fee_rows": 0,
+    "consumer_fee_courses": 13,
+    "bad_amounts_exposed": 0,
+    "fee_comparison": [
+      {
+        "course_id": "7eb95c94-4a79-4e5c-aea0-92b82cb1ec26",
+        "code": "0100908",
+        "bad_amount": 10333.33,
+        "website_amount": 31000,
+        "website_annual": null,
+        "zoho_annual": 31000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "811083ae-8e64-4989-895f-d9ccc1069aca",
+        "code": "052690E",
+        "bad_amount": 10500,
+        "website_amount": 31500,
+        "website_annual": null,
+        "zoho_annual": 31500,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "b59c7a28-6ea9-49fe-bc22-fc954a3c4f20",
+        "code": "0100702",
+        "bad_amount": 10333.33,
+        "website_amount": 31000,
+        "website_annual": null,
+        "zoho_annual": 31000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "cfc791c8-fe3a-4c86-b74c-14f5a93f2670",
+        "code": "080476A",
+        "bad_amount": 10333.33,
+        "website_amount": 31000,
+        "website_annual": null,
+        "zoho_annual": 31000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "d9dc5bb8-025b-46ca-ac24-7ca13157599f",
+        "code": "096011C",
+        "bad_amount": 12600,
+        "website_amount": 37800,
+        "website_annual": 37800,
+        "zoho_annual": 37800,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "fe671861-eb69-4036-8acb-70ccde02d535",
+        "code": "085576A",
+        "bad_amount": 12000,
+        "website_amount": 51000,
+        "website_annual": 17000,
+        "zoho_annual": 17000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "9fe78e66-12f1-42b3-ab56-c65fb99fbfd7",
+        "code": "102291B",
+        "bad_amount": 32800,
+        "website_amount": 49200,
+        "website_annual": 24600,
+        "zoho_annual": 24600,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "c72ffb06-2984-4d6f-af44-a47a5224119a",
+        "code": "106655B",
+        "bad_amount": 18000,
+        "website_amount": 34000,
+        "website_annual": 17000,
+        "zoho_annual": 17000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "cf75c4de-781a-4ccc-bfeb-96d7921629f4",
+        "code": "108475A",
+        "bad_amount": 10166.67,
+        "website_amount": 30500,
+        "website_annual": null,
+        "zoho_annual": 30500,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "011c9c63-e756-4ff0-957e-e6cbc5880bcf",
+        "code": "121432C",
+        "bad_amount": 37141,
+        "website_amount": 53052,
+        "website_annual": 26526,
+        "zoho_annual": 26526,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "401b9db3-0917-4376-b331-f352165fb922",
+        "code": "121321K",
+        "bad_amount": 10333.33,
+        "website_amount": 31000,
+        "website_annual": null,
+        "zoho_annual": 31000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "72598a16-d3f7-4332-9fb1-259125edfdd9",
+        "code": "114822C",
+        "bad_amount": 18000,
+        "website_amount": 48000,
+        "website_annual": 24000,
+        "zoho_annual": 24000,
+        "bad_amount_exposed": false
+      },
+      {
+        "course_id": "f4746111-4c26-4eb8-927c-c6088b66edeb",
+        "code": "114579J",
+        "bad_amount": 14000,
+        "website_amount": 24000,
+        "website_annual": 24000,
+        "zoho_annual": 24000,
+        "bad_amount_exposed": false
+      }
+    ],
+    "verdict": "IQ-00111 and IQ-00313 named examples remain contained; operational acceptance and issue verification are still pending, not resolved."
+  },
+  "new_deadline_semantic_incident": {
+    "course_ids": [
+      "2b19936a-69ad-49b8-9a33-56644609ccfc",
+      "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+      "2bb7f6ea-be1f-44e2-a51c-72a277045475"
+    ],
+    "confirmed_wrong_deadlines": 3,
+    "consumer_paths": [
+      "public.website_v2_course(text)",
+      "public.zoho_edge_course_lookup_v1(text)",
+      "public.zoho_v2_course(text)"
+    ],
+    "verdict": "CONFIRMED CURRENT CONSUMER SQL EXPOSURE: three active application_deadline rows are supported only by start/intake-date quotes, not application-closing evidence. Catalogue publication_status='unpublished' did not suppress their returned payloads.",
+    "root_notified": true,
+    "scope": "Only the three named courses were independently audited. The reported broader 30-intake/20-course population is not verified by this workstream."
+  },
+  "limitations": [
+    "No authenticated HTTP endpoint, website UI or external cache verification.",
+    "Source evidence checked through stored reader quote, on_page=true, kept/applied status and artifact identity/URL; compressed source HTML was not downloaded.",
+    "No production rows, issue statuses, locks, settings, alerts or messages changed.",
+    "No re-execution of fee_integrity_recheck or remedy functions."
+  ],
+  "created_at": "2026-11-06T12:42:14Z",
+  "queries": [
+    {
+      "id": "p0deadline_initial",
+      "query": "begin read only; set local statement_timeout='8s'; select clock_timestamp() as observed_at_utc,c.id,c.canonical_title,c.course_code,c.lifecycle_status,c.publication_status, i.id as intake_id,i.intake_label,i.intake_year,i.start_date,i.application_deadline,i.status,i.evidence_id,i.source_id from catalogue.courses c join catalogue.course_intakes i on i.course_id=c.id where lower(c.canonical_title) in ('diploma of social media marketing','bachelor of business (entrepreneurship)','master of engineering (industrial automation)') and i.application_deadline in ('2026-10-12','2026-11-02','2027-02-15') order by c.id,i.id; commit;",
+      "result": [
+        {
+          "observed_at_utc": "2026-11-06 12:38:31.570656+00",
+          "id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+          "canonical_title": "Bachelor of Business (Entrepreneurship)",
+          "course_code": "095229D",
+          "lifecycle_status": "active",
+          "publication_status": "unpublished",
+          "intake_id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "intake_label": "November",
+          "intake_year": null,
+          "start_date": null,
+          "application_deadline": "2026-11-02",
+          "status": "active",
+          "evidence_id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+          "source_id": "6e85af42-2a36-4eaf-b936-85c5deb1a2a9"
+        },
+        {
+          "observed_at_utc": "2026-11-06 12:38:31.570677+00",
+          "id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+          "canonical_title": "Master of Engineering (Industrial Automation)",
+          "course_code": "094185G",
+          "lifecycle_status": "active",
+          "publication_status": "unpublished",
+          "intake_id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "intake_label": "February",
+          "intake_year": null,
+          "start_date": null,
+          "application_deadline": "2027-02-15",
+          "status": "active",
+          "evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+          "source_id": "fcd076e5-3ed4-4e49-a14b-6d42ec421f1c"
+        },
+        {
+          "observed_at_utc": "2026-11-06 12:38:31.57068+00",
+          "id": "2bb7f6ea-be1f-44e2-a51c-72a277045475",
+          "canonical_title": "Diploma of Social Media Marketing",
+          "course_code": "106137B",
+          "lifecycle_status": "active",
+          "publication_status": "unpublished",
+          "intake_id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+          "intake_label": "October",
+          "intake_year": null,
+          "start_date": null,
+          "application_deadline": "2026-10-12",
+          "status": "active",
+          "evidence_id": "05e4b193-3ffc-461a-b6bc-16e6e225dd3a",
+          "source_id": "85fc281f-d07d-468e-9e76-600dd5750653"
+        }
+      ]
+    },
+    {
+      "id": "p0deadline_evidence",
+      "query": "begin read only; set local statement_timeout='8s'; select clock_timestamp() observed_at_utc,c.id,c.course_code,c.canonical_title,c.publication_status,i.id intake_id,i.application_deadline,i.evidence_id,e.source_url,e.captured_at,(select jsonb_agg(k) from jsonb_object_keys(e.metadata) k) metadata_keys, left(coalesce(e.metadata->>'text',e.metadata->>'page_text',e.metadata->>'plain_text',e.metadata->>'extracted_text'),2000) evidence_text, coalesce(f.items,'[]'::jsonb) field_items from catalogue.courses c join catalogue.course_intakes i on i.course_id=c.id left join pipeline.evidence_artifacts e on e.id=i.evidence_id left join lateral (select jsonb_agg(jsonb_build_object('id',x.id,'state',x.state,'value',x.value,'quote',x.quote,'reason',x.reason,'evidence_id',x.evidence_id,'updated_at',x.updated_at)) items from (select f.* from pipeline.field_enrich_items f where f.course_id=c.id and f.field='deadline' order by f.updated_at desc limit 3) x) f on true where c.id in ('2b19936a-69ad-49b8-9a33-56644609ccfc'::uuid,'2bad6b65-cd92-4a35-9efc-a69d4bb43d99'::uuid,'2bb7f6ea-be1f-44e2-a51c-72a277045475'::uuid) and i.application_deadline is not null order by c.id,i.id; commit;",
+      "result": [
+        {
+          "observed_at_utc": "2026-11-06 12:41:19.490671+00",
+          "id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+          "course_code": "095229D",
+          "canonical_title": "Bachelor of Business (Entrepreneurship)",
+          "publication_status": "unpublished",
+          "intake_id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "application_deadline": "2026-11-02",
+          "evidence_id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+          "source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship",
+          "captured_at": "2026-10-05 12:19:36.629337+00",
+          "metadata_keys": [
+            "gzip",
+            "kind",
+            "layer",
+            "worker",
+            "course_id",
+            "fetched_via",
+            "identity_basis"
+          ],
+          "evidence_text": null,
+          "field_items": [
+            {
+              "id": 273361,
+              "quote": "Start date 02 Nov 2026",
+              "state": "filled",
+              "value": {
+                "applied": 1,
+                "deadlines": [
+                  {
+                    "date": "2026-11-02",
+                    "kind": "date",
+                    "quote": "Start date 02 Nov 2026",
+                    "intake": "02 Nov 2026",
+                    "on_page": true,
+                    "outcome": "kept",
+                    "intake_ids": [
+                      "0bae1bde-3d71-4ae8-86ff-118049910790"
+                    ]
+                  },
+                  {
+                    "date": "2027-02-15",
+                    "kind": "date",
+                    "quote": "Start date 15 Feb 2027",
+                    "intake": "15 Feb 2027",
+                    "on_page": false,
+                    "outcome": "quote_not_on_page",
+                    "intake_ids": []
+                  }
+                ]
+              },
+              "reason": null,
+              "updated_at": "2026-11-06T05:27:18.049176+00:00",
+              "evidence_id": "75891841-a6d3-4707-906f-3ad39d444d53"
+            }
+          ]
+        },
+        {
+          "observed_at_utc": "2026-11-06 12:41:19.490728+00",
+          "id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+          "course_code": "094185G",
+          "canonical_title": "Master of Engineering (Industrial Automation)",
+          "publication_status": "unpublished",
+          "intake_id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "application_deadline": "2027-02-15",
+          "evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+          "source_url": "https://www.eit.edu.au/courses/on-campus-master-of-engineering-industrial-automation/",
+          "captured_at": "2026-10-01 06:36:26.961849+00",
+          "metadata_keys": [
+            "gzip",
+            "kind",
+            "layer",
+            "worker",
+            "course_id",
+            "fetched_via",
+            "identity_basis"
+          ],
+          "evidence_text": null,
+          "field_items": [
+            {
+              "id": 273381,
+              "quote": "Intakes 15 February 2027",
+              "state": "filled",
+              "value": {
+                "applied": 1,
+                "deadlines": [
+                  {
+                    "date": "2027-02-15",
+                    "kind": "date",
+                    "quote": "Intakes 15 February 2027",
+                    "intake": "15 February 2027",
+                    "on_page": true,
+                    "outcome": "kept",
+                    "intake_ids": [
+                      "8dcd0a7e-c634-4f9d-92ba-2832413f3583"
+                    ]
+                  },
+                  {
+                    "date": "2027-07-26",
+                    "kind": "date",
+                    "quote": "Intakes 26 July 2027",
+                    "intake": "26 July 2027",
+                    "on_page": false,
+                    "outcome": "quote_not_on_page",
+                    "intake_ids": []
+                  }
+                ]
+              },
+              "reason": null,
+              "updated_at": "2026-11-06T05:27:25.30045+00:00",
+              "evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab"
+            }
+          ]
+        },
+        {
+          "observed_at_utc": "2026-11-06 12:41:19.490758+00",
+          "id": "2bb7f6ea-be1f-44e2-a51c-72a277045475",
+          "course_code": "106137B",
+          "canonical_title": "Diploma of Social Media Marketing",
+          "publication_status": "unpublished",
+          "intake_id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+          "application_deadline": "2026-10-12",
+          "evidence_id": "05e4b193-3ffc-461a-b6bc-16e6e225dd3a",
+          "source_url": "https://www.apc.edu.au/course/diploma-of-social-media-marketing-with-artifical-intelligence/",
+          "captured_at": "2026-10-01 09:10:16.860106+00",
+          "metadata_keys": [
+            "gzip",
+            "kind",
+            "layer",
+            "worker",
+            "course_id",
+            "fetched_via",
+            "identity_basis"
+          ],
+          "evidence_text": null,
+          "field_items": [
+            {
+              "id": 273383,
+              "quote": "Start Dates 12 October 2026",
+              "state": "filled",
+              "value": {
+                "applied": 1,
+                "deadlines": [
+                  {
+                    "date": "2026-10-12",
+                    "kind": "date",
+                    "quote": "Start Dates 12 October 2026",
+                    "intake": "12 October 2026",
+                    "on_page": true,
+                    "outcome": "kept",
+                    "intake_ids": [
+                      "8e7d1957-58ce-4a2d-9583-fef41ea30bdc"
+                    ]
+                  }
+                ]
+              },
+              "reason": null,
+              "updated_at": "2026-11-06T05:27:25.30045+00:00",
+              "evidence_id": "05e4b193-3ffc-461a-b6bc-16e6e225dd3a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p0deadline_consumers",
+      "query": "begin read only; set local statement_timeout='8s'; select clock_timestamp() observed_at_utc,c.id,c.course_code,c.publication_status,public.website_v2_course(c.course_code)->'item'->'intakes' website_intakes,public.zoho_edge_course_lookup_v1(c.course_code)->'item'->'intakes' zoho_v1_intakes,public.zoho_v2_course(c.course_code)->'item'->'intakes' zoho_v2_intakes from catalogue.courses c where c.id in ('2b19936a-69ad-49b8-9a33-56644609ccfc'::uuid,'2bad6b65-cd92-4a35-9efc-a69d4bb43d99'::uuid,'2bb7f6ea-be1f-44e2-a51c-72a277045475'::uuid) order by c.id; commit;",
+      "result": [
+        {
+          "observed_at_utc": "2026-11-06 12:41:27.625612+00",
+          "id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+          "course_code": "095229D",
+          "publication_status": "unpublished",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ]
+        },
+        {
+          "observed_at_utc": "2026-11-06 12:41:28.148588+00",
+          "id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+          "course_code": "094185G",
+          "publication_status": "unpublished",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": "2027-02-15"
+            },
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2027-02-15"
+            },
+            {
+              "year": null,
+              "label": "July",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": "2027-02-15"
+            },
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ]
+        },
+        {
+          "observed_at_utc": "2026-11-06 12:41:28.59909+00",
+          "id": "2bb7f6ea-be1f-44e2-a51c-72a277045475",
+          "course_code": "106137B",
+          "publication_status": "unpublished",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "October",
+              "month": 10,
+              "start_date": null,
+              "application_deadline": "2026-10-12"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "October",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2026-10-12"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "October",
+              "month": 10,
+              "start_date": null,
+              "application_deadline": "2026-10-12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_identities": {
+    "id": "p0deadline_artifact_identity",
+    "query": "begin read only; set local statement_timeout='8s'; select clock_timestamp() observed_at_utc,e.id,e.source_url,e.content_hash,e.captured_at,e.metadata->>'course_id' metadata_course_id from pipeline.evidence_artifacts e where e.id in ('75891841-a6d3-4707-906f-3ad39d444d53'::uuid,'9b66aac4-dc0c-46dc-893b-b233291984f1'::uuid,'1458055d-c99a-458c-9d6a-62af342a36ab'::uuid,'05e4b193-3ffc-461a-b6bc-16e6e225dd3a'::uuid) order by e.id; commit;",
+    "result": [
+      {
+        "observed_at_utc": "2026-11-06 12:42:38.337761+00",
+        "id": "05e4b193-3ffc-461a-b6bc-16e6e225dd3a",
+        "source_url": "https://www.apc.edu.au/course/diploma-of-social-media-marketing-with-artifical-intelligence/",
+        "content_hash": "97db792521905add8ba518c123f6b2325033daf1039b446efa32e7bac10c334a",
+        "captured_at": "2026-10-01 09:10:16.860106+00",
+        "metadata_course_id": "2bb7f6ea-be1f-44e2-a51c-72a277045475"
+      },
+      {
+        "observed_at_utc": "2026-11-06 12:42:38.337809+00",
+        "id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+        "source_url": "https://www.eit.edu.au/courses/on-campus-master-of-engineering-industrial-automation/",
+        "content_hash": "5ffd6ed9419a5fad8c5cd71af06609cea8b5457ee6136ff98f48497da5d1b8ca",
+        "captured_at": "2026-10-01 06:36:26.961849+00",
+        "metadata_course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99"
+      },
+      {
+        "observed_at_utc": "2026-11-06 12:42:38.337845+00",
+        "id": "75891841-a6d3-4707-906f-3ad39d444d53",
+        "source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship",
+        "content_hash": "c30471cfc8c9a99eb57d6c210753a2f57806c2b7fc3eb6032e0b3597be98fc5d",
+        "captured_at": "2026-11-02 14:27:10.114608+00",
+        "metadata_course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc"
+      },
+      {
+        "observed_at_utc": "2026-11-06 12:42:38.337885+00",
+        "id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+        "source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship",
+        "content_hash": "c9238c34e5c7d7b52db8ef7cd0a602d97c57f47d46e5f96d475c11acb9a674bb",
+        "captured_at": "2026-10-05 12:19:36.629337+00",
+        "metadata_course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc"
+      }
+    ]
+  },
+  "critical_escalation": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695"
+}
