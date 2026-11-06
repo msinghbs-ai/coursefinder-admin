@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T160557Z",
-  "created_at": "2026-11-06T16:05:57Z",
+  "checkpoint_id": "CP-382-20261106T162150Z",
+  "created_at": "2026-11-06T16:21:50Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-deadline-cohort-20261106T155856Z",
-  "trigger": "interrupted_session_recovery",
+  "trigger": "workstream_completion_and_intentional_session_termination",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -17,7 +17,7 @@
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_integrity_cohort_audit",
+    "mode": "read_only_cycle_complete_authority_blocked",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -1917,9 +1917,10 @@
       {
         "signature": "security.course_deadline_in_quote_v1(p_date date, p_quote text)",
         "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
-        "verified_at": "2026-11-06T15:06:19.420197Z",
+        "verified_at": "2026-11-06T16:18:39.616114Z",
         "evidence_ids": [
-          "EV-DEADLINE-REPAIR"
+          "EV-DEADLINE-REPAIR",
+          "EV-DEADLINE-COHORT"
         ]
       }
     ],
@@ -1943,7 +1944,7 @@
     },
     "incidents": [
       "IQ-00313 and IQ-00111: bounded containment verified, acceptance incomplete",
-      "No acute re-exposure found in named scope; no global incident-free claim"
+      "P0 deadline semantics:97non-closing intake readings in bounded cohort;8suspect dates sampled through3consumerSQLfunctions. No correction or HTTP/cache acceptance."
     ],
     "restrictions": [
       "No production mutation until exclusive controller ownership and adoption verified",
@@ -2397,12 +2398,12 @@
     },
     {
       "id": "WS-P0-DEADLINE-COHORT-REVIEW",
-      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685067695",
-      "owner": "Codex independent deadline-cohort reviewer; read-only",
+      "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6689591608",
+      "owner": "Codex root and independent read-only reviewer /root/review_894; cycle complete",
       "branch": "delivery-p0-deadline-382",
       "commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
-      "worktree": "/workspace/review-deadline-cohort",
-      "state": "investigating",
+      "worktree": "/workspace/cohort-deadline-audit (evidence workspace only; no Git worktree)",
+      "state": "completed",
       "owned_paths": [],
       "owned_functions": [],
       "owned_migrations": [],
@@ -2415,9 +2416,9 @@
       "dependencies": [],
       "blockers": [],
       "test_evidence_ids": [
-        "EV-RESUME-READONLY-1604"
+        "EV-DEADLINE-COHORT"
       ],
-      "completion_summary": "Assigned read-only semantic review of forthcoming boundedcohort; no completed finding or source repair claimed."
+      "completion_summary": "Read-only audit complete; 97/14/41 current intake classifications and eight consumer SQL date matches verified. No source change, unchanged suite rerun or production correction. Candidate helper holds the97 by source inspection only. Incomplete wider exposure/source-context investigation remains explicitly open."
     }
   ],
   "prs": [
@@ -3857,6 +3858,30 @@
       "evidence_ids": [
         "EV-TAKEOVER-ALERTS"
       ]
+    },
+    {
+      "id": "M-DEADLINE-COHORT",
+      "workstream_id": "WS-P0-DEADLINE-COHORT-REVIEW",
+      "name": "Bounded deadline evidence semantics and sampled consumer SQL exposure",
+      "value": {
+        "filled_items": 100,
+        "kept_references": 223,
+        "current_active_distinct_intakes": 152,
+        "non_closing_intakes": 97,
+        "non_closing_courses": 65,
+        "explicit_closing_intakes": 14,
+        "context_required_intakes": 41,
+        "consumer_sample_courses": 6,
+        "suspect_dates_in_all_three_consumers": 8,
+        "production_corrections": 0,
+        "http_cache_verified": false
+      },
+      "unit": "records and sampled SQL output dates; not corrected outcomes",
+      "measured_at": "2026-11-06T16:16:35.390441Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-DEADLINE-COHORT"
+      ]
     }
   ],
   "integration_issues": [
@@ -4022,7 +4047,7 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Scholarship coverage: Te W\u0101nanga o Aotearoa (NZ) zero: zero_scholarships",
+      "summary": "Scholarship coverage: Te Wānanga o Aotearoa (NZ) zero: zero_scholarships",
       "next_action": "Read current canonical queue row, controls and latest evidence; assign within confirmed controller authority.",
       "evidence_ids": [
         "EV-JOBS"
@@ -4121,7 +4146,7 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Scholarship coverage: Te Whare W\u0101nanga o Awanui\u0101rangi (NZ) zero: zero_scholarships",
+      "summary": "Scholarship coverage: Te Whare Wānanga o Awanuiārangi (NZ) zero: zero_scholarships",
       "next_action": "Read current canonical queue row, controls and latest evidence; assign within confirmed controller authority.",
       "evidence_ids": [
         "EV-JOBS"
@@ -4198,11 +4223,12 @@
       "source": "Admin#382; pending authorised pipeline.integration_issues registration",
       "severity": "P0",
       "state": "open",
-      "summary": "Three commencement dates currently returned as application_deadline by Website/Zoho SQL; catalogue unpublished does not contain them.",
-      "next_action": "Prioritise exact-ID guarded containment approval and forward semantic guard; no data correction until exclusive authority and destructive-change gates. Register deduplicated issue under confirmed controller.",
+      "summary": "Bounded100filleditems:97activeintakes across65courses have non-closing quotations supporting application_deadline; six-course sample exposes eight suspect dates in all three consumer SQL functions. Originalthree remain live; HTTP/cache and wider cohort not verified.",
+      "next_action": "Preserve exact three-row approval scope and #896 forward guard. Account controls/ownership and explicit correction authority remain required. Independently verify ambiguous41/sourcecontext and remaining59consumercourses with planned smaller reads; do not mass-withdraw.",
       "evidence_ids": [
         "EV-DEADLINE-P0",
-        "EV-DEADLINE-PROOF"
+        "EV-DEADLINE-PROOF",
+        "EV-DEADLINE-COHORT"
       ]
     },
     {
@@ -4323,9 +4349,23 @@
   ],
   "next_actions": [
     {
+      "id": "NA-COHORT-CONTEXT",
+      "workstream_id": "WS-P0-DEADLINE-COHORT-REVIEW",
+      "action": "Review existing cohort evidence and official source context for41ambiguous records; verify remaining59consumercourses using smaller planned read-only batches in permitted load windows. Do not repeat timed-out ten-course batch unchanged, infer HTTP exposure or expand three-row write scope.",
+      "owner": "Next actual read-only execution",
+      "depends_on": [],
+      "verification_required": [
+        "Fresh checkpoint and live heads",
+        "Preserve all223quotationidentities and validclosingprecedence",
+        "Bounded indexed/read-only plan and load window",
+        "Report actual successes, timeouts and unverified scope separately"
+      ],
+      "safe_without_production_write": true
+    },
+    {
       "id": "NA-DEADLINE-P0",
       "workstream_id": "WS-P0-DEADLINE",
-      "action": "896 finaldc5c passes1951full/73PG and final checks. After actual895 cutover/ownership and release approval, apply450000 under reservation; exact3rowcorrection only with separate durable actualactor/decision approval and consumer readback.",
+      "action": "Preserve #896 final7984e7bd (1951 full/73PG assertions and final checks). After actual #895 cutover, ownership and release approval, apply450000 under reservation; only the original exact three rows may be corrected with separate durable actor/decision authority and consumer readback. New97-row cohort is evidence only.",
       "owner": "Codex remediation agent/controller",
       "depends_on": [],
       "verification_required": [
@@ -4334,12 +4374,12 @@
         "Count/hash/audit guards",
         "All consumer readbacks"
       ],
-      "safe_without_production_write": true
+      "safe_without_production_write": false
     },
     {
       "id": "NA-OWNERSHIP",
       "workstream_id": "WS-382",
-      "action": "Atomic45bda42a publishes actualClaude release to thisexecution, with noowner/lease/adoption. Verify external controls and live operations. A fresh session must retarget through existing request_transfer/reconcile/record_predecessor_release process with preserved release evidence before acceptance; never accept as stopped execution.",
+      "action": "Atomic6d95b3e1 records Claude release, no owner/lease/adoption, targeting stopped execution142259. A fresh actual execution must reconcile and retarget through existing request_transfer/reconcile/record_predecessor_release with preserved release evidence. Complete actual account fencing before acceptance; no expired-heartbeat takeover.",
       "owner": "Authorised successor",
       "depends_on": [],
       "verification_required": [
@@ -4352,7 +4392,7 @@
     {
       "id": "NA-894",
       "workstream_id": "WS-894",
-      "action": "Preserve8035 finalchecks/1967full and genuinePG; after895\u2192896 release gates, refresh liveguard and execute500000/Worker0.59.9/UI492 under reservation, then verify live metrics/desktop/phone/consumer behaviour.",
+      "action": "Preserve final8bde11f8 checks/1967 full and genuine PG. After #895→#896 release gates, refresh live guard and execute500000/Worker0.59.9/UI492 under reservation; then measure live metrics/desktop/phone/consumer behaviour.",
       "owner": "Exclusively assigned #894 developer",
       "depends_on": [],
       "verification_required": [
@@ -4360,19 +4400,19 @@
         "Targeted before/after failures",
         "All relevant production predicates"
       ],
-      "safe_without_production_write": true
+      "safe_without_production_write": false
     },
     {
       "id": "NA-893",
       "workstream_id": "WS-893",
-      "action": "Preserve0edc finalchecks/1992full/actual71+17PG; after894, refresh18hashes+cron and execute550000/Worker0.59.10/UI493 under actual reservation/approval, then measure coverage and human-review outcomes.",
+      "action": "Preserve final201b9126 checks/1992 full/actual71+17PG. After #894, refresh18hashes+cron and execute550000/Worker0.59.10/UI493 under reservation and applicable approval; measure coverage and human-review outcomes.",
       "owner": "Exclusively assigned #893 developer",
       "depends_on": [],
       "verification_required": [
         "Actual migration/scenario PASS, not tee exit",
         "Production guard retained"
       ],
-      "safe_without_production_write": true
+      "safe_without_production_write": false
     },
     {
       "id": "NA-892",
@@ -4407,7 +4447,7 @@
     {
       "id": "NA-GATE-895",
       "workstream_id": "WS-382-ADOPTION",
-      "action": "Inspect existing pending42226902408 metadata CI; sourcea65 full1951pass and bccregister-only. After requiredCI and real account-controlled deny-first895bootstrap, verify recovery/19readers/Cloudflare/directSQLfencing, then completeatomicownership. Do not self-merge while unowned.",
+      "action": "All current #895 bcceb856 checks and source1951 suite already pass. GitHub owner msinghbs-ai must grant or perform D-382-CUTOVER environment-only/protected-main controls; Cloudflare and Supabase owners install pinned deployment/direct-write fencing with recovery preserved. Independently verify actual denials/recovery at19 reviewed definitions before atomic active ownership; do not self-merge while unowned.",
       "owner": "Authorised Integration Controller/account owner",
       "depends_on": [],
       "verification_required": [
@@ -4523,7 +4563,7 @@
       "reference": "https://github.com/msinghbs-ai/coursefinder-admin/blob/main/docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#scheduled-resumption",
       "kind": "configured_automation",
       "observed_at": "2026-11-06T09:23:25.989Z",
-      "summary": "Tool confirmed enabled hourly weekend schedule (48 attempts, 7Nov00\u20138Nov23 Melbourne) and Monday9Nov morning handover. next_run_time/last_run_time null, environment inherited metadata null; execution and environment attachment unverified."
+      "summary": "Tool confirmed enabled hourly weekend schedule (48 attempts, 7Nov00–8Nov23 Melbourne) and Monday9Nov morning handover. next_run_time/last_run_time null, environment inherited metadata null; execution and environment attachment unverified."
     },
     {
       "id": "EV-GOV-CI",
@@ -4614,7 +4654,7 @@
       "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#complete-integration-and-production-delivery--2026-11-06t122559z",
       "kind": "actual_alert_episode_reconciliation",
       "observed_at": "2026-11-06T12:46:35Z",
-      "summary": "Original63IDs21\u201383:47recoveredhistoricalepisodeevents,16activeevents oncollector/Firecrawlreserve/discovery;0exactdedupekeyduplicates;all63zeroattempts. Totalpending68at12:28;64overdue12:32. Five newerrowsinclude2newreaderrecurrences. Allremainunacknowledged."
+      "summary": "Original63IDs21–83:47recoveredhistoricalepisodeevents,16activeevents oncollector/Firecrawlreserve/discovery;0exactdedupekeyduplicates;all63zeroattempts. Totalpending68at12:28;64overdue12:32. Five newerrowsinclude2newreaderrecurrences. Allremainunacknowledged."
     },
     {
       "id": "EV-DEADLINE-P0",
@@ -4628,7 +4668,7 @@
       "reference": "docs/platform/validation/2026-11-06-deadline-semantic-p0.json",
       "kind": "exact_id_read_only_verification",
       "observed_at": "2026-11-06T12:46:35Z",
-      "summary": "Verified12:41\u201312:42Z;threecourseIDs/intakes/filleditems/artifactsandall3consumerpaths. NoHTTP/cacheclaim,noproductionwrite."
+      "summary": "Verified12:41–12:42Z;threecourseIDs/intakes/filleditems/artifactsandall3consumerpaths. NoHTTP/cacheclaim,noproductionwrite."
     },
     {
       "id": "EV-OWNERSHIP-DELIVERY",
@@ -4734,12 +4774,19 @@
       "kind": "production_query",
       "observed_at": "2026-11-06T16:05:57Z",
       "summary": "FreshGitHubheads unchanged895bcceb/8967984/8948bde/893201b;877/889merged;890/875held. Noactiveworkflow. Atomic6d95stillowner0/adoptionpending; pilotunprotected andsecretAPI403. Fresh16:04DB1791/head400000/helperf01e9/courseff3d6 and0otheractiveclienttransactions. HTTP/asset200/UI489/.416/hash2099cae6; coverageedge239ACTIVE/hash995d5111 unchanged. Runtimebindinglistsempty. Indexedcohortqueryplanner reviewed; no appliedSQL or paidcall."
+    },
+    {
+      "id": "EV-DEADLINE-COHORT",
+      "reference": "docs/platform/validation/2026-11-06-deadline-semantic-p0.json",
+      "kind": "production_query_and_independent_semantic_review",
+      "observed_at": "2026-11-06T16:21:50Z",
+      "summary": "100 filled items,223 references,152 distinct active exact matches:97 non-closing across65courses,14closing,41contextrequired. Eight suspect intake dates in six sampled courses returned by all three consumer SQL functions. Larger ten-course batch timed out at6s and contributes no results. No HTTP/cache proof, wider write authority or correction. P0 escalated Admin382comment6689591608."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Read canonicalGitHub78b98c3, validatedCP154227 and live unchangedheads/CI/atomicref. Fresh16:04 DB/frontend/edge baseline unchanged; no other activeclienttransaction.",
-    "current_action": "Bounded read-only audit of latest100filleddeadlineitems and exactcurrentintakevalues, with independent semantic reviewer; no source changes or production mutation.",
-    "next_safe_action": "During permitted load window select bounded indexed cohort, classify explicitclosing vs commencement evidence, independently verify current consumers for confirmedsuspects. Do not expand or execute existing3rowcorrection authority.",
+    "last_completed_atomic_action": "Completed bounded deadline cohort review: 100 items/223 kept references/152 current intakes; 97 non-closing, 14 closing, 41 context-required. Verified eight suspect dates across six courses in all three consumer SQL functions; escalated Admin382 comment6689591608. Fresh heads/ref/account metadata and 16:18 migration/helper state unchanged.",
+    "current_action": "Bounded cycle ending with no active reviewer, SQL, local test, production write, release, reservation or new workflow. Publishing actual evidence and validated canonical handover only.",
+    "next_safe_action": "Read the bounded cohort evidence, independently resolve ambiguous source context or verify remaining consumer dates in smaller planned read-only batches during permitted load windows. Account owner completes D-382-CUTOVER before actual-execution atomic acceptance and any release/write; the three-row correction remains separately gated.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4756,7 +4803,8 @@
       "No continuation or heartbeat is claimed after this bounded execution ends.",
       "Do not request another Claude acknowledgement or require deletion of34749286102; its dispatcher/recipient evidence is reconciled.",
       "Do not rerun unchanged final full suites or rebuild continuity:895bcceb/8967984/8948bde/893201b bundles and finalchecks are verified.",
-      "Do not treat source denial probes, environment references or nominalrepo.admin=true as installed security controls; actual account APIs returned403."
+      "Do not treat source denial probes, environment references or nominalrepo.admin=true as installed security controls; actual account APIs returned403.",
+      "Do not count 223 references as intakes or classify all helper refusals as bad deadlines. Preserve all distinct quotations and explicit-closing precedence; do not repeat the timed-out ten-course consumer batch unchanged or expand the exact three-row correction."
     ],
     "verification_required": [
       "Actual external GitHub/Cloudflare/direct-SQL fencing adoption and explicit release authority",
@@ -4764,22 +4812,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T154227Z",
+    "predecessor_checkpoint": "CP-382-20261106T160557Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Scheduled resumption starts a bounded read-only integrity audit from verified GitHub records. Completed source repairs and their CI are preserved; no controller acceptance or deployment is assumed.",
-    "baseline": "**Baseline:** Fresh16:04UTC verifies Pilot main4ba94e3f, UI2.15.489/package0.1.416 with HTTP/asset200 and unchanged2099cae6 hash; coverageedge239ACTIVE/hash995d5111. DB1,791migrations/head20261106400000, deadlinehelperf01e9 and courseguardff3d6 unchanged; no other activeclienttransaction. ExactCloudflarecommit/authenticatedUI remain unverified.",
-    "completed": "**Completed:** Three omitted writer paths, five credential targets and dispatch/evidence input handling repaired. All source and final metadata CI checks pass: #895 1,951; #896 1,951; #894 1,967; #893 1,992 tests, each with zero failures, skips or flakes. All eight bundles verified and registers committed. The 19 privileged definitions comprise eight write-capable jobs, two throwaway-only writers and nine reporters. All 75 alerts were reconciled: 60 historical, 15 active events across four conditions, zero duplicates; all unattempted and 71 overdue. Pilot merges: zero; production releases: zero; rows corrected: zero.",
-    "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 \u2192 #896 \u2192 #894 \u2192 #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** One read-only cohort reviewer owns no code/function/migration writes. It uses /workspace/review-deadline-cohort at PR896head7984 and reviews root\u2019s bounded latest100filleddeadlineitems/exactintakes. Root owns SQLreads/evidence/checkpoint. Existing engineering lanes remain complete and source unchanged.",
-    "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) \u2192 #896 7984e7bd (UI 491/package 418, migration 450000) \u2192 #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) \u2192 #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
+    "reason": "**Reason:** Bounded read-only integrity cycle completed; ending with actual evidence published. Production authority remains blocked by account controls, with no active owner, lease or completed transfer.",
+    "baseline": "**Baseline:** Pilot main 4ba94e3f remains UI 2.15.489/package 0.1.416 (HTTP/asset 200 and hash 2099cae6 at 16:04 UTC), coverage edge 239 ACTIVE/hash 995d5111. DB at 16:18 UTC: 1,791 migrations/head 20261106400000, unchanged deadline helper f01e9, zero other active client transactions. Course guard ff3d6 verified at 16:04. Exact Cloudflare commit and authenticated UI remain unverified.",
+    "completed": "**Completed:** The latest 100 filled deadline items contain 223 kept references and 152 distinct current active intake matches: 97 with non-closing quotations across 65 courses, 14 with explicit closing evidence, 41 requiring context. All 223 quotation identities were preserved, including the valid UBC closing date. Eight suspect dates across six sampled courses appear in all three consumer SQL functions. P0 escalated in Admin #382. Existing source/CI repairs preserved; no unchanged rerun. Pilot PRs merged: 0; production releases verified: 0; production rows corrected: 0.",
+    "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
+    "workstreams": "**Workstreams:** The independent cohort reviewer completed a read-only review using immutable GitHub source. Worktree materialisation failed during lazy fetch; no completed Git worktree is claimed. Root owns bounded SQL, evidence and canonical Admin edits. Local evidence: /workspace/cohort-deadline-audit. No code, function or migration writes or uncommitted Pilot source changes were introduced in this cycle. Existing engineering lanes remain complete.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** One read-only reviewer and planned bounded read-only SQL. No production operation, reservation, deployment or source write. GitHub has no active workflow. Atomic6d95 remains published with no owner/lease and adoption pending; no authority derives from elapsed time.",
-    "next_safe_action": "**Next safe action:** Select the bounded indexed deadline cohort in the permitted load window, independently classify quote semantics and verify exact current rows/consumer exposure. Record limits and preserve the disabled specifically authorised three-row correction. Account owners still must supply D-382-CUTOVER controls before any production mutation.",
-    "risks_recovery": "**Risks/recovery:** Three incorrect deadlines remain and 75 alerts are unattempted; no live improvement or issue closure is claimed. Candidate denial probes and green CI do not install fencing. The pilot environment is unprotected and secret access remains 403. The release-ready validator also refuses unverified exact deployment baseline, flag compatibility and deferred operational measurements. #877 human proposals and #889 authenticated UI, re-login and consumer HTTP/cache acceptance remain open. No unattended monitoring, heartbeat or successor acceptance is claimed.",
-    "evidence": "**Evidence:** [final895](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242291601), [final896](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242488745), [final894](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242495087), [final893](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42242503724), [account/probe/source/alert proof](validation/2026-11-06-controller-cutover-verification.json), [consolidated decision](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382)."
+    "in_flight": "**In flight:** None initiated by this execution. Reviewer and read-only SQL are complete; no workflow is running. The ten-course read timed out at six seconds and was stopped; the 16:18 check found zero other active client transactions. The only queued run is reconciled historical 34749286102. Atomic ref 6d95 remains published, with no owner or lease and adoption pending; it targets the stopped 14:22:59 execution. This execution did not accept control.",
+    "next_safe_action": "**Next safe action:** Review the cohort artifact and official context for 41 ambiguous cases, or plan smaller read-only batches for the remaining 59 consumer courses within permitted load windows. Do not repeat the timed-out ten-course batch unchanged or expand the disabled three-row correction. GitHub, Cloudflare and Supabase account owners complete the single D-382-CUTOVER action before acceptance by the actual execution and reserved sequential releases.",
+    "risks_recovery": "**Risks/recovery:** The deadline P0 extends beyond the initial three-row sample; no correction is claimed. Eight SQL output dates are verified; wider consumer, HTTP and cache exposure remains unknown. The timed-out read contributes no exposure count and is no longer in flight. Latest alert measurement remains 15:30 UTC: 75 unattempted, 71 overdue. Source denial probes and green CI do not install fencing: pilot remains unprotected and the secret API returned 403 again at final verification. Exact deployment, flag compatibility, authenticated desktop/phone and human admission gates remain. No unattended monitoring, heartbeat or successor acceptance is claimed.",
+    "evidence": "**Evidence:** [bounded deadline audit](validation/2026-11-06-deadline-semantic-p0.json), [P0 escalation](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6689591608), [account/source/CI proof](validation/2026-11-06-controller-cutover-verification.json), [consolidated owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). Final source/metadata CI evidence and ordered PR references remain in this checkpoint; no production outcome inferred."
   }
 }

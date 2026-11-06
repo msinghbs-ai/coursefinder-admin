@@ -393,3 +393,21 @@ The environment briefly reported starting, then running; files persisted and val
 Read current GitHub78b98c3, operating model/index/handover/checkpoint/schema, Admin382decisions and PilotCLAUDE/featureguides. Checkpoint validates. Live heads/holds unchanged and no workflow active. Claude release is acknowledged; atomic6d95remains unowned/adoptionpending. pilotstillunprotected andsecretAPI403; no new acknowledgement or deletion requested.
 
 Fresh16:04UTC database/frontend/edge baseline remains unchanged;0otheractiveclienttransactions. Existing source repairs and allverifiedCI remain preserved; no unchanged fullsuite is rerun. This bounded cycle audits the wider P0deadlinecohort beyond the3confirmedrows, using indexed/read-only/timeout-limited reads and independent semantic review. Agent WS-P0-DEADLINE-COHORT-REVIEW owns no code/function/migration writes, uses detached PR896source in /workspace/review-deadline-cohort and will review root’s selected data. No mutation, admission, paidread or expansionofcorrectionauthority is authorised by this audit.
+
+
+## CP-382-20261106T162150Z — bounded deadline integrity cycle complete
+
+Execution `codex-deadline-cohort-20261106T155856Z`. Checkpoint created 6 November 2026 16:21:50 UTC / 7 November 2026 03:21:50 AEDT.
+
+- **Issues fixed:** none newly fixed in production; completed source repairs preserved.
+- **PRs merged:** zero Pilot PRs.
+- **Production releases verified:** zero.
+- **Operational outcomes:** the latest 100 filled deadline items contain 223 kept references and 152 distinct current active intake matches. Independent and parent review identify 97 non-closing quotations across 65 courses, 14 explicit closing readings and 41 requiring source context. Eight suspect dates across six lexically selected courses appear in Website V2, Zoho V1 and Zoho V2 SQL outputs. All 223 quotation identities remain distinct; the valid UBC application-closing date is protected. [P0 escalation](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6689591608).
+- **Unresolved blockers:** D-382-CUTOVER account capabilities and actual fencing/atomic acceptance, applicable release authority and the separate exact three-row correction decision. The catalogue finding establishes semantic evidence insufficiency; it does not independently prove every calendar date wrong. Wider consumer, HTTP/cache and authenticated desktop/phone verification remains incomplete.
+- **Next executable action:** review the [bounded evidence](../validation/2026-11-06-deadline-semantic-p0.json), resolve the 41 ambiguous source contexts or plan smaller read-only checks of the remaining 59 consumer courses during permitted load windows. Account owners complete the existing single D-382-CUTOVER action before actual-execution acceptance and reserved #895 → #896 → #894 → #893 releases, with #892 integrated. The original disabled three-row correction scope remains unchanged.
+
+Final GitHub checks find unchanged main 4ba94e3f and candidate heads, no running workflow, and only reconciled historical queued run 34749286102. Atomic ref 6d95 has no owner or lease and adoption remains pending. The pilot environment is unprotected; its secret API again returns HTTP 403. No additional Claude acknowledgement or deletion of the historical run is required. The 16:18:39 UTC DB read verifies 1,791 migrations/head 20261106400000, unchanged helper f01e9 and zero other active client transactions.
+
+A ten-course consumer SQL batch exceeded its six-second statement limit. It was stopped and contributes no result rows or exposure counts; no unchanged retry occurred. The latest alert measurement remains 15:30 UTC, with 75 unattempted and 71 overdue; no fresh delivery result is claimed.
+
+The reviewer and SQL are complete, with no active local test, production reservation, deployment or new workflow. No uncommitted Pilot source change was introduced. The reviewer used immutable GitHub reads after worktree fetch failed; the audit directory is an evidence workspace, not a Git worktree. No active ownership is released because none was accepted; transfer remains pending. No production correction, wider write authority, unattended execution, heartbeat or future completion is claimed.
