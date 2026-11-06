@@ -540,3 +540,8 @@ Authority: Platform Admin 6 Nov 2026 09:44 §1 (conditional: rebase, CI, full te
 - Observation (not a defect, no PR): the publication stage's "processed/published 975" counts every admitted value re-checked in the window, not new publications (186). The panel's basis text says so; the label may be misread.
 - RESULT: PASS for the database and observer acceptance. PENDING Platform Admin verification: the Admin UI view of Process results (sign-in required; credentials not entered by the agent) should show the figures above.
 - Next: #877 needs separate Platform Admin release authorisation per the queue; #890 and #875 stay held.
+
+### 6 Nov 2026 12:55 — #889 CLOSED (database and observer evidence accepted); #877 AUTHORISED for controlled integration and release
+- Verbatim: `docs/platform/2026-11-06-close-pr889-proceed-pr877-1255.md`.
+- #889: Admin UI verification stays a pending operator check (not completed). Terminology correction approved (191 newly admitted, 186 net published gain after five withdrawals, 975 publication checks passed, three distinct measures), bundled into the next compatible UI PR, no separate release.
+- #877: authorised subject to the ten conditions in the record. #890 and #875 stay held. The test-evidence PR may proceed in parallel on an isolated branch without touching #877-owned files.
