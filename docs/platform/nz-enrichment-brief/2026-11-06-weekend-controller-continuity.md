@@ -573,3 +573,10 @@ Load: adapteroverwrite31.6s>2x11.7sprior; broaderverificationdeferred. Smallcrit
 Decision BEFORE code: extend existingunprivilegedpull_requestbuildtrigger toallPRbases byremovingonlyitsmainbranchfilter. Keeppushmain, jobname/allsteps, contentsreadpermissions, requiredreadinesschecks andproductiondeploy-on-mergegatesunchanged. No newscheduler/framework/applicationfunction/migration. Independentreadonlyreviewconfirms s69/s400compatibility. Rootownsadditionalexisting .github/workflows/pim-build.yml; changedCIfingerprintrequiresfreshfullNode22evidence, notoldbundle reuse.
 
 Production22:18snapshot:81pending/allunattempted/79overdue, nosending/failed/leases, latesthistoricalsentunchanged03Nov07:00:29Z; alloriginal79IDs21–99stillpending/attempts0, all3baddeadlinesactive. Noactualdelivery/receipt/watchdogPASS orproductionwrite.
+
+
+## CP-382-20261106T223117Z — actual build gate runs; alert preservation remains verified
+
+2026-11-06T22:31:17Z UTC. Source28a6a16c/draft897/base893201b has six-filetest/CI/registerdiff. Existingbuild-and-smoke nowactuallyruns42304446501, freshfullNode22run42304446495inprogress; collector/parity/deadline42304446518passed. Source8cfull1992/0/0/0bundleindependentlyverified, butoverallreadinesswasBLOCKEDmissingbuild; notmisreportedgreenorreusedforchangedworkflowfingerprint.
+
+Productionbefore/after21:56→22:18:80→81pending,allunattempted,79overdue. Original79IDs21–99immutableidentitySHA2562c5f3266d93988f3191ffc1fa5ef4091819adbb27e043db2fd10f76dbccc9a16matches. NewID101isarealinfo/recoveryforcourse_page_search(created22:10,resolved22:04),stillpending—notanewP0andnotourattributedrecovery. Collection/delivery/receipt remainunverified; latestrecordedconfirmationNov3predatesNov6handover,sowhyitceasedrequiresoriginalaccounthistory. Threebaddeadlinesremainactive. No productionwriteoractualnotification.

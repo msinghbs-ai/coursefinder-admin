@@ -17,37 +17,37 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** P1collector recovery isactive; exactwatchdoghealthfailureverified, missingexternalcollectionpathisolated, originalIDs preserved. SafePGfixtureengineeringadvancedtoPR897; productiondeliveryandP0correctionremainblocked.
+**Reason:** Alert recovery engineering continues while original collector access and production fencing remain blocked. Real protocol and full-suite evidence are qualified; a required stacked-PR build check gap is repaired and fresh CI is running.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Pilotmain4ba94e3f; edge239/hash995d5111 and consumeredges unchanged. At21:16UTC all1791migrationversions match/head20261106400000; deadlinef01e9/courseff3d6/flag668 and readerhashes unchanged. Jobs162active/176total under automatic controls. Lastverified frontend20:12UI489/.416/hash2099cae6; fresh21:13GET403/error1010 and independent web unavailable. ExactCloudflarecommit/authenticateddesktop/phone remain unverified.
+**Baseline:** Pilot main4ba94e3f; last verified frontend UI2.15.489/package0.1.416 at20:12UTC, later GET403/1010 prevents fresh frontend acceptance. Last full ledger21:16:1791 versions/head20261106400000. Alert function hashes/settings verified21:44; delivery on, webhook off, max5 attempts/retry10min/collection120min. At22:18 original79 IDs remain pending, all three incorrect deadlines remain active. Exact Cloudflare commit and authenticated UI are unverified.
 
 <!-- controller-handover:completed -->
-**Completed:** GenuinePG17.6fixturepassed116assertions/38collectorchecks; actualSQLfailureinjection exits3; qualifiedtarget32/0/0/0. Current80alertIDs21–100/allunattempted/noleases, original79IDs21–99preserved. PR897initialCIparityfailsold895path; inheritcompleted893correctionratherthanrebuild. Pilotmerges0/releases0/deliveries0.
+**Completed:** PR897 has six test/CI/register files, current28a6a16c/base893201b. Genuine local PG17.6 passed116 assertions/38 collector checks, SQL failure injection exits3, qualified target32/0/0/0. Source8c6dcd3b Node22 passed1992/0/0/0 and downloaded bundle/fingerprint verified. Current CI-trigger repair now starts actual build-and-smoke; fresh full evidence pending. Pilot merges0/releases0/real alert deliveries0.
 
 <!-- controller-handover:priorities -->
-**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
+**Priorities:** Restore the original D12 collector through verified fenced ownership, prove actual destination delivery/backlog reduction and independent watchdog PASS. Keep the three wrong deadlines under separate exact P0 correction gates. Preserve895→896→894→893 release order with892 integrated, held890/875 and human admission/budget boundaries.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-ALERTS-2136sourceagentcomplete; rootownsPR897five-filetest-onlydiff, nowhead8c6dcd3b/base893201b, in /workspace/alerts-2136/fixture-worktree. Completedparityfixinheritedwithoutrewriting895/896/894/893heads; nofunction/migration edits.
+**Workstreams:** Source agent completed independent review and protocol fixtures. Root owns PR897 branch codex/iq00112-alert-collector-acceptance, head28a6a16c at /workspace/alerts-2136/fixture-worktree; six-file diff against893201b, no production functions/migrations edited. Existing release candidate heads unchanged.
 
 <!-- controller-handover:pending_prs_migrations -->
-**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
+**Pending PRs/migrations:**895bcceb856 (includes892) →8967984e7bd/migration450000 →8948bde11f8/migration500000/Worker0.59.9 →893201b9126/migration550000/Worker0.59.10 remain unmerged/unapplied. Test-only draft89728a6a16c targets893 and adds no release/migration.890G3/875 remain held.
 
 <!-- controller-handover:decisions -->
-**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
+**Decisions:** D382 remains one consolidated account-owner instruction, now explicitly including the external D12 collector as a SQL writer. Restore the existing task/original push and e-mail recipient through actual guarded ownership; task ID/owner access and delivery receipt remain unavailable. No new channel or further Claude acknowledgement requested. Separate exact three-row correction, G3, destructive, human Layer4/trust and reserve authority remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** PR897fullNode22test-evidence42302274559running; parity/collector/deadline42302274860andotherisolatedSQLchecks pass. OwnlocalPGfixtureidle/no-network, no productionreservation/write/send/ack. Currentatomic6d95released/noowner/nolease/adoptionpending; actualguarddeniescurrentexecution.
+**In flight:** Own fresh full Node22 evidence42304446495 and actual build-and-smoke42304446501 are running for28a6a16c; parity/collector/deadline42304446518 passed. Earlier8c6dcd3b suite passed but readiness blocked on the missing build, now repaired in source. Local no-network PG fixture is idle. No production reservation/write/send/ack/deployment initiated; atomic6d95 remains released/no owner/no lease/adoption pending and guard denies current execution.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Verify PR897fullNode22results/bundle/same-runregister, preservingfive-filediff/base893. Accountowner mustlocate/restoreoriginalD12collectorandapprovedpush/e-mailrecipientthroughD382guardedSQLfencing, thenverifyrealreceipt/backlogreduction/independentwatchdogPASS. P0exactthree-rowcorrectionremainsseparatelygated.
+**Next safe action:** Verify the current real build/full Node22 bundle, commit its same-run register and verify metadata reuse/final checks. Account owner completes existing D382 controlled bootstrap, locates/restores original D12 task with guarded take/confirm and original recipient, then records actual receipt/backlog reduction/watchdog PASS. Do not take or confirm production alerts before those gates.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** AlertIDs21–100remainpending;79overdue/80unattempted; lastsentID20on03Nov07:00:29Z. Externalcollectorabsentfromcurrentaccountinventory, broaderowneraccountstateunknown. Fixturetransport/DBsentisnotrealreceipt. Threebaddeadlinesstillactive21:56. Adapteroverwrite31.6s>2xprior11.7sdeferredbroaderreads; one21:48:56cataloguehashlookuptimingsliprecorded. Envunprotected/secretAPI403/accountfencing/ownershipgatesremain.
+**Risks/recovery:** At22:18,81 pending/81 unattempted/79 overdue; all original79 identities unchanged, no leases/failed rows. Latest historical confirmation03Nov07:00:29Z predates Nov6handover; its cessation cause requires original account history. Recovery event101 was generated but remains undelivered. Three wrong deadlines remain active. Source tests/database sent/task results do not prove recipient delivery. Account protections/403 and exclusive ownership remain unresolved.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [collectorrootcause/stages/preservedIDs/localtests](validation/2026-11-06-controller-cutover-verification.json), [PR897](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/897), [verifiedwatchdog42262985796](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42262985796), [singleD382accountaction](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). Noactualdelivery/receipt/watchdogPASS, heartbeat, activeauthority orsuccessoracceptanceclaimed.
+**Evidence:** [collector stages, preserved IDs and CI provenance](validation/2026-11-06-controller-cutover-verification.json), [PR897](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/897), [verified watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42262985796), [single account-owner instruction](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). No actual delivery, receipt, recovered watchdog PASS, heartbeat or accepted transfer claimed.
 
 
 ## Progress dashboard
