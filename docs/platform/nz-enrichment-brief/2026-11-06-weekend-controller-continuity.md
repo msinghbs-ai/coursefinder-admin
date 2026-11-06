@@ -132,3 +132,13 @@ materialised subset. Both implementation branches are integrated and retained as
 attributable evidence. Agent review work is complete; no running sub-agent is claimed.
 The next safe action is in the canonical handover; scheduled resumptions have not
 run and no successor transfer is claimed. Programme completion is not declared.
+
+## Immediate execution recovery — 2026-11-06T11:07:04Z
+
+Platform Admin instruction: the continuity merge is not completion. Continue the full repair cycle in existing PRs: first all four #894 defects and full governed suite; second genuine #893 Postgres scenario execution, overlap reconciliation and unique Worker version; third #892 phone dependency and trustworthy suite evidence; then adopt the existing ownership gate at production entry points before any mutation and perform only permitted sequential releases. Preserve admission authority and accurate proposed/admitted/published measures. Do not create another framework or duplicate register.
+
+Development ownership for this recovery execution: Codex coordinates existing-PR repairs. Isolated #894 worktree owns the four-defect source, migration/UI/worker re-ask and existing regression tests. Isolated #893 worktree owns English fixture execution, its CI workflow and stale evidence wording; shared Worker version edits are coordinated by Codex. Codex owns #892 evidence workflow/library and cross-branch integration. No agent merges, deploys, writes production or spends vendor budget. Exact PR heads at resumption: #894 `162e9fc7`, #893 `2513a909`, #892 `7a2f3dd3`, Pilot main `4ba94e3f`. These are unchanged from the previous checkpoint; every push uses expected-head checks and no force.
+
+Production controller remains unaccepted; Claude release is still unacknowledged. This does not block isolated development. Local Git clone fails because the configured proxy is unreachable, and the local Docker socket denies access; use connected GitHub source operations and actual GitHub Actions Postgres/browser execution, without bypassing the environment network policy. Do not treat that local execution limit as a reason to stop repository repairs.
+
+Each following checkpoint separates issues fixed, PRs merged, production releases verified, operational outcomes, unresolved blockers and next executable action. This section extends the existing record; no new handover mechanism is introduced.
