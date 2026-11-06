@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "coordination_id": "studysearch-integration-controller",
+  "status": "reconciliation",
+  "generation": 0,
+  "owner": null,
+  "heartbeat_at": null,
+  "lease_expires_at": null,
+  "transfer": {
+    "status": "pending",
+    "to": "codex-weekend-20261106-0903Z",
+    "predecessor": "Claude",
+    "release_ref": null
+  },
+  "in_flight": null,
+  "last_event": null,
+  "event_ids": [],
+  "updated_at": "2026-11-06T09:18:22Z",
+  "adoption": {
+    "status": "pending",
+    "evidence_refs": []
+  },
+  "reconciliation": {
+    "status": "required",
+    "evidence_refs": []
+  }
+}
