@@ -17,7 +17,7 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** One bounded deadline consumer verification cycle completed from GitHub. Evidence coverage expanded without a source repair, test rerun or production mutation; account fencing and ownership acceptance remain blocked.
+**Reason:** Scheduled recovery starts a bounded source/runtime reconciliation of existingIQ-00046. No source defect or production repair is assumed; completed prior engineering remains preserved.
 
 <!-- controller-handover:baseline -->
 **Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416; HTTP/asset 200 and hash 2099cae6 verified at 19:09 UTC. Edge 239 ACTIVE/hash 995d5111 unchanged. At 19:12 all 1,791 migration versions match, head 20261106400000; deadline f01e9, course ff3d6 and flag 668 hashes unchanged. Observed 163 active jobs of 176 vary under reconciled automatic controls. Exact Cloudflare commit and authenticated UI remain unknown.
@@ -29,7 +29,7 @@
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-P0-CONSUMER-1902 complete in clean detached7984e7bd worktree /workspace/resume-1902/review-consumers. Reviewer owns only local independent-review JSON; root owns SQL/canonical evidence. Prior source repairs and resolved job-count work are preserved. All tracked worktree files clean; predecessor untracked validation logs/node_modules retained and inventoried.
+**Workstreams:** WS-IQ00046-2000: source-only reviewer in detached4ba94e3f worktree /workspace/resume-2000/reader-source owns only local review JSON. Root owns readonlySQL/watchdog/canonicalevidence. No code, function or migration edits.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,10 +38,10 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** No agent, SQL, local test, production reservation, deployment or new workflow initiated here remains active. Two other active clients were observed19:12; follow-up19:13 found none, without attribution or cancellation. Platform jobs continue independently. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95 has no owner or lease and adoption remains pending; no authority accepted/released.
+**In flight:** One source-only reviewer and bounded readonlystatus/baseline verification. No production reservation/write/deployment/newworkflow. GitHub has no runningworkflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null/adoptionpending, no control accepted.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Continue bounded probes for48remainingcohortcourses or source/year/audience reconciliation; inspect existingIQ-00046readerfailure evidence without paid retries or control changes. Account owners complete D-382-CUTOVER before actual-execution acceptance and reserved895→896→894→893 releases, with892integrated. Original disabled three-row correction scope is unchanged.
+**Next safe action:** Reconcile exactstatusrows and why17fetch_failed+8blocked were counted as25failures. Storedtally refutes the speculative eight-success hypothesis; preserve failclosedclassification. Inspect supported resource/source blockers without paidretry, activation or mutation.
 
 <!-- controller-handover:risks_recovery -->
 **Risks/recovery:** The cumulative sample is not a simultaneous refresh or HTTP/cache verification; consumer payloads have no intake UUID. All three original bad deadlines remain active at 19:12 UTC. Alerts: 78 pending, all unattempted, 77 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The course-page watch reports 25 failed/33 tried; ledger counters use a different grain and require reconciliation under existing IQ-00046. No failed cron rows in the covered two-hour sample. Environment unprotected/secret API 403; fencing, ownership, approval, admission, hold and reserve gates remain.

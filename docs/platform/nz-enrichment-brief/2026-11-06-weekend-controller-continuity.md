@@ -484,3 +484,8 @@ Baseline19:12UTC: all1,791migrationversions match/head400000; deadlinef01e9/cour
 Termination: reviewer/rootSQL complete; no execution-initiated active reservation/test/deployment/newworkflow or source changes. Platform jobs continue independently. Tracked worktree files clean; prior untracked logs/node_modules retained/inventoried. Atomic6d95 remains unowned/adoptionpending, targeting stopped142259execution; no acceptance/release/transfer completion claimed. No unattended execution, heartbeat or future completion.
 
 Reader counter follow-up: the bounded ledger sample for the watch window reports 132 calls (130 idle), 33 items, 16 ok and 17 failed; the watch reports 33 tried, 8 done and 25 failed. Stage/grain/atomic-batch semantics remain unverified. One work-bearing response is HTTP200 with outcome zero_work_error. Coarse budget keyword signals are not a root-cause diagnosis. Existing IQ-00046 remains open; no paid retry or control change.
+
+
+## CP-382-20261106T201159Z — reader counter diagnosis starts
+
+Actual execution `codex-reader-reconcile-20261106T200457Z`, UTC. Mandatory currentGitHubrecords/382decisions/PilotCLAUDE read and CP191806validated; heads/holds unchanged, no runningworkflow, account403/unownedatomic6d95 gates unchanged. Source review initially considered a mixed-success hypothesis; exact PK216213 storedtally disproves it: blocked8+fetch_failed17, no read8. The reporter ok8 is derivednon-fetchfailremainder, not landedreadsuccess. No classifier fix is justified. Root continues exactstatus/membership and bounded failure-cause verification, sourceagentowns localreview only; no production/vendor/test/source mutation.
