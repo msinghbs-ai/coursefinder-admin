@@ -1,44 +1,33 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T141807Z",
-  "created_at": "2026-11-06T14:18:07Z",
+  "checkpoint_id": "CP-382-20261106T142912Z",
+  "created_at": "2026-11-06T14:29:12Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-delivery-20261106T122559Z",
-  "trigger": "session_termination",
+  "execution_id": "codex-takeover-20261106T142259Z",
+  "trigger": "governed_control_write_preflight",
   "controller": {
     "candidate": "Codex",
     "owner": null,
     "previous_owner": "Claude; explicit release Admin382 comment6686299314, independently reconciled",
     "status": "reconciliation",
     "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-delivery-20261106T122559Z",
+    "session_id": "codex-takeover-20261106T142259Z",
     "ownership_started_at": null,
     "last_heartbeat_at": null,
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
-    "ownership_commit": "45bda42a36d909891497368821f447710f932b84",
-    "mode": "active_engineering_read_only_incident_and_ownership_reconciliation",
+    "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+    "mode": "ownership_security_cutover_reconciliation",
     "successor": null,
     "transfer": {
       "status": "published",
-      "requested_at": "2026-11-06T13:56:33Z",
+      "requested_at": "2026-11-06T14:27:28Z",
       "accepted_at": null,
       "verified_at": null,
       "completed_at": null,
       "accepted_by": null
     },
-    "in_flight_operations": [
-      {
-        "id": "GH-RUN-34749286102",
-        "kind": "historical_queued_workflow",
-        "state": "reconciliation",
-        "started_at": "2026-09-13T09:18:14Z",
-        "evidence_ids": [
-          "EV-QUEUED",
-          "EV-CLAUDE-RELEASE"
-        ]
-      }
-    ]
+    "in_flight_operations": []
   },
   "production": {
     "verification_status": "reported",
@@ -3682,13 +3671,13 @@
       "workstream_id": "WS-PROVIDER",
       "name": "Latest pending alerts; overdue count retains its earlier timestamp",
       "value": {
-        "pending": 71,
-        "unattempted_pending": 71,
+        "pending": 73,
+        "unattempted_pending": 73,
         "overdue_last_measured": 64,
         "overdue_measured_at": "2026-11-06T13:19:47.338410Z"
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T14:08:03.650218Z",
+      "measured_at": "2026-11-06T14:26:25.860583Z",
       "status": "verified",
       "evidence_ids": [
         "EV-DELIVERY-PRODUCTION"
@@ -4200,7 +4189,7 @@
   "blockers": [
     {
       "id": "B-OWNERSHIP",
-      "summary": "Claude release recorded; transfer not accepted/verified/completed because actual entry-point adoption remains pending.",
+      "summary": "Claude release and non-executable historical run reconciled. Actual account fencing and atomic acceptance remain gates; no further Claude acknowledgement or run deletion required.",
       "owner": "Integration Controller candidates",
       "workstream_ids": [
         "WS-382"
@@ -4620,12 +4609,19 @@
       "kind": "production_query",
       "observed_at": "2026-11-06T14:18:07Z",
       "summary": "14:07 all18 English before-MD5 guards match;14:08 Englishcron4827953f23c896d5ae05b14dd4ca722f and courseguardff3d6dd7b0f88c85b1fdff6c8a8cd86b match. Alerts71pending/allunattempted. Edgecoverage239 ACTIVE bundle995d5111618181a55afa168f97d529f7bae27f9ff1d9825def373cf503f494b5. 14:09pilotprotection_rules[]/branchpolicynull. 14:11frontend200/asset200/UI489/package416/hash2099cae683638b50dbec35ef7e3a047b3ac26f513fd82900e1456389aed88540 unchanged. PythondefaultUA403 corrected by ordinary browserUA200, not claimed incident. ExactCloudflarecommit/authenticatedUI remain unverified."
+    },
+    {
+      "id": "EV-TAKEOVER-RECON",
+      "reference": "https://github.com/msinghbs-ai/coursefinder-admin/commit/6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+      "kind": "github_commit",
+      "observed_at": "2026-11-06T14:29:12Z",
+      "summary": "Current GitHubCLIauth works but repository/environmentsecretGET403 and branchprotectionGET403 Resource not accessible by integration. pilotrules empty/branchpolicy null; rulesets[]. No Cloudflare/Supabase/UAT runtime credential bindings configured. Old34749286102 remains0jobs, workflow357007531 deleted9Oct/no update since13Sep; treated non-executable historical record, deletion is not a release prerequisite.14:26DB1791/head400000/olddeadline f01e9 and coursehashff3d6;73alerts/allunattempted. Followup activeclienttransaction inventory empty. Only current GitHub active run895metadata42226902408, no production workflow. Claude cessation acknowledged, credentialrevocation not claimed."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Verified final894/893/896 downloaded reuse bundles and current checks; all source/registers published. Preserved895 localregister and removed isolated testDB.",
-    "current_action": "Bounded cycle ending; only remote895 metadata CI remains in progress. No production mutation in flight by this execution.",
-    "next_safe_action": "Read latest validated checkpoint and current895 run; verify real D-382-CUTOVER controls/authority, reconcile fresh execution target through atomicprotocol, then reservation-bound895\u2192896\u2192894\u2192893 releases with live acceptance.",
+    "last_completed_atomic_action": "Freshly verified Claude release, live inventory and baseline; CAS6d95b3e1 retargets actual current execution with no owner/lease.",
+    "current_action": "Prepare narrowly scoped pilot main-only environment control; no production release, migration or data mutation authorised by this checkpoint.",
+    "next_safe_action": "Attempt authorised account security control through normal CLI; record actual permission outcome. If available preserve main recovery and nineteen readers, then verify complete fencing before active ownership.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4647,22 +4643,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T135929Z",
+    "predecessor_checkpoint": "CP-382-20261106T141807Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** This bounded cycle is ending at an external account and authority gate. Source repairs and evidence are published. Claude\u2019s explicit release is reconciled; no active successor ownership or production adoption is claimed.",
-    "baseline": "**Baseline:** Pilot main `4ba94e3f` still serves UI 2.15.489/package 0.1.416 (HTTP and asset 200 at 14:11 UTC; asset hash unchanged). Coverage Worker remains 0.59.8, edge version 239 ACTIVE. Database: 1,791 migrations, head 20261106400000 at 13:55 UTC. The old deadline helper remains live. All 18 English hashes, its job hash and the course-description hash match the proposed migration baselines. Exact Cloudflare commit and authenticated UI remain unverified.",
+    "reason": "**Reason:** New user-directed takeover cycle. Claude\u2019s recorded release is independently verified. Atomic ref retargets this actual execution; no active authority is claimed before fencing.",
+    "baseline": "**Baseline:** Fresh14:26 UTC database read confirms1,791 migrations/head20261106400000, olddeadlinehelperf01e9 and courseguardff3d6 unchanged. Alerts73pending/allunattempted. Last14:11 HTTP/asset baseline remains UI2.15.489/package0.1.416; coverageWorker0.59.8/edge239. Followup activeclienttransaction inventory empty; exactCloudflarecommit/authenticatedUI stillunverified.",
     "completed": "**Completed:** Shared parity now executes real local PostgreSQL and fails on SQL errors. The four #894 defects and #893/#892 repairs are preserved. Verified final evidence: #894 1,967 passed; #893 1,992 passed; #896 1,951 passed; each has zero failures, skips or flakes and passing final metadata/build/parity/release checks. #895 source has 1,951 passing tests; its metadata gate remains pending. Original 63 alerts: 47 historical, 16 active, zero exact duplicates. This execution merged zero Pilot PRs, verified zero production releases and corrected zero production rows.",
     "priorities": "**Priorities:** Contain the deadline P0 and release its guard; complete account fencing and exclusive ownership; release #895 \u2192 #896 \u2192 #894 \u2192 #893, with #892 already integrated into #895. Continue bounded #877/#889 and other operational acceptance. Preserve #890/#875 holds, budgets and human authority.",
     "workstreams": "**Workstreams:** All agents have stopped and engineering is published. Canonical remote heads: #895 bcc3d57a, #896 dc5c343d, #894 8035c350, #893 0edc65d6. Local preservation references and untracked test evidence are recorded in the dated response; there is no unique uncommitted engineering. The isolated test database was removed.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcc3d57a: UI 2.15.490/package 0.1.417, includes #892. #896 dc5c343d: UI 2.15.491/package 0.1.418, migration 450000. #894 8035c350: UI 2.15.492/package 0.1.419, migration 500000, Worker 0.59.9. #893 0edc65d6: UI 2.15.493/package 0.1.420, migration 550000, Worker 0.59.10. All remain unmerged and unapplied; #890/#875 holds remain.",
     "decisions": "**Decisions:** Claude\u2019s actual acknowledgement resolves the missing predecessor response. Remaining D-382-CUTOVER actions are real protected pilot/main credentials and branch controls, the reviewed Cloudflare/direct-SQL cutover with recovery preserved, applicable explicit release authority, and approval for the exact three-deadline correction. Consumer API, destructive-data, human Layer 4/trust and vendor reserve restrictions remain.",
-    "in_flight": "**In flight:** Only development CI #895 run 42226902408 remains active, installing Chromium since 13:37:22 UTC before candidate tests. Its exact external cause is unverified. No agent, local test or production operation from this execution is running. Atomic ref 45bda42a records release publication: owner null, lease null, adoption pending. Historical run 34749286102 remains queued with zero jobs and a deleted workflow definition; it is not labelled cancelled.",
-    "next_safe_action": "**Next safe action:** Inspect the existing #895 run first and preserve verified #894/#893/#896 evidence. An authorised account owner must complete the remaining D-382-CUTOVER controls and decisions. A fresh successor must recheck live GitHub/production, retarget its execution through the documented atomic protocol, and verify fencing and recovery before accepting active authority. Then execute reserved sequential releases and measured production acceptance.",
+    "in_flight": "**In flight:** No production operation or active agent work. #895 metadata CI42226902408 remains installing Chromium. Historical34749286102 has zero jobs and a deleted definition; it is a non-executable historical record, not a running deployment or deletion prerequisite. Atomic6d95b3e1 has no owner/lease, transfer published, adoption pending.",
+    "next_safe_action": "**Next safe action:** Attempt the authorised pilot main-only environment security control using normal authenticated CLI, with main recovery preserved. Verify actual permissions and all credential/Cloudflare/direct-SQL controls before active controller acceptance. Production releases and data corrections remain held.",
     "risks_recovery": "**Risks/recovery:** Three incorrect deadlines remain exposed in production. The guard and disabled review paste are candidates only. At 14:08 UTC, 71 alerts were pending and unattempted; the last overdue count of 64 was measured at 13:19 UTC. #877 has zero new calls/spend since release, four human proposals and one hold. #889\u2019s observer is healthy; authenticated UI, re-login and consumer HTTP/cache checks remain pending. The pilot environment was still unprotected at 14:09 UTC. No unattended monitoring, heartbeat or successor acceptance is claimed.",
-    "evidence": "**Evidence:** [#894 final gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42231823589), [#893 final gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42230839017), [#896 final gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42230441319), [#895 pending gate](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42226902408), [atomic release](https://github.com/msinghbs-ai/coursefinder-admin/commit/45bda42a36d909891497368821f447710f932b84), [consolidated decision](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6685993075), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json)."
+    "evidence": "**Evidence:** [actual Claude release](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314), [current atomic reconciliation](https://github.com/msinghbs-ai/coursefinder-admin/commit/6d95b3e12db56d4f7e915c12503ca995e8be4b1e), [historical run](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/34749286102), [895 pending](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42226902408), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json)."
   }
 }

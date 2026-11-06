@@ -303,3 +303,12 @@ Final English PostgreSQL job 127935991338 reproduced 471 facts, 23 tables and 48
 The supplementary local #894 exact-tree run passed 1,967 tests with zero failures/skips/flakes/retries/report errors; build and release checks passed. It used Node 24.22.1, so canonical Node 22 Actions evidence remains authoritative. Local results SHA256: `4f84a6a9efcbebc8f02d61bfb6c15d8c4589efc0b1399f55f298d6f4a6f0d0bd`.
 
 All agents and local tests have stopped. Local preservation references: root #895 register commit `0ef97c8a` (already published as remote bcc), #894 detached `cd8b81c9`, #893 local `99e00249`, P0 local `bad902ad`. Only untracked node_modules symlinks and P0 test logs/provenance remain; there is no unique uncommitted engineering. The isolated `studysearch-deadline-pg17` container was removed at 14:13 UTC and logs retained. Remote #895 CI and the historical queued run remain recorded. This AI claims no monitoring, heartbeat or future completion after ending.
+
+
+## CP-382-20261106T142912Z — takeover security-control preflight
+
+User instruction confirms Claude handover completion. Actual release and live inventory independently verified; no second acknowledgement required. Run34749286102 independently has0jobs and deleted workflow357007531; no update since13Sep. It is accounted for as a non-executable historical record, and deletion is not required. Atomic CAS6d95b3e1 records the current execution target without owner/lease acceptance.
+
+Normal gh authentication now works, unlike the previous cycle. Actual secret reads (repository and pilot environment) and branch-protection reads return403 Resource not accessible by integration, despite repository permissions.admin=true. Runtime has no Cloudflare/Supabase/UAT secret bindings. Prepared exact reversible pilot custom branch policy restricted to main; about to attempt the authorised security configuration through normalAPI. Main recovery and19reviewed readers must be preserved; no credentials revoked or copied. No production deployment/data write is being initiated.
+
+Fresh14:26 UTC baseline:1791migrations/head400000, olddeadlinehashf01e9/courseguardff3d6 unchanged,73alerts/allunattempted; followup clienttransaction inventoryempty. Only #895metadataCI active. Existing passing894/893/896 test evidence remains unchanged. This preflight checkpoint does not grant production authority.

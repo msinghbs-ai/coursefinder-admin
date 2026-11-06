@@ -7,12 +7,12 @@ Start with [Controller handover](../STUDYSEARCH-EXECUTION-REGISTER.md#controller
 and [validated machine state](../STUDYSEARCH-CONTROLLER-STATE.json), then independently
 verify live state under [the operating model](../AGENT-OPERATING-MODEL.md#permanent-ai-controller-continuity-6-november-2026-admin-382).
 
-- Claude explicitly released control in [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314). Atomic ref `studysearch-controller` at `45bda42a` records published release to Codex; owner and lease remain null, fencing adoption pending. No active production authority or completed transfer is claimed.
+- Claude explicitly released control in [Admin #382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314). Atomic ref `studysearch-controller` at `6d95b3e1` records published release to Codex; owner and lease remain null, fencing adoption pending. No active production authority or completed transfer is claimed.
 - Pilot main remains `4ba94e3f`, UI v2.15.489/package 0.1.416 (HTTP/asset verified 14:11 UTC), coverage Worker v0.59.8/edge 239, migration head `20261106400000` with 1,791 versions. Exact Cloudflare commit and authenticated UI remain unverified.
 - Final #894/#893/#896 source and metadata gates pass: respectively 1,967/1,992/1,951 tests, zero failures/skips/flakes; real PostgreSQL evidence and immutable bundles verified. #892’s completed phone/evidence source is integrated into #895. #895 source has 1,951 passing tests, but final metadata CI is still installing Chromium. All four candidates remain unmerged; production acceptance is open.
 - #877/#889/#891/#887 are merged; bounded operational and authenticated operator checks remain open. #890 G3 and #875 remain held. No production release, migration or data correction occurred in this execution.
 - A new confirmed P0 exposes three commencement dates as application deadlines in consumer SQL. Guard and disabled exact correction proposal are in #896; the three values remain live. Prior containment of five UNSW dates and thirteen bad fees was independently checked; no global closure or HTTP/cache acceptance is claimed.
-- Original 63 alerts: 47 historical events, 16 active, zero exact duplicates. Latest 14:08 UTC backlog is 71 pending, all unattempted; classification did not deliver or acknowledge alerts.
+- Original 63 alerts: 47 historical events, 16 active, zero exact duplicates. Latest 14:26 UTC backlog is 73 pending, all unattempted; classification did not deliver or acknowledge alerts.
 - Developer guide **Issue 7** is current; Issue 8 is draft. The Issue 6 currentness line below is historical and superseded.
 - Configured weekend/Monday resumptions do not establish continuous execution. Checkpoints describe actual bounded work only; no unattended monitoring, heartbeat or successor acceptance is claimed.
 
