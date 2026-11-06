@@ -8,22 +8,22 @@
   "lease_expires_at": null,
   "transfer": {
     "status": "published",
-    "to": "codex-delivery-20261106T122559Z",
+    "to": "codex-takeover-20261106T142259Z",
     "predecessor": null,
     "release_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
-    "prepared_at": "2026-11-06T13:56:33Z",
+    "prepared_at": "2026-11-06T14:27:28Z",
     "handover_ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md",
-    "published_at": "2026-11-06T13:56:33Z"
+    "published_at": "2026-11-06T14:27:28Z"
   },
   "in_flight": null,
   "last_event": {
-    "id": "EV-382-20261106T135633Z-record_predecessor_release",
+    "id": "EV-382-20261106T142728Z-record_predecessor_release",
     "kind": "record_predecessor_release",
-    "execution_id": "codex-delivery-20261106T122559Z",
-    "at": "2026-11-06T13:56:33Z",
+    "execution_id": "codex-takeover-20261106T142259Z",
+    "at": "2026-11-06T14:27:28Z",
     "evidence_refs": [
       "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
-      "https://github.com/msinghbs-ai/coursefinder-admin/commit/f9da4c42034cb6a92360d9cd070e95370624ef2a",
+      "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md",
       "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/34749286102"
     ],
     "payload": {
@@ -34,9 +34,12 @@
   "event_ids": [
     "EV-382-20261106T135633Z-request_transfer",
     "EV-382-20261106T135633Z-reconcile",
-    "EV-382-20261106T135633Z-record_predecessor_release"
+    "EV-382-20261106T135633Z-record_predecessor_release",
+    "EV-382-20261106T142728Z-request_transfer",
+    "EV-382-20261106T142728Z-reconcile",
+    "EV-382-20261106T142728Z-record_predecessor_release"
   ],
-  "updated_at": "2026-11-06T13:56:33Z",
+  "updated_at": "2026-11-06T14:27:28Z",
   "adoption": {
     "status": "pending",
     "evidence_refs": []
@@ -45,10 +48,10 @@
     "status": "verified",
     "evidence_refs": [
       "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6686299314",
-      "https://github.com/msinghbs-ai/coursefinder-admin/commit/f9da4c42034cb6a92360d9cd070e95370624ef2a",
+      "https://github.com/msinghbs-ai/coursefinder-admin/blob/f9da4c42034cb6a92360d9cd070e95370624ef2a/docs/platform/2026-11-07-claude-controller-released-handover.md",
       "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/34749286102"
     ],
-    "verified_at": "2026-11-06T13:56:33Z",
-    "verified_by": "codex-delivery-20261106T122559Z"
+    "verified_at": "2026-11-06T14:27:28Z",
+    "verified_by": "codex-takeover-20261106T142259Z"
   }
 }
