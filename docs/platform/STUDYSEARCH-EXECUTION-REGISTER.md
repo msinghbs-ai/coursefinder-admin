@@ -17,19 +17,19 @@
 ## Controller handover
 
 <!-- controller-handover:reason -->
-**Reason:** Scheduled recovery starts a bounded source/runtime reconciliation of existingIQ-00046. No source defect or production repair is assumed; completed prior engineering remains preserved.
+**Reason:** One bounded reader integration diagnosis completed from current GitHub records. The apparent counter contradiction is resolved; no code defect or production repair is claimed. Actual account fencing and ownership remain blocked.
 
 <!-- controller-handover:baseline -->
-**Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416; HTTP/asset 200 and hash 2099cae6 verified at 19:09 UTC. Edge 239 ACTIVE/hash 995d5111 unchanged. At 19:12 all 1,791 migration versions match, head 20261106400000; deadline f01e9, course ff3d6 and flag 668 hashes unchanged. Observed 163 active jobs of 176 vary under reconciled automatic controls. Exact Cloudflare commit and authenticated UI remain unknown.
+**Baseline:** Pilot main4ba94e3f, UI2.15.489/package0.1.416; HTTP/asset200/hash2099cae6 verified20:12UTC. Edge239 ACTIVE/hash995d5111 unchanged. All1791migrationversions match/head20261106400000 at20:14; deadlinef01e9/courseff3d6 and20:20flag668/reader hashes unchanged. Jobs163active/176total under automatic controls. Exact Cloudflare commit and authenticated desktop/phone remain unverified.
 
 <!-- controller-handover:completed -->
-**Completed:** Ten single-course probes returned 30 successful function projections. Twelve exact active intake/date references match 36 consumer date/label pairs, with zero mismatches; independent review and parent assertions agree. Eleven evidence-ID differences retained. The cumulative cohort sample is 17 courses/21 pairs across different times; 48 courses remain. Two original P0 courses were already known globally. Pilot PRs merged: 0; production releases: 0; corrections: 0.
+**Completed:** WS-IQ00046-2000 diagnostic complete. Stored tally blocked8+fetch_failed17 explains ledgeritems25/derivedok8; current old-window statuses add8needs_render, matching watch33tried/25failed. Zero-work classification is consistent; no speculative classifier repair. Prior #892/#893/#894 engineering preserved. Pilot PRs merged0; production releases0; corrections0; operational issue remains open.
 
 <!-- controller-handover:priorities -->
 **Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.
 
 <!-- controller-handover:workstreams -->
-**Workstreams:** WS-IQ00046-2000: source-only reviewer in detached4ba94e3f worktree /workspace/resume-2000/reader-source owns only local review JSON. Root owns readonlySQL/watchdog/canonicalevidence. No code, function or migration edits.
+**Workstreams:** Root completed read-only SQL and evidence reconciliation; reader_source_2000 completed independent source-only review in clean detached4ba94e3f worktree /workspace/resume-2000/reader-source. Sole reviewer output is local review JSON, now embedded with durable GitHub source refs in canonical evidence. No owned source/function/migration edits. All10trackedworktrees clean; predecessor untracked logs/node_modules retained and inventoried.
 
 <!-- controller-handover:pending_prs_migrations -->
 **Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.
@@ -38,16 +38,16 @@
 **Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.
 
 <!-- controller-handover:in_flight -->
-**In flight:** One source-only reviewer and bounded readonlystatus/baseline verification. No production reservation/write/deployment/newworkflow. GitHub has no runningworkflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null/adoptionpending, no control accepted.
+**In flight:** No agent, SQL, local test, reservation, deployment or workflow initiated by this execution remains active. Seven other active DB clients observed20:20UTC were not attributed or cancelled; platform jobs continue independently. GitHub has no running workflow; queued34749286102 has0jobs and reconciled missing dispatcher/recipient. Atomic6d95 remains unowned/no lease/adoptionpending; no acceptance or release claimed.
 
 <!-- controller-handover:next_safe_action -->
-**Next safe action:** Reconcile exactstatusrows and why17fetch_failed+8blocked were counted as25failures. Storedtally refutes the speculative eight-success hypothesis; preserve failclosedclassification. Inspect supported resource/source blockers without paidretry, activation or mutation.
+**Next safe action:** Investigate the three directHTTP200/fetch_failed causes from existing evidence with bounded read-only probes; do not reset exhausted pages, refetch or spend. Account owners implement existing D-382-CUTOVER with verified denial/recovery before current-execution atomic acceptance and895→896→894→893 releases with892integrated. Exact original three-row deadline correction remains separately gated.
 
 <!-- controller-handover:risks_recovery -->
-**Risks/recovery:** The cumulative sample is not a simultaneous refresh or HTTP/cache verification; consumer payloads have no intake UUID. All three original bad deadlines remain active at 19:12 UTC. Alerts: 78 pending, all unattempted, 77 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The course-page watch reports 25 failed/33 tried; ledger counters use a different grain and require reconciliation under existing IQ-00046. No failed cron rows in the covered two-hour sample. Environment unprotected/secret API 403; fencing, ownership, approval, admission, hold and reserve gates remain.
+**Risks/recovery:** Current historical-window rows are mutable, not immutable per-call membership. needs_render and ledgerok are not successful reads/admissions. HTTP403x8/404x14 and3direct200/fetch_failed require appropriate source diagnosis; the call reports0Firecrawl capacity above reserve. Queue2091exhausted/pending0 is not recovery. Three original baddeadlines remainactive20:14UTC; alerts79pending/allunattempted/78overdue,62historical+17activeevents across5conditions,0duplicates. Environment unprotected/secretAPI403; account controls, exclusive authority and existing holds/budgets remain.
 
 <!-- controller-handover:evidence -->
-**Evidence:** [ten-course probes/exact joins/independent review](validation/2026-11-06-deadline-semantic-p0.json), [baseline/jobs/reader/controls](validation/2026-11-06-controller-cutover-verification.json), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat or successor acceptance claimed.
+**Evidence:** [reader source/runtime reconciliation and fresh baseline](validation/2026-11-06-controller-cutover-verification.json), [preserved deadline evidence](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat, successor acceptance or completed transfer claimed.
 
 
 ## Progress dashboard

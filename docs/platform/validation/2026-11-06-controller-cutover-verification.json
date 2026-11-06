@@ -8948,5 +8948,1242 @@
       "ledger_reported_failed": 17,
       "note": "Ledger132calls include130idle plus two work-bearing records; ledger fields total33items/16ok/17failed versus watch33tried/8done/25failed. Stage/grain/atomic-batch semantics have not been established, so this discrepancy does not prove a monitoring defect or root cause. One work-bearing record has HTTP200/outcomezero_work_error. Budget keyword booleans are coarse signals, not causal attribution. No rawbody/error/source content exported."
     }
+  },
+  "reader_counter_reconciliation_2000": {
+    "execution_id": "codex-reader-reconcile-20261106T200457Z",
+    "checkpoint_id": "CP-382-20261106T202256Z",
+    "recorded_at": "2026-11-06T20:22:56Z",
+    "baseline": {
+      "observed_at": "2026-11-06 20:14:11.107618+00",
+      "deadline_md5": "f01e9be83e58c9c48c33e5fde4de05d9",
+      "description_md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
+      "jobs": {
+        "total": 176,
+        "active": 163
+      },
+      "controls": {
+        "run_now.jobs": [
+          "intake-dates-apply"
+        ],
+        "jobs.held_off": [
+          "coverage-discover",
+          "coverage-discover-2"
+        ],
+        "pdesc.enabled": 1,
+        "pdesc.ai_usd_max": 1,
+        "alerts.webhook_enabled": false,
+        "alerts.delivery_enabled": true,
+        "alerts.collect_within_minutes": 120
+      },
+      "queues": [
+        {
+          "key": "ai_page_match",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:05:48.406059+00:00"
+        },
+        {
+          "key": "central_ai",
+          "state": "nothing_left",
+          "reason": "5 central pages the ai could not read",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-05T04:15:18.786556+00:00"
+        },
+        {
+          "key": "central_find",
+          "state": "nothing_left",
+          "reason": "1 providers whose central page search failed",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-22T03:54:11.025363+00:00"
+        },
+        {
+          "key": "companion_read",
+          "state": "nothing_left",
+          "reason": "247 companion pages given up after repeated failed reads",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-02T10:42:14.399783+00:00"
+        },
+        {
+          "key": "course_list_read",
+          "state": "out_of_toolset",
+          "reason": "Work is waiting but firecrawl:reads cannot be used until a person acts (credit or balance used up)",
+          "pending": 79,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:03:05.281243+00:00"
+        },
+        {
+          "key": "course_page_discover",
+          "state": "paused",
+          "reason": "Switched off by a person: coverage-discover-2, coverage-discover",
+          "pending": 18,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:37:09.537559+00:00"
+        },
+        {
+          "key": "course_page_read",
+          "state": "nothing_left",
+          "reason": "2091 matched pages given up after three failed reads",
+          "pending": 0,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 3,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T19:20:35.321031+00:00"
+        },
+        {
+          "key": "course_page_search",
+          "state": "out_of_toolset",
+          "reason": "Work is waiting but firecrawl:course_search cannot be used until a person acts (credit or balance used up)",
+          "pending": 265,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T11:56:00.359438+00:00"
+        },
+        {
+          "key": "credential_read",
+          "state": "nothing_left",
+          "reason": "485 course pages that state no credential, or more than one level",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-01T01:06:08.870743+00:00"
+        },
+        {
+          "key": "enrich_plans",
+          "state": "moving",
+          "reason": null,
+          "pending": 38,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T20:00:00.945153+00:00"
+        },
+        {
+          "key": "fee_reader",
+          "state": "nothing_left",
+          "reason": "5 fee pages the ai could not read",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-04T15:22:22.646034+00:00"
+        },
+        {
+          "key": "onboarding",
+          "state": "stuck",
+          "reason": "1 waiting and nothing finished since 06 Nov 23:36",
+          "pending": 1,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:36:00.297196+00:00"
+        },
+        {
+          "key": "programme_read",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-23T22:28:14.095082+00:00"
+        },
+        {
+          "key": "scholarship_candidates",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T14:30:26.110361+00:00"
+        },
+        {
+          "key": "scholarship_discover",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T02:05:00.501111+00:00"
+        },
+        {
+          "key": "scholarship_read",
+          "state": "done",
+          "reason": null,
+          "pending": 0,
+          "per_hour": 20,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 20,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T20:00:05.788192+00:00"
+        },
+        {
+          "key": "source_find",
+          "state": "moving",
+          "reason": null,
+          "pending": 997,
+          "per_hour": 1,
+          "checked_at": "2026-11-06T20:04:00.194491+00:00",
+          "done_window": 1,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T19:56:19.464224+00:00"
+        }
+      ],
+      "exact_three": [
+        {
+          "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "status": "active",
+          "application_deadline": "2026-11-02"
+        },
+        {
+          "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "status": "active",
+          "application_deadline": "2027-02-15"
+        },
+        {
+          "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+          "status": "active",
+          "application_deadline": "2026-10-12"
+        }
+      ],
+      "issues": [
+        {
+          "status": "triaged",
+          "severity": "P1",
+          "issue_ref": "IQ-00112",
+          "last_observed_at": "2026-11-06T19:51:00.164205+00:00",
+          "condition_cleared_at": null
+        },
+        {
+          "status": "triaged",
+          "severity": "P0",
+          "issue_ref": "IQ-00313",
+          "last_observed_at": "2026-11-05T04:52:04.792248+00:00",
+          "condition_cleared_at": null
+        },
+        {
+          "status": "deployed",
+          "severity": "P0",
+          "issue_ref": "IQ-00111",
+          "last_observed_at": "2026-11-03T09:48:36.856724+00:00",
+          "condition_cleared_at": null
+        },
+        {
+          "status": "triaged",
+          "severity": "P1",
+          "issue_ref": "IQ-00046",
+          "last_observed_at": "2026-11-06T19:51:00.164205+00:00",
+          "condition_cleared_at": null
+        }
+      ],
+      "alert_summary": {
+        "overdue": 78,
+        "pending": 79,
+        "unlinked": 0,
+        "duplicates": 0,
+        "historical": 62,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "coverage_queues:discover",
+          "queue_watch:course_list_read",
+          "queue_watch:course_page_search"
+        ],
+        "unattempted": 79,
+        "active_events": 17
+      },
+      "migrations": {
+        "count": 1791,
+        "head": "20261106400000",
+        "all_versions_match_predecessor_checkpoint": true,
+        "reference": "STUDYSEARCH-CONTROLLER-STATE.json#/production/migrations/applied_versions"
+      }
+    },
+    "frontend": {
+      "observed_at": "2026-11-06T20:12:38.255950Z",
+      "http_status": 200,
+      "asset_status": 200,
+      "asset_path": "/assets/index-DYGiA8uP.js",
+      "asset_sha256": "2099cae683638b50dbec35ef7e3a047b3ac26f513fd82900e1456389aed88540",
+      "ui489_present": true,
+      "package416_present": true,
+      "exact_cloudflare_commit": null
+    },
+    "edge_metadata": [
+      {
+        "id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+        "slug": "coverage-sweep",
+        "name": "coverage-sweep",
+        "status": "ACTIVE",
+        "version": 239,
+        "created_at": 1790650965321,
+        "updated_at": 1793931705512,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/coverage-sweep/index.ts",
+        "ezbr_sha256": "995d5111618181a55afa168f97d529f7bae27f9ff1d9825def373cf503f494b5"
+      },
+      {
+        "id": "cc8d40be-2226-42d8-99ad-58ea9a95468c",
+        "slug": "zoho-api-v2",
+        "name": "zoho-api-v2",
+        "status": "ACTIVE",
+        "version": 5,
+        "created_at": 1792106726305,
+        "updated_at": 1792386044334,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/zoho-api-v2/index.ts",
+        "ezbr_sha256": "891bd9b10dad1f73332d70f123a17d92014e950597fb76d41e3687a7a632b193"
+      },
+      {
+        "id": "dd4711f6-b02a-47a4-adef-fb7f1df92d8a",
+        "slug": "website-api-v2",
+        "name": "website-api-v2",
+        "status": "ACTIVE",
+        "version": 3,
+        "created_at": 1792111991690,
+        "updated_at": 1793188041990,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/website-api-v2/index.ts",
+        "ezbr_sha256": "ea8d8ec5649a87bc7542a1fd6e18b5c68b36087bf00c548230eefbbd40697fdf"
+      }
+    ],
+    "live_function_metadata": {
+      "observed_at": "2026-11-06 20:20:09.7326+00",
+      "other_active_clients": 7,
+      "relevant_hashes": [
+        {
+          "md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
+          "signature": "security.flag_jobs_v1()"
+        },
+        {
+          "md5": "5735193b0d93f4764502504617c55687",
+          "signature": "security.queue_watch_run_v1(boolean)"
+        },
+        {
+          "md5": "8b256a6f7f9a9350927b4773c8a80304",
+          "signature": "security.worker_call_outcome_v1(integer,jsonb,integer,integer,integer)"
+        },
+        {
+          "md5": "4bfdbbccdca1cd3481fd7011d38154af",
+          "signature": "security.worker_call_work_v1(text)"
+        },
+        {
+          "md5": "e04fe197b192c3bec6417d5e51559478",
+          "signature": "security.worker_lane_outcome_v1(text,text,jsonb)"
+        }
+      ]
+    },
+    "exact_batch": {
+      "observed_at": "2026-11-06 20:09:40.438455+00",
+      "ledger_indexes": [
+        {
+          "index": "mode_outcome_ledger_pkey",
+          "definition": "CREATE UNIQUE INDEX mode_outcome_ledger_pkey ON pipeline.mode_outcome_ledger USING btree (id)"
+        },
+        {
+          "index": "mode_outcome_ledger_run_at_idx",
+          "definition": "CREATE INDEX mode_outcome_ledger_run_at_idx ON pipeline.mode_outcome_ledger USING btree (run_at DESC)"
+        },
+        {
+          "index": "mode_outcome_ledger_mode_run_at_idx",
+          "definition": "CREATE INDEX mode_outcome_ledger_mode_run_at_idx ON pipeline.mode_outcome_ledger USING btree (mode, run_at DESC)"
+        }
+      ],
+      "batch": [
+        {
+          "id": 216213,
+          "ok": 8,
+          "items": 25,
+          "tally": null,
+          "failed": 17,
+          "run_at": "2026-11-06T18:50:41.633678+00:00",
+          "status": 200,
+          "body_ok": null,
+          "outcome": "zero_work_error",
+          "body_keys": [
+            "ms",
+            "items",
+            "firecrawlRemainingAboveReserve"
+          ],
+          "body_mode": null,
+          "hold_reason": "no work done, with an error in the answer",
+          "lane_outcome": "failed",
+          "body_error_count": null,
+          "body_error_present": false
+        },
+        {
+          "id": 216214,
+          "ok": 0,
+          "items": 0,
+          "tally": null,
+          "failed": 0,
+          "run_at": "2026-11-06T18:50:42.29099+00:00",
+          "status": 200,
+          "body_ok": null,
+          "outcome": "idle",
+          "body_keys": [
+            "ms",
+            "items",
+            "firecrawlRemainingAboveReserve"
+          ],
+          "body_mode": null,
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle",
+          "body_error_count": null,
+          "body_error_present": false
+        }
+      ]
+    },
+    "stored_tally": {
+      "observed_at": "2026-11-06 20:10:07.734704+00",
+      "id": 216213,
+      "mode": "read",
+      "run_at": "2026-11-06 18:50:41.633678+00",
+      "status": 200,
+      "items": 25,
+      "ok": 8,
+      "failed": 17,
+      "outcome": "zero_work_error",
+      "lane_outcome": "failed",
+      "hold_reason": "no work done, with an error in the answer",
+      "stored_tally": {
+        "blocked": 8,
+        "fetch_failed": 17
+      },
+      "detail_items_type": "number",
+      "detail_items_count": null,
+      "item_statuses": null
+    },
+    "current_status_evidence": {
+      "observed_at": "2026-11-06 20:16:18.671226+00",
+      "current_status_rows_in_old_watch_window": [
+        {
+          "n": 2,
+          "fetched_via": "direct",
+          "http_status": 200,
+          "read_status": "needs_render",
+          "max_attempts": 0,
+          "min_attempts": 0,
+          "bucket_minute": "2026-11-06T18:10:00+00:00",
+          "with_evidence": 0
+        },
+        {
+          "n": 6,
+          "fetched_via": null,
+          "http_status": null,
+          "read_status": "needs_render",
+          "max_attempts": 0,
+          "min_attempts": 0,
+          "bucket_minute": "2026-11-06T18:10:00+00:00",
+          "with_evidence": 0
+        },
+        {
+          "n": 8,
+          "fetched_via": null,
+          "http_status": 403,
+          "read_status": "blocked",
+          "max_attempts": 3,
+          "min_attempts": 3,
+          "bucket_minute": "2026-11-06T18:50:00+00:00",
+          "with_evidence": 0
+        },
+        {
+          "n": 3,
+          "fetched_via": "direct",
+          "http_status": 200,
+          "read_status": "fetch_failed",
+          "max_attempts": 3,
+          "min_attempts": 3,
+          "bucket_minute": "2026-11-06T18:50:00+00:00",
+          "with_evidence": 0
+        },
+        {
+          "n": 14,
+          "fetched_via": null,
+          "http_status": 404,
+          "read_status": "fetch_failed",
+          "max_attempts": 3,
+          "min_attempts": 3,
+          "bucket_minute": "2026-11-06T18:50:00+00:00",
+          "with_evidence": 4
+        }
+      ],
+      "reported_firecrawl_remaining_above_reserve": 0,
+      "current_watch": {
+        "state": "nothing_left",
+        "reason": "2091 matched pages given up after three failed reads",
+        "pending": 0,
+        "checked_at": "2026-11-06T20:04:00.194491+00:00",
+        "done_window": 3,
+        "failed_window": 0
+      }
+    },
+    "watch_metadata": {
+      "observed_at": "2026-11-06 20:07:55.482981+00",
+      "read_watch_definition": {
+        "key": "course_page_read",
+        "done_sql": "select count(*) from pipeline.coverage_course_pages where read_at >= $1 and read_status not in ('fetch_failed', 'blocked')",
+        "jobnames": [
+          "coverage-read"
+        ],
+        "failed_sql": "select count(*) from pipeline.coverage_course_pages where read_at >= $1 and read_status in ('fetch_failed', 'blocked')",
+        "pending_sql": "select count(*) from security.coverage_read_eligible_v1()",
+        "progress_sql": "select max(read_at) from pipeline.coverage_course_pages where read_status is not null and read_status not in ('fetch_failed', 'blocked')"
+      },
+      "functions": [
+        {
+          "md5": "5735193b0d93f4764502504617c55687",
+          "signature": "security.queue_watch_run_v1(boolean)"
+        },
+        {
+          "md5": "8b256a6f7f9a9350927b4773c8a80304",
+          "signature": "security.worker_call_outcome_v1(integer,jsonb,integer,integer,integer)"
+        },
+        {
+          "md5": "4bfdbbccdca1cd3481fd7011d38154af",
+          "signature": "security.worker_call_work_v1(text)"
+        },
+        {
+          "md5": "e04fe197b192c3bec6417d5e51559478",
+          "signature": "security.worker_lane_outcome_v1(text,text,jsonb)"
+        }
+      ],
+      "tables": [
+        {
+          "table": "coverage_course_pages",
+          "columns": [
+            "course_id",
+            "provider_id",
+            "url",
+            "score",
+            "runner_up",
+            "basis",
+            "status",
+            "bound_at",
+            "read_status",
+            "read_at",
+            "http_status",
+            "fetched_via",
+            "identity_basis",
+            "evidence_id",
+            "candidates",
+            "leased_until",
+            "read_attempts",
+            "next_read_at",
+            "l3_work_item_id",
+            "l3_handoff_at"
+          ]
+        },
+        {
+          "table": "mode_outcome_ledger",
+          "columns": [
+            "id",
+            "run_at",
+            "mode",
+            "status",
+            "ms",
+            "items",
+            "ok",
+            "failed",
+            "wait_ms",
+            "landed",
+            "worker",
+            "detail",
+            "outcome",
+            "lane_outcome",
+            "hold_reason"
+          ]
+        }
+      ]
+    },
+    "source_review": {
+      "workstream_id": "WS-IQ00046-2000",
+      "integration_issue": "IQ-00046",
+      "admin_issue": 382,
+      "reviewed_at": "2026-11-06T20:11:20.178782Z",
+      "admin_source_commit": "de4ed68d3130c287858d2e275394ff0f34773e2f",
+      "pilot_source_commit": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "scope": "Read-only source diagnosis; sole owned output is this JSON. No source, function, migration, canonical governance, DB, vendor or GitHub mutation; no test execution.",
+      "governance": {
+        "current_checkpoint": "CP-382-20261106T191806Z",
+        "authority": "Candidate Codex, owner null, lease null, reconciliation, adoption pending; no active production authority. #895→#896→#894→#893 order and #892 integration preserved; held #890/#875 preserved.",
+        "refs": [
+          {
+            "path": "/workspace/resume-2000/docs/platform/nz-enrichment-brief/INDEX.md",
+            "line": 3,
+            "end_line": 21
+          },
+          {
+            "path": "/workspace/resume-2000/docs/platform/AGENT-OPERATING-MODEL.md",
+            "line": 91,
+            "end_line": 224
+          },
+          {
+            "path": "/workspace/resume-2000/docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
+            "line": 17,
+            "end_line": 50
+          },
+          {
+            "path": "/workspace/resume-2000/docs/platform/STUDYSEARCH-CONTROLLER-STATE.json",
+            "line": 8,
+            "end_line": 30
+          },
+          {
+            "path": "/workspace/resume-2000/docs/platform/STUDYSEARCH-CONTROLLER-STATE.schema.json",
+            "line": 31,
+            "end_line": 61
+          },
+          {
+            "path": "/workspace/resume-2000/docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md",
+            "line": 469,
+            "end_line": 486
+          },
+          {
+            "path": "CLAUDE.md",
+            "line": 1,
+            "end_line": 53,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/CLAUDE.md#L1"
+          }
+        ],
+        "constraints": [
+          "Decision before code; root records decision before any implementation.",
+          "Frozen consumer API; human Layer 4/trust authority, manual bindings, ingestion holds and vendor limits/reserves remain.",
+          "No merge, deploy, production SQL, activation, paid retry or issue closure by this agent.",
+          "Governed tests name existing rule; regenerate TEST-REGISTER if tests change."
+        ]
+      },
+      "findings": [
+        {
+          "id": "GRAIN-1",
+          "finding": "Worker read items is the count of rows claimed for this call, not a count of verified successful acquisitions. Each completed normal item increments its final status tally after svc_coverage_read_record succeeds. A budget-deferred item is recorded as deferred but returns before tally increment, so items need not equal tally total.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3313,
+              "end_line": 3317,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3313"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3416,
+              "end_line": 3419,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3416"
+            }
+          ]
+        },
+        {
+          "id": "GRAIN-2",
+          "finding": "mode_outcome_ledger is one reported worker call. items is worker_call_work_v1 over top-level count/list keys, potentially summing several progress counters; read response supplies only items. failed is top-level failed or tally.failed plus tally.fetch_failed and tally.scrape_failed plus one for HTTP>=400 or ok:false. ok prefers done then applied (numbers or array lengths), otherwise max(0,items−failed). For read, blocked/needs_render/identity_mismatch/deferred are not deducted from ledger ok, so ok is not universally count(tally.read). landed keeps tally; detail omits tally/mode/ok and caps at 4KB. In the exact live25-item row, its eight ok are the eight blocked items, not successful reads. This follows the historical formula; no separate operational decision about the label was found.",
+          "refs": [
+            {
+              "path": "supabase/migrations/20261015080000_cf247_flag_unit.sql",
+              "line": 237,
+              "end_line": 249,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261015080000_cf247_flag_unit.sql#L237"
+            },
+            {
+              "path": "supabase/migrations/20261024004000_cf247_r1_backoff_ledger_identity.sql",
+              "line": 116,
+              "end_line": 155,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261024004000_cf247_r1_backoff_ledger_identity.sql#L116"
+            },
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 223,
+              "end_line": 227,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L223"
+            },
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 277,
+              "end_line": 293,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L277"
+            }
+          ]
+        },
+        {
+          "id": "GRAIN-3",
+          "finding": "Per root live metadata (not independently queried by this agent), watchdog done/failed count current coverage_course_pages rows by read_at, split NOT IN/IN(fetch_failed,blocked). Those are mutable row states, not per-call ledger attempts. The keeper branch preserves a prior good read on transient failure without changing read_at/read_status. Therefore sum(ledger.ok/failed) cannot be substituted for the watchdog counters; 33 rows versus 33 claimed items is not proof they represent the same events.",
+          "refs": [
+            {
+              "path": "supabase/migrations/20261013012900_cf247_all_controls_in_settings.sql",
+              "line": 382,
+              "end_line": 403,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261013012900_cf247_all_controls_in_settings.sql#L382"
+            }
+          ],
+          "limits": "Root exact live watchdog predicates supplied; safe tally now confirms arithmetic alignment. Exact33row current-state/time membership remains root-owned."
+        },
+        {
+          "id": "BATCH-1",
+          "finding": "No all-or-nothing worker batch: pool uses Promise.all over independent runners; each svc_coverage_read_record RPC commits its own transaction, following independent storage upload. A rejected record/adapter/hash operation outside item fetch try can reject the pool and return HTTP500 after earlier rows were recorded. Promise.all does not cancel other runners. The source cannot prove platform runtime completion of remaining work after response. A top-level500 response loses the normal items/tally response even if prior records committed.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 365,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L365"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3333,
+              "end_line": 3371,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3333"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3403,
+              "end_line": 3423,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3403"
+            }
+          ]
+        },
+        {
+          "id": "CLAIM-1",
+          "finding": "Picker leases rows for ten minutes and increments read_attempts; W30 rechecks lease under the updated row lock to prevent double claiming. Later bounded re-read pilot marks direct_only and grants its one extra attempt under existing settings and ceilings. A 500 after claiming can leave unrecorded rows leased until expiry; that is not proof of a SQL batch rollback.",
+          "refs": [
+            {
+              "path": "supabase/migrations/20261012011700_cf247_course_pages_firecrawl_reads.sql",
+              "line": 45,
+              "end_line": 56,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261012011700_cf247_course_pages_firecrawl_reads.sql#L45"
+            },
+            {
+              "path": "supabase/migrations/20261030010000_cf247_enrich_reliability.sql",
+              "line": 79,
+              "end_line": 83,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261030010000_cf247_enrich_reliability.sql#L79"
+            },
+            {
+              "path": "supabase/migrations/20261031110000_cf247_ss014_d16_d13.sql",
+              "line": 110,
+              "end_line": 140,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261031110000_cf247_ss014_d16_d13.sql#L110"
+            }
+          ]
+        },
+        {
+          "id": "BUDGET-1",
+          "finding": "read is classified stored_evidence (direct read with optional paid fallback), so an empty picker is idle even if Firecrawl is held. Direct fetching respects robots and does not require available Firecrawl credits. Paid fallback still requires trusted basis/manual/render_ok, not direct_only, applicable priority/bound/search conditions and useFc permission. A trusted international-view render goes straight through the paid check; refusal yields needs_render. Other refusal paths can leave blocked/fetch_failed/needs_render or identity_mismatch according to retained content. Reserve exhaustion is not authority to retry or bypass trust.",
+          "refs": [
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 163,
+              "end_line": 165,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L163"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 504,
+              "end_line": 505,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L504"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 531,
+              "end_line": 541,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L531"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3319,
+              "end_line": 3366,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3319"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3389,
+              "end_line": 3402,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3389"
+            }
+          ]
+        },
+        {
+          "id": "BUDGET-2",
+          "finding": "useFcWhy fails closed for missing key/target/refused credits, uses account remaining less stop reserve, then database svc_fc_spend. Refusals are named in svc_fc_refusal_note_v1. The read response exposes only numeric firecrawlRemainingAboveReserve; presence of the word Reserve in that key is not evidence of a hold. Lane classifier labels succeeded as done; zero_work_error only becomes budget_held/source_limit when actual refusal tokens appear and no explicit error text. Otherwise it becomes failed. Only idle paid_acquisition modes query current paid hold.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 504,
+              "end_line": 543,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L504"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3419,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3419"
+            },
+            {
+              "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+              "line": 229,
+              "end_line": 272,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L229"
+            }
+          ]
+        },
+        {
+          "id": "REPORT-1",
+          "finding": "After handle returns a JSON response with a request mode, wrapper awaits svc_worker_report_v1. It does not inspect the returned Supabase RPC error object; thrown report failures are swallowed, preserving the original response. Missing ledger row does not prove no work, and HTTP200 does not prove successful business work. Acquisition status read can also remain even if evidence upload failed (path/sha cleared); it is not proof of human admission or publication.",
+          "refs": [
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 473,
+              "end_line": 490,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L473"
+            },
+            {
+              "path": "supabase/functions/coverage-sweep/index.ts",
+              "line": 3404,
+              "end_line": 3419,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/functions/coverage-sweep/index.ts#L3404"
+            }
+          ]
+        }
+      ],
+      "existing_tests": [
+        {
+          "guard": "R1 Q3 per-mode ledger",
+          "refs": [
+            {
+              "path": "tests/uat/cf-247-s93-r1-backoff-ledger-identity-contract.spec.mjs",
+              "line": 22,
+              "end_line": 34,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s93-r1-backoff-ledger-identity-contract.spec.mjs#L22"
+            },
+            {
+              "path": "tests/uat/cf-247-s93-r1-backoff-ledger-identity-contract.spec.mjs",
+              "line": 53,
+              "end_line": 60,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s93-r1-backoff-ledger-identity-contract.spec.mjs#L53"
+            },
+            {
+              "path": "docs/platform/TEST-REGISTER.md",
+              "line": 406,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/docs/platform/TEST-REGISTER.md#L406"
+            }
+          ]
+        },
+        {
+          "guard": "W30 one claim, ledger counter semantics",
+          "refs": [
+            {
+              "path": "tests/uat/cf-247-s172-enrich-reliability-contract.spec.mjs",
+              "line": 11,
+              "end_line": 19,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s172-enrich-reliability-contract.spec.mjs#L11"
+            },
+            {
+              "path": "tests/uat/cf-247-s172-enrich-reliability-contract.spec.mjs",
+              "line": 55,
+              "end_line": 59,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s172-enrich-reliability-contract.spec.mjs#L55"
+            },
+            {
+              "path": "docs/platform/TEST-REGISTER.md",
+              "line": 207,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/docs/platform/TEST-REGISTER.md#L207"
+            }
+          ]
+        },
+        {
+          "guard": "F2 failed/idle/refused/no-work and deduped issue",
+          "refs": [
+            {
+              "path": "tests/uat/cf-247-s226-scholarship-coverage-recovery-contract.spec.mjs",
+              "line": 1,
+              "end_line": 7,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s226-scholarship-coverage-recovery-contract.spec.mjs#L1"
+            },
+            {
+              "path": "tests/fixtures/scholarship-recovery/fixtures.sql",
+              "line": 254,
+              "end_line": 276,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/fixtures/scholarship-recovery/fixtures.sql#L254"
+            },
+            {
+              "path": "tests/fixtures/scholarship-recovery/run.sh",
+              "line": 1,
+              "end_line": 29,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/fixtures/scholarship-recovery/run.sh#L1"
+            },
+            {
+              "path": "docs/platform/TEST-REGISTER.md",
+              "line": 264,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/docs/platform/TEST-REGISTER.md#L264"
+            }
+          ]
+        },
+        {
+          "guard": "Honest lane outcomes",
+          "refs": [
+            {
+              "path": "tests/uat/cf-247-s238-lanes-and-gap-queue-contract.spec.mjs",
+              "line": 1,
+              "end_line": 4,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s238-lanes-and-gap-queue-contract.spec.mjs#L1"
+            },
+            {
+              "path": "tests/fixtures/lanes-gap-queue/fixtures.sql",
+              "line": 127,
+              "end_line": 174,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/fixtures/lanes-gap-queue/fixtures.sql#L127"
+            },
+            {
+              "path": "tests/fixtures/lanes-gap-queue/run.sh",
+              "line": 13,
+              "end_line": 27,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/fixtures/lanes-gap-queue/run.sh#L13"
+            },
+            {
+              "path": "docs/platform/TEST-REGISTER.md",
+              "line": 277,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/docs/platform/TEST-REGISTER.md#L277"
+            }
+          ],
+          "coverage_gap": "Existing all-read5 and read0 only; no mixed read+fetch_failed/blocked classifier regression."
+        },
+        {
+          "guard": "D13 bounded direct-only retry, no Firecrawl",
+          "refs": [
+            {
+              "path": "tests/uat/cf-247-s196-hold-functions-reread-pilot-contract.spec.mjs",
+              "line": 1,
+              "end_line": 36,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/uat/cf-247-s196-hold-functions-reread-pilot-contract.spec.mjs#L1"
+            },
+            {
+              "path": "docs/platform/TEST-REGISTER.md",
+              "line": 233,
+              "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/docs/platform/TEST-REGISTER.md#L233"
+            }
+          ]
+        }
+      ],
+      "remaining_evidence": [
+        "Root exact33currentrow read_at/status/HTTP and finalstatus batch groups to prove membership, since arithmetic agreement alone does not establish same event population.",
+        "Root safe aggregate HTTP/errorCLASS counts and current hold/reserve metadata; do not print private URLs, raw source HTML or per-customer payloads.",
+        "Separate blocked (provider HTTP401/403/406/429 or equivalent Firecrawl HTTP failure) from generic fetch_failed (network exception, nonHTML/empty response or other unresolved status). Current worker catch collapses causes, so precise provider cause may be unavailable.",
+        "No source repair, paid retry, control change, activation or issue closure is supported by present evidence. Preserve IQ-00046 open/triaged while root determines source/network or genuine external/data blocker."
+      ],
+      "worktree": {
+        "path": "/workspace/resume-2000/reader-source",
+        "detached_head": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "git_status_porcelain": "",
+        "tracked_and_untracked_clean": true,
+        "tests_run": false,
+        "source_changes": false,
+        "output_outside_worktree": "/workspace/resume-2000/reader-source-review.json"
+      },
+      "conclusion": "No source defect proven for IQ-00046. The observed HTTP200 call did zero successful reads: blocked8 + fetch_failed17. Ledger ok8 is a derived counter, not read8. Its zero_work_error/lane failed classification is source-consistent. Acquisition/network/hold cause requires bounded safe live metadata; no repair or paid retry warranted.",
+      "observed_safe_evidence": {
+        "path": "/workspace/resume-2000/tally-batch-evidence.json",
+        "provider": "root live SQL, independently read locally by reviewer",
+        "row": {
+          "id": 216213,
+          "run_at": "2026-11-06T18:50:41.633678+00:00",
+          "status": 200,
+          "items": 25,
+          "ok": 8,
+          "failed": 17,
+          "outcome": "zero_work_error",
+          "lane_outcome": "failed",
+          "stored_tally": {
+            "blocked": 8,
+            "fetch_failed": 17
+          }
+        },
+        "raw_url_or_content_exported": false
+      },
+      "classifier_analysis": {
+        "status": "Observed no-work classification is correct; no incident repair proven.",
+        "acceptance": "F2 outcome column says succeeded means work done, zero_work_error means no work done with error/refusal; migration header says no successful work with error is zero_work_error. Lane done means productive work, not every item succeeded.",
+        "proof": "Actual stored tally is blocked8/fetch_failed17, with no read count. Reporter computes failed17 and ok=max(0,25−17)=8 because blocked is absent from its failed formula. Classifier computes no-work w.n=8+17=25; p_ok−w.n=8−25<=0, so zero_work_error is consistent with no successful acquisitions. Lane outcome failed and no-work text are likewise consistent. HTTP200 is the batch response, not provider success.",
+        "refs": [
+          {
+            "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+            "line": 16,
+            "end_line": 19,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L16"
+          },
+          {
+            "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+            "line": 210,
+            "end_line": 211,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L210"
+          },
+          {
+            "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+            "line": 320,
+            "end_line": 335,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L320"
+          },
+          {
+            "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+            "line": 255,
+            "end_line": 261,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L255"
+          }
+        ],
+        "all_callers": "Source search finds only svc_worker_report_v1 and worker_outcome_check_v1. Reporter p_ok is explicit done/applied or arithmetic remainder; checker uses persisted same p_ok. Checker only fills null outcomes, does not reclassify existing non-null ones. It reconstructs body without original mode from stripped detail plus landed tally.",
+        "caller_refs": [
+          {
+            "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+            "line": 351,
+            "end_line": 359,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L351"
+          },
+          {
+            "path": "supabase/migrations/20261103050000_cf247_scholarship_recovery.sql",
+            "line": 787,
+            "end_line": 793,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103050000_cf247_scholarship_recovery.sql#L787"
+          },
+          {
+            "path": "supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql",
+            "line": 277,
+            "end_line": 293,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/supabase/migrations/20261103160000_cf247_lanes_and_gap_queue.sql#L277"
+          }
+        ],
+        "unsafe_fix": "Do not replace classifier with p_ok>0 or remove waiting deductions globally: F2 scholarship discover array containing only deferred provider produces p_ok1 while candidate waiting_scraper30 must remain zero_work_error. Some work keys count queueing/attempts and overlap; scalar p_ok alone is insufficient.",
+        "counterexample_refs": [
+          {
+            "path": "tests/fixtures/scholarship-recovery/fixtures.sql",
+            "line": 254,
+            "end_line": 276,
+            "github_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067/tests/fixtures/scholarship-recovery/fixtures.sql#L254"
+          }
+        ],
+        "proposal_only": "No source/function/migration change proposed for this incident. Preserve existing classifier, work helper, reporter, watchdog, trust, budgets and holds. If future separately scoped evidence proves mixed successful reads misclassified, first record a new decision and validate all caller semantics and F2 refusal cases before designing a fix.",
+        "validation_required": [],
+        "reporter_metric_intent": "Source implementation proves ok is derived work minus the report-defined failures when no done/applied is supplied. Original R1 Q3 describes it as how much succeeded; source does not prove a separate business decision intending blocked to mean successful. Therefore call it a counter-semantic limitation, not a repaired or proven defect. Use landed final statuses for read success.",
+        "hypothetical_only": "A synthetic read8+fetch_failed17 body would expose overlapping deduction, but the live row is not that body. No such response was identified within this authorised diagnosis. This is an unvalidated generalisation outside the incident and does not justify changing shared classification."
+      },
+      "counter_reconciliation": {
+        "arithmetic": "18:10 row items8/ok8/failed0 plus18:50 row items25/ok8/failed17 totals33 ledger items,16 ledger ok,17 ledger failed. Actual18:50 statuses blocked8+fetch_failed17 convert to25 watchdog-failed rows; earlier8 read rows convert to8 done. Thus watchdog tried33/done8/failed25 is arithmetically consistent with source-defined grains, not lost8successful reads.",
+        "limits": "Exact current-row membership/read_at batch grouping still belongs to root verification; mutable row counters and immutable per-call summaries are not guaranteed interchangeable. This report does not infer per-domain or reserve cause."
+      }
+    },
+    "worktree_inventory": {
+      "observed_at": "2026-11-06T20:20:35.684431+00:00",
+      "worktrees": [
+        {
+          "worktree": "/workspace/delivery-pilot",
+          "HEAD": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+          "branch": "refs/heads/delivery895-final-register-preservation",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/delivery-893",
+          "HEAD": "99e00249cf2698ef384f724a6649ce901082adc4",
+          "branch": "refs/heads/delivery-893-release",
+          "status_exit": 0,
+          "status": [
+            "?? node_modules"
+          ],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/delivery-894",
+          "HEAD": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+          "detached": "",
+          "status_exit": 0,
+          "status": [
+            "?? node_modules"
+          ],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/delivery-p0-deadline",
+          "HEAD": "bad902ad387115004d12b629b34ab21b5266bb2c",
+          "branch": "refs/heads/delivery-p0-deadline-382",
+          "status_exit": 0,
+          "status": [
+            "?? deadline-cli-generation.json",
+            "?? deadline-enabled-review-validation.json",
+            "?? deadline-local-validation.json",
+            "?? deadline-pg17-enabled-review-validation.log",
+            "?? deadline-pg17-validation.json",
+            "?? deadline-pg17-validation.log",
+            "?? deadline-review-paste-refusal.log",
+            "?? deadline-s233-validation.log",
+            "?? node_modules"
+          ],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/repair-ownership-followup",
+          "HEAD": "c13b516d0383067a734a30077da3ddf3e66e201a",
+          "branch": "refs/heads/ws382-screenshot-guard",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/resume-1702/review-context",
+          "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "detached": "",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/resume-1800/review-jobs",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": "",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/resume-1902/review-consumers",
+          "HEAD": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "detached": "",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/resume-2000/reader-source",
+          "HEAD": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+          "detached": "",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        },
+        {
+          "worktree": "/workspace/review-895-readonly",
+          "HEAD": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+          "branch": "refs/heads/ws382-safe-dispatch-inputs",
+          "status_exit": 0,
+          "status": [],
+          "status_error": ""
+        }
+      ],
+      "active_agent": "reader_source_2000 completed source-only review; no active mutation agents",
+      "this_execution_owned_source_worktree": "/workspace/resume-2000/reader-source"
+    },
+    "github_verification": {
+      "observed_at": "2026-11-06T20:19:47.806269+00:00",
+      "admin_main": "d39be18fa4a0b62a861f473da6d18340f6e0d8f2",
+      "pilot_main": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+      "atomic_ref": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+      "ownership_status": "released; owner null; lease null; generation0; adoption pending; transfer targets stopped142259 execution, not this session",
+      "pilot_environment_protection_rules": [],
+      "pilot_deployment_branch_policy": null,
+      "environment_secret_api": "403 Resource not accessible by integration",
+      "running_pilot_workflows": 0,
+      "running_admin_workflows": 0,
+      "historical_queued_run": {
+        "id": 34749286102,
+        "status": "queued",
+        "jobs": 0,
+        "can_execute": "Not presently executable per separately verified deleted dispatcher/recipient and zero jobs; no deletion required. Queued state is not an active deployment."
+      },
+      "pr_heads": {
+        "875": {
+          "sha": "9205087d0d5a5bee207787e8373ed3688e9b0190",
+          "state": "open",
+          "merged_at": null
+        },
+        "877": {
+          "sha": "9788b22a471c5eb26a5bfa1e7ad099cd8590fe84",
+          "state": "closed",
+          "merged_at": "2026-11-06T02:21:03Z"
+        },
+        "889": {
+          "sha": "8656383073d281b852bdfb9e8d6857a51c85973c",
+          "state": "closed",
+          "merged_at": "2026-11-06T00:11:13Z"
+        },
+        "890": {
+          "sha": "b42a529d1bc64682d5ecff91cc61277c390a2893",
+          "state": "open",
+          "merged_at": null
+        },
+        "892": {
+          "sha": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
+          "state": "open",
+          "merged_at": null
+        },
+        "893": {
+          "sha": "201b9126e96a8eb30e74c983699284ffe8055641",
+          "state": "open",
+          "merged_at": null
+        },
+        "894": {
+          "sha": "8bde11f8f73507b2c5a781e8e9d814e603b6fa65",
+          "state": "open",
+          "merged_at": null
+        },
+        "895": {
+          "sha": "bcceb856411a927f233f94695d7073830a0f2264",
+          "state": "open",
+          "merged_at": null
+        },
+        "896": {
+          "sha": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+          "state": "open",
+          "merged_at": null
+        }
+      }
+    },
+    "conclusion": {
+      "source_defect_proven": false,
+      "classifier_fix_justified": false,
+      "diagnostic_reconciliation_completed": true,
+      "operational_remediation_verified": false,
+      "issue_closed": false,
+      "actual_work": "Watch total33 consists of8 needs_render at18:10 and25 failed acquisition statuses at18:50. Ledger216213 landed blocked8+fetch_failed17; ledger ok8 is items25 minus fetch_failed17, not eight reads. Watch excludes blocked and fetch_failed from done; its25 failures and zero-work classification are consistent.",
+      "external_or_resource_blockers": [
+        "Eight current blocked rows have HTTP403;14 current fetch_failed rows have HTTP404. These are observed HTTP statuses, not proof of specific site policy or permanent impossibility.",
+        "Three other current fetch_failed rows retain direct HTTP200; exact failure cause remains unproven, so HTTP200 alone must not count as successful extraction.",
+        "The call reported Firecrawl remaining above reserve0; current list/search toolsets are unavailable. Paid retries, reserve overrides, retry reset or admissions remain unauthorised.",
+        "Current reader queue has2091 exhausted pages after three failures, pending0; rolling failed_window0 does not mean these pages recovered.",
+        "Actual account fencing, execution ownership and applicable operation/release authority remain blocked under D-382-CUTOVER."
+      ]
+    },
+    "limits": [
+      "Current page rows are mutable; grouping by historical read_at is a separately timestamped snapshot, not immutable per-call row membership. Counts/timing match the ledger/window, but no immutable per-item IDs exist in the recorded call.",
+      "needs_render is not a successful read or admission. Existing evidence_id presence on four failed rows does not establish current extraction success.",
+      "Seven other active DB clients at20:20 were not attributed or cancelled; scheduled jobs continue independently. No inference of credential revocation or safe production cutover.",
+      "No tests rerun or added, no source change, SQL mutation, vendor call, admission, issue closure, merge or release. Initial diagnostic drafts failed on signature/alias lookup; corrected read-only probes succeeded, no application defect inferred."
+    ]
   }
 }

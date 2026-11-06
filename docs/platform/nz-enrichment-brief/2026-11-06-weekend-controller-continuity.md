@@ -489,3 +489,21 @@ Reader counter follow-up: the bounded ledger sample for the watch window reports
 ## CP-382-20261106T201159Z — reader counter diagnosis starts
 
 Actual execution `codex-reader-reconcile-20261106T200457Z`, UTC. Mandatory currentGitHubrecords/382decisions/PilotCLAUDE read and CP191806validated; heads/holds unchanged, no runningworkflow, account403/unownedatomic6d95 gates unchanged. Source review initially considered a mixed-success hypothesis; exact PK216213 storedtally disproves it: blocked8+fetch_failed17, no read8. The reporter ok8 is derivednon-fetchfailremainder, not landedreadsuccess. No classifier fix is justified. Root continues exactstatus/membership and bounded failure-cause verification, sourceagentowns localreview only; no production/vendor/test/source mutation.
+
+
+## CP-382-20261106T202256Z — reader reconciliation complete, operational remediation blocked
+
+Actual execution `codex-reader-reconcile-20261106T200457Z`; checkpoint 2026-11-06T20:22:56Z UTC. Existing canonical records extended; no new framework.
+
+- **Issues fixed:** no new production fix. The apparent IQ-00046 counter contradiction is reconciled; the actual acquisition issue remains open.
+- **PRs merged:** zero Pilot PRs. All candidate heads/checks unchanged and successful; no unchanged suite rerun.
+- **Production releases verified:** zero; no migration, data correction, admission, vendor call or control change.
+- **Operational outcomes:** immutable ledger216213 stores blocked8+fetch_failed17, items25/derivedok8. Separately observed current rows in the old18:04–19:04 window are8needs_render at18:10 plus8blocked/HTTP403 and17fetch_failed (14HTTP404,3directHTTP200) at18:50. This accounts for watch33tried/25failed; neither ledgerok nor needs_render is successful extraction. No classifier patch is justified. Current queue2091exhausted/pending0 does not establish recovery.
+- **Unresolved blockers:** provider/fetch failures, reportedFirecrawlremainingabovereserve0, actual D-382-CUTOVER account fences/current-execution atomic acceptance and applicable release/correction authority. Three original baddeadlines remainactive;79alerts pending/allunattempted/78overdue (62historical+17activeevents/5conditions/0duplicates).
+- **Next executable action:** diagnose the3direct200/fetch_failed causes using existing evidence and safe bounded reads; do not reset attempts or refetch unchanged failures. Account owners perform the existing consolidated cutover action, then independently verify denial/recovery and accept actual execution before reserved sequential releases.
+
+Evidence limits: mutable currentrows are not immutable per-call item IDs; arithmetic/timestamps match but exact historical membership is not proven. HTTP403/404 does not prove a particular provider policy or permanent impossibility; directHTTP200 may still fail content/extraction checks. Existing evidence IDs on four failed rows are not current extraction success. No global classifier relaxation or paid retry is authorised.
+
+Baseline: HTTP/asset200/UI489/.416/hash2099cae6 at20:12; edge239/hash995d5111 and consumer edges unchanged. All1791migrationversions match/head400000 at20:14; deadlinef01e9/courseff3d6,20:20flag668 and readerhashes unchanged. Jobs163active/176total, currentcontrols unchanged. FinalGitHub20:19 shows same heads/ref, zero runningworkflows, queued34749286102 still0jobs; no deletion/Claudeack needed. Environment protectionempty, secretAPI403. ExactCloudflarecommit/authenticateddesktop/phone remain unverified.
+
+Termination: source-only reviewer completed; all10trackedworktrees clean, predecessoruntrackedlogs/node_modules retained/inventoried. No operation initiated here remains active. Seven other active DBclients observed20:20 were not attributed/cancelled; platform jobs continue independently. Atomic6d95 owner/lease null/adoptionpending targets stopped142259execution; no current acceptance/release/transfer completion. No unattended monitoring, heartbeat or futurecompletion. Current evidence is `reader_counter_reconciliation_2000` in the existing validation artifact.
