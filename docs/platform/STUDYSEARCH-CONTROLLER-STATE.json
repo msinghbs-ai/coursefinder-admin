@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T114009Z",
-  "created_at": "2026-11-06T11:40:09Z",
+  "checkpoint_id": "CP-382-20261106T120532Z",
+  "created_at": "2026-11-06T12:05:32Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-recovery-20261106T1104Z",
   "trigger": "integration_progress",
@@ -1845,7 +1845,7 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T09:24:08.212Z",
+      "verified_at": "2026-11-06T11:56:34.313367Z",
       "evidence_ids": [
         "EV-MIGRATIONS"
       ]
@@ -1944,7 +1944,7 @@
       "No consumer API/destructive action/spend override/trust-policy or human Layer4 decision without authority",
       "Fresh frontend version unknown"
     ],
-    "checkpoint_at": "2026-11-06T09:24:08.212Z"
+    "checkpoint_at": "2026-11-06T11:56:34.313367Z"
   },
   "workstreams": [
     {
@@ -1954,7 +1954,7 @@
       "branch": "cf247-controller-continuity",
       "commit": "9674e59bd01cfafe07c847224e92cf6f7f3fcd64",
       "worktree": null,
-      "state": "implementing",
+      "state": "blocked",
       "owned_paths": [
         "docs/platform/AGENT-OPERATING-MODEL.md",
         "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
@@ -2006,7 +2006,7 @@
       "test_evidence_ids": [
         "EV-SCHEMA"
       ],
-      "completion_summary": "Schema/validator implementation complete; 16 targeted tests pass locally. Parent integration pending."
+      "completion_summary": "Schema/validator integrated by Admin#383;17checkpoint and11ownership tests pass."
     },
     {
       "id": "WS-894",
@@ -2015,7 +2015,7 @@
       "branch": "cf247-course-descriptions-complete",
       "commit": "e15536e88691b167c53ec902215fe2a63e506c7f",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         "src/CourseDescriptionPanel.jsx",
         "supabase/functions/coverage-sweep/course-text.ts",
@@ -2038,23 +2038,23 @@
         "WS-877"
       ],
       "blockers": [
-        "Preproduction functional suite passed at12216778; metadata checks pending",
         "Production ownership/adoption pending"
       ],
       "test_evidence_ids": [
         "EV-894",
-        "EV-894-FIX"
+        "EV-894-FIX",
+        "EV-894-REVIEW"
       ],
-      "completion_summary": "All four code defects repaired; genuine PG gate and1954-test full suite pass; no production acceptance."
+      "completion_summary": "Four defects fixed; genuine PG and1954/0/0/0 suite passed, independent review clear; current-head checks pass. Production acceptance blocked."
     },
     {
       "id": "WS-893",
       "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893",
       "owner": "Codex recovery (development only)",
       "branch": "cf247-english-requirements-complete",
-      "commit": "155ef20215fb189482f1586c5399a7f382131a08",
+      "commit": "eb0caf2e8125455a076993810efef968c335fd97",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         ".github/workflows/english-requirements-test.yml",
         "tests/fixtures/english-requirements",
@@ -2074,14 +2074,15 @@
         "WS-894"
       ],
       "blockers": [
-        "Combined full governed suite in progress",
-        "Production ownership/adoption pending"
+        "Production ownership/adoption pending",
+        "Register-only current-head CI running"
       ],
       "test_evidence_ids": [
         "EV-893",
-        "EV-893-FIX"
+        "EV-893-FIX",
+        "EV-893-REVIEW"
       ],
-      "completion_summary": "False-green repaired;71/71+17/17 genuine PG assertions pass; #894 overlap merged with unique worker0.59.10; combined suite running."
+      "completion_summary": "False-green fixed; real PG71+17 and combined1979/0/0/0 passed, Worker0.59.10 and independent review clear. Register-only head checks running; production blocked."
     },
     {
       "id": "WS-892",
@@ -2090,7 +2091,7 @@
       "branch": "cf247-test-evidence",
       "commit": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         "scripts/test-evidence",
         "TEST-REGISTER.md"
@@ -2112,7 +2113,7 @@
         "EV-892",
         "EV-892-FIX"
       ],
-      "completion_summary": "Phone dependency repaired;1950/0/0/0 authoritative suite and verified bundle pass; metadata evidence reused with final gates."
+      "completion_summary": "Phone/skipped-check fixes;1950/0/0/0 authoritative bundle verified, metadata safely reused with final gates. Ready for review, unmerged."
     },
     {
       "id": "WS-877",
@@ -2280,9 +2281,9 @@
       "issue_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382",
       "owner": "Codex recovery",
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "dd84cadc007941c28d8b6f0ae2ac9afe14ffd6a3",
+      "commit": "0c9cbaeaf1f8493bf5ebd210967b033aab9a0876",
       "worktree": null,
-      "state": "verifying",
+      "state": "blocked",
       "owned_paths": [
         "scripts/ci/controller-guard.py",
         ".github/workflows/deploy-on-merge.yml",
@@ -2305,12 +2306,13 @@
         "WS-382"
       ],
       "blockers": [
-        "External execution controls and predecessor release unavailable"
+        "Production ownership/adoption pending",
+        "Register-only current-head CI running"
       ],
       "test_evidence_ids": [
         "EV-GATE-PREP"
       ],
-      "completion_summary": "Five adapter cases and YAML/Bash syntax pass locally; draft895 and full CI underway. No production enforcement claimed."
+      "completion_summary": "Five adapter cases and1939/0/0/0 full suite pass; same existing phone fix reused. Same-run register published. Predecessor and external adoption blocked."
     }
   ],
   "prs": [
@@ -2319,15 +2321,17 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 893,
       "branch": "cf247-english-requirements-complete",
-      "commit": "155ef20215fb189482f1586c5399a7f382131a08",
+      "commit": "eb0caf2e8125455a076993810efef968c335fd97",
       "state": "open",
-      "draft": true,
+      "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-893",
       "ci_status": "pending",
       "run_ids": [
-        42210727286,
-        42210727268
+        42212962756,
+        42212963040,
+        42214539857,
+        42214539830
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2336,10 +2340,9 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "Combined full governed suite in progress",
         "Production ownership/adoption pending"
       ],
-      "next_action": "Complete combined fixture/full suite, regenerate actual register; release after #894 only under verified controller authority."
+      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
     },
     {
       "id": "PR-894",
@@ -2348,12 +2351,13 @@
       "branch": "cf247-course-descriptions-complete",
       "commit": "e15536e88691b167c53ec902215fe2a63e506c7f",
       "state": "open",
-      "draft": true,
+      "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-894",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
-        42209655949
+        42209655949,
+        42211611650
       ],
       "release_gates": [
         "Existing authorisation",
@@ -2362,10 +2366,9 @@
         "Live deployment/operational acceptance"
       ],
       "blockers": [
-        "Preproduction functional suite passed at12216778; metadata checks pending",
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve passing functional evidence, finish final metadata gates; production remains blocked by ownership."
+      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
     },
     {
       "id": "PR-892",
@@ -2374,7 +2377,7 @@
       "branch": "cf247-test-evidence",
       "commit": "4823f68f6a9ec7958d6caa48cb467bbfac453581",
       "state": "open",
-      "draft": true,
+      "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-892",
       "ci_status": "success",
@@ -2391,7 +2394,7 @@
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve passing functional evidence, finish final metadata gates; production remains blocked by ownership."
+      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
     },
     {
       "id": "PR-877",
@@ -2623,13 +2626,16 @@
       "repository": "msinghbs-ai/Coursefinder-Pilot",
       "number": 895,
       "branch": "cf247-controller-entrypoint-gates",
-      "commit": "dd84cadc007941c28d8b6f0ae2ac9afe14ffd6a3",
+      "commit": "0c9cbaeaf1f8493bf5ebd210967b033aab9a0876",
       "state": "open",
       "draft": true,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-382-ADOPTION",
       "ci_status": "pending",
-      "run_ids": [],
+      "run_ids": [
+        42213117490,
+        42214313013
+      ],
       "release_gates": [
         "All controller entry points adopt canonical reservation",
         "Verified predecessor disposition and owner acceptance",
@@ -2637,11 +2643,9 @@
         "Full governed tests"
       ],
       "blockers": [
-        "Claude release unacknowledged",
-        "External account controls not adopted",
-        "CI running"
+        "Production ownership/adoption pending"
       ],
-      "next_action": "Complete CI, then perform authorised controlled gate cutover; never self-activate ownership."
+      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
     }
   ],
   "releases": [
@@ -2742,25 +2746,21 @@
         {
           "n": 4,
           "state": "proposed",
-          "ai_calls": 0,
           "cost_usd": 0.00541,
-          "last_updated": "2026-11-03T00:06:30.931342+00:00",
           "active_leases": 0
         },
         {
           "n": 1,
           "state": "held",
-          "ai_calls": 0,
           "cost_usd": 0.0011748,
-          "last_updated": "2026-11-03T00:06:30.931342+00:00",
           "active_leases": 0
         }
       ],
       "unit": "reads and USD",
-      "measured_at": "2026-11-06T09:09:21.489Z",
+      "measured_at": "2026-11-06T11:56:34.313367Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-BASELINE"
+        "EV-RECOVERY-LIVE"
       ]
     },
     {
@@ -3578,15 +3578,28 @@
           "exceptions": 17
         },
         "merged_prs": 0,
-        "verified_production_releases": 0
+        "verified_production_releases": 0,
+        "english": {
+          "passed": 1979,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        },
+        "ownership_gate": {
+          "passed": 1939,
+          "failed": 0,
+          "skipped": 0,
+          "flaky": 0
+        }
       },
       "unit": "actual assertions and runs",
-      "measured_at": "2026-11-06T11:40:09Z",
+      "measured_at": "2026-11-06T12:05:32Z",
       "status": "verified",
       "evidence_ids": [
         "EV-894-FIX",
         "EV-893-FIX",
-        "EV-892-FIX"
+        "EV-892-FIX",
+        "EV-GATE-PREP"
       ]
     }
   ],
@@ -4031,7 +4044,7 @@
     {
       "id": "NA-894",
       "workstream_id": "WS-894",
-      "action": "Finish final metadata checks; retain1954-test/realPG proof and existing register. Production acceptance follows only after verified controller authority.",
+      "action": "Preserve passing full-suite and final-head evidence; production acceptance requires ownership/adoption and ordered release.",
       "owner": "Exclusively assigned #894 developer",
       "depends_on": [],
       "verification_required": [
@@ -4044,7 +4057,7 @@
     {
       "id": "NA-893",
       "workstream_id": "WS-893",
-      "action": "Complete combined155ef202 fixture/full-suite validation, regenerate the same-run register, then release after #894 when ownership gates pass.",
+      "action": "Finish register-only headeb0caf2e8125455a076993810efef968c335fd97 checks; preserve1979/0/0/0 and real71+17PG proof; release after894 only under verified authority.",
       "owner": "Exclusively assigned #893 developer",
       "depends_on": [],
       "verification_required": [
@@ -4056,7 +4069,7 @@
     {
       "id": "NA-892",
       "workstream_id": "WS-892",
-      "action": "Retain validated1950-test bundle and metadata reuse at4823f68f; merge only through confirmed controller authority. Do not repeat unchanged tests.",
+      "action": "Preserve passing full-suite and final-head evidence; production acceptance requires ownership/adoption and ordered release.",
       "owner": "Test-evidence developer",
       "depends_on": [
         "NA-894",
@@ -4087,7 +4100,7 @@
     {
       "id": "NA-GATE-895",
       "workstream_id": "WS-382-ADOPTION",
-      "action": "Finish adapter CI/fullsuite and register, then verify protected-secret refs, Cloudflare deployment guard and direct-SQL credential control before adoption.",
+      "action": "Finish register-only head0c9cbaeaf1f8493bf5ebd210967b033aab9a0876 checks; obtain verified protected-secret/ref,Cloudflare and SQL controls plus predecessor disposition before controlled adoption.",
       "owner": "Authorised Integration Controller/account owner",
       "depends_on": [],
       "verification_required": [
@@ -4227,10 +4240,10 @@
     },
     {
       "id": "EV-893-FIX",
-      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333/job/127864084411",
-      "kind": "actual_postgres_scenarios",
-      "observed_at": "2026-11-06T11:40:09Z",
-      "summary": "Englishhead9b54c741 genuine PG17.6 Unixsocket,zero parity differences,guarded migration;71/71 groups+17/17exceptions. Combined155ef202 incorporates repaired894 and uniqueWorker0.59.10; fullsuite running."
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42212962756",
+      "kind": "actual_postgres_and_full_suite",
+      "observed_at": "2026-11-06T12:05:32Z",
+      "summary": "13197cade:1979passed/0failed/skipped/flaky. English PG17.6 run42212963040 passed71+17; both PG tracks pass. Full artifact13500268267 ZIPsha256bf982e499b3c10c44b303581ee35b8adc0f718b892ef01ef04e5669cf95eafb0 exactidentity/stats verified. Five stale assertions fixed before passing run, no weakening."
     },
     {
       "id": "EV-892-FIX",
@@ -4241,23 +4254,37 @@
     },
     {
       "id": "EV-GATE-PREP",
-      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895",
-      "kind": "entrypoint_adoption_patch",
-      "observed_at": "2026-11-06T11:40:09Z",
-      "summary": "Existing canonical protocol adapter; five behavioral cases pass, five production workflows patched; draft held for external controls and predecessor disposition. No authority acquired."
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42213117490",
+      "kind": "actual_entrypoint_guard_suite",
+      "observed_at": "2026-11-06T12:05:32Z",
+      "summary": "b99bf2c6:1939/0/0/0 fullsuite, targeted adapter/phone pass. Artifact13499204275 ZIPsha256b3bad718b79764c77c1397b1714f95d1b108855ea70ad9105cbf1714c62d7627 verified. Register0c9cbaea published. Actual reconciliation state refused; external cutover not installed."
     },
     {
       "id": "EV-RECOVERY-LIVE",
       "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#immediate-execution-recovery",
       "kind": "read_only_live_production",
-      "observed_at": "2026-11-06T11:40:09Z",
-      "summary": "11:32:16Z DB:1791migrations/head20261106400000,worker0.59.8status200,lastreleasecheckv2.15.489;1030descriptionpending;pdesc4proposed+1held,0activeleases. No production write/spend by recovery."
+      "observed_at": "2026-11-06T12:05:32Z",
+      "summary": "11:56:34Z:1791migrations/head20261106400000;actualworker0.59.8status200;releasecheck27v2.15.489. Pdesc4proposedcost0.00541+1heldcost0.0011748,0activeleases. Lastdescriptionpending1030 at11:32Z. No mutation/spend initiated."
+    },
+    {
+      "id": "EV-894-REVIEW",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/894#issuecomment-6684377163",
+      "kind": "independent_final_review",
+      "observed_at": "2026-11-06T12:05:32Z",
+      "summary": "All four fixed at12216778; no further blocker; eight source blobs match. Metadatae15536e8 PG/fullsuite pass42211611650. Production acceptance open."
+    },
+    {
+      "id": "EV-893-REVIEW",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/893#issuecomment-6684375130",
+      "kind": "independent_final_review",
+      "observed_at": "2026-11-06T12:05:32Z",
+      "summary": "Actual PG execution verified; no falsegreen/merge/parser/version blocker found. Isolated admission stand-in is not live acceptance."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Published repaired894/893/892 heads and concrete gate PR895; verified actual PG/full-suite artifacts.",
-    "current_action": "Complete combined893 and gate895 CI; regenerate registers from those executions. Production remains blocked.",
-    "next_safe_action": "Inspect actual combined893 full-suite output; repair any failure, validate artifacts, finish895 tests and external cutover reconciliation.",
+    "last_completed_atomic_action": "Published same-run registers and independently reviewed passing894/893/892 repairs plus895 gate patch; downloaded artifacts verified.",
+    "current_action": "Validate register-only current-head checks; preserve production hold pending predecessor and external controls.",
+    "next_safe_action": "Inspect exact-head checks; authorised account/controller must reconcile predecessor and install/verify external controls before ownership acceptance. No production retry.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4276,7 +4303,7 @@
       "Historical queued run disposition",
       "Live hashes immediately before authorised release"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T094419Z",
+    "predecessor_checkpoint": "CP-382-20261106T114009Z",
     "successor_checkpoint": null
   },
   "handover": {
