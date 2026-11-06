@@ -7879,5 +7879,1074 @@
     ],
     "production_mutations_initiated": [],
     "in_flight_operations_initiated": []
+  },
+  "consumer_cycle_1902_operations": {
+    "execution_id": "codex-deadline-consumers-20261106T190249Z",
+    "recorded_at": "2026-11-06T19:18:06Z",
+    "baseline": {
+      "observed_at": "2026-11-06 19:12:14.913266+00",
+      "deadline_helper_md5": "f01e9be83e58c9c48c33e5fde4de05d9",
+      "description_guard_md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
+      "flag_jobs_md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
+      "other_active_client_transactions": 2,
+      "job_inventory": {
+        "total": 176,
+        "active": 163
+      },
+      "controls": {
+        "run_now.jobs": [
+          "intake-dates-apply"
+        ],
+        "jobs.held_off": [
+          "coverage-discover",
+          "coverage-discover-2"
+        ],
+        "pdesc.enabled": 1,
+        "pdesc.ai_usd_max": 1,
+        "alerts.webhook_enabled": false,
+        "alerts.delivery_enabled": true,
+        "alerts.collect_within_minutes": 120
+      },
+      "queues": [
+        {
+          "key": "ai_page_match",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:05:48.406059+00:00"
+        },
+        {
+          "key": "central_ai",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-05T04:15:18.786556+00:00"
+        },
+        {
+          "key": "central_find",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-22T03:54:11.025363+00:00"
+        },
+        {
+          "key": "companion_read",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-02T10:42:14.399783+00:00"
+        },
+        {
+          "key": "course_list_read",
+          "state": "out_of_toolset",
+          "pending": 69,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T15:03:05.281243+00:00"
+        },
+        {
+          "key": "course_page_discover",
+          "state": "paused",
+          "pending": 18,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:37:09.537559+00:00"
+        },
+        {
+          "key": "course_page_read",
+          "state": "failing",
+          "pending": 0,
+          "per_hour": 8,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 8,
+          "failed_window": 25,
+          "last_progress": "2026-11-06T18:10:33.702425+00:00"
+        },
+        {
+          "key": "course_page_search",
+          "state": "out_of_toolset",
+          "pending": 265,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T11:56:00.359438+00:00"
+        },
+        {
+          "key": "credential_read",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-01T01:06:08.870743+00:00"
+        },
+        {
+          "key": "enrich_plans",
+          "state": "moving",
+          "pending": 38,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T19:00:00.945751+00:00"
+        },
+        {
+          "key": "fee_reader",
+          "state": "nothing_left",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-04T15:22:22.646034+00:00"
+        },
+        {
+          "key": "onboarding",
+          "state": "stuck",
+          "pending": 1,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T12:36:00.297196+00:00"
+        },
+        {
+          "key": "programme_read",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-10-23T22:28:14.095082+00:00"
+        },
+        {
+          "key": "scholarship_candidates",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T14:30:26.110361+00:00"
+        },
+        {
+          "key": "scholarship_discover",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 0,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 0,
+          "failed_window": 0,
+          "last_progress": "2026-11-03T02:05:00.501111+00:00"
+        },
+        {
+          "key": "scholarship_read",
+          "state": "done",
+          "pending": 0,
+          "per_hour": 20,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 20,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T18:55:09.536077+00:00"
+        },
+        {
+          "key": "source_find",
+          "state": "moving",
+          "pending": 998,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 3,
+          "failed_window": 0,
+          "last_progress": "2026-11-06T18:56:03.866196+00:00"
+        }
+      ],
+      "exact_three": [
+        {
+          "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "status": "active",
+          "application_deadline": "2026-11-02"
+        },
+        {
+          "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "status": "active",
+          "application_deadline": "2027-02-15"
+        },
+        {
+          "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
+          "status": "active",
+          "application_deadline": "2026-10-12"
+        }
+      ],
+      "alert_summary": {
+        "overdue": 77,
+        "pending": 78,
+        "unlinked": 0,
+        "duplicates": 0,
+        "historical": 62,
+        "active_keys": [
+          "alerts:not_collected",
+          "budgets:firecrawl",
+          "coverage_queues:discover",
+          "queue_watch:course_list_read",
+          "queue_watch:course_page_search"
+        ],
+        "unattempted": 78,
+        "active_events": 16
+      },
+      "p0_issues": [
+        {
+          "status": "triaged",
+          "severity": "P0",
+          "issue_ref": "IQ-00313",
+          "fingerprint": "intake-dates:unsupported-published:v2.15.481"
+        },
+        {
+          "status": "deployed",
+          "severity": "P0",
+          "issue_ref": "IQ-00111",
+          "fingerprint": "fee:ai_reader_credit_point_unit"
+        }
+      ],
+      "migrations": {
+        "count": 1791,
+        "head": "20261106400000",
+        "all_versions_match_predecessor_checkpoint": true,
+        "reference": "STUDYSEARCH-CONTROLLER-STATE.json#/production/migrations/applied_versions"
+      }
+    },
+    "frontend": {
+      "observed_at": "2026-11-06T19:09:51.120321Z",
+      "http_status": 200,
+      "asset_status": 200,
+      "asset_path": "/assets/index-DYGiA8uP.js",
+      "asset_sha256": "2099cae683638b50dbec35ef7e3a047b3ac26f513fd82900e1456389aed88540",
+      "ui489_present": true,
+      "package416_present": true,
+      "exact_cloudflare_commit": null
+    },
+    "edge_metadata": [
+      {
+        "id": "4701fb4a-b1f7-479b-b37f-2b04b7b65516",
+        "slug": "coverage-sweep",
+        "name": "coverage-sweep",
+        "status": "ACTIVE",
+        "version": 239,
+        "created_at": 1790650965321,
+        "updated_at": 1793931705512,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/coverage-sweep/index.ts",
+        "ezbr_sha256": "995d5111618181a55afa168f97d529f7bae27f9ff1d9825def373cf503f494b5"
+      },
+      {
+        "id": "cc8d40be-2226-42d8-99ad-58ea9a95468c",
+        "slug": "zoho-api-v2",
+        "name": "zoho-api-v2",
+        "status": "ACTIVE",
+        "version": 5,
+        "created_at": 1792106726305,
+        "updated_at": 1792386044334,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/zoho-api-v2/index.ts",
+        "ezbr_sha256": "891bd9b10dad1f73332d70f123a17d92014e950597fb76d41e3687a7a632b193"
+      },
+      {
+        "id": "dd4711f6-b02a-47a4-adef-fb7f1df92d8a",
+        "slug": "website-api-v2",
+        "name": "website-api-v2",
+        "status": "ACTIVE",
+        "version": 3,
+        "created_at": 1792111991690,
+        "updated_at": 1793188041990,
+        "verify_jwt": false,
+        "entrypoint_path": "file:///home/runner/work/Coursefinder-Pilot/Coursefinder-Pilot/supabase/functions/website-api-v2/index.ts",
+        "ezbr_sha256": "ea8d8ec5649a87bc7542a1fd6e18b5c68b36087bf00c548230eefbbd40697fdf"
+      }
+    ],
+    "activity_and_reader_queue": {
+      "observed_at": "2026-11-06 19:13:18.608925+00",
+      "other_active_clients": null,
+      "course_read_queue": {
+        "key": "course_page_read",
+        "state": "failing",
+        "reason": "25 of 33 tried in the last 60 minutes failed",
+        "pending": 0,
+        "checked_at": "2026-11-06T19:04:00.195935+00:00",
+        "done_window": 8,
+        "error_present": false,
+        "failed_window": 25
+      },
+      "course_read_health": [
+        {
+          "id": "37d7fc23-a19b-4b7e-905c-61a7cbd27a30",
+          "title": "Read course pages: failing",
+          "severity": "warning",
+          "check_key": "queue_watch:course_page_read",
+          "last_seen": "2026-11-06T19:04:00.195935+00:00",
+          "first_seen": "2026-11-06T19:04:00.195935+00:00",
+          "resolved_at": null
+        }
+      ],
+      "course_read_integration": [
+        {
+          "title": "Read course pages: failing",
+          "status": "triaged",
+          "severity": "P1",
+          "issue_ref": "IQ-00046",
+          "fingerprint": "health:queue_watch:course_page_read",
+          "last_observed_at": "2026-11-06T17:21:00.21321+00:00"
+        }
+      ]
+    },
+    "bounded_jobs_and_reader_outcomes": {
+      "observed_at": "2026-11-06 19:16:34.034899+00",
+      "recent_runs": {
+        "running": 0,
+        "bounded_rows": 6000,
+        "latest_start": "2026-11-06T19:16:00.517303+00:00",
+        "oldest_start": "2026-11-06T15:32:00.214517+00:00",
+        "covers_last_2h": true,
+        "failures_last_2h": 0
+      },
+      "jobs": [
+        {
+          "name": "integration-validate",
+          "jobid": 354,
+          "active": true,
+          "last_success": "2026-11-06T18:51:07.020224+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "worker-outcome-check",
+          "jobid": 355,
+          "active": false,
+          "last_success": null,
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "consumer-api-guard",
+          "jobid": 213,
+          "active": true,
+          "last_success": "2026-11-06T18:23:10.258083+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "first-run-verify",
+          "jobid": 374,
+          "active": true,
+          "last_success": "2026-11-06T19:02:06.849352+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "layer4-groups",
+          "jobid": 375,
+          "active": true,
+          "last_success": "2026-11-06T19:16:04.457298+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "aer-outcome-register",
+          "jobid": 347,
+          "active": true,
+          "last_success": "2026-11-06T19:15:00.495547+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "platform-alerts",
+          "jobid": 348,
+          "active": true,
+          "last_success": "2026-11-06T19:10:00.719527+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "aer-scheduled-read",
+          "jobid": 358,
+          "active": true,
+          "last_success": "2026-11-06T19:13:12.416214+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "layer4-readiness",
+          "jobid": 367,
+          "active": true,
+          "last_success": "2026-11-06T18:52:14.485849+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "aer-reconcile",
+          "jobid": 353,
+          "active": true,
+          "last_success": "2026-11-06T18:27:04.836244+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "intake-dates-apply",
+          "jobid": 351,
+          "active": true,
+          "last_success": "2026-11-06T18:27:19.140039+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "provider-description-read",
+          "jobid": 352,
+          "active": true,
+          "last_success": "2026-11-06T19:16:09.582205+00:00",
+          "failures_in_bounded_sample": 0
+        },
+        {
+          "name": "central-find",
+          "jobid": 150,
+          "active": true,
+          "last_success": "2026-11-06T19:12:00.578252+00:00",
+          "failures_in_bounded_sample": 0
+        }
+      ],
+      "recent_read_outcomes": [
+        {
+          "id": 216323,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:00:15.275848+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216325,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:00:15.518213+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216328,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:00:35.610999+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216329,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:00:36.222078+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216338,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:01:09.515015+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216339,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:01:09.525181+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216340,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:01:35.814734+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216341,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:01:36.428172+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216350,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:02:11.36268+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216351,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:02:11.369188+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216352,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:02:35.931238+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216353,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:02:36.546193+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216362,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:03:09.222015+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216363,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:03:09.268771+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216364,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:03:35.970579+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216365,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:03:36.558763+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216374,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:04:13.080219+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216375,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:04:13.08326+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216376,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:04:36.399042+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216377,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:04:37.014213+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216384,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:05:08.835233+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216386,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:05:09.065403+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216388,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:05:36.124167+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216389,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:05:36.723655+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216397,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:06:09.930199+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216398,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:06:09.971741+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216399,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:06:36.231195+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216400,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:06:36.853469+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216411,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:07:08.908199+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216412,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:07:08.935104+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216413,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:07:36.261981+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216414,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:07:36.871759+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216422,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:08:11.579962+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216423,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:08:11.579962+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216424,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:08:36.579061+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216425,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:08:37.203804+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216433,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:09:09.679292+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216434,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:09:09.746071+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216435,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:09:36.421574+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        },
+        {
+          "id": 216436,
+          "ok": 0,
+          "mode": "read",
+          "items": 0,
+          "failed": 0,
+          "run_at": "2026-11-06T19:09:37.017577+00:00",
+          "status": 200,
+          "outcome": "idle",
+          "hold_reason": "nothing due",
+          "lane_outcome": "idle"
+        }
+      ],
+      "ledger_bounds": {
+        "read_rows": 196,
+        "latest_run": "2026-11-06T19:16:20.302922+00:00",
+        "oldest_run": "2026-11-06T17:40:12.302197+00:00",
+        "bounded_rows": 1000
+      },
+      "read_watch_window_outcomes": [
+        {
+          "observed_at": "2026-11-06 19:17:16.493987+00",
+          "status": 200,
+          "outcome": "idle",
+          "lane_outcome": "idle",
+          "hold_reason": "nothing due",
+          "calls": 130,
+          "items": 0,
+          "ok": 0,
+          "failed": 0,
+          "first_at": "2026-11-06 18:10:34.444205+00",
+          "last_at": "2026-11-06 19:03:36.558763+00",
+          "budget_or_reserve_signal": true,
+          "timeout_signal": false,
+          "not_found_signal": false
+        },
+        {
+          "observed_at": "2026-11-06 19:17:16.493987+00",
+          "status": 200,
+          "outcome": "succeeded",
+          "lane_outcome": "done",
+          "hold_reason": null,
+          "calls": 1,
+          "items": 8,
+          "ok": 8,
+          "failed": 0,
+          "first_at": "2026-11-06 18:10:33.760451+00",
+          "last_at": "2026-11-06 18:10:33.760451+00",
+          "budget_or_reserve_signal": true,
+          "timeout_signal": false,
+          "not_found_signal": false
+        },
+        {
+          "observed_at": "2026-11-06 19:17:16.493987+00",
+          "status": 200,
+          "outcome": "zero_work_error",
+          "lane_outcome": "failed",
+          "hold_reason": "no work done, with an error in the answer",
+          "calls": 1,
+          "items": 25,
+          "ok": 8,
+          "failed": 17,
+          "first_at": "2026-11-06 18:50:41.633678+00",
+          "last_at": "2026-11-06 18:50:41.633678+00",
+          "budget_or_reserve_signal": true,
+          "timeout_signal": false,
+          "not_found_signal": false
+        }
+      ],
+      "read_watch_window_limits": "Bounded latest1000ledgerrows, filters18:04–19:04UTC; boolean keyword signals are not a validated per-page root cause. No rawerror/sourcebody exported."
+    },
+    "worktree_inventory": [
+      {
+        "worktree": "/workspace/delivery-pilot",
+        "head": "0ef97c8a4f5282ee7a6a274354446d898d1a7e1b",
+        "branch": "delivery895-final-register-preservation",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/delivery-893",
+        "head": "99e00249cf2698ef384f724a6649ce901082adc4",
+        "branch": "delivery-893-release",
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-894",
+        "head": "cd8b81c9a427a870fa21c195d17ebfffde7a26fe",
+        "branch": null,
+        "uncommitted": [
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/delivery-p0-deadline",
+        "head": "bad902ad387115004d12b629b34ab21b5266bb2c",
+        "branch": "delivery-p0-deadline-382",
+        "uncommitted": [
+          "?? deadline-cli-generation.json",
+          "?? deadline-enabled-review-validation.json",
+          "?? deadline-local-validation.json",
+          "?? deadline-pg17-enabled-review-validation.log",
+          "?? deadline-pg17-validation.json",
+          "?? deadline-pg17-validation.log",
+          "?? deadline-review-paste-refusal.log",
+          "?? deadline-s233-validation.log",
+          "?? node_modules"
+        ]
+      },
+      {
+        "worktree": "/workspace/repair-ownership-followup",
+        "head": "c13b516d0383067a734a30077da3ddf3e66e201a",
+        "branch": "ws382-screenshot-guard",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/review-895-readonly",
+        "head": "50f650f7731b2b3a3702f56b75b8356709fefa74",
+        "branch": "ws382-safe-dispatch-inputs",
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1702/review-context",
+        "head": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "branch": null,
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1800/review-jobs",
+        "head": "4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067",
+        "branch": null,
+        "uncommitted": []
+      },
+      {
+        "worktree": "/workspace/resume-1902/review-consumers",
+        "head": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+        "branch": null,
+        "uncommitted": []
+      }
+    ],
+    "account_control": "Finalpilotmetadata stillunprotected/secretAPI403; atomic6d95released/noowner/nolease/adoptionpending, no execution acceptance. No account changes initiated.",
+    "diagnostic_limits": [
+      "The19:12snapshot saw2otheractiveclienttransactions; the followup19:13snapshot saw none. No attribution or credential-revocation inference; no cancellation.",
+      "Course-page queue reports25failures/33tried in its prior60minwindow; existingIQ-00046/P1 is triaged and currentPlatformhealth episode is warning. This is a reported field-reader failure condition, not a proven deployment or consumer-integrity root cause.",
+      "One followup diagnostic SQL draft failed syntax validation due an unnecessary ORDER BY NULL; corrected query produced the separately timestamped result and no production mutation.",
+      "A brief executor transport disconnect occurred before command creation; runtime current/running and trivialread re-established access. No critical command was replayed.",
+      "Successfulcron/SQL projections do not establish business acceptance; no suite rerun, vendor call, source write or production mutation."
+    ],
+    "reader_counter_reconciliation": {
+      "watchdog_observation_utc": "2026-11-06T19:04:00.195935Z",
+      "watchdog_tried": 33,
+      "watchdog_done": 8,
+      "watchdog_failed": 25,
+      "bounded_ledger_calls": 132,
+      "ledger_reported_items": 33,
+      "ledger_reported_ok": 16,
+      "ledger_reported_failed": 17,
+      "note": "Ledger132calls include130idle plus two work-bearing records; ledger fields total33items/16ok/17failed versus watch33tried/8done/25failed. Stage/grain/atomic-batch semantics have not been established, so this discrepancy does not prove a monitoring defect or root cause. One work-bearing record has HTTP200/outcomezero_work_error. Budget keyword booleans are coarse signals, not causal attribution. No rawbody/error/source content exported."
+    }
   }
 }

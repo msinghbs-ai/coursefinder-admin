@@ -7346,32 +7346,4104 @@
     ]
   },
   "latest_exact_three_recheck": {
-    "execution_id": "codex-job-reconcile-20261106T175943Z",
-    "observed_at": "2026-11-06T18:08:30.994799Z",
+    "execution_id": "codex-deadline-consumers-20261106T190249Z",
+    "observed_at": "2026-11-06T19:12:14.913266Z",
     "rows": [
       {
-        "observed_at": "2026-11-06 18:08:30.994799+00",
         "id": "0bae1bde-3d71-4ae8-86ff-118049910790",
-        "application_deadline": "2026-11-02",
         "status": "active",
-        "still_expected_bad_value": true
+        "application_deadline": "2026-11-02"
       },
       {
-        "observed_at": "2026-11-06 18:08:30.994799+00",
         "id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
-        "application_deadline": "2027-02-15",
         "status": "active",
-        "still_expected_bad_value": true
+        "application_deadline": "2027-02-15"
       },
       {
-        "observed_at": "2026-11-06 18:08:30.994799+00",
         "id": "8e7d1957-58ce-4a2d-9583-fef41ea30bdc",
-        "application_deadline": "2026-10-12",
         "status": "active",
-        "still_expected_bad_value": true
+        "application_deadline": "2026-10-12"
       }
     ],
     "corrections": 0,
-    "authority_scope": "Existing disabled exactthree-row pathway unchanged; no broader correction or consumerHTTP/cache acceptance inferred."
+    "authority_scope": "Original exactthree-row proposal remains separately gated and disabled."
+  },
+  "consumer_expansion_1902": {
+    "execution_id": "codex-deadline-consumers-20261106T190249Z",
+    "checkpoint_id": "CP-382-20261106T191806Z",
+    "recorded_at": "2026-11-06T19:18:06Z",
+    "predecessor_commit": "c01e43dd5d1267d22e9abd070d4e7b8eac8fab6d",
+    "scope": {
+      "execution_id": "codex-deadline-consumers-20261106T190249Z",
+      "candidate_commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+      "selection": "First ten lexical course codes among58previouslyunchecked non-closing-evidence courses; one-course query per transaction,4s limit, abort on failure.",
+      "prior_codes": [
+        "0100213",
+        "0100214",
+        "0100910",
+        "013827E",
+        "029214C",
+        "061063B",
+        "071123A"
+      ],
+      "remaining_before": 58,
+      "selected_codes": [
+        "084734M",
+        "088353C",
+        "089201M",
+        "090254K",
+        "090293C",
+        "091253C",
+        "092484B",
+        "094185G",
+        "094198C",
+        "095229D"
+      ],
+      "suspect_intakes": [
+        {
+          "intake_id": "05f8c255-1920-4aaf-9112-598a715b8311",
+          "current_deadline": "2027-03-01",
+          "course_id": "2c8a32ae-1fce-4ede-bc93-f592048649a2",
+          "course_code": "089201M",
+          "canonical_title": "Bachelor of Arts/Bachelor of Social Science",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273427
+          ],
+          "quotes": [
+            "Next Start Date 01 March 2027"
+          ],
+          "evidence_ids": [
+            "45136cfd-9c5e-4f98-9a8b-53c9b01c849e"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "80659bd7-af0c-4757-ba8b-0f26598c1c6e",
+              "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-arts-bachelor-of-social-science",
+              "item_evidence_id": "45136cfd-9c5e-4f98-9a8b-53c9b01c849e",
+              "item_id": 273427,
+              "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-arts-bachelor-of-social-science"
+            }
+          ]
+        },
+        {
+          "intake_id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+          "current_deadline": "2027-02-15",
+          "course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+          "course_code": "094185G",
+          "canonical_title": "Master of Engineering (Industrial Automation)",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273381
+          ],
+          "quotes": [
+            "Intakes 15 February 2027"
+          ],
+          "evidence_ids": [
+            "1458055d-c99a-458c-9d6a-62af342a36ab"
+          ],
+          "flags": [],
+          "source_references": [
+            {
+              "intake_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+              "intake_source_url": "https://www.eit.edu.au/courses/on-campus-master-of-engineering-industrial-automation/",
+              "item_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+              "item_id": 273381,
+              "item_source_url": "https://www.eit.edu.au/courses/on-campus-master-of-engineering-industrial-automation/"
+            }
+          ]
+        },
+        {
+          "intake_id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+          "current_deadline": "2026-11-02",
+          "course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+          "course_code": "095229D",
+          "canonical_title": "Bachelor of Business (Entrepreneurship)",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273361
+          ],
+          "quotes": [
+            "Start date 02 Nov 2026"
+          ],
+          "evidence_ids": [
+            "75891841-a6d3-4707-906f-3ad39d444d53"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+              "intake_source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship",
+              "item_evidence_id": "75891841-a6d3-4707-906f-3ad39d444d53",
+              "item_id": 273361,
+              "item_source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship"
+            }
+          ]
+        },
+        {
+          "intake_id": "9aa29844-b8e1-4776-9db8-0dbc300b7b18",
+          "current_deadline": "2026-11-02",
+          "course_id": "2a736773-803d-44a9-8e1e-724a779e6e7e",
+          "course_code": "092484B",
+          "canonical_title": "Diploma of Interior Design and Decoration",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273335
+          ],
+          "quotes": [
+            "Start date 02 Nov 2026"
+          ],
+          "evidence_ids": [
+            "3bf7bce8-c690-490b-acc7-c22540b37a6d"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "7e0bedad-e22d-48b8-98a6-0ca027bec3ff",
+              "intake_source_url": "https://www.torrens.edu.au/courses/design/diploma-of-interior-design-and-decoration",
+              "item_evidence_id": "3bf7bce8-c690-490b-acc7-c22540b37a6d",
+              "item_id": 273335,
+              "item_source_url": "https://www.torrens.edu.au/courses/design/diploma-of-interior-design-and-decoration"
+            }
+          ]
+        },
+        {
+          "intake_id": "4da10ef3-f8fa-4ea8-aba2-f39b62d2c636",
+          "current_deadline": "2026-11-02",
+          "course_id": "274b13b9-c3a1-464a-8ff2-f25192a289ae",
+          "course_code": "090254K",
+          "canonical_title": "Master of Professional Accounting (Advanced)",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273206
+          ],
+          "quotes": [
+            "Start date 02 Nov 2026"
+          ],
+          "evidence_ids": [
+            "1a8438ad-bc08-4254-a702-996e1b95c533"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "e738424e-eced-4de5-a1b7-80e9a7299ffd",
+              "intake_source_url": "https://www.torrens.edu.au/courses/business/master-of-professional-accounting-advanced",
+              "item_evidence_id": "1a8438ad-bc08-4254-a702-996e1b95c533",
+              "item_id": 273206,
+              "item_source_url": "https://www.torrens.edu.au/courses/business/master-of-professional-accounting-advanced"
+            }
+          ]
+        },
+        {
+          "intake_id": "78a01760-2498-4bc5-9f47-5c8e285ad17f",
+          "current_deadline": "2027-03-01",
+          "course_id": "25e39c39-f012-4e10-af66-59a8a4d17044",
+          "course_code": "094198C",
+          "canonical_title": "Bachelor of Science (Pathway to Teaching Primary/Secondary)",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273155
+          ],
+          "quotes": [
+            "Next Start Date 01 March 2027"
+          ],
+          "evidence_ids": [
+            "189b7009-9643-4e47-8c91-380a0b0d80e6"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "90127bd0-51a5-4576-9396-c3d63c0043f8",
+              "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-science-pathway-to-teaching-primary-secondary",
+              "item_evidence_id": "189b7009-9643-4e47-8c91-380a0b0d80e6",
+              "item_id": 273155,
+              "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-science-pathway-to-teaching-primary-secondary"
+            }
+          ]
+        },
+        {
+          "intake_id": "66271186-c1f2-43ae-8a0e-ccc65348f541",
+          "current_deadline": "2026-11-02",
+          "course_id": "25168dae-153f-4d18-a850-8b6b9c80192f",
+          "course_code": "090293C",
+          "canonical_title": "Bachelor of Branded Fashion Design",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            273125
+          ],
+          "quotes": [
+            "Start date 02 Nov 2026"
+          ],
+          "evidence_ids": [
+            "e0852296-5543-4ca2-9a78-f87c8ec00d3b"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "f51c7e9a-7b43-43bf-83a6-0332339f70ab",
+              "intake_source_url": "https://www.torrens.edu.au/courses/design/bachelor-of-branded-fashion-design",
+              "item_evidence_id": "e0852296-5543-4ca2-9a78-f87c8ec00d3b",
+              "item_id": 273125,
+              "item_source_url": "https://www.torrens.edu.au/courses/design/bachelor-of-branded-fashion-design"
+            }
+          ]
+        },
+        {
+          "intake_id": "53900bc7-81a8-48de-bad7-ad13956b6f9a",
+          "current_deadline": "2027-02-22",
+          "course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+          "course_code": "088353C",
+          "canonical_title": "Bachelor of Engineering (Honours)/Bachelor of Mathematics",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            272298
+          ],
+          "quotes": [
+            "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+          ],
+          "evidence_ids": [
+            "e13c7af3-0e4d-407b-969f-b7a3223a6110"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+              "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492",
+              "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+              "item_id": 272298,
+              "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492"
+            }
+          ]
+        },
+        {
+          "intake_id": "893aeac6-0946-4b75-9d64-4aad022514aa",
+          "current_deadline": "2027-07-26",
+          "course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+          "course_code": "088353C",
+          "canonical_title": "Bachelor of Engineering (Honours)/Bachelor of Mathematics",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            272298
+          ],
+          "quotes": [
+            "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+          ],
+          "evidence_ids": [
+            "e13c7af3-0e4d-407b-969f-b7a3223a6110"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+              "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492",
+              "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+              "item_id": 272298,
+              "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492"
+            }
+          ]
+        },
+        {
+          "intake_id": "64cc0fff-06c3-454b-aa6c-aa02f5722f5b",
+          "current_deadline": "2027-07-26",
+          "course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+          "course_code": "091253C",
+          "canonical_title": "Bachelor of Mathematics/Bachelor of Business Management",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            271996
+          ],
+          "quotes": [
+            "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+          ],
+          "evidence_ids": [
+            "ce677f95-3eec-4c8c-98e1-f0918e42753e"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+              "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500",
+              "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+              "item_id": 271996,
+              "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500"
+            }
+          ]
+        },
+        {
+          "intake_id": "c19abd1b-0fb2-4461-960c-390d2e4d8a00",
+          "current_deadline": "2027-02-22",
+          "course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+          "course_code": "091253C",
+          "canonical_title": "Bachelor of Mathematics/Bachelor of Business Management",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            271996
+          ],
+          "quotes": [
+            "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+          ],
+          "evidence_ids": [
+            "ce677f95-3eec-4c8c-98e1-f0918e42753e"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+              "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500",
+              "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+              "item_id": 271996,
+              "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500"
+            }
+          ]
+        },
+        {
+          "intake_id": "fce9068c-0a24-4951-936f-5eaef21707a8",
+          "current_deadline": "2027-03-01",
+          "course_id": "10500f71-0557-48cf-9723-35fa49b39c1d",
+          "course_code": "084734M",
+          "canonical_title": "Bachelor of Construction Management Studies/Bachelor of Laws",
+          "category": "confirmed_non_closing",
+          "item_ids": [
+            270950
+          ],
+          "quotes": [
+            "Next Start Date 01 March 2027"
+          ],
+          "evidence_ids": [
+            "5e2218ed-c4ff-416c-bdbd-752b7e70f418"
+          ],
+          "flags": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_references": [
+            {
+              "intake_evidence_id": "4b754ed9-a9fa-4c01-8ae8-3120ed6cdf56",
+              "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-construction-management-studies-bachelor-of-laws",
+              "item_evidence_id": "5e2218ed-c4ff-416c-bdbd-752b7e70f418",
+              "item_id": 270950,
+              "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-construction-management-studies-bachelor-of-laws"
+            }
+          ]
+        }
+      ]
+    },
+    "consumer_probes": [
+      {
+        "observed_at": "2026-11-06 19:07:31.08581+00",
+        "code": "084734M",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:07:39.762197+00",
+        "code": "088353C",
+        "website_intakes": [
+          {
+            "year": 2027,
+            "label": "February",
+            "month": 2,
+            "start_date": "2027-02-22",
+            "application_deadline": "2027-02-22"
+          },
+          {
+            "year": 2027,
+            "label": "July",
+            "month": 7,
+            "start_date": "2027-07-26",
+            "application_deadline": "2027-07-26"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": 2027,
+            "label": "February",
+            "campus_id": null,
+            "start_date": "2027-02-22",
+            "application_deadline": "2027-02-22"
+          },
+          {
+            "year": 2027,
+            "label": "July",
+            "campus_id": null,
+            "start_date": "2027-07-26",
+            "application_deadline": "2027-07-26"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": 2027,
+            "label": "February",
+            "month": 2,
+            "start_date": "2027-02-22",
+            "application_deadline": "2027-02-22"
+          },
+          {
+            "year": 2027,
+            "label": "July",
+            "month": 7,
+            "start_date": "2027-07-26",
+            "application_deadline": "2027-07-26"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:07:44.899705+00",
+        "code": "089201M",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:07:49.738+00",
+        "code": "090254K",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:07:54.415203+00",
+        "code": "090293C",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "month": 5,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "year": null,
+            "label": "September",
+            "month": 9,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "year": null,
+            "label": "September",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "month": 5,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "year": null,
+            "label": "September",
+            "month": 9,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:08:02.509208+00",
+        "code": "091253C",
+        "website_intakes": [
+          {
+            "year": 2027,
+            "label": "February",
+            "month": 2,
+            "start_date": "2027-02-22",
+            "application_deadline": "2027-02-22"
+          },
+          {
+            "year": 2027,
+            "label": "July",
+            "month": 7,
+            "start_date": "2027-07-26",
+            "application_deadline": "2027-07-26"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": 2027,
+            "label": "February",
+            "campus_id": null,
+            "start_date": "2027-02-22",
+            "application_deadline": "2027-02-22"
+          },
+          {
+            "year": 2027,
+            "label": "July",
+            "campus_id": null,
+            "start_date": "2027-07-26",
+            "application_deadline": "2027-07-26"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": 2027,
+            "label": "February",
+            "month": 2,
+            "start_date": "2027-02-22",
+            "application_deadline": "2027-02-22"
+          },
+          {
+            "year": 2027,
+            "label": "July",
+            "month": 7,
+            "start_date": "2027-07-26",
+            "application_deadline": "2027-07-26"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:08:12.474196+00",
+        "code": "092484B",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "month": 5,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "year": null,
+            "label": "September",
+            "month": 9,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "year": null,
+            "label": "September",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "May",
+            "month": 5,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          },
+          {
+            "year": null,
+            "label": "September",
+            "month": 9,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:08:18.610193+00",
+        "code": "094185G",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": "2027-02-15"
+          },
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2027-02-15"
+          },
+          {
+            "year": null,
+            "label": "July",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": "2027-02-15"
+          },
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:08:24.393895+00",
+        "code": "094198C",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "July",
+            "month": 7,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "March",
+            "month": 3,
+            "start_date": null,
+            "application_deadline": "2027-03-01"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      },
+      {
+        "observed_at": "2026-11-06 19:08:29.489706+00",
+        "code": "095229D",
+        "website_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          }
+        ],
+        "zoho_v1_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "campus_id": null,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          }
+        ],
+        "zoho_v2_intakes": [
+          {
+            "year": null,
+            "label": "February",
+            "month": 2,
+            "start_date": null,
+            "application_deadline": null
+          },
+          {
+            "year": null,
+            "label": "November",
+            "month": 11,
+            "start_date": null,
+            "application_deadline": "2026-11-02"
+          }
+        ],
+        "website_error": null,
+        "zoho_v1_error": null,
+        "zoho_v2_error": null
+      }
+    ],
+    "exact_current_intakes": [
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273427,
+        "expected_date": "2027-03-01",
+        "intake_id": "05f8c255-1920-4aaf-9112-598a715b8311",
+        "intake_course_id": "2c8a32ae-1fce-4ede-bc93-f592048649a2",
+        "item_course_id": "2c8a32ae-1fce-4ede-bc93-f592048649a2",
+        "course_code": "089201M",
+        "current_deadline": "2027-03-01",
+        "intake_status": "active",
+        "intake_label": "March",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "45136cfd-9c5e-4f98-9a8b-53c9b01c849e",
+        "intake_evidence_id": "80659bd7-af0c-4757-ba8b-0f26598c1c6e",
+        "item_updated_at": "2026-11-06 05:27:18.81619+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "49813ba1ba9cb9571eaae7e3fa3f2bfb47b6f3da848f461208b6fa7f2c6b8aa4",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273381,
+        "expected_date": "2027-02-15",
+        "intake_id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+        "intake_course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+        "item_course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+        "course_code": "094185G",
+        "current_deadline": "2027-02-15",
+        "intake_status": "active",
+        "intake_label": "February",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+        "intake_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+        "item_updated_at": "2026-11-06 05:27:25.30045+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "4a34f842cc4ccf1966c140e21aa8518238c3a174097e719ca32d08655cb47557",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273361,
+        "expected_date": "2026-11-02",
+        "intake_id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+        "intake_course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+        "item_course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+        "course_code": "095229D",
+        "current_deadline": "2026-11-02",
+        "intake_status": "active",
+        "intake_label": "November",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "75891841-a6d3-4707-906f-3ad39d444d53",
+        "intake_evidence_id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+        "item_updated_at": "2026-11-06 05:27:18.049176+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "cb23f4757acde8e36075eaefa0055773ae5c6e9b470e824de3811bf3889129b0",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273335,
+        "expected_date": "2026-11-02",
+        "intake_id": "9aa29844-b8e1-4776-9db8-0dbc300b7b18",
+        "intake_course_id": "2a736773-803d-44a9-8e1e-724a779e6e7e",
+        "item_course_id": "2a736773-803d-44a9-8e1e-724a779e6e7e",
+        "course_code": "092484B",
+        "current_deadline": "2026-11-02",
+        "intake_status": "active",
+        "intake_label": "November",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "3bf7bce8-c690-490b-acc7-c22540b37a6d",
+        "intake_evidence_id": "7e0bedad-e22d-48b8-98a6-0ca027bec3ff",
+        "item_updated_at": "2026-11-06 05:27:17.982196+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "db078f921270543c456493ac216afed7f83ceec8c4e0ed3f386edc4cc64f1487",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273206,
+        "expected_date": "2026-11-02",
+        "intake_id": "4da10ef3-f8fa-4ea8-aba2-f39b62d2c636",
+        "intake_course_id": "274b13b9-c3a1-464a-8ff2-f25192a289ae",
+        "item_course_id": "274b13b9-c3a1-464a-8ff2-f25192a289ae",
+        "course_code": "090254K",
+        "current_deadline": "2026-11-02",
+        "intake_status": "active",
+        "intake_label": "November",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "1a8438ad-bc08-4254-a702-996e1b95c533",
+        "intake_evidence_id": "e738424e-eced-4de5-a1b7-80e9a7299ffd",
+        "item_updated_at": "2026-11-06 05:27:20.461026+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "918a17735368781cff7cb2ad10401216ab835b2028ae7508923c823e6bcaf45d",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273155,
+        "expected_date": "2027-03-01",
+        "intake_id": "78a01760-2498-4bc5-9f47-5c8e285ad17f",
+        "intake_course_id": "25e39c39-f012-4e10-af66-59a8a4d17044",
+        "item_course_id": "25e39c39-f012-4e10-af66-59a8a4d17044",
+        "course_code": "094198C",
+        "current_deadline": "2027-03-01",
+        "intake_status": "active",
+        "intake_label": "March",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "189b7009-9643-4e47-8c91-380a0b0d80e6",
+        "intake_evidence_id": "90127bd0-51a5-4576-9396-c3d63c0043f8",
+        "item_updated_at": "2026-11-06 05:27:17.998978+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "fbbd5f43880750eebc8acf63fe0dc965c97910405002daaea98638f222ed9394",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 273125,
+        "expected_date": "2026-11-02",
+        "intake_id": "66271186-c1f2-43ae-8a0e-ccc65348f541",
+        "intake_course_id": "25168dae-153f-4d18-a850-8b6b9c80192f",
+        "item_course_id": "25168dae-153f-4d18-a850-8b6b9c80192f",
+        "course_code": "090293C",
+        "current_deadline": "2026-11-02",
+        "intake_status": "active",
+        "intake_label": "November",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "e0852296-5543-4ca2-9a78-f87c8ec00d3b",
+        "intake_evidence_id": "f51c7e9a-7b43-43bf-83a6-0332339f70ab",
+        "item_updated_at": "2026-11-06 05:27:22.803293+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "b139d2e0a1a2814ecf32c09753f0a8e9f3b4b7fef39d9901dccf4141663e974c",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 272298,
+        "expected_date": "2027-02-22",
+        "intake_id": "53900bc7-81a8-48de-bad7-ad13956b6f9a",
+        "intake_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+        "item_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+        "course_code": "088353C",
+        "current_deadline": "2027-02-22",
+        "intake_status": "active",
+        "intake_label": "February",
+        "intake_year": 2027,
+        "start_date": "2027-02-22",
+        "item_state": "filled",
+        "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+        "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+        "item_updated_at": "2026-11-05 04:27:22.5122+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "5b39b622d785dc6cf037f55628d68d5c612d9ace247f5fe7ccbd5992d789287f",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 272298,
+        "expected_date": "2027-07-26",
+        "intake_id": "893aeac6-0946-4b75-9d64-4aad022514aa",
+        "intake_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+        "item_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+        "course_code": "088353C",
+        "current_deadline": "2027-07-26",
+        "intake_status": "active",
+        "intake_label": "July",
+        "intake_year": 2027,
+        "start_date": "2027-07-26",
+        "item_state": "filled",
+        "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+        "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+        "item_updated_at": "2026-11-05 04:27:22.5122+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "5b39b622d785dc6cf037f55628d68d5c612d9ace247f5fe7ccbd5992d789287f",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 271996,
+        "expected_date": "2027-07-26",
+        "intake_id": "64cc0fff-06c3-454b-aa6c-aa02f5722f5b",
+        "intake_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+        "item_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+        "course_code": "091253C",
+        "current_deadline": "2027-07-26",
+        "intake_status": "active",
+        "intake_label": "July",
+        "intake_year": 2027,
+        "start_date": "2027-07-26",
+        "item_state": "filled",
+        "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+        "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+        "item_updated_at": "2026-11-05 04:25:44.948647+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "a5af39f5ebe2ac5702c043db5ca8cd50fa40b26f5cd76440ae076b9258d4f9c8",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 271996,
+        "expected_date": "2027-02-22",
+        "intake_id": "c19abd1b-0fb2-4461-960c-390d2e4d8a00",
+        "intake_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+        "item_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+        "course_code": "091253C",
+        "current_deadline": "2027-02-22",
+        "intake_status": "active",
+        "intake_label": "February",
+        "intake_year": 2027,
+        "start_date": "2027-02-22",
+        "item_state": "filled",
+        "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+        "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+        "item_updated_at": "2026-11-05 04:25:44.948647+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "a5af39f5ebe2ac5702c043db5ca8cd50fa40b26f5cd76440ae076b9258d4f9c8",
+        "quote_identity_matches_original_scope": true
+      },
+      {
+        "observed_at": "2026-11-06 19:09:02.732291+00",
+        "item_id": 270950,
+        "expected_date": "2027-03-01",
+        "intake_id": "fce9068c-0a24-4951-936f-5eaef21707a8",
+        "intake_course_id": "10500f71-0557-48cf-9723-35fa49b39c1d",
+        "item_course_id": "10500f71-0557-48cf-9723-35fa49b39c1d",
+        "course_code": "084734M",
+        "current_deadline": "2027-03-01",
+        "intake_status": "active",
+        "intake_label": "March",
+        "intake_year": null,
+        "start_date": null,
+        "item_state": "filled",
+        "item_evidence_id": "5e2218ed-c4ff-416c-bdbd-752b7e70f418",
+        "intake_evidence_id": "4b754ed9-a9fa-4c01-8ae8-3120ed6cdf56",
+        "item_updated_at": "2026-11-04 04:27:21.788115+00",
+        "current_value_matches": true,
+        "current_reading_deadlines_sha256": "33c4a18a9df33c160c6c3928772ea756f3b451594e64f9d15a2384eb53dd880c",
+        "quote_identity_matches_original_scope": true
+      }
+    ],
+    "independent_review": {
+      "schema_version": "1.0.0",
+      "workstream_id": "WS-P0-CONSUMER-1902",
+      "execution_id": "codex-deadline-consumers-20261106T190249Z",
+      "reviewer": "Codex independent offline reviewer /root/consumer_review_1902",
+      "recorded_at": "2026-11-06T19:10:48.782873Z",
+      "canonical_admin_commit": "c01e43dd5d1267d22e9abd070d4e7b8eac8fab6d",
+      "candidate_commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+      "worktree": "/workspace/resume-1902/review-consumers",
+      "worktree_head_verified": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+      "worktree_detached_and_clean": true,
+      "issues": [
+        "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/896",
+        "https://github.com/msinghbs-ai/coursefinder-admin/issues/382"
+      ],
+      "verdict": "Confirmed SQL consumer exposure for all 12 scoped non-closing intake-date pairs across ten successful course probes and all three returned consumer functions; no observed reconciliation mismatch.",
+      "method": "Read-only offline reconciliation of parent-supplied SQL results. Exact catalogue intake UUID, item ID, both course UUIDs, course code, current date, item/evidence identities and kept/on-page quote entry are matched before checking returned date and label in each function. Consumer payload has no intake UUID, so payload identity is limited to course query plus exact date/label; year/start are additionally compared. No DB, network, function execution, source/code/test/GitHub/canonical Admin writes by reviewer.",
+      "input_manifest": {
+        "scope.json": {
+          "sha256": "11876c92c1b8d88cbe885db89073e4009d1e1030e14929cae3caca8edec4fae9"
+        },
+        "consumer-results.json": {
+          "sha256": "b0e6dbf68c9c79029a909ea79aacb3fe93cf4af57de8037ab0a343ae27ea7f4c"
+        },
+        "current-intakes.json": {
+          "sha256": "9c71bd5da0ff0bd897508b896d256aa803646d407ac895a656412e97b1658552"
+        },
+        "docs/platform/validation/2026-11-06-deadline-semantic-p0.json": {
+          "sha256": "57e1fa1023d6c9ae1d9124c5692ea3cf254c4d4917c7a55ca715e673e461a46d"
+        }
+      },
+      "scope_validation": {
+        "canonical_non_closing_intakes": 97,
+        "canonical_non_closing_courses": 65,
+        "prior_codes": [
+          "0100213",
+          "0100214",
+          "0100910",
+          "013827E",
+          "029214C",
+          "061063B",
+          "071123A"
+        ],
+        "scope_prior_codes_match_canonical": true,
+        "remaining_before": 58,
+        "selected_codes": [
+          "084734M",
+          "088353C",
+          "089201M",
+          "090254K",
+          "090293C",
+          "091253C",
+          "092484B",
+          "094185G",
+          "094198C",
+          "095229D"
+        ],
+        "selected_first_ten_remaining_lexical": true,
+        "disjoint_from_prior_seven": true,
+        "all_12_records_equal_canonical_source_records": true,
+        "all_scoped_course_suspect_intakes_included": true,
+        "excluded_ambiguous_or_explicit_closing_intake_overlap": [],
+        "official_followup_case_overlap": [],
+        "distinct_intake_ids": 12,
+        "distinct_item_ids": 10,
+        "shared_quote_handling": "Each UQ course retains two separate intake UUID/date pairs linked to its one item; the shared quotation is not collapsed across dates or courses."
+      },
+      "summary": {
+        "attempted_course_probes": 10,
+        "successful_course_probes": 10,
+        "successful_function_results": 30,
+        "failed_course_probes": 0,
+        "null_function_results": 0,
+        "function_error_results": 0,
+        "exact_current_intakes_reconciled": 12,
+        "intake_date_label_pairs_matching_all_three_functions": 12,
+        "per_function_pair_matches": 36,
+        "source_evidence_id_difference_flags": 11,
+        "current_target_intakes_with_null_year": 8,
+        "current_target_intakes_with_null_start": 8,
+        "mismatches": 0,
+        "production_mutations": 0,
+        "tests_run": 0
+      },
+      "per_function_summary": {
+        "website_intakes": {
+          "signature": "public.website_v2_course(text)",
+          "successful_course_results": 10,
+          "error_results": 0,
+          "null_results": 0,
+          "matched_suspect_intake_date_label_pairs": 12,
+          "all_returned_intake_slots": 24,
+          "returned_slots_with_null_deadline": 12
+        },
+        "zoho_v1_intakes": {
+          "signature": "public.zoho_edge_course_lookup_v1(text)",
+          "successful_course_results": 10,
+          "error_results": 0,
+          "null_results": 0,
+          "matched_suspect_intake_date_label_pairs": 12,
+          "all_returned_intake_slots": 24,
+          "returned_slots_with_null_deadline": 12
+        },
+        "zoho_v2_intakes": {
+          "signature": "public.zoho_v2_course(text)",
+          "successful_course_results": 10,
+          "error_results": 0,
+          "null_results": 0,
+          "matched_suspect_intake_date_label_pairs": 12,
+          "all_returned_intake_slots": 24,
+          "returned_slots_with_null_deadline": 12
+        }
+      },
+      "mismatches": [],
+      "course_probes": [
+        {
+          "observed_at": "2026-11-06 19:07:31.08581+00",
+          "code": "084734M",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "month": 3,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "month": 3,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:07:39.762197+00",
+          "code": "088353C",
+          "website_intakes": [
+            {
+              "year": 2027,
+              "label": "February",
+              "month": 2,
+              "start_date": "2027-02-22",
+              "application_deadline": "2027-02-22"
+            },
+            {
+              "year": 2027,
+              "label": "July",
+              "month": 7,
+              "start_date": "2027-07-26",
+              "application_deadline": "2027-07-26"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": 2027,
+              "label": "February",
+              "campus_id": null,
+              "start_date": "2027-02-22",
+              "application_deadline": "2027-02-22"
+            },
+            {
+              "year": 2027,
+              "label": "July",
+              "campus_id": null,
+              "start_date": "2027-07-26",
+              "application_deadline": "2027-07-26"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": 2027,
+              "label": "February",
+              "month": 2,
+              "start_date": "2027-02-22",
+              "application_deadline": "2027-02-22"
+            },
+            {
+              "year": 2027,
+              "label": "July",
+              "month": 7,
+              "start_date": "2027-07-26",
+              "application_deadline": "2027-07-26"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:07:44.899705+00",
+          "code": "089201M",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "month": 3,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "month": 3,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:07:49.738+00",
+          "code": "090254K",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:07:54.415203+00",
+          "code": "090293C",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "month": 5,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            },
+            {
+              "year": null,
+              "label": "September",
+              "month": 9,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            },
+            {
+              "year": null,
+              "label": "September",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "month": 5,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            },
+            {
+              "year": null,
+              "label": "September",
+              "month": 9,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:08:02.509208+00",
+          "code": "091253C",
+          "website_intakes": [
+            {
+              "year": 2027,
+              "label": "February",
+              "month": 2,
+              "start_date": "2027-02-22",
+              "application_deadline": "2027-02-22"
+            },
+            {
+              "year": 2027,
+              "label": "July",
+              "month": 7,
+              "start_date": "2027-07-26",
+              "application_deadline": "2027-07-26"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": 2027,
+              "label": "February",
+              "campus_id": null,
+              "start_date": "2027-02-22",
+              "application_deadline": "2027-02-22"
+            },
+            {
+              "year": 2027,
+              "label": "July",
+              "campus_id": null,
+              "start_date": "2027-07-26",
+              "application_deadline": "2027-07-26"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": 2027,
+              "label": "February",
+              "month": 2,
+              "start_date": "2027-02-22",
+              "application_deadline": "2027-02-22"
+            },
+            {
+              "year": 2027,
+              "label": "July",
+              "month": 7,
+              "start_date": "2027-07-26",
+              "application_deadline": "2027-07-26"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:08:12.474196+00",
+          "code": "092484B",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "month": 5,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            },
+            {
+              "year": null,
+              "label": "September",
+              "month": 9,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            },
+            {
+              "year": null,
+              "label": "September",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "May",
+              "month": 5,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            },
+            {
+              "year": null,
+              "label": "September",
+              "month": 9,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:08:18.610193+00",
+          "code": "094185G",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": "2027-02-15"
+            },
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2027-02-15"
+            },
+            {
+              "year": null,
+              "label": "July",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": "2027-02-15"
+            },
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:08:24.393895+00",
+          "code": "094198C",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "month": 3,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "July",
+              "month": 7,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "March",
+              "month": 3,
+              "start_date": null,
+              "application_deadline": "2027-03-01"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        },
+        {
+          "observed_at": "2026-11-06 19:08:29.489706+00",
+          "code": "095229D",
+          "website_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "zoho_v1_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "campus_id": null,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "zoho_v2_intakes": [
+            {
+              "year": null,
+              "label": "February",
+              "month": 2,
+              "start_date": null,
+              "application_deadline": null
+            },
+            {
+              "year": null,
+              "label": "November",
+              "month": 11,
+              "start_date": null,
+              "application_deadline": "2026-11-02"
+            }
+          ],
+          "website_error": null,
+          "zoho_v1_error": null,
+          "zoho_v2_error": null
+        }
+      ],
+      "records": [
+        {
+          "source_reading": {
+            "intake_id": "05f8c255-1920-4aaf-9112-598a715b8311",
+            "current_deadline": "2027-03-01",
+            "course_id": "2c8a32ae-1fce-4ede-bc93-f592048649a2",
+            "course_code": "089201M",
+            "canonical_title": "Bachelor of Arts/Bachelor of Social Science",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273427
+            ],
+            "quotes": [
+              "Next Start Date 01 March 2027"
+            ],
+            "evidence_ids": [
+              "45136cfd-9c5e-4f98-9a8b-53c9b01c849e"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "80659bd7-af0c-4757-ba8b-0f26598c1c6e",
+                "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-arts-bachelor-of-social-science",
+                "item_evidence_id": "45136cfd-9c5e-4f98-9a8b-53c9b01c849e",
+                "item_id": 273427,
+                "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-arts-bachelor-of-social-science"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:07:44.899705+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273427,
+            "expected_date": "2027-03-01",
+            "intake_id": "05f8c255-1920-4aaf-9112-598a715b8311",
+            "intake_course_id": "2c8a32ae-1fce-4ede-bc93-f592048649a2",
+            "item_course_id": "2c8a32ae-1fce-4ede-bc93-f592048649a2",
+            "course_code": "089201M",
+            "current_deadline": "2027-03-01",
+            "intake_status": "active",
+            "intake_label": "March",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "45136cfd-9c5e-4f98-9a8b-53c9b01c849e",
+            "intake_evidence_id": "80659bd7-af0c-4757-ba8b-0f26598c1c6e",
+            "item_updated_at": "2026-11-06 05:27:18.81619+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-03-01",
+                "kind": "date",
+                "quote": "Next Start Date 01 March 2027",
+                "intake": "01 March 2027",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "05f8c255-1920-4aaf-9112-598a715b8311"
+                ]
+              },
+              {
+                "date": "2027-07-19",
+                "kind": "date",
+                "quote": "Next Start Date 19 July 2027",
+                "intake": "19 July 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "month": 3,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "month": 3,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+            "current_deadline": "2027-02-15",
+            "course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+            "course_code": "094185G",
+            "canonical_title": "Master of Engineering (Industrial Automation)",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273381
+            ],
+            "quotes": [
+              "Intakes 15 February 2027"
+            ],
+            "evidence_ids": [
+              "1458055d-c99a-458c-9d6a-62af342a36ab"
+            ],
+            "flags": [],
+            "source_references": [
+              {
+                "intake_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+                "intake_source_url": "https://www.eit.edu.au/courses/on-campus-master-of-engineering-industrial-automation/",
+                "item_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+                "item_id": 273381,
+                "item_source_url": "https://www.eit.edu.au/courses/on-campus-master-of-engineering-industrial-automation/"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:08:18.610193+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273381,
+            "expected_date": "2027-02-15",
+            "intake_id": "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+            "intake_course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+            "item_course_id": "2bad6b65-cd92-4a35-9efc-a69d4bb43d99",
+            "course_code": "094185G",
+            "current_deadline": "2027-02-15",
+            "intake_status": "active",
+            "intake_label": "February",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+            "intake_evidence_id": "1458055d-c99a-458c-9d6a-62af342a36ab",
+            "item_updated_at": "2026-11-06 05:27:25.30045+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-02-15",
+                "kind": "date",
+                "quote": "Intakes 15 February 2027",
+                "intake": "15 February 2027",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "8dcd0a7e-c634-4f9d-92ba-2832413f3583"
+                ]
+              },
+              {
+                "date": "2027-07-26",
+                "kind": "date",
+                "quote": "Intakes 26 July 2027",
+                "intake": "26 July 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "February",
+                  "month": 2,
+                  "start_date": null,
+                  "application_deadline": "2027-02-15"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "February",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2027-02-15"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "February",
+                  "month": 2,
+                  "start_date": null,
+                  "application_deadline": "2027-02-15"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+            "current_deadline": "2026-11-02",
+            "course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+            "course_code": "095229D",
+            "canonical_title": "Bachelor of Business (Entrepreneurship)",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273361
+            ],
+            "quotes": [
+              "Start date 02 Nov 2026"
+            ],
+            "evidence_ids": [
+              "75891841-a6d3-4707-906f-3ad39d444d53"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+                "intake_source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship",
+                "item_evidence_id": "75891841-a6d3-4707-906f-3ad39d444d53",
+                "item_id": 273361,
+                "item_source_url": "https://www.torrens.edu.au/courses/business/bachelor-of-business-entrepreneurship"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:08:29.489706+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273361,
+            "expected_date": "2026-11-02",
+            "intake_id": "0bae1bde-3d71-4ae8-86ff-118049910790",
+            "intake_course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+            "item_course_id": "2b19936a-69ad-49b8-9a33-56644609ccfc",
+            "course_code": "095229D",
+            "current_deadline": "2026-11-02",
+            "intake_status": "active",
+            "intake_label": "November",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "75891841-a6d3-4707-906f-3ad39d444d53",
+            "intake_evidence_id": "9b66aac4-dc0c-46dc-893b-b233291984f1",
+            "item_updated_at": "2026-11-06 05:27:18.049176+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2026-11-02",
+                "kind": "date",
+                "quote": "Start date 02 Nov 2026",
+                "intake": "02 Nov 2026",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "0bae1bde-3d71-4ae8-86ff-118049910790"
+                ]
+              },
+              {
+                "date": "2027-02-15",
+                "kind": "date",
+                "quote": "Start date 15 Feb 2027",
+                "intake": "15 Feb 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "9aa29844-b8e1-4776-9db8-0dbc300b7b18",
+            "current_deadline": "2026-11-02",
+            "course_id": "2a736773-803d-44a9-8e1e-724a779e6e7e",
+            "course_code": "092484B",
+            "canonical_title": "Diploma of Interior Design and Decoration",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273335
+            ],
+            "quotes": [
+              "Start date 02 Nov 2026"
+            ],
+            "evidence_ids": [
+              "3bf7bce8-c690-490b-acc7-c22540b37a6d"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "7e0bedad-e22d-48b8-98a6-0ca027bec3ff",
+                "intake_source_url": "https://www.torrens.edu.au/courses/design/diploma-of-interior-design-and-decoration",
+                "item_evidence_id": "3bf7bce8-c690-490b-acc7-c22540b37a6d",
+                "item_id": 273335,
+                "item_source_url": "https://www.torrens.edu.au/courses/design/diploma-of-interior-design-and-decoration"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:08:12.474196+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273335,
+            "expected_date": "2026-11-02",
+            "intake_id": "9aa29844-b8e1-4776-9db8-0dbc300b7b18",
+            "intake_course_id": "2a736773-803d-44a9-8e1e-724a779e6e7e",
+            "item_course_id": "2a736773-803d-44a9-8e1e-724a779e6e7e",
+            "course_code": "092484B",
+            "current_deadline": "2026-11-02",
+            "intake_status": "active",
+            "intake_label": "November",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "3bf7bce8-c690-490b-acc7-c22540b37a6d",
+            "intake_evidence_id": "7e0bedad-e22d-48b8-98a6-0ca027bec3ff",
+            "item_updated_at": "2026-11-06 05:27:17.982196+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2026-11-02",
+                "kind": "date",
+                "quote": "Start date 02 Nov 2026",
+                "intake": "02 Nov 2026",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "9aa29844-b8e1-4776-9db8-0dbc300b7b18"
+                ]
+              },
+              {
+                "date": "2027-02-15",
+                "kind": "date",
+                "quote": "Start date 15 Feb 2027",
+                "intake": "15 Feb 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              },
+              {
+                "date": "2027-05-31",
+                "kind": "date",
+                "quote": "Start date 31 May 2027",
+                "intake": "31 May 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              },
+              {
+                "date": "2027-09-13",
+                "kind": "date",
+                "quote": "Start date 13 Sep 2027",
+                "intake": "13 Sep 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "4da10ef3-f8fa-4ea8-aba2-f39b62d2c636",
+            "current_deadline": "2026-11-02",
+            "course_id": "274b13b9-c3a1-464a-8ff2-f25192a289ae",
+            "course_code": "090254K",
+            "canonical_title": "Master of Professional Accounting (Advanced)",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273206
+            ],
+            "quotes": [
+              "Start date 02 Nov 2026"
+            ],
+            "evidence_ids": [
+              "1a8438ad-bc08-4254-a702-996e1b95c533"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "e738424e-eced-4de5-a1b7-80e9a7299ffd",
+                "intake_source_url": "https://www.torrens.edu.au/courses/business/master-of-professional-accounting-advanced",
+                "item_evidence_id": "1a8438ad-bc08-4254-a702-996e1b95c533",
+                "item_id": 273206,
+                "item_source_url": "https://www.torrens.edu.au/courses/business/master-of-professional-accounting-advanced"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:07:49.738+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273206,
+            "expected_date": "2026-11-02",
+            "intake_id": "4da10ef3-f8fa-4ea8-aba2-f39b62d2c636",
+            "intake_course_id": "274b13b9-c3a1-464a-8ff2-f25192a289ae",
+            "item_course_id": "274b13b9-c3a1-464a-8ff2-f25192a289ae",
+            "course_code": "090254K",
+            "current_deadline": "2026-11-02",
+            "intake_status": "active",
+            "intake_label": "November",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "1a8438ad-bc08-4254-a702-996e1b95c533",
+            "intake_evidence_id": "e738424e-eced-4de5-a1b7-80e9a7299ffd",
+            "item_updated_at": "2026-11-06 05:27:20.461026+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2026-11-02",
+                "kind": "date",
+                "quote": "Start date 02 Nov 2026",
+                "intake": "02 Nov 2026",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "4da10ef3-f8fa-4ea8-aba2-f39b62d2c636"
+                ]
+              },
+              {
+                "date": "2027-02-15",
+                "kind": "date",
+                "quote": "Start date 15 Feb 2027",
+                "intake": "15 Feb 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "78a01760-2498-4bc5-9f47-5c8e285ad17f",
+            "current_deadline": "2027-03-01",
+            "course_id": "25e39c39-f012-4e10-af66-59a8a4d17044",
+            "course_code": "094198C",
+            "canonical_title": "Bachelor of Science (Pathway to Teaching Primary/Secondary)",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273155
+            ],
+            "quotes": [
+              "Next Start Date 01 March 2027"
+            ],
+            "evidence_ids": [
+              "189b7009-9643-4e47-8c91-380a0b0d80e6"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "90127bd0-51a5-4576-9396-c3d63c0043f8",
+                "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-science-pathway-to-teaching-primary-secondary",
+                "item_evidence_id": "189b7009-9643-4e47-8c91-380a0b0d80e6",
+                "item_id": 273155,
+                "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-science-pathway-to-teaching-primary-secondary"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:08:24.393895+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273155,
+            "expected_date": "2027-03-01",
+            "intake_id": "78a01760-2498-4bc5-9f47-5c8e285ad17f",
+            "intake_course_id": "25e39c39-f012-4e10-af66-59a8a4d17044",
+            "item_course_id": "25e39c39-f012-4e10-af66-59a8a4d17044",
+            "course_code": "094198C",
+            "current_deadline": "2027-03-01",
+            "intake_status": "active",
+            "intake_label": "March",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "189b7009-9643-4e47-8c91-380a0b0d80e6",
+            "intake_evidence_id": "90127bd0-51a5-4576-9396-c3d63c0043f8",
+            "item_updated_at": "2026-11-06 05:27:17.998978+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-03-01",
+                "kind": "date",
+                "quote": "Next Start Date 01 March 2027",
+                "intake": "01 March 2027",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "78a01760-2498-4bc5-9f47-5c8e285ad17f"
+                ]
+              },
+              {
+                "date": "2027-07-19",
+                "kind": "date",
+                "quote": "Next Start Date 19 July 2027",
+                "intake": "19 July 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "month": 3,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "month": 3,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "66271186-c1f2-43ae-8a0e-ccc65348f541",
+            "current_deadline": "2026-11-02",
+            "course_id": "25168dae-153f-4d18-a850-8b6b9c80192f",
+            "course_code": "090293C",
+            "canonical_title": "Bachelor of Branded Fashion Design",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              273125
+            ],
+            "quotes": [
+              "Start date 02 Nov 2026"
+            ],
+            "evidence_ids": [
+              "e0852296-5543-4ca2-9a78-f87c8ec00d3b"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "f51c7e9a-7b43-43bf-83a6-0332339f70ab",
+                "intake_source_url": "https://www.torrens.edu.au/courses/design/bachelor-of-branded-fashion-design",
+                "item_evidence_id": "e0852296-5543-4ca2-9a78-f87c8ec00d3b",
+                "item_id": 273125,
+                "item_source_url": "https://www.torrens.edu.au/courses/design/bachelor-of-branded-fashion-design"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:07:54.415203+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 273125,
+            "expected_date": "2026-11-02",
+            "intake_id": "66271186-c1f2-43ae-8a0e-ccc65348f541",
+            "intake_course_id": "25168dae-153f-4d18-a850-8b6b9c80192f",
+            "item_course_id": "25168dae-153f-4d18-a850-8b6b9c80192f",
+            "course_code": "090293C",
+            "current_deadline": "2026-11-02",
+            "intake_status": "active",
+            "intake_label": "November",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "e0852296-5543-4ca2-9a78-f87c8ec00d3b",
+            "intake_evidence_id": "f51c7e9a-7b43-43bf-83a6-0332339f70ab",
+            "item_updated_at": "2026-11-06 05:27:22.803293+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2026-11-02",
+                "kind": "date",
+                "quote": "Start date 02 Nov 2026",
+                "intake": "02 Nov 2026",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "66271186-c1f2-43ae-8a0e-ccc65348f541"
+                ]
+              },
+              {
+                "date": "2027-02-15",
+                "kind": "date",
+                "quote": "Start date 15 Feb 2027",
+                "intake": "15 Feb 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              },
+              {
+                "date": "2027-05-31",
+                "kind": "date",
+                "quote": "Start date 31 May 2027",
+                "intake": "31 May 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              },
+              {
+                "date": "2027-09-13",
+                "kind": "date",
+                "quote": "Start date 13 Sep 2027",
+                "intake": "13 Sep 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "November",
+                  "month": 11,
+                  "start_date": null,
+                  "application_deadline": "2026-11-02"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "53900bc7-81a8-48de-bad7-ad13956b6f9a",
+            "current_deadline": "2027-02-22",
+            "course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+            "course_code": "088353C",
+            "canonical_title": "Bachelor of Engineering (Honours)/Bachelor of Mathematics",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              272298
+            ],
+            "quotes": [
+              "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+            ],
+            "evidence_ids": [
+              "e13c7af3-0e4d-407b-969f-b7a3223a6110"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+                "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492",
+                "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+                "item_id": 272298,
+                "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:07:39.762197+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 272298,
+            "expected_date": "2027-02-22",
+            "intake_id": "53900bc7-81a8-48de-bad7-ad13956b6f9a",
+            "intake_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+            "item_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+            "course_code": "088353C",
+            "current_deadline": "2027-02-22",
+            "intake_status": "active",
+            "intake_label": "February",
+            "intake_year": 2027,
+            "start_date": "2027-02-22",
+            "item_state": "filled",
+            "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+            "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+            "item_updated_at": "2026-11-05 04:27:22.5122+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-02-22",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 1 (22 Feb, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "53900bc7-81a8-48de-bad7-ad13956b6f9a"
+                ]
+              },
+              {
+                "date": "2027-07-26",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 2 (26 Jul, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "893aeac6-0946-4b75-9d64-4aad022514aa"
+                ]
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "February",
+                  "month": 2,
+                  "start_date": "2027-02-22",
+                  "application_deadline": "2027-02-22"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "February",
+                  "campus_id": null,
+                  "start_date": "2027-02-22",
+                  "application_deadline": "2027-02-22"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "February",
+                  "month": 2,
+                  "start_date": "2027-02-22",
+                  "application_deadline": "2027-02-22"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "893aeac6-0946-4b75-9d64-4aad022514aa",
+            "current_deadline": "2027-07-26",
+            "course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+            "course_code": "088353C",
+            "canonical_title": "Bachelor of Engineering (Honours)/Bachelor of Mathematics",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              272298
+            ],
+            "quotes": [
+              "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+            ],
+            "evidence_ids": [
+              "e13c7af3-0e4d-407b-969f-b7a3223a6110"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+                "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492",
+                "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+                "item_id": 272298,
+                "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-engineering-honours-mathematics-2492"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:07:39.762197+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 272298,
+            "expected_date": "2027-07-26",
+            "intake_id": "893aeac6-0946-4b75-9d64-4aad022514aa",
+            "intake_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+            "item_course_id": "2048fe0e-8595-48b4-902b-79e888c0b325",
+            "course_code": "088353C",
+            "current_deadline": "2027-07-26",
+            "intake_status": "active",
+            "intake_label": "July",
+            "intake_year": 2027,
+            "start_date": "2027-07-26",
+            "item_state": "filled",
+            "item_evidence_id": "e13c7af3-0e4d-407b-969f-b7a3223a6110",
+            "intake_evidence_id": "dc8e75c5-784e-4319-a8e4-6bdfa70f90ca",
+            "item_updated_at": "2026-11-05 04:27:22.5122+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-02-22",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 1 (22 Feb, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "53900bc7-81a8-48de-bad7-ad13956b6f9a"
+                ]
+              },
+              {
+                "date": "2027-07-26",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 2 (26 Jul, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "893aeac6-0946-4b75-9d64-4aad022514aa"
+                ]
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "July",
+                  "month": 7,
+                  "start_date": "2027-07-26",
+                  "application_deadline": "2027-07-26"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "July",
+                  "campus_id": null,
+                  "start_date": "2027-07-26",
+                  "application_deadline": "2027-07-26"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "July",
+                  "month": 7,
+                  "start_date": "2027-07-26",
+                  "application_deadline": "2027-07-26"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "64cc0fff-06c3-454b-aa6c-aa02f5722f5b",
+            "current_deadline": "2027-07-26",
+            "course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+            "course_code": "091253C",
+            "canonical_title": "Bachelor of Mathematics/Bachelor of Business Management",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              271996
+            ],
+            "quotes": [
+              "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+            ],
+            "evidence_ids": [
+              "ce677f95-3eec-4c8c-98e1-f0918e42753e"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+                "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500",
+                "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+                "item_id": 271996,
+                "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:08:02.509208+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 271996,
+            "expected_date": "2027-07-26",
+            "intake_id": "64cc0fff-06c3-454b-aa6c-aa02f5722f5b",
+            "intake_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+            "item_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+            "course_code": "091253C",
+            "current_deadline": "2027-07-26",
+            "intake_status": "active",
+            "intake_label": "July",
+            "intake_year": 2027,
+            "start_date": "2027-07-26",
+            "item_state": "filled",
+            "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+            "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+            "item_updated_at": "2026-11-05 04:25:44.948647+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-02-22",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 1 (22 Feb, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "c19abd1b-0fb2-4461-960c-390d2e4d8a00"
+                ]
+              },
+              {
+                "date": "2027-07-26",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 2 (26 Jul, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "64cc0fff-06c3-454b-aa6c-aa02f5722f5b"
+                ]
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "July",
+                  "month": 7,
+                  "start_date": "2027-07-26",
+                  "application_deadline": "2027-07-26"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "July",
+                  "campus_id": null,
+                  "start_date": "2027-07-26",
+                  "application_deadline": "2027-07-26"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "July",
+                  "month": 7,
+                  "start_date": "2027-07-26",
+                  "application_deadline": "2027-07-26"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "c19abd1b-0fb2-4461-960c-390d2e4d8a00",
+            "current_deadline": "2027-02-22",
+            "course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+            "course_code": "091253C",
+            "canonical_title": "Bachelor of Mathematics/Bachelor of Business Management",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              271996
+            ],
+            "quotes": [
+              "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)"
+            ],
+            "evidence_ids": [
+              "ce677f95-3eec-4c8c-98e1-f0918e42753e"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+                "intake_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500",
+                "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+                "item_id": 271996,
+                "item_source_url": "https://study.uq.edu.au/study-options/programs/bachelors-mathematics-business-management-2500"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:08:02.509208+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 271996,
+            "expected_date": "2027-02-22",
+            "intake_id": "c19abd1b-0fb2-4461-960c-390d2e4d8a00",
+            "intake_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+            "item_course_id": "19a79e68-d97f-405f-b977-15bf1009b361",
+            "course_code": "091253C",
+            "current_deadline": "2027-02-22",
+            "intake_status": "active",
+            "intake_label": "February",
+            "intake_year": 2027,
+            "start_date": "2027-02-22",
+            "item_state": "filled",
+            "item_evidence_id": "ce677f95-3eec-4c8c-98e1-f0918e42753e",
+            "intake_evidence_id": "bf594104-d3f8-4a4e-a1d2-3cba70bc8973",
+            "item_updated_at": "2026-11-05 04:25:44.948647+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-02-22",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 1 (22 Feb, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "c19abd1b-0fb2-4461-960c-390d2e4d8a00"
+                ]
+              },
+              {
+                "date": "2027-07-26",
+                "kind": "date",
+                "quote": "Start Semester Semester 1 (22 Feb, 2027), Semester 2 (26 Jul, 2027)",
+                "intake": "Semester 2 (26 Jul, 2027)",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "64cc0fff-06c3-454b-aa6c-aa02f5722f5b"
+                ]
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "February",
+                  "month": 2,
+                  "start_date": "2027-02-22",
+                  "application_deadline": "2027-02-22"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "February",
+                  "campus_id": null,
+                  "start_date": "2027-02-22",
+                  "application_deadline": "2027-02-22"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": 2027,
+                  "label": "February",
+                  "month": 2,
+                  "start_date": "2027-02-22",
+                  "application_deadline": "2027-02-22"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        },
+        {
+          "source_reading": {
+            "intake_id": "fce9068c-0a24-4951-936f-5eaef21707a8",
+            "current_deadline": "2027-03-01",
+            "course_id": "10500f71-0557-48cf-9723-35fa49b39c1d",
+            "course_code": "084734M",
+            "canonical_title": "Bachelor of Construction Management Studies/Bachelor of Laws",
+            "category": "confirmed_non_closing",
+            "item_ids": [
+              270950
+            ],
+            "quotes": [
+              "Next Start Date 01 March 2027"
+            ],
+            "evidence_ids": [
+              "5e2218ed-c4ff-416c-bdbd-752b7e70f418"
+            ],
+            "flags": [
+              "item_and_intake_evidence_id_differ"
+            ],
+            "source_references": [
+              {
+                "intake_evidence_id": "4b754ed9-a9fa-4c01-8ae8-3120ed6cdf56",
+                "intake_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-construction-management-studies-bachelor-of-laws",
+                "item_evidence_id": "5e2218ed-c4ff-416c-bdbd-752b7e70f418",
+                "item_id": 270950,
+                "item_source_url": "https://www.westernsydney.edu.au/future/study/courses/undergraduate/bachelor-of-construction-management-studies-bachelor-of-laws"
+              }
+            ]
+          },
+          "catalogue_observed_at": "2026-11-06 19:09:02.732291+00",
+          "consumer_observed_at": "2026-11-06 19:07:31.08581+00",
+          "current_catalogue": {
+            "observed_at": "2026-11-06 19:09:02.732291+00",
+            "item_id": 270950,
+            "expected_date": "2027-03-01",
+            "intake_id": "fce9068c-0a24-4951-936f-5eaef21707a8",
+            "intake_course_id": "10500f71-0557-48cf-9723-35fa49b39c1d",
+            "item_course_id": "10500f71-0557-48cf-9723-35fa49b39c1d",
+            "course_code": "084734M",
+            "current_deadline": "2027-03-01",
+            "intake_status": "active",
+            "intake_label": "March",
+            "intake_year": null,
+            "start_date": null,
+            "item_state": "filled",
+            "item_evidence_id": "5e2218ed-c4ff-416c-bdbd-752b7e70f418",
+            "intake_evidence_id": "4b754ed9-a9fa-4c01-8ae8-3120ed6cdf56",
+            "item_updated_at": "2026-11-04 04:27:21.788115+00",
+            "current_reading_deadlines": [
+              {
+                "date": "2027-03-01",
+                "kind": "date",
+                "quote": "Next Start Date 01 March 2027",
+                "intake": "01 March 2027",
+                "on_page": true,
+                "outcome": "kept",
+                "intake_ids": [
+                  "fce9068c-0a24-4951-936f-5eaef21707a8"
+                ]
+              },
+              {
+                "date": "2027-07-19",
+                "kind": "date",
+                "quote": "Next Start Date 19 July 2027",
+                "intake": "19 July 2027",
+                "on_page": false,
+                "outcome": "quote_not_on_page",
+                "intake_ids": []
+              }
+            ],
+            "current_value_matches": true
+          },
+          "checks": {
+            "scope_equals_canonical_record": true,
+            "same_item_id": true,
+            "same_intake_course": true,
+            "same_item_course": true,
+            "same_course_code": true,
+            "same_expected_date": true,
+            "same_current_deadline": true,
+            "active_intake": true,
+            "filled_item": true,
+            "same_item_evidence": true,
+            "same_intake_evidence": true,
+            "one_exact_current_quote_date_intake_entry": true,
+            "current_quote_on_page_and_kept": true,
+            "website_intakes_exposure_matched": true,
+            "zoho_v1_intakes_exposure_matched": true,
+            "zoho_v2_intakes_exposure_matched": true
+          },
+          "consumer_results": {
+            "website_intakes": {
+              "signature": "public.website_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "month": 3,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v1_intakes": {
+              "signature": "public.zoho_edge_course_lookup_v1(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "campus_id": null,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            },
+            "zoho_v2_intakes": {
+              "signature": "public.zoho_v2_course(text)",
+              "error": null,
+              "result_is_null": false,
+              "result_is_array": true,
+              "date_match_count": 1,
+              "exact_date_label_match_count": 1,
+              "matching_payloads": [
+                {
+                  "year": null,
+                  "label": "March",
+                  "month": 3,
+                  "start_date": null,
+                  "application_deadline": "2027-03-01"
+                }
+              ],
+              "year_and_start_match_catalogue": true
+            }
+          },
+          "source_flags_preserved": [
+            "item_and_intake_evidence_id_differ"
+          ],
+          "source_identity_interpretation": "Item and intake evidence IDs remain distinct where flagged; matching URL strings in historical source references do not equate artifacts. Current source_id and current source URLs were not returned by the supplied live lookup."
+        }
+      ],
+      "coverage": {
+        "new_relative_to_prior_cohort_sample": {
+          "courses": 10,
+          "distinct_intake_date_pairs": 12
+        },
+        "prior_cohort_sample": {
+          "courses": 7,
+          "distinct_intake_date_pairs": 9,
+          "observed_at": [
+            "2026-11-06T16:16:35.390441Z",
+            "2026-11-06T17:18:05.077210Z"
+          ],
+          "reprobed_this_cycle": false
+        },
+        "current_probe_observed_at_first": "2026-11-06 19:07:31.08581+00",
+        "current_probe_observed_at_last": "2026-11-06 19:08:29.489706+00",
+        "catalogue_followup_observed_at": [
+          "2026-11-06 19:09:02.732291+00"
+        ],
+        "cumulative_cohort_courses": 17,
+        "cumulative_cohort_distinct_intake_date_pairs": 21,
+        "remaining_cohort_consumer_courses_unprobed": 48,
+        "interpretation": "Cumulative historical observations at different times, not a simultaneous refresh. The previous seven courses were not refreshed. 094185G and 095229D were already known in the original three-row P0 investigation, so new means additional coverage of the previously seven-course cohort sample, not globally new incidents."
+      },
+      "limitations": [
+        "No reviewer-independent SQL or HTTP/cache/browser verification. Parent supplied successful probe and live lookup evidence.",
+        "Catalogue follow-up at19:09:02UTC is later than the per-course consumer transactions; it does not establish atomic cross-course state or absence of intervening writes.",
+        "Historical source URL and evidence references are preserved; full source artifacts, live source_id values and current URLs were not returned or fetched. Evidence-ID difference is a reconciliation flag, not automatic proof of wrongness.",
+        "97 non-closing/14 closing/41 ambiguous source classifications remain historical. No category or current official-page corroboration was rewritten.",
+        "Extra consumer intake slots with null deadlines are preserved in course_probes and excluded from suspect-date counts. Null target year/start values remain null.",
+        "The consumer payload has no UUID; exact course query/date/label and matching year/start do not prove a stronger payload UUID identity.",
+        "No correction authority, HTTP/cache truth, programme acceptance or production ownership follows from these SQL observations. The disabled original exact three-row correction scope remains unchanged."
+      ],
+      "governance": {
+        "claude_release_acknowledged": true,
+        "atomic_ref": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
+        "owner": null,
+        "lease": null,
+        "adoption": "pending",
+        "account_controls": "403 blockers retained",
+        "production_authority_claimed": false
+      },
+      "next_safe_action": "Parent records this bounded exposure evidence in the canonical Admin records; preserve per-function results and all holds. Remaining48cohortcourses need separately authorised bounded probes. Corrections/releases require the existing account, ownership and release-specific gates."
+    },
+    "summary": {
+      "attempted_course_probes": 10,
+      "successful_course_probes": 10,
+      "successful_function_results": 30,
+      "failed_course_probes": 0,
+      "null_function_results": 0,
+      "function_error_results": 0,
+      "exact_current_intakes_reconciled": 12,
+      "intake_date_label_pairs_matching_all_three_functions": 12,
+      "per_function_pair_matches": 36,
+      "source_evidence_id_difference_flags": 11,
+      "current_target_intakes_with_null_year": 8,
+      "current_target_intakes_with_null_start": 8,
+      "mismatches": 0,
+      "production_mutations": 0,
+      "tests_run": 0
+    },
+    "coverage": {
+      "new_relative_to_prior_cohort_sample": {
+        "courses": 10,
+        "distinct_intake_date_pairs": 12
+      },
+      "prior_cohort_sample": {
+        "courses": 7,
+        "distinct_intake_date_pairs": 9,
+        "observed_at": [
+          "2026-11-06T16:16:35.390441Z",
+          "2026-11-06T17:18:05.077210Z"
+        ],
+        "reprobed_this_cycle": false
+      },
+      "current_probe_observed_at_first": "2026-11-06 19:07:31.08581+00",
+      "current_probe_observed_at_last": "2026-11-06 19:08:29.489706+00",
+      "catalogue_followup_observed_at": [
+        "2026-11-06 19:09:02.732291+00"
+      ],
+      "cumulative_cohort_courses": 17,
+      "cumulative_cohort_distinct_intake_date_pairs": 21,
+      "remaining_cohort_consumer_courses_unprobed": 48,
+      "interpretation": "Cumulative historical observations at different times, not a simultaneous refresh. The previous seven courses were not refreshed. 094185G and 095229D were already known in the original three-row P0 investigation, so new means additional coverage of the previously seven-course cohort sample, not globally new incidents."
+    },
+    "parent_assertions": "Independently matched10coursecodes,12exactactive/filledintake/course/datejoins,36uniqueper-functiondate/labelmatches,includingnonnullUQyears. Currentreadingquote/evidenceidentities unchanged as independently reviewed.",
+    "probe_failures": [],
+    "query_contract": "Read-only transaction;4sstatement_timeout;onecourse andthreepureconsumerfunctions per transaction; materialized CTE ensures one call per named function. All ten actual probes started19:07:31–19:08:29UTC inside the heavy-read window. Exact12row indexed follow-up occurred19:09:02UTC; it is a separate lightweight lookup, not an atomic simultaneous sample.",
+    "authority": "Existing disabled exactthree-rowcorrection scope unchanged; no mutation, admission, HTTP/cache acceptance or ownership follows."
+  },
+  "consumer_coverage_as_of_checkpoint": {
+    "checkpoint_id": "CP-382-20261106T191806Z",
+    "scope": "Bounded97-reading cohort, explicit per-course consumer probes and exact catalogue joins; cumulative historical observations, not a simultaneous refresh. Consult originalP0 evidence too before deciding a repeat is useful.",
+    "verified_cohort_course_codes": [
+      "0100213",
+      "0100214",
+      "0100910",
+      "013827E",
+      "029214C",
+      "061063B",
+      "071123A",
+      "084734M",
+      "088353C",
+      "089201M",
+      "090254K",
+      "090293C",
+      "091253C",
+      "092484B",
+      "094185G",
+      "094198C",
+      "095229D"
+    ],
+    "verified_cohort_intake_ids": [
+      "05f8c255-1920-4aaf-9112-598a715b8311",
+      "0bae1bde-3d71-4ae8-86ff-118049910790",
+      "122e1d54-88f4-4bd2-9907-bf5205c4d98b",
+      "2202447a-57dc-49c7-9dc0-4883778b3572",
+      "229590ef-5613-47cb-a7df-02021b5cda2d",
+      "4da10ef3-f8fa-4ea8-aba2-f39b62d2c636",
+      "53900bc7-81a8-48de-bad7-ad13956b6f9a",
+      "5c2877b5-2a64-47f1-9fe5-e108c98970f2",
+      "6339dbb1-f637-49c4-8239-905838761b31",
+      "64cc0fff-06c3-454b-aa6c-aa02f5722f5b",
+      "66271186-c1f2-43ae-8a0e-ccc65348f541",
+      "78a01760-2498-4bc5-9f47-5c8e285ad17f",
+      "7f7501d0-54a4-4cf8-9428-cde4726a16d0",
+      "893aeac6-0946-4b75-9d64-4aad022514aa",
+      "8dcd0a7e-c634-4f9d-92ba-2832413f3583",
+      "8f7562df-0e7e-47b4-bc3a-881ddfa124ce",
+      "9aa29844-b8e1-4776-9db8-0dbc300b7b18",
+      "c19abd1b-0fb2-4461-960c-390d2e4d8a00",
+      "c791634c-df23-4e9a-a927-04c009fb5b77",
+      "ec5e95de-4f3f-496f-b2d4-965326278124",
+      "fce9068c-0a24-4951-936f-5eaef21707a8"
+    ],
+    "remaining_in_this_cohort_sample": [
+      "098332C",
+      "103344H",
+      "103346F",
+      "104387M",
+      "104867F",
+      "106137B",
+      "106167G",
+      "106486C",
+      "107510M",
+      "107866E",
+      "107867D",
+      "108410G",
+      "109957H",
+      "110668G",
+      "111601G",
+      "112121D",
+      "112348G",
+      "113061C",
+      "113462H",
+      "113710H",
+      "115265H",
+      "116483A",
+      "116544D",
+      "117358J",
+      "117482E",
+      "117488K",
+      "118495C",
+      "118497A",
+      "118858C",
+      "119039H",
+      "119144G",
+      "120120E",
+      "120463D",
+      "120786G",
+      "120836B",
+      "121038B",
+      "121334E",
+      "121391G",
+      "121392F",
+      "2454",
+      "2520",
+      "2851",
+      "3414",
+      "3729",
+      "3807",
+      "4103",
+      "4fd972cf-dc11-4a2a-be5c-f738b176d2ab",
+      "7d11e232-4a8f-4da5-8faa-2c21520a8920"
+    ],
+    "observation_references": [
+      "bounded_cohort_review.consumer_sql_sample",
+      "source_context_followup.consumer_followup",
+      "consumer_expansion_1902"
+    ],
+    "no_repeat_note": "094185G/095229D were globally known before this cohort expansion. Remaining course106137B also has originalP0 consumer evidence elsewhere in this artifact/linked operational evidence; review that evidence before scheduling an unnecessary repeat. Historical freshness must be stated, never fabricated."
   }
 }

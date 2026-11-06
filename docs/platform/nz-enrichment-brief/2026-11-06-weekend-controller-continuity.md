@@ -464,3 +464,23 @@ Termination: independent reviewer and root reads complete; no active operation i
 ## CP-382-20261106T190640Z — bounded deadline consumer verification starts
 
 Execution `codex-deadline-consumers-20261106T190249Z`, UTC. Recovered c01e43dd and validated CP181235; mandatory records/current382decisions/Pilotguides read. Heads/holds unchanged; no runningworkflow, atomic6d95unowned/adoptionpending, pilotunprotected/secretAPI403. A brief exec transport disconnect occurred before process creation; supported runtime status and trivialread recovered it, no critical operation replayed. Root plans10single-course/4sread-onlyprobes for12suspectintakes; independent offline reviewer owns only local JSON in detached7984e7bd worktree. No source repair, suite rerun, production mutation or acceptance.
+
+
+## CP-382-20261106T191806Z — bounded deadline consumer cycle complete
+
+Execution `codex-deadline-consumers-20261106T190249Z`; created 2026-11-06T19:18:06Z (UTC). Existing canonical records extended.
+
+- **Issues fixed:** no new production fix. Completed development and resolved job-count work preserved; existing readerP1 evidence reconciled, rootcause unverified.
+- **PRs merged:** zero Pilot PRs; current candidate checks remain successful, no suite rerun.
+- **Production releases verified:** zero; no migration, data correction, admission, control change or vendor call.
+- **Operational outcomes:** ten one-course SQL probes succeeded within4s limits;30function projections yielded36matches for12exactcurrentintake/date/labelreferences,0mismatches. Parent and independent review agree. Eleven evidence-ID differences remain flags; eight target rows retain null year/start. Cumulativecohort coverage17courses/21pairs spans16:16,17:18and19:07–09, not a simultaneous refresh; previous7courses were not refreshed,48remain. Two of the ten were already known in the original globalP0 sample; addedcoverage is not12newlydiscoveredfaults.
+- **Unresolved blockers:** actual D-382-CUTOVER account controls/fencing, current-execution atomic acceptance and applicable release/exactthree-rowcorrection authority. Environment remains unprotected, secretAPI403. Originalthreebadvalues stillactive19:12UTC.
+- **Next executable action:** bounded single-course probes for48remainingcohortcourses or source/year/audience reconciliation; inspect existingIQ-00046readerfailure evidence. Account owners complete existing cutover action before reservations and sequential release/acceptance. No unchanged held-branch rerun or expanded correction scope.
+
+All heavy consumer probes started inside19:07:31–19:08:29UTC; the exact12row indexed lookup occurred separately at19:09:02 and does not establish atomic multi-course state. Consumer payloads lack UUIDs, so matches are date/label with exact catalogue identity verified separately. HTTP/cache/authenticateddesktop/phone and historical source artifacts remain unverified.
+
+Baseline19:12UTC: all1,791migrationversions match/head400000; deadlinef01e9/courseff3d6/flag668 unchanged. FrontendHTTP/asset200/UI489/.416/hash2099cae6 and edge239/hash995d5111 remain unchanged. Alerts78pending/allunattempted/77overdue:62historical+16activeevents/5conditions/0duplicates. Course-page watch at19:04reports25failedof33tried; currentwarningepisode maps toexistingtriagedIQ-00046/P1, no rootcause or budgetoverride inferred. Twoactiveclients at19:12 were absent at19:13followup; no cancellation/actor attribution. Detailed bounded job outcomes are in the existing operational evidence artifact.
+
+Termination: reviewer/rootSQL complete; no execution-initiated active reservation/test/deployment/newworkflow or source changes. Platform jobs continue independently. Tracked worktree files clean; prior untracked logs/node_modules retained/inventoried. Atomic6d95 remains unowned/adoptionpending, targeting stopped142259execution; no acceptance/release/transfer completion claimed. No unattended execution, heartbeat or future completion.
+
+Reader counter follow-up: the bounded ledger sample for the watch window reports 132 calls (130 idle), 33 items, 16 ok and 17 failed; the watch reports 33 tried, 8 done and 25 failed. Stage/grain/atomic-batch semantics remain unverified. One work-bearing response is HTTP200 with outcome zero_work_error. Coarse budget keyword signals are not a root-cause diagnosis. Existing IQ-00046 remains open; no paid retry or control change.

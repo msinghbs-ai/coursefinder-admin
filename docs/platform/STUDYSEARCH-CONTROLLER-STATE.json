@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T190640Z",
-  "created_at": "2026-11-06T19:06:40Z",
+  "checkpoint_id": "CP-382-20261106T191806Z",
+  "created_at": "2026-11-06T19:18:06Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-deadline-consumers-20261106T190249Z",
-  "trigger": "interrupted_session_recovery",
+  "trigger": "workstream_completion_and_intentional_session_termination",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -17,7 +17,7 @@
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_bounded_deadline_consumer_verification",
+    "mode": "read_only_cycle_complete_authority_blocked",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -34,12 +34,13 @@
     "worker": {
       "version": "v2.15.489",
       "deployment_commit": null,
-      "verified_at": "2026-11-06T18:04:04.263262Z",
+      "verified_at": "2026-11-06T19:09:51.120321Z",
       "evidence_ids": [
         "EV-FRONTEND-LIVE",
         "EV-FINAL-READS",
         "EV-DEADLINE-CONTEXT-1702",
-        "EV-JOB-RECONCILE-FINAL"
+        "EV-JOB-RECONCILE-FINAL",
+        "EV-CONSUMER-1902-OPS"
       ]
     },
     "migrations": {
@@ -1838,22 +1839,24 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T18:07:35.364038Z",
+      "verified_at": "2026-11-06T19:12:14.913266Z",
       "evidence_ids": [
         "EV-MIGRATIONS",
-        "EV-JOB-RECONCILE-FINAL"
+        "EV-JOB-RECONCILE-FINAL",
+        "EV-CONSUMER-1902-OPS"
       ]
     },
     "function_hashes": [
       {
         "signature": "security.course_description_check_v1(p_course uuid, p_result jsonb)",
         "md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
-        "verified_at": "2026-11-06T18:07:35.364038Z",
+        "verified_at": "2026-11-06T19:12:14.913266Z",
         "evidence_ids": [
           "EV-GUARDS",
           "EV-RECOVERY-LIVE",
           "EV-DEADLINE-CONTEXT-1702",
-          "EV-JOB-RECONCILE-FINAL"
+          "EV-JOB-RECONCILE-FINAL",
+          "EV-CONSUMER-1902-OPS"
         ]
       },
       {
@@ -1922,20 +1925,22 @@
       {
         "signature": "security.course_deadline_in_quote_v1(p_date date, p_quote text)",
         "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
-        "verified_at": "2026-11-06T18:07:35.364038Z",
+        "verified_at": "2026-11-06T19:12:14.913266Z",
         "evidence_ids": [
           "EV-DEADLINE-REPAIR",
           "EV-DEADLINE-COHORT",
           "EV-DEADLINE-CONTEXT-1702",
-          "EV-JOB-RECONCILE-FINAL"
+          "EV-JOB-RECONCILE-FINAL",
+          "EV-CONSUMER-1902-OPS"
         ]
       },
       {
         "signature": "security.flag_jobs_v1()",
         "md5": "668251ec6027c1e9e6dd7d7a9b340bb9",
-        "verified_at": "2026-11-06T18:07:35.364038Z",
+        "verified_at": "2026-11-06T19:12:14.913266Z",
         "evidence_ids": [
-          "EV-JOB-RECONCILE-FINAL"
+          "EV-JOB-RECONCILE-FINAL",
+          "EV-CONSUMER-1902-OPS"
         ]
       }
     ],
@@ -1960,7 +1965,7 @@
     },
     "incidents": [
       "IQ-00313 and IQ-00111: bounded containment verified, acceptance incomplete",
-      "P0 deadline semantics:97non-closing readings in bounded16:07cohort; cumulative9suspectdates/7courses through3consumerSQLfunctions across16:16and17:18UTC. No correction or HTTP/cache acceptance."
+      "P0 deadline evidence semantics: historical97non-closing readings; cumulative17courses/21suspectdates through3consumerSQLfunctions acrossdifferenttimestamps. Original3values active19:12UTC; no correction orHTTP/cacheacceptance."
     ],
     "restrictions": [
       "No production mutation until exclusive controller ownership and adoption verified",
@@ -2499,7 +2504,7 @@
       "branch": null,
       "commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
       "worktree": "/workspace/resume-1902/review-consumers (detached)",
-      "state": "verifying",
+      "state": "completed",
       "owned_paths": [
         "/workspace/resume-1902/consumer-independent-review.json"
       ],
@@ -2516,9 +2521,9 @@
       ],
       "blockers": [],
       "test_evidence_ids": [
-        "EV-CONSUMER-1902-START"
+        "EV-CONSUMER-1902-FINAL"
       ],
-      "completion_summary": null
+      "completion_summary": "Tenplannedone-courseprobes succeeded inloadwindow;12liveintakes/36consumerdate-labelmatches independently verified,0mismatches;11evidenceflags preserved. Prior7notrefreshed; addedcoverage is notgloballynewfaultcount. Detachedworktreeclean; no code/test/production mutation."
     }
   ],
   "prs": [
@@ -3012,7 +3017,7 @@
           "state": "done",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T15:05:48.406059+00:00"
@@ -3022,7 +3027,7 @@
           "state": "nothing_left",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-05T04:15:18.786556+00:00"
@@ -3032,7 +3037,7 @@
           "state": "nothing_left",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-10-22T03:54:11.025363+00:00"
@@ -3042,7 +3047,7 @@
           "state": "nothing_left",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-02T10:42:14.399783+00:00"
@@ -3050,9 +3055,9 @@
         {
           "key": "course_list_read",
           "state": "out_of_toolset",
-          "pending": 68,
+          "pending": 69,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T15:03:05.281243+00:00"
@@ -3062,27 +3067,27 @@
           "state": "paused",
           "pending": 18,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T12:37:09.537559+00:00"
         },
         {
           "key": "course_page_read",
-          "state": "moving",
-          "pending": 8,
-          "per_hour": 3,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
-          "done_window": 3,
-          "failed_window": 0,
-          "last_progress": "2026-11-06T17:31:10.241197+00:00"
+          "state": "failing",
+          "pending": 0,
+          "per_hour": 8,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 8,
+          "failed_window": 25,
+          "last_progress": "2026-11-06T18:10:33.702425+00:00"
         },
         {
           "key": "course_page_search",
           "state": "out_of_toolset",
           "pending": 265,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T11:56:00.359438+00:00"
@@ -3092,7 +3097,7 @@
           "state": "nothing_left",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-01T01:06:08.870743+00:00"
@@ -3102,17 +3107,17 @@
           "state": "moving",
           "pending": 38,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
-          "last_progress": "2026-11-06T18:00:00.918206+00:00"
+          "last_progress": "2026-11-06T19:00:00.945751+00:00"
         },
         {
           "key": "fee_reader",
           "state": "nothing_left",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-04T15:22:22.646034+00:00"
@@ -3122,7 +3127,7 @@
           "state": "stuck",
           "pending": 1,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-06T12:36:00.297196+00:00"
@@ -3132,7 +3137,7 @@
           "state": "done",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-10-23T22:28:14.095082+00:00"
@@ -3142,7 +3147,7 @@
           "state": "done",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-03T14:30:26.110361+00:00"
@@ -3152,37 +3157,37 @@
           "state": "done",
           "pending": 0,
           "per_hour": 0,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
           "done_window": 0,
           "failed_window": 0,
           "last_progress": "2026-11-03T02:05:00.501111+00:00"
         },
         {
           "key": "scholarship_read",
-          "state": "moving",
-          "pending": 7,
-          "per_hour": 13,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
-          "done_window": 13,
+          "state": "done",
+          "pending": 0,
+          "per_hour": 20,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 20,
           "failed_window": 0,
-          "last_progress": "2026-11-06T17:55:04.36092+00:00"
+          "last_progress": "2026-11-06T18:55:09.536077+00:00"
         },
         {
           "key": "source_find",
           "state": "moving",
           "pending": 998,
-          "per_hour": 2,
-          "checked_at": "2026-11-06T18:04:00.17945+00:00",
-          "done_window": 2,
+          "per_hour": 3,
+          "checked_at": "2026-11-06T19:04:00.195935+00:00",
+          "done_window": 3,
           "failed_window": 0,
-          "last_progress": "2026-11-06T17:56:04.168193+00:00"
+          "last_progress": "2026-11-06T18:56:03.866196+00:00"
         }
       ],
       "unit": "rows and recorded one-hour rates",
-      "measured_at": "2026-11-06T18:07:35.364038Z",
+      "measured_at": "2026-11-06T19:12:14.913266Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-JOB-RECONCILE-FINAL"
+        "EV-CONSUMER-1902-OPS"
       ]
     },
     {
@@ -3772,7 +3777,7 @@
       "value": {
         "pending": 78,
         "unattempted_pending": 78,
-        "waiting_beyond_deadline": 75,
+        "waiting_beyond_deadline": 77,
         "historical_recovered_episode_events": 62,
         "active_episode_events": 16,
         "active_conditions": 5,
@@ -3786,10 +3791,10 @@
         ]
       },
       "unit": "alerts",
-      "measured_at": "2026-11-06T18:07:35.364038Z",
+      "measured_at": "2026-11-06T19:12:14.913266Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-JOB-RECONCILE-FINAL"
+        "EV-CONSUMER-1902-OPS"
       ]
     },
     {
@@ -4133,6 +4138,31 @@
       "evidence_ids": [
         "EV-JOB-RECONCILE-FINAL"
       ]
+    },
+    {
+      "id": "M-CONSUMER-EXPANSION-1902",
+      "workstream_id": "WS-P0-CONSUMER-1902",
+      "name": "Additional bounded deadline cohort SQL coverage, not corrected data",
+      "value": {
+        "new_cohort_courses": 10,
+        "new_cohort_intake_date_pairs": 12,
+        "successful_function_projections": 30,
+        "target_date_label_matches": 36,
+        "mismatches": 0,
+        "cumulative_courses": 17,
+        "cumulative_pairs": 21,
+        "remaining_courses": 48,
+        "different_observation_times": true,
+        "http_cache_verified": false,
+        "source_evidence_id_flags": 11,
+        "corrections": 0
+      },
+      "unit": "cohort probes and exact current intake references",
+      "measured_at": "2026-11-06T19:09:02.732291Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-CONSUMER-1902-FINAL"
+      ]
     }
   ],
   "integration_issues": [
@@ -4220,13 +4250,14 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "Alert collection remains unrecovered:18:07UTC78pending/allunattempted/75overdue,62historical+16activeevents across5conditions,0duplicates. No acknowledgement/delivery by this execution.",
+      "summary": "Alertcollectionremainsunrecovered:19:12UTC78pending/allunattempted/77overdue,62historical+16activeevents across5conditions,0duplicates. Noacknowledgement/deliverybythisexecution.",
       "next_action": "After exclusive authority, verify authorised alert collector destination/runtime and recover delivery with existing protocol; never acknowledge or discard alerts merely to clear watchdog.",
       "evidence_ids": [
         "EV-JOBS",
         "EV-ALERT-COLLECTOR",
         "EV-CONTEXT-1702-CONTROLS",
-        "EV-JOB-RECONCILE-FINAL"
+        "EV-JOB-RECONCILE-FINAL",
+        "EV-CONSUMER-1902-OPS"
       ]
     },
     {
@@ -4476,13 +4507,14 @@
       "source": "Admin#382; pending authorised pipeline.integration_issues registration",
       "severity": "P0",
       "state": "open",
-      "summary": "Historical bounded cohort:97non-closingintakes/65courses,14closing,41contextrequired. Current5pagefollowup corroborates4closingcontexts;UNEunresolved. Cumulative7course/9suspectdate SQLsample across16:16+17:18; noHTTP/cache orcorrection.",
+      "summary": "Historical97non-closing/14closing/41context-requiredreadings preserved. Cumulative17cohortcourses/21suspectdates appearthrough3consumerSQLfunctions atdifferenttimes,48courses/HTTP/cacheunverified. No correction or globallynew21faultclaim.",
       "next_action": "Preserve exact three-row approval scope and #896 forward guard. Account controls/ownership and explicit correction authority remain required. Independently verify ambiguous41/sourcecontext and remaining59consumercourses with planned smaller reads; do not mass-withdraw.",
       "evidence_ids": [
         "EV-DEADLINE-P0",
         "EV-DEADLINE-PROOF",
         "EV-DEADLINE-COHORT",
-        "EV-CONTEXT-1702-FINAL"
+        "EV-CONTEXT-1702-FINAL",
+        "EV-CONSUMER-1902-FINAL"
       ]
     },
     {
@@ -4494,6 +4526,17 @@
       "next_action": "Accountowner-controlledbootstrap, actual denial/recovery and adoption evidence before active controller authority.",
       "evidence_ids": [
         "EV-TAKEOVER-CONTROL"
+      ]
+    },
+    {
+      "id": "IQ-00046",
+      "source": "pipeline.integration_issues; health:queue_watch:course_page_read",
+      "severity": "P1",
+      "state": "investigating",
+      "summary": "Course-page reader watch reports25of33triedfailed at19:04UTC; existingtriagedP1/currentwarningepisode. Source/rootcause and actualbusinessimpact unverified; do not blindlyrerunpaidreads.",
+      "next_action": "Read bounded existing reader outcome evidence and exact watchdog failure predicate; distinguish acquisition/domainholds from executionfailure. No activation, paid retry, reserve override or closure without authority and production acceptance.",
+      "evidence_ids": [
+        "EV-CONSUMER-1902-OPS"
       ]
     }
   ],
@@ -4605,7 +4648,7 @@
     {
       "id": "NA-COHORT-CONTEXT",
       "workstream_id": "WS-P0-DEADLINE-COHORT-REVIEW",
-      "action": "Preserve historical97/14/41classification; current5pagefollowup corroborates4closingcontexts and leavesUNEhistoryunresolved. Reconcile nullintakeyears/audience/artifactIDs before anydisposition. Cumulative7courses/9dates testedatdifferenttimes;58consumer-coursesremain. Inspectplans/useone-courseprobesinloadwindows;donotretryfailed3coursebatchunchanged orwidenthree-rowcorrection.",
+      "action": "CumulativeboundedSQLsample17courses/21suspectdatepairs acrossdifferenttimes;48coursesremain. Preserve97/14/41semantics and4currentclosingcorroborations; resolveUNEhistory/null-year/audience/artifactgaps before disposition. Useplannedone-courseprobes; do not infer HTTP/cache truth orwidenoriginal3rowcorrection. Use deadlineevidence.consumer_coverage_as_of_checkpoint explicit code/UUID lists and originalP0 links before scheduling repeats, including prior106137B evidence.",
       "owner": "Next actual read-only execution",
       "depends_on": [],
       "verification_required": [
@@ -5077,12 +5120,26 @@
       "kind": "github_recovery_and_bounded_scope",
       "observed_at": "2026-11-06T19:06:40Z",
       "summary": "Canonicalcheckpointvalidated. All relevantcurrentPRheads/main/ref unchanged, no runningworkflow, onlyhistoricalqueued34749286102. Atomic6d95released/noowner/nolease/adoptionpending; pilotunprotected andsecretAPI403. Selected10of58uncheckedcourses/12intakes; independentdetachedreviewerassigned. No probe result/productionmutation yet."
+    },
+    {
+      "id": "EV-CONSUMER-1902-FINAL",
+      "reference": "docs/platform/validation/2026-11-06-deadline-semantic-p0.json",
+      "kind": "production_read_only_sql_and_independent_offline_review",
+      "observed_at": "2026-11-06T19:18:06Z",
+      "summary": "Tenpreviouslyunprobedcohortcourses/12exactcurrentintakes;30successfulconsumerfunctionprojections/36date-labelmatches,0mismatches.11evidenceIDflags retained. Cumulative17courses/21suspectintakedatepairs across16:16/17:18/19:07–09,48unprobed. TwooriginalP0courses alreadyknownglobally. NoHTTP/cache, correction or simultaneous-refresh claim."
+    },
+    {
+      "id": "EV-CONSUMER-1902-OPS",
+      "reference": "docs/platform/validation/2026-11-06-controller-cutover-verification.json",
+      "kind": "production_read_only_operational_reconciliation",
+      "observed_at": "2026-11-06T19:18:06Z",
+      "summary": "Freshledger1791versions exactmatch/head400000,deadlinef01e9/courseff3d6/flag668 unchanged;frontendHTTP/asset200/UI489/.416/hash2099cae6,edge239/hash995d5111.19:12alerts78pending/allunattempted/77overdue/62historical+16activeevents/5conditions/0duplicates. Activeclients2then0at19:13. Newreaderfailing25/33reported byexistingIQ00046/P1; rootcausepending. Actual accountfencing/ownershipblocked, no businessissueclosure."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Read canonicalc01e43dd model/index/handover/checkpoint/schema, current382decisions and PilotCLAUDE/guides; validatedCP181235. FreshPRheads/main/ref/workflows unchanged, pilotunprotected/secretAPI403. Runtimebriefexecdisconnectrecoveredafterstatuscheck/trivialpwd; no criticalcommandstarted.",
-    "current_action": "Up to10previouslyuncheckeddeadlinecourses, one-course read-only probe per transaction with4stimeout, stoponfailure. Independent offline reviewer owns only local evidence; no source repair or production mutation.",
-    "next_safe_action": "In permitted19:06–08UTCwindow run bounded single-course probes and exact12intakejoins, refresh baseline/health, independently count successful results. Preserve source evidence flags, noHTTP/cache inference or expandedcorrectionauthority.",
+    "last_completed_atomic_action": "Completed10single-courseprobes/30functionprojections and12exactcurrentintakejoins; independent review plus parent assertions confirm36date/labelmatches,0mismatches. Cumulativecohort17courses/21suspectdates acrossdifferenttimestamps,48unprobed. Refreshedfullledger/hashes/controls/queues/jobs; original3baddeadlinesstillactive. No correction/release.",
+    "current_action": "Bounded cycle ending: reviewer and SQL complete, no operation/reservation/deployment/newworkflow or source write initiated here remains active. Platform jobs continue independently; publishing canonical evidence only.",
+    "next_safe_action": "Reconcile remaining48cohortconsumer-courses with planned single-course probes in permitted load windows or resolve source/year/audience gaps. Inspect existingIQ-00046readerfailure outcomes without paid retries or control changes. Account owners complete D-382-CUTOVER before actual-execution acceptance and reserved sequential releases; preserve exactthree-row correction scope.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -5102,7 +5159,8 @@
       "Do not treat source denial probes, environment references or nominalrepo.admin=true as installed security controls; actual account APIs returned403.",
       "Do not count 223 references as intakes or classify all helper refusals as bad deadlines. Preserve all distinct quotations and explicit-closing precedence; do not repeat the timed-out ten-course consumer batch unchanged or expand the exact three-row correction.",
       "Do not treat four current official-source corroborations as verified historical artifact or exact year/audience identity; all five reviewed intake years remain null. Do not repeat the failed three-course consumer batch unchanged; the planned one-course probe succeeded. Never reactivate a job merely to restore a historical aggregate count.",
-      "The164→163jobcount discrepancy is reconciled by actual automatic flag events; active counts vary with approved idle/trial control. Do not reactivate jobs to restore164, blame worker-outcome-check, double-count requeued events, or infer complete credential fencing from this diagnostic resolution."
+      "The164→163jobcount discrepancy is reconciled by actual automatic flag events; active counts vary with approved idle/trial control. Do not reactivate jobs to restore164, blame worker-outcome-check, double-count requeued events, or infer complete credential fencing from this diagnostic resolution.",
+      "The ten selected consumer courses have30successfulfunctionresults/36targetmatches; do not treat addedcohortcoverage as12globallynewbadrows or re-probe unchanged historical evidence to rebuild counts. Prior7courses were not refreshed. Preserve payloadUUID, source/evidence/year and HTTP/cache limits."
     ],
     "verification_required": [
       "Actual external GitHub/Cloudflare/direct-SQL fencing adoption and explicit release authority",
@@ -5110,22 +5168,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T181235Z",
+    "predecessor_checkpoint": "CP-382-20261106T190640Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Scheduled recovery starts one bounded read-only deadline consumer cycle from GitHub. Completed source repairs and resolved job-count work are preserved; no authority assumed.",
-    "baseline": "**Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416, HTTP/asset 200 and hash 2099cae6 verified at 18:04 UTC; edge 239 ACTIVE/hash 995d5111 unchanged. At 18:07 all 1,791 migration versions match, head 20261106400000; deadline helper f01e9, course guard ff3d6 and job guard 668251ec unchanged. The observed 18:06 inventory is 161 active of 176, explained by automatic idle controls. Exact Cloudflare commit and authenticated UI remain unknown.",
-    "completed": "**Completed:** Job-count discrepancy resolved: 128 flag records contain 87 state transitions and 41 complementary requeued records excluded from the transition count. Reconstruction matches all 176 independently recorded 17:07 states (163 active) and reproduces the historical 164 aggregate at 13:46. Independent review confirms; individual 13:46 states remain inferred. Existing source/CI repairs preserved, no tests rerun. Pilot PRs merged: 0; production releases: 0; corrections: 0.",
+    "reason": "**Reason:** One bounded deadline consumer verification cycle completed from GitHub. Evidence coverage expanded without a source repair, test rerun or production mutation; account fencing and ownership acceptance remain blocked.",
+    "baseline": "**Baseline:** Pilot main 4ba94e3f, UI 2.15.489/package 0.1.416; HTTP/asset 200 and hash 2099cae6 verified at 19:09 UTC. Edge 239 ACTIVE/hash 995d5111 unchanged. At 19:12 all 1,791 migration versions match, head 20261106400000; deadline f01e9, course ff3d6 and flag 668 hashes unchanged. Observed 163 active jobs of 176 vary under reconciled automatic controls. Exact Cloudflare commit and authenticated UI remain unknown.",
+    "completed": "**Completed:** Ten single-course probes returned 30 successful function projections. Twelve exact active intake/date references match 36 consumer date/label pairs, with zero mismatches; independent review and parent assertions agree. Eleven evidence-ID differences retained. The cumulative cohort sample is 17 courses/21 pairs across different times; 48 courses remain. Two original P0 courses were already known globally. Pilot PRs merged: 0; production releases: 0; corrections: 0.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** WS-P0-CONSUMER-1902: root owns bounded SQL and canonical Admin evidence; independent reviewer owns only local consumer-independent-review.json in detached7984e7bd worktree /workspace/resume-1902/review-consumers. Ten course codes and twelve suspect intakes are selected; no code, function or migration writes.",
+    "workstreams": "**Workstreams:** WS-P0-CONSUMER-1902 complete in clean detached7984e7bd worktree /workspace/resume-1902/review-consumers. Reviewer owns only local independent-review JSON; root owns SQL/canonical evidence. Prior source repairs and resolved job-count work are preserved. All tracked worktree files clean; predecessor untracked validation logs/node_modules retained and inventoried.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** One independent offline reviewer and planned bounded read-only SQL. No production reservation, write, migration, deployment or new workflow. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95owner/lease null and adoption pending; this actual execution has not accepted control.",
-    "next_safe_action": "**Next safe action:** Run up to ten single-course read-only consumer probes with four-second limits during19:06–08UTC; stop on failure and reconcile exact current intake/date matches. Refresh baseline and independently review results. Existing D-382-CUTOVER and exact three-row correction gates remain.",
-    "risks_recovery": "**Risks/recovery:** All three original bad deadline values remain active at 18:08 UTC. The wider nine-date/seven-course SQL sample remains historical; 58 courses and HTTP/cache exposure remain unverified. Alerts at 18:07: 78 pending, all unattempted, 75 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The latest 12,000 cron rows cover 10:43–18:07 and the last two hours, with zero failures; schedule success is not business acceptance. Count reconciliation does not establish absence of all direct writes. The environment is unprotected and secret API returns 403; account, ownership, release, admission, hold and reserve gates remain.",
-    "evidence": "**Evidence:** [indexed job events/source review/reconstruction/health](validation/2026-11-06-controller-cutover-verification.json), [latest exact deadline read](validation/2026-11-06-deadline-semantic-p0.json), [single account-owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat or successor acceptance claimed."
+    "in_flight": "**In flight:** No agent, SQL, local test, production reservation, deployment or new workflow initiated here remains active. Two other active clients were observed19:12; follow-up19:13 found none, without attribution or cancellation. Platform jobs continue independently. GitHub has no running workflow; historical34749286102 remains reconciled. Atomic6d95 has no owner or lease and adoption remains pending; no authority accepted/released.",
+    "next_safe_action": "**Next safe action:** Continue bounded probes for48remainingcohortcourses or source/year/audience reconciliation; inspect existingIQ-00046readerfailure evidence without paid retries or control changes. Account owners complete D-382-CUTOVER before actual-execution acceptance and reserved895→896→894→893 releases, with892integrated. Original disabled three-row correction scope is unchanged.",
+    "risks_recovery": "**Risks/recovery:** The cumulative sample is not a simultaneous refresh or HTTP/cache verification; consumer payloads have no intake UUID. All three original bad deadlines remain active at 19:12 UTC. Alerts: 78 pending, all unattempted, 77 overdue; 62 historical and 16 active events across five conditions, zero duplicates. The course-page watch reports 25 failed/33 tried; ledger counters use a different grain and require reconciliation under existing IQ-00046. No failed cron rows in the covered two-hour sample. Environment unprotected/secret API 403; fencing, ownership, approval, admission, hold and reserve gates remain.",
+    "evidence": "**Evidence:** [ten-course probes/exact joins/independent review](validation/2026-11-06-deadline-semantic-p0.json), [baseline/jobs/reader/controls](validation/2026-11-06-controller-cutover-verification.json), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No unattended execution, heartbeat or successor acceptance claimed."
   }
 }
