@@ -224,3 +224,39 @@ Releasepackaging includes the existingSOPsource+generateddocuments and exactrele
 - Nextexecutableaction:finishremainingcandidatepackages/actualCI andsame-runregisters;publishoneconsolidatedaccountcutover+exactcorrectiondecision. Afterrealgateverification,acceptownershipandreserveeachorderedoperation. Do notclaimtransferfrompublicationorremovehelddata/locks.
 
 RealCLIpreparation is nowunblockedthroughsupportedDocker: pinned2.120.0generated20261106125737_cf247_deadline_closing_semantics.sql, thenonlythatnewunappliedfile movedtoreserved450000logicalslot. FinalmigrationSHA256a72d2ace3b4cf6df28b0196f529a91bae933309352eaae1539b2043d97d19013;afterhelper2357306ca969fb7b299021bac3b6f3fa. Theearlier71aca candidate was tightenedbeforepublicationafterfindingmixedstart/closingclause ambiguity. ExistingS233remains8tests, extendedsourcefixturesandreview-withdrawalSQLcarrythe73assertions; no duplicateJSspecframework. Exactdisabledpasteis`docs/paste/REVIEW-20261106-p0-deadline-three-values.sql` inPR896. Actualproductionbuilders/grants/HTTP/cache/concurrencyarenotsubstitutedbyfixturestand-ins.
+
+## Consolidated Platform Admin decision — ownership cutover and exact P0 correction
+
+Prepared2026-11-06T13:27:59Z; decisionID`D-382-CUTOVER`. This is a concrete external account/authority dependency, not a request to relay between agents. Current tools can publish/testcode andreadproduction; they cannot terminateClaude'sexternalexecution, administerGitHubenvironment/credentials orconfigureCloudflareaccountdeploymentcontrols. ExistingAGENT-OPERATING-MODEL adoptiongate andthePlatformAdmin's currentownershipinstruction require actualevidence beforeproductionwrites.
+
+**Requiredaccountactionsandproof**
+
+1. Actually stop or revoke the predecessorClaudecontroller'sproduction-writecapability, reconcile its operations, and record the action/time/evidence inAdmin#382. An explicit administrative revocation/release is acceptable evidence; do not write that Claude acknowledged it. Cancel or conclusively revoke/dispose of queuedrun34749286102 (currently0jobs) and account for any new deployment/write activity. Emptyrecentruns orstaleheartbeat alone are insufficient.
+2. Hold Cloudflareautomaticproductionpublishing while stagingcutover. Protect existingGitHubenvironment`pilot` for protected-mainworkflowdefinitions and restrictotherwrite/deploymentcredentials. Stage environment-scoped replacements for the productionSUPABASE_ACCESS_TOKEN/SUPABASE_DB_PASSWORD and reviewedUAT/admin-reportcredentials; retain the19reviewedreaders using #895'senvironmentreferences. Do not remove/rotate oldcredentials before preserving the replacementreadpath. After theguardedworkflow revision is onmain under this controlledcutover, revoke/remove repo/org bypasscopies andverifyold-refdenial plusreviewedread-onlyjobaccess. No new blanket per-release humanapproval is requested.
+3. Set Cloudflare's actual production **Deploycommand**, immediatelybeforeWrangler, to the pinnedreviewedverifier; do not rely on a build-onlycheck. Accountconfiguration must use actual`WORKERS_CI_COMMIT_SHA` andactiveoperationcontext (recordedcommittrailers ornonsecretCONTROLLER_*values). Restrictmanual/alternateCloudflaredeploymenttokens andpredecessordirectSQL/Managementwriteaccess; retainPlatformAdmin's governedemergencyrecoveryauthority. Noaccountchangeisclaimedbythisreport.
+4. Verifydeny-firstbehaviour on the reviewed code with inactive/unreservedownership, thenverifytheactualownership-adoptionpath. Existingmanualmigration/edge workflows stage theverifierfromprotectedworkflowSHA andaccept an explicitolder`git_ref`, so recoveryneednotdispatchanunguardedoldworkflow. Neverenableanownershipbypass to make a rollbackwork.
+
+ReviewedCloudflarecommandtemplate (accountowner mustvalidateitsactualbuildenvironment; this commandhasnotbeeninstalled/executed):
+
+```bash
+set -euo pipefail
+controller_guard_file=$(mktemp)
+trap 'rm -f "$controller_guard_file"' EXIT
+curl --fail --silent --show-error https://raw.githubusercontent.com/msinghbs-ai/Coursefinder-Pilot/a65efe3048146f2ef2b2b8477d033978c0de8674/scripts/ci/controller-guard.py > "$controller_guard_file"
+printf '%s  %s\\n' b66dc89a6b52dd6fa0e66a8135fde561a8e4d7cd597508abd2941dba0bbc0cf6 "$controller_guard_file" | sha256sum --check -
+if [ "$(git rev-parse --is-shallow-repository)" = true ]; then git fetch --no-tags --unshallow origin; fi
+python3 "$controller_guard_file" --entry-point cloudflare-frontend --commit "$WORKERS_CI_COMMIT_SHA"
+npx wrangler deploy
+```
+
+The normal build must preserve the reservedsource andmustnotcreatea lockfile inthisrepository. MissingPython/Git/currentreservation orunknownoutcome meansdeny/reconcile, notdefaultdeploy. Pinupdatesareseparatelyreviewed; the oldcandidate neednotcontainthisverifier.
+
+**Exactdatacorrectionapprovalrequested**
+
+Approveonlyclearing`application_deadline` for the three provenintakes in [PR896's disabledreviewpaste](https://github.com/msinghbs-ai/Coursefinder-Pilot/blob/1501870807c8529705ddf2f47184e0a0f0a2b052/docs/paste/REVIEW-20261106-p0-deadline-three-values.sql): `0bae1bde-3d71-4ae8-86ff-118049910790`2026-11-02; `8dcd0a7e-c634-4f9d-92ba-2832413f3583`2027-02-15; `8e7d1957-58ce-4a2d-9583-fef41ea30bdc`2026-10-12. Nothing else is cleared; no rowsdeleted, no locks/source/readings/years/starts changed, no massre-admission. The paste remainsfalsebydefault andrequiresactualauthorisingPlatformAdminidentity, durabledecision, exact3row/currentvalue/item/artifact/hashguards, beforestateaudit, scopedrefreshandconsumerSQLreadback beforecommit. Synthetic73assertiontestdoesnotconstituteapproval orliveacceptance. Aftervariablesarefilled underactualapproval, the exactSQLbytesdigest must be reserved andcheckedbeforeexecution; hashofdisabledtemplateisnotapprovalofmodifiedSQL.
+
+**Controlledsequenceafterevidencearrives**
+
+Re-readactualGHA/deployment/DBleases/writeoutcomes; preparea beforecutovercheckpoint. Existingowner-nullbootstrap can targetthecurrentexecution withrequest_transfer/reconcile, record_predecessor_release pointingtotheREALAdminrevocationrecord, reconcileafterpublication andacceptasactualsuccessor inreconciliation. Confirm #895protected-maincodeandexternalcontrols physicallyparticipate; recordactualadopt evidence, verify_transferandcomplete_transfer. No completedtransfer is recordedbefore thosechecks. Each subsequentoperation requiresfreshlease/generation, exacttestedtree/resource/approval/checkpointreservation. Release490controller/evidence then491P0guard; onlyafterexplicitexactcorrectionapproval performaudited3rowcorrection andSQL/HTTP/cachevalidation. Continue492coursedescriptions and493English onlyundertheremainingreleasegates; retain890/875holdsandallbudget/humantrustboundaries. Unknownoutcome staysreserved/reconciliation; neverreplayblindly.
+
+UntilthePlatformAdminprovidesactualaccountactionevidenceandtheexactcorrectiondecision, productionremainshold. Independentengineering/testscontinue; thisdecisionrecordisnotexecution,ownershiporadoptionproof.
