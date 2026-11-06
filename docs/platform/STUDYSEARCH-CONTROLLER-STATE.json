@@ -1,23 +1,23 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T162150Z",
-  "created_at": "2026-11-06T16:21:50Z",
+  "checkpoint_id": "CP-382-20261106T171318Z",
+  "created_at": "2026-11-06T17:13:18Z",
   "display_timezone": "Australia/Melbourne",
-  "execution_id": "codex-deadline-cohort-20261106T155856Z",
-  "trigger": "workstream_completion_and_intentional_session_termination",
+  "execution_id": "codex-deadline-context-20261106T170242Z",
+  "trigger": "interrupted_session_recovery_and_agent_workstream_completion",
   "controller": {
     "candidate": "Codex",
     "owner": null,
     "previous_owner": "Claude; explicit release Admin382 comment6686299314, independently reconciled",
     "status": "reconciliation",
     "environment": "managed cloud ccarenv_79504b9c834081918185c97bc7abbc52",
-    "session_id": "codex-deadline-cohort-20261106T155856Z",
+    "session_id": "codex-deadline-context-20261106T170242Z",
     "ownership_started_at": null,
     "last_heartbeat_at": null,
     "lease_expires_at": null,
     "ownership_ref": "refs/heads/studysearch-controller",
     "ownership_commit": "6d95b3e12db56d4f7e915c12503ca995e8be4b1e",
-    "mode": "read_only_cycle_complete_authority_blocked",
+    "mode": "read_only_source_context_and_operational_verification",
     "successor": null,
     "transfer": {
       "status": "published",
@@ -34,10 +34,11 @@
     "worker": {
       "version": "v2.15.489",
       "deployment_commit": null,
-      "verified_at": "2026-11-06T15:28:50.955732Z",
+      "verified_at": "2026-11-06T17:11:58.772605Z",
       "evidence_ids": [
         "EV-FRONTEND-LIVE",
-        "EV-FINAL-READS"
+        "EV-FINAL-READS",
+        "EV-DEADLINE-CONTEXT-1702"
       ]
     },
     "migrations": {
@@ -1845,10 +1846,11 @@
       {
         "signature": "security.course_description_check_v1(p_course uuid, p_result jsonb)",
         "md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
-        "verified_at": "2026-11-06T14:08:03.650218Z",
+        "verified_at": "2026-11-06T17:07:23.606286Z",
         "evidence_ids": [
           "EV-GUARDS",
-          "EV-RECOVERY-LIVE"
+          "EV-RECOVERY-LIVE",
+          "EV-DEADLINE-CONTEXT-1702"
         ]
       },
       {
@@ -1917,10 +1919,11 @@
       {
         "signature": "security.course_deadline_in_quote_v1(p_date date, p_quote text)",
         "md5": "f01e9be83e58c9c48c33e5fde4de05d9",
-        "verified_at": "2026-11-06T16:18:39.616114Z",
+        "verified_at": "2026-11-06T17:07:23.606286Z",
         "evidence_ids": [
           "EV-DEADLINE-REPAIR",
-          "EV-DEADLINE-COHORT"
+          "EV-DEADLINE-COHORT",
+          "EV-DEADLINE-CONTEXT-1702"
         ]
       }
     ],
@@ -2419,6 +2422,35 @@
         "EV-DEADLINE-COHORT"
       ],
       "completion_summary": "Read-only audit complete; 97/14/41 current intake classifications and eight consumer SQL date matches verified. No source change, unchanged suite rerun or production correction. Candidate helper holds the97 by source inspection only. Incomplete wider exposure/source-context investigation remains explicitly open."
+    },
+    {
+      "id": "WS-P0-DEADLINE-CONTEXT-1702",
+      "issue_ref": "https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/896",
+      "owner": "Codex independent source-context reviewer /root/deadline_context_1702 (completed); root verifies integration",
+      "branch": null,
+      "commit": "7984e7bda2d04500b3e158a63393b8ed4e6eca53",
+      "worktree": "/workspace/resume-1702/review-context (detached, clean)",
+      "state": "completed",
+      "owned_paths": [
+        "/workspace/resume-1702/source-context-review.json",
+        "/workspace/resume-1702/context-public/"
+      ],
+      "owned_functions": [],
+      "owned_migrations": [],
+      "acceptance_criteria": [
+        "Exactly five official public source URLs; bounded GET only, no budget or DB use",
+        "Preserve table-column/audience semantics; distinguish current page from historical artifact",
+        "Record HTTP status, UTC observation and digest, classify inaccessible or changed pages as limits",
+        "No source edits, tests, remote writes, admission or corrections"
+      ],
+      "dependencies": [
+        "WS-P0-DEADLINE-COHORT-REVIEW"
+      ],
+      "blockers": [],
+      "test_evidence_ids": [
+        "EV-DEADLINE-CONTEXT-1702"
+      ],
+      "completion_summary": "Five HTTP200 pages; four current application-closing dates corroborated, UNE retained date unresolved. Parent independently inspected all five contexts. Candidate conservative holds are not proof of bad data. Worktree clean; no code/DB/remote changes."
     }
   ],
   "prs": [
@@ -2501,10 +2533,9 @@
         "Final release-specific UI manifest/package and change-control entries, currentness and fresh full required gates"
       ],
       "blockers": [
-        "Production ownership/adoption pending",
-        "Integrated895finalfullsuiteinprogress"
+        "Production ownership/adoption pending"
       ],
-      "next_action": "Sourceintegratedasparentof895a65efe30;verifybundleandphoneafteractual895release. No separateUI494packagingallocated."
+      "next_action": "Source4823f68f is an explicit parent of current895bcceb856. Integrated source run42240433812 (1951/0/0/0) and final run42242291601 already passed; no separate repair, extra release or unchanged rerun. Verify live phone/evidence acceptance after actual895release."
     },
     {
       "id": "PR-877",
@@ -3882,6 +3913,26 @@
       "evidence_ids": [
         "EV-DEADLINE-COHORT"
       ]
+    },
+    {
+      "id": "M-DEADLINE-CONTEXT-1702",
+      "workstream_id": "WS-P0-DEADLINE-CONTEXT-1702",
+      "name": "Current official public source context, not historical artifact or production disposition",
+      "value": {
+        "scoped_records": 5,
+        "http_200": 5,
+        "application_closing_corroborated": 4,
+        "unresolved_changed_page": 1,
+        "historical_artifacts_verified": 0,
+        "production_corrections": 0,
+        "new_consumer_exposure_results": 0
+      },
+      "unit": "current source observations",
+      "measured_at": "2026-11-06T17:08:09.151053Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-DEADLINE-CONTEXT-1702"
+      ]
     }
   ],
   "integration_issues": [
@@ -4781,12 +4832,19 @@
       "kind": "production_query_and_independent_semantic_review",
       "observed_at": "2026-11-06T16:21:50Z",
       "summary": "100 filled items,223 references,152 distinct active exact matches:97 non-closing across65courses,14closing,41contextrequired. Eight suspect intake dates in six sampled courses returned by all three consumer SQL functions. Larger ten-course batch timed out at6s and contributes no results. No HTTP/cache proof, wider write authority or correction. P0 escalated Admin382comment6689591608."
+    },
+    {
+      "id": "EV-DEADLINE-CONTEXT-1702",
+      "reference": "docs/platform/validation/2026-11-06-deadline-semantic-p0.json",
+      "kind": "public_source_review_and_live_reconciliation",
+      "observed_at": "2026-11-06T17:13:18Z",
+      "summary": "Five scoped official pages fetched HTTP200 at17:06UTC; four closing contexts corroborated and UNE retained date unresolved. Parent inspected all five. Fresh17:07DB1791/head400000/helperf01e9/courseguardff3d6 and163activecronjobs. Frontend17:11HTTP/asset200/UI489/.416/hash2099cae6. Three-course consumer read timed out; no new exposure count. Current final checks all success; account403/noactiveowner unchanged."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Completed bounded deadline cohort review: 100 items/223 kept references/152 current intakes; 97 non-closing, 14 closing, 41 context-required. Verified eight suspect dates across six courses in all three consumer SQL functions; escalated Admin382 comment6689591608. Fresh heads/ref/account metadata and 16:18 migration/helper state unchanged.",
-    "current_action": "Bounded cycle ending with no active reviewer, SQL, local test, production write, release, reservation or new workflow. Publishing actual evidence and validated canonical handover only.",
-    "next_safe_action": "Read the bounded cohort evidence, independently resolve ambiguous source context or verify remaining consumer dates in smaller planned read-only batches during permitted load windows. Account owner completes D-382-CUTOVER before actual-execution atomic acceptance and any release/write; the three-row correction remains separately gated.",
+    "last_completed_atomic_action": "Recovered immutable Admin aa7899d9 and validated CP162150; reconciled live heads/checks/atomic ref and account metadata. Independent five-page review plus parent inspection corroborate four closing contexts, one unresolved UNE date. No production action.",
+    "current_action": "Bounded read-only operational refresh and exact live intake/source pairing; inspect the consumer timeout plan before any new read. All source engineering and passing CI preserved.",
+    "next_safe_action": "Use small indexed read-only joins for the five source-context cases and current alerts/jobs/queues during permitted load windows. No unchanged three-course consumer retry, data correction or controller acceptance.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4812,22 +4870,22 @@
       "Authenticated desktop/phone and consumer HTTP/cache acceptance",
       "Historical queued run remains recorded, not falsely cancelled"
     ],
-    "predecessor_checkpoint": "CP-382-20261106T160557Z",
+    "predecessor_checkpoint": "CP-382-20261106T162150Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Bounded read-only integrity cycle completed; ending with actual evidence published. Production authority remains blocked by account controls, with no active owner, lease or completed transfer.",
-    "baseline": "**Baseline:** Pilot main 4ba94e3f remains UI 2.15.489/package 0.1.416 (HTTP/asset 200 and hash 2099cae6 at 16:04 UTC), coverage edge 239 ACTIVE/hash 995d5111. DB at 16:18 UTC: 1,791 migrations/head 20261106400000, unchanged deadline helper f01e9, zero other active client transactions. Course guard ff3d6 verified at 16:04. Exact Cloudflare commit and authenticated UI remain unverified.",
-    "completed": "**Completed:** The latest 100 filled deadline items contain 223 kept references and 152 distinct current active intake matches: 97 with non-closing quotations across 65 courses, 14 with explicit closing evidence, 41 requiring context. All 223 quotation identities were preserved, including the valid UBC closing date. Eight suspect dates across six sampled courses appear in all three consumer SQL functions. P0 escalated in Admin #382. Existing source/CI repairs preserved; no unchanged rerun. Pilot PRs merged: 0; production releases verified: 0; production rows corrected: 0.",
+    "reason": "**Reason:** Scheduled recovery from immutable GitHub records. Five-source workstream completed; root continues a bounded read-only health/intake reconciliation. Actual account fencing and ownership acceptance remain blocked.",
+    "baseline": "**Baseline:** Fresh 17:07 UTC DB read: 1,791 migrations/head20261106400000, helper f01e9/course guard ff3d6, no other active client transactions, 163 active jobs of176. Frontend17:11HTTP/asset200/UI2.15.489/package0.1.416/hash2099cae6; coverage edge239 ACTIVE/hash995d5111 unchanged. ExactCloudflarecommit/authenticated UI remain unverified.",
+    "completed": "**Completed:** Independent review and parent inspection of five official pages corroborate four application-closing readings; UNE retained3January2027 remains unresolved. These observations do not replace historical97/14/41 cohort classification or approve exact catalogue pairing. All current candidate checks remain successful and completed repairs are preserved. Stale892integrated-CI blocker corrected. Pilot merges0; production releases0; corrections0.",
     "priorities": "**Priorities:** Complete actual account fencing and active ownership, then release #895 → #896 → #894 → #893 with #892 integrated. Prioritise the deadline P0 and alert delivery through authorised paths. Continue #877/#889, Layer 4, AER and scholarship acceptance while preserving holds, human admission and reserves.",
-    "workstreams": "**Workstreams:** The independent cohort reviewer completed a read-only review using immutable GitHub source. Worktree materialisation failed during lazy fetch; no completed Git worktree is claimed. Root owns bounded SQL, evidence and canonical Admin edits. Local evidence: /workspace/cohort-deadline-audit. No code, function or migration writes or uncommitted Pilot source changes were introduced in this cycle. Existing engineering lanes remain complete.",
+    "workstreams": "**Workstreams:** WS-P0-DEADLINE-CONTEXT-1702 completed in clean detached worktree7984e7bd at/workspace/resume-1702/review-context, owning only local public-source captures/review JSON. Root owns live read-only SQL, canonical evidence and Admin record updates. No code, function or migration writes; no agent remains active.",
     "pending_prs_migrations": "**Pending PRs/migrations:** #895 bcceb856 (UI 2.15.490/package 0.1.417, includes #892) → #896 7984e7bd (UI 491/package 418, migration 450000) → #894 8bde11f8 (UI 492/package 419, migration 500000, Worker 0.59.9) → #893 201b9126 (UI 493/package 420, migration 550000, Worker 0.59.10). All remain unmerged and unapplied; all current CI checks pass. #890 G3 and #875 holds remain.",
     "decisions": "**Decisions:** D-382-CUTOVER is the single consolidated owner action. GitHub owner msinghbs-ai must grant or perform environment, secret and protection controls denied with 403; the Cloudflare owner must install the pinned deployment gate and restrict alternate credentials; the Supabase owner must restrict direct write bindings while preserving services and recovery. No further Claude acknowledgement or historical-run deletion is required. Exact three-row correction approval, human Layer 4/trust, G3, destructive and reserve boundaries remain.",
-    "in_flight": "**In flight:** None initiated by this execution. Reviewer and read-only SQL are complete; no workflow is running. The ten-course read timed out at six seconds and was stopped; the 16:18 check found zero other active client transactions. The only queued run is reconciled historical 34749286102. Atomic ref 6d95 remains published, with no owner or lease and adoption pending; it targets the stopped 14:22:59 execution. This execution did not accept control.",
-    "next_safe_action": "**Next safe action:** Review the cohort artifact and official context for 41 ambiguous cases, or plan smaller read-only batches for the remaining 59 consumer courses within permitted load windows. Do not repeat the timed-out ten-course batch unchanged or expand the disabled three-row correction. GitHub, Cloudflare and Supabase account owners complete the single D-382-CUTOVER action before acceptance by the actual execution and reserved sequential releases.",
-    "risks_recovery": "**Risks/recovery:** The deadline P0 extends beyond the initial three-row sample; no correction is claimed. Eight SQL output dates are verified; wider consumer, HTTP and cache exposure remains unknown. The timed-out read contributes no exposure count and is no longer in flight. Latest alert measurement remains 15:30 UTC: 75 unattempted, 71 overdue. Source denial probes and green CI do not install fencing: pilot remains unprotected and the secret API returned 403 again at final verification. Exact deployment, flag compatibility, authenticated desktop/phone and human admission gates remain. No unattended monitoring, heartbeat or successor acceptance is claimed.",
-    "evidence": "**Evidence:** [bounded deadline audit](validation/2026-11-06-deadline-semantic-p0.json), [P0 escalation](https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6689591608), [account/source/CI proof](validation/2026-11-06-controller-cutover-verification.json), [consolidated owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction). Final source/metadata CI evidence and ordered PR references remain in this checkpoint; no production outcome inferred."
+    "in_flight": "**In flight:** Root plans bounded read-only reconciliation. No production reservation, write, deployment or workflow running. Only historical queued34749286102 remains reconciled. The three-course consumer read timed out at4s and is stopped; no result counted. Atomic6d95remains owner/lease null, adoptionpending, targeting stopped142259execution. Current execution has not accepted control.",
+    "next_safe_action": "**Next safe action:** Reconcile exact five live intake IDs/years/labels against the public source contexts and refresh alerts/jobs/queues in permitted load windows. Inspect consumer query plan before any smaller probe; do not retry the failed three-course batch unchanged. Account owners still must complete D-382-CUTOVER before actual-execution acceptance and releases.",
+    "risks_recovery": "**Risks/recovery:** Four current source corroborations are not historical artifact or exact intake/audience proof; no withdrawal is justified. UNE date history remains unknown. Three-course consumer timeout contributes no new exposure results; original eight-date/six-course SQL evidence remains historical16:16UTC. Latest alert measure is still15:30UTC until refreshed. pilot remains unprotected and secret API403. All production, admission, hold, consumer and reserve gates remain.",
+    "evidence": "**Evidence:** [source context and bounded deadline audit](validation/2026-11-06-deadline-semantic-p0.json), [current checks and controls](validation/2026-11-06-controller-cutover-verification.json), [single owner action](nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#consolidated-platform-admin-decision--ownership-cutover-and-exact-p0-correction), [Admin382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382). No new production acceptance inferred."
   }
 }
