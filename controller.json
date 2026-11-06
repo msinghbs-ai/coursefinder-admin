@@ -1,31 +1,33 @@
 {
   "schema_version": "1.0.0",
   "coordination_id": "studysearch-integration-controller",
-  "status": "reconciliation",
+  "status": "released",
   "generation": 0,
   "owner": null,
   "heartbeat_at": null,
   "lease_expires_at": null,
   "transfer": {
-    "status": "prepared",
+    "status": "published",
     "to": "claude-controller-20261107T0000Z",
     "predecessor": null,
-    "release_ref": null,
-    "prepared_at": "2026-11-06T23:35:57Z"
+    "release_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698445371",
+    "prepared_at": "2026-11-06T23:35:57Z",
+    "handover_ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/5056dbdc6f6abc621075082e9609b2c9395dfbae/docs/platform/STUDYSEARCH-CONTROLLER-STATE.json",
+    "published_at": "2026-11-06T23:36:00Z"
   },
   "in_flight": null,
   "last_event": {
-    "id": "claude-20261107-request-1",
-    "kind": "request_transfer",
+    "id": "claude-20261107-predecessor-release-1",
+    "kind": "record_predecessor_release",
     "execution_id": "claude-controller-20261107T0000Z",
-    "at": "2026-11-06T23:35:57Z",
+    "at": "2026-11-06T23:36:00Z",
     "evidence_refs": [
       "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698445371",
-      "https://github.com/msinghbs-ai/coursefinder-admin/blob/21d7d491/docs/platform/2026-11-07-emergency-recovery-and-integration-handover-1030.md",
       "transport: non-forced git fast-forward push of the tool single-parent commit (session proxy blocks Git Data API writes)"
     ],
     "payload": {
-      "successor_execution_id": "claude-controller-20261107T0000Z"
+      "release_ref": "https://github.com/msinghbs-ai/coursefinder-admin/issues/382#issuecomment-6698445371",
+      "handover_ref": "https://github.com/msinghbs-ai/coursefinder-admin/blob/5056dbdc6f6abc621075082e9609b2c9395dfbae/docs/platform/STUDYSEARCH-CONTROLLER-STATE.json"
     }
   },
   "event_ids": [
@@ -36,9 +38,10 @@
     "EV-382-20261106T142728Z-reconcile",
     "EV-382-20261106T142728Z-record_predecessor_release",
     "claude-20261107-reconcile-1",
-    "claude-20261107-request-1"
+    "claude-20261107-request-1",
+    "claude-20261107-predecessor-release-1"
   ],
-  "updated_at": "2026-11-06T23:35:57Z",
+  "updated_at": "2026-11-06T23:36:00Z",
   "adoption": {
     "status": "pending",
     "evidence_refs": []
