@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "checkpoint_id": "CP-382-20261106T120532Z",
-  "created_at": "2026-11-06T12:05:32Z",
+  "checkpoint_id": "CP-382-20261106T121611Z",
+  "created_at": "2026-11-06T12:16:11.685202Z",
   "display_timezone": "Australia/Melbourne",
   "execution_id": "codex-recovery-20261106T1104Z",
-  "trigger": "integration_progress",
+  "trigger": "authority_blocked_pause",
   "controller": {
     "candidate": "Codex",
     "owner": null,
@@ -42,11 +42,11 @@
   "production": {
     "verification_status": "reported",
     "worker": {
-      "version": null,
+      "version": "v2.15.489",
       "deployment_commit": null,
-      "verified_at": null,
+      "verified_at": "2026-11-06T12:14:01.449237Z",
       "evidence_ids": [
-        "EV-RELEASE"
+        "EV-FRONTEND-LIVE"
       ]
     },
     "migrations": {
@@ -1845,7 +1845,7 @@
         "20261106300000",
         "20261106400000"
       ],
-      "verified_at": "2026-11-06T11:56:34.313367Z",
+      "verified_at": "2026-11-06T12:14:08.464194Z",
       "evidence_ids": [
         "EV-MIGRATIONS"
       ]
@@ -1854,65 +1854,73 @@
       {
         "signature": "security.course_description_check_v1(p_course uuid, p_result jsonb)",
         "md5": "ff3d6dd7b0f88c85b1fdff6c8a8cd86b",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "security.integration_deploy_check_v1(p_release text, p_migrations jsonb, p_functions jsonb, p_since timestamp with time zone, p_jobs text[])",
         "md5": "889ae2b374e1b930cf87f65549f0cc5e",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "security.integration_mode_guard_v1()",
         "md5": "3d0fcf04ef4e61af223ba4ab14651e90",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "security.integration_mode_set_v1(p_mode integer, p_controller text, p_reason text)",
         "md5": "603f13d891b552339a36fd16072522ac",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "security.layer4_course_description_apply_v1(p_actor uuid, p_item_id uuid, p_value jsonb, p_reason text)",
         "md5": "ba97236f3010e248bac44a0a7c09611a",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "security.layer4_provider_description_apply_impl(p_actor uuid, p_item_id uuid, p_value jsonb, p_reason text)",
         "md5": "97685b737007410288297dea9d650d2a",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "public.svc_provider_description_next(p_limit integer)",
         "md5": "559407dc479753698b858231b2e7eb93",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       },
       {
         "signature": "public.svc_provider_description_record(p_results jsonb)",
         "md5": "d95f0bafc894b662468a309254544444",
-        "verified_at": "2026-11-06T09:11:59.479Z",
+        "verified_at": "2026-11-06T12:16:11.685202Z",
         "evidence_ids": [
-          "EV-GUARDS"
+          "EV-GUARDS",
+          "EV-RECOVERY-LIVE"
         ]
       }
     ],
@@ -1942,9 +1950,9 @@
       "No production mutation until exclusive controller ownership and adoption verified",
       "#890 and #875 remain held",
       "No consumer API/destructive action/spend override/trust-policy or human Layer4 decision without authority",
-      "Fresh frontend version unknown"
+      "Frontend v2.15.489 verified by served asset; Cloudflare deployment commit and authenticated UI unverified"
     ],
-    "checkpoint_at": "2026-11-06T11:56:34.313367Z"
+    "checkpoint_at": "2026-11-06T12:14:08.464194Z"
   },
   "workstreams": [
     {
@@ -1972,8 +1980,8 @@
       ],
       "dependencies": [],
       "blockers": [
-        "Predecessor release and production entry-point adoption pending",
-        "Fresh frontend unavailable"
+        "Predecessor release and production adoption pending",
+        "Exact deployment commit/authenticated UI unverified"
       ],
       "test_evidence_ids": [
         "EV-SCHEMA"
@@ -2074,15 +2082,14 @@
         "WS-894"
       ],
       "blockers": [
-        "Production ownership/adoption pending",
-        "Register-only current-head CI running"
+        "Production ownership/adoption pending"
       ],
       "test_evidence_ids": [
         "EV-893",
         "EV-893-FIX",
         "EV-893-REVIEW"
       ],
-      "completion_summary": "False-green fixed; real PG71+17 and combined1979/0/0/0 passed, Worker0.59.10 and independent review clear. Register-only head checks running; production blocked."
+      "completion_summary": "False-green fixed; real PG71+17 and combined1979/0/0/0 passed, Worker0.59.10 and independent review clear. Current-head checks all pass; production blocked."
     },
     {
       "id": "WS-892",
@@ -2307,7 +2314,7 @@
       ],
       "blockers": [
         "Production ownership/adoption pending",
-        "Register-only current-head CI running"
+        "Authorised external account controls unavailable"
       ],
       "test_evidence_ids": [
         "EV-GATE-PREP"
@@ -2326,7 +2333,7 @@
       "draft": false,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-893",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
         42212962756,
         42212963040,
@@ -2337,12 +2344,13 @@
         "Existing authorisation",
         "Full governed tests",
         "Independent integration and live hashes",
-        "Live deployment/operational acceptance"
+        "Live deployment/operational acceptance",
+        "Final release-specific UI manifest/package and change-control entries, currentness and fresh full required gates"
       ],
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
+      "next_action": "Preserve actual passing evidence. After verified authority/adoption, refresh live compatibility and execute permitted sequential release and acceptance. Allocate unique UI release metadata/change-control against the then-current production baseline before merge; current branch UI manifests still describev2.15.489."
     },
     {
       "id": "PR-894",
@@ -2363,12 +2371,13 @@
         "Existing authorisation",
         "Full governed tests",
         "Independent integration and live hashes",
-        "Live deployment/operational acceptance"
+        "Live deployment/operational acceptance",
+        "Final release-specific UI manifest/package and change-control entries, currentness and fresh full required gates"
       ],
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
+      "next_action": "Preserve actual passing evidence. After verified authority/adoption, refresh live compatibility and execute permitted sequential release and acceptance. Allocate unique UI release metadata/change-control against the then-current production baseline before merge; current branch UI manifests still describev2.15.489."
     },
     {
       "id": "PR-892",
@@ -2389,12 +2398,13 @@
         "Existing authorisation",
         "Full governed tests",
         "Independent integration and live hashes",
-        "Live deployment/operational acceptance"
+        "Live deployment/operational acceptance",
+        "Final release-specific UI manifest/package and change-control entries, currentness and fresh full required gates"
       ],
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
+      "next_action": "Preserve actual passing evidence. After verified authority/adoption, refresh live compatibility and execute permitted sequential release and acceptance. Allocate unique UI release metadata/change-control against the then-current production baseline before merge; current branch UI manifests still describev2.15.489."
     },
     {
       "id": "PR-877",
@@ -2631,7 +2641,7 @@
       "draft": true,
       "owner": "Codex recovery (development only)",
       "workstream_id": "WS-382-ADOPTION",
-      "ci_status": "pending",
+      "ci_status": "success",
       "run_ids": [
         42213117490,
         42214313013
@@ -2640,12 +2650,13 @@
         "All controller entry points adopt canonical reservation",
         "Verified predecessor disposition and owner acceptance",
         "External Cloudflare/direct-SQL/protected-secret controls",
-        "Full governed tests"
+        "Full governed tests",
+        "Final release-specific UI manifest/package and change-control entries, currentness and fresh full required gates"
       ],
       "blockers": [
         "Production ownership/adoption pending"
       ],
-      "next_action": "Preserve verified functional evidence; finish current-head checks. Authorised predecessor/external-control reconciliation must precede cutover and sequential releases."
+      "next_action": "Authorised controlled cutover: verify predecessor disposition and protected secret/ref, Cloudflare and direct-SQL controls; code alone is not enforcement. Allocate unique UI release metadata/change-control against the then-current production baseline before merge; current branch UI manifests still describev2.15.489."
     }
   ],
   "releases": [
@@ -2757,7 +2768,7 @@
         }
       ],
       "unit": "reads and USD",
-      "measured_at": "2026-11-06T11:56:34.313367Z",
+      "measured_at": "2026-11-06T12:14:08.464194Z",
       "status": "verified",
       "evidence_ids": [
         "EV-RECOVERY-LIVE"
@@ -3501,41 +3512,16 @@
       "name": "Latest actual worker observations",
       "value": [
         {
-          "mode": "ai_match",
-          "run_at": "2026-11-06T09:24:04.979054+00:00",
-          "status": 200,
-          "worker": "coverage-sweep-worker-v0.59.8"
-        },
-        {
-          "mode": "scholarship_ai",
-          "run_at": "2026-11-06T09:23:12.406994+00:00",
-          "status": 200,
-          "worker": "coverage-sweep-worker-v0.59.8"
-        },
-        {
-          "mode": "scholarship_ai",
-          "run_at": "2026-11-06T09:23:10.351031+00:00",
-          "status": 200,
-          "worker": "coverage-sweep-worker-v0.59.8"
-        },
-        {
-          "mode": "scholarship_ai",
-          "run_at": "2026-11-06T09:23:10.278618+00:00",
-          "status": 200,
-          "worker": "coverage-sweep-worker-v0.59.8"
-        },
-        {
-          "mode": "scholarship_ai",
-          "run_at": "2026-11-06T09:23:10.273383+00:00",
+          "run_at": "2026-11-06T12:14:08.454534+00:00",
           "status": 200,
           "worker": "coverage-sweep-worker-v0.59.8"
         }
       ],
       "unit": "worker response ledger",
-      "measured_at": "2026-11-06T09:24:08.212Z",
+      "measured_at": "2026-11-06T12:14:08.464194Z",
       "status": "verified",
       "evidence_ids": [
-        "EV-MIGRATIONS"
+        "EV-RECOVERY-LIVE"
       ]
     },
     {
@@ -3600,6 +3586,24 @@
         "EV-893-FIX",
         "EV-892-FIX",
         "EV-GATE-PREP"
+      ]
+    },
+    {
+      "id": "M-ALERT-COLLECTOR",
+      "workstream_id": "WS-PROVIDER",
+      "name": "Watchdog: alerts exceeding collection deadline",
+      "value": {
+        "waiting": 63,
+        "threshold_minutes": 120,
+        "delivery_enabled": true,
+        "health_job": "succeeded",
+        "alerts_job": "succeeded"
+      },
+      "unit": "alerts",
+      "measured_at": "2026-11-06T12:13:21.045194Z",
+      "status": "verified",
+      "evidence_ids": [
+        "EV-ALERT-COLLECTOR"
       ]
     }
   ],
@@ -3688,10 +3692,11 @@
       "source": "pipeline.integration_issues",
       "severity": "P1",
       "state": "open",
-      "summary": "2 alert(s) have waited since 03 Nov 18:20: the alert destination is not collecting them",
-      "next_action": "Read current canonical queue row, controls and latest evidence; assign within confirmed controller authority.",
+      "summary": "63 alerts older than120minutes at12:13Z, oldest03Nov18:20Melbourne; collectionpath failing despite successful scan/health jobs",
+      "next_action": "After exclusive authority, verify authorised alert collector destination/runtime and recover delivery with existing protocol; never acknowledge or discard alerts merely to clear watchdog.",
       "evidence_ids": [
-        "EV-JOBS"
+        "EV-JOBS",
+        "EV-ALERT-COLLECTOR"
       ]
     },
     {
@@ -4002,15 +4007,15 @@
     },
     {
       "id": "B-FRONTEND",
-      "summary": "Fresh live frontend version and authenticated UI inaccessible in this execution",
+      "summary": "Exact Cloudflare deployment commit and authenticated desktop/phone UI remain unverified; public frontend v2.15.489 now verified",
       "owner": "Integration Controller",
       "workstream_ids": [
         "WS-UI",
         "WS-382"
       ],
-      "next_action": "Restore supported network/browser access and verify deployed asset/version and UI without credential copying.",
+      "next_action": "Use supported authenticated operator or existing safe deployed validation capability; do not expose credentials or enable live-acting tests while authority is blocked.",
       "evidence_ids": [
-        "EV-RELEASE"
+        "EV-FRONTEND-LIVE"
       ]
     },
     {
@@ -4031,7 +4036,7 @@
     {
       "id": "NA-OWNERSHIP",
       "workstream_id": "WS-382",
-      "action": "Verify predecessor disposition, queued historical run, direct writes and production-entry-point participation; publish current recovery state.",
+      "action": "Through Admin#382 verify acknowledged predecessor release or stopped/revoked execution evidence, historical queued workflow disposition and external control adoption. Freshly read canonical ref before accepting authority.",
       "owner": "Authorised successor",
       "depends_on": [],
       "verification_required": [
@@ -4057,7 +4062,7 @@
     {
       "id": "NA-893",
       "workstream_id": "WS-893",
-      "action": "Finish register-only headeb0caf2e8125455a076993810efef968c335fd97 checks; preserve1979/0/0/0 and real71+17PG proof; release after894 only under verified authority.",
+      "action": "Current-head gates pass ateb0caf2e8125455a076993810efef968c335fd97; preserve1979/0/0/0 and actual71+17PG proof. After authority/adoption, refresh hashes and release after894 with live acceptance.",
       "owner": "Exclusively assigned #893 developer",
       "depends_on": [],
       "verification_required": [
@@ -4100,7 +4105,7 @@
     {
       "id": "NA-GATE-895",
       "workstream_id": "WS-382-ADOPTION",
-      "action": "Finish register-only head0c9cbaeaf1f8493bf5ebd210967b033aab9a0876 checks; obtain verified protected-secret/ref,Cloudflare and SQL controls plus predecessor disposition before controlled adoption.",
+      "action": "All current-head checks pass at0c9cbaeaf1f8493bf5ebd210967b033aab9a0876; authorised account/controller must verify predecessor disposition and protected-secret/ref,Cloudflare/directSQLcontrols before controlled cutover.",
       "owner": "Authorised Integration Controller/account owner",
       "depends_on": [],
       "verification_required": [
@@ -4261,10 +4266,10 @@
     },
     {
       "id": "EV-RECOVERY-LIVE",
-      "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#immediate-execution-recovery",
+      "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#recovery-authority-blocked-checkpoint",
       "kind": "read_only_live_production",
-      "observed_at": "2026-11-06T12:05:32Z",
-      "summary": "11:56:34Z:1791migrations/head20261106400000;actualworker0.59.8status200;releasecheck27v2.15.489. Pdesc4proposedcost0.00541+1heldcost0.0011748,0activeleases. Lastdescriptionpending1030 at11:32Z. No mutation/spend initiated."
+      "observed_at": "2026-11-06T12:16:11.685202Z",
+      "summary": "12:14:08Z DB1791migrations/head20261106400000,coverageworker0.59.8status200,releasecheck27v2.15.489. Pdesc4proposedcost0.00541+1heldcost0.0011748/0leases. Eight recorded functionhashes unchanged at2026-11-06 12:16:11.685202+00. No production mutation/spend initiated."
     },
     {
       "id": "EV-894-REVIEW",
@@ -4279,12 +4284,33 @@
       "kind": "independent_final_review",
       "observed_at": "2026-11-06T12:05:32Z",
       "summary": "Actual PG execution verified; no falsegreen/merge/parser/version blocker found. Isolated admission stand-in is not live acceptance."
+    },
+    {
+      "id": "EV-FRONTEND-LIVE",
+      "reference": "docs/platform/nz-enrichment-brief/2026-11-06-weekend-controller-continuity.md#recovery-authority-blocked-checkpoint",
+      "kind": "actual_http_asset",
+      "observed_at": "2026-11-06T12:15:29Z",
+      "summary": "12:14:01Z public home+assetHTTP200;UI2.15.489/package0.1.416 in /assets/index-DYGiA8uP.js;SHA2562099cae683638b50dbec35ef7e3a047b3ac26f513fd82900e1456389aed88540. Supported proxy restored. Exact Cloudflare deployment commit/authenticated UI remain unverified."
+    },
+    {
+      "id": "EV-RECOVERY-HEADS",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42214539857",
+      "kind": "final_exact_head_checks",
+      "observed_at": "2026-11-06T12:15:29Z",
+      "summary": "893eb0caf2e all7checks success:fullsuite,Workers,build,provider,coursePG,EnglishPG,intakePG;8950c9cbaea all4checks success including fullsuite42214313013. 8924823f68f and894e15536e8 ready/unmerged. No production run initiated."
+    },
+    {
+      "id": "EV-ALERT-COLLECTOR",
+      "reference": "https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902/job/127819102986",
+      "kind": "watchdog_failure_and_live_read",
+      "observed_at": "2026-11-06T12:15:29Z",
+      "summary": "09:33watchdog failed on62uncollectedalerts;12:13:21Z read-only stablefunction confirms63olderthan120min,oldest03Nov18:20Melbourne,deliveryenabled. platform-alerts12:10 andplatform-health12:08succeeded; collectionpathremainsbroken. IQ00112 notresolved; liveack/configmutationsblocked."
     }
   ],
   "continuity": {
-    "last_completed_atomic_action": "Published same-run registers and independently reviewed passing894/893/892 repairs plus895 gate patch; downloaded artifacts verified.",
-    "current_action": "Validate register-only current-head checks; preserve production hold pending predecessor and external controls.",
-    "next_safe_action": "Inspect exact-head checks; authorised account/controller must reconcile predecessor and install/verify external controls before ownership acceptance. No production retry.",
+    "last_completed_atomic_action": "Verified all current-head checks for repaired PRs and published actual evidence; refreshed HTTP, DB, hashes, watchdog and unchanged ownership.",
+    "current_action": "All Pilot development checks are terminal green and delegated reviews complete. Production work is blocked by unaccepted authority and external controls; publishing the final validated checkpoint.",
+    "next_safe_action": "Authorised predecessor/account controller publishes disposition and installs/verifies external controls through Admin#382; successor independently rechecks state, accepts ownership and reserves each permitted release. While blocked, retain reviewable PRs and perform no production retry.",
     "retry_or_rollback": [
       "On rejected CAS, reread current head and reconcile; never force or reparent stale state.",
       "For a release/migration retry inspect immutable run/operation id, applied migration history and hashes first.",
@@ -4301,24 +4327,25 @@
       "Fresh frontend Worker/UI version",
       "Predecessor release/termination and production adoption",
       "Historical queued run disposition",
-      "Live hashes immediately before authorised release"
+      "Live hashes immediately before authorised release",
+      "Final unique UI release manifest/package/change-control and applicable checks before production merge; current source UI manifests stillv2.15.489."
     ],
-    "predecessor_checkpoint": "CP-382-20261106T114009Z",
+    "predecessor_checkpoint": "CP-382-20261106T120532Z",
     "successor_checkpoint": null
   },
   "handover": {
     "path": "docs/platform/STUDYSEARCH-EXECUTION-REGISTER.md",
     "section": "Controller handover",
-    "reason": "**Reason:** Immediate execution recovery is active under the existing weekend mandate. This is a progress checkpoint, not programme completion or an accepted controller transfer.",
-    "baseline": "**Baseline:** Pilot main `4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067`; last verified release record v2.15.489. Fresh database checks confirm 1,791 applied migrations, head `20261106400000`; edge `coverage-sweep` version 239, observed worker `coverage-sweep-worker-v0.59.8`. Fresh frontend HTTP/browser version is unknown because the shell proxy is unavailable and no browser tool is exposed. Mode 1 remains active. See the structured checkpoint for hashes, measurements and evidence timestamps.",
+    "reason": "**Reason:** Engineering repairs and current-head checks are complete; execution is paused at genuine authority/account-access blockers. This is not programme completion, issue closure or an accepted controller transfer.",
+    "baseline": "**Baseline:** Pilot main4ba94e3fcde53c11528eb2bfc1b5e9bc0dec2067 unchanged. Fresh12:14Z HTTP200 serves frontendv2.15.489/package0.1.416 and recorded asset SHA256. DB confirms1791migrations/head20261106400000 and coverage-sweep-worker-v0.59.8status200; lastreleasecheck27v2.15.489. Exact Cloudflaredeploymentcommit/authenticated UI remain unverified. No migration/release from this recovery.",
     "completed": "**Completed:** Issues fixed in code: all four #894 defects; #893 false-green SQL path; #892 phone dependency and skipped-check false pass. #894 actual PG and full suite passed1954/0/0/0; #892 passed1950/0/0/0 with validated bundle and safe metadata reuse. #893 actual PG passed71+17 scenarios; combined suite is running. PRs merged in this recovery:0. Production releases verified:0.",
-    "priorities": "**Priorities:** Complete combined #893/#895 CI and same-run registers; preserve passing #894/#892 evidence. Resolve predecessor disposition and adopt existing ownership checks at every relevant production entry point. Only then perform permitted sequential releases, bounded production acceptance and operational remediation. Keep #890/#875 held.",
+    "priorities": "**Priorities:** Preserve all passing engineering evidence. Resolve predecessor disposition, historical queued workflow and external production controls; accept exclusive ownership only after verification. Then execute permitted sequential #894→#893 releases with fresh hashes and live admission/publication/scheduler/UI acceptance. Reconcile #892/#895 against released shared files. Repair IQ00112 collector under authority. Keep #890/#875 held.",
     "workstreams": "**Workstreams:** Codex owns development integration on existing #894/#893/#892 branches. #893 explicitly incorporates repaired #894 with both Worker paths retained and unique v0.59.10 after v0.59.9. Draft #895 on `cf247-controller-entrypoint-gates` adopts the existing protocol at production workflow entry points; it grants no authority. Isolated agent implementation and review work is recorded; no agent independently deploys.",
-    "pending_prs_migrations": "**Pending PRs/migrations:** #894 `e15536e8` (functional proof12216778), #893 combined`155ef202`, #892`4823f68f`, #895`dd84cadc`; all unmerged. #894/#893 migrations remain unapplied. #890 and #875 remain held. Existing Admin #380/#240/#29 are untouched.",
+    "pending_prs_migrations": "**Pending PRs/migrations:** #894 `e15536e8` (functional proof12216778), #893 combined`155ef202`, #892`4823f68f`, #895`dd84cadc`; all unmerged. #894/#893 migrations remain unapplied. #890 and #875 remain held. Existing Admin #380/#240/#29 are untouched. Release-specific UI manifest/package/change-control preparation remains required before merge; existing branch UI manifests stillv2.15.489, so ready-for-review is not release-ready.",
     "decisions": "**Decisions:** Preserve explicit release approvals and engineering hold; no consumer API, destructive data action, additional spending/reserve override, automatic trust activation or human Layer 4 decision without applicable Platform Admin authority. #890 G3 and #875 hold remain. #877 Run Now activation and authenticated operator checks remain governed; recorded approval must not be confused with this session having executed them.",
-    "in_flight": "**In flight:** Combined #893 full-suite CI and #895 gate validation are development-only operations. No production mutation is in flight from this recovery. Historical queued run34749286102 remains unresolved; previous Claude release remains unacknowledged. Canonical coordination ref is still23a16104 in reconciliation with no owner/lease.",
-    "next_safe_action": "**Next safe action:** Finish combined #893 and #895 CI, inspect actual assertions/artifacts, regenerate the existing registers, and repair any failed gate. Reconcile predecessor release and external execution controls through GitHub before any production mutation. Keep unrelated engineering moving.",
-    "risks_recovery": "**Risks/recovery:** Genuine production authority blocker remains: unacknowledged Claude ownership and unadopted Cloudflare/direct-SQL/protected-secret execution controls. PR895 is concrete code, not proof those external controls are installed. Local proxy/Docker limitations are handled through connected GitHub and actual Actions execution. Live11:32Z remains migrationhead20261106400000/worker0.59.8, descriptions1030pending and pdesc4proposed+1held; no new admitted/published gain is claimed.",
-    "evidence": "**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json)."
+    "in_flight": "**In flight:** All Pilot recovery CI is terminal and green; Admin record-validation CI runs on checkpoint publication. No production operation belongs to this execution; agent reviews complete. Historical34749286102 remains queued, lastupdate13Sep, disposition unresolved. Canonicalref23a16104 remains reconciliation/no owner/lease/adoption pending; no acknowledged Claude release or accepted transfer.",
+    "next_safe_action": "**Next safe action:** Through Admin#382 obtain predecessor release/stopped-execution evidence and authorised protected-secret/ref,Cloudflare and direct-SQL control adoption. Independently verify fresh state and accept ownership by the existing atomic process. Refresh hashes/approvals, reserve each operation, release #894 then #893 and perform bounded acceptance. Do not replay commands or clear alerts to manufacture a green status.",
+    "risks_recovery": "**Risks/recovery:** Unacknowledged Claude release and unadopted external execution controls block production; tested PR895 alone does not fence account-level writers. Supported HTTP access restored and frontend version verified; exactdeploymentcommit/authenticated UI still unknown. IQ00112 has63overduealerts despite healthy scanning jobs. Pdesc4proposed+1held/0leases are not admissions/publications;1030descriptionpending was measured11:32Z. No operational closure or publication gain claimed.",
+    "evidence": "**Evidence:** [#894 actual gates](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209655949), [#893 actual PG](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42209417333), [#892 authoritative evidence](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42208692348), [ownership patch#895](https://github.com/msinghbs-ai/Coursefinder-Pilot/pull/895), [Admin#382](https://github.com/msinghbs-ai/coursefinder-admin/issues/382), [checkpoint](STUDYSEARCH-CONTROLLER-STATE.json). [final-head checks](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42214539857), [watchdog failure](https://github.com/msinghbs-ai/Coursefinder-Pilot/actions/runs/42195944902)."
   }
 }
